@@ -22,6 +22,11 @@ export const streamOf = (...chunks: Uint8Array[]): ReadableStream<Uint8Array> =>
     },
   })
 
+/** Reads {@link data} to its end and returns its bytes. */
+export const bytesOf = async (
+  data: Blob | ReadableStream<Uint8Array>,
+): Promise<Uint8Array> => new Uint8Array(await new Response(data).arrayBuffer())
+
 /** Splits {@link bytes} into chunks of at most {@link chunkSize} bytes. */
 export const chunk = (bytes: Uint8Array, chunkSize: number): Uint8Array[] => {
   const chunks: Uint8Array[] = []

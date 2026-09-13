@@ -1,7 +1,7 @@
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test, vi } from 'vitest'
 import { ProfilerMdError } from '../error.ts'
-import { asLz4Frame, chunk, streamOf } from '../helpers/testing.ts'
+import { asLz4Frame, bytesOf, chunk, streamOf } from '../helpers/testing.ts'
 import * as node from './compression.node.ts'
 import type { CompressionRuntime } from './compression.ts'
 import {
@@ -21,9 +21,6 @@ const lz4ed = asLz4Frame(text)
  * wraps, so a brotli retry after a stripped codec would convert it.
  */
 const gzippedBrotlied = new Uint8Array(gzipSync(brotlied))
-
-const bytesOf = async (data: Blob | ReadableStream<Uint8Array>) =>
-  new Uint8Array(await new Response(data).arrayBuffer())
 
 /**
  * Reads the decompressed text, failing on anything else the way a parser
@@ -175,6 +172,17 @@ describe(`withDecompressedAsync`, () => {
     ).rejects.toThrow(
       `cannot decompress the gzip input: unexpected end of file`,
     )
+    await expect(
+      withDecompressedAsync(streamOf(corrupt), readTextAsync),
+    ).rejects.toThrow(ProfilerMdError)
+  })
+
+  test(`reports a corrupt LZ4 input as the caller's`, async () => {
+    const corrupt = lz4ed.slice(0, 12)
+
+    await expect(
+      withDecompressedAsync(new Blob([corrupt]), readTextAsync),
+    ).rejects.toThrow(`cannot decompress the LZ4 input: truncated LZ4 block`)
     await expect(
       withDecompressedAsync(streamOf(corrupt), readTextAsync),
     ).rejects.toThrow(ProfilerMdError)

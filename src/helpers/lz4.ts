@@ -1,9 +1,10 @@
 import { DynamicTypedArray } from './array.ts'
+import { ByteQueue } from './bytes.ts'
 
 /** The little-endian magic that begins an LZ4 frame. */
 const FRAME_MAGIC = 0x18_4d_22_04
 
-/** The first of the 16 magics reserved for skippable frames. */
+/** The first and last of the 16 magics reserved for skippable frames. */
 const SKIPPABLE_MAGIC_START = 0x18_4d_2a_50
 const SKIPPABLE_MAGIC_END = 0x18_4d_2a_5f
 
@@ -16,164 +17,252 @@ export const isLz4Frame = (bytes: Uint8Array): boolean =>
 /**
  * Decompresses the concatenated LZ4 frames in {@link bytes}.
  *
- * Blocks are decompressed into one contiguous output so a block in linked mode
- * can reference the bytes the preceding blocks produced. Checksums are read
- * past but not verified.
- *
- * {@link maxLength} stops decompression once that many bytes are out, for a
- * caller that needs only a prefix, such as one identifying a compressed file
- * by its magic. The returned prefix may be longer than asked for, since
- * decompression stops at a sequence boundary.
- *
  * @throws if the bytes are not a well-formed LZ4 frame.
+ */
+export const decompressLz4Frame = (bytes: Uint8Array): Uint8Array => {
+  const output = new GrowableBytes(Math.max(bytes.length, WINDOW_SIZE))
+  const decoder = new Lz4FrameDecoder(output)
+  decoder.push(bytes)
+  decoder.end()
+  return output.toBytes()
+}
+
+/**
+ * Decompresses the concatenated LZ4 frames {@link stream} yields, emitting
+ * each block as it is decoded, however the input is chunked.
+ *
+ * The decoder retains the last 64 KiB it produced, the farthest back a match
+ * may reach, and the bytes of the block it is decoding, so memory is bounded
+ * by the block size a frame declares (at most 4 MiB) however large the input.
+ *
+ * The returned stream errors if the bytes are not a well-formed LZ4 frame.
+ */
+export const decompressLz4FrameStream = (
+  stream: ReadableStream<Uint8Array>,
+): ReadableStream<Uint8Array> => {
+  let decoder: Lz4FrameDecoder
+  return stream.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      start: controller => {
+        const output = new Lz4Window()
+        decoder = new Lz4FrameDecoder(output, () => {
+          const bytes = output.read()
+          if (bytes.length > 0) {
+            controller.enqueue(bytes)
+          }
+        })
+      },
+      transform: chunk => decoder.push(chunk),
+      flush: () => decoder.end(),
+    }),
+  )
+}
+
+/**
+ * The farthest back a match may reach, since a match offset is 16 bits. A
+ * decoder that has retained this much output can resolve any match.
+ */
+const WINDOW_SIZE = 1 << 16
+
+/**
+ * Decompresses LZ4 frames incrementally. Each {@link push} decodes every block
+ * the bytes so far complete into the output, calling {@link onBlock} after
+ * each, and {@link end} checks that the input stopped at a frame boundary.
+ *
+ * Checksums are read past but not verified.
+ *
  * @see https://github.com/lz4/lz4/blob/dev/doc/lz4_Frame_format.md
  */
-export const decompressLz4Frame = (
-  bytes: Uint8Array,
-  maxLength = Infinity,
-): Uint8Array => {
-  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-  // A frame declaring its content size grows the output to fit before its
-  // blocks are read, so this is the starting capacity for one that doesn't.
-  const output = new GrowableBytes(
-    Math.min(Math.max(bytes.length, 1 << 16), Math.max(maxLength * 2, 64)),
-  )
+class Lz4FrameDecoder {
+  readonly #input = new ByteQueue()
+  readonly #output: Lz4Output
+  readonly #onBlock: () => void
+  /** The frame whose blocks are being read, or `undefined` between frames. */
+  #frame: FrameDescriptor | undefined
+  /** The block whose bytes are awaited, or `undefined` between blocks. */
+  #block: BlockHeader | undefined
+  /** Bytes to discard before reading on: a skippable frame or a checksum. */
+  #skip = 0
 
-  let offset = 0
-  while (offset + 4 <= bytes.length && output.length < maxLength) {
-    const magic = view.getUint32(offset, true)
-    offset += 4
+  public constructor(output: Lz4Output, onBlock: () => void = () => {}) {
+    this.#output = output
+    this.#onBlock = onBlock
+  }
 
+  /** Appends {@link bytes} to the input and decodes as far as they allow. */
+  public push(bytes: Uint8Array): void {
+    this.#input.push(bytes)
+    while (this.#step()) {
+      // Each step consumes one unit of the input, if it has arrived whole.
+    }
+  }
+
+  /** @throws if the input ended inside a frame or after the last one. */
+  public end(): void {
+    if (this.#block !== undefined) {
+      throw new Error(`truncated LZ4 block`)
+    }
+    if (this.#skip > 0 || this.#frame !== undefined) {
+      throw new Error(`truncated LZ4 frame`)
+    }
+    if (this.#input.length > 0) {
+      throw new Error(`trailing bytes after the last LZ4 frame`)
+    }
+  }
+
+  /** Consumes the next unit of the input and returns whether it could. */
+  #step(): boolean {
+    if (this.#skip > 0) {
+      const skipped = Math.min(this.#skip, this.#input.length)
+      this.#input.take(skipped)
+      this.#skip -= skipped
+      return skipped > 0
+    }
+    if (this.#frame === undefined) {
+      return this.#readFrameHeader()
+    }
+    if (this.#block === undefined) {
+      return this.#readBlockHeader(this.#frame)
+    }
+    return this.#readBlock(this.#frame, this.#block)
+  }
+
+  #readFrameHeader(): boolean {
+    const input = this.#input
+    if (input.length < 4) {
+      return false
+    }
+
+    const magic = input.uint32(0, true)
     if (magic >= SKIPPABLE_MAGIC_START && magic <= SKIPPABLE_MAGIC_END) {
-      const size = readUint32(view, offset, bytes.length)
-      offset += 4 + size
-      continue
+      if (input.length < 8) {
+        return false
+      }
+      this.#skip = input.uint32(4, true)
+      input.take(8)
+      return true
     }
     if (magic !== FRAME_MAGIC) {
       throw new Error(`expected an LZ4 frame magic`)
     }
 
-    offset = decompressFrame(bytes, view, offset, output, maxLength)
+    // The flags record which optional fields the rest of the descriptor
+    // contains.
+    if (input.length < 5) {
+      return false
+    }
+    const flags = input.uint8(4)
+    const version = flags >> 6
+    if (version !== 1) {
+      throw new Error(`unsupported LZ4 frame version: ${version}`)
+    }
+    const hasContentSize = (flags & 0b0000_1000) !== 0
+    const hasDictionaryId = (flags & 0b0000_0001) !== 0
+
+    // The flags and block descriptor, the optional content size and dictionary
+    // ID, and the header checksum.
+    const headerLength =
+      4 + 2 + (hasContentSize ? 8 : 0) + (hasDictionaryId ? 4 : 0) + 1
+    if (input.length < headerLength) {
+      return false
+    }
+    const maximumBlockSize = maximumBlockSizeOf(input.uint8(5))
+    const contentSize = hasContentSize ? input.uint64(6, true) : undefined
+    input.take(headerLength)
+
+    this.#frame = {
+      maximumBlockSize,
+      hasContentChecksum: (flags & 0b0000_0100) !== 0,
+      hasBlockChecksums: (flags & 0b0001_0000) !== 0,
+    }
+    if (contentSize !== undefined) {
+      this.#output.expect?.(contentSize)
+    }
+    return true
   }
 
-  return output.toBytes()
-}
+  #readBlockHeader(frame: FrameDescriptor): boolean {
+    const input = this.#input
+    if (input.length < 4) {
+      return false
+    }
+    const header = input.uint32(0, true)
+    input.take(4)
 
-/**
- * Decompresses the frame whose descriptor begins at {@link offset}, appending
- * to {@link output}, and returns the offset just past the frame.
- */
-const decompressFrame = (
-  bytes: Uint8Array,
-  view: DataView,
-  offset: number,
-  output: GrowableBytes,
-  maxLength: number,
-): number => {
-  const { hasContentChecksum, hasBlockChecksums, contentSize, blocksOffset } =
-    readFrameDescriptor(bytes, view, offset)
-  offset = blocksOffset
+    if (header === 0) {
+      // The end mark, followed by the content checksum when the frame has one.
+      this.#frame = undefined
+      this.#skip = frame.hasContentChecksum ? 4 : 0
+      return true
+    }
 
-  // A declared content size larger than a typed array can hold is corrupt, and
-  // the doubling growth reaches whatever the frame really decompresses to.
-  if (contentSize !== undefined && contentSize <= MAXIMUM_RESERVATION) {
-    output.reserve(output.length + Math.min(contentSize, maxLength))
+    // Checking the size here, before the block's bytes arrive, keeps a corrupt
+    // header from buffering the rest of the input.
+    const size = header & 0x7f_ff_ff_ff
+    if (size > frame.maximumBlockSize) {
+      throw new Error(
+        `LZ4 block larger than the frame's maximum block size of ${frame.maximumBlockSize} bytes, got: ${size}`,
+      )
+    }
+    this.#block = { size, compressed: (header & 0x80_00_00_00) === 0 }
+    return true
   }
 
-  while (true) {
-    const blockHeader = readUint32(view, offset, bytes.length)
-    offset += 4
-    if (blockHeader === 0) {
-      return offset + (hasContentChecksum ? 4 : 0)
+  #readBlock(frame: FrameDescriptor, block: BlockHeader): boolean {
+    if (this.#input.length < block.size) {
+      return false
     }
-
-    const size = blockHeader & 0x7f_ff_ff_ff
-    const end = offset + size
-    if (end > bytes.length) {
-      throw new Error(`truncated LZ4 block`)
-    }
-
-    if ((blockHeader & 0x80_00_00_00) === 0) {
-      decompressBlock(bytes, offset, end, output, maxLength)
+    const bytes = this.#input.take(block.size)
+    if (block.compressed) {
+      decompressBlock(bytes, this.#output)
     } else {
-      output.append(bytes.subarray(offset, end))
+      this.#output.append(bytes)
     }
-
-    offset = end + (hasBlockChecksums ? 4 : 0)
-    if (output.length >= maxLength) {
-      return offset
-    }
+    this.#block = undefined
+    this.#skip = frame.hasBlockChecksums ? 4 : 0
+    this.#onBlock()
+    return true
   }
 }
 
-/** The largest reservation a frame's declared content size is trusted for. */
-const MAXIMUM_RESERVATION = 2 ** 32 - 1
-
-/**
- * Reads the frame descriptor beginning at {@link offset}: which of the
- * optional checksums the frame's blocks and content contain, the size the
- * frame decompresses to when it declares one, and the offset of the first
- * block header.
- */
-const readFrameDescriptor = (
-  bytes: Uint8Array,
-  view: DataView,
-  offset: number,
-): {
+type FrameDescriptor = {
+  /** The largest size a block's bytes and its decoded content may have. */
+  maximumBlockSize: number
   hasContentChecksum: boolean
   hasBlockChecksums: boolean
-  contentSize: number | undefined
-  blocksOffset: number
-} => {
-  const flags = readByte(bytes, offset)
-  const version = flags >> 6
-  if (version !== 1) {
-    throw new Error(`unsupported LZ4 frame version: ${version}`)
-  }
-  const hasContentSize = (flags & 0b0000_1000) !== 0
-  const hasDictionaryId = (flags & 0b0000_0001) !== 0
-
-  // The content size follows the flags and the block descriptor (a maximum
-  // block size this decoder has no need to bound).
-  const contentSizeOffset = offset + 2
-  if (hasContentSize && contentSizeOffset + 8 > bytes.length) {
-    throw new Error(`truncated LZ4 frame`)
-  }
-
-  return {
-    hasContentChecksum: (flags & 0b0000_0100) !== 0,
-    hasBlockChecksums: (flags & 0b0001_0000) !== 0,
-    contentSize: hasContentSize
-      ? Number(view.getBigUint64(contentSizeOffset, true))
-      : undefined,
-    // Past the content size and the optional dictionary ID comes the header
-    // checksum, and then the first block.
-    blocksOffset:
-      contentSizeOffset +
-      (hasContentSize ? 8 : 0) +
-      (hasDictionaryId ? 4 : 0) +
-      1,
-  }
 }
 
 /**
- * Decompresses the LZ4 block spanning `[start, end)` of {@link bytes} into
- * {@link output}.
+ * The maximum block size the block descriptor byte {@link descriptor}
+ * declares, from the four sizes the format defines.
+ *
+ * @throws if the descriptor declares a reserved size.
+ */
+const maximumBlockSizeOf = (descriptor: number): number => {
+  const sizeId = (descriptor >> 4) & 0b111
+  if (sizeId < 4) {
+    throw new Error(`reserved LZ4 block maximum size, got: ${sizeId}`)
+  }
+  return 1 << (8 + 2 * sizeId)
+}
+
+type BlockHeader = {
+  size: number
+  compressed: boolean
+}
+
+/**
+ * Decompresses the LZ4 block {@link bytes} into {@link output}.
  *
  * A block is a series of sequences, each a run of literal bytes followed by a
  * match copied from earlier output. In linked mode a match may reach back into
  * a previous block, so matches are copied from the accumulated output rather
  * than from this block alone.
  */
-const decompressBlock = (
-  bytes: Uint8Array,
-  start: number,
-  end: number,
-  output: GrowableBytes,
-  maxLength: number,
-): void => {
-  let offset = start
-  while (offset < end && output.length < maxLength) {
+const decompressBlock = (bytes: Uint8Array, output: Lz4Output): void => {
+  const end = bytes.length
+  let offset = 0
+  while (offset < end) {
     const token = bytes[offset++]!
 
     let literalLength = token >> 4
@@ -247,22 +336,23 @@ const lengthExtensionSize = (
   return size
 }
 
-const readByte = (bytes: Uint8Array, offset: number): number => {
-  if (offset >= bytes.length) {
-    throw new Error(`truncated LZ4 frame`)
-  }
-  return bytes[offset]!
+/**
+ * Where a decoder writes decompressed bytes: an append-only buffer a match can
+ * copy earlier output from.
+ */
+type Lz4Output = {
+  /** Declares that the frame being decoded will append {@link length} bytes. */
+  expect?: (length: number) => void
+  append: (bytes: Uint8Array) => void
+  /** Appends {@link length} bytes copied from {@link distance} bytes back. */
+  copyWithin: (distance: number, length: number) => void
 }
 
-const readUint32 = (view: DataView, offset: number, length: number): number => {
-  if (offset + 4 > length) {
-    throw new Error(`truncated LZ4 frame`)
-  }
-  return view.getUint32(offset, true)
-}
-
-/** An append-only byte buffer that doubles its capacity as it fills. */
-class GrowableBytes {
+/**
+ * An append-only byte buffer that doubles its capacity as it fills, holding
+ * everything appended to it.
+ */
+class GrowableBytes implements Lz4Output {
   readonly #bytes: DynamicTypedArray<Uint8Array>
   #length = 0
 
@@ -274,9 +364,15 @@ class GrowableBytes {
     return this.#length
   }
 
-  /** Grows the buffer to hold {@link capacity} bytes without reallocating. */
-  public reserve(capacity: number): void {
-    this.#bytes.ensureCapacity(capacity)
+  /**
+   * Grows the buffer to fit the declared bytes without reallocating as they
+   * arrive. A length larger than a typed array can hold is corrupt, and the
+   * doubling growth reaches whatever the frame really decompresses to.
+   */
+  public expect(length: number): void {
+    if (length <= MAXIMUM_RESERVATION) {
+      this.#bytes.ensureCapacity(this.#length + length)
+    }
   }
 
   public append(part: Uint8Array): void {
@@ -286,9 +382,8 @@ class GrowableBytes {
   }
 
   /**
-   * Appends {@link length} bytes copied from {@link distance} bytes back,
-   * one at a time because the ranges may overlap when the match repeats a
-   * shorter pattern.
+   * Copies one byte at a time because the ranges may overlap when the match
+   * repeats a shorter pattern.
    */
   public copyWithin(distance: number, length: number): void {
     if (distance > this.#length) {
@@ -304,7 +399,61 @@ class GrowableBytes {
     this.#length = to
   }
 
+  /** A view of the bytes appended so far. */
   public toBytes(): Uint8Array {
     return this.#bytes.array.subarray(0, this.#length)
   }
 }
+
+/** The largest reservation a frame's declared content size is trusted for. */
+const MAXIMUM_RESERVATION = 2 ** 32 - 1
+
+/**
+ * An {@link Lz4Output} that returns its bytes as they are decoded, retaining
+ * only the window a later match may copy from.
+ *
+ * The buffer is never written below its length and is replaced rather than
+ * reused when the window slides, so a view {@link read} returned stays valid
+ * however much is decoded after it.
+ */
+class Lz4Window implements Lz4Output {
+  /**
+   * Sized for the window and a few small blocks, and grown by doubling to fit
+   * the block size the frames turn out to use.
+   */
+  #bytes = new GrowableBytes(2 * WINDOW_SIZE)
+  /** The length of {@link bytes} already returned by {@link read}. */
+  #read = 0
+
+  public append(bytes: Uint8Array): void {
+    this.#bytes.append(bytes)
+  }
+
+  public copyWithin(distance: number, length: number): void {
+    this.#bytes.copyWithin(distance, length)
+  }
+
+  /** Returns the bytes decoded since the last read. */
+  public read(): Uint8Array {
+    const bytes = this.#bytes.toBytes().subarray(this.#read)
+    this.#read = this.#bytes.length
+
+    // Slide once the bytes before the window outgrow the slide interval, so a
+    // slide copies the window at most once per block, and the buffer holds at
+    // most the interval, the window, and one decoded block.
+    if (this.#read - WINDOW_SIZE >= SLIDE_INTERVAL) {
+      const window = new GrowableBytes(this.#read)
+      window.append(this.#bytes.toBytes().subarray(this.#read - WINDOW_SIZE))
+      this.#bytes = window
+      this.#read = WINDOW_SIZE
+    }
+    return bytes
+  }
+}
+
+/**
+ * How many bytes past the window the buffer accumulates between slides: the
+ * largest block a frame may declare, so copying the window costs at most a
+ * fraction of decoding a block's worth of output.
+ */
+const SLIDE_INTERVAL = 4 << 20

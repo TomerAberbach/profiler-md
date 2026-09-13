@@ -191,9 +191,9 @@ const stripCarriageReturn = (line: string): string =>
 
 /**
  * A FIFO byte buffer that accumulates a stream's reads and hands back whole
- * chunks. Header fields are read in place from the buffered prefix; taking a
- * chunk copies it out and drops it, so only the bytes not yet formed into a
- * chunk are retained.
+ * chunks. Header fields are read in place from the buffered prefix. Taking a
+ * chunk drops it from the queue, so only the bytes not yet formed into a chunk
+ * are retained.
  */
 export class ByteQueue {
   readonly #parts: Uint8Array[] = []
@@ -210,23 +210,67 @@ export class ByteQueue {
     }
   }
 
-  /** Reads a big-endian uint32 at `offset`. Requires `length >= offset + 4`. */
-  public uint32(offset: number): number {
-    return new DataView(this.#head(offset + 4).buffer).getUint32(offset)
+  /** Reads the byte at `offset`. Requires `length > offset`. */
+  public uint8(offset: number): number {
+    return this.#head(offset + 1)[offset]!
   }
 
   /**
-   * Reads a big-endian signed 64-bit integer at `offset` as a number. Requires
-   * `length >= offset + 8`.
+   * Reads a uint32 at `offset`, big-endian by default. Requires
+   * `length >= offset + 4`.
    */
-  public int64(offset: number): number {
-    return Number(
-      new DataView(this.#head(offset + 8).buffer).getBigInt64(offset),
+  public uint32(offset: number, littleEndian = false): number {
+    return new DataView(this.#head(offset + 4).buffer).getUint32(
+      offset,
+      littleEndian,
     )
   }
 
-  /** Removes and returns the first `size` bytes. Requires `length >= size`. */
+  /**
+   * Reads a signed 64-bit integer at `offset` as a number, big-endian by
+   * default. Requires `length >= offset + 8`.
+   */
+  public int64(offset: number, littleEndian = false): number {
+    return Number(
+      new DataView(this.#head(offset + 8).buffer).getBigInt64(
+        offset,
+        littleEndian,
+      ),
+    )
+  }
+
+  /**
+   * Reads an unsigned 64-bit integer at `offset` as a number, big-endian by
+   * default. A value above 2^53 is rounded to the nearest number. Requires
+   * `length >= offset + 8`.
+   */
+  public uint64(offset: number, littleEndian = false): number {
+    return Number(
+      new DataView(this.#head(offset + 8).buffer).getBigUint64(
+        offset,
+        littleEndian,
+      ),
+    )
+  }
+
+  /**
+   * Removes and returns the first `size` bytes. Requires `length >= size`.
+   *
+   * The bytes are a view of the pushed part when one part holds them all, and
+   * a copy otherwise.
+   */
   public take(size: number): Uint8Array {
+    const first = this.#parts[0]
+    if (first !== undefined && first.length >= size) {
+      if (first.length === size) {
+        this.#parts.shift()
+      } else {
+        this.#parts[0] = first.subarray(size)
+      }
+      this.#length -= size
+      return first.subarray(0, size)
+    }
+
     const chunk = new Uint8Array(size)
     let written = 0
     while (written < size) {
