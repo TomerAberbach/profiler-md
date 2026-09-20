@@ -32,9 +32,9 @@ Functions ranked by bytes held at peak memory directly in the function body, exc
 |  1.4% |    1 MiB |           3 | `addtoken`                         | `blib2to3/pgen2/parse.py:242`                          |
 |  1.4% |    1 MiB |           2 | `visit_default`                    | `black/linegen.py:134`                                 |
 |  1.4% |    1 MiB |           1 | `pop`                              | `blib2to3/pgen2/parse.py:398`                          |
+|  1.4% |    1 MiB |           1 | `__init__`                         | `<string>:2`                                           |
 |  1.4% |    1 MiB |           1 | `lines_with_leading_tabs_expanded` | `black/strings.py:46`                                  |
 |  1.4% |    1 MiB |           1 | `is_import`                        | `black/lines.py:134`                                   |
-|  1.4% |    1 MiB |           1 | `__init__`                         | `<string>:2`                                           |
 |  0.4% |  311 KiB |         341 | `_compile_bytecode`                | `<frozen importlib._bootstrap_external>:727`           |
 
 #### Categories
@@ -56,9 +56,9 @@ Functions ranked by bytes held at peak memory directly in the function body, exc
 |  1.4% |    1 MiB |           3 | `addtoken`                         | `blib2to3/pgen2/parse.py:242`   |
 |  1.4% |    1 MiB |           2 | `visit_default`                    | `black/linegen.py:134`          |
 |  1.4% |    1 MiB |           1 | `pop`                              | `blib2to3/pgen2/parse.py:398`   |
+|  1.4% |    1 MiB |           1 | `__init__`                         | `<string>:2`                    |
 |  1.4% |    1 MiB |           1 | `lines_with_leading_tabs_expanded` | `black/strings.py:46`           |
 |  1.4% |    1 MiB |           1 | `is_import`                        | `black/lines.py:134`            |
-|  1.4% |    1 MiB |           1 | `__init__`                         | `<string>:2`                    |
 |  0.3% |  225 KiB |           5 | `_format_str_once`                 | `black/__init__.py:1236`        |
 |  0.1% | 57.2 KiB |          65 | `normalize_string_prefix`          | `black/strings.py:143`          |
 |  0.1% | 41.5 KiB |          16 | `copy`                             | `blib2to3/pgen2/grammar.py:131` |
@@ -149,8 +149,8 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                 |
 | ----: | -------: | ----------: | ------------------------ |
-| 34.0% | 1.07 MiB |          94 | `blib2to3/pytree.py:377` |
 | 34.0% | 1.07 MiB |          94 | `blib2to3/pytree.py:376` |
+| 34.0% | 1.07 MiB |          94 | `blib2to3/pytree.py:377` |
 | 32.0% |    1 MiB |          10 | `blib2to3/pytree.py:379` |
 
 ##### `transform_line` (`black/linegen.py:601`)
@@ -179,23 +179,23 @@ Lines ranked by contribution to each function's self size.
 
 |     % |  Size | Allocations | Location                      |
 | ----: | ----: | ----------: | ----------------------------- |
-| 50.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:315` |
 | 50.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:314` |
+| 50.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:315` |
 
 ##### `generate_comments` (`black/comments.py:52`)
 
 |     % |  Size | Allocations | Location               |
 | ----: | ----: | ----------: | ---------------------- |
-| 50.0% | 1 MiB |           1 | `black/comments.py:76` |
 | 50.0% | 1 MiB |           1 | `black/comments.py:72` |
+| 50.0% | 1 MiB |           1 | `black/comments.py:76` |
 
 ##### `make_grammar` (`blib2to3/pgen2/pgen.py:49`)
 
 |     % |     Size | Allocations | Location                    |
 | ----: | -------: | ----------: | --------------------------- |
 | 98.6% |    1 MiB |           1 | `blib2to3/pgen2/pgen.py:56` |
-|  0.4% | 4.52 KiB |           1 | `blib2to3/pgen2/pgen.py:70` |
 |  0.4% | 4.52 KiB |           1 | `blib2to3/pgen2/pgen.py:58` |
+|  0.4% | 4.52 KiB |           1 | `blib2to3/pgen2/pgen.py:70` |
 |  0.3% | 3.19 KiB |           1 | `blib2to3/pgen2/pgen.py:57` |
 |  0.1% |    1 KiB |           1 | `blib2to3/pgen2/pgen.py:69` |
 
@@ -205,8 +205,8 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | -------------------------------------------------------- |
 | 99.2% |    1 MiB |           1 | `/venv/lib/python3.11/site-packages/click/parser.py:25`  |
 |  0.2% | 2.29 KiB |           3 | `/venv/lib/python3.11/site-packages/click/parser.py:224` |
-|  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:185` |
 |  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:127` |
+|  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:185` |
 |  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:216` |
 
 ##### `visit` (`black/nodes.py:163`)
@@ -236,6 +236,12 @@ Lines ranked by contribution to each function's self size.
 | -----: | ----: | ----------: | ----------------------------- |
 | 100.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:408` |
 
+##### `__init__` (`<string>:2`)
+
+|      % |  Size | Allocations | Location     |
+| -----: | ----: | ----------: | ------------ |
+| 100.0% | 1 MiB |           1 | `<string>:6` |
+
 ##### `lines_with_leading_tabs_expanded` (`black/strings.py:46`)
 
 |      % |  Size | Allocations | Location              |
@@ -247,12 +253,6 @@ Lines ranked by contribution to each function's self size.
 |      % |  Size | Allocations | Location             |
 | -----: | ----: | ----------: | -------------------- |
 | 100.0% | 1 MiB |           1 | `black/lines.py:137` |
-
-##### `__init__` (`<string>:2`)
-
-|      % |  Size | Allocations | Location     |
-| -----: | ----: | ----------: | ------------ |
-| 100.0% | 1 MiB |           1 | `<string>:6` |
 
 ##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
 
@@ -308,9 +308,9 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | ---------------------------------------------------------- |
 | 89.8% | 37.7 KiB |           3 | `/venv/lib/python3.11/site-packages/packaging/tags.py:118` |
 |  3.5% | 1.48 KiB |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:322` |
-|  2.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:110` |
-|  2.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:101` |
 |  2.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:93`  |
+|  2.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:101` |
+|  2.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:110` |
 
 ##### `copy` (`blib2to3/pgen2/grammar.py:131`)
 
@@ -334,7 +334,7 @@ Lines ranked by contribution to each function's self size.
 | 19.2% | 4.79 KiB |           4 | `/venv/lib/python3.11/site-packages/click/core.py:956`  |
 | 15.7% | 3.92 KiB |           4 | `/venv/lib/python3.11/site-packages/click/core.py:1587` |
 |  9.5% | 2.37 KiB |           3 | `/venv/lib/python3.11/site-packages/click/core.py:2057` |
-|  6.8% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/core.py:2050` |
+|  6.8% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/core.py:1580` |
 
 ##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
 
@@ -353,10 +353,10 @@ Lines ranked by contribution to each function's self size.
 |     % |  Size | Allocations | Location                                    |
 | ----: | ----: | ----------: | ------------------------------------------- |
 | 20.2% | 4 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:37` |
-| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:26` |
 | 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:22` |
-| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:38` |
+| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:26` |
 | 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:27` |
+| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:36` |
 
 ##### `__new__` (`/usr/lib/python3.11/typing.py:2891`)
 
@@ -368,11 +368,11 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                                                    |
 | ----: | -------: | ----------: | ----------------------------------------------------------- |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:198` |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:167` |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:212` |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:191` |
 | 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:154` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:167` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:175` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:191` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:198` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/click/exceptions.py:1`)
 
@@ -380,9 +380,9 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | ------------------------------------------------------------ |
 | 18.4% | 2.45 KiB |           3 | `/venv/lib/python3.11/site-packages/click/exceptions.py:114` |
 | 11.5% | 1.53 KiB |           2 | `/venv/lib/python3.11/site-packages/click/exceptions.py:366` |
-|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:304` |
-|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:268` |
-|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:232` |
+|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:35`  |
+|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:68`  |
+|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:159` |
 
 ##### `inner` (`/usr/lib/python3.11/typing.py:338`)
 
@@ -434,7 +434,7 @@ Lines ranked by contribution to each function's self size.
 | 16.9% | 1.09 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:765` |
 | 16.3% | 1.05 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:710` |
 | 15.1% |   1000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:741` |
-| 14.5% |    960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:651` |
+| 14.5% |    960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:604` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/packaging/_ranges.py:1`)
 
@@ -450,8 +450,8 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                                                  |
 | ----: | -------: | ----------: | --------------------------------------------------------- |
-| 29.1% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/_compat.py:452` |
 | 29.1% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/_compat.py:82`  |
+| 29.1% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/_compat.py:452` |
 | 25.6% | 1.48 KiB |           1 | `/venv/lib/python3.11/site-packages/click/_compat.py:344` |
 | 16.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/_compat.py:56`  |
 
@@ -480,8 +480,8 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                             |
 | ----: | -------: | ----------: | ------------------------------------ |
-| 35.7% | 1.69 KiB |           2 | `/usr/lib/python3.11/pkgutil.py:269` |
 | 35.7% | 1.69 KiB |           2 | `/usr/lib/python3.11/pkgutil.py:194` |
+| 35.7% | 1.69 KiB |           2 | `/usr/lib/python3.11/pkgutil.py:269` |
 | 15.9% |    768 B |           1 | `/usr/lib/python3.11/pkgutil.py:137` |
 | 12.8% |    620 B |           1 | `/usr/lib/python3.11/pkgutil.py:184` |
 
@@ -509,9 +509,9 @@ Lines ranked by contribution to each function's self size.
 
 |     % |  Size | Allocations | Location                                                   |
 | ----: | ----: | ----------: | ---------------------------------------------------------- |
-| 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:62` |
 | 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:46` |
 | 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:54` |
+| 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:62` |
 | 21.1% | 768 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:27` |
 
 ##### `handle_parse_result` (`/venv/lib/python3.11/site-packages/click/core.py:2663`)
@@ -556,8 +556,8 @@ Lines ranked by contribution to each function's self size.
 |     % |  Size | Allocations | Location                                                                     |
 | ----: | ----: | ----------: | ---------------------------------------------------------------------------- |
 | 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:22`  |
-| 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:205` |
 | 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:197` |
+| 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:205` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/click/types.py:1`)
 
@@ -670,6 +670,12 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | -----: | ----: | ----------: | ----------- | ----------------------------- |
 | 100.0% | 1 MiB |           1 | `_addtoken` | `blib2to3/pgen2/parse.py:290` |
 
+##### `__init__` (`<string>:2`)
+
+|      % |  Size | Allocations | Caller | Location               |
+| -----: | ----: | ----------: | ------ | ---------------------- |
+| 100.0% | 1 MiB |           1 | `line` | `black/linegen.py:109` |
+
 ##### `lines_with_leading_tabs_expanded` (`black/strings.py:46`)
 
 |      % |  Size | Allocations | Caller          | Location              |
@@ -681,12 +687,6 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 |      % |  Size | Allocations | Caller               | Location             |
 | -----: | ----: | ----------: | -------------------- | -------------------- |
 | 100.0% | 1 MiB |           1 | `_maybe_empty_lines` | `black/lines.py:610` |
-
-##### `__init__` (`<string>:2`)
-
-|      % |  Size | Allocations | Caller | Location               |
-| -----: | ----: | ----------: | ------ | ---------------------- |
-| 100.0% | 1 MiB |           1 | `line` | `black/linegen.py:109` |
 
 ##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
 
@@ -970,8 +970,8 @@ Functions ranked by total bytes held at peak memory in the function and all its 
 |  70.1% | 50.8 MiB |      21,147 | `format_str`           | `black/__init__.py:1189`                                       |
 |  70.1% | 50.8 MiB |      21,146 | `_format_str_once`     | `black/__init__.py:1236`                                       |
 |  48.9% | 35.4 MiB |      21,086 | `visit`                | `black/nodes.py:163`                                           |
-|  48.9% | 35.4 MiB |      21,084 | `visit_default`        | `black/linegen.py:134`                                         |
 |  48.9% | 35.4 MiB |      21,084 | `visit_default`        | `black/nodes.py:187`                                           |
+|  48.9% | 35.4 MiB |      21,084 | `visit_default`        | `black/linegen.py:134`                                         |
 
 #### Categories
 
@@ -988,8 +988,8 @@ Functions ranked by total bytes held at peak memory in the function and all its 
 | 70.1% | 50.8 MiB |      21,147 | `format_str`                      | `black/__init__.py:1189` |
 | 70.1% | 50.8 MiB |      21,146 | `_format_str_once`                | `black/__init__.py:1236` |
 | 48.9% | 35.4 MiB |      21,086 | `visit`                           | `black/nodes.py:163`     |
-| 48.9% | 35.4 MiB |      21,084 | `visit_default`                   | `black/linegen.py:134`   |
 | 48.9% | 35.4 MiB |      21,084 | `visit_default`                   | `black/nodes.py:187`     |
+| 48.9% | 35.4 MiB |      21,084 | `visit_default`                   | `black/linegen.py:134`   |
 | 48.6% | 35.2 MiB |      20,713 | `visit_stmt`                      | `black/linegen.py:199`   |
 | 48.1% | 34.8 MiB |      20,272 | `visit_funcdef`                   | `black/linegen.py:254`   |
 | 48.0% | 34.7 MiB |      20,146 | `visit_suite`                     | `black/linegen.py:288`   |
@@ -1177,6 +1177,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |  98.0% | 34.7 MiB |      20,146 | `visit_suite`       | `black/linegen.py:288` |
 |  67.2% | 23.8 MiB |      13,402 | `visit_simple_stmt` | `black/linegen.py:295` |
 
+##### `visit_default` (`black/nodes.py:187`)
+
+|      % |     Size | Allocations | Callee  | Location             |
+| -----: | -------: | ----------: | ------- | -------------------- |
+| 100.0% | 35.4 MiB |      21,084 | `visit` | `black/nodes.py:163` |
+
 ##### `visit_default` (`black/linegen.py:134`)
 
 |      % |     Size | Allocations | Callee              | Location               |
@@ -1184,12 +1190,6 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | 100.0% | 35.4 MiB |      21,084 | `visit_default`     | `black/nodes.py:187`   |
 |  60.1% | 21.3 MiB |      20,886 | `append`            | `black/lines.py:63`    |
 |  16.9% |    6 MiB |           6 | `generate_comments` | `black/comments.py:52` |
-
-##### `visit_default` (`black/nodes.py:187`)
-
-|      % |     Size | Allocations | Callee  | Location             |
-| -----: | -------: | ----------: | ------- | -------------------- |
-| 100.0% | 35.4 MiB |      21,084 | `visit` | `black/nodes.py:163` |
 
 ##### `visit_stmt` (`black/linegen.py:199`)
 
@@ -1440,12 +1440,12 @@ Common call stack: `run_module` (`<frozen runpy>:201`) ← `_run_tracker` (`/ven
 |  1.4% | 1.01 MiB |          10 | `update_sibling_maps` (`blib2to3/pytree.py:369`) ← `prev_sibling` (207) ← `whitespace` (`black/nodes.py:194`) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 |  1.4% |    1 MiB |           4 | `mark` (`black/brackets.py:70`) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 |  1.4% |    1 MiB |           3 | `addtoken` (`blib2to3/pgen2/parse.py:242`) ← `parse_tokens` (`blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`black/parsing.py:55`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  1.4% |    1 MiB |           1 | `lines_with_leading_tabs_expanded` (`black/strings.py:46`) ← `fix_docstring` (65) ← `visit_STRING` (`black/linegen.py:413`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  1.4% |    1 MiB |           1 | `is_import` (`black/lines.py:134`) ← `_maybe_empty_lines` (610) ← `maybe_empty_lines` (560) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  1.4% |    1 MiB |           1 | `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  1.4% |    1 MiB |           1 | `update_sibling_maps` (`blib2to3/pytree.py:369`) ← `prev_sibling` (207) ← `preceding_leaf` (`black/nodes.py:441`) ← `whitespace` (194) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  1.4% |    1 MiB |           1 | `pop` (`blib2to3/pgen2/parse.py:398`) ← `_addtoken` (290) ← `addtoken` (242) ← `parse_tokens` (`blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`black/parsing.py:55`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 |  1.4% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `prefix` (480) ← `normalize_trailing_prefix` (`black/comments.py:127`) ← `generate_comments` (52) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91) |
-|  1.4% |    1 MiB |           1 | `generate_comments` (`black/comments.py:52`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_test` (160) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|  1.4% |    1 MiB |           1 | `__init__` (`<string>:2`) ← `line` (`black/linegen.py:109`) ← `visit_INDENT` (179) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|  1.4% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `changed` (171) ← `prefix` (480) ← `wrap_in_parentheses` (`black/nodes.py:935`) ← `normalize_invisible_parens` (`black/linegen.py:1328`) ← `visit_stmt` (199) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  1.4% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `prefix` (480) ← `normalize_trailing_prefix` (`black/comments.py:127`) ← `generate_comments` (52) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|  1.4% |    1 MiB |           1 | `mark` (`black/brackets.py:70`) ← `max_delimiter_priority_in_atom` (328) ← `maybe_make_parens_invisible_in_atom` (`black/linegen.py:1574`) ← `normalize_invisible_parens` (1328) ← `visit_stmt` (199) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 # Leaked memory profile
 
@@ -1472,18 +1472,18 @@ Functions ranked by bytes never freed directly in the function body, excluding c
 |  5.3% | 3.07 MiB |           9 | `transform_line`                   | `black/linegen.py:601`                                 |
 |  3.9% | 2.27 MiB |         352 | `_call_with_frames_removed`        | `<frozen importlib._bootstrap>:233`                    |
 |  3.5% | 2.01 MiB |           3 | `parse`                            | `/usr/lib/python3.11/ast.py:33`                        |
-|  3.4% |    2 MiB |           2 | `generate_comments`                | `black/comments.py:52`                                 |
 |  3.4% |    2 MiB |           2 | `convert`                          | `blib2to3/pytree.py:486`                               |
 |  3.4% |    2 MiB |           2 | `_addtoken`                        | `blib2to3/pgen2/parse.py:290`                          |
+|  3.4% |    2 MiB |           2 | `generate_comments`                | `black/comments.py:52`                                 |
 |  1.7% | 1.01 MiB |           6 | `make_grammar`                     | `blib2to3/pgen2/pgen.py:49`                            |
 |  1.7% | 1.01 MiB |          11 | `<module>`                         | `/venv/lib/python3.11/site-packages/click/parser.py:1` |
 |  1.7% |    1 MiB |           5 | `visit`                            | `black/nodes.py:163`                                   |
 |  1.7% |    1 MiB |           3 | `addtoken`                         | `blib2to3/pgen2/parse.py:242`                          |
 |  1.7% |    1 MiB |           2 | `visit_default`                    | `black/linegen.py:134`                                 |
+|  1.7% |    1 MiB |           1 | `pop`                              | `blib2to3/pgen2/parse.py:398`                          |
+|  1.7% |    1 MiB |           1 | `__init__`                         | `<string>:2`                                           |
 |  1.7% |    1 MiB |           1 | `lines_with_leading_tabs_expanded` | `black/strings.py:46`                                  |
 |  1.7% |    1 MiB |           1 | `is_import`                        | `black/lines.py:134`                                   |
-|  1.7% |    1 MiB |           1 | `__init__`                         | `<string>:2`                                           |
-|  1.7% |    1 MiB |           1 | `pop`                              | `blib2to3/pgen2/parse.py:398`                          |
 |  0.5% |  311 KiB |         341 | `_compile_bytecode`                | `<frozen importlib._bootstrap_external>:727`           |
 
 #### Categories
@@ -1497,17 +1497,17 @@ Functions ranked by bytes never freed directly in the function body, excluding c
 |  8.6% |    5 MiB |           5 | `__new__`                          | `blib2to3/pytree.py:81`         |
 |  5.4% | 3.14 MiB |         198 | `update_sibling_maps`              | `blib2to3/pytree.py:369`        |
 |  5.3% | 3.07 MiB |           9 | `transform_line`                   | `black/linegen.py:601`          |
-|  3.4% |    2 MiB |           2 | `generate_comments`                | `black/comments.py:52`          |
 |  3.4% |    2 MiB |           2 | `convert`                          | `blib2to3/pytree.py:486`        |
 |  3.4% |    2 MiB |           2 | `_addtoken`                        | `blib2to3/pgen2/parse.py:290`   |
+|  3.4% |    2 MiB |           2 | `generate_comments`                | `black/comments.py:52`          |
 |  1.7% | 1.01 MiB |           6 | `make_grammar`                     | `blib2to3/pgen2/pgen.py:49`     |
 |  1.7% |    1 MiB |           5 | `visit`                            | `black/nodes.py:163`            |
 |  1.7% |    1 MiB |           3 | `addtoken`                         | `blib2to3/pgen2/parse.py:242`   |
 |  1.7% |    1 MiB |           2 | `visit_default`                    | `black/linegen.py:134`          |
+|  1.7% |    1 MiB |           1 | `pop`                              | `blib2to3/pgen2/parse.py:398`   |
+|  1.7% |    1 MiB |           1 | `__init__`                         | `<string>:2`                    |
 |  1.7% |    1 MiB |           1 | `lines_with_leading_tabs_expanded` | `black/strings.py:46`           |
 |  1.7% |    1 MiB |           1 | `is_import`                        | `black/lines.py:134`            |
-|  1.7% |    1 MiB |           1 | `__init__`                         | `<string>:2`                    |
-|  1.7% |    1 MiB |           1 | `pop`                              | `blib2to3/pgen2/parse.py:398`   |
 |  0.1% | 57.2 KiB |          65 | `normalize_string_prefix`          | `black/strings.py:143`          |
 |  0.1% | 41.5 KiB |          16 | `copy`                             | `blib2to3/pgen2/grammar.py:131` |
 |  0.1% |   32 KiB |           1 | `classify`                         | `blib2to3/pgen2/parse.py:336`   |
@@ -1592,8 +1592,8 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                 |
 | ----: | -------: | ----------: | ------------------------ |
-| 34.0% | 1.07 MiB |          94 | `blib2to3/pytree.py:377` |
 | 34.0% | 1.07 MiB |          94 | `blib2to3/pytree.py:376` |
+| 34.0% | 1.07 MiB |          94 | `blib2to3/pytree.py:377` |
 | 32.0% |    1 MiB |          10 | `blib2to3/pytree.py:379` |
 
 ##### `transform_line` (`black/linegen.py:601`)
@@ -1618,13 +1618,6 @@ Lines ranked by contribution to each function's self size.
 | -----: | -------: | ----------: | ------------------------------- |
 | 100.0% | 2.01 MiB |           3 | `/usr/lib/python3.11/ast.py:50` |
 
-##### `generate_comments` (`black/comments.py:52`)
-
-|     % |  Size | Allocations | Location               |
-| ----: | ----: | ----------: | ---------------------- |
-| 50.0% | 1 MiB |           1 | `black/comments.py:76` |
-| 50.0% | 1 MiB |           1 | `black/comments.py:72` |
-
 ##### `convert` (`blib2to3/pytree.py:486`)
 
 |      % |  Size | Allocations | Location                 |
@@ -1635,16 +1628,23 @@ Lines ranked by contribution to each function's self size.
 
 |     % |  Size | Allocations | Location                      |
 | ----: | ----: | ----------: | ----------------------------- |
-| 50.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:315` |
 | 50.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:314` |
+| 50.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:315` |
+
+##### `generate_comments` (`black/comments.py:52`)
+
+|     % |  Size | Allocations | Location               |
+| ----: | ----: | ----------: | ---------------------- |
+| 50.0% | 1 MiB |           1 | `black/comments.py:72` |
+| 50.0% | 1 MiB |           1 | `black/comments.py:76` |
 
 ##### `make_grammar` (`blib2to3/pgen2/pgen.py:49`)
 
 |     % |     Size | Allocations | Location                    |
 | ----: | -------: | ----------: | --------------------------- |
 | 98.6% |    1 MiB |           1 | `blib2to3/pgen2/pgen.py:56` |
-|  0.4% | 4.52 KiB |           1 | `blib2to3/pgen2/pgen.py:70` |
 |  0.4% | 4.52 KiB |           1 | `blib2to3/pgen2/pgen.py:58` |
+|  0.4% | 4.52 KiB |           1 | `blib2to3/pgen2/pgen.py:70` |
 |  0.3% | 3.19 KiB |           1 | `blib2to3/pgen2/pgen.py:57` |
 |  0.1% |    1 KiB |           1 | `blib2to3/pgen2/pgen.py:69` |
 
@@ -1654,8 +1654,8 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | -------------------------------------------------------- |
 | 99.2% |    1 MiB |           1 | `/venv/lib/python3.11/site-packages/click/parser.py:25`  |
 |  0.2% | 2.29 KiB |           3 | `/venv/lib/python3.11/site-packages/click/parser.py:224` |
-|  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:185` |
 |  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:127` |
+|  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:185` |
 |  0.2% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/parser.py:216` |
 
 ##### `visit` (`black/nodes.py:163`)
@@ -1679,6 +1679,18 @@ Lines ranked by contribution to each function's self size.
 | 99.9% | 1 MiB |           1 | `black/linegen.py:158` |
 |  0.1% | 702 B |           1 | `black/linegen.py:144` |
 
+##### `pop` (`blib2to3/pgen2/parse.py:398`)
+
+|      % |  Size | Allocations | Location                      |
+| -----: | ----: | ----------: | ----------------------------- |
+| 100.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:408` |
+
+##### `__init__` (`<string>:2`)
+
+|      % |  Size | Allocations | Location     |
+| -----: | ----: | ----------: | ------------ |
+| 100.0% | 1 MiB |           1 | `<string>:6` |
+
 ##### `lines_with_leading_tabs_expanded` (`black/strings.py:46`)
 
 |      % |  Size | Allocations | Location              |
@@ -1690,18 +1702,6 @@ Lines ranked by contribution to each function's self size.
 |      % |  Size | Allocations | Location             |
 | -----: | ----: | ----------: | -------------------- |
 | 100.0% | 1 MiB |           1 | `black/lines.py:137` |
-
-##### `__init__` (`<string>:2`)
-
-|      % |  Size | Allocations | Location     |
-| -----: | ----: | ----------: | ------------ |
-| 100.0% | 1 MiB |           1 | `<string>:6` |
-
-##### `pop` (`blib2to3/pgen2/parse.py:398`)
-
-|      % |  Size | Allocations | Location                      |
-| -----: | ----: | ----------: | ----------------------------- |
-| 100.0% | 1 MiB |           1 | `blib2to3/pgen2/parse.py:408` |
 
 ##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
 
@@ -1763,7 +1763,7 @@ Lines ranked by contribution to each function's self size.
 | 19.2% | 4.79 KiB |           4 | `/venv/lib/python3.11/site-packages/click/core.py:956`  |
 | 15.7% | 3.92 KiB |           4 | `/venv/lib/python3.11/site-packages/click/core.py:1587` |
 |  9.5% | 2.37 KiB |           3 | `/venv/lib/python3.11/site-packages/click/core.py:2057` |
-|  6.8% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/core.py:2050` |
+|  6.8% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/core.py:1580` |
 
 ##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
 
@@ -1782,10 +1782,10 @@ Lines ranked by contribution to each function's self size.
 |     % |  Size | Allocations | Location                                    |
 | ----: | ----: | ----------: | ------------------------------------------- |
 | 20.2% | 4 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:37` |
-| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:26` |
 | 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:22` |
-| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:38` |
+| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:26` |
 | 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:27` |
+| 10.1% | 2 KiB |           1 | `/usr/lib/python3.11/tomllib/_parser.py:36` |
 
 ##### `__new__` (`/usr/lib/python3.11/typing.py:2891`)
 
@@ -1797,11 +1797,11 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                                                    |
 | ----: | -------: | ----------: | ----------------------------------------------------------- |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:198` |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:167` |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:212` |
-| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:191` |
 | 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:154` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:167` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:175` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:191` |
+| 11.3% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/mypy_extensions.py:198` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/click/exceptions.py:1`)
 
@@ -1809,9 +1809,9 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | ------------------------------------------------------------ |
 | 18.4% | 2.45 KiB |           3 | `/venv/lib/python3.11/site-packages/click/exceptions.py:114` |
 | 11.5% | 1.53 KiB |           2 | `/venv/lib/python3.11/site-packages/click/exceptions.py:366` |
-|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:304` |
-|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:268` |
-|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:232` |
+|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:35`  |
+|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:68`  |
+|  7.0% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/exceptions.py:159` |
 
 ##### `inner` (`/usr/lib/python3.11/typing.py:338`)
 
@@ -1863,7 +1863,7 @@ Lines ranked by contribution to each function's self size.
 | 16.9% | 1.09 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:765` |
 | 16.3% | 1.05 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:710` |
 | 15.1% |   1000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:741` |
-| 14.5% |    960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:651` |
+| 14.5% |    960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:604` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/packaging/_ranges.py:1`)
 
@@ -1881,16 +1881,16 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | ---------------------------------------------------------- |
 | 28.0% | 1.67 KiB |           2 | `/venv/lib/python3.11/site-packages/packaging/tags.py:118` |
 | 24.9% | 1.48 KiB |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:322` |
-| 15.7% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:110` |
-| 15.7% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:101` |
 | 15.7% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:93`  |
+| 15.7% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:101` |
+| 15.7% |    960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/tags.py:110` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/click/_compat.py:1`)
 
 |     % |     Size | Allocations | Location                                                  |
 | ----: | -------: | ----------: | --------------------------------------------------------- |
-| 29.1% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/_compat.py:452` |
 | 29.1% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/_compat.py:82`  |
+| 29.1% | 1.69 KiB |           2 | `/venv/lib/python3.11/site-packages/click/_compat.py:452` |
 | 25.6% | 1.48 KiB |           1 | `/venv/lib/python3.11/site-packages/click/_compat.py:344` |
 | 16.2% |    960 B |           1 | `/venv/lib/python3.11/site-packages/click/_compat.py:56`  |
 
@@ -1919,8 +1919,8 @@ Lines ranked by contribution to each function's self size.
 
 |     % |     Size | Allocations | Location                             |
 | ----: | -------: | ----------: | ------------------------------------ |
-| 35.7% | 1.69 KiB |           2 | `/usr/lib/python3.11/pkgutil.py:269` |
 | 35.7% | 1.69 KiB |           2 | `/usr/lib/python3.11/pkgutil.py:194` |
+| 35.7% | 1.69 KiB |           2 | `/usr/lib/python3.11/pkgutil.py:269` |
 | 15.9% |    768 B |           1 | `/usr/lib/python3.11/pkgutil.py:137` |
 | 12.8% |    620 B |           1 | `/usr/lib/python3.11/pkgutil.py:184` |
 
@@ -1942,9 +1942,9 @@ Lines ranked by contribution to each function's self size.
 
 |     % |  Size | Allocations | Location                                                   |
 | ----: | ----: | ----------: | ---------------------------------------------------------- |
-| 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:62` |
 | 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:46` |
 | 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:54` |
+| 26.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:62` |
 | 21.1% | 768 B |           1 | `/venv/lib/python3.11/site-packages/packaging/utils.py:27` |
 
 ##### `handle_parse_result` (`/venv/lib/python3.11/site-packages/click/core.py:2663`)
@@ -1995,8 +1995,8 @@ Lines ranked by contribution to each function's self size.
 |     % |  Size | Allocations | Location                                                                     |
 | ----: | ----: | ----------: | ---------------------------------------------------------------------------- |
 | 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:22`  |
-| 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:205` |
 | 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:197` |
+| 33.3% | 960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/patterns/gitignore/base.py:205` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/click/types.py:1`)
 
@@ -2061,12 +2061,6 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | -----: | -------: | ----------: | ----------------------- | ---------------------- |
 | 100.0% | 2.01 MiB |           3 | `_parse_single_version` | `black/parsing.py:117` |
 
-##### `generate_comments` (`black/comments.py:52`)
-
-|      % |  Size | Allocations | Caller          | Location               |
-| -----: | ----: | ----------: | --------------- | ---------------------- |
-| 100.0% | 2 MiB |           2 | `visit_default` | `black/linegen.py:134` |
-
 ##### `convert` (`blib2to3/pytree.py:486`)
 
 |      % |  Size | Allocations | Caller | Location                      |
@@ -2078,6 +2072,12 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 |      % |  Size | Allocations | Caller     | Location                      |
 | -----: | ----: | ----------: | ---------- | ----------------------------- |
 | 100.0% | 2 MiB |           2 | `addtoken` | `blib2to3/pgen2/parse.py:242` |
+
+##### `generate_comments` (`black/comments.py:52`)
+
+|      % |  Size | Allocations | Caller          | Location               |
+| -----: | ----: | ----------: | --------------- | ---------------------- |
+| 100.0% | 2 MiB |           2 | `visit_default` | `black/linegen.py:134` |
 
 ##### `make_grammar` (`blib2to3/pgen2/pgen.py:49`)
 
@@ -2111,6 +2111,18 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | 99.9% | 1 MiB |           1 | `visit`        | `black/nodes.py:163`   |
 |  0.1% | 702 B |           1 | `visit_STRING` | `black/linegen.py:413` |
 
+##### `pop` (`blib2to3/pgen2/parse.py:398`)
+
+|      % |  Size | Allocations | Caller      | Location                      |
+| -----: | ----: | ----------: | ----------- | ----------------------------- |
+| 100.0% | 1 MiB |           1 | `_addtoken` | `blib2to3/pgen2/parse.py:290` |
+
+##### `__init__` (`<string>:2`)
+
+|      % |  Size | Allocations | Caller | Location               |
+| -----: | ----: | ----------: | ------ | ---------------------- |
+| 100.0% | 1 MiB |           1 | `line` | `black/linegen.py:109` |
+
 ##### `lines_with_leading_tabs_expanded` (`black/strings.py:46`)
 
 |      % |  Size | Allocations | Caller          | Location              |
@@ -2122,18 +2134,6 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 |      % |  Size | Allocations | Caller               | Location             |
 | -----: | ----: | ----------: | -------------------- | -------------------- |
 | 100.0% | 1 MiB |           1 | `_maybe_empty_lines` | `black/lines.py:610` |
-
-##### `__init__` (`<string>:2`)
-
-|      % |  Size | Allocations | Caller | Location               |
-| -----: | ----: | ----------: | ------ | ---------------------- |
-| 100.0% | 1 MiB |           1 | `line` | `black/linegen.py:109` |
-
-##### `pop` (`blib2to3/pgen2/parse.py:398`)
-
-|      % |  Size | Allocations | Caller      | Location                      |
-| -----: | ----: | ----------: | ----------- | ----------------------------- |
-| 100.0% | 1 MiB |           1 | `_addtoken` | `blib2to3/pgen2/parse.py:290` |
 
 ##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
 
@@ -2892,13 +2892,13 @@ Common call stack: `run_module` (`<frozen runpy>:201`) ← `_run_tracker` (`/ven
 | 1.7% | 1.01 MiB |          15 | `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `source_to_code` (`<frozen importlib._bootstrap_external>:999`) ← `get_code` (1007) ← `exec_module` (934) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `<module>` (`black/comments.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `<module>` (`black/__init__.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `_get_module_details` (`<frozen runpy>:105`) ← `_get_module_details` (105)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 1.7% | 1.01 MiB |          11 | `<module>` (`/venv/lib/python3.11/site-packages/click/parser.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `<module>` (`/venv/lib/python3.11/site-packages/click/formatting.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `<module>` (`/venv/lib/python3.11/site-packages/click/core.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `<module>` (`/venv/lib/python3.11/site-packages/click/__init__.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `<module>` (`black/__init__.py:1`) ← `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`) ← `exec_module` (`<frozen importlib._bootstrap_external>:934`) ← `_load_unlocked` (`<frozen importlib._bootstrap>:666`) ← `_find_and_load_unlocked` (1122) ← `_find_and_load` (1167) ← `_get_module_details` (`<frozen runpy>:105`) ← `_get_module_details` (105)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 1.7% |    1 MiB |           3 | `addtoken` (`blib2to3/pgen2/parse.py:242`) ← `parse_tokens` (`blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`black/parsing.py:55`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 1.7% |    1 MiB |           1 | `lines_with_leading_tabs_expanded` (`black/strings.py:46`) ← `fix_docstring` (65) ← `visit_STRING` (`black/linegen.py:413`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 1.7% |    1 MiB |           1 | `is_import` (`black/lines.py:134`) ← `_maybe_empty_lines` (610) ← `maybe_empty_lines` (560) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| 1.7% |    1 MiB |           1 | `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| 1.7% |    1 MiB |           1 | `update_sibling_maps` (`blib2to3/pytree.py:369`) ← `prev_sibling` (207) ← `preceding_leaf` (`black/nodes.py:441`) ← `whitespace` (194) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 1.7% |    1 MiB |           1 | `update_sibling_maps` (`blib2to3/pytree.py:369`) ← `prev_sibling` (207) ← `whitespace` (`black/nodes.py:194`) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 1.7% |    1 MiB |           1 | `mark` (`black/brackets.py:70`) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 1.7% |    1 MiB |           1 | `pop` (`blib2to3/pgen2/parse.py:398`) ← `_addtoken` (290) ← `addtoken` (242) ← `parse_tokens` (`blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`black/parsing.py:55`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `prefix` (480) ← `normalize_trailing_prefix` (`black/comments.py:127`) ← `generate_comments` (52) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91) |
-| 1.7% |    1 MiB |           1 | `generate_comments` (`black/comments.py:52`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_test` (160) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 1.7% |    1 MiB |           1 | `update_sibling_maps` (`blib2to3/pytree.py:369`) ← `prev_sibling` (207) ← `whitespace` (`black/nodes.py:194`) ← `append` (`black/lines.py:63`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                     |
-| 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `prefix` (480) ← `wrap_in_parentheses` (`black/nodes.py:935`) ← `normalize_invisible_parens` (`black/linegen.py:1328`) ← `visit_stmt` (199) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 1.7% |    1 MiB |           1 | `__init__` (`<string>:2`) ← `line` (`black/linegen.py:109`) ← `visit_INDENT` (179) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `changed` (171) ← `prefix` (480) ← `wrap_in_parentheses` (`black/nodes.py:935`) ← `normalize_invisible_parens` (`black/linegen.py:1328`) ← `visit_stmt` (199) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `prefix` (480) ← `normalize_trailing_prefix` (`black/comments.py:127`) ← `generate_comments` (52) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 1.7% |    1 MiB |           1 | `mark` (`black/brackets.py:70`) ← `max_delimiter_priority_in_atom` (328) ← `maybe_make_parens_invisible_in_atom` (`black/linegen.py:1574`) ← `normalize_invisible_parens` (1328) ← `visit_stmt` (199) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 1.7% |    1 MiB |           1 | `generate_comments` (`black/comments.py:52`) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                        |
+| 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `prefix` (480) ← `normalize_trailing_prefix` (`black/comments.py:127`) ← `generate_comments` (52) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                            |
+| 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `changed` (171) ← `prefix` (480) ← `normalize_trailing_prefix` (`black/comments.py:127`) ← `generate_comments` (52) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_power` (341) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                  |
+| 1.7% |    1 MiB |           1 | `changed` (`blib2to3/pytree.py:171`) ← `changed` (171) ← `changed` (171) ← `changed` (171) ← `prefix` (480) ← `prefix` (329) ← `wrap_in_parentheses` (`black/nodes.py:935`) ← `normalize_invisible_parens` (`black/linegen.py:1328`) ← `visit_stmt` (199) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_simple_stmt` (295) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_funcdef` (`black/linegen.py:254`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`black/nodes.py:163`) ← `visit_stmt` (`black/linegen.py:199`) ← `visit` (`black/nodes.py:163`) ← `visit_default` (187) ← `visit_default` (`black/linegen.py:134`) ← `visit` (`black/nodes.py:163`) ← `_format_str_once` (`black/__init__.py:1236`) ← `format_str` (1189) ← `format_file_contents` (1054) ← `format_file_in_place` (917) ← `reformat_one` (860) ← `main` (244) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:853`) ← `invoke` (1339) ← `main` (1422) ← `__call__` (1567) ← `patched_main` (`black/__init__.py:1594`) ← `<module>` (`black/__main__.py:1`) ← `_run_code` (`<frozen runpy>:65`) ← `_run_module_code` (91)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
