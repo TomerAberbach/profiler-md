@@ -102,7 +102,7 @@ describe(`withDecompressed`, () => {
 
     expect(() => withDecompressed(corrupt, readText)).toThrow(ProfilerMdError)
     expect(() => withDecompressed(corrupt, readText)).toThrow(
-      `cannot decompress the gzip input: unexpected end of file`,
+      `cannot decompress the gzip input`,
     )
   })
 
@@ -111,7 +111,7 @@ describe(`withDecompressed`, () => {
 
     expect(() => withDecompressed(corrupt, readText)).toThrow(ProfilerMdError)
     expect(() => withDecompressed(corrupt, readText)).toThrow(
-      /^cannot decompress the LZ4 input: /u,
+      `cannot decompress the LZ4 input`,
     )
   })
 })
@@ -169,9 +169,7 @@ describe(`withDecompressedAsync`, () => {
 
     await expect(
       withDecompressedAsync(new Blob([corrupt]), readTextAsync),
-    ).rejects.toThrow(
-      `cannot decompress the gzip input: unexpected end of file`,
-    )
+    ).rejects.toThrow(`cannot decompress the gzip input`)
     await expect(
       withDecompressedAsync(streamOf(corrupt), readTextAsync),
     ).rejects.toThrow(ProfilerMdError)
@@ -182,7 +180,7 @@ describe(`withDecompressedAsync`, () => {
 
     await expect(
       withDecompressedAsync(new Blob([corrupt]), readTextAsync),
-    ).rejects.toThrow(`cannot decompress the LZ4 input: truncated LZ4 block`)
+    ).rejects.toThrow(`cannot decompress the LZ4 input`)
     await expect(
       withDecompressedAsync(streamOf(corrupt), readTextAsync),
     ).rejects.toThrow(ProfilerMdError)

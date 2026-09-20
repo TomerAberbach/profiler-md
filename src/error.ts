@@ -16,15 +16,41 @@ export class ProfilerMdError extends Error {
   }
 }
 
-/** An error's message on one line, for embedding in another message. */
+/**
+ * An error's message and each of its causes' messages, joined with `: ` for a
+ * log line. An empty message is skipped, as is a cause whose message its
+ * parent already ends with, so a layer that states its cause is not repeated.
+ */
 export const reasonOf = (error: unknown): string => {
-  const reason = messageOf(error)
-  return !reason && error instanceof Error && error.cause instanceof Error
-    ? reasonOf(error.cause)
-    : reason
+  const messages: string[] = []
+  for (const message of causeChainOf(error).map(messageOf)) {
+    if (message && !messages.at(-1)?.endsWith(message)) {
+      messages.push(message)
+    }
+  }
+  return messages.join(`: `)
 }
 
-const messageOf = (error: unknown): string =>
+/**
+ * An error followed by its causes, outermost first. Stops at a cause already
+ * in the chain, so a cycle ends it.
+ */
+export const causeChainOf = (error: unknown): unknown[] => {
+  const chain: unknown[] = []
+  const seen = new Set<unknown>()
+  while (!seen.has(error)) {
+    seen.add(error)
+    chain.push(error)
+    if (!(error instanceof Error) || error.cause === undefined) {
+      break
+    }
+    error = error.cause
+  }
+  return chain
+}
+
+/** An error's own message on one line, without its causes. */
+export const messageOf = (error: unknown): string =>
   (error instanceof Error ? error.message : String(error))
     .replaceAll(/\s+/gu, ` `)
     .trim()

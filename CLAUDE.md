@@ -290,8 +290,10 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   output, flags), and a plain `Error` for a violated invariant, which is a bug.
   NEVER throw another built-in subclass such as `TypeError`, which nothing
   treats differently
-- Pass `{ cause }` when wrapping a caught error. NEVER flatten it to its
-  `message`
+- Pass `{ cause }` when wrapping a caught error, and state only the new layer in
+  the message. NEVER embed the cause's `message`: the CLI prints each cause on
+  its own indented `caused by:` line under the message, and `reasonOf` joins the
+  chain for a log line
 - A converter's `parse` throws a `FormatParseError` stating the reason alone,
   and the conversion pipeline prefixes the format's title. Write `matches` to
   accept anything of the format, including a version or variant the parser
@@ -302,12 +304,13 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   identified. Any other error escaping `parse` is one the parser did not
   classify: the input violates the format in a way the parser does not check, or
   the parser has a bug. The pipeline reports both as unusable input. It reports
-  the second as `<title>: failed to parse the input: <reason>`, and the CLI adds
-  a bug report caveat to it (`mayBeParserBug`). The classification is the same
-  under auto-detection and a specified format, and the same for an error a
-  parsed input's lazy iterable throws while aggregation consumes it. An error
-  the caller's data throws while `parse` reads it is the caller's, and the
-  pipeline rethrows it unwrapped. Any other error after `parse` is a bug
+  the second as `<title>: failed to parse the input` with the error as its
+  cause, and the CLI adds a bug report caveat to it (`mayBeParserBug`). The
+  classification is the same under auto-detection and a specified format, and
+  the same for an error a parsed input's lazy iterable throws while aggregation
+  consumes it. An error the caller's data throws while `parse` reads it is the
+  caller's, and the pipeline rethrows it unwrapped. Any other error after
+  `parse` is a bug
 - Wrap a third-party decoder's error (e.g. `JSON.parse`) in a `FormatParseError`
   at its call site. The parser cannot check anything before decoding succeeds,
   so a decoding failure is the input's, however the decoder reports it

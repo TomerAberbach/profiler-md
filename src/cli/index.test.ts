@@ -259,8 +259,11 @@ if (format === undefined) {
 
     expect(status).toBe(1)
     expect(stdout).toBe(``)
-    expect(stderr).toBe(
-      `error: cannot write ${outputPath}: ${expectedReason}\n`,
+    expect(stderr).toMatch(
+      new RegExp(
+        `^error: cannot write ${outputPath}: ${expectedReason}(?:\\n  caused by: E[A-Z]+: .*)?\\n$`,
+        `u`,
+      ),
     )
 
     await rm(dir, { recursive: true })
@@ -279,8 +282,11 @@ if (format === undefined) {
 
       expect(status).toBe(1)
       expect(stdout).toBe(``)
-      expect(stderr).toBe(
-        `error: cannot write ${outputPath}: no such directory\n`,
+      expect(stderr).toMatch(
+        new RegExp(
+          `^error: cannot write ${outputPath}: no such directory\\n  caused by: ENOENT: `,
+          `u`,
+        ),
       )
 
       await rm(dir, { recursive: true })
@@ -299,8 +305,11 @@ if (format === undefined) {
       const { status, stderr } = await runCli([unreadablePath])
 
       expect(status).toBe(1)
-      expect(stderr).toBe(
-        `error: cannot read ${unreadablePath}: permission denied\n`,
+      expect(stderr).toMatch(
+        new RegExp(
+          `^error: cannot read ${unreadablePath}: permission denied\\n  caused by: EACCES: `,
+          `u`,
+        ),
       )
 
       await rm(dir, { recursive: true, force: true })
@@ -808,7 +817,10 @@ if (format === undefined) {
 
       expect(status).toBe(1)
       expect(stderr).toMatch(
-        new RegExp(`^error: cannot parse source map ${sourceMapPath}: `, `u`),
+        new RegExp(
+          `^error: cannot parse source map ${sourceMapPath}\\n  caused by: `,
+          `u`,
+        ),
       )
 
       await rm(dir, { recursive: true })
@@ -842,10 +854,11 @@ if (format === undefined) {
       const { status, stderr } = await runCli(args, input)
 
       expect(status).toBe(1)
-      const [errorLine, ...caveatLines] = stderr.split(`\n`)
-      expect(errorLine).toContain(
-        `error: stdin: V8 CPU profile: failed to parse the input: `,
+      const [errorLine, causeLine, ...caveatLines] = stderr.split(`\n`)
+      expect(errorLine).toBe(
+        `error: stdin: V8 CPU profile: failed to parse the input`,
       )
+      expect(causeLine).toMatch(/^ {2}caused by: /u)
       const traceLines = caveatLines.splice(3)
       expect(caveatLines).toEqual([
         `If the input opens in its profiler, report this as a bug in ${packageJson.name}:`,
@@ -887,20 +900,20 @@ if (format === undefined) {
       scenario: `stdin with a truncated JSON profile`,
       args: [],
       input: `{"nodes": [`,
-      expectedStderr: `the input reads as JSON but is invalid JSON: `,
+      expectedStderr: `the input reads as JSON but is invalid JSON\n  caused by: `,
       expectedStatus: 1,
     },
     {
       scenario: `stdin with invalid JSON under an explicit JSON format`,
       args: [`--format`, `v8-cpu-profile`],
       input: `garbage\n`,
-      expectedStderr: `error: stdin: V8 CPU profile: invalid JSON: `,
+      expectedStderr: `error: stdin: V8 CPU profile: invalid JSON\n  caused by: `,
       expectedStatus: 1,
     },
     {
       scenario: `a JSON file under --format pprof`,
       args: [`--format`, `pprof`, inputPath(`javascript.node.base.cpuprofile`)],
-      expectedStderr: `error: ${inputPath(`javascript.node.base.cpuprofile`)}: pprof: invalid protobuf encoding: `,
+      expectedStderr: `error: ${inputPath(`javascript.node.base.cpuprofile`)}: pprof: invalid protobuf encoding\n  caused by: `,
       expectedStatus: 1,
     },
     {

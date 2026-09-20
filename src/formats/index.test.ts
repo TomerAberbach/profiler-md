@@ -688,14 +688,14 @@ describe(`profileToMd`, () => {
 
     test(`detection reports a malformed JSON document as invalid JSON`, () => {
       expect(() => profileToMd(`{"nodes": [`)).toThrow(
-        /could not detect the profile format, the input reads as JSON but is invalid JSON: /u,
+        `could not detect the profile format, the input reads as JSON but is invalid JSON`,
       )
     })
 
     test(`a specified JSON format reports invalid JSON as its rejection`, () => {
       expect(() =>
         profileToMd({ data: `garbage\n`, format: `v8-cpu-profile` }),
-      ).toThrow(/^V8 CPU profile: invalid JSON: /u)
+      ).toThrow(`V8 CPU profile: invalid JSON`)
     })
 
     test(`a specified JSON format reports invalid JSON as its rejection when async`, async () => {
@@ -704,12 +704,12 @@ describe(`profileToMd`, () => {
           data: new Blob([`garbage\n`]),
           format: `v8-cpu-profile`,
         }),
-      ).rejects.toThrow(/^V8 CPU profile: invalid JSON: /u)
+      ).rejects.toThrow(`V8 CPU profile: invalid JSON`)
     })
 
     test(`a specified binary format reports its decoder's failure as its rejection`, () => {
       expect(() => profileToMd({ data: `garbage\n`, format: `pprof` })).toThrow(
-        /^pprof: invalid protobuf encoding: /u,
+        `pprof: invalid protobuf encoding`,
       )
     })
 
@@ -749,7 +749,7 @@ describe(`profileToMd`, () => {
 
         expect(thrown).toBeInstanceOf(ProfilerMdError)
         expect((thrown as Error).message).toMatch(
-          /^V8 CPU profile: failed to parse the input: /u,
+          `V8 CPU profile: failed to parse the input`,
         )
         expect(mayBeParserBug(thrown)).toBe(true)
       },
@@ -770,7 +770,7 @@ describe(`profileToMd`, () => {
 
         expect(thrown).toBeInstanceOf(ProfilerMdError)
         expect((thrown as Error).message).toMatch(
-          /^V8 CPU profile: failed to parse the input: /u,
+          `V8 CPU profile: failed to parse the input`,
         )
         expect(mayBeParserBug(thrown)).toBe(true)
       },

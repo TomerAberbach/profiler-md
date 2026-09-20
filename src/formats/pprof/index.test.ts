@@ -77,7 +77,7 @@ describe(`parse and matches`, () => {
     )
 
     expect(() => pprofConverter.parse(bytes)).toThrow(
-      /^invalid protobuf encoding: /u,
+      `invalid protobuf encoding`,
     )
   })
 })

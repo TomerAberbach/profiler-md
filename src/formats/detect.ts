@@ -132,7 +132,7 @@ export const toUndetectedFormatError = (
 
   if (jsonError !== undefined) {
     return new FormatDetectError(
-      `could not detect the profile format, the input reads as JSON but is ${reasonOf(jsonError)}`,
+      `could not detect the profile format, the input reads as JSON but is invalid JSON`,
       [jsonError],
       { cause: jsonError },
     )

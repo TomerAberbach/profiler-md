@@ -1,6 +1,5 @@
-import { inspect } from 'node:util'
 import packageJson from '../../package.json' with { type: 'json' }
-import { ProfilerMdError, reasonOf } from '../error.ts'
+import { causeChainOf, messageOf, ProfilerMdError } from '../error.ts'
 import { unclassifiedParseFailures } from '../formats/error.ts'
 import { normalizeLogger } from '../logger.ts'
 import type { Logger, LogLevel } from '../logger.ts'
@@ -24,24 +23,18 @@ export type ReportErrorOptions = {
 }
 
 /**
- * Reports the failure at `error` through the logger and exits. At `debug`,
- * also prints the cause chain, which the message omits. A level below `error`
- * silences the report, including the bug report and usage hint that follow it.
+ * Reports the failure at `error` through the logger and exits. The message's
+ * continuation lines state each cause. A level below `error` silences the
+ * report, including the bug report and usage hint that follow it.
  */
 export const reportError = (
   error: unknown,
   { logger, logLevel }: ReportErrorOptions,
 ): never => {
   const log = normalizeLogger(logger, logLevel)
-  const logCause = (): void => {
-    if (error instanceof Error && error.cause !== undefined) {
-      log.debug?.(`caused by: ${inspect(error.cause)}`)
-    }
-  }
 
   if (error instanceof ProfilerMdError) {
-    log.error?.(error.message)
-    logCause()
+    log.error?.(describeError(error))
     const exitCode = error instanceof CliError ? error.exitCode : 1
     if (log.error) {
       const parseFailures = unclassifiedParseFailures(error)
@@ -61,8 +54,7 @@ export const reportError = (
     process.exit(exitCode)
   }
 
-  log.error?.(reasonOf(error))
-  logCause()
+  log.error?.(describeError(error))
   if (log.error) {
     process.stderr.write(
       bugReport(`This is a bug in ${packageJson.name}. Report it:`, [error]),
@@ -70,6 +62,29 @@ export const reportError = (
   }
   process.exit(1)
 }
+
+/**
+ * An error's message, followed by one indented `caused by:` line per cause. A
+ * cause whose message its parent already ends with is skipped, so a layer that
+ * states its cause is not repeated.
+ */
+const describeError = (error: unknown): string => {
+  const [message, ...causes] = causeChainOf(error).map(messageOf) as [
+    string,
+    ...string[],
+  ]
+  const lines = [message]
+  let parent = message
+  for (const cause of causes) {
+    if (!parent.endsWith(cause)) {
+      lines.push(indent(`caused by: ${cause}`))
+    }
+    parent = cause
+  }
+  return lines.join(`\n`)
+}
+
+const indent = (line: string): string => `  ${line}`
 
 /** The bug report request that follows an error line, with the given traces. */
 const bugReport = (request: string, errors: readonly unknown[]): string =>

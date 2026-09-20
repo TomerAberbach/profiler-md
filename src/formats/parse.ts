@@ -1,5 +1,5 @@
 import { JumboJSON } from 'jumbo-json'
-import { reasonOf } from '../error.ts'
+import { messageOf } from '../error.ts'
 import { classifyStreamFailures, concatUint8Arrays } from '../helpers/bytes.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
 import type { FormatConverter, ParsedInput } from './converter.ts'
@@ -149,7 +149,7 @@ export const parseJsonAsync = async (
 const toInvalidJsonError = (error: unknown): unknown =>
   error instanceof InputReadError
     ? error
-    : new FormatParseError(`invalid JSON: ${reasonOf(error)}`, { cause: error })
+    : new FormatParseError(`invalid JSON`, { cause: error })
 
 /**
  * Thrown in place of an error the caller's data threw while a parser read it,
@@ -213,7 +213,7 @@ const toFormatRejectionError = (
  *
  * A {@link FormatParseError}'s message states the violation the parser
  * identified. The parser did not classify any other error, so its reason is
- * `failed to parse the input: <message>`.
+ * `failed to parse the input`, and the error itself is the cause.
  */
 export const describeParseFailure = (
   converter: FormatConverter,
@@ -221,6 +221,6 @@ export const describeParseFailure = (
 ): string =>
   `${converter.title}: ${
     error instanceof FormatParseError
-      ? reasonOf(error)
-      : `failed to parse the input: ${reasonOf(error)}`
+      ? messageOf(error)
+      : `failed to parse the input`
   }`

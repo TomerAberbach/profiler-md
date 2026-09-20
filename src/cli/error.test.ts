@@ -1,4 +1,3 @@
-import { inspect } from 'node:util'
 import { afterEach, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { ProfilerMdError } from '../error.ts'
@@ -23,8 +22,8 @@ afterEach(() => {
   stderr.length = 0
 })
 
-const report = (error: unknown, logLevel: `error` | `debug` = `error`) =>
-  reportError(error, { logger: makeCliLogger(), logLevel })
+const report = (error: unknown) =>
+  reportError(error, { logger: makeCliLogger(), logLevel: `error` })
 
 test(`reports a plain error as a bug, with its trace`, () => {
   const error = new Error(`the invariant broke`)
@@ -89,18 +88,29 @@ test(`follows an invocation error with the usage hint, exiting with 2`, () => {
   expectLogs([`error: ${error.message}`])
 })
 
-test(`prints the cause at debug`, () => {
-  const cause = new Error(`disk on fire`)
-  const error = new CliError(`cannot read input`, 1, { cause })
+test(`follows the message with one line per cause`, () => {
+  const error = new CliError(`cannot read input`, 1, {
+    cause: new Error(`disk on fire`, { cause: `the fan stopped` }),
+  })
 
-  expect(() => report(error, `debug`)).toThrow(EXIT)
+  expect(() => report(error)).toThrow(EXIT)
 
-  expect(stderr.join(``)).toBe(
-    `error: cannot read input\ndebug: caused by: ${inspect(cause)}\n`,
-  )
+  const expected = `error: cannot read input\n  caused by: disk on fire\n  caused by: the fan stopped`
+  expect(stderr.join(``)).toBe(`${expected}\n`)
   expect(exit).toHaveBeenCalledExactlyOnceWith(1)
-  expectLogs([
-    `error: cannot read input`,
-    `debug: caused by: ${inspect(cause)}`,
-  ])
+  expectLogs([expected])
+})
+
+test(`skips a cause its parent's message already states`, () => {
+  const error = new ProfilerMdError(`v8-cpu-profile: invalid JSON`, {
+    cause: new ProfilerMdError(`invalid JSON`, {
+      cause: new SyntaxError(`unexpected token }`),
+    }),
+  })
+
+  expect(() => report(error)).toThrow(EXIT)
+
+  const expected = `error: v8-cpu-profile: invalid JSON\n  caused by: unexpected token }`
+  expect(stderr.join(``)).toBe(`${expected}\n`)
+  expectLogs([expected])
 })
