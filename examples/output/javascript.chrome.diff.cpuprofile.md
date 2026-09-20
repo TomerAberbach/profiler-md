@@ -1,14 +1,14 @@
 # CPU profile diff
 
-Took 415.8ms → 420.7ms (+4.92ms, +1.2%) over 281 samples → 282 samples (1.5ms per sample).
+Took 461.2ms → 415.7ms (-45.46ms, -9.9%) over 368 samples → 332 samples (1.3ms per sample).
 
-| Category           | Change |   Delta |             % |              Time |   Samples |
-| ------------------ | -----: | ------: | ------------: | ----------------: | --------: |
-| Ours               |  +0.1% | +0.17ms | 54.2% → 53.7% | 225.5ms → 225.7ms | 154 → 152 |
-| Native             |  -3.3% | -3.79ms | 27.8% → 26.6% | 115.5ms → 111.7ms |   77 → 75 |
-| Regular expression | +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 |
-| Garbage collector  | +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 |
-| Idle               | +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 |
+| Category           | Change |    Delta |             % |              Time |   Samples |
+| ------------------ | -----: | -------: | ------------: | ----------------: | --------: |
+| Ours               |  -0.8% |  -1.79ms | 50.2% → 55.2% | 231.3ms → 229.5ms | 185 → 184 |
+| Native             | -22.6% | -36.17ms | 34.7% → 29.8% | 160.0ms → 123.9ms |  128 → 98 |
+| Regular expression | -21.1% |  -9.04ms |   9.3% → 8.1% |   42.9ms → 33.9ms |   34 → 27 |
+| Garbage collector  |  +5.5% |  +1.00ms |   3.9% → 4.6% |   18.0ms → 19.0ms |   14 → 15 |
+| Idle               |  +6.1% |  +0.54ms |   1.9% → 2.3% |     8.9ms → 9.5ms |     7 → 8 |
 
 ## Hottest functions
 
@@ -18,63 +18,68 @@ Took 415.8ms → 420.7ms (+4.92ms, +1.2%) over 281 samples → 282 samples (1.5m
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-| Change |   Delta |             % |              Time |   Samples | Function                       | Location             |
-| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | -------------------- |
-| +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 | `RegExp: \s+`                  | `<unknown>`          |
-| +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 | `(garbage collector)`          | `<unknown>`          |
-| +12.3% | +1.83ms |   3.6% → 4.0% |   15.0ms → 16.8ms |   10 → 11 | `tokenize`                     | `workload.mjs:10:20` |
-| +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 | `(idle)`                       | `<unknown>`          |
-|    ~0% | +0.09ms | 48.1% → 47.6% | 200.0ms → 200.1ms | 137 → 135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| Change |    Delta |             % |              Time |   Samples | Function                       | Location            |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------ | ------------------- |
+| +34.1% | +14.21ms |  9.0% → 13.4% |   41.7ms → 55.9ms |   33 → 45 | `createElement`                | `<unknown>`         |
+|  +6.8% | +13.34ms | 42.3% → 50.1% | 195.1ms → 208.5ms | 156 → 167 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+|  +5.5% |  +1.00ms |   3.9% → 4.6% |   18.0ms → 19.0ms |   14 → 15 | `(garbage collector)`          | `<unknown>`         |
+|  +9.5% |  +0.96ms |   2.2% → 2.7% |   10.1ms → 11.0ms |     8 → 9 | `(anonymous)`                  | `run.mjs:1:1`       |
+|  +6.1% |  +0.54ms |   1.9% → 2.3% |     8.9ms → 9.5ms |     7 → 8 | `(idle)`                       | `<unknown>`         |
 
 ##### Ours
 
-| Change |   Delta |             % |              Time |   Samples | Function                       | Location             |
-| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | -------------------- |
-| +12.3% | +1.83ms |   3.6% → 4.0% |   15.0ms → 16.8ms |   10 → 11 | `tokenize`                     | `workload.mjs:10:20` |
-|    ~0% | +0.09ms | 48.1% → 47.6% | 200.0ms → 200.1ms | 137 → 135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| Change |    Delta |             % |              Time |   Samples | Function                       | Location            |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------ | ------------------- |
+|  +6.8% | +13.34ms | 42.3% → 50.1% | 195.1ms → 208.5ms | 156 → 167 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+|  +9.5% |  +0.96ms |   2.2% → 2.7% |   10.1ms → 11.0ms |     8 → 9 | `(anonymous)`                  | `run.mjs:1:1`       |
 
-##### Regular expression
+##### Native
 
-| Change |   Delta |             % |            Time | Samples | Function      | Location    |
-| -----: | ------: | ------------: | --------------: | ------: | ------------- | ----------- |
-| +10.9% | +4.87ms | 10.7% → 11.8% | 44.7ms → 49.5ms | 30 → 33 | `RegExp: \s+` | `<unknown>` |
+| Change |    Delta |            % |            Time | Samples | Function        | Location    |
+| -----: | -------: | -----------: | --------------: | ------: | --------------- | ----------- |
+| +34.1% | +14.21ms | 9.0% → 13.4% | 41.7ms → 55.9ms | 33 → 45 | `createElement` | `<unknown>` |
 
 ##### Garbage collector
 
 | Change |   Delta |           % |            Time | Samples | Function              | Location    |
 | -----: | ------: | ----------: | --------------: | ------: | --------------------- | ----------- |
-| +11.4% | +2.37ms | 5.0% → 5.5% | 20.9ms → 23.2ms | 14 → 15 | `(garbage collector)` | `<unknown>` |
+|  +5.5% | +1.00ms | 3.9% → 4.6% | 18.0ms → 19.0ms | 14 → 15 | `(garbage collector)` | `<unknown>` |
 
 ##### Idle
 
-| Change |   Delta |           % |           Time | Samples | Function | Location    |
-| -----: | ------: | ----------: | -------------: | ------: | -------- | ----------- |
-| +14.1% | +1.29ms | 2.2% → 2.5% | 9.2ms → 10.5ms |   6 → 7 | `(idle)` | `<unknown>` |
+| Change |   Delta |           % |          Time | Samples | Function | Location    |
+| -----: | ------: | ----------: | ------------: | ------: | -------- | ----------- |
+|  +6.1% | +0.54ms | 1.9% → 2.3% | 8.9ms → 9.5ms |   7 → 8 | `(idle)` | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-|  Change |   Delta |             % |            Time | Samples | Function        | Location             |
-| ------: | ------: | ------------: | --------------: | ------: | --------------- | -------------------- |
-|   -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>`          |
-| removed | -1.50ms |   0.4% → 0.0% |     1.5ms → 0ms |   1 → 0 | `scoreStatus`   | `workload.mjs:11:23` |
-|   -2.8% | -0.25ms |   2.2% → 2.1% |   9.1ms → 8.8ms |       6 | `(anonymous)`   | `run.mjs:1:1`        |
-|   -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>`          |
+| Change |    Delta |             % |             Time | Samples | Function      | Location             |
+| -----: | -------: | ------------: | ---------------: | ------: | ------------- | -------------------- |
+| -42.6% | -50.38ms | 25.7% → 16.4% | 118.4ms → 68.0ms | 95 → 53 | `(program)`   | `<unknown>`          |
+| -64.7% | -13.79ms |   4.6% → 1.8% |   21.3ms → 7.5ms |  17 → 6 | `tokenize`    | `workload.mjs:10:20` |
+| -21.1% |  -9.04ms |   9.3% → 8.1% |  42.9ms → 33.9ms | 34 → 27 | `RegExp: \s+` | `<unknown>`          |
+| -48.3% |  -2.29ms |   1.0% → 0.6% |    4.8ms → 2.5ms |   4 → 2 | `scoreStatus` | `workload.mjs:11:23` |
 
 ##### Ours
 
-|  Change |   Delta |           % |          Time | Samples | Function      | Location             |
-| ------: | ------: | ----------: | ------------: | ------: | ------------- | -------------------- |
-| removed | -1.50ms | 0.4% → 0.0% |   1.5ms → 0ms |   1 → 0 | `scoreStatus` | `workload.mjs:11:23` |
-|   -2.8% | -0.25ms | 2.2% → 2.1% | 9.1ms → 8.8ms |       6 | `(anonymous)` | `run.mjs:1:1`        |
+| Change |    Delta |           % |           Time | Samples | Function      | Location             |
+| -----: | -------: | ----------: | -------------: | ------: | ------------- | -------------------- |
+| -64.7% | -13.79ms | 4.6% → 1.8% | 21.3ms → 7.5ms |  17 → 6 | `tokenize`    | `workload.mjs:10:20` |
+| -48.3% |  -2.29ms | 1.0% → 0.6% |  4.8ms → 2.5ms |   4 → 2 | `scoreStatus` | `workload.mjs:11:23` |
 
 ##### Native
 
-| Change |   Delta |             % |            Time | Samples | Function        | Location    |
-| -----: | ------: | ------------: | --------------: | ------: | --------------- | ----------- |
-|  -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>` |
-|  -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>` |
+| Change |    Delta |             % |             Time | Samples | Function    | Location    |
+| -----: | -------: | ------------: | ---------------: | ------: | ----------- | ----------- |
+| -42.6% | -50.38ms | 25.7% → 16.4% | 118.4ms → 68.0ms | 95 → 53 | `(program)` | `<unknown>` |
+
+##### Regular expression
+
+| Change |   Delta |           % |            Time | Samples | Function      | Location    |
+| -----: | ------: | ----------: | --------------: | ------: | ------------- | ----------- |
+| -21.1% | -9.04ms | 9.3% → 8.1% | 42.9ms → 33.9ms | 34 → 27 | `RegExp: \s+` | `<unknown>` |
 
 ### Total time
 
@@ -82,50 +87,65 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-| Change |   Delta |             % |              Time |   Samples | Function                       | Location             |
-| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | -------------------- |
-| +11.2% | +6.71ms | 14.3% → 15.8% |   59.6ms → 66.3ms |   40 → 44 | `tokenize`                     | `workload.mjs:10:20` |
-|  +8.5% | +5.21ms | 14.7% → 15.8% |   61.1ms → 66.3ms |   41 → 44 | `scoreStatus`                  | `workload.mjs:11:23` |
-| +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 | `RegExp: \s+`                  | `<unknown>`          |
-| +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 | `(garbage collector)`          | `<unknown>`          |
-|  +0.5% | +1.67ms | 73.9% → 73.4% | 307.0ms → 308.7ms | 209 → 208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-|  +0.4% | +1.42ms | 76.0% → 75.5% | 316.1ms → 317.5ms | 215 → 214 | `(anonymous)`                  | `run.mjs:1:1`        |
-| +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 | `(idle)`                       | `<unknown>`          |
+| Change |    Delta |             % |              Time |   Samples | Function                       | Location            |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------ | ------------------- |
+| +34.1% | +14.21ms |  9.0% → 13.4% |   41.7ms → 55.9ms |   33 → 45 | `createElement`                | `<unknown>`         |
+|  +1.1% |  +3.38ms | 68.5% → 76.8% | 315.9ms → 319.3ms | 252 → 256 | `(anonymous)`                  | `run.mjs:1:1`       |
+|  +0.8% |  +2.42ms | 66.3% → 74.1% | 305.8ms → 308.2ms | 244 → 247 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+|  +5.5% |  +1.00ms |   3.9% → 4.6% |   18.0ms → 19.0ms |   14 → 15 | `(garbage collector)`          | `<unknown>`         |
+|  +6.1% |  +0.54ms |   1.9% → 2.3% |     8.9ms → 9.5ms |     7 → 8 | `(idle)`                       | `<unknown>`         |
 
 ##### Ours
 
-| Change |   Delta |             % |              Time |   Samples | Function                       | Location             |
-| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | -------------------- |
-| +11.2% | +6.71ms | 14.3% → 15.8% |   59.6ms → 66.3ms |   40 → 44 | `tokenize`                     | `workload.mjs:10:20` |
-|  +8.5% | +5.21ms | 14.7% → 15.8% |   61.1ms → 66.3ms |   41 → 44 | `scoreStatus`                  | `workload.mjs:11:23` |
-|  +0.5% | +1.67ms | 73.9% → 73.4% | 307.0ms → 308.7ms | 209 → 208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-|  +0.4% | +1.42ms | 76.0% → 75.5% | 316.1ms → 317.5ms | 215 → 214 | `(anonymous)`                  | `run.mjs:1:1`        |
+| Change |   Delta |             % |              Time |   Samples | Function                       | Location            |
+| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | ------------------- |
+|  +1.1% | +3.38ms | 68.5% → 76.8% | 315.9ms → 319.3ms | 252 → 256 | `(anonymous)`                  | `run.mjs:1:1`       |
+|  +0.8% | +2.42ms | 66.3% → 74.1% | 305.8ms → 308.2ms | 244 → 247 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
-##### Regular expression
+##### Native
 
-| Change |   Delta |             % |            Time | Samples | Function      | Location    |
-| -----: | ------: | ------------: | --------------: | ------: | ------------- | ----------- |
-| +10.9% | +4.87ms | 10.7% → 11.8% | 44.7ms → 49.5ms | 30 → 33 | `RegExp: \s+` | `<unknown>` |
+| Change |    Delta |            % |            Time | Samples | Function        | Location    |
+| -----: | -------: | -----------: | --------------: | ------: | --------------- | ----------- |
+| +34.1% | +14.21ms | 9.0% → 13.4% | 41.7ms → 55.9ms | 33 → 45 | `createElement` | `<unknown>` |
 
 ##### Garbage collector
 
 | Change |   Delta |           % |            Time | Samples | Function              | Location    |
 | -----: | ------: | ----------: | --------------: | ------: | --------------------- | ----------- |
-| +11.4% | +2.37ms | 5.0% → 5.5% | 20.9ms → 23.2ms | 14 → 15 | `(garbage collector)` | `<unknown>` |
+|  +5.5% | +1.00ms | 3.9% → 4.6% | 18.0ms → 19.0ms | 14 → 15 | `(garbage collector)` | `<unknown>` |
 
 ##### Idle
 
-| Change |   Delta |           % |           Time | Samples | Function | Location    |
-| -----: | ------: | ----------: | -------------: | ------: | -------- | ----------- |
-| +14.1% | +1.29ms | 2.2% → 2.5% | 9.2ms → 10.5ms |   6 → 7 | `(idle)` | `<unknown>` |
+| Change |   Delta |           % |          Time | Samples | Function | Location    |
+| -----: | ------: | ----------: | ------------: | ------: | -------- | ----------- |
+|  +6.1% | +0.54ms | 1.9% → 2.3% | 8.9ms → 9.5ms |   7 → 8 | `(idle)` | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
+| Change |    Delta |             % |             Time | Samples | Function      | Location             |
+| -----: | -------: | ------------: | ---------------: | ------: | ------------- | -------------------- |
+| -42.6% | -50.38ms | 25.7% → 16.4% | 118.4ms → 68.0ms | 95 → 53 | `(program)`   | `<unknown>`          |
+| -39.4% | -25.34ms |  13.9% → 9.4% |  64.3ms → 38.9ms | 51 → 31 | `tokenize`    | `workload.mjs:10:20` |
+| -36.4% | -25.13ms | 15.0% → 10.6% |  69.0ms → 43.9ms | 55 → 35 | `scoreStatus` | `workload.mjs:11:23` |
+| -21.1% |  -9.04ms |   9.3% → 8.1% |  42.9ms → 33.9ms | 34 → 27 | `RegExp: \s+` | `<unknown>`          |
+
+##### Ours
+
+| Change |    Delta |             % |            Time | Samples | Function      | Location             |
+| -----: | -------: | ------------: | --------------: | ------: | ------------- | -------------------- |
+| -39.4% | -25.34ms |  13.9% → 9.4% | 64.3ms → 38.9ms | 51 → 31 | `tokenize`    | `workload.mjs:10:20` |
+| -36.4% | -25.13ms | 15.0% → 10.6% | 69.0ms → 43.9ms | 55 → 35 | `scoreStatus` | `workload.mjs:11:23` |
+
 ##### Native
 
-| Change |   Delta |             % |            Time | Samples | Function        | Location    |
-| -----: | ------: | ------------: | --------------: | ------: | --------------- | ----------- |
-|  -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>` |
-|  -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>` |
+| Change |    Delta |             % |             Time | Samples | Function    | Location    |
+| -----: | -------: | ------------: | ---------------: | ------: | ----------- | ----------- |
+| -42.6% | -50.38ms | 25.7% → 16.4% | 118.4ms → 68.0ms | 95 → 53 | `(program)` | `<unknown>` |
+
+##### Regular expression
+
+| Change |   Delta |           % |            Time | Samples | Function      | Location    |
+| -----: | ------: | ----------: | --------------: | ------: | ------------- | ----------- |
+| -21.1% | -9.04ms | 9.3% → 8.1% | 42.9ms → 33.9ms | 34 → 27 | `RegExp: \s+` | `<unknown>` |

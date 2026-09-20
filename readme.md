@@ -50,16 +50,16 @@
 ```md
 # CPU profile
 
-Took 2.49s over 2,659 samples (939.9µs per sample).
+Took 2.52s over 2,680 samples (943.9µs per sample).
 
 | Category           |     % |    Time | Samples |
 | ------------------ | ----: | ------: | ------: |
-| Third-party        | 87.4% |   2.18s |   2,410 |
-| Garbage collector  |  7.6% | 191.0ms |     156 |
-| Standard library   |  3.9% |  96.8ms |      70 |
-| Native             |  0.9% |  22.7ms |      20 |
-| Regular expression |  0.1% |   2.5ms |       2 |
-| Ours               |  0.1% |   1.3ms |       1 |
+| Third-party        | 88.3% |   2.23s |   2,443 |
+| Garbage collector  |  7.1% | 179.5ms |     148 |
+| Standard library   |  3.9% |  98.8ms |      72 |
+| Native             |  0.6% |  15.0ms |      15 |
+| Ours               | <0.1% |   1.3ms |       1 |
+| Regular expression | <0.1% |   1.3ms |       1 |
 
 ## Hottest functions
 
@@ -69,11 +69,11 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |    % |    Time | Samples | Function                        | Location                                             |
 | ---: | ------: | ------: | ------------------------------- | ---------------------------------------------------- |
-| 7.6% | 191.0ms |     156 | `(garbage collector)`           | `<unknown>`                                          |
-| 2.9% |  71.5ms |      57 | `wrapSafe`                      | `node:internal/modules/cjs/loader:1671:18`           |
-| 2.8% |  69.0ms |      66 | `recursiveTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:64383:38` |
-| 2.5% |  63.0ms |      66 | `isRelatedTo`                   | `node_modules/typescript/lib/typescript.js:63813:27` |
-| 2.1% |  51.7ms |      43 | `checkTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:63505:32` |
+| 7.1% | 179.5ms |     148 | `(garbage collector)`           | `<unknown>`                                          |
+| 2.8% |  71.5ms |      72 | `isRelatedTo`                   | `node_modules/typescript/lib/typescript.js:63813:27` |
+| 2.7% |  69.2ms |      55 | `wrapSafe`                      | `node:internal/modules/cjs/loader:1671:18`           |
+| 2.7% |  68.8ms |      64 | `recursiveTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:64383:38` |
+| 1.7% |  43.5ms |      45 | `instantiateTypeWorker`         | `node_modules/typescript/lib/typescript.js:62354:35` |
 …
 ```
 

@@ -1,14 +1,14 @@
 # Heap profile
 
-Allocated 5.18 MiB over 221 samples (24 KiB per sample).
+Allocated 5.15 MiB over 219 samples (24.1 KiB per sample).
 
 | Category         |     % |     Size | Samples |
 | ---------------- | ----: | -------: | ------: |
-| Ours             | 61.6% | 3.19 MiB |     197 |
-| Standard library | 17.2% |  913 KiB |       2 |
-| Native           | 14.9% |  788 KiB |       1 |
-| Compiler         |  4.5% |  241 KiB |      15 |
-| Unknown          |  1.8% | 96.2 KiB |       6 |
+| Ours             | 62.3% |  3.2 MiB |     198 |
+| Standard library | 17.3% |  912 KiB |       2 |
+| Native           | 15.0% |  788 KiB |       1 |
+| Compiler         |  4.6% |  241 KiB |      15 |
+| Unknown          |  0.9% | 48.3 KiB |       3 |
 
 ## Hottest functions
 
@@ -18,45 +18,39 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 |     % |     Size | Samples | Function                       | Location            |
 | ----: | -------: | ------: | ------------------------------ | ------------------- |
-| 61.6% | 3.19 MiB |     197 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
-| 16.9% |  896 KiB |       1 | `set`                          | `<unknown>`         |
-| 14.9% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`         |
-|  4.5% |  241 KiB |      15 | `(compiler)`                   | `<unknown>`         |
-|  1.8% | 96.2 KiB |       6 | `(anonymous)`                  | `<unknown>`         |
-|  0.3% | 16.9 KiB |       1 | `split`                        | `<unknown>`         |
+| 62.3% |  3.2 MiB |     198 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+| 17.0% |  896 KiB |       1 | `set`                          | `<unknown>`         |
+| 15.0% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`         |
+|  4.6% |  241 KiB |      15 | `(compiler)`                   | `<unknown>`         |
+|  0.9% | 48.3 KiB |       3 | `(anonymous)`                  | `<unknown>`         |
+|  0.3% |   16 KiB |       1 | `values`                       | `<unknown>`         |
 
 #### Categories
 
 ##### Ours
 
-|     % |     Size | Samples | Function                       | Location            |
-| ----: | -------: | ------: | ------------------------------ | ------------------- |
-| 61.6% | 3.19 MiB |     197 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+|     % |    Size | Samples | Function                       | Location            |
+| ----: | ------: | ------: | ------------------------------ | ------------------- |
+| 62.3% | 3.2 MiB |     198 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ##### Standard library
 
-|     % |     Size | Samples | Function | Location    |
-| ----: | -------: | ------: | -------- | ----------- |
-| 16.9% |  896 KiB |       1 | `set`    | `<unknown>` |
-|  0.3% | 16.9 KiB |       1 | `split`  | `<unknown>` |
+|     % |    Size | Samples | Function | Location    |
+| ----: | ------: | ------: | -------- | ----------- |
+| 17.0% | 896 KiB |       1 | `set`    | `<unknown>` |
+|  0.3% |  16 KiB |       1 | `values` | `<unknown>` |
 
 ##### Native
 
 |     % |    Size | Samples | Function   | Location    |
 | ----: | ------: | ------: | ---------- | ----------- |
-| 14.9% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
+| 15.0% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
 
 ##### Compiler
 
 |    % |    Size | Samples | Function     | Location    |
 | ---: | ------: | ------: | ------------ | ----------- |
-| 4.5% | 241 KiB |      15 | `(compiler)` | `<unknown>` |
-
-##### Unknown
-
-|    % |     Size | Samples | Function      | Location    |
-| ---: | -------: | ------: | ------------- | ----------- |
-| 1.8% | 96.2 KiB |       6 | `(anonymous)` | `<unknown>` |
+| 4.6% | 241 KiB |      15 | `(compiler)` | `<unknown>` |
 
 #### Callers
 
@@ -64,9 +58,9 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
 
-|      % |     Size | Samples | Caller        | Location    |
-| -----: | -------: | ------: | ------------- | ----------- |
-| 100.0% | 3.19 MiB |     197 | `(anonymous)` | `<unknown>` |
+|      % |    Size | Samples | Caller        | Location    |
+| -----: | ------: | ------: | ------------- | ----------- |
+| 100.0% | 3.2 MiB |     198 | `(anonymous)` | `<unknown>` |
 
 ##### `set` (`<unknown>`)
 
@@ -74,61 +68,51 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | -----: | ------: | ------: | ------------------------------ | ------------------- |
 | 100.0% | 896 KiB |       1 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
-##### `split` (`<unknown>`)
+##### `values` (`<unknown>`)
 
-|      % |     Size | Samples | Caller     | Location             |
-| -----: | -------: | ------: | ---------- | -------------------- |
-| 100.0% | 16.9 KiB |       1 | `tokenize` | `workload.mjs:10:20` |
+|      % |   Size | Samples | Caller                         | Location            |
+| -----: | -----: | ------: | ------------------------------ | ------------------- |
+| 100.0% | 16 KiB |       1 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ### Total size
 
 Functions ranked by total bytes allocated in the function and all its callees.
 
-|     % |     Size | Samples | Function                       | Location             |
-| ----: | -------: | ------: | ------------------------------ | -------------------- |
-| 80.6% | 4.17 MiB |     205 | `(anonymous)`                  | `<unknown>`          |
-| 78.8% | 4.08 MiB |     199 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-| 16.9% |  896 KiB |       1 | `set`                          | `<unknown>`          |
-| 14.9% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`          |
-|  4.5% |  241 KiB |      15 | `(compiler)`                   | `<unknown>`          |
-|  0.3% | 16.9 KiB |       1 | `split`                        | `<unknown>`          |
-|  0.3% | 16.9 KiB |       1 | `tokenize`                     | `workload.mjs:10:20` |
-|  0.3% | 16.9 KiB |       1 | `scoreStatus`                  | `workload.mjs:11:23` |
+|     % |     Size | Samples | Function                       | Location            |
+| ----: | -------: | ------: | ------------------------------ | ------------------- |
+| 80.5% | 4.14 MiB |     203 | `(anonymous)`                  | `<unknown>`         |
+| 79.6% | 4.09 MiB |     200 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+| 17.0% |  896 KiB |       1 | `set`                          | `<unknown>`         |
+| 15.0% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`         |
+|  4.6% |  241 KiB |      15 | `(compiler)`                   | `<unknown>`         |
+|  0.3% |   16 KiB |       1 | `values`                       | `<unknown>`         |
 
 #### Categories
 
 ##### Ours
 
-|     % |     Size | Samples | Function                       | Location             |
-| ----: | -------: | ------: | ------------------------------ | -------------------- |
-| 78.8% | 4.08 MiB |     199 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-|  0.3% | 16.9 KiB |       1 | `tokenize`                     | `workload.mjs:10:20` |
-|  0.3% | 16.9 KiB |       1 | `scoreStatus`                  | `workload.mjs:11:23` |
+|     % |     Size | Samples | Function                       | Location            |
+| ----: | -------: | ------: | ------------------------------ | ------------------- |
+| 79.6% | 4.09 MiB |     200 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ##### Standard library
 
-|     % |     Size | Samples | Function | Location    |
-| ----: | -------: | ------: | -------- | ----------- |
-| 16.9% |  896 KiB |       1 | `set`    | `<unknown>` |
-|  0.3% | 16.9 KiB |       1 | `split`  | `<unknown>` |
+|     % |    Size | Samples | Function | Location    |
+| ----: | ------: | ------: | -------- | ----------- |
+| 17.0% | 896 KiB |       1 | `set`    | `<unknown>` |
+|  0.3% |  16 KiB |       1 | `values` | `<unknown>` |
 
 ##### Native
 
 |     % |    Size | Samples | Function   | Location    |
 | ----: | ------: | ------: | ---------- | ----------- |
-| 14.9% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
+| 15.0% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
 
 ##### Compiler
 
 |    % |    Size | Samples | Function     | Location    |
 | ---: | ------: | ------: | ------------ | ----------- |
-| 4.5% | 241 KiB |      15 | `(compiler)` | `<unknown>` |
-
-##### Unknown
-
-|     % |     Size | Samples | Function      | Location    |
-| ----: | -------: | ------: | ------------- | ----------- |
-| 80.6% | 4.17 MiB |     205 | `(anonymous)` | `<unknown>` |
+| 4.6% | 241 KiB |      15 | `(compiler)` | `<unknown>` |
 
 #### Callees
 
@@ -138,26 +122,14 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 |     % |     Size | Samples | Callee                         | Location            |
 | ----: | -------: | ------: | ------------------------------ | ------------------- |
-| 97.7% | 4.08 MiB |     199 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+| 98.9% | 4.09 MiB |     200 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
 
-|     % |     Size | Samples | Callee        | Location             |
-| ----: | -------: | ------: | ------------- | -------------------- |
-| 21.4% |  896 KiB |       1 | `set`         | `<unknown>`          |
-|  0.4% | 16.9 KiB |       1 | `scoreStatus` | `workload.mjs:11:23` |
-
-##### `tokenize` (`workload.mjs:10:20`)
-
-|      % |     Size | Samples | Callee  | Location    |
-| -----: | -------: | ------: | ------- | ----------- |
-| 100.0% | 16.9 KiB |       1 | `split` | `<unknown>` |
-
-##### `scoreStatus` (`workload.mjs:11:23`)
-
-|      % |     Size | Samples | Callee     | Location             |
-| -----: | -------: | ------: | ---------- | -------------------- |
-| 100.0% | 16.9 KiB |       1 | `tokenize` | `workload.mjs:10:20` |
+|     % |    Size | Samples | Callee   | Location    |
+| ----: | ------: | ------: | -------- | ----------- |
+| 21.4% | 896 KiB |       1 | `set`    | `<unknown>` |
+|  0.4% |  16 KiB |       1 | `values` | `<unknown>` |
 
 ## Hottest call stacks
 
@@ -165,8 +137,8 @@ Call stacks ranked by bytes allocated in their leaf frame.
 
 Common call stack: `(anonymous)`
 
-|     % |     Size | Samples | Call stack                                                                                                  |
-| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------- |
-| 61.6% | 3.19 MiB |     197 | `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                        |
-| 16.9% |  896 KiB |       1 | `set` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                |
-|  0.3% | 16.9 KiB |       1 | `split` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32) |
+|     % |    Size | Samples | Call stack                                                      |
+| ----: | ------: | ------: | --------------------------------------------------------------- |
+| 62.3% | 3.2 MiB |     198 | `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)            |
+| 17.0% | 896 KiB |       1 | `set` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)    |
+|  0.3% |  16 KiB |       1 | `values` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`) |

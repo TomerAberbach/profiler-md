@@ -1,15 +1,15 @@
 # Sampling profile
 
-Collected 4,878 samples.
+Collected 5,267 samples.
 
 | Category         |     % | Samples |
 | ---------------- | ----: | ------: |
-| Native           | 83.3% |   4,061 |
-| Ours             | 13.8% |     671 |
-| Standard library |  2.4% |     117 |
-| Compiler         |  0.3% |      14 |
-| JIT              |  0.2% |      10 |
-| Unknown          |  0.1% |       5 |
+| Native           | 81.4% |   4,287 |
+| Ours             | 12.3% |     649 |
+| Standard library |  3.1% |     165 |
+| Unknown          |  2.5% |     130 |
+| JIT              |  0.4% |      19 |
+| Compiler         |  0.3% |      17 |
 
 ## Hottest functions
 
@@ -17,93 +17,104 @@ Collected 4,878 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
-|     % | Samples | Function                                                                          | Location                                                   |
-| ----: | ------: | --------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 50.1% |   2,446 | `__psynch_cvwait`                                                                 | `libsystem_kernel.dylib`                                   |
-| 26.3% |   1,282 | `semaphore_wait_trap`                                                             | `libsystem_kernel.dylib`                                   |
-|  5.1% |     250 | `accumulate(Double[], double[])`                                                  | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  4.3% |     211 | `distance(Double[], Double[])`                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  2.5% |     122 | `mach_msg2_trap`                                                                  | `libsystem_kernel.dylib`                                   |
-|  2.5% |     122 | `__ulock_wait`                                                                    | `libsystem_kernel.dylib`                                   |
-|  1.9% |      91 | `findNearestCentroid()`                                                           | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  1.7% |      85 | `vectorSum()`                                                                     | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  0.9% |      43 | `forward_copy_longs`                                                              | `<unknown>`                                                |
-|  0.7% |      34 | `computeIfAbsent(Object, Function)`                                               | `java.util.HashMap`                                        |
-|  0.6% |      31 | `collectClusters(int[])`                                                          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  0.6% |      29 | `elementData(int)`                                                                | `java.util.ArrayList`                                      |
-|  0.2% |      10 | `zero_blocks`                                                                     | `<unknown>`                                                |
-|  0.2% |       8 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)`                         | `java.util.concurrent.ForkJoinPool`                        |
-|  0.2% |       8 | `__psynch_cvsignal`                                                               | `libsystem_kernel.dylib`                                   |
-|  0.1% |       7 | `add(Object, Object[], int)`                                                      | `java.util.ArrayList`                                      |
-|  0.1% |       7 | `__psynch_mutexwait`                                                              | `libsystem_kernel.dylib`                                   |
-|  0.1% |       6 | `hash(Object)`                                                                    | `java.util.HashMap`                                        |
-|  0.1% |       6 | `checkIndex(int, int)`                                                            | `java.util.Objects`                                        |
-|  0.1% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib`                                             |
+|     % | Samples | Function                            | Location                                                   |
+| ----: | ------: | ----------------------------------- | ---------------------------------------------------------- |
+| 50.6% |   2,666 | `__psynch_cvwait`                   | `libsystem_kernel.dylib`                                   |
+| 23.7% |   1,248 | `semaphore_wait_trap`               | `libsystem_kernel.dylib`                                   |
+|  4.7% |     247 | `accumulate(Double[], double[])`    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  3.3% |     176 | `distance(Double[], Double[])`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  2.5% |     130 | `mach_msg2_trap`                    | `libsystem_kernel.dylib`                                   |
+|  2.5% |     130 | `__ulock_wait`                      | `libsystem_kernel.dylib`                                   |
+|  2.5% |     130 | `(anonymous)`                       | `<unknown>`                                                |
+|  2.1% |     112 | `vectorSum()`                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  1.6% |      85 | `findNearestCentroid()`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.9% |      50 | `forward_copy_longs`                | `<unknown>`                                                |
+|  0.9% |      47 | `elementData(int)`                  | `java.util.ArrayList`                                      |
+|  0.6% |      33 | `doubleValue()`                     | `java.lang.Double`                                         |
+|  0.5% |      27 | `computeIfAbsent(Object, Function)` | `java.util.HashMap`                                        |
+|  0.4% |      19 | `collectClusters(int[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.3% |      18 | `zero_blocks`                       | `<unknown>`                                                |
+|  0.2% |      10 | `__psynch_cvsignal`                 | `libsystem_kernel.dylib`                                   |
+|  0.2% |       9 | `grow(int)`                         | `java.util.ArrayList`                                      |
+|  0.2% |       9 | `grow()`                            | `java.util.ArrayList`                                      |
+|  0.1% |       7 | `hash(Object)`                      | `java.util.HashMap`                                        |
+|  0.1% |       6 | `add(Object, Object[], int)`        | `java.util.ArrayList`                                      |
 
 #### Categories
 
 ##### Native
 
-|     % | Samples | Function                                                                          | Location                   |
-| ----: | ------: | --------------------------------------------------------------------------------- | -------------------------- |
-| 50.1% |   2,446 | `__psynch_cvwait`                                                                 | `libsystem_kernel.dylib`   |
-| 26.3% |   1,282 | `semaphore_wait_trap`                                                             | `libsystem_kernel.dylib`   |
-|  2.5% |     122 | `mach_msg2_trap`                                                                  | `libsystem_kernel.dylib`   |
-|  2.5% |     122 | `__ulock_wait`                                                                    | `libsystem_kernel.dylib`   |
-|  0.9% |      43 | `forward_copy_longs`                                                              | `<unknown>`                |
-|  0.2% |       8 | `__psynch_cvsignal`                                                               | `libsystem_kernel.dylib`   |
-|  0.1% |       7 | `__psynch_mutexwait`                                                              | `libsystem_kernel.dylib`   |
-|  0.1% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib`             |
-|  0.1% |       3 | `arrayof_jint_disjoint_arraycopy`                                                 | `<unknown>`                |
-|  0.1% |       3 | `_platform_memset`                                                                | `libsystem_platform.dylib` |
-| <0.1% |       2 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                   | `libjvm.dylib`             |
-| <0.1% |       1 | `write`                                                                           | `libsystem_kernel.dylib`   |
-| <0.1% |       1 | `FieldStreamBase::initialize`                                                     | `libjvm.dylib`             |
-| <0.1% |       1 | `klassItable::setup_itable_offset_table`                                          | `libjvm.dylib`             |
-| <0.1% |       1 | `Dictionary::find`                                                                | `libjvm.dylib`             |
-| <0.1% |       1 | `mach_absolute_time`                                                              | `libsystem_kernel.dylib`   |
-| <0.1% |       1 | `ClassFileParser::check_super_class_access`                                       | `libjvm.dylib`             |
-| <0.1% |       1 | `JfrObjectAllocationSample::send_event`                                           | `libjvm.dylib`             |
-| <0.1% |       1 | `InstanceKlass::allocate_objArray`                                                | `libjvm.dylib`             |
-| <0.1% |       1 | `arrayof_oop_disjoint_arraycopy`                                                  | `<unknown>`                |
+|     % | Samples | Function                                 | Location                   |
+| ----: | ------: | ---------------------------------------- | -------------------------- |
+| 50.6% |   2,666 | `__psynch_cvwait`                        | `libsystem_kernel.dylib`   |
+| 23.7% |   1,248 | `semaphore_wait_trap`                    | `libsystem_kernel.dylib`   |
+|  2.5% |     130 | `mach_msg2_trap`                         | `libsystem_kernel.dylib`   |
+|  2.5% |     130 | `__ulock_wait`                           | `libsystem_kernel.dylib`   |
+|  0.9% |      50 | `forward_copy_longs`                     | `<unknown>`                |
+|  0.2% |      10 | `__psynch_cvsignal`                      | `libsystem_kernel.dylib`   |
+|  0.1% |       4 | `arrayof_jint_disjoint_arraycopy`        | `<unknown>`                |
+|  0.1% |       4 | `_platform_bzero`                        | `libsystem_platform.dylib` |
+|  0.1% |       4 | `__psynch_mutexwait`                     | `libsystem_kernel.dylib`   |
+|  0.1% |       3 | `G1FullGCMarker::mark_object`            | `libjvm.dylib`             |
+|  0.1% |       3 | `pthread_jit_write_protect_np`           | `libsystem_pthread.dylib`  |
+|  0.1% |       3 | `G1RegionMarkStatsCache::add_live_words` | `libjvm.dylib`             |
+| <0.1% |       2 | `tlv_get_addr`                           | `libdyld.dylib`            |
+| <0.1% |       2 | `inflate_fast`                           | `libzip.dylib`             |
+| <0.1% |       2 | `_platform_memset`                       | `libsystem_platform.dylib` |
+| <0.1% |       2 | `ClassLoaderData::oops_do`               | `libjvm.dylib`             |
+| <0.1% |       1 | `PlatformMonitor::wait`                  | `libjvm.dylib`             |
+| <0.1% |       1 | `arrayof_oop_arraycopy`                  | `<unknown>`                |
+| <0.1% |       1 | `pthread_mutex_lock`                     | `libsystem_pthread.dylib`  |
+| <0.1% |       1 | `MemAllocator::allocate`                 | `libjvm.dylib`             |
 
 ##### Ours
 
-|     % | Samples | Function                                   | Location                                                   |
-| ----: | ------: | ------------------------------------------ | ---------------------------------------------------------- |
-|  5.1% |     250 | `accumulate(Double[], double[])`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  4.3% |     211 | `distance(Double[], Double[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  1.9% |      91 | `findNearestCentroid()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  1.7% |      85 | `vectorSum()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  0.6% |      31 | `collectClusters(int[])`                   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| <0.1% |       1 | `compute()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
-| <0.1% |       1 | `lambda$run$0(int, List, int)`             | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-| <0.1% |       1 | `<init>(JavaKMeans, List, List, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|     % | Samples | Function                                         | Location                                                                              |
+| ----: | ------: | ------------------------------------------------ | ------------------------------------------------------------------------------------- |
+|  4.7% |     247 | `accumulate(Double[], double[])`                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+|  3.3% |     176 | `distance(Double[], Double[])`                   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  2.1% |     112 | `vectorSum()`                                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+|  1.6% |      85 | `findNearestCentroid()`                          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  0.4% |      19 | `collectClusters(int[])`                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  0.1% |       3 | `add(double[], double[])`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| <0.1% |       1 | `compute()`                                      | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                                |
+| <0.1% |       1 | `combineResults(Object, Object)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+| <0.1% |       1 | `combineResults(Object, Object)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| <0.1% |       1 | `createSubtask(int, int)`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| <0.1% |       1 | `apply(Object)`                                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000301186b38` |
+| <0.1% |       1 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+| <0.1% |       1 | `createSubtask(int, int)`                        | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
 
 ##### Standard library
 
-|     % | Samples | Function                                                  | Location                                      |
-| ----: | ------: | --------------------------------------------------------- | --------------------------------------------- |
-|  0.7% |      34 | `computeIfAbsent(Object, Function)`                       | `java.util.HashMap`                           |
-|  0.6% |      29 | `elementData(int)`                                        | `java.util.ArrayList`                         |
-|  0.2% |       8 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
-|  0.1% |       7 | `add(Object, Object[], int)`                              | `java.util.ArrayList`                         |
-|  0.1% |       6 | `hash(Object)`                                            | `java.util.HashMap`                           |
-|  0.1% |       6 | `checkIndex(int, int)`                                    | `java.util.Objects`                           |
-|  0.1% |       4 | `grow(int)`                                               | `java.util.ArrayList`                         |
-|  0.1% |       4 | `doubleValue()`                                           | `java.lang.Double`                            |
-| <0.1% |       2 | `forEach(BiConsumer)`                                     | `java.util.HashMap`                           |
-| <0.1% |       2 | `merge(Object, Object, BiFunction)`                       | `java.util.HashMap`                           |
-| <0.1% |       1 | `match(byte[], byte[], byte[], byte[])`                   | `java.util.jar.JarFile`                       |
-| <0.1% |       1 | `sourceSpliterator(int)`                                  | `java.util.stream.AbstractPipeline`           |
-| <0.1% |       1 | `opWrapSink(int, Sink)`                                   | `java.util.stream.IntPipeline$1`              |
-| <0.1% |       1 | `awaitDone(int, long)`                                    | `java.util.concurrent.ForkJoinTask`           |
-| <0.1% |       1 | `add(Object)`                                             | `java.util.ArrayList`                         |
-| <0.1% |       1 | `doExec()`                                                | `java.util.concurrent.ForkJoinTask`           |
-| <0.1% |       1 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
-| <0.1% |       1 | `runWorker(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`           |
-| <0.1% |       1 | `unpark(Object)`                                          | `jdk.internal.misc.Unsafe`                    |
-| <0.1% |       1 | `get(int)`                                                | `java.util.ArrayList`                         |
+|     % | Samples | Function                                                  | Location                             |
+| ----: | ------: | --------------------------------------------------------- | ------------------------------------ |
+|  0.9% |      47 | `elementData(int)`                                        | `java.util.ArrayList`                |
+|  0.6% |      33 | `doubleValue()`                                           | `java.lang.Double`                   |
+|  0.5% |      27 | `computeIfAbsent(Object, Function)`                       | `java.util.HashMap`                  |
+|  0.2% |       9 | `grow(int)`                                               | `java.util.ArrayList`                |
+|  0.2% |       9 | `grow()`                                                  | `java.util.ArrayList`                |
+|  0.1% |       7 | `hash(Object)`                                            | `java.util.HashMap`                  |
+|  0.1% |       6 | `add(Object, Object[], int)`                              | `java.util.ArrayList`                |
+|  0.1% |       5 | `checkIndex(int, int)`                                    | `java.util.Objects`                  |
+|  0.1% |       4 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`  |
+| <0.1% |       2 | `doExec()`                                                | `java.util.concurrent.ForkJoinTask`  |
+| <0.1% |       2 | `newLength(int, int, int)`                                | `jdk.internal.util.ArraysSupport`    |
+| <0.1% |       2 | `getRawResult()`                                          | `java.util.concurrent.RecursiveTask` |
+| <0.1% |       1 | `exec()`                                                  | `java.util.concurrent.RecursiveTask` |
+| <0.1% |       1 | `awaitDone(int, long)`                                    | `java.util.concurrent.ForkJoinTask`  |
+| <0.1% |       1 | `scan(ForkJoinPool$WorkQueue, int, int)`                  | `java.util.concurrent.ForkJoinPool`  |
+| <0.1% |       1 | `runWorker(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`  |
+| <0.1% |       1 | `copyOf(Object[], int)`                                   | `java.util.Arrays`                   |
+| <0.1% |       1 | `merge(Object, Object, BiFunction)`                       | `java.util.HashMap`                  |
+| <0.1% |       1 | `forEach(BiConsumer)`                                     | `java.util.HashMap`                  |
+| <0.1% |       1 | `add(Object)`                                             | `java.util.ArrayList`                |
+
+##### Unknown
+
+|    % | Samples | Function      | Location    |
+| ---: | ------: | ------------- | ----------- |
+| 2.5% |     130 | `(anonymous)` | `<unknown>` |
 
 #### Lines
 
@@ -113,186 +124,215 @@ Lines ranked by contribution to each function's self samples.
 
 |     % | Samples | Location                                                      |
 | ----: | ------: | ------------------------------------------------------------- |
-| 93.2% |     233 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:412` |
-|  6.8% |      17 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:411` |
+| 80.6% |     199 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:412` |
+| 19.4% |      48 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:411` |
 
 ##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |     % | Samples | Location                                                       |
 | ----: | ------: | -------------------------------------------------------------- |
-| 56.9% |     120 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:248` |
-| 40.8% |      86 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:249` |
-|  2.4% |       5 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:250` |
-
-##### `findNearestCentroid()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|     % | Samples | Location                                                       |
-| ----: | ------: | -------------------------------------------------------------- |
-| 56.0% |      51 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:231` |
-| 26.4% |      24 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:230` |
-|  9.9% |       9 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:229` |
-|  5.5% |       5 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:226` |
-|  2.2% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:225` |
+| 56.8% |     100 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:248` |
+| 41.5% |      73 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:249` |
+|  1.7% |       3 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:250` |
 
 ##### `vectorSum()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
 |     % | Samples | Location                                                      |
 | ----: | ------: | ------------------------------------------------------------- |
-| 85.9% |      73 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:403` |
-| 14.1% |      12 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:402` |
+| 81.3% |      91 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:403` |
+| 18.8% |      21 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:402` |
 
-##### `computeIfAbsent(Object, Function)` (`java.util.HashMap`)
-
-|     % | Samples | Location                 |
-| ----: | ------: | ------------------------ |
-| 35.3% |      12 | `java.util.HashMap:1213` |
-| 23.5% |       8 | `java.util.HashMap:1197` |
-| 17.6% |       6 | `java.util.HashMap:1204` |
-|  8.8% |       3 | `java.util.HashMap:1207` |
-|  8.8% |       3 | `java.util.HashMap:1219` |
-
-##### `collectClusters(int[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+##### `findNearestCentroid()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |     % | Samples | Location                                                       |
 | ----: | ------: | -------------------------------------------------------------- |
-| 32.3% |      10 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:213` |
-| 25.8% |       8 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:215` |
-| 16.1% |       5 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:214` |
-| 12.9% |       4 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:211` |
-| 12.9% |       4 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:212` |
+| 60.0% |      51 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:231` |
+| 20.0% |      17 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:230` |
+| 14.1% |      12 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:229` |
+|  4.7% |       4 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:225` |
+|  1.2% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:226` |
 
 ##### `elementData(int)` (`java.util.ArrayList`)
 
 |      % | Samples | Location                  |
 | -----: | ------: | ------------------------- |
-| 100.0% |      29 | `java.util.ArrayList:411` |
-
-##### `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` (`java.util.concurrent.ForkJoinPool`)
-
-|     % | Samples | Location                                 |
-| ----: | ------: | ---------------------------------------- |
-| 37.5% |       3 | `java.util.concurrent.ForkJoinPool:2053` |
-| 25.0% |       2 | `java.util.concurrent.ForkJoinPool:2057` |
-| 12.5% |       1 | `java.util.concurrent.ForkJoinPool:2051` |
-| 12.5% |       1 | `java.util.concurrent.ForkJoinPool:2059` |
-| 12.5% |       1 | `java.util.concurrent.ForkJoinPool:2041` |
-
-##### `add(Object, Object[], int)` (`java.util.ArrayList`)
-
-|      % | Samples | Location                  |
-| -----: | ------: | ------------------------- |
-| 100.0% |       7 | `java.util.ArrayList:482` |
-
-##### `hash(Object)` (`java.util.HashMap`)
-
-|      % | Samples | Location                |
-| -----: | ------: | ----------------------- |
-| 100.0% |       6 | `java.util.HashMap:338` |
-
-##### `checkIndex(int, int)` (`java.util.Objects`)
-
-|      % | Samples | Location                |
-| -----: | ------: | ----------------------- |
-| 100.0% |       6 | `java.util.Objects:385` |
-
-##### `grow(int)` (`java.util.ArrayList`)
-
-|     % | Samples | Location                  |
-| ----: | ------: | ------------------------- |
-| 50.0% |       2 | `java.util.ArrayList:232` |
-| 50.0% |       2 | `java.util.ArrayList:239` |
+| 100.0% |      47 | `java.util.ArrayList:411` |
 
 ##### `doubleValue()` (`java.lang.Double`)
 
 |      % | Samples | Location                |
 | -----: | ------: | ----------------------- |
-| 100.0% |       4 | `java.lang.Double:1001` |
+| 100.0% |      33 | `java.lang.Double:1001` |
 
-##### `forEach(BiConsumer)` (`java.util.HashMap`)
-
-|     % | Samples | Location                 |
-| ----: | ------: | ------------------------ |
-| 50.0% |       1 | `java.util.HashMap:1427` |
-| 50.0% |       1 | `java.util.HashMap:1428` |
-
-##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
+##### `computeIfAbsent(Object, Function)` (`java.util.HashMap`)
 
 |     % | Samples | Location                 |
 | ----: | ------: | ------------------------ |
-| 50.0% |       1 | `java.util.HashMap:1372` |
-| 50.0% |       1 | `java.util.HashMap:1369` |
+| 40.7% |      11 | `java.util.HashMap:1213` |
+| 29.6% |       8 | `java.util.HashMap:1207` |
+|  7.4% |       2 | `java.util.HashMap:1204` |
+|  7.4% |       2 | `java.util.HashMap:1197` |
+|  7.4% |       2 | `java.util.HashMap:1219` |
+
+##### `collectClusters(int[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|     % | Samples | Location                                                       |
+| ----: | ------: | -------------------------------------------------------------- |
+| 26.3% |       5 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:215` |
+| 21.1% |       4 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:214` |
+| 21.1% |       4 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:212` |
+| 21.1% |       4 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:213` |
+| 10.5% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:211` |
+
+##### `grow(int)` (`java.util.ArrayList`)
+
+|     % | Samples | Location                  |
+| ----: | ------: | ------------------------- |
+| 77.8% |       7 | `java.util.ArrayList:239` |
+| 22.2% |       2 | `java.util.ArrayList:232` |
+
+##### `grow()` (`java.util.ArrayList`)
+
+|      % | Samples | Location                  |
+| -----: | ------: | ------------------------- |
+| 100.0% |       9 | `java.util.ArrayList:244` |
+
+##### `hash(Object)` (`java.util.HashMap`)
+
+|      % | Samples | Location                |
+| -----: | ------: | ----------------------- |
+| 100.0% |       7 | `java.util.HashMap:338` |
+
+##### `add(Object, Object[], int)` (`java.util.ArrayList`)
+
+|     % | Samples | Location                  |
+| ----: | ------: | ------------------------- |
+| 83.3% |       5 | `java.util.ArrayList:484` |
+| 16.7% |       1 | `java.util.ArrayList:482` |
+
+##### `checkIndex(int, int)` (`java.util.Objects`)
+
+|      % | Samples | Location                |
+| -----: | ------: | ----------------------- |
+| 100.0% |       5 | `java.util.Objects:385` |
+
+##### `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` (`java.util.concurrent.ForkJoinPool`)
+
+|     % | Samples | Location                                 |
+| ----: | ------: | ---------------------------------------- |
+| 25.0% |       1 | `java.util.concurrent.ForkJoinPool:2057` |
+| 25.0% |       1 | `java.util.concurrent.ForkJoinPool:2041` |
+| 25.0% |       1 | `java.util.concurrent.ForkJoinPool:2053` |
+| 25.0% |       1 | `java.util.concurrent.ForkJoinPool:2055` |
+
+##### `add(double[], double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|     % | Samples | Location                                                      |
+| ----: | ------: | ------------------------------------------------------------- |
+| 66.7% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:432` |
+| 33.3% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:430` |
+
+##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Location                                |
+| -----: | ------: | --------------------------------------- |
+| 100.0% |       2 | `java.util.concurrent.ForkJoinTask:385` |
+
+##### `newLength(int, int, int)` (`jdk.internal.util.ArraysSupport`)
+
+|      % | Samples | Location                              |
+| -----: | ------: | ------------------------------------- |
+| 100.0% |       2 | `jdk.internal.util.ArraysSupport:741` |
+
+##### `getRawResult()` (`java.util.concurrent.RecursiveTask`)
+
+|      % | Samples | Location                                |
+| -----: | ------: | --------------------------------------- |
+| 100.0% |       2 | `java.util.concurrent.RecursiveTask:99` |
 
 ##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
 |      % | Samples | Location                                                   |
 | -----: | ------: | ---------------------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask:146` |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask:151` |
 
-##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
-
-|      % | Samples | Location                                       |
-| -----: | ------: | ---------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans:59` |
-
-##### `<init>(JavaKMeans, List, List, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+##### `combineResults(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |      % | Samples | Location                                                       |
 | -----: | ------: | -------------------------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:190` |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:171` |
 
-##### `match(byte[], byte[], byte[], byte[])` (`java.util.jar.JarFile`)
+##### `combineResults(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
-|      % | Samples | Location                     |
-| -----: | ------: | ---------------------------- |
-| 100.0% |       1 | `java.util.jar.JarFile:1000` |
+|      % | Samples | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:367` |
 
-##### `sourceSpliterator(int)` (`java.util.stream.AbstractPipeline`)
+##### `createSubtask(int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
-|      % | Samples | Location                                |
-| -----: | ------: | --------------------------------------- |
-| 100.0% |       1 | `java.util.stream.AbstractPipeline:412` |
+|      % | Samples | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:419` |
 
-##### `opWrapSink(int, Sink)` (`java.util.stream.IntPipeline$1`)
+##### `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % | Samples | Location                             |
-| -----: | ------: | ------------------------------------ |
-| 100.0% |       1 | `java.util.stream.IntPipeline$1:177` |
+|      % | Samples | Location                                       |
+| -----: | ------: | ---------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans:86` |
+
+##### `createSubtask(int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Location                                                       |
+| -----: | ------: | -------------------------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:261` |
+
+##### `exec()` (`java.util.concurrent.RecursiveTask`)
+
+|      % | Samples | Location                                 |
+| -----: | ------: | ---------------------------------------- |
+| 100.0% |       1 | `java.util.concurrent.RecursiveTask:110` |
 
 ##### `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`)
 
 |      % | Samples | Location                                |
 | -----: | ------: | --------------------------------------- |
-| 100.0% |       1 | `java.util.concurrent.ForkJoinTask:413` |
+| 100.0% |       1 | `java.util.concurrent.ForkJoinTask:411` |
+
+##### `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Location                                 |
+| -----: | ------: | ---------------------------------------- |
+| 100.0% |       1 | `java.util.concurrent.ForkJoinPool:1829` |
+
+##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Location                                 |
+| -----: | ------: | ---------------------------------------- |
+| 100.0% |       1 | `java.util.concurrent.ForkJoinPool:1809` |
+
+##### `copyOf(Object[], int)` (`java.util.Arrays`)
+
+|      % | Samples | Location                |
+| -----: | ------: | ----------------------- |
+| 100.0% |       1 | `java.util.Arrays:3482` |
+
+##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
+
+|      % | Samples | Location                 |
+| -----: | ------: | ------------------------ |
+| 100.0% |       1 | `java.util.HashMap:1384` |
+
+##### `forEach(BiConsumer)` (`java.util.HashMap`)
+
+|      % | Samples | Location                 |
+| -----: | ------: | ------------------------ |
+| 100.0% |       1 | `java.util.HashMap:1428` |
 
 ##### `add(Object)` (`java.util.ArrayList`)
 
 |      % | Samples | Location                  |
 | -----: | ------: | ------------------------- |
 | 100.0% |       1 | `java.util.ArrayList:495` |
-
-##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
-
-|      % | Samples | Location                                |
-| -----: | ------: | --------------------------------------- |
-| 100.0% |       1 | `java.util.concurrent.ForkJoinTask:387` |
-
-##### `tryRemoveAndExec(ForkJoinTask, boolean)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
-
-|      % | Samples | Location                                           |
-| -----: | ------: | -------------------------------------------------- |
-| 100.0% |       1 | `java.util.concurrent.ForkJoinPool$WorkQueue:1347` |
-
-##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
-
-|      % | Samples | Location                                 |
-| -----: | ------: | ---------------------------------------- |
-| 100.0% |       1 | `java.util.concurrent.ForkJoinPool:1808` |
-
-##### `get(int)` (`java.util.ArrayList`)
-
-|      % | Samples | Location                  |
-| -----: | ------: | ------------------------- |
-| 100.0% |       1 | `java.util.ArrayList:427` |
 
 #### Callers
 
@@ -302,226 +342,250 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 |     % | Samples | Caller                  | Location                 |
 | ----: | ------: | ----------------------- | ------------------------ |
-| 54.9% |   1,344 | `PlatformMonitor::wait` | `libjvm.dylib`           |
-| 35.1% |     859 | `Parker::park`          | `libjvm.dylib`           |
-|  5.0% |     122 | `PlatformEvent::park`   | `libjvm.dylib`           |
-|  4.9% |     121 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
+| 53.9% |   1,436 | `PlatformMonitor::wait` | `libjvm.dylib`           |
+| 36.4% |     971 | `Parker::park`          | `libjvm.dylib`           |
+|  4.9% |     130 | `PlatformEvent::park`   | `libjvm.dylib`           |
+|  4.8% |     129 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
 
 ##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
 
 |     % | Samples | Caller                           | Location       |
 | ----: | ------: | -------------------------------- | -------------- |
-| 89.5% |   1,147 | `WorkerThread::run`              | `libjvm.dylib` |
-|  9.5% |     122 | `os::signal_wait`                | `libjvm.dylib` |
-|  0.7% |       9 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
-|  0.3% |       4 | `WorkerThreads::run_task`        | `libjvm.dylib` |
+| 88.5% |   1,105 | `WorkerThread::run`              | `libjvm.dylib` |
+| 10.4% |     130 | `os::signal_wait`                | `libjvm.dylib` |
+|  0.8% |      10 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
+|  0.2% |       3 | `WorkerThreads::run_task`        | `libjvm.dylib` |
 
 ##### `accumulate(Double[], double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
 |      % | Samples | Caller        | Location                                                  |
 | -----: | ------: | ------------- | --------------------------------------------------------- |
-| 100.0% |     250 | `vectorSum()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| 100.0% |     247 | `vectorSum()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
 
 ##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |      % | Samples | Caller                  | Location                                                   |
 | -----: | ------: | ----------------------- | ---------------------------------------------------------- |
-| 100.0% |     211 | `findNearestCentroid()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 100.0% |     176 | `findNearestCentroid()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ##### `mach_msg2_trap` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller               | Location                 |
 | -----: | ------: | -------------------- | ------------------------ |
-| 100.0% |     122 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+| 100.0% |     130 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
 
 ##### `__ulock_wait` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller                    | Location       |
 | -----: | ------: | ------------------------- | -------------- |
-| 100.0% |     122 | `CallJavaMainInNewThread` | `libjli.dylib` |
-
-##### `findNearestCentroid()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Caller              | Location                                                   |
-| -----: | ------: | ------------------- | ---------------------------------------------------------- |
-| 100.0% |      91 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 100.0% |     130 | `CallJavaMainInNewThread` | `libjli.dylib` |
 
 ##### `vectorSum()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
 |      % | Samples | Caller              | Location                                                  |
 | -----: | ------: | ------------------- | --------------------------------------------------------- |
-| 100.0% |      85 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| 100.0% |     112 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `findNearestCentroid()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller              | Location                                                   |
+| -----: | ------: | ------------------- | ---------------------------------------------------------- |
+| 100.0% |      85 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ##### `forward_copy_longs` (`<unknown>`)
 
 |     % | Samples | Caller                            | Location    |
 | ----: | ------: | --------------------------------- | ----------- |
-| 81.4% |      35 | `arrayof_jint_disjoint_arraycopy` | `<unknown>` |
-| 18.6% |       8 | `arrayof_oop_disjoint_arraycopy`  | `<unknown>` |
-
-##### `computeIfAbsent(Object, Function)` (`java.util.HashMap`)
-
-|      % | Samples | Caller                   | Location                                                   |
-| -----: | ------: | ------------------------ | ---------------------------------------------------------- |
-| 100.0% |      34 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-
-##### `collectClusters(int[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Caller              | Location                                                   |
-| -----: | ------: | ------------------- | ---------------------------------------------------------- |
-| 100.0% |      31 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 74.0% |      37 | `arrayof_jint_disjoint_arraycopy` | `<unknown>` |
+| 26.0% |      13 | `arrayof_oop_disjoint_arraycopy`  | `<unknown>` |
 
 ##### `elementData(int)` (`java.util.ArrayList`)
 
 |      % | Samples | Caller     | Location              |
 | -----: | ------: | ---------- | --------------------- |
-| 100.0% |      29 | `get(int)` | `java.util.ArrayList` |
+| 100.0% |      47 | `get(int)` | `java.util.ArrayList` |
+
+##### `doubleValue()` (`java.lang.Double`)
+
+|     % | Samples | Caller                           | Location                                                   |
+| ----: | ------: | -------------------------------- | ---------------------------------------------------------- |
+| 72.7% |      24 | `accumulate(Double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| 27.3% |       9 | `distance(Double[], Double[])`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `computeIfAbsent(Object, Function)` (`java.util.HashMap`)
+
+|      % | Samples | Caller                   | Location                                                   |
+| -----: | ------: | ------------------------ | ---------------------------------------------------------- |
+| 100.0% |      27 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `collectClusters(int[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller              | Location                                                   |
+| -----: | ------: | ------------------- | ---------------------------------------------------------- |
+| 100.0% |      19 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ##### `zero_blocks` (`<unknown>`)
 
-|     % | Samples | Caller                              | Location              |
-| ----: | ------: | ----------------------------------- | --------------------- |
-| 50.0% |       5 | `grow(int)`                         | `java.util.ArrayList` |
-| 50.0% |       5 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`   |
-
-##### `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` (`java.util.concurrent.ForkJoinPool`)
-
-|      % | Samples | Caller                 | Location                            |
-| -----: | ------: | ---------------------- | ----------------------------------- |
-| 100.0% |       8 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+|     % | Samples | Caller                              | Location                                                   |
+| ----: | ------: | ----------------------------------- | ---------------------------------------------------------- |
+| 50.0% |       9 | `grow(int)`                         | `java.util.ArrayList`                                      |
+| 38.9% |       7 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                                        |
+| 11.1% |       2 | `findNearestCentroid()`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ##### `__psynch_cvsignal` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller          | Location       |
 | -----: | ------: | --------------- | -------------- |
-| 100.0% |       8 | `Unsafe_Unpark` | `libjvm.dylib` |
-
-##### `add(Object, Object[], int)` (`java.util.ArrayList`)
-
-|      % | Samples | Caller        | Location              |
-| -----: | ------: | ------------- | --------------------- |
-| 100.0% |       7 | `add(Object)` | `java.util.ArrayList` |
-
-##### `__psynch_mutexwait` (`libsystem_kernel.dylib`)
-
-|      % | Samples | Caller                              | Location                  |
-| -----: | ------: | ----------------------------------- | ------------------------- |
-| 100.0% |       7 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
-
-##### `hash(Object)` (`java.util.HashMap`)
-
-|      % | Samples | Caller                              | Location            |
-| -----: | ------: | ----------------------------------- | ------------------- |
-| 100.0% |       6 | `computeIfAbsent(Object, Function)` | `java.util.HashMap` |
-
-##### `checkIndex(int, int)` (`java.util.Objects`)
-
-|      % | Samples | Caller     | Location              |
-| -----: | ------: | ---------- | --------------------- |
-| 100.0% |       6 | `get(int)` | `java.util.ArrayList` |
-
-##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                                              | Location       |
-| -----: | ------: | ------------------------------------------------------------------- | -------------- |
-| 100.0% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `libjvm.dylib` |
+| 100.0% |      10 | `Unsafe_Unpark` | `libjvm.dylib` |
 
 ##### `grow(int)` (`java.util.ArrayList`)
 
 |      % | Samples | Caller   | Location              |
 | -----: | ------: | -------- | --------------------- |
-| 100.0% |       4 | `grow()` | `java.util.ArrayList` |
+| 100.0% |       9 | `grow()` | `java.util.ArrayList` |
 
-##### `doubleValue()` (`java.lang.Double`)
+##### `grow()` (`java.util.ArrayList`)
 
-|      % | Samples | Caller                         | Location                                                   |
-| -----: | ------: | ------------------------------ | ---------------------------------------------------------- |
-| 100.0% |       4 | `distance(Double[], Double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|      % | Samples | Caller                       | Location              |
+| -----: | ------: | ---------------------------- | --------------------- |
+| 100.0% |       9 | `add(Object, Object[], int)` | `java.util.ArrayList` |
+
+##### `hash(Object)` (`java.util.HashMap`)
+
+|      % | Samples | Caller                              | Location            |
+| -----: | ------: | ----------------------------------- | ------------------- |
+| 100.0% |       7 | `computeIfAbsent(Object, Function)` | `java.util.HashMap` |
+
+##### `add(Object, Object[], int)` (`java.util.ArrayList`)
+
+|      % | Samples | Caller        | Location              |
+| -----: | ------: | ------------- | --------------------- |
+| 100.0% |       6 | `add(Object)` | `java.util.ArrayList` |
+
+##### `checkIndex(int, int)` (`java.util.Objects`)
+
+|      % | Samples | Caller     | Location              |
+| -----: | ------: | ---------- | --------------------- |
+| 100.0% |       5 | `get(int)` | `java.util.ArrayList` |
 
 ##### `arrayof_jint_disjoint_arraycopy` (`<unknown>`)
 
-|      % | Samples | Caller                  | Location           |
-| -----: | ------: | ----------------------- | ------------------ |
-| 100.0% |       3 | `copyOf(Object[], int)` | `java.util.Arrays` |
+|     % | Samples | Caller                              | Location            |
+| ----: | ------: | ----------------------------------- | ------------------- |
+| 75.0% |       3 | `copyOf(Object[], int)`             | `java.util.Arrays`  |
+| 25.0% |       1 | `merge(Object, Object, BiFunction)` | `java.util.HashMap` |
 
-##### `_platform_memset` (`libsystem_platform.dylib`)
+##### `_platform_bzero` (`libsystem_platform.dylib`)
 
 |      % | Samples | Caller                   | Location       |
 | -----: | ------: | ------------------------ | -------------- |
-| 100.0% |       3 | `MemAllocator::allocate` | `libjvm.dylib` |
+| 100.0% |       4 | `MemAllocator::allocate` | `libjvm.dylib` |
 
-##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` (`libjvm.dylib`)
+##### `__psynch_mutexwait` (`libsystem_kernel.dylib`)
 
-|     % | Samples | Caller                                  | Location       |
-| ----: | ------: | --------------------------------------- | -------------- |
-| 50.0% |       1 | `G1FullGCMarker::complete_marking`      | `libjvm.dylib` |
-| 50.0% |       1 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
+|      % | Samples | Caller                              | Location                  |
+| -----: | ------: | ----------------------------------- | ------------------------- |
+| 100.0% |       4 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
 
-##### `forEach(BiConsumer)` (`java.util.HashMap`)
+##### `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` (`java.util.concurrent.ForkJoinPool`)
 
-|      % | Samples | Caller            | Location                                    |
-| -----: | ------: | ----------------- | ------------------------------------------- |
-| 100.0% |       2 | `merge(Map, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % | Samples | Caller                 | Location                            |
+| -----: | ------: | ---------------------- | ----------------------------------- |
+| 100.0% |       4 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
 
-##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
+##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
 
-|      % | Samples | Caller                              | Location                                    |
-| -----: | ------: | ----------------------------------- | ------------------------------------------- |
-| 100.0% |       2 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % | Samples | Caller                                                          | Location       |
+| -----: | ------: | --------------------------------------------------------------- | -------------- |
+| 100.0% |       3 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
 
-##### `write` (`libsystem_kernel.dylib`)
+##### `pthread_jit_write_protect_np` (`libsystem_pthread.dylib`)
 
-|      % | Samples | Caller                  | Location                 |
-| -----: | ------: | ----------------------- | ------------------------ |
-| 100.0% |       1 | `Profiler::runInternal` | `libasyncProfiler.dylib` |
+|     % | Samples | Caller                    | Location       |
+| ----: | ------: | ------------------------- | -------------- |
+| 66.7% |       2 | `Unsafe_Park`             | `libjvm.dylib` |
+| 33.3% |       1 | `Unsafe_AllocateInstance` | `libjvm.dylib` |
 
-##### `FieldStreamBase::initialize` (`libjvm.dylib`)
+##### `G1RegionMarkStatsCache::add_live_words` (`libjvm.dylib`)
 
-|      % | Samples | Caller                             | Location       |
-| -----: | ------: | ---------------------------------- | -------------- |
-| 100.0% |       1 | `JavaFieldStream::JavaFieldStream` | `libjvm.dylib` |
+|      % | Samples | Caller                        | Location       |
+| -----: | ------: | ----------------------------- | -------------- |
+| 100.0% |       3 | `G1FullGCMarker::mark_object` | `libjvm.dylib` |
 
-##### `klassItable::setup_itable_offset_table` (`libjvm.dylib`)
+##### `add(double[], double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
-|      % | Samples | Caller                                 | Location       |
-| -----: | ------: | -------------------------------------- | -------------- |
-| 100.0% |       1 | `ClassFileParser::fill_instance_klass` | `libjvm.dylib` |
+|      % | Samples | Caller                               | Location                                                  |
+| -----: | ------: | ------------------------------------ | --------------------------------------------------------- |
+| 100.0% |       3 | `combineResults(double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
 
-##### `Dictionary::find` (`libjvm.dylib`)
+##### `tlv_get_addr` (`libdyld.dylib`)
 
-|      % | Samples | Caller                | Location       |
-| -----: | ------: | --------------------- | -------------- |
-| 100.0% |       1 | `JVM_FindLoadedClass` | `libjvm.dylib` |
+|     % | Samples | Caller          | Location       |
+| ----: | ------: | --------------- | -------------- |
+| 50.0% |       1 | `Unsafe_Unpark` | `libjvm.dylib` |
+| 50.0% |       1 | `Goto::Goto`    | `libjvm.dylib` |
 
-##### `mach_absolute_time` (`libsystem_kernel.dylib`)
+##### `inflate_fast` (`libzip.dylib`)
 
-|      % | Samples | Caller              | Location                                    |
-| -----: | ------: | ------------------- | ------------------------------------------- |
-| 100.0% |       1 | `getVmStartNanos()` | `org.renaissance.harness.RenaissanceSuite$` |
+|      % | Samples | Caller                                          | Location       |
+| -----: | ------: | ----------------------------------------------- | -------------- |
+| 100.0% |       2 | `Java_java_util_zip_Inflater_inflateBytesBytes` | `libzip.dylib` |
 
-##### `ClassFileParser::check_super_class_access` (`libjvm.dylib`)
+##### `_platform_memset` (`libsystem_platform.dylib`)
 
-|      % | Samples | Caller                                 | Location       |
-| -----: | ------: | -------------------------------------- | -------------- |
-| 100.0% |       1 | `ClassFileParser::fill_instance_klass` | `libjvm.dylib` |
+|     % | Samples | Caller                   | Location       |
+| ----: | ------: | ------------------------ | -------------- |
+| 50.0% |       1 | `ConstMethod::allocate`  | `libjvm.dylib` |
+| 50.0% |       1 | `MemAllocator::allocate` | `libjvm.dylib` |
 
-##### `JfrObjectAllocationSample::send_event` (`libjvm.dylib`)
+##### `ClassLoaderData::oops_do` (`libjvm.dylib`)
 
-|      % | Samples | Caller                                     | Location       |
-| -----: | ------: | ------------------------------------------ | -------------- |
-| 100.0% |       1 | `JfrAllocationTracer::JfrAllocationTracer` | `libjvm.dylib` |
+|      % | Samples | Caller                                        | Location       |
+| -----: | ------: | --------------------------------------------- | -------------- |
+| 100.0% |       2 | `G1FullGCMarker::publish_and_drain_oop_tasks` | `libjvm.dylib` |
 
-##### `InstanceKlass::allocate_objArray` (`libjvm.dylib`)
+##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
 
-|      % | Samples | Caller            | Location    |
-| -----: | ------: | ----------------- | ----------- |
-| 100.0% |       1 | `_new_array_Java` | `<unknown>` |
+|     % | Samples | Caller                                               | Location                                      |
+| ----: | ------: | ---------------------------------------------------- | --------------------------------------------- |
+| 50.0% |       1 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+| 50.0% |       1 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
 
-##### `arrayof_oop_disjoint_arraycopy` (`<unknown>`)
+##### `newLength(int, int, int)` (`jdk.internal.util.ArraysSupport`)
+
+|      % | Samples | Caller      | Location              |
+| -----: | ------: | ----------- | --------------------- |
+| 100.0% |       2 | `grow(int)` | `java.util.ArrayList` |
+
+##### `getRawResult()` (`java.util.concurrent.RecursiveTask`)
+
+|      % | Samples | Caller   | Location                            |
+| -----: | ------: | -------- | ----------------------------------- |
+| 100.0% |       2 | `join()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `PlatformMonitor::wait` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                  | Location       |
+| -----: | ------: | --------------------------------------- | -------------- |
+| 100.0% |       1 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+
+##### `arrayof_oop_arraycopy` (`<unknown>`)
 
 |      % | Samples | Caller               | Location              |
 | -----: | ------: | -------------------- | --------------------- |
 | 100.0% |       1 | `addAll(Collection)` | `java.util.ArrayList` |
+
+##### `pthread_mutex_lock` (`libsystem_pthread.dylib`)
+
+|      % | Samples | Caller               | Location                  |
+| -----: | ------: | -------------------- | ------------------------- |
+| 100.0% |       1 | `_pthread_cond_wait` | `libsystem_pthread.dylib` |
+
+##### `MemAllocator::allocate` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |       1 | `InstanceKlass::allocate_objArray` | `libjvm.dylib` |
 
 ##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
@@ -529,35 +593,47 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | -------- | ------------------------------------ |
 | 100.0% |       1 | `exec()` | `java.util.concurrent.RecursiveTask` |
 
-##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+##### `combineResults(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
-|      % | Samples | Caller   | Location                                                               |
-| -----: | ------: | -------- | ---------------------------------------------------------------------- |
-| 100.0% |       1 | `call()` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a801183d68` |
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `<init>(JavaKMeans, List, List, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+##### `combineResults(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
-|      % | Samples | Caller                    | Location                                                   |
-| -----: | ------: | ------------------------- | ---------------------------------------------------------- |
-| 100.0% |       1 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `match(byte[], byte[], byte[], byte[])` (`java.util.jar.JarFile`)
+##### `createSubtask(int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
-|      % | Samples | Caller                        | Location                |
-| -----: | ------: | ----------------------------- | ----------------------- |
-| 100.0% |       1 | `checkForSpecialAttributes()` | `java.util.jar.JarFile` |
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `sourceSpliterator(int)` (`java.util.stream.AbstractPipeline`)
+##### `apply(Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000301186b38`)
 
-|      % | Samples | Caller                             | Location                            |
-| -----: | ------: | ---------------------------------- | ----------------------------------- |
-| 100.0% |       1 | `evaluateToArrayNode(IntFunction)` | `java.util.stream.AbstractPipeline` |
+|      % | Samples | Caller                              | Location            |
+| -----: | ------: | ----------------------------------- | ------------------- |
+| 100.0% |       1 | `computeIfAbsent(Object, Function)` | `java.util.HashMap` |
 
-##### `opWrapSink(int, Sink)` (`java.util.stream.IntPipeline$1`)
+##### `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % | Samples | Caller           | Location                            |
-| -----: | ------: | ---------------- | ----------------------------------- |
-| 100.0% |       1 | `wrapSink(Sink)` | `java.util.stream.AbstractPipeline` |
+|      % | Samples | Caller       | Location                                                               |
+| -----: | ------: | ------------ | ---------------------------------------------------------------------- |
+| 100.0% |       1 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000301125b10` |
+
+##### `createSubtask(int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `exec()` (`java.util.concurrent.RecursiveTask`)
+
+|      % | Samples | Caller     | Location                            |
+| -----: | ------: | ---------- | ----------------------------------- |
+| 100.0% |       1 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`)
 
@@ -565,23 +641,11 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | -------- | ----------------------------------- |
 | 100.0% |       1 | `join()` | `java.util.concurrent.ForkJoinTask` |
 
-##### `add(Object)` (`java.util.ArrayList`)
+##### `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`)
 
-|      % | Samples | Caller                   | Location                                                   |
-| -----: | ------: | ------------------------ | ---------------------------------------------------------- |
-| 100.0% |       1 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-
-##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
-
-|      % | Samples | Caller                                    | Location                                      |
-| -----: | ------: | ----------------------------------------- | --------------------------------------------- |
-| 100.0% |       1 | `tryRemoveAndExec(ForkJoinTask, boolean)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
-
-##### `tryRemoveAndExec(ForkJoinTask, boolean)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
-
-|      % | Samples | Caller                 | Location                            |
-| -----: | ------: | ---------------------- | ----------------------------------- |
-| 100.0% |       1 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+|      % | Samples | Caller                              | Location                            |
+| -----: | ------: | ----------------------------------- | ----------------------------------- |
+| 100.0% |       1 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
 
 ##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
 
@@ -589,17 +653,29 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ------- | ------------------------------------------- |
 | 100.0% |       1 | `run()` | `java.util.concurrent.ForkJoinWorkerThread` |
 
-##### `unpark(Object)` (`jdk.internal.misc.Unsafe`)
+##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-|      % | Samples | Caller           | Location                                 |
-| -----: | ------: | ---------------- | ---------------------------------------- |
-| 100.0% |       1 | `unpark(Thread)` | `java.util.concurrent.locks.LockSupport` |
+|      % | Samples | Caller      | Location              |
+| -----: | ------: | ----------- | --------------------- |
+| 100.0% |       1 | `grow(int)` | `java.util.ArrayList` |
 
-##### `get(int)` (`java.util.ArrayList`)
+##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
 
-|      % | Samples | Caller        | Location                                                  |
-| -----: | ------: | ------------- | --------------------------------------------------------- |
-| 100.0% |       1 | `vectorSum()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+|      % | Samples | Caller                              | Location                                    |
+| -----: | ------: | ----------------------------------- | ------------------------------------------- |
+| 100.0% |       1 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `forEach(BiConsumer)` (`java.util.HashMap`)
+
+|      % | Samples | Caller            | Location                                    |
+| -----: | ------: | ----------------- | ------------------------------------------- |
+| 100.0% |       1 | `merge(Map, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `add(Object)` (`java.util.ArrayList`)
+
+|      % | Samples | Caller                   | Location                                                   |
+| -----: | ------: | ------------------------ | ---------------------------------------------------------- |
+| 100.0% |       1 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ### Total samples
 
@@ -607,26 +683,26 @@ Functions ranked by total samples taken in the function and all its callees.
 
 |     % | Samples | Function                                             | Location                                               |
 | ----: | ------: | ---------------------------------------------------- | ------------------------------------------------------ |
-| 56.7% |   2,765 | `_pthread_start`                                     | `libsystem_pthread.dylib`                              |
-| 56.7% |   2,765 | `thread_start`                                       | `libsystem_pthread.dylib`                              |
-| 54.2% |   2,642 | `Thread::call_run`                                   | `libjvm.dylib`                                         |
-| 54.2% |   2,642 | `thread_native_entry`                                | `libjvm.dylib`                                         |
-| 50.1% |   2,446 | `__psynch_cvwait`                                    | `libsystem_kernel.dylib`                               |
-| 30.8% |   1,500 | `runWorker(ForkJoinPool$WorkQueue)`                  | `java.util.concurrent.ForkJoinPool`                    |
-| 30.8% |   1,500 | `run()`                                              | `java.util.concurrent.ForkJoinWorkerThread`            |
-| 27.6% |   1,346 | `PlatformMonitor::wait`                              | `libjvm.dylib`                                         |
-| 26.3% |   1,282 | `semaphore_wait_trap`                                | `libsystem_kernel.dylib`                               |
-| 23.8% |   1,161 | `awaitDone(int, long)`                               | `java.util.concurrent.ForkJoinTask`                    |
-| 23.7% |   1,157 | `WorkerThread::run`                                  | `libjvm.dylib`                                         |
-| 22.1% |   1,079 | `doExec()`                                           | `java.util.concurrent.ForkJoinTask`                    |
-| 22.1% |   1,079 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue`          |
-| 22.1% |   1,079 | `scan(ForkJoinPool$WorkQueue, int, int)`             | `java.util.concurrent.ForkJoinPool`                    |
-| 22.1% |   1,076 | `compute()`                                          | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-| 22.1% |   1,076 | `exec()`                                             | `java.util.concurrent.RecursiveTask`                   |
-| 21.5% |   1,051 | `join()`                                             | `java.util.concurrent.ForkJoinTask`                    |
-| 19.8% |     966 | `Monitor::wait_without_safepoint_check`              | `libjvm.dylib`                                         |
-| 19.5% |     951 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue`          |
-| 17.9% |     875 | `JavaThread::thread_main_inner`                      | `libjvm.dylib`                                         |
+| 53.9% |   2,841 | `_pthread_start`                                     | `libsystem_pthread.dylib`                              |
+| 53.9% |   2,841 | `thread_start`                                       | `libsystem_pthread.dylib`                              |
+| 51.5% |   2,710 | `Thread::call_run`                                   | `libjvm.dylib`                                         |
+| 51.5% |   2,710 | `thread_native_entry`                                | `libjvm.dylib`                                         |
+| 50.6% |   2,666 | `__psynch_cvwait`                                    | `libsystem_kernel.dylib`                               |
+| 31.3% |   1,647 | `runWorker(ForkJoinPool$WorkQueue)`                  | `java.util.concurrent.ForkJoinPool`                    |
+| 31.3% |   1,647 | `run()`                                              | `java.util.concurrent.ForkJoinWorkerThread`            |
+| 27.3% |   1,439 | `PlatformMonitor::wait`                              | `libjvm.dylib`                                         |
+| 23.7% |   1,250 | `awaitDone(int, long)`                               | `java.util.concurrent.ForkJoinTask`                    |
+| 23.7% |   1,248 | `semaphore_wait_trap`                                | `libsystem_kernel.dylib`                               |
+| 22.3% |   1,175 | `scan(ForkJoinPool$WorkQueue, int, int)`             | `java.util.concurrent.ForkJoinPool`                    |
+| 22.3% |   1,172 | `doExec()`                                           | `java.util.concurrent.ForkJoinTask`                    |
+| 22.3% |   1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue`          |
+| 22.2% |   1,168 | `compute()`                                          | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+| 22.2% |   1,168 | `exec()`                                             | `java.util.concurrent.RecursiveTask`                   |
+| 21.5% |   1,131 | `join()`                                             | `java.util.concurrent.ForkJoinTask`                    |
+| 21.3% |   1,122 | `WorkerThread::run`                                  | `libjvm.dylib`                                         |
+| 19.7% |   1,036 | `Monitor::wait_without_safepoint_check`              | `libjvm.dylib`                                         |
+| 19.4% |   1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue`          |
+| 18.6% |     978 | `park(boolean, long)`                                | `jdk.internal.misc.Unsafe`                             |
 
 #### Categories
 
@@ -634,76 +710,82 @@ Functions ranked by total samples taken in the function and all its callees.
 
 |     % | Samples | Function                                | Location                  |
 | ----: | ------: | --------------------------------------- | ------------------------- |
-| 56.7% |   2,765 | `_pthread_start`                        | `libsystem_pthread.dylib` |
-| 56.7% |   2,765 | `thread_start`                          | `libsystem_pthread.dylib` |
-| 54.2% |   2,642 | `Thread::call_run`                      | `libjvm.dylib`            |
-| 54.2% |   2,642 | `thread_native_entry`                   | `libjvm.dylib`            |
-| 50.1% |   2,446 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`  |
-| 27.6% |   1,346 | `PlatformMonitor::wait`                 | `libjvm.dylib`            |
-| 26.3% |   1,282 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`  |
-| 23.7% |   1,157 | `WorkerThread::run`                     | `libjvm.dylib`            |
-| 19.8% |     966 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`            |
-| 17.9% |     875 | `JavaThread::thread_main_inner`         | `libjvm.dylib`            |
-| 17.6% |     859 | `Parker::park`                          | `libjvm.dylib`            |
-| 17.6% |     859 | `Unsafe_Park`                           | `libjvm.dylib`            |
-|  7.8% |     380 | `Monitor::wait`                         | `libjvm.dylib`            |
-|  7.5% |     366 | `ConcurrentGCThread::run`               | `libjvm.dylib`            |
-|  5.0% |     244 | `JLI_Launch`                            | `libjli.dylib`            |
-|  5.0% |     244 | `main`                                  | `java`                    |
-|  2.5% |     122 | `mach_msg2_trap`                        | `libsystem_kernel.dylib`  |
-|  2.5% |     122 | `mach_msg_overwrite`                    | `libsystem_kernel.dylib`  |
-|  2.5% |     122 | `mach_msg`                              | `libsystem_kernel.dylib`  |
-|  2.5% |     122 | `__CFRunLoopServiceMachPort`            | `CoreFoundation`          |
+| 53.9% |   2,841 | `_pthread_start`                        | `libsystem_pthread.dylib` |
+| 53.9% |   2,841 | `thread_start`                          | `libsystem_pthread.dylib` |
+| 51.5% |   2,710 | `Thread::call_run`                      | `libjvm.dylib`            |
+| 51.5% |   2,710 | `thread_native_entry`                   | `libjvm.dylib`            |
+| 50.6% |   2,666 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`  |
+| 27.3% |   1,439 | `PlatformMonitor::wait`                 | `libjvm.dylib`            |
+| 23.7% |   1,248 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`  |
+| 21.3% |   1,122 | `WorkerThread::run`                     | `libjvm.dylib`            |
+| 19.7% |   1,036 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`            |
+| 18.5% |     977 | `Unsafe_Park`                           | `libjvm.dylib`            |
+| 18.5% |     975 | `Parker::park`                          | `libjvm.dylib`            |
+| 17.8% |     938 | `JavaThread::thread_main_inner`         | `libjvm.dylib`            |
+|  7.7% |     403 | `Monitor::wait`                         | `libjvm.dylib`            |
+|  7.4% |     390 | `ConcurrentGCThread::run`               | `libjvm.dylib`            |
+|  4.9% |     260 | `JLI_Launch`                            | `libjli.dylib`            |
+|  4.9% |     260 | `main`                                  | `java`                    |
+|  2.5% |     130 | `JVM_WaitForReferencePendingList`       | `libjvm.dylib`            |
+|  2.5% |     130 | `VMThread::run`                         | `libjvm.dylib`            |
+|  2.5% |     130 | `mach_msg2_trap`                        | `libsystem_kernel.dylib`  |
+|  2.5% |     130 | `mach_msg_overwrite`                    | `libsystem_kernel.dylib`  |
 
 ##### Ours
 
 |     % | Samples | Function                                                                                                               | Location                                                               |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 22.1% |   1,076 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
-|  8.7% |     425 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|  7.2% |     351 | `vectorSum()`                                                                                                          | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
-|  7.2% |     351 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
-|  6.5% |     318 | `findNearestCentroid()`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|  5.1% |     250 | `accumulate(Double[], double[])`                                                                                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
-|  4.4% |     217 | `distance(Double[], Double[])`                                                                                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|  3.5% |     171 | `average(List)`                                                                                                        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-|  3.5% |     171 | `computeClusterAverages()`                                                                                             | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-|  3.5% |     171 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-|  2.5% |     121 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
-|  2.5% |     121 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
-|  2.5% |     120 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
-|  2.5% |     120 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
-|  2.4% |     119 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  2.4% |     117 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  2.4% |     116 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
-|  2.4% |     116 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  2.4% |     116 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a80111efe0` |
-|  2.3% |     114 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
+| 22.2% |   1,168 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+|  7.8% |     412 | `vectorSum()`                                                                                                          | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+|  7.8% |     412 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+|  7.5% |     397 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  5.5% |     289 | `findNearestCentroid()`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  5.2% |     275 | `accumulate(Double[], double[])`                                                                                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+|  4.0% |     211 | `average(List)`                                                                                                        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+|  4.0% |     211 | `computeClusterAverages()`                                                                                             | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+|  4.0% |     211 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+|  3.6% |     187 | `distance(Double[], Double[])`                                                                                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  2.4% |     129 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
+|  2.4% |     129 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
+|  2.4% |     129 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
+|  2.4% |     128 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
+|  2.4% |     127 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  2.4% |     125 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  2.4% |     125 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000030111f208` |
+|  2.4% |     125 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  2.4% |     124 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
+|  2.3% |     122 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
 
 ##### Standard library
 
 |     % | Samples | Function                                                  | Location                                      |
 | ----: | ------: | --------------------------------------------------------- | --------------------------------------------- |
-| 30.8% |   1,500 | `runWorker(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`           |
-| 30.8% |   1,500 | `run()`                                                   | `java.util.concurrent.ForkJoinWorkerThread`   |
-| 23.8% |   1,161 | `awaitDone(int, long)`                                    | `java.util.concurrent.ForkJoinTask`           |
-| 22.1% |   1,079 | `doExec()`                                                | `java.util.concurrent.ForkJoinTask`           |
-| 22.1% |   1,079 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)`      | `java.util.concurrent.ForkJoinPool$WorkQueue` |
-| 22.1% |   1,079 | `scan(ForkJoinPool$WorkQueue, int, int)`                  | `java.util.concurrent.ForkJoinPool`           |
-| 22.1% |   1,076 | `exec()`                                                  | `java.util.concurrent.RecursiveTask`          |
-| 21.5% |   1,051 | `join()`                                                  | `java.util.concurrent.ForkJoinTask`           |
-| 19.5% |     951 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
-| 17.6% |     859 | `park(boolean, long)`                                     | `jdk.internal.misc.Unsafe`                    |
-| 14.8% |     722 | `park()`                                                  | `java.util.concurrent.locks.LockSupport`      |
-|  8.6% |     420 | `awaitWork(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`           |
-|  4.9% |     240 | `invoke()`                                                | `java.util.concurrent.ForkJoinTask`           |
-|  4.7% |     229 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
-|  2.5% |     122 | `wait0(long)`                                             | `java.lang.Object`                            |
-|  2.5% |     122 | `wait(long)`                                              | `java.lang.Object`                            |
-|  2.5% |     122 | `wait()`                                                  | `java.lang.Object`                            |
-|  2.5% |     122 | `await()`                                                 | `java.lang.ref.NativeReferenceQueue`          |
-|  2.5% |     122 | `remove0()`                                               | `java.lang.ref.ReferenceQueue`                |
-|  2.5% |     122 | `remove()`                                                | `java.lang.ref.NativeReferenceQueue`          |
+| 31.3% |   1,647 | `runWorker(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`           |
+| 31.3% |   1,647 | `run()`                                                   | `java.util.concurrent.ForkJoinWorkerThread`   |
+| 23.7% |   1,250 | `awaitDone(int, long)`                                    | `java.util.concurrent.ForkJoinTask`           |
+| 22.3% |   1,175 | `scan(ForkJoinPool$WorkQueue, int, int)`                  | `java.util.concurrent.ForkJoinPool`           |
+| 22.3% |   1,172 | `doExec()`                                                | `java.util.concurrent.ForkJoinTask`           |
+| 22.3% |   1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)`      | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+| 22.2% |   1,168 | `exec()`                                                  | `java.util.concurrent.RecursiveTask`          |
+| 21.5% |   1,131 | `join()`                                                  | `java.util.concurrent.ForkJoinTask`           |
+| 19.4% |   1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+| 18.6% |     978 | `park(boolean, long)`                                     | `jdk.internal.misc.Unsafe`                    |
+| 15.9% |     835 | `park()`                                                  | `java.util.concurrent.locks.LockSupport`      |
+|  8.9% |     470 | `awaitWork(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`           |
+|  5.5% |     288 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
+|  5.4% |     282 | `invoke()`                                                | `java.util.concurrent.ForkJoinTask`           |
+|  2.5% |     130 | `waitForReferencePendingList()`                           | `java.lang.ref.Reference`                     |
+|  2.5% |     130 | `processPendingReferences()`                              | `java.lang.ref.Reference`                     |
+|  2.5% |     130 | `run()`                                                   | `java.lang.ref.Reference$ReferenceHandler`    |
+|  2.5% |     130 | `wait0(long)`                                             | `java.lang.Object`                            |
+|  2.5% |     130 | `wait(long)`                                              | `java.lang.Object`                            |
+|  2.5% |     130 | `wait()`                                                  | `java.lang.Object`                            |
+
+##### Unknown
+
+|    % | Samples | Function      | Location    |
+| ---: | ------: | ------------- | ----------- |
+| 2.5% |     130 | `(anonymous)` | `<unknown>` |
 
 #### Callees
 
@@ -713,382 +795,397 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 |     % | Samples | Callee                | Location       |
 | ----: | ------: | --------------------- | -------------- |
-| 95.6% |   2,642 | `thread_native_entry` | `libjvm.dylib` |
-|  4.4% |     122 | `apple_main`          | `libjli.dylib` |
+| 95.4% |   2,710 | `thread_native_entry` | `libjvm.dylib` |
+|  4.6% |     130 | `apple_main`          | `libjli.dylib` |
 | <0.1% |       1 | `ThreadJavaMain`      | `libjli.dylib` |
 
 ##### `thread_start` (`libsystem_pthread.dylib`)
 
 |      % | Samples | Callee           | Location                  |
 | -----: | ------: | ---------------- | ------------------------- |
-| 100.0% |   2,765 | `_pthread_start` | `libsystem_pthread.dylib` |
+| 100.0% |   2,841 | `_pthread_start` | `libsystem_pthread.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
 |     % | Samples | Callee                          | Location       |
 | ----: | ------: | ------------------------------- | -------------- |
-| 43.8% |   1,157 | `WorkerThread::run`             | `libjvm.dylib` |
-| 33.1% |     875 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
-| 13.9% |     366 | `ConcurrentGCThread::run`       | `libjvm.dylib` |
-|  4.6% |     122 | `VMThread::run`                 | `libjvm.dylib` |
-|  4.6% |     122 | `WatcherThread::run`            | `libjvm.dylib` |
+| 41.4% |   1,122 | `WorkerThread::run`             | `libjvm.dylib` |
+| 34.6% |     938 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| 14.4% |     390 | `ConcurrentGCThread::run`       | `libjvm.dylib` |
+|  4.8% |     130 | `VMThread::run`                 | `libjvm.dylib` |
+|  4.8% |     130 | `WatcherThread::run`            | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
 |      % | Samples | Callee             | Location       |
 | -----: | ------: | ------------------ | -------------- |
-| 100.0% |   2,642 | `Thread::call_run` | `libjvm.dylib` |
+| 100.0% |   2,710 | `Thread::call_run` | `libjvm.dylib` |
 
 ##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
 
 |     % | Samples | Callee                                   | Location                            |
 | ----: | ------: | ---------------------------------------- | ----------------------------------- |
-| 71.9% |   1,079 | `scan(ForkJoinPool$WorkQueue, int, int)` | `java.util.concurrent.ForkJoinPool` |
-| 28.0% |     420 | `awaitWork(ForkJoinPool$WorkQueue)`      | `java.util.concurrent.ForkJoinPool` |
+| 71.3% |   1,175 | `scan(ForkJoinPool$WorkQueue, int, int)` | `java.util.concurrent.ForkJoinPool` |
+| 28.5% |     470 | `awaitWork(ForkJoinPool$WorkQueue)`      | `java.util.concurrent.ForkJoinPool` |
+|  0.1% |       1 | `I2C/C2I adapters(0xbbaa)`               | `<unknown>`                         |
 
 ##### `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
 |      % | Samples | Callee                              | Location                            |
 | -----: | ------: | ----------------------------------- | ----------------------------------- |
-| 100.0% |   1,500 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
+| 100.0% |   1,647 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
 
 ##### `PlatformMonitor::wait` (`libjvm.dylib`)
 
 |     % | Samples | Callee               | Location                  |
 | ----: | ------: | -------------------- | ------------------------- |
-| 99.9% |   1,344 | `__psynch_cvwait`    | `libsystem_kernel.dylib`  |
+| 99.8% |   1,436 | `__psynch_cvwait`    | `libsystem_kernel.dylib`  |
 |  0.1% |       2 | `_pthread_cond_wait` | `libsystem_pthread.dylib` |
 
 ##### `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`)
 
 |     % | Samples | Callee                                                    | Location                                      |
 | ----: | ------: | --------------------------------------------------------- | --------------------------------------------- |
-| 81.9% |     951 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
-| 27.4% |     318 | `park()`                                                  | `java.util.concurrent.locks.LockSupport`      |
-| 19.7% |     229 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
+| 81.7% |   1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+| 30.3% |     379 | `park()`                                                  | `java.util.concurrent.locks.LockSupport`      |
+| 23.0% |     288 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
 
-##### `WorkerThread::run` (`libjvm.dylib`)
+##### `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`)
 
-|     % | Samples | Callee                            | Location                 |
-| ----: | ------: | --------------------------------- | ------------------------ |
-| 99.1% |   1,147 | `semaphore_wait_trap`             | `libsystem_kernel.dylib` |
-|  0.4% |       5 | `G1FullGCResetMetadataTask::work` | `libjvm.dylib`           |
-|  0.3% |       3 | `G1FullGCMarkTask::work`          | `libjvm.dylib`           |
-|  0.1% |       1 | `G1FullGCPrepareTask::work`       | `libjvm.dylib`           |
-|  0.1% |       1 | `G1FullGCAdjustTask::work`        | `libjvm.dylib`           |
+|     % | Samples | Callee                                               | Location                                      |
+| ----: | ------: | ---------------------------------------------------- | --------------------------------------------- |
+| 99.7% |   1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  0.2% |       2 | `signalWork()`                                       | `java.util.concurrent.ForkJoinPool`           |
 
 ##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
 
 |     % | Samples | Callee      | Location                                            |
 | ----: | ------: | ----------- | --------------------------------------------------- |
-| 99.7% |   1,076 | `exec()`    | `java.util.concurrent.RecursiveTask`                |
-| 10.1% |     109 | `exec()`    | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+| 99.7% |   1,168 | `exec()`    | `java.util.concurrent.RecursiveTask`                |
+| 10.1% |     118 | `exec()`    | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
 |  0.6% |       7 | `setDone()` | `java.util.concurrent.ForkJoinTask`                 |
 
 ##### `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
 
 |      % | Samples | Callee     | Location                            |
 | -----: | ------: | ---------- | ----------------------------------- |
-| 100.0% |   1,079 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
-
-##### `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`)
-
-|      % | Samples | Callee                                               | Location                                      |
-| -----: | ------: | ---------------------------------------------------- | --------------------------------------------- |
-| 100.0% |   1,079 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+| 100.0% |   1,172 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
 |     % | Samples | Callee                           | Location                                                   |
 | ----: | ------: | -------------------------------- | ---------------------------------------------------------- |
-| 97.7% |   1,051 | `join()`                         | `java.util.concurrent.ForkJoinTask`                        |
-| 39.5% |     425 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| 32.6% |     351 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| 15.9% |     171 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-|  6.5% |      70 | `combineResults(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 96.8% |   1,131 | `join()`                         | `java.util.concurrent.ForkJoinTask`                        |
+| 35.3% |     412 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| 34.0% |     397 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 18.1% |     211 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  6.3% |      74 | `combineResults(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ##### `exec()` (`java.util.concurrent.RecursiveTask`)
 
 |      % | Samples | Callee      | Location                                               |
 | -----: | ------: | ----------- | ------------------------------------------------------ |
-| 100.0% |   1,076 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+| 100.0% |   1,168 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
 ##### `join()` (`java.util.concurrent.ForkJoinTask`)
 
-|      % | Samples | Callee                 | Location                            |
-| -----: | ------: | ---------------------- | ----------------------------------- |
-| 100.0% |   1,051 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+|      % | Samples | Callee                 | Location                             |
+| -----: | ------: | ---------------------- | ------------------------------------ |
+| 100.0% |   1,131 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask`  |
+|   0.2% |       2 | `getRawResult()`       | `java.util.concurrent.RecursiveTask` |
+
+##### `WorkerThread::run` (`libjvm.dylib`)
+
+|     % | Samples | Callee                            | Location                 |
+| ----: | ------: | --------------------------------- | ------------------------ |
+| 98.5% |   1,105 | `semaphore_wait_trap`             | `libsystem_kernel.dylib` |
+|  1.0% |      11 | `G1FullGCMarkTask::work`          | `libjvm.dylib`           |
+|  0.5% |       6 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib`           |
 
 ##### `Monitor::wait_without_safepoint_check` (`libjvm.dylib`)
 
 |      % | Samples | Callee                  | Location       |
 | -----: | ------: | ----------------------- | -------------- |
-| 100.0% |     966 | `PlatformMonitor::wait` | `libjvm.dylib` |
+| 100.0% |   1,036 | `PlatformMonitor::wait` | `libjvm.dylib` |
 
 ##### `tryRemoveAndExec(ForkJoinTask, boolean)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
 
-|      % | Samples | Callee                     | Location                            |
-| -----: | ------: | -------------------------- | ----------------------------------- |
-| 100.0% |     951 | `doExec()`                 | `java.util.concurrent.ForkJoinTask` |
-|   0.1% |       1 | `resolve_opt_virtual_call` | `<unknown>`                         |
-
-##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
-
-|     % | Samples | Callee                                          | Location       |
-| ----: | ------: | ----------------------------------------------- | -------------- |
-| 31.1% |     272 | `CompileBroker::compiler_thread_loop`           | `libjvm.dylib` |
-| 13.9% |     122 | `signal_thread_entry`                           | `libjvm.dylib` |
-| 13.9% |     122 | `ServiceThread::service_thread_entry`           | `libjvm.dylib` |
-| 13.8% |     121 | `NotificationThread::notification_thread_entry` | `libjvm.dylib` |
-| 13.8% |     121 | `JvmtiAgentThread::start_function_wrapper`      | `libjvm.dylib` |
-
-##### `Parker::park` (`libjvm.dylib`)
-
-|      % | Samples | Callee            | Location                 |
-| -----: | ------: | ----------------- | ------------------------ |
-| 100.0% |     859 | `__psynch_cvwait` | `libsystem_kernel.dylib` |
-
-##### `Unsafe_Park` (`libjvm.dylib`)
-
-|      % | Samples | Callee         | Location       |
-| -----: | ------: | -------------- | -------------- |
-| 100.0% |     859 | `Parker::park` | `libjvm.dylib` |
+|      % | Samples | Callee                                 | Location                                      |
+| -----: | ------: | -------------------------------------- | --------------------------------------------- |
+| 100.0% |   1,021 | `doExec()`                             | `java.util.concurrent.ForkJoinTask`           |
+|   0.1% |       1 | `getAndClearSlot(ForkJoinTask[], int)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
 
 ##### `park(boolean, long)` (`jdk.internal.misc.Unsafe`)
 
-|      % | Samples | Callee        | Location       |
-| -----: | ------: | ------------- | -------------- |
-| 100.0% |     859 | `Unsafe_Park` | `libjvm.dylib` |
+|     % | Samples | Callee                                                 | Location       |
+| ----: | ------: | ------------------------------------------------------ | -------------- |
+| 99.9% |     977 | `Unsafe_Park`                                          | `libjvm.dylib` |
+|  0.1% |       1 | `JavaThread::check_special_condition_for_native_trans` | `libjvm.dylib` |
+
+##### `Unsafe_Park` (`libjvm.dylib`)
+
+|     % | Samples | Callee                         | Location                  |
+| ----: | ------: | ------------------------------ | ------------------------- |
+| 99.8% |     975 | `Parker::park`                 | `libjvm.dylib`            |
+|  0.2% |       2 | `pthread_jit_write_protect_np` | `libsystem_pthread.dylib` |
+
+##### `Parker::park` (`libjvm.dylib`)
+
+|     % | Samples | Callee                        | Location                  |
+| ----: | ------: | ----------------------------- | ------------------------- |
+| 99.6% |     971 | `__psynch_cvwait`             | `libsystem_kernel.dylib`  |
+|  0.2% |       2 | `SafepointMechanism::process` | `libjvm.dylib`            |
+|  0.1% |       1 | `_pthread_cond_wait`          | `libsystem_pthread.dylib` |
+|  0.1% |       1 | `pthread_testcancel`          | `libsystem_pthread.dylib` |
+
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                   | Location       |
+| ----: | ------: | -------------------------------------------------------- | -------------- |
+| 30.9% |     290 | `CompileBroker::compiler_thread_loop`                    | `libjvm.dylib` |
+| 13.9% |     130 | `signal_thread_entry`                                    | `libjvm.dylib` |
+| 13.9% |     130 | `ServiceThread::service_thread_entry`                    | `libjvm.dylib` |
+| 13.9% |     130 | `MonitorDeflationThread::monitor_deflation_thread_entry` | `libjvm.dylib` |
+| 13.8% |     129 | `NotificationThread::notification_thread_entry`          | `libjvm.dylib` |
 
 ##### `park()` (`java.util.concurrent.locks.LockSupport`)
 
 |      % | Samples | Callee                | Location                   |
 | -----: | ------: | --------------------- | -------------------------- |
-| 100.0% |     722 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
-
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Callee                   | Location                                                   |
-| -----: | ------: | ------------------------ | ---------------------------------------------------------- |
-| 100.0% |     425 | `computeDirectly()`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  74.8% |     318 | `findNearestCentroid()`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  25.2% |     107 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 100.0% |     835 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
 
 ##### `awaitWork(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
 
 |     % | Samples | Callee            | Location                                 |
 | ----: | ------: | ----------------- | ---------------------------------------- |
-| 96.2% |     404 | `park()`          | `java.util.concurrent.locks.LockSupport` |
-|  3.8% |      16 | `parkUntil(long)` | `java.util.concurrent.locks.LockSupport` |
-
-##### `Monitor::wait` (`libjvm.dylib`)
-
-|      % | Samples | Callee                  | Location       |
-| -----: | ------: | ----------------------- | -------------- |
-| 100.0% |     380 | `PlatformMonitor::wait` | `libjvm.dylib` |
-
-##### `ConcurrentGCThread::run` (`libjvm.dylib`)
-
-|     % | Samples | Callee                                  | Location       |
-| ----: | ------: | --------------------------------------- | -------------- |
-| 33.3% |     122 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib` |
-| 33.3% |     122 | `G1ServiceThread::run_service`          | `libjvm.dylib` |
-| 33.3% |     122 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
+| 97.0% |     456 | `park()`          | `java.util.concurrent.locks.LockSupport` |
+|  3.0% |      14 | `parkUntil(long)` | `java.util.concurrent.locks.LockSupport` |
 
 ##### `vectorSum()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
 |     % | Samples | Callee                           | Location                                                  |
 | ----: | ------: | -------------------------------- | --------------------------------------------------------- |
-| 71.2% |     250 | `accumulate(Double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
-|  4.6% |      16 | `get(int)`                       | `java.util.ArrayList`                                     |
+| 66.7% |     275 | `accumulate(Double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+|  5.8% |      24 | `get(int)`                       | `java.util.ArrayList`                                     |
+|  0.2% |       1 | `SafepointBlob`                  | `<unknown>`                                               |
 
 ##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
 |      % | Samples | Callee              | Location                                                  |
 | -----: | ------: | ------------------- | --------------------------------------------------------- |
-| 100.0% |     351 | `vectorSum()`       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
-| 100.0% |     351 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| 100.0% |     412 | `vectorSum()`       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| 100.0% |     412 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `Monitor::wait` (`libjvm.dylib`)
+
+|      % | Samples | Callee                  | Location       |
+| -----: | ------: | ----------------------- | -------------- |
+| 100.0% |     403 | `PlatformMonitor::wait` | `libjvm.dylib` |
+
+##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Callee                   | Location                                                   |
+| -----: | ------: | ------------------------ | ---------------------------------------------------------- |
+| 100.0% |     397 | `computeDirectly()`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  72.8% |     289 | `findNearestCentroid()`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  27.2% |     108 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `ConcurrentGCThread::run` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                  | Location       |
+| ----: | ------: | --------------------------------------- | -------------- |
+| 33.3% |     130 | `G1ServiceThread::run_service`          | `libjvm.dylib` |
+| 33.3% |     130 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
+| 33.3% |     130 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib` |
 
 ##### `findNearestCentroid()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |     % | Samples | Callee                         | Location                                                   |
 | ----: | ------: | ------------------------------ | ---------------------------------------------------------- |
-| 68.2% |     217 | `distance(Double[], Double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  2.5% |       8 | `get(int)`                     | `java.util.ArrayList`                                      |
-|  0.6% |       2 | `SafepointBlob`                | `<unknown>`                                                |
-
-##### `JLI_Launch` (`libjli.dylib`)
-
-|     % | Samples | Callee                       | Location       |
-| ----: | ------: | ---------------------------- | -------------- |
-| 50.0% |     122 | `CreateExecutionEnvironment` | `libjli.dylib` |
-| 50.0% |     122 | `ContinueInNewThread`        | `libjli.dylib` |
-
-##### `main` (`java`)
-
-|      % | Samples | Callee       | Location       |
-| -----: | ------: | ------------ | -------------- |
-| 100.0% |     244 | `JLI_Launch` | `libjli.dylib` |
-
-##### `invoke()` (`java.util.concurrent.ForkJoinTask`)
-
-|      % | Samples | Callee     | Location                            |
-| -----: | ------: | ---------- | ----------------------------------- |
-| 100.0% |     240 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
+| 64.7% |     187 | `distance(Double[], Double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  5.2% |      15 | `get(int)`                     | `java.util.ArrayList`                                      |
+|  0.7% |       2 | `zero_blocks`                  | `<unknown>`                                                |
 
 ##### `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` (`java.util.concurrent.ForkJoinPool`)
 
 |     % | Samples | Callee                         | Location                            |
 | ----: | ------: | ------------------------------ | ----------------------------------- |
-| 97.4% |     223 | `doExec()`                     | `java.util.concurrent.ForkJoinTask` |
-|  0.9% |       2 | `tryCompensate(long, boolean)` | `java.util.concurrent.ForkJoinPool` |
+| 97.9% |     282 | `doExec()`                     | `java.util.concurrent.ForkJoinTask` |
+|  1.0% |       3 | `tryCompensate(long, boolean)` | `java.util.concurrent.ForkJoinPool` |
 
-##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+##### `invoke()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Callee     | Location                            |
+| -----: | ------: | ---------- | ----------------------------------- |
+| 100.0% |     282 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `accumulate(Double[], double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
 |    % | Samples | Callee          | Location           |
 | ---: | ------: | --------------- | ------------------ |
-| 1.8% |       4 | `doubleValue()` | `java.lang.Double` |
-| 0.9% |       2 | `SafepointBlob` | `<unknown>`        |
+| 8.7% |      24 | `doubleValue()` | `java.lang.Double` |
+| 1.5% |       4 | `SafepointBlob` | `<unknown>`        |
+
+##### `JLI_Launch` (`libjli.dylib`)
+
+|     % | Samples | Callee                       | Location       |
+| ----: | ------: | ---------------------------- | -------------- |
+| 50.0% |     130 | `CreateExecutionEnvironment` | `libjli.dylib` |
+| 50.0% |     130 | `ContinueInNewThread`        | `libjli.dylib` |
+
+##### `main` (`java`)
+
+|      % | Samples | Callee       | Location       |
+| -----: | ------: | ------------ | -------------- |
+| 100.0% |     260 | `JLI_Launch` | `libjli.dylib` |
 
 ##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
 |      % | Samples | Callee     | Location                            |
 | -----: | ------: | ---------- | ----------------------------------- |
-| 100.0% |     171 | `invoke()` | `java.util.concurrent.ForkJoinTask` |
+| 100.0% |     211 | `invoke()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `computeClusterAverages()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
 |      % | Samples | Callee          | Location                                               |
 | -----: | ------: | --------------- | ------------------------------------------------------ |
-| 100.0% |     171 | `average(List)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% |     211 | `average(List)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
 ##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
 |      % | Samples | Callee                     | Location                                               |
 | -----: | ------: | -------------------------- | ------------------------------------------------------ |
-| 100.0% |     171 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
-| 100.0% |     171 | `computeDirectly()`        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% |     211 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% |     211 | `computeDirectly()`        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|    % | Samples | Callee          | Location           |
+| ---: | ------: | --------------- | ------------------ |
+| 4.8% |       9 | `doubleValue()` | `java.lang.Double` |
+| 1.1% |       2 | `SafepointBlob` | `<unknown>`        |
+
+##### `JVM_WaitForReferencePendingList` (`libjvm.dylib`)
+
+|      % | Samples | Callee          | Location       |
+| -----: | ------: | --------------- | -------------- |
+| 100.0% |     130 | `Monitor::wait` | `libjvm.dylib` |
+
+##### `VMThread::run` (`libjvm.dylib`)
+
+|     % | Samples | Callee                         | Location       |
+| ----: | ------: | ------------------------------ | -------------- |
+| 95.4% |     124 | `VMThread::wait_for_operation` | `libjvm.dylib` |
+|  4.6% |       6 | `VMThread::inner_execute`      | `libjvm.dylib` |
 
 ##### `mach_msg_overwrite` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Callee           | Location                 |
 | -----: | ------: | ---------------- | ------------------------ |
-| 100.0% |     122 | `mach_msg2_trap` | `libsystem_kernel.dylib` |
+| 100.0% |     130 | `mach_msg2_trap` | `libsystem_kernel.dylib` |
 
-##### `mach_msg` (`libsystem_kernel.dylib`)
+##### `waitForReferencePendingList()` (`java.lang.ref.Reference`)
 
-|      % | Samples | Callee               | Location                 |
-| -----: | ------: | -------------------- | ------------------------ |
-| 100.0% |     122 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+|      % | Samples | Callee                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |     130 | `JVM_WaitForReferencePendingList` | `libjvm.dylib` |
 
-##### `__CFRunLoopServiceMachPort` (`CoreFoundation`)
+##### `processPendingReferences()` (`java.lang.ref.Reference`)
 
-|      % | Samples | Callee     | Location                 |
-| -----: | ------: | ---------- | ------------------------ |
-| 100.0% |     122 | `mach_msg` | `libsystem_kernel.dylib` |
+|      % | Samples | Callee                          | Location                  |
+| -----: | ------: | ------------------------------- | ------------------------- |
+| 100.0% |     130 | `waitForReferencePendingList()` | `java.lang.ref.Reference` |
+
+##### `run()` (`java.lang.ref.Reference$ReferenceHandler`)
+
+|      % | Samples | Callee                       | Location                  |
+| -----: | ------: | ---------------------------- | ------------------------- |
+| 100.0% |     130 | `processPendingReferences()` | `java.lang.ref.Reference` |
 
 ##### `wait0(long)` (`java.lang.Object`)
 
 |      % | Samples | Callee            | Location       |
 | -----: | ------: | ----------------- | -------------- |
-| 100.0% |     122 | `JVM_MonitorWait` | `libjvm.dylib` |
+| 100.0% |     130 | `JVM_MonitorWait` | `libjvm.dylib` |
 
 ##### `wait(long)` (`java.lang.Object`)
 
 |      % | Samples | Callee        | Location           |
 | -----: | ------: | ------------- | ------------------ |
-| 100.0% |     122 | `wait0(long)` | `java.lang.Object` |
+| 100.0% |     130 | `wait0(long)` | `java.lang.Object` |
 
 ##### `wait()` (`java.lang.Object`)
 
 |      % | Samples | Callee       | Location           |
 | -----: | ------: | ------------ | ------------------ |
-| 100.0% |     122 | `wait(long)` | `java.lang.Object` |
+| 100.0% |     130 | `wait(long)` | `java.lang.Object` |
 
-##### `await()` (`java.lang.ref.NativeReferenceQueue`)
+##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % | Samples | Callee   | Location           |
-| -----: | ------: | -------- | ------------------ |
-| 100.0% |     122 | `wait()` | `java.lang.Object` |
-
-##### `remove0()` (`java.lang.ref.ReferenceQueue`)
-
-|      % | Samples | Callee    | Location                             |
-| -----: | ------: | --------- | ------------------------------------ |
-| 100.0% |     122 | `await()` | `java.lang.ref.NativeReferenceQueue` |
-
-##### `remove()` (`java.lang.ref.NativeReferenceQueue`)
-
-|      % | Samples | Callee      | Location                       |
-| -----: | ------: | ----------- | ------------------------------ |
-| 100.0% |     122 | `remove0()` | `java.lang.ref.ReferenceQueue` |
+|     % | Samples | Callee                               | Location                            |
+| ----: | ------: | ------------------------------------ | ----------------------------------- |
+| 99.2% |     128 | `invoke(Object, Object[])`           | `java.lang.reflect.Method`          |
+|  0.8% |       1 | `createClassLoaderForModule(String)` | `org.renaissance.core.ModuleLoader` |
 
 ##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
 
-|     % | Samples | Callee                                                      | Location                            |
-| ----: | ------: | ----------------------------------------------------------- | ----------------------------------- |
-| 99.2% |     120 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`     |
-|  0.8% |       1 | `create(Path, URI)`                                         | `org.renaissance.core.ModuleLoader` |
+|      % | Samples | Callee                                                      | Location                        |
+| -----: | ------: | ----------------------------------------------------------- | ------------------------------- |
+| 100.0% |     129 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.core.Launcher`)
 
 |      % | Samples | Callee                                 | Location                        |
 | -----: | ------: | -------------------------------------- | ------------------------------- |
-| 100.0% |     121 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+| 100.0% |     129 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
 |     % | Samples | Callee              | Location                                    |
 | ----: | ------: | ------------------- | ------------------------------------------- |
-| 99.2% |     119 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
+| 99.2% |     127 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
 |  0.8% |       1 | `loadClass(String)` | `java.lang.ClassLoader`                     |
-
-##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
-
-|      % | Samples | Callee                     | Location                   |
-| -----: | ------: | -------------------------- | -------------------------- |
-| 100.0% |     120 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
 
 |     % | Samples | Callee                                                                        | Location                                    |
 | ----: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
-| 98.3% |     117 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
+| 98.4% |     125 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
 |  0.8% |       1 | `<clinit>()`                                                                  | `scala.Predef$`                             |
 |  0.8% |       1 | `parse(String[])`                                                             | `org.renaissance.harness.ConfigParser`      |
 
+##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|     % | Samples | Callee                                                                                       | Location                                  |
+| ----: | ------: | -------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 99.2% |     124 | `executeBenchmark()`                                                                         | `org.renaissance.harness.ExecutionDriver` |
+|  0.8% |       1 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` | `org.renaissance.harness.ExecutionDriver` |
+
+##### `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000030111f208`)
+
+|      % | Samples | Callee                                                                                                                 | Location                                    |
+| -----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% |     125 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
+
 ##### `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|     % | Samples | Callee               | Location                                    |
-| ----: | ------: | -------------------- | ------------------------------------------- |
-| 99.1% |     116 | `foreach(Function1)` | `scala.collection.immutable.List`           |
-|  0.9% |       1 | `getVmStartNanos()`  | `org.renaissance.harness.RenaissanceSuite$` |
+|      % | Samples | Callee               | Location                          |
+| -----: | ------: | -------------------- | --------------------------------- |
+| 100.0% |     125 | `foreach(Function1)` | `scala.collection.immutable.List` |
 
 ##### `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`)
 
 |     % | Samples | Callee                             | Location                                  |
 | ----: | ------: | ---------------------------------- | ----------------------------------------- |
-| 98.3% |     114 | `executeOperation(int)`            | `org.renaissance.harness.ExecutionDriver` |
-|  1.7% |       2 | `setUpBeforeAll(BenchmarkContext)` | `org.renaissance.jdk.concurrent.FjKmeans` |
-
-##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
-
-|      % | Samples | Callee               | Location                                  |
-| -----: | ------: | -------------------- | ----------------------------------------- |
-| 100.0% |     116 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
-
-##### `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a80111efe0`)
-
-|      % | Samples | Callee                                                                                                                 | Location                                    |
-| -----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| 100.0% |     116 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
+| 98.4% |     122 | `executeOperation(int)`            | `org.renaissance.harness.ExecutionDriver` |
+|  1.6% |       2 | `setUpBeforeAll(BenchmarkContext)` | `org.renaissance.jdk.concurrent.FjKmeans` |
 
 ##### `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`)
 
 |     % | Samples | Callee                                            | Location                                  |
 | ----: | ------: | ------------------------------------------------- | ----------------------------------------- |
-| 97.4% |     111 | `run(BenchmarkContext)`                           | `org.renaissance.jdk.concurrent.FjKmeans` |
-|  2.6% |       3 | `notifyAfterOperationSetUp(String, int, boolean)` | `org.renaissance.harness.EventDispatcher` |
+| 98.4% |     120 | `run(BenchmarkContext)`                           | `org.renaissance.jdk.concurrent.FjKmeans` |
+|  1.6% |       2 | `notifyAfterOperationSetUp(String, int, boolean)` | `org.renaissance.harness.EventDispatcher` |
 
 ## Hottest call stacks
 
@@ -1096,23 +1193,23 @@ Call stacks ranked by samples taken in their leaf frame.
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 23.5% |   1,147 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `WorkerThread::run` (`libjvm.dylib`) ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  8.3% |     404 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `awaitWork(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  5.1% |     251 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `CompileQueue::get` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|  2.5% |     122 | `mach_msg2_trap` (`libsystem_kernel.dylib`) ← `mach_msg_overwrite` ← `mach_msg` ← `__CFRunLoopServiceMachPort` (`CoreFoundation`) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `CreateExecutionEnvironment` (`libjli.dylib`) ← `JLI_Launch` ← `main` (`java`) ← `unknown`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|  2.5% |     122 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  2.5% |     122 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformEvent::park` (`libjvm.dylib`) ← `ObjectMonitor::wait` ← `ObjectSynchronizer::wait` ← `JVM_MonitorWait` ← `wait0(long)` (`java.lang.Object`) ← `wait(long)` ← `wait()` ← `await()` (`java.lang.ref.NativeReferenceQueue`) ← `remove0()` (`java.lang.ref.ReferenceQueue`) ← `remove()` (`java.lang.ref.NativeReferenceQueue`) ← `run()` (`java.lang.ref.Finalizer$FinalizerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  2.5% |     122 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `JVM_WaitForReferencePendingList` ← `waitForReferencePendingList()` (`java.lang.ref.Reference`) ← `processPendingReferences()` ← `run()` (`java.lang.ref.Reference$ReferenceHandler`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  2.5% |     122 | `__ulock_wait` (`libsystem_kernel.dylib`) ← `CallJavaMainInNewThread` (`libjli.dylib`) ← `ContinueInNewThread` ← `JLI_Launch` ← `main` (`java`) ← `apple_main` (`libjli.dylib`) ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  2.5% |     122 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `WatcherThread::sleep` ← `WatcherThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|  2.5% |     122 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `os::signal_wait` (`libjvm.dylib`) ← `signal_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  2.5% |     122 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `ServiceThread::service_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|  2.5% |     121 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `NotificationThread::notification_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  2.5% |     121 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Profiler::timerLoop` (`libasyncProfiler.dylib`) ← `JvmtiAgentThread::start_function_wrapper` (`libjvm.dylib`) ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  2.5% |     121 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ServiceThread::wait_for_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|  2.5% |     121 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|  2.5% |     121 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` ← `G1ConcurrentRefineThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  2.4% |     118 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `VMThread::wait_for_operation` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  2.4% |     117 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `MonitorDeflationThread::monitor_deflation_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  2.3% |     110 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`) ← `get()` ← `run(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `$anonfun$1(int)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000a80117ae68`) ← `map(Function1)` (`scala.collection.immutable.Range`) ← `run(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a80111efe0`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000a801004800`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000a801009800`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
-|  1.6% |      77 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`) ← `join()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 21.0% |   1,105 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `WorkerThread::run` (`libjvm.dylib`) ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  8.6% |     453 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `awaitWork(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|  5.1% |     268 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `CompileQueue::get` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  2.5% |     130 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `JVM_WaitForReferencePendingList` ← `waitForReferencePendingList()` (`java.lang.ref.Reference`) ← `processPendingReferences()` ← `run()` (`java.lang.ref.Reference$ReferenceHandler`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  2.5% |     130 | `mach_msg2_trap` (`libsystem_kernel.dylib`) ← `mach_msg_overwrite` ← `mach_msg` ← `__CFRunLoopServiceMachPort` (`CoreFoundation`) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `CreateExecutionEnvironment` (`libjli.dylib`) ← `JLI_Launch` ← `main` (`java`) ← `unknown`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|  2.5% |     130 | `__ulock_wait` (`libsystem_kernel.dylib`) ← `CallJavaMainInNewThread` (`libjli.dylib`) ← `ContinueInNewThread` ← `JLI_Launch` ← `main` (`java`) ← `apple_main` (`libjli.dylib`) ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  2.5% |     130 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `os::signal_wait` (`libjvm.dylib`) ← `signal_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  2.5% |     130 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `ServiceThread::service_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  2.5% |     130 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformEvent::park` (`libjvm.dylib`) ← `ObjectMonitor::wait` ← `ObjectSynchronizer::wait` ← `JVM_MonitorWait` ← `wait0(long)` (`java.lang.Object`) ← `wait(long)` ← `wait()` ← `await()` (`java.lang.ref.NativeReferenceQueue`) ← `remove0()` (`java.lang.ref.ReferenceQueue`) ← `remove()` (`java.lang.ref.NativeReferenceQueue`) ← `run()` (`java.lang.ref.Finalizer$FinalizerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  2.5% |     130 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  2.5% |     130 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `MonitorDeflationThread::monitor_deflation_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  2.4% |     129 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ServiceThread::wait_for_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|  2.4% |     129 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|  2.4% |     129 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `NotificationThread::notification_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  2.4% |     129 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `WatcherThread::sleep` ← `WatcherThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|  2.4% |     129 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` ← `G1ConcurrentRefineThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  2.4% |     129 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Profiler::timerLoop` (`libasyncProfiler.dylib`) ← `JvmtiAgentThread::start_function_wrapper` (`libjvm.dylib`) ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  2.4% |     124 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `VMThread::wait_for_operation` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  2.3% |     119 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`) ← `get()` ← `run(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `$anonfun$1(int)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000030117ae68`) ← `map(Function1)` (`scala.collection.immutable.Range`) ← `run(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000030111f208`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301004800`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000000301009800`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
+|  1.6% |      86 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`) ← `join()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |

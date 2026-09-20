@@ -1,14 +1,14 @@
 # CPU profile
 
-Took 420.7ms over 282 samples (1.5ms per sample).
+Took 415.7ms over 332 samples (1.3ms per sample).
 
 | Category           |     % |    Time | Samples |
 | ------------------ | ----: | ------: | ------: |
-| Ours               | 53.7% | 225.7ms |     152 |
-| Native             | 26.6% | 111.7ms |      75 |
-| Regular expression | 11.8% |  49.5ms |      33 |
-| Garbage collector  |  5.5% |  23.2ms |      15 |
-| Idle               |  2.5% |  10.5ms |       7 |
+| Ours               | 55.2% | 229.5ms |     184 |
+| Native             | 29.8% | 123.9ms |      98 |
+| Regular expression |  8.1% |  33.9ms |      27 |
+| Garbage collector  |  4.6% |  19.0ms |      15 |
+| Idle               |  2.3% |   9.5ms |       8 |
 
 ## Hottest functions
 
@@ -18,14 +18,15 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                       | Location             |
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
-| 47.6% | 200.1ms |     135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-| 16.5% |  69.4ms |      46 | `(program)`                    | `<unknown>`          |
-| 11.8% |  49.5ms |      33 | `RegExp: \s+`                  | `<unknown>`          |
-| 10.1% |  42.3ms |      29 | `createElement`                | `<unknown>`          |
-|  5.5% |  23.2ms |      15 | `(garbage collector)`          | `<unknown>`          |
-|  4.0% |  16.8ms |      11 | `tokenize`                     | `workload.mjs:10:20` |
-|  2.5% |  10.5ms |       7 | `(idle)`                       | `<unknown>`          |
-|  2.1% |   8.8ms |       6 | `(anonymous)`                  | `run.mjs:1:1`        |
+| 50.1% | 208.5ms |     167 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 16.4% |  68.0ms |      53 | `(program)`                    | `<unknown>`          |
+| 13.4% |  55.9ms |      45 | `createElement`                | `<unknown>`          |
+|  8.1% |  33.9ms |      27 | `RegExp: \s+`                  | `<unknown>`          |
+|  4.6% |  19.0ms |      15 | `(garbage collector)`          | `<unknown>`          |
+|  2.7% |  11.0ms |       9 | `(anonymous)`                  | `run.mjs:1:1`        |
+|  2.3% |   9.5ms |       8 | `(idle)`                       | `<unknown>`          |
+|  1.8% |   7.5ms |       6 | `tokenize`                     | `workload.mjs:10:20` |
+|  0.6% |   2.5ms |       2 | `scoreStatus`                  | `workload.mjs:11:23` |
 
 #### Categories
 
@@ -33,34 +34,35 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                       | Location             |
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
-| 47.6% | 200.1ms |     135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-|  4.0% |  16.8ms |      11 | `tokenize`                     | `workload.mjs:10:20` |
-|  2.1% |   8.8ms |       6 | `(anonymous)`                  | `run.mjs:1:1`        |
+| 50.1% | 208.5ms |     167 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+|  2.7% |  11.0ms |       9 | `(anonymous)`                  | `run.mjs:1:1`        |
+|  1.8% |   7.5ms |       6 | `tokenize`                     | `workload.mjs:10:20` |
+|  0.6% |   2.5ms |       2 | `scoreStatus`                  | `workload.mjs:11:23` |
 
 ##### Native
 
 |     % |   Time | Samples | Function        | Location    |
 | ----: | -----: | ------: | --------------- | ----------- |
-| 16.5% | 69.4ms |      46 | `(program)`     | `<unknown>` |
-| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
+| 16.4% | 68.0ms |      53 | `(program)`     | `<unknown>` |
+| 13.4% | 55.9ms |      45 | `createElement` | `<unknown>` |
 
 ##### Regular expression
 
-|     % |   Time | Samples | Function      | Location    |
-| ----: | -----: | ------: | ------------- | ----------- |
-| 11.8% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
+|    % |   Time | Samples | Function      | Location    |
+| ---: | -----: | ------: | ------------- | ----------- |
+| 8.1% | 33.9ms |      27 | `RegExp: \s+` | `<unknown>` |
 
 ##### Garbage collector
 
 |    % |   Time | Samples | Function              | Location    |
 | ---: | -----: | ------: | --------------------- | ----------- |
-| 5.5% | 23.2ms |      15 | `(garbage collector)` | `<unknown>` |
+| 4.6% | 19.0ms |      15 | `(garbage collector)` | `<unknown>` |
 
 ##### Idle
 
-|    % |   Time | Samples | Function | Location    |
-| ---: | -----: | ------: | -------- | ----------- |
-| 2.5% | 10.5ms |       7 | `(idle)` | `<unknown>` |
+|    % |  Time | Samples | Function | Location    |
+| ---: | ----: | ------: | -------- | ----------- |
+| 2.3% | 9.5ms |       8 | `(idle)` | `<unknown>` |
 
 #### Lines
 
@@ -70,32 +72,39 @@ Lines ranked by contribution to each function's self time.
 
 |     % |   Time | Samples | Location          |
 | ----: | -----: | ------: | ----------------- |
-| 17.3% | 34.6ms |      23 | `workload.mjs:52` |
-| 13.5% | 27.1ms |      18 | `workload.mjs:53` |
-| 12.8% | 25.6ms |      17 | `workload.mjs:36` |
-| 12.0% | 24.1ms |      16 | `workload.mjs:39` |
-| 12.0% | 24.1ms |      16 | `workload.mjs:42` |
+| 17.6% | 36.6ms |      29 | `workload.mjs:42` |
+| 14.5% | 30.3ms |      24 | `workload.mjs:27` |
+| 13.9% | 29.1ms |      23 | `workload.mjs:53` |
+| 10.3% | 21.5ms |      17 | `workload.mjs:52` |
+|  8.5% | 17.7ms |      14 | `workload.mjs:39` |
 
 ##### `createElement` (`<unknown>`)
 
 |     % |   Time | Samples | Location |
 | ----: | -----: | ------: | -------- |
-| 37.9% | 16.0ms |      11 | 40       |
-| 31.0% | 13.1ms |       9 | 35       |
-| 27.6% | 11.7ms |       8 | 38       |
-|  3.4% |  1.5ms |       1 | 45       |
-
-##### `tokenize` (`workload.mjs:10:20`)
-
-|      % |   Time | Samples | Location          |
-| -----: | -----: | ------: | ----------------- |
-| 100.0% | 16.8ms |      11 | `workload.mjs:10` |
+| 37.8% | 21.1ms |      17 | 38       |
+| 35.6% | 19.9ms |      16 | 35       |
+| 24.4% | 13.7ms |      11 | 40       |
+|  2.2% |  1.2ms |       1 | 45       |
 
 ##### `(anonymous)` (`run.mjs:1:1`)
 
-|      % |  Time | Samples | Location    |
-| -----: | ----: | ------: | ----------- |
-| 100.0% | 8.8ms |       6 | `run.mjs:1` |
+|      % |   Time | Samples | Location    |
+| -----: | -----: | ------: | ----------- |
+| 100.0% | 11.0ms |       9 | `run.mjs:1` |
+
+##### `tokenize` (`workload.mjs:10:20`)
+
+|      % |  Time | Samples | Location          |
+| -----: | ----: | ------: | ----------------- |
+| 100.0% | 7.5ms |       6 | `workload.mjs:10` |
+
+##### `scoreStatus` (`workload.mjs:11:23`)
+
+|     % |  Time | Samples | Location          |
+| ----: | ----: | ------: | ----------------- |
+| 50.0% | 1.2ms |       1 | `workload.mjs:15` |
+| 50.0% | 1.2ms |       1 | `workload.mjs:11` |
 
 #### Callers
 
@@ -105,25 +114,32 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 |      % |    Time | Samples | Caller        | Location      |
 | -----: | ------: | ------: | ------------- | ------------- |
-| 100.0% | 200.1ms |     135 | `(anonymous)` | `run.mjs:1:1` |
-
-##### `RegExp: \s+` (`<unknown>`)
-
-|      % |   Time | Samples | Caller     | Location             |
-| -----: | -----: | ------: | ---------- | -------------------- |
-| 100.0% | 49.5ms |      33 | `tokenize` | `workload.mjs:10:20` |
+| 100.0% | 208.5ms |     167 | `(anonymous)` | `run.mjs:1:1` |
 
 ##### `createElement` (`<unknown>`)
 
 |      % |   Time | Samples | Caller                         | Location            |
 | -----: | -----: | ------: | ------------------------------ | ------------------- |
-| 100.0% | 42.3ms |      29 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+| 100.0% | 55.9ms |      45 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
+##### `RegExp: \s+` (`<unknown>`)
+
+|     % |   Time | Samples | Caller        | Location             |
+| ----: | -----: | ------: | ------------- | -------------------- |
+| 92.6% | 31.4ms |      25 | `tokenize`    | `workload.mjs:10:20` |
+|  7.4% |  2.5ms |       2 | `scoreStatus` | `workload.mjs:11:23` |
 
 ##### `tokenize` (`workload.mjs:10:20`)
 
-|      % |   Time | Samples | Caller        | Location             |
-| -----: | -----: | ------: | ------------- | -------------------- |
-| 100.0% | 16.8ms |      11 | `scoreStatus` | `workload.mjs:11:23` |
+|      % |  Time | Samples | Caller        | Location             |
+| -----: | ----: | ------: | ------------- | -------------------- |
+| 100.0% | 7.5ms |       6 | `scoreStatus` | `workload.mjs:11:23` |
+
+##### `scoreStatus` (`workload.mjs:11:23`)
+
+|      % |  Time | Samples | Caller                         | Location            |
+| -----: | ----: | ------: | ------------------------------ | ------------------- |
+| 100.0% | 2.5ms |       2 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ### Total time
 
@@ -131,15 +147,15 @@ Functions ranked by total time spent in the function and all its callees.
 
 |     % |    Time | Samples | Function                       | Location             |
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
-| 75.5% | 317.5ms |     214 | `(anonymous)`                  | `run.mjs:1:1`        |
-| 73.4% | 308.7ms |     208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-| 16.5% |  69.4ms |      46 | `(program)`                    | `<unknown>`          |
-| 15.8% |  66.3ms |      44 | `tokenize`                     | `workload.mjs:10:20` |
-| 15.8% |  66.3ms |      44 | `scoreStatus`                  | `workload.mjs:11:23` |
-| 11.8% |  49.5ms |      33 | `RegExp: \s+`                  | `<unknown>`          |
-| 10.1% |  42.3ms |      29 | `createElement`                | `<unknown>`          |
-|  5.5% |  23.2ms |      15 | `(garbage collector)`          | `<unknown>`          |
-|  2.5% |  10.5ms |       7 | `(idle)`                       | `<unknown>`          |
+| 76.8% | 319.3ms |     256 | `(anonymous)`                  | `run.mjs:1:1`        |
+| 74.1% | 308.2ms |     247 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 16.4% |  68.0ms |      53 | `(program)`                    | `<unknown>`          |
+| 13.4% |  55.9ms |      45 | `createElement`                | `<unknown>`          |
+| 10.6% |  43.9ms |      35 | `scoreStatus`                  | `workload.mjs:11:23` |
+|  9.4% |  38.9ms |      31 | `tokenize`                     | `workload.mjs:10:20` |
+|  8.1% |  33.9ms |      27 | `RegExp: \s+`                  | `<unknown>`          |
+|  4.6% |  19.0ms |      15 | `(garbage collector)`          | `<unknown>`          |
+|  2.3% |   9.5ms |       8 | `(idle)`                       | `<unknown>`          |
 
 #### Categories
 
@@ -147,35 +163,35 @@ Functions ranked by total time spent in the function and all its callees.
 
 |     % |    Time | Samples | Function                       | Location             |
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
-| 75.5% | 317.5ms |     214 | `(anonymous)`                  | `run.mjs:1:1`        |
-| 73.4% | 308.7ms |     208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
-| 15.8% |  66.3ms |      44 | `tokenize`                     | `workload.mjs:10:20` |
-| 15.8% |  66.3ms |      44 | `scoreStatus`                  | `workload.mjs:11:23` |
+| 76.8% | 319.3ms |     256 | `(anonymous)`                  | `run.mjs:1:1`        |
+| 74.1% | 308.2ms |     247 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 10.6% |  43.9ms |      35 | `scoreStatus`                  | `workload.mjs:11:23` |
+|  9.4% |  38.9ms |      31 | `tokenize`                     | `workload.mjs:10:20` |
 
 ##### Native
 
 |     % |   Time | Samples | Function        | Location    |
 | ----: | -----: | ------: | --------------- | ----------- |
-| 16.5% | 69.4ms |      46 | `(program)`     | `<unknown>` |
-| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
+| 16.4% | 68.0ms |      53 | `(program)`     | `<unknown>` |
+| 13.4% | 55.9ms |      45 | `createElement` | `<unknown>` |
 
 ##### Regular expression
 
-|     % |   Time | Samples | Function      | Location    |
-| ----: | -----: | ------: | ------------- | ----------- |
-| 11.8% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
+|    % |   Time | Samples | Function      | Location    |
+| ---: | -----: | ------: | ------------- | ----------- |
+| 8.1% | 33.9ms |      27 | `RegExp: \s+` | `<unknown>` |
 
 ##### Garbage collector
 
 |    % |   Time | Samples | Function              | Location    |
 | ---: | -----: | ------: | --------------------- | ----------- |
-| 5.5% | 23.2ms |      15 | `(garbage collector)` | `<unknown>` |
+| 4.6% | 19.0ms |      15 | `(garbage collector)` | `<unknown>` |
 
 ##### Idle
 
-|    % |   Time | Samples | Function | Location    |
-| ---: | -----: | ------: | -------- | ----------- |
-| 2.5% | 10.5ms |       7 | `(idle)` | `<unknown>` |
+|    % |  Time | Samples | Function | Location    |
+| ---: | ----: | ------: | -------- | ----------- |
+| 2.3% | 9.5ms |       8 | `(idle)` | `<unknown>` |
 
 #### Callees
 
@@ -185,26 +201,27 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 |     % |    Time | Samples | Callee                         | Location            |
 | ----: | ------: | ------: | ------------------------------ | ------------------- |
-| 97.2% | 308.7ms |     208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+| 96.5% | 308.2ms |     247 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
 
 |     % |   Time | Samples | Callee          | Location             |
 | ----: | -----: | ------: | --------------- | -------------------- |
-| 21.5% | 66.3ms |      44 | `scoreStatus`   | `workload.mjs:11:23` |
-| 13.7% | 42.3ms |      29 | `createElement` | `<unknown>`          |
+| 18.1% | 55.9ms |      45 | `createElement` | `<unknown>`          |
+| 14.2% | 43.9ms |      35 | `scoreStatus`   | `workload.mjs:11:23` |
+
+##### `scoreStatus` (`workload.mjs:11:23`)
+
+|     % |   Time | Samples | Callee        | Location             |
+| ----: | -----: | ------: | ------------- | -------------------- |
+| 88.7% | 38.9ms |      31 | `tokenize`    | `workload.mjs:10:20` |
+|  5.7% |  2.5ms |       2 | `RegExp: \s+` | `<unknown>`          |
 
 ##### `tokenize` (`workload.mjs:10:20`)
 
 |     % |   Time | Samples | Callee        | Location    |
 | ----: | -----: | ------: | ------------- | ----------- |
-| 74.7% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
-
-##### `scoreStatus` (`workload.mjs:11:23`)
-
-|      % |   Time | Samples | Callee     | Location             |
-| -----: | -----: | ------: | ---------- | -------------------- |
-| 100.0% | 66.3ms |      44 | `tokenize` | `workload.mjs:10:20` |
+| 80.6% | 31.4ms |      25 | `RegExp: \s+` | `<unknown>` |
 
 ## Hottest call stacks
 
@@ -214,7 +231,9 @@ Common call stack: `(anonymous)` (`run.mjs:1:1`)
 
 |     % |    Time | Samples | Call stack                                                                                                        |
 | ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------- |
-| 47.6% | 200.1ms |     135 | `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                              |
-| 11.8% |  49.5ms |      33 | `RegExp: \s+` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32) |
-| 10.1% |  42.3ms |      29 | `createElement` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                            |
-|  4.0% |  16.8ms |      11 | `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32)                 |
+| 50.1% | 208.5ms |     167 | `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                              |
+| 13.4% |  55.9ms |      45 | `createElement` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                            |
+|  7.5% |  31.4ms |      25 | `RegExp: \s+` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32) |
+|  1.8% |   7.5ms |       6 | `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32)                 |
+|  0.6% |   2.5ms |       2 | `RegExp: \s+` ← `scoreStatus` (`workload.mjs:11:23`) ← `globalThis.buildAndRetainDom` (1:32)                      |
+|  0.6% |   2.5ms |       2 | `scoreStatus` (`workload.mjs:11:23`) ← `globalThis.buildAndRetainDom` (1:32)                                      |

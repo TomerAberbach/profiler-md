@@ -78,6 +78,14 @@ if (format === undefined) {
   // One input is enough to exercise these general flags.
   const cpuProfilePath = inputPath(`javascript.node.base.cpuprofile`)
   const cpuProfileContent = await readFile(cpuProfilePath)
+  // The generated file the `typeCheckProject` frame is in, at the temporary
+  // path the input was generated under, which a regeneration changes.
+  const tscWorkloadUrl = (
+    JSON.parse(cpuProfileContent.toString()) as {
+      nodes: { callFrame: { url: string } }[]
+    }
+  ).nodes.find(node => node.callFrame.url.endsWith(`/tsc-workload.mjs`))!
+    .callFrame.url
   const expectedCpuProfileMarkdown = /^# CPU profile/u
 
   test.concurrent(
@@ -551,7 +559,7 @@ if (format === undefined) {
         sourceMapPath,
         JSON.stringify({
           version: 3,
-          file: `file:///private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/tsc-workload.mjs`,
+          file: tscWorkloadUrl,
           sources: [`/mapped/original.ts`],
           names: [],
           mappings,
@@ -582,7 +590,7 @@ if (format === undefined) {
       const mappings = `${`;`.repeat(2)}gCAAA`
       const sourceMap = JSON.stringify({
         version: 3,
-        file: `file:///private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/tsc-workload.mjs`,
+        file: tscWorkloadUrl,
         sources: [`/mapped/original.ts`],
         names: [],
         mappings,
