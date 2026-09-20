@@ -33,24 +33,41 @@ const parseLogLevelEnv = (raw: string | undefined): LogLevel | undefined => {
     : undefined
 }
 
+export type CliLogger = Required<Logger> & {
+  /**
+   * Writes an empty line to stderr if the logger wrote a line since the last
+   * separation, so output that follows on the same terminal starts apart from
+   * the log lines.
+   */
+  separate: () => void
+}
+
 /**
  * A logger that writes each message to stderr as `<level>: <message>`, styled
  * when stderr supports color. It writes every level, because
  * {@link normalizeLogger} applies the log level.
  */
-export const makeCliLogger = (): Required<Logger> => {
+export const makeCliLogger = (): CliLogger => {
   const colors = stderrSupportsColor()
+  let wrote = false
   const write =
     (label: LogLabel) =>
     (message: string): void => {
       process.stderr.write(
         `${highlightLogLabel(label, { colors })} ${message}\n`,
       )
+      wrote = true
     }
   return {
     error: write(`error`),
     warn: write(`warning`),
     info: write(`info`),
     debug: write(`debug`),
+    separate: () => {
+      if (wrote) {
+        process.stderr.write(`\n`)
+        wrote = false
+      }
+    },
   }
 }
