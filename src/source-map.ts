@@ -168,7 +168,7 @@ export class SourceMapResolver {
     const mappedFiles = this.#mappedFiles()
 
     logger.info?.(
-      `source maps: ${mappedFiles.length} of ${this.#generatedFiles.size} generated files have a source map`,
+      `source maps matched ${mappedFiles.length} of ${this.#generatedFiles.size} generated files`,
     )
 
     if (logger.warn) {
@@ -176,7 +176,7 @@ export class SourceMapResolver {
       for (const sourceMap of this.#sourceMaps) {
         if (!matched.has(sourceMap)) {
           logger.warn(
-            `source map for ${sourceReferenceId(sourceMap.fileReference)} matched no generated file in the profile, whose generated files are: ${describeGeneratedFiles(this.#generatedFiles.keys())}`,
+            `source map for ${sourceReferenceId(sourceMap.fileReference)} matched none of the profile's generated files: ${describeGeneratedFiles(this.#generatedFiles.keys())}`,
           )
         }
       }
@@ -192,7 +192,7 @@ export class SourceMapResolver {
 
     if (logger.debug) {
       for (const [href, outcome] of this.#generatedFiles) {
-        logger.debug(`${href}: ${describeGeneratedFile(outcome, baseURL)}`)
+        logger.debug(describeGeneratedFile(href, outcome, baseURL))
       }
     }
   }
@@ -335,19 +335,20 @@ const describeGeneratedFiles = (hrefs: Iterable<string>): string => {
 const MAX_LISTED_GENERATED_FILES = 5
 
 const describeGeneratedFile = (
+  href: string,
   outcome: GeneratedFileOutcome,
   baseURL: URL | undefined,
 ): string => {
   if (outcome.type === `unmapped`) {
-    return `no source map`
+    return `${href} has no source map`
   }
   const { sourceMap, unmappedPositions, relativeSource } = outcome
-  const described = `mapped by the source map for ${sourceReferenceId(sourceMap.fileReference)}`
+  const described = `${href} is mapped by the source map for ${sourceReferenceId(sourceMap.fileReference)}`
   if (relativeSource && !baseURL) {
     return `${described}, whose sources are relative paths and stay unmapped without a base URL`
   }
   if (unmappedPositions.size > 0) {
-    return `${described}, which has no mapping for ${formatCount(unmappedPositions.size, `position`)} (e.g. ${[...unmappedPositions].slice(0, MAX_LISTED_POSITIONS).join(`, `)})`
+    return `${described}, which has no mapping for ${formatCount(unmappedPositions.size, `position`)} such as ${[...unmappedPositions].slice(0, MAX_LISTED_POSITIONS).join(`, `)}`
   }
   return described
 }

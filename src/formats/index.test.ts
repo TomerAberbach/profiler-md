@@ -57,18 +57,25 @@ vi.setConfig({ testTimeout: 125_000 })
 
 const format = injectedFormat()
 
-const SPEEDSCOPE_REJECTION_LOG = `debug: speedscope: recognized the input but rejected it: Cannot read properties of undefined (reading 'map')`
-const V8_CPU_PROFILE_REJECTION_LOG = `debug: v8-cpu-profile: recognized the input but rejected it: Cannot destructure property 'functionName' of 'callFrame' as it is null.`
+const SPEEDSCOPE_REJECTION_LOG = `debug: speedscope recognized the input but rejected it: Cannot read properties of undefined (reading 'map')`
+const V8_CPU_PROFILE_REJECTION_LOG = `debug: v8-cpu-profile recognized the input but rejected it: Cannot destructure property 'functionName' of 'callFrame' as it is null.`
 const V8_CPU_PROFILE_CANDIDATES_LOG = `debug: origin candidates, in priority order: deno, bun, node, chrome`
-const NODE_ORIGIN_LOG = `info: origin: node (detected from the entry post (node:inspector))`
-const CHROME_ORIGIN_LOG = `info: origin: chrome (the fallback: no entry marked another origin)`
+const NODE_ORIGIN_LOGS = [
+  `info: detected origin: node`,
+  `debug: node is marked by the entry post in node:inspector`,
+]
+const CHROME_ORIGIN_LOGS = [
+  `info: fallback origin: chrome`,
+  `debug: no entry marked another origin`,
+]
 const V8_CPU_PROFILE_DIFF_LOGS = [
-  `info: format: v8-cpu-profile (specified)`,
+  `info: specified format: v8-cpu-profile`,
   V8_CPU_PROFILE_CANDIDATES_LOG,
-  NODE_ORIGIN_LOG,
-  `info: format: v8-cpu-profile (specified)`,
+  ...NODE_ORIGIN_LOGS,
+  `info: specified format: v8-cpu-profile`,
   V8_CPU_PROFILE_CANDIDATES_LOG,
-  `info: origin: deno (detected from the entry __drainNextTickAndMacrotasks (ext:core/01_core.js))`,
+  `info: detected origin: deno`,
+  `debug: deno is marked by the entry __drainNextTickAndMacrotasks in ext:core/01_core.js`,
 ]
 
 const inputSets = {
@@ -311,12 +318,12 @@ describe(`profileToMd`, () => {
 
       expect(forced).toBe(auto)
       expectLogs([
-        `info: format: v8-cpu-profile (detected)`,
+        `info: detected format: v8-cpu-profile`,
         V8_CPU_PROFILE_CANDIDATES_LOG,
-        NODE_ORIGIN_LOG,
-        `info: format: v8-cpu-profile (specified)`,
+        ...NODE_ORIGIN_LOGS,
+        `info: specified format: v8-cpu-profile`,
         V8_CPU_PROFILE_CANDIDATES_LOG,
-        NODE_ORIGIN_LOG,
+        ...NODE_ORIGIN_LOGS,
       ])
     })
 
@@ -450,10 +457,11 @@ describe(`profileToMd`, () => {
         ],
       ])
       expectLogs([
-        `info: format: v8-cpu-profile (specified)`,
+        `info: specified format: v8-cpu-profile`,
         V8_CPU_PROFILE_CANDIDATES_LOG,
-        `info: origin: node (detected from the entry readFileSync (node:fs))`,
-        `warn: base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
+        `info: detected origin: node`,
+        `debug: node is marked by the entry readFileSync in node:fs`,
+        `warn: baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
       ])
     })
 
@@ -719,20 +727,20 @@ describe(`profileToMd`, () => {
         data: crashingV8CpuProfile,
         // Detection logs the rejection and moves on, so no format is detected.
         detectedLogs: [V8_CPU_PROFILE_REJECTION_LOG],
-        specifiedLogs: [`info: format: v8-cpu-profile (specified)`],
+        specifiedLogs: [`info: specified format: v8-cpu-profile`],
       },
       {
         scenario: `while aggregation consumes the parse's lazy iterable`,
         data: lazilyCrashingV8CpuProfile,
         detectedLogs: [
-          `info: format: v8-cpu-profile (detected)`,
+          `info: detected format: v8-cpu-profile`,
           V8_CPU_PROFILE_CANDIDATES_LOG,
-          CHROME_ORIGIN_LOG,
+          ...CHROME_ORIGIN_LOGS,
         ],
         specifiedLogs: [
-          `info: format: v8-cpu-profile (specified)`,
+          `info: specified format: v8-cpu-profile`,
           V8_CPU_PROFILE_CANDIDATES_LOG,
-          CHROME_ORIGIN_LOG,
+          ...CHROME_ORIGIN_LOGS,
         ],
       },
     ]
@@ -978,9 +986,9 @@ describe(`profileToMdAsync`, () => {
 
       expect(md).toMatch(/^# /u)
       expectLogs([
-        `info: format: v8-cpu-profile (specified)`,
+        `info: specified format: v8-cpu-profile`,
         V8_CPU_PROFILE_CANDIDATES_LOG,
-        NODE_ORIGIN_LOG,
+        ...NODE_ORIGIN_LOGS,
       ])
     })
 
@@ -1006,9 +1014,10 @@ describe(`profileToMdAsync`, () => {
         profileToMd({ data: content, format: `collapsed` }, { baseURL: null }),
       )
       const logs = [
-        `info: format: collapsed (specified)`,
+        `info: specified format: collapsed`,
         `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, rbspy, excimer`,
-        `info: origin: py-spy (detected from the entry _run_module_as_main (<frozen runpy>:198))`,
+        `info: detected origin: py-spy`,
+        `debug: py-spy is marked by the entry _run_module_as_main (<frozen runpy>:198)`,
       ]
       expectLogs([...logs, ...logs])
     })
@@ -1180,7 +1189,8 @@ describe(`origin detection`, () => {
 
     expectLogs([
       `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, rbspy, excimer`,
-      `info: origin: async-profiler (detected from the entry java/util/HashMap.put)`,
+      `info: detected origin: async-profiler`,
+      `debug: async-profiler is marked by the entry java/util/HashMap.put`,
     ])
     expect(selfSamplesTables(md)).toEqual([
       [
@@ -1208,9 +1218,9 @@ describe(`logging`, () => {
     profileToMd(baseCpuProfile, { baseURL: null })
 
     expectLogs([
-      `info: format: v8-cpu-profile (detected)`,
+      `info: detected format: v8-cpu-profile`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
-      CHROME_ORIGIN_LOG,
+      ...CHROME_ORIGIN_LOGS,
     ])
   })
 
@@ -1221,8 +1231,8 @@ describe(`logging`, () => {
     )
 
     expectLogs([
-      `info: format: v8-cpu-profile (specified)`,
-      `info: origin: deno (specified)`,
+      `info: specified format: v8-cpu-profile`,
+      `info: specified origin: deno`,
     ])
   })
 
@@ -1243,16 +1253,16 @@ describe(`logging`, () => {
     profileToMd(cpuProfile, { baseURL: null })
 
     expectLogs([
-      `info: format: v8-cpu-profile (detected)`,
+      `info: detected format: v8-cpu-profile`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
-      NODE_ORIGIN_LOG,
+      ...NODE_ORIGIN_LOGS,
     ])
   })
 
   test(`logs each format that recognized the input but rejected it`, () => {
     expect(() => profileToMd(`a;b 1\nc;d x\n`)).toThrow(/invalid sample count/u)
     expectLogs([
-      `debug: collapsed: recognized the input but rejected it: invalid sample count`,
+      `debug: collapsed recognized the input but rejected it: invalid sample count`,
     ])
   })
 
@@ -1266,9 +1276,9 @@ describe(`logging`, () => {
 
     expect(received).toStrictEqual([])
     expectLogs([
-      `info: format: v8-cpu-profile (detected)`,
+      `info: detected format: v8-cpu-profile`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
-      CHROME_ORIGIN_LOG,
+      ...CHROME_ORIGIN_LOGS,
     ])
   })
 
@@ -1276,10 +1286,11 @@ describe(`logging`, () => {
     profileToMd(baseCpuProfile, { baseURL: `auto` })
 
     expectLogs([
-      `info: format: v8-cpu-profile (detected)`,
+      `info: detected format: v8-cpu-profile`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
-      CHROME_ORIGIN_LOG,
-      `info: base URL: inferred file:///project/src/ from 2 locations`,
+      ...CHROME_ORIGIN_LOGS,
+      `info: inferred base URL: file:///project/src/`,
+      `debug: the base URL is the common directory of 2 absolute locations categorized as ours`,
     ])
   })
 
@@ -1287,8 +1298,8 @@ describe(`logging`, () => {
     profileToMd(emptyProfile, { baseURL: `auto` })
 
     expectLogs([
-      `info: format: speedscope (detected)`,
-      `warn: base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
+      `info: detected format: speedscope`,
+      `warn: baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
     ])
   })
 
@@ -1302,13 +1313,13 @@ describe(`logging`, () => {
     })
 
     expect(received).toStrictEqual([
-      `format: v8-cpu-profile (detected)`,
-      `origin: chrome (the fallback: no entry marked another origin)`,
+      `detected format: v8-cpu-profile`,
+      `fallback origin: chrome`,
     ])
     expectLogs([
-      `info: format: v8-cpu-profile (detected)`,
+      `info: detected format: v8-cpu-profile`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
-      CHROME_ORIGIN_LOG,
+      ...CHROME_ORIGIN_LOGS,
     ])
   })
 

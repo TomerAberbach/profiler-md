@@ -628,7 +628,7 @@ if (format === undefined) {
 
       expect(status).toBe(0)
       expect(stderr).toMatch(
-        /^warning: source map for file:\/\/\/nowhere\/other\.js matched no generated file in the profile, whose generated files are: .*\n$/u,
+        /^warning: source map for file:\/\/\/nowhere\/other\.js matched none of the profile's generated files: .*\n$/u,
       )
 
       await rm(dir, { recursive: true })
@@ -669,7 +669,7 @@ if (format === undefined) {
       expect(status).toBe(0)
       expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
       expect(stderr).toMatch(
-        /^info: format: .+ \(detected\)\ninfo: origin: .+\n$/u,
+        /^info: detected format: .+\ninfo: (?:detected|fallback) origin: .+\n$/u,
       )
     },
   )

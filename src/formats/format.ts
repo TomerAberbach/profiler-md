@@ -161,12 +161,13 @@ const logInferredBaseURL = (
   { logger }: NormalizedProfileToMdOptions,
 ): void => {
   if (inferredBaseURL) {
-    logger.info?.(
-      `base URL: inferred ${inferredBaseURL.href} from ${urls.length} locations`,
+    logger.info?.(`inferred base URL: ${inferredBaseURL.href}`)
+    logger.debug?.(
+      `the base URL is the common directory of ${urls.length} absolute locations categorized as ours`,
     )
   } else {
     logger.warn?.(
-      `base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
+      `baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
     )
   }
 }
