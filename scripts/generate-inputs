@@ -13,9 +13,25 @@ export GENERATED_INPUTS
 mkdir -p "$REPO/examples/input"
 
 # Re-exec inside the nix dev shell so the full profiler toolchain is on PATH.
+#
+# The shell drops the host environment and keeps only what the toolchain
+# requires, because a profiler can record the environment of the process it
+# profiles (e.g. JFR's `jdk.InitialEnvironmentVariable`) and the inputs are
+# committed to a public repository. The shell keeps PATH for the host's Docker
+# CLI, HOME and USER for the tools' caches and configuration, the certificate
+# file for downloads, and the cache variables for `julia.sh`'s depot.
+#
+# Set anything else a workload requires in the dev shell.
 if [[ -z "${PROFILER_MD_INPUT_GENERATION_SHELL:-}" ]]; then
   export PROFILER_MD_INPUT_GENERATION_SHELL=1
-  exec nix develop "$INPUT_GENERATION_SCRIPTS" --command "$REPO/scripts/generate-inputs" "$@"
+  exec nix develop "$INPUT_GENERATION_SCRIPTS" --ignore-environment \
+    --keep-env-var PATH --keep-env-var HOME --keep-env-var USER \
+    --keep-env-var LANG --keep-env-var TERM \
+    --keep-env-var NIX_SSL_CERT_FILE --keep-env-var SSL_CERT_FILE \
+    --keep-env-var XDG_CACHE_HOME --keep-env-var PROFILER_MD_INPUT_GENERATION_CACHE \
+    --keep-env-var DOCKER_HOST --keep-env-var DOCKER_CONFIG \
+    --keep-env-var PROFILER_MD_INPUT_GENERATION_SHELL \
+    --command "$REPO/scripts/generate-inputs" "$@"
 fi
 
 trap 'echo >&2; echo "Interrupted! Stopping." >&2; exit 130' INT TERM
