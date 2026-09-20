@@ -188,9 +188,15 @@ many other JVM events at once. JFR rotates the recording into chunks as it
 grows. `-XX:FlightRecorderOptions=maxchunksize=…` controls the threshold.
 
 ```sh
-java -XX:StartFlightRecording=filename=all.jfr,settings=profile -jar app.jar
+java -XX:StartFlightRecording=filename=all.jfr,settings=profile,+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false -jar app.jar
 jfr summary all.jfr
 ```
+
+The `profile` and `default` templates also record the JVM's environment
+variables (`jdk.InitialEnvironmentVariable`) and every process running on the
+machine (`jdk.SystemProcess`). Neither contributes to the output, and both
+describe the machine rather than the program, so disable them before sharing a
+recording. The `settings=none` recipes above record only the events they list.
 
 ### async-profiler
 
