@@ -29,7 +29,12 @@ const messageText = node => {
 }
 
 const checks = [
-  { messageId: `multiLine`, fails: text => text.includes(`\n`) },
+  {
+    // A continuation line indented by two spaces is a hint or detail under the
+    // message, which a logger prints as is.
+    messageId: `multiLine`,
+    fails: text => /\n(?! {2}\S)/u.test(text),
+  },
   { messageId: `trailingPeriod`, fails: text => text.endsWith(`.`) },
   { messageId: `semicolon`, fails: text => text.includes(`;`) },
   {
@@ -116,7 +121,7 @@ export const errorMessage = {
     },
     schema: [],
     messages: {
-      multiLine: `Write the message on one line.`,
+      multiLine: `Write the message on one line, or indent each continuation line by two spaces.`,
       trailingPeriod: `Drop the message's trailing period.`,
       semicolon: `Replace the message's semicolon with a comma or a second clause.`,
       capitalized: `Start the message lowercase, unless it opens with an identifier, a proper noun, or a format title.`,
