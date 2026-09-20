@@ -11,12 +11,14 @@ import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
 import { reasonOf } from '../error.ts'
 import { formats } from '../formats/index.ts'
+import { LOG_LEVELS } from '../logger.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import { FUNCTION_CATEGORIES } from '../options.ts'
 import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
+import { defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
 
 const languageTopics = [...languages.entries()].flatMap(
   ([id, { aliases, extensions }]) => [
@@ -152,6 +154,12 @@ const outputFlags = object(`Output`, {
       description: message`Output file (default: - for stdout)`,
     }),
     `-`,
+  ),
+  logLevel: withDefault(
+    option(`--log-level`, choice(LOG_LEVELS, { metavar: `LEVEL` }), {
+      description: message`Verbosity of diagnostics printed to stderr, overriding ${text(`$${LOG_LEVEL_ENV}`)} (default: warn)`,
+    }),
+    defaultLogLevel,
   ),
   pager: map(
     option(`--no-pager`, {

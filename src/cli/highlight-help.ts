@@ -160,16 +160,19 @@ const highlightProse = (line: string, palette: Palette): string =>
     quoted ? palette.quoted(quoted) : palette.code(match.slice(1, -1)),
   )
 
-export const highlightErrorPrefix = (
-  text: string,
+/** A log line's `<label>:` prefix, styled in the help palette when colored. */
+export const highlightLogLabel = (
+  label: LogLabel,
   { colors }: HighlightOptions,
 ): string => {
+  const text = `${label}:`
   if (!colors) {
     return text
   }
-  const { error } = makePalette(makeAnsis({ isTTY: true }))
-  return text.replace(/^error:/u, error(`error:`))
+  return makePalette(makeAnsis({ isTTY: true })).log[label](text)
 }
+
+export type LogLabel = keyof Palette[`log`]
 
 type Palette = ReturnType<typeof makePalette>
 
@@ -186,6 +189,11 @@ const makePalette = (ansis: Ansis) => {
     quoted: ansis.hex(richOrange),
     code: ansis.hex(amberBrown),
     url: ansis.hex(amberBrown).underline,
-    error: ansis.hex(softRed).bold,
+    log: {
+      error: ansis.hex(softRed).bold,
+      warning: ansis.hex(goldenAmber).bold,
+      info: ansis.hex(amberBrown).bold,
+      debug: ansis.hex(mutedSage).bold,
+    },
   }
 }

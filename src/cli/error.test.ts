@@ -1,8 +1,11 @@
+import { inspect } from 'node:util'
 import { afterEach, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { ProfilerMdError } from '../error.ts'
+import { expectLogs } from '../testing.ts'
 import { CliError, reportError } from './error.ts'
 import { getUsageHint } from './help.ts'
+import { makeCliLogger } from './log.ts'
 
 const EXIT = `process.exit`
 
@@ -20,10 +23,13 @@ afterEach(() => {
   stderr.length = 0
 })
 
+const report = (error: unknown, logLevel: `error` | `debug` = `error`) =>
+  reportError(error, { logger: makeCliLogger(), logLevel })
+
 test(`reports a plain error as a bug, with its trace`, () => {
   const error = new Error(`the invariant broke`)
 
-  expect(() => reportError(error)).toThrow(EXIT)
+  expect(() => report(error)).toThrow(EXIT)
 
   const [errorLine, ...caveatLines] = stderr.join(``).split(`\n`)
   expect(errorLine).toBe(`error: the invariant broke`)
@@ -39,10 +45,11 @@ test(`reports a plain error as a bug, with its trace`, () => {
   ).toBe(true)
   expect(traceLines.at(-1)).toBe(``)
   expect(exit).toHaveBeenCalledExactlyOnceWith(1)
+  expectLogs([`error: the invariant broke`])
 })
 
 test(`reports a thrown non-error as a bug`, () => {
-  expect(() => reportError(`oops`)).toThrow(EXIT)
+  expect(() => report(`oops`)).toThrow(EXIT)
 
   expect(stderr.join(``)).toBe(
     [
@@ -55,6 +62,7 @@ test(`reports a thrown non-error as a bug`, () => {
     ].join(`\n`),
   )
   expect(exit).toHaveBeenCalledExactlyOnceWith(1)
+  expectLogs([`error: oops`])
 })
 
 test.each([
@@ -63,18 +71,36 @@ test.each([
 ])(
   `reports a $error.name without a bug report, exiting with $exitCode`,
   ({ error, exitCode }) => {
-    expect(() => reportError(error)).toThrow(EXIT)
+    expect(() => report(error)).toThrow(EXIT)
 
     expect(stderr.join(``)).toBe(`error: ${error.message}\n`)
     expect(exit).toHaveBeenCalledExactlyOnceWith(exitCode)
+    expectLogs([`error: ${error.message}`])
   },
 )
 
 test(`follows an invocation error with the usage hint, exiting with 2`, () => {
   const error = new CliError(`bad flag`, 2)
 
-  expect(() => reportError(error)).toThrow(EXIT)
+  expect(() => report(error)).toThrow(EXIT)
 
   expect(stderr.join(``)).toBe(`error: ${error.message}\n${getUsageHint()}`)
   expect(exit).toHaveBeenCalledExactlyOnceWith(2)
+  expectLogs([`error: ${error.message}`])
+})
+
+test(`prints the cause at debug`, () => {
+  const cause = new Error(`disk on fire`)
+  const error = new CliError(`cannot read input`, 1, { cause })
+
+  expect(() => report(error, `debug`)).toThrow(EXIT)
+
+  expect(stderr.join(``)).toBe(
+    `error: cannot read input\ndebug: caused by: ${inspect(cause)}\n`,
+  )
+  expect(exit).toHaveBeenCalledExactlyOnceWith(1)
+  expectLogs([
+    `error: cannot read input`,
+    `debug: caused by: ${inspect(cause)}`,
+  ])
 })
