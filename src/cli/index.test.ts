@@ -856,7 +856,7 @@ if (format === undefined) {
       expect(status).toBe(1)
       const [errorLine, causeLine, ...caveatLines] = stderr.split(`\n`)
       expect(errorLine).toBe(
-        `error: stdin: V8 CPU profile: failed to parse the input`,
+        `error: stdin: v8-cpu-profile: failed to parse the input`,
       )
       expect(causeLine).toMatch(/^ {2}caused by: /u)
       const traceLines = caveatLines.splice(3)
@@ -874,6 +874,32 @@ if (format === undefined) {
   )
 
   test.concurrent(
+    `lists each format's reason under a detection several formats rejected`,
+    async () => {
+      // Passes Speedscope's and the V8 CPU profile's `matches` prefilters, and
+      // fails their parses.
+      const almostBoth = JSON.stringify({
+        $schema: `https://www.speedscope.app/file-format-schema.json`,
+        shared: {},
+        profiles: [],
+        nodes: [{ id: 1, callFrame: null }],
+        timeDeltas: [1],
+      })
+
+      const { status, stderr } = await runCli([], almostBoth)
+
+      expect(status).toBe(1)
+      expect(stderr.split(`\n`).slice(0, 5)).toEqual([
+        `error: stdin: could not detect the profile format, rejected by speedscope and v8-cpu-profile`,
+        `  speedscope: failed to parse the input`,
+        `    caused by: Cannot read properties of undefined (reading 'map')`,
+        `  v8-cpu-profile: failed to parse the input`,
+        `    caused by: Cannot destructure property 'functionName' of 'callFrame' as it is null.`,
+      ])
+    },
+  )
+
+  test.concurrent(
     `reports a classified rejection without a bug report caveat`,
     async () => {
       const { status, stderr } = await runCli(
@@ -882,9 +908,7 @@ if (format === undefined) {
       )
 
       expect(status).toBe(1)
-      expect(stderr).toBe(
-        `error: stdin: Collapsed stacks: missing sample count\n`,
-      )
+      expect(stderr).toBe(`error: stdin: collapsed: missing sample count\n`)
     },
   )
 
@@ -907,7 +931,7 @@ if (format === undefined) {
       scenario: `stdin with invalid JSON under an explicit JSON format`,
       args: [`--format`, `v8-cpu-profile`],
       input: `garbage\n`,
-      expectedStderr: `error: stdin: V8 CPU profile: invalid JSON\n  caused by: `,
+      expectedStderr: `error: stdin: v8-cpu-profile: invalid JSON\n  caused by: `,
       expectedStatus: 1,
     },
     {

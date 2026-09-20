@@ -29,7 +29,8 @@ import {
   detectJsonFormat,
   toUndetectedFormatError,
 } from './detect.ts'
-import type { DetectedInput, FormatRejection } from './detect.ts'
+import type { DetectedInput } from './detect.ts'
+import type { FormatRejectionError } from './error.ts'
 import { formatAggregatedDiff, formatAggregatedInputs } from './format.ts'
 import {
   dataToBytes,
@@ -234,7 +235,7 @@ const detectFormat = (
     }
   }
 
-  const rejections: FormatRejection[] = []
+  const rejections: FormatRejectionError[] = []
   const detected =
     (json === undefined
       ? undefined
@@ -276,7 +277,7 @@ const detectFormatAsync = async (
     }
   }
 
-  const rejections: FormatRejection[] = []
+  const rejections: FormatRejectionError[] = []
   const detected =
     (json === undefined
       ? undefined

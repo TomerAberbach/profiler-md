@@ -1,6 +1,9 @@
 import packageJson from '../../package.json' with { type: 'json' }
 import { causeChainOf, messageOf, ProfilerMdError } from '../error.ts'
-import { unclassifiedParseFailures } from '../formats/error.ts'
+import {
+  FormatDetectError,
+  unclassifiedParseFailures,
+} from '../formats/error.ts'
 import { normalizeLogger } from '../logger.ts'
 import type { Logger, LogLevel } from '../logger.ts'
 import { stderrSupportsColor } from './ansis.ts'
@@ -24,8 +27,9 @@ export type ReportErrorOptions = {
 
 /**
  * Reports the failure at `error` through the logger and exits. The message's
- * continuation lines state each cause. A level below `error` silences the
- * report, including the bug report and usage hint that follow it.
+ * continuation lines state each cause, and each format that rejected the input
+ * under auto-detection. A level below `error` silences the report, including
+ * the bug report and usage hint that follow it.
  */
 export const reportError = (
   error: unknown,
@@ -66,22 +70,33 @@ export const reportError = (
 /**
  * An error's message, followed by one indented `caused by:` line per cause. A
  * cause whose message its parent already ends with is skipped, so a layer that
- * states its cause is not repeated.
+ * states its cause is not repeated. An auto-detection's rejections are listed
+ * under the line that states it, each described the same way and indented,
+ * skipping a rejection the line already ends with by the same rule.
  */
-const describeError = (error: unknown): string => {
-  const [message, ...causes] = causeChainOf(error).map(messageOf) as [
-    string,
-    ...string[],
-  ]
-  const lines = [message]
-  let parent = message
-  for (const cause of causes) {
-    if (!parent.endsWith(cause)) {
-      lines.push(indent(`caused by: ${cause}`))
+const describeError = (error: unknown): string =>
+  describeErrorLines(error).join(`\n`)
+
+const describeErrorLines = (error: unknown): string[] => {
+  const lines: string[] = []
+  let parent: string | undefined
+  for (const link of causeChainOf(error)) {
+    const message = messageOf(link)
+    if (parent === undefined) {
+      lines.push(message)
+    } else if (!parent.endsWith(message)) {
+      lines.push(indent(`caused by: ${message}`))
     }
-    parent = cause
+    if (link instanceof FormatDetectError) {
+      for (const rejection of link.rejections) {
+        if (!message.endsWith(rejection.message)) {
+          lines.push(...describeErrorLines(rejection).map(indent))
+        }
+      }
+    }
+    parent = message
   }
-  return lines.join(`\n`)
+  return lines
 }
 
 const indent = (line: string): string => `  ${line}`

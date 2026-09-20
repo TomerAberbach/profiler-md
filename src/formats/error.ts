@@ -2,7 +2,7 @@ import { ProfilerMdError } from '../error.ts'
 
 /**
  * Thrown by a converter's parse when the input isn't a valid instance of its
- * format. The conversion pipeline prefixes the format's title before the
+ * format. The conversion pipeline prefixes the format's ID before the
  * message reaches the caller, so the message states the reason alone.
  */
 export class FormatParseError extends ProfilerMdError {
@@ -14,37 +14,46 @@ export class FormatParseError extends ProfilerMdError {
 }
 
 /**
+ * Thrown when a format rejected the input: the one the caller specified, or
+ * the only one auto-detection recognized.
+ *
+ * The message is `<format>: <reason>`, where the format is
+ * {@link FormatRejectionError.format}, and {@link FormatRejectionError.cause}
+ * is the error the format's parse threw.
+ */
+export class FormatRejectionError extends ProfilerMdError {
+  /** The rejecting format's ID. */
+  public readonly format: string
+
+  public constructor(format: string, reason: string, options: ErrorOptions) {
+    super(`${format}: ${reason}`, options)
+    // eslint-disable-next-line stylistic/quotes
+    this.name = 'FormatRejectionError'
+    this.format = format
+  }
+}
+
+/**
  * Thrown when auto-detection resolves no format.
  *
- * {@link FormatDetectError.errors} contains the error from each format that
- * recognized the input and then rejected it, in detection order. It is empty
- * when no format recognized the input.
+ * {@link FormatDetectError.rejections} contains the rejection from each format
+ * that recognized the input and then rejected it, in detection order. It is
+ * empty when no format recognized the input. When it contains one rejection,
+ * the input is that format, so the error repeats the rejection's message and
+ * wraps it as the cause.
  */
 export class FormatDetectError extends ProfilerMdError {
-  public readonly errors: readonly unknown[]
+  public readonly rejections: readonly FormatRejectionError[]
 
   public constructor(
     message: string,
-    errors: readonly unknown[],
+    rejections: readonly FormatRejectionError[],
     options?: ErrorOptions,
   ) {
     super(message, options)
     // eslint-disable-next-line stylistic/quotes
     this.name = 'FormatDetectError'
-    this.errors = errors
-  }
-}
-
-/**
- * Thrown when the format the caller specified rejected the input.
- *
- * {@link FormatRejectionError.cause} is the error the format's parse threw.
- */
-export class FormatRejectionError extends ProfilerMdError {
-  public constructor(message: string, options: ErrorOptions) {
-    super(message, options)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'FormatRejectionError'
+    this.rejections = rejections
   }
 }
 
@@ -72,10 +81,10 @@ export const mayBeParserBug = (error: unknown): boolean =>
  */
 export const unclassifiedParseFailures = (error: unknown): unknown[] => {
   if (error instanceof FormatDetectError) {
-    return error.errors.filter(isUnclassifiedParseFailure)
+    return error.rejections.flatMap(unclassifiedParseFailure)
   }
   if (error instanceof FormatRejectionError) {
-    return isUnclassifiedParseFailure(error.cause) ? [error.cause] : []
+    return unclassifiedParseFailure(error)
   }
   if (error instanceof Error && error.cause !== undefined) {
     return unclassifiedParseFailures(error.cause)
@@ -83,5 +92,7 @@ export const unclassifiedParseFailures = (error: unknown): unknown[] => {
   return []
 }
 
-const isUnclassifiedParseFailure = (error: unknown): boolean =>
-  !(error instanceof FormatParseError)
+const unclassifiedParseFailure = ({
+  cause,
+}: FormatRejectionError): unknown[] =>
+  cause instanceof FormatParseError ? [] : [cause]
