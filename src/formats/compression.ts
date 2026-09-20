@@ -157,7 +157,9 @@ const MAGIC_LENGTH = 4
 type Decompressed<Data> = { data: Data; compressed: boolean }
 
 /** Strips the compression the magic bytes identify. */
-const decompressIdentified = (bytes: Uint8Array): Decompressed<Uint8Array> => {
+export const decompressIdentified = (
+  bytes: Uint8Array,
+): Decompressed<Uint8Array> => {
   if (isGzip(bytes)) {
     return { data: decompressGzip(bytes), compressed: true }
   }
@@ -242,7 +244,9 @@ const decompressLz4Stream = (
  * decode to nothing, because its first byte reads as an empty stream. An empty
  * result therefore counts as not brotli.
  */
-const tryDecompressBrotli = (bytes: Uint8Array): Uint8Array | undefined => {
+export const tryDecompressBrotli = (
+  bytes: Uint8Array,
+): Uint8Array | undefined => {
   const decompressed = runtime.tryDecompressBrotli(bytes)
   return decompressed?.length ? decompressed : undefined
 }
