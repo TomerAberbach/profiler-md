@@ -1,4 +1,12 @@
+import type {
+  TerminalFormatter,
+  TerminalStyle,
+  TerminalTheme,
+} from '@optique/core/terminal'
 import type { ThemeInput } from '@shikijs/core'
+import { Ansis } from 'ansis'
+import { rgb } from '../helpers/color.ts'
+import type { RgbTuple } from '../helpers/color.ts'
 
 const darkSlate = `#2d353b`
 const mutedSage = `#859289`
@@ -14,12 +22,114 @@ const warmOrange = `#e69875`
 const terracotta = `#c4907a`
 const softRed = `#ca6e63`
 
-export const kindlingColors = {
-  mutedSage,
-  amberBrown,
-  goldenAmber,
-  richOrange,
-  softRed,
+/** A terminal style restricted to what both Optique and Ansis render. */
+type KindlingStyle = {
+  foreground?: RgbTuple
+  bold?: boolean
+  italic?: boolean
+  underline?: boolean
+}
+
+const label: KindlingStyle = { foreground: rgb(goldenAmber), bold: true }
+const option: KindlingStyle = { foreground: rgb(softRed) }
+const metavar: KindlingStyle = { foreground: rgb(amberBrown), italic: true }
+const punctuation: KindlingStyle = { foreground: rgb(mutedSage) }
+const value: KindlingStyle = { foreground: rgb(richOrange) }
+const commandLine: KindlingStyle = { foreground: rgb(amberBrown) }
+const url: KindlingStyle = { foreground: rgb(amberBrown), underline: true }
+const comment: KindlingStyle = { foreground: rgb(mutedSage), italic: true }
+const program: KindlingStyle = { bold: true }
+const logLabels = {
+  error: { foreground: rgb(softRed), bold: true },
+  warning: { foreground: rgb(goldenAmber), bold: true },
+  info: { foreground: rgb(amberBrown), bold: true },
+  debug: { foreground: rgb(mutedSage), bold: true },
+} satisfies Record<string, KindlingStyle>
+
+const styled =
+  (style: TerminalStyle): TerminalFormatter =>
+  (_, { text }) => ({
+    type: `style`,
+    style,
+    children: [{ type: `text`, text }],
+  })
+
+/**
+ * Optique's help, usage, and message roles in the Kindling colors. The
+ * program name keeps Optique's default, bold.
+ */
+export const kindlingTerminalTheme: TerminalTheme = {
+  label: styled(label),
+  optionName: styled(option),
+  metavar: styled(metavar),
+  syntaxPunctuation: styled(punctuation),
+  value: styled(value),
+  commandLine: styled(commandLine),
+  url: styled(url),
+}
+
+type Styler = (text: string) => string
+
+/** The Kindling colors for the CLI's own help lines and log labels. */
+export type KindlingPalette = {
+  label: Styler
+  punctuation: Styler
+  comment: Styler
+  url: Styler
+  /** A shell command with its programs bold and its options colored. */
+  command: Styler
+  log: {
+    error: Styler
+    warning: Styler
+    info: Styler
+    debug: Styler
+  }
+}
+
+/** The palette, styling nothing when `colors` is false. */
+export const makeKindlingPalette = ({
+  colors,
+}: {
+  colors: boolean
+}): KindlingPalette => {
+  const ansis = new Ansis(colors ? 3 : 0)
+  const styleOption = styler(ansis, option)
+  const styleProgram = styler(ansis, program)
+  return {
+    label: styler(ansis, label),
+    punctuation: styler(ansis, punctuation),
+    comment: styler(ansis, comment),
+    url: styler(ansis, url),
+    command: command =>
+      command.replaceAll(
+        /(?<option>(?<![\w.])--?[a-z][\w-]*)|(?:^|(?<=[|&] ))[\w-]+/gu,
+        (match, option?: string) =>
+          option ? styleOption(option) : styleProgram(match),
+      ),
+    log: {
+      error: styler(ansis, logLabels.error),
+      warning: styler(ansis, logLabels.warning),
+      info: styler(ansis, logLabels.info),
+      debug: styler(ansis, logLabels.debug),
+    },
+  }
+}
+
+const styler = (
+  ansis: Ansis,
+  { foreground, bold, italic, underline }: KindlingStyle,
+): Ansis => {
+  let styled = foreground ? ansis.rgb(...foreground) : ansis
+  if (bold) {
+    styled = styled.bold
+  }
+  if (italic) {
+    styled = styled.italic
+  }
+  if (underline) {
+    styled = styled.underline
+  }
+  return styled
 }
 
 const kindlingTheme: ThemeInput = {

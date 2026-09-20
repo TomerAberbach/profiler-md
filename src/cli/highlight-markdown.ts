@@ -1,6 +1,8 @@
 import type { HighlighterCore, ThemedToken } from '@shikijs/core'
 import type { Ansis } from 'ansis'
 import type { Heading, Table, TableRow } from 'mdast'
+import { parseRgb } from '../helpers/color.ts'
+import type { Rgb } from '../helpers/color.ts'
 import {
   headingNameLocationKey,
   nameLocationKey,
@@ -726,17 +728,6 @@ const renderToken = (
     }
   }
   return styled
-}
-
-type Rgb = { red: number; green: number; blue: number }
-
-const parseRgb = (hex: string): Rgb => {
-  const value = hex.replace(/^#/u, ``)
-  return {
-    red: Number.parseInt(value.slice(0, 2), 16),
-    green: Number.parseInt(value.slice(2, 4), 16),
-    blue: Number.parseInt(value.slice(4, 6), 16),
-  }
 }
 
 const tintHeat = ({ red, green, blue }: Rgb, intensity: number): Rgb => ({

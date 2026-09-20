@@ -1,8 +1,12 @@
 import { readFile } from 'node:fs/promises'
 import { formatDocPage, getDocPage } from '@optique/core'
-import type { DocEntry, DocSection } from '@optique/core'
-import { commandLine, formatMessage, message } from '@optique/core/message'
-import { formatUsageTerm } from '@optique/core/usage'
+import type { DocEntry, DocPage, DocSection } from '@optique/core'
+import {
+  commandLine,
+  createMessageFormatter,
+  message,
+} from '@optique/core/message'
+import type { Message } from '@optique/core/message'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats, formatToConverter } from '../formats/index.ts'
@@ -13,7 +17,6 @@ import { origins } from '../origins/index.ts'
 import { stdoutSupportsColor } from './ansis.ts'
 import { helpTopics, inputParser, program } from './cli.ts'
 import { CliError } from './error.ts'
-import { highlightHelp, INDENT } from './highlight-help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
 import {
   languageAliasToPrimary,
@@ -22,6 +25,8 @@ import {
 } from './languages.ts'
 import type { Language } from './languages.ts'
 import { writeOutput } from './output.ts'
+import { kindlingTerminalTheme, makeKindlingPalette } from './theme-kindling.ts'
+import type { KindlingPalette } from './theme-kindling.ts'
 
 export type PrintHelpTopicOptions = {
   pager: boolean
@@ -106,83 +111,45 @@ export type HelpTextOptions = {
 export const getHelpText = ({
   colors = false,
 }: HelpTextOptions = {}): string => {
-  const maxWidth = getMaxWidth()
-  const sections = getSections()
-  const text = [
-    getHeaderText(maxWidth),
-    formatDocPage(
-      program.metadata.name,
-      { sections },
-      { termWidth: widestTermWidth(sections), maxWidth, sectionOrder },
-    ),
-    ...LISTS.map(([label, items]) => formatList(label, items, maxWidth)),
-    `\nDocs: ${packageJson.homepage}\nBugs: ${packageJson.bugs.url}\n`,
+  const style = makeStyle(colors)
+  return [
+    getHeaderText(style),
+    style.page({ sections: getSections() }),
+    ...LISTS.map(([label, items]) => formatList(label, items, style)),
+    `\n${style.label(`Docs:`)} ${style.url(packageJson.homepage)}\n${style.label(`Bugs:`)} ${style.url(packageJson.bugs.url)}\n`,
   ].join(``)
-  return highlightHelp(text, { colors })
 }
 
 /** The description, the synopsis, the examples, and where the rest of the help is. */
 export const getBriefHelpText = ({
   colors = false,
 }: HelpTextOptions = {}): string => {
-  const maxWidth = getMaxWidth()
+  const style = makeStyle(colors)
   const { name } = program.metadata
-  const footer = formatMessage(
+  const footer = style.message(
     message`Run ${commandLine(`${name} --help`)} for every flag, ${commandLine(`${name} --help <language>`)} for how to profile a language, and ${commandLine(`${name} --help <format>`)} for what a format contains.`,
-    { maxWidth },
   )
-  return highlightHelp(`${getHeaderText(maxWidth)}\n${footer}\n`, { colors })
+  return `${getHeaderText(style)}\n${footer}\n`
 }
 
-/**
- * The width of the widest term.
- *
- * A term wider than the description column pushes its first description line
- * past the column its wrapped lines are indented to.
- */
-const widestTermWidth = (sections: readonly DocSection[]): number =>
-  Math.max(
-    ...sections.flatMap(section =>
-      section.entries.map(
-        entry => formatUsageTerm(entry.term, { context: `doc` }).length,
-      ),
-    ),
-  )
+/** The synopsis and where the full help is. */
+export const getUsageHint = ({ colors = false } = {}): string => {
+  const { name } = program.metadata
+  const text = makeStyle(colors).page({
+    usage,
+    sections: [],
+    footer: message`Run ${commandLine(`${name} --help`)} for every flag.`,
+  })
+  return `\n${text}\n`
+}
 
 /** The description, the synopsis, and the examples. */
-const getHeaderText = (maxWidth: number): string => {
-  const { name, brief } = program.metadata
-  const description = formatDocPage(name, { brief, sections: [] }, { maxWidth })
-  const synopsis = formatDocPage(name, { usage, sections: [] }, { maxWidth })
-  return `${description}\n${synopsis}\nExamples:\n${formatUsageExamples(INDENT)}`
+const getHeaderText = (style: Style): string => {
+  const { brief } = program.metadata
+  const description = style.page({ brief, sections: [] })
+  const synopsis = style.page({ usage, sections: [] })
+  return `${description}\n${synopsis}\n${style.label(`Examples:`)}\n${formatUsageExamples(INDENT, style)}`
 }
-
-/** The parser's sections, with the flags `runParser` adds in the `Help` section. */
-export const getSections = (): DocSection[] =>
-  getDocPage(program.parser)!.sections.map(section =>
-    section.title === RUN_PARSER_SECTION
-      ? { ...section, entries: [...section.entries, ...RUN_PARSER_ENTRIES] }
-      : section,
-  )
-
-/** Orders the untitled section of positional arguments before the flags. */
-const sectionOrder = (first: DocSection, second: DocSection): number =>
-  Number(first.title !== undefined) - Number(second.title !== undefined)
-
-/** The section the flags `runParser` adds to the parser are listed under. */
-const RUN_PARSER_SECTION = `Help`
-
-/** The flags `runParser` adds to the parser, which its doc page lacks. */
-const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
-  {
-    term: { type: `option`, names: [`--version`] },
-    description: message`Show the version`,
-  },
-  {
-    term: { type: `option`, names: [`--completion`], metavar: `SHELL` },
-    description: message`Print a completion script for SHELL (bash, fish, nu, pwsh, or zsh)`,
-  },
-]
 
 const optionsTerm = {
   type: `optional`,
@@ -241,38 +208,39 @@ export const usageExamples: readonly UsageExample[] = [
 ]
 
 /** Each example as a shell comment above its command, separated by blank lines. */
-export const formatUsageExamples = (indent = ``): string =>
+export const formatUsageExamples = (
+  indent = ``,
+  style: KindlingPalette = makeKindlingPalette({ colors: false }),
+): string =>
   usageExamples
     .map(
       ({ description, command }) =>
-        `${indent}# ${description}\n${indent}$ ${command}\n`,
+        `${indent}${style.comment(`# ${description}`)}\n${indent}${style.punctuation(`$`)} ${style.command(command)}\n`,
     )
     .join(`\n`)
 
-/** The synopsis and where the full help is. */
-export const getUsageHint = ({ colors = false } = {}): string => {
-  const { name } = program.metadata
-  const text = formatDocPage(
-    name,
-    {
-      usage,
-      sections: [],
-      footer: message`Run ${commandLine(`${name} --help`)} for every flag.`,
-    },
-    { maxWidth: getMaxWidth() },
-  )
-  return highlightHelp(`\n${text}\n`, { colors })
-}
-
-export const getMaxWidth = (): number =>
-  Math.max(
-    MIN_WIDTH,
-    // A terminal with no window size reports zero columns
-    process.stdout.columns || Number(process.env.COLUMNS) || 80,
+/** The parser's sections, with the flags `runParser` adds in the `Help` section. */
+export const getSections = (): DocSection[] =>
+  getDocPage(program.parser)!.sections.map(section =>
+    section.title === RUN_PARSER_SECTION
+      ? { ...section, entries: [...section.entries, ...RUN_PARSER_ENTRIES] }
+      : section,
   )
 
-// Optique throws below the width its narrowest layout requires
-const MIN_WIDTH = 40
+/** The section the flags `runParser` adds to the parser are listed under. */
+const RUN_PARSER_SECTION = `Help`
+
+/** The flags `runParser` adds to the parser, which its doc page lacks. */
+const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
+  {
+    term: { type: `option`, names: [`--version`] },
+    description: message`Show the version`,
+  },
+  {
+    term: { type: `option`, names: [`--completion`], metavar: `SHELL` },
+    description: message`Print a completion script for SHELL (bash, fish, nu, pwsh, or zsh)`,
+  },
+]
 
 const LISTS: readonly (readonly [string, readonly string[]])[] = [
   [`Formats`, formats],
@@ -291,10 +259,12 @@ const LISTS: readonly (readonly [string, readonly string[]])[] = [
 const formatList = (
   label: string,
   items: readonly string[],
-  maxWidth: number,
+  style: Style,
 ): string => {
-  const lines = wrapCommaList(items, maxWidth - INDENT.length)
-  return `\n${label}:\n${lines.map(line => `${INDENT}${line}\n`).join(``)}`
+  const lines = wrapCommaList(items, style.maxWidth - INDENT.length)
+  return `\n${style.label(`${label}:`)}\n${lines
+    .map(line => `${INDENT}${line.replaceAll(`,`, style.punctuation(`,`))}\n`)
+    .join(``)}`
 }
 
 /** The items joined by `, `, broken into lines no wider than `maxWidth`. */
@@ -316,3 +286,51 @@ const wrapCommaList = (
   lines.push(line)
   return lines
 }
+
+/**
+ * Styles the help's own lines in the Kindling theme, and pages and messages
+ * through Optique, wrapped to the terminal. A style with no colors returns
+ * text as is.
+ */
+type Style = KindlingPalette & {
+  maxWidth: number
+  page: (page: DocPage) => string
+  message: (message: Message) => string
+}
+
+const makeStyle = (colors: boolean): Style => {
+  const maxWidth = getMaxWidth()
+  return {
+    ...makeKindlingPalette({ colors }),
+    maxWidth,
+    page: page =>
+      formatDocPage(program.metadata.name, page, {
+        termWidth: `auto`,
+        sectionOrder,
+        maxWidth,
+        colors,
+        theme: kindlingTerminalTheme,
+      }),
+    message: message =>
+      formatMessage(message, { colors, quotes: !colors, maxWidth }),
+  }
+}
+
+const formatMessage = createMessageFormatter(kindlingTerminalTheme)
+
+/** Orders the untitled section of positional arguments before the flags. */
+const sectionOrder = (first: DocSection, second: DocSection): number =>
+  Number(first.title !== undefined) - Number(second.title !== undefined)
+
+/** The indentation of Optique's doc page entries. */
+const INDENT = `  `
+
+const getMaxWidth = (): number =>
+  Math.max(
+    MIN_WIDTH,
+    // A terminal with no window size reports zero columns
+    process.stdout.columns || Number(process.env.COLUMNS) || 80,
+  )
+
+// Optique throws below the width its narrowest layout requires
+const MIN_WIDTH = 40

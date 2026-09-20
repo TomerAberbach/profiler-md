@@ -1,8 +1,8 @@
 import { LOG_LEVELS, normalizeLogger } from '../logger.ts'
 import type { Logger, LogLevel } from '../logger.ts'
 import { stderrSupportsColor } from './ansis.ts'
-import { highlightLogLabel } from './highlight-help.ts'
-import type { LogLabel } from './highlight-help.ts'
+import { makeKindlingPalette } from './theme-kindling.ts'
+import type { KindlingPalette } from './theme-kindling.ts'
 
 export const LOG_LEVEL_ENV = `PROFILER_MD_LOG`
 
@@ -48,14 +48,12 @@ export type CliLogger = Required<Logger> & {
  * {@link normalizeLogger} applies the log level.
  */
 export const makeCliLogger = (): CliLogger => {
-  const colors = stderrSupportsColor()
+  const { log } = makeKindlingPalette({ colors: stderrSupportsColor() })
   let wrote = false
   const write =
-    (label: LogLabel) =>
+    (label: keyof KindlingPalette[`log`]) =>
     (message: string): void => {
-      process.stderr.write(
-        `${highlightLogLabel(label, { colors })} ${message}\n`,
-      )
+      process.stderr.write(`${log[label](`${label}:`)} ${message}\n`)
       wrote = true
     }
   return {
