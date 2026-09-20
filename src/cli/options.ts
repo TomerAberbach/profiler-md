@@ -15,6 +15,7 @@ import {
   sourceReferenceId,
   sourceReferencePathOrName,
 } from '../location.ts'
+import { normalizeLogger } from '../logger.ts'
 import type { Logger, LogLevel } from '../logger.ts'
 import type { EntryCategory, RegexCategory, RegexReplacement } from './cli.ts'
 import { CliError } from './error.ts'
@@ -61,7 +62,10 @@ export const buildOptions = async ({
     baseURL !== undefined && baseURL !== `auto` && !URL.canParse(baseURL)
       ? resolve(baseURL)
       : baseURL,
-  sourceMaps: await loadSourceMaps(sourceMaps),
+  sourceMaps: await loadSourceMaps(
+    sourceMaps,
+    normalizeLogger(logger, logLevel),
+  ),
   matchEntry: buildMatchEntry(matchName, matchLocation),
   categorizeFunctions: buildCategorizeFunctions(category),
   showEntry: buildShowEntry({ hide, show, hideCategory, showCategory }),
@@ -171,9 +175,18 @@ const matchesEntry = (
 
 const loadSourceMaps = async (
   patterns: readonly string[],
+  logger: Logger,
 ): Promise<SourceMap[]> => {
   const paths = (
-    await Promise.all(patterns.map(pattern => Array.fromAsync(glob(pattern))))
+    await Promise.all(
+      patterns.map(async pattern => {
+        const matched = await Array.fromAsync(glob(pattern))
+        if (matched.length === 0) {
+          logger.warn?.(`--source-maps matched no file, got: ${pattern}`)
+        }
+        return matched
+      }),
+    )
   ).flat()
 
   return Promise.all(
@@ -190,7 +203,7 @@ const loadSourceMaps = async (
       }
 
       try {
-        return parseSourceMap(content, path)
+        return parseSourceMap(content, path, logger)
       } catch (error) {
         throw new CliError(
           `cannot parse source map ${path}: ${reasonOf(error)}`,
@@ -202,17 +215,26 @@ const loadSourceMaps = async (
   )
 }
 
-const parseSourceMap = (content: string, path: string): SourceMap => {
+const parseSourceMap = (
+  content: string,
+  path: string,
+  logger: Logger,
+): SourceMap => {
   const inlineSourceMap = convertSourceMap.fromSource(content)?.toObject() as
     SourceMap | undefined
-  if (!inlineSourceMap) {
-    return resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
+  let sourceMap: SourceMap
+  if (inlineSourceMap) {
+    // Default `file` to the containing file, so the map matches profile
+    // locations that reference that file.
+    inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
+    sourceMap = resolveSourceMapSources(inlineSourceMap, path)
+  } else {
+    sourceMap = resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
   }
-
-  // Default `file` to the containing file, so the map matches profile
-  // locations that reference that file.
-  inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
-  return resolveSourceMapSources(inlineSourceMap, path)
+  logger.debug?.(
+    `loaded ${inlineSourceMap ? `inline` : `JSON`} source map from ${path} for generated file ${sourceMap.file ?? `<none>`} with ${sourceMap.sources.length} sources`,
+  )
+  return sourceMap
 }
 
 /**

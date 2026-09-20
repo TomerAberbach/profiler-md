@@ -581,6 +581,52 @@ if (format === undefined) {
   )
 
   test.concurrent(
+    `--source-maps warns about a glob matching no file`,
+    async () => {
+      const { status, stderr } = await runCli([
+        cpuProfilePath,
+        `--source-maps`,
+        `/nonexistent/*.map`,
+      ])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(
+        `warning: --source-maps matched no file, got: /nonexistent/*.map\n`,
+      )
+    },
+  )
+
+  test.concurrent(
+    `--source-maps warns about a source map matching no generated file`,
+    async () => {
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+      await writeFile(
+        join(dir, `other.js.map`),
+        JSON.stringify({
+          version: 3,
+          file: `/nowhere/other.js`,
+          sources: [`/mapped/original.ts`],
+          names: [],
+          mappings: `AAAA`,
+        }),
+      )
+
+      const { status, stderr } = await runCli([
+        cpuProfilePath,
+        `--source-maps`,
+        `${dir}/*.map`,
+      ])
+
+      expect(status).toBe(0)
+      expect(stderr).toMatch(
+        /^warning: source map for file:\/\/\/nowhere\/other\.js matched no generated file in the profile, whose generated files are: .*\n$/u,
+      )
+
+      await rm(dir, { recursive: true })
+    },
+  )
+
+  test.concurrent(
     `prints nothing to stderr by default on success`,
     async () => {
       const { status, stderr } = await runCli([cpuProfilePath])
