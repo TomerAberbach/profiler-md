@@ -730,6 +730,7 @@ class Capture {
       return {}
     }
 
+    const line = lineNumberOf(codeObject, instructionOffset, this.#header)
     return {
       name: codeObject.functionName,
       definition: {
@@ -737,9 +738,7 @@ class Capture {
         urlOrPath: codeObject.filename,
         position: { line: codeObject.firstLineNumber },
       },
-      executing: {
-        line: lineNumberOf(codeObject, instructionOffset, this.#header),
-      },
+      ...(line === undefined ? {} : { executing: { line } }),
     }
   }
 
@@ -1441,7 +1440,9 @@ const ALLOCATIONS = countMetricOf(`allocation`, { improvement: `decrease` })
 
 /**
  * Returns the 1-based line {@link instructionOffset} is on, from the code
- * object's line table.
+ * object's line table, or `undefined` for a code object without a line table
+ * or an offset before the code: nothing then records where the frame was, and
+ * inferring the definition line would report a line nothing measured.
  *
  * The table's encoding changed twice, so the traced interpreter's version
  * selects it: 3.11 and later store a variable-length entry per instruction
@@ -1454,10 +1455,10 @@ const lineNumberOf = (
   codeObject: CodeObject,
   instructionOffset: number,
   header: MemrayHeader,
-): number => {
+): number | undefined => {
   const { lineTable, firstLineNumber } = codeObject
   if (lineTable.length === 0 || instructionOffset < 0) {
-    return firstLineNumber
+    return undefined
   }
 
   if (header.pythonVersion >= 0x03_0b_00_00) {
