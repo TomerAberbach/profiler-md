@@ -1747,7 +1747,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |  2.5 MiB |       5 | `allocateInstance(Class)`                     | `jdk.internal.misc.Unsafe`            |
 | <0.1% |  1.5 MiB |       3 | `newLinkedHashMap(int)`                       | `java.util.LinkedHashMap`             |
 | <0.1% |  1.5 MiB |       3 | `fillInStackTrace(int)`                       | `java.lang.Throwable`                 |
-| <0.1% | 1024 KiB |       2 | `doubleStream(Spliterator$OfDouble, boolean)` | `java.util.stream.StreamSupport`      |
+| <0.1% |    1 MiB |       2 | `doubleStream(Spliterator$OfDouble, boolean)` | `java.util.stream.StreamSupport`      |
 
 ##### Ours
 
@@ -1767,7 +1767,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |    6 MiB |      12 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |  1.5 MiB |       3 | `lambda$run$0(int, List, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 | <0.1% |  1.5 MiB |       3 | `div(double[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| <0.1% | 1024 KiB |       2 | `average(List)`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |    1 MiB |       2 | `average(List)`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |  512 KiB |       1 | `<init>(JavaKMeans, Map)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
 #### Lines
@@ -1962,15 +1962,15 @@ Lines ranked by contribution to each function's self size.
 
 ##### `doubleStream(Spliterator$OfDouble, boolean)` (`java.util.stream.StreamSupport`)
 
-|      % |     Size | Samples | Location                             |
-| -----: | -------: | ------: | ------------------------------------ |
-| 100.0% | 1024 KiB |       2 | `java.util.stream.StreamSupport:274` |
+|      % |  Size | Samples | Location                             |
+| -----: | ----: | ------: | ------------------------------------ |
+| 100.0% | 1 MiB |       2 | `java.util.stream.StreamSupport:274` |
 
 ##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Location                                                   |
-| -----: | -------: | ------: | ---------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:332` |
+|      % |  Size | Samples | Location                                                   |
+| -----: | ----: | ------: | ---------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:332` |
 
 ##### `<init>(JavaKMeans, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
@@ -2097,10 +2097,10 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `copyOf(byte[], int)` (`java.util.Arrays`)
 
-|     % |     Size | Samples | Caller                        | Location                          |
-| ----: | -------: | ------: | ----------------------------- | --------------------------------- |
-| 93.8% |   15 MiB |      30 | `getBytes()`                  | `jdk.internal.loader.Resource`    |
-|  6.3% | 1024 KiB |       2 | `ensureCapacityInternal(int)` | `java.lang.AbstractStringBuilder` |
+|     % |   Size | Samples | Caller                        | Location                          |
+| ----: | -----: | ------: | ----------------------------- | --------------------------------- |
+| 93.8% | 15 MiB |      30 | `getBytes()`                  | `jdk.internal.loader.Resource`    |
+|  6.3% |  1 MiB |       2 | `ensureCapacityInternal(int)` | `java.lang.AbstractStringBuilder` |
 
 ##### `copyOf(Object[], int, Class)` (`java.util.Arrays`)
 
@@ -2188,15 +2188,15 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `doubleStream(Spliterator$OfDouble, boolean)` (`java.util.stream.StreamSupport`)
 
-|      % |     Size | Samples | Caller                       | Location           |
-| -----: | -------: | ------: | ---------------------------- | ------------------ |
-| 100.0% | 1024 KiB |       2 | `stream(double[], int, int)` | `java.util.Arrays` |
+|      % |  Size | Samples | Caller                       | Location           |
+| -----: | ----: | ------: | ---------------------------- | ------------------ |
+| 100.0% | 1 MiB |       2 | `stream(double[], int, int)` | `java.util.Arrays` |
 
 ##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Caller                     | Location                                               |
-| -----: | -------: | ------: | -------------------------- | ------------------------------------------------------ |
-| 100.0% | 1024 KiB |       2 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|      % |  Size | Samples | Caller                     | Location                                               |
+| -----: | ----: | ------: | -------------------------- | ------------------------------------------------------ |
+| 100.0% | 1 MiB |       2 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
 ##### `<init>(JavaKMeans, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
@@ -2365,7 +2365,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | ----: | -------: | ------: | ------------------------------------ | ---------------------------------- |
 | 99.1% | 27.8 GiB |  56,713 | `forEach(BiConsumer)`                | `java.util.HashMap`                |
 |  0.7% |  190 MiB |     380 | `<init>(Map)`                        | `java.util.HashMap`                |
-| <0.1% | 1024 KiB |       2 | `linkToTargetMethod(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+| <0.1% |    1 MiB |       2 | `linkToTargetMethod(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `combineResults(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
@@ -2510,10 +2510,10 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
 
-|     % |     Size | Samples | Callee                               | Location                            |
-| ----: | -------: | ------: | ------------------------------------ | ----------------------------------- |
-| 99.5% |  209 MiB |     413 | `invoke(Object, Object[])`           | `java.lang.reflect.Method`          |
-|  0.5% | 1024 KiB |       2 | `createClassLoaderForModule(String)` | `org.renaissance.core.ModuleLoader` |
+|     % |    Size | Samples | Callee                               | Location                            |
+| ----: | ------: | ------: | ------------------------------------ | ----------------------------------- |
+| 99.5% | 209 MiB |     413 | `invoke(Object, Object[])`           | `java.lang.reflect.Method`          |
+|  0.5% |   1 MiB |       2 | `createClassLoaderForModule(String)` | `org.renaissance.core.ModuleLoader` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 

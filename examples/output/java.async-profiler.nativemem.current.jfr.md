@@ -155,7 +155,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ---------------------------------------------- | -------------- |
 | 100.0% |  121 MiB |  10,183 | `CompileBroker::invoke_compiler_on_method`     | `libjvm.dylib` |
 |  <0.1% | 24.6 KiB |      48 | `CompileBroker::possibly_add_compiler_threads` | `libjvm.dylib` |
-|  <0.1% |   1000 B |       1 | `CompileBroker::init_compiler_runtime`         | `libjvm.dylib` |
+|  <0.1% |  1,000 B |       1 | `CompileBroker::init_compiler_runtime`         | `libjvm.dylib` |
 
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 

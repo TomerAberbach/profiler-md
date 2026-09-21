@@ -621,11 +621,11 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ###### `Data.Aeson.Encoding.Builder.text` (`src/Data/Aeson/Encoding/Builder.hs:109:1`)
 
-|     % |     Size | Caller                                        | Location                                  |
-| ----: | -------: | --------------------------------------------- | ----------------------------------------- |
-| 61.3% | 8.42 MiB | `Data.Aeson.Encoding.Builder.object`          | `src/Data/Aeson/Encoding/Builder.hs:96:1` |
-| 31.4% | 4.31 MiB | `Data.Aeson.Encoding.Builder.array`           | `src/Data/Aeson/Encoding/Builder.hs:86:1` |
-|  7.3% | 1020 KiB | `Data.Aeson.Encoding.Builder.encodeToBuilder` | `src/Data/Aeson/Encoding/Builder.hs:68:1` |
+|     % |      Size | Caller                                        | Location                                  |
+| ----: | --------: | --------------------------------------------- | ----------------------------------------- |
+| 61.3% |  8.42 MiB | `Data.Aeson.Encoding.Builder.object`          | `src/Data/Aeson/Encoding/Builder.hs:96:1` |
+| 31.4% |  4.31 MiB | `Data.Aeson.Encoding.Builder.array`           | `src/Data/Aeson/Encoding/Builder.hs:86:1` |
+|  7.3% | 1,020 KiB | `Data.Aeson.Encoding.Builder.encodeToBuilder` | `src/Data/Aeson/Encoding/Builder.hs:68:1` |
 
 ###### `Data.Scientific.toBoundedInteger` (`src/Data/Scientific.hs:772:1`)
 

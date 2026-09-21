@@ -1583,7 +1583,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |     % |     Size | Objects | Callee                                                  | Location                                        |
 | ----: | -------: | ------: | ------------------------------------------------------- | ----------------------------------------------- |
 | 99.2% | 14.1 KiB |      89 | `invokeExact_MT(Object, Object, Object)`                | `java.lang.invoke.Invokers$Holder`              |
-|  6.9% |   1008 B |      23 | `doWithCallSite(MutableCallSite, Object[], BiFunction)` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+|  6.9% |  1,008 B |      23 | `doWithCallSite(MutableCallSite, Object[], BiFunction)` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
 
 ##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000c0010b2800`)
 

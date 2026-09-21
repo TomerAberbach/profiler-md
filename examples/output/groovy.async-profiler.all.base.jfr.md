@@ -2053,7 +2053,7 @@ Lines ranked by contribution to each function's self size.
 | 30.4% | 64.5 MiB |     129 | `java.util.regex.Pattern:1915` |
 | 17.7% | 37.5 MiB |      75 | `java.util.regex.Pattern:1935` |
 |  8.0% |   17 MiB |      34 | `java.util.regex.Pattern:1937` |
-|  0.5% | 1024 KiB |       2 | `java.util.regex.Pattern:1967` |
+|  0.5% |    1 MiB |       2 | `java.util.regex.Pattern:1967` |
 
 #### Callers
 
@@ -2182,13 +2182,13 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `allocateInstance(Object)` (`java.lang.invoke.DirectMethodHandle`)
 
-|     % |     Size | Samples | Caller                                     | Location                                             |
-| ----: | -------: | ------: | ------------------------------------------ | ---------------------------------------------------- |
-| 90.9% |  206 MiB |     412 | `newInvokeSpecial(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`         |
-|  3.5% |    8 MiB |      16 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`         |
-|  2.6% |    6 MiB |      12 | `newInvokeSpecial(Object, int)`            | `java.lang.invoke.DirectMethodHandle$Holder`         |
-|  0.4% | 1024 KiB |       2 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.DirectMethodHandle$Holder`         |
-|  0.2% |  512 KiB |       1 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.LambdaForm$DMH.0x0000000401689000` |
+|     % |    Size | Samples | Caller                                     | Location                                             |
+| ----: | ------: | ------: | ------------------------------------------ | ---------------------------------------------------- |
+| 90.9% | 206 MiB |     412 | `newInvokeSpecial(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|  3.5% |   8 MiB |      16 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|  2.6% |   6 MiB |      12 | `newInvokeSpecial(Object, int)`            | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|  0.4% |   1 MiB |       2 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|  0.2% | 512 KiB |       1 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.LambdaForm$DMH.0x0000000401689000` |
 
 ##### `compile()` (`java.util.regex.Pattern`)
 

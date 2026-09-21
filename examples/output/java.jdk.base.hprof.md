@@ -562,28 +562,28 @@ Instances ranked by contribution to each constructor's self size.
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
-|     % |     Size | Instances | Constructor                                     |
-| ----: | -------: | --------: | ----------------------------------------------- |
-| 57.1% | 7.63 MiB |   100,005 | `java.lang.Double[]`                            |
-| 28.6% | 3.81 MiB |   500,026 | `java.lang.Double`                              |
-| 15.4% | 2.06 MiB |     1,914 | `java.lang.Object[]`                            |
-| 12.5% | 1.67 MiB |       110 | `java.util.ArrayList`                           |
-| 11.3% | 1.51 MiB |    23,679 | `byte[]`                                        |
-| 10.3% | 1.37 MiB |       380 | `java.util.HashMap`                             |
-| 10.2% | 1.36 MiB |       410 | `java.util.HashMap$Node[]`                      |
-|  9.2% | 1.23 MiB |    10,093 | `java.util.HashMap$Node`                        |
-|  7.4% | 1015 KiB |       159 | `java.lang.ref.SoftReference`                   |
-|  7.3% | 1003 KiB |        10 | `java.util.jar.JarFile`                         |
-|  7.3% | 1000 KiB |         7 | `java.util.jar.Manifest`                        |
-|  7.1% |  969 KiB |     2,676 | `java.lang.Class`                               |
-|  7.0% |  951 KiB |    22,933 | `java.lang.String`                              |
-|  6.1% |  829 KiB |        10 | `java.util.zip.ZipFile$Source`                  |
-|  3.9% |  536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`        |
-|  3.9% |  533 KiB |     5,825 | `java.util.LinkedHashMap`                       |
-|  3.9% |  527 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
-|  3.3% |  453 KiB |     5,785 | `java.util.jar.Attributes`                      |
-|  2.4% |  334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`   |
-|  1.1% |  144 KiB |     1,937 | `int[]`                                         |
+|     % |      Size | Instances | Constructor                                     |
+| ----: | --------: | --------: | ----------------------------------------------- |
+| 57.1% |  7.63 MiB |   100,005 | `java.lang.Double[]`                            |
+| 28.6% |  3.81 MiB |   500,026 | `java.lang.Double`                              |
+| 15.4% |  2.06 MiB |     1,914 | `java.lang.Object[]`                            |
+| 12.5% |  1.67 MiB |       110 | `java.util.ArrayList`                           |
+| 11.3% |  1.51 MiB |    23,679 | `byte[]`                                        |
+| 10.3% |  1.37 MiB |       380 | `java.util.HashMap`                             |
+| 10.2% |  1.36 MiB |       410 | `java.util.HashMap$Node[]`                      |
+|  9.2% |  1.23 MiB |    10,093 | `java.util.HashMap$Node`                        |
+|  7.4% | 1,015 KiB |       159 | `java.lang.ref.SoftReference`                   |
+|  7.3% | 1,003 KiB |        10 | `java.util.jar.JarFile`                         |
+|  7.3% | 1,000 KiB |         7 | `java.util.jar.Manifest`                        |
+|  7.1% |   969 KiB |     2,676 | `java.lang.Class`                               |
+|  7.0% |   951 KiB |    22,933 | `java.lang.String`                              |
+|  6.1% |   829 KiB |        10 | `java.util.zip.ZipFile$Source`                  |
+|  3.9% |   536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`        |
+|  3.9% |   533 KiB |     5,825 | `java.util.LinkedHashMap`                       |
+|  3.9% |   527 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
+|  3.3% |   453 KiB |     5,785 | `java.util.jar.Attributes`                      |
+|  2.4% |   334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`   |
+|  1.1% |   144 KiB |     1,937 | `int[]`                                         |
 
 #### Categories
 
@@ -625,28 +625,28 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 ##### Object
 
-|     % |     Size | Instances | Constructor                                   |
-| ----: | -------: | --------: | --------------------------------------------- |
-| 12.5% | 1.67 MiB |       110 | `java.util.ArrayList`                         |
-| 10.3% | 1.37 MiB |       380 | `java.util.HashMap`                           |
-|  9.2% | 1.23 MiB |    10,093 | `java.util.HashMap$Node`                      |
-|  7.4% | 1015 KiB |       159 | `java.lang.ref.SoftReference`                 |
-|  7.3% | 1003 KiB |        10 | `java.util.jar.JarFile`                       |
-|  7.3% | 1000 KiB |         7 | `java.util.jar.Manifest`                      |
-|  6.1% |  829 KiB |        10 | `java.util.zip.ZipFile$Source`                |
-|  3.9% |  536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`      |
-|  3.9% |  533 KiB |     5,825 | `java.util.LinkedHashMap`                     |
-|  3.3% |  453 KiB |     5,785 | `java.util.jar.Attributes`                    |
-|  2.4% |  334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node` |
-|  1.0% |  139 KiB |         2 | `java.net.URLClassLoader`                     |
-|  0.9% |  127 KiB |         2 | `org.renaissance.core.ModuleLoader`           |
-|  0.9% |  124 KiB |        38 | `java.util.LinkedHashSet`                     |
-|  0.9% |  123 KiB |     1,191 | `java.util.LinkedHashMap$Entry`               |
-|  0.8% |  116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider`        |
-|  0.6% | 79.5 KiB |       624 | `java.lang.invoke.MethodType`                 |
-|  0.6% |   79 KiB |        72 | `java.lang.Module`                            |
-|  0.6% | 77.8 KiB |       154 | `java.util.ImmutableCollections$SetN`         |
-|  0.6% | 77.4 KiB |       224 | `java.util.HashSet`                           |
+|     % |      Size | Instances | Constructor                                   |
+| ----: | --------: | --------: | --------------------------------------------- |
+| 12.5% |  1.67 MiB |       110 | `java.util.ArrayList`                         |
+| 10.3% |  1.37 MiB |       380 | `java.util.HashMap`                           |
+|  9.2% |  1.23 MiB |    10,093 | `java.util.HashMap$Node`                      |
+|  7.4% | 1,015 KiB |       159 | `java.lang.ref.SoftReference`                 |
+|  7.3% | 1,003 KiB |        10 | `java.util.jar.JarFile`                       |
+|  7.3% | 1,000 KiB |         7 | `java.util.jar.Manifest`                      |
+|  6.1% |   829 KiB |        10 | `java.util.zip.ZipFile$Source`                |
+|  3.9% |   536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`      |
+|  3.9% |   533 KiB |     5,825 | `java.util.LinkedHashMap`                     |
+|  3.3% |   453 KiB |     5,785 | `java.util.jar.Attributes`                    |
+|  2.4% |   334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node` |
+|  1.0% |   139 KiB |         2 | `java.net.URLClassLoader`                     |
+|  0.9% |   127 KiB |         2 | `org.renaissance.core.ModuleLoader`           |
+|  0.9% |   124 KiB |        38 | `java.util.LinkedHashSet`                     |
+|  0.9% |   123 KiB |     1,191 | `java.util.LinkedHashMap$Entry`               |
+|  0.8% |   116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider`        |
+|  0.6% |  79.5 KiB |       624 | `java.lang.invoke.MethodType`                 |
+|  0.6% |    79 KiB |        72 | `java.lang.Module`                            |
+|  0.6% |  77.8 KiB |       154 | `java.util.ImmutableCollections$SetN`         |
+|  0.6% |  77.4 KiB |       224 | `java.util.HashSet`                           |
 
 ##### String
 
@@ -740,25 +740,25 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `java.lang.ref.SoftReference`
 
-|     % |     Size | Instances | Path                                                                               |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------- |
-| 98.5% | 1000 KiB |         7 | `.manRef java.util.jar.JarFile`                                                    |
-|  0.2% |  1.7 KiB |         2 | `[7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm` |
-|  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$PlatformClassLoader`              |
-|  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$BootClassLoader`                  |
-|  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$AppClassLoader`                   |
+|     % |      Size | Instances | Path                                                                               |
+| ----: | --------: | --------: | ---------------------------------------------------------------------------------- |
+| 98.5% | 1,000 KiB |         7 | `.manRef java.util.jar.JarFile`                                                    |
+|  0.2% |   1.7 KiB |         2 | `[7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm` |
+|  0.1% |     716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$PlatformClassLoader`              |
+|  0.1% |     716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$BootClassLoader`                  |
+|  0.1% |     716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$AppClassLoader`                   |
 
 ##### `java.util.jar.JarFile`
 
-|      % |     Size | Instances | Path        |
-| -----: | -------: | --------: | ----------- |
-| 100.0% | 1003 KiB |        10 | `(GC root)` |
+|      % |      Size | Instances | Path        |
+| -----: | --------: | --------: | ----------- |
+| 100.0% | 1,003 KiB |        10 | `(GC root)` |
 
 ##### `java.util.jar.Manifest`
 
-|      % |     Size | Instances | Path                                                                    |
-| -----: | -------: | --------: | ----------------------------------------------------------------------- |
-| 100.0% | 1000 KiB |         7 | `.referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile` |
+|      % |      Size | Instances | Path                                                                    |
+| -----: | --------: | --------: | ----------------------------------------------------------------------- |
+| 100.0% | 1,000 KiB |         7 | `.referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile` |
 
 ##### `java.lang.Class`
 
@@ -948,7 +948,7 @@ Instances ranked by contribution to each constructor's retained size.
 | 69.9% | 28.7 KiB |        88 | `.lambdaForms java.lang.invoke.MethodTypeForm`                                       |
 | 21.2% | 8.69 KiB |        40 | `.lambdaForms java.lang.invoke.MethodTypeForm ← .form java.lang.invoke.MethodType`   |
 |  6.5% | 2.69 KiB |        88 | `.methodHandles java.lang.invoke.MethodTypeForm`                                     |
-|  2.4% |   1000 B |        40 | `.methodHandles java.lang.invoke.MethodTypeForm ← .form java.lang.invoke.MethodType` |
+|  2.4% |  1,000 B |        40 | `.methodHandles java.lang.invoke.MethodTypeForm ← .form java.lang.invoke.MethodType` |
 
 ##### `scala.math.BigInt[]`
 

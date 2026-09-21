@@ -268,7 +268,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 |  5.1% | 11.5 MiB |      23 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
 |  2.0% |  4.5 MiB |       9 | `newInvokeSpecial(Object, int)`            | `java.lang.invoke.DirectMethodHandle$Holder` |
 |  0.7% |  1.5 MiB |       3 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.DirectMethodHandle$Holder` |
-|  0.4% | 1024 KiB |       2 | `newInvokeSpecial(Object, int, int)`       | `java.lang.invoke.DirectMethodHandle$Holder` |
+|  0.4% |    1 MiB |       2 | `newInvokeSpecial(Object, int, int)`       | `java.lang.invoke.DirectMethodHandle$Holder` |
 
 ##### `optimize(Pattern$Node)` (`java.util.regex.Pattern$BnM`)
 
@@ -358,7 +358,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
 | 100.0% | 11.7 GiB |  23,978 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`     |
 |  <0.1% |    3 MiB |       6 | `linkToCallSite(Object, Object)`                                 | `java.lang.invoke.Invokers$Holder`     |
-|  <0.1% | 1024 KiB |       2 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
+|  <0.1% |    1 MiB |       2 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
 
 ##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
 
@@ -510,7 +510,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | --------------------------------- | ------------------------------------------------- |
 | 100.0% | 11.7 GiB |  23,921 | `invoke(Object, Object[])`        | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 |  <0.1% |    3 MiB |       6 | `acquireMethodAccessor()`         | `java.lang.reflect.Method`                        |
-|  <0.1% | 1024 KiB |       2 | `invoke(Object, Object[], Class)` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|  <0.1% |    1 MiB |       2 | `invoke(Object, Object[], Class)` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 
 ##### `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`)
 
@@ -524,7 +524,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ------------------------------------ | ------------------------------------------------------ |
 | 100.0% | 11.7 GiB |  23,921 | `invoke(Object, Object[])`           | `org.codehaus.groovy.reflection.CachedMethod`          |
 |   5.4% |  647 MiB |   1,294 | `invoke(Object, Object[])`           | `org.codehaus.groovy.runtime.dgmimpl.NumberNumberDiv`  |
-|  <0.1% | 1024 KiB |       2 | `invoke(Object, Object[])`           | `org.codehaus.groovy.runtime.dgmimpl.NumberNumberPlus` |
+|  <0.1% |    1 MiB |       2 | `invoke(Object, Object[])`           | `org.codehaus.groovy.runtime.dgmimpl.NumberNumberPlus` |
 |  <0.1% |  512 KiB |       1 | `coerceArgumentsToClasses(Object[])` | `org.codehaus.groovy.reflection.ParameterTypes`        |
 
 ##### `invokeMethod(Class, Object, String, Object[], boolean, boolean)` (`org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`)

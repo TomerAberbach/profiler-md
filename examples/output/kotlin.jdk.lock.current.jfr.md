@@ -1006,10 +1006,10 @@ Lines ranked by contribution to each function's self size.
 
 ##### `lazy(LazyThreadSafetyMode, Function0)` (`kotlin.LazyKt__LazyJVMKt`)
 
-|     % |     Size | Samples | Location                      |
-| ----: | -------: | ------: | ----------------------------- |
-| 71.4% |  2.5 MiB |       5 | `kotlin.LazyKt__LazyJVMKt:45` |
-| 28.6% | 1022 KiB |       2 | `kotlin.LazyKt__LazyJVMKt:44` |
+|     % |      Size | Samples | Location                      |
+| ----: | --------: | ------: | ----------------------------- |
+| 71.4% |   2.5 MiB |       5 | `kotlin.LazyKt__LazyJVMKt:45` |
+| 28.6% | 1,022 KiB |       2 | `kotlin.LazyKt__LazyJVMKt:44` |
 
 ##### `builder()` (`kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap`)
 
@@ -1046,10 +1046,10 @@ Lines ranked by contribution to each function's self size.
 
 ##### `<init>(int)` (`kotlin.collections.builders.MapBuilder`)
 
-|     % |     Size | Samples | Location                                    |
-| ----: | -------: | ------: | ------------------------------------------- |
-| 66.7% |    2 MiB |       4 | `kotlin.collections.builders.MapBuilder:60` |
-| 33.3% | 1022 KiB |       2 | `kotlin.collections.builders.MapBuilder:59` |
+|     % |      Size | Samples | Location                                    |
+| ----: | --------: | ------: | ------------------------------------------- |
+| 66.7% |     2 MiB |       4 | `kotlin.collections.builders.MapBuilder:60` |
+| 33.3% | 1,022 KiB |       2 | `kotlin.collections.builders.MapBuilder:59` |
 
 ##### `allocateUninitializedArray(Class, int)` (`jdk.internal.misc.Unsafe`)
 
@@ -1182,13 +1182,13 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `iterator()` (`java.util.ArrayList`)
 
-|     % |     Size | Samples | Caller                                                                                                       | Location                                                                         |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| 14.3% |    2 MiB |       3 | `iterator-impl(List)`                                                                                        | `org.jetbrains.kotlin.fir.MutableOrEmptyList`                                    |
-|  7.1% | 1022 KiB |       2 | `zip(Iterable, Iterable)`                                                                                    | `kotlin.collections.CollectionsKt___CollectionsKt`                               |
-|  7.1% | 1022 KiB |       2 | `get(Object)`                                                                                                | `org.jetbrains.kotlin.utils.SmartIdentityTable`                                  |
-|  3.6% |  511 KiB |       1 | `fillDanglingConstraintsTo(List, List, FirDeclaration)`                                                      | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder` |
-|  3.6% |  511 KiB |       1 | `collectSuperTypes(FirClassLikeSymbol, List, Set, boolean, boolean, boolean, FirSession, SupertypeSupplier)` | `org.jetbrains.kotlin.fir.resolve.SupertypeUtilsKt`                              |
+|     % |      Size | Samples | Caller                                                                                                       | Location                                                                         |
+| ----: | --------: | ------: | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| 14.3% |     2 MiB |       3 | `iterator-impl(List)`                                                                                        | `org.jetbrains.kotlin.fir.MutableOrEmptyList`                                    |
+|  7.1% | 1,022 KiB |       2 | `zip(Iterable, Iterable)`                                                                                    | `kotlin.collections.CollectionsKt___CollectionsKt`                               |
+|  7.1% | 1,022 KiB |       2 | `get(Object)`                                                                                                | `org.jetbrains.kotlin.utils.SmartIdentityTable`                                  |
+|  3.6% |   511 KiB |       1 | `fillDanglingConstraintsTo(List, List, FirDeclaration)`                                                      | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder` |
+|  3.6% |   511 KiB |       1 | `collectSuperTypes(FirClassLikeSymbol, List, Set, boolean, boolean, boolean, FirSession, SupertypeSupplier)` | `org.jetbrains.kotlin.fir.resolve.SupertypeUtilsKt`                              |
 
 ##### `copyOfRangeByte(byte[], int, int)` (`java.util.Arrays`)
 
@@ -1229,23 +1229,23 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `<init>(int, int)` (`org.jetbrains.org.objectweb.asm.tree.analysis.Frame`)
 
-|     % |     Size | Samples | Caller                                          | Location                                                                                                   |
-| ----: | -------: | ------: | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 45.1% | 2.49 MiB |       5 | `_init_$lambda$0(int, int)`                     | `org.jetbrains.kotlin.codegen.optimization.common.FastMethodAnalyzer`                                      |
-| 18.8% | 1.04 MiB |       1 | `preprocessNodeBeforeInline$lambda$0(int, int)` | `org.jetbrains.kotlin.codegen.inline.MethodInliner`                                                        |
-| 18.1% | 1022 KiB |       2 | `<init>(int)`                                   | `org.jetbrains.kotlin.codegen.optimization.temporaryVals.StoreLoadFrame`                                   |
-|  9.0% |  511 KiB |       1 | `<init>(int, int)`                              | `org.jetbrains.kotlin.codegen.inline.MethodInlinerUtilKt$analyzeMethodNodeWithInterpreter$BasicValueFrame` |
-|  9.0% |  511 KiB |       1 | `<init>(int, int)`                              | `org.jetbrains.kotlin.codegen.optimization.boxing.BoxingFrame`                                             |
+|     % |      Size | Samples | Caller                                          | Location                                                                                                   |
+| ----: | --------: | ------: | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 45.1% |  2.49 MiB |       5 | `_init_$lambda$0(int, int)`                     | `org.jetbrains.kotlin.codegen.optimization.common.FastMethodAnalyzer`                                      |
+| 18.8% |  1.04 MiB |       1 | `preprocessNodeBeforeInline$lambda$0(int, int)` | `org.jetbrains.kotlin.codegen.inline.MethodInliner`                                                        |
+| 18.1% | 1,022 KiB |       2 | `<init>(int)`                                   | `org.jetbrains.kotlin.codegen.optimization.temporaryVals.StoreLoadFrame`                                   |
+|  9.0% |   511 KiB |       1 | `<init>(int, int)`                              | `org.jetbrains.kotlin.codegen.inline.MethodInlinerUtilKt$analyzeMethodNodeWithInterpreter$BasicValueFrame` |
+|  9.0% |   511 KiB |       1 | `<init>(int, int)`                              | `org.jetbrains.kotlin.codegen.optimization.boxing.BoxingFrame`                                             |
 
 ##### `box-impl(List)` (`org.jetbrains.kotlin.fir.MutableOrEmptyList`)
 
-|     % |     Size | Samples | Caller                               | Location                                                                    |
-| ----: | -------: | ------: | ------------------------------------ | --------------------------------------------------------------------------- |
-| 22.2% | 1022 KiB |       2 | `getAnnotations()`                   | `org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl`            |
-| 11.1% |  511 KiB |       1 | `getAnnotations()`                   | `org.jetbrains.kotlin.fir.declarations.impl.FirValueParameterImpl`          |
-| 11.1% |  511 KiB |       1 | `acceptChildren(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.types.impl.FirResolvedTypeRefImpl`                |
-| 11.1% |  511 KiB |       1 | `getTypeArguments()`                 | `org.jetbrains.kotlin.fir.expressions.impl.FirFunctionCallImpl`             |
-| 11.1% |  511 KiB |       1 | `acceptChildren(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.expressions.impl.FirPropertyAccessExpressionImpl` |
+|     % |      Size | Samples | Caller                               | Location                                                                    |
+| ----: | --------: | ------: | ------------------------------------ | --------------------------------------------------------------------------- |
+| 22.2% | 1,022 KiB |       2 | `getAnnotations()`                   | `org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl`            |
+| 11.1% |   511 KiB |       1 | `getAnnotations()`                   | `org.jetbrains.kotlin.fir.declarations.impl.FirValueParameterImpl`          |
+| 11.1% |   511 KiB |       1 | `acceptChildren(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.types.impl.FirResolvedTypeRefImpl`                |
+| 11.1% |   511 KiB |       1 | `getTypeArguments()`                 | `org.jetbrains.kotlin.fir.expressions.impl.FirFunctionCallImpl`             |
+| 11.1% |   511 KiB |       1 | `acceptChildren(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.expressions.impl.FirPropertyAccessExpressionImpl` |
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -1371,19 +1371,19 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `getTypeInternal(String, int, int)` (`org.jetbrains.org.objectweb.asm.Type`)
 
-|     % |     Size | Samples | Caller                     | Location                               |
-| ----: | -------: | ------: | -------------------------- | -------------------------------------- |
-| 50.0% | 1022 KiB |       2 | `getArgumentTypes(String)` | `org.jetbrains.org.objectweb.asm.Type` |
-| 25.0% |  511 KiB |       1 | `getType(String)`          | `org.jetbrains.org.objectweb.asm.Type` |
-| 25.0% |  511 KiB |       1 | `getReturnType(String)`    | `org.jetbrains.org.objectweb.asm.Type` |
+|     % |      Size | Samples | Caller                     | Location                               |
+| ----: | --------: | ------: | -------------------------- | -------------------------------------- |
+| 50.0% | 1,022 KiB |       2 | `getArgumentTypes(String)` | `org.jetbrains.org.objectweb.asm.Type` |
+| 25.0% |   511 KiB |       1 | `getType(String)`          | `org.jetbrains.org.objectweb.asm.Type` |
+| 25.0% |   511 KiB |       1 | `getReturnType(String)`    | `org.jetbrains.org.objectweb.asm.Type` |
 
 ##### `<init>(String)` (`org.jetbrains.kotlin.name.FqName`)
 
-|     % |     Size | Samples | Caller                                          | Location                                                             |
-| ----: | -------: | ------: | ----------------------------------------------- | -------------------------------------------------------------------- |
-| 50.0% | 1022 KiB |       1 | `asSingleFqName()`                              | `org.jetbrains.kotlin.name.ClassId`                                  |
-| 25.0% |  511 KiB |       1 | `getFqNameWhenAvailable(IrDeclarationWithName)` | `org.jetbrains.kotlin.ir.util.IrUtilsKt`                             |
-| 25.0% |  511 KiB |       1 | `<init>(Name)`                                  | `org.jetbrains.kotlin.fir.symbols.impl.FirFunctionWithoutNameSymbol` |
+|     % |      Size | Samples | Caller                                          | Location                                                             |
+| ----: | --------: | ------: | ----------------------------------------------- | -------------------------------------------------------------------- |
+| 50.0% | 1,022 KiB |       1 | `asSingleFqName()`                              | `org.jetbrains.kotlin.name.ClassId`                                  |
+| 25.0% |   511 KiB |       1 | `getFqNameWhenAvailable(IrDeclarationWithName)` | `org.jetbrains.kotlin.ir.util.IrUtilsKt`                             |
+| 25.0% |   511 KiB |       1 | `<init>(Name)`                                  | `org.jetbrains.kotlin.fir.symbols.impl.FirFunctionWithoutNameSymbol` |
 
 ##### `newTypeCheckerState(TypeSystemContext, boolean, boolean, boolean)` (`org.jetbrains.kotlin.fir.types.ConeInferenceContext`)
 
@@ -1610,10 +1610,10 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
 
-|     % |     Size | Samples | Callee                     | Location                                          |
-| ----: | -------: | ------: | -------------------------- | ------------------------------------------------- |
-| 99.7% |  158 MiB |     200 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
-|  0.6% | 1022 KiB |       2 | `acquireMethodAccessor()`  | `java.lang.reflect.Method`                        |
+|     % |      Size | Samples | Callee                     | Location                                          |
+| ----: | --------: | ------: | -------------------------- | ------------------------------------------------- |
+| 99.7% |   158 MiB |     200 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|  0.6% | 1,022 KiB |       2 | `acquireMethodAccessor()`  | `java.lang.reflect.Method`                        |
 
 ##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
 

@@ -67,6 +67,8 @@ export const formatBytesDelta = (bytes: number): string =>
 const prettyBytesOptions: PrettyBytesOptions = {
   nonBreakingSpace: true,
   binary: true,
+  // Counts are grouped in en-US, so a size in the same row must be too.
+  locale: `en-US`,
 }
 
 export const formatPercentChange = (base: number, current: number): string => {

@@ -1128,12 +1128,12 @@ Lines ranked by contribution to each function's self size.
 
 ##### `<init>()` (`org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage`)
 
-|     % |     Size | Samples | Location                                                                          |
-| ----: | -------: | ------: | --------------------------------------------------------------------------------- |
-| 40.0% | 1022 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:332` |
-| 20.0% |  511 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:334` |
-| 20.0% |  511 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:340` |
-| 20.0% |  511 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:319` |
+|     % |      Size | Samples | Location                                                                          |
+| ----: | --------: | ------: | --------------------------------------------------------------------------------- |
+| 40.0% | 1,022 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:332` |
+| 20.0% |   511 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:334` |
+| 20.0% |   511 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:340` |
+| 20.0% |   511 KiB |       1 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage:319` |
 
 ##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
@@ -1157,17 +1157,17 @@ Lines ranked by contribution to each function's self size.
 
 ##### `<init>(String, MethodNode, Interpreter, boolean, boolean, boolean, Function2)` (`org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer`)
 
-|     % |     Size | Samples | Location                                                           |
-| ----: | -------: | ------: | ------------------------------------------------------------------ |
-| 66.7% | 1022 KiB |       2 | `org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer:28` |
-| 33.3% |  511 KiB |       1 | `org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer:34` |
+|     % |      Size | Samples | Location                                                           |
+| ----: | --------: | ------: | ------------------------------------------------------------------ |
+| 66.7% | 1,022 KiB |       2 | `org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer:28` |
+| 33.3% |   511 KiB |       1 | `org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer:34` |
 
 ##### `<init>(byte[], int, boolean)` (`org.jetbrains.org.objectweb.asm.ClassReader`)
 
-|     % |     Size | Samples | Location                                          |
-| ----: | -------: | ------: | ------------------------------------------------- |
-| 66.9% | 1022 KiB |       2 | `org.jetbrains.org.objectweb.asm.ClassReader:214` |
-| 33.1% |  506 KiB |       1 | `org.jetbrains.org.objectweb.asm.ClassReader:215` |
+|     % |      Size | Samples | Location                                          |
+| ----: | --------: | ------: | ------------------------------------------------- |
+| 66.9% | 1,022 KiB |       2 | `org.jetbrains.org.objectweb.asm.ClassReader:214` |
+| 33.1% |   506 KiB |       1 | `org.jetbrains.org.objectweb.asm.ClassReader:215` |
 
 ##### `topLevel(Name)` (`org.jetbrains.kotlin.name.FqName$Companion`)
 
@@ -1225,13 +1225,13 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `iterator()` (`java.util.ArrayList`)
 
-|    % |     Size | Samples | Caller                                                              | Location                                                                  |
-| ---: | -------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| 7.4% | 1022 KiB |       1 | `processExcessLambdaArguments(List)`                                | `org.jetbrains.kotlin.fir.resolve.calls.stages.FirCallArgumentsProcessor` |
-| 7.4% | 1022 KiB |       2 | `hasMangledParameters(IrFunction, boolean, boolean)`                | `org.jetbrains.kotlin.backend.jvm.InlineClassAbiKt`                       |
-| 7.4% | 1022 KiB |       2 | `transformIfNeeded(List, IrTransformer, Object)`                    | `org.jetbrains.kotlin.ir.util.TransformKt`                                |
-| 3.7% |  511 KiB |       1 | `putAll(Map, Iterable)`                                             | `kotlin.collections.MapsKt__MapsKt`                                       |
-| 3.7% |  511 KiB |       1 | `getCorrespondingSupertypes(ConeKotlinType, TypeConstructorMarker)` | `org.jetbrains.kotlin.fir.types.FirCorrespondingSupertypesCache`          |
+|    % |      Size | Samples | Caller                                                              | Location                                                                  |
+| ---: | --------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 7.4% | 1,022 KiB |       1 | `processExcessLambdaArguments(List)`                                | `org.jetbrains.kotlin.fir.resolve.calls.stages.FirCallArgumentsProcessor` |
+| 7.4% | 1,022 KiB |       2 | `hasMangledParameters(IrFunction, boolean, boolean)`                | `org.jetbrains.kotlin.backend.jvm.InlineClassAbiKt`                       |
+| 7.4% | 1,022 KiB |       2 | `transformIfNeeded(List, IrTransformer, Object)`                    | `org.jetbrains.kotlin.ir.util.TransformKt`                                |
+| 3.7% |   511 KiB |       1 | `putAll(Map, Iterable)`                                             | `kotlin.collections.MapsKt__MapsKt`                                       |
+| 3.7% |   511 KiB |       1 | `getCorrespondingSupertypes(ConeKotlinType, TypeConstructorMarker)` | `org.jetbrains.kotlin.fir.types.FirCorrespondingSupertypesCache`          |
 
 ##### `copyOfRangeByte(byte[], int, int)` (`java.util.Arrays`)
 
@@ -1297,12 +1297,12 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `iterator()` (`java.util.LinkedHashMap$LinkedEntrySet`)
 
-|     % |     Size | Samples | Caller                                         | Location                                                                       |
-| ----: | -------: | ------: | ---------------------------------------------- | ------------------------------------------------------------------------------ |
-| 50.0% |    2 MiB |       3 | `doAddOtherSystem(ConstraintStorage, boolean)` | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl`   |
-| 25.0% | 1022 KiB |       2 | `create(Map, FirSession, boolean)`             | `org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutorByMap$Companion` |
-| 12.5% |  511 KiB |       1 | `serializeAnnotation(ClassId, Map)`            | `org.jetbrains.kotlin.fir.serialization.FirAnnotationSerializer`               |
-| 12.5% |  511 KiB |       1 | `hashCode()`                                   | `java.util.AbstractMap`                                                        |
+|     % |      Size | Samples | Caller                                         | Location                                                                       |
+| ----: | --------: | ------: | ---------------------------------------------- | ------------------------------------------------------------------------------ |
+| 50.0% |     2 MiB |       3 | `doAddOtherSystem(ConstraintStorage, boolean)` | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl`   |
+| 25.0% | 1,022 KiB |       2 | `create(Map, FirSession, boolean)`             | `org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutorByMap$Companion` |
+| 12.5% |   511 KiB |       1 | `serializeAnnotation(ClassId, Map)`            | `org.jetbrains.kotlin.fir.serialization.FirAnnotationSerializer`               |
+| 12.5% |   511 KiB |       1 | `hashCode()`                                   | `java.util.AbstractMap`                                                        |
 
 ##### `ensureCapacity()` (`com.intellij.lang.impl.PsiBuilderImpl$MyTreeStructure`)
 
@@ -1344,28 +1344,28 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `<init>(int)` (`java.util.ArrayList`)
 
-|     % |     Size | Samples | Caller                                                                           | Location                                                                   |
-| ----: | -------: | ------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 33.3% | 1022 KiB |       2 | `getTypeParameterSymbols()`                                                      | `org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol`                 |
-| 16.7% |  511 KiB |       1 | `createKeyMapping(IntrinsicMethod, IrClassSymbol, String, IrClassifierSymbol[])` | `org.jetbrains.kotlin.backend.jvm.intrinsics.IrIntrinsicMethods$Companion` |
-| 16.7% |  511 KiB |       1 | `zip(Iterable, Iterable)`                                                        | `kotlin.collections.CollectionsKt___CollectionsKt`                         |
-| 16.7% |  511 KiB |       1 | `rigidType(ProtoBuf$Type, ConeAttributes)`                                       | `org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer`             |
-| 16.7% |  511 KiB |       1 | `<init>(Class, Function1)`                                                       | `org.jetbrains.kotlin.backend.common.phaser.LoweringPhase`                 |
+|     % |      Size | Samples | Caller                                                                           | Location                                                                   |
+| ----: | --------: | ------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 33.3% | 1,022 KiB |       2 | `getTypeParameterSymbols()`                                                      | `org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol`                 |
+| 16.7% |   511 KiB |       1 | `createKeyMapping(IntrinsicMethod, IrClassSymbol, String, IrClassifierSymbol[])` | `org.jetbrains.kotlin.backend.jvm.intrinsics.IrIntrinsicMethods$Companion` |
+| 16.7% |   511 KiB |       1 | `zip(Iterable, Iterable)`                                                        | `kotlin.collections.CollectionsKt___CollectionsKt`                         |
+| 16.7% |   511 KiB |       1 | `rigidType(ProtoBuf$Type, ConeAttributes)`                                       | `org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer`             |
+| 16.7% |   511 KiB |       1 | `<init>(Class, Function1)`                                                       | `org.jetbrains.kotlin.backend.common.phaser.LoweringPhase`                 |
 
 ##### `arrayOfUninitializedElements(int)` (`kotlin.collections.builders.ListBuilderKt`)
 
-|     % |     Size | Samples | Caller        | Location                                  |
-| ----: | -------: | ------: | ------------- | ----------------------------------------- |
-| 66.7% |    2 MiB |       4 | `<init>(int)` | `kotlin.collections.builders.MapBuilder`  |
-| 33.3% | 1022 KiB |       2 | `<init>(int)` | `kotlin.collections.builders.ListBuilder` |
+|     % |      Size | Samples | Caller        | Location                                  |
+| ----: | --------: | ------: | ------------- | ----------------------------------------- |
+| 66.7% |     2 MiB |       4 | `<init>(int)` | `kotlin.collections.builders.MapBuilder`  |
+| 33.3% | 1,022 KiB |       2 | `<init>(int)` | `kotlin.collections.builders.ListBuilder` |
 
 ##### `newOutput()` (`org.jetbrains.kotlin.protobuf.ByteString`)
 
-|     % |     Size | Samples | Caller                                            | Location                                                           |
-| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------------------------------------ |
-| 47.9% | 1.37 MiB |       3 | `<init>(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Type`                      |
-| 34.8% | 1022 KiB |       2 | `<init>(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Type$Argument`             |
-| 17.4% |  511 KiB |       1 | `<init>(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature` |
+|     % |      Size | Samples | Caller                                            | Location                                                           |
+| ----: | --------: | ------: | ------------------------------------------------- | ------------------------------------------------------------------ |
+| 47.9% |  1.37 MiB |       3 | `<init>(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Type`                      |
+| 34.8% | 1,022 KiB |       2 | `<init>(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Type$Argument`             |
+| 17.4% |   511 KiB |       1 | `<init>(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature` |
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -1394,10 +1394,10 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `<init>(int)` (`java.lang.AbstractStringBuilder`)
 
-|     % |     Size | Samples | Caller        | Location                  |
-| ----: | -------: | ------: | ------------- | ------------------------- |
-| 60.0% |  1.5 MiB |       3 | `<init>()`    | `java.lang.StringBuilder` |
-| 40.0% | 1022 KiB |       2 | `<init>(int)` | `java.lang.StringBuilder` |
+|     % |      Size | Samples | Caller        | Location                  |
+| ----: | --------: | ------: | ------------- | ------------------------- |
+| 60.0% |   1.5 MiB |       3 | `<init>()`    | `java.lang.StringBuilder` |
+| 40.0% | 1,022 KiB |       2 | `<init>(int)` | `java.lang.StringBuilder` |
 
 ##### `<init>()` (`org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage`)
 
@@ -1422,10 +1422,10 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `getTypeInternal(String, int, int)` (`org.jetbrains.org.objectweb.asm.Type`)
 
-|     % |     Size | Samples | Caller                     | Location                               |
-| ----: | -------: | ------: | -------------------------- | -------------------------------------- |
-| 66.7% | 1022 KiB |       2 | `getReturnType(String)`    | `org.jetbrains.org.objectweb.asm.Type` |
-| 33.3% |  511 KiB |       1 | `getArgumentTypes(String)` | `org.jetbrains.org.objectweb.asm.Type` |
+|     % |      Size | Samples | Caller                     | Location                               |
+| ----: | --------: | ------: | -------------------------- | -------------------------------------- |
+| 66.7% | 1,022 KiB |       2 | `getReturnType(String)`    | `org.jetbrains.org.objectweb.asm.Type` |
+| 33.3% |   511 KiB |       1 | `getArgumentTypes(String)` | `org.jetbrains.org.objectweb.asm.Type` |
 
 ##### `simplifyTrivialInstructions(MethodNode)` (`org.jetbrains.kotlin.codegen.optimization.temporaryVals.TemporaryVariablesEliminationTransformer`)
 
@@ -1435,10 +1435,10 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `<init>(String, MethodNode, Interpreter, boolean, boolean, boolean, Function2)` (`org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer`)
 
-|     % |     Size | Samples | Caller                                                        | Location                                                               |
-| ----: | -------: | ------: | ------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 66.7% | 1022 KiB |       2 | `<init>(String, MethodNode, Interpreter, boolean, Function2)` | `org.jetbrains.kotlin.codegen.optimization.common.FastMethodAnalyzer`  |
-| 33.3% |  511 KiB |       1 | `<init>(String, MethodNode, Interpreter, Function2)`          | `org.jetbrains.kotlin.codegen.optimization.fixStack.FastStackAnalyzer` |
+|     % |      Size | Samples | Caller                                                        | Location                                                               |
+| ----: | --------: | ------: | ------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 66.7% | 1,022 KiB |       2 | `<init>(String, MethodNode, Interpreter, boolean, Function2)` | `org.jetbrains.kotlin.codegen.optimization.common.FastMethodAnalyzer`  |
+| 33.3% |   511 KiB |       1 | `<init>(String, MethodNode, Interpreter, Function2)`          | `org.jetbrains.kotlin.codegen.optimization.fixStack.FastStackAnalyzer` |
 
 ##### `<init>(byte[], int, boolean)` (`org.jetbrains.org.objectweb.asm.ClassReader`)
 
@@ -1589,13 +1589,13 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
 
-|     % |     Size | Samples | Callee                                                               | Location                                                         |
-| ----: | -------: | ------: | -------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| 99.7% |  146 MiB |     292 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                |
-|  3.4% | 4.99 MiB |      10 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase`   |
-|  0.7% | 1022 KiB |       2 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.backend.common.phaser.ModuleLoweringPhase` |
-|  0.7% | 1022 KiB |       2 | `runBefore(PhaseConfig, PhaserState, LoggingContext, Object)`        | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`          |
-|  0.3% |  511 KiB |       1 | `runAfter(PhaseConfig, PhaserState, LoggingContext, Object, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`          |
+|     % |      Size | Samples | Callee                                                               | Location                                                         |
+| ----: | --------: | ------: | -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 99.7% |   146 MiB |     292 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                |
+|  3.4% |  4.99 MiB |      10 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase`   |
+|  0.7% | 1,022 KiB |       2 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.backend.common.phaser.ModuleLoweringPhase` |
+|  0.7% | 1,022 KiB |       2 | `runBefore(PhaseConfig, PhaserState, LoggingContext, Object)`        | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`          |
+|  0.3% |   511 KiB |       1 | `runAfter(PhaseConfig, PhaserState, LoggingContext, Object, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`          |
 
 ##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
@@ -1705,11 +1705,11 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
 
-|     % |     Size | Samples | Callee                     | Location                                          |
-| ----: | -------: | ------: | -------------------------- | ------------------------------------------------- |
-| 99.2% |  123 MiB |     206 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
-|  0.8% | 1020 KiB |       3 | `acquireMethodAccessor()`  | `java.lang.reflect.Method`                        |
-|  0.4% |  511 KiB |       1 | `isCallerSensitive()`      | `java.lang.reflect.Method`                        |
+|     % |      Size | Samples | Callee                     | Location                                          |
+| ----: | --------: | ------: | -------------------------- | ------------------------------------------------- |
+| 99.2% |   123 MiB |     206 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|  0.8% | 1,020 KiB |       3 | `acquireMethodAccessor()`  | `java.lang.reflect.Method`                        |
+|  0.4% |   511 KiB |       1 | `isCallerSensitive()`      | `java.lang.reflect.Method`                        |
 
 ##### `copyOf(byte[], int)` (`java.util.Arrays`)
 
@@ -1749,10 +1749,10 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `executePrivileged(PrivilegedAction, AccessControlContext, Class)` (`java.security.AccessController`)
 
-|     % |     Size | Samples | Callee  | Location                                    |
-| ----: | -------: | ------: | ------- | ------------------------------------------- |
-| 95.5% | 21.4 MiB |       1 | `run()` | `java.net.URLClassLoader$2`                 |
-|  4.5% | 1021 KiB |       2 | `run()` | `sun.reflect.annotation.AnnotationParser$1` |
+|     % |      Size | Samples | Callee  | Location                                    |
+| ----: | --------: | ------: | ------- | ------------------------------------------- |
+| 95.5% |  21.4 MiB |       1 | `run()` | `java.net.URLClassLoader$2`                 |
+|  4.5% | 1,021 KiB |       2 | `run()` | `sun.reflect.annotation.AnnotationParser$1` |
 
 ##### `<init>(ZipFile$Source$Key, boolean, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 

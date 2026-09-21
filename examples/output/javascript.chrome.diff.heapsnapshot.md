@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 1011 KiB → 1012 KiB (+496 B, ~0%) across 33,183 → 34,798 nodes and 145,158 → 149,397 edges.
+Allocated 1,011 KiB → 1,012 KiB (+496 B, ~0%) across 33,183 → 34,798 nodes and 145,158 → 149,397 edges.
 
 | Category            | Change |  Delta |             % |              Size |       Nodes |
 | ------------------- | -----: | -----: | ------------: | ----------------: | ----------: |

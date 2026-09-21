@@ -138,17 +138,17 @@ Constructors with the largest increase in retained size.
 
 Constructors with the largest decrease in retained size.
 
-| Change |       Delta |             % |                Size |       Instances | Constructor                  |
-| -----: | ----------: | ------------: | ------------------: | --------------: | ---------------------------- |
-|  -2.1% | -22.077 KiB |   9.7% → 9.5% | 1.01 MiB → 1015 KiB |              14 | `Window`                     |
-|  -0.2% |  -3.481 KiB | 17.8% → 17.7% |            1.85 MiB | 12,175 → 12,177 | `Structure`                  |
-|    ~0% |  -1.354 KiB | 55.3% → 55.2% |            5.76 MiB |          11,833 | `Object`                     |
-|  -0.1% |  -1.351 KiB |         15.6% |            1.62 MiB |           6,041 | `UnlinkedFunctionExecutable` |
-|  -0.1% |  -1.261 KiB |         11.2% |            1.17 MiB |   1,660 → 1,658 | `UnlinkedFunctionCodeBlock`  |
-|  -0.1% |      -708 B |          6.1% |   650 KiB → 649 KiB |           7,409 | `Array`                      |
-|  -4.2% |      -160 B |         <0.1% | 3.71 KiB → 3.55 KiB |               1 | `Range`                      |
-|  -0.1% |       -48 B |          0.4% | 43.5 KiB → 43.4 KiB |           1,330 | `DOMRect`                    |
-|  -0.4% |       -16 B |         <0.1% | 4.41 KiB → 4.39 KiB |       282 → 281 | `StructureChain`             |
+| Change |       Delta |             % |                 Size |       Instances | Constructor                  |
+| -----: | ----------: | ------------: | -------------------: | --------------: | ---------------------------- |
+|  -2.1% | -22.077 KiB |   9.7% → 9.5% | 1.01 MiB → 1,015 KiB |              14 | `Window`                     |
+|  -0.2% |  -3.481 KiB | 17.8% → 17.7% |             1.85 MiB | 12,175 → 12,177 | `Structure`                  |
+|    ~0% |  -1.354 KiB | 55.3% → 55.2% |             5.76 MiB |          11,833 | `Object`                     |
+|  -0.1% |  -1.351 KiB |         15.6% |             1.62 MiB |           6,041 | `UnlinkedFunctionExecutable` |
+|  -0.1% |  -1.261 KiB |         11.2% |             1.17 MiB |   1,660 → 1,658 | `UnlinkedFunctionCodeBlock`  |
+|  -0.1% |      -708 B |          6.1% |    650 KiB → 649 KiB |           7,409 | `Array`                      |
+|  -4.2% |      -160 B |         <0.1% |  3.71 KiB → 3.55 KiB |               1 | `Range`                      |
+|  -0.1% |       -48 B |          0.4% |  43.5 KiB → 43.4 KiB |           1,330 | `DOMRect`                    |
+|  -0.4% |       -16 B |         <0.1% |  4.41 KiB → 4.39 KiB |       282 → 281 | `StructureChain`             |
 
 ##### Code
 
@@ -171,12 +171,12 @@ Constructors with the largest decrease in retained size.
 
 ##### Object
 
-| Change |       Delta |             % |                Size | Instances | Constructor |
-| -----: | ----------: | ------------: | ------------------: | --------: | ----------- |
-|  -2.1% | -22.077 KiB |   9.7% → 9.5% | 1.01 MiB → 1015 KiB |        14 | `Window`    |
-|    ~0% |  -1.354 KiB | 55.3% → 55.2% |            5.76 MiB |    11,833 | `Object`    |
-|  -4.2% |      -160 B |         <0.1% | 3.71 KiB → 3.55 KiB |         1 | `Range`     |
-|  -0.1% |       -48 B |          0.4% | 43.5 KiB → 43.4 KiB |     1,330 | `DOMRect`   |
+| Change |       Delta |             % |                 Size | Instances | Constructor |
+| -----: | ----------: | ------------: | -------------------: | --------: | ----------- |
+|  -2.1% | -22.077 KiB |   9.7% → 9.5% | 1.01 MiB → 1,015 KiB |        14 | `Window`    |
+|    ~0% |  -1.354 KiB | 55.3% → 55.2% |             5.76 MiB |    11,833 | `Object`    |
+|  -4.2% |      -160 B |         <0.1% |  3.71 KiB → 3.55 KiB |         1 | `Range`     |
+|  -0.1% |       -48 B |          0.4% |  43.5 KiB → 43.4 KiB |     1,330 | `DOMRect`   |
 
 ##### Array
 

@@ -1900,13 +1900,13 @@ Lines ranked by contribution to each function's self size.
 
 ##### `compile()` (`java.util.regex.Pattern`)
 
-|     % |     Size | Samples | Location                       |
-| ----: | -------: | ------: | ------------------------------ |
-| 41.7% |   88 MiB |     176 | `java.util.regex.Pattern:1934` |
-| 30.8% |   65 MiB |     130 | `java.util.regex.Pattern:1915` |
-| 20.4% |   43 MiB |      86 | `java.util.regex.Pattern:1935` |
-|  6.2% |   13 MiB |      26 | `java.util.regex.Pattern:1937` |
-|  0.5% | 1024 KiB |       2 | `java.util.regex.Pattern:1962` |
+|     % |   Size | Samples | Location                       |
+| ----: | -----: | ------: | ------------------------------ |
+| 41.7% | 88 MiB |     176 | `java.util.regex.Pattern:1934` |
+| 30.8% | 65 MiB |     130 | `java.util.regex.Pattern:1915` |
+| 20.4% | 43 MiB |      86 | `java.util.regex.Pattern:1935` |
+|  6.2% | 13 MiB |      26 | `java.util.regex.Pattern:1937` |
+|  0.5% |  1 MiB |       2 | `java.util.regex.Pattern:1962` |
 
 ##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
 
@@ -2128,7 +2128,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
 | 100.0% | 11.8 GiB |  24,088 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`     |
 |  <0.1% |    4 MiB |       8 | `linkToCallSite(Object, Object)`                                 | `java.lang.invoke.Invokers$Holder`     |
-|  <0.1% | 1024 KiB |       2 | `loadClass(String)`                                              | `java.lang.ClassLoader`                |
+|  <0.1% |    1 MiB |       2 | `loadClass(String)`                                              | `java.lang.ClassLoader`                |
 |  <0.1% |  512 KiB |       1 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
 
 ##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
@@ -2138,7 +2138,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | 100.0% | 11.8 GiB |  24,093 | `invokeExact_MT(Object, Object, Object)`                | `java.lang.invoke.Invokers$Holder`                               |
 |  18.5% | 2.18 GiB |   4,465 | `doWithCallSite(MutableCallSite, Object[], BiFunction)` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`                  |
 |   1.5% |  180 MiB |     361 | `linkToTargetMethod(Object, Object)`                    | `java.lang.invoke.Invokers$Holder`                               |
-|  <0.1% | 1024 KiB |       2 | `get()`                                                 | `org.codehaus.groovy.vmplugin.v8.IndyInterface$FallbackSupplier` |
+|  <0.1% |    1 MiB |       2 | `get()`                                                 | `org.codehaus.groovy.vmplugin.v8.IndyInterface$FallbackSupplier` |
 
 ##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000801088800`)
 
@@ -2247,7 +2247,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ---------------------------------- | --------------------------------------------------- |
 | 100.0% | 11.7 GiB |  24,016 | `reinvoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000008010aa800` |
 |  22.8% | 2.67 GiB |   5,476 | `delegate(Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
-|  <0.1% | 1024 KiB |       2 | `invoke(Object, Object, Object)`   | `java.lang.invoke.LambdaForm$MH.0x00000008010ab000` |
+|  <0.1% |    1 MiB |       2 | `invoke(Object, Object, Object)`   | `java.lang.invoke.LambdaForm$MH.0x00000008010ab000` |
 
 ##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000080108e000`)
 

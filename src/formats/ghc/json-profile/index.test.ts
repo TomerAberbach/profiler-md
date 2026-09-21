@@ -113,7 +113,7 @@ describe(`convert`, () => {
     // counted, each summed as it counted them.
     expect(summaryLines(md)).toEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
-      `Allocated 1000\u00A0B and recorded 7 entries.`,
+      `Allocated 1,000\u00A0B and recorded 7 entries.`,
     ])
   })
 
@@ -211,7 +211,7 @@ describe(`convert`, () => {
 
     expect(summaryLines(md)).toEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
-      `Allocated 1000\u00A0B and recorded 5 entries.`,
+      `Allocated 1,000\u00A0B and recorded 5 entries.`,
     ])
     expect(selfSizeTables(md, `Allocated heap`)).toEqual([
       [

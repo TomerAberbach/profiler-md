@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 1012 KiB across 34,798 nodes and 149,397 edges.
+Allocated 1,012 KiB across 34,798 nodes and 149,397 edges.
 
 | Category            |     % |     Size | Nodes |
 | ------------------- | ----: | -------: | ----: |
@@ -35,9 +35,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  1.2% | 11.7 KiB |       100 | `<h2>`                        | `<unknown>` |
 |  0.3% |  3.2 KiB |         3 | `HTMLDocument`                | `<unknown>` |
 |  0.3% | 2.65 KiB |       113 | `system / Context`            | `<unknown>` |
-|  0.1% |   1020 B |        37 | `Error`                       | `<unknown>` |
-|  0.1% |   1016 B |        10 | `Window`                      | `<unknown>` |
-|  0.1% |   1008 B |        36 | `TypedArray`                  | `<unknown>` |
+|  0.1% |  1,020 B |        37 | `Error`                       | `<unknown>` |
+|  0.1% |  1,016 B |        10 | `Window`                      | `<unknown>` |
+|  0.1% |  1,008 B |        36 | `TypedArray`                  | `<unknown>` |
 |  0.1% |    968 B |         1 | `Performance`                 | `<unknown>` |
 |  0.1% |    960 B |         8 | `<span class="hashtag">`      | `<unknown>` |
 |  0.1% |    824 B |         1 | `StyleEngine`                 | `<unknown>` |
@@ -55,8 +55,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | ----: | -------: | --------: | ------------------ | ------------------ |
 |  7.0% | 71.3 KiB |     1,464 | `Object`           | `<unknown>`        |
 |  0.3% | 2.65 KiB |       113 | `system / Context` | `<unknown>`        |
-|  0.1% |   1020 B |        37 | `Error`            | `<unknown>`        |
-|  0.1% |   1008 B |        36 | `TypedArray`       | `<unknown>`        |
+|  0.1% |  1,020 B |        37 | `Error`            | `<unknown>`        |
+|  0.1% |  1,008 B |        36 | `TypedArray`       | `<unknown>`        |
 | <0.1% |    176 B |         5 | `Generator`        | `workload.mjs:1:1` |
 | <0.1% |    132 B |         6 | `Map`              | `<unknown>`        |
 | <0.1% |    116 B |         5 | `Set`              | `<unknown>`        |
@@ -84,7 +84,7 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  1.2% | 11.7 KiB |       100 | `<article class="status">`                   | `<unknown>` |
 |  1.2% | 11.7 KiB |       100 | `<h2>`                                       | `<unknown>` |
 |  0.3% |  3.2 KiB |         3 | `HTMLDocument`                               | `<unknown>` |
-|  0.1% |   1016 B |        10 | `Window`                                     | `<unknown>` |
+|  0.1% |  1,016 B |        10 | `Window`                                     | `<unknown>` |
 |  0.1% |    968 B |         1 | `Performance`                                | `<unknown>` |
 |  0.1% |    960 B |         8 | `<span class="hashtag">`                     | `<unknown>` |
 |  0.1% |    824 B |         1 | `StyleEngine`                                | `<unknown>` |
@@ -211,9 +211,9 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `TypedArray` (`<unknown>`)
 
-|      % |   Size | Instances | Path        |
-| -----: | -----: | --------: | ----------- |
-| 100.0% | 1008 B |        36 | `(GC root)` |
+|      % |    Size | Instances | Path        |
+| -----: | ------: | --------: | ----------- |
+| 100.0% | 1,008 B |        36 | `(GC root)` |
 
 ##### `Performance` (`<unknown>`)
 

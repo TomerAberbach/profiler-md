@@ -258,7 +258,7 @@ describe(`convert`, () => {
       Object: [
         {
           '%': `76.9%`,
-          Size: `1000 B`,
+          Size: `1,000 B`,
           Instances: `1`,
           Constructor: `Payload`,
         },

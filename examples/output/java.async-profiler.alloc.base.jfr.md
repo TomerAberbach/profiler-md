@@ -80,9 +80,9 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |  7.5 MiB |      15 | `computeClusterAverages()`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |    6 MiB |      12 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |  1.5 MiB |       3 | `lambda$run$0(int, List, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-| <0.1% | 1024 KiB |       2 | `collectGarbage(String)`             | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
-| <0.1% | 1024 KiB |       2 | `div(double[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| <0.1% | 1024 KiB |       2 | `lambda$boxed$0(int)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |    1 MiB |       2 | `collectGarbage(String)`             | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
+| <0.1% |    1 MiB |       2 | `div(double[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |    1 MiB |       2 | `lambda$boxed$0(int)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |  512 KiB |       1 | `average(List)`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
 #### Lines
@@ -277,21 +277,21 @@ Lines ranked by contribution to each function's self size.
 
 ##### `collectGarbage(String)` (`org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`)
 
-|      % |     Size | Samples | Location                                                    |
-| -----: | -------: | ------: | ----------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin:26` |
+|      % |  Size | Samples | Location                                                    |
+| -----: | ----: | ------: | ----------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin:26` |
 
 ##### `div(double[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Location                                                   |
-| -----: | -------: | ------: | ---------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:339` |
+|      % |  Size | Samples | Location                                                   |
+| -----: | ----: | ------: | ---------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:339` |
 
 ##### `lambda$boxed$0(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Location                                                   |
-| -----: | -------: | ------: | ---------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:327` |
+|      % |  Size | Samples | Location                                                   |
+| -----: | ----: | ------: | ---------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:327` |
 
 ##### `visitMethod(int, String, String, String, String[])` (`jdk.internal.org.objectweb.asm.ClassWriter`)
 
@@ -510,21 +510,21 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `collectGarbage(String)` (`org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`)
 
-|      % |     Size | Samples | Caller                                      | Location                                                 |
-| -----: | -------: | ------: | ------------------------------------------- | -------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `afterOperationSetUp(String, int, boolean)` | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin` |
+|      % |  Size | Samples | Caller                                      | Location                                                 |
+| -----: | ----: | ------: | ------------------------------------------- | -------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `afterOperationSetUp(String, int, boolean)` | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin` |
 
 ##### `div(double[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Caller          | Location                                               |
-| -----: | -------: | ------: | --------------- | ------------------------------------------------------ |
-| 100.0% | 1024 KiB |       2 | `average(List)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|      % |  Size | Samples | Caller          | Location                                               |
+| -----: | ----: | ------: | --------------- | ------------------------------------------------------ |
+| 100.0% | 1 MiB |       2 | `average(List)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
 ##### `lambda$boxed$0(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Caller       | Location                                                                          |
-| -----: | -------: | ------: | ------------ | --------------------------------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda.0x0000007001187510` |
+|      % |  Size | Samples | Caller       | Location                                                                          |
+| -----: | ----: | ------: | ------------ | --------------------------------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda.0x0000007001187510` |
 
 ##### `visitMethod(int, String, String, String, String[])` (`jdk.internal.org.objectweb.asm.ClassWriter`)
 
