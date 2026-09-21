@@ -659,28 +659,28 @@ Instances ranked by contribution to each constructor's self size.
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
-|     % |     Size | Instances | Constructor                  |
-| ----: | -------: | --------: | ---------------------------- |
-| 55.2% | 5.76 MiB |    11,833 | `Object`                     |
-| 28.1% | 2.93 MiB |    13,414 | `Function`                   |
-| 19.3% | 2.01 MiB |     7,600 | `FunctionExecutable`         |
-| 17.7% | 1.85 MiB |    12,177 | `Structure`                  |
-| 15.6% | 1.62 MiB |     6,041 | `UnlinkedFunctionExecutable` |
-| 11.2% | 1.17 MiB |     1,658 | `UnlinkedFunctionCodeBlock`  |
-|  9.5% | 1015 KiB |        14 | `Window`                     |
-|  7.8% |  837 KiB |     2,030 | `JSLexicalEnvironment`       |
-|  6.1% |  649 KiB |     7,409 | `Array`                      |
-|  5.1% |  547 KiB |       165 | `FunctionCodeBlock`          |
-|  4.5% |  479 KiB |    10,225 | `DOMAttributeGetterSetter`   |
-|  4.2% |  454 KiB |       893 | `StructureRareData`          |
-|  2.5% |  272 KiB |        20 | `CSSStyleDeclaration`        |
-|  2.5% |  271 KiB |         6 | `InjectedScript`             |
-|  2.0% |  210 KiB |       270 | `FunctionRareData`           |
-|  1.4% |  154 KiB |     3,780 | `Immutable Butterfly`        |
-|  1.0% |  108 KiB |       453 | `RegExp`                     |
-|  1.0% |  104 KiB |        14 | `UnlinkedProgramCodeBlock`   |
-|  1.0% |  102 KiB |     2,226 | `PropertyTable`              |
-|  0.8% | 85.1 KiB |     1,364 | `SymbolTable`                |
+|     % |      Size | Instances | Constructor                  |
+| ----: | --------: | --------: | ---------------------------- |
+| 55.2% |  5.76 MiB |    11,833 | `Object`                     |
+| 28.1% |  2.93 MiB |    13,414 | `Function`                   |
+| 19.3% |  2.01 MiB |     7,600 | `FunctionExecutable`         |
+| 17.7% |  1.85 MiB |    12,177 | `Structure`                  |
+| 15.6% |  1.62 MiB |     6,041 | `UnlinkedFunctionExecutable` |
+| 11.2% |  1.17 MiB |     1,658 | `UnlinkedFunctionCodeBlock`  |
+|  9.5% | 1,015 KiB |        14 | `Window`                     |
+|  7.8% |   837 KiB |     2,030 | `JSLexicalEnvironment`       |
+|  6.1% |   649 KiB |     7,409 | `Array`                      |
+|  5.1% |   547 KiB |       165 | `FunctionCodeBlock`          |
+|  4.5% |   479 KiB |    10,225 | `DOMAttributeGetterSetter`   |
+|  4.2% |   454 KiB |       893 | `StructureRareData`          |
+|  2.5% |   272 KiB |        20 | `CSSStyleDeclaration`        |
+|  2.5% |   271 KiB |         6 | `InjectedScript`             |
+|  2.0% |   210 KiB |       270 | `FunctionRareData`           |
+|  1.4% |   154 KiB |     3,780 | `Immutable Butterfly`        |
+|  1.0% |   108 KiB |       453 | `RegExp`                     |
+|  1.0% |   104 KiB |        14 | `UnlinkedProgramCodeBlock`   |
+|  1.0% |   102 KiB |     2,226 | `PropertyTable`              |
+|  0.8% |  85.1 KiB |     1,364 | `SymbolTable`                |
 
 #### Categories
 
@@ -726,28 +726,28 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 ##### Object
 
-|     % |     Size | Instances | Constructor                 |
-| ----: | -------: | --------: | --------------------------- |
-| 55.2% | 5.76 MiB |    11,833 | `Object`                    |
-|  9.5% | 1015 KiB |        14 | `Window`                    |
-|  2.5% |  272 KiB |        20 | `CSSStyleDeclaration`       |
-|  2.5% |  271 KiB |         6 | `InjectedScript`            |
-|  0.8% | 83.5 KiB |       205 | `HTMLElement`               |
-|  0.8% | 81.8 KiB |         9 | `Document`                  |
-|  0.5% | 56.7 KiB |        10 | `Element`                   |
-|  0.4% | 43.4 KiB |     1,330 | `DOMRect`                   |
-|  0.3% | 35.8 KiB |       418 | `HTMLDivElement`            |
-|  0.3% | 34.9 KiB |       468 | `HTMLSpanElement`           |
-|  0.3% | 32.3 KiB |        20 | `Map`                       |
-|  0.3% | 27.9 KiB |       170 | `HTMLAnchorElement`         |
-|  0.2% | 23.3 KiB |         7 | `String`                    |
-|  0.2% | 22.5 KiB |       283 | `HTMLLIElement`             |
-|  0.2% | 17.2 KiB |        77 | `HTMLInputElement`          |
-|  0.1% | 14.5 KiB |         2 | `MultimediaViewerBootstrap` |
-|  0.1% | 14.2 KiB |        76 | `HTMLButtonElement`         |
-|  0.1% | 14.2 KiB |        14 | `Node`                      |
-|  0.1% |   13 KiB |        20 | `Promise`                   |
-|  0.1% |   13 KiB |        16 | `HTMLDocument`              |
+|     % |      Size | Instances | Constructor                 |
+| ----: | --------: | --------: | --------------------------- |
+| 55.2% |  5.76 MiB |    11,833 | `Object`                    |
+|  9.5% | 1,015 KiB |        14 | `Window`                    |
+|  2.5% |   272 KiB |        20 | `CSSStyleDeclaration`       |
+|  2.5% |   271 KiB |         6 | `InjectedScript`            |
+|  0.8% |  83.5 KiB |       205 | `HTMLElement`               |
+|  0.8% |  81.8 KiB |         9 | `Document`                  |
+|  0.5% |  56.7 KiB |        10 | `Element`                   |
+|  0.4% |  43.4 KiB |     1,330 | `DOMRect`                   |
+|  0.3% |  35.8 KiB |       418 | `HTMLDivElement`            |
+|  0.3% |  34.9 KiB |       468 | `HTMLSpanElement`           |
+|  0.3% |  32.3 KiB |        20 | `Map`                       |
+|  0.3% |  27.9 KiB |       170 | `HTMLAnchorElement`         |
+|  0.2% |  23.3 KiB |         7 | `String`                    |
+|  0.2% |  22.5 KiB |       283 | `HTMLLIElement`             |
+|  0.2% |  17.2 KiB |        77 | `HTMLInputElement`          |
+|  0.1% |  14.5 KiB |         2 | `MultimediaViewerBootstrap` |
+|  0.1% |  14.2 KiB |        76 | `HTMLButtonElement`         |
+|  0.1% |  14.2 KiB |        14 | `Node`                      |
+|  0.1% |    13 KiB |        20 | `Promise`                   |
+|  0.1% |    13 KiB |        16 | `HTMLDocument`              |
 
 ##### Function
 
@@ -1098,13 +1098,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `HTMLLIElement`
 
-|    % |   Size | Instances | Path                 |
-| ---: | -----: | --------: | -------------------- |
-| 4.4% | 1011 B |         3 | `(GC root)`          |
-| 1.5% |  337 B |         1 | `Structure ← Window` |
-| 0.4% |   81 B |         1 | `[405] Array`        |
-| 0.4% |   81 B |         1 | `[419] Array`        |
-| 0.4% |   81 B |         1 | `[457] Array`        |
+|    % |    Size | Instances | Path                 |
+| ---: | ------: | --------: | -------------------- |
+| 4.4% | 1,011 B |         3 | `(GC root)`          |
+| 1.5% |   337 B |         1 | `Structure ← Window` |
+| 0.4% |    81 B |         1 | `[405] Array`        |
+| 0.4% |    81 B |         1 | `[419] Array`        |
+| 0.4% |    81 B |         1 | `[457] Array`        |
 
 ##### `EvalExecutable`
 

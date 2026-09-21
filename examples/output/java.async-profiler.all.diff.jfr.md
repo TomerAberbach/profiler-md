@@ -564,37 +564,37 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new |     +1.499 MiB | 0.0% → <0.1% |      0 B → 1.5 MiB |     0 → 3 | `fillInStackTrace(int)`                                                                              | `java.lang.Throwable`                                      |
 |   +7.1% | +1,023.998 KiB |        <0.1% |    14 MiB → 15 MiB |   23 → 25 | `copyOf(Object[], int, Class)`                                                                       | `java.util.Arrays`                                         |
 | +200.0% | +1,023.998 KiB |        <0.1% |  512 KiB → 1.5 MiB |     1 → 3 | `newLinkedHashMap(int)`                                                                              | `java.util.LinkedHashMap`                                  |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |     0 B → 1024 KiB |     0 → 2 | `enlarge(int)`                                                                                       | `jdk.internal.org.objectweb.asm.ByteVector`                |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |        0 B → 1 MiB |     0 → 2 | `enlarge(int)`                                                                                       | `jdk.internal.org.objectweb.asm.ByteVector`                |
 |   +0.7% |   +511.999 KiB |         0.2% |  75.5 MiB → 76 MiB | 151 → 152 | `add(double[], double[])`                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
 |     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `newString(byte[], int, int)`                                                                        | `java.lang.StringLatin1`                                   |
 |     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `result()`                                                                                           | `scala.collection.immutable.VectorBuilder`                 |
-| +100.0% |   +511.999 KiB |        <0.1% | 512 KiB → 1024 KiB |     1 → 2 | `mapToObj(DoubleFunction, int)`                                                                      | `java.util.stream.DoublePipeline`                          |
-| +100.0% |   +511.999 KiB |        <0.1% | 512 KiB → 1024 KiB |     1 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`                                                        | `java.util.stream.StreamSupport`                           |
+| +100.0% |   +511.999 KiB |        <0.1% |    512 KiB → 1 MiB |     1 → 2 | `mapToObj(DoubleFunction, int)`                                                                      | `java.util.stream.DoublePipeline`                          |
+| +100.0% |   +511.999 KiB |        <0.1% |    512 KiB → 1 MiB |     1 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`                                                        | `java.util.stream.StreamSupport`                           |
 |     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `<clinit>()`                                                                                         | `sun.util.resources.LocaleData`                            |
 |     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `transferTo(OutputStream)`                                                                           | `java.io.InputStream`                                      |
 |     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object)` | `java.lang.ClassLoader`                                    |
 
 ##### Standard library
 
-|  Change |          Delta |            % |               Size |   Samples | Function                                                                                             | Location                                     |
-| ------: | -------------: | -----------: | -----------------: | --------: | ---------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-|  +77.8% |     +6.999 MiB |        <0.1% |     9 MiB → 16 MiB |   18 → 32 | `copyOf(byte[], int)`                                                                                | `java.util.Arrays`                           |
-|  +52.4% |     +5.499 MiB |        <0.1% |  10.5 MiB → 16 MiB |   21 → 32 | `entrySet()`                                                                                         | `java.util.HashMap`                          |
-|  +30.0% |     +2.999 MiB |        <0.1% |    10 MiB → 13 MiB |   20 → 26 | `range(int, int)`                                                                                    | `java.util.stream.IntStream`                 |
-|   +0.7% |     +1.999 MiB |  0.7% → 0.8% |  281 MiB → 283 MiB | 563 → 567 | `newNode(int, Object, Object, HashMap$Node)`                                                         | `java.util.HashMap`                          |
-|  +15.0% |     +1.499 MiB |        <0.1% |  10 MiB → 11.5 MiB |   20 → 23 | `allocateInstance(Object)`                                                                           | `java.lang.invoke.DirectMethodHandle`        |
-|     new |     +1.499 MiB | 0.0% → <0.1% |      0 B → 1.5 MiB |     0 → 3 | `fillInStackTrace(int)`                                                                              | `java.lang.Throwable`                        |
-|   +7.1% | +1,023.998 KiB |        <0.1% |    14 MiB → 15 MiB |   23 → 25 | `copyOf(Object[], int, Class)`                                                                       | `java.util.Arrays`                           |
-| +200.0% | +1,023.998 KiB |        <0.1% |  512 KiB → 1.5 MiB |     1 → 3 | `newLinkedHashMap(int)`                                                                              | `java.util.LinkedHashMap`                    |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |     0 B → 1024 KiB |     0 → 2 | `enlarge(int)`                                                                                       | `jdk.internal.org.objectweb.asm.ByteVector`  |
-|     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `newString(byte[], int, int)`                                                                        | `java.lang.StringLatin1`                     |
-|     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `result()`                                                                                           | `scala.collection.immutable.VectorBuilder`   |
-| +100.0% |   +511.999 KiB |        <0.1% | 512 KiB → 1024 KiB |     1 → 2 | `mapToObj(DoubleFunction, int)`                                                                      | `java.util.stream.DoublePipeline`            |
-| +100.0% |   +511.999 KiB |        <0.1% | 512 KiB → 1024 KiB |     1 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`                                                        | `java.util.stream.StreamSupport`             |
-|     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `<clinit>()`                                                                                         | `sun.util.resources.LocaleData`              |
-|     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `transferTo(OutputStream)`                                                                           | `java.io.InputStream`                        |
-|     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object)` | `java.lang.ClassLoader`                      |
-|     new |   +511.999 KiB | 0.0% → <0.1% |      0 B → 512 KiB |     0 → 1 | `addConstantMemberReference(int, String, String, String)`                                            | `jdk.internal.org.objectweb.asm.SymbolTable` |
+|  Change |          Delta |            % |              Size |   Samples | Function                                                                                             | Location                                     |
+| ------: | -------------: | -----------: | ----------------: | --------: | ---------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+|  +77.8% |     +6.999 MiB |        <0.1% |    9 MiB → 16 MiB |   18 → 32 | `copyOf(byte[], int)`                                                                                | `java.util.Arrays`                           |
+|  +52.4% |     +5.499 MiB |        <0.1% | 10.5 MiB → 16 MiB |   21 → 32 | `entrySet()`                                                                                         | `java.util.HashMap`                          |
+|  +30.0% |     +2.999 MiB |        <0.1% |   10 MiB → 13 MiB |   20 → 26 | `range(int, int)`                                                                                    | `java.util.stream.IntStream`                 |
+|   +0.7% |     +1.999 MiB |  0.7% → 0.8% | 281 MiB → 283 MiB | 563 → 567 | `newNode(int, Object, Object, HashMap$Node)`                                                         | `java.util.HashMap`                          |
+|  +15.0% |     +1.499 MiB |        <0.1% | 10 MiB → 11.5 MiB |   20 → 23 | `allocateInstance(Object)`                                                                           | `java.lang.invoke.DirectMethodHandle`        |
+|     new |     +1.499 MiB | 0.0% → <0.1% |     0 B → 1.5 MiB |     0 → 3 | `fillInStackTrace(int)`                                                                              | `java.lang.Throwable`                        |
+|   +7.1% | +1,023.998 KiB |        <0.1% |   14 MiB → 15 MiB |   23 → 25 | `copyOf(Object[], int, Class)`                                                                       | `java.util.Arrays`                           |
+| +200.0% | +1,023.998 KiB |        <0.1% | 512 KiB → 1.5 MiB |     1 → 3 | `newLinkedHashMap(int)`                                                                              | `java.util.LinkedHashMap`                    |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |       0 B → 1 MiB |     0 → 2 | `enlarge(int)`                                                                                       | `jdk.internal.org.objectweb.asm.ByteVector`  |
+|     new |   +511.999 KiB | 0.0% → <0.1% |     0 B → 512 KiB |     0 → 1 | `newString(byte[], int, int)`                                                                        | `java.lang.StringLatin1`                     |
+|     new |   +511.999 KiB | 0.0% → <0.1% |     0 B → 512 KiB |     0 → 1 | `result()`                                                                                           | `scala.collection.immutable.VectorBuilder`   |
+| +100.0% |   +511.999 KiB |        <0.1% |   512 KiB → 1 MiB |     1 → 2 | `mapToObj(DoubleFunction, int)`                                                                      | `java.util.stream.DoublePipeline`            |
+| +100.0% |   +511.999 KiB |        <0.1% |   512 KiB → 1 MiB |     1 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`                                                        | `java.util.stream.StreamSupport`             |
+|     new |   +511.999 KiB | 0.0% → <0.1% |     0 B → 512 KiB |     0 → 1 | `<clinit>()`                                                                                         | `sun.util.resources.LocaleData`              |
+|     new |   +511.999 KiB | 0.0% → <0.1% |     0 B → 512 KiB |     0 → 1 | `transferTo(OutputStream)`                                                                           | `java.io.InputStream`                        |
+|     new |   +511.999 KiB | 0.0% → <0.1% |     0 B → 512 KiB |     0 → 1 | `defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object)` | `java.lang.ClassLoader`                      |
+|     new |   +511.999 KiB | 0.0% → <0.1% |     0 B → 512 KiB |     0 → 1 | `addConstantMemberReference(int, String, String, String)`                                            | `jdk.internal.org.objectweb.asm.SymbolTable` |
 
 ##### Ours
 
@@ -626,11 +626,11 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | removed |     -1.499 MiB |  <0.1% → 0.0% |       1.5 MiB → 0 B |           3 → 0 | `spliterator(double[], int, int, int)`   | `java.util.Spliterators`                                   |
 |  -25.0% |     -1.499 MiB |         <0.1% |     6 MiB → 4.5 MiB |          12 → 9 | `<init>(InputStream, Inflater, int)`     | `java.util.zip.InflaterInputStream`                        |
 |   -7.5% |     -1.499 MiB |  0.1% → <0.1% |   20 MiB → 18.5 MiB |         40 → 37 | `lambda$generateData$4(int)`             | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-| removed | -1,023.998 KiB |  <0.1% → 0.0% |      1024 KiB → 0 B |           2 → 0 | `allocateUninitializedArray(Class, int)` | `jdk.internal.misc.Unsafe`                                 |
+| removed | -1,023.998 KiB |  <0.1% → 0.0% |         1 MiB → 0 B |           2 → 0 | `allocateUninitializedArray(Class, int)` | `jdk.internal.misc.Unsafe`                                 |
 |  -66.7% | -1,023.998 KiB |         <0.1% |   1.5 MiB → 512 KiB |           3 → 1 | `copyOfRangeByte(byte[], int, int)`      | `java.util.Arrays`                                         |
 |  -28.6% | -1,023.998 KiB |         <0.1% |   3.5 MiB → 2.5 MiB |           7 → 5 | `allocateInstance(Class)`                | `jdk.internal.misc.Unsafe`                                 |
-| removed | -1,023.998 KiB |  <0.1% → 0.0% |      1024 KiB → 0 B |           2 → 0 | `<init>(int)`                            | `java.io.ByteArrayOutputStream`                            |
-|  -50.0% |   -511.999 KiB |         <0.1% |  1024 KiB → 512 KiB |           2 → 1 | `<init>(JavaKMeans, Map)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| removed | -1,023.998 KiB |  <0.1% → 0.0% |         1 MiB → 0 B |           2 → 0 | `<init>(int)`                            | `java.io.ByteArrayOutputStream`                            |
+|  -50.0% |   -511.999 KiB |         <0.1% |     1 MiB → 512 KiB |           2 → 1 | `<init>(JavaKMeans, Map)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
 ##### Standard library
 
@@ -643,10 +643,10 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |  -20.8% |     -2.499 MiB |         <0.1% |    12 MiB → 9.5 MiB |         24 → 19 | `opWrapSink(int, Sink)`                              | `java.util.stream.IntPipeline$1`                                   |
 | removed |     -1.499 MiB |  <0.1% → 0.0% |       1.5 MiB → 0 B |           3 → 0 | `spliterator(double[], int, int, int)`               | `java.util.Spliterators`                                           |
 |  -25.0% |     -1.499 MiB |         <0.1% |     6 MiB → 4.5 MiB |          12 → 9 | `<init>(InputStream, Inflater, int)`                 | `java.util.zip.InflaterInputStream`                                |
-| removed | -1,023.998 KiB |  <0.1% → 0.0% |      1024 KiB → 0 B |           2 → 0 | `allocateUninitializedArray(Class, int)`             | `jdk.internal.misc.Unsafe`                                         |
+| removed | -1,023.998 KiB |  <0.1% → 0.0% |         1 MiB → 0 B |           2 → 0 | `allocateUninitializedArray(Class, int)`             | `jdk.internal.misc.Unsafe`                                         |
 |  -66.7% | -1,023.998 KiB |         <0.1% |   1.5 MiB → 512 KiB |           3 → 1 | `copyOfRangeByte(byte[], int, int)`                  | `java.util.Arrays`                                                 |
 |  -28.6% | -1,023.998 KiB |         <0.1% |   3.5 MiB → 2.5 MiB |           7 → 5 | `allocateInstance(Class)`                            | `jdk.internal.misc.Unsafe`                                         |
-| removed | -1,023.998 KiB |  <0.1% → 0.0% |      1024 KiB → 0 B |           2 → 0 | `<init>(int)`                                        | `java.io.ByteArrayOutputStream`                                    |
+| removed | -1,023.998 KiB |  <0.1% → 0.0% |         1 MiB → 0 B |           2 → 0 | `<init>(int)`                                        | `java.io.ByteArrayOutputStream`                                    |
 | removed |   -511.999 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |           1 → 0 | `iterator()`                                         | `java.util.ServiceLoader`                                          |
 | removed |   -511.999 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |           1 → 0 | `<init>(List, boolean)`                              | `java.time.format.DateTimeFormatterBuilder$CompositePrinterParser` |
 | removed |   -511.999 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |           1 → 0 | `parseName(byte[], int)`                             | `java.util.jar.Manifest`                                           |
@@ -669,7 +669,7 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |  -33.3% |   -2.999 MiB |        <0.1% |      9 MiB → 6 MiB |       18 → 12 | `createSubtask(int, int)`    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |  -20.0% |   -1.499 MiB |        <0.1% |    7.5 MiB → 6 MiB |       15 → 12 | `computeClusterAverages()`   | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |   -7.5% |   -1.499 MiB | 0.1% → <0.1% |  20 MiB → 18.5 MiB |       40 → 37 | `lambda$generateData$4(int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-|  -50.0% | -511.999 KiB |        <0.1% | 1024 KiB → 512 KiB |         2 → 1 | `<init>(JavaKMeans, Map)`    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  -50.0% | -511.999 KiB |        <0.1% |    1 MiB → 512 KiB |         2 → 1 | `<init>(JavaKMeans, Map)`    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |  -25.0% | -511.999 KiB |        <0.1% |    2 MiB → 1.5 MiB |         4 → 3 | `div(double[], int)`         | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | removed | -511.999 KiB | <0.1% → 0.0% |      512 KiB → 0 B |         1 → 0 | `lambda$boxed$0(int)`        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
@@ -742,9 +742,9 @@ Functions with the largest increase in total bytes allocated in the function and
 | +300.0% |     +1.499 MiB |        <0.1% |    512 KiB → 2 MiB |     1 → 4 | `<clinit>()`                                     | `org.renaissance.core.Launcher`                                                       |
 |  +33.3% | +1,023.998 KiB |        <0.1% |      3 MiB → 4 MiB |     6 → 8 | `combineResults(Map, Map)`                       | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                                |
 |  +33.3% | +1,023.998 KiB |        <0.1% |      3 MiB → 4 MiB |     6 → 8 | `combineResults(Object, Object)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                                |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |     0 B → 1024 KiB |     0 → 2 | `extractResource(String, Path)`                  | `org.renaissance.core.ResourceUtils`                                                  |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |     0 B → 1024 KiB |     0 → 2 | `extractResources(Iterable, Path)`               | `org.renaissance.core.ResourceUtils`                                                  |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |     0 B → 1024 KiB |     0 → 2 | `createClassLoaderForModule(String)`             | `org.renaissance.core.ModuleLoader`                                                   |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |        0 B → 1 MiB |     0 → 2 | `extractResource(String, Path)`                  | `org.renaissance.core.ResourceUtils`                                                  |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |        0 B → 1 MiB |     0 → 2 | `extractResources(Iterable, Path)`               | `org.renaissance.core.ResourceUtils`                                                  |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |        0 B → 1 MiB |     0 → 2 | `createClassLoaderForModule(String)`             | `org.renaissance.core.ModuleLoader`                                                   |
 |   +0.7% |   +511.999 KiB |         0.2% |  75.5 MiB → 76 MiB | 151 → 152 | `add(double[], double[])`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
 |   +0.7% |   +511.999 KiB |         0.2% |  75.5 MiB → 76 MiB | 151 → 152 | `combineResults(double[], double[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
 |   +0.7% |   +511.999 KiB |         0.2% |  75.5 MiB → 76 MiB | 151 → 152 | `combineResults(Object, Object)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |

@@ -179,12 +179,12 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `newInstance(Class, int)` (`java.lang.reflect.Array`)
 
-|     % |     Size | Samples | Caller                                             | Location                                             |
-| ----: | -------: | ------: | -------------------------------------------------- | ---------------------------------------------------- |
-| 98.6% |  381 MiB |     763 | `invokeStatic(Object, Object, int)`                | `java.lang.invoke.LambdaForm$DMH.0x000000040102b400` |
-|  1.0% |    4 MiB |       8 | `<init>(Object[], Comparator, Object[], int, int)` | `java.util.TimSort`                                  |
-|  0.3% | 1024 KiB |       2 | `copyOfRange(Object[], int, int, Class)`           | `java.util.Arrays`                                   |
-|  0.1% |  512 KiB |       1 | `copyOf(Object[], int, Class)`                     | `java.util.Arrays`                                   |
+|     % |    Size | Samples | Caller                                             | Location                                             |
+| ----: | ------: | ------: | -------------------------------------------------- | ---------------------------------------------------- |
+| 98.6% | 381 MiB |     763 | `invokeStatic(Object, Object, int)`                | `java.lang.invoke.LambdaForm$DMH.0x000000040102b400` |
+|  1.0% |   4 MiB |       8 | `<init>(Object[], Comparator, Object[], int, int)` | `java.util.TimSort`                                  |
+|  0.3% |   1 MiB |       2 | `copyOfRange(Object[], int, int, Class)`           | `java.util.Arrays`                                   |
+|  0.1% | 512 KiB |       1 | `copyOf(Object[], int, Class)`                     | `java.util.Arrays`                                   |
 
 ##### `make(MethodType, LambdaForm, Object, Object)` (`java.lang.invoke.BoundMethodHandle$Species_LL`)
 

@@ -421,12 +421,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
 
-|     % |     Size | Objects | Callee                                                                                              | Location                                                                                    |
-| ----: | -------: | ------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| 97.6% | 44.5 MiB |  66,642 | `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF` | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`                      |
-|  2.7% | 1.23 MiB |  30,012 | `$sSa6appendyyxnF11SwiftSyntax016RawCodeBlockItemC0V_Tg5`                                           | `<compiler-generated>`                                                                      |
-|  2.2% | 1008 KiB |     114 | `$s11SwiftSyntax020RawCodeBlockItemListB0V8elements5arenaACSayAA0cdefB0VG_AA0B5ArenaChtcfC`         | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesC.swift` |
-| <0.1% |    252 B |       6 | `$s11SwiftParser0B0V19parseSwitchCaseBody0A6Syntax020RawCodeBlockItemListG0VyFSbACzXEfU_`           | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`                   |
+|     % |      Size | Objects | Callee                                                                                              | Location                                                                                    |
+| ----: | --------: | ------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| 97.6% |  44.5 MiB |  66,642 | `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF` | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`                      |
+|  2.7% |  1.23 MiB |  30,012 | `$sSa6appendyyxnF11SwiftSyntax016RawCodeBlockItemC0V_Tg5`                                           | `<compiler-generated>`                                                                      |
+|  2.2% | 1,008 KiB |     114 | `$s11SwiftSyntax020RawCodeBlockItemListB0V8elements5arenaACSayAA0cdefB0VG_AA0B5ArenaChtcfC`         | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesC.swift` |
+| <0.1% |     252 B |       6 | `$s11SwiftParser0B0V19parseSwitchCaseBody0A6Syntax020RawCodeBlockItemListG0VyFSbACzXEfU_`           | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`                   |
 
 ##### `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm` (`Attributes.swift.o`)
 

@@ -15,55 +15,55 @@ Took 42.30s over 423 samples (100.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|    % |     Time | Samples | Function                                                               | Location                                                                                         |
-| ---: | -------: | ------: | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 7.3% |    3.10s |      31 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__`   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 6.4% |    2.70s |      27 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 6.1% |    2.60s |      26 | `CPyDef_parse___Parser____addtoken`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 4.7% |       2s |      20 | `CPyDef_driver___Driver___parse_tokens`                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 3.3% |    1.40s |      14 | `CPyDef_parse___Parser___push`                                         | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 3.1% |    1.30s |      13 | `CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 3.1% |    1.30s |      13 | `CPyDef_lines___Line_____str__`                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 2.6% |    1.10s |      11 | `CPyDef_parse___Parser___pop`                                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 2.4% | 1000.0ms |      10 | `CPyDef_brackets___is_split_before_delimiter`                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 2.1% |  900.0ms |       9 | `CPy_AddTraceback`                                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.9% |  800.0ms |       8 | `CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.9% |  800.0ms |       8 | `parse`                                                                | `/usr/lib/python3.11/ast.py`                                                                     |
-| 1.7% |  700.0ms |       7 | `CPyDef_black___get_features_used`                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.4% |  600.0ms |       6 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.4% |  600.0ms |       6 | `CPyDef_pytree___Node___update_sibling_maps`                           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.4% |  600.0ms |       6 | `0x7fa1bf08e6b0`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.2% |  500.0ms |       5 | `CPyDef_pytree___convert`                                              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.2% |  500.0ms |       5 | `__init__`                                                             | `<string>`                                                                                       |
-| 1.2% |  500.0ms |       5 | `CPyDef_linegen___LineGenerator___visit_default`                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 0.9% |  400.0ms |       4 | `pytree___Leaf_traverse`                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|    % |    Time | Samples | Function                                                               | Location                                                                                         |
+| ---: | ------: | ------: | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 7.3% |   3.10s |      31 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__`   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 6.4% |   2.70s |      27 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 6.1% |   2.60s |      26 | `CPyDef_parse___Parser____addtoken`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 4.7% |      2s |      20 | `CPyDef_driver___Driver___parse_tokens`                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 3.3% |   1.40s |      14 | `CPyDef_parse___Parser___push`                                         | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 3.1% |   1.30s |      13 | `CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 3.1% |   1.30s |      13 | `CPyDef_lines___Line_____str__`                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 2.6% |   1.10s |      11 | `CPyDef_parse___Parser___pop`                                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 2.4% | 999.9ms |      10 | `CPyDef_brackets___is_split_before_delimiter`                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 2.1% | 900.0ms |       9 | `CPy_AddTraceback`                                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.9% | 800.0ms |       8 | `CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.9% | 800.0ms |       8 | `parse`                                                                | `/usr/lib/python3.11/ast.py`                                                                     |
+| 1.7% | 700.0ms |       7 | `CPyDef_black___get_features_used`                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.4% | 600.0ms |       6 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.4% | 600.0ms |       6 | `CPyDef_pytree___Node___update_sibling_maps`                           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.4% | 600.0ms |       6 | `0x7fa1bf08e6b0`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.2% | 500.0ms |       5 | `CPyDef_pytree___convert`                                              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.2% | 500.0ms |       5 | `__init__`                                                             | `<string>`                                                                                       |
+| 1.2% | 500.0ms |       5 | `CPyDef_linegen___LineGenerator___visit_default`                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 0.9% | 400.0ms |       4 | `pytree___Leaf_traverse`                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 #### Categories
 
 ##### Third-party
 
-|    % |     Time | Samples | Function                                                                        | Location                                                                                         |
-| ---: | -------: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 7.3% |    3.10s |      31 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__`            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 6.4% |    2.70s |      27 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`                 | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 6.1% |    2.60s |      26 | `CPyDef_parse___Parser____addtoken`                                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 4.7% |       2s |      20 | `CPyDef_driver___Driver___parse_tokens`                                         | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 3.3% |    1.40s |      14 | `CPyDef_parse___Parser___push`                                                  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 3.1% |    1.30s |      13 | `CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__`              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 3.1% |    1.30s |      13 | `CPyDef_lines___Line_____str__`                                                 | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 2.6% |    1.10s |      11 | `CPyDef_parse___Parser___pop`                                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 2.4% | 1000.0ms |      10 | `CPyDef_brackets___is_split_before_delimiter`                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 2.1% |  900.0ms |       9 | `CPy_AddTraceback`                                                              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.9% |  800.0ms |       8 | `CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__`          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.7% |  700.0ms |       7 | `CPyDef_black___get_features_used`                                              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.4% |  600.0ms |       6 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__`              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.4% |  600.0ms |       6 | `CPyDef_pytree___Node___update_sibling_maps`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.4% |  600.0ms |       6 | `0x7fa1bf08e6b0`                                                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.2% |  500.0ms |       5 | `CPyDef_pytree___convert`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 1.2% |  500.0ms |       5 | `CPyDef_linegen___LineGenerator___visit_default`                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 0.9% |  400.0ms |       4 | `pytree___Leaf_traverse`                                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 0.9% |  400.0ms |       4 | `CPyDef_comments___convert_one_fmt_off_pair`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| 0.9% |  400.0ms |       4 | `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|    % |    Time | Samples | Function                                                                        | Location                                                                                         |
+| ---: | ------: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 7.3% |   3.10s |      31 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__`            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 6.4% |   2.70s |      27 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`                 | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 6.1% |   2.60s |      26 | `CPyDef_parse___Parser____addtoken`                                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 4.7% |      2s |      20 | `CPyDef_driver___Driver___parse_tokens`                                         | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 3.3% |   1.40s |      14 | `CPyDef_parse___Parser___push`                                                  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 3.1% |   1.30s |      13 | `CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__`              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 3.1% |   1.30s |      13 | `CPyDef_lines___Line_____str__`                                                 | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 2.6% |   1.10s |      11 | `CPyDef_parse___Parser___pop`                                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 2.4% | 999.9ms |      10 | `CPyDef_brackets___is_split_before_delimiter`                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 2.1% | 900.0ms |       9 | `CPy_AddTraceback`                                                              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.9% | 800.0ms |       8 | `CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__`          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.7% | 700.0ms |       7 | `CPyDef_black___get_features_used`                                              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.4% | 600.0ms |       6 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__`              | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.4% | 600.0ms |       6 | `CPyDef_pytree___Node___update_sibling_maps`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.4% | 600.0ms |       6 | `0x7fa1bf08e6b0`                                                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.2% | 500.0ms |       5 | `CPyDef_pytree___convert`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 1.2% | 500.0ms |       5 | `CPyDef_linegen___LineGenerator___visit_default`                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 0.9% | 400.0ms |       4 | `pytree___Leaf_traverse`                                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 0.9% | 400.0ms |       4 | `CPyDef_comments___convert_one_fmt_off_pair`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 0.9% | 400.0ms |       4 | `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### Standard library
 
@@ -257,9 +257,9 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### `CPyDef_brackets___is_split_before_delimiter` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-|      % |     Time | Samples | Caller                                    | Location                                                                                         |
-| -----: | -------: | ------: | ----------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 100.0% | 1000.0ms |      10 | `CPyDef_brackets___BracketTracker___mark` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|      % |    Time | Samples | Caller                                    | Location                                                                                         |
+| -----: | ------: | ------: | ----------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 999.9ms |      10 | `CPyDef_brackets___BracketTracker___mark` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPy_AddTraceback` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -547,28 +547,28 @@ Functions ranked by total time spent in the function and all its callees.
 
 ##### Standard library
 
-|     % |     Time | Samples | Function                    | Location                                  |
-| ----: | -------: | ------: | --------------------------- | ----------------------------------------- |
-| 99.3% |      42s |     420 | `_run_module_as_main`       | `<frozen runpy>`                          |
-| 95.7% |   40.50s |     405 | `_run_code`                 | `<frozen runpy>`                          |
-|  3.5% |    1.50s |      15 | `_load_unlocked`            | `<frozen importlib._bootstrap>`           |
-|  3.5% |    1.50s |      15 | `_find_and_load_unlocked`   | `<frozen importlib._bootstrap>`           |
-|  3.5% |    1.50s |      15 | `_find_and_load`            | `<frozen importlib._bootstrap>`           |
-|  3.5% |    1.50s |      15 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`           |
-|  3.5% |    1.50s |      15 | `create_module`             | `<frozen importlib._bootstrap_external>`  |
-|  3.5% |    1.50s |      15 | `module_from_spec`          | `<frozen importlib._bootstrap>`           |
-|  3.5% |    1.50s |      15 | `_get_module_details`       | `<frozen runpy>`                          |
-|  2.4% | 1000.0ms |      10 | `parse`                     | `/usr/lib/python3.11/ast.py`              |
-|  1.7% |  700.0ms |       7 | `exec_module`               | `<frozen importlib._bootstrap_external>`  |
-|  0.7% |  300.0ms |       3 | `_handle_fromlist`          | `<frozen importlib._bootstrap>`           |
-|  0.7% |  300.0ms |       3 | `_process_class`            | `/usr/lib/python3.11/dataclasses.py`      |
-|  0.7% |  300.0ms |       3 | `wrap`                      | `/usr/lib/python3.11/dataclasses.py`      |
-|  0.5% |  200.0ms |       2 | `<module>`                  | `/usr/lib/python3.11/re/__init__.py`      |
-|  0.5% |  200.0ms |       2 | `<module>`                  | `/usr/lib/python3.11/json/decoder.py`     |
-|  0.5% |  200.0ms |       2 | `<module>`                  | `/usr/lib/python3.11/json/__init__.py`    |
-|  0.5% |  200.0ms |       2 | `_create_fn`                | `/usr/lib/python3.11/dataclasses.py`      |
-|  0.5% |  200.0ms |       2 | `isEnabledFor`              | `/usr/lib/python3.11/logging/__init__.py` |
-|  0.5% |  200.0ms |       2 | `debug`                     | `/usr/lib/python3.11/logging/__init__.py` |
+|     % |    Time | Samples | Function                    | Location                                  |
+| ----: | ------: | ------: | --------------------------- | ----------------------------------------- |
+| 99.3% |     42s |     420 | `_run_module_as_main`       | `<frozen runpy>`                          |
+| 95.7% |  40.50s |     405 | `_run_code`                 | `<frozen runpy>`                          |
+|  3.5% |   1.50s |      15 | `_load_unlocked`            | `<frozen importlib._bootstrap>`           |
+|  3.5% |   1.50s |      15 | `_find_and_load_unlocked`   | `<frozen importlib._bootstrap>`           |
+|  3.5% |   1.50s |      15 | `_find_and_load`            | `<frozen importlib._bootstrap>`           |
+|  3.5% |   1.50s |      15 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`           |
+|  3.5% |   1.50s |      15 | `create_module`             | `<frozen importlib._bootstrap_external>`  |
+|  3.5% |   1.50s |      15 | `module_from_spec`          | `<frozen importlib._bootstrap>`           |
+|  3.5% |   1.50s |      15 | `_get_module_details`       | `<frozen runpy>`                          |
+|  2.4% | 999.9ms |      10 | `parse`                     | `/usr/lib/python3.11/ast.py`              |
+|  1.7% | 700.0ms |       7 | `exec_module`               | `<frozen importlib._bootstrap_external>`  |
+|  0.7% | 300.0ms |       3 | `_handle_fromlist`          | `<frozen importlib._bootstrap>`           |
+|  0.7% | 300.0ms |       3 | `_process_class`            | `/usr/lib/python3.11/dataclasses.py`      |
+|  0.7% | 300.0ms |       3 | `wrap`                      | `/usr/lib/python3.11/dataclasses.py`      |
+|  0.5% | 200.0ms |       2 | `<module>`                  | `/usr/lib/python3.11/re/__init__.py`      |
+|  0.5% | 200.0ms |       2 | `<module>`                  | `/usr/lib/python3.11/json/decoder.py`     |
+|  0.5% | 200.0ms |       2 | `<module>`                  | `/usr/lib/python3.11/json/__init__.py`    |
+|  0.5% | 200.0ms |       2 | `_create_fn`                | `/usr/lib/python3.11/dataclasses.py`      |
+|  0.5% | 200.0ms |       2 | `isEnabledFor`              | `/usr/lib/python3.11/logging/__init__.py` |
+|  0.5% | 200.0ms |       2 | `debug`                     | `/usr/lib/python3.11/logging/__init__.py` |
 
 ##### Native
 

@@ -1077,12 +1077,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 
-|     % |     Size | Samples | Callee                                                           | Location                                            |
-| ----: | -------: | ------: | ---------------------------------------------------------------- | --------------------------------------------------- |
-| 71.6% | 6.52 GiB |   3,362 | `invokeExact_MT(Object, Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                  |
-| 33.5% | 3.05 GiB |   1,585 | `invokeExact_MT(Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b001004000` |
-| 10.9% | 1015 MiB |     486 | `invokeExact_MT(Object, Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b00116d000` |
-|  0.3% | 28.6 MiB |      16 | `invokeExact_MT(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                  |
+|     % |      Size | Samples | Callee                                                           | Location                                            |
+| ----: | --------: | ------: | ---------------------------------------------------------------- | --------------------------------------------------- |
+| 71.6% |  6.52 GiB |   3,362 | `invokeExact_MT(Object, Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                  |
+| 33.5% |  3.05 GiB |   1,585 | `invokeExact_MT(Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b001004000` |
+| 10.9% | 1,015 MiB |     486 | `invokeExact_MT(Object, Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b00116d000` |
+|  0.3% |  28.6 MiB |      16 | `invokeExact_MT(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                  |
 
 ##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 

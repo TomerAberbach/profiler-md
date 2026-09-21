@@ -35,7 +35,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new |     +1.499 MiB | 0.0% → <0.1% |       0 B → 1.5 MiB |           0 → 3 | `fillInStackTrace(int)`                 | `java.lang.Throwable`                                  |
 |   +9.1% | +1,023.998 KiB |        <0.1% |     11 MiB → 12 MiB |         22 → 24 | `copyOf(byte[], int)`                   | `java.util.Arrays`                                     |
 |   +8.7% | +1,023.998 KiB |        <0.1% | 11.5 MiB → 12.5 MiB |         23 → 25 | `builder(long, IntFunction)`            | `java.util.stream.Nodes`                               |
-| +100.0% | +1,023.998 KiB |        <0.1% |    1024 KiB → 2 MiB |           2 → 4 | `div(double[], int)`                    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| +100.0% | +1,023.998 KiB |        <0.1% |       1 MiB → 2 MiB |           2 → 4 | `div(double[], int)`                    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 | +200.0% | +1,023.998 KiB |        <0.1% |   512 KiB → 1.5 MiB |           1 → 3 | `mapToObj(DoubleFunction, int)`         | `java.util.stream.DoublePipeline`                      |
 
 ##### Standard library
@@ -58,9 +58,9 @@ Functions with the largest increase in bytes allocated directly in the function 
 |   +9.1% | +1,023.998 KiB |        <0.1% |     11 MiB → 12 MiB |         22 → 24 | `copyOf(byte[], int)`                                                | `java.util.Arrays`                       |
 |   +8.7% | +1,023.998 KiB |        <0.1% | 11.5 MiB → 12.5 MiB |         23 → 25 | `builder(long, IntFunction)`                                         | `java.util.stream.Nodes`                 |
 | +200.0% | +1,023.998 KiB |        <0.1% |   512 KiB → 1.5 MiB |           1 → 3 | `mapToObj(DoubleFunction, int)`                                      | `java.util.stream.DoublePipeline`        |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |      0 B → 1024 KiB |           0 → 2 | `readNBytes(int)`                                                    | `java.io.InputStream`                    |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |         0 B → 1 MiB |           0 → 2 | `readNBytes(int)`                                                    | `java.io.InputStream`                    |
 |     new |   +511.999 KiB | 0.0% → <0.1% |       0 B → 512 KiB |           0 → 1 | `allocateUninitializedArray(Class, int)`                             | `jdk.internal.misc.Unsafe`               |
-| +100.0% |   +511.999 KiB |        <0.1% |  512 KiB → 1024 KiB |           1 → 2 | `<init>(InputStream, int)`                                           | `java.util.jar.Manifest$FastInputStream` |
+| +100.0% |   +511.999 KiB |        <0.1% |     512 KiB → 1 MiB |           1 → 2 | `<init>(InputStream, int)`                                           | `java.util.jar.Manifest$FastInputStream` |
 |     new |   +511.999 KiB | 0.0% → <0.1% |       0 B → 512 KiB |           0 → 1 | `altMetafactory(MethodHandles$Lookup, String, MethodType, Object[])` | `java.lang.invoke.LambdaMetafactory`     |
 
 ##### Ours
@@ -70,8 +70,8 @@ Functions with the largest increase in bytes allocated directly in the function 
 |  +26.5% |     +4.499 MiB | <0.1% → 0.1% | 17 MiB → 21.5 MiB |   34 → 43 | `lambda$generateData$4(int)`   | `org.renaissance.jdk.concurrent.JavaKMeans`            |
 |   +2.6% |     +2.999 MiB |         0.3% | 113 MiB → 116 MiB | 227 → 233 | `lambda$merge$6(List, List)`   | `org.renaissance.jdk.concurrent.JavaKMeans`            |
 |  +33.3% |     +1.999 MiB |        <0.1% |     6 MiB → 8 MiB |   12 → 16 | `createSubtask(int, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
-| +100.0% | +1,023.998 KiB |        <0.1% |  1024 KiB → 2 MiB |     2 → 4 | `div(double[], int)`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
-|     new | +1,023.998 KiB | 0.0% → <0.1% |    0 B → 1024 KiB |     0 → 2 | `<init>(JavaKMeans, Map)`      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| +100.0% | +1,023.998 KiB |        <0.1% |     1 MiB → 2 MiB |     2 → 4 | `div(double[], int)`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|     new | +1,023.998 KiB | 0.0% → <0.1% |       0 B → 1 MiB |     0 → 2 | `<init>(JavaKMeans, Map)`      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 |  +33.3% |   +511.999 KiB |        <0.1% |   1.5 MiB → 2 MiB |     3 → 4 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans`            |
 |   +6.7% |   +511.999 KiB |        <0.1% |   7.5 MiB → 8 MiB |   15 → 16 | `computeClusterAverages()`     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
@@ -93,9 +93,9 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |   -2.1% |     -2.999 MiB |         0.4% |   144 MiB → 141 MiB |     289 → 283 | `createSubtask(int, int)`                             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 |   -3.8% |     -2.499 MiB |         0.2% |   66.5 MiB → 64 MiB |     133 → 128 | `merge(Map, Map)`                                     | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 |   -8.9% |     -2.499 MiB |         0.1% |   28 MiB → 25.5 MiB |       56 → 51 | `mapToObj(IntFunction, int)`                          | `java.util.stream.IntPipeline`                             |
-|  -50.0% | -1,023.998 KiB |        <0.1% |    2 MiB → 1024 KiB |         4 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`         | `java.util.stream.StreamSupport`                           |
+|  -50.0% | -1,023.998 KiB |        <0.1% |       2 MiB → 1 MiB |         4 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`         | `java.util.stream.StreamSupport`                           |
 |  -66.7% | -1,023.998 KiB |        <0.1% |   1.5 MiB → 512 KiB |         3 → 1 | `<init>(ClassWriter)`                                 | `jdk.internal.org.objectweb.asm.SymbolTable`               |
-| removed | -1,023.998 KiB | <0.1% → 0.0% |      1024 KiB → 0 B |         2 → 0 | `collectGarbage(String)`                              | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
+| removed | -1,023.998 KiB | <0.1% → 0.0% |         1 MiB → 0 B |         2 → 0 | `collectGarbage(String)`                              | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
 | removed |   -511.999 KiB | <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `average(List)`                                       | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | removed |   -511.999 KiB | <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `<clinit>()`                                          | `sun.security.util.KnownOIDs`                              |
 | removed |   -511.999 KiB | <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `allocateUninitializedArray0(Class, int)`             | `jdk.internal.misc.Unsafe`                                 |
@@ -110,7 +110,7 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |  -61.9% |     -6.499 MiB |        <0.1% |  10.5 MiB → 4 MiB |    21 → 8 | `<init>(InputStream, Inflater, int)`                                            | `java.util.zip.InflaterInputStream`          |
 |   -5.2% |     -5.999 MiB |         0.3% | 115 MiB → 109 MiB | 231 → 219 | `resize()`                                                                      | `java.util.HashMap`                          |
 |   -8.9% |     -2.499 MiB |         0.1% | 28 MiB → 25.5 MiB |   56 → 51 | `mapToObj(IntFunction, int)`                                                    | `java.util.stream.IntPipeline`               |
-|  -50.0% | -1,023.998 KiB |        <0.1% |  2 MiB → 1024 KiB |     4 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`                                   | `java.util.stream.StreamSupport`             |
+|  -50.0% | -1,023.998 KiB |        <0.1% |     2 MiB → 1 MiB |     4 → 2 | `doubleStream(Spliterator$OfDouble, boolean)`                                   | `java.util.stream.StreamSupport`             |
 |  -66.7% | -1,023.998 KiB |        <0.1% | 1.5 MiB → 512 KiB |     3 → 1 | `<init>(ClassWriter)`                                                           | `jdk.internal.org.objectweb.asm.SymbolTable` |
 | removed |   -511.999 KiB | <0.1% → 0.0% |     512 KiB → 0 B |     1 → 0 | `<clinit>()`                                                                    | `sun.security.util.KnownOIDs`                |
 | removed |   -511.999 KiB | <0.1% → 0.0% |     512 KiB → 0 B |     1 → 0 | `allocateUninitializedArray0(Class, int)`                                       | `jdk.internal.misc.Unsafe`                   |
@@ -137,7 +137,7 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |   -5.2% |     -3.999 MiB |         0.2% | 77.5 MiB → 73.5 MiB |     155 → 147 | `add(double[], double[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
 |   -2.1% |     -2.999 MiB |         0.4% |   144 MiB → 141 MiB |     289 → 283 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 |   -3.8% |     -2.499 MiB |         0.2% |   66.5 MiB → 64 MiB |     133 → 128 | `merge(Map, Map)`                    | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-| removed | -1,023.998 KiB | <0.1% → 0.0% |      1024 KiB → 0 B |         2 → 0 | `collectGarbage(String)`             | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
+| removed | -1,023.998 KiB | <0.1% → 0.0% |         1 MiB → 0 B |         2 → 0 | `collectGarbage(String)`             | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
 | removed |   -511.999 KiB | <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `average(List)`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
 ### Total size

@@ -37,7 +37,7 @@ Constructors with the largest increase in self size.
 |   +7.1% |      +161 B |        <0.1% |  2.2 KiB → 2.36 KiB |           14 → 15 | `java.util.concurrent.ForkJoinWorkerThread`                |
 | +300.0% |       +72 B |        <0.1% |         24 B → 96 B |             1 → 4 | `java.util.concurrent.ForkJoinTask$Aux`                    |
 |   +6.7% |       +48 B |        <0.1% |       720 B → 768 B |           15 → 16 | `java.util.concurrent.ForkJoinPool$WorkQueue`              |
-|   +3.3% |       +33 B |        <0.1% |      990 B → 1023 B |           30 → 31 | `java.lang.Thread$FieldHolder`                             |
+|   +3.3% |       +33 B |        <0.1% |     990 B → 1,023 B |           30 → 31 | `java.lang.Thread$FieldHolder`                             |
 
 ##### Array
 
@@ -65,7 +65,7 @@ Constructors with the largest increase in self size.
 |   +7.1% |     +161 B |        <0.1% |  2.2 KiB → 2.36 KiB |         14 → 15 | `java.util.concurrent.ForkJoinWorkerThread`                |
 | +300.0% |      +72 B |        <0.1% |         24 B → 96 B |           1 → 4 | `java.util.concurrent.ForkJoinTask$Aux`                    |
 |   +6.7% |      +48 B |        <0.1% |       720 B → 768 B |         15 → 16 | `java.util.concurrent.ForkJoinPool$WorkQueue`              |
-|   +3.3% |      +33 B |        <0.1% |      990 B → 1023 B |         30 → 31 | `java.lang.Thread$FieldHolder`                             |
+|   +3.3% |      +33 B |        <0.1% |     990 B → 1,023 B |         30 → 31 | `java.lang.Thread$FieldHolder`                             |
 
 #### Improvements
 

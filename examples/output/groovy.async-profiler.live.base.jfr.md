@@ -286,13 +286,13 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `allocateInstance(Object)` (`java.lang.invoke.DirectMethodHandle`)
 
-|     % |     Size | Samples | Caller                                     | Location                                     |
-| ----: | -------: | ------: | ------------------------------------------ | -------------------------------------------- |
-| 87.6% |  173 MiB |     347 | `newInvokeSpecial(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder` |
-|  4.8% |  9.5 MiB |      19 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
-|  4.0% |    8 MiB |      16 | `newInvokeSpecial(Object, int)`            | `java.lang.invoke.DirectMethodHandle$Holder` |
-|  0.8% |  1.5 MiB |       3 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.DirectMethodHandle$Holder` |
-|  0.5% | 1024 KiB |       2 | `newInvokeSpecial(Object, int, int)`       | `java.lang.invoke.DirectMethodHandle$Holder` |
+|     % |    Size | Samples | Caller                                     | Location                                     |
+| ----: | ------: | ------: | ------------------------------------------ | -------------------------------------------- |
+| 87.6% | 173 MiB |     347 | `newInvokeSpecial(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder` |
+|  4.8% | 9.5 MiB |      19 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+|  4.0% |   8 MiB |      16 | `newInvokeSpecial(Object, int)`            | `java.lang.invoke.DirectMethodHandle$Holder` |
+|  0.8% | 1.5 MiB |       3 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.DirectMethodHandle$Holder` |
+|  0.5% |   1 MiB |       2 | `newInvokeSpecial(Object, int, int)`       | `java.lang.invoke.DirectMethodHandle$Holder` |
 
 ### Total size
 
@@ -367,7 +367,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | 100.0% | 11.8 GiB |  24,120 | `invokeExact_MT(Object, Object, Object)`                | `java.lang.invoke.Invokers$Holder`                               |
 |  18.8% | 2.22 GiB |   4,537 | `doWithCallSite(MutableCallSite, Object[], BiFunction)` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`                  |
 |   1.3% |  160 MiB |     321 | `linkToTargetMethod(Object, Object)`                    | `java.lang.invoke.Invokers$Holder`                               |
-|  <0.1% | 1024 KiB |       2 | `get()`                                                 | `org.codehaus.groovy.vmplugin.v8.IndyInterface$FallbackSupplier` |
+|  <0.1% |    1 MiB |       2 | `get()`                                                 | `org.codehaus.groovy.vmplugin.v8.IndyInterface$FallbackSupplier` |
 
 ##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000801088800`)
 
@@ -502,7 +502,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ------------------------------------- | ------------------------------------------------- |
 | 100.0% | 11.7 GiB |  24,035 | `invokeImpl(Object, Object[])`        | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 |  <0.1% |    2 MiB |       4 | `isIllegalArgument(RuntimeException)` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
-|  <0.1% | 1024 KiB |       2 | `<init>(Throwable)`                   | `java.lang.reflect.InvocationTargetException`     |
+|  <0.1% |    1 MiB |       2 | `<init>(Throwable)`                   | `java.lang.reflect.InvocationTargetException`     |
 
 ##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
 
@@ -510,7 +510,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | --------------------------------- | ------------------------------------------------- |
 | 100.0% | 11.7 GiB |  24,035 | `invoke(Object, Object[])`        | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 |  <0.1% |  2.5 MiB |       5 | `acquireMethodAccessor()`         | `java.lang.reflect.Method`                        |
-|  <0.1% | 1024 KiB |       2 | `invoke(Object, Object[], Class)` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|  <0.1% |    1 MiB |       2 | `invoke(Object, Object[], Class)` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 
 ##### `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`)
 

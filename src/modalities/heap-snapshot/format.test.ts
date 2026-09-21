@@ -165,7 +165,7 @@ describe(`formatHeapSnapshot`, () => {
         Object: [
           {
             '%': `100.0%`,
-            Size: `1000 B`,
+            Size: `1,000 B`,
             Instances: `3`,
             Constructor: `Widget`,
           },
@@ -812,7 +812,7 @@ describe(`formatHeapSnapshotDiff`, () => {
             Change: `-50.0%`,
             Delta: `-500 B`,
             '%': `100.0%`,
-            Size: `1000 B → 500 B`,
+            Size: `1,000 B → 500 B`,
             Instances: `3`,
             Constructor: `Widget`,
           },

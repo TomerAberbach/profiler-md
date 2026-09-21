@@ -330,7 +330,7 @@ Lines ranked by contribution to each function's self size.
 |     % |     Size | Allocations | Location                                  |
 | ----: | -------: | ----------: | ----------------------------------------- |
 | 81.6% | 4.34 KiB |           1 | `/usr/lib/python3.11/re/_compiler.py:580` |
-| 18.4% |   1002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
+| 18.4% |  1,002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
 
 ##### `<module>` (`/usr/lib/python3.11/pkgutil.py:1`)
 
@@ -962,11 +962,11 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `inner` (`/usr/lib/python3.11/typing.py:338`)
 
-|     % |   Size | Allocations | Callee              | Location                             |
-| ----: | -----: | ----------: | ------------------- | ------------------------------------ |
-| 98.7% |  1 MiB |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1531` |
-|  0.1% | 1016 B |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1360` |
-|  0.1% |  632 B |           1 | `__class_getitem__` | `/usr/lib/python3.11/typing.py:1773` |
+|     % |    Size | Allocations | Callee              | Location                             |
+| ----: | ------: | ----------: | ------------------- | ------------------------------------ |
+| 98.7% |   1 MiB |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1531` |
+|  0.1% | 1,016 B |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1360` |
+|  0.1% |   632 B |           1 | `__class_getitem__` | `/usr/lib/python3.11/typing.py:1773` |
 
 ##### `compile` (`/usr/lib/python3.11/re/__init__.py:225`)
 
@@ -1333,7 +1333,7 @@ Lines ranked by contribution to each function's self size.
 |     % |     Size | Allocations | Location                                  |
 | ----: | -------: | ----------: | ----------------------------------------- |
 | 81.6% | 4.34 KiB |           1 | `/usr/lib/python3.11/re/_compiler.py:580` |
-| 18.4% |   1002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
+| 18.4% |  1,002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
 
 ##### `<module>` (`/usr/lib/python3.11/pkgutil.py:1`)
 
@@ -1973,11 +1973,11 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `inner` (`/usr/lib/python3.11/typing.py:338`)
 
-|     % |   Size | Allocations | Callee              | Location                             |
-| ----: | -----: | ----------: | ------------------- | ------------------------------------ |
-| 98.7% |  1 MiB |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1531` |
-|  0.1% | 1016 B |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1360` |
-|  0.1% |  632 B |           1 | `__class_getitem__` | `/usr/lib/python3.11/typing.py:1773` |
+|     % |    Size | Allocations | Callee              | Location                             |
+| ----: | ------: | ----------: | ------------------- | ------------------------------------ |
+| 98.7% |   1 MiB |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1531` |
+|  0.1% | 1,016 B |           1 | `__getitem__`       | `/usr/lib/python3.11/typing.py:1360` |
+|  0.1% |   632 B |           1 | `__class_getitem__` | `/usr/lib/python3.11/typing.py:1773` |
 
 ##### `compile` (`/usr/lib/python3.11/re/__init__.py:225`)
 

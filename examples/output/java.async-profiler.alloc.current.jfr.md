@@ -81,8 +81,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |    8 MiB |      16 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |    2 MiB |       4 | `lambda$run$0(int, List, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 | <0.1% |    2 MiB |       4 | `div(double[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| <0.1% | 1024 KiB |       2 | `<init>(JavaKMeans, Map)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| <0.1% | 1024 KiB |       2 | `lambda$boxed$0(int)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |    1 MiB |       2 | `<init>(JavaKMeans, Map)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |    1 MiB |       2 | `lambda$boxed$0(int)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
 #### Lines
 
@@ -289,15 +289,15 @@ Lines ranked by contribution to each function's self size.
 
 ##### `<init>(JavaKMeans, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Location                                                   |
-| -----: | -------: | ------: | ---------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:282` |
+|      % |  Size | Samples | Location                                                   |
+| -----: | ----: | ------: | ---------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:282` |
 
 ##### `lambda$boxed$0(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Location                                                   |
-| -----: | -------: | ------: | ---------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:327` |
+|      % |  Size | Samples | Location                                                   |
+| -----: | ----: | ------: | ---------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:327` |
 
 #### Callers
 
@@ -516,15 +516,15 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `<init>(JavaKMeans, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Caller                         | Location                                    |
-| -----: | -------: | ------: | ------------------------------ | ------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % |  Size | Samples | Caller                         | Location                                    |
+| -----: | ----: | ------: | ------------------------------ | ------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `lambda$boxed$0(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |     Size | Samples | Caller       | Location                                                                          |
-| -----: | -------: | ------: | ------------ | --------------------------------------------------------------------------------- |
-| 100.0% | 1024 KiB |       2 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda.0x0000007001187998` |
+|      % |  Size | Samples | Caller       | Location                                                                          |
+| -----: | ----: | ------: | ------------ | --------------------------------------------------------------------------------- |
+| 100.0% | 1 MiB |       2 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda.0x0000007001187998` |
 
 ### Total size
 
@@ -783,7 +783,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |      % |     Size | Samples | Callee                    | Location                                               |
 | -----: | -------: | ------: | ------------------------- | ------------------------------------------------------ |
 | 100.0% | 7.46 GiB |  14,950 | `invoke()`                | `java.util.concurrent.ForkJoinTask`                    |
-|  <0.1% | 1024 KiB |       2 | `<init>(JavaKMeans, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|  <0.1% |    1 MiB |       2 | `<init>(JavaKMeans, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
 ##### `call()` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001183d68`)
 

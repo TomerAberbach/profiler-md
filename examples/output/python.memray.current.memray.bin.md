@@ -433,7 +433,7 @@ Lines ranked by contribution to each function's self size.
 | 22.9% | 1.48 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:254` |
 | 16.9% | 1.09 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:765` |
 | 16.3% | 1.05 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:710` |
-| 15.1% |   1000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:741` |
+| 15.1% |  1,000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:741` |
 | 14.5% |    960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:604` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/packaging/_ranges.py:1`)
@@ -474,7 +474,7 @@ Lines ranked by contribution to each function's self size.
 |     % |     Size | Allocations | Location                                  |
 | ----: | -------: | ----------: | ----------------------------------------- |
 | 81.6% | 4.34 KiB |           1 | `/usr/lib/python3.11/re/_compiler.py:580` |
-| 18.4% |   1002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
+| 18.4% |  1,002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
 
 ##### `<module>` (`/usr/lib/python3.11/pkgutil.py:1`)
 
@@ -503,7 +503,7 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | ------------------------------------------------------------ |
 | 46.4% | 1.73 KiB |           2 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:29`  |
 | 27.3% | 1.02 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:90`  |
-| 26.3% |   1000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:245` |
+| 26.3% |  1,000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:245` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/packaging/utils.py:1`)
 
@@ -1862,7 +1862,7 @@ Lines ranked by contribution to each function's self size.
 | 22.9% | 1.48 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:254` |
 | 16.9% | 1.09 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:765` |
 | 16.3% | 1.05 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:710` |
-| 15.1% |   1000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:741` |
+| 15.1% |  1,000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:741` |
 | 14.5% |    960 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/util.py:604` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/packaging/_ranges.py:1`)
@@ -1913,7 +1913,7 @@ Lines ranked by contribution to each function's self size.
 |     % |     Size | Allocations | Location                                  |
 | ----: | -------: | ----------: | ----------------------------------------- |
 | 81.6% | 4.34 KiB |           1 | `/usr/lib/python3.11/re/_compiler.py:580` |
-| 18.4% |   1002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
+| 18.4% |  1,002 B |           1 | `/usr/lib/python3.11/re/_compiler.py:577` |
 
 ##### `<module>` (`/usr/lib/python3.11/pkgutil.py:1`)
 
@@ -1936,7 +1936,7 @@ Lines ranked by contribution to each function's self size.
 | ----: | -------: | ----------: | ------------------------------------------------------------ |
 | 46.4% | 1.73 KiB |           2 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:29`  |
 | 27.3% | 1.02 KiB |           1 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:90`  |
-| 26.3% |   1000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:245` |
+| 26.3% |  1,000 B |           1 | `/venv/lib/python3.11/site-packages/pathspec/pattern.py:245` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/packaging/utils.py:1`)
 

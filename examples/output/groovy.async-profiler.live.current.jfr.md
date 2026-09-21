@@ -270,7 +270,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | 88.7% |  204 MiB |     408 | `newInvokeSpecial(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`         |
 |  4.6% | 10.5 MiB |      21 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`         |
 |  4.3% |   10 MiB |      20 | `newInvokeSpecial(Object, int)`            | `java.lang.invoke.DirectMethodHandle$Holder`         |
-|  0.4% | 1024 KiB |       2 | `newInvokeSpecial(Object, Object, int)`    | `java.lang.invoke.LambdaForm$DMH.0x000000700126b800` |
+|  0.4% |    1 MiB |       2 | `newInvokeSpecial(Object, Object, int)`    | `java.lang.invoke.LambdaForm$DMH.0x000000700126b800` |
 |  0.2% |  512 KiB |       1 | `newInvokeSpecial(Object)`                 | `java.lang.invoke.DirectMethodHandle$Holder`         |
 
 ##### `of(byte, int, int)` (`java.lang.invoke.LambdaFormEditor$TransformKey`)
@@ -353,11 +353,11 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `main(String[])` (`org.codenarc.CodeNarc`)
 
-|      % |     Size | Samples | Callee                                                           | Location                               |
-| -----: | -------: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
-| 100.0% |   12 GiB |  24,547 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`     |
-|  <0.1% |    2 MiB |       4 | `linkToCallSite(Object, Object)`                                 | `java.lang.invoke.Invokers$Holder`     |
-|  <0.1% | 1024 KiB |       2 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
+|      % |   Size | Samples | Callee                                                           | Location                               |
+| -----: | -----: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
+| 100.0% | 12 GiB |  24,547 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`     |
+|  <0.1% |  2 MiB |       4 | `linkToCallSite(Object, Object)`                                 | `java.lang.invoke.Invokers$Holder`     |
+|  <0.1% |  1 MiB |       2 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
 
 ##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
 
@@ -531,7 +531,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ------------------------------------ | ----------------------------------------------------- |
 | 100.0% | 11.9 GiB |  24,466 | `invoke(Object, Object[])`           | `org.codehaus.groovy.reflection.CachedMethod`         |
 |   5.7% |  696 MiB |   1,392 | `invoke(Object, Object[])`           | `org.codehaus.groovy.runtime.dgmimpl.NumberNumberDiv` |
-|  <0.1% | 1024 KiB |       2 | `coerceArgumentsToClasses(Object[])` | `org.codehaus.groovy.reflection.ParameterTypes`       |
+|  <0.1% |    1 MiB |       2 | `coerceArgumentsToClasses(Object[])` | `org.codehaus.groovy.reflection.ParameterTypes`       |
 
 ## Hottest call stacks
 

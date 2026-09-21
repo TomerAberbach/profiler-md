@@ -148,7 +148,7 @@ Instances ranked by contribution to each constructor's self size.
 |    % |     Size | Instances | Path                                                 |
 | ---: | -------: | --------: | ---------------------------------------------------- |
 | 2.4% | 4.92 KiB |        45 | `<root>`                                             |
-| 0.5% |   1008 B |         9 | `GlobalObject ← <root>`                              |
+| 0.5% |  1,008 B |         9 | `GlobalObject ← <root>`                              |
 | 0.4% |    784 B |         7 | `(GC root)`                                          |
 | 0.1% |    112 B |         1 | `JSGlobalLexicalEnvironment ← GlobalObject ← <root>` |
 | 0.1% |    112 B |         1 | `Function ← GlobalObject ← <root>`                   |
