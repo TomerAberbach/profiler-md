@@ -1,16 +1,22 @@
 import type { InferValue } from '@optique/core'
 import { merge, object, or, tuple } from '@optique/core/constructs'
 import { message, text, value } from '@optique/core/message'
-import type { Message } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
 import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
-import { choice, float, integer, string } from '@optique/core/valueparser'
+import {
+  choice,
+  float,
+  integer,
+  regExp,
+  string,
+} from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
 import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
 import { reasonOf } from '../error.ts'
 import { formats } from '../formats/index.ts'
+import { uncapitalizeFirst } from '../helpers/format.ts'
 import { LOG_LEVELS } from '../logger.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
@@ -20,61 +26,39 @@ import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
 import { defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
 
-const languageTopics = [...languages.entries()].flatMap(
-  ([id, { aliases, extensions }]) => [
-    id,
-    ...(aliases?.map(alias => alias.id) ?? []),
-    ...(extensions ?? []),
-  ],
-)
-export const helpTopics = [...formats, ...languageTopics]
-
-export type RegexReplacement = readonly [RegExp, string]
-
-/** A rule assigning functions matching a regex to a category. */
-export type RegexCategory = readonly [RegExp, FunctionCategory]
-
-/** A category of any modality's entries. */
-export type EntryCategory = FunctionCategory | HeapSnapshotNodeCategory
-
-const entryCategories: readonly EntryCategory[] = [
-  ...new Set<EntryCategory>([
-    ...FUNCTION_CATEGORIES,
-    ...HEAP_SNAPSHOT_NODE_CATEGORIES,
-  ]),
-].sort()
-
-const parseRegex = (
-  pattern: string,
-  flags: string,
-): { success: true; value: RegExp } | { success: false; error: Message } => {
-  try {
-    return { success: true, value: new RegExp(pattern, flags) }
-  } catch (error) {
-    return {
-      success: false,
-      error: message`expected a valid regex, ${text(regexErrorReason(error))}, got: ${value(pattern)}`,
-    }
-  }
-}
+/**
+ * Parses a regex compiled with `flags`, stating the reason when it fails to
+ * compile.
+ */
+const regex = (flags = `u`): ValueParser<`sync`, RegExp> =>
+  regExp({
+    metavar: `REGEX`,
+    flags,
+    errors: {
+      invalidRegExp: pattern =>
+        message`expected a valid regex, ${text(regexErrorReason(pattern, flags))}, got: ${value(pattern)}`,
+    },
+  })
 
 /**
- * The reason a regex failed to compile, lowercased. V8 reports it as
+ * The reason a regex fails to compile, lowercased. V8 reports it as
  * `Invalid regular expression: /<pattern>/<flags>: <reason>`, so the reason is
  * the text after the last colon.
  */
-const regexErrorReason = (error: unknown): string => {
-  const reason = reasonOf(error).split(`: `).at(-1)!
-  return reason.charAt(0).toLowerCase() + reason.slice(1)
+const regexErrorReason = (pattern: string, flags: string): string => {
+  try {
+    // eslint-disable-next-line no-new
+    new RegExp(pattern, flags)
+  } catch (error) {
+    return uncapitalizeFirst(reasonOf(error).split(`: `).at(-1)!)
+  }
+  throw new Error(`expected the regex to fail to compile, got: ${pattern}`)
 }
 
-const regex = (): ValueParser<`sync`, RegExp> => ({
-  mode: `sync`,
-  metavar: `REGEX`,
-  placeholder: /(?:)/u,
-  parse: input => parseRegex(input, `u`),
-  format: regex => regex.source,
-})
+const unicodeRegex = regex()
+const globalRegex = regex(`gu`)
+
+export type RegexReplacement = readonly [RegExp, string]
 
 const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
   mode: `sync`,
@@ -89,13 +73,16 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
       }
     }
 
-    const result = parseRegex(input.slice(0, index), `gu`)
+    const result = globalRegex.parse(input.slice(0, index))
     return result.success
       ? { success: true, value: [result.value, input.slice(index + 1)] }
       : result
   },
   format: ([regex, replacement]) => `${regex.source}=${replacement}`,
 })
+
+/** A rule assigning functions matching a regex to a category. */
+export type RegexCategory = readonly [RegExp, FunctionCategory]
 
 /**
  * Parses `REGEX=CATEGORY`, split at the last `=` because a category name
@@ -124,7 +111,7 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
       }
     }
 
-    const result = parseRegex(input.slice(0, index), `u`)
+    const result = unicodeRegex.parse(input.slice(0, index))
     return result.success
       ? {
           success: true,
@@ -134,13 +121,6 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
   },
   format: ([regex, category]) => `${regex.source}=${category}`,
 })
-
-/** The `--format` and `--origin` value meaning the format or origin is detected. */
-const AUTO = `auto`
-
-const specified = <Value extends string>(
-  value: Value | typeof AUTO | undefined,
-): Value | undefined => (value === AUTO ? undefined : value)
 
 export const inputParser = or(
   optional(
@@ -186,6 +166,13 @@ const outputFlags = object(`Output`, {
     ),
   ),
 })
+
+/** The `--format` and `--origin` value meaning the format or origin is detected. */
+const AUTO = `auto`
+
+const specified = <Value extends string>(
+  value: Value | typeof AUTO | undefined,
+): Value | undefined => (value === AUTO ? undefined : value)
 
 const inputFlags = object(`Input`, {
   format: map(
@@ -243,6 +230,16 @@ const rankingFlags = object(`Ranking`, {
   ),
 })
 
+/** A category of any modality's entries. */
+export type EntryCategory = FunctionCategory | HeapSnapshotNodeCategory
+
+const entryCategories: readonly EntryCategory[] = [
+  ...new Set<EntryCategory>([
+    ...FUNCTION_CATEGORIES,
+    ...HEAP_SNAPSHOT_NODE_CATEGORIES,
+  ]),
+].sort()
+
 const filteringFlags = object(`Filtering`, {
   category: multiple(
     option(`--category`, regexCategory(), {
@@ -250,12 +247,12 @@ const filteringFlags = object(`Filtering`, {
     }),
   ),
   hide: multiple(
-    option(`--hide`, regex(), {
+    option(`--hide`, unicodeRegex, {
       description: message`Hide entries whose name or location matches REGEX, still counting hidden entries in totals (repeatable)`,
     }),
   ),
   show: multiple(
-    option(`--show`, regex(), {
+    option(`--show`, unicodeRegex, {
       description: message`Show only entries whose name or location matches REGEX, still counting hidden entries in totals (repeatable)`,
     }),
   ),
@@ -291,6 +288,15 @@ const diffingFlags = object(`Diffing`, {
     }),
   ),
 })
+
+const languageTopics = [...languages.entries()].flatMap(
+  ([id, { aliases, extensions }]) => [
+    id,
+    ...(aliases?.map(alias => alias.id) ?? []),
+    ...(extensions ?? []),
+  ],
+)
+export const helpTopics = [...formats, ...languageTopics]
 
 const helpFlags = object(`Help`, {
   help: optional(

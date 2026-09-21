@@ -20,10 +20,9 @@ profiler-md
 │   │   ├── output.ts             # Writes Markdown to file or stdout (optionally paged)
 │   │   ├── pager.ts              # Spawns $PAGER or `less` for stdout output
 │   │   ├── highlight-markdown.ts # ANSI Markdown syntax highlighting for stdout
-│   │   ├── highlight-help.ts     # ANSI highlighting of the help text in the Kindling theme
-│   │   ├── theme-kindling.ts     # Custom Shiki theme for syntax highlighting
+│   │   ├── theme-kindling.ts     # The Kindling colors as a Shiki theme, an Optique terminal theme, and an ANSI palette
 │   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
-│   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color)
+│   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color), and a plain Ansis for uncolored output
 │   │   ├── help.ts               # Prints CLI help (synopsis, examples, flag sections) and per-topic docs
 │   │   ├── languages.ts          # Language display metadata
 │   │   ├── examples.ts           # Parses metadata from examples/ filenames
@@ -118,6 +117,7 @@ profiler-md
 │       ├── array.ts
 │       ├── bits.ts
 │       ├── bytes.ts
+│       ├── color.ts              # Hex color parsing to RGB
 │       ├── free-indices.ts       # Interval union-find over a range's free indices
 │       ├── graph.ts
 │       ├── heap.ts
