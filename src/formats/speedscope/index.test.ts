@@ -8,6 +8,7 @@ import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
+  expectLogs,
   linesTables,
   profileTitles,
   summaryLines,
@@ -204,6 +205,36 @@ describe(`convert`, () => {
     // Two separate profile sections.
     expect(profileTitles(md)).toEqual([`Sampling profile`, `Sampling profile`])
   })
+
+  test.each([
+    [`py-spy@0.4.0`, `py-spy`],
+    [`rbspy@0.51.0`, `rbspy`],
+  ])(
+    `the %s exporter resolves a markerless profile to %s`,
+    (exporter, origin) => {
+      // The frames carry no origin-level marker, so the exporter's origin hint
+      // is the evidence.
+      const profile = {
+        ...makeSpeedscopeProfile({
+          profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
+          frames: [{ name: `work`, file: `./app/main`, line: 4 }],
+        }),
+        exporter,
+      }
+
+      convertJsonToMd(
+        speedscopeConverter,
+        profile,
+        normalizeProfileToMdOptions({ baseURL: null }),
+      )
+
+      expectLogs([
+        `debug: origin candidates, in priority order: pyinstrument, py-spy, dotnet-trace, rbspy, excimer`,
+        `info: detected origin: ${origin}`,
+        `debug: ${origin} is named by the format's metadata`,
+      ])
+    },
+  )
 
   test(`per-sampled-line frames merge into one function with a line breakdown under a py-spy origin`, () => {
     // Py-spy emits one frame per *sampled* line; once its origin is detected
