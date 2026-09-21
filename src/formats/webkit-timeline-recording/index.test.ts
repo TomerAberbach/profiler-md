@@ -24,6 +24,33 @@ describe(`matches`, () => {
     ).toBe(true)
   })
 
+  test(`accepts the samples layout Web Inspector now writes`, () => {
+    expect(
+      webkitTimelineRecordingConverter.matches({
+        version: 1,
+        recording: { samples: [{ stackTraces: [], durations: [] }] },
+      }),
+    ).toBe(true)
+  })
+
+  test(`accepts an empty samples list`, () => {
+    expect(
+      webkitTimelineRecordingConverter.matches({
+        version: 1,
+        recording: { samples: [] },
+      }),
+    ).toBe(true)
+  })
+
+  test(`rejects a samples list of another tool's shape`, () => {
+    expect(
+      webkitTimelineRecordingConverter.matches({
+        version: 1,
+        recording: { samples: [{ value: 3 }] },
+      }),
+    ).toBe(false)
+  })
+
   test(`rejects null`, () => {
     expect(webkitTimelineRecordingConverter.matches(null)).toBe(false)
   })
@@ -146,6 +173,48 @@ describe(`convert`, () => {
         {
           '%': `85.7%`,
           Time: `30.0ms`,
+          Samples: `2`,
+          Function: `work`,
+          Location: `src/index.ts:10:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`aggregates the samples layout's targets into one profile`, () => {
+    const frame = (name: string): ReturnType<typeof makeWebKitStackFrame> =>
+      makeWebKitStackFrame({
+        name,
+        url: `file:///project/src/index.ts`,
+        line: 10,
+      })
+    const recording = {
+      version: 1,
+      recording: {
+        samples: [
+          {
+            stackTraces: [{ stackFrames: [frame(`work`)] }],
+            durations: [0.01],
+          },
+          {
+            stackTraces: [{ stackFrames: [frame(`work`)] }],
+            durations: [0.03],
+          },
+        ],
+      },
+    }
+
+    const md = convertJsonToMd(
+      webkitTimelineRecordingConverter,
+      recording,
+      normalizeProfileToMdOptions({ baseURL: `/project/` }),
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `40.0ms`,
           Samples: `2`,
           Function: `work`,
           Location: `src/index.ts:10:1`,
