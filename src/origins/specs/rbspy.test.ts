@@ -60,8 +60,8 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `parse - /app/lib/foo.rb:12` }, `collapsed`),
     ).toEqual({
       name: `parse`,
-      location: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
-      line: 12,
+      definition: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
+      executing: { line: 12 },
     })
   })
 
@@ -77,11 +77,11 @@ describe(`normalizeStackFrame`, () => {
       ),
     ).toEqual({
       name: `<module:AST>`,
-      location: {
+      definition: {
         type: `file`,
         urlOrPath: `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`,
       },
-      line: 28,
+      executing: { line: 28 },
     })
   })
 
@@ -100,7 +100,7 @@ describe(`normalizeStackFrame`, () => {
         { name: `<internal:gem_prelude> - unknown:16` },
         `collapsed`,
       ),
-    ).toEqual({ name: `<internal:gem_prelude>`, line: 16 })
+    ).toEqual({ name: `<internal:gem_prelude>`, executing: { line: 16 } })
   })
 
   test(`drops a placeholder path a located format reports separately`, () => {
@@ -108,7 +108,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `(unknown) [c function]`,
-          location: { type: `file`, urlOrPath: `(unknown)` },
+          definition: { type: `file`, urlOrPath: `(unknown)` },
         },
         `pprof`,
       ),
@@ -120,7 +120,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `(unknown) [c function]`,
-          location: { type: `file`, urlOrPath: `(unknown)` },
+          definition: { type: `file`, urlOrPath: `(unknown)` },
         },
         `speedscope`,
       ),
@@ -130,7 +130,7 @@ describe(`normalizeStackFrame`, () => {
   test(`keeps an internal Ruby source path`, () => {
     const input: StackFrame = {
       name: `<internal:gem_prelude>`,
-      location: { type: `file`, urlOrPath: `<internal:gem_prelude>` },
+      definition: { type: `file`, urlOrPath: `<internal:gem_prelude>` },
     }
     expect(normalizeStackFrame(input, `pprof`)).toBe(input)
   })
@@ -148,14 +148,18 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `parse`,
-          location: { type: `file`, urlOrPath: `/app/lib/foo.rb`, line: 12 },
+          definition: {
+            type: `file`,
+            urlOrPath: `/app/lib/foo.rb`,
+            position: { line: 12 },
+          },
         },
         `speedscope`,
       ),
     ).toEqual({
       name: `parse`,
-      location: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
-      line: 12,
+      definition: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
+      executing: { line: 12 },
     })
   })
 
@@ -163,7 +167,11 @@ describe(`normalizeStackFrame`, () => {
     // Pprof's `Function.start_line` is a genuine definition line.
     const input: StackFrame = {
       name: `parse`,
-      location: { type: `file`, urlOrPath: `/app/lib/foo.rb`, line: 12 },
+      definition: {
+        type: `file`,
+        urlOrPath: `/app/lib/foo.rb`,
+        position: { line: 12 },
+      },
     }
     expect(normalizeStackFrame(input, `pprof`)).toBe(input)
   })
@@ -171,7 +179,7 @@ describe(`normalizeStackFrame`, () => {
   test(`leaves a located speedscope frame without a line unchanged`, () => {
     const input: StackFrame = {
       name: `parse - x`,
-      location: { type: `file`, urlOrPath: `x.rb` },
+      definition: { type: `file`, urlOrPath: `x.rb` },
     }
     expect(normalizeStackFrame(input, `speedscope`)).toBe(input)
   })

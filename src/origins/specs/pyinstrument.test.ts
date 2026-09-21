@@ -101,7 +101,7 @@ describe(`normalizeStackFrame`, () => {
   test(`keeps a located frame named [self]`, () => {
     const input = {
       name: `[self]`,
-      location: { type: `file`, urlOrPath: `app.py` },
+      definition: { type: `file`, urlOrPath: `app.py` },
     } as const
     expect(normalizeStackFrame(input)).toBe(input)
   })
@@ -110,21 +110,25 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `compile`,
-        location: { type: `file`, urlOrPath: `<built-in>`, line: 0 },
+        definition: {
+          type: `file`,
+          urlOrPath: `<built-in>`,
+          position: { line: 0 },
+        },
       }),
     ).toEqual({
       name: `compile`,
-      location: { type: `file`, urlOrPath: `<built-in>` },
+      definition: { type: `file`, urlOrPath: `<built-in>` },
     })
   })
 
   test(`keeps a Python frame's definition line`, () => {
     const input = {
       name: `format_str`,
-      location: {
+      definition: {
         type: `file`,
         urlOrPath: `/src/black/src/black/__init__.py`,
-        line: 1189,
+        position: { line: 1189 },
       },
     } as const
     expect(normalizeStackFrame(input)).toBe(input)

@@ -26,19 +26,19 @@ export const pyinstrumentOriginSpec = {
   categorizeEntry: entry =>
     builtInCategory(entry) ?? categorizeCPythonEntry(entry),
   normalizeStackFrame: input => {
-    const { name, location } = input
-    if (!location) {
+    const { name, definition } = input
+    if (!definition) {
       return isSelfTimeFrame(name) ? null : input
     }
     if (
-      location.type !== `file` ||
-      location.urlOrPath !== BUILT_IN_FILE ||
-      location.line !== 0
+      definition.type !== `file` ||
+      definition.urlOrPath !== BUILT_IN_FILE ||
+      definition.position?.line !== 0
     ) {
       return input
     }
-    const { line: _, ...located } = location
-    return { ...input, location: located }
+    const { position: _, ...reference } = definition
+    return { ...input, definition: reference }
   },
 } as const satisfies OriginSpec
 

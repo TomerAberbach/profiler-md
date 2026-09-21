@@ -46,10 +46,10 @@ const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
  * writes the 0.
  */
 const dropPlaceholderLine = (input: StackFrame): StackFrame => {
-  if (input.line !== 0) {
+  if (input.executing?.line !== 0) {
     return input
   }
-  const { line: _, ...frame } = input
+  const { executing: _, ...frame } = input
   return frame
 }
 

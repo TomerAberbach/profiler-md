@@ -77,7 +77,7 @@ export const parseWebKitTimelineRecording = ({
       values: [sampleDurations[index]!],
       // WebKit's stack frames are already in callee-to-caller order.
       frameIndices: stackFrames.map(intern),
-      line: executingLine(stackFrames[0]!),
+      executingLine: executingLine(stackFrames[0]!),
     })
   }
 
@@ -120,17 +120,29 @@ const createStackFrameInterner = (): {
 const frameKey = (node: WebKitStackFrame): string =>
   `${node.name}|${node.url}|${node.line}|${node.column}`
 
-const frameToStackFrame = (node: WebKitStackFrame): StackFrame => ({
-  name: node.name,
-  location: node.url
-    ? {
-        type: `file`,
-        urlOrPath: node.url,
-        line: node.line === -1 ? undefined : node.line,
-        column: node.column === -1 ? undefined : node.column,
-      }
-    : undefined,
-})
+// The frame's own position is where the function is defined. The parser drops
+// a position without a URL (a host or builtin frame) along with the missing
+// source.
+const frameToStackFrame = (node: WebKitStackFrame): StackFrame => {
+  if (!node.url) {
+    return { name: node.name }
+  }
+  const position =
+    node.line === -1
+      ? undefined
+      : {
+          line: node.line,
+          column: node.column === -1 ? undefined : node.column,
+        }
+  return {
+    name: node.name,
+    definition: {
+      type: `file`,
+      urlOrPath: node.url,
+      ...(position && { position }),
+    },
+  }
+}
 
 /**
  * The executing line of a sample's leaf frame, or `undefined` when WebKit

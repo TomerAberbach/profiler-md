@@ -35,9 +35,10 @@ export const nodePprofOriginSpec = {
     `ours`,
   normalizeStackFrame: input => {
     // `dd-trace` heap profiles pack an anonymous function's definition
-    // position into its name as `(anonymous:L#122135:C#9)`; move it into the
-    // location (which carries the file but no line) so the name formats as
-    // plain `(anonymous)` while the position still distinguishes functions.
+    // position into its name as `(anonymous:L#122135:C#9)`. Move it into the
+    // definition's position (the serializer sets no `start_line`) so the name
+    // formats as plain `(anonymous)` while the position still distinguishes
+    // functions.
     const packed =
       input.name === undefined ? null : PACKED_ANONYMOUS.exec(input.name)
     if (!packed) {
@@ -48,11 +49,17 @@ export const nodePprofOriginSpec = {
     return {
       ...input,
       name: `(anonymous)`,
-      location: input.location && {
-        ...input.location,
-        line: input.location.line ?? Number(line),
-        column: input.location.column ?? Number(column),
-      },
+      ...(input.definition
+        ? {
+            definition: {
+              ...input.definition,
+              position: {
+                line: input.definition.position?.line ?? Number(line),
+                column: input.definition.position?.column ?? Number(column),
+              },
+            },
+          }
+        : {}),
     }
   },
 } as const satisfies OriginSpec

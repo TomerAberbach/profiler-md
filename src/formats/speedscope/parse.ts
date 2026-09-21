@@ -143,18 +143,26 @@ const exporterOriginHint = (
 // line; their origins' `normalizeStackFrame` reinterprets the line as the
 // executing line (see `normalizeSpeedscopeExecutingLine` in
 // `src/origins/origin.ts`).
-const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => ({
-  name: frame.name,
-  location: frame.file
-    ? {
-        type: `file`,
-        urlOrPath: frame.file,
-        // `null` means unknown (see {@link SpeedscopeFrame.line}).
-        line: frame.line ?? undefined,
-        column: frame.col ?? undefined,
-      }
-    : undefined,
-})
+// A definition position is a position within its source, so the parser drops
+// a `line` without a `file`.
+const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => {
+  if (!frame.file) {
+    return { name: frame.name }
+  }
+  // `null` means unknown (see {@link SpeedscopeFrame.line}).
+  const position =
+    frame.line === undefined || frame.line === null
+      ? undefined
+      : { line: frame.line, column: frame.col ?? undefined }
+  return {
+    name: frame.name,
+    definition: {
+      type: `file`,
+      urlOrPath: frame.file,
+      ...(position && { position }),
+    },
+  }
+}
 
 const sampledProfile = (
   frames: StackFrame[],

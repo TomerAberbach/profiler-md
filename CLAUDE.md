@@ -394,11 +394,30 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Normalizing
 
 - Split a qualifier out of a frame's name only when it becomes that frame's
-  location. Where a declaring class, module, or namespace packed into the name
-  is the only source reference the profiler reports, `normalizeStackFrame` moves
-  it into a logical location. Where the profiler reports a file path, keep the
+  source. Where a declaring class, module, or namespace packed into the name is
+  the only source reference the profiler reports, `normalizeStackFrame` moves it
+  into a logical source. Where the profiler reports a file path, keep the
   qualifier in the name
 - NEVER reconstruct a qualifier the profiler did not emit
+- Decide the semantic of every position a profiler records from its source or
+  spec, never from a field's name, and store it in the `StackFrame` slot with
+  that semantic: `definition.position` (where the function is defined, part of
+  its identity) or `executing` (where the frame was when recorded, feeding the
+  line breakdown). Leave a slot the profiler doesn't record empty, and NEVER
+  infer one position from another
+- Where a format leaves a position field's semantics undefined (speedscope), the
+  parser stores the format's conventional reading and each deviating origin's
+  `normalizeStackFrame` moves the position into its slot. Where one emitter
+  violates the format's stated semantics, that origin moves it, checking the
+  `format` param
+- A position packed into a frame's name (collapsed) has no parser reading, so
+  the origin's `normalizeStackFrame` that unpacks it selects the slot from the
+  profiler's source (e.g. `packedLocationNormalizer` stores an executing line,
+  and Excimer's closure line is a definition line)
+- `src/origins/index.test.ts` bounds, per origin over the committed inputs, the
+  share of a function's executing lines that are before its definition line, so
+  a slot misfiled wholesale fails the test. PProf.jl is exempt, because Julia
+  attributes macro-expanded code to the macro's own lines
 
 ### Counting
 

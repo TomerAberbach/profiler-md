@@ -42,8 +42,8 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `gamma_spin`,
-      location: { type: `file`, urlOrPath: `nested.c` },
-      line: 9,
+      definition: { type: `file`, urlOrPath: `nested.c` },
+      executing: { line: 9 },
     })
   })
 
@@ -52,8 +52,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `read_config (app [config.c]) <0x1234>` }),
     ).toEqual({
       name: `read_config`,
-      location: { type: `file`, urlOrPath: `config.c` },
-      line: undefined,
+      definition: { type: `file`, urlOrPath: `config.c` },
     })
   })
 
@@ -66,8 +65,8 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `handle_mm_fault ([kernel])`,
-      location: { type: `file`, urlOrPath: `memory.c` },
-      line: 5432,
+      definition: { type: `file`, urlOrPath: `memory.c` },
+      executing: { line: 5432 },
     })
   })
 
@@ -94,8 +93,8 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `std::vector<int>::push_back(int&&)`,
-      location: { type: `file`, urlOrPath: `vector.h` },
-      line: 123,
+      definition: { type: `file`, urlOrPath: `vector.h` },
+      executing: { line: 123 },
     })
   })
 
@@ -104,8 +103,8 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `handle_request (python) [server.py:88]` }),
     ).toEqual({
       name: `handle_request`,
-      location: { type: `file`, urlOrPath: `server.py` },
-      line: 88,
+      definition: { type: `file`, urlOrPath: `server.py` },
+      executing: { line: 88 },
     })
   })
 
@@ -119,9 +118,12 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `located`,
-        location: { type: `file`, urlOrPath: `a.c` },
+        definition: { type: `file`, urlOrPath: `a.c` },
       }),
-    ).toEqual({ name: `located`, location: { type: `file`, urlOrPath: `a.c` } })
+    ).toEqual({
+      name: `located`,
+      definition: { type: `file`, urlOrPath: `a.c` },
+    })
   })
 })
 

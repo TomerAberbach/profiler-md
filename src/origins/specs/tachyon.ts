@@ -47,10 +47,10 @@ const normalizePackedStackFrame = packedLocationNormalizer(TACHYON_FRAME)
 
 /** Drops the `-1` line tachyon writes for a frame whose line it could not resolve. */
 const dropUnresolvedLine = (input: StackFrame): StackFrame => {
-  if (input.line === undefined || input.line >= 0) {
+  if (input.executing === undefined || input.executing.line >= 0) {
     return input
   }
-  const { line: _, ...frame } = input
+  const { executing: _, ...frame } = input
   return frame
 }
 

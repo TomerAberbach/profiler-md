@@ -57,7 +57,7 @@ describe(`normalizeStackFrame`, () => {
   test(`turns the slashed class into a dotted location`, () => {
     expect(normalizeStackFrame({ name: `java/util/HashMap.put` })).toEqual({
       name: `put`,
-      location: { type: `logical`, name: `java.util.HashMap` },
+      definition: { type: `logical`, name: `java.util.HashMap` },
     })
   })
 
@@ -66,7 +66,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
     ).toEqual({
       name: `valueOf`,
-      location: { type: `logical`, name: `java.lang.System$Logger$Level` },
+      definition: { type: `logical`, name: `java.lang.System$Logger$Level` },
     })
   })
 
@@ -89,7 +89,7 @@ describe(`normalizeStackFrame`, () => {
         normalizeStackFrame({ name: `java/util/HashMap.put${suffix}` }),
       ).toEqual({
         name: `put`,
-        location: { type: `logical`, name: `java.util.HashMap` },
+        definition: { type: `logical`, name: `java.util.HashMap` },
       })
     },
   )
@@ -101,7 +101,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `invoke(Object, Object[])`,
-      location: { type: `logical`, name: `java.lang.reflect.Method` },
+      definition: { type: `logical`, name: `java.lang.reflect.Method` },
     })
   })
 

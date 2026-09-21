@@ -48,8 +48,8 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
     ).toEqual({
       name: `parse`,
-      location: { type: `file`, urlOrPath: `black/parsing.py` },
-      line: 42,
+      definition: { type: `file`, urlOrPath: `black/parsing.py` },
+      executing: { line: 42 },
     })
   })
 
@@ -61,8 +61,8 @@ describe(`normalizeStackFrame`, () => {
       ),
     ).toEqual({
       name: `<module>`,
-      location: { type: `file`, urlOrPath: `<frozen importlib._bootstrap>` },
-      line: 1080,
+      definition: { type: `file`, urlOrPath: `<frozen importlib._bootstrap>` },
+      executing: { line: 1080 },
     })
   })
 
@@ -80,7 +80,7 @@ describe(`normalizeStackFrame`, () => {
       ),
     ).toEqual({
       name: `PyObject_Call`,
-      location: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
+      definition: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
     })
   })
 
@@ -89,7 +89,11 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `0x7f3a1b2c`,
-          location: { type: `file`, urlOrPath: `?`, line: 0 },
+          definition: {
+            type: `file`,
+            urlOrPath: `?`,
+            position: { line: 0 },
+          },
         },
         `speedscope`,
       ),
@@ -101,17 +105,17 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `PyObject_Call`,
-          location: {
+          definition: {
             type: `file`,
             urlOrPath: `/usr/lib/libpython3.12.so.1.0`,
-            line: 0,
+            position: { line: 0 },
           },
         },
         `speedscope`,
       ),
     ).toEqual({
       name: `PyObject_Call`,
-      location: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
+      definition: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
     })
   })
 
@@ -128,14 +132,18 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `parse`,
-          location: { type: `file`, urlOrPath: `black/parsing.py`, line: 42 },
+          definition: {
+            type: `file`,
+            urlOrPath: `black/parsing.py`,
+            position: { line: 42 },
+          },
         },
         `speedscope`,
       ),
     ).toEqual({
       name: `parse`,
-      location: { type: `file`, urlOrPath: `black/parsing.py` },
-      line: 42,
+      definition: { type: `file`, urlOrPath: `black/parsing.py` },
+      executing: { line: 42 },
     })
   })
 })

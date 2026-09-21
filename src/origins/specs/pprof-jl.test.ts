@@ -31,7 +31,11 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `#defaultminimum##0`,
-        location: { type: `file`, urlOrPath: `nothing`, line: 18 },
+        definition: {
+          type: `file`,
+          urlOrPath: `nothing`,
+          position: { line: 18 },
+        },
       }),
     ).toEqual({ name: `#defaultminimum##0` })
   })
@@ -39,7 +43,7 @@ describe(`normalizeStackFrame`, () => {
   test(`leaves a regular frame unchanged`, () => {
     const input: StackFrame = {
       name: `+`,
-      location: { type: `file`, urlOrPath: `int.jl` },
+      definition: { type: `file`, urlOrPath: `int.jl` },
     }
 
     expect(normalizeStackFrame(input)).toBe(input)

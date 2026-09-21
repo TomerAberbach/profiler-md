@@ -63,9 +63,9 @@ export const rbspyOriginSpec = {
     unattributedRubyCategory(entry) ??
     `ours`,
   normalizeStackFrame: (input, format) => {
-    if (input.location) {
+    if (input.definition) {
       // Rbspy's speedscope export also emits one frame per sampled line, with
-      // the line carried in the location rather than packed into the name.
+      // the line stored beside the source rather than packed into the name.
       return dropPlaceholderPath(
         normalizeSpeedscopeExecutingLine(input, format),
       )
@@ -86,8 +86,8 @@ export const rbspyOriginSpec = {
 
     return dropPlaceholderPath({
       name: method,
-      location: { type: `file`, urlOrPath: fileLine.groups!.file! },
-      line: Number(fileLine.groups!.line),
+      definition: { type: `file`, urlOrPath: fileLine.groups!.file! },
+      executing: { line: Number(fileLine.groups!.line) },
     })
   },
 } as const satisfies OriginSpec

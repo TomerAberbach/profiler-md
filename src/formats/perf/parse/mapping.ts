@@ -1,5 +1,5 @@
 import { FreeIndices } from '../../../helpers/free-indices.ts'
-import type { SourceLocationInput } from '../../../location.ts'
+import type { UnresolvedSourceReference } from '../../../location.ts'
 import type { StackFrame } from '../../../modalities/stack-frame.ts'
 import {
   isAnonymousMapping,
@@ -365,7 +365,7 @@ export type Mapping = {
  * sampled within it so an address interns without a composite key.
  */
 export class MappedFile {
-  readonly #location: SourceLocationInput | undefined
+  readonly #source: UnresolvedSourceReference | undefined
 
   /**
    * A file-relative address to its index in the profile's frames, keyed by the
@@ -378,7 +378,7 @@ export class MappedFile {
    * mapping covers.
    */
   public constructor(path: string | undefined) {
-    this.#location = path === undefined ? undefined : mappedFileLocation(path)
+    this.#source = path === undefined ? undefined : mappedFileSource(path)
   }
 
   public frameFor(high: number, low: number, frames: StackFrame[]): number {
@@ -393,7 +393,7 @@ export class MappedFile {
       index = frames.length
       frames.push({
         name: addressName(high, low),
-        ...(this.#location === undefined ? {} : { location: this.#location }),
+        ...(this.#source === undefined ? {} : { definition: this.#source }),
       })
       byLow.set(low, index)
     }
@@ -413,7 +413,9 @@ const addressName = (high: number, low: number): string =>
  * anonymous region) names what it is rather than a path, so it becomes a
  * logical reference to that name.
  */
-const mappedFileLocation = (path: string): SourceLocationInput | undefined => {
+const mappedFileSource = (
+  path: string,
+): UnresolvedSourceReference | undefined => {
   if (isKernelMapping(path)) {
     return { type: `logical`, name: KERNEL_MAPPING_NAME }
   }

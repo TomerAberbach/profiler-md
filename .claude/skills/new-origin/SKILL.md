@@ -48,10 +48,17 @@ $ARGUMENTS
      maps in the format's parser (see `VM_STATE_FRAME_NAMES` in
      `src/formats/v8/heap-profile/parse.ts`)
    - `categorizeHeapSnapshotConstructor` when the origin writes heap snapshots
-   - `normalizeStackFrame` when the profiler packs a frame's location into its
-     name (see `packedLocationNormalizer`), or writes a placeholder for missing
-     information (see `placeholderPathNormalizer`). Read the profiler's source
-     for the strings it substitutes, and omit the field each one stands in for,
+   - `normalizeStackFrame` when the profiler packs a frame's source into its
+     name (see `packedLocationNormalizer`), writes a placeholder for missing
+     information (see `placeholderPathNormalizer`), or records a position with a
+     semantic different from the one the format's parser stores it under. Read
+     the profiler's source for the semantic of every position it writes: where
+     the function is defined (`StackFrame.definition.position`, part of
+     identity) or where the frame was when recorded (`StackFrame.executing`, the
+     line breakdown). Move a misfiled position into its slot, checking the
+     `format` param when only one format misfiles it (see
+     `normalizeSpeedscopeExecutingLine`). NEVER infer a position the profiler
+     did not record. For placeholders, omit the field each one stands in for,
      keeping the rest of the frame. A kept placeholder prints as a location that
      references no file, and a path-based category rule can match it. Check each
      format the origin emits, since one export can spell it differently from

@@ -26,15 +26,34 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `(anonymous:L#122135:C#9)`,
-        location: { type: `file`, urlOrPath: `file:///app/src/index.js` },
+        definition: { type: `file`, urlOrPath: `file:///app/src/index.js` },
       }),
     ).toEqual({
       name: `(anonymous)`,
-      location: {
+      definition: {
         type: `file`,
         urlOrPath: `file:///app/src/index.js`,
-        line: 122_135,
-        column: 9,
+        position: { line: 122_135, column: 9 },
+      },
+    })
+  })
+
+  test(`keeps a recorded definition line and fills its column from the packed name`, () => {
+    expect(
+      normalizeStackFrame({
+        name: `(anonymous:L#12:C#9)`,
+        definition: {
+          type: `file`,
+          urlOrPath: `file:///app/src/index.js`,
+          position: { line: 12 },
+        },
+      }),
+    ).toEqual({
+      name: `(anonymous)`,
+      definition: {
+        type: `file`,
+        urlOrPath: `file:///app/src/index.js`,
+        position: { line: 12, column: 9 },
       },
     })
   })
@@ -42,7 +61,7 @@ describe(`normalizeStackFrame`, () => {
   test(`leaves an unpacked frame unchanged`, () => {
     const input: StackFrame = {
       name: `parse`,
-      location: { type: `file`, urlOrPath: `file:///app/src/index.js` },
+      definition: { type: `file`, urlOrPath: `file:///app/src/index.js` },
     }
 
     expect(normalizeStackFrame(input)).toBe(input)

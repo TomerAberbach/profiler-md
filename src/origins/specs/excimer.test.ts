@@ -55,10 +55,10 @@ describe(`normalizeStackFrame`, () => {
         name: `{closure:/var/www/includes/Hooks.php(42)}`,
       }),
     ).toEqual({
-      location: {
+      definition: {
         type: `file`,
         urlOrPath: `/var/www/includes/Hooks.php`,
-        line: 42,
+        position: { line: 42 },
       },
     })
   })
@@ -69,27 +69,27 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `{closure:/var/www/includes/Hooks.php(42)}`,
-        location: { type: `file`, urlOrPath: `/var/www/includes/Hooks.php` },
+        definition: { type: `file`, urlOrPath: `/var/www/includes/Hooks.php` },
       }),
     ).toEqual({
-      location: {
+      definition: {
         type: `file`,
         urlOrPath: `/var/www/includes/Hooks.php`,
-        line: 42,
+        position: { line: 42 },
       },
     })
   })
 
   test(`a file-scope frame becomes its file`, () => {
     expect(normalizeStackFrame({ name: `/var/www/index.php` })).toEqual({
-      location: { type: `file`, urlOrPath: `/var/www/index.php` },
+      definition: { type: `file`, urlOrPath: `/var/www/index.php` },
     })
   })
 
   test(`a method's declaring class becomes its location`, () => {
     expect(normalizeStackFrame({ name: `MediaWiki\\Setup::run` })).toEqual({
       name: `run`,
-      location: { type: `logical`, name: `MediaWiki\\Setup` },
+      definition: { type: `logical`, name: `MediaWiki\\Setup` },
     })
   })
 
@@ -104,7 +104,7 @@ describe(`normalizeStackFrame`, () => {
   test(`a located method keeps its declaring class in its name`, () => {
     const frame = {
       name: `MediaWiki\\Setup::run`,
-      location: { type: `file`, urlOrPath: `/var/www/includes/Setup.php` },
+      definition: { type: `file`, urlOrPath: `/var/www/includes/Setup.php` },
     } as const
     expect(normalizeStackFrame(frame)).toEqual(frame)
   })

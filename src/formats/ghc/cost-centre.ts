@@ -29,14 +29,14 @@ export const costCentreStackFrame = ({
   label,
   module,
   srcLoc,
-}: GhcCostCentre): StackFrame => {
-  const location = costCentreLocation(srcLoc)
-  return { name: `${module}.${label}`, ...(location && { location }) }
-}
+}: GhcCostCentre): StackFrame => ({
+  name: `${module}.${label}`,
+  definition: costCentreDefinition(srcLoc),
+})
 
 /**
- * The position a cost centre's source span starts at, where its binding is
- * defined.
+ * The cost centre's source and the position its span starts at, where its
+ * binding is defined.
  *
  * A cost centre with no source of its own is located nowhere. GHC writes a
  * placeholder in place of a span for its runtime's built-in centres, for a
@@ -45,9 +45,7 @@ export const costCentreStackFrame = ({
  * A source matching neither span shape becomes the whole path, since dropping
  * it would lose the file along with the position.
  */
-const costCentreLocation = (
-  srcLoc: string,
-): StackFrame[`location`] | undefined => {
+const costCentreDefinition = (srcLoc: string): StackFrame[`definition`] => {
   if (!srcLoc || PLACEHOLDER_SOURCES.has(srcLoc)) {
     return undefined
   }
@@ -61,8 +59,10 @@ const costCentreLocation = (
   return {
     type: `file`,
     urlOrPath: srcLoc.slice(0, span.index),
-    line: Number(line),
-    column: Number.parseInt(column!, 10),
+    position: {
+      line: Number(line),
+      column: Number.parseInt(column!, 10),
+    },
   }
 }
 

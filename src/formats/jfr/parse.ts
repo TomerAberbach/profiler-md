@@ -269,7 +269,7 @@ const jfrToProfiles = ({
 
 const methodToStackFrame = (method: JfrMethod): StackFrame => ({
   name: method.name,
-  location: method.className
+  definition: method.className
     ? { type: `logical`, name: method.className }
     : undefined,
 })
@@ -285,7 +285,7 @@ function* kindObservations(
       id: event.stackTraceId,
       values: metric ? [event.weight] : [],
       frameIndices: methodIds,
-      line: leafLine,
+      executingLine: leafLine,
       count: event.count,
     }
   }

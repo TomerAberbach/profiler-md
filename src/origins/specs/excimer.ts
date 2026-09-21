@@ -23,23 +23,29 @@ export const excimerOriginSpec = {
   categorizeEntry: entry =>
     vendorCategory(entry) ?? (entry.location ? `ours` : `unknown`),
   normalizeStackFrame: input => {
-    const { name, location } = input
+    const { name, definition } = input
     if (name === undefined) {
       return input
     }
 
     const closure = CLOSURE_FRAME.exec(name)
     if (closure) {
+      // The packed line is where the closure is defined, because Excimer
+      // names a closure by its declaration site.
       const { file, line } = closure.groups!
       return {
-        location: { type: `file`, urlOrPath: file!, line: Number(line) },
+        definition: {
+          type: `file`,
+          urlOrPath: file!,
+          position: { line: Number(line) },
+        },
       }
     }
 
     // A speedscope frame contains its file, so its name needs no splitting. A
-    // file-scope name equals the location, which normalization drops for every
+    // file-scope name equals the source, which normalization drops for every
     // origin, and a declaring class stays in the name beside the file.
-    if (location) {
+    if (definition) {
       return input
     }
 
@@ -47,18 +53,18 @@ export const excimerOriginSpec = {
     // neither a slash nor a colon, and PHP separates a namespace with a
     // backslash, so a slash is the file the collapsed format left out.
     if (name.includes(`/`)) {
-      return { location: { type: `file`, urlOrPath: name } }
+      return { definition: { type: `file`, urlOrPath: name } }
     }
 
     // The declaring class is the frame's only source reference, so it becomes
-    // the location.
+    // the source.
     const separator = name.lastIndexOf(`::`)
     if (separator === -1) {
       return input
     }
     return {
       name: name.slice(separator + 2),
-      location: { type: `logical`, name: name.slice(0, separator) },
+      definition: { type: `logical`, name: name.slice(0, separator) },
     }
   },
 } as const satisfies OriginSpec

@@ -36,8 +36,8 @@ describe(`normalizeStackFrame`, () => {
     // lines aggregates as one, with the lines feeding the per-line breakdown.
     expect(normalizeStackFrame({ name: `script.py:fib:4` })).toEqual({
       name: `fib`,
-      location: { type: `file`, urlOrPath: `script.py` },
-      line: 4,
+      definition: { type: `file`, urlOrPath: `script.py` },
+      executing: { line: 4 },
     })
   })
 
@@ -46,8 +46,8 @@ describe(`normalizeStackFrame`, () => {
     path => {
       expect(normalizeStackFrame({ name: `${path}:run:10` })).toEqual({
         name: `run`,
-        location: { type: `file`, urlOrPath: path },
-        line: 10,
+        definition: { type: `file`, urlOrPath: path },
+        executing: { line: 10 },
       })
     },
   )
@@ -55,8 +55,8 @@ describe(`normalizeStackFrame`, () => {
   test(`keeps a C++ namespaced function name intact`, () => {
     expect(normalizeStackFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
       name: `Foo::bar`,
-      location: { type: `file`, urlOrPath: `file.cpp` },
-      line: 42,
+      definition: { type: `file`, urlOrPath: `file.cpp` },
+      executing: { line: 42 },
     })
   })
 
@@ -79,7 +79,7 @@ describe(`normalizeStackFrame`, () => {
   test(`drops the -1 line of a frame whose line tachyon could not resolve`, () => {
     expect(normalizeStackFrame({ name: `__init__:__init__:-1` })).toEqual({
       name: `__init__`,
-      location: { type: `file`, urlOrPath: `__init__` },
+      definition: { type: `file`, urlOrPath: `__init__` },
     })
   })
 })

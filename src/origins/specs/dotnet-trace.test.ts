@@ -47,7 +47,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Setup(wchar**, wchar**, int32)`,
-      location: { type: `logical`, name: `System.AppContext` },
+      definition: { type: `logical`, name: `System.AppContext` },
     })
   })
 
@@ -58,7 +58,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Setup(wchar**, wchar**, int32)`,
-      location: { type: `logical`, name: `System.AppContext` },
+      definition: { type: `logical`, name: `System.AppContext` },
     })
   })
 
@@ -69,7 +69,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Concat(String, String)`,
-      location: { type: `logical`, name: `System.String` },
+      definition: { type: `logical`, name: `System.String` },
     })
   })
 
@@ -80,7 +80,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Wait(int32, CancellationToken)`,
-      location: { type: `logical`, name: `System.Threading.Tasks.Task` },
+      definition: { type: `logical`, name: `System.Threading.Tasks.Task` },
     })
   })
 
@@ -91,7 +91,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `FindValue(!0)`,
-      location: {
+      definition: {
         type: `logical`,
         name: `System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon]`,
       },
@@ -105,7 +105,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `.ctor()`,
-      location: {
+      definition: {
         type: `logical`,
         name: `System.Diagnostics.Tracing.NativeRuntimeEventSource`,
       },
@@ -119,7 +119,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `<get_Out>g__EnsureInitialized|26_0()`,
-      location: { type: `logical`, name: `System.Console` },
+      definition: { type: `logical`, name: `System.Console` },
     })
   })
 
@@ -148,14 +148,14 @@ describe(`normalizeStackFrame`, () => {
   test(`falls back to the lowercased assembly for a type-less function`, () => {
     expect(normalizeStackFrame({ name: `Profile!main()` })).toEqual({
       name: `main()`,
-      location: { type: `logical`, name: `profile` },
+      definition: { type: `logical`, name: `profile` },
     })
   })
 
   test(`leaves an already-located frame unchanged`, () => {
     const input: StackFrame = {
       name: `Profile!Profile.Program.Main()`,
-      location: { type: `file`, urlOrPath: `Program.cs` },
+      definition: { type: `file`, urlOrPath: `Program.cs` },
     }
 
     expect(normalizeStackFrame(input)).toBe(input)

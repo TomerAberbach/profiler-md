@@ -5,7 +5,6 @@ import {
   parseMd,
 } from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
-import type { SourceLocationInput } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../testing.ts'
 import type { Metric } from '../metric.ts'
@@ -37,7 +36,7 @@ export const makeAggregatedCallStackProfile = (
   const options = resolveProfileToMdOptions({ baseURL: `/project` })
   const frames: StackFrame[] = functions.map(func => ({
     name: func.name,
-    location: makeLocationInput(func),
+    definition: makeDefinition(func),
   }))
   const observations = functions.flatMap((func, index) =>
     Array.from({ length: func.selfCount }, () => ({
@@ -58,7 +57,7 @@ export const makeAggregatedCallStackProfile = (
   )
 }
 
-const makeLocationInput = ({
+const makeDefinition = ({
   url,
   logicalName,
   line,
@@ -66,12 +65,13 @@ const makeLocationInput = ({
   url?: string
   logicalName?: string
   line?: number
-}): SourceLocationInput | undefined => {
+}): StackFrame[`definition`] => {
+  const position = line === undefined ? undefined : { line }
   if (url) {
-    return { type: `file`, urlOrPath: url, line }
+    return { type: `file`, urlOrPath: url, position }
   }
   if (logicalName) {
-    return { type: `logical`, name: logicalName, line }
+    return { type: `logical`, name: logicalName, position }
   }
   return undefined
 }

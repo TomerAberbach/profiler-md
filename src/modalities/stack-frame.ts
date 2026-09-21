@@ -1,37 +1,54 @@
-import { makeSourceLocation, sourceLocationInputString } from '../location.ts'
-import type { SourceLocation, SourceLocationInput } from '../location.ts'
+import {
+  makeSourceLocation,
+  unresolvedSourceReferenceString,
+} from '../location.ts'
+import type {
+  SourceLocation,
+  SourcePosition,
+  UnresolvedSourceReference,
+} from '../location.ts'
 import type { ProfileToMdContext } from '../options.ts'
 import { normalizeStackFrameForContext } from '../origins/index.ts'
 import type { OriginDetector } from '../origins/index.ts'
 
 /**
- * A function occurrence at an executing position.
+ * A function occurrence, with each position the profiler recorded stored under
+ * its semantic.
  *
- * Its {@link name} and {@link location} (the function's *definition* location)
- * identify the function; frames sharing them are the same function.
+ * Its {@link name} and {@link definition} identify the function; frames
+ * sharing them are the same function. {@link executing} is never part of the
+ * identity, and the leaf frame's executing line feeds its function's per-line
+ * breakdown.
  *
- * {@link line} is the *executing* line and is used for the per-line breakdown,
- * not identity.
- *
- * A converter produces these raw; the resolved origin's `normalizeStackFrame` then
- * splits out the location and line for variants that pack them into the frame
- * string.
+ * A parser fills each slot from what the emitter records there, per the
+ * emitter's own source or spec, and leaves a slot the emitter doesn't record
+ * empty. It NEVER infers one position from another. The resolved origin's
+ * `normalizeStackFrame` then splits out the source and positions for variants
+ * that pack them into the frame string. It also moves a position that an
+ * emitter records under a different semantic into its slot.
  */
 export type StackFrame = {
   /** The function's name, if known. */
   name?: string
 
-  /** Where the function was defined, if known. */
-  location?: SourceLocationInput
+  /**
+   * Where the function is defined, if known: the source it is in and, when
+   * the profiler records it, the position within that source.
+   *
+   * The position is inside the definition because it is a position within
+   * that source, so it can't exist without one.
+   */
+  definition?: UnresolvedSourceReference & {
+    position?: SourcePosition
+  }
 
   /**
-   * The 1-based line where this frame was sampled, if known.
+   * The position this frame was at when recorded, if known.
    *
-   * Distinct from {@link location}'s line (the definition line): this is the
-   * executing line, which the aggregator forwards to the leaf function's
-   * per-line breakdown. Never a function-identity component.
+   * It is meaningful without a {@link definition}, because the line is still a
+   * line of the function.
    */
-  line?: number
+  executing?: SourcePosition
 }
 
 /**
@@ -146,9 +163,8 @@ export class StackFrameFunctionTable {
     return func
   }
 
-  /** Returns the line the frame was sampled at, if known. */
   public executingLine(index: number): number | undefined {
-    return this.#frames[index]?.line
+    return this.#frames[index]?.executing?.line
   }
 }
 
@@ -157,17 +173,13 @@ export type StackFrameFunction = {
   /** @see {@link StackFrame.name} */
   name: string
 
-  /** @see {@link StackFrame.location} */
+  /** The function's parsed definition: its source and position. */
   location: SourceLocation | undefined
 
   /**
-   * The function's identity key: its normalized name and location (the
-   * reference kind and its URL, path, or logical name, plus definition line
-   * and column). Two frames that parse to the same key are the same function.
-   *
-   * The location's own line/column are part of the identity, but a frame's
-   * executing line ({@link StackFrame.line}) is not; that contributes
-   * to the line breakdown instead.
+   * The function's identity key: its normalized name, source (the reference
+   * kind and its URL, path, or logical name), and definition line and column.
+   * Two frames that parse to the same key are the same function.
    */
   key: string
 }
@@ -177,12 +189,11 @@ export const parseStackFrameFunction = (
 ): StackFrameFunction => ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   name: frame.name || `(anonymous)`,
-  location: makeSourceLocation(frame.location),
+  location: makeSourceLocation(frame.definition, frame.definition?.position),
   key: functionIdentityKey(frame),
 })
 
-/** Builds {@link StackFrameFunction.key} from a frame's name and location. */
-const functionIdentityKey = ({ name = ``, location }: StackFrame): string =>
-  location === undefined
+const functionIdentityKey = ({ name = ``, definition }: StackFrame): string =>
+  definition === undefined
     ? name
-    : `${name}\0${location.type}\0${sourceLocationInputString(location)}\0${location.line ?? ``}\0${location.column ?? ``}`
+    : `${name}\0${definition.type}\0${unresolvedSourceReferenceString(definition)}\0${definition.position?.line ?? ``}\0${definition.position?.column ?? ``}`
