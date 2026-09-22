@@ -392,6 +392,17 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
 
+### Profiler bugs
+
+- When a profiler writes output that violates its format's spec, report the bug
+  upstream and link the report in a comment where the code reads that output
+- Read the output as the spec defines it, and accept Markdown that reflects the
+  bug. Add a workaround only when a fixed rule identifies an affected record
+  from that record alone (e.g. dropping a placeholder line)
+- NEVER infer what the profiler meant from a pattern across the input (e.g. the
+  share of functions with several lines), because the inference misreads the
+  inputs that break the pattern
+
 ### Normalizing
 
 - Split a qualifier out of a frame's name only when it becomes that frame's

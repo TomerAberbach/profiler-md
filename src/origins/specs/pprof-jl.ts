@@ -12,6 +12,13 @@ import type { OriginSpec } from '../origin.ts'
  * ship inside the install's `share/julia/` tree, depot packages live under
  * `<depot>/packages/<Name>/<slug>/`, and runtime C frames carry the runtime's
  * C/C++ sources or shared libraries.
+ *
+ * For a frame without a `MethodInstance` (C functions and many inlined frames),
+ * PProf.jl writes the executing line as `Function.start_line` and hashes it
+ * into the function ID. The parser reads the output as the spec defines it, so
+ * the Markdown shows such a function as one function per executing line,
+ * each with that line as its definition line. Reported upstream as
+ * https://github.com/JuliaPerf/PProf.jl/issues/112.
  */
 export const pprofJlOriginSpec = {
   id: `pprof-jl`,

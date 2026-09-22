@@ -14,6 +14,23 @@ import {
 import { hasProtocol } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
+/**
+ * Node.js profiled by the `pprof` package or its `@datadog/pprof` fork.
+ *
+ * The parser reads the package's output as the pprof spec defines it, though
+ * the package's serializer violates the spec:
+ *
+ * - By default it writes V8's definition line into `Line.line`, so a function's
+ *   `Lines` section lists its definition line as its only executing line. With
+ *   `lineNumbers: true` it writes the executing line
+ * - It never sets `Function.start_line`, so every function lacks a definition
+ *   line
+ * - It keys a named function by script ID and name, so same-named functions in
+ *   one script merge into one function
+ *
+ * Reported upstream as https://github.com/DataDog/dd-trace-js/issues/10415,
+ * inherited from https://github.com/google/pprof-nodejs/issues/361.
+ */
 export const nodePprofOriginSpec = {
   id: `node-pprof`,
   formats: [`pprof`],

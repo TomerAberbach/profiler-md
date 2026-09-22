@@ -184,13 +184,18 @@ time spent waiting.
 import { writeFile } from 'node:fs/promises'
 import { encode, time } from '@datadog/pprof'
 
-const profile = await time.profile({ durationMillis: 10_000 })
+const profile = await time.profile({
+  durationMillis: 10_000,
+  lineNumbers: true,
+})
 await writeFile(`cpu.pb.gz`, await encode(profile))
-
-// Aggregate at the line level instead of the function level
-const byLine = await time.profile({ durationMillis: 10_000, lineNumbers: true })
-await writeFile(`cpu-lines.pb.gz`, await encode(byLine))
 ```
+
+Without `lineNumbers: true`, each function's `Lines` section lists its
+definition line as its only row. With either setting, the profile lacks
+definition lines, and same-named functions in one file merge into one function.
+See
+[DataDog/dd-trace-js#10415](https://github.com/DataDog/dd-trace-js/issues/10415).
 
 ### Memory profiling
 
