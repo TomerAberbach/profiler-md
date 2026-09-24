@@ -14,6 +14,7 @@ profiler-md
 │   ├── cli/
 │   │   ├── index.ts              # CLI entry point that orchestrates the run
 │   │   ├── cli.ts                # Optique flag and topic definitions, and the program
+│   │   ├── optique.ts            # Optique primitive and value parser wrappers that state errors in this CLI's style
 │   │   ├── parse-args.ts         # Runs the Optique parser over argv, restating its errors in this CLI's style
 │   │   ├── input.ts              # Opens stdin or a file as a Blob, reporting a read failure
 │   │   ├── options.ts            # Builds API options from CLI flags

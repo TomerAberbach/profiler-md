@@ -101,6 +101,18 @@ test(`follows the message with one line per cause`, () => {
   expectLogs([expected])
 })
 
+test(`keeps each message's indented continuation lines under it`, () => {
+  const error = new CliError(`cannot convert\n  hint: pass --format`, 1, {
+    cause: new Error(`no decoder\n  hint: install one`),
+  })
+
+  expect(() => report(error)).toThrow(EXIT)
+
+  const expected = `error: cannot convert\n  hint: pass --format\n  caused by: no decoder\n    hint: install one`
+  expect(stderr.join(``)).toBe(`${expected}\n`)
+  expectLogs([expected])
+})
+
 test(`skips a cause its parent's message already states`, () => {
   const error = new ProfilerMdError(`v8-cpu-profile: invalid JSON`, {
     cause: new ProfilerMdError(`invalid JSON`, {
