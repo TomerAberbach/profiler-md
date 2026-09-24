@@ -334,7 +334,7 @@ const checkInput = async (
   allowed: Set<string>,
 ): Promise<Finding[]> => {
   const bytes = decompress(new Uint8Array(readFileSync(path)))
-  const text = textOf(bytes)
+  const text = [textOf(bytes), ...embeddedTexts(bytes)].join(`\n`)
   const findings: Finding[] = []
   const opaque = opaqueFinding(bytes)
   if (opaque) {
@@ -353,6 +353,78 @@ const checkInput = async (
 const decompress = (bytes: Uint8Array): Uint8Array => {
   const { data, compressed } = decompressIdentified(bytes)
   return compressed ? data : (tryDecompressBrotli(data) ?? data)
+}
+
+/**
+ * A JSON string whose first escaped bytes are a gzip or LZ4 magic: a binary
+ * body stored as one character per byte (e.g. a HAR request's `postData`).
+ */
+const JSON_BYTE_STRING =
+  /"(?:\\u001[Ff](?:\u008B|\\u008[Bb])|\\u0004\\"M\\u0018)(?:[^"\\]|\\.)*"/gu
+
+/** Base64 or base64url text that decodes to a gzip magic. */
+const BASE64_GZIP = /(?<![\w+/-])H4sI[\w+/-]+={0,2}/gu
+
+/**
+ * The texts of the compressed streams the bytes embed, and of the streams
+ * those embed in turn. The rules match only the bytes' own printable runs,
+ * which a stream embedded in a text input hides.
+ */
+const embeddedTexts = (bytes: Uint8Array): string[] => {
+  const text = new TextDecoder().decode(bytes)
+  return [
+    ...[...text.matchAll(JSON_BYTE_STRING)].map(([literal]) =>
+      jsonByteStringBytes(literal),
+    ),
+    ...[...text.matchAll(BASE64_GZIP)].map(([encoded]) => base64Bytes(encoded)),
+  ].flatMap(stream => (stream ? streamTexts(stream) : []))
+}
+
+/**
+ * The bytes a JSON string stores one per character, or `undefined` for a
+ * match that is no valid JSON string or holds a character past a byte.
+ */
+const jsonByteStringBytes = (literal: string): Uint8Array | undefined => {
+  let decoded: string
+  try {
+    decoded = JSON.parse(literal) as string
+  } catch {
+    return undefined
+  }
+  const bytes = new Uint8Array(decoded.length)
+  for (let i = 0; i < decoded.length; i++) {
+    const code = decoded.codePointAt(i)!
+    if (code > 0xff) {
+      return undefined
+    }
+    bytes[i] = code
+  }
+  return bytes
+}
+
+const base64Bytes = (encoded: string): Uint8Array | undefined => {
+  try {
+    return Uint8Array.fromBase64(
+      encoded.replaceAll(`-`, `+`).replaceAll(`_`, `/`),
+    )
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * The text of a compressed stream and of the streams it embeds, or nothing
+ * when the stream fails to decompress, because the rules can read no text of
+ * a truncated or lossily stored body.
+ */
+const streamTexts = (stream: Uint8Array): string[] => {
+  let bytes
+  try {
+    bytes = decompressIdentified(stream).data
+  } catch {
+    return []
+  }
+  return [textOf(bytes), ...embeddedTexts(bytes)]
 }
 
 /**
