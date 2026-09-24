@@ -8,7 +8,7 @@ DATADOG_PPROF_VERSION=5.3.0
 # Puppeteer bundles a pinned Chromium build, so pinning the package pins the
 # browser. nixpkgs `chromium` is unavailable on aarch64-darwin (the flake's only
 # system), so the Chrome captures source the browser this way instead of via the
-# flake, mirroring how the other JS deps above are pinned through npm.
+# flake.
 PUPPETEER_VERSION=24.15.0
 ZOD_REPO=https://github.com/colinhacks/zod
 ZOD_TAG=v3.23.8
@@ -125,12 +125,11 @@ capture_bun_v8_heap_snapshot() {
   mkdir -p "$profdir"
   fetch_twitter_json || return 1
   notice "V8 heap snapshotting parsed twitter.json using bun ($role)"
-  # `bun --heap-prof` writes a V8-format snapshot on exit (the same schema Node
-  # and Chrome produce, matched by `v8-heap-snapshot`), so the workload just
-  # builds and retains a representative heap and exits. Its `--heap-prof-dir`
-  # mishandles absolute paths (it strips the leading slash and resolves relative
-  # to the cwd), so run from inside profdir and let it default to the cwd. The
-  # asset and generated-input paths are absolute, so the cd doesn't affect them.
+  # `bun --heap-prof` writes a V8 heap snapshot on exit. Its `--heap-prof-dir`
+  # mishandles absolute paths, stripping the leading slash and resolving the
+  # rest against the cwd, so run from inside profdir and let it default to the
+  # cwd. The asset and generated-input paths are absolute, so the cd leaves them
+  # unaffected.
   ( cd "$profdir" && bun --heap-prof "$assets/bun-heap-snapshot.mjs" "$TWITTER_JSON" >&2 )
   prof="$(find "$profdir" -name '*.heapsnapshot' | head -1)"
   [[ -n "$prof" ]] || { echo "  bun produced no .heapsnapshot" >&2; return 1; }
@@ -141,8 +140,8 @@ capture_bun_jsc_heap_snapshot() {
   local out=$1 role=$2
   fetch_twitter_json || return 1
   notice "JSC heap snapshotting parsed twitter.json using bun ($role)"
-  # Bun's `generateHeapSnapshot("jsc")` returns a JSC `Inspector`-format snapshot
-  # (matched by `jsc-heap-snapshot`) — the same flavor Safari exports, headless.
+  # Bun's `generateHeapSnapshot("jsc")` returns the JSC Inspector snapshot
+  # Safari exports.
   bun "$assets/bun-jsc-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 

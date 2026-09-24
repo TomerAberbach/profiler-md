@@ -10,13 +10,12 @@ export const variants = [`base`, `current`, `diff`] as const
 export type ExampleVariant = (typeof variants)[number]
 
 /**
- * A `examples/output/` or `examples/input/` filename parsed into its canonical
+ * An `examples/output/` or `examples/input/` filename parsed into its canonical
  * parts.
  */
 export type Example = {
   /** Language or alias ID (e.g. `cpp`, `kotlin`). */
   language: string
-  /** The origin that emitted the input (e.g. `gperftools`, `node`). */
   origin: Origin
   /** Capture configuration (e.g. `cpu`, `wall`); empty when absent. */
   config: string
@@ -99,10 +98,6 @@ const exampleLanguageName = (lang: string): string =>
 const exampleConfigName = (config: string): string =>
   configNames[config] ?? config
 
-/**
- * Builds a readable label for one origin/config combo within a format cell
- * from its language, origin, and config names.
- */
 export const exampleComboLabel = (
   combo: Pick<Example, `language` | `origin` | `config`>,
 ): string =>

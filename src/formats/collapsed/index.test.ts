@@ -72,8 +72,7 @@ describe(`convert`, () => {
   test(`tachyon "file:func:line" stacks: reversal and locations`, () => {
     // The `tid:` root frame marks the profile as tachyon. Its `normalizeStackFrame`
     // drops that frame as a pseudo-frame and splits the `file:func:line` shape,
-    // keeping the packed line as the executing line. The duplicate `work` stack
-    // sums to 10.
+    // keeping the packed line as the executing line.
     const md = convertBytesToMd(
       collapsedConverter,
       makeCollapsed([
@@ -89,9 +88,8 @@ describe(`convert`, () => {
     expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
 
-    // `work` is the hottest self (leaf of the reversed stack) with the summed
-    // count; the packed line is the executing line, so it stays out of the
-    // location and feeds the per-line breakdown instead.
+    // The packed line is the executing line, so it stays out of the location
+    // and feeds the per-line breakdown instead.
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -126,8 +124,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    // The callee count sums occurrences across both `work` stacks (6 + 4),
-    // verifying the summed sample count propagates through callee metrics.
+    // The callee count sums both `work` stacks (6 + 4).
     expect(calleesTables(md, `main`)).toEqual([
       [{ '%': `66.7%`, Samples: `10`, Callee: `work`, Location: `app.py` }],
     ])
@@ -326,8 +323,6 @@ describe(`convert`, () => {
   })
 
   test(`a stackless sample is counted and formatted as an anonymous function`, () => {
-    // A line with an empty stack before the count contributes to the total
-    // sample count and surfaces as an `(anonymous)` self function.
     const md = convertBytesToMd(
       collapsedConverter,
       makeCollapsed([`main;work 6`, ` 4`]),
@@ -413,8 +408,6 @@ describe(`convertAsync`, () => {
   })
 
   test(`streaming parse matches sync conversion across a mid-line chunk boundary`, async () => {
-    // A 7-byte chunk size splits frames and counts across stream chunks,
-    // exercising the line carry buffer.
     expect(
       await convertToMdAsync(
         collapsedConverter,

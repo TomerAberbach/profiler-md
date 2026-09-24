@@ -214,11 +214,6 @@ const prefixInputName = (error: unknown, name: string | undefined): unknown =>
     ? error
     : new ProfilerMdError(`${name}: ${error.message}`, { cause: error })
 
-/**
- * Detects the format of buffered data and parses it.
- *
- * @throws a `FormatDetectError` when no format accepts the data.
- */
 const detectFormat = (
   buffered: string | Uint8Array,
   options: AggregationProfileToMdOptions,

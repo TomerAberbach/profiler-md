@@ -168,8 +168,7 @@ const makeClosureSnapshot = (
     locations: [12, 1, 5, 10],
   })
 
-// A synthetic root retaining two location-less object nodes, whose names are
-// used for origin detection and categorization.
+// A synthetic root retaining two location-less object nodes.
 const makeObjectSnapshot = (firstName: string, secondName: string) =>
   makeV8Snapshot({
     nodeCount: 3,
@@ -325,7 +324,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Category table
     expect(categoryTables(md)).toEqual([
       [
         { Category: `Object`, '%': `47.4%`, Size: `200 B`, Nodes: `1` },
@@ -336,7 +334,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    // Self size table: only MyClass (200B) shows because others are filtered
+    // Only MyClass shows because the others are filtered
     expect(selfSizeTables(md)).toEqual([
       [
         {
@@ -349,12 +347,10 @@ describe(`convert`, () => {
       ],
     ])
 
-    // Self size instances for MyClass
     expect(selfSizeInstancesTables(md, `MyClass`)).toEqual([
       [{ '%': `100.0%`, Size: `200 B`, Instances: `1`, Path: `(GC root)` }],
     ])
 
-    // Function table
     expect(functionTables(md)).toEqual([
       [
         {
@@ -369,7 +365,6 @@ describe(`convert`, () => {
       ],
     ])
 
-    // Largest strings table
     expect(largestStringsTables(md)).toEqual([
       [
         {

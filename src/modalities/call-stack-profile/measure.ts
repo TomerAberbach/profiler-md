@@ -7,10 +7,7 @@ import type { AggregatedCallStackProfileDiff } from './diff.ts'
  * what the profile it was resolved against counts.
  */
 export type MeasureColumns = {
-  /**
-   * Which number this measure uses: the profile's per-sample count, or one of
-   * its metric values.
-   */
+  /** Whether this measure uses the profile's count or one of its metric values. */
   type: `count` | `metric`
 
   /** The metric this measure's values are in. */
@@ -94,13 +91,11 @@ export const zeroTotalScope = ({
     ? ``
     : ` in any ${countMetric.proseUnit}`
 
-/** An entity's self value for a measure: metric value or count. */
 export const selfValueOf = (
   measure: Measure,
   entity: { selfValues: Float64Array; selfCount: number },
 ): number => measure.valueOf(entity.selfValues, entity.selfCount)
 
-/** An entity's total value for a measure: metric value or count. */
 export const totalValueOf = (
   measure: Measure,
   entity: { totalValues: Float64Array; totalCount: number },

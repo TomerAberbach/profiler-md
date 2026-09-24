@@ -1,6 +1,5 @@
 import plur from 'plur'
 
-/** Phrases that can be used in prose related to a metric. */
 export type MetricPhrases = {
   /** A noun to use in headings, like "CPU", "heap", etc. */
   titleNoun: string
@@ -22,11 +21,10 @@ export type MetricPhrases = {
  * one for every unit this package recognizes. `increase` is for a metric
  * measuring something a program produces, and `unknown` for a metric whose
  * emitter named a unit this package cannot classify, where a diff states the
- * direction of each change and calls neither better or worse.
+ * direction of each change and calls neither better nor worse.
  */
 export type MetricImprovement = `decrease` | `increase` | `unknown`
 
-/** A metric measured in a profile. */
 export type Metric = (
   | {
       type: `time`
@@ -57,8 +55,6 @@ export type Metric = (
     }
 ) & {
   phrases: MetricPhrases
-
-  /** Which direction of change in this metric's value is an improvement. */
   improvement: MetricImprovement
 }
 
@@ -71,7 +67,6 @@ export const metricWithPhrases = <M extends Metric>(
   phrases: MetricPhrases,
 ): M => ({ ...metric, phrases })
 
-/** Options for {@link countMetricOf}. */
 export type CountMetricOptions = {
   /**
    * Which direction of change in the count is an improvement.
@@ -144,20 +139,11 @@ const phrasesEqual = (left: MetricPhrases, right: MetricPhrases): boolean =>
 
 /** A metric measured in both the base and current profiles. */
 export type DiffMetric = {
-  /** The metric common to both profiles. */
   metric: Metric
-
-  /** The metric's index in the base profile's metrics. */
   baseIndex: number
-
-  /** The metric's index in the current profile's metrics. */
   currentIndex: number
 }
 
-/**
- * Returns the metrics present in both {@link baseMetrics} and
- * {@link currentMetrics}, along with each metric's index in both arrays.
- */
 export const matchDiffedMetrics = (
   baseMetrics: Metric[],
   currentMetrics: Metric[],

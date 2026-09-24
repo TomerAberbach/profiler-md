@@ -9,7 +9,7 @@ import { profileTitles, summaryLines } from '../../testing.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { eflambeOriginSpec } from './eflambe.ts'
 
-/** A frame as it looks after normalization: a logical module location. */
+/** A frame as it looks after normalization. */
 const moduleEntry = (name: string, module: string): ProfileEntry => ({
   id: 1,
   name,
@@ -19,8 +19,6 @@ const moduleEntry = (name: string, module: string): ProfileEntry => ({
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`detection`, () => {
-  // An Elixir module frame, an Erlang `module:function/arity` frame, and a
-  // process-id frame.
   test.each([`Elixir.Enum:reduce/3`, `lists:reverse/1`, `<0.94.0>`])(
     `detects BEAM by its %s frame`,
     name => {

@@ -4,8 +4,6 @@ import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 
 describe(`detection`, () => {
-  // A synthetic per-thread frame and a frozen-bootstrap frame in tachyon's
-  // `file:func:line` shape.
   test.each([`tid:15522692`, `<frozen runpy>:_run_module_as_main:201`])(
     `detects tachyon by its %s frame`,
     name => {

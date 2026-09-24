@@ -13,7 +13,7 @@ if (!jsonPath || !out) {
 const data = JSON.parse(readFileSync(jsonPath, `utf8`))
 
 // Headless Chrome's `HeapProfiler.takeHeapSnapshot` produces a `.heapsnapshot`
-// byte-identical to the DevTools Memory-panel "Heap snapshot" export — but,
+// byte-identical to the DevTools Memory panel's "Heap snapshot" export, and,
 // unlike a Node snapshot, of a real browser heap with DOM and Detached nodes.
 const { browser, page } = await launchWorkloadPage()
 try {
@@ -21,10 +21,8 @@ try {
 
   await client.send(`HeapProfiler.enable`)
 
-  // Build + partially-detach the DOM, then snapshot the live heap.
   await runInPage(page, data, 1)
 
-  // The snapshot is streamed back as a sequence of chunks; concatenate them.
   const chunks = []
   client.on(`HeapProfiler.addHeapSnapshotChunk`, ({ chunk }) =>
     chunks.push(chunk),

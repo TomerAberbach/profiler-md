@@ -28,11 +28,11 @@ import type {
 } from './type.ts'
 
 /**
- * Aggregates one {@link HeapSnapshot} through the uniform pipeline. The
- * structural part (dominator and retained-size computation, per-node
- * aggregation) needs no origin and runs at construction, deriving the
- * distinct entities' entries origin detection reads; categorization runs
- * under the file's resolved context.
+ * Aggregates one {@link HeapSnapshot}.
+ *
+ * The constructor computes everything that needs no origin, including the
+ * entries origin detection reads. {@link aggregate} categorizes under the
+ * resolved origin.
  */
 export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSnapshot> {
   readonly #nodeCount: number
@@ -305,14 +305,13 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   /**
    * Categorizes a node under {@link origin}: the category the origin assigns to
    * the class its constructor defines, falling back to the node's own category.
-   *
-   * This resolves a constructor's class name once per constructor rather than
-   * once per node, since a class can have thousands of instances.
    */
   #newNodeCategorizer(
     origin: Origin,
   ): (nodeOrdinal: number) => HeapSnapshotNodeCategory {
     const resolveCategory = newNodeCategoryResolver(origin)
+    // Resolved per constructor, because a class can have thousands of
+    // instances.
     const constructorIndexToNamedCategory = this.#constructors.map(({ name }) =>
       categorizeHeapSnapshotConstructorForOrigin(name, origin),
     )
@@ -329,10 +328,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     }
   }
 
-  /**
-   * Categorizes the nodes no entity took a dominant category for: a function,
-   * from the instance its rows show, and each of a constructor's instances.
-   */
   #categorizeNodes(
     categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
   ): void {
@@ -350,9 +345,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
 /**
  * An entity's effective location: its explicit location, falling back to its
  * URL-shaped name (e.g. a V8 module namespace object named by its file URL).
- *
- * Origin detection and categorization ({@link HeapSnapshotAggregator}) and base
- * URL inference agree on an entity's location through this rule.
  */
 export const entityLocation = ({
   location,
@@ -407,7 +399,7 @@ const computeRetainerPath = (
     nodeOrdinal = predecessorOrdinal
   }
 
-  // Trim trailing internal hops (VM bookkeeping nodes that never point to user code).
+  // Trailing internal hops are VM bookkeeping that never points to user code.
   while (hops.at(-1)?.internal) {
     hops.pop()
   }
@@ -473,8 +465,6 @@ const computeRetainedNodes = (
 export type NodeCategoryStats = {
   /** Bytes allocated directly for nodes in this category. */
   size: number
-
-  /** Number of nodes contributing to the size. */
   nodeCount: number
 }
 
@@ -483,8 +473,6 @@ export type AggregatedHeapSnapshotNode = {
 
   /** Unique ID for this node that can also be used as an index. */
   id: number
-
-  /** A human readable label for this node. */
   name?: string
 
   /**
@@ -497,7 +485,6 @@ export type AggregatedHeapSnapshotNode = {
   /** Bytes allocated directly for this node. */
   selfSize: number
 
-  /** What this node holds. */
   category: HeapSnapshotNodeCategory
 
   /**
@@ -506,12 +493,10 @@ export type AggregatedHeapSnapshotNode = {
    */
   retainedSize: number
 
-  /** The exact location where the node was defined. */
   location?: SourceLocation
 }
 
 export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotNode & {
-  /** A human readable label for this constructor. */
   name: string
 
   /**
@@ -520,8 +505,6 @@ export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotNode & {
    * size.
    */
   category: HeapSnapshotNodeCategory
-
-  /** Instances of this constructor and their sizes. */
   instances: AggregatedHeapSnapshotNode[]
 }
 
@@ -531,7 +514,6 @@ export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotNode & {
 }
 
 export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotNode & {
-  /** A human readable label for this function. */
   name: string
 
   /**
@@ -542,8 +524,6 @@ export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotNode & {
 
   /** Node ordinal of the instance with the largest individual retained size. */
   largestInstanceId: number
-
-  /** Node ordinals of all instances, for computing unique retainer path counts. */
   instanceIds: number[]
 }
 
@@ -551,23 +531,15 @@ export type AggregatedHeapSnapshot = {
   type: `heap-snapshot`
 
   /**
-   * The context (format and resolved origin) this snapshot was aggregated
-   * under, carried so downstream consumers (e.g. diff matching) can apply
-   * origin-aware logic per side. Diffed sides that resolved different origins
-   * can normalize match keys differently and miss matches.
+   * The context this snapshot was aggregated under. Diffed sides that resolved
+   * different origins can normalize match keys differently and miss matches.
    */
   context: ProfileToMdContext
 
   /** Total bytes allocated in the snapshot. */
   totalSize: number
-
-  /** Number of nodes allocated in the snapshot. */
   nodeCount: number
-
-  /** Number of edges between nodes in the snapshot. */
   edgeCount: number
-
-  /** Size and count stats by node category. */
   nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
 
   constructors: AggregatedHeapSnapshotConstructor[]

@@ -13,11 +13,6 @@ import type { OriginSpec } from '../origin.ts'
 /** The marker WebKit gives the scripts it injects (e.g. devtools internals). */
 const INJECTED_SCRIPT_MARKER = `__InjectedScript_`
 
-/**
- * Whether the entry comes from a WebKit-injected script, identified by the
- * {@link INJECTED_SCRIPT_MARKER} in its name or path. Shared by detection and
- * categorization so the two can't disagree on what counts as injected.
- */
 const isInjectedScript = ({
   name,
   location,

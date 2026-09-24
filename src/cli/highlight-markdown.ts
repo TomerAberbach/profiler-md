@@ -68,16 +68,12 @@ const createHighlighterCore = async (): Promise<HighlighterCore> => {
  * serialized) with the inverse of the serializer, so escaped content (`\|`,
  * variable-length code fences, etc.) decodes back to the original name and
  * location strings and heading ↔ table keys agree by construction.
- *
- * mdast positions are 1-based lines counted over the same `\n` separators as
- * Shiki's token lines, so `position.start.line - 1` is the Shiki line index.
  */
 const computeLineToIntensity = async (
   markdown: string,
 ): Promise<Map<number, number>> => {
-  // Load the parser lazily (like Shiki above) so runs that don't highlight
-  // (file output, piped stdout, NO_COLOR), which return before this is
-  // called, never pay for loading it.
+  // Load the parser lazily so runs that don't highlight (file output, piped
+  // stdout, NO_COLOR) never pay for loading it
   const [{ fromMarkdown }, { gfmTableFromMarkdown }, { gfmTable }] =
     await Promise.all([
       import(`mdast-util-from-markdown`),
@@ -147,10 +143,6 @@ type UnrankedDiffRows = {
 /** One diff row's line and its delta as a share of the profile total. */
 type RelativeDiffRow = { lineIndex: number; relativeDelta: number }
 
-/**
- * Holds {@link rows} until a ranking states what an increase is, or tints them
- * where one already has.
- */
 const holdRows = (
   unranked: UnrankedDiffRows,
   rows: RelativeDiffRow[],
@@ -162,11 +154,6 @@ const holdRows = (
   }
 }
 
-/**
- * Records what a ranking states an increase is, tinting the rows held for it. A
- * ranking with no row to state it passes null, leaving the held rows for a
- * later one.
- */
 const stateIncreaseSign = (
   unranked: UnrankedDiffRows,
   increaseSign: RegressionSign | null,
@@ -179,10 +166,6 @@ const stateIncreaseSign = (
   tintHeldRows(unranked, lineToIntensity)
 }
 
-/**
- * Tints the held rows by what the profile's rankings stated an increase is, or
- * by the sign of their deltas where the rankings stated nothing.
- */
 const tintHeldRows = (
   unranked: UnrankedDiffRows,
   lineToIntensity: Map<number, number>,
@@ -197,16 +180,14 @@ const tintHeldRows = (
 }
 
 type HeadingSection = {
-  /** Heading level (1–6) that opened this scope. */
   level: Heading[`depth`]
 
   /**
-   * Heat intensity inherited by this scope from an ancestor heading lookup, or
-   * null at top level.
+   * The intensity of the ancestor table row naming this heading's function, or
+   * null where none names it.
    */
   intensity: number | null
 
-  /** Maps `name (location)` keys to intensities for child heading lookups. */
   nameLocationToIntensity: Map<string, NameIntensity>
 
   /**
@@ -255,17 +236,13 @@ const visitHeading = (
   })
   if (intensity !== null) {
     // ATX headings, the only kind the serializer emits, are single-line.
-    lineToIntensity.set(heading.position!.start.line - 1, intensity)
+    lineToIntensity.set(shikiLineIndex(heading), intensity)
   }
 }
 
 /** The heading level opening one profile's section of the output. */
 const PROFILE_HEADING_DEPTH = 1
 
-/**
- * Closes the heading sections at or deeper than {@link depth}. e.g. an H3
- * following an H6 closes the prior H6 through H3 headings.
- */
 const closeDeeperSections = (
   sections: HeadingSection[],
   depth: Heading[`depth`],
@@ -369,9 +346,6 @@ type PercentColumnIndexes = {
 }
 
 /**
- * Tints each row by its `%` cell, scaled by the intensity its heading section
- * inherited, so a row's tint is proportional to its share of the profile.
- *
  * A row naming a function registers its intensity under the section's
  * `name (location)` key, from which a later heading for that function takes its
  * own tint.
@@ -382,8 +356,6 @@ const visitPercentTable = (
   headingSection: HeadingSection | undefined,
   lineToIntensity: Map<number, number>,
 ): void => {
-  // Column index of the backtick-quoted name cell, lazily detected from the
-  // first data row that has one.
   let nameColumnIndex = -1
 
   for (const row of dataRows) {
@@ -415,7 +387,7 @@ const visitPercentTable = (
         )
       }
     }
-    lineToIntensity.set(row.position!.start.line - 1, intensity)
+    lineToIntensity.set(shikiLineIndex(row), intensity)
   }
 }
 
@@ -534,11 +506,6 @@ const relativeDiffRows = (
   }))
 }
 
-/**
- * Reads one diff row's cells into its line index, parsed delta, and
- * total-estimate candidate, or null when a required cell is missing or the
- * delta is unparsable.
- */
 const parseDiffRow = (
   row: TableRow,
   columnIndexes: DiffColumnIndexes,
@@ -562,7 +529,7 @@ const parseDiffRow = (
     return null
   }
   return {
-    lineIndex: row.position!.start.line - 1,
+    lineIndex: shikiLineIndex(row),
     delta,
     candidate: totalCandidate(
       nodeText(changeCell),
@@ -574,11 +541,6 @@ const parseDiffRow = (
 
 type TotalCandidate = { percent: number; value: number }
 
-/**
- * Derives a (share of total, value) pair from one diff row for estimating the
- * profile total as `value ÷ percent`, or null when the row implies no usable
- * share (unchanged rows, zero or unparsable percentages).
- */
 const totalCandidate = (
   changeCell: string,
   delta: number,
@@ -679,6 +641,13 @@ const parsePercent = (cell: string): number | null => {
   const value = Number.parseFloat(trimmed.slice(0, -1))
   return Number.isNaN(value) ? null : value / 100
 }
+
+/**
+ * Mdast positions are 1-based lines counted over the same `\n` separators as
+ * Shiki's token lines.
+ */
+const shikiLineIndex = (node: Heading | TableRow): number =>
+  node.position!.start.line - 1
 
 const renderTokens = (
   tokens: ThemedToken[][],

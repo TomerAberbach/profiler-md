@@ -197,13 +197,6 @@ const formatOverallSummary = (
   ...formatCategoryTable(profile, measures),
 ]
 
-/**
- * The profile's totals, followed by the counts they were recorded over and the
- * rate per counted unit.
- *
- * A profile whose counts measure nothing reports its totals alone. A profile
- * whose only measure is its counts reports the counts alone.
- */
 const formatSummaryLine = (
   {
     metrics,
@@ -253,7 +246,6 @@ const formatCategoryTable = (
   measures: Measure[],
 ): RootContent[] => {
   const { metrics, countMetric, categoryToMetrics } = profile
-  // The first measure determines sorting and %.
   const primaryMeasure = measures[0]!
   const hottestCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) =>
@@ -701,7 +693,6 @@ const findCommonCallStack = (
   return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
 }
 
-/** A call stack's shown frames, with the stack's self metrics. */
 type ShownCallStack = {
   frames: ShownFrame[]
   selfCount: number
@@ -801,7 +792,6 @@ const shownFramesOf = (
   return shownCount > 1 ? shownFrames : null
 }
 
-/** Adds {@link callStack}'s self metrics into {@link target}'s. */
 const addSelfMetrics = (
   target: ShownCallStack,
   callStack: AggregatedCallStackProfileCallStack,
@@ -905,7 +895,6 @@ const formatDiffCategoryTable = (
   }
 
   const metrics = diff.metrics.map(({ metric }) => metric)
-  // The first measure determines sorting and %.
   const primaryMeasure = measures[0]!
   const categoryValue = (
     metrics: AggregatedCallStackProfileCategoryMetrics | undefined,
@@ -954,8 +943,7 @@ const formatDiffFunctions = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  // Resolved once for both rankings, like the ones a single profile gets, and
-  // over the same functions each side of the diff shows.
+  // Resolved once for both rankings, as in `formatHottestFunctions`.
   const categories = subsectionDiffCategories({
     entries: diff.functions.filter(func => showDiffEntity(func, diff, options)),
     baseSelfValueOf: func =>

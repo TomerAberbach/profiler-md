@@ -9,29 +9,20 @@ import type { OriginSpec } from '../origin.ts'
 /**
  * The Chrome browser's DevTools profilers.
  *
- * Detection relies on web-page evidence: scripts loaded over the web or from a
- * browser extension. Runtime-specific markers (`node:`, `ext:`, JSC builtins)
- * outrank this via priority order, so a server-side profile that also loads
- * modules over the web still resolves to its runtime, provided some runtime
- * frame was captured. A profile of exclusively web-loaded code (e.g. one
- * attached mid-run to a Deno process hot-looping in a remote module) carries
- * only web evidence and resolves here; accepted, since the same input is
- * indistinguishable from a browser profile.
+ * Runtime-specific markers (`node:`, `ext:`, JSC builtins) outrank web-page
+ * evidence via priority order, so a server-side profile that also loads modules
+ * over the web still resolves to its runtime, provided some runtime frame was
+ * captured. A profile of exclusively web-loaded code (e.g. one attached mid-run
+ * to a Deno process hot-looping in a remote module) resolves here, because the
+ * same input is indistinguishable from a browser profile.
  */
 export const chromeOriginSpec = {
   id: `chrome`,
   title: `Chrome`,
   formats: [`v8-cpu-profile`, `v8-heap-snapshot`, `v8-heap-profile`],
-  // Web-page evidence (scripts loaded over the web, from an extension, or
-  // from a Chrome-internal page), or Blink's own natives: its internal C++
-  // classes, which browser heap snapshots carry as native node class names,
-  // and its DOM functions, which profiles of local scripts carry as
-  // location-less frames. Both native sets match only location-less entries,
-  // since a Blink native has no script location while a JavaScript function or
-  // class sharing the name (e.g. a DOM polyfill like jsdom, which implements
-  // the DOM in located JavaScript) always does. The class names
-  // are additionally Blink-internal rather than web-standard (`HTMLDocument`,
-  // `Window`) so a polyfill can't even define them.
+  // Blink's natives match only location-less entries, since a Blink native has
+  // no script location while a JavaScript function or class sharing the name
+  // (e.g. in a DOM polyfill like jsdom) always has one.
   isMarkerEntry: ({ name, location }) =>
     hasProtocol(location, CHROME_PAGE_PROTOCOLS) ||
     (location === undefined &&

@@ -45,7 +45,7 @@ export const aggregateParsedInputs = (
     origin: detector.resolve(),
   }
   // An input with no profiles has no entries to detect an origin from, and no
-  // functions for the origin to categorize, so the pipeline logs none.
+  // functions for the origin to categorize.
   if (aggregators.length > 0) {
     logOrigin(detector, resolvedContext, options)
   }
@@ -97,10 +97,6 @@ const describeEntry = ({
   return location ? `${described} in ${sourceReferenceId(location)}` : described
 }
 
-/**
- * Builds the conversion context, which contains the resolved format and the
- * explicit origin (or `null` when none was given).
- */
 export const makeContext = (
   format: Format,
   origin: Origin | undefined,

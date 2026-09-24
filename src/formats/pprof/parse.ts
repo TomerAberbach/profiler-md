@@ -79,7 +79,6 @@ const GPERFTOOLS_FRAME_FILTER =
 
 /** One sample type, with its index into a sample's parallel value list. */
 type ValueType = {
-  /** The position of this type's value in every sample's value list. */
   index: number
   /** The sample type's name, such as `alloc_objects` or `cpu`. */
   name: string
@@ -96,7 +95,6 @@ type ValueLayout = {
   metrics: Metric[]
   /** What one unit of the count measures, or `null` when there is no count. */
   countMetric: CountMetric | null
-  /** The value indices the metrics are read from, in `metrics` order. */
   metricValueIndices: number[]
   /**
    * The value index the count is read from, or `undefined` when no value type
@@ -142,7 +140,6 @@ const parseValueLayouts = (
   return [layoutWithCountsAsMetrics(valueTypes)]
 }
 
-/** Each sample type, with its type name and unit read from the string table. */
 const parseSampleTypes = (
   profile: PprofProto,
   string: StringReader,
@@ -239,7 +236,6 @@ const recordCountValueTypeOf = (
   return counts.find(isOccurrenceCountValueType) ?? counts[0]
 }
 
-/** The metric each value type measures, with its index into a sample's values. */
 const metricsOf = (
   valueTypes: ValueType[],
 ): Pick<ValueLayout, `metrics` | `metricValueIndices`> => ({
@@ -449,10 +445,6 @@ function* parseObservations(
   }
 }
 
-/**
- * A sample's locations expanded to the frame indices of its call stack,
- * dropping references to locations absent from the table.
- */
 const resolveCallStack = (
   locationId: readonly (number | bigint)[],
   framesByLocationId: Map<number | bigint, number[]>,

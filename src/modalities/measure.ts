@@ -41,8 +41,6 @@ export const metricCell = (value: number, metric: Metric): Cell =>
   )
 
 /**
- * Formats a single metric value (e.g. as milliseconds, bytes, or a count).
- *
  * A count metric formats as a bare count, since the column header above the
  * cell already names the unit. Prose uses {@link formatProseValue} instead.
  */
@@ -57,7 +55,6 @@ const formatValue = (value: number, metric: Metric): string => {
   }
 }
 
-/** Formats a single metric delta magnitude, at delta precision. */
 const formatValueDelta = (value: number, metric: Metric): string => {
   switch (metric.type) {
     case `time`:

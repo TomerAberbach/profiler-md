@@ -30,9 +30,8 @@ export const formatTitle = (metrics: Metric[]): string =>
   )
 
 /**
- * Formats a Markdown section per measure in {@link measures} via
- * {@link formatSections}, wrapping each measure's sections in a heading with
- * the metric's name when there are multiple measures.
+ * Wraps each measure's sections in a heading naming its metric when there are
+ * several measures.
  */
 export const formatMeasureSections = <M extends { metric: Metric }>(
   measures: M[],
@@ -113,13 +112,11 @@ const CATEGORY_NAMES: Record<Category, string> = {
   synthetic: `Synthetic`,
 }
 
-/** A function with a display name and optional location. */
 export type NamedFunction = {
   name: string
   location?: SourceLocation
 }
 
-/** Formats a heading for a function with its location. */
 export const formatFunctionHeading = (
   headingLevel: number,
   func: NamedFunction,
@@ -180,9 +177,8 @@ export const diffRankingSentence = (
 ): string => `${plural} with the largest ${change} in ${description}.`
 
 /**
- * Assembles the increase and decrease subsections for one function direction
- * (self or total) under a {@link title} heading, with rows under the given
- * table {@link columns}.
+ * The increase and decrease subsections for one function direction (self or
+ * total), under a {@link title} heading.
  *
  * When nothing differed but {@link hasActive} functions exist on either side,
  * the section stays, with a "did not differ" note. When no functions are
@@ -238,11 +234,6 @@ export const formatDiffFunctionSections = <Entity, Row>({
   return formatSectionGroup([heading(headingLevel, title)], sections)
 }
 
-/**
- * One ranking's subsection: the {@link subtitle} heading at
- * {@link headingLevel}, the {@link sentence} introducing it, and the tables
- * ranking {@link entities}.
- */
 export const formatDiffRankingSections = <Entity, Row>({
   headingLevel,
   subtitle,
@@ -317,10 +308,8 @@ const formatDiffRankingTables = <Entity, Row>({
 
 /**
  * Whether one of {@link categoryRankings} ranks exactly {@link ranking}'s
- * entries, whose subsection then repeats the ranking's own table.
- *
- * A ranking whose entries all fall in one category has such a subsection, so
- * the table is shown once, under the heading naming that category.
+ * entries, whose subsection then repeats the ranking's own table. A ranking
+ * whose entries all fall in one category has such a subsection.
  */
 export const isRepeatedByCategory = <Entity>(
   ranking: readonly Entity[],
@@ -370,7 +359,6 @@ export type DiffSides = {
   current: { context: ProfileToMdContext }
 }
 
-/** Returns whether either side of the diffed entity should be shown. */
 export const showDiffEntity = <
   Entry extends DeepReadonly<AggregatedProfileEntry>,
 >(

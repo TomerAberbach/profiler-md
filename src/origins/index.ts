@@ -134,7 +134,6 @@ export class OriginDetector {
   public constructor({ format, origin }: UnresolvedProfileToMdContext) {
     this.#fallback = originToSpec.get(formatToConverter[format].fallbackOrigin)!
     if (origin !== null) {
-      // A forced origin skips detection; added entries are ignored.
       this.#candidates = []
       this.#fallbackDecided = true
       this.#match = { type: `specified`, origin }
@@ -166,10 +165,8 @@ export class OriginDetector {
   }
 
   /**
-   * Adds one entry.
-   *
    * Returns whether the origin is now decided, so a caller may stop adding
-   * early; adding further entries is harmless.
+   * early. Adding further entries is harmless.
    */
   public add(entry: DeepReadonly<ProfileEntry>): boolean {
     if (this.decided) {
@@ -196,9 +193,7 @@ export class OriginDetector {
    * field) pointing at an origin whose entries carry no marker.
    *
    * Treated like a marker entry of the hinted origin: a forced origin ignores
-   * it and a higher-priority origin's marker entry overrides it. Unlike a
-   * marker entry, the evidence doesn't survive format conversion, so a hint
-   * supplements an origin's markers rather than replacing them. An ID that
+   * it and a higher-priority origin's marker entry overrides it. An ID that
    * isn't a candidate for the format is ignored.
    */
   public hint(origin: string): void {
@@ -215,7 +210,6 @@ export class OriginDetector {
     this.#match = { type: `hint`, index }
   }
 
-  /** Adds each entry until decided; adding further entries is harmless. */
   public addAll(entries: readonly DeepReadonly<ProfileEntry>[]): void {
     for (const entry of entries) {
       if (this.add(entry)) {
@@ -257,7 +251,6 @@ export class OriginDetector {
   }
 }
 
-/** The evidence an {@link OriginDetector} resolves its origin by. */
 export type OriginEvidence =
   | { type: `specified` }
   | { type: `marker`; entry: DeepReadonly<ProfileEntry> }
@@ -285,7 +278,6 @@ const matchedIndex = (match: OriginMatch): number =>
 /** One of the concrete origin specs, with its literal {@link Origin} ID. */
 type SpecificOriginSpec = (typeof originSpecs)[number]
 
-/** Every supported origin ID. */
 export const origins: Origin[] = originSpecs
   .map(originSpec => originSpec.id)
   .sort()
@@ -294,7 +286,6 @@ const originToSpec = new Map<Origin, SpecificOriginSpec>(
   originSpecs.map(originSpec => [originSpec.id, originSpec]),
 )
 
-/** The display name of {@link origin}, defaulting to its ID. */
 export const originTitle = (origin: Origin): string => {
   const spec: OriginSpec = originToSpec.get(origin)!
   return spec.title ?? origin

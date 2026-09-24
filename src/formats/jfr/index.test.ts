@@ -36,8 +36,6 @@ describe(`parse and matches`, () => {
   })
 
   test(`accepts a recording with the magic but no supported events`, () => {
-    // A valid recording can carry only metadata events; the magic identifies it
-    // as JFR regardless, so it's still matched (and converts to nothing).
     const bytes = makeJfr({ methods: [], stackTraces: [], events: [] })
 
     expect(jfrConverter.matches(bytes)).toBe(true)
@@ -54,8 +52,7 @@ describe(`parse and matches`, () => {
 
 describe(`convert`, () => {
   test(`CPU samples are ranked purely by sample count`, () => {
-    // `funcA` calls `funcB`. Both samples hit `funcB`'s body. CPU samples carry
-    // no value, so the profile has no metric column.
+    // CPU samples carry no value, so the profile has no metric column.
     const bytes = makeJfr({
       methods: [
         { name: `funcB`, className: `com.example.B` },
@@ -158,8 +155,6 @@ describe(`convert`, () => {
   })
 
   test(`native memory samples are measured by allocated bytes`, () => {
-    // `async-profiler`'s `profiler.Malloc` records off-heap allocations
-    // weighted by their `size`, surfacing as a distinct native memory profile.
     const bytes = makeJfr({
       methods: [
         { name: `malloc`, className: `libc.so` },
@@ -262,9 +257,6 @@ describe(`convert`, () => {
   })
 
   test(`live-object samples are measured by retained bytes`, () => {
-    // The JDK's `jdk.OldObjectSample` and async-profiler's
-    // `profiler.LiveObject` both record objects still live when the recording
-    // was captured, weighted by object size.
     const bytes = makeJfr({
       methods: [
         { name: `allocate`, className: `com.example.A` },
@@ -394,8 +386,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // The stackless sample still counts, surfaced as an anonymous frame rather
-    // than being dropped.
     expect(selfSamplesTables(md)).toEqual([
       [
         { '%': `66.7%`, Samples: `2`, Function: `a`, Location: `C` },
@@ -410,8 +400,7 @@ describe(`convert`, () => {
   })
 
   test(`counts events whose stack reference is null`, () => {
-    // An event referencing a missing or null stack (key 0) keeps its weight,
-    // attributed to an anonymous frame rather than being dropped.
+    // Stack `-1` writes the null stack reference, key 0.
     const bytes = makeJfr({
       methods: [{ name: `allocate`, className: `com.example.A` }],
       stackTraces: [{ frames: [{ method: 0, line: 7 }] }],
@@ -451,10 +440,8 @@ describe(`convert`, () => {
   })
 
   test(`async-profiler wall-clock samples honor the coalesced count`, () => {
-    // `profiler.WallClockSample` batches multiple samples into one event via its
-    // `samples` field; the sample count must reflect the batch, not the events.
-    // Wall-clock samples are ranked by count rather than their `timeSpan` field,
-    // which is zero for almost all uncoalesced samples.
+    // `profiler.WallClockSample` batches samples into one event via its
+    // `samples` field.
     const bytes = makeJfr({
       methods: [{ name: `work`, className: `com.example.W` }],
       stackTraces: [{ frames: [{ method: 0, line: 4 }] }],
@@ -504,8 +491,6 @@ describe(`convert`, () => {
   })
 
   test(`overloads stay separate and show formatted parameter lists`, () => {
-    // Two `add` overloads on the same class differ only by descriptor. They must
-    // remain distinct functions, each named with its readable parameter types.
     const bytes = makeJfr({
       methods: [
         {
@@ -578,9 +563,7 @@ describe(`convert`, () => {
   })
 
   test(`a leaf frame without a line does not borrow a caller's line`, () => {
-    // `funcA` (line 5) calls `funcB`, whose leaf frame has no line (as native
-    // frames don't). The sample's self line must stay empty rather than
-    // borrowing funcA's line 5.
+    // `funcB` has no line, like a native frame.
     const bytes = makeJfr({
       methods: [
         { name: `funcB`, className: `com.example.B` },
@@ -610,8 +593,6 @@ describe(`convert`, () => {
 
 describe(`allocation event families`, () => {
   test(`the sampled allocation event supersedes the TLAB events`, () => {
-    // With both the modern sampled event and the legacy TLAB event present, the
-    // two must not be summed; only the sampled bytes are counted.
     const bytes = makeJfr({
       methods: [{ name: `allocate`, className: `com.example.A` }],
       stackTraces: [{ frames: [{ method: 0, line: 7 }] }],
@@ -701,8 +682,6 @@ describe(`allocation event families`, () => {
 
 describe(`malformed recordings`, () => {
   test(`reads constant pools that follow an empty unknown pool`, () => {
-    // An undeclared but empty pool occupies no bytes, so the known method and
-    // stack pools after it are still read and the function resolves by name.
     const bytes = makeJfr({
       methods: [{ name: `funcA`, className: `com.example.A` }],
       stackTraces: [{ frames: [{ method: 0, line: 5 }] }],
@@ -744,9 +723,6 @@ describe(`malformed recordings`, () => {
   })
 
   test(`reads an unrecognized frame layout like the flat one`, () => {
-    // A frame type with an array field disables the flat frame reader, so the
-    // parser reads the stack traces generically and then flattens them to the
-    // same form.
     const input: JfrTestInput = {
       methods: [
         { name: `leaf`, className: `com.example.L` },
@@ -800,8 +776,6 @@ describe(`malformed recordings`, () => {
   })
 
   test(`abandons an event with an unreadable field without dropping others`, () => {
-    // A lock event with a field the parser can't size is skipped, but the cpu
-    // events surrounding it still parse rather than desyncing.
     const bytes = makeJfr({
       methods: [{ name: `a`, className: `com.example.C` }],
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
@@ -815,8 +789,6 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
 
-    // The malformed lock event produces no lock-contention profile, and both
-    // cpu samples are still counted.
     expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
       [

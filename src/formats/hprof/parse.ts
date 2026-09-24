@@ -67,7 +67,6 @@ const TYPE_SHORT = 9
 const TYPE_INT = 10
 const TYPE_LONG = 11
 
-/** The Java name of each primitive type, for naming primitive arrays. */
 const PRIMITIVE_TYPE_NAMES: ReadonlyMap<number, string> = new Map([
   [TYPE_BOOLEAN, `boolean`],
   [TYPE_CHAR, `char`],
@@ -87,7 +86,6 @@ type Dump = {
   bytes: Uint8Array
   view: DataView
 
-  /** The byte width of every identifier in the dump. */
   idSize: IdentifierSize
 
   readId: (offset: number) => number
@@ -133,15 +131,14 @@ type DumpedClass = {
   /** The object each static field references, `0` for a null reference. */
   staticObjectIds: Float64Array
 
-  /**
-   * The instance fields of this class followed by its super classes', the
-   * order an instance's field values are written in. Resolved on first use,
-   * since a dump holds classes with no instances.
-   */
+  /** Resolved on first use, since a dump holds classes with no instances. */
   flattenedFields?: FlattenedFields
 }
 
-/** The instance fields of a class and every class it inherits from. */
+/**
+ * The instance fields of a class followed by its super classes', the order an
+ * instance's field values are written in.
+ */
 type FlattenedFields = {
   nameStringIds: Float64Array
   types: Uint8Array
@@ -152,7 +149,6 @@ type Nodes = {
   /** Node count, including the synthetic GC root at ordinal 0. */
   nodeCount: number
 
-  /** The ordinal of each dumped object, by object ID. */
   ordinalOf: ObjectIdToOrdinal
 
   /** The offset of each node's sub-record body, by ordinal. */
@@ -243,7 +239,6 @@ const idReader = (
         view.getUint32(offset) * 0x1_00_00_00_00 + view.getUint32(offset + 4)
     : (offset: number): number => view.getUint32(offset)
 
-/** The size of a value of each basic type, indexed by the type. */
 const basicTypeSizes = (idSize: IdentifierSize): Int32Array => {
   const typeSizes = new Int32Array(TYPE_LONG + 1).fill(-1)
   typeSizes[TYPE_OBJECT] = idSize
@@ -258,10 +253,6 @@ const basicTypeSizes = (idSize: IdentifierSize): Int32Array => {
   return typeSizes
 }
 
-/**
- * Walks every top-level record, recording the strings, the loaded class names,
- * and the heap dump ranges the rest of the parse reads.
- */
 const readTopLevelRecords = (dump: Dump, recordsOffset: number): void => {
   const {
     bytes,
@@ -312,10 +303,6 @@ const MAX_FORMAT_NAME_LENGTH = 64
 
 const DECODER = new TextDecoder()
 
-/**
- * Walks every heap dump sub-record in order, passing each one's tag and the
- * offset of its body.
- */
 const forEachSubRecord = (
   dump: Dump,
   visit: (tag: number, body: number) => void,
@@ -751,7 +738,6 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
   }
 }
 
-/** Passes the references a class object holds: its static fields, loader, signers, and protection domain. */
 const addClassReferences = (
   nodes: Nodes,
   classOrdinal: number,
@@ -773,7 +759,6 @@ const addClassReferences = (
   addReference(ordinalOf.get(protectionDomainObjectId))
 }
 
-/** Passes the references the object-typed fields of the instance at {@link body} hold. */
 const addInstanceReferences = (
   dump: Dump,
   nodes: Nodes,
@@ -797,7 +782,6 @@ const addInstanceReferences = (
   }
 }
 
-/** Passes the references the elements of the object array at {@link body} hold. */
 const addArrayReferences = (
   dump: Dump,
   nodes: Nodes,
@@ -815,9 +799,6 @@ const addArrayReferences = (
 }
 
 /**
- * The instance fields of the class at {@link classOrdinal} followed by its
- * super classes', the order an instance's field values are written in.
- *
  * A class whose own dump the heap lacks contributes no fields, which leaves the
  * instance's remaining field values unread rather than misread, since the
  * missing layout is what says how wide they are.
@@ -1061,7 +1042,6 @@ const referenceLabel = (
   }
 }
 
-/** The label of the reference at {@link edgeIndex} among those a class object holds. */
 const classReferenceLabel = (
   nodes: Nodes,
   names: NodeNames,
@@ -1105,7 +1085,6 @@ const classReferenceLabel = (
   return `.(unknown)`
 }
 
-/** The name of the field at {@link edgeIndex} among the references the instance at {@link body} holds. */
 const instanceFieldLabel = (
   dump: Dump,
   nodes: Nodes,
@@ -1137,7 +1116,6 @@ const instanceFieldLabel = (
   return `.(unknown)`
 }
 
-/** The index of the element at {@link edgeIndex} among the references the array at {@link body} holds. */
 const arrayElementLabel = (
   dump: Dump,
   nodes: Nodes,

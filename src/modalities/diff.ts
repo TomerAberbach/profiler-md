@@ -4,10 +4,7 @@
  * side.
  */
 export type Diff<Value> = {
-  /** The base side's data, if the entity appears on the base side. */
   base?: Value
-
-  /** The current side's data, if the entity appears on the current side. */
   current?: Value
 }
 
@@ -21,10 +18,7 @@ type DiffableEntry = {
  *
  * Several entries can share one key (e.g. Julia methods of one function
  * defined at different lines of the same file, whose match key ignores line
- * and column), so same-key groups are paired member-by-member — exact
- * definition line/column matches first, the rest in line order — rather than
- * collapsing into a single map slot that drops all but one member and diffs
- * the survivors as new/removed.
+ * and column), so {@link pairGroups} pairs same-key groups member by member.
  */
 export const matchDiffedEntries = <Entry extends DiffableEntry>(
   baseEntries: Entry[],

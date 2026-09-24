@@ -87,7 +87,6 @@ export const normalizeProfileInput = <Data>(
  */
 export type FunctionCategory = (typeof FUNCTION_CATEGORIES)[number]
 
-/** Every category {@link FunctionCategory} allows. */
 export const FUNCTION_CATEGORIES = [
   `ours`,
   `third-party`,
@@ -107,10 +106,7 @@ export type ProfileEntry = {
   /** An index that uniquely identifies this entry. */
   id: number
 
-  /**
-   * The name of the entity corresponding to this entry (e.g. a function name)
-   * if it has one.
-   */
+  /** The name of the entity corresponding to this entry (e.g. a function name). */
   name?: string
 
   /**
@@ -150,22 +146,16 @@ type EntryMatchKeys = {
    */
   name: string
 
-  /** The key pairing entries by normalized name and location. */
   nameAndLocation: string
 }
 
-/** An aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
   | AggregatedCallStackProfileFunction
   | AggregatedCallGraphFunction
   | AggregatedHeapSnapshotNode
 
-/** The context in which a profile is being converted to Markdown. */
 export type ProfileToMdContext = {
-  /** The format of the profile being converted. */
   format: Format
-
-  /** The origin of the profile being converted. */
   origin: Origin
 }
 
@@ -178,7 +168,6 @@ export type UnresolvedProfileToMdContext = {
   origin: Origin | null
 }
 
-/** Options for profile to Markdown converters. */
 export type ProfileToMdOptions = {
   /**
    * The number of entries to display when computing the "top N" by some metric.
@@ -187,7 +176,8 @@ export type ProfileToMdOptions = {
    * split into per-category subsections displays up to this many entries in
    * every one of them. See {@link minCategoryShare}.
    *
-   * This value, divided by a constant, also limits subsection entry count.
+   * A quarter of this value, rounded up, limits the lists nested under each
+   * entry, such as its hottest lines.
    *
    * Defaults to 20.
    */
@@ -216,8 +206,7 @@ export type ProfileToMdOptions = {
   /**
    * Base URL to show paths relative to in the Markdown output.
    *
-   * Accepts an absolute file path string or URL. File paths are converted to
-   * `file://` URLs internally.
+   * Accepts an absolute file path string or URL.
    *
    * A value of `'auto'` infers the base URL as the common ancestor directory
    * of the input's entries with absolute locations (`file:`, `http(s):`, etc.),
@@ -281,17 +270,12 @@ export type ProfileToMdOptions = {
    * Returns a {@link FunctionCategory} per entry of a profile, as an array
    * aligned with {@link entries} (index `i` categorizes entry `i`).
    *
-   * The categories are a closed set, so a category names the same thing
-   * whichever origin wrote the input.
-   *
    * Used to compute:
    * - A category breakdown in the Markdown output
    * - The `baseURL` when using `baseURL: 'auto'`
    * - Which entries to show in {@link defaultShowEntry}
    *
-   * Called once per profile with all its {@link entries}. Receiving every entry
-   * up front lets the categorizer decide from the full set rather than per
-   * entry in isolation.
+   * Called once per profile with all its {@link entries}.
    *
    * Doesn't apply to heap snapshots because they record their own node
    * categories.
@@ -338,12 +322,8 @@ export type NormalizedProfileToMdOptions = {
 }
 
 /**
- * The options aggregation code receives.
- *
- * Everything except `baseURL` and `sourceMaps`, which only affect formatting.
- * `baseURL: 'auto'` is resolvable only after aggregation (from the aggregated
- * entries), and source maps apply to the locations formatting shows. The
- * omission keeps aggregation logic from depending on them.
+ * Omits the options that only affect formatting, so aggregation cannot depend
+ * on them. `baseURL: 'auto'` resolves only from the aggregated entries.
  */
 export type AggregationProfileToMdOptions = Omit<
   NormalizedProfileToMdOptions,
@@ -351,8 +331,6 @@ export type AggregationProfileToMdOptions = Omit<
 >
 
 /**
- * The options formatting code receives.
- *
  * {@link NormalizedProfileToMdOptions} with `'auto'` resolved to a concrete
  * base URL (or `undefined` when nothing qualified for inference), and the
  * source maps wrapped in a resolver that records one conversion's outcomes.
@@ -431,7 +409,6 @@ const normalizeBaseURL = (
     return undefined
   }
   if (baseURL === `auto`) {
-    // We infer the base URL later on.
     return `auto`
   }
 
@@ -469,7 +446,6 @@ const ensureTrailingSlash = (url: URL): URL => {
   return url
 }
 
-/** Returns an entry's diff match keys. */
 const entryMatchKeys = (
   entry: ProfileEntry,
   context: ProfileToMdContext,
@@ -534,7 +510,7 @@ export const defaultCategorizeFunctions = (
   entries.map(entry => categorizeEntryForOrigin(entry, origin))
 
 /**
- * Returns whether to include the given entry in the Markdown output.
+ * The default {@link ProfileToMdOptions.showEntry}.
  *
  * Excludes synthetic entries, which correspond to nothing in the profiled
  * program. Every function it ran is shown, and each ranking breaks down by

@@ -3,12 +3,7 @@ import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { systemDirectoryCategory } from './categorize.ts'
 
-/**
- * Categorizes an entry a `perf.data` recording resolved to a mapped file: by
- * the kernel's own mappings, then by memory backed by no file, then by the
- * system directories, and an address no mapping covered as unknown, since such
- * a recording resolves an address no further than the file it fell in.
- */
+/** Categorizes an entry a `perf.data` recording resolved to a mapped file. */
 export const categorizeLinuxEntry = (
   entry: DeepReadonly<ProfileEntry>,
 ): FunctionCategory =>

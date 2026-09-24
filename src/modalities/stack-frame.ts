@@ -31,7 +31,6 @@ import type { OriginDetector } from '../origins/index.ts'
  * emitter records under a different semantic into its slot.
  */
 export type StackFrame = {
-  /** The function's name, if known. */
   name?: string
 
   /**
@@ -99,8 +98,6 @@ export class StackFrameTable {
   }
 
   readonly #frames: StackFrame[]
-
-  /** Per frame index, a lazily-filled cache of the frame's parsed function. */
   readonly #functions: StackFrameFunction[] = []
 
   #detected = false
@@ -164,7 +161,6 @@ export class StackFrameFunctionTable {
    */
   readonly #frames: (StackFrame | null)[]
 
-  /** Per frame index, a lazily-filled cache of the frame's parsed function. */
   readonly #functions: StackFrameFunction[] = []
 
   readonly #identity: FunctionIdentity
@@ -205,11 +201,8 @@ export type StackFrameFunction = {
   location: SourceLocation | undefined
 
   /**
-   * The function's identity key: its normalized name, and its identifying
-   * source (the reference kind and its URL, path, or logical name) and
-   * position. The identifying position is the definition, or the call site
-   * under a `call-site` origin. Two frames that parse to the same key are the
-   * same function.
+   * The function's identity key, built from its name and identifying location.
+   * Two frames that parse to the same key are the same function.
    */
   key: string
 }

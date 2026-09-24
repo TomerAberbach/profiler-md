@@ -11,7 +11,6 @@ import { gfm } from 'micromark-extension-gfm'
 import { DynamicTypedArray } from './array.ts'
 import { nodeText } from './markdown.ts'
 
-/** Wraps {@link chunks} in a `ReadableStream`. */
 export const streamOf = (...chunks: Uint8Array[]): ReadableStream<Uint8Array> =>
   new ReadableStream({
     start(controller) {
@@ -22,12 +21,10 @@ export const streamOf = (...chunks: Uint8Array[]): ReadableStream<Uint8Array> =>
     },
   })
 
-/** Reads {@link data} to its end and returns its bytes. */
 export const bytesOf = async (
   data: Blob | ReadableStream<Uint8Array>,
 ): Promise<Uint8Array> => new Uint8Array(await new Response(data).arrayBuffer())
 
-/** Splits {@link bytes} into chunks of at most {@link chunkSize} bytes. */
 export const chunk = (bytes: Uint8Array, chunkSize: number): Uint8Array[] => {
   const chunks: Uint8Array[] = []
   for (let offset = 0; offset < bytes.length; offset += chunkSize) {
@@ -66,7 +63,7 @@ export class ByteBuffer {
     }
   }
 
-  /** Writes an unsigned LEB128 integer, seven bits per byte, low group first. */
+  /** Writes an unsigned LEB128 integer. */
   public leb128(value: number): void {
     let remaining = value
     while (remaining >= 0x80) {

@@ -8,7 +8,6 @@ const FRAME_MAGIC = 0x18_4d_22_04
 const SKIPPABLE_MAGIC_START = 0x18_4d_2a_50
 const SKIPPABLE_MAGIC_END = 0x18_4d_2a_5f
 
-/** Returns whether {@link bytes} begins with the LZ4 frame magic. */
 export const isLz4Frame = (bytes: Uint8Array): boolean =>
   bytes.length >= 4 &&
   new DataView(bytes.buffer, bytes.byteOffset, 4).getUint32(0, true) ===
@@ -89,7 +88,6 @@ class Lz4FrameDecoder {
     this.#onBlock = onBlock
   }
 
-  /** Appends {@link bytes} to the input and decodes as far as they allow. */
   public push(bytes: Uint8Array): void {
     this.#input.push(bytes)
     while (this.#step()) {

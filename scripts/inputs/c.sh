@@ -20,7 +20,6 @@ run_for_role() {
 
   notice "Profiling zstd with gperftools ($role)"
 
-  # Mount the scratch dir at /out so the profiles and binary land on the host.
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -31,15 +30,14 @@ run_for_role() {
 
       git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
 
-      # Build the zstd CLI normally; libprofiler/libtcmalloc are activated at run
-      # time via LD_PRELOAD (linking them is dropped by the default --as-needed).
+      # libprofiler and libtcmalloc load through LD_PRELOAD at run time, because
+      # the default --as-needed drops them from the link.
       make -C /src/zstd -j"$(nproc)" zstd
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # Real compression input: the Silesia `dickens` corpus (real Dickens novel
-      # text), truncated to a few MB so the capture stays small. The file inside
-      # dickens.zip is named `dickens` (no extension).
+      # The Silesia corpus's `dickens` text, truncated to a few MB so the capture
+      # stays small.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -55,12 +53,11 @@ run_for_role() {
       LIBPROFILER=$(find / -name "libprofiler.so*" -print -quit 2>/dev/null)
       LIBTCMALLOC=$(find / -name "libtcmalloc.so" -print -quit 2>/dev/null)
 
-      # CPU profile: preload libprofiler and set CPUPROFILE (raw written on exit).
-      # Sample at 1 kHz (vs the 100 Hz default) for a denser profile.
+      # 1 kHz sampling, against the 100 Hz default, gives a denser profile.
       CPUPROFILE=/out/cpu.raw CPUPROFILE_FREQUENCY=1000 LD_PRELOAD="$LIBPROFILER" \
         "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
 
-      # Heap profile: preload tcmalloc and set HEAPPROFILE (dumps heap.NNNN.heap).
+      # tcmalloc dumps numbered heap.NNNN.heap files.
       HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=1048576 \
         "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
@@ -70,9 +67,9 @@ run_for_role() {
       cp "$ZSTD" /out/binary
     ' -e ROLE="$role"
 
-  # The Linux runtime libs (libc, tcmalloc, ld) can't be symbolized cross-OS, so
-  # we drop those expected warnings. Real errors still surface and fail the
-  # build via the exit code.
+  # pprof can't symbolize the Linux runtime libraries (libc, tcmalloc, ld) on
+  # another OS, so drop those expected warnings. Other errors still print and
+  # fail the capture through the exit code.
   local drop='Local symbolization failed'
   pprof -proto "$dir/binary" "$dir/cpu.raw" >"$dir/cpu.pprof" \
     2> >(grep -v "$drop" >&2 || true)
@@ -89,16 +86,14 @@ copy_c_profile() {
   cp "${rundir[$role]}/$name.pprof" "$out"
 }
 
-# systing records through eBPF against the running kernel, which constrains
-# this capture more than the others: the container must be `--privileged`,
-# the kernel must expose BTF (`/sys/kernel/btf/vmlinux` — Docker Desktop's
-# and any modern distro's kernels do), and the platform cannot be emulated
-# (BPF programs run on the real kernel), so it uses the host's native
-# architecture instead of the pinned DOCKER_PLATFORM. It must also share the
-# host's pid namespace. systing filters samples by the traced command's pid
-# as the kernel numbers it, and a container's own namespace renumbers it, so
-# the recording contains no stacks. cargo builds systing from source, so the
-# first run takes a while.
+# systing records through eBPF against the running kernel. The container must
+# be `--privileged`, and the kernel must expose BTF (`/sys/kernel/btf/vmlinux`,
+# as Docker Desktop's and modern distributions' kernels do). BPF programs run on
+# the real kernel, so the platform cannot be emulated, and the capture uses the
+# host's native architecture instead of the pinned DOCKER_PLATFORM. The
+# container shares the host's pid namespace because systing filters samples by
+# the traced command's pid as the kernel numbers it, and a container's own
+# namespace renumbers it, leaving the recording without stacks.
 systing_rundir=
 run_systing() {
   if [[ -n "$systing_rundir" ]]; then
@@ -171,9 +166,8 @@ copy_systing_profile() {
 }
 
 # capture_fn for emit: $1=out  $2=role
-#   Instruments the same zstd compression under Valgrind's Callgrind tool,
-#   which writes the callgrind text format directly. Runs in its own container
-#   so regenerating it skips the gperftools captures.
+#   Runs in its own container, so regenerating it skips the gperftools
+#   captures.
 capture_callgrind() {
   local out=$1 role=$2
   local dir="$WORKDIR/c-callgrind-$role"
@@ -196,10 +190,9 @@ capture_callgrind() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # The same real compression input as the gperftools captures (see the
-      # extraction notes there), truncated further and compressed at the
-      # default level because callgrind instruments every instruction, ~50x
-      # slower than native.
+      # Extracted in two steps as in run_for_role, then truncated further and
+      # compressed at the default level, because callgrind instruments every
+      # instruction, ~50x slower than native.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -215,9 +208,7 @@ capture_callgrind() {
 }
 
 # capture_fn for emit: $1=out  $2=role
-#   Records the same zstd compression with Linux perf, which writes perf.data
-#   itself. Runs in its own container so regenerating it skips the other
-#   captures.
+#   Runs in its own container, so regenerating it skips the other captures.
 capture_perf() {
   local out=$1 role=$2
   local dir="$WORKDIR/c-perf-$role"
@@ -248,8 +239,7 @@ capture_perf() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # The same real compression input as the gperftools captures (see the
-      # extraction notes there).
+      # Extracted in two steps as in run_for_role.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -312,8 +302,7 @@ capture_simpleperf() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # The same real compression input as the gperftools captures (see the
-      # extraction notes there).
+      # Extracted in two steps as in run_for_role.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -331,7 +320,6 @@ capture_simpleperf() {
   cp "$dir/cpu.perf.data" "$out" || return 1
 }
 
-# These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do

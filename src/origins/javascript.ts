@@ -8,9 +8,8 @@ import { locationlessCategory, syntheticFrameCategory } from './categorize.ts'
 
 /**
  * The categorization rules shared by the origins that observe V8 running
- * JavaScript: synthetic frames, V8's regular-expression frames, location-less
- * standard-library names, and `node_modules/` dependencies. Origin-specific
- * rules (module-specifier protocols) compose after it with `??`.
+ * JavaScript. Compose an origin's own rules (module-specifier protocols) after
+ * it with `??`.
  */
 export const v8JavaScriptCategory = (
   entry: DeepReadonly<ProfileEntry>,
@@ -21,10 +20,6 @@ export const v8JavaScriptCategory = (
   locationlessCategory(entry) ??
   nodeModulesCategory(entry)
 
-/**
- * Categorizes V8's regular-expression frames, labelled `RegExp: <source>`, as
- * `regexp`.
- */
 export const v8RegExpCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
@@ -112,10 +107,6 @@ const ITERATORS = [
   new Map()[Symbol.iterator](),
 ]
 
-/**
- * Returns whether {@link location}'s path lies within a `node_modules/`
- * directory.
- */
 export const hasNodeModulesPath = (
   location: DeepReadonly<SourceLocation> | undefined,
 ): boolean => {
@@ -164,7 +155,6 @@ export const javaScriptConstructorCategory = (
 ): HeapSnapshotNodeCategory | undefined =>
   getConstructorNameToCategory().get(name)
 
-/** Builds the constructor name to category map on first use. */
 const getConstructorNameToCategory = (): Map<
   string,
   HeapSnapshotNodeCategory

@@ -440,7 +440,6 @@ describe(`convert`, () => {
   })
 
   test(`uses systemName when function name is empty`, () => {
-    // A function with an empty name should fall back to its systemName.
     const data = makePprof({
       functions: [
         {
@@ -467,7 +466,6 @@ describe(`convert`, () => {
   })
 
   test(`skips samples with no locations`, () => {
-    // Samples with empty `locationIds` contribute no nodes and must be ignored.
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
@@ -485,7 +483,6 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    // Only the 100µs sample should be counted.
     expect(selfTimeTables(md)).toEqual([
       [
         {
@@ -500,8 +497,7 @@ describe(`convert`, () => {
   })
 
   test(`omits line number when startLine is 0`, () => {
-    // Functions with `startLine = 0` have no known definition line. The output
-    // should show the file path without a line number.
+    // Functions with `startLine = 0` have no known definition line.
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 0 },
@@ -601,8 +597,7 @@ describe(`convert`, () => {
 
   test(`excludes count unit value types`, () => {
     // Profiles often pair a time metric with a `count` metric (e.g.
-    // `wall_time/nanoseconds` alongside `samples/count`). The count metric
-    // should be excluded from the output.
+    // `wall_time/nanoseconds` alongside `samples/count`).
     const data = makePprof({
       valueTypes: [
         { type: `wall`, unit: `nanoseconds` },
@@ -635,9 +630,8 @@ describe(`convert`, () => {
   })
 
   test(`uses the count value type as the sample count`, () => {
-    // Pprof merges identical stacks into one record whose count value says how
-    // many sampled occurrences it aggregates; the Samples column must reflect
-    // that count, not the number of records.
+    // Pprof merges identical stacks into one record whose count value states
+    // how many sampled occurrences it aggregates.
     const data = makePprof({
       valueTypes: [
         { type: `samples`, unit: `count` },
@@ -710,7 +704,6 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    // Both functions remain distinct rather than collapsing into one.
     expect(selfTimeTables(md)).toEqual([
       [
         {
@@ -733,8 +726,7 @@ describe(`convert`, () => {
 
   test(`drops location lines referencing absent functions`, () => {
     // The first inlined line references a function missing from the table
-    // (e.g. an unsymbolized frame). That frame is dropped; the resolvable
-    // caller frame survives.
+    // (e.g. an unsymbolized frame).
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 5 },
@@ -772,7 +764,7 @@ describe(`convert`, () => {
 
   test(`drops sample references to absent locations`, () => {
     // The sample references a location missing from the table alongside a
-    // valid one. The dangling reference is dropped; the valid frame is kept.
+    // valid one.
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },

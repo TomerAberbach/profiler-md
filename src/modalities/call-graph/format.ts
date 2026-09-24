@@ -55,7 +55,7 @@ import {
  * What a call-graph section ranks, percentages, and tabulates by: a metric at
  * a given index in {@link AggregatedCallGraph.metrics}. A call graph has at
  * least one metric, so unlike a call stack profile's measures, these need no
- * sample-count fallback.
+ * count fallback.
  */
 type Measure = { metric: Metric; index: number }
 
@@ -141,7 +141,6 @@ const formatCategoryTable = (graph: AggregatedCallGraph): RootContent[] => {
   ]
 }
 
-/** Whether any arc in {@link graph} recorded a positive call count. */
 const graphHasCallCounts = (graph: AggregatedCallGraph): boolean =>
   graph.functions.some(func =>
     [...func.calleeIdToMetrics.values()].some(({ callCount }) => callCount > 0),

@@ -52,7 +52,6 @@ export class PerfFile {
   /** Each sampled event's samples, decoded once for all of them. */
   readonly #samples = new Map<EventAttr, EventSamples>()
 
-  /** The files mapped anywhere in the recording, interned by path. */
   readonly #files = new Map<string, MappedFile>()
 
   /**
@@ -140,11 +139,6 @@ export class PerfFile {
     }
   }
 
-  /**
-   * Rejects a file whose layout is not the one this parser reads: an older
-   * version of the format, a recording made on a machine of the opposite byte
-   * order, and a stream `perf record -o -` wrote to a pipe.
-   */
   #requireReadableFile(): void {
     if (startsWith(this.#bytes, SWAPPED_PERF_MAGIC)) {
       throw new FormatParseError(
@@ -435,8 +429,7 @@ export class PerfFile {
 
   /**
    * Returns the offset of the copied user stack a sample carries, past the
-   * variable-length fields that precede it: the raw tracepoint data, the branch
-   * stack, and the copied user registers.
+   * variable-length fields that precede it.
    */
   #skipToStackUser(
     offset: number,
@@ -790,10 +783,6 @@ export class PerfFile {
     return section
   }
 
-  /**
-   * Reads the section descriptor at {@link descriptor}, or `undefined` when the
-   * region it points at runs past the end of the file.
-   */
   #section(descriptor: number): FileSection | undefined {
     const offset = this.#uint64(descriptor)
     const size = this.#uint64(descriptor + 8)
@@ -815,7 +804,6 @@ export class PerfFile {
     )
   }
 
-  /** Reads a string that ends at a NUL byte or at {@link end}. */
   #string(offset: number, end: number): string {
     const bytes = this.#bytes.subarray(offset, end)
     const terminator = bytes.indexOf(0)
@@ -921,7 +909,6 @@ const RECORD_COMPRESSED = 81
 /** The byte length of a `perf_event_header`: a type, a misc word, and a size. */
 const RECORD_HEADER_SIZE = 8
 
-/** Where an `MMAP` record's mapped filename begins. */
 const MMAP_FILENAME_OFFSET = 32
 
 /**
@@ -1027,10 +1014,6 @@ const CONTEXT_GUEST_KERNEL_LOW = 0xff_ff_f7_80
 const CONTEXT_GUEST_USER_LOW = 0xff_ff_f6_00
 const ALL_BITS_SET = 0xff_ff_ff_ff
 
-/**
- * One event's decoded samples, packed into typed arrays: the frame indices of
- * every sample end to end, where each sample's begin, and each sample's period.
- */
 class EventSamples {
   readonly #frameIndices = new DynamicTypedArray(new Int32Array(4096))
   #frameCount = 0

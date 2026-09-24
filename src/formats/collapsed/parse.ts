@@ -44,8 +44,7 @@ class CollapsedProfileBuilder {
 
   // Consecutive lines commonly share a long stack prefix, so each shared
   // leading frame reuses the previous line's interned index instead of
-  // re-slicing and re-hashing its name. Undefined until the first line with a
-  // stack.
+  // re-slicing and re-hashing its name.
   #previousStack: InternedStack | undefined
 
   public addLine(line: string): void {
@@ -160,9 +159,6 @@ const commonPrefixLength = (string1: string, string2: string): number => {
 /**
  * Parses one collapsed line into its stack text and count, returning
  * `undefined` for blank or `#` comment lines.
- *
- * Also the format's detection grammar, so `matches` and `parse` agree on what
- * a collapsed line is.
  *
  * @throws on a missing or non-numeric count.
  */

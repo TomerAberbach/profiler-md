@@ -2,7 +2,6 @@ import type { DeepReadonly } from './helpers/types.ts'
 import type { FormattingProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
 
-/** A source reference, potentially with line and column information. */
 export type SourceLocation = SourceReference & {
   /** The 1-based line number in the referenced source. */
   line?: number
@@ -24,10 +23,8 @@ export type FileReference =
 export type LogicalReference = { type: `logical`; name: string }
 
 /**
- * Returns a file reference's path or a logical reference's name, the
- * form categorization rules match against. An absolute URL reduces to its
- * pathname so a rule written for a path applies whether or not the reference
- * carries a protocol and host.
+ * Returns a file reference's path or a logical reference's name. An absolute
+ * URL reduces to its decoded pathname, without its protocol and host.
  */
 export const sourceReferencePathOrName = (
   sourceReference: DeepReadonly<SourceReference>,
@@ -37,16 +34,15 @@ export const sourceReferencePathOrName = (
     : sourceReferenceId(sourceReference)
 
 /**
- * Returns a logical reference's name, or `undefined` for a file reference. A
- * rule reading the shape of such a name (a namespace root, a module name) takes
- * its input from here, so a path never reaches it.
+ * Returns a logical reference's name, or `undefined` for a file reference.
+ * Read the shape of a name (a namespace root, a module name) from here, so a
+ * path never reaches the rule.
  */
 export const logicalReferenceName = (
   sourceReference: DeepReadonly<SourceReference>,
 ): string | undefined =>
   sourceReference.type === `logical` ? sourceReference.name : undefined
 
-/** Returns whether the two references reference the same source. */
 export const isSameSourceReference = (
   sourceReference1: DeepReadonly<SourceReference>,
   sourceReference2: DeepReadonly<SourceReference>,
@@ -56,12 +52,8 @@ export const isSameSourceReference = (
   sourceReferenceId(sourceReference1) === sourceReferenceId(sourceReference2)
 
 /**
- * Returns which kind of reference {@link sourceReference} is: `file` for an
- * absolute URL or relative path, `logical` for a named class, module,
- * namespace, assembly, or library.
- *
  * References of different kinds with equal {@link sourceReferenceId}s reference
- * different sources, so a key built from that ID includes this.
+ * different sources, so include the kind in a key built from that ID.
  */
 export const sourceReferenceKind = (
   sourceReference: DeepReadonly<SourceReference>,
@@ -71,8 +63,6 @@ export const sourceReferenceKind = (
 export type UnresolvedSourceReference =
   | {
       type: `file`
-
-      /** A string parseable into a {@link URL} or file path. */
       urlOrPath: string
     }
   | {
@@ -96,12 +86,7 @@ export const unresolvedSourceReferenceString = (
   source: UnresolvedSourceReference,
 ): string => (source.type === `file` ? source.urlOrPath : source.name)
 
-/**
- * Builds a {@link SourceLocation} from a raw source reference and an optional
- * position within it.
- *
- * Returns `undefined` when there's no usable reference.
- */
+/** Returns `undefined` for an empty path or name. */
 export const makeSourceLocation = (
   source: UnresolvedSourceReference | undefined,
   position?: SourcePosition,
@@ -207,10 +192,7 @@ export const isBaseURLInferableLocation = (
 ): location is SourceLocation & { type: `absolute` } =>
   location?.type === `absolute` && location.url.pathname.startsWith(`/`)
 
-/**
- * Formats a location as a plain string, falling back to `<unknown>`. Callers
- * wrap it in a code span where it stands alone.
- */
+/** Formats a location as a plain string, falling back to `<unknown>`. */
 export const formatSourceLocation = (
   location: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
@@ -233,10 +215,6 @@ export const formatSourceLocation = (
         decodePathname(
           relativeURLPath(baseURL.pathname, location.url.pathname),
         ) + location.url.search
-      // A path that goes up more than two levels above the base URL is a
-      // system or toolchain file, not code near the project; `/nix/store/...`
-      // reads better than a long `../` prefix that only reflects how deep the
-      // base URL is.
       if (TOO_MANY_UPS.test(path)) {
         path = absoluteURLPath(location.url)
       }
@@ -279,11 +257,12 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
 }
 
 /**
+ * Decodes the percent-escapes in a pathname, keeping an invalid escape as part
+ * of the path.
+ *
  * `new URL` escapes every character outside the path's allowed set, so without
  * decoding, a path with a space, a non-ASCII letter, or angle brackets reads as
  * those escapes.
- *
- * An invalid escape is part of the path itself.
  */
 const decodePathname = (pathname: string): string => {
   if (!pathname.includes(`%`)) {
@@ -310,9 +289,11 @@ const relativeURLPath = (from: string, to: string): string => {
 }
 
 /**
- * A relative path that goes up more than two levels. Up to two keep sibling
- * projects readable (`../../lib/src/util.ts` in a monorepo); beyond that the
- * prefix only says how deep the base URL is, not where the file is.
+ * A relative path that goes up more than two levels, to a system or toolchain
+ * file rather than code near the project. Up to two keep sibling projects
+ * readable (`../../lib/src/util.ts` in a monorepo). Beyond that the prefix only
+ * states how deep the base URL is, so the absolute path (`/nix/store/...`)
+ * replaces it.
  */
 const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
 

@@ -84,10 +84,8 @@ export const systemDirectoryCategory = ({
   return SYSTEM_LIBRARY_DIRECTORY.test(pathOrName) ? `native` : undefined
 }
 
-/** An OS toolchain header directory, e.g. `/usr/include/c++/12/`. */
 const SYSTEM_INCLUDE_DIRECTORY = /^\/usr\/(?:local\/)?include\//u
 
-/** An OS system library directory, e.g. `/usr/lib/` or `/usr/libexec/`. */
 const SYSTEM_LIBRARY_DIRECTORY = /^\/usr\/(?:local\/)?(?:lib|lib64|libexec)\//u
 
 /**
@@ -95,8 +93,7 @@ const SYSTEM_LIBRARY_DIRECTORY = /^\/usr\/(?:local\/)?(?:lib|lib64|libexec)\//u
  * the profiler gave it no name either.
  *
  * Across every runtime, a sampled frame the profiler attributed to no source
- * file is compiled code rather than code the profiled language defines, so
- * every origin applies this. A frame with neither a name nor a location is one
+ * file is compiled code rather than code the profiled language defines. A frame with neither a name nor a location is one
  * the profiler recorded nothing about, the weaker claim `unknown` makes. An
  * empty name parses to `(anonymous)`, and a real anonymous function is named
  * `(anonymous)` too, so the missing location separates the two.
@@ -131,14 +128,11 @@ export const nativeLibraryCategory = ({
     ? `native`
     : undefined
 
-/**
- * A shared-library path or file name. The extension is anchored to the end,
- * allowing a trailing version like `.so.6`.
- */
+/** A shared-library path or file name. */
 export const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
 
 /**
- * Generic primitive: categorizes an entry as {@link category} when its location
+ * Categorizes an entry as {@link category} when its location
  * is an absolute URL with one of {@link protocols}.
  */
 export const protocolCategory = (

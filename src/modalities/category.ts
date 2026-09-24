@@ -1,8 +1,3 @@
-/**
- * Splitting a ranking into per-category subsections, shared by the modalities
- * that categorize the entities they rank.
- */
-
 import type { RootContent } from 'mdast'
 import { selectTopN } from '../helpers/heap.ts'
 import { formatSectionGroup, heading } from '../helpers/markdown.ts'
@@ -130,7 +125,6 @@ export const rankEntities = <Entity extends { category: Category }>({
 /**
  * The table ranking {@link EntityRanking.rankedEntities}, followed by the
  * per-category subsections repeating that ranking within each category.
- * {@link formatEntityTable} builds every table.
  *
  * A category subsection ranking exactly the ranked entities repeats the overall
  * table, so the table shows once, under the heading naming that category.
@@ -163,7 +157,6 @@ export const formatRankingTables = <Entity>({
   ),
 ]
 
-/** Per-category sums of one side's values, with the total they sum to. */
 type CategorySums<Category extends string> = {
   categoryToValue: Map<Category, number>
   total: number
@@ -204,7 +197,6 @@ const categoryShares = <Category extends string>({
   return categoryToShare
 }
 
-/** Per-category sums of both sides' values, with the totals they sum to. */
 type CategorySideSums<Category extends string> = {
   categoryToValues: Map<Category, [base: number, current: number]>
   baseTotal: number

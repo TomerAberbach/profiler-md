@@ -11,8 +11,6 @@ import {
 import type { V8CallFrame } from '../common.ts'
 
 /**
- * A parsed V8 CPU profile.
- *
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/profile-generator.cc#937
  */
 export type V8CpuProfile = {
@@ -28,13 +26,11 @@ export type V8CpuProfile = {
 
 /** A single function call within a V8 CPU profile. */
 export type V8CpuProfileNode = {
-  /** Unique node ID. */
   id: number
 
   /** Number of samples where this node was at the top of the stack. */
   hitCount: number
 
-  /** The call frame this node represents. */
   callFrame: V8CallFrame
 
   /** Child node IDs. */
@@ -44,8 +40,6 @@ export type V8CpuProfileNode = {
   positionTicks?: {
     /** The 1-based line number of the code corresponding to this position. */
     line: number
-
-    /** The hit count for this source line. */
     ticks: number
   }[]
 }
@@ -96,7 +90,6 @@ const reindexNodes = (profile: V8CpuProfile): number[] => {
   return idToIndex
 }
 
-/** Maps each node's index to its parent's index, or `-1` for a root. */
 const makeIndexToParentIndex = (
   profile: V8CpuProfile,
   idToIndex: number[],

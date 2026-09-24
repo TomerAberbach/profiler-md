@@ -59,9 +59,9 @@ const computeDigest = (): string => {
 const digestPrefix = `profiler-md-demo:`
 const digestLength = 64
 
-// A GIF comment extension: `0x21 0xFE`, data sub-blocks, then a `0x00`
-// terminator. Decoders skip it, so an embedded digest leaves rendering
-// unchanged.
+// Appends a comment extension, which decoders skip, so an embedded digest
+// leaves rendering unchanged. See section 24 of
+// https://www.w3.org/Graphics/GIF/spec-gif89a.txt.
 const embedDigest = (gif: Buffer, digest: string): Buffer => {
   if (gif.at(-1) !== 0x3b) {
     fail(`${gifPath} does not end with a GIF trailer byte.`)

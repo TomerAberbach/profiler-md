@@ -5,55 +5,23 @@
  */
 export type NodeAdjacencyGraph = {
   /**
-   * Start offset into
-   * {@link NodeAdjacencyGraph.offsetToSuccessorOrdinal} and
-   * {@link NodeAdjacencyGraph.offsetToSuccessorEdgeIndex} for each
-   * node's successors in the graph.
-   *
-   * Node `i`'s successor ordinals occupy:
-   * `[offsetToSuccessorOrdinal[i], offsetToSuccessorOrdinal[i + 1])`.
-   *
-   * Node `i`'s successor edges occupy:
-   * `[offsetToSuccessorEdgeIndex[i], offsetToSuccessorEdgeIndex[i + 1])`.
+   * Node `i`'s successors occupy
+   * `[ordinalToSuccessorStartOffset[i], ordinalToSuccessorStartOffset[i + 1])`
+   * in {@link NodeAdjacencyGraph.offsetToSuccessorOrdinal} and
+   * {@link NodeAdjacencyGraph.offsetToSuccessorEdgeIndex}.
    */
   ordinalToSuccessorStartOffset: Int32Array
-
-  /**
-   * Successor ordinals, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToSuccessorStartOffset}.
-   */
   offsetToSuccessorOrdinal: Int32Array
-
-  /**
-   * Successor edge indices, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToSuccessorStartOffset}.
-   */
   offsetToSuccessorEdgeIndex: Int32Array
 
   /**
-   * Start offset into
-   * {@link NodeAdjacencyGraph.offsetToPredecessorOrdinal} and
-   * {@link NodeAdjacencyGraph.offsetToPredecessorEdgeIndex} for each
-   * node's predecessors in the graph.
-   *
-   * Node `i`'s predecessor ordinals occupy:
-   * `[offsetToPredecessorOrdinal[i], offsetToPredecessorOrdinal[i + 1])`.
-   *
-   * Node `i`'s predecessor edges occupy:
-   * `[offsetToPredecessorEdgeIndex[i], offsetToPredecessorEdgeIndex[i + 1])`.
+   * Node `i`'s predecessors occupy
+   * `[ordinalToPredecessorStartOffset[i], ordinalToPredecessorStartOffset[i + 1])`
+   * in {@link NodeAdjacencyGraph.offsetToPredecessorOrdinal} and
+   * {@link NodeAdjacencyGraph.offsetToPredecessorEdgeIndex}.
    */
   ordinalToPredecessorStartOffset: Int32Array
-
-  /**
-   * Predecessor ordinals, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToPredecessorStartOffset}.
-   */
   offsetToPredecessorOrdinal: Int32Array
-
-  /**
-   * Predecessor edge indices, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToPredecessorStartOffset}.
-   */
   offsetToPredecessorEdgeIndex: Int32Array
 }
 
@@ -71,7 +39,7 @@ export const computeStartOffsets = (ordinalToCount: Int32Array): Int32Array => {
 
 /**
  * Builds a {@link NodeAdjacencyGraph} from successor lists already grouped by
- * the node holding each edge, scattering the predecessor side from them.
+ * the node holding each edge.
  *
  * The successor lists are kept as they are, so the graph reports the caller's
  * edge order.
@@ -94,8 +62,6 @@ export const nodeAdjacencyGraphFromSuccessors = (
     ordinalToPredecessorCount,
   )
 
-  // Reuse the predecessor count array as write cursors rather than allocating
-  // a new one.
   const edgeCount = offsetToSuccessorOrdinal.length
   const offsetToPredecessorOrdinal = new Int32Array(edgeCount)
   const offsetToPredecessorEdgeIndex = new Int32Array(edgeCount)
@@ -128,9 +94,6 @@ export const nodeAdjacencyGraphFromSuccessors = (
 /**
  * The immediate dominator graph for a heap snapshot in CSR format.
  *
- * There's a 1:N relationship between immediate dominator and immediate
- * dominatee.
- *
  * @see https://en.wikipedia.org/wiki/Dominator_(graph_theory)
  * @see https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
  */
@@ -144,41 +107,23 @@ export type ImmediateDominatorGraph = {
    */
   dfsIndexToOrdinal: Int32Array
 
-  /**
-   * The ordinal of each node's immediate dominator.
-   *
-   * -1 for unreachable nodes, self for the root.
-   */
+  /** -1 for unreachable nodes, self for the root. */
   ordinalToImmediateDominatorOrdinal: Int32Array
 
   /**
-   * Start offset into
-   * {@link ImmediateDominatorGraph.offsetToImmediateDominateeOrdinal} for each
-   * node's children in the dominator tree.
-   *
-   * Node `i`'s dominatees occupy:
-   * `[immediateDominateeOrdinalToStartOffset[i], immediateDominateeOrdinalToStartOffset[i + 1])`.
+   * Node `i`'s immediate dominatees occupy
+   * `[immediateDominateeOrdinalToStartOffset[i], immediateDominateeOrdinalToStartOffset[i + 1])`
+   * in {@link ImmediateDominatorGraph.offsetToImmediateDominateeOrdinal}.
    */
   immediateDominateeOrdinalToStartOffset: Int32Array
-
-  /**
-   * Dominatee ordinals, packed contiguously and indexed via
-   * {@link ImmediateDominatorGraph.immediateDominateeOrdinalToStartOffset}.
-   */
   offsetToImmediateDominateeOrdinal: Int32Array
 }
 
 /**
- * Computes the immediate dominators of every node.
- *
- * Uses the semi-NCA dominator tree algorithm: Lengauer-Tarjan semidominators,
- * then immediate dominators from ancestor walks instead of buckets. After the
- * DFS, every table is indexed by DFS index rather than node ordinal. The
- * semidominator pass then reads each node's predecessor list contiguously, and
- * its ancestor walks read only the compact DFS-indexed arrays.
+ * Computes the immediate dominator of every node reachable from node 0, the GC
+ * root.
  *
  * @see https://en.wikipedia.org/wiki/Dominator_(graph_theory)
- * @see https://www.cs.princeton.edu/techreports/2005/737.pdf
  */
 export const computeImmediateDominatorGraph = (
   nodeCount: number,
@@ -189,7 +134,11 @@ export const computeImmediateDominatorGraph = (
     offsetToPredecessorOrdinal,
   }: NodeAdjacencyGraph,
 ): ImmediateDominatorGraph => {
-  // Node 0 is the GC root super-node.
+  // Semi-NCA: Lengauer-Tarjan semidominators, then immediate dominators from
+  // ancestor walks instead of buckets, see
+  // https://www.cs.princeton.edu/techreports/2005/737.pdf. After the DFS, every
+  // table is indexed by DFS index rather than node ordinal, so the ancestor
+  // walks read only the compact DFS-indexed arrays.
   const ordinalToImmediateDominatorOrdinal = new Int32Array(nodeCount).fill(-1)
   const dfsIndexToOrdinal = new Int32Array(nodeCount)
 

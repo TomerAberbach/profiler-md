@@ -173,8 +173,7 @@ describe(`isSyntheticEntry`, () => {
 
 /**
  * Aggregate as the `node` origin so locations under `node_modules` categorize
- * as `third-party`; project file locations categorize as `ours` and
- * locationless functions as `stdlib`.
+ * as `third-party`.
  */
 const nodeContext = { format: `v8-cpu-profile`, origin: `node` } as const
 

@@ -42,8 +42,8 @@ record_julia_heap() {
   notice "Snapshotting JSON3 heap using Profile.take_heap_snapshot ($role)"
 
   # A snapshot spans the entire runtime heap (Base's method tables and types
-  # alone are ~190 MB), so store it gzipped like the gzipped pprof captures;
-  # the CLI and tests decompress by magic bytes.
+  # alone are ~190 MB), so store it gzipped. The pipeline strips gzip by its
+  # magic bytes.
   local snapshot="$WORKDIR/julia-heap-$RANDOM.heapsnapshot"
   julia -t 1 --gcthreads=1 --project="$assets" "$profile" heap "$snapshot" "$TWITTER_JSON" </dev/null
   gzip -9 -c "$snapshot" >"$out"

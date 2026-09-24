@@ -48,7 +48,6 @@ const checks = [
 
 const LOGGER_METHODS = new Set([`error`, `warn`, `info`, `debug`])
 
-/** Matches a variable or property holding a logger: `logger`, `normalizedLogger`, `#logger`. */
 const LOGGER_NAME = /logger$/iu
 
 const isLoggerExpression = node =>
@@ -78,10 +77,6 @@ const findVariable = (scope, name) => {
   return undefined
 }
 
-/**
- * Whether {@link callee} is a logger method destructured from the logger, as
- * in `const { warn } = logger` followed by `warn(...)`.
- */
 const isDestructuredLoggerMethod = (callee, sourceCode) => {
   if (callee.type !== `Identifier`) {
     return false

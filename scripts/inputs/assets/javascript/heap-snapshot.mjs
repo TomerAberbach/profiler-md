@@ -10,9 +10,9 @@ if (!jsonPath || !out) {
 
 const data = JSON.parse(readFileSync(jsonPath, `utf8`))
 
-// Build a couple of derived structures (an id index and a flat list of hashtag
-// strings) so the snapshot has Maps, arrays, and lots of small objects/strings —
-// a realistic retained graph, not one giant blob.
+// Derived structures, an id index and a flat list of hashtag strings, give the
+// snapshot Maps, arrays, and many small objects and strings, a realistic
+// retained graph rather than one large blob.
 const statuses = Array.isArray(data.statuses) ? data.statuses : []
 const byId = new Map()
 const hashtags = []

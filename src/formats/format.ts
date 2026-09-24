@@ -52,8 +52,7 @@ export const formatAggregatedInputs = (
  * Diffs the aggregated {@link base} and {@link current} inputs element by
  * element, returning the differences as Markdown.
  *
- * The two sides must have the same length and the same `type` at each index,
- * otherwise they aren't comparable.
+ * Throws when the sides differ in length or in `type` at an index.
  */
 export const formatAggregatedDiff = (
   base: AggregatedInput[],
@@ -118,12 +117,6 @@ const toMarkdown = (contents: RootContent[]): string =>
     contents.length > 0 ? contents : [paragraph(`No profiling data found.`)],
   )
 
-/**
- * Wraps the source maps in a resolver for this conversion, and records in it
- * every generated file the aggregated {@link inputs} reference. Resolves a
- * `baseURL` of `'auto'` to the common ancestor directory of the inputs, and
- * passes any other `baseURL` through unchanged.
- */
 const makeFormattingProfileToMdOptions = (
   options: NormalizedProfileToMdOptions,
   inputs: AggregatedInput[],
@@ -175,11 +168,6 @@ const logInferredBaseURL = (
 /**
  * Yields the location of each entity in {@link inputs}, and whether the
  * location may contribute to base URL inference.
- *
- * Only a function categorized `ours` contributes, because a dependency's
- * install path can be far outside the source tree. Including it would move the
- * inferred base up to an ancestor the install path shares with the tree. Every
- * heap snapshot entity contributes.
  */
 function* locations(
   inputs: AggregatedInput[],
@@ -192,9 +180,9 @@ function* locations(
           if (func.location) {
             yield {
               location: func.location,
-              // Only `ours`-categorized functions contribute, because a
-              // dependency's install path can be far outside the source tree
-              // and would raise the base to a shared root.
+              // A dependency's install path can be far outside the source
+              // tree. Including it would move the inferred base up to an
+              // ancestor the install path shares with the tree.
               inferable: func.category === `ours`,
             }
           }

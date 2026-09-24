@@ -23,34 +23,25 @@ export type Cell =
     }
   | { type: `text`; children: PhrasingContent[] }
 
-/**
- * A right-aligned numeric cell formatted via {@link format}, with deltas
- * formatted via {@link formatDelta} (defaults to {@link format}).
- */
 export const numberCell = (
   value: number,
   format: (value: number) => string,
   formatDelta: (value: number) => string = format,
 ): Cell => ({ type: `number`, value, format, formatDelta })
 
-/** A right-aligned numeric cell formatted as a percent. */
 export const percentCell = (fraction: number): Cell =>
   numberCell(fraction, formatPercent)
 
-/** A right-aligned numeric cell formatted as a count. */
 export const countCell = (count: number): Cell => numberCell(count, formatCount)
 
-/** A right-aligned numeric cell formatted as bytes. */
 export const bytesCell = (bytes: number): Cell =>
   numberCell(bytes, formatBytes, formatBytesDelta)
 
-/** A left-aligned text cell. */
 export const textCell = (children: PhrasingContent[] | string): Cell => ({
   type: `text`,
   children: typeof children === `string` ? [text(children)] : children,
 })
 
-/** A left-aligned cell holding a single code span. */
 export const codeCell = (value: string): Cell => textCell([inlineCode(value)])
 
 /**
@@ -127,10 +118,6 @@ export const formatDiffTable = <Row>(
   )
 }
 
-/**
- * Formats one diff row's cells, with the `Change` and `Delta` cells derived
- * from the primary column's two sides.
- */
 const formatDiffRow = <Row>(
   columns: Table<Row>,
   { base, current }: Diff<Row>,

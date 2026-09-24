@@ -10,17 +10,7 @@
  * possible-JSON so the parser makes the call.
  */
 export const maybeJson = (data: string | Uint8Array): boolean => {
-  // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include
-  // one.
-  let start = 0
-  if (
-    typeof data !== `string` &&
-    data[0] === 0xef &&
-    data[1] === 0xbb &&
-    data[2] === 0xbf
-  ) {
-    start = 3
-  }
+  const start = byteOrderMarkLength(data)
 
   const end = Math.min(data.length, start + MAYBE_JSON_PREFIX_LENGTH)
   for (let i = start; i < end; i++) {
@@ -66,17 +56,7 @@ export const maybeJsonAsync = async (data: Blob): Promise<boolean> =>
  * failed JSON parse is worth reporting as the reason the input was unusable.
  */
 export const startsJsonDocument = (data: string | Uint8Array): boolean => {
-  // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include
-  // one.
-  let start = 0
-  if (
-    typeof data !== `string` &&
-    data[0] === 0xef &&
-    data[1] === 0xbb &&
-    data[2] === 0xbf
-  ) {
-    start = 3
-  }
+  const start = byteOrderMarkLength(data)
 
   const end = Math.min(data.length, start + START_JSON_DOCUMENT_PREFIX_LENGTH)
   for (let i = start; i < end; i++) {
@@ -106,6 +86,15 @@ export const startsJsonDocumentAsync = async (data: Blob): Promise<boolean> =>
       await data.slice(0, START_JSON_DOCUMENT_PREFIX_LENGTH).arrayBuffer(),
     ),
   )
+
+// `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include one
+const byteOrderMarkLength = (data: string | Uint8Array): number =>
+  typeof data !== `string` &&
+  data[0] === 0xef &&
+  data[1] === 0xbb &&
+  data[2] === 0xbf
+    ? 3
+    : 0
 
 const START_JSON_DOCUMENT_PREFIX_LENGTH = 16
 

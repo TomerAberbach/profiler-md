@@ -39,8 +39,8 @@ int main()
     }
   }
 
-  // Keep the results observable so the optimizer can't elide the work (the
-  // fprintf forces `total` and `retained` to be computed).
+  // Printing `total` and `retained` keeps the optimizer from eliding the
+  // work.
   std::fprintf(stderr, "total=%zu retained=%zu\n", total, retained.size());
   return 0;
 }

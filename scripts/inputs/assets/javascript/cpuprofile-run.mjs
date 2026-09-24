@@ -19,8 +19,8 @@ const post = (method, params) =>
   })
 
 await post(`Profiler.enable`)
-// 1 kHz sampling over a single type-check pass keeps the profile a few MB (zod
-// is a heavy type-check; more passes / a finer interval balloon it to tens of MB).
+// 1 kHz sampling over a single type-check pass keeps the profile a few MB. zod
+// is heavy to type-check, so more passes or a finer interval reach tens of MB.
 await post(`Profiler.setSamplingInterval`, { interval: 1000 })
 await post(`Profiler.start`)
 

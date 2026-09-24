@@ -33,7 +33,7 @@ describe(`detection`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = jdkOriginSpec
 
-  // The class is carried as the location.
+  // The location is the declaring class.
   test.each([
     `java.util.concurrent.ForkJoinPool`,
     `jdk.internal.ref.PhantomCleanable`,

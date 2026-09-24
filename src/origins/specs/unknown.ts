@@ -9,7 +9,7 @@ import type { OriginSpec } from '../origin.ts'
  * rules), even when an undetected profile could plausibly come from that
  * ecosystem: the fix for a profile resolving to `unknown` is better detection,
  * not applying origin-specific behavior to every undetected profile. Only
- * truly generic rules belong here.
+ * generic rules belong here.
  */
 export const unknownOriginSpec = {
   id: `unknown`,

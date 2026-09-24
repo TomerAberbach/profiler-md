@@ -28,7 +28,6 @@ const makeProfileData = (name: string, file?: string): string =>
     shared: { frames: [{ name, ...(file === undefined ? {} : { file }) }] },
   })
 
-/** All inline code span values in the document, in document order. */
 const inlineCodeValues = (md: string): string[] => {
   const values: string[] = []
   const visit = (node: unknown) => {

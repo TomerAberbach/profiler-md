@@ -1,9 +1,7 @@
 import type { JSCHeapSnapshot } from './parse.ts'
 
-// Node flags
 export const NODE_INTERNAL = 0b0001
 
-// Edge types
 export const EDGE_INTERNAL = 0
 export const EDGE_PROPERTY = 1
 export const EDGE_INDEX = 2

@@ -23,10 +23,6 @@ export class CallGraphAggregator implements InputAggregator<AggregatedCallGraph>
     this.#graph = graph
   }
 
-  /**
-   * Applies the parser's origin hint, then adds the graph's function frames to
-   * {@link detector} until decided.
-   */
   public detectOrigin(detector: OriginDetector): void {
     if (this.#graph.originHint !== undefined) {
       detector.hint(this.#graph.originHint)
@@ -47,11 +43,6 @@ export class CallGraphAggregator implements InputAggregator<AggregatedCallGraph>
   }
 }
 
-/**
- * Aggregates a call graph's parsed function nodes over its normalized frames:
- * merges functions whose normalized frames share an identity (summing selves,
- * lines, and arcs), computes cycle-safe totals, and categorizes the result.
- */
 class FunctionsAggregator {
   readonly #metrics: Metric[]
   readonly #functions: CallGraphFunction[]
@@ -98,9 +89,6 @@ class FunctionsAggregator {
   }
 
   /**
-   * The merged function each parsed function aggregates into, by parsed
-   * function index.
-   *
    * A function's identity is its normalized name and location, so parsed
    * functions that normalize alike (e.g. callgrind's `fn` and its
    * recursion-separated `fn'2`) merge into one function. A frame the origin
@@ -121,9 +109,8 @@ class FunctionsAggregator {
   }
 
   /**
-   * Each parsed function's outgoing arcs, by parsed function index, empty for
-   * a function whose outgoing calls come from its runtime rather than the
-   * profiled program.
+   * A function's outgoing calls are runtime-inserted when they come from its
+   * runtime rather than the profiled program.
    *
    * Only the cycle analysis reads these, so a runtime's arcs cannot join the
    * functions they intersperse into one cycle. Every other stage reads the
@@ -179,7 +166,6 @@ class FunctionsAggregator {
     }
   }
 
-  /** Aggregates selves, per-line selves, and arcs onto the merged functions. */
   #aggregateCosts(): void {
     for (const [index, parsed] of this.#functions.entries()) {
       const func = this.#mergedFunctions[index]!
@@ -194,7 +180,6 @@ class FunctionsAggregator {
     }
   }
 
-  /** Aggregates a parsed function's per-line selves onto its merged function. */
   #aggregateLineCosts(
     func: AggregatedCallGraphFunction,
     lineToValues: CallGraphFunction[`lineToValues`],
@@ -209,7 +194,6 @@ class FunctionsAggregator {
     }
   }
 
-  /** Aggregates one outgoing arc onto both of its endpoints. */
   #aggregateArc(
     func: AggregatedCallGraphFunction,
     call: CallGraphFunction[`calls`][number],
@@ -219,7 +203,6 @@ class FunctionsAggregator {
     this.#aggregateCallerMetrics(func, callee, call)
   }
 
-  /** Aggregates an arc onto its caller's metrics for the callee. */
   #aggregateCalleeMetrics(
     func: AggregatedCallGraphFunction,
     callee: AggregatedCallGraphFunction,
@@ -238,7 +221,6 @@ class FunctionsAggregator {
     addValues(calleeMetrics.totalValues, call.totalValues)
   }
 
-  /** Aggregates an arc onto its callee's metrics for the caller. */
   #aggregateCallerMetrics(
     func: AggregatedCallGraphFunction,
     callee: AggregatedCallGraphFunction,
@@ -298,11 +280,6 @@ class FunctionsAggregator {
     }
   }
 
-  /**
-   * A parsed function's total: its self cost plus the inclusive costs of the
-   * outgoing arcs that leave its recursion cycle, which
-   * {@link componentIndices} assigns each parsed function.
-   */
   #acyclicTotalValues(index: number, componentIndices: number[]): Float64Array {
     const totalValues = new Float64Array(this.#metrics.length)
     addValues(totalValues, this.#functions[index]!.selfValues)
@@ -316,8 +293,7 @@ class FunctionsAggregator {
 
   /**
    * Assigns each function's category and builds the graph's category metrics
-   * from the functions' self values, like the sampling aggregator's
-   * categorization. It runs at the end so
+   * from the functions' self values. It runs at the end so
    * {@link ProfileToMdOptions.categorizeFunctions} receives the full set of
    * functions. Skips a function with no recorded self cost so it can't
    * introduce an otherwise-empty category.
@@ -360,21 +336,18 @@ class FunctionsAggregator {
  */
 const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
 
-/** Adds {@link values} into {@link target} element-wise. */
 const addValues = (target: Float64Array, values: ArrayLike<number>): void => {
   for (let i = 0; i < target.length; i++) {
     target[i]! += values[i] ?? 0
   }
 }
 
-/** Raises {@link target} to {@link values} element-wise. */
 const raiseValues = (target: Float64Array, values: ArrayLike<number>): void => {
   for (let i = 0; i < target.length; i++) {
     target[i] = Math.max(target[i]!, values[i] ?? 0)
   }
 }
 
-/** An aggregation of the self costs of functions with a given category. */
 export type AggregatedCallGraphCategoryMetrics = {
   /**
    * For each metric in {@link AggregatedCallGraph.metrics}, the summed self
@@ -385,7 +358,6 @@ export type AggregatedCallGraphCategoryMetrics = {
 
 /** One function's recorded costs during calls from a given direct caller. */
 type AggregatedCallGraphCallerMetrics = {
-  /** The caller corresponding to the ID. */
   caller: AggregatedCallGraphFunction
 
   /** The recorded number of calls, or `0` when the format records none. */
@@ -400,7 +372,6 @@ type AggregatedCallGraphCallerMetrics = {
 
 /** One function's recorded costs during its calls to a given direct callee. */
 type AggregatedCallGraphCalleeMetrics = {
-  /** The callee corresponding to the ID. */
   callee: AggregatedCallGraphFunction
 
   /** The recorded number of calls, or `0` when the format records none. */
@@ -413,20 +384,17 @@ type AggregatedCallGraphCalleeMetrics = {
   totalValues: Float64Array
 }
 
-/** An aggregation of one function's recorded costs within a call graph. */
 export type AggregatedCallGraphFunction = {
   type: `function`
 
   /** An index that uniquely identifies this function. */
   id: number
 
-  /** The name of the function in code. */
   name: string
 
-  /** Where the function was defined, if known. */
+  /** Where the function was defined. */
   location?: SourceLocation
 
-  /** The category of functions this function belongs to. */
   category: FunctionCategory
 
   /**
@@ -453,14 +421,11 @@ export type AggregatedCallGraphFunction = {
   calleeIdToMetrics: Map<number, AggregatedCallGraphCalleeMetrics>
 }
 
-/** An aggregation of an input parsed as a weighted call graph. */
 export type AggregatedCallGraph = {
   type: `call-graph`
 
   /** @see {@link AggregatedCallStackProfile.context} */
   context: ProfileToMdContext
-
-  /** Metrics recorded in this call graph. */
   metrics: Metric[]
 
   /**
@@ -471,7 +436,5 @@ export type AggregatedCallGraph = {
 
   /** Function category to the summed self values of that category. */
   categoryToMetrics: Map<FunctionCategory, AggregatedCallGraphCategoryMetrics>
-
-  /** Aggregated data for all functions in this call graph. */
   functions: AggregatedCallGraphFunction[]
 }

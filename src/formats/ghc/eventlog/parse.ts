@@ -34,8 +34,6 @@ export const parseGhcEventlogAsync = async (
 
 type EventlogCostCentres = {
   frames: StackFrame[]
-
-  /** Maps a cost centre's ID to its index in {@link frames}. */
   idToFrameIndex: number[]
 
   /**
@@ -61,7 +59,6 @@ class Eventlog {
    */
   readonly #eventSizes: number[] = []
 
-  /** The offset of the first event, after the header. */
   readonly #eventsOffset: number
 
   public constructor(bytes: Uint8Array) {
@@ -321,7 +318,6 @@ class HeaderCursor {
     this.#advance(size)
   }
 
-  /** Reads the next marker, requiring it to be {@link marker}. */
   public expect(marker: number, what: string): void {
     if (this.uint32() !== marker) {
       throw new FormatParseError(`expected a ${what} marker`)

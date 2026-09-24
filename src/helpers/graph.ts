@@ -1,7 +1,6 @@
 /**
  * Assigns each node its strongly connected component index via iterative
- * Tarjan. Nodes in one component are reachable from each other, so they form a
- * cycle.
+ * Tarjan.
  *
  * A node is an index into {@link nodeToEdges}, which contains its outgoing
  * edges, and {@link select} maps an edge to the node it points to.
@@ -11,7 +10,6 @@ export const stronglyConnectedComponents = <Edge>(
   select: (edge: Edge) => number,
 ): number[] => new ComponentSearch(nodeToEdges, select).search()
 
-/** A node being traversed plus the outgoing edges left to walk. */
 type TraversalFrame<Edge> = {
   node: number
   edges: readonly Edge[]
@@ -20,7 +18,6 @@ type TraversalFrame<Edge> = {
   nextEdge: number
 }
 
-/** One iterative Tarjan run over a graph's outgoing edges. */
 class ComponentSearch<Edge> {
   readonly #nodeToEdges: readonly (readonly Edge[])[]
   readonly #select: (edge: Edge) => number
@@ -62,7 +59,6 @@ class ComponentSearch<Edge> {
     return this.#componentIndices
   }
 
-  /** Traverses every unreached node reachable from {@link start}. */
   #searchFrom(start: number): void {
     const traversal = [this.#discover(start)]
 
@@ -90,11 +86,6 @@ class ComponentSearch<Edge> {
     }
   }
 
-  /**
-   * Records a node reached for the first time and returns its traversal frame,
-   * which resumes partway through the edges after the traversal returns from a
-   * target.
-   */
   #discover(node: number): TraversalFrame<Edge> {
     this.#indices[node] = this.#nextIndex
     this.#lowLinks[node] = this.#nextIndex
@@ -108,10 +99,6 @@ class ComponentSearch<Edge> {
     this.#lowLinks[node] = Math.min(this.#lowLinks[node]!, lowLink)
   }
 
-  /**
-   * Assigns a component to {@link root} and to every node stacked above it, the
-   * rest of the cycle it forms.
-   */
   #closeComponent(root: number): void {
     while (true) {
       const member = this.#stack.pop()!

@@ -25,15 +25,14 @@ vi.setConfig({ testTimeout: 125_000 })
 const format = injectedFormat()
 const inputFilenames = injectedInputs()
 
-// An input converts to a Markdown heading, or — for a valid capture with no
-// samples (e.g. a lock profile that saw no contention) — the no-data message.
+// A valid capture with no samples (e.g. a lock profile that saw no contention)
+// converts to the no-data message
 const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
 
 const gzipAsync = promisify(gzip)
 const brotliCompressAsync = promisify(brotliCompress)
 const execFileAsync = promisify(execFile)
 
-/** Whether a file starts with the gzip magic number. */
 const isGzipped = async (filename: string): Promise<boolean> => {
   const magic = Buffer.alloc(2)
   const file = await open(inputPath(filename), `r`)
@@ -86,6 +85,9 @@ if (format === undefined) {
     }
   ).nodes.find(node => node.callFrame.url.endsWith(`/tsc-workload.mjs`))!
     .callFrame.url
+  // Maps the `typeCheckProject` frame (tsc-workload.mjs line 2 col 32,
+  // 0-based) to /mapped/original.ts line 1 col 0
+  const typeCheckProjectMappings = `${`;`.repeat(2)}gCAAA`
   const expectedCpuProfileMarkdown = /^# CPU profile/u
 
   test.concurrent(
@@ -340,8 +342,8 @@ if (format === undefined) {
   test.concurrent(
     `--base-url makes file paths relative to the given directory`,
     async () => {
-      // The inputs were captured under random nix temp dirs, so their frame
-      // paths live under /private/tmp; relativizing to it should strip the prefix.
+      // The inputs were generated under random nix temporary directories in
+      // /private/tmp
       const baseURL = `/private/tmp`
 
       const { stdout } = await runCli([cpuProfilePath, `--base-url`, baseURL])
@@ -353,8 +355,8 @@ if (format === undefined) {
   test.concurrent(
     `--base-url auto makes file paths relative to their inferred common ancestor`,
     async () => {
-      // The fixture's own code lives under this directory (captured on the
-      // machine that produced it), so auto inference strips it.
+      // The input's workload code is under this directory on the machine that
+      // generated it
       const profiledProjectDirectory = `/Users/tomer/Documents/work/code`
 
       const { status, stdout } = await runCli([
@@ -560,10 +562,6 @@ if (format === undefined) {
     async () => {
       const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
       const sourceMapPath = join(dir, `tsc-workload.mjs.map`)
-      // Maps the `typeCheckProject` frame in the node CPU profile input
-      // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
-      // col 0.
-      const mappings = `${`;`.repeat(2)}gCAAA`
       await writeFile(
         sourceMapPath,
         JSON.stringify({
@@ -571,7 +569,7 @@ if (format === undefined) {
           file: tscWorkloadUrl,
           sources: [`/mapped/original.ts`],
           names: [],
-          mappings,
+          mappings: typeCheckProjectMappings,
         }),
       )
 
@@ -729,16 +727,12 @@ if (format === undefined) {
     `--source-maps applies inline source maps from files`,
     async () => {
       const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
-      // Maps the `typeCheckProject` frame in the node CPU profile input
-      // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
-      // col 0.
-      const mappings = `${`;`.repeat(2)}gCAAA`
       const sourceMap = JSON.stringify({
         version: 3,
         file: tscWorkloadUrl,
         sources: [`/mapped/original.ts`],
         names: [],
-        mappings,
+        mappings: typeCheckProjectMappings,
       })
       const base64 = Buffer.from(sourceMap).toString(`base64`)
       const jsPath = join(dir, `index.js`)

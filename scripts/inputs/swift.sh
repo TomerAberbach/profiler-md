@@ -79,8 +79,6 @@ run_swift() {
       # The host needs the binary to symbolize the raw profiles.
       cp ./.build/release/profile /out/binary
     ' || {
-    # `try emit` suppresses errexit for everything it calls, so this block
-    # checks the exit status.
     run_failed=1
     return 1
   }

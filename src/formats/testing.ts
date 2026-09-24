@@ -111,10 +111,6 @@ export const convertBytesToMd = (
     options,
   )
 
-/**
- * The streaming analogue of {@link convertBytesToMd}: parses a byte stream via
- * {@link BinaryFormatConverter.parseAsync} before aggregating and formatting.
- */
 export const convertToMdAsync = async (
   converter: BinaryFormatConverter,
   stream: ReadableStream<Uint8Array>,

@@ -1,15 +1,13 @@
 export const matchesPprof = (bytes: Uint8Array): boolean =>
-  // A pprof leads with the tag byte of one of `Profile`'s fields,
-  // `(fieldNumber << 3) | wireType`. A cheap prefilter to avoid attempting a
-  // full protobuf decode of input that obviously isn't pprof; `decodePprof` is
-  // the real check.
+  // A pprof begins with the tag byte of one of `Profile`'s fields. The check
+  // rejects an input that is obviously not pprof before a full protobuf decode.
   bytes.length > 0 && profileFieldWireTypes[bytes[0]! >> 3] === (bytes[0]! & 7)
 
-// The wire type of each top-level `Profile` field's tag byte, indexed by field
-// number (0 for varint fields, 2 for length-delimited fields). Encoders may
-// emit fields in any order (e.g. Go's runtime/pprof leads with `time_nanos` or
-// `period_type` rather than `sample_type`), so any field's tag is a valid
-// first byte.
+// The wire type of each top-level `Profile` field, indexed by field number,
+// see https://protobuf.dev/programming-guides/encoding/. Encoders may emit
+// fields in any order (e.g. Go's runtime/pprof leads with `time_nanos` or
+// `period_type` rather than `sample_type`), so any field's tag is a valid first
+// byte.
 // https://github.com/google/pprof/blob/main/proto/profile.proto
 const profileFieldWireTypes: readonly number[] = [
   /* (no field 0) */ -1, /* Sample_type */ 2, /* Sample */ 2, /* Mapping */ 2,

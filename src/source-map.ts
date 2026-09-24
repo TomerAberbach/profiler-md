@@ -270,7 +270,6 @@ export const normalizeSourceMaps = (
   return [...normalized.values()]
 }
 
-/** Why {@link makeSourceMapFileReference} rejected {@link urlOrPath}. */
 const rejectionReason = (urlOrPath: string): string =>
   urlOrPath === UNKNOWN_FILE
     ? `is the placeholder a compiler writes when given no file name`

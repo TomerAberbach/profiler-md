@@ -33,8 +33,6 @@ export type V8HeapProfileNode = {
 
   /** Unique identifier used to correlate samples back to this node. */
   id: number
-
-  /** Child call sites, forming the allocation call tree. */
   children: V8HeapProfileNode[]
 }
 

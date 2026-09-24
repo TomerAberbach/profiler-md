@@ -21,7 +21,6 @@ export type GhcJsonProfile = {
   /** The profiled program's name. */
   program: string
 
-  /** The program's arguments. */
   arguments: string[]
 
   /** The runtime's arguments. */
@@ -151,10 +150,6 @@ const ENTRIES: Metric = {
   },
 }
 
-/**
- * The stack frame each cost centre's observations resolve to, with the lookup from
- * the ID a cost-centre stack references to the frame's index.
- */
 const costCentreFrames = (
   costCentres: GhcJsonCostCentre[],
 ): { frames: StackFrame[]; idToFrameIndex: number[] } => {

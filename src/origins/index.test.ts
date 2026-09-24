@@ -168,8 +168,6 @@ if (format === undefined) {
       aggregateInput(nodeInput(), recordOriginOptions(detectedOrigins))
       expect(detectedOrigins).toEqual([`node`])
 
-      // Forcing the origin affects only the profile it was forced for, not the
-      // independently detected one above.
       const forcedOrigins: Origin[] = []
       aggregateInput(
         { data: nodeInput(), origin: `deno` },

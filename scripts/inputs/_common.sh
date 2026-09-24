@@ -5,9 +5,8 @@ set -euo pipefail
 # Pretty-print a path relative to the repo root.
 rel() { echo "${1#"$REPO"/}"; }
 
-# Writes clearly visible notice to the controlling terminal so it stays visible
-# even when the orchestrator redirects a workload script's output to a log file.
-# Falls back to stderr when there is no terminal.
+# Writes to the controlling terminal, so a notice stays visible when
+# generate-inputs redirects a workload script's output to a log file.
 notice() {
   if { : >/dev/tty; } 2>/dev/null; then
     printf '  >> %s\n' "$*" >/dev/tty
@@ -16,7 +15,6 @@ notice() {
   fi
 }
 
-# Probes for whether the Docker daemon is reachable.
 _docker_probe() {
   command -v docker >/dev/null 2>&1 || return 1
   if command -v timeout >/dev/null 2>&1; then
@@ -26,8 +24,7 @@ _docker_probe() {
   fi
 }
 
-# Blocks until the Docker daemon is reachable, prompting the user to start it
-# and re-probing in a loop.
+# Blocks until the Docker daemon is reachable, prompting the user to start it.
 ensure_docker() {
   _docker_probe && return 0
 
@@ -48,17 +45,14 @@ ensure_docker() {
 }
 
 # fetch_asset <label> <url> <sha256> <dest>
-#   Downloads a pinned, checksum-verified file unless <dest> already exists, so
-#   re-runs do no network I/O. Downloads to a temporary sibling and renames
-#   into place only after the checksum passes, so an interrupted download can't
-#   leave a partial file the existence guard would trust on the next run. Every
-#   step is guarded with `|| return 1` because callers run under `try`'s `||`
-#   context, where set -e is off.
+#   Downloads a checksum-verified file unless <dest> already exists.
 fetch_asset() {
   local label=$1 url=$2 sha256=$3 dest=$4 tmp
   [[ -f "$dest" ]] && return 0
   notice "Fetching $label"
   mkdir -p "$(dirname "$dest")" || return 1
+  # Renaming into place only after the checksum passes keeps an interrupted
+  # download from leaving a partial file the existence check would trust.
   tmp="$(mktemp "$dest.XXXXXX")" || return 1
   curl -fsSL "$url" -o "$tmp" \
     || { rm -f "$tmp"; echo "  FAILED to fetch: $url" >&2; return 1; }
@@ -67,10 +61,9 @@ fetch_asset() {
   mv "$tmp" "$dest" || return 1
 }
 
-# A shared benchmark input parsed by several language workloads: simdjson's
-# twitter.json sample (a real Twitter API search response), pinned to a release
-# tag and checksum-verified. Our committed copy was reformatted, so the fetched
-# bytes differ from it but parse to the identical document.
+# simdjson's twitter.json sample, a real Twitter API search response. The
+# committed copy is reformatted, so its bytes differ from the fetched file's,
+# though both parse to the same document.
 TWITTER_JSON="$REPO/scripts/inputs/assets/shared/twitter.json"
 TWITTER_JSON_URL="https://raw.githubusercontent.com/simdjson/simdjson/v3.10.1/jsonexamples/twitter.json"
 TWITTER_JSON_SHA256="30721e496a8d73cfc50658923c34eb2c0fbe15ee6835005e43ee624d8dedf200"
@@ -80,14 +73,12 @@ fetch_twitter_json() {
     "$TWITTER_JSON_URL" "$TWITTER_JSON_SHA256" "$TWITTER_JSON"
 }
 
-# The aarch64 Linux target for the container-based captures, kept in one place.
 DOCKER_IMAGE="debian:bookworm-slim"
 DOCKER_PLATFORM="linux/arm64"
 
 # docker_capture <out_dir> <container_script> [extra `docker run` args...]
 #   Runs <container_script> under `bash -euo pipefail` in DOCKER_IMAGE with
-#   <out_dir> bind-mounted at /out. Extra args (e.g. `-e FOO=bar`,
-#   `--cap-add SYS_PTRACE`) are forwarded to `docker run`.
+#   <out_dir> bind-mounted at /out.
 docker_capture() {
   local outdir=$1 script=$2
   shift 2
@@ -201,7 +192,7 @@ x86_64_vm_capture() {
   scp "${_vm_ssh_options[@]}" -i "$_vm_key" -P "$_vm_port" -r "prof@127.0.0.1:/out/." "$outdir/" || return 1
 }
 
-# Decides whether to generate an output. Returns 0 to proceed or 1 to skip.
+# Returns 1 to skip an output that already exists.
 should_generate() {
   local out=$1
   if [[ -f "$out" ]]; then
@@ -212,17 +203,14 @@ should_generate() {
   return 0
 }
 
-# Runs the repo CLI against a generated input.
 cli() { node "$REPO/src/cli/index.ts" "$@"; }
 
 # GitHub rejects files of 100 MB or more, so an oversized capture must fail at
 # generation time, while the workload can still be shrunk.
 MAX_INPUT_BYTES=$((100 * 1024 * 1024))
 
-# Verifies a single generated input converts to Markdown and contains nothing about
-# the generating machine. Returns non-zero if it doesn't
-# (the `|| return 1` matters: under `try`, set -e is off, so an unchecked failing
-# `cli` would otherwise fall through to the "Verified" echo and report success).
+# Verifies a generated input converts to Markdown and contains nothing about
+# the generating machine.
 verify_generated_input() {
   local out=$1 bytes
   [[ -f "$out" ]] || { echo "  MISSING after capture: $(rel "$out")" >&2; return 1; }
@@ -235,7 +223,7 @@ verify_generated_input() {
   echo "Verified $(rel "$out")"
 }
 
-# Verifies a base/current pair diffs or no-ops if one half doesn't exist.
+# Verifies a base/current pair diffs, skipping a pair with a missing half.
 verify_pair() {
   local base=$1 current=$2
   [[ -f "$base" && -f "$current" ]] || return 0
@@ -244,19 +232,13 @@ verify_pair() {
   echo "Verified diff $(rel "$base") <> $(rel "$current")"
 }
 
-# Records each generated-input emit handled, captured anew or already present, so
-# `verify_pairs` can diff every base/current pair without callers re-listing
-# paths. Only the base side is recorded, giving one entry per pair.
+# The base path of every input `emit` handled, captured or already present, so
+# `verify_pairs` diffs every pair without callers re-listing paths.
 _emitted_bases=()
 
 # emit <out> <capture_fn> [args...]
-#   Skips per should_generate, otherwise invokes `capture_fn "$out" args...`,
+#   Unless should_generate skips <out>, runs `capture_fn "$out" args...`,
 #   which must write to "$out", then verifies the result.
-#
-# Guarding the capture and verify with `|| return 1` matters: callers run
-# `try emit`, which (being a `||` context) disables set -e inside emit, so an
-# unguarded failing capture would fall through to verify/record and be reported
-# as success.
 emit() {
   local out=$1 fn=$2
   shift 2
@@ -267,15 +249,14 @@ emit() {
   case "$out" in *.base.*) _emitted_bases+=("$out") ;; esac
 }
 
-# Captures are wrapped in `try` so one flaky capture doesn't abort the whole
-# script under set -e; a failure flips `status` instead, and the script exits
-# with it. Without `try`, the first failing capture would kill every later one.
+# Wrap each capture in `try`, so a failing capture sets `status`, which the
+# script exits with, instead of aborting the script under set -e. A function
+# `try` calls runs in a `||` context, where set -e is off, so guard each of its
+# steps with `|| return 1`.
 status=0
 try() { "$@" || status=1; }
 
-# Diffs every emitted base/current generated-input pair, deriving each current
-# path from the recorded base path so callers never re-list generated inputs (a stale or forgotten
-# entry can't silently skip a diff). verify_pair no-ops when a half is missing.
+# Diffs every base/current pair `emit` handled.
 verify_pairs() {
   local base
   for base in ${_emitted_bases[@]+"${_emitted_bases[@]}"}; do
@@ -283,13 +264,12 @@ verify_pairs() {
   done
 }
 
-# A scratch directory for clones and builds, cleaned up on exit.
+# A scratch directory for clones and builds.
 WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/profiler-md-input-generation.XXXXXX")"
 cleanup_workdir() { _vm_stop; rm -rf "$WORKDIR"; }
 trap cleanup_workdir EXIT
 
-# Abort the whole script on Ctrl+C / SIGTERM. Without this, captures wrapped in
-# `try` (`cmd || status=1`) or in `for role` loops swallow the interrupt and
-# continue to the next capture instead of stopping. `exit` still runs the EXIT
-# cleanup above.
+# Without this trap, captures wrapped in `try` or in `for role` loops swallow
+# Ctrl+C and SIGTERM and continue to the next capture. `exit` still runs
+# cleanup_workdir.
 trap 'exit 130' INT TERM

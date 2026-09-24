@@ -54,9 +54,6 @@ type FormatMeta = {
  * {@link Detect.matches} returns true), so it should accept any valid instance
  * and throw a `FormatParseError` on input that isn't this format, including
  * spec invariants only parsing can check.
- *
- * A cheap {@link Detect.matches} may be a loose prefilter because `parse` is
- * the real check.
  */
 export type Parse<Input> = {
   parse: (input: Input) => ParsedInput[]

@@ -63,7 +63,6 @@ const risesThenFalls = makeMemray({
 const options = () =>
   normalizeProfileToMdOptions({ baseURL: `/app`, showEntry: () => true })
 
-/** The titles of the profiles a capture converts to, one per measure. */
 const PEAK = `Peak memory profile`
 const LEAKED = `Leaked memory profile`
 
@@ -196,11 +195,7 @@ describe(`convert`, () => {
   test(`measures the memory live at the peak and at the end`, () => {
     const md = convertBytesToMd(memrayConverter, risesThenFalls, options())
 
-    // The measures count different allocations, so each is its own profile.
-    expect(profileTitles(md)).toEqual([
-      `Peak memory profile`,
-      `Leaked memory profile`,
-    ])
+    expect(profileTitles(md)).toEqual([PEAK, LEAKED])
     expect(summaryLines(md)).toEqual([
       `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
       `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,

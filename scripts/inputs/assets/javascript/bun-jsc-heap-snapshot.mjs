@@ -10,9 +10,9 @@ if (!jsonPath || !out) {
 
 const data = JSON.parse(readFileSync(jsonPath, `utf8`))
 
-// Build a couple of derived structures (an id index and a flat list of hashtag
-// strings) so the snapshot has Maps, arrays, and lots of small objects/strings —
-// a realistic retained graph, not one giant blob.
+// Derived structures, an id index and a flat list of hashtag strings, give the
+// snapshot Maps, arrays, and many small objects and strings, a realistic
+// retained graph rather than one large blob.
 const statuses = Array.isArray(data.statuses) ? data.statuses : []
 const byId = new Map()
 const hashtags = []
@@ -26,7 +26,7 @@ for (const status of statuses) {
 // Retain everything on a global so it's live when the snapshot is generated.
 globalThis.__retained = { data, byId, hashtags }
 
-// `generateHeapSnapshot("jsc")` returns a JSC `Inspector`-format object (version
-// 3), the same flavor Safari's Web Inspector exports — but without needing a
-// GUI. (`generateHeapSnapshot("v8")` would instead return a V8-format string.)
+// `generateHeapSnapshot("jsc")` returns a JSC Inspector snapshot object
+// (version 3), the format Safari's Web Inspector exports.
+// `generateHeapSnapshot("v8")` would return a V8 snapshot string instead.
 writeFileSync(out, JSON.stringify(generateHeapSnapshot(`jsc`)))

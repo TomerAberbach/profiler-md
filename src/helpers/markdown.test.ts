@@ -25,7 +25,6 @@ test.each([
   const parsedTable = parseMd(md).children[0]!
   expect(parsedTable.type).toBe(`table`)
   const rows = (parsedTable as { children: { children: unknown[] }[] }).children
-  // Header row and data row each keep exactly two cells.
   expect(rows.map(row => row.children.length)).toEqual([2, 2])
 })
 

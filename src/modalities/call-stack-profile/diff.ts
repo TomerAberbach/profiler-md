@@ -30,12 +30,8 @@ export type AggregatedCallStackProfileFunctionDiff = Pick<
 > &
   Diff<AggregatedCallStackProfileFunction>
 
-/** A diff of two aggregated profiles. */
 export type AggregatedCallStackProfileDiff = {
-  /** The base profile. */
   base: AggregatedCallStackProfile
-
-  /** The current profile. */
   current: AggregatedCallStackProfile
 
   /** Metrics recorded in both the base and current profiles. */
@@ -62,8 +58,7 @@ export type AggregatedCallStackProfileDiff = {
 }
 
 /**
- * What one count of both profiles measures. The diff reports it only when the
- * two count the same thing.
+ * Returns `null` when the profiles count different things.
  *
  * Throws when the two count different things and share no metric, because the
  * diff would then have nothing to rank.
@@ -110,10 +105,8 @@ const describeCounts = (
 }
 
 /**
- * Diffs {@link base} and {@link current} by matching up their metrics,
- * functions, and categories.
- *
- * Throws if the profiles have no metrics in common.
+ * Throws when the profiles share no metric, unless neither has metrics and the
+ * two count the same thing.
  */
 export const diffAggregatedCallStackProfiles = (
   base: AggregatedCallStackProfile,
@@ -125,8 +118,6 @@ export const diffAggregatedCallStackProfiles = (
     metrics.length === 0 &&
     (base.metrics.length > 0 || current.metrics.length > 0)
   ) {
-    // Two metric-less profiles are comparable by count alone, so an
-    // empty match is only an error when a side has metrics.
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
 

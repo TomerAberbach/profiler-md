@@ -83,9 +83,8 @@ const inputSets = {
   binary: new Set<string>(),
 }
 if (format !== undefined) {
-  // Every committed input is exercised through the registry, in one of its
-  // format's projects. Only the `base` variant of each is taken since `current`
-  // is a near-identical re-run, keeping the auto-detect/diff matrix manageable.
+  // `current` is a near-identical re-run of `base`, so taking `base` alone
+  // keeps the auto-detect and diff matrix small.
   for (const filename of injectedInputs()) {
     if (parseExampleFilename(filename).variant === `base`) {
       inputSets[formatToConverter[format].type].add(filename)
@@ -106,10 +105,10 @@ const smallestJsonInput = smallestInput(jsonInputs)
 const smallestBinaryInput = smallestInput(binaryInputs)
 const smallestAnyInput = smallestInput(allInputs)
 
-// Some real captures legitimately have no samples (e.g. a lock profile that saw
-// no contention), so the pipeline yields the no-data message instead of a
-// heading. Either outcome means the format was detected and conversion ran end
-// to end, which is what these regexes check.
+// Some real captures have no samples (e.g. a lock profile that saw no
+// contention), so the pipeline yields the no-data message instead of a heading.
+// These regexes check only that the format was detected and conversion ran end
+// to end.
 const MARKDOWN_REGEX = /^(?:# |No profiling data found\.)/u
 const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiling data found\.)/iu
 
@@ -269,7 +268,6 @@ if (format === undefined) {
 
 describe(`profileToMd`, () => {
   if (allInputs.length > 0) {
-    // Every committed input converts end to end.
     test.each(allInputs)(`auto-detects %s`, filename => {
       const md = profileToMd(readInput(filename), { baseURL: null })
 
@@ -912,9 +910,8 @@ describe(`profileToMd`, () => {
     ])(
       `auto-detection of %s propagates a throwing categorizeFunctions`,
       filename => {
-        // Errors raised after a format is detected are real errors, not
-        // detection misses, so they must surface, not be swallowed into an
-        // unknown-format error.
+        // An error after a format is detected is no detection miss, so it
+        // surfaces instead of becoming an unknown-format error.
         const content = readFileSync(inputPath(filename))
 
         expect(() =>
@@ -993,8 +990,8 @@ describe(`profileToMdAsync`, () => {
     })
 
     test(`forced binary format streams a ReadableStream through parseAsync`, async () => {
-      // Forcing the format routes into the streaming `parseAsync` path, which must
-      // produce the same output as the sync conversion of the same bytes.
+      // The streaming `parseAsync` path must produce the same output as the
+      // sync conversion of the same bytes.
       const content = readFileSync(
         inputPath(`python.py-spy.cpu.base.collapsed`),
       )
@@ -1150,12 +1147,11 @@ const currentHeapSnapshot = JSON.stringify(
 
 describe(`origin detection`, () => {
   test(`resolves one origin for all sub-profiles from any sub-profile's marker`, () => {
-    // Only the first sub-profile carries an async-profiler marker (a slash-form
-    // `java/*` stdlib frame); the second's frames live in a separate array
-    // with no marker entries of their own. The origin is detected once for the
-    // whole file, so the second sub-profile's collapsed name still splits into
-    // method and declaring class under the `async-profiler` origin detected
-    // from the first.
+    // Only the first sub-profile contains an async-profiler marker, a
+    // slash-form `java/*` stdlib frame. The second sub-profile's frames are in a
+    // separate array with no marker entries, but its collapsed name still
+    // splits into method and declaring class under the origin detected from
+    // the first.
     const markerProfile: CallStackProfile = {
       type: `call-stack-profile`,
       frames: [

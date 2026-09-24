@@ -14,7 +14,6 @@ const operations = (count: number): fc.Arbitrary<Operation[]> =>
     { maxLength: count * 4 },
   )
 
-/** Runs the operations, returning what each search answered. */
 const runOperations = (
   count: number,
   operations: readonly Operation[],
@@ -31,7 +30,6 @@ const runOperations = (
   return answers
 }
 
-/** Runs the operations against a set of the taken indices, scanning ahead. */
 const runOperationsNaively = (
   count: number,
   operations: readonly Operation[],

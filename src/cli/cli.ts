@@ -209,7 +209,6 @@ const rankingFlags = object(`Ranking`, {
   ),
 })
 
-/** A category of any modality's entries. */
 export type EntryCategory = FunctionCategory | HeapSnapshotNodeCategory
 
 const entryCategories: readonly EntryCategory[] = [

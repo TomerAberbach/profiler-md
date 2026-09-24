@@ -1,14 +1,5 @@
-/**
- * A minimal Java Flight Recorder writer for deterministic unit tests.
- *
- * It emits a single uncompressed chunk with just the types, constant pools, and
- * events that {@link parseJfr} reads, which is enough to exercise the parser and
- * aggregator without depending on the binary input.
- */
-
 import { ByteBuffer } from '../../helpers/testing.ts'
 
-/** A method to place in the constant pools, referenced by index. */
 type JfrTestMethod = {
   name: string
   className: string
@@ -20,7 +11,6 @@ type JfrTestMethod = {
 /** A frame referencing a {@link JfrTestMethod} by index. */
 type JfrTestStackFrame = { method: number; line?: number }
 
-/** A call stack referenced by events by index. */
 type JfrTestStack = { frames: JfrTestStackFrame[] }
 
 /** An event referencing a {@link JfrTestStack} by index. */
@@ -98,26 +88,22 @@ const UNKNOWN_FIELD_CLASS = 901
 
 /**
  * Structural defects for parser-robustness tests, all expressed as undeclared
- * type references the parser must recover from. Each option is a list, so a
- * recording can carry several at once.
+ * type references the parser must recover from.
  */
 type JfrMalformations = {
   /**
    * Constant pool type ids the metadata never declares, each emitted as an
-   * empty pool before the known pools. Exercises the parser skipping an unknown
-   * pool and still reading the pools after it.
+   * empty pool before the known pools.
    */
   emptyUnknownPools?: number[]
 
   /**
    * JFR type names whose declaration gains a trailing field of an undeclared
-   * type, making their events unreadable. Exercises the parser abandoning such
-   * an event without corrupting the events that follow.
+   * type, making their events unreadable.
    */
   unreadableEventTypes?: string[]
 }
 
-/** The synthetic recording `makeJfr` builds, and how it writes it. */
 export type JfrTestInput = {
   methods: JfrTestMethod[]
   stackTraces: JfrTestStack[]
@@ -126,7 +112,6 @@ export type JfrTestInput = {
   /** Event types declared and written without their weight field. */
   eventTypesWithoutWeightField?: JfrEventTypeWithoutWeightField[]
 
-  /** Optional structural defects for parser-robustness tests. */
   malformations?: JfrMalformations
 
   /**
@@ -189,9 +174,6 @@ export const makeJfr = ({
   pool.varint(4 + emptyUnknownPools.length) // Pool count
 
   for (const typeId of emptyUnknownPools) {
-    // An undeclared pool type with no entries. The parser can't size unknown
-    // entries, but an empty one occupies no bytes, so the known pools below
-    // must still be read.
     pool.varint(typeId)
     pool.varint(0)
   }
@@ -530,7 +512,6 @@ class StringTable {
   }
 }
 
-/** Writes a recording's varint-encoded events. */
 class ByteWriter {
   readonly #buffer = new ByteBuffer()
 

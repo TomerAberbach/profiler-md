@@ -236,8 +236,7 @@ describe(`convert`, () => {
     )
 
     // GVisor's Sentry is a userspace kernel, so its frame counts in the kernel
-    // row.
-    // Equal shares keep first-sample order.
+    // row. Equal shares keep first-sample order.
     expect(categoryTables(md)).toEqual([
       [
         {
@@ -319,7 +318,6 @@ describe(`convert`, () => {
       options(),
     )
 
-    // CPU first, then uninterruptible (D-state), then interruptible.
     expect(profileTitles(md)).toEqual([
       `CPU profile`,
       `Uninterruptible sleep profile`,
@@ -422,7 +420,7 @@ describe(`convert`, () => {
 
   test(`samples of unrecognized event types are skipped`, () => {
     // A future event type in the legend follows the format's versioning
-    // rules for unknown record tags: skipped, without failing the parse.
+    // rules for unknown record tags.
     const md = convertBytesToMd(
       systingConverter,
       makeSysting(

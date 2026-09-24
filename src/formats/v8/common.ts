@@ -7,10 +7,8 @@ export type V8CallFrame = {
   /** The name of the function, or an empty string for anonymous functions. */
   functionName: string
 
-  /** The ID of the script this frame belongs to. */
   scriptId: number | string
 
-  /** The URL of the script this frame belongs to. */
   url: string
 
   /**

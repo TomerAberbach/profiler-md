@@ -15,25 +15,12 @@ import { FormatParseError } from '../error.ts'
 
 /**
  * Parses a memray capture file into a profile of the memory live at the
- * capture's peak and a profile of the memory never freed.
+ * capture's peak and a profile of the memory never freed. The peak is the
+ * moment the most memory was live. The two measures count different
+ * allocations, so each is its own profile.
  *
- * A capture is a stream of records describing a program's allocations: code
- * objects, per-thread frame pushes and pops, and the allocations and
- * deallocations themselves. Reading it is a state machine, since a record
- * contains only what changed since the last one. An allocation is attributed
- * to whatever stack the pushes and pops have built up for its thread.
- *
- * The two measures count different allocations, so each is its own profile,
- * counting each stack's allocations under that measure.
- *
- * A capture holds no aggregate totals, so both measures are computed by
- * replaying the stream: the peak from the allocations live at the moment total
- * memory was highest, and the leaks from the allocations live at the end. A
- * capture written with `--aggregate` stores both per stack already and needs no
- * replay.
- *
- * Native frames are skipped. Resolving them means symbolizing instruction
- * pointers against the binaries the traced process ran.
+ * Native frames are skipped, because resolving them means symbolizing
+ * instruction pointers against the binaries the traced process ran.
  *
  * @see https://github.com/bloomberg/memray/tree/main/src/memray/_memray
  */
@@ -140,7 +127,6 @@ export const MEMRAY_MAGIC = Uint8Array.from([
  */
 const SUPPORTED_VERSIONS = [12, 13] as const
 
-/** The first version whose header ends with the module search paths. */
 const SEARCH_PATHS_VERSION = 13
 
 /**
@@ -152,7 +138,6 @@ type FileFormat = `all-allocations` | `aggregated`
 const FILE_FORMAT_ALL_ALLOCATIONS = 0
 const FILE_FORMAT_AGGREGATED = 1
 
-/** A capture file's header, read before any record. */
 type MemrayHeader = {
   /** `PY_VERSION_HEX` of the traced interpreter, which sets the line table encoding. */
   pythonVersion: number
@@ -173,11 +158,6 @@ type MemrayHeader = {
   skippedFramesOnMainThread: number
 }
 
-/**
- * Reads and validates the header.
- *
- * @throws if the bytes aren't a memray capture, or are one this parser can't read.
- */
 const readHeader = (reader: ByteReader): MemrayHeader => {
   for (const byte of MEMRAY_MAGIC) {
     if (reader.byte() !== byte) {
@@ -321,16 +301,9 @@ type CaptureFrame = {
 
 /** A stack, and the allocations attributed to it, while a capture is read. */
 type StackUsage = {
-  /** Bytes live at the capture's peak. */
   peakBytes: number
-
-  /** Allocations live at the capture's peak. */
   peakCount: number
-
-  /** Bytes still live when the capture ended. */
   leakedBytes: number
-
-  /** Allocations still live when the capture ended. */
   leakedCount: number
 }
 
@@ -362,7 +335,6 @@ class Capture {
    */
   #maxAllocationStack = 0
 
-  /** The stack each thread is currently in, keyed by thread ID. */
   readonly #stacksByThread = new Map<number, number[]>()
   #currentStack: number[]
   #onMainThread = true
@@ -407,11 +379,6 @@ class Capture {
       : this.#readAllocationsRecord(reader, token)
   }
 
-  /**
-   * Builds the profiles the capture's stacks and their totals describe: the
-   * memory live at the peak and the memory never freed, each counting the
-   * allocations that measure attributes to a stack.
-   */
   public toProfiles(): CallStackProfile[] {
     if (this.#header.fileFormat === `aggregated`) {
       this.#stackTree.checkReferences(this.#maxAllocationStack)
@@ -723,7 +690,6 @@ class Capture {
     this.#onMainThread = threadId === this.#header.mainThreadId
   }
 
-  /** Resolves a frame to the function it is in and the line it was executing. */
   #toStackFrame({ codeObjectId, instructionOffset }: CaptureFrame): StackFrame {
     const codeObject = this.#codeObjects.get(codeObjectId)
     if (!codeObject) {
@@ -866,8 +832,6 @@ class StackTree {
   /**
    * Checks that every stack up to {@link maxStack} is defined and holds a
    * defined frame.
-   *
-   * @throws if a record references a stack or a frame no record defines.
    */
   public checkReferences(maxStack: number): void {
     if (maxStack >= this.#stackFrame.length) {
@@ -1222,7 +1186,6 @@ class LiveRanges {
     }
   }
 
-  /** Replaces each mapping's index with `newIndices[index]`. */
   public reindex(newIndices: Int32Array): void {
     for (const range of this.#ranges) {
       range.index = newIndices[range.index]!

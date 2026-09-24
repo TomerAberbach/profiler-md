@@ -26,10 +26,9 @@ build_workload() {
   # executable: one cost centre per top-level binding, named and located from
   # the source. The nix toolchain's aeson is built with its own cost centres.
   #
-  # Guarded with `|| return 1` because callers run under `try`'s `||` context,
-  # where set -e is off: an unguarded failing compile would memoize a path to a
-  # binary that was never built, and every role would then fail on the missing
-  # report rather than on the compiler's own error.
+  # An unguarded failing compile would memoize a path to a binary that was
+  # never built, so every role would fail on the missing report rather than on
+  # the compiler's own error.
   ( cd "$dir" && ghc -O2 -prof -fprof-auto-top -rtsopts -outputdir build -o profile Profile.hs >/dev/null ) \
     || return 1
 

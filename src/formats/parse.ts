@@ -45,8 +45,7 @@ export const parseAsFormatAsync = async (
       converter,
       converter.type === `json`
         ? converter.parse(await parseJsonAsync(data))
-        : // Stream the binary data when possible.
-          await converter.parseAsync(guardStreamReads(dataToStream(data))),
+        : await converter.parseAsync(guardStreamReads(dataToStream(data))),
     )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)

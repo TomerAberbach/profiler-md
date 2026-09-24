@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Shared JVM capture logic: the async-profiler and JDK Flight Recorder
-# configuration tables, capture functions, and the base/current emission loop.
 # A workload script sources this after _common.sh, then defines:
 #
 #   JVM_LANGUAGE      the generated-input filename prefix (e.g. `java`)
@@ -18,10 +16,8 @@
 #   JVM_HEAP_DUMP_WARMUP  seconds to let that run work before dumping it
 #                         (15 by default)
 
-# Resolves libasyncProfiler once per run. A guarded direct call rather than
-# command substitution: a subshell would discard the memoization, and the
-# `|| return 1` matters because captures run under `try`'s `||` context, where
-# set -e is off.
+# Resolves libasyncProfiler once per run. Call it directly rather than in a
+# command substitution, whose subshell would discard the memoization.
 ap_lib=""
 ensure_ap_lib() {
   [[ -n "$ap_lib" ]] && return 0
@@ -95,7 +91,6 @@ jvm_pids() {
   jcmd -l 2>/dev/null | grep -v 'sun\.tools\.jcmd\.JCmd' | awk '{print $1}' | sort
 }
 
-# How long to wait for the workload's JVM to start before giving up on a dump.
 HEAP_DUMP_STARTUP_TIMEOUT=180
 
 # capture_fn for emit: $1=out  $2=role
@@ -153,28 +148,25 @@ capture_jdk_jfr() {
 emit_jvm_captures() {
   local role cfg out
   for role in base current; do
-    # async-profiler -> JFR
     for cfg in "${AP_JFR_CONFIGS[@]}"; do
       out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$role.jfr"
       try emit "$out" capture_ap_jfr "$role" "$cfg" "${AP_JFR_EVENT[$cfg]}"
     done
 
-    # async-profiler -> collapsed
     try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.cpu.$role.collapsed" \
       capture_ap_collapsed "$role"
     try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.cpu-threads-ann-sig.$role.collapsed" \
       capture_ap_collapsed_annotated "$role"
 
-    # JDK Flight Recorder -> JFR
     for cfg in "${JDK_JFR_CONFIGS[@]}"; do
       out="$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$cfg.$role.jfr"
       try emit "$out" capture_jdk_jfr "$role" "$cfg" "${JDK_JFR_OPTS[$cfg]}"
     done
 
-    # jcmd -> HPROF, for a workload that sets JVM_HEAP_DUMP. A dump holds the
-    # live heap, which under the Kotlin compiler and CodeNarc grows past the
-    # 100 MB input size limit, and one JVM's dump already covers a format the
-    # JVM writes the same way whichever language runs on it.
+    # Heap dumps are opt-in. A dump holds the live heap, which under the Kotlin
+    # compiler and CodeNarc grows past the 100 MB input size limit, and one
+    # JVM's dump already covers a format the JVM writes the same way whichever
+    # language runs on it.
     if [[ -n "${JVM_HEAP_DUMP:-}" ]]; then
       try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$role.hprof" \
         capture_jdk_heap_dump "$role"

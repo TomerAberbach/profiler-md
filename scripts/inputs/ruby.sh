@@ -19,10 +19,9 @@ EXTS=(speedscope.json collapsed pprof callgrind)
 
 assets="$REPO/scripts/inputs/assets/ruby"
 
-# Run the rbspy capture once per role in the container, then re-render that one
-# recording into every format into the mounted /out. A partial regeneration
-# records again, so formats emitted by separate runs come from separate
-# recordings.
+# Each role records once and renders the recording into every format. A
+# partial regeneration records again, so formats emitted by separate runs come
+# from separate recordings.
 declare -A rundir=()
 run_for_role() {
   local role=$1
@@ -93,7 +92,6 @@ copy_ruby_profile() {
   cp "${rundir[$role]}/ruby.$ext" "$out"
 }
 
-# These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do

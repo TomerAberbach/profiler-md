@@ -30,36 +30,24 @@ export type AggregatedCallGraphFunctionDiff = Pick<
 > &
   Diff<AggregatedCallGraphFunction>
 
-/** A diff of two aggregated call graphs. */
 export type AggregatedCallGraphDiff = {
-  /** The base call graph. */
   base: AggregatedCallGraph
-
-  /** The current call graph. */
   current: AggregatedCallGraph
 
   /** Metrics recorded in both the base and current call graphs. */
   metrics: DiffMetric[]
 
-  /**
-   * Function category to that category's metrics in each call graph. Each
-   * side's values are indexed like {@link AggregatedCallGraphFunctionDiff}'s.
-   */
+  /** Each side's values are indexed like {@link AggregatedCallGraphFunctionDiff}'s. */
   categoryToMetrics: Map<
     FunctionCategory,
     Diff<AggregatedCallGraphCategoryMetrics>
   >
-
-  /** Functions in either call graph, matched across the two. */
   functions: AggregatedCallGraphFunctionDiff[]
 }
 
 /**
- * Diffs {@link base} and {@link current} by matching up their metrics,
- * functions, and categories.
- *
- * Throws if the call graphs have no metrics in common, because unlike sampling
- * profiles, call graphs have no sample count to fall back on.
+ * Throws if the call graphs have no metrics in common, because a call graph has
+ * no count to fall back on.
  */
 export const diffAggregatedCallGraphs = (
   base: AggregatedCallGraph,
