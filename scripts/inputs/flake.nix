@@ -60,6 +60,8 @@
           ghcWithProfiling
           python3
           async-profiler
+          nix
+          jq
           qemu
           cdrtools
           cmake

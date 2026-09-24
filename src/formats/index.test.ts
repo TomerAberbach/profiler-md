@@ -1015,7 +1015,7 @@ describe(`profileToMdAsync`, () => {
       )
       const logs = [
         `info: specified format: collapsed`,
-        `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, rbspy, excimer`,
+        `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, nix, rbspy, excimer`,
         `info: detected origin: py-spy`,
         `debug: py-spy is marked by the entry _run_module_as_main (<frozen runpy>:198)`,
       ]
@@ -1188,7 +1188,7 @@ describe(`origin detection`, () => {
     const md = convertJsonToMd(converter, {}, options, `collapsed`)
 
     expectLogs([
-      `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, rbspy, excimer`,
+      `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, nix, rbspy, excimer`,
       `info: detected origin: async-profiler`,
       `debug: async-profiler is marked by the entry java/util/HashMap.put`,
     ])

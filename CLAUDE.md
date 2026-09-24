@@ -415,6 +415,10 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   the origin's `normalizeStackFrame` that unpacks it selects the slot from the
   profiler's source (e.g. `packedLocationNormalizer` stores an executing line,
   and Excimer's closure line is a definition line)
+- An origin whose profiler records only where each function was called stores
+  the position in `StackFrame.callSite` and declares
+  `OriginSpec.functionIdentity: 'call-site'`. Functions are then keyed and
+  located by call site
 - `src/origins/index.test.ts` bounds, per origin over the committed inputs, the
   share of a function's executing lines that are before its definition line, so
   a slot misfiled wholesale fails the test. PProf.jl is exempt, because Julia

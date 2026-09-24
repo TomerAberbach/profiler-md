@@ -266,7 +266,7 @@ Formats:
 
 Origins:
   async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go,
-  gperftools, jdk, memray, node, node-pprof, perf, pprof-jl, pprof-rs,
+  gperftools, jdk, memray, nix, node, node-pprof, perf, pprof-jl, pprof-rs,
   profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon,
   unknown, valgrind
 
@@ -281,7 +281,7 @@ Heap snapshot categories:
 
 Languages:
   c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy,
-  javascript/typescript, julia, php, python, ruby, rust, swift, zig
+  javascript/typescript, julia, nix, php, python, ruby, rust, swift, zig
 
 Docs: https://github.com/TomerAberbach/profiler-md
 Bugs: https://github.com/TomerAberbach/profiler-md/issues
@@ -406,6 +406,12 @@ and read it.
 <td>
 <details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Julia pprof-jl alloc (<a href="examples/output/julia.pprof-jl.alloc.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.alloc.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.alloc.diff.pprof.md">diff</a>)</li><li>Julia pprof-jl CPU (<a href="examples/output/julia.pprof-jl.cpu.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.cpu.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.cpu.diff.pprof.md">diff</a>)</li><li>Julia pprof-jl wall (<a href="examples/output/julia.pprof-jl.wall.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.wall.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.wall.diff.pprof.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/v8-heap-snapshot.md">V8 heap snapshot</a></summary><ul><li>Julia Profile (<a href="examples/output/julia.profile-jl.base.heapsnapshot.md">base</a>, <a href="examples/output/julia.profile-jl.current.heapsnapshot.md">current</a>, <a href="examples/output/julia.profile-jl.diff.heapsnapshot.md">diff</a>)</li></ul></details>
+</td>
+</tr>
+<tr>
+<td><a href="docs/languages/nix.md">Nix</a></td>
+<td>
+<details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>Nix Nix (<a href="examples/output/nix.nix.base.collapsed.md">base</a>, <a href="examples/output/nix.nix.current.collapsed.md">current</a>, <a href="examples/output/nix.nix.diff.collapsed.md">diff</a>)</li></ul></details>
 </td>
 </tr>
 <tr>

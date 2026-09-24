@@ -8,7 +8,10 @@ import type {
   UnresolvedSourceReference,
 } from '../location.ts'
 import type { ProfileToMdContext } from '../options.ts'
-import { normalizeStackFrameForContext } from '../origins/index.ts'
+import {
+  functionIdentityForContext,
+  normalizeStackFrameForContext,
+} from '../origins/index.ts'
 import type { OriginDetector } from '../origins/index.ts'
 
 /**
@@ -49,7 +52,25 @@ export type StackFrame = {
    * line of the function.
    */
   executing?: SourcePosition
+
+  /**
+   * Where this function was called: a position in the caller's source, if the
+   * profiler recorded it.
+   *
+   * Identifies and locates the function only under an origin declaring
+   * `call-site` identity (`OriginSpec.functionIdentity`), for a profiler that
+   * records no other position.
+   */
+  callSite?: UnresolvedSourceReference & { position: SourcePosition }
 }
+
+/**
+ * Which recorded position identifies and locates a profile's functions:
+ * `definition` (the default), or `call-site` for an origin whose profiler
+ * records only where each function was called. Under `call-site`, a function
+ * called from several sites is one function per site.
+ */
+export type FunctionIdentity = `definition` | `call-site`
 
 /**
  * An input's distinct {@link StackFrame}s, owning everything derived
@@ -127,6 +148,7 @@ export class StackFrameTable {
   #normalize(context: ProfileToMdContext): StackFrameFunctionTable {
     return new StackFrameFunctionTable(
       this.#frames.map(frame => normalizeStackFrameForContext(frame, context)),
+      functionIdentityForContext(context),
     )
   }
 }
@@ -145,8 +167,14 @@ export class StackFrameFunctionTable {
   /** Per frame index, a lazily-filled cache of the frame's parsed function. */
   readonly #functions: StackFrameFunction[] = []
 
-  public constructor(frames: (StackFrame | null)[]) {
+  readonly #identity: FunctionIdentity
+
+  public constructor(
+    frames: (StackFrame | null)[],
+    identity: FunctionIdentity = `definition`,
+  ) {
     this.#frames = frames
+    this.#identity = identity
   }
 
   /** Returns the frame's function, or `undefined` for a dropped frame. */
@@ -157,7 +185,7 @@ export class StackFrameFunctionTable {
       if (!frame) {
         return undefined
       }
-      func = parseStackFrameFunction(frame)
+      func = parseStackFrameFunction(frame, this.#identity)
       this.#functions[index] = func
     }
     return func
@@ -173,27 +201,37 @@ export type StackFrameFunction = {
   /** @see {@link StackFrame.name} */
   name: string
 
-  /** The function's parsed definition: its source and position. */
+  /** The function's parsed identifying source and position. */
   location: SourceLocation | undefined
 
   /**
-   * The function's identity key: its normalized name, source (the reference
-   * kind and its URL, path, or logical name), and definition line and column.
-   * Two frames that parse to the same key are the same function.
+   * The function's identity key: its normalized name, and its identifying
+   * source (the reference kind and its URL, path, or logical name) and
+   * position. The identifying position is the definition, or the call site
+   * under a `call-site` origin. Two frames that parse to the same key are the
+   * same function.
    */
   key: string
 }
 
 export const parseStackFrameFunction = (
   frame: StackFrame,
-): StackFrameFunction => ({
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  name: frame.name || `(anonymous)`,
-  location: makeSourceLocation(frame.definition, frame.definition?.position),
-  key: functionIdentityKey(frame),
-})
+  identity: FunctionIdentity = `definition`,
+): StackFrameFunction => {
+  const identifying =
+    identity === `call-site` ? frame.callSite : frame.definition
+  return {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    name: frame.name || `(anonymous)`,
+    location: makeSourceLocation(identifying, identifying?.position),
+    key: functionIdentityKey(frame.name, identifying),
+  }
+}
 
-const functionIdentityKey = ({ name = ``, definition }: StackFrame): string =>
-  definition === undefined
+const functionIdentityKey = (
+  name = ``,
+  identifying?: StackFrame[`definition`],
+): string =>
+  identifying === undefined
     ? name
-    : `${name}\0${definition.type}\0${unresolvedSourceReferenceString(definition)}\0${definition.position?.line ?? ``}\0${definition.position?.column ?? ``}`
+    : `${name}\0${identifying.type}\0${unresolvedSourceReferenceString(identifying)}\0${identifying.position?.line ?? ``}\0${identifying.position?.column ?? ``}`

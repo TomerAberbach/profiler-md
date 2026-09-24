@@ -4,7 +4,7 @@ import { sourceReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { Metric } from '../modalities/metric.ts'
-import type { StackFrame } from '../modalities/stack-frame.ts'
+import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
 import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
 
 /**
@@ -177,6 +177,20 @@ export type OriginSpec = {
    * Defaults to the identity when omitted.
    */
   normalizeStackFrame?: (input: StackFrame, format: Format) => StackFrame | null
+
+  /**
+   * Which recorded position identifies and locates this origin's functions.
+   *
+   * `call-site` keys and locates each function by {@link StackFrame.callSite}
+   * instead of its source and definition, for a profiler that records only
+   * where each function was called. A function called from several sites is
+   * then one function per site, matching the profiler's own attribution.
+   * Keying by name alone would instead merge every anonymous function into one
+   * row.
+   *
+   * Defaults to `definition` when omitted.
+   */
+  functionIdentity?: FunctionIdentity
 }
 
 /**
