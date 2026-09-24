@@ -290,12 +290,10 @@ describe(`makeFileReference`, () => {
 describe(`makeSourceLocation`, () => {
   test(`builds a source location from a reference with line and column`, () => {
     expect(
-      makeSourceLocation({
-        type: `file`,
-        urlOrPath: `/project/file.ts`,
-        line: 10,
-        column: 5,
-      }),
+      makeSourceLocation(
+        { type: `file`, urlOrPath: `/project/file.ts` },
+        { line: 10, column: 5 },
+      ),
     ).toStrictEqual({
       type: `absolute`,
       url: new URL(`file:///project/file.ts`),
@@ -306,11 +304,10 @@ describe(`makeSourceLocation`, () => {
 
   test(`builds a logical source location from a logical name`, () => {
     expect(
-      makeSourceLocation({
-        type: `logical`,
-        name: `java.util.HashMap`,
-        line: 3,
-      }),
+      makeSourceLocation(
+        { type: `logical`, name: `java.util.HashMap` },
+        { line: 3 },
+      ),
     ).toStrictEqual({
       type: `logical`,
       name: `java.util.HashMap`,

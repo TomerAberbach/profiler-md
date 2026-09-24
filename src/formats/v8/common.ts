@@ -26,18 +26,26 @@ export type V8CallFrame = {
   columnNumber: number
 }
 
+/**
+ * The callFrame's position is the definition position, because V8 documents
+ * `lineNumber` as the line the function originates at. A position without a
+ * URL is dropped along with the missing source.
+ */
 export const callFrameToStackFrame = (callFrame: V8CallFrame): StackFrame => {
   const { functionName, url, lineNumber, columnNumber } = callFrame
-  return {
-    name: functionName,
-    location: url
-      ? {
-          type: `file`,
-          urlOrPath: url,
-          line: lineNumber < 0 ? undefined : lineNumber + 1,
+  if (!url) {
+    return { name: functionName }
+  }
+  const position =
+    lineNumber < 0
+      ? undefined
+      : {
+          line: lineNumber + 1,
           column: columnNumber < 0 ? undefined : columnNumber + 1,
         }
-      : undefined,
+  return {
+    name: functionName,
+    definition: { type: `file`, urlOrPath: url, ...(position && { position }) },
   }
 }
 

@@ -29,7 +29,7 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `_main`,
-        location: { type: `file`, urlOrPath: `Unknown` },
+        definition: { type: `file`, urlOrPath: `Unknown` },
       }),
     ).toEqual({ name: `_main` })
   })
@@ -37,7 +37,7 @@ describe(`normalizeStackFrame`, () => {
   test(`leaves a located frame unchanged`, () => {
     const input: StackFrame = {
       name: `compiler::run`,
-      location: { type: `file`, urlOrPath: `src/compiler.rs` },
+      definition: { type: `file`, urlOrPath: `src/compiler.rs` },
     }
 
     expect(normalizeStackFrame(input)).toBe(input)

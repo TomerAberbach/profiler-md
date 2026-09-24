@@ -144,7 +144,7 @@ describe(`parse`, () => {
     )
 
     expect(graph!.frames).toEqual([
-      { name: `main`, location: { type: `file`, urlOrPath: `/app/a.c` } },
+      { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
     ])
   })
 
@@ -179,7 +179,7 @@ describe(`parse`, () => {
     )
 
     expect(graph!.frames).toEqual([
-      { name: `main`, location: { type: `file`, urlOrPath: `/app/a.c` } },
+      { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
     ])
   })
 
@@ -201,8 +201,8 @@ describe(`parse`, () => {
     )
 
     expect(graph!.frames).toEqual([
-      { name: `main`, location: { type: `file`, urlOrPath: `/app/a.c` } },
-      { name: `work`, location: { type: `file`, urlOrPath: `/app/a.c` } },
+      { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
+      { name: `work`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
     ])
     expect(graph!.functions).toEqual([
       {

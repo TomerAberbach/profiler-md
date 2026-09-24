@@ -154,10 +154,13 @@ export type OriginSpec = {
   /**
    * Normalizes a raw stack frame to a canonical form.
    *
-   * Most commonly it splits the frame's display name, location, and optional
+   * Most commonly it splits the frame's display name, source, and optional
    * executing line out of {@link StackFrame.name}, for profilers that
-   * pack a function's location into its frame string rather than carrying it
-   * separately.
+   * pack a function's source into its frame string rather than carrying it
+   * separately. It also moves a position into the slot with its semantic, for
+   * an origin that records a position under a different semantic from the one
+   * the format's parser assumed (e.g. a speedscope `line` that is an executing
+   * line rather than a definition line).
    *
    * The profile's {@link Format} is provided for logic that applies only to
    * specific origin-format pairs.
@@ -191,9 +194,9 @@ export type OriginSpec = {
 export const packedLocationNormalizer =
   (regex: RegExp) =>
   (input: StackFrame): StackFrame => {
-    // A located frame carries its location separately, so its name can't be
+    // A sourced frame carries its source separately, so its name can't be
     // packed; matching it anyway could corrupt a coincidentally-shaped name.
-    if (input.location) {
+    if (input.definition) {
       return input
     }
 
@@ -205,27 +208,23 @@ export const packedLocationNormalizer =
     const { func, file, line } = frame.groups!
     return {
       name: func!,
-      location: { type: `file`, urlOrPath: file! },
-      line: line === undefined ? undefined : Number(line),
+      definition: { type: `file`, urlOrPath: file! },
+      executing: line === undefined ? undefined : { line: Number(line) },
     }
   }
 
 /**
  * Builds an {@link OriginSpec.normalizeStackFrame} for a profiler that writes
  * one of {@link paths} as the file of a frame whose source it could not
- * resolve. The frame keeps its name and executing line and loses its location,
- * so it prints as location-less and no path-based category rule matches the
- * placeholder.
- *
- * Compose it after the normalizer that moves a packed or speedscope line out
- * of the location, since dropping the location would otherwise drop the line
- * with it.
+ * resolve. The frame keeps its name and executing position and loses its
+ * source, so it prints as location-less and no path-based category rule
+ * matches the placeholder.
  */
 export const placeholderPathNormalizer =
   (paths: ReadonlySet<string>) =>
   (input: StackFrame): StackFrame =>
-    input.location?.type === `file` && paths.has(input.location.urlOrPath)
-      ? { name: input.name, line: input.line }
+    input.definition?.type === `file` && paths.has(input.definition.urlOrPath)
+      ? { name: input.name, executing: input.executing }
       : input
 
 /**
@@ -280,25 +279,30 @@ export const matchEntryFromRules =
   }
 
 /**
- * Reinterprets a located speedscope frame's `location.line` as its executing
- * line, for an origin (py-spy, rbspy) that emits one speedscope frame per
- * *sampled* line rather than per function.
+ * Reinterprets a speedscope frame's parsed definition line as its executing
+ * line, for an origin that emits one speedscope frame per *sampled* line
+ * rather than per function.
  *
  * The speedscope format leaves the field's semantics undefined, so only the
  * origin knows the line is where the frame was sampling, not where the function
- * is defined.
+ * is defined. The parsed column is dropped rather than moved, because these
+ * emitters write no column, so one could come only from a hand-edited file.
  *
- * A located frame from any other format passes through unchanged.
+ * A frame from any other format passes through unchanged.
  */
 export const normalizeSpeedscopeExecutingLine = (
   input: StackFrame,
   format: Format,
 ): StackFrame => {
-  if (format !== `speedscope` || input.location?.line === undefined) {
+  if (format !== `speedscope` || input.definition?.position === undefined) {
     return input
   }
-  const { line, column: _, ...location } = input.location
-  return { name: input.name, location, line }
+  const { position, ...reference } = input.definition
+  return {
+    name: input.name,
+    definition: reference,
+    executing: { line: position.line },
+  }
 }
 
 /**

@@ -68,7 +68,7 @@ export const sourceReferenceKind = (
 ): `file` | `logical` =>
   sourceReference.type === `logical` ? `logical` : `file`
 
-export type SourceLocationInput = (
+export type UnresolvedSourceReference =
   | {
       type: `file`
 
@@ -83,41 +83,44 @@ export type SourceLocationInput = (
        */
       name: string
     }
-) & {
+
+export type SourcePosition = {
   /** The 1-based line number in the referenced source. */
-  line?: number
+  line: number
 
   /** The 1-based column number in the referenced source. */
   column?: number
 }
 
-/** Returns the raw reference string of {@link location}. */
-export const sourceLocationInputString = (
-  location: SourceLocationInput,
-): string => (location.type === `file` ? location.urlOrPath : location.name)
+export const unresolvedSourceReferenceString = (
+  source: UnresolvedSourceReference,
+): string => (source.type === `file` ? source.urlOrPath : source.name)
 
 /**
- * Builds a {@link SourceLocation} from a raw source reference and optional
- * line/column, returning `undefined` when there's no usable location.
+ * Builds a {@link SourceLocation} from a raw source reference and an optional
+ * position within it.
+ *
+ * Returns `undefined` when there's no usable reference.
  */
 export const makeSourceLocation = (
-  location: SourceLocationInput | undefined,
+  source: UnresolvedSourceReference | undefined,
+  position?: SourcePosition,
 ): SourceLocation | undefined => {
-  if (!location) {
+  if (!source) {
     return undefined
   }
 
   const sourceReference =
-    location.type === `file`
-      ? makeFileReference(location.urlOrPath)
-      : location.name
-        ? { type: `logical` as const, name: location.name }
+    source.type === `file`
+      ? makeFileReference(source.urlOrPath)
+      : source.name
+        ? { type: `logical` as const, name: source.name }
         : undefined
   if (!sourceReference) {
     return undefined
   }
 
-  return sourceReferenceToSourceLocation(sourceReference, location)
+  return sourceReferenceToSourceLocation(sourceReference, position)
 }
 
 export const makeFileReference = (
@@ -191,16 +194,7 @@ const withoutDotSegments = (url: URL): URL => {
 
 export const sourceReferenceToSourceLocation = (
   sourceReference: SourceReference,
-  {
-    line,
-    column,
-  }: {
-    /** The 1-based line number in the referenced source. */
-    line?: number
-
-    /** The 1-based column number in the referenced source. */
-    column?: number
-  },
+  { line, column }: Partial<SourcePosition> = {},
 ): SourceLocation => ({ ...sourceReference, line, column })
 
 /**

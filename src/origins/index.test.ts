@@ -1,5 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
+import type { AggregatedInput } from '../formats/converter.ts'
 import { aggregateInput } from '../formats/index.ts'
 import {
   injectedFormat,
@@ -14,6 +15,7 @@ import {
   OriginDetector,
 } from './index.ts'
 import type { Origin } from './index.ts'
+import { pprofJlOriginSpec } from './specs/pprof-jl.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
 
@@ -75,6 +77,30 @@ if (inputFilenames.length > 0) {
           ),
         ).toEqual([])
 
+        // A function executes at or after its definition, so an executing
+        // line before the definition line is a position in the wrong
+        // `StackFrame` slot. A parser or normalizer misread what the emitter
+        // records there (see the normalizing principles in `CLAUDE.md`).
+        // V8 attributes an inlined or deoptimized tick to the enclosing
+        // function at the sampled script position, so real profiles contain
+        // a few correct lines before the definition line. The assertion
+        // therefore bounds the rate instead of forbidding every case. A slot
+        // misfiled wholesale pushes the rate toward 100%, and V8's
+        // attributions are under 6% of the node inputs' executing lines.
+        //
+        // PProf.jl is exempt, because Julia attributes macro-expanded code to
+        // the macro's own lines. For example, JSON3's `@writechar` body is
+        // attributed under every `write` method that splices it. PProf.jl
+        // profiles also contain few functions with both positions, and the
+        // two together exceed any rate a misfiled slot stays under.
+        if (origin !== pprofJlOriginSpec.id) {
+          const { executingLineCount, misfiledPositions } =
+            executingLinesBeforeDefinition(inputs)
+          if (misfiledPositions.length > executingLineCount * 0.2) {
+            expect(misfiledPositions).toEqual([])
+          }
+        }
+
         // Julia writes Julia's types into V8's `meta.node_types`. A format
         // declaring its own node type names reaches the categories through its
         // origin, and types can't check that mapping against the names an input
@@ -100,6 +126,37 @@ const FUNCTION_CATEGORY_SET: ReadonlySet<string> = new Set(FUNCTION_CATEGORIES)
 const NODE_CATEGORY_SET: ReadonlySet<string> = new Set(
   HEAP_SNAPSHOT_NODE_CATEGORIES,
 )
+
+/**
+ * Counts the executing lines of every call stack profile function with a
+ * definition line, and describes each executing line before it.
+ */
+const executingLinesBeforeDefinition = (
+  inputs: AggregatedInput[],
+): { executingLineCount: number; misfiledPositions: string[] } => {
+  let executingLineCount = 0
+  const misfiledPositions: string[] = []
+  for (const input of inputs) {
+    if (input.type !== `call-stack-profile`) {
+      continue
+    }
+    for (const func of input.functions) {
+      const definitionLine = func.location?.line
+      if (definitionLine === undefined) {
+        continue
+      }
+      for (const line of func.lineToMetrics.keys()) {
+        executingLineCount++
+        if (line < definitionLine) {
+          misfiledPositions.push(
+            `${func.name} defined at ${definitionLine}, executing at ${line}`,
+          )
+        }
+      }
+    }
+  }
+  return { executingLineCount, misfiledPositions }
+}
 
 if (format === undefined) {
   describe(`origin threading`, () => {

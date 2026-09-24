@@ -24,9 +24,9 @@ export const asyncProfilerOriginSpec = {
   categorizeEntry: categorizeJvmEntry,
   matchEntry: jvmMatchEntry,
   normalizeStackFrame: input => {
-    // A located (JFR) frame already carries its declaring class; only
+    // A sourced (JFR) frame already carries its declaring class; only
     // collapsed names need splitting.
-    if (input.location) {
+    if (input.definition) {
       return input
     }
 
@@ -49,7 +49,7 @@ export const asyncProfilerOriginSpec = {
 
     return {
       name: jvmMethodDisplayName(method.slice(lastDot + 1), descriptor),
-      location: {
+      definition: {
         type: `logical`,
         name: jvmSourceClassName(method.slice(0, lastDot)),
       },

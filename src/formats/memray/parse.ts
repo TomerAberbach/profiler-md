@@ -732,12 +732,14 @@ class Capture {
 
     return {
       name: codeObject.functionName,
-      location: {
+      definition: {
         type: `file`,
         urlOrPath: codeObject.filename,
-        line: codeObject.firstLineNumber,
+        position: { line: codeObject.firstLineNumber },
       },
-      line: lineNumberOf(codeObject, instructionOffset, this.#header),
+      executing: {
+        line: lineNumberOf(codeObject, instructionOffset, this.#header),
+      },
     }
   }
 

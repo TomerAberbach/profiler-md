@@ -1,4 +1,5 @@
 import { Profile as PprofProto } from 'pprof-format'
+import type { SourcePosition } from '../../location.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -20,14 +21,7 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
 
   const originHint = pprofOriginHint(profile, string)
   const layouts = parseValueLayouts(profile, string)
-  const { frames, frameIndexByFunctionId } = parseFunctionStackFrames(
-    profile,
-    string,
-  )
-  const framesByLocationId = resolveLocationStackFrames(
-    profile,
-    frameIndexByFunctionId,
-  )
+  const { frames, framesByLocationId } = parseStackFrames(profile, string)
 
   return layouts.map(
     ({ metrics, countMetric, metricValueIndices, countValueIndex }) => ({
@@ -289,39 +283,117 @@ const layoutWithCountsAsMetrics = (valueTypes: ValueType[]): ValueLayout => ({
 })
 
 /**
- * Each function is a frame; its dense index is its id. IDs are keyed raw
- * (pprof-format decodes a given varint to `number`, or `bigint` past 4 encoded
- * bytes, deterministically per value) so the per-sample lookups never build
- * key strings.
+ * Each distinct (function, executing position) pair is a frame.
+ * `Function.start_line` is the definition line. `Line.line` and `Line.column`
+ * are where the frame was when sampled: the executing position in the leaf,
+ * and the call site in a caller.
+ *
+ * A line whose function is absent from the table (unsymbolized) is dropped
+ * rather than passing a reference to a missing function into aggregation.
+ *
+ * IDs are keyed raw (pprof-format decodes a given varint to `number`, or
+ * `bigint` past 4 encoded bytes, deterministically per value) so the
+ * per-location lookups never build key strings.
  */
-const parseFunctionStackFrames = (
+const parseStackFrames = (
   profile: PprofProto,
   string: StringReader,
 ): {
   frames: StackFrame[]
-  frameIndexByFunctionId: Map<number | bigint, number>
+  framesByLocationId: Map<number | bigint, number[]>
 } => {
-  const frameIndexByFunctionId = new Map<number | bigint, number>()
-  const frames: StackFrame[] = []
+  const functionById = new Map<number | bigint, PprofFunction>()
   for (const func of profile.function) {
-    frameIndexByFunctionId.set(func.id, frames.length)
-    frames.push({
-      name: string(func.name) || string(func.systemName),
-      location: {
-        type: `file`,
-        urlOrPath: string(func.filename),
-        line: knownPprofLine(func.startLine),
-      },
-    })
+    functionById.set(
+      func.id,
+      new PprofFunction({
+        name: string(func.name) || string(func.systemName),
+        definition: {
+          type: `file`,
+          urlOrPath: string(func.filename),
+          position: knownPprofPosition(func.startLine),
+        },
+      }),
+    )
   }
-  return { frames, frameIndexByFunctionId }
+
+  const frames: StackFrame[] = []
+  const framesByLocationId = new Map<number | bigint, number[]>()
+  for (const location of profile.location) {
+    framesByLocationId.set(
+      location.id,
+      location.line.flatMap(({ functionId, line, column }) => {
+        const func = functionById.get(functionId)
+        return func === undefined
+          ? []
+          : func.frameFor(knownPprofPosition(line, column), frames)
+      }),
+    )
+  }
+  return { frames, framesByLocationId }
 }
 
 /**
- * Normalizes a pprof line to `undefined` when unknown.
+ * A function in the profile's table, owning the frames of the executing
+ * positions sampled within it so a position interns without a composite key.
+ */
+class PprofFunction {
+  readonly #frame: Pick<StackFrame, `name` | `definition`>
+
+  /**
+   * An executing position to its index in the profile's frames, keyed by line
+   * and then column. 0 stands for an unknown line or column because
+   * `knownPprofLine` returns only positive numbers.
+   */
+  readonly #frames = new Map<number, Map<number, number>>()
+
+  public constructor(frame: Pick<StackFrame, `name` | `definition`>) {
+    this.#frame = frame
+  }
+
+  public frameFor(
+    executing: SourcePosition | undefined,
+    frames: StackFrame[],
+  ): number {
+    const lineKey = executing?.line ?? 0
+    let byColumn = this.#frames.get(lineKey)
+    if (!byColumn) {
+      byColumn = new Map()
+      this.#frames.set(lineKey, byColumn)
+    }
+
+    const columnKey = executing?.column ?? 0
+    let index = byColumn.get(columnKey)
+    if (index === undefined) {
+      index = frames.length
+      frames.push(
+        executing === undefined ? this.#frame : { ...this.#frame, executing },
+      )
+      byColumn.set(columnKey, index)
+    }
+    return index
+  }
+}
+
+const knownPprofPosition = (
+  line: number | bigint | undefined,
+  column?: number | bigint,
+): SourcePosition | undefined => {
+  const knownLine = knownPprofLine(line)
+  if (knownLine === undefined) {
+    return undefined
+  }
+  const knownColumn = knownPprofLine(column)
+  return knownColumn === undefined
+    ? { line: knownLine }
+    : { line: knownLine, column: knownColumn }
+}
+
+/**
+ * Normalizes a pprof line or column to `undefined` when unknown.
  *
- * proto3 has no field presence for scalars, so an unset `Function.start_line`
- * or `Line.line` decodes to `0`.
+ * proto3 has no field presence for scalars, so an unset `Function.start_line`,
+ * `Line.line`, or `Line.column` decodes to `0`.
  *
  * Some profilers (e.g. PProf.jl) write `-1` for an unknown line, which
  * `pprof-format` decodes as the unsigned 64-bit value, so a line is read back
@@ -337,42 +409,15 @@ const knownPprofLine = (
   return signedLine > 0 ? Number(signedLine) : undefined
 }
 
-type LocationStackFrame = { frame: number; line: number | bigint }
-
-/**
- * Each location resolves to its frame indices and lines, dropping any frame
- * whose function is absent from the table (unsymbolized) rather than passing a
- * reference to a missing function into aggregation.
- */
-const resolveLocationStackFrames = (
-  profile: PprofProto,
-  frameIndexByFunctionId: Map<number | bigint, number>,
-): Map<number | bigint, LocationStackFrame[]> => {
-  const framesByLocationId = new Map<number | bigint, LocationStackFrame[]>()
-  for (const location of profile.location) {
-    framesByLocationId.set(
-      location.id,
-      location.line.flatMap(({ functionId, line }) => {
-        const frame = frameIndexByFunctionId.get(functionId)
-        return frame === undefined ? [] : { frame, line }
-      }),
-    )
-  }
-  return framesByLocationId
-}
-
 /** Each profile reads the samples again, so no profile stores its own copy. */
 function* parseObservations(
   profile: PprofProto,
-  framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
+  framesByLocationId: Map<number | bigint, number[]>,
   metricValueIndices: number[],
   countValueIndex: number | undefined,
 ): Iterable<Observation> {
   for (const { locationId, value } of profile.sample) {
-    const { frameIndices, calleeLine } = resolveCallStack(
-      locationId,
-      framesByLocationId,
-    )
+    const frameIndices = resolveCallStack(locationId, framesByLocationId)
     if (frameIndices.length === 0) {
       continue
     }
@@ -392,32 +437,23 @@ function* parseObservations(
     if (recordedCount <= 0 && values.every(value => value === 0)) {
       continue
     }
-    yield {
-      values,
-      frameIndices,
-      // The leaf's line 0 means unknown, not a fallback to deeper lines.
-      line: knownPprofLine(calleeLine),
-      count,
-    }
+    yield { values, frameIndices, count }
   }
 }
 
 /**
- * A sample's locations expanded to the frame indices of its call stack, with
- * the leaf frame's line, dropping references to locations absent from the
- * table.
+ * A sample's locations expanded to the frame indices of its call stack,
+ * dropping references to locations absent from the table.
  */
 const resolveCallStack = (
   locationId: readonly (number | bigint)[],
-  framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
-): { frameIndices: number[]; calleeLine: number | bigint | undefined } => {
+  framesByLocationId: Map<number | bigint, number[]>,
+): number[] => {
   const frameIndices: number[] = []
-  let calleeLine: number | bigint | undefined
   for (const id of locationId) {
-    for (const { frame, line } of framesByLocationId.get(id) ?? []) {
+    for (const frame of framesByLocationId.get(id) ?? []) {
       frameIndices.push(frame)
-      calleeLine ??= line
     }
   }
-  return { frameIndices, calleeLine }
+  return frameIndices
 }

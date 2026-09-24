@@ -36,7 +36,7 @@ export const dotnetTraceOriginSpec = {
     locationlessCategory(entry) ??
     `ours`,
   normalizeStackFrame: input => {
-    if (input.location) {
+    if (input.definition) {
       return input
     }
 
@@ -62,7 +62,10 @@ export const dotnetTraceOriginSpec = {
       // A type-less function; the assembly is the best location available.
       return {
         name: path + signature,
-        location: { type: `logical`, name: name.slice(0, bang).toLowerCase() },
+        definition: {
+          type: `logical`,
+          name: name.slice(0, bang).toLowerCase(),
+        },
       }
     }
     // A constructor frame is `Type..ctor()`; keep the leading dot with the
@@ -73,7 +76,7 @@ export const dotnetTraceOriginSpec = {
 
     return {
       name: path.slice(dot + 1) + signature,
-      location: { type: `logical`, name: path.slice(0, dot) },
+      definition: { type: `logical`, name: path.slice(0, dot) },
     }
   },
 } as const satisfies OriginSpec

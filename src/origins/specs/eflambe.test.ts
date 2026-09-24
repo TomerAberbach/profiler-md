@@ -68,14 +68,14 @@ describe(`normalizeStackFrame`, () => {
   test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
     expect(normalizeStackFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
       name: `encode!/1`,
-      location: { type: `logical`, name: `Jason` },
+      definition: { type: `logical`, name: `Jason` },
     })
   })
 
   test(`lifts an Erlang module out of the name as the location`, () => {
     expect(normalizeStackFrame({ name: `lists:reverse/1` })).toEqual({
       name: `reverse/1`,
-      location: { type: `logical`, name: `lists` },
+      definition: { type: `logical`, name: `lists` },
     })
   })
 
@@ -84,7 +84,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `json:-do_encode_map/2-lc$^0/1-0-/2` }),
     ).toEqual({
       name: `-do_encode_map/2-lc$^0/1-0-/2`,
-      location: { type: `logical`, name: `json` },
+      definition: { type: `logical`, name: `json` },
     })
   })
 
@@ -97,7 +97,7 @@ describe(`normalizeStackFrame`, () => {
   test(`leaves an already-located frame unchanged`, () => {
     const input: StackFrame = {
       name: `lists:reverse/1`,
-      location: { type: `file`, urlOrPath: `lists.erl` },
+      definition: { type: `file`, urlOrPath: `lists.erl` },
     }
     expect(normalizeStackFrame(input)).toBe(input)
   })

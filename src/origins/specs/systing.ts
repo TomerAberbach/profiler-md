@@ -29,9 +29,9 @@ export const systingOriginSpec = {
     locationlessCategory(entry) ??
     `ours`,
   normalizeStackFrame: input => {
-    // A located frame can't be packed (systing always packs); guard anyway
+    // A sourced frame can't be packed (systing always packs); guard anyway
     // per the normalizeStackFrame contract.
-    if (input.location) {
+    if (input.definition) {
       return input
     }
 
@@ -51,8 +51,8 @@ export const systingOriginSpec = {
         const { module, file, line } = location.groups!
         return {
           name: LABEL.test(module!) ? `${func!} (${module!})` : func!,
-          location: { type: `file`, urlOrPath: file! },
-          line: line === undefined ? undefined : Number(line),
+          definition: { type: `file`, urlOrPath: file! },
+          executing: line === undefined ? undefined : { line: Number(line) },
         }
       }
       // No source info: keep systing's own `name (module)` form, minus
@@ -69,8 +69,8 @@ export const systingOriginSpec = {
       const { func, file, line } = python.groups!
       return {
         name: func!,
-        location: { type: `file`, urlOrPath: file! },
-        line: line === undefined ? undefined : Number(line),
+        definition: { type: `file`, urlOrPath: file! },
+        executing: line === undefined ? undefined : { line: Number(line) },
       }
     }
 

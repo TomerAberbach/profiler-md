@@ -84,8 +84,8 @@ export const normalizeStackFrameForContext = (
 
   const nameIsLocation =
     frame.name !== undefined &&
-    frame.location?.type === `file` &&
-    frame.name === frame.location.urlOrPath
+    frame.definition?.type === `file` &&
+    frame.name === frame.definition.urlOrPath
   if (nameIsLocation) {
     // A frame named with its own location has no function name. Unrelated
     // profilers independently converged on this idiom (e.g. Excimer, rbspy), so

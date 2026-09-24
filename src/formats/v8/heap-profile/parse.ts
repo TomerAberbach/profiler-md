@@ -21,7 +21,11 @@ export type V8HeapProfile = {
 }
 
 export type V8HeapProfileNode = {
-  /** The function and source location of this call site. */
+  /**
+   * The allocating function and its definition position. V8's
+   * `AllocationProfile::Node` documents the line the function starts at, not
+   * the line of the allocation.
+   */
   callFrame: V8CallFrame
 
   /** Total bytes allocated directly at this call site (size × count). */

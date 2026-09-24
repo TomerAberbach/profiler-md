@@ -1,5 +1,5 @@
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
-import type { SourceLocationInput } from '../../location.ts'
+import type { UnresolvedSourceReference } from '../../location.ts'
 import type {
   CallGraph,
   CallGraphFunction,
@@ -659,13 +659,13 @@ const callgrindStackFrame = (func: CallgrindFunction): StackFrame => ({
   // A function compiled without debug info has no source file. Its ELF object
   // (e.g. `/usr/lib/libc.so.6`) is the next best location, so categorization by
   // path still applies to system libraries.
-  location: locationOf(func.file) ?? locationOf(func.object),
+  definition: sourceOf(func.file) ?? sourceOf(func.object),
 })
 
 /** Callgrind's recursion-separation suffix, e.g. `_dl_start'2`. */
 const RECURSION_SUFFIX = /'\d+$/u
 
-const locationOf = (file: string): SourceLocationInput | undefined =>
+const sourceOf = (file: string): UnresolvedSourceReference | undefined =>
   file === `` || file === UNKNOWN
     ? undefined
     : { type: `file`, urlOrPath: file }

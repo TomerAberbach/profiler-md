@@ -19,18 +19,18 @@ ambiguous.
 
 ## Conversion pipeline
 
-| Term                | Definition                                                                                   | Aliases to avoid      |
-| ------------------- | -------------------------------------------------------------------------------------------- | --------------------- |
-| **Parse**           | Convert raw input bytes to a parsed input                                                    | decode, deserialize   |
-| **Detect**          | Infer an input's format or origin when the user doesn't specify one                          | sniff, guess          |
-| **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                        | signature, evidence   |
-| **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker         | —                     |
-| **Entry**           | A name + location pair; the unit of filtering                                                | record                |
-| **Category**        | A classification of an entity in an input, drawn from a closed per-modality set              | type, group           |
-| **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                    | default origin        |
-| **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, fix lines, drop pseudo-frames) | clean, fix up         |
-| **Aggregate**       | Combine data from an input into an aggregated form                                           | accumulate, summarize |
-| **Format**          | Convert an aggregated input to Markdown output                                               | render                |
+| Term                | Definition                                                                                                 | Aliases to avoid      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------- |
+| **Parse**           | Convert raw input bytes to a parsed input                                                                  | decode, deserialize   |
+| **Detect**          | Infer an input's format or origin when the user doesn't specify one                                        | sniff, guess          |
+| **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                                      | signature, evidence   |
+| **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker                       | —                     |
+| **Entry**           | A name + location pair; the unit of filtering                                                              | record                |
+| **Category**        | A classification of an entity in an input, drawn from a closed per-modality set                            | type, group           |
+| **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                                  | default origin        |
+| **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, move misfiled positions, drop pseudo-frames) | clean, fix up         |
+| **Aggregate**       | Combine data from an input into an aggregated form                                                         | accumulate, summarize |
+| **Format**          | Convert an aggregated input to Markdown output                                                             | render                |
 
 ### Formatting
 
@@ -44,13 +44,16 @@ ambiguous.
 
 ## Code location
 
-| Term                  | Definition                                                                               | Aliases to avoid |
-| --------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
-| **Location**          | A source reference where a function is defined, with an optional 1-based line and column | position, path   |
-| **Source reference**  | A file reference or a logical reference                                                  | path             |
-| **File reference**    | An absolute URL or a relative file path, before resolution to a `URL`                    | path             |
-| **Logical reference** | A named class, module, namespace, assembly, or library                                   | path, file       |
-| **Source map**        | A mapping from generated-file positions to original source positions                     | —                |
+| Term                    | Definition                                                                               | Aliases to avoid |
+| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
+| **Location**            | A source reference where a function is defined, with an optional 1-based line and column | position, path   |
+| **Source reference**    | A file reference or a logical reference                                                  | path             |
+| **Position**            | A 1-based line and optional column within a referenced source                            | offset           |
+| **Definition position** | The position where a function is defined; part of its identity                           | start line       |
+| **Executing position**  | The position a frame was at when recorded; never part of identity                        | sampled line     |
+| **File reference**      | An absolute URL or a relative file path, before resolution to a `URL`                    | path             |
+| **Logical reference**   | A named class, module, namespace, assembly, or library                                   | path, file       |
+| **Source map**          | A mapping from generated-file positions to original source positions                     | —                |
 
 ## Costs and functions
 

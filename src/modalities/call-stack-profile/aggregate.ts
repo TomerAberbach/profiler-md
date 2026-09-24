@@ -143,7 +143,7 @@ class ObservationsAggregator {
     id,
     values,
     frameIndices,
-    line,
+    executingLine,
     count = 1,
   }: Observation): void {
     if (count <= 0) {
@@ -156,11 +156,7 @@ class ObservationsAggregator {
     // Line metrics aggregate per observation rather than per call stack in
     // `#propagateCallStackMetrics`: frames that normalize to the same function
     // intern to the same call stack while sampling different executing lines.
-    //
-    // When the observation has no explicit line, fall back to the leaf frame's
-    // executing line, the one its origin's `normalizeStackFrame` derived so it
-    // appears in the function's line breakdown.
-    let leafLine = line
+    let leafLine = executingLine
     if (leafLine === undefined) {
       const leafIndex = frameIndices[0]
       leafLine =

@@ -69,8 +69,11 @@ export type Observation = {
   /** The call stack as indices into {@link CallStackProfile.frames}. */
   frameIndices: number[]
 
-  /** The 1-based line number the leaf frame was at, if known. */
-  line?: number
+  /**
+   * The 1-based line number the leaf frame was at, if known. Overrides the
+   * leaf frame's {@link StackFrame.executing} line.
+   */
+  executingLine?: number
 
   /**
    * How many identical occurrences this record stands for, defaulting to `1`.

@@ -32,7 +32,7 @@ export const eflambeOriginSpec = {
   normalizeStackFrame: input => {
     // A located frame (e.g. from a structured format) already has everything it
     // needs; only a bare `module:function/arity` name needs splitting.
-    if (input.location) {
+    if (input.definition) {
       return input
     }
 
@@ -55,7 +55,7 @@ export const eflambeOriginSpec = {
     return {
       ...input,
       name: name.slice(colon + 1),
-      location: { type: `logical`, name: module },
+      definition: { type: `logical`, name: module },
     }
   },
 } as const satisfies OriginSpec
