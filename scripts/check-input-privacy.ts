@@ -275,26 +275,51 @@ const RULES: readonly Rule[] = [
     description: `an email address`,
     // Symbol names contain `@` too (`caseInfo@574.Invoke`), so a domain's labels
     // must start with a letter and end in a top-level domain people have
-    // addresses at.
-    matches: regexMatches(
-      /(?<![\w.+-])[A-Za-z0-9][\w.%+-]*@[A-Za-z][\w.-]*\.(?:com|org|net|edu|gov|mil|io|dev|app|me|co|us|uk|ca|au|de|fr|ch|nl|se|no|fi|dk|ie|at|be|it|es|pl|cz|pt|il|in|jp|kr|cn|tw|hk|sg|nz|za|br|mx|ar|cl|ru|ai|info|email|xyz)(?![\w.-])/giu,
-    ),
+    // addresses at. The pattern starts at the `@`, with the local part in a
+    // lookbehind, so the engine skips to each `@` instead of trying every
+    // word in the text.
+    matches: text =>
+      [
+        ...text.matchAll(
+          /@(?<=(?<![\w.+-])(?<local>[A-Za-z0-9][\w.%+-]*)@)[A-Za-z][\w.-]*\.(?:com|org|net|edu|gov|mil|io|dev|app|me|co|us|uk|ca|au|de|fr|ch|nl|se|no|fi|dk|ie|at|be|it|es|pl|cz|pt|il|in|jp|kr|cn|tw|hk|sg|nz|za|br|mx|ar|cl|ru|ai|info|email|xyz)(?![\w.-])/giu,
+        ),
+      ].map(match => `${match.groups!.local}${match[0]}`),
   },
   {
     name: `ipv4`,
     description: `a public IPv4 address`,
+    // The pattern starts at the first dot, with the octet before it in a
+    // lookbehind, so the engine skips to each dot instead of trying every
+    // digit in the text.
     matches: text =>
-      regexMatches(
-        /(?<![\w.@+-])\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?![\w.@+-])/gu,
-      )(text).filter(isPublicIpv4),
+      [
+        ...text.matchAll(
+          /\.(?<=(?<![\w.@+-])(?<head>\d{1,3})\.)\d{1,3}\.\d{1,3}\.\d{1,3}(?![\w.@+-])/gu,
+        ),
+      ]
+        .map(match => `${match.groups!.head}${match[0]}`)
+        .filter(isPublicIpv4),
   },
   {
     name: `ipv6`,
     description: `a public IPv6 address`,
+    // An address has a colon within the first five characters and another
+    // within the five after it. The pattern starts at the first, with the
+    // group before it in a lookbehind, so the engine skips to each colon
+    // instead of trying every hex word in the text.
     matches: text =>
-      regexMatches(/(?<![\w:])[\dA-Fa-f:]{6,45}(?![\w:])/gu)(text).filter(
-        isPublicIpv6,
-      ),
+      [
+        ...text.matchAll(
+          /:(?<=(?<![\w:])(?<head>[\dA-Fa-f]{0,4}):)(?=[\dA-Fa-f]{0,4}:)[\dA-Fa-f:]*(?![\w:])/gu,
+        ),
+      ]
+        .map(match => `${match.groups!.head}${match[0]}`)
+        .filter(
+          candidate =>
+            candidate.length >= 6 &&
+            candidate.length <= 45 &&
+            isPublicIpv6(candidate),
+        ),
   },
   {
     name: `client header`,
@@ -366,11 +391,21 @@ const JSON_BYTE_STRING =
 const BASE64_GZIP = /(?<![\w+/-])H4sI[\w+/-]+={0,2}/gu
 
 /**
+ * A prefix of every {@link JSON_BYTE_STRING} or {@link BASE64_GZIP} match, to
+ * find in the bytes before decoding them.
+ */
+const EMBEDDED_STREAM_PREFIXES = [`\\u001`, `\\u0004\\"M`, `H4sI`]
+
+/**
  * The texts of the compressed streams the bytes embed, and of the streams
  * those embed in turn. The rules match only the bytes' own printable runs,
  * which a stream embedded in a text input hides.
  */
 const embeddedTexts = (bytes: Uint8Array): string[] => {
+  const buffer = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+  if (!EMBEDDED_STREAM_PREFIXES.some(prefix => buffer.includes(prefix))) {
+    return []
+  }
   const text = new TextDecoder().decode(bytes)
   return [
     ...[...text.matchAll(JSON_BYTE_STRING)].map(([literal]) =>
@@ -478,22 +513,36 @@ const utf16Encoding = (
 
 /** The printable ASCII runs of the bytes, joined by newlines. */
 const printableRuns = (bytes: Uint8Array): string => {
-  const runs: string[] = []
-  const decoder = new TextDecoder(`latin1`)
-  let start = -1
-  for (let i = 0; i <= bytes.length; i++) {
-    const byte = i < bytes.length ? bytes[i]! : 0
-    const printable = (byte >= 0x20 && byte < 0x7f) || byte === 0x09
-    if (printable) {
-      start = start < 0 ? i : start
-    } else if (start >= 0) {
-      if (i - start >= MIN_RUN_LENGTH) {
-        runs.push(decoder.decode(bytes.subarray(start, i)))
+  // Each newline takes the place of a byte that ended a run, so the joined
+  // runs fit in the input's length.
+  const joined = Buffer.allocUnsafe(bytes.length)
+  // The length of the kept runs, and where the current run starts in
+  // `joined`. A run shorter than the minimum is dropped by rewinding to it.
+  let length = 0
+  let runStart = -1
+  // Iterating a large typed array with `for...of` runs about 2.5 times slower.
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < bytes.length; i++) {
+    const byte = bytes[i]!
+    if ((byte >= 0x20 && byte < 0x7f) || byte === 0x09) {
+      if (runStart < 0) {
+        if (length > 0) {
+          joined[length++] = 0x0a
+        }
+        runStart = length
       }
-      start = -1
+      joined[length++] = byte
+    } else if (runStart >= 0) {
+      if (length - runStart < MIN_RUN_LENGTH) {
+        length = runStart > 0 ? runStart - 1 : 0
+      }
+      runStart = -1
     }
   }
-  return runs.join(`\n`)
+  if (runStart >= 0 && length - runStart < MIN_RUN_LENGTH) {
+    length = runStart > 0 ? runStart - 1 : 0
+  }
+  return joined.toString(`latin1`, 0, length)
 }
 
 const opaqueFinding = (bytes: Uint8Array): Finding | undefined => {
