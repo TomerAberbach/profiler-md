@@ -304,15 +304,23 @@ const parseStackFrames = (
 } => {
   const functionById = new Map<number | bigint, PprofFunction>()
   for (const func of profile.function) {
+    // An unset filename decodes to the empty string, which references no
+    // file: the function has no location rather than one at path ``, and a
+    // definition line without a file references nothing either.
+    const filename = string(func.filename)
     functionById.set(
       func.id,
       new PprofFunction({
         name: string(func.name) || string(func.systemName),
-        definition: {
-          type: `file`,
-          urlOrPath: string(func.filename),
-          position: knownPprofPosition(func.startLine),
-        },
+        ...(filename
+          ? {
+              definition: {
+                type: `file` as const,
+                urlOrPath: filename,
+                position: knownPprofPosition(func.startLine),
+              },
+            }
+          : {}),
       }),
     )
   }
