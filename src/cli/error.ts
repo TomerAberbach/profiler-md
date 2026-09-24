@@ -82,10 +82,14 @@ const describeErrorLines = (error: unknown): string[] => {
   let parent: string | undefined
   for (const link of causeChainOf(error)) {
     const message = messageOf(link)
+    const [head, ...continuations] = messageLinesOf(link)
     if (parent === undefined) {
-      lines.push(message)
+      lines.push(head, ...continuations.map(indent))
     } else if (!parent.endsWith(message)) {
-      lines.push(indent(`caused by: ${message}`))
+      lines.push(
+        indent(`caused by: ${head}`),
+        ...continuations.map(line => indent(indent(line))),
+      )
     }
     if (link instanceof FormatDetectError) {
       for (const rejection of link.rejections) {
@@ -98,6 +102,15 @@ const describeErrorLines = (error: unknown): string[] => {
   }
   return lines
 }
+
+/**
+ * An error's message split at its continuation lines, which are indented by
+ * two spaces, with each line's whitespace collapsed and its indent removed.
+ */
+const messageLinesOf = (error: unknown): [string, ...string[]] =>
+  (error instanceof Error ? error.message : String(error))
+    .split(/\n(?= {2}\S)/u)
+    .map(line => line.replaceAll(/\s+/gu, ` `).trim()) as [string, ...string[]]
 
 const indent = (line: string): string => `  ${line}`
 

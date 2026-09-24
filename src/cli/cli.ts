@@ -2,21 +2,11 @@ import type { InferValue } from '@optique/core'
 import { merge, object, or, tuple } from '@optique/core/constructs'
 import { message, text, value } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
-import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
+import { argument, flag } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
-import {
-  choice,
-  float,
-  integer,
-  regExp,
-  string,
-} from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
-import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
-import { reasonOf } from '../error.ts'
 import { formats } from '../formats/index.ts'
-import { uncapitalizeFirst } from '../helpers/format.ts'
 import { LOG_LEVELS } from '../logger.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
@@ -25,35 +15,16 @@ import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
 import { defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
-
-/**
- * Parses a regex compiled with `flags`, stating the reason when it fails to
- * compile.
- */
-const regex = (flags = `u`): ValueParser<`sync`, RegExp> =>
-  regExp({
-    metavar: `REGEX`,
-    flags,
-    errors: {
-      invalidRegExp: pattern =>
-        message`expected a valid regex, ${text(regexErrorReason(pattern, flags))}, got: ${value(pattern)}`,
-    },
-  })
-
-/**
- * The reason a regex fails to compile, lowercased. V8 reports it as
- * `Invalid regular expression: /<pattern>/<flags>: <reason>`, so the reason is
- * the text after the last colon.
- */
-const regexErrorReason = (pattern: string, flags: string): string => {
-  try {
-    // eslint-disable-next-line no-new
-    new RegExp(pattern, flags)
-  } catch (error) {
-    return uncapitalizeFirst(reasonOf(error).split(`: `).at(-1)!)
-  }
-  throw new Error(`expected the regex to fail to compile, got: ${pattern}`)
-}
+import {
+  choice,
+  filePath,
+  fraction,
+  integerAtLeast,
+  negatableFlag,
+  nonEmptyString,
+  option,
+  regex,
+} from './optique.ts'
 
 const unicodeRegex = regex()
 const globalRegex = regex(`gu`)
@@ -81,6 +52,11 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
   format: ([regex, replacement]) => `${regex.source}=${replacement}`,
 })
 
+const functionCategory = choice(FUNCTION_CATEGORIES, {
+  metavar: `CATEGORY`,
+  expected: `a function category listed by --help`,
+})
+
 /** A rule assigning functions matching a regex to a category. */
 export type RegexCategory = readonly [RegExp, FunctionCategory]
 
@@ -101,38 +77,30 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
       }
     }
 
-    const category = input.slice(index + 1)
-    if (!(FUNCTION_CATEGORIES as readonly string[]).includes(category)) {
-      return {
-        success: false,
-        error: message`expected CATEGORY to be one of ${text(
-          FUNCTION_CATEGORIES.join(`, `),
-        )}, got: ${value(category)}`,
-      }
+    const category = functionCategory.parse(input.slice(index + 1))
+    if (!category.success) {
+      return category
     }
 
-    const result = unicodeRegex.parse(input.slice(0, index))
-    return result.success
-      ? {
-          success: true,
-          value: [result.value, category as FunctionCategory],
-        }
-      : result
+    const regex = unicodeRegex.parse(input.slice(0, index))
+    return regex.success
+      ? { success: true, value: [regex.value, category.value] }
+      : regex
   },
   format: ([regex, category]) => `${regex.source}=${category}`,
 })
 
 export const inputParser = or(
   optional(
-    argument(path({ metavar: `FILE` }), {
+    argument(filePath(`FILE`), {
       description: message`Profile to convert (default: stdin)`,
     }),
   ),
   tuple([
-    argument(path({ metavar: `BASE` }), {
+    argument(filePath(`BASE`), {
       description: message`Base profile to diff`,
     }),
-    argument(path({ metavar: `CURRENT` }), {
+    argument(filePath(`CURRENT`), {
       description: message`Current profile to diff against the base`,
     }),
   ]),
@@ -140,15 +108,24 @@ export const inputParser = or(
 
 const outputFlags = object(`Output`, {
   output: withDefault(
-    option(`-o`, `--output`, path({ metavar: `FILE` }), {
+    option(`-o`, `--output`, filePath(`FILE`), {
       description: message`Output file (default: - for stdout)`,
     }),
     `-`,
   ),
   logLevel: withDefault(
-    option(`--log-level`, choice(LOG_LEVELS, { metavar: `LEVEL` }), {
-      description: message`Verbosity of diagnostics printed to stderr, overriding ${text(`$${LOG_LEVEL_ENV}`)} (default: warn)`,
-    }),
+    option(
+      `--log-level`,
+      choice(LOG_LEVELS, {
+        metavar: `LEVEL`,
+        expected: `one of ${LOG_LEVELS.join(`, `)}`,
+        // The message already lists every level
+        suggestions: [],
+      }),
+      {
+        description: message`Verbosity of diagnostics printed to stderr, overriding ${text(`$${LOG_LEVEL_ENV}`)} (default: warn)`,
+      },
+    ),
     defaultLogLevel,
   ),
   pager: map(
@@ -180,7 +157,10 @@ const inputFlags = object(`Input`, {
       option(
         `-f`,
         `--format`,
-        choice([AUTO, ...formats], { metavar: `FORMAT` }),
+        choice([AUTO, ...formats], {
+          metavar: `FORMAT`,
+          expected: `auto or a format listed by --help`,
+        }),
         {
           description: message`Input profile format (default: auto)`,
         },
@@ -193,7 +173,10 @@ const inputFlags = object(`Input`, {
       option(
         `-r`,
         `--origin`,
-        choice([AUTO, ...origins], { metavar: `ORIGIN` }),
+        choice([AUTO, ...origins], {
+          metavar: `ORIGIN`,
+          expected: `auto or an origin listed by --help`,
+        }),
         {
           description: message`Input profile origin (default: auto)`,
         },
@@ -202,12 +185,12 @@ const inputFlags = object(`Input`, {
     specified,
   ),
   sourceMaps: multiple(
-    option(`--source-maps`, string({ metavar: `GLOB` }), {
+    option(`--source-maps`, nonEmptyString(`GLOB`, `a glob`), {
       description: message`Source maps (JSON or inline) to apply to locations (repeatable)`,
     }),
   ),
   baseURL: optional(
-    option(`--base-url`, string(), {
+    option(`--base-url`, nonEmptyString(`STRING`, `a URL or path`), {
       description: message`Base URL or path to show paths relative to, or auto for their common ancestor (default: cwd)`,
     }),
   ),
@@ -215,18 +198,14 @@ const inputFlags = object(`Input`, {
 
 const rankingFlags = object(`Ranking`, {
   topN: optional(
-    option(`--top-n`, integer({ metavar: `N`, min: 0 }), {
+    option(`--top-n`, integerAtLeast(`N`, 0), {
       description: message`Entries to show per ranking, including category subsections (default: 20)`,
     }),
   ),
   minCategoryShare: optional(
-    option(
-      `--min-category-share`,
-      float({ metavar: `FRACTION`, min: 0, max: 1 }),
-      {
-        description: message`Share of a profile a category needs for its own subsection, from 0 to 1 (default: 0.01)`,
-      },
-    ),
+    option(`--min-category-share`, fraction(`FRACTION`), {
+      description: message`Share of a profile a category needs for its own subsection, from 0 to 1 (default: 0.01)`,
+    }),
   ),
 })
 
@@ -239,6 +218,11 @@ const entryCategories: readonly EntryCategory[] = [
     ...HEAP_SNAPSHOT_NODE_CATEGORIES,
   ]),
 ].sort()
+
+const entryCategory = choice(entryCategories, {
+  metavar: `CATEGORY`,
+  expected: `a category listed by --help`,
+})
 
 const filteringFlags = object(`Filtering`, {
   category: multiple(
@@ -257,22 +241,14 @@ const filteringFlags = object(`Filtering`, {
     }),
   ),
   hideCategory: multiple(
-    option(
-      `--hide-category`,
-      choice(entryCategories, { metavar: `CATEGORY` }),
-      {
-        description: message`Hide entries of CATEGORY, still counting hidden entries in totals (repeatable)`,
-      },
-    ),
+    option(`--hide-category`, entryCategory, {
+      description: message`Hide entries of CATEGORY, still counting hidden entries in totals (repeatable)`,
+    }),
   ),
   showCategory: multiple(
-    option(
-      `--show-category`,
-      choice(entryCategories, { metavar: `CATEGORY` }),
-      {
-        description: message`Show only entries of CATEGORY, still counting hidden entries in totals (repeatable)`,
-      },
-    ),
+    option(`--show-category`, entryCategory, {
+      description: message`Show only entries of CATEGORY, still counting hidden entries in totals (repeatable)`,
+    }),
   ),
 })
 
@@ -289,21 +265,30 @@ const diffingFlags = object(`Diffing`, {
   ),
 })
 
-const languageTopics = [...languages.entries()].flatMap(
-  ([id, { aliases, extensions }]) => [
-    id,
-    ...(aliases?.map(alias => alias.id) ?? []),
-    ...(extensions ?? []),
-  ],
+const languageIds = [...languages.entries()].flatMap(([id, { aliases }]) => [
+  id,
+  ...(aliases?.map(alias => alias.id) ?? []),
+])
+const languageExtensions = [...languages.values()].flatMap(
+  ({ extensions }) => extensions ?? [],
 )
-export const helpTopics = [...formats, ...languageTopics]
+export const helpTopics = [...formats, ...languageIds, ...languageExtensions]
 
 const helpFlags = object(`Help`, {
   help: optional(
     or(
-      option(`-h`, `--help`, choice(helpTopics, { metavar: `[TOPIC]` }), {
-        description: message`Show this help message or topic docs`,
-      }),
+      option(
+        `-h`,
+        `--help`,
+        choice(helpTopics, {
+          metavar: `[TOPIC]`,
+          expected: `a format or language listed by --help`,
+          suggestions: [...formats, ...languageIds],
+        }),
+        {
+          description: message`Show this help message or topic docs`,
+        },
+      ),
       flag(`-h`, `--help`, { hidden: `help` }),
     ),
   ),

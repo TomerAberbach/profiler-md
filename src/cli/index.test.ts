@@ -950,7 +950,61 @@ if (format === undefined) {
     {
       scenario: `unknown --format value`,
       args: [`--format`, `unknown-type`],
-      expectedStderr: `"unknown-type"`,
+      expectedStderr: `error: \`-f\`/\`--format\`: expected auto or a format listed by --help, got: "unknown-type"\n\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `misspelled --format value`,
+      args: [`--format`, `jf`],
+      expectedStderr: `got: "jf"\n  hint: did you mean "jfr"?\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `misspelled --help topic`,
+      args: [`--help`, `javascrpt`],
+      expectedStderr: `got: "javascrpt"\n  hint: did you mean "javascript"?\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `--help topic near only a file extension alias`,
+      args: [`--help`, `hh`],
+      expectedStderr: `got: "hh"\n\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `unknown --log-level value`,
+      args: [`--log-level`, `verbose`],
+      expectedStderr: `expected one of none, error, warn, info, debug, got: "verbose"\n\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `a value attached to --color`,
+      args: [`--color=yes`],
+      expectedStderr: `error: \`--color\`: expected no value, got: "yes"\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `a value attached to --no-pager`,
+      args: [`--no-pager=1`],
+      expectedStderr: `error: \`--no-pager\`: expected no value, got: "1"\n`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `empty --base-url`,
+      args: [`--base-url`, ``],
+      expectedStderr: `expected a URL or path, got: ""`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `empty --source-maps glob`,
+      args: [`--source-maps`, ``],
+      expectedStderr: `expected a glob, got: ""`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `empty --output path`,
+      args: [`--output`, ``],
+      expectedStderr: `expected a file path, got: ""`,
       expectedStatus: 2,
     },
     {
@@ -983,7 +1037,43 @@ if (format === undefined) {
     {
       scenario: `a negative --top-n`,
       args: [inputPath(`javascript.node.base.cpuprofile`), `--top-n`, `-1`],
-      expectedStderr: `greater than or equal to 0`,
+      expectedStderr: `expected an integer of at least 0, got: "-1"`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `a fractional --top-n`,
+      args: [inputPath(`javascript.node.base.cpuprofile`), `--top-n`, `1.5`],
+      expectedStderr: `expected an integer of at least 0, got: "1.5"`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `a --top-n beyond the safe integer range`,
+      args: [
+        inputPath(`javascript.node.base.cpuprofile`),
+        `--top-n`,
+        `99999999999999999999`,
+      ],
+      expectedStderr: `expected an integer of at least 0, got: "99999999999999999999"`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `a --min-category-share above 1 in exponent notation`,
+      args: [
+        inputPath(`javascript.node.base.cpuprofile`),
+        `--min-category-share`,
+        `1e1`,
+      ],
+      expectedStderr: `expected a number from 0 to 1, got: "1e1"`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `a --min-category-share above 1`,
+      args: [
+        inputPath(`javascript.node.base.cpuprofile`),
+        `--min-category-share`,
+        `2`,
+      ],
+      expectedStderr: `expected a number from 0 to 1, got: "2"`,
       expectedStatus: 2,
     },
     {
@@ -1017,9 +1107,9 @@ if (format === undefined) {
       args: [
         inputPath(`javascript.node.base.cpuprofile`),
         `--category`,
-        `x=nope`,
+        `x=our`,
       ],
-      expectedStderr: `expected CATEGORY to be one of`,
+      expectedStderr: `expected a function category listed by --help, got: "our"\n  hint: did you mean "ours"?`,
       expectedStatus: 2,
     },
     {
@@ -1035,7 +1125,7 @@ if (format === undefined) {
         `--hide-category`,
         `nope`,
       ],
-      expectedStderr: `nope`,
+      expectedStderr: `expected a category listed by --help, got: "nope"`,
       expectedStatus: 2,
     },
     {
