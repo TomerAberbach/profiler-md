@@ -39,46 +39,84 @@ export type WebKitStackFrame = {
   expressionLocation?: { line: number; column: number }
 }
 
-/** Parsed representation of a WebKit timeline recording. */
+/** A sample's call stack, with its frames in callee-to-caller order. */
+type WebKitStackTrace = { stackFrames: WebKitStackFrame[] }
+
+/**
+ * Parsed representation of a WebKit timeline recording.
+ *
+ * Web Inspector writes the samples per target under `samples`; it wrote them
+ * as the root-level `sampleStackTraces`/`sampleDurations` pair before
+ * `samples` replaced it, and still reads that layout on its compatibility
+ * path. The serialization version stayed 1 across the change.
+ */
 export type WebKitTimelineRecording = {
   /** The format version number. */
   version: number
 
   recording: {
     /**
-     * The call stacks observed in the recording, where each element is a sample
-     * with its frames in callee-to-caller order.
+     * The samples per profiled target (the page and each worker).
+     */
+    samples?: {
+      /**
+       * The call stacks the target's samples observed.
+       *
+       * Parallel to `durations`.
+       */
+      stackTraces: WebKitStackTrace[]
+
+      /**
+       * The duration in seconds of each of the target's samples.
+       *
+       * Parallel to `stackTraces`.
+       */
+      durations: number[]
+    }[]
+
+    /**
+     * The call stacks observed in the recording, in the layout `samples`
+     * replaced.
      *
      * Parallel to {@link WebKitTimelineRecording.recording.sampleDurations}.
      */
-    sampleStackTraces: { stackFrames: WebKitStackFrame[] }[]
+    sampleStackTraces?: WebKitStackTrace[]
 
     /**
-     * The duration in seconds of each sample.
+     * The duration in seconds of each sample, in the layout `samples`
+     * replaced.
      *
      * Parallel to {@link WebKitTimelineRecording.recording.sampleStackTraces}.
      */
-    sampleDurations: number[]
+    sampleDurations?: number[]
   }
 }
 
 export const parseWebKitTimelineRecording = ({
-  recording: { sampleStackTraces, sampleDurations },
+  recording: { samples, sampleStackTraces, sampleDurations },
 }: WebKitTimelineRecording): CallStackProfile[] => {
   const { frames, intern } = createStackFrameInterner()
   const observations: Observation[] = []
-  for (let index = 0; index < sampleStackTraces.length; index++) {
-    const { stackFrames } = sampleStackTraces[index]!
-    if (stackFrames.length === 0) {
-      continue
-    }
+  // The legacy layout is the current one with a single target. Every target
+  // samples the same recording, so their samples aggregate into one profile,
+  // like any profiler's threads.
+  const targets = samples ?? [
+    { stackTraces: sampleStackTraces ?? [], durations: sampleDurations ?? [] },
+  ]
+  for (const { stackTraces, durations } of targets) {
+    for (let index = 0; index < stackTraces.length; index++) {
+      const { stackFrames } = stackTraces[index]!
+      if (stackFrames.length === 0) {
+        continue
+      }
 
-    observations.push({
-      values: [sampleDurations[index]!],
-      // WebKit's stack frames are already in callee-to-caller order.
-      frameIndices: stackFrames.map(intern),
-      executingLine: executingLine(stackFrames[0]!),
-    })
+      observations.push({
+        values: [durations[index]!],
+        // WebKit's stack frames are already in callee-to-caller order.
+        frameIndices: stackFrames.map(intern),
+        executingLine: executingLine(stackFrames[0]!),
+      })
+    }
   }
 
   return [
