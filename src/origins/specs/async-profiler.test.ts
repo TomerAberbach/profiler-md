@@ -82,6 +82,69 @@ describe(`normalizeStackFrame`, () => {
     ).toBeNull()
   })
 
+  test.each([`java.lang.String_[i]`, `byte[]_[i]`, `java.lang.Object[]_[i]`])(
+    `drops the %s class frame an allocation event ends its stack with`,
+    name => {
+      expect(normalizeStackFrame({ name })).toBeNull()
+    },
+  )
+
+  describe(`with the dot option`, () => {
+    test.each([
+      `java.lang.String`,
+      `java.lang.PublicMethods$Key`,
+      `byte[]`,
+      `java.lang.Object[][]`,
+      `groovy.lang.MetaClassImpl$$Lambda.0x0000007801080990`,
+    ])(`drops the %s class frame`, name => {
+      expect(normalizeStackFrame({ name })).toBeNull()
+    })
+
+    test.each([
+      {
+        name: `java.util.HashMap.put`,
+        expected: { method: `put`, className: `java.util.HashMap` },
+      },
+      {
+        name: `org.jetbrains.kotlin.ir.builders.BuildersKt.IrCallImplWithShape`,
+        expected: {
+          method: `IrCallImplWithShape`,
+          className: `org.jetbrains.kotlin.ir.builders.BuildersKt`,
+        },
+      },
+      {
+        name: `org.jetbrains.kotlin.fir.MutableOrEmptyList.box-impl`,
+        expected: {
+          method: `box-impl`,
+          className: `org.jetbrains.kotlin.fir.MutableOrEmptyList`,
+        },
+      },
+      {
+        name: `java.lang.invoke.LambdaForm$DMH.0x0000000301008400.invokeStatic`,
+        expected: {
+          method: `invokeStatic`,
+          className: `java.lang.invoke.LambdaForm$DMH.0x0000000301008400`,
+        },
+      },
+      {
+        name: `java.util.HashMap.put_[i]`,
+        expected: { method: `put`, className: `java.util.HashMap` },
+      },
+    ])(`locates the $name method frame`, ({ name, expected }) => {
+      expect(normalizeStackFrame({ name })).toEqual({
+        name: expected.method,
+        definition: { type: `logical`, name: expected.className },
+      })
+    })
+
+    test.each([`tiny_malloc_from_free_list.cold.4`, `Main.main`])(
+      `leaves the %s frame location-less because it lacks a package`,
+      name => {
+        expect(normalizeStackFrame({ name })).toEqual({ name })
+      },
+    )
+  })
+
   test.each([`_[j]`, `_[i]`, `_[0]`, `_[1]`])(
     `strips the %s compilation annotation`,
     suffix => {

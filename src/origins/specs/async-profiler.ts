@@ -34,15 +34,18 @@ export const asyncProfilerOriginSpec = {
     if (THREAD_FRAME.test(name)) {
       return null
     }
+    // A class frame is not a function.
+    if (isClassFrame(name)) {
+      return null
+    }
     // A compilation annotation is not part of the method's identity.
     name = name.replace(COMPILATION_ANNOTATION, ``)
 
     const [method, descriptor] = splitMethodDescriptor(name)
 
-    // A Java frame is named `package/path/Class.method`. Native (C++/JNI)
-    // frames have no `/` and stay location-less.
+    // Native (C++/JNI) frames stay location-less.
     const lastDot = method.lastIndexOf(`.`)
-    if (lastDot === -1 || !method.includes(`/`)) {
+    if (lastDot === -1 || !isJavaMethod(method)) {
       return name === input.name ? input : { name }
     }
 
@@ -77,6 +80,57 @@ const splitMethodDescriptor = (
  * id, e.g. `[ForkJoinPool-1-worker-1 tid=35079]`.
  */
 const THREAD_FRAME = /^\[.* tid=\d+\]$/u
+
+/**
+ * Whether a collapsed frame is the class an allocation, lock, or park event ends
+ * its stack with (e.g. `java.lang.String_[i]`, or `byte[]` with `dot`). With
+ * `dot`, method frames are dotted too, so Java's naming conventions tell them
+ * apart. Over the committed inputs, this matches every class frame and no method
+ * frame. It misses a class in the default package and matches a capitalized
+ * method of a lowercase class.
+ */
+const isClassFrame = (name: string): boolean => {
+  const className = name.endsWith(`_[i]`) ? name.slice(0, -`_[i]`.length) : name
+  return ARRAY_CLASS.test(className) || CLASS.test(className)
+}
+
+/**
+ * Whether a method is `package/path/Class.method`, or dotted with `dot`. A dotted
+ * name requires a package, so a native symbol like
+ * `tiny_malloc_from_free_list.cold.4` stays native.
+ */
+const isJavaMethod = (method: string): boolean =>
+  method.includes(`/`) || DOTTED_METHOD.test(method)
+
+const IDENTIFIER_REST = String.raw`[\p{L}\p{N}_$]*`
+const IDENTIFIER = String.raw`[\p{L}_$]${IDENTIFIER_REST}`
+const PACKAGE_PATH = String.raw`(?:${IDENTIFIER}\.)+`
+const HIDDEN_CLASS_ADDRESS = String.raw`0x[0-9a-f]+`
+
+/** A dotted array type name, e.g. `byte[]` or `java.lang.Object[][]`. */
+const ARRAY_CLASS = new RegExp(
+  String.raw`^(?:${IDENTIFIER}\.)*${IDENTIFIER}(?:\[\])+$`,
+  `u`,
+)
+
+/**
+ * A dotted class name ending in a hidden class's address (e.g.
+ * `groovy.lang.MetaClassImpl$$Lambda.0x0000007801080990`), or in a capitalized
+ * simple name after a lowercase package (e.g. `java.lang.String`).
+ */
+const CLASS = new RegExp(
+  String.raw`^${PACKAGE_PATH}${HIDDEN_CLASS_ADDRESS}$|^(?:${IDENTIFIER}\.)*[\p{Ll}_]${IDENTIFIER_REST}\.\p{Lu}${IDENTIFIER_REST}$`,
+  `u`,
+)
+
+/**
+ * A dotted method name: a package, a class or hidden class address, and a
+ * method, to which Kotlin's name mangling can add a `-` (e.g. `box-impl`).
+ */
+const DOTTED_METHOD = new RegExp(
+  String.raw`^${PACKAGE_PATH}(?:${IDENTIFIER}|${HIDDEN_CLASS_ADDRESS})\.(?:<init>|<clinit>|[\p{L}_$][\p{L}\p{N}_$-]*)$`,
+  `u`,
+)
 
 /**
  * The suffix the `ann` option appends to a Java frame: `_[j]` for JIT-compiled,
