@@ -15,6 +15,36 @@ describe(`detection`, () => {
     },
   )
 
+  test.each([`collapsed`, `speedscope`] as const)(
+    `detects excimer by its file-scope frame in %s`,
+    format => {
+      expect(
+        determineOrigin({
+          format,
+          entries: [relativeEntry(`/var/www/index.php`)],
+        }),
+      ).toBe(`excimer`)
+    },
+  )
+
+  test(`detects excimer by its truncation frame`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`excimer_truncated`)],
+      }),
+    ).toBe(`excimer`)
+  })
+
+  test(`a file-scope path without the .php extension is not an excimer marker`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`/var/www/artisan`)],
+      }),
+    ).toBe(`unknown`)
+  })
+
   test(`detects excimer by the exporter origin hint`, () => {
     expect(
       determineOrigin({
