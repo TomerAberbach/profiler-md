@@ -257,8 +257,6 @@ Functions with the largest increase in total samples taken in the function and a
 |  +19.4% |  +126 |  8.4% → 15.5% |     651 → 777 | `computeClusterAverages()`                                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |  +19.4% |  +126 |  8.4% → 15.5% |     651 → 777 | `computeDirectly()`                                             | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |  +12.5% |  +123 | 12.6% → 22.1% |   981 → 1,104 | `accumulate(Double[], double[])`                                | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|     new |   +35 |   0.0% → 0.7% |        0 → 35 | `invokeStatic(Object, Object)`                                  | `java.lang.invoke.LambdaForm$DMH.0x000000f001004800`       |
-|     new |   +35 |   0.0% → 0.7% |        0 → 35 | `invoke(Object, Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x000000f001009800`        |
 |   +3.3% |   +32 | 12.6% → 20.2% |   980 → 1,012 | `distance(Double[], Double[])`                                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 | +128.6% |   +27 |   0.3% → 1.0% |       21 → 48 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib`                                             |
 |  +54.5% |   +24 |   0.6% → 1.4% |       44 → 68 | `G1FullGCMarker::complete_marking`                              | `libjvm.dylib`                                             |
@@ -271,6 +269,8 @@ Functions with the largest increase in total samples taken in the function and a
 | +120.0% |    +6 |   0.1% → 0.2% |        5 → 11 | `G1RegionMarkStatsCache::add_live_words`                        | `libjvm.dylib`                                             |
 |  +27.8% |    +5 |   0.2% → 0.5% |       18 → 23 | `semaphore_wait_trap`                                           | `libsystem_kernel.dylib`                                   |
 |  +83.3% |    +5 |   0.1% → 0.2% |        6 → 11 | `tryCompensate(long, boolean)`                                  | `java.util.concurrent.ForkJoinPool`                        |
+|     new |    +5 |   0.0% → 0.1% |         0 → 5 | `InterpreterRuntime::frequency_counter_overflow_inner`          | `libjvm.dylib`                                             |
+|     new |    +5 |   0.0% → 0.1% |         0 → 5 | `InterpreterRuntime::frequency_counter_overflow`                | `libjvm.dylib`                                             |
 
 ##### Ours
 
@@ -324,28 +324,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function                                                                                 | Location                                             |
-| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-|     new |   +35 |  0.0% → 0.7% |  0 → 35 | `invokeStatic(Object, Object)`                                                           | `java.lang.invoke.LambdaForm$DMH.0x000000f001004800` |
-|     new |   +35 |  0.0% → 0.7% |  0 → 35 | `invoke(Object, Object, Object)`                                                         | `java.lang.invoke.LambdaForm$MH.0x000000f001009800`  |
-|  +83.3% |    +5 |  0.1% → 0.2% |  6 → 11 | `tryCompensate(long, boolean)`                                                           | `java.util.concurrent.ForkJoinPool`                  |
-| +100.0% |    +3 | <0.1% → 0.1% |   3 → 6 | `getBytes()`                                                                             | `jdk.internal.loader.Resource`                       |
-| +100.0% |    +3 | <0.1% → 0.1% |   3 → 6 | `getBytes()`                                                                             | `jdk.internal.loader.URLClassPath$JarLoader$2`       |
-|  +28.6% |    +2 |  0.1% → 0.2% |   7 → 9 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`                            | `java.util.zip.Inflater`                             |
-|  +28.6% |    +2 |  0.1% → 0.2% |   7 → 9 | `inflate(byte[], int, int)`                                                              | `java.util.zip.Inflater`                             |
-|  +22.2% |    +2 |  0.1% → 0.2% |  9 → 11 | `read(byte[], int, int)`                                                                 | `java.util.zip.InflaterInputStream`                  |
-|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `run()`                                                                                  | `java.net.URLClassLoader$1`                          |
-|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`                          | `java.security.AccessController`                     |
-|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `findClass(String)`                                                                      | `java.net.URLClassLoader`                            |
-|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `loadClass(String, boolean)`                                                             | `java.lang.ClassLoader`                              |
-|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `loadClass(String)`                                                                      | `java.lang.ClassLoader`                              |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `getDirectMethodCommon(byte, Class, MemberName, boolean, boolean, MethodHandles$Lookup)` | `java.lang.invoke.MethodHandles$Lookup`              |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `getDirectMethodNoSecurityManager(byte, Class, MemberName, MethodHandles$Lookup)`        | `java.lang.invoke.MethodHandles$Lookup`              |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `getDirectMethodForConstant(byte, Class, MemberName)`                                    | `java.lang.invoke.MethodHandles$Lookup`              |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `linkMethodHandleConstant(byte, Class, String, Object)`                                  | `java.lang.invoke.MethodHandles$Lookup`              |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `linkMethodHandleConstant(Class, int, Class, String, Object)`                            | `java.lang.invoke.MethodHandleNatives`               |
-|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `stream(double[], int, int)`                                                             | `java.util.Arrays`                                   |
-|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `stream(double[])`                                                                       | `java.util.Arrays`                                   |
+|  Change | Delta |            % | Samples | Function                                                                                 | Location                                       |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------- | ---------------------------------------------- |
+|  +83.3% |    +5 |  0.1% → 0.2% |  6 → 11 | `tryCompensate(long, boolean)`                                                           | `java.util.concurrent.ForkJoinPool`            |
+| +100.0% |    +3 | <0.1% → 0.1% |   3 → 6 | `getBytes()`                                                                             | `jdk.internal.loader.Resource`                 |
+| +100.0% |    +3 | <0.1% → 0.1% |   3 → 6 | `getBytes()`                                                                             | `jdk.internal.loader.URLClassPath$JarLoader$2` |
+|  +28.6% |    +2 |  0.1% → 0.2% |   7 → 9 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`                            | `java.util.zip.Inflater`                       |
+|  +28.6% |    +2 |  0.1% → 0.2% |   7 → 9 | `inflate(byte[], int, int)`                                                              | `java.util.zip.Inflater`                       |
+|  +22.2% |    +2 |  0.1% → 0.2% |  9 → 11 | `read(byte[], int, int)`                                                                 | `java.util.zip.InflaterInputStream`            |
+|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `run()`                                                                                  | `java.net.URLClassLoader$1`                    |
+|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`                          | `java.security.AccessController`               |
+|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `findClass(String)`                                                                      | `java.net.URLClassLoader`                      |
+|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `loadClass(String, boolean)`                                                             | `java.lang.ClassLoader`                        |
+|  +16.7% |    +2 |  0.2% → 0.3% | 12 → 14 | `loadClass(String)`                                                                      | `java.lang.ClassLoader`                        |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `getDirectMethodCommon(byte, Class, MemberName, boolean, boolean, MethodHandles$Lookup)` | `java.lang.invoke.MethodHandles$Lookup`        |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `getDirectMethodNoSecurityManager(byte, Class, MemberName, MethodHandles$Lookup)`        | `java.lang.invoke.MethodHandles$Lookup`        |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `getDirectMethodForConstant(byte, Class, MemberName)`                                    | `java.lang.invoke.MethodHandles$Lookup`        |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `linkMethodHandleConstant(byte, Class, String, Object)`                                  | `java.lang.invoke.MethodHandles$Lookup`        |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `linkMethodHandleConstant(Class, int, Class, String, Object)`                            | `java.lang.invoke.MethodHandleNatives`         |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `stream(double[], int, int)`                                                             | `java.util.Arrays`                             |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `stream(double[])`                                                                       | `java.util.Arrays`                             |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `getExactSizeIfKnown()`                                                                  | `java.util.Spliterator`                        |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `makePreparedLambdaForm(MethodType, int)`                                                | `java.lang.invoke.DirectMethodHandle`          |
 
 ##### Compiler
 

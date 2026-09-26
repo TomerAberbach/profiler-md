@@ -11,25 +11,44 @@ import { matchEntryFromRules } from './origin.ts'
 import type { EntryMatchRule } from './origin.ts'
 
 /**
- * A JVM runtime address embedded in a frame's or class's identity, differing
- * per JVM run: a hidden lambda class (`Foo$$Lambda.0x00000070011868b8` in a
- * recording, `Foo$$Lambda+0x00000070011868b8` in a heap dump, which spells the
- * separator HotSpot's own external name does) or HotSpot's
- * interpreter/compiled transition stubs (`I2C/C2I adapters(0xba)`). The kept
- * prefix alone still identifies the function or class across runs.
+ * The runtime address HotSpot appends to a hidden class's name, differing per
+ * JVM run: a lambda (`Foo$$Lambda.0x00000070011868b8`), a lambda form
+ * (`java.lang.invoke.LambdaForm$MH.0x000000e801031800`), or an injected
+ * invoker (`CachedMethod$$InjectedInvoker.0x0000000401121000`). A recording
+ * separates it with `.`, and a heap dump with `+`, which is how HotSpot's own
+ * external name spells it. A Java identifier cannot start with a digit, so the
+ * separator followed by `0x` occurs only before a hidden class's address. The
+ * class name without it identifies the class across runs. Several lambda forms
+ * with the same method then share a match key, and the diff pairs them in
+ * order.
  */
-const JVM_RUNTIME_ADDRESS_REGEX =
-  /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:[.+]0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
+const HIDDEN_CLASS_ADDRESS_REGEX = /(?<=[\w$])[.+]0x[0-9a-fA-F]+(?![\w$])/gu
+
+/**
+ * The runtime address of HotSpot's interpreter/compiled transition stubs
+ * (`I2C/C2I adapters(0xba)`), which differs per JVM run.
+ */
+const ADAPTER_ADDRESS_REGEX = /(?<kept>I2C\/C2I adapters)\(0x[0-9a-fA-F]+\)/gu
+
+/**
+ * The random ID in the file name jansi extracts its native library to
+ * (`jansi-2.4.0-a2f0bf3ff9fce776-libjansi.jnilib`), which is
+ * `Long.toHexString(new Random().nextLong())` for each extraction.
+ */
+const JANSI_LIBRARY_ID_REGEX =
+  /(?<kept>\bjansi-[^-/]+)-[0-9a-f]{1,16}(?=-[^/]*$)/u
 
 const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
-  [JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`],
+  [HIDDEN_CLASS_ADDRESS_REGEX, ``],
+  [ADAPTER_ADDRESS_REGEX, `$<kept>`],
 ]
 
 export const jvmMatchEntry = matchEntryFromRules({
-  // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`) or in
-  // the location (a hidden lambda class reported as the declaring class).
+  // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`, or a
+  // hidden class in a heap dump) or in the location (a hidden class reported
+  // as the declaring class).
   name: JVM_ENTRY_MATCH_RULES,
-  location: JVM_ENTRY_MATCH_RULES,
+  location: [...JVM_ENTRY_MATCH_RULES, [JANSI_LIBRARY_ID_REGEX, `$<kept>`]],
 })
 
 export const categorizeJvmEntry = (

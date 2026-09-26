@@ -160,38 +160,38 @@ Functions with the largest increase in total samples taken in the function and a
 |  +0.8% |  +572 | 91.1% → 91.0% | 68,463 → 69,035 | `copyOf`           | `java.util.Arrays`                                                     |
 |  +1.3% |  +563 | 56.0% → 56.2% | 42,071 → 42,634 | `addAll`           | `java.util.ArrayList`                                                  |
 |  +1.4% |  +536 | 52.7% → 52.9% | 39,601 → 40,137 | `grow`             | `java.util.ArrayList`                                                  |
-|    new |  +433 |   0.0% → 0.6% |         0 → 433 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x0000000801004800`                   |
-|    new |  +433 |   0.0% → 0.6% |         0 → 433 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x0000000801009800`                    |
 |  +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `merge`            | `java.util.HashMap`                                                    |
 |  +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `lambda$merge$7`   | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |  +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `accept`           | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801186d88` |
 |  +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `forEach`          | `java.util.HashMap`                                                    |
 |  +0.8% |  +429 | 75.4% → 75.2% | 56,653 → 57,082 | `lambda$merge$6`   | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  +0.8% |  +429 | 75.4% → 75.2% | 56,653 → 57,082 | `apply`            | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801187218` |
+|  +0.7% |  +402 | 76.1% → 75.8% | 57,163 → 57,565 | `merge`            | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 
 ##### Standard library
 
-| Change | Delta |             % |         Samples | Function           | Location                                             |
-| -----: | ----: | ------------: | --------------: | ------------------ | ---------------------------------------------------- |
-|  +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `doExec`           | `java.util.concurrent.ForkJoinTask`                  |
-|  +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `topLevelExec`     | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
-|  +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `scan`             | `java.util.concurrent.ForkJoinPool`                  |
-|  +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `runWorker`        | `java.util.concurrent.ForkJoinPool`                  |
-|  +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `run`              | `java.util.concurrent.ForkJoinWorkerThread`          |
-|  +1.0% |  +736 |         99.4% | 74,722 → 75,458 | `exec`             | `java.util.concurrent.RecursiveTask`                 |
-|  +1.1% |  +674 |         79.4% | 59,630 → 60,304 | `awaitDone`        | `java.util.concurrent.ForkJoinTask`                  |
-|  +1.1% |  +674 |         79.4% | 59,630 → 60,304 | `join`             | `java.util.concurrent.ForkJoinTask`                  |
-|  +1.1% |  +630 |         78.6% | 59,065 → 59,695 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
-|  +0.8% |  +572 | 91.1% → 91.0% | 68,463 → 69,035 | `copyOf`           | `java.util.Arrays`                                   |
-|  +1.3% |  +563 | 56.0% → 56.2% | 42,071 → 42,634 | `addAll`           | `java.util.ArrayList`                                |
-|  +1.4% |  +536 | 52.7% → 52.9% | 39,601 → 40,137 | `grow`             | `java.util.ArrayList`                                |
-|    new |  +433 |   0.0% → 0.6% |         0 → 433 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x0000000801004800` |
-|    new |  +433 |   0.0% → 0.6% |         0 → 433 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x0000000801009800`  |
-|  +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `merge`            | `java.util.HashMap`                                  |
-|  +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `forEach`          | `java.util.HashMap`                                  |
-|  +1.1% |  +139 |         16.6% | 12,479 → 12,618 | `add`              | `java.util.ArrayList`                                |
-|  +0.9% |   +97 |         14.1% | 10,617 → 10,714 | `helpJoin`         | `java.util.concurrent.ForkJoinPool`                  |
-|  +7.0% |   +40 |          0.8% |       575 → 615 | `computeIfAbsent`  | `java.util.HashMap`                                  |
-| +16.4% |   +31 |          0.3% |       189 → 220 | `resize`           | `java.util.HashMap`                                  |
+|  Change | Delta |             % |         Samples | Function             | Location                                             |
+| ------: | ----: | ------------: | --------------: | -------------------- | ---------------------------------------------------- |
+|   +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `doExec`             | `java.util.concurrent.ForkJoinTask`                  |
+|   +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `topLevelExec`       | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
+|   +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `scan`               | `java.util.concurrent.ForkJoinPool`                  |
+|   +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `runWorker`          | `java.util.concurrent.ForkJoinPool`                  |
+|   +1.0% |  +737 |         99.4% | 74,727 → 75,464 | `run`                | `java.util.concurrent.ForkJoinWorkerThread`          |
+|   +1.0% |  +736 |         99.4% | 74,722 → 75,458 | `exec`               | `java.util.concurrent.RecursiveTask`                 |
+|   +1.1% |  +674 |         79.4% | 59,630 → 60,304 | `awaitDone`          | `java.util.concurrent.ForkJoinTask`                  |
+|   +1.1% |  +674 |         79.4% | 59,630 → 60,304 | `join`               | `java.util.concurrent.ForkJoinTask`                  |
+|   +1.1% |  +630 |         78.6% | 59,065 → 59,695 | `tryRemoveAndExec`   | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
+|   +0.8% |  +572 | 91.1% → 91.0% | 68,463 → 69,035 | `copyOf`             | `java.util.Arrays`                                   |
+|   +1.3% |  +563 | 56.0% → 56.2% | 42,071 → 42,634 | `addAll`             | `java.util.ArrayList`                                |
+|   +1.4% |  +536 | 52.7% → 52.9% | 39,601 → 40,137 | `grow`               | `java.util.ArrayList`                                |
+|   +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `merge`              | `java.util.HashMap`                                  |
+|   +0.8% |  +430 | 75.4% → 75.2% | 56,655 → 57,085 | `forEach`            | `java.util.HashMap`                                  |
+|   +1.1% |  +139 |         16.6% | 12,479 → 12,618 | `add`                | `java.util.ArrayList`                                |
+|   +0.9% |   +97 |         14.1% | 10,617 → 10,714 | `helpJoin`           | `java.util.concurrent.ForkJoinPool`                  |
+|   +7.0% |   +40 |          0.8% |       575 → 615 | `computeIfAbsent`    | `java.util.HashMap`                                  |
+|  +16.4% |   +31 |          0.3% |       189 → 220 | `resize`             | `java.util.HashMap`                                  |
+| +350.0% |   +21 |         <0.1% |          6 → 27 | `newInvokeSpecial`   | `java.lang.invoke.LambdaForm$DMH.0x0000000801126400` |
+| +350.0% |   +21 |         <0.1% |          6 → 27 | `linkToTargetMethod` | `java.lang.invoke.LambdaForm$MH.0x0000000801126c00`  |
 
 ##### Ours
 
@@ -222,53 +222,53 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-|  Change | Delta |             % |         Samples | Function                   | Location                                                                              |
-| ------: | ----: | ------------: | --------------: | -------------------------- | ------------------------------------------------------------------------------------- |
-| removed |  -416 |   0.6% → 0.0% |         416 → 0 | `invokeStatic`             | `java.lang.invoke.LambdaForm$DMH.0x0000007001004800`                                  |
-| removed |  -416 |   0.6% → 0.0% |         416 → 0 | `invoke`                   | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`                                   |
-|   -1.0% |  -145 | 19.1% → 18.8% | 14,377 → 14,232 | `<init>`                   | `java.util.ArrayList`                                                                 |
-|   -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `lambda$run$0`             | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
-|   -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `call`                     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801183d68`                |
-|   -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `exec`                     | `java.util.concurrent.ForkJoinTask$AdaptedCallable`                                   |
-|  -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `putMapEntries`            | `java.util.HashMap`                                                                   |
-|  -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `<init>`                   | `java.util.HashMap`                                                                   |
-|   -9.9% |   -35 |   0.5% → 0.4% |       355 → 320 | `putVal`                   | `java.util.HashMap`                                                                   |
-| removed |   -24 |  <0.1% → 0.0% |          24 → 0 | `newInvokeSpecial`         | `java.lang.invoke.LambdaForm$DMH.0x0000007001126400`                                  |
-| removed |   -24 |  <0.1% → 0.0% |          24 → 0 | `linkToTargetMethod`       | `java.lang.invoke.LambdaForm$MH.0x0000007001126c00`                                   |
-|   -0.1% |   -17 | 20.5% → 20.2% | 15,378 → 15,361 | `invoke`                   | `java.util.concurrent.ForkJoinTask`                                                   |
-|   -6.3% |   -13 |          0.3% |       206 → 193 | `lambda$collectClusters$0` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
-|   -6.3% |   -13 |          0.3% |       206 → 193 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000801186b38` |
-|   -2.2% |   -12 |          0.7% |       537 → 525 | `newNode`                  | `java.util.HashMap`                                                                   |
-|   -4.3% |    -9 |          0.3% |       210 → 201 | `evaluateToArrayNode`      | `java.util.stream.AbstractPipeline`                                                   |
-|   -4.3% |    -9 |          0.3% |       210 → 201 | `toArray`                  | `java.util.stream.ReferencePipeline`                                                  |
-|  -30.4% |    -7 |         <0.1% |         23 → 16 | `entrySet`                 | `java.util.HashMap`                                                                   |
-|  -63.6% |    -7 |         <0.1% |          11 → 4 | `allocateInstance`         | `jdk.internal.misc.Unsafe`                                                            |
-| removed |    -6 |  <0.1% → 0.0% |           6 → 0 | `newInvokeSpecial`         | `java.lang.invoke.LambdaForm$DMH.0x0000007001184400`                                  |
+| Change | Delta |             % |         Samples | Function                   | Location                                                                              |
+| -----: | ----: | ------------: | --------------: | -------------------------- | ------------------------------------------------------------------------------------- |
+|  -1.0% |  -145 | 19.1% → 18.8% | 14,377 → 14,232 | `<init>`                   | `java.util.ArrayList`                                                                 |
+|  -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `lambda$run$0`             | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+|  -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `call`                     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801183d68`                |
+|  -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `exec`                     | `java.util.concurrent.ForkJoinTask$AdaptedCallable`                                   |
+| -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `putMapEntries`            | `java.util.HashMap`                                                                   |
+| -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `<init>`                   | `java.util.HashMap`                                                                   |
+|  -9.9% |   -35 |   0.5% → 0.4% |       355 → 320 | `putVal`                   | `java.util.HashMap`                                                                   |
+| -83.3% |   -20 |         <0.1% |          24 → 4 | `newInvokeSpecial`         | `java.lang.invoke.LambdaForm$DMH.0x0000000801184400`                                  |
+| -83.3% |   -20 |         <0.1% |          24 → 4 | `linkToTargetMethod`       | `java.lang.invoke.LambdaForm$MH.0x0000000801184c00`                                   |
+|  -0.1% |   -17 | 20.5% → 20.2% | 15,378 → 15,361 | `invoke`                   | `java.util.concurrent.ForkJoinTask`                                                   |
+|  -6.3% |   -13 |          0.3% |       206 → 193 | `lambda$collectClusters$0` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  -6.3% |   -13 |          0.3% |       206 → 193 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000801186b38` |
+|  -2.2% |   -12 |          0.7% |       537 → 525 | `newNode`                  | `java.util.HashMap`                                                                   |
+|  -4.3% |    -9 |          0.3% |       210 → 201 | `evaluateToArrayNode`      | `java.util.stream.AbstractPipeline`                                                   |
+|  -4.3% |    -9 |          0.3% |       210 → 201 | `toArray`                  | `java.util.stream.ReferencePipeline`                                                  |
+| -30.4% |    -7 |         <0.1% |         23 → 16 | `entrySet`                 | `java.util.HashMap`                                                                   |
+| -63.6% |    -7 |         <0.1% |          11 → 4 | `allocateInstance`         | `jdk.internal.misc.Unsafe`                                                            |
+|  -4.2% |    -5 |          0.2% |       120 → 115 | `valueOf`                  | `java.lang.Double`                                                                    |
+| -62.5% |    -5 |         <0.1% |           8 → 3 | `apply`                    | `java.util.stream.DoublePipeline$$Lambda.0x00000008011c0c08`                          |
+| -62.5% |    -5 |         <0.1% |           8 → 3 | `accept`                   | `java.util.stream.DoublePipeline$1$1`                                                 |
 
 ##### Standard library
 
-|  Change | Delta |             % |         Samples | Function              | Location                                                     |
-| ------: | ----: | ------------: | --------------: | --------------------- | ------------------------------------------------------------ |
-| removed |  -416 |   0.6% → 0.0% |         416 → 0 | `invokeStatic`        | `java.lang.invoke.LambdaForm$DMH.0x0000007001004800`         |
-| removed |  -416 |   0.6% → 0.0% |         416 → 0 | `invoke`              | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`          |
-|   -1.0% |  -145 | 19.1% → 18.8% | 14,377 → 14,232 | `<init>`              | `java.util.ArrayList`                                        |
-|   -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `exec`                | `java.util.concurrent.ForkJoinTask$AdaptedCallable`          |
-|  -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `putMapEntries`       | `java.util.HashMap`                                          |
-|  -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `<init>`              | `java.util.HashMap`                                          |
-|   -9.9% |   -35 |   0.5% → 0.4% |       355 → 320 | `putVal`              | `java.util.HashMap`                                          |
-| removed |   -24 |  <0.1% → 0.0% |          24 → 0 | `newInvokeSpecial`    | `java.lang.invoke.LambdaForm$DMH.0x0000007001126400`         |
-| removed |   -24 |  <0.1% → 0.0% |          24 → 0 | `linkToTargetMethod`  | `java.lang.invoke.LambdaForm$MH.0x0000007001126c00`          |
-|   -0.1% |   -17 | 20.5% → 20.2% | 15,378 → 15,361 | `invoke`              | `java.util.concurrent.ForkJoinTask`                          |
-|   -2.2% |   -12 |          0.7% |       537 → 525 | `newNode`             | `java.util.HashMap`                                          |
-|   -4.3% |    -9 |          0.3% |       210 → 201 | `evaluateToArrayNode` | `java.util.stream.AbstractPipeline`                          |
-|   -4.3% |    -9 |          0.3% |       210 → 201 | `toArray`             | `java.util.stream.ReferencePipeline`                         |
-|  -30.4% |    -7 |         <0.1% |         23 → 16 | `entrySet`            | `java.util.HashMap`                                          |
-|  -63.6% |    -7 |         <0.1% |          11 → 4 | `allocateInstance`    | `jdk.internal.misc.Unsafe`                                   |
-| removed |    -6 |  <0.1% → 0.0% |           6 → 0 | `newInvokeSpecial`    | `java.lang.invoke.LambdaForm$DMH.0x0000007001184400`         |
-| removed |    -6 |  <0.1% → 0.0% |           6 → 0 | `linkToTargetMethod`  | `java.lang.invoke.LambdaForm$MH.0x0000007001184c00`          |
-| removed |    -5 |  <0.1% → 0.0% |           5 → 0 | `invokeExact_MT`      | `java.lang.invoke.LambdaForm$MH.0x0000007001098000`          |
-|   -4.2% |    -5 |          0.2% |       120 → 115 | `valueOf`             | `java.lang.Double`                                           |
-|  -62.5% |    -5 |         <0.1% |           8 → 3 | `apply`               | `java.util.stream.DoublePipeline$$Lambda.0x00000008011c0c08` |
+| Change | Delta |             % |         Samples | Function              | Location                                                     |
+| -----: | ----: | ------------: | --------------: | --------------------- | ------------------------------------------------------------ |
+|  -1.0% |  -145 | 19.1% → 18.8% | 14,377 → 14,232 | `<init>`              | `java.util.ArrayList`                                        |
+|  -0.6% |   -86 | 20.0% → 19.7% | 15,065 → 14,979 | `exec`                | `java.util.concurrent.ForkJoinTask$AdaptedCallable`          |
+| -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `putMapEntries`       | `java.util.HashMap`                                          |
+| -11.5% |   -43 |   0.5% → 0.4% |       373 → 330 | `<init>`              | `java.util.HashMap`                                          |
+|  -9.9% |   -35 |   0.5% → 0.4% |       355 → 320 | `putVal`              | `java.util.HashMap`                                          |
+| -83.3% |   -20 |         <0.1% |          24 → 4 | `newInvokeSpecial`    | `java.lang.invoke.LambdaForm$DMH.0x0000000801184400`         |
+| -83.3% |   -20 |         <0.1% |          24 → 4 | `linkToTargetMethod`  | `java.lang.invoke.LambdaForm$MH.0x0000000801184c00`          |
+|  -0.1% |   -17 | 20.5% → 20.2% | 15,378 → 15,361 | `invoke`              | `java.util.concurrent.ForkJoinTask`                          |
+|  -2.2% |   -12 |          0.7% |       537 → 525 | `newNode`             | `java.util.HashMap`                                          |
+|  -4.3% |    -9 |          0.3% |       210 → 201 | `evaluateToArrayNode` | `java.util.stream.AbstractPipeline`                          |
+|  -4.3% |    -9 |          0.3% |       210 → 201 | `toArray`             | `java.util.stream.ReferencePipeline`                         |
+| -30.4% |    -7 |         <0.1% |         23 → 16 | `entrySet`            | `java.util.HashMap`                                          |
+| -63.6% |    -7 |         <0.1% |          11 → 4 | `allocateInstance`    | `jdk.internal.misc.Unsafe`                                   |
+|  -4.2% |    -5 |          0.2% |       120 → 115 | `valueOf`             | `java.lang.Double`                                           |
+| -62.5% |    -5 |         <0.1% |           8 → 3 | `apply`               | `java.util.stream.DoublePipeline$$Lambda.0x00000008011c0c08` |
+| -62.5% |    -5 |         <0.1% |           8 → 3 | `accept`              | `java.util.stream.DoublePipeline$1$1`                        |
+| -62.5% |    -5 |         <0.1% |           8 → 3 | `forEachRemaining`    | `java.util.Spliterators$DoubleArraySpliterator`              |
+| -62.5% |    -5 |         <0.1% |           8 → 3 | `forEachRemaining`    | `java.util.Spliterator$OfDouble`                             |
+| -66.7% |    -4 |         <0.1% |           6 → 2 | `generateInnerClass`  | `java.lang.invoke.InnerClassLambdaMetafactory`               |
+| -66.7% |    -4 |         <0.1% |           6 → 2 | `spinInnerClass`      | `java.lang.invoke.InnerClassLambdaMetafactory`               |
 
 ##### Ours
 

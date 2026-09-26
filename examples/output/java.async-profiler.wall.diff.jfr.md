@@ -199,8 +199,6 @@ Functions with the largest increase in total samples taken in the function and a
 |  Change | Delta |             % |   Samples | Function                                                  | Location                                                   |
 | ------: | ----: | ------------: | --------: | --------------------------------------------------------- | ---------------------------------------------------------- |
 |     new |  +130 |   0.0% → 2.5% |   0 → 130 | `(anonymous)`                                             | `<unknown>`                                                |
-|     new |  +128 |   0.0% → 2.4% |   0 → 128 | `invokeStatic(Object, Object)`                            | `java.lang.invoke.LambdaForm$DMH.0x0000000301004800`       |
-|     new |  +128 |   0.0% → 2.4% |   0 → 128 | `invoke(Object, Object, Object)`                          | `java.lang.invoke.LambdaForm$MH.0x0000000301009800`        |
 |  +28.1% |  +103 |   6.6% → 8.9% | 367 → 470 | `awaitWork(ForkJoinPool$WorkQueue)`                       | `java.util.concurrent.ForkJoinPool`                        |
 |  +10.4% |   +79 | 13.6% → 15.9% | 756 → 835 | `park()`                                                  | `java.util.concurrent.locks.LockSupport`                   |
 |   +6.9% |   +63 | 16.4% → 18.6% | 915 → 978 | `park(boolean, long)`                                     | `jdk.internal.misc.Unsafe`                                 |
@@ -218,6 +216,8 @@ Functions with the largest increase in total samples taken in the function and a
 | +600.0% |    +6 |  <0.1% → 0.1% |     1 → 7 | `G1FullGCMarker::follow_marking_stacks`                   | `libjvm.dylib`                                             |
 |  +62.5% |    +5 |   0.1% → 0.2% |    8 → 13 | `arrayof_oop_disjoint_arraycopy`                          | `<unknown>`                                                |
 | +500.0% |    +5 |  <0.1% → 0.1% |     1 → 6 | `TaskTerminator::offer_termination`                       | `libjvm.dylib`                                             |
+| +500.0% |    +5 |  <0.1% → 0.1% |     1 → 6 | `G1ParEvacuateFollowersClosure::offer_termination`        | `libjvm.dylib`                                             |
+| +500.0% |    +5 |  <0.1% → 0.1% |     1 → 6 | `G1FullGCMarker::mark_object`                             | `libjvm.dylib`                                             |
 
 ##### Native
 
@@ -260,28 +260,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |             % |       Samples | Function                                                                    | Location                                             |
-| ------: | ----: | ------------: | ------------: | --------------------------------------------------------------------------- | ---------------------------------------------------- |
-|     new |  +128 |   0.0% → 2.4% |       0 → 128 | `invokeStatic(Object, Object)`                                              | `java.lang.invoke.LambdaForm$DMH.0x0000000301004800` |
-|     new |  +128 |   0.0% → 2.4% |       0 → 128 | `invoke(Object, Object, Object)`                                            | `java.lang.invoke.LambdaForm$MH.0x0000000301009800`  |
-|  +28.1% |  +103 |   6.6% → 8.9% |     367 → 470 | `awaitWork(ForkJoinPool$WorkQueue)`                                         | `java.util.concurrent.ForkJoinPool`                  |
-|  +10.4% |   +79 | 13.6% → 15.9% |     756 → 835 | `park()`                                                                    | `java.util.concurrent.locks.LockSupport`             |
-|   +6.9% |   +63 | 16.4% → 18.6% |     915 → 978 | `park(boolean, long)`                                                       | `jdk.internal.misc.Unsafe`                           |
-|  +36.0% |    +9 |   0.4% → 0.6% |       25 → 34 | `grow()`                                                                    | `java.util.ArrayList`                                |
-|   +2.5% |    +7 |   5.0% → 5.5% |     281 → 288 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)`                   | `java.util.concurrent.ForkJoinPool`                  |
-|  +17.5% |    +7 |   0.7% → 0.9% |       40 → 47 | `elementData(int)`                                                          | `java.util.ArrayList`                                |
-|  +11.1% |    +4 |   0.6% → 0.8% |       36 → 40 | `add(Object, Object[], int)`                                                | `java.util.ArrayList`                                |
-|  +10.8% |    +4 |   0.7% → 0.8% |       37 → 41 | `add(Object)`                                                               | `java.util.ArrayList`                                |
-|   +6.1% |    +3 |   0.9% → 1.0% |       49 → 52 | `get(int)`                                                                  | `java.util.ArrayList`                                |
-|  +40.0% |    +2 |          0.1% |         5 → 7 | `hash(Object)`                                                              | `java.util.HashMap`                                  |
-| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `defineClass(String, Resource)`                                             | `java.net.URLClassLoader`                            |
-| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `run()`                                                                     | `java.net.URLClassLoader$1`                          |
-| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`                     |
-| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`             | `java.security.AccessController`                     |
-| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `findClass(String)`                                                         | `java.net.URLClassLoader`                            |
-|     new |    +2 |  0.0% → <0.1% |         0 → 2 | `getRawResult()`                                                            | `java.util.concurrent.RecursiveTask`                 |
-|   +0.1% |    +1 | 29.6% → 31.3% | 1,646 → 1,647 | `runWorker(ForkJoinPool$WorkQueue)`                                         | `java.util.concurrent.ForkJoinPool`                  |
-|   +0.1% |    +1 | 29.6% → 31.3% | 1,646 → 1,647 | `run()`                                                                     | `java.util.concurrent.ForkJoinWorkerThread`          |
+|  Change | Delta |             % |       Samples | Function                                                                        | Location                                    |
+| ------: | ----: | ------------: | ------------: | ------------------------------------------------------------------------------- | ------------------------------------------- |
+|  +28.1% |  +103 |   6.6% → 8.9% |     367 → 470 | `awaitWork(ForkJoinPool$WorkQueue)`                                             | `java.util.concurrent.ForkJoinPool`         |
+|  +10.4% |   +79 | 13.6% → 15.9% |     756 → 835 | `park()`                                                                        | `java.util.concurrent.locks.LockSupport`    |
+|   +6.9% |   +63 | 16.4% → 18.6% |     915 → 978 | `park(boolean, long)`                                                           | `jdk.internal.misc.Unsafe`                  |
+|  +36.0% |    +9 |   0.4% → 0.6% |       25 → 34 | `grow()`                                                                        | `java.util.ArrayList`                       |
+|   +2.5% |    +7 |   5.0% → 5.5% |     281 → 288 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)`                       | `java.util.concurrent.ForkJoinPool`         |
+|  +17.5% |    +7 |   0.7% → 0.9% |       40 → 47 | `elementData(int)`                                                              | `java.util.ArrayList`                       |
+|  +11.1% |    +4 |   0.6% → 0.8% |       36 → 40 | `add(Object, Object[], int)`                                                    | `java.util.ArrayList`                       |
+|  +10.8% |    +4 |   0.7% → 0.8% |       37 → 41 | `add(Object)`                                                                   | `java.util.ArrayList`                       |
+|   +6.1% |    +3 |   0.9% → 1.0% |       49 → 52 | `get(int)`                                                                      | `java.util.ArrayList`                       |
+|  +40.0% |    +2 |          0.1% |         5 → 7 | `hash(Object)`                                                                  | `java.util.HashMap`                         |
+| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `defineClass(String, Resource)`                                                 | `java.net.URLClassLoader`                   |
+| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `run()`                                                                         | `java.net.URLClassLoader$1`                 |
+| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)`     | `java.security.AccessController`            |
+| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`                 | `java.security.AccessController`            |
+| +100.0% |    +2 |  <0.1% → 0.1% |         2 → 4 | `findClass(String)`                                                             | `java.net.URLClassLoader`                   |
+|     new |    +2 |  0.0% → <0.1% |         0 → 2 | `getRawResult()`                                                                | `java.util.concurrent.RecursiveTask`        |
+|   +0.1% |    +1 | 29.6% → 31.3% | 1,646 → 1,647 | `runWorker(ForkJoinPool$WorkQueue)`                                             | `java.util.concurrent.ForkJoinPool`         |
+|   +0.1% |    +1 | 29.6% → 31.3% | 1,646 → 1,647 | `run()`                                                                         | `java.util.concurrent.ForkJoinWorkerThread` |
+|  +50.0% |    +1 |  <0.1% → 0.1% |         2 → 3 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader`                     |
+|  +50.0% |    +1 |  <0.1% → 0.1% |         2 → 3 | `defineClass(String, byte[], int, int, ProtectionDomain)`                       | `java.lang.ClassLoader`                     |
 
 ##### Unknown
 
@@ -293,28 +293,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-|  Change | Delta |             % |       Samples | Function                                             | Location                                               |
-| ------: | ----: | ------------: | ------------: | ---------------------------------------------------- | ------------------------------------------------------ |
-|  -11.7% |  -378 | 57.8% → 53.9% | 3,219 → 2,841 | `_pthread_start`                                     | `libsystem_pthread.dylib`                              |
-|  -11.7% |  -378 | 57.8% → 53.9% | 3,219 → 2,841 | `thread_start`                                       | `libsystem_pthread.dylib`                              |
-|  -11.9% |  -367 | 55.3% → 51.5% | 3,077 → 2,710 | `Thread::call_run`                                   | `libjvm.dylib`                                         |
-|  -11.9% |  -367 | 55.3% → 51.5% | 3,077 → 2,710 | `thread_native_entry`                                | `libjvm.dylib`                                         |
-|  -18.1% |  -276 | 27.4% → 23.7% | 1,524 → 1,248 | `semaphore_wait_trap`                                | `libsystem_kernel.dylib`                               |
-|  -17.1% |  -232 | 24.3% → 21.3% | 1,354 → 1,122 | `WorkerThread::run`                                  | `libjvm.dylib`                                         |
-| removed |  -138 |   2.5% → 0.0% |       138 → 0 | `invokeStatic(Object, Object)`                       | `java.lang.invoke.LambdaForm$DMH.0x0000007001004800`   |
-| removed |  -138 |   2.5% → 0.0% |       138 → 0 | `invoke(Object, Object, Object)`                     | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`    |
-|   -8.9% |  -122 | 24.6% → 23.7% | 1,372 → 1,250 | `awaitDone(int, long)`                               | `java.util.concurrent.ForkJoinTask`                    |
-|   -7.6% |  -118 | 28.0% → 27.3% | 1,557 → 1,439 | `PlatformMonitor::wait`                              | `libjvm.dylib`                                         |
-|   -9.0% |  -112 | 22.3% → 21.5% | 1,243 → 1,131 | `join()`                                             | `java.util.concurrent.ForkJoinTask`                    |
-|   -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `doExec()`                                           | `java.util.concurrent.ForkJoinTask`                    |
-|   -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue`          |
-|   -8.0% |  -102 | 22.8% → 22.2% | 1,270 → 1,168 | `compute()`                                          | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-|   -8.0% |  -102 | 22.8% → 22.2% | 1,270 → 1,168 | `exec()`                                             | `java.util.concurrent.RecursiveTask`                   |
-|   -8.0% |  -102 | 22.9% → 22.3% | 1,277 → 1,175 | `scan(ForkJoinPool$WorkQueue, int, int)`             | `java.util.concurrent.ForkJoinPool`                    |
-|   -7.9% |   -88 | 19.9% → 19.4% | 1,109 → 1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue`          |
-|   -7.9% |   -80 | 18.3% → 17.8% |   1,018 → 938 | `JavaThread::thread_main_inner`                      | `libjvm.dylib`                                         |
-|   -2.8% |   -77 | 49.3% → 50.6% | 2,743 → 2,666 | `__psynch_cvwait`                                    | `libsystem_kernel.dylib`                               |
-|   -6.6% |   -73 | 19.9% → 19.7% | 1,109 → 1,036 | `Monitor::wait_without_safepoint_check`              | `libjvm.dylib`                                         |
+| Change | Delta |             % |       Samples | Function                                             | Location                                                   |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------------------- | ---------------------------------------------------------- |
+| -11.7% |  -378 | 57.8% → 53.9% | 3,219 → 2,841 | `_pthread_start`                                     | `libsystem_pthread.dylib`                                  |
+| -11.7% |  -378 | 57.8% → 53.9% | 3,219 → 2,841 | `thread_start`                                       | `libsystem_pthread.dylib`                                  |
+| -11.9% |  -367 | 55.3% → 51.5% | 3,077 → 2,710 | `Thread::call_run`                                   | `libjvm.dylib`                                             |
+| -11.9% |  -367 | 55.3% → 51.5% | 3,077 → 2,710 | `thread_native_entry`                                | `libjvm.dylib`                                             |
+| -18.1% |  -276 | 27.4% → 23.7% | 1,524 → 1,248 | `semaphore_wait_trap`                                | `libsystem_kernel.dylib`                                   |
+| -17.1% |  -232 | 24.3% → 21.3% | 1,354 → 1,122 | `WorkerThread::run`                                  | `libjvm.dylib`                                             |
+|  -8.9% |  -122 | 24.6% → 23.7% | 1,372 → 1,250 | `awaitDone(int, long)`                               | `java.util.concurrent.ForkJoinTask`                        |
+|  -7.6% |  -118 | 28.0% → 27.3% | 1,557 → 1,439 | `PlatformMonitor::wait`                              | `libjvm.dylib`                                             |
+|  -9.0% |  -112 | 22.3% → 21.5% | 1,243 → 1,131 | `join()`                                             | `java.util.concurrent.ForkJoinTask`                        |
+|  -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `doExec()`                                           | `java.util.concurrent.ForkJoinTask`                        |
+|  -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue`              |
+|  -8.0% |  -102 | 22.8% → 22.2% | 1,270 → 1,168 | `compute()`                                          | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+|  -8.0% |  -102 | 22.8% → 22.2% | 1,270 → 1,168 | `exec()`                                             | `java.util.concurrent.RecursiveTask`                       |
+|  -8.0% |  -102 | 22.9% → 22.3% | 1,277 → 1,175 | `scan(ForkJoinPool$WorkQueue, int, int)`             | `java.util.concurrent.ForkJoinPool`                        |
+|  -7.9% |   -88 | 19.9% → 19.4% | 1,109 → 1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue`              |
+|  -7.9% |   -80 | 18.3% → 17.8% |   1,018 → 938 | `JavaThread::thread_main_inner`                      | `libjvm.dylib`                                             |
+|  -2.8% |   -77 | 49.3% → 50.6% | 2,743 → 2,666 | `__psynch_cvwait`                                    | `libsystem_kernel.dylib`                                   |
+|  -6.6% |   -73 | 19.9% → 19.7% | 1,109 → 1,036 | `Monitor::wait_without_safepoint_check`              | `libjvm.dylib`                                             |
+| -13.1% |   -60 |   8.2% → 7.5% |     457 → 397 | `computeDirectly()`                                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| -10.0% |   -45 |   8.0% → 7.7% |     448 → 403 | `Monitor::wait`                                      | `libjvm.dylib`                                             |
 
 ##### Native
 
@@ -368,25 +368,25 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |             % |       Samples | Function                                             | Location                                             |
-| ------: | ----: | ------------: | ------------: | ---------------------------------------------------- | ---------------------------------------------------- |
-| removed |  -138 |   2.5% → 0.0% |       138 → 0 | `invokeStatic(Object, Object)`                       | `java.lang.invoke.LambdaForm$DMH.0x0000007001004800` |
-| removed |  -138 |   2.5% → 0.0% |       138 → 0 | `invoke(Object, Object, Object)`                     | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`  |
-|   -8.9% |  -122 | 24.6% → 23.7% | 1,372 → 1,250 | `awaitDone(int, long)`                               | `java.util.concurrent.ForkJoinTask`                  |
-|   -9.0% |  -112 | 22.3% → 21.5% | 1,243 → 1,131 | `join()`                                             | `java.util.concurrent.ForkJoinTask`                  |
-|   -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `doExec()`                                           | `java.util.concurrent.ForkJoinTask`                  |
-|   -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
-|   -8.0% |  -102 | 22.8% → 22.2% | 1,270 → 1,168 | `exec()`                                             | `java.util.concurrent.RecursiveTask`                 |
-|   -8.0% |  -102 | 22.9% → 22.3% | 1,277 → 1,175 | `scan(ForkJoinPool$WorkQueue, int, int)`             | `java.util.concurrent.ForkJoinPool`                  |
-|   -7.9% |   -88 | 19.9% → 19.4% | 1,109 → 1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
-|   -7.5% |   -23 |   5.5% → 5.4% |     305 → 282 | `invoke()`                                           | `java.util.concurrent.ForkJoinTask`                  |
-|  -27.1% |   -13 |   0.9% → 0.7% |       48 → 35 | `computeIfAbsent(Object, Function)`                  | `java.util.HashMap`                                  |
-|   -9.9% |   -13 |   2.4% → 2.2% |     131 → 118 | `exec()`                                             | `java.util.concurrent.ForkJoinTask$AdaptedCallable`  |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `waitForReferencePendingList()`                      | `java.lang.ref.Reference`                            |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `processPendingReferences()`                         | `java.lang.ref.Reference`                            |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `run()`                                              | `java.lang.ref.Reference$ReferenceHandler`           |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `wait0(long)`                                        | `java.lang.Object`                                   |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `wait(long)`                                         | `java.lang.Object`                                   |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `wait()`                                             | `java.lang.Object`                                   |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `await()`                                            | `java.lang.ref.NativeReferenceQueue`                 |
-|   -7.8% |   -11 |          2.5% |     141 → 130 | `remove0()`                                          | `java.lang.ref.ReferenceQueue`                       |
+| Change | Delta |             % |       Samples | Function                                             | Location                                            |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------------------- | --------------------------------------------------- |
+|  -8.9% |  -122 | 24.6% → 23.7% | 1,372 → 1,250 | `awaitDone(int, long)`                               | `java.util.concurrent.ForkJoinTask`                 |
+|  -9.0% |  -112 | 22.3% → 21.5% | 1,243 → 1,131 | `join()`                                             | `java.util.concurrent.ForkJoinTask`                 |
+|  -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `doExec()`                                           | `java.util.concurrent.ForkJoinTask`                 |
+|  -8.1% |  -103 | 22.9% → 22.3% | 1,275 → 1,172 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue`       |
+|  -8.0% |  -102 | 22.8% → 22.2% | 1,270 → 1,168 | `exec()`                                             | `java.util.concurrent.RecursiveTask`                |
+|  -8.0% |  -102 | 22.9% → 22.3% | 1,277 → 1,175 | `scan(ForkJoinPool$WorkQueue, int, int)`             | `java.util.concurrent.ForkJoinPool`                 |
+|  -7.9% |   -88 | 19.9% → 19.4% | 1,109 → 1,021 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue`       |
+|  -7.5% |   -23 |   5.5% → 5.4% |     305 → 282 | `invoke()`                                           | `java.util.concurrent.ForkJoinTask`                 |
+| -27.1% |   -13 |   0.9% → 0.7% |       48 → 35 | `computeIfAbsent(Object, Function)`                  | `java.util.HashMap`                                 |
+|  -9.9% |   -13 |   2.4% → 2.2% |     131 → 118 | `exec()`                                             | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `waitForReferencePendingList()`                      | `java.lang.ref.Reference`                           |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `processPendingReferences()`                         | `java.lang.ref.Reference`                           |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `run()`                                              | `java.lang.ref.Reference$ReferenceHandler`          |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `wait0(long)`                                        | `java.lang.Object`                                  |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `wait(long)`                                         | `java.lang.Object`                                  |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `wait()`                                             | `java.lang.Object`                                  |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `await()`                                            | `java.lang.ref.NativeReferenceQueue`                |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `remove0()`                                          | `java.lang.ref.ReferenceQueue`                      |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `remove()`                                           | `java.lang.ref.NativeReferenceQueue`                |
+|  -7.8% |   -11 |          2.5% |     141 → 130 | `run()`                                              | `java.lang.ref.Finalizer$FinalizerThread`           |

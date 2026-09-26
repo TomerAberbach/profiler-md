@@ -77,28 +77,28 @@ Functions with the largest increase in total bytes allocated in the function and
 
 ##### Standard library
 
-| Change |       Delta |            % |           Size |    Samples | Function                                                                                    | Location                                             |
-| -----: | ----------: | -----------: | -------------: | ---------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-|    new | +11.988 GiB | 0.0% → 99.9% |   0 B → 12 GiB | 0 → 24,550 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
-|    new | +11.986 GiB | 0.0% → 99.9% |   0 B → 12 GiB | 0 → 24,547 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000070010a1800`  |
-|    new | +11.985 GiB | 0.0% → 99.9% |   0 B → 12 GiB | 0 → 24,545 | `guardWithCatch(Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000`  |
-|    new | +11.985 GiB | 0.0% → 99.9% |   0 B → 12 GiB | 0 → 24,545 | `reinvoke(Object, Object, Object)`                                                          | `java.lang.invoke.LambdaForm$MH.0x00000070010aa800`  |
-|    new | +11.985 GiB | 0.0% → 99.9% |   0 B → 12 GiB | 0 → 24,545 | `guard(Object, Object, Object)`                                                             | `java.lang.invoke.LambdaForm$MH.0x00000070010aac00`  |
-|    new | +11.973 GiB | 0.0% → 99.7% |   0 B → 12 GiB | 0 → 24,519 | `invokeVirtual(Object, Object, Object, Object)`                                             | `java.lang.invoke.LambdaForm$DMH.0x0000007001094400` |
-|    new | +11.959 GiB | 0.0% → 99.6% |   0 B → 12 GiB | 0 → 24,492 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000070010c6400`  |
-|    new | +11.959 GiB | 0.0% → 99.6% |   0 B → 12 GiB | 0 → 24,492 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x00000070010c7000`  |
-|    new | +11.955 GiB | 0.0% → 99.6% |   0 B → 12 GiB | 0 → 24,484 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000700108e000`  |
-|    new | +11.813 GiB | 0.0% → 98.4% | 0 B → 11.8 GiB | 0 → 24,193 | `guardWithCatch(Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x0000007001098400`  |
-|    new | +11.813 GiB | 0.0% → 98.4% | 0 B → 11.8 GiB | 0 → 24,193 | `reinvoke(Object, Object)`                                                                  | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00`  |
-|    new | +11.813 GiB | 0.0% → 98.4% | 0 B → 11.8 GiB | 0 → 24,193 | `guard(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$MH.0x000000700109a000`  |
-|    new | +11.812 GiB | 0.0% → 98.4% | 0 B → 11.8 GiB | 0 → 24,192 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00`  |
-|    new |  +11.81 GiB | 0.0% → 98.4% | 0 B → 11.8 GiB | 0 → 24,187 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000700102b000`  |
-|    new | +11.702 GiB | 0.0% → 97.5% | 0 B → 11.7 GiB | 0 → 23,964 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000070010a9800`  |
-|    new | +11.543 GiB | 0.0% → 96.2% | 0 B → 11.5 GiB | 0 → 23,640 | `guard(Object, Object, Object, Object)`                                                     | `java.lang.invoke.LambdaForm$MH.0x0000007001188c00`  |
-|    new | +11.542 GiB | 0.0% → 96.2% | 0 B → 11.5 GiB | 0 → 23,639 | `guardWithCatch(Object, Object, Object, Object)`                                            | `java.lang.invoke.LambdaForm$MH.0x00000070010d4000`  |
-|    new | +11.533 GiB | 0.0% → 96.1% | 0 B → 11.5 GiB | 0 → 23,620 | `invokeInterface(Object, Object, Object, Object, Object)`                                   | `java.lang.invoke.LambdaForm$DMH.0x0000007001095000` |
-|    new | +11.522 GiB | 0.0% → 96.0% | 0 B → 11.5 GiB | 0 → 23,597 | `invoke(Object, Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000070010d5c00`  |
-|    new | +11.499 GiB | 0.0% → 95.8% | 0 B → 11.5 GiB | 0 → 23,549 | `reinvoke(Object, Object, Object, Object)`                                                  | `java.lang.invoke.LambdaForm$MH.0x0000007001188800`  |
+|      Change |       Delta |             % |                Size |        Samples | Function                                         | Location                                            |
+| ----------: | ----------: | ------------: | ------------------: | -------------: | ------------------------------------------------ | --------------------------------------------------- |
+|  +201466.7% | +11.804 GiB | <0.1% → 98.4% |    6 MiB → 11.8 GiB |    12 → 24,187 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700102b000` |
+|    +7720.5% | +11.802 GiB |  1.3% → 99.6% |    157 MiB → 12 GiB |   311 → 24,484 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700108e000` |
+| +1179799.9% | +11.521 GiB | <0.1% → 96.0% |    1 MiB → 11.5 GiB |     2 → 23,597 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d5c00` |
+|    +3317.1% | +11.467 GiB |  2.9% → 98.4% |  354 MiB → 11.8 GiB |   708 → 24,192 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00` |
+|    +1244.6% | +10.629 GiB |  7.2% → 95.7% |  875 MiB → 11.5 GiB | 1,747 → 23,518 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001288800` |
+|  +109531.6% | +10.161 GiB |  0.1% → 84.7% |  9.5 MiB → 10.2 GiB |    19 → 20,830 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700159f800` |
+|  +346683.3% | +10.156 GiB | <0.1% → 84.6% |    3 MiB → 10.2 GiB |     6 → 20,807 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070015a2400` |
+|   +44170.2% | +10.136 GiB |  0.2% → 84.6% | 23.5 MiB → 10.2 GiB |    47 → 20,807 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070015a2800` |
+|     +457.8% |  +9.407 GiB | 17.4% → 95.5% | 2.05 GiB → 11.5 GiB | 4,208 → 23,473 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070010d4c00` |
+|  +212766.7% |   +9.35 GiB | <0.1% → 77.9% |  4.5 MiB → 9.35 GiB |     9 → 19,158 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700163e400` |
+|  +159550.0% |  +9.348 GiB | <0.1% → 77.9% |    6 MiB → 9.35 GiB |    12 → 19,158 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700163ec00` |
+|    +6742.1% |  +9.217 GiB |  1.2% → 77.9% |  140 MiB → 9.35 GiB |   280 → 19,158 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000700163f000` |
+|  +252771.4% |  +8.639 GiB | <0.1% → 72.0% |  3.5 MiB → 8.64 GiB |     7 → 17,700 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001369400` |
+|     +321.4% |  +8.411 GiB | 22.2% → 91.9% |   2.62 GiB → 11 GiB | 5,357 → 22,584 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001282400` |
+|    +1662.5% |  +8.198 GiB |  4.2% → 72.4% |  505 MiB → 8.69 GiB | 1,010 → 17,800 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700126a400` |
+|  +535100.0% |  +7.838 GiB | <0.1% → 65.3% |  1.5 MiB → 7.84 GiB |     3 → 16,056 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070017c1400` |
+|   +12266.0% |  +5.809 GiB |  0.4% → 48.8% | 48.5 MiB → 5.86 GiB |    97 → 11,994 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001369800` |
+|   +12939.1% |  +5.496 GiB |  0.4% → 46.1% | 43.5 MiB → 5.54 GiB |    87 → 11,343 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010d4800` |
+|  +377399.9% |  +3.685 GiB | <0.1% → 30.7% |    1 MiB → 3.69 GiB |      2 → 7,549 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001291000` |
+|     +169.9% |   +3.39 GiB | 16.9% → 44.9% |    2 GiB → 5.39 GiB | 4,086 → 11,028 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001360400` |
 
 #### Improvements
 
@@ -106,28 +106,28 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 ##### Standard library
 
-|  Change |       Delta |            % |           Size |    Samples | Function                                                                                    | Location                                             |
-| ------: | ----------: | -----------: | -------------: | ---------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| removed | -11.781 GiB | 99.9% → 0.0% | 11.8 GiB → 0 B | 24,126 → 0 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000000801088800` |
-| removed | -11.778 GiB | 99.9% → 0.0% | 11.8 GiB → 0 B | 24,121 → 0 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010a1800`  |
-| removed | -11.775 GiB | 99.8% → 0.0% | 11.8 GiB → 0 B | 24,115 → 0 | `guardWithCatch(Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010aa000`  |
-| removed | -11.775 GiB | 99.8% → 0.0% | 11.8 GiB → 0 B | 24,115 → 0 | `reinvoke(Object, Object, Object)`                                                          | `java.lang.invoke.LambdaForm$MH.0x00000008010aa800`  |
-| removed | -11.775 GiB | 99.8% → 0.0% | 11.8 GiB → 0 B | 24,115 → 0 | `guard(Object, Object, Object)`                                                             | `java.lang.invoke.LambdaForm$MH.0x00000008010aac00`  |
-| removed | -11.763 GiB | 99.7% → 0.0% | 11.8 GiB → 0 B | 24,090 → 0 | `invokeVirtual(Object, Object, Object, Object)`                                             | `java.lang.invoke.LambdaForm$DMH.0x0000000801094400` |
-| removed | -11.749 GiB | 99.6% → 0.0% | 11.7 GiB → 0 B | 24,061 → 0 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010c6400`  |
-| removed | -11.749 GiB | 99.6% → 0.0% | 11.7 GiB → 0 B | 24,061 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010c7000`  |
-| removed | -11.748 GiB | 99.6% → 0.0% | 11.7 GiB → 0 B | 24,058 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080108e000`  |
-| removed | -11.618 GiB | 98.5% → 0.0% | 11.6 GiB → 0 B | 23,792 → 0 | `guardWithCatch(Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x0000000801098400`  |
-| removed | -11.618 GiB | 98.5% → 0.0% | 11.6 GiB → 0 B | 23,792 → 0 | `reinvoke(Object, Object)`                                                                  | `java.lang.invoke.LambdaForm$MH.0x0000000801099c00`  |
-| removed | -11.618 GiB | 98.5% → 0.0% | 11.6 GiB → 0 B | 23,792 → 0 | `guard(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$MH.0x000000080109a000`  |
-| removed | -11.609 GiB | 98.4% → 0.0% | 11.6 GiB → 0 B | 23,774 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080102b000`  |
-| removed | -11.608 GiB | 98.4% → 0.0% | 11.6 GiB → 0 B | 23,773 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080109bc00`  |
-| removed | -11.495 GiB | 97.5% → 0.0% | 11.5 GiB → 0 B | 23,541 → 0 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010a9800`  |
-| removed |  -11.34 GiB | 96.1% → 0.0% | 11.3 GiB → 0 B | 23,223 → 0 | `guard(Object, Object, Object, Object)`                                                     | `java.lang.invoke.LambdaForm$MH.0x0000000801188c00`  |
-| removed | -11.339 GiB | 96.1% → 0.0% | 11.3 GiB → 0 B | 23,221 → 0 | `guardWithCatch(Object, Object, Object, Object)`                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010d4000`  |
-| removed | -11.333 GiB | 96.1% → 0.0% | 11.3 GiB → 0 B | 23,208 → 0 | `invokeInterface(Object, Object, Object, Object, Object)`                                   | `java.lang.invoke.LambdaForm$DMH.0x0000000801095000` |
-| removed | -11.309 GiB | 95.9% → 0.0% | 11.3 GiB → 0 B | 23,159 → 0 | `invoke(Object, Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010d5c00`  |
-| removed | -11.283 GiB | 95.7% → 0.0% | 11.3 GiB → 0 B | 23,106 → 0 | `invoke(Object, Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010d3800`  |
+|  Change |       Delta |             % |                Size |        Samples | Function                                         | Location                                            |
+| ------: | ----------: | ------------: | ------------------: | -------------: | ------------------------------------------------ | --------------------------------------------------- |
+|  -99.9% | -11.735 GiB |  99.6% → 0.1% |   11.7 GiB → 13 MiB |    24,058 → 25 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001018400` |
+| -100.0% | -11.608 GiB | 98.4% → <0.1% |  11.6 GiB → 512 KiB |     23,774 → 1 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001018800` |
+| -100.0% | -11.209 GiB | 95.0% → <0.1% |  11.2 GiB → 512 KiB |     22,957 → 1 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070011ea000` |
+|  -98.0% | -11.013 GiB |  95.3% → 1.9% |  11.2 GiB → 228 MiB |   23,010 → 457 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070010c8000` |
+|  -99.9% | -10.782 GiB |  91.5% → 0.1% |  10.8 GiB → 6.5 MiB |    22,094 → 13 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070011eb400` |
+|  -91.9% | -10.669 GiB |  98.4% → 7.8% |  11.6 GiB → 961 MiB | 23,773 → 1,923 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700109b400` |
+|  -92.2% | -10.069 GiB |  92.6% → 7.1% |  10.9 GiB → 877 MiB | 22,374 → 1,753 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700128d000` |
+| -100.0% |  -9.925 GiB | 84.2% → <0.1% |    9.93 GiB → 1 MiB |     20,330 → 2 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001435c00` |
+|  -99.9% |   -9.92 GiB |  84.2% → 0.1% |  9.93 GiB → 6.5 MiB |    20,331 → 13 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070014e5c00` |
+|  -99.8% |  -9.916 GiB |  84.2% → 0.2% |   9.94 GiB → 20 MiB |    20,350 → 40 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070014ea400` |
+|  -99.9% |  -9.155 GiB | 77.7% → <0.1% |  9.16 GiB → 5.5 MiB |    18,762 → 11 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001524800` |
+|  -99.9% |  -9.155 GiB | 77.7% → <0.1% |  9.16 GiB → 5.5 MiB |    18,762 → 11 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700156c800` |
+|  -99.9% |  -9.155 GiB | 77.7% → <0.1% |  9.16 GiB → 5.5 MiB |    18,762 → 11 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000700141f800` |
+|  -98.8% |  -8.327 GiB |  71.4% → 0.8% |  8.43 GiB → 103 MiB |   17,258 → 206 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001372400` |
+| -100.0% |  -7.652 GiB | 64.9% → <0.1% |  7.65 GiB → 512 KiB |     15,674 → 1 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001501800` |
+|  -68.3% |  -5.793 GiB | 71.9% → 22.4% | 8.48 GiB → 2.68 GiB | 17,357 → 5,494 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001290000` |
+|  -99.9% |  -5.669 GiB | 48.1% → <0.1% |    5.67 GiB → 4 MiB |     11,618 → 8 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001335c00` |
+| -100.0% |  -5.378 GiB | 45.6% → <0.1% |    5.38 GiB → 2 MiB |     11,018 → 4 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700110c400` |
+|  -98.9% |  -5.149 GiB |  44.1% → 0.5% | 5.21 GiB → 59.5 MiB |   10,664 → 119 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001182000` |
+|  -99.9% |  -3.649 GiB | 31.0% → <0.1% |    3.65 GiB → 2 MiB |      7,477 → 4 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001262400` |
 
 # Retained heap profile diff
 
@@ -260,25 +260,25 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Standard library
 
-|  Change |        Delta |            % |           Size | Objects | Function                                                                                    | Location                                             |
-| ------: | -----------: | -----------: | -------------: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| removed | -107.648 KiB | 99.6% → 0.0% |  108 KiB → 0 B | 704 → 0 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000000801088800` |
-| removed | -107.585 KiB | 99.5% → 0.0% |  108 KiB → 0 B | 703 → 0 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010a1800`  |
-| removed |   -107.5 KiB | 99.5% → 0.0% |  108 KiB → 0 B | 701 → 0 | `guardWithCatch(Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010aa000`  |
-| removed |   -107.5 KiB | 99.5% → 0.0% |  108 KiB → 0 B | 701 → 0 | `guard(Object, Object, Object)`                                                             | `java.lang.invoke.LambdaForm$MH.0x00000008010aac00`  |
-| removed |   -107.5 KiB | 99.5% → 0.0% |  108 KiB → 0 B | 701 → 0 | `reinvoke(Object, Object, Object)`                                                          | `java.lang.invoke.LambdaForm$MH.0x00000008010aa800`  |
-| removed | -107.265 KiB | 99.2% → 0.0% |  107 KiB → 0 B | 696 → 0 | `invokeVirtual(Object, Object, Object, Object)`                                             | `java.lang.invoke.LambdaForm$DMH.0x0000000801094400` |
-| removed | -107.007 KiB | 99.0% → 0.0% |  107 KiB → 0 B | 696 → 0 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010c6400`  |
-| removed | -107.007 KiB | 99.0% → 0.0% |  107 KiB → 0 B | 696 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010c7000`  |
-| removed | -106.843 KiB | 98.8% → 0.0% |  107 KiB → 0 B | 689 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080108e000`  |
-| removed |  -97.398 KiB | 90.1% → 0.0% | 97.4 KiB → 0 B | 425 → 0 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010a9800`  |
-| removed |  -97.125 KiB | 89.9% → 0.0% | 97.1 KiB → 0 B | 424 → 0 | `guardWithCatch(Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x0000000801098400`  |
-| removed |  -97.125 KiB | 89.9% → 0.0% | 97.1 KiB → 0 B | 424 → 0 | `reinvoke(Object, Object)`                                                                  | `java.lang.invoke.LambdaForm$MH.0x0000000801099c00`  |
-| removed |  -97.125 KiB | 89.9% → 0.0% | 97.1 KiB → 0 B | 424 → 0 | `guard(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$MH.0x000000080109a000`  |
-| removed |  -97.031 KiB | 89.8% → 0.0% |   97 KiB → 0 B | 422 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080102b000`  |
-| removed |  -97.031 KiB | 89.8% → 0.0% |   97 KiB → 0 B | 422 → 0 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080109bc00`  |
-| removed |  -96.523 KiB | 89.3% → 0.0% | 96.5 KiB → 0 B | 414 → 0 | `invokeInterface(Object, Object, Object, Object, Object)`                                   | `java.lang.invoke.LambdaForm$DMH.0x0000000801095000` |
-| removed |  -94.117 KiB | 87.1% → 0.0% | 94.1 KiB → 0 B | 385 → 0 | `guardWithCatch(Object, Object, Object, Object)`                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010d4000`  |
-| removed |  -94.117 KiB | 87.1% → 0.0% | 94.1 KiB → 0 B | 385 → 0 | `reinvoke(Object, Object, Object, Object)`                                                  | `java.lang.invoke.LambdaForm$MH.0x0000000801188800`  |
-| removed |  -94.117 KiB | 87.1% → 0.0% | 94.1 KiB → 0 B | 385 → 0 | `guard(Object, Object, Object, Object)`                                                     | `java.lang.invoke.LambdaForm$MH.0x0000000801188c00`  |
-| removed |  -94.117 KiB | 87.1% → 0.0% | 94.1 KiB → 0 B | 385 → 0 | `invoke(Object, Object, Object, Object)`                                                    | `java.lang.invoke.LambdaForm$MH.0x00000008010d5c00`  |
+|  Change |        Delta |             % |                Size |  Objects | Function                                         | Location                                             |
+| ------: | -----------: | ------------: | ------------------: | -------: | ------------------------------------------------ | ---------------------------------------------------- |
+|  -97.7% | -104.421 KiB |  98.8% → 0.2% |  107 KiB → 2.42 KiB | 689 → 40 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001120400`  |
+|  -95.0% |  -92.515 KiB |  90.1% → 0.5% | 97.4 KiB → 4.88 KiB | 425 → 68 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001360400`  |
+|  -93.9% |  -91.101 KiB |  89.8% → 0.6% |   97 KiB → 5.93 KiB | 422 → 87 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700126a400`  |
+|  -93.2% |  -90.445 KiB |  89.8% → 0.7% |   97 KiB → 6.59 KiB | 422 → 96 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00`  |
+|  -99.3% |  -90.445 KiB |  84.3% → 0.1% |    91.1 KiB → 696 B |  308 → 8 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700136bc00`  |
+|  -94.8% |  -89.078 KiB |  86.9% → 0.5% |   94 KiB → 4.88 KiB | 382 → 68 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001369400`  |
+| -100.0% |  -84.117 KiB | 77.8% → <0.1% |     84.1 KiB → 32 B |  241 → 1 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001662000`  |
+|  -99.1% |  -78.789 KiB |  73.5% → 0.1% |    79.5 KiB → 696 B |  149 → 8 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001373c00`  |
+|  -98.8% |  -78.531 KiB |  73.5% → 0.1% |    79.5 KiB → 960 B | 149 → 10 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001373000`  |
+|  -99.8% |  -77.523 KiB | 71.8% → <0.1% |    77.6 KiB → 120 B |  143 → 1 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070018c0800`  |
+|  -99.9% |  -77.273 KiB | 71.5% → <0.1% |     77.3 KiB → 48 B |  138 → 1 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700152bc00`  |
+|  -99.6% |  -77.023 KiB | 71.5% → <0.1% |    77.3 KiB → 304 B |  138 → 5 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001130800`  |
+|  -92.4% |  -73.429 KiB |  73.5% → 0.6% | 79.5 KiB → 6.04 KiB | 149 → 90 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001268800`  |
+|  -91.4% |  -71.187 KiB |  72.0% → 0.7% | 77.8 KiB → 6.66 KiB |  146 → 3 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070017c2800`  |
+| removed |  -70.132 KiB |  64.9% → 0.0% |      70.1 KiB → 0 B |  136 → 0 | `invokeVirtual(Object, Object, int)`             | `java.lang.invoke.LambdaForm$DMH.0x0000000801109400` |
+|  -99.9% |  -68.695 KiB | 63.6% → <0.1% |     68.7 KiB → 40 B |  106 → 1 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001371c00`  |
+|  -83.5% |   -65.07 KiB |  72.1% → 1.3% | 77.9 KiB → 12.8 KiB | 148 → 10 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070010c9000`  |
+| removed |  -64.195 KiB |  59.4% → 0.0% |      64.2 KiB → 0 B |    5 → 0 | `list()`                                         | `org.apache.groovy.parser.antlr4.GroovyParser`       |
+|  -99.9% |  -64.132 KiB | 59.4% → <0.1% |     64.2 KiB → 40 B |    4 → 1 | `expressionList(boolean)`                        | `org.apache.groovy.parser.antlr4.GroovyParser`       |
+| removed |  -64.015 KiB |  59.2% → 0.0% |        64 KiB → 0 B |    1 → 0 | `<init>(int)`                                    | `java.util.concurrent.atomic.AtomicIntegerArray`     |

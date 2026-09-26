@@ -472,6 +472,27 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - NEVER call a change the metric does not measure better or worse. A wrong call
   reads as a finding; an unranked change reads as a number
 
+### Matching
+
+- Where a profiler writes an identifier that differs per run into an entry's
+  name or location (a runtime address, a random ID), strip it in the origin's
+  `matchEntry`, built with `matchEntryFromRules`. Keep the part that identifies
+  the entity (`Foo$$Lambda` of `Foo$$Lambda.0x00000070011868b8`). Verify the
+  identifier differs per run from the profiler's source or a committed
+  base/current pair, never from its shape alone
+- Strip an identifier that differs per build (a Nix store hash) only where the
+  rest of the name or path identifies the entity across builds
+- Keep a number the compiler assigns to distinct functions (`func1`, `dgm$598`)
+  and an unsymbolized address, because stripping either gives distinct functions
+  one match key
+- Record in the rule's doc comment which entities share a match key once it
+  strips the identifier. The diff pairs them in order
+- Drop a pseudo-frame (`[tid=16387]`) in `normalizeStackFrame`, never by
+  matching it
+- `src/origins/index.test.ts` fails when an unpaired base key and an unpaired
+  current key differ only by an address or a hex ID. It cannot tell a decimal ID
+  from a compiler's numbering, so read a new input's unpaired rows for one
+
 ### Categorizing
 
 - `FunctionCategory` is a closed set. Add a category only when the distinction

@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
+import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 
@@ -197,5 +198,28 @@ describe(`categorizeEntry`, () => {
   // nothing about what the code is.
   test(`the unknown-assembly ?!? frame is unknown`, () => {
     expect(categorizeEntry(named(`?!?`))).toBe(`unknown`)
+  })
+})
+
+describe(`matchEntry`, () => {
+  test(`strips the method table addresses from a signature`, () => {
+    expect(
+      matchEntryForOrigin(
+        typeEntry(
+          `Regex2_Scan(pMT: 0x105526b78, pMT: 0x104f4f7f0<wchar>)`,
+          `dynamicClass`,
+        ),
+        `dotnet-trace`,
+      ),
+    ).toEqual({ name: `Regex2_Scan(pMT, pMT<wchar>)` })
+  })
+
+  test(`an entry without an address normalizes to undefined`, () => {
+    expect(
+      matchEntryForOrigin(
+        typeEntry(`Main(String[])`, `Profile.Program`),
+        `dotnet-trace`,
+      ),
+    ).toBeUndefined()
   })
 })

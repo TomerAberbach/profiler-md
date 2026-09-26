@@ -173,8 +173,6 @@ Functions with the largest increase in total samples taken in the function and a
 
 | Change | Delta |             % |       Samples | Function                                   | Location                                                            |
 | -----: | ----: | ------------: | ------------: | ------------------------------------------ | ------------------------------------------------------------------- |
-|    new |  +637 |  0.0% → 48.8% |       0 → 637 | `invokeStatic`                             | `java.lang.invoke.LambdaForm$DMH.0x0000000801008000`                |
-|    new |  +637 |  0.0% → 48.8% |       0 → 637 | `invoke`                                   | `java.lang.invoke.LambdaForm$MH.0x0000000801009400`                 |
 | +12.1% |   +48 | 31.7% → 34.2% |     398 → 446 | `executePhase`                             | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase`    |
 |  +3.7% |   +47 |         99.9% | 1,256 → 1,303 | `run`                                      | `org.jetbrains.kotlin.preloading.Preloader`                         |
 |  +3.7% |   +47 |         99.9% | 1,256 → 1,303 | `main`                                     | `org.jetbrains.kotlin.preloading.Preloader`                         |
@@ -187,6 +185,8 @@ Functions with the largest increase in total samples taken in the function and a
 |  +6.2% |   +36 | 46.5% → 47.6% |     585 → 621 | `execImpl`                                 | `org.jetbrains.kotlin.cli.common.CLICompiler`                       |
 |  +6.0% |   +36 | 47.8% → 48.8% |     601 → 637 | `main`                                     | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`              |
 |  +6.0% |   +36 | 47.8% → 48.8% |     601 → 637 | `main`                                     | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                        |
+|  +6.0% |   +36 | 47.8% → 48.8% |     601 → 637 | `invokeStatic`                             | `java.lang.invoke.LambdaForm$DMH.0x0000000801008000`                |
+|  +6.0% |   +36 | 47.8% → 48.8% |     601 → 637 | `invoke`                                   | `java.lang.invoke.LambdaForm$MH.0x0000000801009400`                 |
 |  +6.0% |   +36 | 47.8% → 48.8% |     601 → 637 | `invokeImpl`                               | `jdk.internal.reflect.DirectMethodHandleAccessor`                   |
 |  +6.0% |   +36 | 47.8% → 48.8% |     601 → 637 | `invoke`                                   | `jdk.internal.reflect.DirectMethodHandleAccessor`                   |
 | +14.3% |   +35 | 19.4% → 21.4% |     244 → 279 | `transformInplace`                         | `org.jetbrains.kotlin.fir.visitors.FirTransformerUtilKt`            |
@@ -198,13 +198,12 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |             % |   Samples | Function            | Location                                             |
 | ------: | ----: | ------------: | --------: | ------------------- | ---------------------------------------------------- |
-|     new |  +637 |  0.0% → 48.8% |   0 → 637 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000000801008000` |
-|     new |  +637 |  0.0% → 48.8% |   0 → 637 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x0000000801009400`  |
 |   +6.3% |   +38 | 47.8% → 49.0% | 601 → 639 | `invoke`            | `java.lang.reflect.Method`                           |
 |   +6.2% |   +37 | 47.8% → 48.9% | 601 → 638 | `invokeExact_MT`    | `java.lang.invoke.Invokers$Holder`                   |
+|   +6.0% |   +36 | 47.8% → 48.8% | 601 → 637 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000000801008000` |
+|   +6.0% |   +36 | 47.8% → 48.8% | 601 → 637 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x0000000801009400`  |
 |   +6.0% |   +36 | 47.8% → 48.8% | 601 → 637 | `invokeImpl`        | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
 |   +6.0% |   +36 | 47.8% → 48.8% | 601 → 637 | `invoke`            | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-|     new |   +34 |   0.0% → 2.6% |    0 → 34 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000000801230000` |
 |  +84.2% |   +16 |   1.5% → 2.7% |   19 → 35 | `loadClass`         | `java.lang.ClassLoader`                              |
 |  +33.3% |   +12 |   2.9% → 3.7% |   36 → 48 | `getValue`          | `kotlin.SafePublicationLazyImpl`                     |
 | +225.0% |    +9 |   0.3% → 1.0% |    4 → 13 | `getBytes`          | `jdk.internal.loader.Resource`                       |
@@ -213,6 +212,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +90.0% |    +9 |   0.8% → 1.5% |   10 → 19 | `doPrivileged`      | `java.security.AccessController`                     |
 | +133.3% |    +8 |   0.5% → 1.1% |    6 → 14 | `replace`           | `java.lang.StringLatin1`                             |
 | +133.3% |    +8 |   0.5% → 1.1% |    6 → 14 | `replace`           | `java.lang.String`                                   |
+|  +30.8% |    +8 |   2.1% → 2.6% |   26 → 34 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000000801230000` |
 |  +27.6% |    +8 |   2.3% → 2.8% |   29 → 37 | `linkCallSiteImpl`  | `java.lang.invoke.MethodHandleNatives`               |
 |  +27.6% |    +8 |   2.3% → 2.8% |   29 → 37 | `linkCallSite`      | `java.lang.invoke.MethodHandleNatives`               |
 | +160.0% |    +8 |   0.4% → 1.0% |    5 → 13 | `defineClass`       | `java.net.URLClassLoader`                            |
@@ -248,36 +248,10 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-|  Change | Delta |            % | Samples | Function                   | Location                                                                                                 |
-| ------: | ----: | -----------: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------- |
-| removed |  -601 | 47.8% → 0.0% | 601 → 0 | `invokeStatic`             | `java.lang.invoke.LambdaForm$DMH.0x000000c801008000`                                                     |
-| removed |  -601 | 47.8% → 0.0% | 601 → 0 | `invoke`                   | `java.lang.invoke.LambdaForm$MH.0x000000c801009400`                                                      |
-| removed |   -26 |  2.1% → 0.0% |  26 → 0 | `invokeStatic`             | `java.lang.invoke.LambdaForm$DMH.0x000000c801230000`                                                     |
-|  -50.0% |   -20 |  3.2% → 1.5% | 40 → 20 | `performTransformations`   | `org.jetbrains.kotlin.codegen.optimization.OptimizationMethodVisitor`                                    |
-|  -42.5% |   -17 |  3.2% → 1.8% | 40 → 23 | `invokeSuspend`            | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner$processCandidate$1`                 |
-|  -41.5% |   -17 |  3.3% → 1.8% | 41 → 24 | `processCandidate`         | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner`                                    |
-|  -41.5% |   -17 |  3.3% → 1.8% | 41 → 24 | `processCandidate$default` | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner`                                    |
-|  -44.7% |   -17 |  3.0% → 1.6% | 38 → 21 | `transform`                | `org.jetbrains.kotlin.fir.declarations.FirProperty`                                                      |
-|  -41.0% |   -16 |  3.1% → 1.8% | 39 → 23 | `visitStatement`           | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                                                    |
-|  -41.0% |   -16 |  3.1% → 1.8% | 39 → 23 | `visitExpression`          | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                                                    |
-|  -38.1% |   -16 |  3.3% → 2.0% | 42 → 26 | `transform`                | `org.jetbrains.kotlin.codegen.optimization.transformer.CompositeMethodTransformer`                       |
-|  -48.5% |   -16 |  2.6% → 1.3% | 33 → 17 | `transformProperty`        | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`           |
-|  -48.5% |   -16 |  2.6% → 1.3% | 33 → 17 | `transformProperty`        | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher` |
-|  -42.9% |   -15 |  2.8% → 1.5% | 35 → 20 | `visitElement`             | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`                        |
-|  -39.5% |   -15 |  3.0% → 1.8% | 38 → 23 | `visitAnnotationContainer` | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`                        |
-|  -39.5% |   -15 |  3.0% → 1.8% | 38 → 23 | `visitBlock`               | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`                        |
-|  -38.5% |   -15 |  3.1% → 1.8% | 39 → 24 | `accept`                   | `org.jetbrains.kotlin.fir.expressions.FirBlock`                                                          |
-|  -45.5% |   -15 |  2.6% → 1.4% | 33 → 18 | `acceptChildren`           | `org.jetbrains.kotlin.fir.expressions.impl.FirBlockImpl`                                                 |
-|  -34.9% |   -15 |  3.4% → 2.1% | 43 → 28 | `visitEnd`                 | `org.jetbrains.kotlin.codegen.TransformationMethodVisitor`                                               |
-|  -34.9% |   -15 |  3.4% → 2.1% | 43 → 28 | `visitEnd`                 | `org.jetbrains.org.objectweb.asm.MethodVisitor`                                                          |
-
 ##### Standard library
 
 |  Change | Delta |             % |   Samples | Function                     | Location                                                                       |
 | ------: | ----: | ------------: | --------: | ---------------------------- | ------------------------------------------------------------------------------ |
-| removed |  -601 |  47.8% → 0.0% |   601 → 0 | `invokeStatic`               | `java.lang.invoke.LambdaForm$DMH.0x000000c801008000`                           |
-| removed |  -601 |  47.8% → 0.0% |   601 → 0 | `invoke`                     | `java.lang.invoke.LambdaForm$MH.0x000000c801009400`                            |
-| removed |   -26 |   2.1% → 0.0% |    26 → 0 | `invokeStatic`               | `java.lang.invoke.LambdaForm$DMH.0x000000c801230000`                           |
 |  -81.8% |    -9 |   0.9% → 0.2% |    11 → 2 | `<init>`                     | `java.util.ArrayList`                                                          |
 |   -6.7% |    -7 |   8.4% → 7.5% |  105 → 98 | `resumeWith`                 | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`                          |
 |   -2.1% |    -7 | 26.9% → 25.4% | 338 → 331 | `copyOf`                     | `java.util.Arrays`                                                             |
@@ -295,6 +269,9 @@ Functions with the largest decrease in total samples taken in the function and a
 |  -36.4% |    -4 |   0.9% → 0.5% |    11 → 7 | `<init>`                     | `java.lang.StringBuilder`                                                      |
 | removed |    -4 |   0.3% → 0.0% |     4 → 0 | `builder`                    | `kotlinx.collections.immutable.implementations.immutableMap.PersistentHashMap` |
 |  -80.0% |    -4 |   0.4% → 0.1% |     5 → 1 | `addAll`                     | `java.util.ArrayList`                                                          |
+|  -80.0% |    -4 |   0.4% → 0.1% |     5 → 1 | `iterator`                   | `java.util.LinkedHashMap$LinkedEntrySet`                                       |
+|  -14.3% |    -3 |   1.7% → 1.4% |   21 → 18 | `toString`                   | `java.lang.StringBuilder`                                                      |
+|   -4.3% |    -3 |   5.6% → 5.1% |   70 → 67 | `clone`                      | `java.lang.Object`                                                             |
 
 ##### Ours
 

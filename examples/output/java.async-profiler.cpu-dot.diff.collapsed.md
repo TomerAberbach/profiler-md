@@ -86,28 +86,28 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### Standard library
 
-|  Change | Delta |            % |   Samples | Function              | Location                                           |
-| ------: | ----: | -----------: | --------: | --------------------- | -------------------------------------------------- |
-|  +46.2% |   +49 |  2.3% → 3.4% | 106 → 155 | `doubleValue`         | `java.lang.Double`                                 |
-| +190.0% |   +38 |  0.4% → 1.3% |   20 → 58 | `grow`                | `java.util.ArrayList`                              |
-|  +45.8% |   +11 |  0.5% → 0.8% |   24 → 35 | `helpJoin`            | `java.util.concurrent.ForkJoinPool`                |
-|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `scan`                | `java.util.concurrent.ForkJoinPool`                |
-|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `copyOf`              | `java.util.Arrays`                                 |
-| +150.0% |    +3 | <0.1% → 0.1% |     2 → 5 | `nextNode`            | `java.util.HashMap$HashIterator`                   |
-|  +50.0% |    +2 |         0.1% |     4 → 6 | `forEach`             | `java.util.HashMap`                                |
-|     new |    +2 | 0.0% → <0.1% |     0 → 2 | `getRawResult`        | `java.util.concurrent.RecursiveTask`               |
-|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `join`                | `java.util.concurrent.ForkJoinTask`                |
-| +100.0% |    +1 |        <0.1% |     1 → 2 | `exec`                | `java.util.concurrent.RecursiveTask`               |
-|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `addAll`              | `java.util.ArrayList`                              |
-|  +12.5% |    +1 |         0.2% |     8 → 9 | `merge`               | `java.util.HashMap`                                |
-|   +3.8% |    +1 |         0.6% |   26 → 27 | `hash`                | `java.util.HashMap`                                |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `evaluateToArrayNode` | `java.util.stream.AbstractPipeline`                |
-| +100.0% |    +1 |        <0.1% |     1 → 2 | `newNode`             | `java.util.HashMap`                                |
-| +100.0% |    +1 |        <0.1% |     1 → 2 | `entrySet`            | `java.util.HashMap`                                |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `readLine`            | `java.util.jar.Manifest$FastInputStream`           |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `isKnown`             | `java.util.stream.StreamOpFlag`                    |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `advance`             | `java.util.concurrent.ConcurrentHashMap$Traverser` |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `getEntryHash`        | `java.util.zip.ZipFile$Source`                     |
+|  Change | Delta |            % |   Samples | Function              | Location                                            |
+| ------: | ----: | -----------: | --------: | --------------------- | --------------------------------------------------- |
+|  +46.2% |   +49 |  2.3% → 3.4% | 106 → 155 | `doubleValue`         | `java.lang.Double`                                  |
+| +190.0% |   +38 |  0.4% → 1.3% |   20 → 58 | `grow`                | `java.util.ArrayList`                               |
+|  +45.8% |   +11 |  0.5% → 0.8% |   24 → 35 | `helpJoin`            | `java.util.concurrent.ForkJoinPool`                 |
+|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `scan`                | `java.util.concurrent.ForkJoinPool`                 |
+|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `copyOf`              | `java.util.Arrays`                                  |
+| +150.0% |    +3 | <0.1% → 0.1% |     2 → 5 | `nextNode`            | `java.util.HashMap$HashIterator`                    |
+|  +50.0% |    +2 |         0.1% |     4 → 6 | `forEach`             | `java.util.HashMap`                                 |
+|     new |    +2 | 0.0% → <0.1% |     0 → 2 | `getRawResult`        | `java.util.concurrent.RecursiveTask`                |
+|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `join`                | `java.util.concurrent.ForkJoinTask`                 |
+| +100.0% |    +1 |        <0.1% |     1 → 2 | `exec`                | `java.util.concurrent.RecursiveTask`                |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `invoke`              | `java.lang.invoke.LambdaForm$MH.0x0000007001000c00` |
+|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `addAll`              | `java.util.ArrayList`                               |
+|  +12.5% |    +1 |         0.2% |     8 → 9 | `merge`               | `java.util.HashMap`                                 |
+|   +3.8% |    +1 |         0.6% |   26 → 27 | `hash`                | `java.util.HashMap`                                 |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `evaluateToArrayNode` | `java.util.stream.AbstractPipeline`                 |
+| +100.0% |    +1 |        <0.1% |     1 → 2 | `newNode`             | `java.util.HashMap`                                 |
+| +100.0% |    +1 |        <0.1% |     1 → 2 | `entrySet`            | `java.util.HashMap`                                 |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `readLine`            | `java.util.jar.Manifest$FastInputStream`            |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `isKnown`             | `java.util.stream.StreamOpFlag`                     |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `advance`             | `java.util.concurrent.ConcurrentHashMap$Traverser`  |
 
 ##### JIT
 

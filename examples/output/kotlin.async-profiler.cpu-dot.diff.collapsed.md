@@ -292,8 +292,6 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |             % |   Samples | Function                                        | Location                                                           |
 | ------: | ----: | ------------: | --------: | ----------------------------------------------- | ------------------------------------------------------------------ |
-|     new |  +348 |  0.0% → 26.4% |   0 → 348 | `invokeStatic`                                  | `java.lang.invoke.LambdaForm$DMH.0x000000d801008000`               |
-|     new |  +348 |  0.0% → 26.4% |   0 → 348 | `invoke`                                        | `java.lang.invoke.LambdaForm$MH.0x000000d801009400`                |
 |   +4.3% |   +37 | 66.6% → 67.6% | 854 → 891 | `Thread::call_run`                              | `<unknown>`                                                        |
 |   +4.3% |   +37 | 66.6% → 67.6% | 854 → 891 | `thread_native_entry`                           | `<unknown>`                                                        |
 |   +4.3% |   +37 | 66.6% → 67.6% | 855 → 892 | `_pthread_start`                                | `<unknown>`                                                        |
@@ -312,6 +310,8 @@ Functions with the largest increase in total samples taken in the function and a
 |  +26.8% |   +11 |   3.2% → 3.9% |   41 → 52 | `runTasks`                                      | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager` |
 |  +25.6% |   +11 |   3.4% → 4.1% |   43 → 54 | `runResolver`                                   | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`    |
 |  +25.0% |   +11 |   3.4% → 4.2% |   44 → 55 | `runResolver$default`                           | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`    |
+|  +24.4% |   +11 |   3.5% → 4.2% |   45 → 56 | `collectCandidates`                             | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`           |
+|  +24.4% |   +11 |   3.5% → 4.2% |   45 → 56 | `collectCandidates$default`                     | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`           |
 
 ##### Compiler
 
@@ -390,28 +390,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function                       | Location                                                |
-| ------: | ----: | -----------: | ------: | ------------------------------ | ------------------------------------------------------- |
-|     new |  +348 | 0.0% → 26.4% | 0 → 348 | `invokeStatic`                 | `java.lang.invoke.LambdaForm$DMH.0x000000d801008000`    |
-|     new |  +348 | 0.0% → 26.4% | 0 → 348 | `invoke`                       | `java.lang.invoke.LambdaForm$MH.0x000000d801009400`     |
-|  +21.7% |   +10 |  3.6% → 4.2% | 46 → 56 | `resumeWith`                   | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`   |
-|  +20.0% |   +10 |  3.9% → 4.5% | 50 → 60 | `defineClass1`                 | `java.lang.ClassLoader`                                 |
-|  +17.5% |   +10 |  4.4% → 5.1% | 57 → 67 | `loadClass`                    | `java.lang.ClassLoader`                                 |
-|  +15.1% |    +8 |  4.1% → 4.6% | 53 → 61 | `defineClass`                  | `java.lang.ClassLoader`                                 |
-|  +66.7% |    +6 |  0.7% → 1.1% |  9 → 15 | `getValue`                     | `kotlin.UnsafeLazyImpl`                                 |
-|     new |    +5 |  0.0% → 0.4% |   0 → 5 | `invokeStatic`                 | `java.lang.invoke.LambdaForm$DMH.0x000000d801230000`    |
-| +300.0% |    +3 |  0.1% → 0.3% |   1 → 4 | `generateCustomizedCode`       | `java.lang.invoke.InvokerBytecodeGenerator`             |
-| +300.0% |    +3 |  0.1% → 0.3% |   1 → 4 | `compileToBytecode`            | `java.lang.invoke.LambdaForm`                           |
-|     new |    +3 |  0.0% → 0.2% |   0 → 3 | `putVal`                       | `java.util.HashMap`                                     |
-|  +66.7% |    +2 |  0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandles$Lookup`                 |
-|  +66.7% |    +2 |  0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandleNatives`                  |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `findBootstrapClass`           | `java.lang.ClassLoader`                                 |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `findBootstrapClassOrNull`     | `java.lang.ClassLoader`                                 |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `updateBytes`                  | `java.util.zip.CRC32`                                   |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `update`                       | `java.util.zip.CRC32`                                   |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `lambda$getProxyConstructor$0` | `java.lang.reflect.Proxy`                               |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `apply`                        | `java.lang.reflect.Proxy$$Lambda.0x000000d801051c10`    |
-| +200.0% |    +2 |  0.1% → 0.2% |   1 → 3 | `get`                          | `jdk.internal.loader.AbstractClassLoaderValue$Memoizer` |
+|  Change | Delta |           % | Samples | Function                       | Location                                                |
+| ------: | ----: | ----------: | ------: | ------------------------------ | ------------------------------------------------------- |
+|  +21.7% |   +10 | 3.6% → 4.2% | 46 → 56 | `resumeWith`                   | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`   |
+|  +20.0% |   +10 | 3.9% → 4.5% | 50 → 60 | `defineClass1`                 | `java.lang.ClassLoader`                                 |
+|  +17.5% |   +10 | 4.4% → 5.1% | 57 → 67 | `loadClass`                    | `java.lang.ClassLoader`                                 |
+|  +15.1% |    +8 | 4.1% → 4.6% | 53 → 61 | `defineClass`                  | `java.lang.ClassLoader`                                 |
+|  +66.7% |    +6 | 0.7% → 1.1% |  9 → 15 | `getValue`                     | `kotlin.UnsafeLazyImpl`                                 |
+| +300.0% |    +3 | 0.1% → 0.3% |   1 → 4 | `generateCustomizedCode`       | `java.lang.invoke.InvokerBytecodeGenerator`             |
+| +300.0% |    +3 | 0.1% → 0.3% |   1 → 4 | `compileToBytecode`            | `java.lang.invoke.LambdaForm`                           |
+|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `putVal`                       | `java.util.HashMap`                                     |
+|  +66.7% |    +2 | 0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandles$Lookup`                 |
+|  +66.7% |    +2 | 0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandleNatives`                  |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `findBootstrapClass`           | `java.lang.ClassLoader`                                 |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `findBootstrapClassOrNull`     | `java.lang.ClassLoader`                                 |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `updateBytes`                  | `java.util.zip.CRC32`                                   |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `update`                       | `java.util.zip.CRC32`                                   |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `lambda$getProxyConstructor$0` | `java.lang.reflect.Proxy`                               |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `apply`                        | `java.lang.reflect.Proxy$$Lambda.0x000000d801051c10`    |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `get`                          | `jdk.internal.loader.AbstractClassLoaderValue$Memoizer` |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `computeIfAbsent`              | `jdk.internal.loader.AbstractClassLoaderValue`          |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `getProxyConstructor`          | `java.lang.reflect.Proxy`                               |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `newProxyInstance`             | `java.lang.reflect.Proxy`                               |
 
 ##### JIT
 
@@ -425,28 +425,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-|  Change | Delta |            % | Samples | Function                             | Location                                                               |
-| ------: | ----: | -----------: | ------: | ------------------------------------ | ---------------------------------------------------------------------- |
-| removed |  -348 | 27.1% → 0.0% | 348 → 0 | `invokeStatic`                       | `java.lang.invoke.LambdaForm$DMH.0x0000000301008400`                   |
-| removed |  -348 | 27.1% → 0.0% | 348 → 0 | `invoke`                             | `java.lang.invoke.LambdaForm$MH.0x0000000301009800`                    |
-|  -31.6% |   -12 |  3.0% → 2.0% | 38 → 26 | `acceptChildren`                     | `org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl`      |
-|  -41.7% |   -10 |  1.9% → 1.1% | 24 → 14 | `tlv_get_addr`                       | `<unknown>`                                                            |
-|  -42.9% |    -9 |  1.6% → 0.9% | 21 → 12 | `PhaseLive::compute`                 | `<unknown>`                                                            |
-|  -47.1% |    -8 |  1.3% → 0.7% |  17 → 9 | `visitJump`                          | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                  |
-|  -47.1% |    -8 |  1.3% → 0.7% |  17 → 9 | `visitReturnExpression`              | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                  |
-|  -25.8% |    -8 |  2.4% → 1.7% | 31 → 23 | `runCompletion`                      | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
-|  -25.8% |    -8 |  2.4% → 1.7% | 31 → 23 | `complete`                           | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
-|  -25.8% |    -8 |  2.4% → 1.7% | 31 → 23 | `runCompletionForCall`               | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`          |
-|  -12.3% |    -8 |  5.1% → 4.3% | 65 → 57 | `Parse::do_one_block`                | `<unknown>`                                                            |
-|  -12.3% |    -8 |  5.1% → 4.3% | 65 → 57 | `Parse::do_all_blocks`               | `<unknown>`                                                            |
-|  -12.3% |    -8 |  5.1% → 4.3% | 65 → 57 | `Parse::Parse`                       | `<unknown>`                                                            |
-|  -12.3% |    -8 |  5.1% → 4.3% | 65 → 57 | `ParseGenerator::generate`           | `<unknown>`                                                            |
-|  -42.1% |    -8 |  1.5% → 0.8% | 19 → 11 | `LinkResolver::resolve_invoke`       | `<unknown>`                                                            |
-|  -40.0% |    -8 |  1.6% → 0.9% | 20 → 12 | `InterpreterRuntime::resolve_invoke` | `<unknown>`                                                            |
-|  -20.5% |    -8 |  3.0% → 2.4% | 39 → 31 | `GraphBuilder::try_inline_full`      | `<unknown>`                                                            |
-|  -11.7% |    -7 |  4.7% → 4.0% | 60 → 53 | `PhaseIterGVN::optimize`             | `<unknown>`                                                            |
-|  -46.7% |    -7 |  1.2% → 0.6% |  15 → 8 | `LinearScan::build_intervals`        | `<unknown>`                                                            |
-|  -77.8% |    -7 |  0.7% → 0.2% |   9 → 2 | `_platform_memmove`                  | `<unknown>`                                                            |
+| Change | Delta |           % | Samples | Function                             | Location                                                               |
+| -----: | ----: | ----------: | ------: | ------------------------------------ | ---------------------------------------------------------------------- |
+| -31.6% |   -12 | 3.0% → 2.0% | 38 → 26 | `acceptChildren`                     | `org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl`      |
+| -41.7% |   -10 | 1.9% → 1.1% | 24 → 14 | `tlv_get_addr`                       | `<unknown>`                                                            |
+| -42.9% |    -9 | 1.6% → 0.9% | 21 → 12 | `PhaseLive::compute`                 | `<unknown>`                                                            |
+| -47.1% |    -8 | 1.3% → 0.7% |  17 → 9 | `visitJump`                          | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                  |
+| -47.1% |    -8 | 1.3% → 0.7% |  17 → 9 | `visitReturnExpression`              | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                  |
+| -25.8% |    -8 | 2.4% → 1.7% | 31 → 23 | `runCompletion`                      | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
+| -25.8% |    -8 | 2.4% → 1.7% | 31 → 23 | `complete`                           | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
+| -25.8% |    -8 | 2.4% → 1.7% | 31 → 23 | `runCompletionForCall`               | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`          |
+| -12.3% |    -8 | 5.1% → 4.3% | 65 → 57 | `Parse::do_one_block`                | `<unknown>`                                                            |
+| -12.3% |    -8 | 5.1% → 4.3% | 65 → 57 | `Parse::do_all_blocks`               | `<unknown>`                                                            |
+| -12.3% |    -8 | 5.1% → 4.3% | 65 → 57 | `Parse::Parse`                       | `<unknown>`                                                            |
+| -12.3% |    -8 | 5.1% → 4.3% | 65 → 57 | `ParseGenerator::generate`           | `<unknown>`                                                            |
+| -42.1% |    -8 | 1.5% → 0.8% | 19 → 11 | `LinkResolver::resolve_invoke`       | `<unknown>`                                                            |
+| -40.0% |    -8 | 1.6% → 0.9% | 20 → 12 | `InterpreterRuntime::resolve_invoke` | `<unknown>`                                                            |
+| -20.5% |    -8 | 3.0% → 2.4% | 39 → 31 | `GraphBuilder::try_inline_full`      | `<unknown>`                                                            |
+| -11.7% |    -7 | 4.7% → 4.0% | 60 → 53 | `PhaseIterGVN::optimize`             | `<unknown>`                                                            |
+| -46.7% |    -7 | 1.2% → 0.6% |  15 → 8 | `LinearScan::build_intervals`        | `<unknown>`                                                            |
+| -77.8% |    -7 | 0.7% → 0.2% |   9 → 2 | `_platform_memmove`                  | `<unknown>`                                                            |
+| -87.5% |    -7 | 0.6% → 0.1% |   8 → 1 | `Compile::disconnect_useless_nodes`  | `<unknown>`                                                            |
+| -17.9% |    -7 | 3.0% → 2.4% | 39 → 32 | `GraphBuilder::try_inline`           | `<unknown>`                                                            |
 
 ##### Compiler
 
@@ -525,28 +525,28 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function                  | Location                                             |
-| ------: | ----: | -----------: | ------: | ------------------------- | ---------------------------------------------------- |
-| removed |  -348 | 27.1% → 0.0% | 348 → 0 | `invokeStatic`            | `java.lang.invoke.LambdaForm$DMH.0x0000000301008400` |
-| removed |  -348 | 27.1% → 0.0% | 348 → 0 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x0000000301009800`  |
-| removed |    -6 |  0.5% → 0.0% |   6 → 0 | `invokeStatic`            | `java.lang.invoke.LambdaForm$DMH.0x0000000301234000` |
-|  -42.9% |    -6 |  1.1% → 0.6% |  14 → 8 | `checkNotNullParameter`   | `kotlin.jvm.internal.Intrinsics`                     |
-| removed |    -5 |  0.4% → 0.0% |   5 → 0 | `hash`                    | `java.util.HashMap`                                  |
-| removed |    -4 |  0.3% → 0.0% |   4 → 0 | `clone`                   | `java.lang.Object`                                   |
-|  -66.7% |    -4 |  0.5% → 0.2% |   6 → 2 | `sanitizeStackTrace`      | `kotlin.jvm.internal.Intrinsics`                     |
-|  -23.1% |    -3 |  1.0% → 0.8% | 13 → 10 | `getValue`                | `kotlin.SynchronizedLazyImpl`                        |
-|  -75.0% |    -3 |  0.3% → 0.1% |   4 → 1 | `defineClass0`            | `java.lang.ClassLoader`                              |
-|  -75.0% |    -3 |  0.3% → 0.1% |   4 → 1 | `defineClass`             | `java.lang.System$2`                                 |
-|  -75.0% |    -3 |  0.3% → 0.1% |   4 → 1 | `defineClass`             | `java.lang.invoke.MethodHandles$Lookup$ClassDefiner` |
-|  -75.0% |    -3 |  0.3% → 0.1% |   4 → 1 | `toByteArray`             | `java.io.ByteArrayOutputStream`                      |
-|  -50.0% |    -3 |  0.5% → 0.2% |   6 → 3 | `throwParameterIsNullNPE` | `kotlin.jvm.internal.Intrinsics`                     |
-|  -75.0% |    -3 |  0.3% → 0.1% |   4 → 1 | `getNode`                 | `java.util.HashMap`                                  |
-|  -50.0% |    -2 |  0.3% → 0.2% |   4 → 2 | `copyOf`                  | `java.util.Arrays`                                   |
-|  -25.0% |    -2 |  0.6% → 0.5% |   8 → 6 | `metafactory`             | `java.lang.invoke.LambdaMetafactory`                 |
-|  -20.0% |    -2 |  0.8% → 0.6% |  10 → 8 | `linkCallSiteImpl`        | `java.lang.invoke.MethodHandleNatives`               |
-|  -20.0% |    -2 |  0.8% → 0.6% |  10 → 8 | `linkCallSite`            | `java.lang.invoke.MethodHandleNatives`               |
-|  -14.3% |    -2 |  1.1% → 0.9% | 14 → 12 | `getValue`                | `kotlin.SafePublicationLazyImpl`                     |
-|  -66.7% |    -2 |  0.2% → 0.1% |   3 → 1 | `copyOfRange`             | `java.util.Arrays`                                   |
+|  Change | Delta |           % | Samples | Function                  | Location                                             |
+| ------: | ----: | ----------: | ------: | ------------------------- | ---------------------------------------------------- |
+|  -42.9% |    -6 | 1.1% → 0.6% |  14 → 8 | `checkNotNullParameter`   | `kotlin.jvm.internal.Intrinsics`                     |
+| removed |    -5 | 0.4% → 0.0% |   5 → 0 | `hash`                    | `java.util.HashMap`                                  |
+| removed |    -4 | 0.3% → 0.0% |   4 → 0 | `clone`                   | `java.lang.Object`                                   |
+|  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `sanitizeStackTrace`      | `kotlin.jvm.internal.Intrinsics`                     |
+|  -23.1% |    -3 | 1.0% → 0.8% | 13 → 10 | `getValue`                | `kotlin.SynchronizedLazyImpl`                        |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `defineClass0`            | `java.lang.ClassLoader`                              |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `defineClass`             | `java.lang.System$2`                                 |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `defineClass`             | `java.lang.invoke.MethodHandles$Lookup$ClassDefiner` |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `toByteArray`             | `java.io.ByteArrayOutputStream`                      |
+|  -50.0% |    -3 | 0.5% → 0.2% |   6 → 3 | `throwParameterIsNullNPE` | `kotlin.jvm.internal.Intrinsics`                     |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `getNode`                 | `java.util.HashMap`                                  |
+|  -50.0% |    -2 | 0.3% → 0.2% |   4 → 2 | `copyOf`                  | `java.util.Arrays`                                   |
+|  -25.0% |    -2 | 0.6% → 0.5% |   8 → 6 | `metafactory`             | `java.lang.invoke.LambdaMetafactory`                 |
+|  -20.0% |    -2 | 0.8% → 0.6% |  10 → 8 | `linkCallSiteImpl`        | `java.lang.invoke.MethodHandleNatives`               |
+|  -20.0% |    -2 | 0.8% → 0.6% |  10 → 8 | `linkCallSite`            | `java.lang.invoke.MethodHandleNatives`               |
+|  -14.3% |    -2 | 1.1% → 0.9% | 14 → 12 | `getValue`                | `kotlin.SafePublicationLazyImpl`                     |
+|  -66.7% |    -2 | 0.2% → 0.1% |   3 → 1 | `copyOfRange`             | `java.util.Arrays`                                   |
+|  -40.0% |    -2 | 0.4% → 0.2% |   5 → 3 | `calcNext`                | `kotlin.sequences.FilteringSequence$iterator$1`      |
+|  -40.0% |    -2 | 0.4% → 0.2% |   5 → 3 | `hasNext`                 | `kotlin.sequences.FilteringSequence$iterator$1`      |
+| removed |    -2 | 0.2% → 0.0% |   2 → 0 | `remove`                  | `java.util.HashMap`                                  |
 
 ##### JIT
 
