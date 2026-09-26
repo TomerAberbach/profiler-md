@@ -67,13 +67,6 @@ export const reportError = (
   process.exit(1)
 }
 
-/**
- * An error's message, followed by one indented `caused by:` line per cause. A
- * cause whose message its parent already ends with is skipped, so a layer that
- * states its cause is not repeated. An auto-detection's rejections are listed
- * under the line that states it, each described the same way and indented,
- * skipping a rejection the line already ends with by the same rule.
- */
 const describeError = (error: unknown): string =>
   describeErrorLines(error).join(`\n`)
 
@@ -83,6 +76,7 @@ const describeErrorLines = (error: unknown): string[] => {
   for (const link of causeChainOf(error)) {
     const message = messageOf(link)
     const [head, ...continuations] = messageLinesOf(link)
+    // A parent that prefixes its cause's message already states it
     if (parent === undefined) {
       lines.push(head, ...continuations.map(indent))
     } else if (!parent.endsWith(message)) {
@@ -103,10 +97,6 @@ const describeErrorLines = (error: unknown): string[] => {
   return lines
 }
 
-/**
- * An error's message split at its continuation lines, which are indented by
- * two spaces, with each line's whitespace collapsed and its indent removed.
- */
 const messageLinesOf = (error: unknown): [string, ...string[]] =>
   (error instanceof Error ? error.message : String(error))
     .split(/\n(?= {2}\S)/u)
@@ -114,7 +104,6 @@ const messageLinesOf = (error: unknown): [string, ...string[]] =>
 
 const indent = (line: string): string => `  ${line}`
 
-/** The bug report request that follows an error line, with the given traces. */
 const bugReport = (request: string, errors: readonly unknown[]): string =>
   [
     request,
@@ -124,7 +113,6 @@ const bugReport = (request: string, errors: readonly unknown[]): string =>
     ``,
   ].join(`\n`)
 
-/** An error's stack trace, or its description when it has none. */
 const stackOf = (error: unknown): string =>
   error instanceof Error
     ? (error.stack ?? `${error.name}: ${error.message}`)

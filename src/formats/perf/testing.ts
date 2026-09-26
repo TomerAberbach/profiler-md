@@ -48,10 +48,6 @@ export type PerfEvent = {
 /** A feature section, by the bit that declares it in the file header. */
 export type PerfFeature = { bit: number; payload: Uint8Array }
 
-/**
- * Builds a `perf.data` file from the events it recorded, the records of its
- * data section, and its feature sections.
- */
 export const makePerf = ({
   events = [{}],
   records = [],
@@ -101,7 +97,6 @@ export const makePerf = ({
   return writer.finish()
 }
 
-/** Writes the header's 256-bit map of the feature sections that follow. */
 const writeFeatureFlags = (writer: Writer, features: PerfFeature[]): void => {
   const flags = new Array<number>(4).fill(0)
   for (const { bit } of features) {
@@ -112,10 +107,6 @@ const writeFeatureFlags = (writer: Writer, features: PerfFeature[]): void => {
   }
 }
 
-/**
- * Writes one `perf_event_attr` per event, each followed by the section naming
- * where the sample ids it owns are written.
- */
 const writeAttrs = (
   writer: Writer,
   events: PerfEvent[],
@@ -146,7 +137,6 @@ const writeAttrs = (
   }
 }
 
-/** Writes the sample ids of every event, in the order the attributes claim. */
 const writeIds = (writer: Writer, events: PerfEvent[]): void => {
   for (const { ids = [] } of events) {
     for (const id of ids) {
@@ -155,7 +145,6 @@ const writeIds = (writer: Writer, events: PerfEvent[]): void => {
   }
 }
 
-/** Writes the descriptor of every feature section, then their payloads. */
 const writeFeatureSections = (
   writer: Writer,
   features: PerfFeature[],

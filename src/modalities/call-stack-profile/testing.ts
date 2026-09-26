@@ -26,11 +26,8 @@ export const makeAggregatedCallStackProfile = (
     /** Leaf-to-caller frame indices of each record; defaults to the function alone. */
     stack?: number[]
   }[],
-  // The forced origin is immaterial for entries with no origin-specific
-  // signal; tests exercising origin-aware match normalization pass the
-  // relevant context.
   context?: ProfileToMdContext,
-  /** Defaults to `SAMPLES`. Pass `null` for counts that measure nothing. */
+  /** Pass `null` for counts that measure nothing. */
   countMetric: Metric | null = SAMPLES,
 ): AggregatedCallStackProfile => {
   const options = resolveProfileToMdOptions({ baseURL: `/project` })

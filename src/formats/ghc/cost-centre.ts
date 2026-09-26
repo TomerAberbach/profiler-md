@@ -38,9 +38,7 @@ export const costCentreStackFrame = ({
  * The cost centre's source and the position its span starts at, where its
  * binding is defined.
  *
- * A cost centre with no source of its own is located nowhere. GHC writes a
- * placeholder in place of a span for its runtime's built-in centres, for a
- * module-wide CAF, and for a binding the compiler generated.
+ * A cost centre with no source of its own is located nowhere.
  *
  * A source matching neither span shape becomes the whole path, since dropping
  * it would lose the file along with the position.
@@ -66,7 +64,10 @@ const costCentreDefinition = (srcLoc: string): StackFrame[`definition`] => {
   }
 }
 
-/** What GHC writes for a cost centre with no source of its own. */
+/**
+ * What GHC writes in place of a span for its runtime's built-in cost centres,
+ * for a module-wide CAF, and for a binding the compiler generated.
+ */
 const PLACEHOLDER_SOURCES = new Set([
   `<built-in>`,
   `<entire-module>`,

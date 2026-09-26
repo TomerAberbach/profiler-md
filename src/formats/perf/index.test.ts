@@ -25,7 +25,6 @@ import {
   truncatedRecord,
 } from './testing.ts'
 
-/** A mapping of a workload binary, and one of the C library beside it. */
 const workloadMapping = mmapRecord({
   start: 0x40_00_00,
   length: 0x1_00_00,

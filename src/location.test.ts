@@ -66,8 +66,6 @@ test(`file URL going up at most two levels stays relative`, () => {
 })
 
 test(`file URL going up more than two levels renders absolute`, () => {
-  // A long `../` prefix says how deep the base URL is rather than where the
-  // file is, so a system/toolchain path renders absolute instead.
   expect(format({ url: `file:///a/file.ts`, baseURL: `/a/b/c/d` })).toBe(
     `/a/file.ts`,
   )

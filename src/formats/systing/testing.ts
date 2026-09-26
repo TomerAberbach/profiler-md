@@ -1,4 +1,3 @@
-/** A valid version-1 header with cpu-clock sampling provenance. */
 export const systingHeader = {
   systing_profile_export: 1,
   producer: `systing 1.11.4`,
@@ -18,10 +17,6 @@ export const systingHeader = {
   system: { sysname: `Linux`, release: `6.12.0`, machine: `x86_64` },
 }
 
-/**
- * Encodes a systing profile export from a header object and record arrays,
- * one JSON value per line.
- */
 export const makeSysting = (
   records: unknown[],
   header: object = systingHeader,

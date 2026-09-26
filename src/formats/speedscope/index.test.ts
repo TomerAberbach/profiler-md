@@ -91,7 +91,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Work has 2 samples (30ms self), main has 1 sample (5ms self)
     expect(selfTimeTables(md)).toEqual([
       [
         {
@@ -110,7 +109,6 @@ describe(`convert`, () => {
         },
       ],
     ])
-    // Main total = 3 samples (35ms)
     expect(totalTimeTables(md)).toEqual([
       [
         {
@@ -158,7 +156,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Main: self=10ms, total=15ms; work: self=5ms, total=5ms
     expect(summaryLines(md)).toEqual([`Took 15.0ms.`])
     expect(selfTimeTables(md)).toEqual([
       [
@@ -198,11 +195,9 @@ describe(`convert`, () => {
       }),
     )
 
-    // Both profiles should appear in the output.
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
     ).toEqual([[`funcA`], [`funcB`]])
-    // Two separate profile sections.
     expect(profileTitles(md)).toEqual([`Sampling profile`, `Sampling profile`])
   })
 
@@ -237,9 +232,9 @@ describe(`convert`, () => {
   )
 
   test(`per-sampled-line frames merge into one function with a line breakdown under a py-spy origin`, () => {
-    // Py-spy emits one frame per *sampled* line; once its origin is detected
-    // (here by the CPython stdlib location), the line must feed the function's
-    // line breakdown rather than fragment its identity into a row per line.
+    // Py-spy emits one frame per sampled line. Once its origin is detected,
+    // here by the CPython stdlib location, the line feeds the function's line
+    // breakdown instead of splitting its identity into a row per line.
     const profile = makeSpeedscopeProfile({
       profiles: [
         makeSampledProfile({
@@ -364,8 +359,8 @@ describe(`convert`, () => {
       }),
     )
 
-    // All 3 samples count, including the zero-weight one, so the count agrees
-    // with other renderings of the same recording; the total stays 30ms.
+    // The zero-weight sample counts, so the count agrees with other renderings
+    // of the same recording.
     expect(summaryLines(md)).toEqual([
       expect.stringContaining(`30.0ms over 3 samples`),
     ])
@@ -395,7 +390,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Recursive: total should be deduplicated (1 sample, not 2)
     expect(totalTimeTables(md)).toEqual([
       [
         {

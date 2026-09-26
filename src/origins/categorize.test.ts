@@ -29,7 +29,6 @@ describe(`every origin`, () => {
     expect(categorizeEntryForOrigin(named(`(anonymous)`), origin)).toBe(
       `unknown`,
     )
-    // A located project file is ours.
     expect(
       categorizeEntryForOrigin(located(`file:///app/src/index.ts`), origin),
     ).toBe(`ours`)

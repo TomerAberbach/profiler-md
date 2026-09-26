@@ -15,7 +15,6 @@ const graph = fc
     ),
   )
 
-/** Whether each pair of nodes was assigned the same component. */
 const sameComponent = (componentIndices: number[]): boolean[][] =>
   componentIndices.map(index1 =>
     componentIndices.map(index2 => index1 === index2),

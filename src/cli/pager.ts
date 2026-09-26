@@ -5,8 +5,8 @@ import { isClosedReaderError } from './error.ts'
 import type { Output } from './output.ts'
 
 /**
- * Opens the user's pager, or `less`, for stdout output. Returns `null` when an
- * empty `PAGER` opts out of paging or no pager spawns.
+ * Opens the user's pager, or `less`. Returns `null` when an empty `PAGER` opts
+ * out of paging or no pager spawns.
  *
  * A pager that fails before it shows anything would lose the output, so the
  * returned output writes to `fallback` when the pager exits with a non-zero
@@ -118,7 +118,6 @@ const writeStdin = (child: PagerProcess, text: string): Promise<void> =>
     )
   })
 
-/** Resolves to the pager's exit status, or `null` when a signal killed it. */
 const waitForExit = (child: PagerProcess): Promise<number | null> =>
   new Promise((resolve, reject) => {
     child.once(`exit`, code => resolve(code))

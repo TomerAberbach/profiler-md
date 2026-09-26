@@ -12,7 +12,6 @@ import { sourceMapSourceLocation } from './source-map.ts'
 import type { SourceMap } from './source-map.ts'
 import { expectLogs, resolveProfileToMdOptions } from './testing.ts'
 
-// Maps generated line 1 col 0 -> sources[0] line 1 col 0 (0-based).
 const L1_C0_TO_SOURCE_0_L1_C0 = `AAAA`
 
 const makeSourceMap = (sourceMap: Partial<SourceMap> = {}): SourceMap => ({
@@ -281,11 +280,15 @@ test(`sourceMapSourceLocation returns input when location has no mapping`, () =>
   const location = {
     type: `absolute` as const,
     url: new URL(url),
-    // `MAPPING` only covers line 1. Line 99 does not match.
     line: 99,
     column: 1,
   }
-  const sourceMaps = { [url]: makeSourceMap() }
+  const sourceMaps = {
+    [url]: makeSourceMap({
+      sources: [`/project/src/original.ts`],
+      mappings: L1_C0_TO_SOURCE_0_L1_C0,
+    }),
+  }
 
   const mappedLocation = sourceMapSourceLocation(
     location,

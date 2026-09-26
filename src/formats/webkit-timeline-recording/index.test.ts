@@ -224,7 +224,6 @@ describe(`convert`, () => {
   })
 
   test(`empty stack samples are skipped`, () => {
-    // Only the non-empty sample (50ms) is counted, not the empty-stack ones.
     const recording = makeWebKitRecording({
       sampleStackTraces: [
         { stackFrames: [] },
@@ -428,7 +427,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Line 15 has more time (20ms), line 12 has less (10ms)
     expect(linesTables(md, `work`)).toEqual([
       [
         {

@@ -148,7 +148,6 @@ const imageStarts = (execTimes: readonly number[]): [number, ...number[]] => [
     .sort((left, right) => left - right),
 ]
 
-/** Splits the given mappings into the image each was made during. */
 const mappingsByImage = (
   mappings: readonly Mapping[],
   starts: readonly number[],
@@ -176,7 +175,6 @@ const segmentsOf = (mappings: Mapping[]): Segment[] => {
   return segmentsFromIntervals(mappings, boundaries.points, covering)
 }
 
-/** Numbers the distinct points the given mappings begin and end at. */
 const boundaryPointsOf = (mappings: Mapping[]): BoundaryPoints => {
   const count = mappings.length
   const boundaries = new Array<Boundary>(count * 2)
@@ -292,10 +290,6 @@ const segmentsFromIntervals = (
   return segments
 }
 
-/**
- * Returns the segment covering the address whose halves are {@link high} and
- * {@link low}: the last one beginning at or below it, when it reaches that far.
- */
 const findSegment = (
   segments: readonly Segment[],
   high: number,
@@ -325,10 +319,6 @@ const segmentCovers = (
   compareAddresses(startHigh, startLow, high, low) <= 0 &&
   compareAddresses(high, low, endHigh, endLow) < 0
 
-/**
- * Orders two addresses given by their halves: negative when the first is
- * lower, zero when they are equal, and positive when it is higher.
- */
 const compareAddresses = (
   leftHigh: number,
   leftLow: number,
@@ -344,7 +334,6 @@ const compareAddresses = (
  * near a mapping's end round up to it and fall out of the mapping.
  */
 export type Mapping = {
-  /** The range's halves. */
   startHigh: number
   startLow: number
   endHigh: number

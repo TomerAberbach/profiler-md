@@ -6,10 +6,8 @@ import type { ExampleResult, ExampleTask } from './update-examples-worker.ts'
 
 const check = process.argv.includes(`--check`)
 
-/** An input pair diffed into a single example. */
 type DiffPair = { name: string; ext: string; base: string; current: string }
 
-/** One example to convert: an output name and the inputs converted into it. */
 type Example = { name: string; inputs: string[] }
 
 // Inputs named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
@@ -78,7 +76,7 @@ const listExamplesLargestFirst = (
     .map(example => ({ ...example, bytes: totalInputBytes(example.inputs) }))
     .sort((example1, example2) => example2.bytes - example1.bytes)
 
-/** Deletes the outputs that no longer have an input, or fails under `--check`. */
+/** Fails under `--check` instead of deleting. */
 const deleteOutputsWithoutInput = (examples: Example[]): void => {
   const expectedFilenames = new Set(examples.map(({ name }) => `${name}.md`))
   for (const filename of readdirSync(`examples/output`)) {
@@ -111,7 +109,6 @@ const reportConverted = (
   }
 }
 
-// Each worker takes the next example as it finishes the one it has.
 const convertOnWorkers = (
   workers: Worker[],
   examples: Example[],
@@ -148,8 +145,8 @@ const convertOnWorkers = (
   })
 }
 
-// A pool of worker threads, each converting one example at a time in-process,
-// so the module graph loads once per thread instead of once per example.
+// Worker threads convert in-process, so the module graph loads once per thread
+// instead of once per example.
 const convertExamples = async (examples: Example[]): Promise<void> => {
   if (examples.length === 0) {
     return

@@ -9,7 +9,6 @@ import {
 } from '../jvm.ts'
 import type { OriginSpec } from '../origin.ts'
 
-/** The async-profiler JVM profiler, emitting JFR or collapsed stacks. */
 export const asyncProfilerOriginSpec = {
   id: `async-profiler`,
   formats: [`jfr`, `collapsed`],

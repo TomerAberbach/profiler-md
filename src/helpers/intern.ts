@@ -17,27 +17,14 @@ export const mixHash = (hash: number, value: number): number =>
 
 /**
  * A deduplicating collection: appends one canonical {@link Value} per distinct
- * structural key and returns its index, merging values whose keys match.
+ * structural key and returns its index.
  *
- * Use this over a `Map` when the dedup key is structural: a sequence or tuple,
- * not a primitive. A `Map` keys only on primitives, so deduping by
- * structure forces serializing each key to a string (e.g. `ids.join(',')`) per
- * lookup. That string is allocated and then hashed over its full length, since
- * a freshly built string carries no cached hash; both costs scale with key
- * size, and the allocation feeds GC. This instead folds the key's components
- * into a number directly via {@link mixHash}, with no string or allocation, and
- * the `Map<number, …>` it indexes by hashes just that one number. The
- * caller's {@link matches} check runs only on a hash collision, which is rare,
- * so distinct keys that hash alike still stay distinct.
- *
- * So it pays off only for structural keys on a path hot enough that the
- * per-lookup string would show; for an already-primitive key a plain `Map` is
- * simpler and just as fast.
- *
- * Owning the backing list keeps it and the hash index in lockstep: every item
- * is appended exactly once, and {@link items} is its canonical order. Callers
- * that key by position (e.g. event stack-trace IDs) use the returned index;
- * callers that want the value read it back from {@link items}.
+ * Use it instead of a `Map` when the key is a sequence or tuple on a hot path.
+ * A `Map` requires serializing each key to a string (e.g. `ids.join(',')`) per
+ * lookup, which allocates the string and hashes it over its full length. This
+ * folds the key's components into a number with {@link mixHash} instead, and
+ * calls {@link matches} only on a hash collision. For a primitive key, a plain
+ * `Map` is simpler and as fast.
  */
 export class HashInterner<Key, Value> {
   readonly #values: Value[] = []

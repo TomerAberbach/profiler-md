@@ -21,10 +21,6 @@ import type { EntryMatchRule } from './origin.ts'
 const JVM_RUNTIME_ADDRESS_REGEX =
   /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:[.+]0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
 
-/**
- * Match-normalization rules stripping {@link JVM_RUNTIME_ADDRESS_REGEX} from a
- * name or location.
- */
 const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
   [JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`],
 ]
@@ -57,7 +53,6 @@ export const categorizeJvmEntry = (
 export const isJvmStdlibNameStackFrame = (name: string | undefined): boolean =>
   name !== undefined && JVM_STDLIB_PACKAGE.test(name)
 
-/** Categorizes Java standard-library and JDK-internal frames as `stdlib`. */
 const jvmStdlibCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
@@ -115,7 +110,7 @@ export const hotspotRuntimeCategory = (
 /**
  * Whether a frame is HotSpot's own compiled code rather than a Java method.
  *
- * The rules below match a bare symbol, which a Java method name can satisfy
+ * HotSpot's symbol rules match a bare symbol, which a Java method name can satisfy
  * (`getNode` looks like C2's `*Node` classes), so they need a guard that
  * excludes the profiled program's code. A Java frame's location is always its
  * declaring class, so a frame with none is native. A located native frame
@@ -145,7 +140,6 @@ const isHotspotNativeStackFrame = ({
 const JIT_STUB =
   /^(?:vtable stub|itable stub|call_stub|zero_blocks|I2C\/C2I adapters)/u
 
-/** HotSpot GC barrier stubs, e.g. `g1_pre_barrier_slow`/`g1_post_barrier_slow`. */
 const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
 
 /**
@@ -164,8 +158,8 @@ const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
  *
  * Measured over the committed async-profiler CPU inputs, partitioning leaf
  * frames by whether their stack is rooted at the compile broker: 99.3% of what
- * it matches is compilation, and it matches 74% of compilation's samples. The
- * misses are symbols the whole VM shares, which stay `native`.
+ * it matches is compilation, and it matches 74% of compilation's samples,
+ * missing the symbols the whole VM shares.
  */
 const HOTSPOT_COMPILER =
   /^(?:Compil(?:e|ation)(?:Broker|Task|Queue|Policy|Log)?(?:::|$)|AbstractCompiler|C[12]Compiler|C[12]_MacroAssembler|Phase[A-Z]|GraphBuilder|GraphKit|IdealKit|Matcher::|Scheduling::|LinearScan|IntervalWalker|LIR|Canonicalizer|Value(?:Stack|Map)|Block(?:Begin|End|List|_)|ci[A-Z]|Type(?!ArrayKlass)[A-Z]|Type::|[A-Za-z_0-9]*Node(?:::|$)|Node_|NodeHash|Unique_Node_List|IndexSet|RegMask|ConnectionGraph|MethodLiveness|BCEscapeAnalyzer|AbstractAssembler|Assembler::|MacroAssembler|CodeBuffer|CodeSection|DebugInformationRecorder|OopMap(?!Cache)|RelocIterator|AdapterHandlerLibrary|JVMState|OopFlow|NTarjan)/u

@@ -15,7 +15,6 @@ const located = (name: string, path: string): ProfileEntry => ({
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`detection`, () => {
-  // A ` - file:line` method frame and a `[c function]` native frame.
   test.each([
     `parse - /app/lib/foo.rb:12`,
     `(unknown) [c function] - (unknown)`,
@@ -65,9 +64,7 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
-  test(`splits on the last " - " so a <module:Name> method stays intact`, () => {
-    // The internal colon of `<module:AST>` must not be mistaken for the
-    // file/line separator, which previously corrupted the name and path.
+  test(`keeps the colon of a <module:Name> method in its name`, () => {
     expect(
       normalizeStackFrame(
         {

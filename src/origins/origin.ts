@@ -18,21 +18,8 @@ import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
  * distinguishing evidence still registers, with `isMarkerEntry: () => false`;
  * its inputs resolve to the format's fallback origin unless the origin is
  * specified explicitly.
- *
- * An origin determines:
- * - Categorization rules (which entries are `stdlib`, `third-party`, etc.)
- * - Frame normalization (e.g. extracting location data from packed frame names)
- * - Diff-match normalization for its profiler's run-varying identifiers
- *
- * Origin is orthogonal to {@link Format} and has a many-to-many relationship
- * with it:
- * - Multiple origins emit one format (e.g. node, deno, and bun emit V8 CPU
- *   profiles)
- * - One origin emits multiple formats (e.g. node emits V8 CPU and heap
- *   profiles)
  */
 export type OriginSpec = {
-  /** A unique ID for this origin. */
   id: string
 
   /**
@@ -41,7 +28,6 @@ export type OriginSpec = {
    */
   title?: string
 
-  /** The formats this origin can emit. */
   formats: Format[]
 
   /**
@@ -64,8 +50,8 @@ export type OriginSpec = {
    * identifies the writer (a recorder's event-type definitions, a
    * self-identification field), the format's parser sets a
    * `CallStackProfile.originHint` instead, which detection treats like a marker entry
-   * of that origin. The hint doesn't survive format conversion, so it
-   * supplements markers rather than replacing them.
+   * of that origin. Converting the input to another format drops the hint, so
+   * it supplements markers rather than replacing them.
    *
    * Used only for origin auto-detection (skipped when the user forces an
    * origin), so be strict to avoid false positives.
@@ -161,9 +147,6 @@ export type OriginSpec = {
    * an origin that records a position under a different semantic from the one
    * the format's parser assumed (e.g. a speedscope `line` that is an executing
    * line rather than a definition line).
-   *
-   * The profile's {@link Format} is provided for logic that applies only to
-   * specific origin-format pairs.
    *
    * Returning `null` drops the frame: the aggregator removes it from every
    * call stack, attributing its metrics to the surrounding real frames. For a
@@ -319,10 +302,6 @@ export const normalizeSpeedscopeExecutingLine = (
   }
 }
 
-/**
- * Returns whether {@link location} is an absolute URL with one of
- * {@link protocols}.
- */
 export const hasProtocol = (
   location: DeepReadonly<SourceLocation> | undefined,
   protocols: string[],

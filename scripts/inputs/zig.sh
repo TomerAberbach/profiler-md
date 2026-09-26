@@ -22,7 +22,6 @@ run_for_role() {
 
   notice "Profiling zig fmt with gperftools ($role)"
 
-  # Mount the scratch dir at /out so the profiles and binary land on the host.
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -49,13 +48,11 @@ run_for_role() {
       LIBPROFILER=$(find / -name "libprofiler.so*" -print -quit 2>/dev/null)
       LIBTCMALLOC=$(find / -name "libtcmalloc.so" -print -quit 2>/dev/null)
 
-      # CPU profile: preload libprofiler and set CPUPROFILE. Sample at 1 kHz (vs
-      # the 100 Hz default) for a denser profile.
+      # 1 kHz sampling, against the 100 Hz default, gives a denser profile.
       CPUPROFILE=/out/cpu.raw CPUPROFILE_FREQUENCY=1000 LD_PRELOAD="$LIBPROFILER" \
         /out/binary /opt/zig/lib/std 15
 
-      # Heap profile: preload tcmalloc and set HEAPPROFILE (dumps heap.NNNN.heap).
-      # The workload allocates a few GB in total, so dump every 512 MB rather
+      # tcmalloc dumps numbered heap.NNNN.heap files. The workload allocates a few GB in total, so dump every 512 MB rather
       # than leaving thousands of dumps behind.
       HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=536870912 \
@@ -63,9 +60,9 @@ run_for_role() {
       cp "$(ls -1 /out/heap.*.heap | sort | tail -n1)" /out/heap.raw
     ' -e ROLE="$role"
 
-  # The Linux runtime libs (libc, tcmalloc, ld) can't be symbolized cross-OS, so
-  # we drop those expected warnings. Real errors still surface and fail the
-  # build via the exit code.
+  # pprof can't symbolize the Linux runtime libraries (libc, tcmalloc, ld) on
+  # another OS, so drop those expected warnings. Other errors still print and
+  # fail the capture through the exit code.
   local drop='Local symbolization failed'
   pprof -proto "$dir/binary" "$dir/cpu.raw" >"$dir/cpu.pprof" \
     2> >(grep -v "$drop" >&2 || true)
@@ -83,8 +80,7 @@ copy_zig_profile() {
 }
 
 # capture_fn for emit: $1=out  $2=role
-#   Records the same zig fmt workload with Linux perf, which writes perf.data
-#   itself. Runs in its own container so regenerating it skips the gperftools
+#   Runs in its own container, so regenerating it skips the gperftools
 #   captures.
 capture_perf() {
   local out=$1 role=$2
@@ -120,8 +116,7 @@ capture_perf() {
         --name binary -femit-bin=/tmp/binary /out/profile.zig
 
       # cpu-clock rather than the default cycles: the VM the container runs in
-      # exposes no PMU, so the hardware counter would fall back anyway. The
-      # same standard-library formatting workload as the gperftools capture.
+      # exposes no PMU, so the hardware counter would fall back anyway.
       perf record -F 999 -e cpu-clock --call-graph fp -o /out/cpu.perf.data \
         -- /tmp/binary /opt/zig/lib/std 15
     ' --privileged -e ROLE="$role"
@@ -129,7 +124,6 @@ capture_perf() {
   cp "$dir/cpu.perf.data" "$out"
 }
 
-# These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do

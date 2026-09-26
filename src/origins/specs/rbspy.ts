@@ -46,10 +46,9 @@ const RUBY_NAME_MATCH_RULES: EntryMatchRule[] = [
  *
  * Its collapsed frames are `method - file:line` (e.g.
  * `parse - /app/lib/foo.rb:12`), with a `[c function]` marker for native
- * methods. Its `normalizeStackFrame` splits the trailing `file:line` off the method
- * name. Splitting on the *last* ` - ` keeps a
- * `<module:Foo>`-style method name (which contains its own colon) intact rather
- * than mistaking its colon for the file/line separator.
+ * methods. Its `normalizeStackFrame` splits the name at the last ` - ` and reads
+ * the `file:line` from the text after it, so a colon in the method name (e.g.
+ * `<module:Foo>`) stays in the name.
  */
 export const rbspyOriginSpec = {
   id: `rbspy`,
@@ -107,13 +106,10 @@ const isRbspyStackFrame = (name: string | undefined): boolean =>
     name.startsWith(`<main> ${SEPARATOR}`) ||
     name.startsWith(`<top (required)> ${SEPARATOR}`))
 
-/** A frame ending in ` - file:line`. */
 const METHOD_FILE_LINE = / - .+:\d+$/u
 
-/** Rbspy separates a method name from its `file:line` with ` - `. */
 const SEPARATOR = ` - `
 
-/** A `file:line` suffix following the {@link SEPARATOR}. */
 const FILE_LINE = /^(?<file>.+):(?<line>\d+)$/u
 
 /**
@@ -131,7 +127,6 @@ const cFunctionCategory = ({
 /** Rbspy's marker for a native (C) method, which carries no Ruby location. */
 const C_FUNCTION = `[c function]`
 
-/** Categorizes frames from an installed gem as `third-party`. */
 const rubyGemCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
@@ -139,7 +134,6 @@ const rubyGemCategory = ({
     ? `third-party`
     : undefined
 
-/** Categorizes frames from the Ruby standard library as `stdlib`. */
 const rubyStdlibCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {

@@ -14,13 +14,13 @@ if (!projectDir || !out) {
 // per function.
 const lineNumbers = flags.includes(`--line-numbers`)
 
-// `@datadog/pprof` is installed (pinned) into the workload's node_modules by
-// javascript.sh; resolve it from there.
+// The pinned `@datadog/pprof` that javascript.sh installs is in the workload's
+// node_modules, so resolve it from there.
 const require = createRequire(`${projectDir}/`)
 const pprof = require(`@datadog/pprof`)
 
-// Pprof.time.start({ durationMillis }) sets the total sampling window; we stop
-// early once the work is done.
+// `durationMillis` bounds the sampling window, and `pprof.time.stop()` ends it
+// early once the type-checks finish.
 pprof.time.start({ intervalMicros: 1000, durationMillis: 10_000, lineNumbers })
 // Type-check the real project several times so the sampler accumulates enough
 // samples for a non-empty profile while staying small and deterministic.

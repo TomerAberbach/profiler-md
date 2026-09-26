@@ -32,7 +32,7 @@ export const zigStdlibCategory = ({
  * A project with a directory of its own under one of those names matches too.
  * `stdlib` still describes a `lib/libc/` freestanding runtime or a `lib/libcxx/`
  * vendored C++ library. The regex miscategorizes a `lib/std/` module of the
- * project's own, so the output drops its frames, though naming a Zig module
+ * project's own as `stdlib`, though naming a Zig module
  * `std` collides with the standard library import.
  */
 const ZIG_TOOLCHAIN_SOURCE =

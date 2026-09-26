@@ -76,7 +76,6 @@ const runtimeActivityCategory = ({
     ? undefined
     : RUNTIME_ACTIVITY_CATEGORIES.get(name)
 
-/** The built-in cost centre names that name a runtime activity. */
 const RUNTIME_ACTIVITY_CATEGORIES = new Map<string, FunctionCategory>([
   [`GC.GC`, `garbage-collector`],
   [`IDLE.IDLE`, `idle`],

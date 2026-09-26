@@ -9,10 +9,8 @@ import type { OriginSpec } from '../origin.ts'
  * The BEAM virtual machine, observed by `eflambe` for Erlang and Elixir.
  *
  * BEAM collapsed frames are `module:function/arity` (e.g. `lists:reverse/1`,
- * `Elixir.Enum:reduce/3`) with the module standing in for a source location,
- * rooted at a process id like `<0.94.0>`. Neither Erlang nor Elixir carries a
- * file path, so its `normalizeStackFrame` lifts the module out of the name to
- * act as the location, JFR-style.
+ * `Elixir.Enum:reduce/3`). Neither Erlang nor Elixir records a file path, so
+ * `normalizeStackFrame` moves the module out of the name into the location.
  */
 export const eflambeOriginSpec = {
   id: `eflambe`,
@@ -30,8 +28,6 @@ export const eflambeOriginSpec = {
     locationlessCategory(entry) ??
     `ours`,
   normalizeStackFrame: input => {
-    // A located frame (e.g. from a structured format) already has everything it
-    // needs; only a bare `module:function/arity` name needs splitting.
     if (input.definition) {
       return input
     }
@@ -44,9 +40,7 @@ export const eflambeOriginSpec = {
     }
 
     // `Elixir.Jason.Encode` is the VM-level atom for what Elixir code writes
-    // as `Jason.Encode`, so drop the prefix for the idiomatic reading. A
-    // capitalized module remains unambiguously Elixir (Erlang atoms are
-    // lowercase).
+    // as `Jason.Encode`, so drop the prefix for the idiomatic reading.
     let module = name.slice(0, colon)
     if (module.startsWith(ELIXIR_MODULE_PREFIX)) {
       module = module.slice(ELIXIR_MODULE_PREFIX.length)
@@ -60,10 +54,6 @@ export const eflambeOriginSpec = {
   },
 } as const satisfies OriginSpec
 
-/**
- * Whether a raw frame name is BEAM-shaped: an Elixir module, a process id, or an
- * Erlang `module:function/arity`.
- */
 const isBeamStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (name.startsWith(`Elixir.`) ||
@@ -93,7 +83,6 @@ const sleepCategory = ({
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   name === SCHEDULED_OUT_FRAME ? `idle` : undefined
 
-/** Eflambe's leaf marker for a process scheduled out. */
 const SCHEDULED_OUT_FRAME = `sleep`
 
 /**
@@ -130,7 +119,6 @@ const isBeamStdlibModule = (module: string): boolean => {
     : OTP_STDLIB_MODULES.has(module)
 }
 
-/** Erlang/OTP standard-library modules. */
 const OTP_STDLIB_MODULES = new Set([
   `erlang`,
   `erts_internal`,

@@ -104,10 +104,6 @@ export const formatHeapSnapshot = (
   ]
 }
 
-/**
- * The note shown when the entry filter would hide every constructor and
- * function.
- */
 const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
 
 const formatOverallSummary = ({
@@ -183,10 +179,7 @@ const formatLargestConstructors = ({
   )
 }
 
-/**
- * The size accessor, heading, and phrasing for one constructor size (self or
- * retained).
- */
+/** One constructor size, self or retained. */
 type ConstructorSize = {
   sizeOf: (node: { selfSize: number; retainedSize: number }) => number
 
@@ -343,8 +336,8 @@ const selectLargestInstancesByRetainerPath = ({
   retainerPathOf: (nodeOrdinal: number) => string
   topN: number
 }): InstanceGroup[] => {
-  // Process instances in descending size order, stopping once we have `topN`
-  // unique paths. Avoids `retainerPathOf` calls for the long tail.
+  // Popping by descending size stops at `topN` paths without calling
+  // `retainerPathOf` for the long tail.
   const heap = new MaxHeap(instances, sizeOf)
   const pathToGroup = new Map<string, InstanceGroup>()
 
@@ -370,12 +363,8 @@ const selectLargestInstancesByRetainerPath = ({
 
 /** A group of instances with the same retainer path. */
 type InstanceGroup = {
-  /** The retainer path to every instance in the group. */
   retainerPath: string
-
   instanceCount: number
-
-  /** The combined size of the instances in the group. */
   size: number
 }
 
@@ -635,8 +624,9 @@ const formatDiffConstructors = ({
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  // Resolved once for both rankings, like a single snapshot's, and over the
-  // same constructors each side of the diff shows.
+  // Resolved once for both rankings: a category qualifies for a subsection by
+  // its share of the shown constructors' summed self size, which the ranking it
+  // appears under doesn't change.
   const categories = subsectionDiffCategories({
     entries: diff.constructors.filter(entity =>
       showDiffEntity(entity, diff, options),
@@ -756,7 +746,6 @@ const formatDiffFunctions = ({
   })
 }
 
-/** Resolves a diffed function entity's row using one side's snapshot. */
 const functionRowOf = (
   entity: DiffedHeapSnapshotEntity,
   { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
@@ -823,7 +812,6 @@ const formatDiffStrings = ({
   })
 }
 
-/** Resolves a diffed node entity's row using one side's snapshot. */
 const nodeRowOf = (
   entity: DiffedHeapSnapshotEntity,
   { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
@@ -836,8 +824,7 @@ const nodeRowOf = (
 })
 
 /**
- * Assembles the increase and decrease subsections for one diffed entity table
- * from its row records, with rows under the given table {@link columns}.
+ * Formats the increase and decrease subsections of one diffed entity table.
  *
  * Every heap snapshot ranking measures bytes, so a decrease is an improvement
  * in all of them.
@@ -892,10 +879,6 @@ const formatDiffEntitySections = <Entity, Row>({
   return [...formatHeader({ isEmptyDiff: sections.length === 0 }), ...sections]
 }
 
-/**
- * Returns whether anything in the snapshot or diff has a location. If nothing
- * does, location columns would be noisy and shouldn't be output.
- */
 const hasAnyLocation = ({
   constructors,
   functions,
@@ -906,10 +889,6 @@ const hasAnyLocation = ({
   constructors.some(constructor => constructor.location) ||
   functions.some(fn => fn.location)
 
-/**
- * The heading for the largest functions section, with a ranking sentence or, for
- * an unchanged diff, a merged "did not differ" note.
- */
 const formatLargestFunctionsHeading = ({
   isEmptyDiff,
 }: {
@@ -923,10 +902,6 @@ const formatLargestFunctionsHeading = ({
   ),
 ]
 
-/**
- * The heading for the largest strings section, with a ranking sentence or, for
- * an unchanged diff, a merged "did not differ" note.
- */
 const formatLargestStringsHeading = ({
   isEmptyDiff,
 }: {
@@ -940,14 +915,12 @@ const formatLargestStringsHeading = ({
   ),
 ]
 
-/** An entity with a name and optional location, shown in tables and headings. */
 type NamedEntity = {
   name: string
   nameLocation?: FileReference
   location?: SourceLocation
 }
 
-/** Formats a heading for an entity, with its location when {@link hasLocation}. */
 const formatEntityHeading = (
   headingLevel: number,
   entity: NamedEntity,

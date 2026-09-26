@@ -90,7 +90,7 @@ func main() {
 		panic(err)
 	}
 
-	// Enable block and mutex sampling before running the workload.
+	// A rate of 1 records every blocking event and every contention.
 	runtime.SetBlockProfileRate(1)
 	runtime.SetMutexProfileFraction(1)
 	runtime.MemProfileRate = 4096
@@ -110,9 +110,9 @@ func main() {
 
 	runtime.GC()
 
-	// Predefined profiles. "heap" reports in-use memory; "allocs" reports total
-	// allocations (heap-alloc). "goroutineleak" runs a leak-detecting GC cycle
-	// itself before writing.
+	// "heap" reports in-use memory and "allocs" total allocations, the
+	// heap-alloc config. "goroutineleak" runs a leak-detecting GC cycle itself
+	// before writing.
 	for _, name := range []string{"heap", "allocs", "goroutine", "goroutineleak", "block", "mutex", "threadcreate"} {
 		writeProfile(dir, name)
 	}

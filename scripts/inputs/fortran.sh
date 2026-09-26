@@ -22,7 +22,6 @@ run_for_role() {
 
   notice "Profiling json-fortran with gperftools ($role)"
 
-  # Mount the scratch dir at /out so the profiles and binary land on the host.
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -47,8 +46,6 @@ run_for_role() {
       done
       gfortran $FFLAGS -o /out/binary /out/profile.f90 /build/*.o
 
-      # Real parsing input: simdjson'"'"'s twitter.json sample, a Twitter API
-      # search response. 200 passes keep the recording a few seconds long.
       LIBPROFILER=$(find / -name "libprofiler.so*" -print -quit 2>/dev/null)
       LIBTCMALLOC=$(find / -name "libtcmalloc.so*" -print -quit 2>/dev/null)
       if [[ -z "$LIBPROFILER" ]]; then
@@ -60,14 +57,13 @@ run_for_role() {
         exit 1
       fi
 
-      # CPU profile: preload libprofiler and set CPUPROFILE (raw written on
-      # exit). Sample at 1 kHz (vs the 100 Hz default) for a denser profile.
+      # 1 kHz sampling, against the 100 Hz default, gives a denser profile. 200
+      # passes keep the recording a few seconds long.
       CPUPROFILE=/out/cpu.raw CPUPROFILE_FREQUENCY=1000 LD_PRELOAD="$LIBPROFILER" \
         /out/binary /out/twitter.json 200
 
-      # Heap profile: preload tcmalloc and set HEAPPROFILE (dumps
-      # heap.NNNN.heap). Parsing allocates a node per JSON value, so dump every
-      # 256 MB rather than leaving thousands of dumps behind. Keeping the first
+      # tcmalloc dumps numbered heap.NNNN.heap files. Parsing allocates a node
+      # per JSON value, so dump every 256 MB rather than leaving thousands of dumps behind. Keeping the first
       # dump captures both roles at the same allocated volume, so their diff
       # reflects the workload instead of where each run stopped.
       HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
@@ -76,9 +72,9 @@ run_for_role() {
       cp "$(ls -1 /out/heap.*.heap | sort | head -n1)" /out/heap.raw
     ' -e ROLE="$role"
 
-  # The Linux runtime libs (libc, libgfortran, tcmalloc, ld) can't be symbolized
-  # cross-OS, so we drop those expected warnings. Real errors still surface and
-  # fail the build via the exit code.
+  # pprof can't symbolize the Linux runtime libraries (libc, libgfortran,
+  # tcmalloc, ld) on another OS, so drop those expected warnings. Other errors
+  # still print and fail the capture through the exit code.
   local drop='Local symbolization failed'
   pprof -proto "$dir/binary" "$dir/cpu.raw" >"$dir/cpu.pprof" \
     2> >(grep -v "$drop" >&2 || true)
@@ -96,7 +92,6 @@ copy_fortran_profile() {
   cp "${rundir[$role]}/$name.pprof" "$out"
 }
 
-# These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do

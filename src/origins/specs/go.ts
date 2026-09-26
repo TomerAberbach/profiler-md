@@ -7,25 +7,6 @@ import type { OriginSpec } from '../origin.ts'
 /**
  * Go's builtin `runtime/pprof` profiler (also served over HTTP by
  * `net/http/pprof`).
- *
- * Go function names embed the import path of their package
- * (`encoding/json.Marshal`, `github.com/user/repo/pkg.Func`, `main.work`), so
- * categorization follows Go's own convention: the `main` package is the
- * profiled program, and a first path segment naming a standard-library
- * package is Go's own code where the file agrees. A dependency's location
- * categorizes it, since the profiled program's own import paths may resemble a
- * dependency's.
- *
- * A `-trimpath` build rewrites every file path to the import path alone,
- * stripping the GOROOT prefix from the standard library and the module cache
- * prefix from a downloaded module, and leaves function names unchanged. The
- * profiled program's own packages keep their module path, so under `-trimpath`
- * they take the domain-like shape of a downloaded module. Only the module
- * cache's `@version` segment separates the two.
- *
- * A `GO111MODULE=off` build resolves a dependency and the profiled program's
- * own packages alike under `$GOPATH/src/`, under equally domain-like import
- * paths, so its dependencies are categorized `ours`.
  */
 export const goOriginSpec = {
   id: `go`,
@@ -71,18 +52,24 @@ const goCollectorCategory = ({
     ? `garbage-collector`
     : undefined
 
-/** Go's collector entry points, all in the `runtime` package. */
 const GO_COLLECTOR =
   /^runtime\.(?:gc(?!WriteBarrier)[A-Z]|gcstopm|bgsweep|sweepone|\(\*sweepLocked\)\.sweep)/u
 
 /**
  * Categorizes a frame resolved from a dependency as `third-party`.
  *
- * `go get` writes a downloaded module to `$GOPATH/pkg/mod/`, in a directory
- * whose name ends with `@version`. A `-trimpath` build strips the prefix and
- * leaves the `@version` segment. `go mod vendor` instead copies a dependency
+ * The location categorizes a dependency, because the profiled program's own
+ * import paths may resemble a dependency's. `go get` writes a downloaded module
+ * to `$GOPATH/pkg/mod/`, in a directory whose name ends with `@version`. A
+ * `-trimpath` build strips the prefix and leaves the `@version` segment, and the
+ * profiled program's own packages keep their domain-like module path, so only
+ * that segment separates the two. `go mod vendor` instead copies a dependency
  * into the profiled program's own `vendor/` directory, a path with neither the
  * prefix nor the `@version` segment.
+ *
+ * A `GO111MODULE=off` build resolves a dependency and the profiled program's
+ * own packages alike under `$GOPATH/src/`, under equally domain-like import
+ * paths, so its dependencies are categorized `ours`.
  *
  * The standard library vendors packages of its own, so the standard-library
  * check runs first.
@@ -111,9 +98,6 @@ const MODULE_CACHE_VERSION = /@v\d/u
 
 /**
  * Categorizes a located frame by the import path embedded in its function name.
- *
- * Reached only with a location, since the chain resolves a location-less frame
- * before here.
  */
 const goPackageCategory = ({
   name,

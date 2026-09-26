@@ -11,8 +11,8 @@ EFLAMBE_PIN="0.3.1"
 
 assets="$REPO/scripts/inputs/assets/elixir"
 
-# Run a network command bounded by a timeout and retried. hex.pm connections
-# occasionally stall on macOS. `</dev/null` keeps any prompt from blocking.
+# hex.pm connections occasionally stall on macOS, so retry a network command
+# that times out. `</dev/null` keeps any prompt from blocking.
 retry_net() {
   local n
   for n in 1 2 3; do

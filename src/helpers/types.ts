@@ -12,10 +12,6 @@ type TypedArray =
   | BigInt64Array
   | BigUint64Array
 
-/**
- * Recursively makes all properties of `T` readonly, including nested objects,
- * arrays, and `Map`/`Set` collections.
- */
 export type DeepReadonly<T> =
   T extends Map<infer K, infer V>
     ? ReadonlyMap<K, DeepReadonly<V>>

@@ -18,8 +18,6 @@ export const denoOriginSpec = {
 /** The Deno-only specifiers whose presence identifies a Deno profile. */
 const DENO_DETECT_PROTOCOLS = [`ext:`, `deno:`]
 
-/** The module specifiers Deno resolves to runtime builtins. */
 const DENO_STDLIB_PROTOCOLS = [`ext:`, `deno:`, `node:`]
 
-/** The module specifiers Deno resolves to external dependencies. */
 const DENO_THIRD_PARTY_PROTOCOLS = [`npm:`, `jsr:`]

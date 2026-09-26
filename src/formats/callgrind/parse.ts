@@ -34,9 +34,8 @@ export const parseCallgrindAsync = async (
 }
 
 /**
- * One function's accumulated costs: its identity (name, source file, ELF
- * object), self costs (overall and per line), and its outgoing calls. Value
- * arrays are indexed by the builder's global event indices.
+ * One function's accumulated costs. Value arrays are indexed by the builder's
+ * global event indices.
  */
 type CallgrindFunction = {
   index: number
@@ -64,11 +63,6 @@ type PendingCall = {
   callCount: number
 }
 
-/**
- * The position-spec keys, each dispatching to one of the compression
- * dictionaries shared between cost and call specs (`ob`/`cob` for objects,
- * `fl`/`fi`/`fe`/`cfi`/`cfl` for files, `fn`/`cfn` for functions).
- */
 const SPEC_KEYS: ReadonlySet<string> = new Set([
   `ob`,
   `fl`,
@@ -137,7 +131,6 @@ class CallgrindProfileBuilder {
   /** Long event names from `event:` description lines, keyed by abbreviation. */
   readonly #eventLongNames = new Map<string, string>()
 
-  /** The `creator:` header's value, the writer's self-identification. */
   #creator: string | undefined
 
   /**
@@ -226,8 +219,8 @@ class CallgrindProfileBuilder {
         this.#startPart()
         break
 
-      // Metadata (`version:`, `creator:`, `cmd:`, `summary:`, `totals:`, ...)
-      // and unknown keys: the header allows arbitrary `key: value` lines.
+      // The header allows arbitrary `key: value` lines, such as `version:`,
+      // `cmd:`, `summary:`, and `totals:`.
       default:
         break
     }
@@ -336,9 +329,8 @@ class CallgrindProfileBuilder {
         this.#callName = resolveName(this.#functionNames, rest)
         break
       case `calls`: {
-        // `calls=count target-subpositions`. The count accumulates on the
-        // caller→callee arc. The following cost line contains the call's
-        // inclusive cost. Aggregation ignores the target position.
+        // `calls=count target-subpositions`. The following cost line contains
+        // the call's inclusive cost. Aggregation ignores the target position.
         if (this.#callName === undefined) {
           throw new FormatParseError(`calls= without a preceding cfn=`)
         }
@@ -682,12 +674,6 @@ const callGraphFunction = (func: CallgrindFunction): CallGraphFunction => ({
   })),
 })
 
-/**
- * Maps a callgrind event to a metric. The standard cache-simulation and
- * branch-prediction abbreviations map to readable names, `--collect-systime`'s
- * durations to time metrics, and everything else to the file's `event:` long
- * name or the abbreviation itself, formatted as a plain counter.
- */
 const callgrindEventMetric = (
   name: string,
   longName: string | undefined,

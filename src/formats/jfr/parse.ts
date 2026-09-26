@@ -79,9 +79,7 @@ type FlatStackTrace = {
   leafLine: number
 }
 
-/** A single profiling sample event. */
 type JfrSampleEvent = {
-  /** What kind of profiling this sample represents. */
   kind: JfrSampleKind
 
   /** The index of the {@link JfrStackTrace} active when the sample was taken. */
@@ -101,15 +99,9 @@ type JfrSampleEvent = {
   count: number
 }
 
-/** Parsed representation of a Java Flight Recorder recording. */
 type Jfr = {
-  /** All methods referenced by stack frames. */
   methods: JfrMethod[]
-
-  /** All call stacks referenced by sample events. */
   stackTraces: JfrStackTrace[]
-
-  /** The supported sample events observed in the recording. */
   events: JfrSampleEvent[]
 
   /**
@@ -132,16 +124,8 @@ type Jfr = {
 /**
  * Parses a Java Flight Recorder recording into one profile per sample kind.
  *
- * The recording is a sequence of self-contained chunks, each with a header, a
- * metadata event describing every event type's fields, constant pools (stack
- * traces, methods, classes, symbols, etc.), and the events themselves. Integers
- * are LEB128 varint encoded. Event layouts are read by the metadata type map
- * rather than fixed offsets because field order is not guaranteed across JVM
- * versions.
- *
- * Lenient by design: it never throws on bytes that aren't a JFR recording.
- * Input without the chunk magic yields no chunks, and so an empty
- * recording (detection checks the magic separately).
+ * Never throws on bytes that aren't a JFR recording. Input without the chunk
+ * magic yields no profiles.
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
@@ -238,15 +222,12 @@ const jfrToProfiles = ({
   isAsyncProfiler,
   unweightedKinds,
 }: Jfr): CallStackProfile[] => {
-  // Methods are a dense table whose index is the method id, shared across every
-  // kind's profile as its distinct frames.
+  // Methods are a dense table whose index is the method id.
   const frames = methods.map(methodToStackFrame)
 
   const byKind = Map.groupBy(events, event => event.kind)
 
-  // A single recording can mix CPU, allocation, and lock events, so emit one
-  // profile per kind that's present (all sharing `frames`), like multi-metric
-  // pprof.
+  // A recording can mix sample kinds, so emit one profile per kind present.
   const profiles: CallStackProfile[] = []
   for (const { kind, metric: kindMetric, countMetric } of KINDS) {
     const kindEvents = byKind.get(kind)
@@ -335,7 +316,6 @@ type Field = {
   classId: number
   array: boolean
   constantPool: boolean
-  /** Precomputed reader dispatch tag, resolved once the chunk's types load. */
   kind: FieldKind
   /** The nested type to read when `kind` is {@link FIELD_NESTED}. */
   nested: TypeDef | undefined
@@ -360,7 +340,6 @@ type FieldKind =
   | typeof FIELD_STRING
   | typeof FIELD_NESTED
 
-/** The reader dispatch tag for each JFR primitive type, by type name. */
 const PRIMITIVE_FIELD_KINDS: [string, FieldKind][] = [
   [`long`, FIELD_VARINT],
   [`int`, FIELD_VARINT],
@@ -391,10 +370,9 @@ type EventKind = {
   weightField?: string
 
   /**
-   * Whether {@link weightField} is recorded in ticks, so it needs converting to
-   * nanoseconds via the chunk frequency. JFR annotates such fields
-   * `@Timespan(TICKS)`; lock blocking durations are ticks while sizes (allocated
-   * bytes) are already final values.
+   * Whether {@link weightField} is in ticks, which JFR annotates
+   * `@Timespan(TICKS)`, so it needs converting to nanoseconds via the chunk
+   * frequency.
    */
   weightInTicks?: boolean
 
@@ -449,8 +427,7 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
 
 /**
  * Thrown when a field's type can't be sized (not a primitive, pool reference,
- * or known struct), so reading further would desync every following field. The
- * caller catches it to abandon the enclosing event at a safe byte boundary.
+ * or known struct), so reading further would desync every following field.
  */
 class UnreadableFieldError extends Error {
   public constructor() {
@@ -469,8 +446,7 @@ type RawEvent = {
 }
 
 class JfrParser {
-  // Set to the chunk currently being parsed; offsets within a chunk are read
-  // relative to its own buffer, so each chunk replaces these wholesale.
+  // The chunk currently being parsed.
   #bytes: Uint8Array = new Uint8Array()
   #view: DataView = new DataView(new ArrayBuffer(0))
   readonly #decoder = new TextDecoder()
@@ -481,7 +457,6 @@ class JfrParser {
   #typeIdsByName = new Map<string, number>()
   #stringTypeId: number | undefined
   #frequency = 1
-  #isAsyncProfiler = false
 
   // The type ID of `jdk.types.StackTrace`, whose constant pool is read into
   // {@link FlatStackTrace}s. Undefined when the chunk declares no such type.
@@ -501,21 +476,16 @@ class JfrParser {
    */
   #frameFieldKinds: Uint8Array | undefined
 
-  // Accumulated across all chunks, with chunk-local IDs remapped to these
-  // global sequential indices. Methods and stacks recur across chunks under
-  // different chunk-local pool keys, so they're merged by stable identity.
+  // Accumulated across all chunks, indexed by global sequential IDs.
+  #isAsyncProfiler = false
   readonly #methods: JfrMethod[] = []
   readonly #methodIndexByIdentity = new Map<string, number>()
-  // Merges stacks that recur across chunks under different chunk-local pool
-  // keys, keyed by the resolved frames so the result is exact. Owns the stack
-  // list; events reference its entries by the index `intern` returns.
   readonly #stackInterner = new HashInterner<JfrStackTrace, JfrStackTrace>(
     ({ methodIds, leafLine }) => {
       let hash = HASH_SEED
       for (const methodId of methodIds) {
         hash = mixHash(hash, methodId)
       }
-      // A missing line uses a sentinel that no valid 1-based line can take.
       return mixHash(hash, leafLine ?? -1)
     },
     (stack, key) =>
@@ -532,10 +502,9 @@ class JfrParser {
   readonly #unweightedKinds = new Set<JfrSampleKind>()
 
   /**
-   * Parses one self-contained chunk, accumulating its methods, stacks, and
-   * events into this parser; chunk-local pool keys are remapped to the global
-   * indices built across every chunk. The chunk owns its buffer, so its header
-   * offsets (metadata, constant pool) are read relative to its own start.
+   * Accumulates one chunk's methods, stacks, and events into this parser.
+   * `chunkBytes` must start at the chunk's magic, because the header's offsets
+   * are relative to it.
    */
   public parseChunk(chunkBytes: Uint8Array): void {
     this.#bytes = chunkBytes
@@ -576,15 +545,14 @@ class JfrParser {
       : [...this.#events, ...this.#tlabEvents]
   }
 
-  /** Reads a signed 64-bit big-endian integer at `offset` as a number. */
   #readInt64(offset: number): number {
     return Number(this.#view.getBigInt64(offset))
   }
 
   /**
    * Reads the chunk's metadata, which describes every event and pool type's
-   * fields, then derives the lookup tables that let the rest of the chunk be
-   * read by type name. Per-chunk, so the tables don't carry across chunks.
+   * fields. The rest of the chunk is read by these layouts rather than fixed
+   * offsets, because field order is not guaranteed across JVM versions.
    */
   #loadChunkTypes(chunkStart: number): void {
     this.#position =
@@ -634,10 +602,9 @@ class JfrParser {
     const lineIndex = frameType.fields.findIndex(
       field => field.name === `lineNumber`,
     )
-    // Every frame field must be a scalar so `#readFrames` can read each with
-    // `#readSingle` and trust that the `method` and `lineNumber` values are
-    // numbers; an array field anywhere disables the fast path, leaving the
-    // generic parse to handle the layout.
+    // Every frame field must be a scalar, so `#readFramesGeneric` can read each
+    // with `#readSingle` and trust that the `method` and `lineNumber` values
+    // are numbers.
     if (
       methodIndex === -1 ||
       lineIndex === -1 ||
@@ -661,11 +628,6 @@ class JfrParser {
     }
   }
 
-  /**
-   * Walks the chunk body once, collecting constant pools and the supported
-   * sample events. Pools are chunk-local, so they're returned rather than
-   * shared across chunks.
-   */
   #readChunkBody(
     chunkStart: number,
     chunkEnd: number,
@@ -823,8 +785,7 @@ class JfrParser {
   // Events
 
   /**
-   * Maps this chunk's type IDs to their supported event kinds, skipping absent
-   * event types. An event type declared without its kind's weight field, as an
+   * Maps this chunk's type IDs to their supported event kinds. An event type declared without its kind's weight field, as an
    * older JDK writes it, marks the kind unweighted so its profile ranks by
    * count instead of by a weight no event recorded.
    */
@@ -869,8 +830,6 @@ class JfrParser {
       }
     }
 
-    // Tick-based weights (`@Timespan(TICKS)` durations and wall-clock spans)
-    // convert to nanoseconds via the chunk frequency; others are already final.
     const weight = weightInTicks
       ? this.#ticksToNanoseconds(rawWeight)
       : rawWeight
@@ -884,9 +843,8 @@ class JfrParser {
   // Generic value reading
 
   /**
-   * Tags every field with a numeric reader dispatch {@link Field.kind} (and,
-   * for nested objects, the type to read), so the per-value hot path switches
-   * quickly on a number.
+   * Sets every field's {@link Field.kind}, and {@link Field.nested} for a
+   * nested object.
    */
   #resolveFieldKinds(): void {
     const primitiveKinds = new Map<number, FieldKind>()
@@ -1085,19 +1043,12 @@ class JfrParser {
       case FIELD_NESTED:
         return this.#readFields(field.nested!)
       case FIELD_UNKNOWN:
-        // An unknown field type has no known size, so advancing past it is
-        // impossible; signal the caller to bail rather than silently desyncing.
         throw new UnreadableFieldError()
     }
   }
 
   // Resolution
 
-  /**
-   * Resolves each raw event's stack against the chunk's constant pools and
-   * files it by kind, keeping legacy TLAB allocation events apart so
-   * {@link finish} can drop them when the modern sampled event is also present.
-   */
   #resolve(
     pools: Map<number, Map<number, unknown>>,
     rawEvents: RawEvent[],
@@ -1119,7 +1070,6 @@ class JfrParser {
     }
   }
 
-  /** Builds a resolver over the current chunk's constant pools. */
   #chunkResolver(pools: Map<number, Map<number, unknown>>): ChunkResolver {
     return new ChunkResolver(
       {
@@ -1153,12 +1103,7 @@ class JfrParser {
       new Map<number, unknown>()) as Map<number, Entry>
   }
 
-  /**
-   * Deduplicates a resolved stack across chunks, returning its global index.
-   * Stacks are keyed by a numeric hash of their method indices and leaf line; a
-   * hash collision falls back to comparing them, so distinct stacks that hash
-   * alike stay distinct.
-   */
+  /** Deduplicates a resolved stack across chunks, returning its global index. */
   #internStack(stack: JfrStackTrace): number {
     return this.#stackInterner.intern(stack, () => stack)
   }
@@ -1201,8 +1146,6 @@ class JfrParser {
       case STRING_EMPTY:
         return { type: `inline`, value: `` }
       case STRING_CONSTANT_POOL:
-        // A reference into the chunk's `java.lang.String` pool, which may not be
-        // read yet, so defer resolution to `#resolve`.
         return { type: `reference`, index: this.#readVarint() }
       case STRING_UTF8: {
         const length = this.#readVarint()
@@ -1248,8 +1191,6 @@ class ChunkResolver {
   readonly #methodPool: Map<number, unknown>
   readonly #classPool: Map<number, unknown>
   readonly #stackPool: Map<number, FlatStackTrace | number>
-  // Symbol strings can be stored inline or as references into the chunk's
-  // `java.lang.String` pool, which may not have been read when the symbol was.
   readonly #stringPool: Map<number, unknown> | undefined
 
   // The global tables accumulated across chunks, shared with the parser.
@@ -1294,10 +1235,8 @@ class ChunkResolver {
       return raw
     }
 
-    // Merge identical stacks that recur across chunks by their resolved
-    // (global) method indices and leaf line. The method keys are resolved in
-    // place: `#stackPool` replaces the entry with the resolved index, so
-    // nothing else reads them.
+    // The method keys are resolved in place, which is safe because
+    // `#stackPool` replaces the entry with the resolved index.
     const methodIds = raw.methods
     for (let i = 0; i < methodIds.length; i++) {
       methodIds[i] = this.#resolveMethod(methodIds[i]!)
@@ -1312,8 +1251,7 @@ class ChunkResolver {
   /**
    * A shared empty stack for events whose stack can't be resolved (a null
    * reference or a missing pool entry). Their weight still counts, so they're
-   * attributed to it rather than dropped; the aggregator surfaces it as an
-   * anonymous frame.
+   * attributed to it rather than dropped.
    */
   public emptyStack(): number {
     this.#emptyStackIndex ??= this.#internStack({
@@ -1393,7 +1331,6 @@ type MetadataElement = {
   children: MetadataElement[]
 }
 
-/** Builds the type definitions from the metadata's `class` elements. */
 const typesFromMetadata = (
   metadata: MetadataElement | undefined,
 ): Map<number, TypeDef> => {
@@ -1411,7 +1348,6 @@ const typesFromMetadata = (
   return types
 }
 
-/** Reads a type's field definition from a `field` element. */
 const fieldFromElement = (element: MetadataElement): Field => ({
   name: element.attributes.get(`name`) ?? ``,
   classId: Number(element.attributes.get(`class`)),
@@ -1422,7 +1358,6 @@ const fieldFromElement = (element: MetadataElement): Field => ({
   nested: undefined,
 })
 
-/** Indexes types by name for lookups by the well-known names JFR uses. */
 const indexTypeIdsByName = (
   types: Map<number, TypeDef>,
 ): Map<string, number> => {
@@ -1458,7 +1393,6 @@ const flattenStackTrace = (object: Record<string, unknown>): FlatStackTrace => {
   return { methods, leafLine: typeof leafLine === `number` ? leafLine : 0 }
 }
 
-/** Whether two resolved stacks reference the same methods in the same order. */
 const sameMethodIds = (left: number[], right: number[]): boolean => {
   if (left.length !== right.length) {
     return false
@@ -1471,7 +1405,6 @@ const sameMethodIds = (left: number[], right: number[]): boolean => {
   return true
 }
 
-/** Nanoseconds per second, for converting tick-based durations. */
 const NANOSECONDS_PER_SECOND = 1e9
 
 /** The 4-byte magic that begins every JFR chunk: `FLR\0`. */

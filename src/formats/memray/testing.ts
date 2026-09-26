@@ -1,11 +1,3 @@
-/**
- * A minimal memray capture writer for deterministic unit tests.
- *
- * It emits the same record stream memray's own writer does, in both capture
- * file formats, enough to exercise the parser and the replay without depending
- * on the committed inputs.
- */
-
 import { ByteBuffer } from '../../helpers/testing.ts'
 
 /** The allocators a test allocation names, by their capture file values. */
@@ -16,7 +8,6 @@ export const MEMRAY_CALLOC = 8
 export const MEMRAY_MMAP = 14
 export const MEMRAY_MUNMAP = 15
 
-/** A Python code object the pushed frames refer to. */
 export type MemrayTestCodeObject = {
   id: number
   functionName: string
@@ -56,7 +47,6 @@ export type MemrayTestRecord =
   /** The bytes of a record written by hand, for one no writer emits. */
   | { type: `raw`; bytes: number[] }
 
-/** The header fields a test varies. */
 export type MemrayTestHeader = {
   /** `PY_VERSION_HEX` of the traced interpreter. Defaults to 3.11.0. */
   pythonVersion?: number
@@ -260,7 +250,6 @@ const PYTHON_3_11 = 0x03_0b_00_00
 
 const CURRENT_VERSION = 13
 
-/** The first version whose header ends with the module search paths. */
 const SEARCH_PATHS_VERSION = 13
 
 /** The running values a writer delta-encodes against, mirroring the reader's. */

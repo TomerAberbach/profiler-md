@@ -46,9 +46,7 @@ describe(`detection`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = goOriginSpec
 
-  // The unlocated cases are runtime internals and bare linker symbols: runtime
-  // assembly.
-  test.each<[string, string | undefined]>([
+  test.each([
     [
       `runtime.usleep`,
       `../../nix/store/abc-go-1.26.3/share/go/src/runtime/sys_darwin.go`,

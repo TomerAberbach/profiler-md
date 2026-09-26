@@ -6,11 +6,9 @@ import type { OriginSpec } from '../origin.ts'
  * Julia's built-in `Profile` standard-library module, which writes V8-format
  * heap snapshots.
  *
- * Detection relies on the synthetic `<generic memory ...>` node names Julia's
- * snapshot writer invents for `Memory{T}` objects. Julia's runtime is the
- * format's sole writer for Julia, so its writer's own labels are origin-level
- * evidence; `.jl` file extensions would be language-level, so detection
- * ignores them.
+ * Julia's runtime is the format's sole writer for Julia, so its snapshot
+ * writer's own labels are origin-level evidence. Detection ignores `.jl` file
+ * extensions, which are language-level evidence.
  */
 export const profileJlOriginSpec = {
   id: `profile-jl`,
@@ -63,7 +61,6 @@ function juliaTypeCategory(
     : undefined
 }
 
-/** The categories of the runtime's C struct type names. */
 const JULIA_C_STRUCT_CATEGORIES = new Map<string, HeapSnapshotNodeCategory>([
   [`jl_array_t`, `array`],
   [`jl_genericmemory_t`, `array`],
@@ -144,10 +141,6 @@ const JULIA_TYPE_CATEGORIES = new Map<string, HeapSnapshotNodeCategory>([
   ).map(name => [name, `internal`] as const),
 ])
 
-/**
- * The categories of the type constructors Julia's runtime defines, matched
- * against the name before a parameterized type's `{`.
- */
 const JULIA_TYPE_CONSTRUCTOR_CATEGORIES = new Map<
   string,
   HeapSnapshotNodeCategory

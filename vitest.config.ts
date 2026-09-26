@@ -28,15 +28,9 @@ const inputDirectory = path.join(import.meta.dirname, `examples/input`)
 
 type InputFile = { filename: string; bytes: number }
 
-/**
- * The inputs of one example across its variants. Variants stay in one project
- * while the example fits the project budget, so the `base`-only suites run
- * beside the per-input ones. An oversized example splits per variant, because
- * its suites would otherwise run one at a time in a single worker.
- */
+/** The inputs of one example across its variants. */
 type VariantGroup = { files: InputFile[]; bytes: number }
 
-/** Groups every committed input by its format and then by its example. */
 const readVariantGroupsByFormat = (): Map<Format, VariantGroup[]> => {
   const groupsByFormat = new Map<Format, Map<string, VariantGroup>>()
   for (const filename of readdirSync(inputDirectory)) {
@@ -62,11 +56,13 @@ const readVariantGroupsByFormat = (): Map<Format, VariantGroup[]> => {
 const variantGroupsByFormat = readVariantGroupsByFormat()
 
 /**
- * Splits variant groups into byte-balanced partitions, assigning the largest
- * group first to the smallest partition so a late huge group can't unbalance
- * the totals. Conversion cost tracks input size closely enough within a format
- * to balance on bytes. A group splits only when it alone exceeds the project
- * budget, so a format yields at most one partition per input file.
+ * Splits variant groups into byte-balanced partitions. Conversion cost tracks
+ * input size closely enough within a format to balance on bytes.
+ *
+ * A group stays in one partition while it fits the project budget, so the
+ * `base`-only suites run beside the per-input ones. A larger group splits per
+ * variant, because its suites would otherwise run one at a time in a single
+ * worker. A format therefore yields at most one partition per input file.
  */
 const partitionVariantGroups = (
   variantGroups: VariantGroup[],
@@ -87,6 +83,7 @@ const partitionVariantGroups = (
     bytes: 0,
     filenames: [] as string[],
   }))
+  // Largest first, so a late huge group can't unbalance the totals.
   for (const { files, bytes } of [...groups].sort(
     (group1, group2) => group2.bytes - group1.bytes,
   )) {
@@ -102,10 +99,6 @@ const partitionVariantGroups = (
     .filter(({ inputs }) => inputs.length > 0)
 }
 
-/**
- * The projects processing one format's inputs, numbered when the format needs
- * more than one.
- */
 const formatProjects = (format: Format) => {
   const partitions = partitionVariantGroups(
     variantGroupsByFormat.get(format) ?? [],

@@ -18,9 +18,8 @@ import type {
 import { SourceMapResolver } from './source-map.ts'
 
 /**
- * Normalizes options for tests that call aggregation, diffing, or formatting
- * functions directly, which take resolved options. Only the full conversion
- * pipeline resolves `baseURL: 'auto'`, so tests can't pass `'auto'` here.
+ * Resolves options as the conversion pipeline does, except `baseURL: 'auto'`,
+ * which it rejects.
  */
 export const resolveProfileToMdOptions = (
   options?: ProfileToMdOptions,

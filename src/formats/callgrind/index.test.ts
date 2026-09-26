@@ -1105,8 +1105,8 @@ describe(`convert`, () => {
 })
 
 describe(`category subsections`, () => {
-  // Aggregated as the generic origin, which categorizes an installed system
-  // library path as `stdlib` and the rest as `ours`.
+  // The input resolves to Valgrind, whose generic categorization makes an
+  // installed system library path `stdlib` and the rest `ours`.
   const categoryOptions = normalizeProfileToMdOptions({
     baseURL: `/app`,
     showEntry: () => true,

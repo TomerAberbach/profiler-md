@@ -7,11 +7,6 @@ export { hasPerfMagic } from './file.ts'
 /**
  * Parses a `perf.data` file into one profile per sampled event.
  *
- * The file is a header naming the recorded events, a stream of kernel records,
- * and metadata feature sections. The records that matter here are the samples,
- * each an instruction pointer and a call chain of return addresses, and the
- * memory mappings that state which file each of those addresses came from.
- *
  * A `perf.data` file carries no symbol tables, so an address resolves no
  * further than the object it fell in. Each frame is one address within one
  * mapped file, named by its file-relative offset, which is both what

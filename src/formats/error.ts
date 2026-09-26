@@ -22,7 +22,6 @@ export class FormatParseError extends ProfilerMdError {
  * is the error the format's parse threw.
  */
 export class FormatRejectionError extends ProfilerMdError {
-  /** The rejecting format's ID. */
   public readonly format: string
 
   public constructor(format: string, reason: string, options: ErrorOptions) {

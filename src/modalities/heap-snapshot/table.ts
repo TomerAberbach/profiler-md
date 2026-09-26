@@ -12,7 +12,6 @@ import {
 import type { Table } from '../table.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
 
-/** An entity labeled by a name and optional location in a table. */
 export type LabeledEntity = {
   name?: string
   nameLocation?: FileReference
@@ -31,7 +30,6 @@ export const displayName = (
     ? formatSourceLocation(entity.nameLocation, options)
     : entity.name
 
-/** A row's data for the {@link sizeColumns} leading each size table. */
 type SizeRow = {
   /** The row's size in bytes. */
   size: number
@@ -40,7 +38,6 @@ type SizeRow = {
   total: number
 }
 
-/** The leading `%` and byte-size columns shared by the size tables. */
 const sizeColumns = (sizeLabel: string): Table<SizeRow> => [
   {
     header: { content: `%`, align: `right` },
@@ -54,7 +51,6 @@ const sizeColumns = (sizeLabel: string): Table<SizeRow> => [
   },
 ]
 
-/** The name (and `Location` when {@link hasLocation}) columns labeling an entity. */
 const entityColumns = (
   nameLabel: string,
   hasLocation: boolean,
@@ -96,7 +92,7 @@ export const categoryColumns: Table<CategoryRow> = [
   },
 ]
 
-/** A constructor's row on one side: its size, instance count, and label. */
+/** A constructor's row on one side. */
 export type ConstructorRow = SizeRow & {
   entity: LabeledEntity
   instanceCount: number
@@ -115,7 +111,7 @@ export const constructorColumns = (
   ...entityColumns(`Constructor`, hasLocation, options),
 ]
 
-/** An instance group's row: its combined size, count, and retainer path. */
+/** An instance group's row. */
 export type InstanceRow = SizeRow & {
   instanceCount: number
   retainerPath: string
@@ -131,7 +127,7 @@ export const instanceColumns: Table<InstanceRow> = [
   { header: `Path`, cellOf: row => codeCell(row.retainerPath) },
 ]
 
-/** A function's row on one side, with its example path and path count resolved. */
+/** A function's row on one side. */
 export type FunctionRow = SizeRow & {
   entity: LabeledEntity
   instanceCount: number
@@ -157,7 +153,7 @@ export const functionColumns = (
   { header: `Example path`, cellOf: row => codeCell(row.examplePath) },
 ]
 
-/** A node's row within a retained or strings table, with its path resolved. */
+/** A node's row within a retained or strings table. */
 export type NodeRow = SizeRow & {
   name?: string
   path: string
@@ -175,7 +171,7 @@ export const retainedColumns: Table<NodeRow> = [
   { header: `Path`, cellOf: row => codeCell(row.path) },
 ]
 
-/** The columns of the largest strings table, with a `Value` when {@link hasValues}. */
+/** The columns of the largest strings table. */
 export const stringColumns = (hasValues: boolean): Table<NodeRow> => [
   ...sizeColumns(`Size`),
   ...(hasValues

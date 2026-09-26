@@ -27,10 +27,6 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     this.#profile = profile
   }
 
-  /**
-   * Applies the parser's origin hint, then adds the profile's distinct frames
-   * to {@link detector} until decided.
-   */
   public detectOrigin(detector: OriginDetector): void {
     if (this.#profile.originHint !== undefined) {
       detector.hint(this.#profile.originHint)
@@ -65,7 +61,6 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
   }
 }
 
-/** Aggregates a profile's observations over its normalized distinct frames. */
 class ObservationsAggregator {
   readonly #metrics: Metric[]
   readonly #countMetric: Metric | null
@@ -104,7 +99,6 @@ class ObservationsAggregator {
     AggregatedCallStackProfileFunction
   >
 
-  /** Per frame index, its registered function, a frame-index fast path. */
   readonly #frameIndexToFunction: AggregatedCallStackProfileFunction[]
 
   public constructor(
@@ -136,8 +130,7 @@ class ObservationsAggregator {
    * observation, attributed to a single shared anonymous function.
    *
    * Passing a count is equivalent to calling this once per occurrence, but runs
-   * in time independent of the count. Pre-aggregated formats use it to avoid a
-   * per-occurrence loop.
+   * in time independent of the count.
    */
   public addObservation({
     id,
@@ -194,14 +187,10 @@ class ObservationsAggregator {
   }
 
   /**
-   * Propagates each canonical call stack's aggregated self metrics to its
-   * functions' self and total metrics, leaf caller metrics, and frame-pair
-   * callee metrics.
-   *
-   * These attributions depend only on a stack's frames, so summing the stack's
-   * aggregated self metrics reproduces the per-observation aggregation
-   * losslessly in one pass per unique call stack, rather than one O(depth) pass
-   * per observation.
+   * Function, caller, and callee attributions depend only on a stack's frames,
+   * so summing each unique call stack's aggregated self metrics reproduces the
+   * per-observation aggregation losslessly in one pass per unique call stack,
+   * rather than one O(depth) pass per observation.
    */
   #propagateCallStackMetrics(): void {
     const callStacks = this.#callStackInterner.items
@@ -294,7 +283,6 @@ class ObservationsAggregator {
         }
 
         if (calleeMetrics.lastSeenEpoch === epoch) {
-          // This is a recursive call. Don't count this callee twice.
           continue
         }
         calleeMetrics.lastSeenEpoch = epoch
@@ -342,8 +330,6 @@ class ObservationsAggregator {
       }
     }
 
-    // A stackless observation has no frames (or only dropped ones); attribute
-    // it to a shared anonymous frame.
     const frames: AggregatedCallStackProfileFunction[] = []
     for (const index of frameIndices) {
       const func = this.#getOrCreateFunction(index)
@@ -364,12 +350,6 @@ class ObservationsAggregator {
     return callStack
   }
 
-  /**
-   * Returns the canonical call stack for {@link frames}, creating it on first
-   * sight. Stacks are keyed by a numeric hash of their frames' function IDs; a
-   * hash collision falls back to comparing IDs, so distinct stacks that hash
-   * alike stay distinct.
-   */
   #internCallStack(
     frames: AggregatedCallStackProfileFunction[],
   ): AggregatedCallStackProfileCallStack {
@@ -392,7 +372,7 @@ class ObservationsAggregator {
 
     // A function's identity is its normalized name and location, so frames that
     // normalize alike (e.g. one function recorded at several lines) merge into
-    // one function; distinct frames sharing that identity merge too.
+    // one function.
     const frameFunction = this.#functions.function(index)
     if (!frameFunction) {
       return undefined
@@ -404,10 +384,6 @@ class ObservationsAggregator {
     return func
   }
 
-  /**
-   * The single shared anonymous function for stackless observations, keyed by a
-   * symbol so it can never collide with a {@link StackFrameFunction.key}.
-   */
   #getOrCreateAnonymousFunction(): AggregatedCallStackProfileFunction {
     return (
       this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
@@ -446,8 +422,6 @@ class ObservationsAggregator {
     this.#propagateCallStackMetrics()
 
     const rates = new Float64Array(this.#metrics.length)
-    // A profile that counted nothing has no rate to average, so its rates stay
-    // zero.
     if (this.#totalCount > 0) {
       for (let i = 0; i < rates.length; i++) {
         rates[i] = this.#totalValues[i]! / this.#totalCount
@@ -502,10 +476,7 @@ class ObservationsAggregator {
       const category = categories[i]!
       func.category = category
 
-      // Only leaf functions (those with self observations) contributed to the
-      // category metrics during aggregation, so skip functions that were never
-      // a leaf to avoid introducing empty categories that wouldn't otherwise
-      // appear.
+      // A function that was never a leaf would add an empty category.
       if (func.selfCount === 0) {
         continue
       }
@@ -536,7 +507,6 @@ class ObservationsAggregator {
  */
 const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
 
-/** Whether two frame lists reference the same functions in the same order. */
 const sameStackFrameIds = (
   left: AggregatedCallStackProfileFunction[],
   right: AggregatedCallStackProfileFunction[],
@@ -647,13 +617,11 @@ export type AggregatedCallStackProfileFunction = {
   /** An index that uniquely identifies this function. */
   id: number
 
-  /** The name of the function in code. */
   name: string
 
   /** Where the function was defined, if known. */
   location?: SourceLocation
 
-  /** The category of functions this function belongs to. */
   category: FunctionCategory
 
   /**

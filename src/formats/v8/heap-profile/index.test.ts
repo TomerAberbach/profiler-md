@@ -128,8 +128,7 @@ describe(`matches`, () => {
 
 describe(`convert`, () => {
   test(`merges nodes with the same identity`, () => {
-    // `funcB` is called from both `funcA` and funcC`. With identical call
-    // frames, they should be merged into one row with combined self size.
+    // `funcB` is called from both `funcA` and `funcC`.
     const profile = {
       head: makeV8HeapProfileRoot([
         {
@@ -198,7 +197,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Two funcB nodes -> one row with combined size
     expect(selfSizeTables(md)).toEqual([
       [
         {
@@ -231,8 +229,6 @@ describe(`convert`, () => {
   })
 
   test(`anonymous functions at different lines stay separate`, () => {
-    // Two anonymous functions at different lines. They should stay separate
-    // nodes and both be labeled `(anonymous)` in the output.
     const profile = {
       head: makeV8HeapProfileRoot([
         {
@@ -300,8 +296,7 @@ describe(`convert`, () => {
   })
 
   test(`deduplicates total size for recursive functions`, () => {
-    // `funcA` calls itself recursively (two nodes, same identity). Total size
-    // should be counted once, not twice.
+    // `funcA` calls itself recursively (two nodes, same identity).
     const profile = {
       head: makeV8HeapProfileRoot([
         {
@@ -341,7 +336,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // FuncA total = 1 sample, not 2
     expect(totalSizeTables(md)).toEqual([
       [
         {

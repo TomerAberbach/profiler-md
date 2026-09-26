@@ -7,10 +7,9 @@ import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A unique location within a function. */
 export type SpeedscopeFrame = {
-  /** The name of the function. */
   name: string
 
-  /** The path to the file where the function was defined, if known. */
+  /** The path to the file where the function was defined. */
   file?: string
 
   /**
@@ -26,18 +25,15 @@ export type SpeedscopeFrame = {
   col?: number | null
 }
 
-/** Possible units for values observed in a speedscope profile. */
 export type SpeedscopeValueUnit =
   `nanoseconds` | `microseconds` | `milliseconds` | `seconds` | `bytes` | `none`
 
-/** A profile represented as a sequence of samples. */
 export type SpeedscopeSampledProfile = {
   type: `sampled`
 
   /** A name for this profile (e.g. the name of the process). */
   name: string
 
-  /** The unit for all values in the profile. */
   unit: SpeedscopeValueUnit
 
   /**
@@ -62,17 +58,14 @@ export type SpeedscopeEvent = {
   frame: number
 }
 
-/** A profile represented as a sequence of frame open and close events. */
 export type SpeedscopeEventedProfile = {
   type: `evented`
 
   /** A name for this profile (e.g. the name of the process). */
   name: string
 
-  /** The unit for all values in the profile. */
   unit: SpeedscopeValueUnit
 
-  /** The events that were observed in the profile. */
   events: SpeedscopeEvent[]
 }
 
@@ -87,12 +80,9 @@ export type SpeedscopeProfile = {
   /** The name of the tool that exported the file, if it identifies itself. */
   exporter?: string
 
-  /** The list of profiles. */
   profiles: (SpeedscopeSampledProfile | SpeedscopeEventedProfile)[]
 
-  /** Data shared between profiles. */
   shared: {
-    /** A list of unique function frames. */
     frames: SpeedscopeFrame[]
   }
 }
@@ -114,9 +104,7 @@ export const parseSpeedscope = (
 
 /**
  * Maps a self-identifying {@link SpeedscopeProfile.exporter} to its origin.
- * Excimer and pyinstrument write their bare names, `Excimer` and
- * `pyinstrument`. dotnet-trace writes its exporting library with a version
- * suffix (`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`), and py-spy and
+ * dotnet-trace writes its exporting library with a version suffix (`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`), and py-spy and
  * rbspy write their names with an `@version` suffix (`py-spy@0.4.0`,
  * `rbspy@0.51.0`).
  */
@@ -150,6 +138,7 @@ const exporterOriginHint = (
 // line; their origins' `normalizeStackFrame` reinterprets the line as the
 // executing line (see `normalizeSpeedscopeExecutingLine` in
 // `src/origins/origin.ts`).
+//
 // A definition position is a position within its source, so the parser drops
 // a `line` without a `file`.
 const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => {
@@ -195,9 +184,9 @@ function* sampledObservations(
     // other presentations of the same recording. The aggregator attributes an
     // empty stack to a shared anonymous function.
     const frameIndices = profile.samples[index]!
-    // Speedscope uses caller-to-callee order, but we use callee-to-caller.
-    // The parsed JSON is the converter's own, read exactly once here, so
-    // reverse in place rather than copying every record's stack.
+    // Speedscope stacks are caller-to-callee, and an observation's are
+    // callee-to-caller. The parsed JSON is the converter's own and read once,
+    // so reverse in place instead of copying every record's stack.
     yield { values: [weight], frameIndices: frameIndices.reverse() }
   }
 }
@@ -209,7 +198,7 @@ const eventedProfile = (
   type: `call-stack-profile`,
   frames,
   metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
-  // The records below are reconstructed intervals rather than anything the
+  // The observations are reconstructed intervals rather than anything the
   // profiler recorded, so counting them would report a rate per record it
   // never measured.
   countMetric: null,
@@ -234,7 +223,7 @@ function* eventedObservations(
     if (selfTime <= 0) {
       return
     }
-    // Stack is in caller-to-callee order. Reverse for callee-to-caller.
+    // `stack` is caller-to-callee, and an observation's is callee-to-caller.
     yield {
       values: [selfTime],
       frameIndices: stack.map(entry => entry.frame).reverse(),

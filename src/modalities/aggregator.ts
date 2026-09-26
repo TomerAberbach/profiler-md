@@ -4,10 +4,6 @@ import type {
 } from '../options.ts'
 import type { OriginDetector } from '../origins/index.ts'
 
-/**
- * The uniform per-input aggregation contract each modality's aggregator
- * implements.
- */
 export type InputAggregator<Aggregated> = {
   /**
    * Passes this input's origin-detection entries to the file's shared detector.

@@ -65,7 +65,7 @@ const ALLOWLIST: readonly { value: string; reason: string }[] = [
 
 type Rule = {
   name: string
-  /** Why a match is sensitive, for the report. */
+  /** Why a match is sensitive. */
   description: string
   /** Every match in the text, as the value to report. */
   matches: (text: string) => Iterable<string> | Promise<Iterable<string>>

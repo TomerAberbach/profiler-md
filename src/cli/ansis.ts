@@ -19,8 +19,7 @@ export const makeAnsis = ({ isTTY }: MakeAnsisOptions): Ansis => {
     return new Ansis()
   }
 
-  // If this is a non-TTY output, then start off the default level as no color.
-  // CLI flags and `FORCE_COLOR` can still override this.
+  // `FORCE_COLOR` and the color flags still override this default
   return new Ansis({
     process: {
       ...process,

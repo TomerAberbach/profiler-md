@@ -1,7 +1,7 @@
 export const matchesSysting = (bytes: Uint8Array): boolean => {
-  // The signature is in the header line alone, so classify only it. The check
-  // verifies identity alone, leaving the parser to reject an unsupported
-  // version or stack order with a reason
+  // The signature is in the header line alone. The check verifies identity
+  // alone, leaving the parser to reject an unsupported version or stack order
+  // with a reason
   let json: unknown
   try {
     json = JSON.parse(decodeHeaderLine(bytes))

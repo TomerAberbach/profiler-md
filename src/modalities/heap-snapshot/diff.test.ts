@@ -125,8 +125,6 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   })
 
   test(`merges and matches constructors whose names differ by a per-run address`, () => {
-    // The runtime includes a per-run address in the name. Match normalization
-    // strips it so the same class matches across snapshots.
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       matchEntry: ({ name }) => ({
@@ -222,8 +220,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   })
 
   test(`keys each side's functions under that snapshot's own context`, () => {
-    // Match normalization is origin-aware, so each side's functions must be
-    // keyed under the context that side was aggregated with, not a shared one.
+    // Match normalization is origin-aware.
     const observedContexts: ProfileToMdContext[] = []
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,

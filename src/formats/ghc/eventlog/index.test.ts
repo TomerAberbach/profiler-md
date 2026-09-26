@@ -122,7 +122,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([
       `Took 5.0ms over 5 samples (1.0ms per sample).`,
     ])
-    // The module qualifies the label, and the origin splits GHC's source span
+    // The module qualifies the label, and the parser splits GHC's source span
     // into the binding's location.
     expect(selfTimeTables(md)).toEqual([
       [
@@ -145,7 +145,7 @@ describe(`convert`, () => {
           Time: `1.0ms`,
           Samples: `1`,
           Function: `GC.GC`,
-          // The origin drops the `<built-in>` placeholder GHC locates the
+          // The parser drops the `<built-in>` placeholder GHC locates the
           // runtime's own cost centres by.
           Location: `<unknown>`,
         },

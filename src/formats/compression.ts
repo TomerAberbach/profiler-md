@@ -140,7 +140,6 @@ const retryAsBrotliAsync = async <Result>(
   }
 }
 
-/** The magic every gzip member begins with. */
 const GZIP_MAGIC = Uint8Array.from([0x1f, 0x8b])
 
 const isGzip = (bytes: Uint8Array): boolean => startsWith(bytes, GZIP_MAGIC)

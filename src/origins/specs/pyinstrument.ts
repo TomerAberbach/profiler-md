@@ -9,14 +9,9 @@ import type { OriginSpec } from '../origin.ts'
  * frame's location separately and records the function's definition line, so
  * the line needs no reinterpreting.
  *
- * Its markers are the frame shapes pyinstrument invents. A C function gets the
- * synthetic file `<built-in>` and the placeholder line 0, since the interpreter
- * attributes it to no Python source. `normalizeStackFrame` drops that line,
- * which names no line of any file. A frame's own execution time gets a `[self]`
- * child, which is not a function, so `normalizeStackFrame` drops it and that
- * time returns to the frame it was split from. A `[self]` frame appears only
- * when a run leaves it beside sibling calls, so detection also relies on the
- * speedscope parser's origin hint from the file's `exporter` field.
+ * A `[self]` frame appears only when a run leaves it beside sibling calls, so
+ * detection also relies on the speedscope parser's origin hint from the file's
+ * `exporter` field.
  */
 export const pyinstrumentOriginSpec = {
   id: `pyinstrument`,
@@ -28,6 +23,8 @@ export const pyinstrumentOriginSpec = {
   normalizeStackFrame: input => {
     const { name, definition } = input
     if (!definition) {
+      // Dropping a `[self]` frame returns its time to the frame it was split
+      // from.
       return isSelfTimeFrame(name) ? null : input
     }
     if (
@@ -37,6 +34,8 @@ export const pyinstrumentOriginSpec = {
     ) {
       return input
     }
+    // Pyinstrument writes the placeholder line 0 for a C function, which names
+    // no line of any file.
     const { position: _, ...reference } = definition
     return { ...input, definition: reference }
   },
@@ -57,9 +56,11 @@ const builtInCategory = ({
 /** Pyinstrument's synthetic file for a frame executing a C function. */
 const BUILT_IN_FILE = `<built-in>`
 
-/** Whether a frame is pyinstrument's split-out self time rather than a function. */
 const isSelfTimeFrame = (name: string | undefined): boolean =>
   name === SELF_TIME_FRAME
 
-/** Pyinstrument's synthetic frame holding a frame's own execution time. */
+/**
+ * Pyinstrument's synthetic child holding a frame's own execution time, which is
+ * not a function.
+ */
 const SELF_TIME_FRAME = `[self]`

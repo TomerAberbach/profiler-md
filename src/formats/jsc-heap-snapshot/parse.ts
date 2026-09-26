@@ -11,7 +11,6 @@ import type {
  * @see https://github.com/WebKit/WebKit/blob/main/Source/JavaScriptCore/heap/HeapSnapshotBuilder.cpp
  */
 export type JSCHeapSnapshot = {
-  /** Format version. */
   version: number
 
   /** Format identifier ("Inspector"). */
@@ -37,14 +36,15 @@ export type JSCHeapSnapshot = {
    * Flat array of edges.
    *
    * Each consecutive 4 integers represent a single edge record:
-   * `[fromNodeId, toNodeId, edgeType, edgeNameIndex]`.
+   * `[fromNodeId, toNodeId, edgeType, edgeData]`, where `edgeData` depends on
+   * the edge type (see `formatEdgeLabel`).
    */
   edges: number[]
 
   /** Edge type names, indexed by the edge type field. */
   edgeTypes: string[]
 
-  /** String table for edge names, indexed by `edgeNameIndex`. */
+  /** String table for edge names, indexed by a named edge's `edgeData`. */
   edgeNames: string[]
 }
 
@@ -225,8 +225,7 @@ const computeNodeAdjacencyGraph = (
 
 /**
  * Counts each node's outgoing (successor) and incoming (predecessor) edges,
- * excluding edges JSC's `HeapSnapshotBuilder` sometimes outputs between nodes
- * that don't exist.
+ * excluding edges between nodes that don't exist.
  */
 const countResolvedEdges = (
   edges: number[],

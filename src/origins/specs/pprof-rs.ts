@@ -9,10 +9,6 @@ import type { EntryMatchRule, OriginSpec } from '../origin.ts'
  * The `rustc/<40-hex commit hash>` path segment that Rust embeds in stdlib
  * source locations, e.g.
  * `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`.
- *
- * A source-string fragment (not a `RegExp`) so it can be spliced into a larger
- * pattern; shared between the stdlib detection and match normalization here,
- * which collapse the same hash.
  */
 const RUSTC_COMMIT_HASH_PATH = `rustc/[0-9a-f]{40}`
 
@@ -23,17 +19,12 @@ const RUSTC_COMMIT_HASH_PATH = `rustc/[0-9a-f]{40}`
 const CARGO_BUILD_HASH_REGEX =
   /(?<prefix>^|\/)(?<dir>build\/[^/]+)-[0-9a-f]{16}(?=\/out\/)/u
 
-// Rust stdlib paths embed the rustc commit hash (see RUSTC_COMMIT_HASH_PATH),
-// which varies per toolchain build.
+// The rustc commit hash varies per toolchain build.
 const RUSTC_HASH_REGEX = new RegExp(
   `(?<prefix>^|/)${RUSTC_COMMIT_HASH_PATH}(?=/)`,
   `u`,
 )
 
-/**
- * Match-normalization rules stripping the per-build Cargo build-script hash
- * and the rustc commit hash from a location.
- */
 const RUST_LOCATION_MATCH_RULES: EntryMatchRule[] = [
   [CARGO_BUILD_HASH_REGEX, `$<prefix>$<dir>`],
   [RUSTC_HASH_REGEX, `$<prefix>rustc`],
@@ -82,7 +73,7 @@ const RUST_STDLIB_PATH = new RegExp(
   `u`,
 )
 
-/** Whether the entry's name carries Rust's name-mangling syntax. */
+/** Whether the entry's name contains Rust's demangled closure syntax. */
 const isRustName = ({ name }: DeepReadonly<ProfileEntry>): boolean =>
   name !== undefined &&
   (name.includes(`{{closure}}`) || /::\{closure#\d/u.test(name))

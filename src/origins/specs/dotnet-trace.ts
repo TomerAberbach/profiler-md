@@ -8,23 +8,6 @@ import type { OriginSpec } from '../origin.ts'
  * `dotnet-trace`, the .NET CLI sampling profiler, whose speedscope export
  * (produced by the TraceEvent library) packs a managed frame's whole identity
  * into its name as `Assembly!Namespace.Type.Method(signature)`.
- *
- * Its `normalizeStackFrame` splits that JFR-style: the namespace-qualified declaring
- * type becomes the location and the method name with a simplified parameter
- * list the display name, keeping overloads distinguishable the way JFR's
- * `add(Object, Object[], int)` does. The assembly is dropped: TraceEvent emits
- * it in inconsistent casings (`System.Private.CoreLib` and
- * `system.private.corelib`, sometimes for the same method within one profile),
- * while the qualified method is consistently cased.
- *
- * The export also wraps every call stack in pseudo-frames
- * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`)
- * and buckets each sample's leaf time under a `CPU_TIME` marker, so
- * `normalizeStackFrame` drops those: they aren't functions, and dropping `CPU_TIME`
- * returns each sample's self time to the method that was executing.
- * `UNMANAGED_CODE_TIME` stays: it's genuine native execution outside the
- * managed stack, kept as a location-less (`native`) frame the way rbspy keeps
- * `[c function]`.
  */
 export const dotnetTraceOriginSpec = {
   id: `dotnet-trace`,
@@ -52,6 +35,11 @@ export const dotnetTraceOriginSpec = {
       return input
     }
 
+    // Drop the assembly because TraceEvent emits it in inconsistent casings
+    // (`System.Private.CoreLib` and `system.private.corelib`, sometimes for the
+    // same method within one profile), while the qualified method is
+    // consistently cased. The parameter list stays in the name so overloads
+    // stay distinguishable, the way JFR's `add(Object, Object[], int)` does.
     const qualified = name.slice(bang + 1)
     const paren = qualified.indexOf(`(`)
     const path = paren === -1 ? qualified : qualified.slice(0, paren)
@@ -96,11 +84,6 @@ const simplifySignature = (signature: string): string =>
     .replaceAll(/[\w.]+\.(?=\w)/gu, ``)
     .replaceAll(`,`, `, `)
 
-/**
- * Whether a raw frame name is dotnet-trace-shaped: an
- * `Assembly!Method(signature)` managed frame or one of TraceEvent's time-bucket
- * markers.
- */
 const isDotnetTraceStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (ASSEMBLY_BANG_METHOD.test(name) ||
@@ -115,8 +98,12 @@ const ASSEMBLY_BANG_METHOD = /^[\w.]+!\S+\(.*\)$/u
 
 /**
  * Whether a frame is a TraceEvent pseudo-frame rather than a function: the
- * process/thread grouping nodes wrapping every stack and the `CPU_TIME` bucket
- * ending every managed stack.
+ * grouping nodes wrapping every stack
+ * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`),
+ * or the `CPU_TIME` bucket each sample's leaf time is recorded under. Dropping
+ * `CPU_TIME` returns each sample's self time to the method that was executing.
+ * `UNMANAGED_CODE_TIME` is native execution outside the managed stack, so it
+ * stays as a location-less frame.
  */
 const isPseudoFrame = (name: string): boolean =>
   name === `CPU_TIME` ||

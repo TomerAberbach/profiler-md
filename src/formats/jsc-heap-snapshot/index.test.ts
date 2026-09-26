@@ -167,9 +167,9 @@ describe(`convert`, () => {
   })
 
   test(`edges reference nodes by identifier, not ordinal`, () => {
-    // Node identifiers reflect allocation order and are not the nodes'
-    // positions in the flat array; reading them as ordinals connects the
-    // wrong nodes (or drops edges whose id exceeds the node count).
+    // Node identifiers reflect allocation order, not the nodes' positions in
+    // the flat array. Reading them as ordinals connects the wrong nodes, or
+    // drops edges whose id exceeds the node count.
     const snapshot = makeJSCSnapshot({
       nodes: [
         ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
@@ -205,7 +205,7 @@ describe(`convert`, () => {
       nodeClassNames: [`<root>`, `Structure`, `string`],
       edges: [
         ...makeJSCEdge({ from: 0, to: 1, type: EDGE_PROPERTY, nameIndex: 0 }),
-        // An Internal edge's fourth field is unused; it must not be read as
+        // An Internal edge's fourth field is unused, so it must not be read as
         // an index into `edgeNames`.
         ...makeJSCEdge({ from: 1, to: 2, type: EDGE_INTERNAL, nameIndex: 0 }),
       ],

@@ -18,18 +18,13 @@ import type { HeapSnapshotNodeCategory } from './type.ts'
 /**
  * One side's data for an entity matched across the base and current snapshots.
  *
- * The `id` is a node ordinal within that side's snapshot; ordinals are never
- * comparable across the two snapshots.
+ * The `id` is a node ordinal within that side's snapshot, so it never compares
+ * across the two snapshots.
  */
 export type DiffedHeapSnapshotEntity = AggregatedHeapSnapshotNode & {
-  /** The number of instances aggregated into this entity on this side. */
   instanceCount: number
 
-  /**
-   * Node ordinals of all instances aggregated into this entity on this side,
-   * for computing unique retainer path counts. Empty for entities that don't
-   * report paths (constructors and strings).
-   */
+  /** Empty for constructors and strings, which report no retainer paths. */
   instanceIds: number[]
 }
 
@@ -40,34 +35,20 @@ export type DiffedHeapSnapshotEntity = AggregatedHeapSnapshotNode & {
  * present in it, and from the base snapshot otherwise.
  */
 export type AggregatedHeapSnapshotEntityDiff = {
-  /** A human readable label for this entity. */
   name: string
-
-  /** What this entity holds. */
   category: HeapSnapshotNodeCategory
 
   /** The file reference the {@link name} parses as, when it is URL-shaped. */
   nameLocation?: FileReference
 
-  /** The exact location where the entity was defined. */
   location?: SourceLocation
 } & Diff<DiffedHeapSnapshotEntity>
 
-/** A diff of two aggregated heap snapshots. */
 export type AggregatedHeapSnapshotDiff = {
-  /** The base snapshot. */
   base: AggregatedHeapSnapshot
-
-  /** The current snapshot. */
   current: AggregatedHeapSnapshot
-
-  /** Node category to that category's stats in each snapshot. */
   nodeCategoryToStats: Map<HeapSnapshotNodeCategory, Diff<NodeCategoryStats>>
-
-  /** Constructors present in either snapshot, matched across the two. */
   constructors: AggregatedHeapSnapshotEntityDiff[]
-
-  /** Functions present in either snapshot, matched across the two. */
   functions: AggregatedHeapSnapshotEntityDiff[]
 
   /**
@@ -75,15 +56,12 @@ export type AggregatedHeapSnapshotDiff = {
    * same-valued strings within a side merged together.
    *
    * Strings without a known value are excluded because they can't be matched
-   * across snapshots; they still count towards totals and category stats.
+   * across snapshots, though they still count towards totals and category
+   * stats.
    */
   strings: AggregatedHeapSnapshotEntityDiff[]
 }
 
-/**
- * Diffs {@link base} and {@link current} by matching up their categories,
- * constructors, functions, and strings.
- */
 export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
   current: AggregatedHeapSnapshot,
@@ -95,17 +73,15 @@ export const diffAggregatedHeapSnapshots = (
     base.nodeCategoryToStats,
     current.nodeCategoryToStats,
   ),
+  // Each side's entities are keyed under that side's own context, since match
+  // normalization is origin-aware.
   constructors: entityDiffsFromMatches(
-    // Each side's constructors are keyed under that side's own context, since
-    // match normalization is origin-aware.
     matchDiffedMaps(
       mergeConstructors(base.constructors, base.context, options),
       mergeConstructors(current.constructors, current.context, options),
     ),
   ),
   functions: entityDiffsFromMatches(
-    // Each side's functions are keyed under that side's own context, since
-    // match normalization is origin-aware.
     matchDiffedMaps(
       mergeFunctions(base.functions, base.context, options),
       mergeFunctions(current.functions, current.context, options),

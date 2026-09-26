@@ -8,11 +8,10 @@ export const matchesCollapsed = (bytes: Uint8Array): boolean => {
     return false
   }
 
-  // Require at least one stack: empty or comment-only input would otherwise let
-  // collapsed match any blank/unknown text during auto-detection. Classifying
-  // the first non-comment line with the parser's own line grammar keeps
-  // detection and parsing agreeing on what a stack line is, and stays cheap:
-  // it parses only one line.
+  // Require a stack line, because empty or comment-only input would otherwise
+  // let collapsed match any blank or unknown text during auto-detection. The
+  // parser's own line grammar keeps detection and parsing agreeing on what a
+  // stack line is.
   for (const line of decodeUtf8Lines(bytes)) {
     try {
       if (parseCollapsedLine(line) !== undefined) {

@@ -23,14 +23,12 @@ export const text = (value: string): Text => ({
   value: value.replaceAll(/\r(?!\n)/gu, ` `),
 })
 
-// Code spans render line endings as spaces anyway, but a raw newline in the
-// serialized span would break the enclosing construct (a table row or
-// heading), so normalize up front. A backslash directly before a pipe is
-// unrepresentable in a GFM table cell (the `\|` pipe escape splits the cell
-// because it is processed before inline parsing; GFM offers no way to escape
-// a backslash inside a code span — see
-// https://github.com/syntax-tree/mdast-util-gfm-table/issues/7), so break the
-// pair with a space.
+// Code spans render line endings as spaces, but a raw newline in the serialized
+// span would break the enclosing table row or heading. A GFM table cell cannot
+// represent a backslash directly before a pipe, because the `\|` escape splits
+// the cell before inline parsing and GFM cannot escape a backslash inside a
+// code span (https://github.com/syntax-tree/mdast-util-gfm-table/issues/7), so
+// break the pair with a space.
 export const inlineCode = (value: string): InlineCode => ({
   type: `inlineCode`,
   value: value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
@@ -136,10 +134,6 @@ export const nodeText = (node: Node): string => {
   return ``
 }
 
-/**
- * Prepends the given section header (a heading and any description) to
- * {@link sections}, or returns no sections if there are none.
- */
 export const formatSectionGroup = (
   header: RootContent[],
   sections: RootContent[],

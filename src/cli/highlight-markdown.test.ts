@@ -12,7 +12,6 @@ import {
 import { highlightMarkdown } from './highlight-markdown.ts'
 import type { HighlightMarkdownOptions } from './highlight-markdown.ts'
 
-// Warm up the shiki highlighter once for the whole suite.
 beforeAll(async () => {
   vi.stubEnv(`FORCE_COLOR`, `3`)
   await highlight(`warmup`, highlightMarkdownOptions)
@@ -705,9 +704,8 @@ describe(`Markdown escaping resilience`, () => {
 
   /**
    * Name and location strings biased toward Markdown syntax the serializer
-   * escapes context-sensitively. Blank-after-trim values never appear in real
-   * output (mirroring the `frameName` arbitrary in
-   * `src/formats/escaping.test.ts`).
+   * escapes context-sensitively. Real output never contains a value that is
+   * blank after trimming.
    */
   const adversarialValue = fc
     .string({
@@ -742,11 +740,6 @@ describe(`Markdown escaping resilience`, () => {
   )
 })
 
-/**
- * A document with the real-output shape: an H3 section with a single-function
- * 100% table followed by that function's H5 heading, built with the same
- * serializers as production output.
- */
 const functionDocument = (name: string, location: string): string =>
   mdastToMarkdown([
     heading(3, `Functions`),

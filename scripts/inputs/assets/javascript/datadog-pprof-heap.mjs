@@ -9,13 +9,13 @@ if (!projectDir || !out) {
   exit(2)
 }
 
-// `@datadog/pprof` is installed (pinned) into the workload's node_modules by
-// javascript.sh; resolve it from there.
+// The pinned `@datadog/pprof` that javascript.sh installs is in the workload's
+// node_modules, so resolve it from there.
 const require = createRequire(`${projectDir}/`)
 const pprof = require(`@datadog/pprof`)
 
-// Pprof.heap.start(intervalBytes, maxStackDepth) samples allocations; sample
-// roughly every 512 KiB allocated, keeping up to 64 stack frames (per docs).
+// The arguments are the sampling interval in bytes and the maximum stack
+// depth.
 pprof.heap.start(512 * 1024, 64)
 // Type-check the real project several times so the sampler accumulates enough
 // allocation samples for a non-empty profile while staying small and

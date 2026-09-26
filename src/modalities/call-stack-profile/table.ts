@@ -19,13 +19,11 @@ import type {
 } from './aggregate.ts'
 import type { MeasureColumns } from './measure.ts'
 
-/** The header for a profile's counts, named by what one of them measures. */
 const countHeader = (countMetric: Metric): Header => ({
   content: capitalizeFirst(countMetric.phrases.columnNoun),
   align: `right`,
 })
 
-/** A row's data for the {@link measureColumns} leading each measure table. */
 type MeasureRow = {
   /** The row's measure value: metric value or count. */
   value: number
@@ -41,8 +39,7 @@ type MeasureRow = {
  * tables.
  *
  * The count is the primary column when the measure ranks by it, and the metric
- * value column is dropped there because the two would repeat one number. A
- * profile whose counts measure nothing has no count column.
+ * value column is dropped there because the two would repeat one number.
  */
 const measureColumns = ({
   type,
@@ -79,7 +76,6 @@ const measureColumns = ({
     : []),
 ]
 
-/** A function's row in a measure table: its measure values plus the function. */
 export type FunctionMeasureRow = MeasureRow & { func: NamedFunction }
 
 /**
@@ -99,7 +95,6 @@ export const functionColumns = (
   },
 ]
 
-/** A line's row within {@link func}: its measure values plus the line number. */
 export type LineRow = MeasureRow & { line: number }
 
 /**
@@ -145,7 +140,6 @@ export const sameShownFrame = (left: ShownFrame, right: ShownFrame): boolean =>
     ? left.type === right.type
     : left.id === right.id
 
-/** A call stack's row: its measure values plus its frames. */
 export type CallStackRow = MeasureRow & {
   frames: ShownFrame[]
 }
@@ -244,10 +238,7 @@ export type CategoryRow = {
   total: number
 }
 
-/**
- * The columns of the overall hottest function categories table. With no
- * metrics, the count is the primary column.
- */
+/** The columns of the overall hottest function categories table. */
 export const categoryColumns = (
   metrics: Metric[],
   countMetric: Metric | null,

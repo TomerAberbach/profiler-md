@@ -80,9 +80,8 @@ const WORKLOAD_PORT = 52_789
  * Serves the workload as a real web page (a bare HTML document loading this
  * module's workload function over `http:`) and launches a headless Chrome
  * with a page open on it, so profiled frames carry the web-page script URLs a
- * genuine browser profile has instead of injected-script placeholders.
- *
- * Returns `{ browser, page }`; the caller owns closing the browser.
+ * genuine browser profile has instead of injected-script placeholders. The
+ * caller closes the returned browser.
  */
 export const launchWorkloadPage = async () => {
   const script = `globalThis.buildAndRetainDom = ${buildAndRetainDom.toString()}\n`
@@ -99,14 +98,13 @@ export const launchWorkloadPage = async () => {
   await new Promise(resolve => {
     server.listen(WORKLOAD_PORT, `127.0.0.1`, resolve)
   })
-  // Serve only until the capture process exits; never hold it open.
   server.unref()
 
   // A fresh headless Chrome's networking intermittently stops responding,
   // hanging every navigation past puppeteer's timeout for the browser's whole
   // lifetime, so each retry relaunches the browser. `domcontentloaded` rather
-  // than the full `load` lifecycle, since the wait below is the real
-  // readiness check.
+  // than the full `load` lifecycle, since `waitForFunction` is the readiness
+  // check.
   for (let attempt = 1; ; attempt++) {
     const browser = await puppeteer.launch({
       headless: true,

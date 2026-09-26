@@ -1261,7 +1261,6 @@ describe(`formatCallStackProfileDiff`, () => {
       `No function differed in total time spent in the function and all its callees.`,
     )
 
-    // The category table is still formatted with a zero delta.
     expect(categoryTables(md)).toEqual([
       [
         {

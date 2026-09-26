@@ -8,11 +8,6 @@ import type { OriginSpec } from '../origin.ts'
 /**
  * Julia's builtin `Profile` stdlib exported to pprof by `PProf.jl`.
  *
- * Julia locates every frame by source file: `Base` and the standard library
- * ship inside the install's `share/julia/` tree, depot packages live under
- * `<depot>/packages/<Name>/<slug>/`, and runtime C frames carry the runtime's
- * C/C++ sources or shared libraries.
- *
  * For a frame without a `MethodInstance` (C functions and many inlined frames),
  * PProf.jl writes the executing line as `Function.start_line` and hashes it
  * into the function ID. The parser reads the output as the spec defines it, so

@@ -28,10 +28,16 @@ const asyncTextLines = (
   return asyncLines(chunkSize === undefined ? [bytes] : chunk(bytes, chunkSize))
 }
 
-// What `decoder.decode(bytes).split('\n')` yields with `\r` stripped, which
-// `decodeUtf8Lines` must match regardless of chunk size.
+// The lines `decodeUtf8Lines` must yield at any chunk size
 const splitLines = (text: string): string[] =>
   text.split(`\n`).map(line => (line.endsWith(`\r`) ? line.slice(0, -1) : line))
+
+// Text built from line separators alongside 1-, 2-, 3-, and 4-byte UTF-8
+// characters, so chunk boundaries fall on newlines and inside multi-byte
+// sequences. All characters are well-formed, so the bytes roundtrip.
+const text = fc.string({
+  unit: fc.constantFrom(`\n`, `\r`, `a`, ` `, `é`, `→`, `𝟙`),
+})
 
 describe(`decodeUtf8Lines`, () => {
   test(`yields newline-delimited lines`, () => {
@@ -50,12 +56,6 @@ describe(`decodeUtf8Lines`, () => {
     expect(lines(``)).toEqual([``])
   })
 
-  // Text built from line separators alongside 1-, 2-, 3-, and 4-byte UTF-8
-  // characters, so chunk boundaries fall on newlines and inside multi-byte
-  // sequences. All characters are well-formed, so the bytes roundtrip.
-  const text = fc.string({
-    unit: fc.constantFrom(`\n`, `\r`, `a`, ` `, `é`, `→`, `𝟙`),
-  })
   test.prop([text, fc.integer({ min: 1 })])(
     `roundtrips text through encode, chunked decode, and concat for any chunk size`,
     (text, chunkSize) => {
@@ -64,7 +64,7 @@ describe(`decodeUtf8Lines`, () => {
   )
 
   test(`decodes a multi-byte sequence split across a chunk boundary`, () => {
-    // `→` is 3 bytes; chunkSize 2 cuts it apart, exercising streaming decode.
+    // `→` is 3 bytes, so a chunk size of 2 cuts it apart
     expect(lines(`a→b\n→`, 2)).toEqual([`a→b`, `→`])
   })
 
@@ -99,12 +99,6 @@ describe(`decodeUtf8LinesAsync`, () => {
     expect(await asyncTextLines(``)).toEqual([``])
   })
 
-  // Text built from line separators alongside 1-, 2-, 3-, and 4-byte UTF-8
-  // characters, so stream chunk boundaries fall on newlines and inside
-  // multi-byte sequences. All characters are well-formed, so the bytes roundtrip.
-  const text = fc.string({
-    unit: fc.constantFrom(`\n`, `\r`, `a`, ` `, `é`, `→`, `𝟙`),
-  })
   test.prop([text, fc.integer({ min: 1 })])(
     `roundtrips text through encode, chunked stream decode, and concat for any chunk size`,
     async (text, chunkSize) => {
@@ -113,7 +107,7 @@ describe(`decodeUtf8LinesAsync`, () => {
   )
 
   test(`decodes a multi-byte sequence split across a stream chunk boundary`, async () => {
-    // `→` is 3 bytes; chunkSize 2 cuts it across two stream chunks.
+    // `→` is 3 bytes, so a chunk size of 2 cuts it across two stream chunks
     expect(await asyncTextLines(`a→b\n→`, 2)).toEqual([`a→b`, `→`])
   })
 

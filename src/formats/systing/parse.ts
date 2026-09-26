@@ -34,12 +34,11 @@ export const parseSystingAsync = async (
 }
 
 /**
- * The header object on a systing profile export's first line. Only the fields
- * conversion reads are typed; the header carries more (producer, trace_id,
- * system info).
+ * The header object on a systing profile export's first line, typed only in the
+ * fields conversion reads.
  */
 type SystingHeader = {
-  /** Format version; this parser supports version 1. */
+  /** The format version. */
   systing_profile_export: number
 
   /** Perf event driving CPU sampling: `cpu-cycles` or `cpu-clock`. */
@@ -54,7 +53,7 @@ type SystingHeader = {
   /** Legend mapping `x` record event type ids to event names. */
   event_types?: Record<string, string> | null
 
-  /** Order of frame ids within `s` record stacks; always `leaf_first`. */
+  /** Order of frame ids within `s` record stacks, always `leaf_first`. */
   stack_order?: string | null
 }
 
@@ -84,11 +83,6 @@ const DEFAULT_EVENT_TYPE_KINDS: ReadonlyMap<number, SystingEventKind> = new Map(
   ],
 )
 
-/**
- * Resolves the header's `event_types` legend to event type id → kind. Entries
- * with unrecognized names are future event types; their samples are skipped
- * like unknown record tags.
- */
 const eventTypeKinds = (
   header: SystingHeader,
 ): ReadonlyMap<number, SystingEventKind> => {
@@ -106,14 +100,11 @@ const eventTypeKinds = (
 }
 
 /**
- * Parses systing profile export lines (see the format's spec in systing's
- * docs/PROFILE_EXPORT_FORMAT.md): a JSON header line, then one JSON array per
- * record: `f` interned frame, `s` interned stack (frame ids leaf-first), `x`
- * sample tally, and `p`/`t` process/thread metadata (unused here).
+ * Parses systing profile export lines, see docs/PROFILE_EXPORT_FORMAT.md in
+ * systing.
  *
- * Produces one {@link CallStackProfile} per stack event type present, sharing one
- * frames array: CPU samples weighted by the header's sample period, and sleep
- * events as pure occurrence counts.
+ * Produces one {@link CallStackProfile} per stack event type present, sharing
+ * one frames array.
  */
 class SystingProfileBuilder {
   readonly #frames: StackFrame[] = []
@@ -121,10 +112,8 @@ class SystingProfileBuilder {
   readonly #frameIndices = new Map<number, number>()
   /** Export stack id → the stack's frame indices, leaf-first. */
   readonly #stacks = new Map<number, number[]>()
-  /** Per event kind, the samples seen so far. */
   readonly #observations = new Map<SystingEventKind, Observation[]>()
   #header: SystingHeader | undefined
-  /** Event type id → kind, per the header's `event_types` legend. */
   #eventTypeKinds: ReadonlyMap<number, SystingEventKind> =
     DEFAULT_EVENT_TYPE_KINDS
 
@@ -133,7 +122,7 @@ class SystingProfileBuilder {
    * period, so aggregate CPU time/cycles is period × sample count. Decided
    * together once the header is parsed so metrics and values can't disagree.
    * An export without sampling provenance (recorded by systing before 1.9)
-   * has neither and ranks CPU purely by sample count.
+   * has neither and ranks CPU by sample count.
    */
   #cpuMetric: Metric | undefined
   #cpuValues: number[] = NO_VALUES
@@ -185,10 +174,10 @@ class SystingProfileBuilder {
         this.#addObservation(sample[2], sample[3], sample[4])
         break
       }
-      // P (process) and t (thread) records aren't used: profiles have no
-      // process/thread dimension to carry them into (every profile in the
-      // file comes from one recording). Unknown tags are future record types
-      // the format's versioning rules say to skip.
+      // `p` (process) and `t` (thread) records go unused, because profiles
+      // have no process or thread dimension to put them in. Every profile in
+      // the file comes from one recording. The format's versioning rules say
+      // to skip unknown tags, which are future record types.
       default:
         break
     }
@@ -217,8 +206,8 @@ class SystingProfileBuilder {
 
   #addObservation(stackId: number, eventType: number, count: number): void {
     const kind = this.#eventTypeKinds.get(eventType)
-    // An event type outside the legend's known names is a future stack event;
-    // skip its samples like unknown record tags.
+    // An event type outside the legend's known names is a future stack event,
+    // so skip its samples like unknown record tags.
     if (kind === undefined) {
       return
     }
@@ -234,8 +223,8 @@ class SystingProfileBuilder {
     observations.push({
       id: stackId,
       values: kind === `cpu` ? this.#cpuValues : NO_VALUES,
-      // Export stacks are already leaf-first (callee to caller), the
-      // aggregator's order; parseSystingHeader rejects any other declared
+      // Export stacks are leaf-first (callee to caller), the aggregator's
+      // order, because parseSystingHeader rejects any other declared
       // stack_order.
       frameIndices,
       count,
@@ -299,12 +288,6 @@ const cpuMetric = (header: SystingHeader): Metric | undefined => {
   return undefined
 }
 
-/**
- * Parses and validates a systing profile export's header line.
- *
- * @throws when the line isn't a systing export header or its version or
- * stack order is unsupported.
- */
 const parseSystingHeader = (line: string): SystingHeader => {
   const json = parseJson(line)
   if (typeof json !== `object` || json === null || Array.isArray(json)) {

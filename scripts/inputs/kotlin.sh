@@ -18,11 +18,10 @@ ensure_source() {
   git clone --depth 1 --branch "$KOTLIN_RESULT_TAG" "$KOTLIN_RESULT_REPO" "$dir" >&2 \
     || return 1
 
-  # commonMain/Binding.kt declares `expect class BindingException` (its `actual`
-  # lives in jvmMain). Stock `kotlinc` can't compile expect/actual in a single
-  # non-multiplatform invocation, and that file is the ONLY user of the binding
-  # feature in commonMain (nothing else references it), so compile a copy of
-  # commonMain with Binding.kt removed.
+  # commonMain/Binding.kt declares `expect class BindingException`, whose
+  # `actual` is in jvmMain. Stock `kotlinc` can't compile expect/actual in a
+  # single non-multiplatform invocation, and nothing else in commonMain
+  # references Binding.kt, so compile a copy of commonMain without it.
   local common="$dir/kotlin-result/src/commonMain/kotlin"
   local src="$WORKDIR/kotlin-src"
   rm -rf "$src"
@@ -43,9 +42,6 @@ FREE_COMPILER_ARGS=(
   -Xexpect-actual-classes
 )
 
-# Compile the kotlin-result source into a fresh scratch dir, forwarding the JVM
-# arg via -J to the kotlinc launcher. Each capture is its own short-lived
-# compiler process.
 run_jvm_workload() {
   local jvm_arg=$1 dir
   ensure_source || return 1

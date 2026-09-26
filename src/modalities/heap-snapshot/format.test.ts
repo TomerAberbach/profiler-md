@@ -651,8 +651,6 @@ describe(`formatHeapSnapshotDiff`, () => {
     expect(md).not.toMatch(/Regressions|Improvements/u)
     expect(md).toMatch(/^## Largest constructors$/mu)
 
-    // The note drops the ranking sentence and merges the measure into a single
-    // sentence, mirroring the profile diff's "No function differed in …".
     expect(md).not.toMatch(/ranked by/u)
     expect(md).toContain(
       `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,
@@ -665,7 +663,6 @@ describe(`formatHeapSnapshotDiff`, () => {
     )
     expect(md).toContain(`No string differed in bytes allocated for it.`)
 
-    // The category table is still formatted with a zero delta.
     expect(categoryTables(md)).toEqual([
       [
         {
@@ -701,8 +698,6 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    // The empty functions and strings sections are dropped rather than noted as
-    // unchanged, while the present constructors section keeps its note.
     expect(md).not.toMatch(/^## Largest functions$/mu)
     expect(md).not.toMatch(/^## Largest strings$/mu)
     expect(md).not.toContain(`No function differed`)

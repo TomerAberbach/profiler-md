@@ -140,10 +140,6 @@ export const parseV8HeapSnapshot = (
   ]
 }
 
-/**
- * Classifies a node by the type it declares, looked up in the layout resolved
- * from `meta.node_types`.
- */
 const unresolvedCategoryOf = (
   nodeOrdinal: number,
   {
@@ -255,11 +251,8 @@ const computeNodeAdjacencyGraph = (
     )
   }
 
-  // Decode the plain JSON `nodes` and `edges` arrays once, recording each
-  // retaining (non-weak) edge's successor and edge index in discovery order.
   // Discovery order groups edges by their node, so these arrays are the
-  // successor CSR lists. The predecessor side is scattered from them without
-  // re-decoding.
+  // successor CSR lists.
   const totalEdgeCount = edges.length / edgeFieldCount
   let offsetToSuccessorOrdinal = new Int32Array(totalEdgeCount)
   let offsetToSuccessorEdgeIndex = new Int32Array(totalEdgeCount)
@@ -333,7 +326,6 @@ const computeNodeOrdinalToLocation = (
   )
 
   const nodeOrdinalToLocation = new Array<SourceLocation>(nodeCount)
-  // Cache `FileReference` per file path to avoid repeated construction.
   const fileLocationToRef = new Map<string, FileReference | null>()
   for (
     let locationIndex = 0;
@@ -420,7 +412,6 @@ const computeScriptIdToFileLocation = (
   ) {
     const scriptId = locations[locationIndex + locationScriptIdOffset]!
     if (scriptIdToFileLocation.has(scriptId)) {
-      // We already found the file location for this script ID.
       continue
     }
 
@@ -454,10 +445,6 @@ const computeScriptIdToFileLocation = (
   return scriptIdToFileLocation
 }
 
-/**
- * Formats one step of a retainer path: the edge's label followed by the
- * retaining node's label and, when known, its source location.
- */
 const formatRetainerEdgeLabel = (
   retainerOrdinal: number,
   edgeIndex: number,
@@ -490,17 +477,15 @@ const formatEdgeLabel = (
   const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
   const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
   if (edgeType === fieldLayout.edgeTypeElement) {
-    // In this case, the edge name is an index. Julia's snapshot writer stores
-    // it as a `size_t` and writes `-1`, read back as 2^64, for a slot outside
-    // the array's element data.
+    // Julia's snapshot writer stores the index as a `size_t` and writes `-1`,
+    // read back as 2^64, for a slot outside the array's element data.
     return Number.isSafeInteger(edgeNameOrIndex)
       ? `[${edgeNameOrIndex}]`
       : `[<unknown>]`
   }
 
   const rawEdgeName = strings[edgeNameOrIndex]!
-  // Sometimes the edge name is a file URL. If it's not (or it's an unknown
-  // location), then it's shown as-is.
+  // An edge name can be a file URL.
   const fileReference = rawEdgeName ? makeFileReference(rawEdgeName) : undefined
   const edgeName = fileReference
     ? formatSourceLocation(fileReference, options)
@@ -510,16 +495,15 @@ const formatEdgeLabel = (
 }
 
 /**
- * The node's raw, options-independent display name — the (truncated) string
- * value for strings, the function name for closures, and the raw node name
- * otherwise — plus the file reference the name parses as, when it can be one.
- * Sometimes the node name is a file URL (e.g. a module namespace object), and
- * formatting shows it relative to the base URL. A string's value or a
- * closure's name is never a location, even when it happens to be URL-shaped,
- * so those never carry a `nameLocation`. Neither does a bare constructor name
- * (`Object`, `system / Context`), which would otherwise parse as a relative
- * path and pass off a genuinely locationless node as located to
- * categorization.
+ * Returns the node's display name, independent of options, and the file
+ * reference the name parses as.
+ *
+ * A node name can be a file URL (e.g. a module namespace object), which
+ * formatting shows relative to the base URL. A string's value or a closure's
+ * name is never a location, even when it is URL-shaped. Only an absolute
+ * reference counts, because a bare constructor name (`Object`,
+ * `system / Context`) parses as a relative path and would pass off a node with
+ * no location as located to categorization.
  */
 const nodeName = (
   nodeOrdinal: number,
@@ -582,15 +566,8 @@ const formatString = (string: string): string => {
 
 const MAX_STRING_LENGTH = 50
 
-/** Sentinel offsets and values for accessing data in a {@link V8HeapSnapshot}. */
+/** The field offsets and type indices a {@link V8HeapSnapshot}'s `meta` declares. */
 type FieldLayout = {
-  /**
-   * The category of heap node.
-   *
-   * One of `object` (plain JS object), `closure` (function), `native`
-   * (DOM-allocated), `array` (internal V8 array), `hidden` (V8 internal),
-   * `string`, `regexp`, `number`, `symbol`, and `bigint`.
-   */
   nodeTypeOffset: number
 
   /**
@@ -602,47 +579,17 @@ type FieldLayout = {
    */
   nodeTypeToCategory: (HeapSnapshotNodeCategory | undefined)[]
 
-  /**
-   * A human-readable label for the node.
-   *
-   * For plain objects this is the constructor name (e.g. `Array`), for strings
-   * it is the string value itself, and for closures it is the function name.
-   */
   nodeNameOffset: number
-
-  /** Bytes held exclusively by this node. */
   nodeSelfSizeOffset: number
 
   /**
-   * How many outgoing edges this node has.
-   *
    * The node's edges occupy the next `edge_count * edgeFieldCount` slots in the
    * flat `edges` array, immediately following the edges of the previous node.
    */
   nodeEdgeCountOffset: number
 
-  /**
-   * Number of fields per node entry
-   *
-   * Used to stride through the flat `nodes` array.
-   */
   nodeFieldCount: number
-
-  /**
-   * How the edge relates to its parent node.
-   *
-   * One of `property` (named JS property), `element` (numeric array index),
-   * `internal` (V8-internal slot not visible in JS), `weak` (weak reference),
-   * `hidden`, and `shortcut`.
-   */
   edgeTypeOffset: number
-
-  /**
-   * The label identifying which property or slot this edge represents.
-   *
-   * For named edges (`property`, `internal`, etc.) this is a string such as `x`
-   * or `context`. For element edges it is the numeric array index.
-   */
   edgeNameOrIndexOffset: number
 
   /**
@@ -651,11 +598,6 @@ type FieldLayout = {
    */
   edgeToNodeOffset: number
 
-  /**
-   * Number of fields per edge entry.
-   *
-   * Used to stride through the flat `edges` array.
-   */
   edgeFieldCount: number
 
   /**
@@ -664,7 +606,6 @@ type FieldLayout = {
    */
   locationObjectIndexOffset: number
 
-  /** ID of the script where the node was allocated. */
   locationScriptIdOffset: number
 
   /** 0-based line number within the script where the node was allocated. */
@@ -673,23 +614,10 @@ type FieldLayout = {
   /** 0-based column number within the script where the node was allocated. */
   locationColumnOffset: number
 
-  /**
-   * Number of fields per location entry
-   *
-   * Used to stride through the flat `locations` array.
-   */
   locationFieldCount: number
-
-  /**
-   * Numeric array index properties (e.g. `arr[0]`).
-   *
-   * The edge's `name_or_index` is the integer index.
-   */
   edgeTypeElement: number
 
   /**
-   * Weak references that do not keep the target alive.
-   *
    * Nodes held only by weak edges can be garbage-collected, so these are
    * excluded from retainer path analysis.
    */
@@ -698,13 +626,8 @@ type FieldLayout = {
   /** V8 internal node not visible in JS (e.g. hidden class, map). */
   nodeTypeHidden: number
 
-  /** JS string value. */
   nodeTypeString: number
-
-  /** Plain JS object (constructor name is its class). */
   nodeTypeObject: number
-
-  /** JS function/closure. */
   nodeTypeClosure: number
 
   /** Node allocated by native (C++) code, e.g. a DOM node. */

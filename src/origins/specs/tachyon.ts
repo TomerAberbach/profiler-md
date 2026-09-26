@@ -55,10 +55,7 @@ const dropUnresolvedLine = (input: StackFrame): StackFrame => {
 }
 
 /**
- * Whether a raw frame name is a tachyon marker: a synthetic per-thread
- * `tid:<id>` frame, or a `<frozen ...>` CPython bootstrap module in tachyon's
- * `file:func:line` shape. A plain `file:func:line` frame is *not* a marker;
- * that shape is generic, so a marker-free folded stack stays `unknown`.
+ * A plain `file:func:line` frame is no marker, because the shape is generic.
  */
 const isTachyonStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&

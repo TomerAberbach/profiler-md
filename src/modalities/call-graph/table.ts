@@ -11,7 +11,6 @@ import { codeCell, countCell, percentCell, textCell } from '../table.ts'
 import type { Column, Table } from '../table.ts'
 import type { AggregatedCallGraphCategoryMetrics } from './aggregate.ts'
 
-/** A row's data for the {@link measureColumns} leading each measure table. */
 type MeasureRow = {
   /** The row's recorded value for the section's metric. */
   value: number
@@ -21,9 +20,8 @@ type MeasureRow = {
 }
 
 /**
- * The leading `%` and metric value columns shared by the measure tables. A
- * call graph records metric values only, so unlike a call stack profile's
- * tables, these have no count column.
+ * A call graph records metric values only, so unlike a call stack profile's
+ * tables, these columns include no count column.
  */
 const measureColumns = (metric: Metric): Table<MeasureRow> => [
   {
@@ -41,13 +39,8 @@ const measureColumns = (metric: Metric): Table<MeasureRow> => [
   },
 ]
 
-/** A function's row in a measure table: its measure values plus the function. */
 export type FunctionMeasureRow = MeasureRow & { func: NamedFunction }
 
-/**
- * The {@link measureColumns} followed by the function name (headed by
- * {@link entity}) and `Location` columns.
- */
 export const functionColumns = (
   metric: Metric,
   entity: string,
@@ -61,13 +54,12 @@ export const functionColumns = (
   },
 ]
 
-/** An arc's row: its measure values, recorded call count, and other endpoint. */
+/** An arc's row, whose `func` is the arc's other endpoint. */
 export type ArcRow = FunctionMeasureRow & { callCount: number }
 
 /**
- * The columns of a Callers or Callees table: the {@link measureColumns}, a
- * `Calls` column when any arc in the graph recorded a call count, and the arc's
- * other endpoint (headed by {@link entity}) with its location.
+ * The columns of a Callers or Callees table, with a `Calls` column when any
+ * arc in the graph recorded a call count.
  */
 export const arcColumns = (
   metric: Metric,
@@ -91,13 +83,8 @@ export const arcColumns = (
   },
 ]
 
-/** A line's row within {@link func}: its measure values plus the line number. */
 export type LineRow = MeasureRow & { line: number }
 
-/**
- * The {@link measureColumns} followed by a `Location` column resolving each
- * line against {@link func}'s location.
- */
 export const lineColumns = (
   metric: Metric,
   func: NamedFunction,
@@ -118,11 +105,7 @@ export const lineColumns = (
   },
 ]
 
-/**
- * A row of the categories table for one category on one side, reading each
- * metric column through that side's {@link indices} and ranking `%` against
- * that side's {@link total}.
- */
+/** A row of the categories table for one category on one side. */
 export type CategoryRow = {
   category: FunctionCategory
   stats: AggregatedCallGraphCategoryMetrics

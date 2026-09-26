@@ -38,13 +38,10 @@ export const formatConverters = [
 
 export type RegisteredFormatConverter = (typeof formatConverters)[number]
 
-/** Supported profile format IDs. */
 export type Format = RegisteredFormatConverter[`format`]
 
-/** Every supported format's converter, keyed by format ID. */
 export const formatToConverter = Object.fromEntries(
   formatConverters.map(converter => [converter.format, converter]),
 ) as { [C in RegisteredFormatConverter as C[`format`]]: C }
 
-/** Supported profile format IDs in canonical order. */
 export const formats = formatConverters.map(converter => converter.format)

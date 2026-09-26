@@ -13,11 +13,10 @@ export const matchesWebKitTimelineRecording = (json: unknown): boolean => {
   }
 
   const recording = object.recording as Record<string, unknown>
-  // Web Inspector writes the samples per target under `samples`; it wrote
-  // them as the `sampleStackTraces`/`sampleDurations` pair before `samples`
-  // replaced it. `samples` is a common key, so a target's shape keeps a
-  // near-miss JSON from another tool in auto-detection rather than claimed
-  // and reported as unusable.
+  // `samples` is a common key, so a target's shape keeps a near-miss JSON from
+  // another tool in auto-detection instead of claiming it and reporting it as
+  // unusable. `sampleStackTraces` and `sampleDurations` are the layout
+  // `samples` replaced.
   if (Array.isArray(recording.samples)) {
     const [target] = recording.samples as unknown[]
     if (target === undefined) {

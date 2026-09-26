@@ -83,12 +83,7 @@ export type Observation = {
   count?: number
 }
 
-/**
- * Per-line metrics for one frame, added after the observations.
- *
- * Used by formats that report a function's self time broken down by line
- * separately from its observations.
- */
+/** Per-line metrics for one frame. */
 export type ObservationLineMetrics = {
   /** The frame's index into {@link CallStackProfile.frames}. */
   frame: number

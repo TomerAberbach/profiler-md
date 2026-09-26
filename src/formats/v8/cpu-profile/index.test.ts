@@ -38,8 +38,7 @@ describe(`matches`, () => {
 
 describe(`convert`, () => {
   test(`merges nodes with the same identity`, () => {
-    // `funcB` is called from both `funcA` and `funcC`. With identical call
-    // frames, they should be merged into one row with combined times.
+    // `funcB` is called from both `funcA` and `funcC`.
     const profile = {
       nodes: [
         makeV8CpuProfileRoot([2, 3]),
@@ -102,7 +101,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Two funcB nodes -> one row with 3 combined samples
     expect(selfTimeTables(md)).toEqual([
       [
         {
@@ -136,7 +134,6 @@ describe(`convert`, () => {
 
   test(`merges positionTicks across nodes with the same identity`, () => {
     // Node 4 has ticks on line 5 (1 tick), node 5 has ticks on line 8 (2 ticks).
-    // After merging, hottest line should be 8.
     const profile = {
       nodes: [
         makeV8CpuProfileRoot([2, 3]),
@@ -201,7 +198,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Line 8 hottest (2 ticks from node 5), line 5 second (1 tick from node 4)
     expect(linesTables(md, `funcB`)).toEqual([
       [
         { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `src/b.ts:8` },
@@ -212,7 +208,6 @@ describe(`convert`, () => {
 
   test(`sums positionTicks on the same line across merged nodes`, () => {
     // Node 4 has ticks on lines 8 (1) and 5 (1). Node 5 has ticks on line 5 (1).
-    // Line 5's ticks must be summed (1+1=2), making line 5 the hottest.
     const profile = {
       nodes: [
         makeV8CpuProfileRoot([2, 3]),
@@ -280,7 +275,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Line 5 has 2 ticks total (summed), line 8 has 1 tick
     expect(linesTables(md, `funcB`)).toEqual([
       [
         { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `src/b.ts:5` },
@@ -290,8 +284,7 @@ describe(`convert`, () => {
   })
 
   test(`deduplicates total time for recursive functions`, () => {
-    // `funcA` calls itself recursively (two nodes, same identity). Total time
-    // should be counted once per sample, not twice.
+    // `funcA` calls itself recursively (two nodes, same identity).
     const profile = {
       nodes: [
         makeV8CpuProfileRoot([2]),
@@ -331,7 +324,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // FuncA total = 1 sample, not 2
     expect(totalTimeTables(md)).toEqual([
       [
         {
@@ -346,8 +338,6 @@ describe(`convert`, () => {
   })
 
   test(`anonymous functions at different lines stay separate`, () => {
-    // Two anonymous functions at different lines. They should stay separate
-    // nodes and both be labeled `(anonymous)` in the output.
     const profile = {
       nodes: [
         makeV8CpuProfileRoot([2]),
@@ -399,7 +389,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // Two distinct (anonymous) entries at different lines
     expect(
       totalTimeTables(md).map(table =>
         table

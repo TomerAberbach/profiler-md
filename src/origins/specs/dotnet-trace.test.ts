@@ -4,7 +4,7 @@ import type { ProfileEntry } from '../../options.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 
-/** A frame as it looks after normalization: a logical declaring-type location. */
+/** A frame as it looks after normalization. */
 const typeEntry = (name: string, type: string): ProfileEntry => ({
   id: 1,
   name,
@@ -14,7 +14,6 @@ const typeEntry = (name: string, type: string): ProfileEntry => ({
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`detection`, () => {
-  // An assembly-bang managed frame and a time-bucket marker.
   test.each([
     `System.Private.CoreLib!System.AppContext.Setup(wchar**,wchar**,int32)`,
     `UNMANAGED_CODE_TIME`,

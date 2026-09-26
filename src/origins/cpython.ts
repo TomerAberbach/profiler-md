@@ -4,8 +4,6 @@ import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { locationlessCategory, nativeLibraryCategory } from './categorize.ts'
 
 /**
- * The full categorization of a CPython entry.
- *
  * A compiled extension module keeps its package's category, so the
  * shared-library rule applies after the third-party and standard-library
  * rules. It categorizes a library outside both, such as `libc.so.6` or the
@@ -20,7 +18,6 @@ export const categorizeCPythonEntry = (
   locationlessCategory(entry) ??
   `ours`
 
-/** Categorizes Python frames from an installed-package directory as `third-party`. */
 export const pythonThirdPartyCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {

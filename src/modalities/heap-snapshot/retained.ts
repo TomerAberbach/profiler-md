@@ -29,17 +29,12 @@ export const computeNodeOrdinalToRetainedSize = (
 }
 
 /**
- * Attributes retained sizes to categories of nodes without double-counting.
+ * Adds each node's retained size to its aggregated node without
+ * double-counting.
  *
- * Summing per-node retained sizes across all instances of a category
- * over-counts when one instance dominates another from the same category (the
- * dominated node's memory is already included in the dominator's retained
- * size).
- *
- * This function correctly attributes by doing a DFS of the dominator tree and
- * only crediting the outermost instance of each category on any root-to-leaf
- * path. Inner instances are entirely contained within the outer one's retained
- * set, so they add nothing.
+ * Only the outermost instance of an aggregated node on each root-to-leaf path
+ * of the dominator tree counts, because an inner instance's retained set is
+ * contained in the outer one's.
  */
 export const attributeCategoryRetainedSizes = (
   nodeOrdinalToRetainedSize: Float64Array,
@@ -52,19 +47,15 @@ export const attributeCategoryRetainedSizes = (
 ): void => {
   const nodeCount = nodeOrdinalToRetainedSize.length
 
-  // Track same-category ancestor depth. Only the outermost (depth=0) instance
-  // on any root-to-leaf path contributes its retained size.
   const categoryPathDepth = new Int32Array(aggregatedNodes.length)
 
-  // DFS with flat Int32Array stack.
-  // Convention: value >= 0 = entering node, ~value (always < 0) = exiting node.
+  // A value >= 0 enters a node, and ~value (always < 0) exits it.
   const stack = new Int32Array(nodeCount * 2 + 1)
   stack[0] = 0
   let topOffset = 1
   do {
     const encodedNodeOrdinal = stack[--topOffset]!
     if (encodedNodeOrdinal < 0) {
-      // Exiting a node.
       const nodeOrdinal = ~encodedNodeOrdinal
       const constructorIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
       if (constructorIndex !== -1) {

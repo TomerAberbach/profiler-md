@@ -393,9 +393,9 @@ describe(`diffAggregatedCallStackProfiles`, () => {
   })
 
   test(`pairs exact-line matches first when same-key groups are asymmetric`, () => {
-    // Base saw one method (line 36); current saw two (36 and 35). Line 36 must
-    // pair with line 36, leaving line 35 as genuinely new — not pair 36 with
-    // 35 by order and report 36 as removed.
+    // Base saw line 36, and current saw lines 36 and 35. Line 36 must pair
+    // with line 36, leaving line 35 new, instead of pairing 36 with 35 by order
+    // and reporting 36 as removed.
     const method = (line: number, count: number) => ({
       name: `mapfoldl_impl`,
       url: `file:///julia/base/reduce.jl`,

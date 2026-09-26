@@ -49,7 +49,6 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-# Resolve the selected workload scripts (all, or just the named langs).
 scripts=()
 if [[ ${#langs[@]} -eq 0 ]]; then
   for s in "$INPUT_GENERATION_SCRIPTS"/*.sh; do
@@ -64,8 +63,6 @@ else
   done
 fi
 
-# --all: delete each selected language's generated inputs first, so the subsequent run
-# regenerates them from scratch.
 if [[ "$mode" == all ]]; then
   echo "Deleting target generated inputs"
   generated_inputs_dir="$REPO/examples/input"
@@ -84,13 +81,12 @@ LOG_DIR="${LOG_DIR%/}/profiler-md-input-generation-logs"
 rm -rf "$LOG_DIR"
 mkdir -p "$LOG_DIR"
 
-# Run each selected workload script.
 status=0
 for s in "${scripts[@]}"; do
   name="$(basename "$s" .sh)"
   log="$LOG_DIR/$name.log"
 
-  echo "Profling $name (log: $log)"
+  echo "Profiling $name (log: $log)"
   if ! bash "$s" >"$log" 2>&1; then
     echo "Failed: $name ($log)" >&2
     echo "   --- last 20 lines ---" >&2

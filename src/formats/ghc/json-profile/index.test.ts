@@ -109,8 +109,6 @@ describe(`convert`, () => {
       `Wall time profile`,
       `Allocated heap and entries profile`,
     ])
-    // Four ticks at the 1 ms interval, and the bytes and entries the runtime
-    // counted, each summed as it counted them.
     expect(summaryLines(md)).toEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
       `Allocated 1,000\u00A0B and recorded 7 entries.`,

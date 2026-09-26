@@ -3,21 +3,17 @@ import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 
 /**
- * A heap snapshot parsed into the uniform structure containing the node
- * adjacency graph and each node's unresolved category.
+ * A parsed heap snapshot.
  *
  * A format that yields several snapshots returns one of these per snapshot.
  */
 export type HeapSnapshot = {
   type: `heap-snapshot`
 
-  /** Number of nodes in the snapshot. */
   nodeCount: number
 
-  /** Number of edges between nodes in the snapshot. */
   edgeCount: number
 
-  /** The successor and predecessor graph between the snapshot's nodes. */
   nodeAdjacencyGraph: NodeAdjacencyGraph
 
   /** Bytes allocated directly for the node. */
@@ -30,8 +26,8 @@ export type HeapSnapshot = {
   nodes: Iterable<HeapSnapshotNode>
 
   /**
-   * Formats an edge label, which is computed lazily at formatting time, so it
-   * receives the resolved formatting options.
+   * Computed lazily at formatting time, so it receives the resolved formatting
+   * options.
    */
   formatEdgeLabel: (
     retainerOrdinal: number,
@@ -40,8 +36,8 @@ export type HeapSnapshot = {
   ) => string
 
   /**
-   * Formats a node label, which is computed lazily at formatting time, so it
-   * receives the resolved formatting options.
+   * Computed lazily at formatting time, so it receives the resolved formatting
+   * options.
    */
   formatNodeLabel: (
     nodeOrdinal: number,
@@ -77,7 +73,6 @@ export type HeapSnapshot = {
 export type HeapSnapshotNodeCategory =
   (typeof HEAP_SNAPSHOT_NODE_CATEGORIES)[number]
 
-/** Every category {@link HeapSnapshotNodeCategory} allows. */
 export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
   `object`,
   `array`,
@@ -113,8 +108,6 @@ export type UnresolvedHeapSnapshotNodeCategory = {
 }
 
 /**
- * A heap snapshot node.
- *
  * Every node contributes to its category's stats. A node with a `type` also
  * aggregates into that type's entities.
  */
@@ -123,11 +116,7 @@ export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
     | { type?: undefined }
     | {
         type: `constructor`
-
-        /** A human readable label for this constructor. */
         name: string
-
-        /** The exact location where the node was defined. */
         location?: SourceLocation
 
         /**
@@ -137,11 +126,7 @@ export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
       }
     | {
         type: `function`
-
-        /** A human readable label for this function. */
         name: string
-
-        /** The exact location where the function was defined. */
         location?: SourceLocation
       }
     | {

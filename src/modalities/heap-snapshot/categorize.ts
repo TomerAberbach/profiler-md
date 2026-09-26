@@ -1,11 +1,9 @@
 /**
- * Categorizing a heap snapshot's nodes and the entities they aggregate into.
- *
- * A category resolves only once the origin is known, since the origin
+ * A category resolves only once the origin is known, because the origin
  * categorizes a constructor by the class name its language defines and maps the
- * type names a format declares itself. The aggregators here accumulate sizes
- * under a key while the nodes are consumed, and resolve that key to a category
- * afterwards.
+ * type names a format declares itself. The origin is detected only after the
+ * nodes are consumed, so the aggregators here accumulate sizes under a key
+ * while the nodes are consumed, and resolve that key to a category afterwards.
  */
 
 import {
@@ -47,23 +45,13 @@ export const newNodeCategoryResolver = (
   }
 }
 
-/**
- * The category {@link origin} assigns to a type name a format declared,
- * falling back to `object` for one the origin doesn't categorize.
- */
 const declaredTypeCategory = (
   declaredType: string,
   origin: Origin,
 ): HeapSnapshotNodeCategory =>
   categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ?? `object`
 
-/**
- * Aggregates each node's self size and count into its category's stats.
- *
- * A constructor's stats stay keyed by its name until {@link aggregate}, since
- * the origin categorizes it by the class name its language defines. The origin
- * is detected only after the nodes are consumed.
- */
+/** Aggregates each node's self size and count into its category's stats. */
 export class NodeCategoryStatsAggregator {
   /** Stats of the nodes the format categorized, by the category it derived. */
   readonly #byCategory = new KeyedNodeStats<HeapSnapshotNodeCategory>()
@@ -115,11 +103,8 @@ export class NodeCategoryStatsAggregator {
 }
 
 /**
- * Size and count stats of the nodes sharing a key, which resolves to a category
- * only once the origin is known.
- *
- * A constructor node's stats stay keyed by its name under that key, since the
- * origin categorizes it by the class name its language defines.
+ * Size and count stats of the nodes sharing a key, with a constructor node's
+ * stats kept by its name under that key.
  */
 class KeyedNodeStats<Key> {
   readonly #keyToStats = new Map<Key, NodeCategoryStats>()
@@ -161,10 +146,6 @@ class KeyedNodeStats<Key> {
     }
   }
 
-  /**
-   * The stats {@link node} aggregates into under {@link key}: its constructor
-   * name's when it has one, and the key's own otherwise.
-   */
   #statsOf(node: HeapSnapshotNode, key: Key): NodeCategoryStats {
     if (node.type !== `constructor`) {
       return statsOf(this.#keyToStats, key)
@@ -179,7 +160,6 @@ class KeyedNodeStats<Key> {
   }
 }
 
-/** Adds {@link stats} to the stats {@link key} aggregates into. */
 const addStats = <Key>(
   keyToStats: Map<Key, NodeCategoryStats>,
   key: Key,
@@ -190,7 +170,6 @@ const addStats = <Key>(
   stats.nodeCount += nodeCount
 }
 
-/** The stats {@link key} aggregates into, inserted empty when it has none. */
 const statsOf = <Key>(
   keyToStats: Map<Key, NodeCategoryStats>,
   key: Key,
@@ -242,8 +221,7 @@ export class EntityCategorizer {
 
   /**
    * Assigns each constructor and string the category holding the most of its
-   * self size, resolving the key its nodes accumulated under through
-   * {@link origin}.
+   * self size.
    *
    * A constructor the origin names by the class its language defines takes that
    * category instead, since the class name identifies what its instances hold
@@ -273,10 +251,8 @@ export class EntityCategorizer {
  * nothing.
  *
  * The two share one key space, since an entity's nodes may report either and
- * the entity takes the key holding the most of its self size. A category is
- * numbered from {@link HEAP_SNAPSHOT_NODE_CATEGORIES} and a declared type name
- * from the order the snapshot declares them in. A key's sign distinguishes the
- * two, because a format may declare a type name equal to a category name, and
+ * the entity takes the key holding the most of its self size. A key's sign
+ * distinguishes the two, because a format may declare a type name equal to a category name, and
  * the two mean different things.
  */
 class CategoryKeys {
@@ -297,9 +273,7 @@ class CategoryKeys {
   }
 
   /**
-   * Resolves a {@link keyOf} key to its category, passing a declared type name
-   * through {@link origin} and falling back to `object` for a type name the
-   * origin doesn't categorize.
+   * Resolves a {@link keyOf} key to its category under {@link origin}.
    *
    * Memoized, since a snapshot declaring its own type names can hold thousands
    * of them and every entity resolves one.

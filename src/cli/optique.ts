@@ -125,7 +125,6 @@ const numberInRange = (
   },
 })
 
-/** Parses an integer of at least `min`. */
 export const integerAtLeast = (
   metavar: NonEmptyString,
   min: number,
@@ -136,7 +135,6 @@ export const integerAtLeast = (
     max: Infinity,
   })
 
-/** Parses a number from 0 to 1. */
 export const fraction = (
   metavar: NonEmptyString,
 ): ValueParser<`sync`, number> =>
@@ -146,7 +144,6 @@ export const fraction = (
     max: 1,
   })
 
-/** Parses a non-empty string, stating {@link expected} when it is empty. */
 export const nonEmptyString = (
   metavar: NonEmptyString,
   expected: string,
@@ -159,7 +156,6 @@ export const nonEmptyString = (
     },
   })
 
-/** The error for a value attached to a flag that takes none. */
 const unexpectedValue = (names: MessageTerm, input: string): Message =>
   message`${names}: expected no value, got: ${value(input)}`
 

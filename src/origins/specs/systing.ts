@@ -11,10 +11,8 @@ export const systingOriginSpec = {
   isMarkerEntry: entry => NATIVE_FRAME.test(entry.name ?? ``),
   categorizeEntry: entry =>
     labelModuleCategory(entry) ??
-    // Pystacks interleaves CPython frames among the native ones, carrying
-    // the same interpreter path conventions the Python collapsed-stack origins
-    // see.
-    // Before the system-directory rule so Debian's
+    // Pystacks interleaves CPython frames among the native ones. These rules
+    // precede the system-directory rule so Debian's
     // /usr/lib/python3/dist-packages/ counts as third-party, not stdlib.
     pythonThirdPartyCategory(entry) ??
     pythonStdlibCategory(entry) ??
@@ -25,7 +23,7 @@ export const systingOriginSpec = {
     // Unlike runtime profilers, a locationless frame here is not necessarily
     // a runtime internal: any native code without debug info (the app's own
     // stripped binary as much as a system library) symbolizes without a
-    // source location. `native` states exactly that.
+    // source location.
     locationlessCategory(entry) ??
     `ours`,
   normalizeStackFrame: input => {
@@ -38,13 +36,11 @@ export const systingOriginSpec = {
     const native = NATIVE_FRAME.exec(input.name ?? ``)
     if (native) {
       const { func, inner } = native.groups!
-      // The packed line is where the frame was executing (it comes from the
-      // sampled address), so it feeds the per-line breakdown and the name
-      // and file alone identify the function. The module is dropped — the
-      // source location names the code better — except a bracketed label
-      // module, which determines the category (kernel code symbolized
-      // with kernel debuginfo has both a `[kernel]` label and a source
-      // location) and stays in the name like on source-less frames.
+      // The packed line is where the frame was executing, because it comes from
+      // the sampled address. Drop the module, because the source location
+      // names the code better, except a bracketed label module, which selects
+      // the category. Kernel code symbolized with kernel debuginfo has both a
+      // `[kernel]` label and a source location.
       const location =
         MODULE_LOCATION_LINE.exec(inner!) ?? MODULE_LOCATION.exec(inner!)
       if (location) {
@@ -87,30 +83,25 @@ export const systingOriginSpec = {
  *
  * The parenthesized group forbids parentheses, so a function name containing
  * them (C++ signatures, Rust trait impls) keeps them: the match splits at the
- * last ` (` opening a paren-free tail. The module and optional location
- * inside the parens are separated by {@link MODULE_LOCATION_LINE} /
- * {@link MODULE_LOCATION} in a second pass; splitting the optional pieces
- * across patterns keeps every regex free of nested quantifiers (profile data
- * is untrusted input). The trailing address is the discriminating marker for
- * origin detection — no other supported profiler suffixes every frame with
- * `<0x…>`.
+ * last ` (` opening a paren-free tail. The optional location inside the parens
+ * has patterns of its own, {@link MODULE_LOCATION_LINE} and
+ * {@link MODULE_LOCATION}, so no regex has nested quantifiers, because profile
+ * data is untrusted input. No other supported profiler suffixes every frame
+ * with `<0x…>`, so the trailing address marks a systing frame.
  */
 const NATIVE_FRAME = /^(?<func>.+) \((?<inner>[^()]*[^()\s])\) <0x[0-9a-f]+>$/u
 
-/** The ` [file:line]` location suffix inside a frame's parens. */
 const MODULE_LOCATION_LINE =
   /^(?<module>.+) \[(?<file>[^\][:]+):(?<line>\d+)\]$/u
 
-/** The line-less ` [file]` location suffix inside a frame's parens. */
 const MODULE_LOCATION = /^(?<module>.+) \[(?<file>[^\][:]+)\]$/u
 
 /** A whole-module bracketed label, e.g. `[kernel]`. */
 const LABEL = /^\[[^\][]+\]$/u
 
 /**
- * Systing's Python frame packing (pystacks): `name (python) [file.py:line]` —
- * location outside the parens and no address, unlike native frames. Split
- * into with-line and line-less patterns like the native location.
+ * Systing's Python frame packing (pystacks): `name (python) [file.py:line]`,
+ * with the location outside the parens and no address.
  */
 const PYTHON_FRAME_LINE =
   /^(?<func>.+) \(python\) \[(?<file>[^\][:]+):(?<line>\d+)\]$/u

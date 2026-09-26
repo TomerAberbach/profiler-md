@@ -5,7 +5,6 @@ import type {
 import { SAMPLES, SECONDS_METRIC } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
-/** A function observed in a WebKit timeline recording call stack. */
 export type WebKitStackFrame = {
   /**
    * WebKit's internal unique identifier for the script that contains the
@@ -13,7 +12,6 @@ export type WebKitStackFrame = {
    */
   sourceID: string
 
-  /** The name of the function. */
   name: string
 
   /**
@@ -28,7 +26,6 @@ export type WebKitStackFrame = {
    */
   column: number
 
-  /** The URL of the script that contains the function. */
   url: string
 
   /**
@@ -43,15 +40,12 @@ export type WebKitStackFrame = {
 type WebKitStackTrace = { stackFrames: WebKitStackFrame[] }
 
 /**
- * Parsed representation of a WebKit timeline recording.
- *
- * Web Inspector writes the samples per target under `samples`; it wrote them
- * as the root-level `sampleStackTraces`/`sampleDurations` pair before
- * `samples` replaced it, and still reads that layout on its compatibility
- * path. The serialization version stayed 1 across the change.
+ * Web Inspector writes the samples per target under `samples`. Before `samples`
+ * replaced it, it wrote them as the root-level
+ * `sampleStackTraces`/`sampleDurations` pair, and it still reads that layout on
+ * its compatibility path. The serialization version stayed 1 across the change.
  */
 export type WebKitTimelineRecording = {
-  /** The format version number. */
   version: number
 
   recording: {
@@ -112,7 +106,6 @@ export const parseWebKitTimelineRecording = ({
 
       observations.push({
         values: [durations[index]!],
-        // WebKit's stack frames are already in callee-to-caller order.
         frameIndices: stackFrames.map(intern),
         executingLine: executingLine(stackFrames[0]!),
       })
@@ -132,7 +125,7 @@ export const parseWebKitTimelineRecording = ({
 
 /**
  * Frames are inlined per record rather than in a shared table, so dedup them
- * by identity; a frame's index is its position in `frames`.
+ * by identity. A frame's index is its position in `frames`.
  */
 const createStackFrameInterner = (): {
   frames: StackFrame[]
@@ -182,10 +175,6 @@ const frameToStackFrame = (node: WebKitStackFrame): StackFrame => {
   }
 }
 
-/**
- * The executing line of a sample's leaf frame, or `undefined` when WebKit
- * reports none (an absent expression location or a -1 line).
- */
 const executingLine = (leafFrame: WebKitStackFrame): number | undefined => {
   const line = leafFrame.expressionLocation?.line
   return line !== undefined && line !== -1 ? line : undefined

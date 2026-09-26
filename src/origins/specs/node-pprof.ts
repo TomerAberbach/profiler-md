@@ -87,10 +87,6 @@ const PACKED_ANONYMOUS = /^\(anonymous:L#(?<line>\d+):C#(?<column>\d+)\)$/u
 /** The module specifiers Node resolves to runtime builtins. */
 const NODE_PROTOCOLS = [`node:`]
 
-/**
- * Categorizes the `pprof` package's garbage-collection frame, labelled
- * `Garbage Collection`, as `garbage-collector`.
- */
 const garbageCollectionCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>

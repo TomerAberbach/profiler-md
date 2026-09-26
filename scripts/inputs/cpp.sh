@@ -21,7 +21,6 @@ run_for_role() {
 
   notice "Profiling fmt with gperftools ($role)"
 
-  # Mount the scratch dir at /out so the profiles and binary land on the host.
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -32,8 +31,7 @@ run_for_role() {
 
       git clone --depth 1 --branch "'"$FMT_TAG"'" "'"$FMT_REPO"'" /src/fmt
 
-      # Compile the harness against header-only {fmt}. -g gives the host pprof
-      # line/inline info to symbolize fmt frames.
+      # -g gives the host pprof line and inline info to symbolize fmt frames.
       g++ -O2 -g -std=c++17 -DFMT_HEADER_ONLY -I /src/fmt/include \
         /out/profile.cpp -o /out/binary
 
@@ -42,22 +40,21 @@ run_for_role() {
       LIBPROFILER=$(find / -name "libprofiler.so*" -print -quit 2>/dev/null)
       LIBTCMALLOC=$(find / -name "libtcmalloc.so" -print -quit 2>/dev/null)
 
-      # CPU profile: preload libprofiler and set CPUPROFILE. Sample at 1 kHz (vs
-      # the 100 Hz default) for a denser profile. Single process, so no children
-      # inherit the preload.
+      # 1 kHz sampling, against the 100 Hz default, gives a denser profile. The
+      # harness is a single process, so no children inherit the preload.
       CPUPROFILE=/out/cpu.raw CPUPROFILE_FREQUENCY=1000 LD_PRELOAD="$LIBPROFILER" \
         /out/binary
 
-      # Heap profile: preload tcmalloc and set HEAPPROFILE (dumps heap.NNNN.heap).
+      # tcmalloc dumps numbered heap.NNNN.heap files.
       HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=1048576 \
         /out/binary
       cp "$(ls -1 /out/heap.*.heap | sort | tail -n1)" /out/heap.raw
     ' -e ROLE="$role"
 
-  # The Linux runtime libs (libc, tcmalloc, ld) can't be symbolized cross-OS, so
-  # we drop those expected warnings. Real errors still surface and fail the
-  # build via the exit code.
+  # pprof can't symbolize the Linux runtime libraries (libc, tcmalloc, ld) on
+  # another OS, so drop those expected warnings. Other errors still print and
+  # fail the capture through the exit code.
   local drop='Local symbolization failed'
   pprof -proto "$dir/binary" "$dir/cpu.raw" >"$dir/cpu.pprof" \
     2> >(grep -v "$drop" >&2 || true)
@@ -75,8 +72,7 @@ copy_cpp_profile() {
 }
 
 # capture_fn for emit: $1=out  $2=role
-#   Records the same {fmt} harness with Linux perf, which writes perf.data
-#   itself. Runs in its own container so regenerating it skips the gperftools
+#   Runs in its own container, so regenerating it skips the gperftools
 #   captures.
 capture_perf() {
   local out=$1 role=$2
@@ -117,7 +113,6 @@ capture_perf() {
   cp "$dir/cpu.perf.data" "$out"
 }
 
-# These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do

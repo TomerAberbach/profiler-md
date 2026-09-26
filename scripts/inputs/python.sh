@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# py-spy can sample Python on macOS but crashes intermittently (SIGABRT) on the
-# short-lived Black process, so the capture runs in a linux/arm64 container where
-# py-spy is rock-solid with SYS_PTRACE — no sudo, no flaky aborts. memray traces
-# from inside the interpreter and runs in a container of its own.
+# py-spy crashes intermittently (SIGABRT) sampling the short-lived Black process
+# on macOS, so its captures run in a Linux container with SYS_PTRACE, which
+# needs no sudo.
 
 cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
@@ -15,8 +14,7 @@ MEMRAY_V13_VERSION="1.20.0"
 PYINSTRUMENT_VERSION="5.1.3"
 BLACK_VERSION="24.8.0"
 
-# Black formats CPython's own _pydecimal.py as a real, sizeable workload. Fetch
-# it pinned to a CPython tag and verify its checksum.
+# Black formats CPython's own _pydecimal.py as a real, sizeable workload.
 CPYTHON_VERSION="3.13.2"
 TARGET="$REPO/scripts/inputs/assets/python/_pydecimal.py"
 TARGET_URL="https://raw.githubusercontent.com/python/cpython/v$CPYTHON_VERSION/Lib/_pydecimal.py"
@@ -27,15 +25,12 @@ fetch_pydecimal() {
     "$TARGET_URL" "$TARGET_SHA256" "$TARGET"
 }
 
-# Run all three py-spy captures once per role inside the container, writing the
-# in-container output names into the mounted /out.
 declare -A rundir=()
 run_for_role() {
   local role=$1
   [[ -n "${rundir[$role]:-}" ]] && return 0
   local dir="$WORKDIR/python-$role"
   mkdir -p "$dir"
-  # Stage the real CPython _pydecimal.py into the mount as the Black input.
   fetch_pydecimal || return 1
   cp "$TARGET" "$dir/_pydecimal.py" || return 1
 
@@ -50,9 +45,8 @@ run_for_role() {
       /venv/bin/pip install --quiet "py-spy==$PY_SPY_VERSION" "black==$BLACK_VERSION"
 
       # Each capture formats a fresh copy of the input so Black always has work.
-      # --idle adds off-CPU/idle samples for the wall-clock profile. py-spy
-      # occasionally races Black at exit ("No child process"); since that is rare
-      # and per-run, retry a few times.
+      # --idle adds off-CPU samples for the wall-clock profile. py-spy
+      # occasionally races Black at exit ("No child process"), so retry.
       cap() {
         local out=$1 fmt=$2 n
         shift 2
@@ -363,7 +357,6 @@ copy_pyinstrument_profile() {
   cp "${pyinstrument_rundir[$role]}/$name" "$out"
 }
 
-# These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do

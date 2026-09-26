@@ -67,21 +67,18 @@ export const concatUint8Arrays = (arrays: Iterable<Uint8Array>): Uint8Array => {
 
 /**
  * Lazily decodes {@link bytes} as UTF-8 and yields its lines, splitting on `\n`
- * and stripping a trailing `\r`.
+ * and stripping a trailing `\r`. Yields a trailing empty line when the input
+ * ends with a newline.
  *
  * Decodes in bounded chunks so the full text is never held as a single string,
  * sidestepping the ~512 MiB maximum string length that
- * `new TextDecoder().decode(bytes)` would hit on very large text profiles.
- * Decoding is synchronous and correct across multi-byte sequences split at a
- * chunk boundary.
+ * `new TextDecoder().decode(bytes)` would hit on a large input. Decoding is
+ * correct across multi-byte sequences split at a chunk boundary.
  *
  * Replaces an invalid sequence, including a truncated trailing one, with
  * U+FFFD.
  *
- * Yields the same lines as `decoder.decode(bytes).split('\n')` would (with `\r`
- * stripped), i.e. a trailing empty line when the input ends with a newline.
- *
- * {@link chunkSize} is exposed mainly for tests; the default suits real inputs.
+ * Only tests need to pass {@link chunkSize}.
  */
 export function* decodeUtf8Lines(
   bytes: Uint8Array,
@@ -96,17 +93,15 @@ export function* decodeUtf8Lines(
 
 /**
  * Lazily decodes {@link stream} as UTF-8 and yields its lines, splitting on
- * `\n` and stripping a trailing `\r`.
+ * `\n` and stripping a trailing `\r`. Yields a trailing empty line when the
+ * input ends with a newline.
  *
- * Reads the stream chunk by chunk, decoding lines and discarding raw bytes as
- * it goes, so peak memory is just the lines a caller retains rather than the
- * whole input. Decoding is correct across multi-byte sequences split at a chunk
- * boundary.
+ * Discards raw bytes as it decodes, so peak memory is the lines a caller
+ * retains rather than the whole input. Decoding is correct across multi-byte
+ * sequences split at a chunk boundary.
  *
  * Replaces an invalid sequence, including a truncated trailing one, with
  * U+FFFD.
- *
- * Yields a trailing empty line when the input ends with a newline.
  */
 export async function* decodeUtf8LinesAsync(
   stream: ReadableStream<Uint8Array>,
@@ -154,10 +149,9 @@ export const hasLeadingNulByte = (bytes: Uint8Array): boolean =>
 
 const NUL_SCAN_LENGTH = 4096
 
-/** A streaming UTF-8 and line-splitting decoder. */
 class Utf8LineDecoder {
-  // A streaming decoder must be exclusive to this instance, since it buffers
-  // bytes across chunks; sharing one would corrupt interleaved iterations.
+  // A streaming decoder buffers bytes across chunks, so sharing one would
+  // corrupt interleaved iterations
   readonly #decoder = new TextDecoder(`utf-8`)
   #pending = ``
 
@@ -165,8 +159,8 @@ class Utf8LineDecoder {
     this.#pending += this.#decoder.decode(bytes, { stream: true })
 
     const lines = this.#pending.split(`\n`)
-    // The last element is an as-yet-unterminated line; carry it to the next
-    // chunk (or the flush below).
+    // The last element is an unterminated line, which the next push or flush
+    // completes
     this.#pending = lines.pop()!
     for (const line of lines) {
       yield stripCarriageReturn(line)
@@ -180,9 +174,8 @@ class Utf8LineDecoder {
 }
 
 /**
- * The number of bytes {@link decodeUtf8Lines} decodes per chunk. Large enough
- * to amortize decode calls, small enough that a chunk's decoded string stays
- * far below the maximum string length.
+ * Large enough to amortize decode calls, and small enough that a chunk's
+ * decoded string stays far below the maximum string length.
  */
 const DECODE_CHUNK_SIZE = 64 * 1024 * 1024
 
@@ -288,7 +281,6 @@ export class ByteQueue {
     return chunk
   }
 
-  /** Copies the first `count` buffered bytes into a fresh contiguous array. */
   #head(count: number): Uint8Array {
     const head = new Uint8Array(count)
     let written = 0

@@ -56,7 +56,6 @@ type HprofPrimitiveArray = {
 
 type HprofRoot = { id: number; tag: number }
 
-/** The records a written dump holds. */
 export type HprofDump = {
   header?: string
   idSize?: number

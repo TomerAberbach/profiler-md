@@ -42,13 +42,11 @@ ensure_spock() {
   spock_source="$dir"
 }
 
-# Run CodeNarc analyzing Spock's Groovy sources, passing one JVM arg through
-# (the agent or StartFlightRecording option). CodeNarc reports thousands of
-# violations on a real codebase; that's expected, so -failOn stays unset and
-# the CLI exits 0 regardless of violations.
+# -failOn stays unset, so CodeNarc exits 0 despite the thousands of violations
+# it reports on Spock.
 #
-# Two configs analyze one small module with one ruleset to keep the output
-# under the 100 MB input size limit. The nativemem capture records every
+# The nativemem and cpu-threads-ann-sig configs analyze one small module with
+# one ruleset to keep the output under the 100 MB input size limit. The nativemem capture records every
 # malloc/free, and even CodeNarc's startup (loading its ~350 rule classes and
 # the Groovy runtime) emits ~80 MB of events. The cpu-threads-ann-sig capture
 # roots each stack at its thread and appends method signatures, which

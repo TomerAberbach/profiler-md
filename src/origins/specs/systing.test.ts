@@ -8,8 +8,6 @@ describe(`detection`, () => {
     expect(determineOrigin({ format: `systing`, entries: [] })).toBe(`systing`)
   })
 
-  // Native frames: `name (module [file:line]) <0xaddr>` with the location
-  // optional and the module possibly a bracketed label.
   test.each([
     `gamma_spin (nested [nested.c:9]) <0x56475007017d>`,
     `__libc_start_main (libc.so.6) <0x7f89613aa28b>`,

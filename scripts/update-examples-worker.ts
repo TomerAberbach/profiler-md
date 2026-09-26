@@ -11,13 +11,11 @@ enableCompileCache(join(`node_modules`, `.cache`, `node-compile-cache`))
 
 const { profileToMd, diffProfiles } = await import(`../src/index.ts`)
 
-/** One example to convert, sent by the pool. */
 export type ExampleTask = {
   exampleName: string
   inputPaths: string[]
 }
 
-/** A converted example's outcome, posted back to the pool. */
 export type ExampleResult = {
   exampleName: string
   elapsed: number

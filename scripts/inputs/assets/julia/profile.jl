@@ -53,11 +53,11 @@ function capture_alloc(out::String, doc::String)
     parse_workload(20, doc)
 
     Profile.Allocs.clear()
-    # `Profile.Allocs.@profile` (Julia >= 1.8) records one sample per allocation
-    # scaled by `sample_rate` (1.0 = every allocation). Parsing a ~600 KB JSON
-    # doc allocates enormously, so `sample_rate=1` over many iterations records
-    # tens of millions of samples. Keep BOTH the rate and the iteration count
-    # small so the sampled set stays in the low thousands.
+    # `Profile.Allocs.@profile` (Julia >= 1.8) records each allocation with
+    # probability `sample_rate`. Parsing a ~600 KB JSON document allocates
+    # enormously, so `sample_rate=1` over many iterations records tens of
+    # millions of samples. A small rate and iteration count keep the sampled set
+    # in the low thousands.
     Profile.Allocs.@profile sample_rate = 0.0001 parse_workload(100, doc)
 
     PProf.Allocs.pprof(out = out, web = false)

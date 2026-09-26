@@ -143,7 +143,6 @@ export const getUsageHint = ({ colors = false } = {}): string => {
   return `\n${text}\n`
 }
 
-/** The description, the synopsis, and the examples. */
 const getHeaderText = (style: Style): string => {
   const { brief } = program.metadata
   const description = style.page({ brief, sections: [] })
@@ -156,7 +155,6 @@ const optionsTerm = {
   terms: [{ type: `argument`, metavar: `OPTIONS` }],
 } as const
 
-/** Each of the input parser's alternatives, preceded by the flags. */
 const inputUsages: Usage[] = inputParser.usage
   .flatMap(term => (term.type === `exclusive` ? term.terms : [[term]]))
   .map(terms => [optionsTerm, ...terms])
@@ -179,7 +177,6 @@ const usage: Usage = [
 ]
 
 type UsageExample = {
-  /** Rendered as a shell comment above the command. */
   description: string
   command: string
 }
@@ -255,7 +252,6 @@ const LISTS: readonly (readonly [string, readonly string[]])[] = [
   ],
 ]
 
-/** The label on its own line, then the items wrapped and indented under it. */
 const formatList = (
   label: string,
   items: readonly string[],
@@ -267,7 +263,6 @@ const formatList = (
     .join(``)}`
 }
 
-/** The items joined by `, `, broken into lines no wider than `maxWidth`. */
 const wrapCommaList = (
   items: readonly string[],
   maxWidth: number,
@@ -287,11 +282,6 @@ const wrapCommaList = (
   return lines
 }
 
-/**
- * Styles the help's own lines in the Kindling theme, and pages and messages
- * through Optique, wrapped to the terminal. A style with no colors returns
- * text as is.
- */
 type Style = KindlingPalette & {
   maxWidth: number
   page: (page: DocPage) => string

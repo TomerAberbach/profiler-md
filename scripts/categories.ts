@@ -3,7 +3,7 @@
  * categorization rule can be judged against real inputs rather than by reading
  * the rule.
  *
- * Two modes:
+ * Usage:
  * - The default report reads the generated `examples/output/` and prints which
  *   categories each example emits, and which no example emits
  * - `--rule <pattern>` runs every `examples/input/` profile through the
@@ -30,7 +30,6 @@ import {
 const OUTPUT_DIRECTORY = `examples/output`
 const INPUT_DIRECTORY = `examples/input`
 
-/** The categories the report checks each modality's examples against. */
 const MODALITY_TO_CATEGORIES = new Map<string, readonly Category[]>([
   [`function`, FUNCTION_CATEGORIES],
   [`heap snapshot node`, HEAP_SNAPSHOT_NODE_CATEGORIES],
@@ -76,8 +75,8 @@ const groupExamplesByCategory = (
 }
 
 /**
- * Whether {@link output} is a heap snapshot's, which uses its own set of
- * categories, sharing several names with the function categories.
+ * A heap snapshot uses its own set of categories, sharing several names with
+ * the function categories.
  */
 const isHeapSnapshot = (output: string): boolean =>
   output.startsWith(`# Heap snapshot`)
@@ -165,13 +164,6 @@ const reportRuleMatches = async (pattern: string): Promise<void> => {
  * The names {@link rule} matches in each category, plus the inputs that
  * contributed no names: those with no function entries, and those this build
  * can't parse.
- *
- * The report includes the counts, since silently skipping inputs would
- * undercount the names the rule matches.
- *
- * Reads the entries through the categorization option, the only place the
- * pipeline exposes them, so it covers functions rather than heap snapshot
- * nodes.
  */
 const matchNamesByCategory = async (
   rule: RegExp,
@@ -215,8 +207,9 @@ const categorizeInput = async (
   ) => void,
 ): Promise<boolean> => {
   let categorized = false
-  // Through the CLI's reader, since a committed input may be compressed.
   await profileToMdAsync(await openInputAsBlob(path), {
+    // The categorization option is the only place the pipeline exposes the
+    // entries.
     categorizeFunctions: (entries, context) => {
       const categories = defaultCategorizeFunctions(entries, context)
       onCategorized(entries, categories)
