@@ -7,15 +7,20 @@ import type { OriginSpec } from '../origin.ts'
  * The Excimer sampling profiler for PHP.
  *
  * Its speedscope output contains plain file paths and its collapsed output
- * contains no location, so {@link CLOSURE_FRAME} is the only evidence in either
- * format. Detection also uses the speedscope parser's origin hint from the
- * file's self-identifying `exporter` field.
+ * contains no location, so the evidence in either format is its frame names:
+ * {@link CLOSURE_FRAME}, {@link FILE_SCOPE_FRAME}, and
+ * {@link TRUNCATION_FRAME}. Detection also uses the speedscope parser's origin
+ * hint from the file's self-identifying `exporter` field.
  */
 export const excimerOriginSpec = {
   id: `excimer`,
   title: `Excimer`,
   formats: [`collapsed`, `speedscope`],
-  isMarkerEntry: ({ name }) => name !== undefined && CLOSURE_FRAME.test(name),
+  isMarkerEntry: ({ name }) =>
+    name !== undefined &&
+    (CLOSURE_FRAME.test(name) ||
+      FILE_SCOPE_FRAME.test(name) ||
+      name === TRUNCATION_FRAME),
   // Excimer records user PHP code alone, because its stack walker skips every
   // frame whose function is not `ZEND_USER_CODE`. A frame with no location is a
   // global function whose file the collapsed format dropped rather than
@@ -77,6 +82,24 @@ export const excimerOriginSpec = {
  * so the parenthesized line marks Excimer's output in either format.
  */
 const CLOSURE_FRAME = /^\{closure:(?<file>.+)\((?<line>\d+)\)\}$/su
+
+/**
+ * Code outside any function, which Excimer names by its absolute file path:
+ * `/srv/app/index.php`. The entry script is file-scope code, so its frame is the
+ * root of every stack that Excimer did not truncate.
+ *
+ * phpspy and reli-prof name file-scope code `<main>` instead. Requiring the
+ * `.php` extension excludes the bare paths other languages' profilers write, so
+ * an entry script without it (e.g. `artisan`) is not a marker, though a `.php`
+ * file it includes is.
+ */
+const FILE_SCOPE_FRAME = /^\/.*\.php$/su
+
+/**
+ * The frame Excimer writes in place of the frames toward the root when a stack
+ * exceeds the configured maximum depth.
+ */
+const TRUNCATION_FRAME = `excimer_truncated`
 
 /**
  * Categorizes a frame under Composer's `vendor/` as `third-party`.
