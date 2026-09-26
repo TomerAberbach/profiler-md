@@ -69,12 +69,12 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |    616 B |        11 | `TypedArray`           | `<unknown>`                                   |
 | <0.1% |    528 B |        11 | `Channel`              | `node:diagnostics_channel:182:14`             |
 | <0.1% |    528 B |        11 | `WeakReference`        | `node:internal/util:889:14`                   |
-| <0.1% |    504 B |         6 | `Generator`            | `heap-snapshot.mjs:1:1`                       |
 | <0.1% |    432 B |        13 | `WeakRef`              | `<unknown>`                                   |
 | <0.1% |    400 B |         5 | `ModuleWrap`           | `<unknown>`                                   |
 | <0.1% |    400 B |         6 | `FinalizationRegistry` | `<unknown>`                                   |
 | <0.1% |    392 B |         7 | `AsyncWrap`            | `<unknown>`                                   |
 | <0.1% |    384 B |         2 | `SyncWriteStream`      | `node:internal/fs/sync_write_stream:12:25`    |
+| <0.1% |    336 B |        10 | `WeakMap`              | `<unknown>`                                   |
 
 ##### Array
 
@@ -333,14 +333,6 @@ Instances ranked by contribution to each constructor's self size.
 | -----: | ----: | --------: | ------------------------------------------ |
 | 100.0% | 528 B |         1 | `.async_wrap_providers Node / IsolateData` |
 
-##### `Generator` (`heap-snapshot.mjs:1:1`)
-
-|     % |  Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                |
-| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 65.1% | 328 B |         4 | `(GC root)`                                                                                                                                                                                                                                                                                                                                         |
-| 17.5% |  88 B |         1 | `.extension system / Context ← .reactions_or_result Promise ← .(Bootstrapper) Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                                                                                              |
-| 17.5% |  88 B |         1 | `.extension system / Context ← .reactions_or_result Promise ← .(Bootstrapper) system / PromiseReaction ← .reactions_or_result Promise ← .(Bootstrapper) Generator (node:internal/modules/esm/loader:679:34) ← .extension system / Context ← .reactions_or_result Promise ← .(Bootstrapper) Generator (node:internal/modules/esm/module_job:332:12)` |
-
 ##### `Int8Array` (`<unknown>`)
 
 |     % |  Size | Instances | Path                                                                                                                                                                                    |
@@ -408,6 +400,16 @@ Instances ranked by contribution to each constructor's self size.
 |      % |  Size | Instances | Path        |
 | -----: | ----: | --------: | ----------- |
 | 100.0% | 384 B |         2 | `(GC root)` |
+
+##### `WeakMap` (`<unknown>`)
+
+|     % | Size | Instances | Path                                           |
+| ----: | ---: | --------: | ---------------------------------------------- |
+| 26.2% | 88 B |         2 | `(GC root)`                                    |
+|  9.5% | 32 B |         1 | `.wasmInstances system / Context ← .table Map` |
+|  9.5% | 32 B |         1 | `.crossRealmRegexes system / Context`          |
+|  9.5% | 32 B |         1 | `.moduleRegistries system / Context`           |
+|  9.5% | 32 B |         1 | `._isUsingInspector system / Context`          |
 
 ##### `Node / AliasedUint32Array` (`<unknown>`)
 

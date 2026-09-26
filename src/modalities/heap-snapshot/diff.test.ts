@@ -81,7 +81,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
   })
 
-  test(`matches constructors by name despite differing locations`, () => {
+  test(`matches constructors whose definition shifted between builds`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
         makeAggregatedHeapSnapshotConstructor({
@@ -97,7 +97,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       constructors: [
         makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
-          location: makeSourceLocation(`file:///project/src/b.ts`, 9, 9),
+          location: makeSourceLocation(`file:///project/src/a.ts`, 9, 9),
           selfSize: 200,
           retainedSize: 200,
           instanceCount: 2,
@@ -117,7 +117,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Size: `100 B → 200 B`,
           Instances: `1 → 2`,
           Constructor: `MyClass`,
-          Location: `src/b.ts:9:9`,
+          Location: `src/a.ts:9:9`,
         },
       ],
     ])

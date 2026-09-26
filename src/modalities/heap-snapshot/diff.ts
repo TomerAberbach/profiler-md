@@ -93,13 +93,10 @@ export const diffAggregatedHeapSnapshots = (
 })
 
 /**
- * Merges constructors sharing the same normalized name so the same class
- * matches across snapshots even when the runtime includes a per-run address in
- * its name. The JVM includes one in the names of the hidden classes it
- * generates for lambdas.
- *
- * A constructor's location records where one instance was allocated instead of
- * identifying the class, so the merge keys by name alone.
+ * Merges constructors sharing the same match key so the same class matches
+ * across snapshots even when the runtime includes a per-run address in its name
+ * or its definition shifted between builds. The JVM includes an address in the
+ * names of the hidden classes it generates for lambdas.
  *
  * A merged constructor takes the normalized name its members share, because
  * each member's own name contains the per-run part they differ in. Merged
@@ -114,7 +111,10 @@ const mergeConstructors = (
   const keyToConstructor = new Map<string, DiffedHeapSnapshotEntity>()
   const keyToCategorySelfSize = new Map<string, number>()
   for (const constructor of constructors) {
-    const key = options.entryMatchKeys(constructor, context).name
+    const { name, nameAndLocation: key } = options.entryMatchKeys(
+      constructor,
+      context,
+    )
     const merged = keyToConstructor.get(key)
     if (merged) {
       merged.selfSize += constructor.selfSize
@@ -129,7 +129,7 @@ const mergeConstructors = (
       keyToConstructor.set(key, {
         type: `node`,
         id: constructor.id,
-        name: key,
+        name,
         nameLocation: constructor.nameLocation,
         location: constructor.location,
         category: constructor.category,

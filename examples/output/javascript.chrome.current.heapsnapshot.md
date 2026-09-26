@@ -51,28 +51,28 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 ##### Object
 
-|     % |     Size | Instances | Constructor        | Location           |
-| ----: | -------: | --------: | ------------------ | ------------------ |
-|  7.0% | 71.3 KiB |     1,464 | `Object`           | `<unknown>`        |
-|  0.3% | 2.65 KiB |       113 | `system / Context` | `<unknown>`        |
-|  0.1% |  1,020 B |        37 | `Error`            | `<unknown>`        |
-|  0.1% |  1,008 B |        36 | `TypedArray`       | `<unknown>`        |
-| <0.1% |    176 B |         5 | `Generator`        | `workload.mjs:1:1` |
-| <0.1% |    132 B |         6 | `Map`              | `<unknown>`        |
-| <0.1% |    116 B |         5 | `Set`              | `<unknown>`        |
-| <0.1% |    104 B |         4 | `Promise`          | `<unknown>`        |
-| <0.1% |    100 B |         4 | `WeakSet`          | `<unknown>`        |
-| <0.1% |    100 B |         4 | `WeakMap`          | `<unknown>`        |
-| <0.1% |     84 B |         3 | `AsyncGenerator`   | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Map Iterator`     | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Set Iterator`     | `<unknown>`        |
-| <0.1% |     84 B |         3 | `String Iterator`  | `<unknown>`        |
-| <0.1% |     84 B |         3 | `JSON`             | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Tag`              | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Math`             | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Reflect`          | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Intl`             | `<unknown>`        |
-| <0.1% |     84 B |         3 | `Atomics`          | `<unknown>`        |
+|     % |     Size | Instances | Constructor        | Location    |
+| ----: | -------: | --------: | ------------------ | ----------- |
+|  7.0% | 71.3 KiB |     1,464 | `Object`           | `<unknown>` |
+|  0.3% | 2.65 KiB |       113 | `system / Context` | `<unknown>` |
+|  0.1% |  1,020 B |        37 | `Error`            | `<unknown>` |
+|  0.1% |  1,008 B |        36 | `TypedArray`       | `<unknown>` |
+| <0.1% |    132 B |         6 | `Map`              | `<unknown>` |
+| <0.1% |    116 B |         5 | `Set`              | `<unknown>` |
+| <0.1% |    104 B |         4 | `Promise`          | `<unknown>` |
+| <0.1% |    100 B |         4 | `WeakSet`          | `<unknown>` |
+| <0.1% |    100 B |         4 | `WeakMap`          | `<unknown>` |
+| <0.1% |     96 B |         4 | `Generator`        | `<unknown>` |
+| <0.1% |     84 B |         3 | `AsyncGenerator`   | `<unknown>` |
+| <0.1% |     84 B |         3 | `Map Iterator`     | `<unknown>` |
+| <0.1% |     84 B |         3 | `Set Iterator`     | `<unknown>` |
+| <0.1% |     84 B |         3 | `String Iterator`  | `<unknown>` |
+| <0.1% |     84 B |         3 | `JSON`             | `<unknown>` |
+| <0.1% |     84 B |         3 | `Tag`              | `<unknown>` |
+| <0.1% |     84 B |         3 | `Math`             | `<unknown>` |
+| <0.1% |     84 B |         3 | `Reflect`          | `<unknown>` |
+| <0.1% |     84 B |         3 | `Intl`             | `<unknown>` |
+| <0.1% |     84 B |         3 | `Atomics`          | `<unknown>` |
 
 ##### Native
 
@@ -298,13 +298,6 @@ Instances ranked by contribution to each constructor's self size.
 | -----: | ----: | --------: | ------------ |
 | 100.0% | 184 B |         1 | `[1] <head>` |
 
-##### `Generator` (`workload.mjs:1:1`)
-
-|     % |  Size | Instances | Path                                      |
-| ----: | ----: | --------: | ----------------------------------------- |
-| 93.2% | 164 B |         4 | `(GC root)`                               |
-|  6.8% |  12 B |         1 | `.__proto__ Generator (workload.mjs:1:1)` |
-
 ##### `Map` (`<unknown>`)
 
 |     % | Size | Instances | Path                                                         |
@@ -343,6 +336,13 @@ Instances ranked by contribution to each constructor's self size.
 | 56.0% | 56 B |         2 | `.prototype WeakMap`  |
 | 28.0% | 28 B |         1 | `(GC root)`           |
 | 16.0% | 16 B |         1 | `.I system / Context` |
+
+##### `Generator` (`<unknown>`)
+
+|     % | Size | Instances | Path                                      |
+| ----: | ---: | --------: | ----------------------------------------- |
+| 87.5% | 84 B |         3 | `(GC root)`                               |
+| 12.5% | 12 B |         1 | `.__proto__ Generator (workload.mjs:1:1)` |
 
 ##### `AsyncGenerator` (`<unknown>`)
 
