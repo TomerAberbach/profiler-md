@@ -510,6 +510,155 @@ if (format === undefined) {
     },
   )
 
+  test.concurrent.each([`--hide`, `--show`])(
+    `%s warns about a regex that changes nothing in the output`,
+    async flag => {
+      const { status, stderr } = await runCli([
+        cpuProfilePath,
+        flag,
+        `wrapSafe`,
+        flag,
+        `x^`,
+      ])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(
+        `warning: ${flag} changed nothing in the output, got: x^\n`,
+      )
+    },
+  )
+
+  test.concurrent(
+    `--hide counts a match on an entry --show already hides`,
+    async () => {
+      const { stderr } = await runCli([
+        cpuProfilePath,
+        `--show`,
+        `wrapSafe`,
+        `--hide`,
+        `recursiveTypeRelatedTo`,
+      ])
+
+      expect(stderr).toBe(``)
+    },
+  )
+
+  test.concurrent(
+    `--category warns about a rule that changes nothing in the output`,
+    async () => {
+      const { status, stderr } = await runCli([
+        cpuProfilePath,
+        `--category`,
+        `node_modules=ours`,
+        // Shadowed by the first rule
+        `--category`,
+        `node_modules=native`,
+        `--category`,
+        `x^=ours`,
+      ])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(
+        `warning: --category changed nothing in the output, got: node_modules=native\n` +
+          `warning: --category changed nothing in the output, got: x^=ours\n`,
+      )
+    },
+  )
+
+  test.concurrent.each([`--match-name`, `--match-location`])(
+    `%s warns about a regex that changes nothing in a diff`,
+    async flag => {
+      const { status, stderr } = await runCli([
+        cpuProfilePath,
+        cpuProfilePath,
+        flag,
+        `.+=x`,
+        flag,
+        `x^=y`,
+      ])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(
+        `warning: ${flag} changed nothing in the output, got: x^=y\n`,
+      )
+    },
+  )
+
+  test.concurrent.each([`--match-name`, `--match-location`])(
+    `%s warns about changing nothing in a diff of empty profiles`,
+    async flag => {
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+      const path = join(dir, `empty.cpuprofile`)
+      await writeFile(
+        path,
+        JSON.stringify({
+          nodes: [],
+          startTime: 0,
+          endTime: 0,
+          samples: [],
+          timeDeltas: [],
+        }),
+      )
+
+      const { status, stderr } = await runCli([path, path, flag, `.+=x`])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(
+        `warning: ${flag} changed nothing in the output, got: .+=x\n`,
+      )
+
+      await rm(dir, { recursive: true })
+    },
+  )
+
+  test.concurrent.each([
+    { flag: `--hide`, args: [cpuProfilePath, `--hide`, `wrapSafe`] },
+    {
+      flag: `--show`,
+      args: [
+        cpuProfilePath,
+        `--show`,
+        `wrapSafe`,
+        `--show`,
+        `recursiveTypeRelatedTo`,
+      ],
+    },
+    {
+      flag: `--category`,
+      args: [cpuProfilePath, `--category`, `node_modules=ours`],
+    },
+    {
+      flag: `--match-name`,
+      args: [cpuProfilePath, cpuProfilePath, `--match-name`, `^.=x`],
+    },
+    {
+      flag: `--match-location`,
+      args: [cpuProfilePath, cpuProfilePath, `--match-location`, `^.=x`],
+    },
+  ])(`$flag converts the same without warnings enabled`, async ({ args }) => {
+    const [warned, unwarned] = await Promise.all([
+      runCli(args),
+      runCli([...args, `--log-level`, `error`]),
+    ])
+
+    expect(unwarned.status).toBe(0)
+    expect(unwarned.stderr).toBe(``)
+    expect(unwarned.stdout).toBe(warned.stdout)
+  })
+
+  test.concurrent.each([`--match-name`, `--match-location`])(
+    `%s warns that it is ignored without a diff`,
+    async flag => {
+      const { status, stderr } = await runCli([cpuProfilePath, flag, `.+=x`])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(
+        `warning: ${flag} ignored because it pairs entries only across a diff\n` +
+          `  hint: pass a CURRENT profile to diff against\n`,
+      )
+    },
+  )
+
   test.concurrent.each(
     [...languageExtensionToPrimary].map(([extension, language]) => ({
       extension,

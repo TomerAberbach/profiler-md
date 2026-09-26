@@ -31,6 +31,12 @@ const globalRegex = regex(`gu`)
 
 export type RegexReplacement = readonly [RegExp, string]
 
+/** Formats a `REGEX=VALUE` rule as its flag value. */
+export const formatRegexRule = ([regex, value]: readonly [
+  RegExp,
+  string,
+]): string => `${regex.source}=${value}`
+
 const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
   mode: `sync`,
   metavar: `REGEX=REPLACEMENT`,
@@ -49,7 +55,7 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
       ? { success: true, value: [result.value, input.slice(index + 1)] }
       : result
   },
-  format: ([regex, replacement]) => `${regex.source}=${replacement}`,
+  format: formatRegexRule,
 })
 
 const functionCategory = choice(FUNCTION_CATEGORIES, {
@@ -87,7 +93,7 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
       ? { success: true, value: [regex.value, category.value] }
       : regex
   },
-  format: ([regex, category]) => `${regex.source}=${category}`,
+  format: formatRegexRule,
 })
 
 export const inputParser = or(
