@@ -63,7 +63,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   readonly #nodeOrdinalToRetainedSize: Float64Array
 
   readonly #constructors: AggregatedHeapSnapshotConstructor[] = []
-  readonly #nameToConstructorIndex = new Map<string, number>()
+  readonly #keyToConstructorIndex = new Map<string, number>()
   readonly #nodeOrdinalToConstructorIndex: Int32Array
 
   readonly #functions: AggregatedHeapSnapshotFunction[] = []
@@ -152,7 +152,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const { name, location, nameLocation } = node
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
-    let constructorIndex = this.#nameToConstructorIndex.get(name)
+    const key = nodeKey(name, location)
+    let constructorIndex = this.#keyToConstructorIndex.get(key)
     let constructor: AggregatedHeapSnapshotConstructor
     if (constructorIndex === undefined) {
       constructorIndex = this.#constructors.length
@@ -169,10 +170,9 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         instances: [],
       }
       this.#constructors.push(constructor)
-      this.#nameToConstructorIndex.set(name, constructorIndex)
+      this.#keyToConstructorIndex.set(key, constructorIndex)
     } else {
       constructor = this.#constructors[constructorIndex]!
-      constructor.location ??= location
     }
 
     constructor.selfSize += selfSize
@@ -185,7 +185,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       category: `object`,
       selfSize,
       retainedSize,
-      location: constructor.location,
+      location,
     })
     this.#nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
   }
@@ -195,9 +195,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     name: string,
     location?: SourceLocation,
   ): void {
-    const key = location
-      ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
-      : name
+    const key = nodeKey(name, location)
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let functionIndex = this.#keyToFunctionIndex.get(key)
     if (functionIndex === undefined) {
@@ -341,6 +339,12 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     }
   }
 }
+
+/** Identifies a constructor or function by its name and location. */
+const nodeKey = (name: string, location: SourceLocation | undefined): string =>
+  location
+    ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
+    : name
 
 /**
  * An entity's effective location: its explicit location, falling back to its

@@ -606,12 +606,18 @@ type FieldLayout = {
    */
   locationObjectIndexOffset: number
 
+  /**
+   * The script containing the start of the node's function: the node itself
+   * for a function, its generator function for a generator object, and its
+   * constructor for any other object. V8 records no location for a node
+   * without one of these. Of the emitters, only V8 writes location entries.
+   */
   locationScriptIdOffset: number
 
-  /** 0-based line number within the script where the node was allocated. */
+  /** 0-based line number within the script of the node's function start. */
   locationLineOffset: number
 
-  /** 0-based column number within the script where the node was allocated. */
+  /** 0-based column number within the script of the node's function start. */
   locationColumnOffset: number
 
   locationFieldCount: number
