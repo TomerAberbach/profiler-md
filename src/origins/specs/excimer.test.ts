@@ -123,6 +123,13 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
+  test(`a namespaced function's namespace becomes its location`, () => {
+    expect(normalizeStackFrame({ name: `App\\Report\\pad_rows` })).toEqual({
+      name: `pad_rows`,
+      definition: { type: `logical`, name: `App\\Report` },
+    })
+  })
+
   test(`a global function keeps its name and stays location-less`, () => {
     expect(normalizeStackFrame({ name: `wfArrayToCgi` })).toEqual({
       name: `wfArrayToCgi`,
@@ -160,8 +167,9 @@ describe(`categorizeEntry`, () => {
     ).toBe(`third-party`)
   })
 
-  // Excimer records user PHP code alone, so a collapsed frame named by its
-  // declaring class rather than a file is still the program's own code.
+  // Excimer records user PHP code alone, so a collapsed frame located by its
+  // declaring class or namespace rather than a file is still the program's own
+  // code.
   test(`a class-located frame is ours`, () => {
     expect(categorizeEntry(logicalEntry(`run`, `MediaWiki\\Setup`))).toBe(
       `ours`,

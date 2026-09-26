@@ -61,15 +61,22 @@ export const excimerOriginSpec = {
       return { definition: { type: `file`, urlOrPath: name } }
     }
 
-    // The declaring class is the frame's only source reference, so it becomes
-    // the source.
-    const separator = name.lastIndexOf(`::`)
-    if (separator === -1) {
+    // The declaring class, or the namespace of a function outside any class,
+    // is the frame's only source reference, so it becomes the source.
+    const classSeparator = name.lastIndexOf(`::`)
+    if (classSeparator !== -1) {
+      return {
+        name: name.slice(classSeparator + 2),
+        definition: { type: `logical`, name: name.slice(0, classSeparator) },
+      }
+    }
+    const namespaceSeparator = name.lastIndexOf(`\\`)
+    if (namespaceSeparator === -1) {
       return input
     }
     return {
-      name: name.slice(separator + 2),
-      definition: { type: `logical`, name: name.slice(0, separator) },
+      name: name.slice(namespaceSeparator + 1),
+      definition: { type: `logical`, name: name.slice(0, namespaceSeparator) },
     }
   },
 } as const satisfies OriginSpec
@@ -104,9 +111,9 @@ const TRUNCATION_FRAME = `excimer_truncated`
 /**
  * Categorizes a frame under Composer's `vendor/` as `third-party`.
  *
- * A collapsed frame keeps its declaring class instead of a file, and a class
- * name contains no install directory, so only file-scope and closure frames
- * reach this rule.
+ * A collapsed frame is located by its declaring class or namespace instead of
+ * a file. Neither contains an install directory, so only file-scope and closure
+ * frames can match this rule.
  */
 const vendorCategory = ({
   location,
