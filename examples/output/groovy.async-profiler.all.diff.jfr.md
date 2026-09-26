@@ -110,12 +110,12 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +23.8% |    +5 |  0.3% → 0.4% |  21 → 26 | `invokeVirtual(Object, Object)`                                                             | `java.lang.invoke.DirectMethodHandle$Holder`              |
 |  +27.8% |    +5 |  0.3% → 0.4% |  18 → 23 | `invokeStatic(Object, Object, Object)`                                                      | `java.lang.invoke.DirectMethodHandle$Holder`              |
 |  +66.7% |    +4 |  0.1% → 0.2% |   6 → 10 | `getAndPut(String, MemoizeCache$ValueProvider)`                                             | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite`       |
-| +400.0% |    +4 | <0.1% → 0.1% |    1 → 5 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080109a400`       |
-|     new |    +4 |  0.0% → 0.1% |    0 → 4 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010aa400`       |
 |  +80.0% |    +4 |         0.1% |    5 → 9 | `get(Object)`                                                                               | `java.util.concurrent.ConcurrentHashMap`                  |
 | +133.3% |    +4 | <0.1% → 0.1% |    3 → 7 | `computeValueConversions(MethodType, MethodType, boolean, boolean)`                         | `java.lang.invoke.MethodHandleImpl`                       |
 |  +15.4% |    +4 |  0.4% → 0.5% |  26 → 30 | `collector(Object, Object, Object)`                                                         | `java.lang.invoke.LambdaForm$MH.0x00000008010a1000`       |
+| +400.0% |    +4 | <0.1% → 0.1% |    1 → 5 | `invoke(Object, Object)`                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000080109a400`       |
 | +133.3% |    +4 | <0.1% → 0.1% |    3 → 7 | `afterNodeAccess(HashMap$Node)`                                                             | `java.util.LinkedHashMap`                                 |
+|     new |    +4 |  0.0% → 0.1% |    0 → 4 | `invoke(Object, Object, Object)`                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010aa400`       |
 
 ##### Ours
 
@@ -144,10 +144,10 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                 | Location    |
-| ------: | ----: | -----------: | ------: | ------------------------ | ----------- |
-| +200.0% |    +6 | <0.1% → 0.1% |   3 → 9 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
-| +100.0% |    +1 |        <0.1% |   1 → 2 | `I2C/C2I adapters(0xba)` | `<unknown>` |
+|  Change | Delta |     % | Samples | Function                 | Location    |
+| ------: | ----: | ----: | ------: | ------------------------ | ----------- |
+| +125.0% |    +5 |  0.1% |   4 → 9 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
+| +100.0% |    +1 | <0.1% |   1 → 2 | `I2C/C2I adapters(0xba)` | `<unknown>` |
 
 #### Improvements
 
@@ -246,10 +246,10 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -50.0% |    -4 |         0.1% |   8 → 4 | `isNullConversion(Class, Class, boolean)`                                                                   | `sun.invoke.util.VerifyType`                         |
 |  -80.0% |    -4 | 0.1% → <0.1% |   5 → 1 | `equals(Object[], int, int, Object[], int, int)`                                                            | `java.util.Arrays`                                   |
 | removed |    -3 | <0.1% → 0.0% |   3 → 0 | `reinvoke(Object, Object)`                                                                                  | `java.lang.invoke.LambdaForm$MH.0x0000000801099c00`  |
-| removed |    -3 | <0.1% → 0.0% |   3 → 0 | `guard(Object, Object)`                                                                                     | `java.lang.invoke.LambdaForm$MH.0x00000008010cb000`  |
 |  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `invokeExact_MT(Object, Object, Object)`                                                                    | `java.lang.invoke.Invokers$Holder`                   |
-| removed |    -3 | <0.1% → 0.0% |   3 → 0 | `invoke(Object, Object, Object)`                                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010d3800`  |
 | removed |    -3 | <0.1% → 0.0% |   3 → 0 | `linkToCallSite(Object, Object, Object)`                                                                    | `java.lang.invoke.Invokers$Holder`                   |
+|  -60.0% |    -3 | 0.1% → <0.1% |   5 → 2 | `guard(Object, Object, Object)`                                                                             | `java.lang.invoke.LambdaForm$MH.0x00000008010aac00`  |
+| removed |    -3 | <0.1% → 0.0% |   3 → 0 | `invoke(Object, Object, Object)`                                                                            | `java.lang.invoke.LambdaForm$MH.0x00000008010d3800`  |
 
 ##### Ours
 
@@ -278,15 +278,14 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                    | Location    |
-| ------: | ----: | -----------: | ------: | --------------------------- | ----------- |
-|  -73.3% |   -11 |  0.2% → 0.1% |  15 → 4 | `I2C/C2I adapters(0xbb)`    | `<unknown>` |
-|  -66.7% |    -2 |        <0.1% |   3 → 1 | `I2C/C2I adapters(0xbbbbb)` | `<unknown>` |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `call_stub`                 | `<unknown>` |
-|  -14.3% |    -2 |         0.2% | 14 → 12 | `vtable stub`               | `<unknown>` |
-|  -25.0% |    -1 | 0.1% → <0.1% |   4 → 3 | `I2C/C2I adapters(0xbbb)`   | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`      | `<unknown>` |
-|  -50.0% |    -1 |        <0.1% |   2 → 1 | `zero_blocks`               | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                   | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
+|  -73.3% |   -11 |  0.2% → 0.1% |  15 → 4 | `I2C/C2I adapters(0xbb)`   | `<unknown>` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `call_stub`                | `<unknown>` |
+|  -14.3% |    -2 |         0.2% | 14 → 12 | `vtable stub`              | `<unknown>` |
+|  -66.7% |    -2 |        <0.1% |   3 → 1 | `I2C/C2I adapters(0xbbbb)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`     | `<unknown>` |
+|  -50.0% |    -1 |        <0.1% |   2 → 1 | `zero_blocks`              | `<unknown>` |
 
 ### Total samples
 
@@ -396,10 +395,10 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                 | Location    |
-| ------: | ----: | -----------: | ------: | ------------------------ | ----------- |
-| +200.0% |    +6 | <0.1% → 0.1% |   3 → 9 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
-| +100.0% |    +1 |        <0.1% |   1 → 2 | `I2C/C2I adapters(0xba)` | `<unknown>` |
+|  Change | Delta |     % | Samples | Function                 | Location    |
+| ------: | ----: | ----: | ------: | ------------------------ | ----------- |
+| +125.0% |    +5 |  0.1% |   4 → 9 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
+| +100.0% |    +1 | <0.1% |   1 → 2 | `I2C/C2I adapters(0xba)` | `<unknown>` |
 
 #### Improvements
 
@@ -507,15 +506,14 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                    | Location    |
-| ------: | ----: | -----------: | ------: | --------------------------- | ----------- |
-|  -73.3% |   -11 |  0.2% → 0.1% |  15 → 4 | `I2C/C2I adapters(0xbb)`    | `<unknown>` |
-|  -66.7% |    -2 |        <0.1% |   3 → 1 | `I2C/C2I adapters(0xbbbbb)` | `<unknown>` |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `call_stub`                 | `<unknown>` |
-|  -14.3% |    -2 |         0.2% | 14 → 12 | `vtable stub`               | `<unknown>` |
-|  -25.0% |    -1 | 0.1% → <0.1% |   4 → 3 | `I2C/C2I adapters(0xbbb)`   | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`      | `<unknown>` |
-|  -50.0% |    -1 |        <0.1% |   2 → 1 | `zero_blocks`               | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                   | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
+|  -73.3% |   -11 |  0.2% → 0.1% |  15 → 4 | `I2C/C2I adapters(0xbb)`   | `<unknown>` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `call_stub`                | `<unknown>` |
+|  -14.3% |    -2 |         0.2% | 14 → 12 | `vtable stub`              | `<unknown>` |
+|  -66.7% |    -2 |        <0.1% |   3 → 1 | `I2C/C2I adapters(0xbbbb)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`     | `<unknown>` |
+|  -50.0% |    -1 |        <0.1% |   2 → 1 | `zero_blocks`              | `<unknown>` |
 
 # Allocated heap profile diff
 
@@ -657,8 +655,8 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -99.9% |  -10.18 GiB |  84.5% → 0.1% | 10.2 GiB → 11.5 MiB |    20,872 → 23 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000008014ea000` |
 |  -99.8% | -10.165 GiB |  84.5% → 0.2% |   10.2 GiB → 23 MiB |    20,866 → 46 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000000801629800` |
 | -100.0% |  -9.385 GiB | 77.9% → <0.1% |  9.39 GiB → 512 KiB |     19,223 → 1 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000080160e800` |
-| -100.0% |  -9.384 GiB | 77.9% → <0.1% |  9.39 GiB → 1.5 MiB |     19,223 → 3 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000080160d400` |
 | -100.0% |  -9.384 GiB | 77.9% → <0.1% |  9.39 GiB → 1.5 MiB |     19,223 → 3 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000080165a000` |
+| -100.0% |  -9.384 GiB | 77.9% → <0.1% |  9.39 GiB → 1.5 MiB |     19,223 → 3 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000080160d400` |
 |  -76.7% |   -8.77 GiB | 94.9% → 22.7% | 11.4 GiB → 2.67 GiB | 23,429 → 5,469 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000000801290800` |
 | -100.0% |  -8.676 GiB | 72.0% → <0.1% |    8.68 GiB → 1 MiB |     17,770 → 2 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000008011ea000` |
 |  -99.9% |  -8.658 GiB |  71.9% → 0.1% |    8.67 GiB → 8 MiB |    17,746 → 16 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000000801330800` |
@@ -700,28 +698,28 @@ Functions with the largest decrease in time blocked directly in the function bod
 
 Functions with the largest increase in total time blocked in the function and all its callees.
 
-|    Change |   Delta |             % |           Time | Contentions | Function                                       | Location                                                                   |
-| --------: | ------: | ------------: | -------------: | ----------: | ---------------------------------------------- | -------------------------------------------------------------------------- |
-|  +1793.1% | +0.36ms |  0.3% → 15.2% | 20.0µs → 0.4ms |      1 → 16 | `invoke(Object, Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000080163b800`                        |
-| +17091.7% | +0.26ms | <0.1% → 10.3% |  1.5µs → 0.3ms |      3 → 11 | `invoke(Object, Object)`                       | `java.lang.invoke.LambdaForm$MH.0x00000008010abc00`                        |
-|  +1189.4% | +0.24ms |  0.3% → 10.3% | 20.0µs → 0.3ms |      1 → 11 | `invoke(Object, Object, Object)`               | `java.lang.invoke.LambdaForm$MH.0x0000000801368800`                        |
-| +14591.7% | +0.22ms |  <0.1% → 8.8% |  1.5µs → 0.2ms |      3 → 10 | `invoke(Object, Object, Object)`               | `java.lang.invoke.LambdaForm$MH.0x00000008010d3000`                        |
-|   +108.0% | +0.20ms |  2.6% → 15.8% |  0.2ms → 0.4ms |      9 → 16 | `invoke(Object, Object)`                       | `java.lang.invoke.LambdaForm$MH.0x00000008011e1800`                        |
-|   +241.2% | +0.15ms |   0.9% → 8.7% |  0.1ms → 0.2ms |      6 → 10 | `invoke(Object, Object)`                       | `java.lang.invoke.LambdaForm$MH.0x00000008017bdc00`                        |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `doCall(Object)`                               | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `call(Object, Object[])`                       | `org.codehaus.groovy.runtime.callsite.PogoMetaClassSite`                   |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `invoke(Object, Object[])`                     | `org.codehaus.groovy.runtime.callsite.BooleanReturningMethodInvoker`       |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `call(Object[])`                               | `org.codehaus.groovy.runtime.callsite.BooleanClosureWrapper`               |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `findMany(Collection, Iterator, Closure)`      | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                         |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `findAll(Collection, Closure)`                 | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                         |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `findAll(List, Closure)`                       | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                         |
-|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `doMethodInvoke(Object, Object[])`             | `org.codehaus.groovy.runtime.dgm$251`                                      |
-|   +139.0% | +0.06ms |   0.6% → 4.2% | 44.1µs → 0.1ms |       3 → 4 | `invoke(Object, Object)`                       | `java.lang.invoke.LambdaForm$MH.0x000000080109b400`                        |
-|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`         | `java.lang.invoke.LambdaForm$MH.0x0000000801368c00`                        |
-|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`         | `java.lang.invoke.LambdaForm$MH.0x0000000801322800`                        |
-|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `reinvoke(Object, Object, Object, long)`       | `java.lang.invoke.LambdaForm$MH.0x0000000801324c00`                        |
-|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `linkToCallSite(Object, Object, long, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000000801322c00`                        |
-|       new | +0.06ms |   0.0% → 2.3% |    0ms → 0.1ms |       0 → 2 | `invoke(Object, Object, Object)`               | `java.lang.invoke.LambdaForm$MH.0x00000008014ab400`                        |
+|    Change |   Delta |             % |           Time | Contentions | Function                                                  | Location                                                                   |
+| --------: | ------: | ------------: | -------------: | ----------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+|  +1793.1% | +0.36ms |  0.3% → 15.2% | 20.0µs → 0.4ms |      1 → 16 | `invoke(Object, Object, Object, Object)`                  | `java.lang.invoke.LambdaForm$MH.0x000000080163b800`                        |
+| +17091.7% | +0.26ms | <0.1% → 10.3% |  1.5µs → 0.3ms |      3 → 11 | `invoke(Object, Object)`                                  | `java.lang.invoke.LambdaForm$MH.0x00000008010abc00`                        |
+|  +1189.4% | +0.24ms |  0.3% → 10.3% | 20.0µs → 0.3ms |      1 → 11 | `invoke(Object, Object, Object)`                          | `java.lang.invoke.LambdaForm$MH.0x0000000801368800`                        |
+| +14591.7% | +0.22ms |  <0.1% → 8.8% |  1.5µs → 0.2ms |      3 → 10 | `invoke(Object, Object, Object)`                          | `java.lang.invoke.LambdaForm$MH.0x00000008010d3000`                        |
+|   +108.0% | +0.20ms |  2.6% → 15.8% |  0.2ms → 0.4ms |      9 → 16 | `invoke(Object, Object)`                                  | `java.lang.invoke.LambdaForm$MH.0x00000008011e1800`                        |
+|   +241.2% | +0.15ms |   0.9% → 8.7% |  0.1ms → 0.2ms |      6 → 10 | `invoke(Object, Object)`                                  | `java.lang.invoke.LambdaForm$MH.0x00000008017bdc00`                        |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `doCall(Object)`                                          | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `call(Object, Object[])`                                  | `org.codehaus.groovy.runtime.callsite.PogoMetaClassSite`                   |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `invoke(Object, Object[])`                                | `org.codehaus.groovy.runtime.callsite.BooleanReturningMethodInvoker`       |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `call(Object[])`                                          | `org.codehaus.groovy.runtime.callsite.BooleanClosureWrapper`               |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `findMany(Collection, Iterator, Closure)`                 | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                         |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `findAll(Collection, Closure)`                            | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                         |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `findAll(List, Closure)`                                  | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                         |
+|  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `doMethodInvoke(Object, Object[])`                        | `org.codehaus.groovy.runtime.dgm$251`                                      |
+|   +139.0% | +0.06ms |   0.6% → 4.2% | 44.1µs → 0.1ms |       3 → 4 | `invoke(Object, Object)`                                  | `java.lang.invoke.LambdaForm$MH.0x000000080109b400`                        |
+|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`                    | `java.lang.invoke.LambdaForm$MH.0x0000000801368c00`                        |
+|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `reinvoke(Object, Object, Object, long)`                  | `java.lang.invoke.LambdaForm$MH.0x0000000801324c00`                        |
+|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`                    | `java.lang.invoke.LambdaForm$MH.0x0000000801322800`                        |
+|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `linkToCallSite(Object, Object, long, Object)`            | `java.lang.invoke.LambdaForm$MH.0x0000000801322c00`                        |
+|       new | +0.06ms |   0.0% → 2.3% |    0ms → 0.1ms |       0 → 2 | `guardWithTest(MethodHandle, MethodHandle, MethodHandle)` | `java.lang.invoke.MethodHandles`                                           |
 
 ##### Standard library
 
@@ -742,11 +740,11 @@ Functions with the largest increase in total time blocked in the function and al
 |  +9913.9% | +0.15ms |  <0.1% → 6.0% |  1.5µs → 0.2ms |       3 → 8 | `doMethodInvoke(Object, Object[])`                        | `org.codehaus.groovy.runtime.dgm$251`                                |
 |   +139.0% | +0.06ms |   0.6% → 4.2% | 44.1µs → 0.1ms |       3 → 4 | `invoke(Object, Object)`                                  | `java.lang.invoke.LambdaForm$MH.0x000000080109b400`                  |
 |   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`                    | `java.lang.invoke.LambdaForm$MH.0x0000000801368c00`                  |
-|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`                    | `java.lang.invoke.LambdaForm$MH.0x0000000801322800`                  |
 |   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `reinvoke(Object, Object, Object, long)`                  | `java.lang.invoke.LambdaForm$MH.0x0000000801324c00`                  |
+|   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `invoke(Object, Object, Object, long)`                    | `java.lang.invoke.LambdaForm$MH.0x0000000801322800`                  |
 |   +186.1% | +0.06ms |   0.4% → 3.6% | 31.5µs → 0.1ms |       4 → 3 | `linkToCallSite(Object, Object, long, Object)`            | `java.lang.invoke.LambdaForm$MH.0x0000000801322c00`                  |
-|       new | +0.06ms |   0.0% → 2.3% |    0ms → 0.1ms |       0 → 2 | `invoke(Object, Object, Object)`                          | `java.lang.invoke.LambdaForm$MH.0x00000008014ab400`                  |
 |       new | +0.06ms |   0.0% → 2.3% |    0ms → 0.1ms |       0 → 2 | `guardWithTest(MethodHandle, MethodHandle, MethodHandle)` | `java.lang.invoke.MethodHandles`                                     |
+|       new | +0.06ms |   0.0% → 2.3% |    0ms → 0.1ms |       0 → 2 | `guardWithTest(MethodHandle, MethodHandle)`               | `java.lang.invoke.SwitchPoint`                                       |
 
 #### Improvements
 

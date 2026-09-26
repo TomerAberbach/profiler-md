@@ -235,10 +235,10 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                   | Location    |
-| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbaa)` | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `vtable stub`              | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                 | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------ | ----------- |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xba)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `vtable stub`            | `<unknown>` |
 
 ##### Compiler
 
@@ -504,10 +504,10 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                   | Location    |
-| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbaa)` | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `vtable stub`              | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                 | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------ | ----------- |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xba)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `vtable stub`            | `<unknown>` |
 
 ##### Compiler
 

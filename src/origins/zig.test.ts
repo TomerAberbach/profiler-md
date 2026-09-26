@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { relativeEntry } from './testing.ts'
-import { zigStdlibCategory } from './zig.ts'
+import { zigMatchEntry, zigStdlibCategory } from './zig.ts'
 
 describe(`zigStdlibCategory`, () => {
   test.each([
@@ -45,5 +45,40 @@ describe(`zigStdlibCategory`, () => {
 
   test(`leaves a locationless frame to the origin`, () => {
     expect(zigStdlibCategory(relativeEntry(`memset`))).toBeUndefined()
+  })
+})
+
+describe(`zigMatchEntry`, () => {
+  test.each([
+    [
+      `a generic instantiation`,
+      `mem.Allocator.free__anon_10443`,
+      `mem.Allocator.free__anon`,
+    ],
+    [
+      `a generic instantiation of a generic type's method`,
+      `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_28815`,
+      `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon`,
+    ],
+    [
+      `an anonymous type`,
+      `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).get`,
+      `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct).get`,
+    ],
+  ])(
+    `strips the compiler-assigned ID of %s`,
+    (_description, name, expected) => {
+      expect(
+        zigMatchEntry(relativeEntry(name, `/opt/zig/lib/std/mem.zig`)),
+      ).toEqual({ name: expected })
+    },
+  )
+
+  test(`leaves a non-generic function unmatched`, () => {
+    expect(
+      zigMatchEntry(
+        relativeEntry(`mem.copyForwards`, `/opt/zig/lib/std/mem.zig`),
+      ),
+    ).toBeUndefined()
   })
 })

@@ -147,6 +147,12 @@ type EntryMatchKeys = {
   name: string
 
   nameAndLocation: string
+
+  /**
+   * The key built from the entry's own name and location, ignoring its
+   * {@link EntryMatch}.
+   */
+  ownNameAndLocation: string
 }
 
 export type AggregatedProfileEntry =
@@ -255,6 +261,11 @@ export type ProfileToMdOptions = {
    * Only affects which entries are considered the same entity when diffing
    * (e.g. profile functions); displayed names and locations, categorization,
    * and source map resolution always use the entry's real name and location.
+   *
+   * A call stack profile or call graph diff first pairs entries whose own names
+   * and locations are equal, and pairs only the rest by the normalized name and
+   * location. Where normalization gives distinct entities one key, the diff
+   * still pairs each entity whose identifier is unchanged with itself.
    *
    * Matched entries display the _current_ profile's name and location (not
    * _base_).
@@ -451,19 +462,46 @@ const entryMatchKeys = (
   context: ProfileToMdContext,
   matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
 ): EntryMatchKeys => {
+  const entryName = entry.name ?? ``
+  const entryLocation = entry.location
+    ? sourceReferenceId(entry.location)
+    : undefined
+  const ownNameAndLocation = nameAndLocationKey(entry, entryName, entryLocation)
+
   const match = matchEntry(entry, context)
-  const name = match?.name ?? entry.name ?? ``
-  const location =
-    match?.location ??
-    (entry.location ? sourceReferenceId(entry.location) : undefined)
+  if (!match) {
+    return {
+      name: entryName,
+      nameAndLocation: ownNameAndLocation,
+      ownNameAndLocation,
+    }
+  }
+
+  const name = match.name ?? entryName
+  return {
+    name,
+    nameAndLocation: nameAndLocationKey(
+      entry,
+      name,
+      match.location ?? entryLocation,
+    ),
+    ownNameAndLocation,
+  }
+}
+
+const nameAndLocationKey = (
+  entry: ProfileEntry,
+  name: string,
+  location: string | undefined,
+): string => {
   if (!location) {
-    return { name, nameAndLocation: name }
+    return name
   }
 
   // `EntryMatch.location` is a bare string, so the kind comes from the entry's
   // own location, which a match normalizes rather than replaces.
   const kind = entry.location ? sourceReferenceKind(entry.location) : ``
-  return { name, nameAndLocation: `${name}\0${kind}\0${location}` }
+  return `${name}\0${kind}\0${location}`
 }
 
 const cacheEntryFunction = <Entry extends object, Context, Value>(

@@ -48,8 +48,8 @@ Functions with the largest increase in samples taken directly in the function bo
 |   +5.3% |   +52 | 18.4% → 21.2% | 977 → 1,029 | `accumulate`     | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 |     new |    +3 |   0.0% → 0.1% |       0 → 3 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 | +200.0% |    +2 |  <0.1% → 0.1% |       1 → 3 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `apply`          | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000b0011258d8` |
 |     new |    +1 |  0.0% → <0.1% |       0 → 1 | `boxed`          | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `apply`          | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000b0011258d8` |
 |     new |    +1 |  0.0% → <0.1% |       0 → 1 | `div`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
 
 ##### Native
@@ -308,13 +308,13 @@ Functions with the largest increase in total samples taken in the function and a
 |  +12.5% |    +2 |   0.3% → 0.4% |       16 → 18 | `runBenchmarks$$anonfun$1`  | `org.renaissance.harness.RenaissanceSuite$`                            |
 |  +12.5% |    +2 |   0.3% → 0.4% |       16 → 18 | `applyVoid`                 | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000b00111f208` |
 |  +28.6% |    +2 |   0.1% → 0.2% |         7 → 9 | `setUpBeforeAll`            | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-|  +14.3% |    +1 |   0.1% → 0.2% |         7 → 8 | `apply`                     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000b0011258d8` |
-|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `apply`                     | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000b0011059d8` |
 |  +20.0% |    +1 |          0.1% |         5 → 6 | `run`                       | `org.renaissance.jdk.concurrent.FjKmeans`                              |
 |  +20.0% |    +1 |          0.1% |         5 → 6 | `executeOperation`          | `org.renaissance.harness.ExecutionDriver`                              |
 | +100.0% |    +1 |         <0.1% |         1 → 2 | `getVmStartNanos`           | `org.renaissance.harness.RenaissanceSuite$`                            |
 |  +50.0% |    +1 |  <0.1% → 0.1% |         2 → 3 | `parse`                     | `org.renaissance.harness.ConfigParser`                                 |
+|  +14.3% |    +1 |   0.1% → 0.2% |         7 → 8 | `apply`                     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000b0011258d8` |
 |  +14.3% |    +1 |   0.1% → 0.2% |         7 → 8 | `generateData`              | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| +100.0% |    +1 |         <0.1% |         1 → 2 | `runParser`                 | `scopt.ORunner$`                                                       |
 
 ##### Native
 

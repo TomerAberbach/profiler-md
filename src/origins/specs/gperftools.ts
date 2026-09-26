@@ -1,7 +1,7 @@
 import { categorizeGenericEntry } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
 import { swiftStdlibCategory } from '../swift.ts'
-import { zigStdlibCategory } from '../zig.ts'
+import { zigMatchEntry, zigStdlibCategory } from '../zig.ts'
 
 /**
  * The gperftools CPU profiler for native programs.
@@ -23,4 +23,5 @@ export const gperftoolsOriginSpec = {
     zigStdlibCategory(entry) ??
     swiftStdlibCategory(entry) ??
     categorizeGenericEntry(entry),
+  matchEntry: zigMatchEntry,
 } as const satisfies OriginSpec

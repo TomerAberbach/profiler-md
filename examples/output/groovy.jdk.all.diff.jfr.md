@@ -169,10 +169,10 @@ Functions with the largest decrease in total samples taken in the function and a
 | -91.4% |   -32 | 12.4% → 0.8% |  35 → 3 | `invokeVirtual(Object, Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x000000d8010bdc00` |
 | -90.0% |   -27 | 10.6% → 0.8% |  30 → 3 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000d801179000`  |
 | -64.7% |   -11 |  6.0% → 1.6% |  17 → 6 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000d80144c000`  |
-| -71.4% |   -10 |  5.0% → 1.1% |  14 → 4 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000d8013d2800`  |
 | -27.0% |   -10 | 13.1% → 7.3% | 37 → 27 | `visitExpressionStatement(ExpressionStatement)`  | `org.codehaus.groovy.ast.CodeVisitorSupport`         |
 | -25.6% |   -10 | 13.8% → 7.8% | 39 → 29 | `visit(GroovyCodeVisitor)`                       | `org.codehaus.groovy.ast.stmt.ExpressionStatement`   |
 | -21.7% |   -10 | 16.3% → 9.7% | 46 → 36 | `visit(GroovyCodeVisitor)`                       | `org.codehaus.groovy.ast.stmt.BlockStatement`        |
+| -71.4% |   -10 |  5.0% → 1.1% |  14 → 4 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000d8013d2800`  |
 | -76.9% |   -10 |  4.6% → 0.8% |  13 → 3 | `visit(GroovyCodeVisitor)`                       | `org.codehaus.groovy.ast.expr.ClosureExpression`     |
 | -30.0% |    -9 | 10.6% → 5.7% | 30 → 21 | `add(ATNConfig, PredictionContextCache)`         | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`     |
 | -21.6% |    -8 | 13.1% → 7.8% | 37 → 29 | `visitExpressionStatement(ExpressionStatement)`  | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`    |

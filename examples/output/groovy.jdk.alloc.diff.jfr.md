@@ -17,28 +17,28 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### Standard library
 
-|  Change | Delta |           % | Samples | Function                                                                                | Location                                                   |
-| ------: | ----: | ----------: | ------: | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-|     new |    +6 | 0.0% → 2.1% |   0 → 6 | `bindArgumentL(int, Object)`                                                            | `java.lang.invoke.BoundMethodHandle`                       |
-|     new |    +6 | 0.0% → 2.1% |   0 → 6 | `getTreeNode(int, Object)`                                                              | `java.util.HashMap$TreeNode`                               |
-|     new |    +4 | 0.0% → 1.4% |   0 → 4 | `getMethodsRecursive(String, Class[], boolean)`                                         | `java.lang.Class`                                          |
-| +300.0% |    +3 | 0.3% → 1.4% |   1 → 4 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`                           | `java.util.zip.Inflater`                                   |
-| +300.0% |    +3 | 0.3% → 1.4% |   1 → 4 | `getCachedContext(PredictionContext, ConcurrentMap, PredictionContext$IdentityHashMap)` | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext`      |
-| +100.0% |    +3 | 0.8% → 2.1% |   3 → 6 | `resize()`                                                                              | `java.util.HashMap`                                        |
-|     new |    +3 | 0.0% → 1.0% |   0 → 3 | `privateGetDeclaredMethods(boolean)`                                                    | `java.lang.Class`                                          |
-|     new |    +3 | 0.0% → 1.0% |   0 → 3 | `add(Object, Object[], int)`                                                            | `java.util.ArrayList`                                      |
-|     new |    +3 | 0.0% → 1.0% |   0 → 3 | `binarySort(Object[], int, int, int, Comparator)`                                       | `java.util.TimSort`                                        |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `invokeExact_MT(Object, Object, Object, Object)`                                        | `java.lang.invoke.Invokers$Holder`                         |
-| +100.0% |    +2 | 0.5% → 1.4% |   2 → 4 | `<init>(Method, boolean)`                                                               | `java.lang.invoke.MemberName`                              |
-|  +33.3% |    +2 | 1.6% → 2.8% |   6 → 8 | `getReturnState(int)`                                                                   | `groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext` |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `readBytes0(byte[], int, int)`                                                          | `java.io.RandomAccessFile`                                 |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `isAcceptState(DFAState, boolean)`                                                      | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`     |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `getCallerClass()`                                                                      | `jdk.internal.reflect.Reflection`                          |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `keepsAlive(Class, ClassLoader)`                                                        | `java.lang.invoke.MethodHandle`                            |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `compare(MutableBigInteger)`                                                            | `java.math.MutableBigInteger`                              |
-|     new |    +1 | 0.0% → 0.3% |   0 → 1 | `reinitialize()`                                                                        | `groovy.lang.MetaClassImpl`                                |
-|     new |    +1 | 0.0% → 0.3% |   0 → 1 | `invoke(Object, Object)`                                                                | `java.lang.invoke.LambdaForm$MH.0x00000070014d7c00`        |
-|     new |    +1 | 0.0% → 0.3% |   0 → 1 | `invoke(Object, Object)`                                                                | `java.lang.invoke.LambdaForm$MH.0x0000007001628000`        |
+|  Change | Delta |           % | Samples | Function                                                                                      | Location                                                   |
+| ------: | ----: | ----------: | ------: | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+|     new |    +6 | 0.0% → 2.1% |   0 → 6 | `bindArgumentL(int, Object)`                                                                  | `java.lang.invoke.BoundMethodHandle`                       |
+|     new |    +6 | 0.0% → 2.1% |   0 → 6 | `getTreeNode(int, Object)`                                                                    | `java.util.HashMap$TreeNode`                               |
+|     new |    +4 | 0.0% → 1.4% |   0 → 4 | `getMethodsRecursive(String, Class[], boolean)`                                               | `java.lang.Class`                                          |
+| +300.0% |    +3 | 0.3% → 1.4% |   1 → 4 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`                                 | `java.util.zip.Inflater`                                   |
+| +300.0% |    +3 | 0.3% → 1.4% |   1 → 4 | `getCachedContext(PredictionContext, ConcurrentMap, PredictionContext$IdentityHashMap)`       | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext`      |
+| +100.0% |    +3 | 0.8% → 2.1% |   3 → 6 | `resize()`                                                                                    | `java.util.HashMap`                                        |
+|     new |    +3 | 0.0% → 1.0% |   0 → 3 | `privateGetDeclaredMethods(boolean)`                                                          | `java.lang.Class`                                          |
+|     new |    +3 | 0.0% → 1.0% |   0 → 3 | `add(Object, Object[], int)`                                                                  | `java.util.ArrayList`                                      |
+|     new |    +3 | 0.0% → 1.0% |   0 → 3 | `binarySort(Object[], int, int, int, Comparator)`                                             | `java.util.TimSort`                                        |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `invokeExact_MT(Object, Object, Object, Object)`                                              | `java.lang.invoke.Invokers$Holder`                         |
+| +100.0% |    +2 | 0.5% → 1.4% |   2 → 4 | `<init>(Method, boolean)`                                                                     | `java.lang.invoke.MemberName`                              |
+|  +33.3% |    +2 | 1.6% → 2.8% |   6 → 8 | `getReturnState(int)`                                                                         | `groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext` |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `readBytes0(byte[], int, int)`                                                                | `java.io.RandomAccessFile`                                 |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `isAcceptState(DFAState, boolean)`                                                            | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`     |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `getCallerClass()`                                                                            | `jdk.internal.reflect.Reflection`                          |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `keepsAlive(Class, ClassLoader)`                                                              | `java.lang.invoke.MethodHandle`                            |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `compare(MutableBigInteger)`                                                                  | `java.math.MutableBigInteger`                              |
+|     new |    +1 | 0.0% → 0.3% |   0 → 1 | `reinitialize()`                                                                              | `groovy.lang.MetaClassImpl`                                |
+|     new |    +1 | 0.0% → 0.3% |   0 → 1 | `guard(Object, Object)`                                                                       | `java.lang.invoke.LambdaForm$MH.0x0000007001104000`        |
+| +100.0% |    +1 | 0.3% → 0.7% |   1 → 2 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`            |
 
 ##### Ours
 
@@ -111,14 +111,14 @@ Functions with the largest increase in total samples taken in the function and a
 | +1725.0% |   +69 |  1.1% → 25.5% |   4 → 73 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070012d8400`  |
 | +6600.0% |   +66 |  0.3% → 23.4% |   1 → 67 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070013dbc00`  |
 |  +114.0% |   +49 | 11.7% → 32.2% |  43 → 92 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001141000`  |
-| +4300.0% |   +43 |  0.3% → 15.4% |   1 → 44 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700182d800`  |
 | +4300.0% |   +43 |  0.3% → 15.4% |   1 → 44 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700160b000`  |
+| +4300.0% |   +43 |  0.3% → 15.4% |   1 → 44 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700182d800`  |
 |  +700.0% |   +28 |  1.1% → 11.2% |   4 → 32 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070012c5c00`  |
 |      new |   +28 |   0.0% → 9.8% |   0 → 28 | `invokeStatic(Object, Object, int)`              | `java.lang.invoke.LambdaForm$DMH.0x000000700109a000` |
 |  +500.0% |   +25 |  1.4% → 10.5% |   5 → 30 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001145c00`  |
 |  +166.7% |   +20 |  3.3% → 11.2% |  12 → 32 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001117000`  |
-|  +900.0% |   +18 |   0.5% → 7.0% |   2 → 20 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700138c800`  |
 |   +32.1% |   +18 | 15.3% → 25.9% |  56 → 74 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001142000`  |
+|  +900.0% |   +18 |   0.5% → 7.0% |   2 → 20 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700138c800`  |
 | +1400.0% |   +14 |   0.3% → 5.2% |   1 → 15 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070012c5400`  |
 | +1400.0% |   +14 |   0.3% → 5.2% |   1 → 15 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000007001105400`  |
 
@@ -167,9 +167,9 @@ Functions with the largest decrease in total samples taken in the function and a
 | -24.8% |   -81 | 89.3% → 86.0% | 327 → 246 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`      |
 | -23.7% |   -78 | 89.9% → 87.8% | 329 → 251 | `invokeExact_MT(Object, Object, Object)`                                                      | `java.lang.invoke.Invokers$Holder`                   |
 | -28.2% |   -75 | 72.7% → 66.8% | 266 → 191 | `linkToCallSite(Object, Object, Object)`                                                      | `java.lang.invoke.Invokers$Holder`                   |
-| -89.3% |   -67 |  20.5% → 2.8% |    75 → 8 | `invoke(Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700138c000`  |
 | -25.1% |   -67 | 73.0% → 69.9% | 267 → 200 | `guardWithCatch(Object, Object, Object)`                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001117800`  |
 | -25.2% |   -67 | 72.7% → 69.6% | 266 → 199 | `guard(Object, Object, Object)`                                                               | `java.lang.invoke.LambdaForm$MH.0x0000007001118400`  |
+| -89.3% |   -67 |  20.5% → 2.8% |    75 → 8 | `invoke(Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700138c000`  |
 | -27.8% |   -66 | 64.8% → 59.8% | 237 → 171 | `invokeImpl(Object, Object[])`                                                                | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
 | -29.5% |   -66 | 61.2% → 55.2% | 224 → 158 | `doMethodInvoke(Object, Object[])`                                                            | `groovy.lang.MetaMethod`                             |
 | -34.8% |   -64 | 50.3% → 42.0% | 184 → 120 | `invokeSpecial(Object, Object, Object)`                                                       | `java.lang.invoke.DirectMethodHandle$Holder`         |
@@ -423,8 +423,8 @@ Functions with the largest increase in total bytes retained in the function and 
 |   +423.8% | +59.703 KiB | 85.5% → 97.8% | 14.1 KiB → 73.8 KiB | 88 → 92 | `guard(Object, Object, Object)`                                                               | `java.lang.invoke.LambdaForm$MH.0x0000007001118400`  |
 |   +421.0% | +59.625 KiB | 86.0% → 97.8% | 14.2 KiB → 73.8 KiB | 90 → 92 | `guardWithCatch(Object, Object, Object)`                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001117800`  |
 | +31680.0% | +37.125 KiB |  0.7% → 49.4% |    120 B → 37.2 KiB |  3 → 31 | `invoke(Object, Object)`                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001150800`  |
-| +93460.0% | +36.507 KiB |  0.2% → 48.5% |     40 B → 36.5 KiB |  1 → 16 | `invoke(Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x00000070012c5c00`  |
 | +93460.0% | +36.507 KiB |  0.2% → 48.5% |     40 B → 36.5 KiB |  1 → 16 | `invokeVirtual(Object, Object, Object)`                                                       | `java.lang.invoke.LambdaForm$DMH.0x0000007001101c00` |
+| +93460.0% | +36.507 KiB |  0.2% → 48.5% |     40 B → 36.5 KiB |  1 → 16 | `invoke(Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x00000070012c5c00`  |
 | +77066.7% | +36.125 KiB |  0.3% → 48.0% |     48 B → 36.2 KiB |   1 → 8 | `invoke(Object, Object)`                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001145c00`  |
 |  +3194.4% | +35.687 KiB |  6.8% → 48.8% | 1.12 KiB → 36.8 KiB | 24 → 16 | `invoke(Object, Object)`                                                                      | `java.lang.invoke.LambdaForm$MH.0x00000070010bc000`  |
 |  +2847.3% | +32.476 KiB |  6.9% → 44.6% | 1.14 KiB → 33.6 KiB | 17 → 22 | `invoke(Object, Object)`                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001119400`  |
@@ -448,15 +448,15 @@ Functions with the largest decrease in total bytes retained in the function and 
 |  -70.8% |  -8.203 KiB | 70.4% → 4.5% | 11.6 KiB → 3.38 KiB | 48 → 44 | `invokeExact_MT(Object, Object, Object, Object)`                                                 | `java.lang.invoke.Invokers$Holder`                                         |
 |  -71.4% |  -8.164 KiB | 69.4% → 4.3% | 11.4 KiB → 3.27 KiB | 42 → 46 | `delegate(Object, Object, Object)`                                                               | `java.lang.invoke.DelegatingMethodHandle$Holder`                           |
 |  -99.4% |  -8.031 KiB | 49.1% → 0.1% |     8.08 KiB → 48 B |   3 → 2 | `doCall(Object)`                                                                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
-| removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x000000c00138c000`                        |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `<init>(int, int, MemorySegment)`                                                                | `java.nio.HeapByteBuffer`                                                  |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `allocate(int)`                                                                                  | `java.nio.ByteBuffer`                                                      |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `ensureRemaining(int)`                                                                           | `groovyjarjarantlr4.v4.runtime.CodePointBuffer$Builder`                    |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `append(CharBuffer)`                                                                             | `groovyjarjarantlr4.v4.runtime.CodePointBuffer$Builder`                    |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `fromReader(Reader, String)`                                                                     | `groovyjarjarantlr4.v4.runtime.CharStreams`                                |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `createCharStream(SourceUnit)`                                                                   | `org.apache.groovy.parser.antlr4.AstBuilder`                               |
-|  -98.5% |  -7.984 KiB | 49.2% → 0.2% |    8.11 KiB → 128 B |   3 → 1 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x0000007001567800`                        |
+| removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x000000c00138c000`                        |
 |  -68.4% |  -7.984 KiB | 70.9% → 4.9% | 11.7 KiB → 3.69 KiB | 50 → 46 | `invokeImpl(Object, Object[])`                                                                   | `jdk.internal.reflect.DirectMethodHandleAccessor`                          |
+|  -98.5% |  -7.984 KiB | 49.2% → 0.2% |    8.11 KiB → 128 B |   3 → 1 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x0000007001567800`                        |
 |  -68.5% |  -7.968 KiB | 70.6% → 4.9% | 11.6 KiB → 3.66 KiB | 49 → 45 | `invoke(Object, Object[])`                                                                       | `jdk.internal.reflect.DirectMethodHandleAccessor`                          |
 |  -69.6% |  -7.906 KiB | 69.0% → 4.6% | 11.4 KiB → 3.45 KiB | 46 → 44 | `invokeSpecial(Object, Object, Object)`                                                          | `java.lang.invoke.DirectMethodHandle$Holder`                               |
 |  -70.3% |  -7.601 KiB | 65.7% → 4.3% | 10.8 KiB → 3.21 KiB | 35 → 38 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`                            |
@@ -472,15 +472,15 @@ Functions with the largest decrease in total bytes retained in the function and 
 | removed |  -8.625 KiB | 52.4% → 0.0% |      8.63 KiB → 0 B |  14 → 0 | `invokeVirtual(Object, Object, Object)`                                                          | `java.lang.invoke.LambdaForm$DMH.0x000000c001101c00`    |
 |  -70.8% |  -8.203 KiB | 70.4% → 4.5% | 11.6 KiB → 3.38 KiB | 48 → 44 | `invokeExact_MT(Object, Object, Object, Object)`                                                 | `java.lang.invoke.Invokers$Holder`                      |
 |  -71.4% |  -8.164 KiB | 69.4% → 4.3% | 11.4 KiB → 3.27 KiB | 42 → 46 | `delegate(Object, Object, Object)`                                                               | `java.lang.invoke.DelegatingMethodHandle$Holder`        |
-| removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x000000c00138c000`     |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `<init>(int, int, MemorySegment)`                                                                | `java.nio.HeapByteBuffer`                               |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `allocate(int)`                                                                                  | `java.nio.ByteBuffer`                                   |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `ensureRemaining(int)`                                                                           | `groovyjarjarantlr4.v4.runtime.CodePointBuffer$Builder` |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `append(CharBuffer)`                                                                             | `groovyjarjarantlr4.v4.runtime.CodePointBuffer$Builder` |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `fromReader(Reader, String)`                                                                     | `groovyjarjarantlr4.v4.runtime.CharStreams`             |
 | removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `createCharStream(SourceUnit)`                                                                   | `org.apache.groovy.parser.antlr4.AstBuilder`            |
-|  -98.5% |  -7.984 KiB | 49.2% → 0.2% |    8.11 KiB → 128 B |   3 → 1 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x0000007001567800`     |
+| removed |  -8.015 KiB | 48.7% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x000000c00138c000`     |
 |  -68.4% |  -7.984 KiB | 70.9% → 4.9% | 11.7 KiB → 3.69 KiB | 50 → 46 | `invokeImpl(Object, Object[])`                                                                   | `jdk.internal.reflect.DirectMethodHandleAccessor`       |
+|  -98.5% |  -7.984 KiB | 49.2% → 0.2% |    8.11 KiB → 128 B |   3 → 1 | `invoke(Object, Object, Object)`                                                                 | `java.lang.invoke.LambdaForm$MH.0x0000007001567800`     |
 |  -68.5% |  -7.968 KiB | 70.6% → 4.9% | 11.6 KiB → 3.66 KiB | 49 → 45 | `invoke(Object, Object[])`                                                                       | `jdk.internal.reflect.DirectMethodHandleAccessor`       |
 |  -69.6% |  -7.906 KiB | 69.0% → 4.6% | 11.4 KiB → 3.45 KiB | 46 → 44 | `invokeSpecial(Object, Object, Object)`                                                          | `java.lang.invoke.DirectMethodHandle$Holder`            |
 |  -70.3% |  -7.601 KiB | 65.7% → 4.3% | 10.8 KiB → 3.21 KiB | 35 → 38 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`         |

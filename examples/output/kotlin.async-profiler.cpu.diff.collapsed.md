@@ -22,7 +22,6 @@ Functions with the largest increase in samples taken directly in the function bo
 |  Change | Delta |           % | Samples | Function                                                                                       | Location    |
 | ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------- | ----------- |
 |  +52.6% |   +10 | 1.1% → 2.2% | 19 → 29 | `tlv_get_addr`                                                                                 | `<unknown>` |
-| +600.0% |    +6 | 0.1% → 0.5% |   1 → 7 | `I2C/C2I adapters(0xb)`                                                                        | `<unknown>` |
 | +200.0% |    +6 | 0.2% → 0.7% |   3 → 9 | `Arena::contains`                                                                              | `<unknown>` |
 |     new |    +5 | 0.0% → 0.4% |   0 → 5 | `PhaseIdealLoop::split_if_with_blocks`                                                         | `<unknown>` |
 |  +62.5% |    +5 | 0.5% → 1.0% |  8 → 13 | `pthread_jit_write_protect_np`                                                                 | `<unknown>` |
@@ -31,6 +30,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +4 | 0.0% → 0.3% |   0 → 4 | `PhaseCFG::schedule_pinned_nodes`                                                              | `<unknown>` |
 | +133.3% |    +4 | 0.2% → 0.5% |   3 → 7 | `Matcher::match_tree`                                                                          | `<unknown>` |
 |  +57.1% |    +4 | 0.4% → 0.8% |  7 → 11 | `PhaseIdealLoop::build_loop_early`                                                             | `<unknown>` |
+| +400.0% |    +4 | 0.1% → 0.4% |   1 → 5 | `I2C/C2I adapters(0xbb)`                                                                       | `<unknown>` |
 |     new |    +4 | 0.0% → 0.3% |   0 → 4 | `Scheduling::ComputeUseCount`                                                                  | `<unknown>` |
 |     new |    +4 | 0.0% → 0.3% |   0 → 4 | `ClassFileParser::skip_over_field_signature`                                                   | `<unknown>` |
 |  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `PhaseIdealLoop::build_loop_tree`                                                              | `<unknown>` |
@@ -40,7 +40,7 @@ Functions with the largest increase in samples taken directly in the function bo
 | +150.0% |    +3 | 0.1% → 0.4% |   2 → 5 | `PhaseAggressiveCoalesce::insert_copies`                                                       | `<unknown>` |
 |     new |    +3 | 0.0% → 0.2% |   0 → 3 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep`                                                  | `<unknown>` |
 |  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `Matcher::find_shared`                                                                         | `<unknown>` |
-|  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `Node_Backward_Iterator::next`                                                                 | `<unknown>` |
+|  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `I2C/C2I adapters(0xb)`                                                                        | `<unknown>` |
 
 ##### Native
 
@@ -146,11 +146,11 @@ Functions with the largest increase in samples taken directly in the function bo
 
 |  Change | Delta |           % | Samples | Function                 | Location    |
 | ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
-| +600.0% |    +6 | 0.1% → 0.5% |   1 → 7 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
-|  +25.0% |    +1 | 0.2% → 0.4% |   4 → 5 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xba)` | `<unknown>` |
+| +400.0% |    +4 | 0.1% → 0.4% |   1 → 5 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+|  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
 |  +50.0% |    +1 | 0.1% → 0.2% |   2 → 3 | `itable stub`            | `<unknown>` |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `vtable stub`            | `<unknown>` |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xba)` | `<unknown>` |
 
 #### Improvements
 
@@ -419,11 +419,11 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |           % | Samples | Function                 | Location    |
 | ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
-| +600.0% |    +6 | 0.1% → 0.5% |   1 → 7 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
-|  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xba)` | `<unknown>` |
+| +600.0% |    +6 | 0.1% → 0.5% |   1 → 7 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+|  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
 |  +50.0% |    +1 | 0.1% → 0.2% |   2 → 3 | `itable stub`            | `<unknown>` |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `vtable stub`            | `<unknown>` |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xba)` | `<unknown>` |
 
 #### Improvements
 

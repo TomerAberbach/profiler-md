@@ -63,8 +63,8 @@ export const diffAggregatedCallGraphs = (
   const functions = matchDiffedEntries(
     base.functions,
     current.functions,
-    func => entryMatchKeys(func, base.context).nameAndLocation,
-    func => entryMatchKeys(func, current.context).nameAndLocation,
+    func => entryMatchKeys(func, base.context),
+    func => entryMatchKeys(func, current.context),
   ).map(({ base: baseFunc, current: currentFunc }) => {
     const { name, location, category } = (currentFunc ?? baseFunc)!
     return { name, location, category, base: baseFunc, current: currentFunc }

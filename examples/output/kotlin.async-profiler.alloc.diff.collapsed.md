@@ -212,9 +212,9 @@ Functions with the largest increase in total samples taken in the function and a
 |  +90.0% |    +9 |   0.8% → 1.5% |   10 → 19 | `doPrivileged`      | `java.security.AccessController`                     |
 | +133.3% |    +8 |   0.5% → 1.1% |    6 → 14 | `replace`           | `java.lang.StringLatin1`                             |
 | +133.3% |    +8 |   0.5% → 1.1% |    6 → 14 | `replace`           | `java.lang.String`                                   |
-|  +30.8% |    +8 |   2.1% → 2.6% |   26 → 34 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000000801230000` |
 |  +27.6% |    +8 |   2.3% → 2.8% |   29 → 37 | `linkCallSiteImpl`  | `java.lang.invoke.MethodHandleNatives`               |
 |  +27.6% |    +8 |   2.3% → 2.8% |   29 → 37 | `linkCallSite`      | `java.lang.invoke.MethodHandleNatives`               |
+|  +30.8% |    +8 |   2.1% → 2.6% |   26 → 34 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000000801230000` |
 | +160.0% |    +8 |   0.4% → 1.0% |    5 → 13 | `defineClass`       | `java.net.URLClassLoader`                            |
 |  +24.1% |    +7 |   2.3% → 2.8% |   29 → 36 | `metafactory`       | `java.lang.invoke.LambdaMetafactory`                 |
 |  +24.1% |    +7 |   2.3% → 2.8% |   29 → 36 | `invoke`            | `java.lang.invoke.BootstrapMethodInvoker`            |

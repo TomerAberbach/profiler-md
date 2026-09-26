@@ -23,9 +23,9 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +33.3% |    +3 | 2.6% → 4.0% |  9 → 12 | `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`    |
 |     new |    +3 | 0.0% → 1.0% |   0 → 3 | `valueConversion(Class, Class, boolean, boolean)`                                                             | `java.lang.invoke.MethodHandleImpl`                       |
 |     new |    +3 | 0.0% → 1.0% |   0 → 3 | `divideOneWord(int, MutableBigInteger)`                                                                       | `java.math.MutableBigInteger`                             |
-|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000000301397c00`       |
 |     new |    +2 | 0.0% → 0.7% |   0 → 2 | `invokeSpecial(Object, Object, Object)`                                                                       | `java.lang.invoke.DirectMethodHandle$Holder`              |
 |     new |    +2 | 0.0% → 0.7% |   0 → 2 | `invokeExact_MT(Object, Object, Object, Object)`                                                              | `java.lang.invoke.Invokers$Holder`                        |
+|     new |    +2 | 0.0% → 0.7% |   0 → 2 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000000301397c00`       |
 |     new |    +2 | 0.0% → 0.7% |   0 → 2 | `postfixExpression()`                                                                                         | `org.apache.groovy.parser.antlr4.GroovyParser`            |
 |     new |    +2 | 0.0% → 0.7% |   0 → 2 | `expression(int)`                                                                                             | `org.apache.groovy.parser.antlr4.GroovyParser`            |
 |     new |    +2 | 0.0% → 0.7% |   0 → 2 | `setGuards(Object)`                                                                                           | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
@@ -109,11 +109,11 @@ Functions with the largest increase in total samples taken in the function and a
 |  +3800.0% |   +38 |  0.3% → 13.0% |  1 → 39 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000000301607800`  |
 |  +3200.0% |   +32 |  0.3% → 11.0% |  1 → 33 | `invoke(Object, int)`                            | `java.lang.invoke.LambdaForm$MH.0x000000030109bc00`  |
 |   +625.0% |   +25 |   1.2% → 9.7% |  4 → 29 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301825c00`  |
-|  +1900.0% |   +19 |   0.3% → 6.7% |  1 → 20 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301105400`  |
 |  +1900.0% |   +19 |   0.3% → 6.7% |  1 → 20 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003012b8000`  |
+|  +1900.0% |   +19 |   0.3% → 6.7% |  1 → 20 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301105400`  |
 |    +26.2% |   +16 | 17.9% → 25.8% | 61 → 77 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000000301140c00`  |
-|    +42.9% |   +15 | 10.3% → 16.7% | 35 → 50 | `invokeVirtual(Object, Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x0000000301101c00` |
 |    +42.9% |   +15 | 10.3% → 16.7% | 35 → 50 | `isRuleSuppressed(Rule)`                         | `org.codenarc.analyzer.SuppressionAnalyzer`          |
+|    +42.9% |   +15 | 10.3% → 16.7% | 35 → 50 | `invokeVirtual(Object, Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x0000000301101c00` |
 |    +36.8% |   +14 | 11.1% → 17.4% | 38 → 52 | `init()`                                         | `org.codenarc.analyzer.SuppressionAnalyzer`          |
 |  +1200.0% |   +12 |   0.3% → 4.3% |  1 → 13 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301607400`  |
 |    +14.9% |   +11 | 21.7% → 28.4% | 74 → 85 | `init()`                                         | `org.codenarc.source.AbstractSourceCode`             |
@@ -134,8 +134,8 @@ Functions with the largest increase in total samples taken in the function and a
 |  +3800.0% |   +38 |  0.3% → 13.0% |  1 → 39 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000000301607800`  |
 |  +3200.0% |   +32 |  0.3% → 11.0% |  1 → 33 | `invoke(Object, int)`                            | `java.lang.invoke.LambdaForm$MH.0x000000030109bc00`  |
 |   +625.0% |   +25 |   1.2% → 9.7% |  4 → 29 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301825c00`  |
-|  +1900.0% |   +19 |   0.3% → 6.7% |  1 → 20 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301105400`  |
 |  +1900.0% |   +19 |   0.3% → 6.7% |  1 → 20 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003012b8000`  |
+|  +1900.0% |   +19 |   0.3% → 6.7% |  1 → 20 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301105400`  |
 |    +26.2% |   +16 | 17.9% → 25.8% | 61 → 77 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000000301140c00`  |
 |    +42.9% |   +15 | 10.3% → 16.7% | 35 → 50 | `invokeVirtual(Object, Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x0000000301101c00` |
 |  +1200.0% |   +12 |   0.3% → 4.3% |  1 → 13 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x0000000301607400`  |

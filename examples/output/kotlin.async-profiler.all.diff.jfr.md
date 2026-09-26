@@ -159,9 +159,9 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -92.9% |   -13 |  0.4% → 0.1% |   14 → 1 | `resource_allocate_bytes`                   | `libjvm.dylib`                   |
 |  -76.5% |   -13 |  0.5% → 0.3% |   17 → 4 | `sanitizeStackTrace(Throwable)`             | `kotlin.jvm.internal.Intrinsics` |
 |  -60.0% |   -12 |         0.6% |   20 → 8 | `pthread_jit_write_protect_np`              | `libsystem_pthread.dylib`        |
-|  -92.3% |   -12 |  0.4% → 0.1% |   13 → 1 | `I2C/C2I adapters(0xbbaa)`                  | `<unknown>`                      |
 |  -78.6% |   -11 |  0.4% → 0.2% |   14 → 3 | `PhaseIdealLoop::build_loop_late_post_work` | `libjvm.dylib`                   |
 |  -78.6% |   -11 |  0.4% → 0.2% |   14 → 3 | `__psynch_cvbroad`                          | `libsystem_kernel.dylib`         |
+|  -84.6% |   -11 |  0.4% → 0.1% |   13 → 2 | `I2C/C2I adapters(0xb)`                     | `<unknown>`                      |
 |  -84.6% |   -11 |  0.4% → 0.1% |   13 → 2 | `__psynch_mutexdrop`                        | `libsystem_kernel.dylib`         |
 |  -45.5% |   -10 |  0.7% → 0.9% |  22 → 12 | `PhaseChaitin::build_ifg_physical`          | `libjvm.dylib`                   |
 |  -31.3% |   -10 |  1.0% → 1.6% |  32 → 22 | `tlv_get_addr`                              | `libdyld.dylib`                  |
@@ -273,13 +273,13 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 |  Change | Delta |            % | Samples | Function                           | Location    |
 | ------: | ----: | -----------: | ------: | ---------------------------------- | ----------- |
-|  -92.3% |   -12 |  0.4% → 0.1% |  13 → 1 | `I2C/C2I adapters(0xbbaa)`         | `<unknown>` |
-|  -80.0% |    -8 |  0.3% → 0.1% |  10 → 2 | `I2C/C2I adapters(0xb)`            | `<unknown>` |
+|  -84.6% |   -11 |  0.4% → 0.1% |  13 → 2 | `I2C/C2I adapters(0xb)`            | `<unknown>` |
+|  -90.0% |    -9 |  0.3% → 0.1% |  10 → 1 | `I2C/C2I adapters(0xbb)`           | `<unknown>` |
 |  -71.4% |    -5 |  0.2% → 0.1% |   7 → 2 | `itable stub`                      | `<unknown>` |
 |  -50.0% |    -2 |         0.1% |   4 → 2 | `zero_blocks`                      | `<unknown>` |
+| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `vtable stub`                      | `<unknown>` |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `I2C/C2I adapters(0xbbbbbbababab)` | `<unknown>` |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `I2C/C2I adapters(0xbbb)`          | `<unknown>` |
-| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `vtable stub`                      | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbab)`         | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbb)`        | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbb)`         | `<unknown>` |
@@ -547,13 +547,13 @@ Functions with the largest decrease in total samples taken in the function and a
 
 |  Change | Delta |            % | Samples | Function                           | Location    |
 | ------: | ----: | -----------: | ------: | ---------------------------------- | ----------- |
-|  -92.3% |   -12 |  0.4% → 0.1% |  13 → 1 | `I2C/C2I adapters(0xbbaa)`         | `<unknown>` |
-|  -81.8% |    -9 |  0.3% → 0.1% |  11 → 2 | `I2C/C2I adapters(0xb)`            | `<unknown>` |
+|  -84.6% |   -11 |  0.4% → 0.1% |  13 → 2 | `I2C/C2I adapters(0xb)`            | `<unknown>` |
+|  -90.9% |   -10 |  0.3% → 0.1% |  11 → 1 | `I2C/C2I adapters(0xbb)`           | `<unknown>` |
 |  -71.4% |    -5 |  0.2% → 0.1% |   7 → 2 | `itable stub`                      | `<unknown>` |
 |  -50.0% |    -2 |         0.1% |   4 → 2 | `zero_blocks`                      | `<unknown>` |
+| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `vtable stub`                      | `<unknown>` |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `I2C/C2I adapters(0xbbbbbbababab)` | `<unknown>` |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `I2C/C2I adapters(0xbbb)`          | `<unknown>` |
-| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `vtable stub`                      | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbab)`         | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbb)`        | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbb)`         | `<unknown>` |
@@ -747,8 +747,8 @@ Functions with the largest increase in total bytes allocated in the function and
 | +257.1% |  +8.999 MiB |   0.5% → 1.8% |  3.5 MiB → 12.5 MiB |        7 → 25 | `fullyExpandedType$default(ConeClassLikeType, FirSession, Function1, int, Object)`                                                                                                  | `org.jetbrains.kotlin.fir.resolve.TypeExpansionUtilsKt`                                        |
 | +188.9% |  +8.499 MiB |   0.7% → 1.9% |    4.5 MiB → 13 MiB |        9 → 26 | `processSymbolsByName$lambda$0(Ref$BooleanRef, Function1, FirCallableSymbol)`                                                                                                       | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope`                            |
 | +188.9% |  +8.499 MiB |   0.7% → 1.9% |    4.5 MiB → 13 MiB |        9 → 26 | `invoke(Object)`                                                                                                                                                                    | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope$$Lambda.0x000000f0016015f0` |
-|  +80.0% |  +7.999 MiB |   1.5% → 2.6% |     10 MiB → 18 MiB |       20 → 36 | `invoke(Object)`                                                                                                                                                                    | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000f001672d98` |
 |  +80.0% |  +7.999 MiB |   1.5% → 2.6% |     10 MiB → 18 MiB |       20 → 36 | `processFunctionsByName$lambda$0(FirLookupTrackerComponent, CallInfo, Ref$BooleanRef, ScopeBasedTowerLevel, TowerLevelProcessor, FirCallableSymbol)`                                | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |
+|  +80.0% |  +7.999 MiB |   1.5% → 2.6% |     10 MiB → 18 MiB |       20 → 36 | `invoke(Object)`                                                                                                                                                                    | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000f001672d98` |
 |  +88.2% |  +7.499 MiB |   1.3% → 2.3% |    8.5 MiB → 16 MiB |       17 → 32 | `toSymbol(ConeClassLikeLookupTag, FirSession)`                                                                                                                                      | `org.jetbrains.kotlin.fir.resolve.ToSymbolUtilsKt`                                             |
 |  +13.3% |  +6.999 MiB |   7.9% → 8.5% | 52.7 MiB → 59.7 MiB |     105 → 119 | `processSymbolsByName(Name, Function3, Function1)`                                                                                                                                  | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope`                            |
 |  +58.3% |  +6.999 MiB |   1.8% → 2.7% |     12 MiB → 19 MiB |       24 → 38 | `consumeCallableCandidate(FirCallableSymbol, CallInfo, TowerLevelProcessor)`                                                                                                        | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |
@@ -796,8 +796,8 @@ Functions with the largest increase in total bytes allocated in the function and
 | +257.1% |  +8.999 MiB |   0.5% → 1.8% |  3.5 MiB → 12.5 MiB |        7 → 25 | `fullyExpandedType$default(ConeClassLikeType, FirSession, Function1, int, Object)`                                                                                                  | `org.jetbrains.kotlin.fir.resolve.TypeExpansionUtilsKt`                                        |
 | +188.9% |  +8.499 MiB |   0.7% → 1.9% |    4.5 MiB → 13 MiB |        9 → 26 | `processSymbolsByName$lambda$0(Ref$BooleanRef, Function1, FirCallableSymbol)`                                                                                                       | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope`                            |
 | +188.9% |  +8.499 MiB |   0.7% → 1.9% |    4.5 MiB → 13 MiB |        9 → 26 | `invoke(Object)`                                                                                                                                                                    | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope$$Lambda.0x000000f0016015f0` |
-|  +80.0% |  +7.999 MiB |   1.5% → 2.6% |     10 MiB → 18 MiB |       20 → 36 | `invoke(Object)`                                                                                                                                                                    | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000f001672d98` |
 |  +80.0% |  +7.999 MiB |   1.5% → 2.6% |     10 MiB → 18 MiB |       20 → 36 | `processFunctionsByName$lambda$0(FirLookupTrackerComponent, CallInfo, Ref$BooleanRef, ScopeBasedTowerLevel, TowerLevelProcessor, FirCallableSymbol)`                                | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |
+|  +80.0% |  +7.999 MiB |   1.5% → 2.6% |     10 MiB → 18 MiB |       20 → 36 | `invoke(Object)`                                                                                                                                                                    | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000f001672d98` |
 |  +88.2% |  +7.499 MiB |   1.3% → 2.3% |    8.5 MiB → 16 MiB |       17 → 32 | `toSymbol(ConeClassLikeLookupTag, FirSession)`                                                                                                                                      | `org.jetbrains.kotlin.fir.resolve.ToSymbolUtilsKt`                                             |
 |  +13.3% |  +6.999 MiB |   7.9% → 8.5% | 52.7 MiB → 59.7 MiB |     105 → 119 | `processSymbolsByName(Name, Function3, Function1)`                                                                                                                                  | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope`                            |
 |  +58.3% |  +6.999 MiB |   1.8% → 2.7% |     12 MiB → 19 MiB |       24 → 38 | `consumeCallableCandidate(FirCallableSymbol, CallInfo, TowerLevelProcessor)`                                                                                                        | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |

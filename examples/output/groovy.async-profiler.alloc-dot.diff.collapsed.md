@@ -75,79 +75,102 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
-|  Change | Delta |             % |   Samples | Function           | Location                                                                    |
-| ------: | ----: | ------------: | --------: | ------------------ | --------------------------------------------------------------------------- |
-| +141.5% |  +423 | 38.1% → 90.6% | 299 → 722 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010c6400`                         |
-| +137.9% |  +411 | 38.0% → 89.0% | 298 → 709 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00`                         |
-| +279.6% |  +151 |  6.9% → 25.7% |  54 → 205 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x000000700109ac00`                         |
-|  +24.5% |  +142 | 73.9% → 90.6% | 580 → 722 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010c7000`                         |
-| +297.7% |  +131 |  5.6% → 22.0% |  44 → 175 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00`                         |
-|  +66.8% |  +127 | 24.2% → 39.8% | 190 → 317 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070012e4000`                         |
-| +778.6% |  +109 |  1.8% → 15.4% |  14 → 123 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400`                         |
-| +171.1% |   +77 |  5.7% → 15.3% |  45 → 122 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070012acc00`                         |
-|  +12.2% |   +72 | 74.9% → 82.8% | 588 → 660 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010d2400`                         |
-|  +11.3% |   +66 | 74.1% → 81.3% | 582 → 648 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010d8800`                         |
-|   +9.7% |   +56 | 73.6% → 79.5% | 578 → 634 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x000000700120f800`                         |
-|   +6.9% |   +48 | 88.0% → 92.7% | 691 → 739 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010a9800`                         |
-|   +7.2% |   +42 | 74.1% → 78.3% | 582 → 624 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x0000007001200800`                         |
-|   +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `doCall`           | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
-|   +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `eachFile`         | `org.codehaus.groovy.runtime.ResourceGroovyMethods`                         |
-|   +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `doMethodInvoke`   | `org.codehaus.groovy.runtime.dgm$1076`                                      |
-|   +6.8% |   +41 | 76.7% → 80.7% | 602 → 643 | `processDirectory` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|   +6.6% |   +40 | 77.6% → 81.4% | 609 → 649 | `invokeExact_MT`   | `java.lang.invoke.LambdaForm$MH.0x0000007001120c00`                         |
-|   +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findMany`         | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                          |
-|   +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findAll`          | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                          |
+|   Change | Delta |             % |   Samples | Function           | Location                                                                    |
+| -------: | ----: | ------------: | --------: | ------------------ | --------------------------------------------------------------------------- |
+|  +496.3% |  +268 |  6.9% → 40.4% |  54 → 322 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070012da000`                         |
+| +2600.0% |   +52 |   0.3% → 6.8% |    2 → 54 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070012e7c00`                         |
+| +2150.0% |   +43 |   0.3% → 5.6% |    2 → 45 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070012e5800`                         |
+| +1400.0% |   +42 |   0.4% → 5.6% |    3 → 45 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070012e8000`                         |
+|    +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `doCall`           | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+|    +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `eachFile`         | `org.codehaus.groovy.runtime.ResourceGroovyMethods`                         |
+|    +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `doMethodInvoke`   | `org.codehaus.groovy.runtime.dgm$1076`                                      |
+|    +6.8% |   +41 | 76.7% → 80.7% | 602 → 643 | `processDirectory` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|    +6.9% |   +41 | 76.1% → 80.1% | 597 → 638 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x0000007001181c00`                         |
+|    +6.8% |   +41 | 76.7% → 80.7% | 602 → 643 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070011ba000`                         |
+|    +6.6% |   +40 | 77.6% → 81.4% | 609 → 649 | `invokeExact_MT`   | `java.lang.invoke.LambdaForm$MH.0x0000007001120c00`                         |
+|    +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findMany`         | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                          |
+|    +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findAll`          | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                          |
+|    +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `doMethodInvoke`   | `org.codehaus.groovy.runtime.dgm$251`                                       |
+|    +6.2% |   +38 | 77.7% → 81.3% | 610 → 648 | `delegate`         | `java.lang.invoke.DelegatingMethodHandle$Holder`                            |
+|    +9.1% |   +38 | 53.0% → 57.0% | 416 → 454 | `doCall`           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`  |
+|    +8.8% |   +37 | 53.6% → 57.5% | 421 → 458 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x00000070010dcc00`                         |
+|    +6.2% |   +37 | 76.1% → 79.5% | 597 → 634 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x000000700120f800`                         |
+|    +6.1% |   +37 | 77.3% → 80.8% | 607 → 644 | `analyze`          | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|    +6.1% |   +37 | 77.3% → 80.8% | 607 → 644 | `invokeInterface`  | `java.lang.invoke.LambdaForm$DMH.0x0000007001094c00`                        |
 
 ##### Standard library
 
-|  Change | Delta |             % |   Samples | Function         | Location                                            |
-| ------: | ----: | ------------: | --------: | ---------------- | --------------------------------------------------- |
-| +141.5% |  +423 | 38.1% → 90.6% | 299 → 722 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c6400` |
-| +137.9% |  +411 | 38.0% → 89.0% | 298 → 709 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00` |
-| +279.6% |  +151 |  6.9% → 25.7% |  54 → 205 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000700109ac00` |
-|  +24.5% |  +142 | 73.9% → 90.6% | 580 → 722 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c7000` |
-| +297.7% |  +131 |  5.6% → 22.0% |  44 → 175 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00` |
-|  +66.8% |  +127 | 24.2% → 39.8% | 190 → 317 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070012e4000` |
-| +778.6% |  +109 |  1.8% → 15.4% |  14 → 123 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400` |
-| +171.1% |   +77 |  5.7% → 15.3% |  45 → 122 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070012acc00` |
-|  +12.2% |   +72 | 74.9% → 82.8% | 588 → 660 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d2400` |
-|  +11.3% |   +66 | 74.1% → 81.3% | 582 → 648 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d8800` |
-|   +9.7% |   +56 | 73.6% → 79.5% | 578 → 634 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000700120f800` |
-|   +6.9% |   +48 | 88.0% → 92.7% | 691 → 739 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010a9800` |
-|   +7.2% |   +42 | 74.1% → 78.3% | 582 → 624 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001200800` |
-|   +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `eachFile`       | `org.codehaus.groovy.runtime.ResourceGroovyMethods` |
-|   +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `doMethodInvoke` | `org.codehaus.groovy.runtime.dgm$1076`              |
-|   +6.6% |   +40 | 77.6% → 81.4% | 609 → 649 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x0000007001120c00` |
-|   +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findMany`       | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
-|   +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findAll`        | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
-|   +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `doMethodInvoke` | `org.codehaus.groovy.runtime.dgm$251`               |
-|   +6.2% |   +38 | 77.7% → 81.3% | 610 → 648 | `delegate`       | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|   Change | Delta |             % |   Samples | Function          | Location                                             |
+| -------: | ----: | ------------: | --------: | ----------------- | ---------------------------------------------------- |
+|  +496.3% |  +268 |  6.9% → 40.4% |  54 → 322 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070012da000`  |
+| +2600.0% |   +52 |   0.3% → 6.8% |    2 → 54 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070012e7c00`  |
+| +2150.0% |   +43 |   0.3% → 5.6% |    2 → 45 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070012e5800`  |
+| +1400.0% |   +42 |   0.4% → 5.6% |    3 → 45 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070012e8000`  |
+|    +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `eachFile`        | `org.codehaus.groovy.runtime.ResourceGroovyMethods`  |
+|    +6.8% |   +41 | 76.6% → 80.6% | 601 → 642 | `doMethodInvoke`  | `org.codehaus.groovy.runtime.dgm$1076`               |
+|    +6.9% |   +41 | 76.1% → 80.1% | 597 → 638 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x0000007001181c00`  |
+|    +6.8% |   +41 | 76.7% → 80.7% | 602 → 643 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070011ba000`  |
+|    +6.6% |   +40 | 77.6% → 81.4% | 609 → 649 | `invokeExact_MT`  | `java.lang.invoke.LambdaForm$MH.0x0000007001120c00`  |
+|    +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findMany`        | `org.codehaus.groovy.runtime.DefaultGroovyMethods`   |
+|    +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `findAll`         | `org.codehaus.groovy.runtime.DefaultGroovyMethods`   |
+|    +9.4% |   +39 | 53.1% → 57.2% | 417 → 456 | `doMethodInvoke`  | `org.codehaus.groovy.runtime.dgm$251`                |
+|    +6.2% |   +38 | 77.7% → 81.3% | 610 → 648 | `delegate`        | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+|    +8.8% |   +37 | 53.6% → 57.5% | 421 → 458 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070010dcc00`  |
+|    +6.2% |   +37 | 76.1% → 79.5% | 597 → 634 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x000000700120f800`  |
+|    +6.1% |   +37 | 77.3% → 80.8% | 607 → 644 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000007001094c00` |
+|    +5.5% |   +36 | 83.9% → 87.2% | 659 → 695 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070010d3800`  |
+|    +6.2% |   +36 | 74.1% → 77.5% | 582 → 618 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x0000007001212800`  |
+|    +6.1% |   +36 | 74.9% → 78.3% | 588 → 624 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x0000007001200800`  |
+|    +6.2% |   +36 | 74.1% → 77.5% | 582 → 618 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x0000007001212400`  |
 
 #### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
+| Change | Delta |             % |   Samples | Function                  | Location                                            |
+| -----: | ----: | ------------: | --------: | ------------------------- | --------------------------------------------------- |
+| -99.7% |  -297 |  38.0% → 0.1% |   298 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070012e3400` |
+| -97.8% |   -44 |   5.7% → 0.1% |    45 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070012e7400` |
+| -97.7% |   -43 |   5.6% → 0.1% |    44 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070012e4c00` |
+| -13.8% |   -28 | 25.9% → 22.0% | 203 → 175 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00` |
+| -96.2% |   -25 |   3.3% → 0.1% |    26 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x0000007001311000` |
+| -11.7% |   -16 | 17.5% → 15.2% | 137 → 121 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070011b0400` |
+| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `<clinit>`                | `org.codehaus.groovy.runtime.FormatHelper`          |
+| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `asType`                  | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
+| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `doMethodInvoke`          | `org.codehaus.groovy.runtime.dgm$59`                |
+| -27.3% |   -15 |   7.0% → 5.0% |   55 → 40 | `doFindClasses`           | `org.codehaus.groovy.vmplugin.v9.Java9`             |
+| -71.4% |   -15 |   2.7% → 0.8% |    21 → 6 | `getTargetPropertyInfo`   | `java.beans.Introspector`                           |
+| -25.5% |   -14 |   7.0% → 5.1% |   55 → 41 | `getDefaultImportClasses` | `org.codehaus.groovy.vmplugin.v9.Java9`             |
+| -23.0% |   -14 |   7.8% → 5.9% |   61 → 47 | `invokeConstructor`       | `groovy.lang.MetaClassImpl`                         |
+| -23.0% |   -14 |   7.8% → 5.9% |   61 → 47 | `invokeConstructorOf`     | `org.codehaus.groovy.runtime.InvokerHelper`         |
+| -23.7% |   -14 |   7.5% → 5.6% |   59 → 45 | `visitClass`              | `org.codenarc.rule.AbstractAstVisitor`              |
+| -17.6% |   -13 |   9.4% → 7.7% |   74 → 61 | `each`                    | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
+| -23.6% |   -13 |   7.0% → 5.3% |   55 → 42 | `<clinit>`                | `org.codehaus.groovy.control.ResolveVisitor`        |
+| -27.1% |   -13 |   6.1% → 4.4% |   48 → 35 | `visitMethod`             | `org.codenarc.rule.AbstractAstVisitor`              |
+| -12.4% |   -12 | 12.4% → 10.7% |   97 → 85 | `reinitialize`            | `groovy.lang.MetaClassImpl`                         |
+| -12.4% |   -12 | 12.4% → 10.7% |   97 → 85 | `initialize`              | `groovy.lang.MetaClassImpl`                         |
+
 ##### Standard library
 
-| Change | Delta |             % |   Samples | Function        | Location                                                                |
-| -----: | ----: | ------------: | --------: | --------------- | ----------------------------------------------------------------------- |
-| -55.6% |  -404 | 92.5% → 40.4% | 726 → 322 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012da000`                     |
-| -49.6% |  -316 | 81.1% → 40.3% | 637 → 321 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012da800`                     |
-| -82.9% |  -248 |  38.1% → 6.4% |  299 → 51 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010c7c00`                     |
-| -96.9% |  -126 |  16.6% → 0.5% |   130 → 4 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012e2400`                     |
-| -66.2% |   -88 |  16.9% → 5.6% |  133 → 45 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012e8000`                     |
-| -60.6% |   -83 |  17.5% → 6.8% |  137 → 54 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012e7c00`                     |
-| -40.4% |   -82 | 25.9% → 15.2% | 203 → 121 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070011b0400`                     |
-| -86.5% |   -45 |   6.6% → 0.9% |    52 → 7 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001088400`                     |
-|  -5.4% |   -37 | 86.6% → 80.7% | 680 → 643 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070011ba000`                     |
-| -83.8% |   -31 |   4.7% → 0.8% |    37 → 6 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012be800`                     |
-| -49.2% |   -29 |   7.5% → 3.8% |   59 → 30 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010c7400`                     |
-| -59.0% |   -23 |   5.0% → 2.0% |   39 → 16 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001109800`                     |
-| -84.6% |   -22 |   3.3% → 0.5% |    26 → 4 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012e9000`                     |
-| -40.0% |   -20 |   6.4% → 3.8% |   50 → 30 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070012fbc00`                     |
-| -81.8% |   -18 |   2.8% → 0.5% |    22 → 4 | `apply`         | `org.apache.groovy.parser.antlr4.AstBuilder$$Lambda.0x00000070012a5680` |
-| -65.4% |   -17 |   3.3% → 1.1% |    26 → 9 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001300c00`                     |
-| -84.2% |   -16 |   2.4% → 0.4% |    19 → 3 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x000000700130f000`                    |
-| -61.5% |   -16 |   3.3% → 1.3% |   26 → 10 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010cc000`                     |
-| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `<clinit>`      | `org.codehaus.groovy.runtime.FormatHelper`                              |
-| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `asType`        | `org.codehaus.groovy.runtime.DefaultGroovyMethods`                      |
+| Change | Delta |             % |   Samples | Function                  | Location                                            |
+| -----: | ----: | ------------: | --------: | ------------------------- | --------------------------------------------------- |
+| -99.7% |  -297 |  38.0% → 0.1% |   298 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070012e3400` |
+| -97.8% |   -44 |   5.7% → 0.1% |    45 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070012e7400` |
+| -97.7% |   -43 |   5.6% → 0.1% |    44 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070012e4c00` |
+| -13.8% |   -28 | 25.9% → 22.0% | 203 → 175 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00` |
+| -96.2% |   -25 |   3.3% → 0.1% |    26 → 1 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x0000007001311000` |
+| -11.7% |   -16 | 17.5% → 15.2% | 137 → 121 | `invoke`                  | `java.lang.invoke.LambdaForm$MH.0x00000070011b0400` |
+| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `<clinit>`                | `org.codehaus.groovy.runtime.FormatHelper`          |
+| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `asType`                  | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
+| -27.6% |   -16 |   7.4% → 5.3% |   58 → 42 | `doMethodInvoke`          | `org.codehaus.groovy.runtime.dgm$59`                |
+| -27.3% |   -15 |   7.0% → 5.0% |   55 → 40 | `doFindClasses`           | `org.codehaus.groovy.vmplugin.v9.Java9`             |
+| -71.4% |   -15 |   2.7% → 0.8% |    21 → 6 | `getTargetPropertyInfo`   | `java.beans.Introspector`                           |
+| -25.5% |   -14 |   7.0% → 5.1% |   55 → 41 | `getDefaultImportClasses` | `org.codehaus.groovy.vmplugin.v9.Java9`             |
+| -23.0% |   -14 |   7.8% → 5.9% |   61 → 47 | `invokeConstructor`       | `groovy.lang.MetaClassImpl`                         |
+| -23.0% |   -14 |   7.8% → 5.9% |   61 → 47 | `invokeConstructorOf`     | `org.codehaus.groovy.runtime.InvokerHelper`         |
+| -17.6% |   -13 |   9.4% → 7.7% |   74 → 61 | `each`                    | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
+| -23.6% |   -13 |   7.0% → 5.3% |   55 → 42 | `<clinit>`                | `org.codehaus.groovy.control.ResolveVisitor`        |
+| -12.4% |   -12 | 12.4% → 10.7% |   97 → 85 | `reinitialize`            | `groovy.lang.MetaClassImpl`                         |
+| -12.4% |   -12 | 12.4% → 10.7% |   97 → 85 | `initialize`              | `groovy.lang.MetaClassImpl`                         |
+| -20.0% |   -12 |   7.6% → 6.0% |   60 → 48 | `doMethodInvoke`          | `org.codehaus.groovy.runtime.dgm$207`               |
+| -28.6% |   -12 |   5.4% → 3.8% |   42 → 30 | `walkFileTree`            | `java.nio.file.Files`                               |
