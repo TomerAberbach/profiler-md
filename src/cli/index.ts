@@ -66,7 +66,7 @@ try {
     data: Data,
     filePath: string | undefined,
   ): ProfileInput<Data> => ({ data, format, origin, name: inputName(filePath) })
-  const optionsPromise = buildOptions({
+  const builtOptionsPromise = buildOptions({
     topN,
     minCategoryShare,
     baseURL,
@@ -80,19 +80,20 @@ try {
     sourceMaps,
     logger,
     logLevel,
+    diff: currentPath !== undefined,
   })
   let markdown
   if (currentPath === undefined) {
-    const [data, options] = await Promise.all([
+    const [data, { options }] = await Promise.all([
       openInputAsBlob(basePath),
-      optionsPromise,
+      builtOptionsPromise,
     ])
     markdown = await profileToMdAsync(toInput(data, basePath), options)
   } else {
-    const [baseData, currentData, options] = await Promise.all([
+    const [baseData, currentData, { options }] = await Promise.all([
       openInputAsBlob(basePath),
       openInputAsBlob(currentPath),
-      optionsPromise,
+      builtOptionsPromise,
     ])
     markdown = await diffProfilesAsync(
       toInput(baseData, basePath),
@@ -100,6 +101,8 @@ try {
       options,
     )
   }
+  const { warnUnmatchedRules } = await builtOptionsPromise
+  warnUnmatchedRules()
   const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })
 
   // Logs and Markdown share the terminal, so a line keeps the heading apart.
