@@ -83,6 +83,8 @@ const configNames: Record<string, string> = {
   [`cpu-trimpath`]: `CPU (-trimpath)`,
   [`cpu-lines`]: `CPU (line numbers)`,
   [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
+  [`cpu-dot`]: `CPU (dot)`,
+  [`alloc-dot`]: `alloc (dot)`,
   goroutineleak: `goroutine leak`,
 }
 
