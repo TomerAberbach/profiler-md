@@ -24,7 +24,7 @@ export const parseHprof = (
   bytes: Uint8Array,
   recordTally: RecordTally,
 ): HeapSnapshot[] => {
-  const dump = readDump(bytes)
+  const dump = readDump(bytes, recordTally)
   const nodes = readNodes(dump, recordTally)
   return [buildHeapSnapshot(dump, nodes)]
 }
@@ -46,6 +46,7 @@ const HPROF_UTF8 = 0x01
 const HPROF_LOAD_CLASS = 0x02
 const HPROF_HEAP_DUMP = 0x0c
 const HPROF_HEAP_DUMP_SEGMENT = 0x1c
+const HPROF_HEAP_DUMP_END = 0x2c
 
 /** Heap dump sub-record tags. */
 const HPROF_GC_ROOT_UNKNOWN = 0xff
@@ -173,7 +174,7 @@ type Nodes = {
   rootTags: Uint8Array
 }
 
-const readDump = (bytes: Uint8Array): Dump => {
+const readDump = (bytes: Uint8Array, recordTally: RecordTally): Dump => {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
   const { idSize, recordsOffset } = readHeader(bytes, view)
 
@@ -187,7 +188,7 @@ const readDump = (bytes: Uint8Array): Dump => {
     classNameStringIds: new Map(),
     heapDumpRanges: [],
   }
-  readTopLevelRecords(dump, recordsOffset)
+  readTopLevelRecords(dump, recordsOffset, recordTally)
 
   if (dump.heapDumpRanges.length === 0) {
     throw new FormatParseError(`no heap dump records`)
@@ -259,7 +260,16 @@ const basicTypeSizes = (idSize: IdentifierSize): Int32Array => {
   return typeSizes
 }
 
-const readTopLevelRecords = (dump: Dump, recordsOffset: number): void => {
+/**
+ * Reads the top-level records. A dump written in segments ends them with a
+ * HEAP DUMP END record, so a segmented dump without one was cut short on a
+ * record boundary, which is recorded on {@link recordTally}.
+ */
+const readTopLevelRecords = (
+  dump: Dump,
+  recordsOffset: number,
+  recordTally: RecordTally,
+): void => {
   const {
     bytes,
     view,
@@ -270,6 +280,8 @@ const readTopLevelRecords = (dump: Dump, recordsOffset: number): void => {
     heapDumpRanges,
   } = dump
 
+  let segmented = false
+  let ended = false
   let offset = recordsOffset
   while (offset < bytes.length) {
     if (offset + 9 > bytes.length) {
@@ -292,15 +304,25 @@ const readTopLevelRecords = (dump: Dump, recordsOffset: number): void => {
       case HPROF_LOAD_CLASS:
         classNameStringIds.set(readId(body + 4), readId(body + 4 + idSize + 4))
         break
-      case HPROF_HEAP_DUMP:
       case HPROF_HEAP_DUMP_SEGMENT:
+        segmented = true
         heapDumpRanges.push(body, end)
+        break
+      case HPROF_HEAP_DUMP:
+        heapDumpRanges.push(body, end)
+        break
+      case HPROF_HEAP_DUMP_END:
+        ended = true
         break
       default:
         break
     }
 
     offset = end
+  }
+
+  if (segmented && !ended) {
+    recordTally.endsBefore(`the HEAP DUMP END record`)
   }
 }
 
@@ -320,8 +342,14 @@ const forEachSubRecord = (
     while (offset < end) {
       const tag = bytes[offset]!
       const body = offset + 1
-      visit(tag, body)
       offset = subRecordEnd(dump, tag, body)
+      // The JVM writes whole sub-records into each segment.
+      if (offset > end) {
+        throw new FormatParseError(
+          `heap dump sub-record of tag 0x${tag.toString(16)} runs past its record`,
+        )
+      }
+      visit(tag, body)
     }
   }
 }

@@ -450,3 +450,24 @@ describe(`convert`, () => {
     ).toBe(convert(holderGraph))
   })
 })
+
+describe(`malformed dumps`, () => {
+  const originLogs = [
+    `debug: origin candidates, in priority order: jdk`,
+    `info: fallback origin: jdk`,
+    `debug: no entry marked another origin`,
+  ]
+
+  test(`reads a segmented dump cut before its HEAP DUMP END record, with a warning`, () => {
+    const complete = convert(holderGraph)
+    expectLogs(originLogs)
+
+    // The HEAP DUMP END record is the last 9 bytes: a tag, a timestamp, and a
+    // zero length.
+    expect(convert(holderGraph.subarray(0, -9))).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: the input ends before the HEAP DUMP END record`,
+    ])
+  })
+})
