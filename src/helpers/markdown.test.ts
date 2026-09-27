@@ -53,6 +53,23 @@ test.each([
   expect(nodeText(node!)).toBe(value)
 })
 
+test.each([
+  [`text in a paragraph`, (value: string) => paragraph([text(value)])],
+  [
+    `code span in a heading`,
+    (value: string) => heading(5, [inlineCode(value)]),
+  ],
+  [
+    `code span in a table cell`,
+    (value: string) => table([`Function`], [[[inlineCode(value)]]]),
+  ],
+])(`control characters serialize as control pictures: %s`, (_, node) => {
+  const md = mdastToMarkdown([node(`a\0b\x01c\x1Bd\x7Fe\tf`)])
+
+  expect(md).toContain(`a\u2400b\u2401c\u241Bd\u2421e\tf`)
+  expect(md).not.toMatch(/[\0-\b\v\f\x0E-\x1F\x7F]/u)
+})
+
 test(`trusted formatter characters serialize unescaped`, () => {
   const line = `Took 1.2ms → 3.4ms (Δ +2.2ms, <0.1%, 5\u00A0µs per sample) ← done`
 
