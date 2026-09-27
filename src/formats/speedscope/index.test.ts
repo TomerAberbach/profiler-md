@@ -714,3 +714,62 @@ describe(`options`, () => {
     ])
   })
 })
+
+describe(`malformed profiles`, () => {
+  const frames = [{ name: `a` }, { name: `b` }]
+  const convert = (profile: Parameters<typeof makeSpeedscopeProfile>[0]) =>
+    convertJsonToMd(
+      speedscopeConverter,
+      makeSpeedscopeProfile(profile),
+      normalizeProfileToMdOptions(),
+    )
+
+  test(`skips a sample referencing a missing frame or with a negative weight, with a warning`, () => {
+    const md = convert({
+      profiles: [
+        makeSampledProfile({
+          samples: [[0, 7], [0, 0.5], [0], [0, 1]],
+          weights: [1, 1, -1, 2],
+        }),
+      ],
+      frames,
+    })
+
+    expect(summaryLines(md)).toEqual([
+      `Took 2.0ms over 1 sample (2.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: pyinstrument, py-spy, dotnet-trace, rbspy, excimer`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 samples referencing a missing frame`,
+      `warn: skipped 1 sample with a negative weight`,
+    ])
+  })
+
+  test(`rejects fewer weights than samples`, () => {
+    expect(() =>
+      convert({
+        profiles: [makeSampledProfile({ samples: [[0], [0]], weights: [1] })],
+        frames,
+      }),
+    ).toThrow(`weights has fewer entries than samples, got: 1 for 2 samples`)
+  })
+
+  test.each([
+    {
+      scenario: `a missing frame`,
+      events: [{ type: `O` as const, frame: 7, at: 0 }],
+      message: `event references a missing frame, got: 7`,
+    },
+    {
+      scenario: `a fractional frame index`,
+      events: [{ type: `O` as const, frame: 0.5, at: 0 }],
+      message: `event references a missing frame, got: 0.5`,
+    },
+  ])(`rejects an evented profile with $scenario`, ({ events, message }) => {
+    expect(() =>
+      convert({ profiles: [makeEventedProfile({ events })], frames }),
+    ).toThrow(message)
+  })
+})

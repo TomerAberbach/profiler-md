@@ -14,5 +14,6 @@ export const speedscopeConverter = {
   fallbackOrigin: `unknown`,
   type: `json`,
   matches: matchesSpeedscope,
-  parse: json => parseSpeedscope(json as SpeedscopeProfile),
+  parse: (json, recordTally) =>
+    parseSpeedscope(json as SpeedscopeProfile, recordTally),
 } as const satisfies JsonFormatConverter

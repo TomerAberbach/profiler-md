@@ -4,6 +4,8 @@ import type {
 } from '../../modalities/call-stack-profile/index.ts'
 import { parseMetric, SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import type { RecordTally } from '../converter.ts'
+import { FormatParseError } from '../error.ts'
 
 /** A unique location within a function. */
 export type SpeedscopeFrame = {
@@ -89,6 +91,7 @@ export type SpeedscopeProfile = {
 
 export const parseSpeedscope = (
   profile: SpeedscopeProfile,
+  recordTally: RecordTally,
 ): CallStackProfile[] => {
   const originHint = exporterOriginHint(profile.exporter)
   // Speedscope samples reference frames by their index in the shared table, so
@@ -97,7 +100,7 @@ export const parseSpeedscope = (
   return profile.profiles.map(subProfile => ({
     ...(originHint && { originHint }),
     ...(subProfile.type === `sampled`
-      ? sampledProfile(frames, subProfile)
+      ? sampledProfile(frames, subProfile, recordTally)
       : eventedProfile(frames, subProfile)),
   }))
 }
@@ -158,20 +161,40 @@ const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => {
 const sampledProfile = (
   frames: StackFrame[],
   profile: SpeedscopeSampledProfile,
-): CallStackProfile => ({
-  type: `call-stack-profile`,
-  frames,
-  metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
-  countMetric: SAMPLES,
-  observations: sampledObservations(profile),
-})
+  recordTally: RecordTally,
+): CallStackProfile => {
+  // The observations read these lazily, after auto-detection has moved on.
+  if (!Array.isArray(profile.samples) || !Array.isArray(profile.weights)) {
+    throw new FormatParseError(`samples and weights must be arrays`)
+  }
+  if (profile.weights.length < profile.samples.length) {
+    throw new FormatParseError(
+      `weights has fewer entries than samples, got: ${profile.weights.length} for ${profile.samples.length} samples`,
+    )
+  }
+  return {
+    type: `call-stack-profile`,
+    frames,
+    metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
+    countMetric: SAMPLES,
+    observations: sampledObservations(profile, frames.length, recordTally),
+  }
+}
+
+const isFrameIndex = (frame: number, frameCount: number): boolean =>
+  Number.isInteger(frame) && frame >= 0 && frame < frameCount
 
 function* sampledObservations(
   profile: SpeedscopeSampledProfile,
+  frameCount: number,
+  recordTally: RecordTally,
 ): Iterable<Observation> {
+  let negativeWeightCount = 0
+  let missingFrameCount = 0
   for (let index = 0; index < profile.samples.length; index++) {
     const weight = profile.weights[index]!
     if (weight < 0) {
+      negativeWeightCount++
       continue
     }
     // A zero-weight or empty-stack record still counts: dropping it would
@@ -179,26 +202,46 @@ function* sampledObservations(
     // other presentations of the same recording. The aggregator attributes an
     // empty stack to a shared anonymous function.
     const frameIndices = profile.samples[index]!
+    if (frameIndices.some(frame => !isFrameIndex(frame, frameCount))) {
+      missingFrameCount++
+      continue
+    }
     // Speedscope stacks are caller-to-callee, and an observation's are
     // callee-to-caller. The parsed JSON is the converter's own and read once,
     // so reverse in place instead of copying every record's stack.
     yield { values: [weight], frameIndices: frameIndices.reverse() }
+  }
+  if (missingFrameCount > 0) {
+    recordTally.skipped(
+      `sample`,
+      `referencing a missing frame`,
+      missingFrameCount,
+    )
+  }
+  if (negativeWeightCount > 0) {
+    recordTally.skipped(`sample`, `with a negative weight`, negativeWeightCount)
   }
 }
 
 const eventedProfile = (
   frames: StackFrame[],
   profile: SpeedscopeEventedProfile,
-): CallStackProfile => ({
-  type: `call-stack-profile`,
-  frames,
-  metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
-  // The observations are reconstructed intervals rather than anything the
-  // profiler recorded, so counting them would report a rate per record it
-  // never measured.
-  countMetric: null,
-  observations: eventedObservations(profile),
-})
+): CallStackProfile => {
+  // The observations read these lazily, after auto-detection has moved on.
+  if (!Array.isArray(profile.events)) {
+    throw new FormatParseError(`events must be an array`)
+  }
+  return {
+    type: `call-stack-profile`,
+    frames,
+    metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
+    // The observations are reconstructed intervals rather than anything the
+    // profiler recorded, so counting them would report a rate per record it
+    // never measured.
+    countMetric: null,
+    observations: eventedObservations(profile, frames.length),
+  }
+}
 
 /**
  * Reconstructs observations from open/close events: each frame's self time (the
@@ -206,6 +249,7 @@ const eventedProfile = (
  */
 function* eventedObservations(
   profile: SpeedscopeEventedProfile,
+  frameCount: number,
 ): Iterable<Observation> {
   const stack: { frame: number; lastChildClosed: number }[] = []
 
@@ -227,6 +271,12 @@ function* eventedObservations(
   }
 
   for (const event of profile.events) {
+    if (!isFrameIndex(event.frame, frameCount)) {
+      throw new FormatParseError(
+        `event references a missing frame, got: ${event.frame}`,
+      )
+    }
+
     if (event.type === `O`) {
       yield* emitTopSelfTime(event.at)
       stack.push({ frame: event.frame, lastChildClosed: event.at })
