@@ -5,6 +5,7 @@ import type {
 } from '../../../modalities/call-stack-profile/index.ts'
 import { MICROSECONDS_METRIC, SAMPLES } from '../../../modalities/metrics.ts'
 import type { RecordTally } from '../../converter.ts'
+import { FormatParseError } from '../../error.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -30,7 +31,7 @@ export type V8CpuProfileNode = {
   id: number
 
   /** Number of samples where this node was at the top of the stack. */
-  hitCount: number
+  hitCount?: number
 
   callFrame: V8CallFrame
 
@@ -49,6 +50,16 @@ export const parseV8CpuProfile = (
   profile: V8CpuProfile,
   recordTally: RecordTally,
 ): CallStackProfile[] => {
+  // The observations read these lazily, after auto-detection has moved on.
+  if (!Array.isArray(profile.samples) || !Array.isArray(profile.timeDeltas)) {
+    throw new FormatParseError(`samples and timeDeltas must be arrays`)
+  }
+  if (profile.timeDeltas.length < profile.samples.length) {
+    throw new FormatParseError(
+      `timeDeltas has fewer entries than samples, got: ${profile.timeDeltas.length} for ${profile.samples.length} samples`,
+    )
+  }
+
   const idToIndex = reindexNodes(profile)
   const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
 
@@ -73,7 +84,7 @@ export const parseV8CpuProfile = (
         indexToSelfTime,
         recordTally,
       ),
-      lineMetrics: cpuLineMetrics(profile, indexToSelfTime),
+      lineMetrics: cpuLineMetrics(profile, indexToSelfTime, recordTally),
     },
   ]
 }
@@ -148,20 +159,30 @@ function* cpuObservations(
 function* cpuLineMetrics(
   profile: V8CpuProfile,
   indexToSelfTime: Float64Array,
+  recordTally: RecordTally,
 ): Iterable<ObservationLineMetrics> {
-  for (const node of profile.nodes) {
-    if (!node.positionTicks) {
+  let skippedTicks = 0
+  for (const { id, hitCount, positionTicks } of profile.nodes) {
+    if (!positionTicks) {
+      continue
+    }
+    // A node's ticks divide its hits, so a node with none has no share to give.
+    if (!hitCount) {
+      skippedTicks += positionTicks.length
       continue
     }
 
-    const selfTime = indexToSelfTime[node.id]!
+    const selfTime = indexToSelfTime[id]!
     yield {
-      frame: node.id,
-      lines: node.positionTicks.map(({ line, ticks }) => ({
+      frame: id,
+      lines: positionTicks.map(({ line, ticks }) => ({
         line,
         count: ticks,
-        values: [Math.round((selfTime * ticks) / node.hitCount)],
+        values: [Math.round((selfTime * ticks) / hitCount)],
       })),
     }
+  }
+  if (skippedTicks > 0) {
+    recordTally.skipped(`position tick`, `on a node with no hits`, skippedTicks)
   }
 }
