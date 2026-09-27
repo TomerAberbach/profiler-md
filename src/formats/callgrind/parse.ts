@@ -619,21 +619,15 @@ const mapValues = <K>(map: Map<K, number[]>, key: K): number[] => {
   return values
 }
 
-/**
- * Maps the file's `creator:` header to a registered origin: Valgrind's
- * callgrind tool writes `callgrind-<version>` and rbspy writes `rbspy`. The
- * writers' entries lack origin-level markers. A native frame from Valgrind
- * looks like one from any other native profiler, and a pure-Ruby rbspy capture
- * has no `[c function]` frame. The header's self-identification becomes the
- * origin hint instead.
- */
 const creatorOriginHint = (creator: string | undefined): string | undefined => {
   if (creator === undefined) {
     return undefined
   }
+  // A native frame from Valgrind looks like one from any other native profiler.
   if (creator.startsWith(`callgrind`)) {
     return `valgrind`
   }
+  // A pure-Ruby rbspy capture has no `[c function]` marker frame.
   if (creator === `rbspy`) {
     return `rbspy`
   }
