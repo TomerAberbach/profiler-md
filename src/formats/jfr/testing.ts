@@ -86,10 +86,7 @@ const LIVE_OBJECT = 28
 /** A class id used for a field whose type the metadata never declares. */
 const UNKNOWN_FIELD_CLASS = 901
 
-/**
- * Structural defects for parser-robustness tests, all expressed as undeclared
- * type references the parser must recover from.
- */
+/** Structural defects for parser-robustness tests. */
 type JfrMalformations = {
   /**
    * Constant pool type ids the metadata never declares, each emitted as an
@@ -102,6 +99,18 @@ type JfrMalformations = {
    * type, making their events unreadable.
    */
   unreadableEventTypes?: string[]
+
+  /**
+   * Stack trace indexes whose frame count claims one more frame than is
+   * written, running past the end of the constant pool event.
+   */
+  overlongStackTraces?: number[]
+
+  /** Appends a symbol pool entry whose string has an unknown encoding. */
+  unknownStringEncoding?: boolean
+
+  /** Bytes appended to the chunk after its last event. */
+  trailingBytes?: number[]
 }
 
 export type JfrTestInput = {
@@ -127,7 +136,13 @@ export const makeJfr = ({
   methods,
   stackTraces,
   events,
-  malformations: { emptyUnknownPools = [], unreadableEventTypes = [] } = {},
+  malformations: {
+    emptyUnknownPools = [],
+    unreadableEventTypes = [],
+    overlongStackTraces = [],
+    unknownStringEncoding = false,
+    trailingBytes = [],
+  } = {},
   eventTypesWithoutWeightField = [],
   unrecognizedFrameLayout = false,
 }: JfrTestInput): Uint8Array => {
@@ -179,10 +194,14 @@ export const makeJfr = ({
   }
 
   pool.varint(SYMBOL)
-  pool.varint(symbolKeys.size)
+  pool.varint(symbolKeys.size + (unknownStringEncoding ? 1 : 0))
   for (const [string, key] of symbolKeys) {
     pool.varint(key)
     pool.string(string)
+  }
+  if (unknownStringEncoding) {
+    pool.varint(symbolKeys.size + 1)
+    pool.byte(9) // Encoding
   }
 
   pool.varint(CLASS)
@@ -205,7 +224,7 @@ export const makeJfr = ({
   pool.varint(stackTraces.length)
   for (const [index, { frames }] of stackTraces.entries()) {
     pool.varint(index + 1)
-    pool.varint(frames.length)
+    pool.varint(frames.length + (overlongStackTraces.includes(index) ? 1 : 0))
     for (const { method, line } of frames) {
       pool.varint(method + 1) // Method key
       // Line number, or -1 (as an unsigned 32-bit int) when unknown.
@@ -285,6 +304,7 @@ export const makeJfr = ({
     metadata.toBytes(),
     constantPool.toBytes(),
     ...eventWriters.map(writer => writer.toBytes()),
+    Uint8Array.from(trailingBytes),
   ]
   const bodyLength = bodyParts.reduce((sum, part) => sum + part.length, 0)
 
