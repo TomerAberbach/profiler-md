@@ -4,10 +4,10 @@
 #
 #   JVM_LANGUAGE      the generated-input filename prefix (e.g. `java`)
 #   JVM_WORKLOAD      the notice phrase naming the workload (e.g. `Renaissance`)
-#   run_jvm_workload  runs the workload once; $1 is a JVM arg to pass through
-#                     (the agent or StartFlightRecording option) and $2 the
-#                     capture config, for workloads that shrink high-volume
-#                     configs like nativemem
+#   run_jvm_workload  runs the workload once. $1 is a JVM arg to pass through
+#                     (the agent or StartFlightRecording option). $2 and $3 are
+#                     the capture config and the input's extension, for
+#                     workloads that shrink high-volume captures like nativemem
 #
 # and calls `emit_jvm_captures` followed by `verify_pairs`. A workload that also
 # captures a heap dump sets:
@@ -30,7 +30,7 @@ ensure_ap_lib() {
   ap_lib="$lib"
 }
 
-declare -A AP_JFR_EVENT=(
+declare -A AP_EVENT=(
   [cpu]="event=cpu"
   [wall]="event=wall"
   [alloc]="event=alloc"
@@ -61,26 +61,25 @@ capture_ap_jfr() {
   local out=$1 role=$2 cfg=$3 event_spec=$4
   ensure_ap_lib || return 1
   notice "Profiling $JVM_WORKLOAD using async-profiler JFR ($role, $event_spec)"
-  run_jvm_workload "-agentpath:$ap_lib=start,$event_spec,file=$out,jfr" "$cfg"
+  run_jvm_workload "-agentpath:$ap_lib=start,$event_spec,file=$out,jfr" "$cfg" jfr
 }
 
-# capture_fn for emit: $1=out  $2=role
+# The collapsed format holds one event type, so each config records one.
+declare -A AP_COLLAPSED_OPTS=(
+  [cpu]="event=cpu"
+  [alloc]="event=alloc"
+  [cpu-threads-ann-sig]="event=cpu,threads,ann,sig"
+  [cpu-dot]="event=cpu,dot"
+  [alloc-dot]="event=alloc,dot"
+)
+AP_COLLAPSED_CONFIGS=(cpu alloc cpu-threads-ann-sig cpu-dot alloc-dot)
+
+# capture_fn for emit: $1=out  $2=role  $3=config  $4=agent options
 capture_ap_collapsed() {
-  local out=$1 role=$2
+  local out=$1 role=$2 cfg=$3 opts=$4
   ensure_ap_lib || return 1
-  notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($role, event=cpu)"
-  run_jvm_workload "-agentpath:$ap_lib=start,event=cpu,file=$out,collapsed" cpu
-}
-
-# capture_fn for emit: $1=out  $2=role
-#   The options that change how async-profiler writes a collapsed frame:
-#   `threads` roots each stack at its thread's name and id, `ann` suffixes Java
-#   frames with how they were compiled, and `sig` appends method signatures.
-capture_ap_collapsed_annotated() {
-  local out=$1 role=$2
-  ensure_ap_lib || return 1
-  notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($role, event=cpu,threads,ann,sig)"
-  run_jvm_workload "-agentpath:$ap_lib=start,event=cpu,threads,ann,sig,file=$out,collapsed" cpu-threads-ann-sig
+  notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($role, $opts)"
+  run_jvm_workload "-agentpath:$ap_lib=start,$opts,file=$out,collapsed" "$cfg" collapsed
 }
 
 # The JVMs running now, one PID per line, excluding the `jcmd` process listing
@@ -103,7 +102,7 @@ capture_jdk_heap_dump() {
   local warmup=${JVM_HEAP_DUMP_WARMUP:-15}
   notice "Dumping $JVM_WORKLOAD's heap using jcmd ($role)"
   before="$(jvm_pids)"
-  run_jvm_workload "-XX:+UsePerfData" heap &
+  run_jvm_workload "-XX:+UsePerfData" heap hprof &
   workload_pid=$!
 
   while ((waited < HEAP_DUMP_STARTUP_TIMEOUT)); do
@@ -142,7 +141,7 @@ capture_jdk_heap_dump() {
 capture_jdk_jfr() {
   local out=$1 role=$2 cfg=$3 extra=$4
   notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($role, $extra)"
-  run_jvm_workload "-XX:StartFlightRecording=filename=$out,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg"
+  run_jvm_workload "-XX:StartFlightRecording=filename=$out,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg" jfr
 }
 
 emit_jvm_captures() {
@@ -150,13 +149,13 @@ emit_jvm_captures() {
   for role in base current; do
     for cfg in "${AP_JFR_CONFIGS[@]}"; do
       out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$role.jfr"
-      try emit "$out" capture_ap_jfr "$role" "$cfg" "${AP_JFR_EVENT[$cfg]}"
+      try emit "$out" capture_ap_jfr "$role" "$cfg" "${AP_EVENT[$cfg]}"
     done
 
-    try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.cpu.$role.collapsed" \
-      capture_ap_collapsed "$role"
-    try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.cpu-threads-ann-sig.$role.collapsed" \
-      capture_ap_collapsed_annotated "$role"
+    for cfg in "${AP_COLLAPSED_CONFIGS[@]}"; do
+      out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$role.collapsed"
+      try emit "$out" capture_ap_collapsed "$role" "$cfg" "${AP_COLLAPSED_OPTS[$cfg]}"
+    done
 
     for cfg in "${JDK_JFR_CONFIGS[@]}"; do
       out="$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$cfg.$role.jfr"

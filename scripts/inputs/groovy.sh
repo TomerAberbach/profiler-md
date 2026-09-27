@@ -45,18 +45,20 @@ ensure_spock() {
 # -failOn stays unset, so CodeNarc exits 0 despite the thousands of violations
 # it reports on Spock.
 #
-# The nativemem and cpu-threads-ann-sig configs analyze one small module with
-# one ruleset to keep the output under the 100 MB input size limit. The nativemem capture records every
-# malloc/free, and even CodeNarc's startup (loading its ~350 rule classes and
-# the Groovy runtime) emits ~80 MB of events. The cpu-threads-ann-sig capture
-# roots each stack at its thread and appends method signatures, which
-# multiplies CodeNarc's distinct stacks.
+# The nativemem, cpu-threads-ann-sig, and collapsed alloc captures analyze one
+# small module with one ruleset to keep the output under the 100 MB input size
+# limit. The nativemem capture records every malloc/free, and even CodeNarc's
+# startup (loading its ~350 rule classes and the Groovy runtime) emits ~80 MB of
+# events. The cpu-threads-ann-sig capture roots each stack at its thread and
+# appends method signatures, multiplying CodeNarc's distinct stacks. A full
+# collapsed alloc capture writes ~585 MB.
 run_jvm_workload() {
-  local jvm_arg=$1 cfg=$2 includes rulesets
+  local jvm_arg=$1 cfg=$2 ext=$3 includes rulesets
   fetch_asset "CodeNarc $CODENARC_VERSION all jar" \
     "$CODENARC_URL" "$CODENARC_SHA256" "$CODENARC_JAR" || return 1
   ensure_spock || return 1
-  if [[ "$cfg" == nativemem || "$cfg" == cpu-threads-ann-sig ]]; then
+  if [[ "$cfg" == nativemem || "$cfg" == cpu-threads-ann-sig \
+    || ("$cfg" == alloc* && "$ext" == collapsed) ]]; then
     includes='spock-core/**/*.groovy'
     rulesets=rulesets/basic.xml
   else
