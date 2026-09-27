@@ -7,7 +7,7 @@ import {
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import { categoryTables, rankingTables } from '../../../testing.ts'
+import { categoryTables, expectLogs, rankingTables } from '../../../testing.ts'
 import { diffProfiles } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
@@ -907,5 +907,110 @@ describe(`convert`, () => {
     expect(largestStringsTables(md)).toEqual([
       [{ '%': `37.5%`, Size: `120 B`, Value: `(module)`, Path: `(GC root)` }],
     ])
+  })
+})
+
+describe(`malformed snapshots`, () => {
+  // A synthetic root retaining one object.
+  const makeSnapshot = ({
+    toNode = 6,
+    rootEdgeCount = 1,
+  }: { toNode?: number; rootEdgeCount?: number } = {}) =>
+    makeV8Snapshot({
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: rootEdgeCount,
+        }),
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 1,
+          id: 2,
+          selfSize: 16,
+          edgeCount: 0,
+        }),
+      ],
+      edges: makeV8Edge({ type: EDGE_TYPE_ELEMENT, nameOrIndex: 0, toNode }),
+      strings: [``, `Foo`],
+      nodeCount: 2,
+      edgeCount: 1,
+    })
+  const convert = (snapshot: unknown) =>
+    convertJsonToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+  test(`reads the node and edge counts from the arrays`, () => {
+    const snapshot = makeSnapshot()
+    const { node_count: _, edge_count: __, ...rest } = snapshot.snapshot
+
+    expect(convert({ ...snapshot, snapshot: rest })).toBe(
+      convert(makeSnapshot()),
+    )
+  })
+
+  test(`rejects a meta without self_size`, () => {
+    const snapshot = makeSnapshot()
+    snapshot.snapshot.meta.node_fields = snapshot.snapshot.meta.node_fields.map(
+      field => (field === `self_size` ? `size` : field),
+    )
+
+    expect(() => convert(snapshot)).toThrow(
+      `meta lacks the self_size node field`,
+    )
+  })
+
+  test.each([
+    { case: `past the nodes`, toNode: 600 },
+    { case: `inside a node`, toNode: 7 },
+  ])(`skips an edge pointing $case, with a warning`, ({ toNode }) => {
+    const md = convert(makeSnapshot({ toNode }))
+
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `Object`, '%': `100.0%`, Size: `16 B`, Nodes: `1` },
+        { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+      ],
+    ])
+    expect(selfSizeTables(md)).toEqual([
+      [{ '%': `100.0%`, Size: `16 B`, Instances: `1`, Constructor: `Foo` }],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: bun, node, chrome, profile-jl`,
+      `info: fallback origin: chrome`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 edge pointing at no node`,
+    ])
+  })
+
+  test(`rejects nodes cut short within a node`, () => {
+    const snapshot = makeSnapshot()
+    snapshot.nodes.pop()
+    const nodeFieldCount = snapshot.snapshot.meta.node_fields.length
+
+    expect(() => convert(snapshot)).toThrow(
+      `nodes length is not a multiple of the ${nodeFieldCount} node fields, got: ${2 * nodeFieldCount - 1}`,
+    )
+  })
+
+  test(`rejects edges cut short within an edge`, () => {
+    const snapshot = makeSnapshot()
+    snapshot.edges.pop()
+    const edgeFieldCount = snapshot.snapshot.meta.edge_fields.length
+
+    expect(() => convert(snapshot)).toThrow(
+      `edges length is not a multiple of the ${edgeFieldCount} edge fields, got: ${edgeFieldCount - 1}`,
+    )
+  })
+
+  test(`rejects edge counts that don't sum to the edges`, () => {
+    expect(() => convert(makeSnapshot({ rootEdgeCount: 0 }))).toThrow(
+      `the nodes' edge counts sum to 0 edges, got: 1`,
+    )
   })
 })

@@ -17,5 +17,6 @@ export const v8HeapSnapshotConverter = {
   fallbackOrigin: `chrome`,
   type: `json`,
   matches: matchesV8HeapSnapshot,
-  parse: json => parseV8HeapSnapshot(json as V8HeapSnapshot),
+  parse: (json, recordTally) =>
+    parseV8HeapSnapshot(json as V8HeapSnapshot, recordTally),
 } as const satisfies JsonFormatConverter
