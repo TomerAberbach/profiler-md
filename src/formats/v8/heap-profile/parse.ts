@@ -3,6 +3,8 @@ import type {
   Observation,
 } from '../../../modalities/call-stack-profile/index.ts'
 import { BYTES_METRIC, SAMPLES } from '../../../modalities/metrics.ts'
+import type { RecordTally } from '../../converter.ts'
+import { FormatParseError } from '../../error.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -49,7 +51,13 @@ type V8HeapProfileSample = {
 
 export const parseV8HeapProfile = (
   profile: V8HeapProfile,
+  recordTally: RecordTally,
 ): CallStackProfile[] => {
+  // The observations read the samples lazily, after auto-detection has moved
+  // on.
+  if (!Array.isArray(profile.samples)) {
+    throw new FormatParseError(`samples must be an array`)
+  }
   const { flatNodes, idToIndex, indexToParentIndex } = flattenCallTree(profile)
   const frames = flatNodes.map(nodeToStackFrame)
 
@@ -59,7 +67,12 @@ export const parseV8HeapProfile = (
       frames,
       metrics: [BYTES_METRIC],
       countMetric: SAMPLES,
-      observations: heapObservations(profile, idToIndex, indexToParentIndex),
+      observations: heapObservations(
+        profile,
+        idToIndex,
+        indexToParentIndex,
+        recordTally,
+      ),
     },
   ]
 }
@@ -134,11 +147,18 @@ function* heapObservations(
   profile: V8HeapProfile,
   idToIndex: number[],
   indexToParentIndex: number[],
+  recordTally: RecordTally,
 ): Iterable<Observation> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
+  let skippedSamples = 0
   for (const { size, nodeId } of profile.samples) {
+    // Node's `--heap-prof` writes a sample whose node the call tree omits.
     const nodeIndex = idToIndex[nodeId]
     if (nodeIndex === undefined) {
+      continue
+    }
+    if (typeof size !== `number`) {
+      skippedSamples++
       continue
     }
 
@@ -149,5 +169,8 @@ function* heapObservations(
       values: [size],
       frameIndices: resolveFrameIndices(nodeIndex),
     }
+  }
+  if (skippedSamples > 0) {
+    recordTally.skipped(`sample`, `without a size`, skippedSamples)
   }
 }

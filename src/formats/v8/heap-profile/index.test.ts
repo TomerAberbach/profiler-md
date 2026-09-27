@@ -7,7 +7,7 @@ import {
   defaultShowEntry,
   normalizeProfileToMdOptions,
 } from '../../../options.ts'
-import { callersTables, categoryTables } from '../../../testing.ts'
+import { callersTables, categoryTables, expectLogs } from '../../../testing.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapProfileConverter } from './index.ts'
 import { makeV8HeapProfileRoot } from './testing.ts'
@@ -679,6 +679,49 @@ describe(`options`, () => {
         { Category: `Third-party`, '%': `83.3%`, Size: `500 B`, Samples: `3` },
         { Category: `Ours`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
       ],
+    ])
+  })
+})
+
+describe(`malformed profiles`, () => {
+  test(`rejects samples that aren't an array`, () => {
+    expect(() =>
+      convertJsonToMd(
+        v8HeapProfileConverter,
+        { head: makeV8HeapProfileRoot([]), samples: `abc` },
+        normalizeProfileToMdOptions(),
+      ),
+    ).toThrow(`samples must be an array`)
+  })
+
+  test(`skips a sample without a size, with a warning`, () => {
+    const profile = {
+      ...structuredClone(baseProfile),
+      samples: [...baseProfile.samples, { nodeId: 2, ordinal: 5 }],
+    }
+
+    const md = convertJsonToMd(
+      v8HeapProfileConverter,
+      profile,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(md).toBe(
+      convertJsonToMd(
+        v8HeapProfileConverter,
+        structuredClone(baseProfile),
+        normalizeProfileToMdOptions({ baseURL: `/project` }),
+      ),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: node, chrome`,
+      `info: detected origin: node`,
+      `debug: node is marked by the entry readFileSync in node:fs`,
+    ]
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 sample without a size`,
+      ...originLogs,
     ])
   })
 })

@@ -13,5 +13,6 @@ export const v8HeapProfileConverter = {
   fallbackOrigin: `chrome`,
   type: `json`,
   matches: matchesV8HeapProfile,
-  parse: json => parseV8HeapProfile(json as V8HeapProfile),
+  parse: (json, recordTally) =>
+    parseV8HeapProfile(json as V8HeapProfile, recordTally),
 } as const satisfies JsonFormatConverter
