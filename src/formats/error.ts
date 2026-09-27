@@ -1,4 +1,5 @@
-import { ProfilerMdError } from '../error.ts'
+import { messageOf, ProfilerMdError } from '../error.ts'
+import type { FormatConverter } from './converter.ts'
 
 /**
  * Thrown by a converter's parse when the input isn't a valid instance of its
@@ -31,6 +32,26 @@ export class FormatRejectionError extends ProfilerMdError {
     this.format = format
   }
 }
+
+/**
+ * Wraps the error a parse threw as the format's rejection, with the message
+ * `<format>: <reason>`.
+ *
+ * A {@link FormatParseError}'s message states the violation the parser
+ * identified. The parser did not classify any other error, so the reason is
+ * `failed to parse the input`, and the error itself is the cause.
+ */
+export const toFormatRejectionError = (
+  converter: FormatConverter,
+  error: unknown,
+): FormatRejectionError =>
+  new FormatRejectionError(
+    converter.format,
+    error instanceof FormatParseError
+      ? messageOf(error)
+      : `failed to parse the input`,
+    { cause: error },
+  )
 
 /**
  * Thrown when auto-detection resolves no format.

@@ -17,7 +17,7 @@ import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
 } from '../options.ts'
-import { aggregateParsedInputs, makeContext } from './aggregate.ts'
+import { aggregateParseResult, makeContext } from './aggregate.ts'
 import {
   withBufferedDecompressedAsync,
   withDecompressed,
@@ -142,10 +142,10 @@ const aggregateNormalizedInput = (
     logFormat(format, `specified`, options)
 
     const converter = formatToConverter[format]
-    const parsed = withDecompressed(data, decompressed =>
+    const result = withDecompressed(data, decompressed =>
       parseAsFormat(converter, decompressed),
     )
-    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
+    return aggregateParseResult(result, options, makeContext(format, origin))
   }
 
   const detected = withDecompressed(data, decompressed =>
@@ -153,8 +153,8 @@ const aggregateNormalizedInput = (
   )
   logFormat(detected.format, `detected`, options)
 
-  return aggregateParsedInputs(
-    detected.parsed,
+  return aggregateParseResult(
+    detected,
     options,
     makeContext(detected.format, origin),
   )
@@ -184,10 +184,10 @@ const aggregateNormalizedInputAsync = async (
     logFormat(format, `specified`, options)
 
     const converter = formatToConverter[format]
-    const parsed = await withDecompressedAsync(data, decompressed =>
+    const result = await withDecompressedAsync(data, decompressed =>
       parseAsFormatAsync(converter, decompressed),
     )
-    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
+    return aggregateParseResult(result, options, makeContext(format, origin))
   }
 
   // Detection reads the data several times.
@@ -196,8 +196,8 @@ const aggregateNormalizedInputAsync = async (
   )
   logFormat(detected.format, `detected`, options)
 
-  return aggregateParsedInputs(
-    detected.parsed,
+  return aggregateParseResult(
+    detected,
     options,
     makeContext(detected.format, origin),
   )

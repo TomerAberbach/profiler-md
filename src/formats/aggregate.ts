@@ -11,16 +11,19 @@ import type {
 } from '../options.ts'
 import { OriginDetector } from '../origins/index.ts'
 import type { Origin, OriginEvidence } from '../origins/index.ts'
-import type { AggregatedInput, ParsedInput } from './converter.ts'
+import type { AggregatedInput } from './converter.ts'
+import type { ParseResult } from './parse.ts'
 import type { Format } from './registry.ts'
 
 /**
- * Aggregates each parsed input through its modality's uniform pipeline.
+ * Aggregates each parsed input through its modality's uniform pipeline, then
+ * rejects the input if the parse left it with no records, or warns about what
+ * the parse skipped.
  *
  * The origin is detected once across all inputs.
  */
-export const aggregateParsedInputs = (
-  parsed: ParsedInput[],
+export const aggregateParseResult = (
+  { parsed, recordTally }: ParseResult,
   options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] => {
@@ -49,9 +52,11 @@ export const aggregateParsedInputs = (
   if (aggregators.length > 0) {
     logOrigin(detector, resolvedContext, options)
   }
-  return aggregators.map(aggregator =>
+  const aggregated = aggregators.map(aggregator =>
     aggregator.aggregate(options, resolvedContext),
   )
+  recordTally.throwOrWarn(options)
+  return aggregated
 }
 
 const logOrigin = (

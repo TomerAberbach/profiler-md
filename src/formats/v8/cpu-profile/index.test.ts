@@ -7,10 +7,18 @@ import {
   defaultShowEntry,
   normalizeProfileToMdOptions,
 } from '../../../options.ts'
-import { callersTables, categoryTables, linesTables } from '../../../testing.ts'
+import {
+  callersTables,
+  categoryTables,
+  expectLogs,
+  linesTables,
+  summaryLines,
+} from '../../../testing.ts'
+import { profileToMd } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8CpuProfileConverter } from './index.ts'
-import { makeV8CpuProfileRoot } from './testing.ts'
+import type { V8CpuProfile } from './parse.ts'
+import { makeV8CallFrame, makeV8CpuProfileRoot } from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid profile`, () => {
@@ -637,5 +645,49 @@ describe(`options`, () => {
         { Category: `Ours`, '%': `25.0%`, Time: `0.1ms`, Samples: `1` },
       ],
     ])
+  })
+})
+
+describe(`samples referencing a missing node`, () => {
+  const makeProfile = (samples: number[]): V8CpuProfile => ({
+    nodes: [
+      makeV8CpuProfileRoot([2]),
+      {
+        id: 2,
+        hitCount: 1,
+        callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`),
+      },
+    ],
+    samples,
+    timeDeltas: samples.map(() => 5),
+  })
+
+  test(`are skipped with a warning`, () => {
+    const md = convertJsonToMd(
+      v8CpuProfileConverter,
+      makeProfile([2, 9, 9]),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 5.0µs over 1 sample (5.0µs per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: deno, bun, node, chrome`,
+      `info: fallback origin: chrome`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 samples referencing a missing node`,
+    ])
+  })
+
+  test(`reject a profile whose samples all reference one`, () => {
+    expect(() =>
+      profileToMd({
+        data: JSON.stringify(makeProfile([9, 9])),
+        format: `v8-cpu-profile`,
+      }),
+    ).toThrow(
+      `v8-cpu-profile: no usable records because the parser skipped 2 samples referencing a missing node`,
+    )
   })
 })

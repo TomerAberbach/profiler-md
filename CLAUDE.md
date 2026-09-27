@@ -34,6 +34,7 @@ profiler-md
 │   │   ├── registry.ts           # Format converter registry
 │   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
 │   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
+│   │   ├── record-tally.ts       # Counts what a parse skipped, then rejects an input with no records or warns
 │   │   ├── compression.ts        # Strips gzip and LZ4 by their magic bytes, and tries brotli last, using the runtime's decoders
 │   │   ├── compression.node.ts   # The `#compression` runtime a Node bundle resolves to (node:zlib)
 │   │   ├── compression.web.ts    # The `#compression` runtime every other bundle resolves to (DecompressionStream)
@@ -388,6 +389,12 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Parse a specified format to its spec, accepting every shape the spec allows.
   Add handling for a shape the spec forbids only when an input contains it, and
   name the emitter that writes it in a comment
+- Where a parser skips a record the spec forbids (e.g. a sample referencing a
+  missing node), or reaches the end of an input cut short, record it on the
+  `recordTally` argument of `parse` (`recordTally.skipped(...)`,
+  `recordTally.endsBefore(...)`). The pipeline rejects an input with no records
+  and something recorded, and otherwise warns once per reason. NEVER record a
+  record the spec allows
 - NEVER index into a plain object with profile-derived strings (e.g. frame
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`

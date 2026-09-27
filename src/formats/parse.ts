@@ -1,9 +1,15 @@
 import { JumboJSON } from 'jumbo-json'
-import { messageOf } from '../error.ts'
 import { classifyStreamFailures, concatUint8Arrays } from '../helpers/bytes.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
-import type { FormatConverter, ParsedInput } from './converter.ts'
-import { FormatParseError, FormatRejectionError } from './error.ts'
+import type { FormatConverter, ParsedInput, RecordTally } from './converter.ts'
+import { FormatParseError, toFormatRejectionError } from './error.ts'
+import type { FormatRejectionError } from './error.ts'
+import { RecordTallyCounts } from './record-tally.ts'
+
+export type ParseResult = {
+  parsed: ParsedInput[]
+  recordTally: RecordTallyCounts
+}
 
 /**
  * Parses the input as the format the caller specified, reporting a failure as
@@ -15,20 +21,21 @@ import { FormatParseError, FormatRejectionError } from './error.ts'
 export const parseAsFormat = (
   converter: FormatConverter,
   data: ProfileData,
-): ParsedInput[] => {
+): ParseResult => {
   if (converter.type === `binary`) {
     const bytes = dataToBytes(data)
     try {
-      return classifyLazyParseFailures(converter, converter.parse(bytes))
+      return runParse(converter, recordTally =>
+        converter.parse(bytes, recordTally),
+      )
     } catch (error: unknown) {
       throw toFormatRejectionError(converter, error)
     }
   }
 
   try {
-    return classifyLazyParseFailures(
-      converter,
-      converter.parse(parseJson(data)),
+    return runParse(converter, recordTally =>
+      converter.parse(parseJson(data), recordTally),
     )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)
@@ -39,13 +46,15 @@ export const parseAsFormat = (
 export const parseAsFormatAsync = async (
   converter: FormatConverter,
   data: AsyncProfileData,
-): Promise<ParsedInput[]> => {
+): Promise<ParseResult> => {
   try {
-    return classifyLazyParseFailures(
-      converter,
+    return await runParseAsync(converter, async recordTally =>
       converter.type === `json`
-        ? converter.parse(await parseJsonAsync(data))
-        : await converter.parseAsync(guardStreamReads(dataToStream(data))),
+        ? converter.parse(await parseJsonAsync(data), recordTally)
+        : converter.parseAsync(
+            guardStreamReads(dataToStream(data)),
+            recordTally,
+          ),
     )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)
@@ -53,17 +62,38 @@ export const parseAsFormatAsync = async (
   }
 }
 
+export const runParse = (
+  converter: FormatConverter,
+  parse: (recordTally: RecordTally) => ParsedInput[],
+): ParseResult => {
+  const recordTally = new RecordTallyCounts(converter)
+  return {
+    parsed: wrapParsedInputs(converter, parse(recordTally), recordTally),
+    recordTally,
+  }
+}
+
+export const runParseAsync = async (
+  converter: FormatConverter,
+  parse: (recordTally: RecordTally) => Promise<ParsedInput[]>,
+): Promise<ParseResult> => {
+  const recordTally = new RecordTallyCounts(converter)
+  return {
+    parsed: wrapParsedInputs(converter, await parse(recordTally), recordTally),
+    recordTally,
+  }
+}
+
 /**
  * Wraps each lazily consumed iterable of the parsed inputs, so an error the
  * parser throws while aggregation consumes it is classified the same way as
- * one it throws before returning.
- *
- * The wrapper is a plain iterator object, because a delegating generator costs
- * more per item.
+ * one it throws before returning, and sets
+ * {@link RecordTallyCounts.hasRecords} once the parsed inputs produce a record.
  */
-export const classifyLazyParseFailures = (
+const wrapParsedInputs = (
   converter: FormatConverter,
   parsed: ParsedInput[],
+  recordTally: RecordTallyCounts,
 ): ParsedInput[] => {
   const toError = (error: unknown): FormatRejectionError =>
     toFormatRejectionError(converter, error)
@@ -72,32 +102,45 @@ export const classifyLazyParseFailures = (
       case `call-stack-profile`:
         return {
           ...input,
-          observations: classifyIterableFailures(input.observations, toError),
+          observations: classifyFailuresAndTally(
+            input.observations,
+            toError,
+            recordTally,
+          ),
           ...(input.lineMetrics && {
-            lineMetrics: classifyIterableFailures(input.lineMetrics, toError),
+            lineMetrics: classifyFailuresAndTally(input.lineMetrics, toError),
           }),
         }
       case `call-graph`:
+        if (input.functions.length > 0) {
+          recordTally.hasRecords = true
+        }
         return input
       case `heap-snapshot`:
         return {
           ...input,
-          nodes: classifyIterableFailures(input.nodes, toError),
+          nodes: classifyFailuresAndTally(input.nodes, toError, recordTally),
         }
     }
   })
 }
 
-const classifyIterableFailures = <Value>(
+// A plain iterator object, because a delegating generator costs more per item.
+const classifyFailuresAndTally = <Value>(
   iterable: Iterable<Value>,
   toError: (error: unknown) => Error,
+  recordTally?: RecordTallyCounts,
 ): Iterable<Value> => ({
   [Symbol.iterator]: () => {
     const iterator = iterable[Symbol.iterator]()
     return {
       next: () => {
         try {
-          return iterator.next()
+          const result = iterator.next()
+          if (recordTally && !result.done) {
+            recordTally.hasRecords = true
+          }
+          return result
         } catch (error: unknown) {
           throw toError(error)
         }
@@ -198,23 +241,3 @@ export const dataToBytes = (data: ProfileData): Uint8Array => {
 }
 
 let textEncoder: InstanceType<typeof TextEncoder> | undefined
-
-/**
- * Wraps the error a parse threw as the format's rejection, with the message
- * `<format>: <reason>`.
- *
- * A {@link FormatParseError}'s message states the violation the parser
- * identified. The parser did not classify any other error, so the reason is
- * `failed to parse the input`, and the error itself is the cause.
- */
-export const toFormatRejectionError = (
-  converter: FormatConverter,
-  error: unknown,
-): FormatRejectionError =>
-  new FormatRejectionError(
-    converter.format,
-    error instanceof FormatParseError
-      ? messageOf(error)
-      : `failed to parse the input`,
-    { cause: error },
-  )

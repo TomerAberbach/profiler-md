@@ -4,6 +4,7 @@ import type {
   ObservationLineMetrics,
 } from '../../../modalities/call-stack-profile/index.ts'
 import { MICROSECONDS_METRIC, SAMPLES } from '../../../modalities/metrics.ts'
+import type { RecordTally } from '../../converter.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -46,6 +47,7 @@ export type V8CpuProfileNode = {
 
 export const parseV8CpuProfile = (
   profile: V8CpuProfile,
+  recordTally: RecordTally,
 ): CallStackProfile[] => {
   const idToIndex = reindexNodes(profile)
   const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
@@ -69,6 +71,7 @@ export const parseV8CpuProfile = (
         idToIndex,
         indexToParentIndex,
         indexToSelfTime,
+        recordTally,
       ),
       lineMetrics: cpuLineMetrics(profile, indexToSelfTime),
     },
@@ -115,11 +118,14 @@ function* cpuObservations(
   idToIndex: number[],
   indexToParentIndex: Int32Array,
   indexToSelfTime: Float64Array,
+  recordTally: RecordTally,
 ): Iterable<Observation> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
+  let skippedSamples = 0
   for (let index = 0; index < profile.samples.length; index++) {
     const nodeIndex = idToIndex[profile.samples[index]!]
     if (nodeIndex === undefined) {
+      skippedSamples++
       continue
     }
 
@@ -133,6 +139,9 @@ function* cpuObservations(
       values: [timeDelta],
       frameIndices: resolveFrameIndices(nodeIndex),
     }
+  }
+  if (skippedSamples > 0) {
+    recordTally.skipped(`sample`, `referencing a missing node`, skippedSamples)
   }
 }
 

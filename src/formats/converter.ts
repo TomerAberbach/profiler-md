@@ -48,15 +48,37 @@ type FormatMeta = {
 }
 
 /**
+ * Records why a parse used only part of its input, so the pipeline warns about
+ * the partial result, or rejects an input that produced no records.
+ */
+export type RecordTally = {
+  /**
+   * Records that the parser skipped `count` records of `unit` (e.g. `sample`)
+   * for `reason`, a participle phrase (e.g. `referencing a missing node`).
+   */
+  skipped: (unit: string, reason: string, count?: number) => void
+
+  /**
+   * Records that the input ends before `missing` (e.g.
+   * `the end-of-data marker`), which a complete input contains.
+   */
+  endsBefore: (missing: string) => void
+}
+
+/**
  * Converts a format's input into its uniform {@link ParsedInput}s.
  *
  * Runs both when a user forces the format and during auto-detection (after
  * {@link Detect.matches} returns true), so it should accept any valid instance
  * and throw a `FormatParseError` on input that isn't this format, including
  * spec invariants only parsing can check.
+ *
+ * Record on `recordTally` only data the spec forbids or an input cut short, never
+ * a record the spec allows. The parsed inputs' lazy iterables may record on it
+ * too.
  */
 export type Parse<Input> = {
-  parse: (input: Input) => ParsedInput[]
+  parse: (input: Input, recordTally: RecordTally) => ParsedInput[]
 }
 
 /**
@@ -89,7 +111,10 @@ export type BinaryFormatConverter = FormatMeta &
      * incrementally; formats whose parser needs all bytes at once can buffer
      * the stream and delegate.
      */
-    parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<ParsedInput[]>
+    parseAsync: (
+      stream: ReadableStream<Uint8Array>,
+      recordTally: RecordTally,
+    ) => Promise<ParsedInput[]>
   } & Parse<Uint8Array>
 
 export type FormatConverter = JsonFormatConverter | BinaryFormatConverter

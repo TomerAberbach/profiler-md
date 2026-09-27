@@ -3,7 +3,7 @@ import path from 'node:path'
 import { expect, inject } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import { aggregateParsedInputs } from './aggregate.ts'
+import { aggregateParseResult } from './aggregate.ts'
 import type {
   BinaryFormatConverter,
   FormatConverter,
@@ -11,6 +11,8 @@ import type {
 } from './converter.ts'
 import { formatAggregatedInputs } from './format.ts'
 import type { Format } from './index.ts'
+import { runParse, runParseAsync } from './parse.ts'
+import type { ParseResult } from './parse.ts'
 
 declare module 'vitest' {
   // Module augmentation only merges through an interface.
@@ -88,13 +90,11 @@ export const convertJsonToMd = (
   // For ad-hoc converters not in the registry, whose format can't be derived.
   format?: Format,
 ): string =>
-  formatAggregatedInputs(
-    aggregateParsedInputs(
-      converter.parse(json),
-      options,
-      format ? { format, origin: null } : profileToMdContext(converter),
-    ),
+  convertParseResultToMd(
+    converter,
+    runParse(converter, recordTally => converter.parse(json, recordTally)),
     options,
+    format,
   )
 
 export const convertBytesToMd = (
@@ -102,12 +102,9 @@ export const convertBytesToMd = (
   bytes: Uint8Array,
   options: NormalizedProfileToMdOptions,
 ): string =>
-  formatAggregatedInputs(
-    aggregateParsedInputs(
-      converter.parse(bytes),
-      options,
-      profileToMdContext(converter),
-    ),
+  convertParseResultToMd(
+    converter,
+    runParse(converter, recordTally => converter.parse(bytes, recordTally)),
     options,
   )
 
@@ -116,11 +113,25 @@ export const convertToMdAsync = async (
   stream: ReadableStream<Uint8Array>,
   options: NormalizedProfileToMdOptions,
 ): Promise<string> =>
+  convertParseResultToMd(
+    converter,
+    await runParseAsync(converter, recordTally =>
+      converter.parseAsync(stream, recordTally),
+    ),
+    options,
+  )
+
+const convertParseResultToMd = (
+  converter: FormatConverter,
+  result: ParseResult,
+  options: NormalizedProfileToMdOptions,
+  format?: Format,
+): string =>
   formatAggregatedInputs(
-    aggregateParsedInputs(
-      await converter.parseAsync(stream),
+    aggregateParseResult(
+      result,
       options,
-      profileToMdContext(converter),
+      format ? { format, origin: null } : profileToMdContext(converter),
     ),
     options,
   )
