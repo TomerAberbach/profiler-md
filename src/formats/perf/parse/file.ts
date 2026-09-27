@@ -952,11 +952,6 @@ const FEATURE_COMPRESSED = 27
 /** The number of feature bits the header's flag words hold. */
 const FEATURE_COUNT = 256
 
-/**
- * Returns which profiler wrote a file declaring {@link features}, or
- * `undefined` when its sections are all ones Linux's `perf` defines and so name
- * no writer of their own.
- */
 const originHintOf = (
   features: ReadonlyMap<number, FileSection | undefined>,
 ): string | undefined =>

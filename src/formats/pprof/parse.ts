@@ -47,26 +47,19 @@ const makeStringReader = (profile: PprofProto): StringReader => {
   return index => strings[Number(index)] ?? ``
 }
 
-/**
- * Derives an origin hint from writer-level metadata:
- *
- * - `pprof` populates `drop_frames`/`keep_frames` when it converts a legacy
- *   profile (the binary CPU format and the text heap format gperftools writes)
- *   to the proto format, with fixed regexes matching gperftools' allocator and
- *   signal handler internals (`CpuProfiler::prof_handler`, `tcmalloc::*`).
- *   `jeprof` converts a jemalloc dump the same way, so it also resolves to
- *   gperftools unless the user specifies the origin
- * - `threadcreate` is a Go `runtime/pprof` profile type, and its samples' stacks
- *   are unsymbolized thread-spawn sites containing none of Go's frame markers
- */
 const pprofOriginHint = (
   profile: PprofProto,
   string: StringReader,
 ): string | undefined => {
   const frameFilters = `${string(profile.dropFrames)}\n${string(profile.keepFrames)}`
+  // `pprof` sets these filters when it converts a legacy gperftools profile to
+  // the proto format. `jeprof` converts a jemalloc dump the same way, so it
+  // also resolves to gperftools unless the user specifies the origin.
   if (GPERFTOOLS_FRAME_FILTER.test(frameFilters)) {
     return `gperftools`
   }
+  // A Go `threadcreate` profile's stacks are unsymbolized thread-spawn sites
+  // containing none of Go's frame markers.
   if (profile.sampleType.some(({ type }) => string(type) === `threadcreate`)) {
     return `go`
   }

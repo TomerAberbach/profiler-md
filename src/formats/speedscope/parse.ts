@@ -102,12 +102,6 @@ export const parseSpeedscope = (
   }))
 }
 
-/**
- * Maps a self-identifying {@link SpeedscopeProfile.exporter} to its origin.
- * dotnet-trace writes its exporting library with a version suffix (`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`), and py-spy and
- * rbspy write their names with an `@version` suffix (`py-spy@0.4.0`,
- * `rbspy@0.51.0`).
- */
 const exporterOriginHint = (
   exporter: string | undefined,
 ): string | undefined => {
@@ -120,6 +114,7 @@ const exporterOriginHint = (
   if (exporter === `pyinstrument`) {
     return `pyinstrument`
   }
+  // `dotnet-trace` writes the name of its exporting library, TraceEvent.
   if (exporter.startsWith(`Microsoft.Diagnostics.Tracing.TraceEvent`)) {
     return `dotnet-trace`
   }
