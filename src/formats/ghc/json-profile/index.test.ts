@@ -351,3 +351,31 @@ describe(`convert`, () => {
     ])
   })
 })
+
+describe(`malformed profiles`, () => {
+  const convert = (json: unknown) =>
+    convertJsonToMd(ghcJsonProfileConverter, json, options())
+
+  test(`rejects a profile without tick_interval`, () => {
+    const { tick_interval: _, ...profile } = makeGhcJsonProfile({
+      costCentres: COST_CENTRES,
+      profile: makeGhcProfileNode({ id: 1, ticks: 1 }),
+    })
+
+    expect(() => convert(profile)).toThrow(`tick_interval must be a number`)
+  })
+
+  test(`rejects a tree node id of constructor that no cost centre defines`, () => {
+    expect(() =>
+      convert(
+        makeGhcJsonProfile({
+          costCentres: COST_CENTRES,
+          profile: makeGhcProfileNode({
+            id: `constructor` as unknown as number,
+            ticks: 1,
+          }),
+        }),
+      ),
+    ).toThrow(`cost-centre stack references undefined cost centre constructor`)
+  })
+})
