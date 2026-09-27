@@ -20,7 +20,7 @@ import { toMarkdown } from 'mdast-util-to-markdown'
 // both, so only a lone `\r` needs it.
 export const text = (value: string): Text => ({
   type: `text`,
-  value: value.replaceAll(/\r(?!\n)/gu, ` `),
+  value: toControlPictures(value.replaceAll(/\r(?!\n)/gu, ` `)),
 })
 
 // Code spans render line endings as spaces, but a raw newline in the serialized
@@ -31,8 +31,21 @@ export const text = (value: string): Text => ({
 // break the pair with a space.
 export const inlineCode = (value: string): InlineCode => ({
   type: `inlineCode`,
-  value: value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
+  value: toControlPictures(
+    value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
+  ),
 })
+
+// A raw control character makes text tools treat the Markdown as binary, and
+// an escape character written to a terminal starts an escape sequence, so
+// replace each with its Unicode control picture (U+2400 to U+2421). Tabs and
+// line endings are text.
+const toControlPictures = (value: string): string =>
+  value.replaceAll(/[\0-\b\v\f\x0E-\x1F\x7F]/gu, char =>
+    char === `\x7F`
+      ? `\u2421`
+      : String.fromCodePoint(0x24_00 + char.codePointAt(0)!),
+  )
 
 export const heading = (
   depth: number,
