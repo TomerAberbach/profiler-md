@@ -414,11 +414,12 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   Add handling for a shape the spec forbids only when an input contains it, and
   name the emitter that writes it in a comment
 - Where a parser skips a record the spec forbids (e.g. a sample referencing a
-  missing node), or reaches the end of an input cut short, record it on the
-  `recordTally` argument of `parse` (`recordTally.skipped(...)`,
-  `recordTally.endsBefore(...)`). The pipeline rejects an input with no records
-  and something recorded, and otherwise warns once per reason. NEVER record a
-  record the spec allows
+  missing node) or a record of a part of the spec the parser doesn't support
+  (e.g. an event type or string encoding outside those it reads), or reaches the
+  end of an input cut short, record it on the `recordTally` argument of `parse`
+  (`recordTally.skipped(...)`, `recordTally.endsBefore(...)`). The pipeline
+  rejects an input with no records and something recorded, and otherwise warns
+  once per reason. NEVER record a record the parser reads
 - Count what the parser skips in a loop that already reads each record, either
   in `parse` or in a parsed input's lazy iterable, and record the total once
   after the loop. NEVER add a pass over the input only to tally it

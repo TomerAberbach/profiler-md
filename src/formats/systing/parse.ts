@@ -12,11 +12,15 @@ import {
   UNINTERRUPTIBLE_SLEEPS_METRIC,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
 import { parseJson } from '../parse.ts'
 
-export const parseSysting = (bytes: Uint8Array): CallStackProfile[] => {
-  const builder = new SystingProfileBuilder()
+export const parseSysting = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => {
+  const builder = new SystingProfileBuilder(recordTally)
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
   }
@@ -25,8 +29,9 @@ export const parseSysting = (bytes: Uint8Array): CallStackProfile[] => {
 
 export const parseSystingAsync = async (
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): Promise<CallStackProfile[]> => {
-  const builder = new SystingProfileBuilder()
+  const builder = new SystingProfileBuilder(recordTally)
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
   }
@@ -107,6 +112,7 @@ const eventTypeKinds = (
  * one frames array.
  */
 class SystingProfileBuilder {
+  readonly #recordTally: RecordTally
   readonly #frames: StackFrame[] = []
   /** Export frame id → index into the frames array. */
   readonly #frameIndices = new Map<number, number>()
@@ -117,6 +123,9 @@ class SystingProfileBuilder {
   #eventTypeKinds: ReadonlyMap<number, SystingEventKind> =
     DEFAULT_EVENT_TYPE_KINDS
 
+  #unknownTagRecordCount = 0
+  #unknownEventTypeSampleCount = 0
+
   /**
    * The CPU profile's metric and one CPU sample's metric values: the sample
    * period, so aggregate CPU time/cycles is period × sample count. Decided
@@ -126,6 +135,10 @@ class SystingProfileBuilder {
    */
   #cpuMetric: Metric | undefined
   #cpuValues: number[] = NO_VALUES
+
+  public constructor(recordTally: RecordTally) {
+    this.#recordTally = recordTally
+  }
 
   public addLine(line: string): void {
     if (line.length === 0) {
@@ -176,9 +189,14 @@ class SystingProfileBuilder {
       }
       // `p` (process) and `t` (thread) records go unused, because profiles
       // have no process or thread dimension to put them in. Every profile in
-      // the file comes from one recording. The format's versioning rules say
-      // to skip unknown tags, which are future record types.
+      // the file comes from one recording.
+      case `p`:
+      case `t`:
+        break
+      // The format's versioning rules say to skip unknown tags, which are
+      // future record types.
       default:
+        this.#unknownTagRecordCount++
         break
     }
   }
@@ -209,6 +227,7 @@ class SystingProfileBuilder {
     // An event type outside the legend's known names is a future stack event,
     // so skip its samples like unknown record tags.
     if (kind === undefined) {
+      this.#unknownEventTypeSampleCount += count
       return
     }
     const frameIndices = this.#stacks.get(stackId)
@@ -234,6 +253,20 @@ class SystingProfileBuilder {
   public build(): CallStackProfile[] {
     if (!this.#header) {
       throw new FormatParseError(`empty input`)
+    }
+    if (this.#unknownTagRecordCount > 0) {
+      this.#recordTally.skipped(
+        `record`,
+        `with an unknown tag`,
+        this.#unknownTagRecordCount,
+      )
+    }
+    if (this.#unknownEventTypeSampleCount > 0) {
+      this.#recordTally.skipped(
+        `sample`,
+        `of an unknown event type`,
+        this.#unknownEventTypeSampleCount,
+      )
     }
 
     const profiles: CallStackProfile[] = []

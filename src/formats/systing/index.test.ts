@@ -11,12 +11,17 @@ import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
   categoryTables,
+  expectLogs,
   linesTables,
   profileTitles,
   summaryLines,
 } from '../../testing.ts'
 import { FormatParseError } from '../error.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { systingConverter } from './index.ts'
 import { parseSysting } from './parse.ts'
 import { makeSysting, systingHeader } from './testing.ts'
@@ -60,11 +65,13 @@ describe(`matches`, () => {
     expect(() =>
       parseSysting(
         makeSysting([], { ...systingHeader, systing_profile_export: 2 }),
+        noopRecordTally,
       ),
     ).toThrow(`version 2`)
     expect(() =>
       parseSysting(
         makeSysting([], { ...systingHeader, systing_profile_export: 0 }),
+        noopRecordTally,
       ),
     ).toThrow(`version 0`)
   })
@@ -81,6 +88,7 @@ describe(`matches`, () => {
     expect(() =>
       parseSysting(
         makeSysting([], { ...systingHeader, stack_order: `root_first` }),
+        noopRecordTally,
       ),
     ).toThrow(`root_first`)
   })
@@ -97,7 +105,7 @@ describe(`matches`, () => {
   ])(`parse classifies $scenario as invalid JSON`, ({ input }) => {
     let thrown
     try {
-      parseSysting(new TextEncoder().encode(input))
+      parseSysting(new TextEncoder().encode(input), noopRecordTally)
     } catch (error: unknown) {
       thrown = error
     }
@@ -108,32 +116,21 @@ describe(`matches`, () => {
   })
 
   test(`parse rejects records that aren't arrays`, () => {
-    expect(() => parseSysting(makeSysting([{ frame: 0 }]))).toThrow(
-      `not an array`,
-    )
+    expect(() =>
+      parseSysting(makeSysting([{ frame: 0 }]), noopRecordTally),
+    ).toThrow(`not an array`)
   })
 
   test(`parse rejects a stack referencing an undefined frame`, () => {
-    expect(() => parseSysting(makeSysting([[`s`, 0, [7]]]))).toThrow(
-      `undefined frame 7`,
-    )
+    expect(() =>
+      parseSysting(makeSysting([[`s`, 0, [7]]]), noopRecordTally),
+    ).toThrow(`undefined frame 7`)
   })
 
   test(`parse rejects a sample referencing an undefined stack`, () => {
-    expect(() => parseSysting(makeSysting([[`x`, 1, 9, 1, 1]]))).toThrow(
-      `undefined stack 9`,
-    )
-  })
-
-  test(`parse skips unknown record tags per the format's versioning rules`, () => {
     expect(() =>
-      parseSysting(
-        makeSysting([
-          [`z`, `future record`],
-          [`f`, 0, `main`],
-        ]),
-      ),
-    ).not.toThrow()
+      parseSysting(makeSysting([[`x`, 1, 9, 1, 1]]), noopRecordTally),
+    ).toThrow(`undefined stack 9`)
   })
 })
 
@@ -418,7 +415,31 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`samples of unrecognized event types are skipped`, () => {
+  test(`unknown record tags are skipped per the format's versioning rules, with a warning`, () => {
+    const md = convertBytesToMd(
+      systingConverter,
+      makeSysting([
+        [`z`, `future record`],
+        [`f`, 0, `work (app) <0x1000>`],
+        [`z`, `future record`],
+        [`s`, 0, [0]],
+        [`x`, 1, 0, 1, 2],
+      ]),
+      options(),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 2.0ms over 2 samples (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: systing`,
+      `info: fallback origin: systing`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 records with an unknown tag`,
+    ])
+  })
+
+  test(`samples of unrecognized event types are skipped, with a warning`, () => {
     // A future event type in the legend follows the format's versioning
     // rules for unknown record tags.
     const md = convertBytesToMd(
@@ -441,6 +462,12 @@ describe(`convert`, () => {
     expect(profileTitles(md)).toEqual([`CPU profile`])
     expect(summaryLines(md)).toEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: systing`,
+      `info: fallback origin: systing`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 5 samples of an unknown event type`,
     ])
   })
 
