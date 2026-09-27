@@ -13,5 +13,6 @@ export const jscHeapSnapshotConverter = {
   fallbackOrigin: `safari`,
   type: `json`,
   matches: matchesJSCHeapSnapshot,
-  parse: json => parseJSCHeapSnapshot(json as JSCHeapSnapshot),
+  parse: (json, recordTally) =>
+    parseJSCHeapSnapshot(json as JSCHeapSnapshot, recordTally),
 } as const satisfies JsonFormatConverter

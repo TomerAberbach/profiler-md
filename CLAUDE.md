@@ -419,6 +419,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   `recordTally.endsBefore(...)`). The pipeline rejects an input with no records
   and something recorded, and otherwise warns once per reason. NEVER record a
   record the spec allows
+- Count what the parser skips in a loop that already reads each record, either
+  in `parse` or in a parsed input's lazy iterable, and record the total once
+  after the loop. NEVER add a pass over the input only to tally it
 - NEVER index into a plain object with profile-derived strings (e.g. frame
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
