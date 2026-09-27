@@ -77,9 +77,10 @@ const splitMethodDescriptor = (
 
 /**
  * The frame the `threads` option roots every stack at: the thread's name and
- * id, e.g. `[ForkJoinPool-1-worker-1 tid=35079]`.
+ * id, e.g. `[ForkJoinPool-1-worker-1 tid=35079]`, or the id alone for a thread
+ * without a name, e.g. `[tid=16387]`.
  */
-const THREAD_FRAME = /^\[.* tid=\d+\]$/u
+const THREAD_FRAME = /^\[(?:.* |)tid=\d+\]$/u
 
 /**
  * Whether a collapsed frame is the class an allocation, lock, or park event ends

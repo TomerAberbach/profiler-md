@@ -271,8 +271,6 @@ Functions with the largest increase in total samples taken in the function and a
 |  Change | Delta |             % |       Samples | Function                                                                                     | Location                                                  |
 | ------: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 |   +3.5% |   +38 | 20.5% → 23.2% | 1,088 → 1,126 | `accumulate`                                                                                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
-|     new |   +36 |   0.0% → 0.7% |        0 → 36 | `invokeStatic`                                                                               | `java.lang.invoke.LambdaForm$DMH.0x000000b001004800`      |
-|     new |   +36 |   0.0% → 0.7% |        0 → 36 | `invoke`                                                                                     | `java.lang.invoke.LambdaForm$MH.0x000000b001009800`       |
 |     new |   +10 |   0.0% → 0.2% |        0 → 10 | `G1FullGCPrepareTask::work`                                                                  | `<unknown>`                                               |
 |   +0.8% |    +9 | 21.7% → 23.9% | 1,153 → 1,162 | `helpJoin`                                                                                   | `java.util.concurrent.ForkJoinPool`                       |
 |  +19.1% |    +9 |   0.9% → 1.2% |       47 → 56 | `__psynch_cvsignal`                                                                          | `<unknown>`                                               |
@@ -284,6 +282,8 @@ Functions with the largest increase in total samples taken in the function and a
 | +500.0% |    +5 |  <0.1% → 0.1% |         1 → 6 | `combineResults`                                                                             | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`    |
 |  +13.3% |    +4 |   0.6% → 0.7% |       30 → 34 | `main`                                                                                       | `org.renaissance.harness.RenaissanceSuite$`               |
 |  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `main`                                                                                       | `org.renaissance.harness.RenaissanceSuite`                |
+|  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invokeStatic`                                                                               | `java.lang.invoke.LambdaForm$DMH.0x000000b001004800`      |
+|  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invoke`                                                                                     | `java.lang.invoke.LambdaForm$MH.0x000000b001009800`       |
 |  +11.8% |    +4 |   0.6% → 0.8% |       34 → 38 | `invokeExact_MT`                                                                             | `java.lang.invoke.Invokers$Holder`                        |
 |  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invokeImpl`                                                                                 | `jdk.internal.reflect.DirectMethodHandleAccessor`         |
 |  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invoke`                                                                                     | `jdk.internal.reflect.DirectMethodHandleAccessor`         |
@@ -345,10 +345,10 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |             % |       Samples | Function             | Location                                             |
 | ------: | ----: | ------------: | ------------: | -------------------- | ---------------------------------------------------- |
-|     new |   +36 |   0.0% → 0.7% |        0 → 36 | `invokeStatic`       | `java.lang.invoke.LambdaForm$DMH.0x000000b001004800` |
-|     new |   +36 |   0.0% → 0.7% |        0 → 36 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000b001009800`  |
 |   +0.8% |    +9 | 21.7% → 23.9% | 1,153 → 1,162 | `helpJoin`           | `java.util.concurrent.ForkJoinPool`                  |
 |  +75.0% |    +6 |   0.2% → 0.3% |        8 → 14 | `tryCompensate`      | `java.util.concurrent.ForkJoinPool`                  |
+|  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invokeStatic`       | `java.lang.invoke.LambdaForm$DMH.0x000000b001004800` |
+|  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000b001009800`  |
 |  +11.8% |    +4 |   0.6% → 0.8% |       34 → 38 | `invokeExact_MT`     | `java.lang.invoke.Invokers$Holder`                   |
 |  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invokeImpl`         | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
 |  +12.5% |    +4 |   0.6% → 0.7% |       32 → 36 | `invoke`             | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
@@ -476,28 +476,28 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |             % |       Samples | Function           | Location                                             |
-| ------: | ----: | ------------: | ------------: | ------------------ | ---------------------------------------------------- |
-|   -8.8% |  -446 | 94.9% → 94.7% | 5,045 → 4,599 | `run`              | `java.util.concurrent.ForkJoinWorkerThread`          |
-|   -8.8% |  -445 | 94.9% → 94.7% | 5,044 → 4,599 | `runWorker`        | `java.util.concurrent.ForkJoinPool`                  |
-|   -8.1% |  -364 | 84.7% → 85.1% | 4,500 → 4,136 | `join`             | `java.util.concurrent.ForkJoinTask`                  |
-|   -8.0% |  -362 | 84.7% → 85.2% | 4,499 → 4,137 | `awaitDone`        | `java.util.concurrent.ForkJoinTask`                  |
-|   -7.4% |  -345 | 87.8% → 88.9% | 4,665 → 4,320 | `doExec`           | `java.util.concurrent.ForkJoinTask`                  |
-|   -7.4% |  -345 | 88.0% → 89.2% | 4,676 → 4,331 | `scan`             | `java.util.concurrent.ForkJoinPool`                  |
-|   -7.4% |  -344 | 87.2% → 88.3% | 4,633 → 4,289 | `exec`             | `java.util.concurrent.RecursiveTask`                 |
-|   -7.4% |  -344 | 87.8% → 89.0% | 4,668 → 4,324 | `topLevelExec`     | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
-|   -7.8% |  -333 | 80.1% → 80.7% | 4,254 → 3,921 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue`        |
-|  -19.3% |  -164 | 16.0% → 14.1% |     850 → 686 | `park`             | `jdk.internal.misc.Unsafe`                           |
-|  -19.2% |  -159 | 15.6% → 13.8% |     830 → 671 | `park`             | `java.util.concurrent.locks.LockSupport`             |
-|  -27.0% |   -98 |   6.8% → 5.5% |     363 → 265 | `awaitWork`        | `java.util.concurrent.ForkJoinPool`                  |
-|   -8.1% |   -92 | 21.3% → 21.4% | 1,130 → 1,038 | `invoke`           | `java.util.concurrent.ForkJoinTask`                  |
-|  -14.7% |   -79 |  10.1% → 9.4% |     536 → 457 | `exec`             | `java.util.concurrent.ForkJoinTask$AdaptedCallable`  |
-|  -28.9% |   -61 |   4.0% → 3.1% |     211 → 150 | `computeIfAbsent`  | `java.util.HashMap`                                  |
-|  -14.0% |   -32 |   4.3% → 4.1% |     229 → 197 | `get`              | `java.util.ArrayList`                                |
-| removed |   -32 |   0.6% → 0.0% |        32 → 0 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x000000a001004800` |
-| removed |   -32 |   0.6% → 0.0% |        32 → 0 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x000000a001009800`  |
-|  -60.8% |   -31 |   1.0% → 0.4% |       51 → 20 | `hash`             | `java.util.HashMap`                                  |
-|  -16.5% |   -29 |   3.3% → 3.0% |     176 → 147 | `copyOf`           | `java.util.Arrays`                                   |
+| Change | Delta |             % |       Samples | Function           | Location                                            |
+| -----: | ----: | ------------: | ------------: | ------------------ | --------------------------------------------------- |
+|  -8.8% |  -446 | 94.9% → 94.7% | 5,045 → 4,599 | `run`              | `java.util.concurrent.ForkJoinWorkerThread`         |
+|  -8.8% |  -445 | 94.9% → 94.7% | 5,044 → 4,599 | `runWorker`        | `java.util.concurrent.ForkJoinPool`                 |
+|  -8.1% |  -364 | 84.7% → 85.1% | 4,500 → 4,136 | `join`             | `java.util.concurrent.ForkJoinTask`                 |
+|  -8.0% |  -362 | 84.7% → 85.2% | 4,499 → 4,137 | `awaitDone`        | `java.util.concurrent.ForkJoinTask`                 |
+|  -7.4% |  -345 | 87.8% → 88.9% | 4,665 → 4,320 | `doExec`           | `java.util.concurrent.ForkJoinTask`                 |
+|  -7.4% |  -345 | 88.0% → 89.2% | 4,676 → 4,331 | `scan`             | `java.util.concurrent.ForkJoinPool`                 |
+|  -7.4% |  -344 | 87.2% → 88.3% | 4,633 → 4,289 | `exec`             | `java.util.concurrent.RecursiveTask`                |
+|  -7.4% |  -344 | 87.8% → 89.0% | 4,668 → 4,324 | `topLevelExec`     | `java.util.concurrent.ForkJoinPool$WorkQueue`       |
+|  -7.8% |  -333 | 80.1% → 80.7% | 4,254 → 3,921 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue`       |
+| -19.3% |  -164 | 16.0% → 14.1% |     850 → 686 | `park`             | `jdk.internal.misc.Unsafe`                          |
+| -19.2% |  -159 | 15.6% → 13.8% |     830 → 671 | `park`             | `java.util.concurrent.locks.LockSupport`            |
+| -27.0% |   -98 |   6.8% → 5.5% |     363 → 265 | `awaitWork`        | `java.util.concurrent.ForkJoinPool`                 |
+|  -8.1% |   -92 | 21.3% → 21.4% | 1,130 → 1,038 | `invoke`           | `java.util.concurrent.ForkJoinTask`                 |
+| -14.7% |   -79 |  10.1% → 9.4% |     536 → 457 | `exec`             | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+| -28.9% |   -61 |   4.0% → 3.1% |     211 → 150 | `computeIfAbsent`  | `java.util.HashMap`                                 |
+| -14.0% |   -32 |   4.3% → 4.1% |     229 → 197 | `get`              | `java.util.ArrayList`                               |
+| -60.8% |   -31 |   1.0% → 0.4% |       51 → 20 | `hash`             | `java.util.HashMap`                                 |
+| -16.5% |   -29 |   3.3% → 3.0% |     176 → 147 | `copyOf`           | `java.util.Arrays`                                  |
+|  -9.1% |   -29 |          6.0% |     320 → 291 | `forEach`          | `java.util.HashMap`                                 |
+|  -8.9% |   -28 |          5.9% |     315 → 287 | `merge`            | `java.util.HashMap`                                 |
 
 ##### JIT
 

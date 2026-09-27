@@ -121,6 +121,42 @@ describe(`matchEntry`, () => {
     ).toEqual({ name: `JavaKMeans$$Lambda` })
   })
 
+  test.each([
+    {
+      location: `java.lang.invoke.LambdaForm$MH.0x000000e801031800`,
+      expected: `java.lang.invoke.LambdaForm$MH`,
+    },
+    {
+      location: `java.lang.invoke.LambdaForm$DMH.0x000000e801088800`,
+      expected: `java.lang.invoke.LambdaForm$DMH`,
+    },
+    {
+      location: `org.codehaus.groovy.reflection.CachedMethod$$InjectedInvoker.0x0000000401121000`,
+      expected: `org.codehaus.groovy.reflection.CachedMethod$$InjectedInvoker`,
+    },
+  ])(
+    `strips the runtime address from the $location hidden class`,
+    ({ location, expected }) => {
+      const entry = logicalEntry(`invoke(Object)`, location)
+
+      const match = matchEntryForOrigin(entry, `jdk`)
+
+      expect(match).toEqual({ location: expected })
+    },
+  )
+
+  test(`strips the random ID from an extracted jansi library`, () => {
+    expect(
+      matchEntryForOrigin(
+        logicalEntry(
+          `Java_org_fusesource_jansi_internal_CLibrary_init`,
+          `jansi-2.4.0-a2f0bf3ff9fce776-libjansi.jnilib`,
+        ),
+        `jdk`,
+      ),
+    ).toEqual({ location: `jansi-2.4.0-libjansi.jnilib` })
+  })
+
   test(`strips an adapter runtime address from the name`, () => {
     expect(
       matchEntryForOrigin(logicalEntry(`I2C/C2I adapters(0xba)`), `jdk`),

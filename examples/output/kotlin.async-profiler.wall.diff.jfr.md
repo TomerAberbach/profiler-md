@@ -227,8 +227,6 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |            % |   Samples | Function                                             | Location                                                                                                 |
 | ------: | ----: | -----------: | --------: | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-|     new |   +75 |  0.0% → 2.8% |    0 → 75 | `invokeStatic(Object, Object)`                       | `java.lang.invoke.LambdaForm$DMH.0x0000000701008400`                                                     |
-|     new |   +75 |  0.0% → 2.8% |    0 → 75 | `invoke(Object, Object, Object)`                     | `java.lang.invoke.LambdaForm$MH.0x0000000701009800`                                                      |
 |  +15.2% |   +15 |  3.6% → 4.2% |  99 → 114 | `C2Compiler::compile_method`                         | `libjvm.dylib`                                                                                           |
 |  +14.1% |   +14 |  3.6% → 4.2% |  99 → 113 | `Compile::Compile`                                   | `libjvm.dylib`                                                                                           |
 |  +50.0% |   +11 |  0.8% → 1.2% |   22 → 33 | `PhaseChaitin::Register_Allocate`                    | `libjvm.dylib`                                                                                           |
@@ -247,6 +245,8 @@ Functions with the largest increase in total samples taken in the function and a
 | +200.0% |    +4 |  0.1% → 0.2% |     2 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer`  |
 | +200.0% |    +4 |  0.1% → 0.2% |     2 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher` |
 | +200.0% |    +4 |  0.1% → 0.2% |     2 → 6 | `transformWhenBranch(FirWhenBranch, Object)`         | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher` |
+| +200.0% |    +4 |  0.1% → 0.2% |     2 → 6 | `transform(FirTransformer, Object)`                  | `org.jetbrains.kotlin.fir.expressions.FirWhenBranch`                                                     |
+| +200.0% |    +4 |  0.1% → 0.2% |     2 → 6 | `transformBranches(FirTransformer, Object)`          | `org.jetbrains.kotlin.fir.expressions.impl.FirWhenExpressionImpl`                                        |
 
 ##### Native
 
@@ -327,28 +327,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-|  Change | Delta |             % |       Samples | Function                                | Location                                             |
-| ------: | ----: | ------------: | ------------: | --------------------------------------- | ---------------------------------------------------- |
-| removed |   -75 |   2.8% → 0.0% |        75 → 0 | `invokeStatic(Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x000000f001008400` |
-| removed |   -75 |   2.8% → 0.0% |        75 → 0 | `invoke(Object, Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f001009800`  |
-|   -1.9% |   -25 | 47.7% → 47.3% | 1,299 → 1,274 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`                             |
-|   -1.0% |   -23 |         82.6% | 2,251 → 2,228 | `_pthread_start`                        | `libsystem_pthread.dylib`                            |
-|   -1.0% |   -23 |         82.6% | 2,251 → 2,228 | `thread_start`                          | `libsystem_pthread.dylib`                            |
-|   -2.2% |   -22 | 37.4% → 37.0% |   1,019 → 997 | `PlatformMonitor::wait`                 | `libjvm.dylib`                                       |
-|   -1.0% |   -22 | 79.1% → 79.2% | 2,156 → 2,134 | `Thread::call_run`                      | `libjvm.dylib`                                       |
-|   -1.0% |   -22 | 79.1% → 79.2% | 2,156 → 2,134 | `thread_native_entry`                   | `libjvm.dylib`                                       |
-|   -4.8% |   -13 |  10.0% → 9.6% |     272 → 259 | `Monitor::wait`                         | `libjvm.dylib`                                       |
-|   -1.0% |   -10 |         35.9% |     979 → 969 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`                             |
-|  -18.9% |   -10 |   1.9% → 1.6% |       53 → 43 | `Compiler::compile_method`              | `libjvm.dylib`                                       |
-|   -1.2% |    -9 |         27.4% |     747 → 738 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`                                       |
-|   -1.0% |    -9 |         32.6% |     887 → 878 | `WorkerThread::run`                     | `libjvm.dylib`                                       |
-|   -5.1% |    -9 |   6.5% → 6.2% |     177 → 168 | `CompileQueue::get`                     | `libjvm.dylib`                                       |
-|  -69.2% |    -9 |   0.5% → 0.1% |        13 → 4 | `PhaseIterGVN::optimize`                | `libjvm.dylib`                                       |
-|  -17.3% |    -9 |   1.9% → 1.6% |       52 → 43 | `Compilation::compile_method`           | `libjvm.dylib`                                       |
-|  -17.3% |    -9 |   1.9% → 1.6% |       52 → 43 | `Compilation::Compilation`              | `libjvm.dylib`                                       |
-|   -1.0% |    -8 |         29.3% |     799 → 791 | `JavaThread::thread_main_inner`         | `libjvm.dylib`                                       |
-|  -66.7% |    -8 |   0.4% → 0.1% |        12 → 4 | `PhaseIterGVN::transform_old`           | `libjvm.dylib`                                       |
-|  -38.9% |    -7 |   0.7% → 0.4% |       18 → 11 | `LinearScan::do_linear_scan`            | `libjvm.dylib`                                       |
+| Change | Delta |             % |       Samples | Function                                | Location                  |
+| -----: | ----: | ------------: | ------------: | --------------------------------------- | ------------------------- |
+|  -1.9% |   -25 | 47.7% → 47.3% | 1,299 → 1,274 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`  |
+|  -1.0% |   -23 |         82.6% | 2,251 → 2,228 | `_pthread_start`                        | `libsystem_pthread.dylib` |
+|  -1.0% |   -23 |         82.6% | 2,251 → 2,228 | `thread_start`                          | `libsystem_pthread.dylib` |
+|  -2.2% |   -22 | 37.4% → 37.0% |   1,019 → 997 | `PlatformMonitor::wait`                 | `libjvm.dylib`            |
+|  -1.0% |   -22 | 79.1% → 79.2% | 2,156 → 2,134 | `Thread::call_run`                      | `libjvm.dylib`            |
+|  -1.0% |   -22 | 79.1% → 79.2% | 2,156 → 2,134 | `thread_native_entry`                   | `libjvm.dylib`            |
+|  -4.8% |   -13 |  10.0% → 9.6% |     272 → 259 | `Monitor::wait`                         | `libjvm.dylib`            |
+|  -1.0% |   -10 |         35.9% |     979 → 969 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`  |
+| -18.9% |   -10 |   1.9% → 1.6% |       53 → 43 | `Compiler::compile_method`              | `libjvm.dylib`            |
+|  -1.2% |    -9 |         27.4% |     747 → 738 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`            |
+|  -1.0% |    -9 |         32.6% |     887 → 878 | `WorkerThread::run`                     | `libjvm.dylib`            |
+|  -5.1% |    -9 |   6.5% → 6.2% |     177 → 168 | `CompileQueue::get`                     | `libjvm.dylib`            |
+| -69.2% |    -9 |   0.5% → 0.1% |        13 → 4 | `PhaseIterGVN::optimize`                | `libjvm.dylib`            |
+| -17.3% |    -9 |   1.9% → 1.6% |       52 → 43 | `Compilation::compile_method`           | `libjvm.dylib`            |
+| -17.3% |    -9 |   1.9% → 1.6% |       52 → 43 | `Compilation::Compilation`              | `libjvm.dylib`            |
+|  -1.0% |    -8 |         29.3% |     799 → 791 | `JavaThread::thread_main_inner`         | `libjvm.dylib`            |
+| -66.7% |    -8 |   0.4% → 0.1% |        12 → 4 | `PhaseIterGVN::transform_old`           | `libjvm.dylib`            |
+| -38.9% |    -7 |   0.7% → 0.4% |       18 → 11 | `LinearScan::do_linear_scan`            | `libjvm.dylib`            |
+| -60.0% |    -6 |   0.4% → 0.1% |        10 → 4 | `GraphBuilder::try_inline_full`         | `libjvm.dylib`            |
+| -60.0% |    -6 |   0.4% → 0.1% |        10 → 4 | `GraphBuilder::try_inline`              | `libjvm.dylib`            |
 
 ##### Native
 

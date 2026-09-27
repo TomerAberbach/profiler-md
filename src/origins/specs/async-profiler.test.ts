@@ -76,11 +76,12 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
-  test(`drops the thread frame the threads option roots each stack at`, () => {
-    expect(
-      normalizeStackFrame({ name: `[ForkJoinPool-1-worker-1 tid=35079]` }),
-    ).toBeNull()
-  })
+  test.each([`[ForkJoinPool-1-worker-1 tid=35079]`, `[tid=16387]`])(
+    `drops the %s thread frame the threads option roots each stack at`,
+    name => {
+      expect(normalizeStackFrame({ name })).toBeNull()
+    },
+  )
 
   test.each([
     `java.lang.String_[i]`,

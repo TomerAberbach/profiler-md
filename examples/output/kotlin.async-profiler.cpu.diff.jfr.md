@@ -118,28 +118,28 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### Standard library
 
-|  Change | Delta |           % | Samples | Function                                              | Location                                      |
-| ------: | ----: | ----------: | ------: | ----------------------------------------------------- | --------------------------------------------- |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `resize()`                                            | `java.util.HashMap`                           |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `ensureCapacityInternal(int)`                         | `java.lang.AbstractStringBuilder`             |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `isLatin1()`                                          | `java.lang.String`                            |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `get(Object)`                                         | `java.util.concurrent.ConcurrentHashMap`      |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `addConstantFieldref(String, String, String)`         | `jdk.internal.org.objectweb.asm.SymbolTable`  |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `methodType(Class, Class[], boolean)`                 | `java.lang.invoke.MethodType`                 |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getDirectMethodForConstant(byte, Class, MemberName)` | `java.lang.invoke.MethodHandles$Lookup`       |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `closeEntry()`                                        | `java.util.zip.ZipInputStream`                |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `nextNode()`                                          | `java.util.HashMap$HashIterator`              |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `initCEN(int, ZipCoder)`                              | `java.util.zip.ZipFile$Source`                |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getLongUnaligned(Object, long)`                      | `jdk.internal.misc.Unsafe`                    |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `<init>(int, float, int)`                             | `java.util.concurrent.ConcurrentHashMap`      |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `lastIndexOf(byte[], int, int)`                       | `java.lang.StringLatin1`                      |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `size()`                                              | `java.util.Collections$EmptyList`             |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `flip()`                                              | `java.nio.Buffer`                             |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `startsWith(String)`                                  | `java.lang.String`                            |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `offer(Object)`                                       | `java.util.concurrent.ConcurrentLinkedQueue`  |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `constructor-impl(Object)`                            | `kotlin.Result`                               |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `putMethodInfo(ByteVector)`                           | `jdk.internal.org.objectweb.asm.MethodWriter` |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `stringFromByteBuffer(ByteBuffer, int)`               | `jdk.internal.jimage.ImageStringsReader`      |
+|  Change | Delta |           % | Samples | Function                                                   | Location                                             |
+| ------: | ----: | ----------: | ------: | ---------------------------------------------------------- | ---------------------------------------------------- |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `resize()`                                                 | `java.util.HashMap`                                  |
+|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `ensureCapacityInternal(int)`                              | `java.lang.AbstractStringBuilder`                    |
+|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `isLatin1()`                                               | `java.lang.String`                                   |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `get(Object)`                                              | `java.util.concurrent.ConcurrentHashMap`             |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `addConstantFieldref(String, String, String)`              | `jdk.internal.org.objectweb.asm.SymbolTable`         |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `newInvokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001020400` |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `methodType(Class, Class[], boolean)`                      | `java.lang.invoke.MethodType`                        |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getDirectMethodForConstant(byte, Class, MemberName)`      | `java.lang.invoke.MethodHandles$Lookup`              |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `closeEntry()`                                             | `java.util.zip.ZipInputStream`                       |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `nextNode()`                                               | `java.util.HashMap$HashIterator`                     |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `initCEN(int, ZipCoder)`                                   | `java.util.zip.ZipFile$Source`                       |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getLongUnaligned(Object, long)`                           | `jdk.internal.misc.Unsafe`                           |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `<init>(int, float, int)`                                  | `java.util.concurrent.ConcurrentHashMap`             |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `lastIndexOf(byte[], int, int)`                            | `java.lang.StringLatin1`                             |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `size()`                                                   | `java.util.Collections$EmptyList`                    |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `flip()`                                                   | `java.nio.Buffer`                                    |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `startsWith(String)`                                       | `java.lang.String`                                   |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `offer(Object)`                                            | `java.util.concurrent.ConcurrentLinkedQueue`         |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `constructor-impl(Object)`                                 | `kotlin.Result`                                      |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `putMethodInfo(ByteVector)`                                | `jdk.internal.org.objectweb.asm.MethodWriter`        |
 
 ##### JIT
 
@@ -295,8 +295,6 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |             % |   Samples | Function                                                                                           | Location                                                |
 | ------: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-|     new |  +361 |  0.0% → 27.5% |   0 → 361 | `invokeStatic(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000`    |
-|     new |  +361 |  0.0% → 27.5% |   0 → 361 | `invoke(Object, Object, Object)`                                                                   | `java.lang.invoke.LambdaForm$MH.0x0000007001009400`     |
 |  +40.0% |   +24 |   4.6% → 6.4% |   60 → 84 | `WorkerThread::run`                                                                                | `libjvm.dylib`                                          |
 |  +95.2% |   +20 |   1.6% → 3.1% |   21 → 41 | `InstanceKlass::link_class_impl`                                                                   | `libjvm.dylib`                                          |
 |  +95.0% |   +19 |   1.5% → 3.0% |   20 → 39 | `InstanceKlass::initialize_impl`                                                                   | `libjvm.dylib`                                          |
@@ -308,6 +306,8 @@ Functions with the largest increase in total samples taken in the function and a
 |   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `doMainNoExit(CLICompiler, String[], MessageRenderer)`                                             | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`  |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeStatic(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000`    |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object, Object)`                                                                   | `java.lang.invoke.LambdaForm$MH.0x0000007001009400`     |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeExact_MT(Object, Object, Object, Object)`                                                   | `java.lang.invoke.Invokers$Holder`                      |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeImpl(Object, Object[])`                                                                     | `jdk.internal.reflect.DirectMethodHandleAccessor`       |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object[])`                                                                         | `jdk.internal.reflect.DirectMethodHandleAccessor`       |
@@ -395,14 +395,13 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |             % |   Samples | Function                                                                                                                   | Location                                                                                      |
 | ------: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-|     new |  +361 |  0.0% → 27.5% |   0 → 361 | `invokeStatic(Object, Object)`                                                                                             | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000`                                          |
-|     new |  +361 |  0.0% → 27.5% |   0 → 361 | `invoke(Object, Object, Object)`                                                                                           | `java.lang.invoke.LambdaForm$MH.0x0000007001009400`                                           |
 |   +4.6% |   +16 | 26.6% → 27.5% | 346 → 362 | `invoke(Object, Object[])`                                                                                                 | `java.lang.reflect.Method`                                                                    |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeStatic(Object, Object)`                                                                                             | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000`                                          |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object, Object)`                                                                                           | `java.lang.invoke.LambdaForm$MH.0x0000007001009400`                                           |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeExact_MT(Object, Object, Object, Object)`                                                                           | `java.lang.invoke.Invokers$Holder`                                                            |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeImpl(Object, Object[])`                                                                                             | `jdk.internal.reflect.DirectMethodHandleAccessor`                                             |
 |   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object[])`                                                                                                 | `jdk.internal.reflect.DirectMethodHandleAccessor`                                             |
 |  +20.5% |    +9 |   3.4% → 4.0% |   44 → 53 | `resumeWith(Object)`                                                                                                       | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`                                         |
-|     new |    +9 |   0.0% → 0.7% |     0 → 9 | `invokeStatic(Object, Object, Object, Object, Object, Object, Object)`                                                     | `java.lang.invoke.LambdaForm$DMH.0x0000007001230000`                                          |
 | +166.7% |    +5 |   0.2% → 0.6% |     3 → 8 | `generateInnerClass()`                                                                                                     | `java.lang.invoke.InnerClassLambdaMetafactory`                                                |
 | +166.7% |    +5 |   0.2% → 0.6% |     3 → 8 | `spinInnerClass()`                                                                                                         | `java.lang.invoke.InnerClassLambdaMetafactory`                                                |
 |  +83.3% |    +5 |   0.5% → 0.8% |    6 → 11 | `getValue()`                                                                                                               | `kotlin.UnsafeLazyImpl`                                                                       |
@@ -415,6 +414,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `create(ClassLoader)`                                                                                                      | `kotlin.reflect.jvm.internal.impl.descriptors.runtime.components.RuntimeModuleData$Companion` |
 | +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `getOrCreateModule(Class)`                                                                                                 | `kotlin.reflect.jvm.internal.ModuleByClassLoaderKt`                                           |
 | +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `moduleData_delegate$lambda$0(KDeclarationContainerImpl)`                                                                  | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data`                                  |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `accessor$KDeclarationContainerImpl$Data$lambda0(KDeclarationContainerImpl)`                                               | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data`                                  |
 
 ##### JIT
 
@@ -429,28 +429,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-|  Change | Delta |             % |   Samples | Function                                                               | Location                                                 |
-| ------: | ----: | ------------: | --------: | ---------------------------------------------------------------------- | -------------------------------------------------------- |
-| removed |  -346 |  26.6% → 0.0% |   346 → 0 | `invokeStatic(Object, Object)`                                         | `java.lang.invoke.LambdaForm$DMH.0x0000008801008000`     |
-| removed |  -346 |  26.6% → 0.0% |   346 → 0 | `invoke(Object, Object, Object)`                                       | `java.lang.invoke.LambdaForm$MH.0x0000008801009400`      |
-|   -3.1% |   -25 | 61.9% → 59.4% | 806 → 781 | `CompileBroker::compiler_thread_loop`                                  | `libjvm.dylib`                                           |
-|   -3.0% |   -24 | 60.8% → 58.4% | 792 → 768 | `CompileBroker::invoke_compiler_on_method`                             | `libjvm.dylib`                                           |
-|  -24.5% |   -24 |   7.5% → 5.6% |   98 → 74 | `LinearScan::do_linear_scan`                                           | `libjvm.dylib`                                           |
-|  -54.5% |   -24 |   3.4% → 1.5% |   44 → 20 | `PhaseCFG::global_code_motion`                                         | `libjvm.dylib`                                           |
-|  -51.1% |   -24 |   3.6% → 1.7% |   47 → 23 | `PhaseCFG::do_global_code_motion`                                      | `libjvm.dylib`                                           |
-|   -2.9% |   -23 | 61.9% → 59.5% | 806 → 783 | `JavaThread::thread_main_inner`                                        | `libjvm.dylib`                                           |
-|   -4.2% |   -23 | 41.8% → 39.7% | 545 → 522 | `Compile::Compile`                                                     | `libjvm.dylib`                                           |
-|   -4.2% |   -23 | 41.9% → 39.8% | 546 → 523 | `C2Compiler::compile_method`                                           | `libjvm.dylib`                                           |
-|   -6.3% |   -18 | 21.9% → 20.3% | 285 → 267 | `Compile::Code_Gen`                                                    | `libjvm.dylib`                                           |
-|   -7.3% |   -14 | 14.8% → 13.6% | 193 → 179 | `Compile::Optimize`                                                    | `libjvm.dylib`                                           |
-|  -16.9% |   -13 |   5.9% → 4.9% |   77 → 64 | `loadClass(String, boolean)`                                           | `java.lang.ClassLoader`                                  |
-|  -21.4% |   -12 |   4.3% → 3.3% |   56 → 44 | `inflate_fast`                                                         | `libzip.dylib`                                           |
-| removed |   -12 |   0.9% → 0.0% |    12 → 0 | `invokeStatic(Object, Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000008801230000`     |
-|  -10.4% |   -11 |   8.1% → 7.2% |  106 → 95 | `Compilation::emit_lir`                                                | `libjvm.dylib`                                           |
-|  -14.5% |   -11 |   5.8% → 4.9% |   76 → 65 | `loadClass(String, boolean)`                                           | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
-|  -14.5% |   -11 |   5.8% → 4.9% |   76 → 65 | `loadClass(String)`                                                    | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
-|  -14.7% |   -10 |   5.2% → 4.4% |   68 → 58 | `Java_java_util_zip_Inflater_inflateBytesBytes`                        | `libzip.dylib`                                           |
-|  -14.7% |   -10 |   5.2% → 4.4% |   68 → 58 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`          | `java.util.zip.Inflater`                                 |
+| Change | Delta |             % |   Samples | Function                                                      | Location                                                 |
+| -----: | ----: | ------------: | --------: | ------------------------------------------------------------- | -------------------------------------------------------- |
+|  -3.1% |   -25 | 61.9% → 59.4% | 806 → 781 | `CompileBroker::compiler_thread_loop`                         | `libjvm.dylib`                                           |
+|  -3.0% |   -24 | 60.8% → 58.4% | 792 → 768 | `CompileBroker::invoke_compiler_on_method`                    | `libjvm.dylib`                                           |
+| -24.5% |   -24 |   7.5% → 5.6% |   98 → 74 | `LinearScan::do_linear_scan`                                  | `libjvm.dylib`                                           |
+| -54.5% |   -24 |   3.4% → 1.5% |   44 → 20 | `PhaseCFG::global_code_motion`                                | `libjvm.dylib`                                           |
+| -51.1% |   -24 |   3.6% → 1.7% |   47 → 23 | `PhaseCFG::do_global_code_motion`                             | `libjvm.dylib`                                           |
+|  -2.9% |   -23 | 61.9% → 59.5% | 806 → 783 | `JavaThread::thread_main_inner`                               | `libjvm.dylib`                                           |
+|  -4.2% |   -23 | 41.8% → 39.7% | 545 → 522 | `Compile::Compile`                                            | `libjvm.dylib`                                           |
+|  -4.2% |   -23 | 41.9% → 39.8% | 546 → 523 | `C2Compiler::compile_method`                                  | `libjvm.dylib`                                           |
+|  -6.3% |   -18 | 21.9% → 20.3% | 285 → 267 | `Compile::Code_Gen`                                           | `libjvm.dylib`                                           |
+|  -7.3% |   -14 | 14.8% → 13.6% | 193 → 179 | `Compile::Optimize`                                           | `libjvm.dylib`                                           |
+| -16.9% |   -13 |   5.9% → 4.9% |   77 → 64 | `loadClass(String, boolean)`                                  | `java.lang.ClassLoader`                                  |
+| -21.4% |   -12 |   4.3% → 3.3% |   56 → 44 | `inflate_fast`                                                | `libzip.dylib`                                           |
+| -10.4% |   -11 |   8.1% → 7.2% |  106 → 95 | `Compilation::emit_lir`                                       | `libjvm.dylib`                                           |
+| -14.5% |   -11 |   5.8% → 4.9% |   76 → 65 | `loadClass(String, boolean)`                                  | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
+| -14.5% |   -11 |   5.8% → 4.9% |   76 → 65 | `loadClass(String)`                                           | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
+| -14.7% |   -10 |   5.2% → 4.4% |   68 → 58 | `Java_java_util_zip_Inflater_inflateBytesBytes`               | `libzip.dylib`                                           |
+| -14.7% |   -10 |   5.2% → 4.4% |   68 → 58 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)` | `java.util.zip.Inflater`                                 |
+| -13.5% |   -10 |   5.7% → 4.9% |   74 → 64 | `defineClass(String, byte[], int, int, ProtectionDomain)`     | `java.lang.ClassLoader`                                  |
+| -13.9% |   -10 |   5.5% → 4.7% |   72 → 62 | `Java_java_lang_ClassLoader_defineClass1`                     | `libjava.dylib`                                          |
+| -26.5% |    -9 |   2.6% → 1.9% |   34 → 25 | `LinearScan::allocate_registers`                              | `libjvm.dylib`                                           |
 
 ##### Compiler
 
@@ -529,28 +529,28 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function                                                                        | Location                                             |
-| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| removed |  -346 | 26.6% → 0.0% | 346 → 0 | `invokeStatic(Object, Object)`                                                  | `java.lang.invoke.LambdaForm$DMH.0x0000008801008000` |
-| removed |  -346 | 26.6% → 0.0% | 346 → 0 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x0000008801009400`  |
-|  -16.9% |   -13 |  5.9% → 4.9% | 77 → 64 | `loadClass(String, boolean)`                                                    | `java.lang.ClassLoader`                              |
-| removed |   -12 |  0.9% → 0.0% |  12 → 0 | `invokeStatic(Object, Object, Object, Object, Object, Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x0000008801230000` |
-|  -14.7% |   -10 |  5.2% → 4.4% | 68 → 58 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`                   | `java.util.zip.Inflater`                             |
-|  -13.5% |   -10 |  5.7% → 4.9% | 74 → 64 | `defineClass(String, byte[], int, int, ProtectionDomain)`                       | `java.lang.ClassLoader`                              |
-|  -13.2% |    -9 |  5.2% → 4.5% | 68 → 59 | `inflate(byte[], int, int)`                                                     | `java.util.zip.Inflater`                             |
-|  -13.0% |    -9 |  5.3% → 4.6% | 69 → 60 | `read(byte[], int, int)`                                                        | `java.util.zip.InflaterInputStream`                  |
-|  -12.3% |    -9 |  5.6% → 4.9% | 73 → 64 | `defineClass(String, byte[], int, int)`                                         | `java.lang.ClassLoader`                              |
-|  -11.1% |    -8 |  5.5% → 4.9% | 72 → 64 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader`                              |
-|   -7.4% |    -5 |  5.2% → 4.8% | 68 → 63 | `read(byte[], int, int)`                                                        | `java.util.zip.ZipInputStream`                       |
-|   -7.4% |    -5 |  5.2% → 4.8% | 68 → 63 | `read(byte[])`                                                                  | `java.io.FilterInputStream`                          |
-|  -83.3% |    -5 |  0.5% → 0.1% |   6 → 1 | `generateCustomizedCode(LambdaForm, MethodType)`                                | `java.lang.invoke.InvokerBytecodeGenerator`          |
-|  -83.3% |    -5 |  0.5% → 0.1% |   6 → 1 | `compileToBytecode()`                                                           | `java.lang.invoke.LambdaForm`                        |
-| removed |    -5 |  0.4% → 0.0% |   5 → 0 | `findConstructor(Class, MethodType)`                                            | `java.lang.invoke.MethodHandles$Lookup`              |
-| removed |    -4 |  0.3% → 0.0% |   4 → 0 | `make(MemberName)`                                                              | `java.lang.invoke.DirectMethodHandle`                |
-|  -66.7% |    -4 |  0.5% → 0.2% |   6 → 2 | `allocateInstance(Class)`                                                       | `jdk.internal.misc.Unsafe`                           |
-|  -66.7% |    -4 |  0.5% → 0.2% |   6 → 2 | `allocateInstance(Object)`                                                      | `java.lang.invoke.DirectMethodHandle`                |
-| removed |    -3 |  0.2% → 0.0% |   3 → 0 | `getDeclaredMethods0(boolean)`                                                  | `java.lang.Class`                                    |
-| removed |    -3 |  0.2% → 0.0% |   3 → 0 | `privateGetDeclaredMethods(boolean)`                                            | `java.lang.Class`                                    |
+|  Change | Delta |           % | Samples | Function                                                                        | Location                                    |
+| ------: | ----: | ----------: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------- |
+|  -16.9% |   -13 | 5.9% → 4.9% | 77 → 64 | `loadClass(String, boolean)`                                                    | `java.lang.ClassLoader`                     |
+|  -14.7% |   -10 | 5.2% → 4.4% | 68 → 58 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)`                   | `java.util.zip.Inflater`                    |
+|  -13.5% |   -10 | 5.7% → 4.9% | 74 → 64 | `defineClass(String, byte[], int, int, ProtectionDomain)`                       | `java.lang.ClassLoader`                     |
+|  -13.2% |    -9 | 5.2% → 4.5% | 68 → 59 | `inflate(byte[], int, int)`                                                     | `java.util.zip.Inflater`                    |
+|  -13.0% |    -9 | 5.3% → 4.6% | 69 → 60 | `read(byte[], int, int)`                                                        | `java.util.zip.InflaterInputStream`         |
+|  -12.3% |    -9 | 5.6% → 4.9% | 73 → 64 | `defineClass(String, byte[], int, int)`                                         | `java.lang.ClassLoader`                     |
+|  -11.1% |    -8 | 5.5% → 4.9% | 72 → 64 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader`                     |
+|   -7.4% |    -5 | 5.2% → 4.8% | 68 → 63 | `read(byte[], int, int)`                                                        | `java.util.zip.ZipInputStream`              |
+|   -7.4% |    -5 | 5.2% → 4.8% | 68 → 63 | `read(byte[])`                                                                  | `java.io.FilterInputStream`                 |
+|  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `generateCustomizedCode(LambdaForm, MethodType)`                                | `java.lang.invoke.InvokerBytecodeGenerator` |
+|  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `compileToBytecode()`                                                           | `java.lang.invoke.LambdaForm`               |
+| removed |    -5 | 0.4% → 0.0% |   5 → 0 | `findConstructor(Class, MethodType)`                                            | `java.lang.invoke.MethodHandles$Lookup`     |
+| removed |    -4 | 0.3% → 0.0% |   4 → 0 | `make(MemberName)`                                                              | `java.lang.invoke.DirectMethodHandle`       |
+|  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `allocateInstance(Class)`                                                       | `jdk.internal.misc.Unsafe`                  |
+|  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `allocateInstance(Object)`                                                      | `java.lang.invoke.DirectMethodHandle`       |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `getDeclaredMethods0(boolean)`                                                  | `java.lang.Class`                           |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `privateGetDeclaredMethods(boolean)`                                            | `java.lang.Class`                           |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)`     | `java.security.AccessController`            |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `allowSecurityManager()`                                                        | `java.lang.System`                          |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `getSecurityManager()`                                                          | `java.lang.System`                          |
 
 ##### JIT
 

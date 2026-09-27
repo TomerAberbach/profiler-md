@@ -2,7 +2,20 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { logicalReferenceName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
-import type { OriginSpec } from '../origin.ts'
+import { matchEntryFromRules } from '../origin.ts'
+import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+
+/**
+ * The method table address the runtime writes for a parameter type it cannot
+ * name, which differs per run: a compiled regex's
+ * `Regex2_Scan(pMT: 0x105526b78,pMT: 0x104f4f7f0<wchar>)`. The kept `pMT`
+ * and the parameter list around it identify the method across runs.
+ */
+const METHOD_TABLE_ADDRESS_REGEX = /(?<kept>\bpMT): 0x[0-9a-fA-F]+/gu
+
+const DOTNET_NAME_MATCH_RULES: EntryMatchRule[] = [
+  [METHOD_TABLE_ADDRESS_REGEX, `$<kept>`],
+]
 
 /**
  * `dotnet-trace`, the .NET CLI sampling profiler, whose speedscope export
@@ -18,6 +31,7 @@ export const dotnetTraceOriginSpec = {
     unknownAssemblyCategory(entry) ??
     locationlessCategory(entry) ??
     `ours`,
+  matchEntry: matchEntryFromRules({ name: DOTNET_NAME_MATCH_RULES }),
   normalizeStackFrame: input => {
     if (input.definition) {
       return input
