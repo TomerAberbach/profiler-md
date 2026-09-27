@@ -15,6 +15,7 @@ import {
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { jvmMethodDisplayName, jvmSourceClassName } from '../../origins/jvm.ts'
+import type { RecordTally } from '../converter.ts'
 
 /**
  * The kind of profiling an event represents.
@@ -129,9 +130,12 @@ type Jfr = {
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
-export const parseJfr = (bytes: Uint8Array): CallStackProfile[] => {
+export const parseJfr = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => {
   const parser = new JfrParser()
-  for (const chunk of jfrChunks(bytes)) {
+  for (const chunk of jfrChunks(bytes, recordTally)) {
     parser.parseChunk(chunk)
   }
   return jfrToProfiles(parser.finish())
@@ -144,9 +148,10 @@ export const parseJfr = (bytes: Uint8Array): CallStackProfile[] => {
  */
 export const parseJfrAsync = async (
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): Promise<CallStackProfile[]> => {
   const parser = new JfrParser()
-  for await (const chunk of jfrChunksAsync(stream)) {
+  for await (const chunk of jfrChunksAsync(stream, recordTally)) {
     parser.parseChunk(chunk)
   }
   return jfrToProfiles(parser.finish())
@@ -155,11 +160,14 @@ export const parseJfrAsync = async (
 /**
  * Splits a recording into its self-contained chunks, each yielded as a view
  * into {@link bytes}. Stops at the first byte that doesn't begin a valid chunk
- * (a non-magic prefix, a declared size too small to hold the chunk header, or
- * a truncated trailing chunk whose size runs past the buffer), keeping the
- * chunks read so far.
+ * (a non-magic prefix, or a declared size too small to hold the chunk header),
+ * or at a truncated trailing chunk whose size runs past the buffer, keeping the
+ * chunks read so far and recording the rest on {@link recordTally}.
  */
-function* jfrChunks(bytes: Uint8Array): Iterable<Uint8Array> {
+function* jfrChunks(
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): Iterable<Uint8Array> {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
   let position = 0
   while (
@@ -167,28 +175,35 @@ function* jfrChunks(bytes: Uint8Array): Iterable<Uint8Array> {
     view.getUint32(position) === MAGIC
   ) {
     const size = Number(view.getBigInt64(position + CHUNK_SIZE_FIELD))
-    const end = position + size
-    if (size < CHUNK_HEADER_SIZE || end > bytes.length) {
+    if (size < CHUNK_HEADER_SIZE) {
       break
+    }
+    const end = position + size
+    if (end > bytes.length) {
+      recordCutOffChunk(recordTally)
+      return
     }
     yield bytes.subarray(position, end)
     position = end
   }
+  recordBytesAfterChunks(recordTally, bytes.length - position)
 }
 
 /**
  * Reads {@link stream} and yields each complete chunk as its bytes arrive,
  * buffering only the chunk currently being assembled. Stops on the first input
- * that doesn't begin a valid chunk, mirroring {@link jfrChunks}; a truncated
- * trailing chunk is left unread.
+ * that doesn't begin a valid chunk, mirroring {@link jfrChunks}, and reads the
+ * rest of the stream only to count its bytes. A truncated trailing chunk is
+ * left unread.
  */
 async function* jfrChunksAsync(
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): AsyncGenerator<Uint8Array> {
   const queue = new ByteQueue()
   const reader = stream.getReader()
   try {
-    reading: while (true) {
+    while (true) {
       const { done, value } = await reader.read()
       if (done) {
         break
@@ -196,12 +211,18 @@ async function* jfrChunksAsync(
       queue.push(value)
 
       while (queue.length >= CHUNK_HEADER_SIZE) {
-        if (queue.uint32(0) !== MAGIC) {
-          break reading
-        }
         const size = queue.int64(CHUNK_SIZE_FIELD)
-        if (size < CHUNK_HEADER_SIZE) {
-          break reading
+        if (queue.uint32(0) !== MAGIC || size < CHUNK_HEADER_SIZE) {
+          let byteCount = queue.length
+          for (
+            let read = await reader.read();
+            !read.done;
+            read = await reader.read()
+          ) {
+            byteCount += read.value.length
+          }
+          recordBytesAfterChunks(recordTally, byteCount)
+          return
         }
         if (queue.length < size) {
           // The chunk's tail hasn't arrived yet; resume once more bytes do.
@@ -210,8 +231,27 @@ async function* jfrChunksAsync(
         yield queue.take(size)
       }
     }
+
+    if (queue.length >= CHUNK_HEADER_SIZE) {
+      recordCutOffChunk(recordTally)
+    } else {
+      recordBytesAfterChunks(recordTally, queue.length)
+    }
   } finally {
     reader.releaseLock()
+  }
+}
+
+const recordCutOffChunk = (recordTally: RecordTally): void => {
+  recordTally.skipped(`chunk`, `cut off by the end of the input`)
+}
+
+const recordBytesAfterChunks = (
+  recordTally: RecordTally,
+  byteCount: number,
+): void => {
+  if (byteCount > 0) {
+    recordTally.skipped(`byte`, `not forming a chunk`, byteCount)
   }
 }
 

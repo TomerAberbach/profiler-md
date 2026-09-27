@@ -5,8 +5,17 @@ import {
   totalTimeTables,
 } from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import { categoryTables, profileTitles, summaryLines } from '../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import {
+  categoryTables,
+  expectLogs,
+  profileTitles,
+  summaryLines,
+} from '../../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { perfConverter } from './index.ts'
 import { parsePerf } from './parse/index.ts'
 import {
@@ -57,30 +66,37 @@ describe(`matches`, () => {
 
     expect(perfConverter.matches(swapped)).toBe(true)
     expect(perfConverter.matches(version1)).toBe(true)
-    expect(() => parsePerf(swapped)).toThrow(`opposite byte order`)
-    expect(() => parsePerf(version1)).toThrow(`PERFFILE`)
+    expect(() => parsePerf(swapped, noopRecordTally)).toThrow(
+      `opposite byte order`,
+    )
+    expect(() => parsePerf(version1, noopRecordTally)).toThrow(`PERFFILE`)
   })
 })
 
 describe(`parse`, () => {
   test(`rejects a file without the magic`, () => {
-    expect(() => parsePerf(new TextEncoder().encode(`not perf.data`))).toThrow(
-      `missing the PERFILE2 magic`,
-    )
+    expect(() =>
+      parsePerf(new TextEncoder().encode(`not perf.data`), noopRecordTally),
+    ).toThrow(`missing the PERFILE2 magic`)
   })
 
   test(`rejects a recording streamed to a pipe`, () => {
-    expect(() => parsePerf(makePerf({ headerSize: 16 }))).toThrow(`pipe`)
+    expect(() =>
+      parsePerf(makePerf({ headerSize: 16 }), noopRecordTally),
+    ).toThrow(`pipe`)
   })
 
   test(`rejects a header of an unknown length`, () => {
-    expect(() => parsePerf(makePerf({ headerSize: 96 }))).toThrow(`got: 96`)
+    expect(() =>
+      parsePerf(makePerf({ headerSize: 96 }), noopRecordTally),
+    ).toThrow(`got: 96`)
   })
 
   test(`rejects a compressed recording`, () => {
     expect(() =>
       parsePerf(
         makePerf({ features: [{ bit: 27, payload: new Uint8Array(8) }] }),
+        noopRecordTally,
       ),
     ).toThrow(`perf record -z`)
   })
@@ -100,6 +116,7 @@ describe(`parse`, () => {
               }),
             ],
           }),
+          noopRecordTally,
         ),
       ).toThrow(`--call-graph dwarf`)
     }
@@ -139,15 +156,24 @@ describe(`parse`, () => {
     const sample = sampleRecord({ callchain: [0x40_12_34] })
 
     expect(() =>
-      parsePerf(makePerf({ records: [truncatedRecord(sample, 24)] })),
+      parsePerf(
+        makePerf({ records: [truncatedRecord(sample, 24)] }),
+        noopRecordTally,
+      ),
     ).toThrow(
       `sample record ends before the fields its event records, got: 16 bytes`,
     )
     expect(() =>
-      parsePerf(makePerf({ records: [truncatedRecord(sample, 40)] })),
+      parsePerf(
+        makePerf({ records: [truncatedRecord(sample, 40)] }),
+        noopRecordTally,
+      ),
     ).toThrow(`sample record ends before its call chain, got: 0 bytes`)
     expect(() =>
-      parsePerf(makePerf({ records: [truncatedRecord(sample, 48)] })),
+      parsePerf(
+        makePerf({ records: [truncatedRecord(sample, 48)] }),
+        noopRecordTally,
+      ),
     ).toThrow(`sample call chain runs past its record, got: 1 entries`)
   })
 
@@ -157,6 +183,7 @@ describe(`parse`, () => {
         makePerf({
           records: [truncatedRecord(commRecord({ exec: true }), 8)],
         }),
+        noopRecordTally,
       ),
     ).toThrow(`truncated command record`)
   })
@@ -166,7 +193,7 @@ describe(`parse`, () => {
       records: [sampleRecord({ callchain: [0x40_10_00] })],
     })
 
-    expect(() => parsePerf(bytes.subarray(0, -8))).toThrow(
+    expect(() => parsePerf(bytes.subarray(0, -8), noopRecordTally)).toThrow(
       `data section runs past the end of the file`,
     )
   })
@@ -179,7 +206,30 @@ describe(`origin hint`, () => {
       records: [sampleRecord({ callchain: [0x40_12_34] })],
     })
 
-    expect(parsePerf(withSimpleperfFeature)[0]?.originHint).toBe(`simpleperf`)
+    expect(
+      parsePerf(withSimpleperfFeature, noopRecordTally)[0]?.originHint,
+    ).toBe(`simpleperf`)
+  })
+
+  test(`a feature bit whose descriptor is past the end of the file still identifies the writer`, () => {
+    // Cut off the feature's 16-byte descriptor and its 8-byte payload.
+    const bytes = makePerf({
+      features: [{ bit: 129, payload: new Uint8Array(8) }],
+      records: [sampleRecord({ callchain: [0x40_12_34] })],
+    }).subarray(0, -24)
+
+    convertBytesToMd(
+      perfConverter,
+      bytes,
+      normalizeProfileToMdOptions({ baseURL: `/` }),
+    )
+
+    expectLogs([
+      `debug: origin candidates, in priority order: simpleperf, perf`,
+      `info: detected origin: simpleperf`,
+      `debug: simpleperf is named by the format's metadata`,
+      `warn: skipped 1 feature section running past the end of the input`,
+    ])
   })
 
   test(`a file with only the sections perf writes hints at nothing`, () => {
@@ -188,7 +238,7 @@ describe(`origin hint`, () => {
       records: [sampleRecord({ callchain: [0x40_12_34] })],
     })
 
-    expect(parsePerf(fromPerf)[0]?.originHint).toBeUndefined()
+    expect(parsePerf(fromPerf, noopRecordTally)[0]?.originHint).toBeUndefined()
   })
 })
 

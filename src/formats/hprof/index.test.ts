@@ -6,8 +6,12 @@ import {
   selfSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import { categoryTables } from '../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import { categoryTables, expectLogs } from '../../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { hprofConverter } from './index.ts'
 import {
   HPROF_BYTE,
@@ -111,7 +115,10 @@ describe(`matches`, () => {
 describe(`parse`, () => {
   test(`rejects a name that isn't the format's`, () => {
     expect(() =>
-      hprofConverter.parse(makeHprof({ header: `JAVA PROFILE 9.9.9` })),
+      hprofConverter.parse(
+        makeHprof({ header: `JAVA PROFILE 9.9.9` }),
+        noopRecordTally,
+      ),
     ).toThrow(`unsupported format name, got: JAVA PROFILE 9.9.9`)
   })
 
@@ -122,15 +129,15 @@ describe(`parse`, () => {
       bytes.indexOf(0) + 1,
       2,
     )
-    expect(() => hprofConverter.parse(bytes)).toThrow(
+    expect(() => hprofConverter.parse(bytes, noopRecordTally)).toThrow(
       `unsupported identifier size, got: 2`,
     )
   })
 
   test(`rejects a truncated record`, () => {
-    expect(() => hprofConverter.parse(holderGraph.subarray(0, 40))).toThrow(
-      /truncated record/u,
-    )
+    expect(() =>
+      hprofConverter.parse(holderGraph.subarray(0, 40), noopRecordTally),
+    ).toThrow(/truncated record/u)
   })
 
   test(`rejects a sub-record tag the format doesn't define`, () => {
@@ -139,16 +146,16 @@ describe(`parse`, () => {
     })
     // Android's dialect writes a heap dump info sub-record here.
     bytes[bytes.lastIndexOf(0x23)] = 0xfe
-    expect(() => hprofConverter.parse(bytes)).toThrow(
+    expect(() => hprofConverter.parse(bytes, noopRecordTally)).toThrow(
       `unsupported heap dump sub-record tag, got: 0xfe`,
     )
   })
 
   test(`rejects a dump with no heap`, () => {
     const bytes = makeHprof()
-    expect(() => hprofConverter.parse(bytes.subarray(0, 31))).toThrow(
-      `no heap dump records`,
-    )
+    expect(() =>
+      hprofConverter.parse(bytes.subarray(0, 31), noopRecordTally),
+    ).toThrow(`no heap dump records`)
   })
 })
 
@@ -383,7 +390,7 @@ describe(`convert`, () => {
     expect(retainerPaths(md, `com.example.Holder`)).toEqual([[`(GC root)`]])
   })
 
-  test(`reads an object the dump records twice as one node`, () => {
+  test(`reads an object the dump records twice as one node, with a warning`, () => {
     const md = convert(
       makeHprof({
         classes: [
@@ -424,6 +431,12 @@ describe(`convert`, () => {
           Constructor: `com.example.Entry`,
         },
       ],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: jdk`,
+      `info: fallback origin: jdk`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 object record repeating an earlier object ID`,
     ])
   })
 

@@ -5,8 +5,12 @@ import {
   selfTimeTables,
 } from '../../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import { categoryTables, summaryLines } from '../../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../../testing.ts'
+import { categoryTables, expectLogs, summaryLines } from '../../../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../../testing.ts'
 import { ghcEventlogConverter } from './index.ts'
 import { parseGhcEventlog } from './parse.ts'
 import { makeGhcEventlog, undeclaredEvent } from './testing.ts'
@@ -49,22 +53,23 @@ describe(`matches`, () => {
 
 describe(`parse`, () => {
   test(`rejects a log without the header`, () => {
-    expect(() => parseGhcEventlog(Uint8Array.of(1, 2, 3, 4, 5, 6))).toThrow(
-      `expected a header marker`,
-    )
+    expect(() =>
+      parseGhcEventlog(Uint8Array.of(1, 2, 3, 4, 5, 6), noopRecordTally),
+    ).toThrow(`expected a header marker`)
   })
 
   test(`rejects a log whose header ends mid-declaration`, () => {
     // A partial copy of a log begins with the marker auto-detection accepts.
-    expect(() => parseGhcEventlog(eventlog().subarray(0, 40))).toThrow(
-      `truncated header`,
-    )
+    expect(() =>
+      parseGhcEventlog(eventlog().subarray(0, 40), noopRecordTally),
+    ).toThrow(`truncated header`)
   })
 
   test(`rejects a sample referencing a cost centre the log never defined`, () => {
     expect(() =>
       parseGhcEventlog(
         makeGhcEventlog({ costCentres: COST_CENTRES, samples: [[1, 9]] }),
+        noopRecordTally,
       ),
     ).toThrow(`cost-centre stack references undefined cost centre 9`)
   })
@@ -72,7 +77,7 @@ describe(`parse`, () => {
   test(`rejects a log with no cost-centre samples`, () => {
     // A log written without `+RTS -p` records the program's other events, but
     // no cost-centre samples.
-    expect(() => parseGhcEventlog(makeGhcEventlog())).toThrow(
+    expect(() => parseGhcEventlog(makeGhcEventlog(), noopRecordTally)).toThrow(
       `no cost-centre samples`,
     )
   })
@@ -85,6 +90,7 @@ describe(`parse`, () => {
     expect(() =>
       parseGhcEventlog(
         Uint8Array.from([...bytes.subarray(0, -2), ...undeclaredEvent()]),
+        noopRecordTally,
       ),
     ).toThrow(`undeclared event type, got: 999`)
   })
@@ -97,6 +103,7 @@ describe(`parse`, () => {
           samples: [[1]],
           sampleEventSize: -2,
         }),
+        noopRecordTally,
       ),
     ).toThrow(`invalid event type size, got: -2`)
   })
@@ -112,6 +119,24 @@ describe(`parse`, () => {
     expect(summaryLines(md)).toEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
     ])
+    expectLogs([
+      `debug: origin candidates, in priority order: ghc`,
+      `info: fallback origin: ghc`,
+      `debug: no entry marked another origin`,
+      `warn: the input ends before the end-of-data marker`,
+    ])
+  })
+
+  test(`rejects a log cut short before its first sample as cut short`, () => {
+    // Dropping the end-of-data marker leaves the log cut short, which is the
+    // likelier reason for missing samples than a run without `+RTS -p`.
+    const bytes = makeGhcEventlog({ costCentres: COST_CENTRES }).subarray(0, -2)
+
+    expect(() =>
+      convertBytesToMd(ghcEventlogConverter, bytes, options()),
+    ).toThrow(
+      `no usable records because the input ends before the end-of-data marker`,
+    )
   })
 })
 

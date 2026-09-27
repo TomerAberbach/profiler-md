@@ -7,6 +7,7 @@ import type {
 } from '../../../modalities/call-stack-profile/index.ts'
 import { SAMPLES } from '../../../modalities/metrics.ts'
 import type { StackFrame } from '../../../modalities/stack-frame.ts'
+import type { RecordTally } from '../../converter.ts'
 import { FormatParseError } from '../../error.ts'
 import {
   BRANCH_ENTRY_SIZE,
@@ -66,7 +67,7 @@ export class PerfFile {
 
   readonly #originHint: string | undefined
 
-  public constructor(bytes: Uint8Array) {
+  public constructor(bytes: Uint8Array, recordTally: RecordTally) {
     this.#bytes = bytes
     this.#view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
 
@@ -76,7 +77,7 @@ export class PerfFile {
     const attrsSection = this.#requireSection(24, `attributes section`)
     this.#data = this.#requireSection(40, `data section`)
 
-    const features = this.#readFeatures()
+    const features = this.#readFeatures(recordTally)
     if (features.has(FEATURE_COMPRESSED)) {
       throw new FormatParseError(
         `compressed with \`perf record -z\`, which is unsupported`,
@@ -748,11 +749,16 @@ export class PerfFile {
    * Reads the feature sections that follow the data section: one descriptor per
    * bit set in the header's feature map, in ascending bit order. A bit whose
    * descriptor points past the end of the file maps to no section, since the
-   * bit alone still states that the recording wrote that feature.
+   * bit alone still states that the recording wrote that feature, and so does a
+   * bit whose descriptor is itself past the end. Both are recorded on
+   * {@link recordTally}.
    */
-  #readFeatures(): Map<number, FileSection | undefined> {
+  #readFeatures(
+    recordTally: RecordTally,
+  ): Map<number, FileSection | undefined> {
     const features = new Map<number, FileSection | undefined>()
     let offset = this.#data.offset + this.#data.size
+    let skippedCount = 0
 
     for (let feature = 0; feature < FEATURE_COUNT; feature++) {
       const flags = this.#view.getUint32(
@@ -762,13 +768,24 @@ export class PerfFile {
       if (!(flags & (1 << (feature % 32)))) {
         continue
       }
-      if (offset + SECTION_SIZE > this.#bytes.length) {
-        break
+      const section =
+        offset + SECTION_SIZE > this.#bytes.length
+          ? undefined
+          : this.#section(offset)
+      if (!section) {
+        skippedCount++
       }
-      features.set(feature, this.#section(offset))
+      features.set(feature, section)
       offset += SECTION_SIZE
     }
 
+    if (skippedCount > 0) {
+      recordTally.skipped(
+        `feature section`,
+        `running past the end of the input`,
+        skippedCount,
+      )
+    }
     return features
   }
 
