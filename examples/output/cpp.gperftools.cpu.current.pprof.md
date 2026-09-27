@@ -4,9 +4,9 @@ Took 517.0ms over 517 samples (1.0ms per sample).
 
 | Category         |     % |    Time | Samples |
 | ---------------- | ----: | ------: | ------: |
-| Ours             | 92.6% | 479.0ms |     479 |
-| Standard library |  4.1% |  21.0ms |      21 |
-| Native           |  3.3% |  17.0ms |      17 |
+| Ours             | 79.5% | 411.0ms |     411 |
+| Native           | 19.0% |  98.0ms |      98 |
+| Standard library |  1.5% |   8.0ms |       8 |
 
 ## Hottest functions
 
@@ -14,28 +14,28 @@ Took 517.0ms over 517 samples (1.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|    % |   Time | Samples | Function                                                           | Location                                   |
-| ---: | -----: | ------: | ------------------------------------------------------------------ | ------------------------------------------ |
-| 7.9% | 41.0ms |      41 | `fmt::v11::detail::buffer::append`                                 | `src/fmt/include/fmt/base.h`               |
-| 7.4% | 38.0ms |      38 | `fmt::v11::vformat[abi:cxx11]`                                     | `src/fmt/include/fmt/format-inl.h`         |
-| 6.4% | 33.0ms |      33 | `fmt::v11::detail::parse_format_specs`                             | `src/fmt/include/fmt/base.h`               |
-| 5.4% | 28.0ms |      28 | `fmt::v11::detail::parse_replacement_field`                        | `src/fmt/include/fmt/base.h`               |
-| 4.4% | 23.0ms |      23 | `fmt::v11::detail::format_handler::on_format_specs`                | `src/fmt/include/fmt/format.h`             |
-| 4.3% | 22.0ms |      22 | `fmt::v11::detail::write_float`                                    | `src/fmt/include/fmt/format.h`             |
-| 4.3% | 22.0ms |      22 | `fmt::v11::detail::utf8_decode`                                    | `src/fmt/include/fmt/format.h`             |
-| 3.3% | 17.0ms |      17 | `fmt::v11::basic_format_arg::visit`                                | `src/fmt/include/fmt/base.h`               |
-| 3.1% | 16.0ms |      16 | `_start`                                                           | `<unknown>`                                |
-| 3.1% | 16.0ms |      16 | `fmt::v11::detail::write_padded`                                   | `src/fmt/include/fmt/format.h`             |
-| 2.9% | 15.0ms |      15 | `fmt::v11::detail::copy_noinline`                                  | `src/fmt/include/fmt/format.h`             |
-| 2.7% | 14.0ms |      14 | `fmt::v11::detail::parse_format_string`                            | `src/fmt/include/fmt/base.h`               |
-| 2.3% | 12.0ms |      12 | `fmt::v11::detail::parse_dynamic_spec`                             | `src/fmt/include/fmt/base.h`               |
-| 2.1% | 11.0ms |      11 | `fmt::v11::detail::compute_width()::count_code_points::operator()` | `src/fmt/include/fmt/format.h`             |
-| 1.9% | 10.0ms |      10 | `std::__cxx11::basic_string::_M_construct`                         | `usr/include/c++/12/bits/basic_string.tcc` |
-| 1.7% |  9.0ms |       9 | `fmt::v11::detail::format_float`                                   | `src/fmt/include/fmt/format.h`             |
-| 1.7% |  9.0ms |       9 | `fmt::v11::detail::buffer::try_reserve`                            | `src/fmt/include/fmt/base.h`               |
-| 1.7% |  9.0ms |       9 | `fmt::v11::detail::do_format_decimal`                              | `src/fmt/include/fmt/format.h`             |
-| 1.7% |  9.0ms |       9 | `fmt::v11::detail::parse_nonnegative_int`                          | `src/fmt/include/fmt/base.h`               |
-| 1.5% |  8.0ms |       8 | `fmt::v11::detail::do_write_float`                                 | `src/fmt/include/fmt/format.h`             |
+|    % |   Time | Samples | Function                                                           | Location                                        |
+| ---: | -----: | ------: | ------------------------------------------------------------------ | ----------------------------------------------- |
+| 7.9% | 41.0ms |      41 | `fmt::v11::detail::buffer::append`                                 | `src/fmt/include/fmt/base.h`                    |
+| 6.4% | 33.0ms |      33 | `fmt::v11::detail::parse_format_specs`                             | `src/fmt/include/fmt/base.h`                    |
+| 5.4% | 28.0ms |      28 | `fmt::v11::detail::parse_replacement_field`                        | `src/fmt/include/fmt/base.h`                    |
+| 4.3% | 22.0ms |      22 | `fmt::v11::detail::utf8_decode`                                    | `src/fmt/include/fmt/format.h`                  |
+| 3.9% | 20.0ms |      20 | `0x9d100`                                                          | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 3.3% | 17.0ms |      17 | `fmt::v11::basic_format_arg::visit`                                | `src/fmt/include/fmt/base.h`                    |
+| 3.1% | 16.0ms |      16 | `fmt::v11::detail::write_padded`                                   | `src/fmt/include/fmt/format.h`                  |
+| 2.9% | 15.0ms |      15 | `fmt::v11::detail::copy_noinline`                                  | `src/fmt/include/fmt/format.h`                  |
+| 2.7% | 14.0ms |      14 | `fmt::v11::detail::parse_format_string`                            | `src/fmt/include/fmt/base.h`                    |
+| 2.5% | 13.0ms |      13 | `fmt::v11::detail::format_handler::on_format_specs`                | `src/fmt/include/fmt/format.h`                  |
+| 2.5% | 13.0ms |      13 | `0x137f20`                                                         | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 2.3% | 12.0ms |      12 | `fmt::v11::detail::parse_dynamic_spec`                             | `src/fmt/include/fmt/base.h`                    |
+| 2.1% | 11.0ms |      11 | `fmt::v11::detail::compute_width()::count_code_points::operator()` | `src/fmt/include/fmt/format.h`                  |
+| 1.9% | 10.0ms |      10 | `0x137f80`                                                         | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 1.7% |  9.0ms |       9 | `fmt::v11::detail::format_float`                                   | `src/fmt/include/fmt/format.h`                  |
+| 1.7% |  9.0ms |       9 | `fmt::v11::detail::buffer::try_reserve`                            | `src/fmt/include/fmt/base.h`                    |
+| 1.7% |  9.0ms |       9 | `fmt::v11::detail::do_format_decimal`                              | `src/fmt/include/fmt/format.h`                  |
+| 1.7% |  9.0ms |       9 | `fmt::v11::detail::parse_nonnegative_int`                          | `src/fmt/include/fmt/base.h`                    |
+| 1.7% |  9.0ms |       9 | `0xa0cb0`                                                          | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 1.5% |  8.0ms |       8 | `fmt::v11::detail::do_write_float`                                 | `src/fmt/include/fmt/format.h`                  |
 
 #### Categories
 
@@ -44,16 +44,14 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |    % |   Time | Samples | Function                                                           | Location                           |
 | ---: | -----: | ------: | ------------------------------------------------------------------ | ---------------------------------- |
 | 7.9% | 41.0ms |      41 | `fmt::v11::detail::buffer::append`                                 | `src/fmt/include/fmt/base.h`       |
-| 7.4% | 38.0ms |      38 | `fmt::v11::vformat[abi:cxx11]`                                     | `src/fmt/include/fmt/format-inl.h` |
 | 6.4% | 33.0ms |      33 | `fmt::v11::detail::parse_format_specs`                             | `src/fmt/include/fmt/base.h`       |
 | 5.4% | 28.0ms |      28 | `fmt::v11::detail::parse_replacement_field`                        | `src/fmt/include/fmt/base.h`       |
-| 4.4% | 23.0ms |      23 | `fmt::v11::detail::format_handler::on_format_specs`                | `src/fmt/include/fmt/format.h`     |
-| 4.3% | 22.0ms |      22 | `fmt::v11::detail::write_float`                                    | `src/fmt/include/fmt/format.h`     |
 | 4.3% | 22.0ms |      22 | `fmt::v11::detail::utf8_decode`                                    | `src/fmt/include/fmt/format.h`     |
 | 3.3% | 17.0ms |      17 | `fmt::v11::basic_format_arg::visit`                                | `src/fmt/include/fmt/base.h`       |
 | 3.1% | 16.0ms |      16 | `fmt::v11::detail::write_padded`                                   | `src/fmt/include/fmt/format.h`     |
 | 2.9% | 15.0ms |      15 | `fmt::v11::detail::copy_noinline`                                  | `src/fmt/include/fmt/format.h`     |
 | 2.7% | 14.0ms |      14 | `fmt::v11::detail::parse_format_string`                            | `src/fmt/include/fmt/base.h`       |
+| 2.5% | 13.0ms |      13 | `fmt::v11::detail::format_handler::on_format_specs`                | `src/fmt/include/fmt/format.h`     |
 | 2.3% | 12.0ms |      12 | `fmt::v11::detail::parse_dynamic_spec`                             | `src/fmt/include/fmt/base.h`       |
 | 2.1% | 11.0ms |      11 | `fmt::v11::detail::compute_width()::count_code_points::operator()` | `src/fmt/include/fmt/format.h`     |
 | 1.7% |  9.0ms |       9 | `fmt::v11::detail::format_float`                                   | `src/fmt/include/fmt/format.h`     |
@@ -63,24 +61,43 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 1.5% |  8.0ms |       8 | `fmt::v11::detail::do_write_float`                                 | `src/fmt/include/fmt/format.h`     |
 | 1.5% |  8.0ms |       8 | `fmt::v11::detail::dragonbox::cache_accessor::get_cached_power`    | `src/fmt/include/fmt/format-inl.h` |
 | 1.5% |  8.0ms |       8 | `fmt::v11::detail::buffer::push_back`                              | `src/fmt/include/fmt/base.h`       |
-
-##### Standard library
-
-|    % |   Time | Samples | Function                                                 | Location                                   |
-| ---: | -----: | ------: | -------------------------------------------------------- | ------------------------------------------ |
-| 1.9% | 10.0ms |      10 | `std::__cxx11::basic_string::_M_construct`               | `usr/include/c++/12/bits/basic_string.tcc` |
-| 0.8% |  4.0ms |       4 | `std::__new_allocator::deallocate`                       | `usr/include/c++/12/bits/new_allocator.h`  |
-| 0.4% |  2.0ms |       2 | `std::__cxx11::basic_string::_Alloc_hider::_Alloc_hider` | `usr/include/c++/12/bits/basic_string.h`   |
-| 0.4% |  2.0ms |       2 | `std::char_traits::assign`                               | `usr/include/c++/12/bits/char_traits.h`    |
-| 0.4% |  2.0ms |       2 | `std::__cxx11::basic_string::_M_destroy`                 | `usr/include/c++/12/bits/basic_string.h`   |
-| 0.2% |  1.0ms |       1 | `std::__cxx11::basic_string::~basic_string`              | `usr/include/c++/12/bits/basic_string.h`   |
+| 1.5% |  8.0ms |       8 | `fmt::v11::detail::write_int`                                      | `src/fmt/include/fmt/format.h`     |
+| 1.4% |  7.0ms |       7 | `fmt::v11::detail::do_format_base2e`                               | `src/fmt/include/fmt/format.h`     |
 
 ##### Native
 
-|    % |   Time | Samples | Function | Location    |
-| ---: | -----: | ------: | -------- | ----------- |
-| 3.1% | 16.0ms |      16 | `_start` | `<unknown>` |
-| 0.2% |  1.0ms |       1 | `_init`  | `<unknown>` |
+|    % |   Time | Samples | Function   | Location                                        |
+| ---: | -----: | ------: | ---------- | ----------------------------------------------- |
+| 3.9% | 20.0ms |      20 | `0x9d100`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 2.5% | 13.0ms |      13 | `0x137f20` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 1.9% | 10.0ms |      10 | `0x137f80` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 1.7% |  9.0ms |       9 | `0xa0cb0`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 1.2% |  6.0ms |       6 | `0x9e6c0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 1.0% |  5.0ms |       5 | `0x92284`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 0.8% |  4.0ms |       4 | `0x137f84` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.8% |  4.0ms |       4 | `0x9e6e8`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 0.6% |  3.0ms |       3 | `0x9d234`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.6% |  3.0ms |       3 | `0x9a8f4`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.4% |  2.0ms |       2 | `0x9e6f8`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 0.4% |  2.0ms |       2 | `0x9d1b0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 0.4% |  2.0ms |       2 | `0x9a104`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.4% |  2.0ms |       2 | `0x9d184`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 0.4% |  2.0ms |       2 | `0x8faa0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 0.4% |  2.0ms |       2 | `0x137f94` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.2% |  1.0ms |       1 | `_init`    | `<unknown>`                                     |
+| 0.2% |  1.0ms |       1 | `0xa2cac`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.2% |  1.0ms |       1 | `0xa2c9c`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 0.2% |  1.0ms |       1 | `0xa0ca0`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+
+##### Standard library
+
+|    % |  Time | Samples | Function                                                 | Location                                   |
+| ---: | ----: | ------: | -------------------------------------------------------- | ------------------------------------------ |
+| 0.4% | 2.0ms |       2 | `std::__cxx11::basic_string::_Alloc_hider::_Alloc_hider` | `usr/include/c++/12/bits/basic_string.h`   |
+| 0.4% | 2.0ms |       2 | `std::char_traits::assign`                               | `usr/include/c++/12/bits/char_traits.h`    |
+| 0.4% | 2.0ms |       2 | `std::__cxx11::basic_string::_M_destroy`                 | `usr/include/c++/12/bits/basic_string.h`   |
+| 0.2% | 1.0ms |       1 | `std::__cxx11::basic_string::_M_construct`               | `usr/include/c++/12/bits/basic_string.tcc` |
+| 0.2% | 1.0ms |       1 | `std::__cxx11::basic_string::~basic_string`              | `usr/include/c++/12/bits/basic_string.h`   |
 
 #### Lines
 
@@ -94,13 +111,6 @@ Lines ranked by contribution to each function's self time.
 | 12.2% |  5.0ms |       5 | `src/fmt/include/fmt/base.h:1830` |
 | 12.2% |  5.0ms |       5 | `src/fmt/include/fmt/base.h:1836` |
 |  9.8% |  4.0ms |       4 | `src/fmt/include/fmt/base.h:1838` |
-
-##### `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`)
-
-|     % |   Time | Samples | Location                                |
-| ----: | -----: | ------: | --------------------------------------- |
-| 97.4% | 37.0ms |      37 | `src/fmt/include/fmt/format-inl.h:1447` |
-|  2.6% |  1.0ms |       1 | `src/fmt/include/fmt/format-inl.h:1448` |
 
 ##### `fmt::v11::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`)
 
@@ -119,24 +129,6 @@ Lines ranked by contribution to each function's self time.
 | 32.1% |  9.0ms |       9 | `src/fmt/include/fmt/base.h:1593` |
 | 28.6% |  8.0ms |       8 | `src/fmt/include/fmt/base.h:1583` |
 |  3.6% |  1.0ms |       1 | `src/fmt/include/fmt/base.h:1624` |
-
-##### `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`)
-
-|     % |   Time | Samples | Location                            |
-| ----: | -----: | ------: | ----------------------------------- |
-| 52.2% | 12.0ms |      12 | `src/fmt/include/fmt/format.h:3628` |
-| 26.1% |  6.0ms |       6 | `src/fmt/include/fmt/format.h:3630` |
-| 21.7% |  5.0ms |       5 | `src/fmt/include/fmt/format.h:3619` |
-
-##### `fmt::v11::detail::write_float` (`src/fmt/include/fmt/format.h`)
-
-|     % |   Time | Samples | Location                            |
-| ----: | -----: | ------: | ----------------------------------- |
-| 72.7% | 16.0ms |      16 | `src/fmt/include/fmt/format.h:2460` |
-|  9.1% |  2.0ms |       2 | `src/fmt/include/fmt/format.h:3301` |
-|  9.1% |  2.0ms |       2 | `src/fmt/include/fmt/format.h:3306` |
-|  4.5% |  1.0ms |       1 | `src/fmt/include/fmt/format.h:3343` |
-|  4.5% |  1.0ms |       1 | `src/fmt/include/fmt/format.h:3336` |
 
 ##### `fmt::v11::detail::utf8_decode` (`src/fmt/include/fmt/format.h`)
 
@@ -181,6 +173,14 @@ Lines ranked by contribution to each function's self time.
 | 14.3% | 2.0ms |       2 | `src/fmt/include/fmt/base.h:1634` |
 | 14.3% | 2.0ms |       2 | `src/fmt/include/fmt/base.h:1638` |
 
+##### `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`)
+
+|     % |  Time | Samples | Location                            |
+| ----: | ----: | ------: | ----------------------------------- |
+| 46.2% | 6.0ms |       6 | `src/fmt/include/fmt/format.h:3630` |
+| 38.5% | 5.0ms |       5 | `src/fmt/include/fmt/format.h:3619` |
+| 15.4% | 2.0ms |       2 | `src/fmt/include/fmt/format.h:3628` |
+
 ##### `fmt::v11::detail::parse_dynamic_spec` (`src/fmt/include/fmt/base.h`)
 
 |     % |  Time | Samples | Location                          |
@@ -197,13 +197,6 @@ Lines ranked by contribution to each function's self time.
 | 45.5% | 5.0ms |       5 | `src/fmt/include/fmt/format.h:648` |
 | 45.5% | 5.0ms |       5 | `src/fmt/include/fmt/format.h:644` |
 |  9.1% | 1.0ms |       1 | `src/fmt/include/fmt/format.h:646` |
-
-##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
-
-|     % |  Time | Samples | Location                                       |
-| ----: | ----: | ------: | ---------------------------------------------- |
-| 90.0% | 9.0ms |       9 | `usr/include/c++/12/bits/basic_string.tcc:225` |
-| 10.0% | 1.0ms |       1 | `usr/include/c++/12/bits/basic_string.tcc:221` |
 
 ##### `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`)
 
@@ -262,11 +255,21 @@ Lines ranked by contribution to each function's self time.
 | 87.5% | 7.0ms |       7 | `src/fmt/include/fmt/base.h:1818` |
 | 12.5% | 1.0ms |       1 | `src/fmt/include/fmt/base.h:1816` |
 
-##### `std::__new_allocator::deallocate` (`usr/include/c++/12/bits/new_allocator.h`)
+##### `fmt::v11::detail::write_int` (`src/fmt/include/fmt/format.h`)
 
-|      % |  Time | Samples | Location                                      |
-| -----: | ----: | ------: | --------------------------------------------- |
-| 100.0% | 4.0ms |       4 | `usr/include/c++/12/bits/new_allocator.h:158` |
+|     % |  Time | Samples | Location                            |
+| ----: | ----: | ------: | ----------------------------------- |
+| 62.5% | 5.0ms |       5 | `src/fmt/include/fmt/format.h:2017` |
+| 12.5% | 1.0ms |       1 | `src/fmt/include/fmt/format.h:2029` |
+| 12.5% | 1.0ms |       1 | `src/fmt/include/fmt/format.h:2078` |
+| 12.5% | 1.0ms |       1 | `src/fmt/include/fmt/format.h:2033` |
+
+##### `fmt::v11::detail::do_format_base2e` (`src/fmt/include/fmt/format.h`)
+
+|     % |  Time | Samples | Location                            |
+| ----: | ----: | ------: | ----------------------------------- |
+| 85.7% | 6.0ms |       6 | `src/fmt/include/fmt/format.h:1231` |
+| 14.3% | 1.0ms |       1 | `src/fmt/include/fmt/format.h:1229` |
 
 ##### `std::__cxx11::basic_string::_Alloc_hider::_Alloc_hider` (`usr/include/c++/12/bits/basic_string.h`)
 
@@ -286,6 +289,12 @@ Lines ranked by contribution to each function's self time.
 | -----: | ----: | ------: | -------------------------------------------- |
 | 100.0% | 2.0ms |       2 | `usr/include/c++/12/bits/basic_string.h:292` |
 
+##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
+
+|      % |  Time | Samples | Location                                       |
+| -----: | ----: | ------: | ---------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `usr/include/c++/12/bits/basic_string.tcc:221` |
+
 ##### `std::__cxx11::basic_string::~basic_string` (`usr/include/c++/12/bits/basic_string.h`)
 
 |      % |  Time | Samples | Location                                     |
@@ -302,13 +311,6 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | ------------------------ | ---------------------------- |
 | 100.0% | 41.0ms |      41 | `fmt::v11::detail::copy` | `src/fmt/include/fmt/base.h` |
 
-##### `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`)
-
-|     % |   Time | Samples | Caller             | Location                       |
-| ----: | -----: | ------: | ------------------ | ------------------------------ |
-| 97.4% | 37.0ms |      37 | `fmt::v11::format` | `src/fmt/include/fmt/format.h` |
-|  2.6% |  1.0ms |       1 | `_start`           | `<unknown>`                    |
-
 ##### `fmt::v11::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`)
 
 |     % |   Time | Samples | Caller                                              | Location                       |
@@ -322,24 +324,18 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | --------------------------------------- | ---------------------------- |
 | 100.0% | 28.0ms |      28 | `fmt::v11::detail::parse_format_string` | `src/fmt/include/fmt/base.h` |
 
-##### `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`)
-
-|      % |   Time | Samples | Caller                                      | Location                     |
-| -----: | -----: | ------: | ------------------------------------------- | ---------------------------- |
-| 100.0% | 23.0ms |      23 | `fmt::v11::detail::parse_replacement_field` | `src/fmt/include/fmt/base.h` |
-
-##### `fmt::v11::detail::write_float` (`src/fmt/include/fmt/format.h`)
-
-|     % |   Time | Samples | Caller                          | Location                       |
-| ----: | -----: | ------: | ------------------------------- | ------------------------------ |
-| 72.7% | 16.0ms |      16 | `fmt::v11::detail::write_float` | `src/fmt/include/fmt/format.h` |
-| 27.3% |  6.0ms |       6 | `fmt::v11::detail::write`       | `src/fmt/include/fmt/format.h` |
-
 ##### `fmt::v11::detail::utf8_decode` (`src/fmt/include/fmt/format.h`)
 
 |      % |   Time | Samples | Caller                                                                                     | Location                       |
 | -----: | -----: | ------: | ------------------------------------------------------------------------------------------ | ------------------------------ |
 | 100.0% | 22.0ms |      22 | `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` | `src/fmt/include/fmt/format.h` |
+
+##### `0x9d100` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                              | Location                           |
+| ----: | -----: | ------: | --------------------------------------------------- | ---------------------------------- |
+| 95.0% | 19.0ms |      19 | `fmt::v11::vformat[abi:cxx11]`                      | `src/fmt/include/fmt/format-inl.h` |
+|  5.0% |  1.0ms |       1 | `fmt::v11::detail::format_handler::on_format_specs` | `src/fmt/include/fmt/format.h`     |
 
 ##### `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`)
 
@@ -370,6 +366,18 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | ------------------------------ | ---------------------------------- |
 | 100.0% | 14.0ms |      14 | `fmt::v11::detail::vformat_to` | `src/fmt/include/fmt/format-inl.h` |
 
+##### `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`)
+
+|      % |   Time | Samples | Caller                                      | Location                     |
+| -----: | -----: | ------: | ------------------------------------------- | ---------------------------- |
+| 100.0% | 13.0ms |      13 | `fmt::v11::detail::parse_replacement_field` | `src/fmt/include/fmt/base.h` |
+
+##### `0x137f20` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |   Time | Samples | Caller                         | Location                           |
+| -----: | -----: | ------: | ------------------------------ | ---------------------------------- |
+| 100.0% | 13.0ms |      13 | `fmt::v11::vformat[abi:cxx11]` | `src/fmt/include/fmt/format-inl.h` |
+
 ##### `fmt::v11::detail::parse_dynamic_spec` (`src/fmt/include/fmt/base.h`)
 
 |     % |  Time | Samples | Caller                                              | Location                       |
@@ -384,11 +392,11 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | ------------------------------------------------------------------------------------------ | ------------------------------ |
 | 100.0% | 11.0ms |      11 | `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` | `src/fmt/include/fmt/format.h` |
 
-##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
+##### `0x137f80` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
 
-|      % |   Time | Samples | Caller                                     | Location                                 |
-| -----: | -----: | ------: | ------------------------------------------ | ---------------------------------------- |
-| 100.0% | 10.0ms |      10 | `std::__cxx11::basic_string::basic_string` | `usr/include/c++/12/bits/basic_string.h` |
+|      % |   Time | Samples | Caller                          | Location                       |
+| -----: | -----: | ------: | ------------------------------- | ------------------------------ |
+| 100.0% | 10.0ms |      10 | `fmt::v11::detail::write_float` | `src/fmt/include/fmt/format.h` |
 
 ##### `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`)
 
@@ -417,6 +425,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | -------------------------------------- | ---------------------------- |
 | 100.0% | 9.0ms |       9 | `fmt::v11::detail::parse_dynamic_spec` | `src/fmt/include/fmt/base.h` |
 
+##### `0xa0cb0` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller    | Location                              |
+| -----: | ----: | ------: | --------- | ------------------------------------- |
+| 100.0% | 9.0ms |       9 | `0x27743` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `fmt::v11::detail::do_write_float` (`src/fmt/include/fmt/format.h`)
 
 |     % |  Time | Samples | Caller                          | Location                       |
@@ -436,11 +450,92 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ------------------------------------- | ---------------------------- |
 | 100.0% | 8.0ms |       8 | `fmt::v11::basic_appender::operator=` | `src/fmt/include/fmt/base.h` |
 
-##### `std::__new_allocator::deallocate` (`usr/include/c++/12/bits/new_allocator.h`)
+##### `fmt::v11::detail::write_int` (`src/fmt/include/fmt/format.h`)
 
-|      % |  Time | Samples | Caller                              | Location                                 |
-| -----: | ----: | ------: | ----------------------------------- | ---------------------------------------- |
-| 100.0% | 4.0ms |       4 | `std::allocator_traits::deallocate` | `usr/include/c++/12/bits/alloc_traits.h` |
+|      % |  Time | Samples | Caller                                              | Location                       |
+| -----: | ----: | ------: | --------------------------------------------------- | ------------------------------ |
+| 100.0% | 8.0ms |       8 | `fmt::v11::detail::format_handler::on_format_specs` | `src/fmt/include/fmt/format.h` |
+
+##### `fmt::v11::detail::do_format_base2e` (`src/fmt/include/fmt/format.h`)
+
+|      % |  Time | Samples | Caller                        | Location                       |
+| -----: | ----: | ------: | ----------------------------- | ------------------------------ |
+| 100.0% | 7.0ms |       7 | `fmt::v11::detail::write_int` | `src/fmt/include/fmt/format.h` |
+
+##### `0x9e6c0` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                                                   | Location                       |
+| ----: | ----: | ------: | -------------------------------------------------------- | ------------------------------ |
+| 50.0% | 3.0ms |       3 | `fmt::v11::detail::format_handler::on_format_specs`      | `src/fmt/include/fmt/format.h` |
+| 50.0% | 3.0ms |       3 | `fmt::v11::detail::format_handler::on_replacement_field` | `src/fmt/include/fmt/format.h` |
+
+##### `0x92284` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                                        |
+| -----: | ----: | ------: | --------- | ----------------------------------------------- |
+| 100.0% | 5.0ms |       5 | `0xa2cab` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+
+##### `0x137f84` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller                          | Location                       |
+| -----: | ----: | ------: | ------------------------------- | ------------------------------ |
+| 100.0% | 4.0ms |       4 | `fmt::v11::detail::write_float` | `src/fmt/include/fmt/format.h` |
+
+##### `0x9e6e8` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                                                   | Location                       |
+| ----: | ----: | ------: | -------------------------------------------------------- | ------------------------------ |
+| 75.0% | 3.0ms |       3 | `fmt::v11::detail::format_handler::on_format_specs`      | `src/fmt/include/fmt/format.h` |
+| 25.0% | 1.0ms |       1 | `fmt::v11::detail::format_handler::on_replacement_field` | `src/fmt/include/fmt/format.h` |
+
+##### `0x9d234` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller    | Location                              |
+| -----: | ----: | ------: | --------- | ------------------------------------- |
+| 100.0% | 3.0ms |       3 | `0x27743` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9a8f4` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller    | Location                              |
+| -----: | ----: | ------: | --------- | ------------------------------------- |
+| 100.0% | 3.0ms |       3 | `0x27743` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9e6f8` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                                                   | Location                       |
+| ----: | ----: | ------: | -------------------------------------------------------- | ------------------------------ |
+| 50.0% | 1.0ms |       1 | `fmt::v11::detail::format_handler::on_format_specs`      | `src/fmt/include/fmt/format.h` |
+| 50.0% | 1.0ms |       1 | `fmt::v11::detail::format_handler::on_replacement_field` | `src/fmt/include/fmt/format.h` |
+
+##### `0x9d1b0` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                         | Location                           |
+| -----: | ----: | ------: | ------------------------------ | ---------------------------------- |
+| 100.0% | 2.0ms |       2 | `fmt::v11::vformat[abi:cxx11]` | `src/fmt/include/fmt/format-inl.h` |
+
+##### `0x9a104` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller                         | Location                           |
+| -----: | ----: | ------: | ------------------------------ | ---------------------------------- |
+| 100.0% | 2.0ms |       2 | `fmt::v11::vformat[abi:cxx11]` | `src/fmt/include/fmt/format-inl.h` |
+
+##### `0x9d184` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                                              | Location                       |
+| -----: | ----: | ------: | --------------------------------------------------- | ------------------------------ |
+| 100.0% | 2.0ms |       2 | `fmt::v11::detail::format_handler::on_format_specs` | `src/fmt/include/fmt/format.h` |
+
+##### `0x8faa0` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                              |
+| -----: | ----: | ------: | --------- | ------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x92a9b` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x137f94` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller                          | Location                       |
+| -----: | ----: | ------: | ------------------------------- | ------------------------------ |
+| 100.0% | 2.0ms |       2 | `fmt::v11::detail::write_float` | `src/fmt/include/fmt/format.h` |
 
 ##### `std::__cxx11::basic_string::_Alloc_hider::_Alloc_hider` (`usr/include/c++/12/bits/basic_string.h`)
 
@@ -460,44 +555,68 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------------- |
 | 100.0% | 2.0ms |       2 | `std::__cxx11::basic_string::_M_dispose` | `usr/include/c++/12/bits/basic_string.h` |
 
-##### `std::__cxx11::basic_string::~basic_string` (`usr/include/c++/12/bits/basic_string.h`)
-
-|      % |  Time | Samples | Caller                                              | Location                       |
-| -----: | ----: | ------: | --------------------------------------------------- | ------------------------------ |
-| 100.0% | 1.0ms |       1 | `fmt::v11::detail::digit_grouping::~digit_grouping` | `src/fmt/include/fmt/format.h` |
-
 ##### `_init` (`<unknown>`)
 
 |      % |  Time | Samples | Caller                         | Location                           |
 | -----: | ----: | ------: | ------------------------------ | ---------------------------------- |
 | 100.0% | 1.0ms |       1 | `fmt::v11::vformat[abi:cxx11]` | `src/fmt/include/fmt/format-inl.h` |
 
+##### `0xa2cac` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller                                     | Location                                   |
+| -----: | ----: | ------: | ------------------------------------------ | ------------------------------------------ |
+| 100.0% | 1.0ms |       1 | `std::__cxx11::basic_string::_M_construct` | `usr/include/c++/12/bits/basic_string.tcc` |
+
+##### `0xa2c9c` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller                                     | Location                                   |
+| -----: | ----: | ------: | ------------------------------------------ | ------------------------------------------ |
+| 100.0% | 1.0ms |       1 | `std::__cxx11::basic_string::_M_construct` | `usr/include/c++/12/bits/basic_string.tcc` |
+
+##### `0xa0ca0` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|      % |  Time | Samples | Caller    | Location                              |
+| -----: | ----: | ------: | --------- | ------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x27743` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
+
+|      % |  Time | Samples | Caller                                     | Location                                 |
+| -----: | ----: | ------: | ------------------------------------------ | ---------------------------------------- |
+| 100.0% | 1.0ms |       1 | `std::__cxx11::basic_string::basic_string` | `usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::~basic_string` (`usr/include/c++/12/bits/basic_string.h`)
+
+|      % |  Time | Samples | Caller                                              | Location                       |
+| -----: | ----: | ------: | --------------------------------------------------- | ------------------------------ |
+| 100.0% | 1.0ms |       1 | `fmt::v11::detail::digit_grouping::~digit_grouping` | `src/fmt/include/fmt/format.h` |
+
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
 
-|      % |    Time | Samples | Function                                                 | Location                           |
-| -----: | ------: | ------: | -------------------------------------------------------- | ---------------------------------- |
-| 100.0% | 517.0ms |     517 | `_start`                                                 | `<unknown>`                        |
-|  96.7% | 500.0ms |     500 | `main`                                                   | `out/profile.cpp`                  |
-|  95.6% | 494.0ms |     494 | `fmt::v11::format`                                       | `src/fmt/include/fmt/format.h`     |
-|  95.4% | 493.0ms |     493 | `fmt::v11::vformat[abi:cxx11]`                           | `src/fmt/include/fmt/format-inl.h` |
-|  84.9% | 439.0ms |     439 | `fmt::v11::detail::vformat_to`                           | `src/fmt/include/fmt/format-inl.h` |
-|  84.7% | 438.0ms |     438 | `fmt::v11::detail::parse_format_string`                  | `src/fmt/include/fmt/base.h`       |
-|  77.4% | 400.0ms |     400 | `fmt::v11::detail::parse_replacement_field`              | `src/fmt/include/fmt/base.h`       |
-|  62.7% | 324.0ms |     324 | `fmt::v11::detail::format_handler::on_format_specs`      | `src/fmt/include/fmt/format.h`     |
-|  31.3% | 162.0ms |     162 | `fmt::v11::detail::write`                                | `src/fmt/include/fmt/format.h`     |
-|  25.3% | 131.0ms |     131 | `fmt::v11::basic_format_arg::visit`                      | `src/fmt/include/fmt/base.h`       |
-|  20.7% | 107.0ms |     107 | `fmt::v11::detail::arg_formatter::operator()`            | `src/fmt/include/fmt/format.h`     |
-|  17.6% |  91.0ms |      91 | `fmt::v11::detail::write_float`                          | `src/fmt/include/fmt/format.h`     |
-|  13.0% |  67.0ms |      67 | `fmt::v11::detail::parse_format_specs`                   | `src/fmt/include/fmt/base.h`       |
-|  12.4% |  64.0ms |      64 | `fmt::v11::detail::write_padded`                         | `src/fmt/include/fmt/format.h`     |
-|   9.7% |  50.0ms |      50 | `fmt::v11::detail::copy_noinline`                        | `src/fmt/include/fmt/format.h`     |
-|   9.3% |  48.0ms |      48 | `fmt::v11::detail::copy`                                 | `src/fmt/include/fmt/base.h`       |
-|   9.1% |  47.0ms |      47 | `fmt::v11::detail::buffer::append`                       | `src/fmt/include/fmt/base.h`       |
-|   9.1% |  47.0ms |      47 | `fmt::v11::detail::write_int`                            | `src/fmt/include/fmt/format.h`     |
-|   8.9% |  46.0ms |      46 | `fmt::v11::detail::do_write_float`                       | `src/fmt/include/fmt/format.h`     |
-|   8.5% |  44.0ms |      44 | `fmt::v11::detail::format_handler::on_replacement_field` | `src/fmt/include/fmt/format.h`     |
+|      % |    Time | Samples | Function                                            | Location                              |
+| -----: | ------: | ------: | --------------------------------------------------- | ------------------------------------- |
+| 100.0% | 517.0ms |     517 | `0x27743`                                           | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 517.0ms |     517 | `0x27817`                                           | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 517.0ms |     517 | `_start`                                            | `<unknown>`                           |
+|  96.7% | 500.0ms |     500 | `main`                                              | `out/profile.cpp`                     |
+|  95.6% | 494.0ms |     494 | `fmt::v11::format`                                  | `src/fmt/include/fmt/format.h`        |
+|  95.4% | 493.0ms |     493 | `fmt::v11::vformat[abi:cxx11]`                      | `src/fmt/include/fmt/format-inl.h`    |
+|  84.9% | 439.0ms |     439 | `fmt::v11::detail::vformat_to`                      | `src/fmt/include/fmt/format-inl.h`    |
+|  84.7% | 438.0ms |     438 | `fmt::v11::detail::parse_format_string`             | `src/fmt/include/fmt/base.h`          |
+|  77.4% | 400.0ms |     400 | `fmt::v11::detail::parse_replacement_field`         | `src/fmt/include/fmt/base.h`          |
+|  62.7% | 324.0ms |     324 | `fmt::v11::detail::format_handler::on_format_specs` | `src/fmt/include/fmt/format.h`        |
+|  31.3% | 162.0ms |     162 | `fmt::v11::detail::write`                           | `src/fmt/include/fmt/format.h`        |
+|  25.3% | 131.0ms |     131 | `fmt::v11::basic_format_arg::visit`                 | `src/fmt/include/fmt/base.h`          |
+|  20.7% | 107.0ms |     107 | `fmt::v11::detail::arg_formatter::operator()`       | `src/fmt/include/fmt/format.h`        |
+|  17.6% |  91.0ms |      91 | `fmt::v11::detail::write_float`                     | `src/fmt/include/fmt/format.h`        |
+|  13.0% |  67.0ms |      67 | `fmt::v11::detail::parse_format_specs`              | `src/fmt/include/fmt/base.h`          |
+|  12.4% |  64.0ms |      64 | `fmt::v11::detail::write_padded`                    | `src/fmt/include/fmt/format.h`        |
+|   9.7% |  50.0ms |      50 | `fmt::v11::detail::copy_noinline`                   | `src/fmt/include/fmt/format.h`        |
+|   9.3% |  48.0ms |      48 | `fmt::v11::detail::copy`                            | `src/fmt/include/fmt/base.h`          |
+|   9.1% |  47.0ms |      47 | `fmt::v11::detail::buffer::append`                  | `src/fmt/include/fmt/base.h`          |
+|   9.1% |  47.0ms |      47 | `fmt::v11::detail::write_int`                       | `src/fmt/include/fmt/format.h`        |
 
 #### Categories
 
@@ -526,6 +645,31 @@ Functions ranked by total time spent in the function and all its callees.
 |  8.5% |  44.0ms |      44 | `fmt::v11::detail::format_handler::on_replacement_field` | `src/fmt/include/fmt/format.h`     |
 |  7.5% |  39.0ms |      39 | `fmt::v11::detail::for_each_codepoint`                   | `src/fmt/include/fmt/format.h`     |
 
+##### Native
+
+|      % |    Time | Samples | Function   | Location                                        |
+| -----: | ------: | ------: | ---------- | ----------------------------------------------- |
+| 100.0% | 517.0ms |     517 | `0x27743`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 100.0% | 517.0ms |     517 | `0x27817`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+| 100.0% | 517.0ms |     517 | `_start`   | `<unknown>`                                     |
+|   3.9% |  20.0ms |      20 | `0x9d100`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   2.5% |  13.0ms |      13 | `0x137f20` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   1.9% |  10.0ms |      10 | `0x137f80` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   1.7% |   9.0ms |       9 | `0xa0cb0`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   1.2% |   6.0ms |       6 | `0x9e6c0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   1.2% |   6.0ms |       6 | `0xa2cab`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   1.0% |   5.0ms |       5 | `0x92284`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   0.8% |   4.0ms |       4 | `0x137f84` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   0.8% |   4.0ms |       4 | `0x9e6e8`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   0.6% |   3.0ms |       3 | `0x9d234`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   0.6% |   3.0ms |       3 | `0x9a8f4`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   0.4% |   2.0ms |       2 | `0x9e6f8`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   0.4% |   2.0ms |       2 | `0x9d1b0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   0.4% |   2.0ms |       2 | `0x9a104`  | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|   0.4% |   2.0ms |       2 | `0x9d184`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   0.4% |   2.0ms |       2 | `0x8faa0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|   0.4% |   2.0ms |       2 | `0x92a9b`  | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+
 ##### Standard library
 
 |    % |   Time | Samples | Function                                                 | Location                                   |
@@ -541,23 +685,31 @@ Functions ranked by total time spent in the function and all its callees.
 | 0.4% |  2.0ms |       2 | `std::char_traits::assign`                               | `usr/include/c++/12/bits/char_traits.h`    |
 | 0.4% |  2.0ms |       2 | `std::__cxx11::basic_string::_M_set_length`              | `usr/include/c++/12/bits/basic_string.h`   |
 
-##### Native
-
-|      % |    Time | Samples | Function | Location    |
-| -----: | ------: | ------: | -------- | ----------- |
-| 100.0% | 517.0ms |     517 | `_start` | `<unknown>` |
-|   0.2% |   1.0ms |       1 | `_init`  | `<unknown>` |
-
 #### Callees
 
 Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
+##### `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |    Time | Samples | Callee    | Location                                        |
+| ----: | ------: | ------: | --------- | ----------------------------------------------- |
+| 96.7% | 500.0ms |     500 | `main`    | `out/profile.cpp`                               |
+|  1.7% |   9.0ms |       9 | `0xa0cb0` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|  0.6% |   3.0ms |       3 | `0x9d234` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|  0.6% |   3.0ms |       3 | `0x9a8f4` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|  0.2% |   1.0ms |       1 | `0xa0ca0` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+
+##### `0x27817` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Callee    | Location                              |
+| -----: | ------: | ------: | --------- | ------------------------------------- |
+| 100.0% | 517.0ms |     517 | `0x27743` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `_start` (`<unknown>`)
 
-|     % |    Time | Samples | Callee                         | Location                           |
-| ----: | ------: | ------: | ------------------------------ | ---------------------------------- |
-| 96.7% | 500.0ms |     500 | `main`                         | `out/profile.cpp`                  |
-|  0.2% |   1.0ms |       1 | `fmt::v11::vformat[abi:cxx11]` | `src/fmt/include/fmt/format-inl.h` |
+|      % |    Time | Samples | Callee    | Location                              |
+| -----: | ------: | ------: | --------- | ------------------------------------- |
+| 100.0% | 517.0ms |     517 | `0x27817` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `main` (`out/profile.cpp`)
 
@@ -575,13 +727,13 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`)
 
-|     % |    Time | Samples | Callee                                                | Location                           |
-| ----: | ------: | ------: | ----------------------------------------------------- | ---------------------------------- |
-| 89.0% | 439.0ms |     439 | `fmt::v11::detail::vformat_to`                        | `src/fmt/include/fmt/format-inl.h` |
-|  2.4% |  12.0ms |      12 | `fmt::v11::to_string`                                 | `src/fmt/include/fmt/format.h`     |
-|  0.4% |   2.0ms |       2 | `fmt::v11::basic_memory_buffer::~basic_memory_buffer` | `src/fmt/include/fmt/format.h`     |
-|  0.2% |   1.0ms |       1 | `_init`                                               | `<unknown>`                        |
-|  0.2% |   1.0ms |       1 | `fmt::v11::basic_memory_buffer::basic_memory_buffer`  | `src/fmt/include/fmt/format.h`     |
+|     % |    Time | Samples | Callee                                                | Location                                        |
+| ----: | ------: | ------: | ----------------------------------------------------- | ----------------------------------------------- |
+| 89.0% | 439.0ms |     439 | `fmt::v11::detail::vformat_to`                        | `src/fmt/include/fmt/format-inl.h`              |
+|  3.9% |  19.0ms |      19 | `0x9d100`                                             | `usr/lib/aarch64-linux-gnu/libc.so.6`           |
+|  2.6% |  13.0ms |      13 | `0x137f20`                                            | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|  2.4% |  12.0ms |      12 | `fmt::v11::to_string`                                 | `src/fmt/include/fmt/format.h`                  |
+|  0.4% |   2.0ms |       2 | `fmt::v11::basic_memory_buffer::~basic_memory_buffer` | `src/fmt/include/fmt/format.h`                  |
 
 ##### `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`)
 
@@ -645,12 +797,13 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `fmt::v11::detail::write_float` (`src/fmt/include/fmt/format.h`)
 
-|     % |   Time | Samples | Callee                                                | Location                       |
-| ----: | -----: | ------: | ----------------------------------------------------- | ------------------------------ |
-| 63.7% | 58.0ms |      58 | `fmt::v11::detail::write_float`                       | `src/fmt/include/fmt/format.h` |
-| 46.2% | 42.0ms |      42 | `fmt::v11::detail::do_write_float`                    | `src/fmt/include/fmt/format.h` |
-| 27.5% | 25.0ms |      25 | `fmt::v11::detail::format_float`                      | `src/fmt/include/fmt/format.h` |
-|  2.2% |  2.0ms |       2 | `fmt::v11::basic_memory_buffer::~basic_memory_buffer` | `src/fmt/include/fmt/format.h` |
+|     % |   Time | Samples | Callee                             | Location                                        |
+| ----: | -----: | ------: | ---------------------------------- | ----------------------------------------------- |
+| 63.7% | 58.0ms |      58 | `fmt::v11::detail::write_float`    | `src/fmt/include/fmt/format.h`                  |
+| 46.2% | 42.0ms |      42 | `fmt::v11::detail::do_write_float` | `src/fmt/include/fmt/format.h`                  |
+| 27.5% | 25.0ms |      25 | `fmt::v11::detail::format_float`   | `src/fmt/include/fmt/format.h`                  |
+| 11.0% | 10.0ms |      10 | `0x137f80`                         | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+|  4.4% |  4.0ms |       4 | `0x137f84`                         | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
 
 ##### `fmt::v11::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`)
 
@@ -711,12 +864,13 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `fmt::v11::detail::format_handler::on_replacement_field` (`src/fmt/include/fmt/format.h`)
 
-|     % |   Time | Samples | Callee                                | Location                       |
-| ----: | -----: | ------: | ------------------------------------- | ------------------------------ |
-| 47.7% | 21.0ms |      21 | `fmt::v11::detail::copy_noinline`     | `src/fmt/include/fmt/format.h` |
-| 27.3% | 12.0ms |      12 | `fmt::v11::basic_format_arg::visit`   | `src/fmt/include/fmt/base.h`   |
-|  9.1% |  4.0ms |       4 | `fmt::v11::detail::do_format_decimal` | `src/fmt/include/fmt/format.h` |
-|  2.3% |  1.0ms |       1 | `fmt::v11::context::arg`              | `src/fmt/include/fmt/base.h`   |
+|     % |   Time | Samples | Callee                                | Location                              |
+| ----: | -----: | ------: | ------------------------------------- | ------------------------------------- |
+| 47.7% | 21.0ms |      21 | `fmt::v11::detail::copy_noinline`     | `src/fmt/include/fmt/format.h`        |
+| 27.3% | 12.0ms |      12 | `fmt::v11::basic_format_arg::visit`   | `src/fmt/include/fmt/base.h`          |
+|  9.1% |  4.0ms |       4 | `fmt::v11::detail::do_format_decimal` | `src/fmt/include/fmt/format.h`        |
+|  6.8% |  3.0ms |       3 | `0x9e6c0`                             | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  2.3% |  1.0ms |       1 | `fmt::v11::context::arg`              | `src/fmt/include/fmt/base.h`          |
 
 ##### `fmt::v11::detail::for_each_codepoint` (`src/fmt/include/fmt/format.h`)
 
@@ -733,11 +887,27 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 14.3% |  2.0ms |       2 | `std::__cxx11::basic_string::_Alloc_hider::_Alloc_hider` | `usr/include/c++/12/bits/basic_string.h`   |
 | 14.3% |  2.0ms |       2 | `std::__cxx11::basic_string::_M_set_length`              | `usr/include/c++/12/bits/basic_string.h`   |
 
+##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
+
+|     % |  Time | Samples | Callee    | Location                                        |
+| ----: | ----: | ------: | --------- | ----------------------------------------------- |
+| 60.0% | 6.0ms |       6 | `0xa2cab` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 10.0% | 1.0ms |       1 | `0xa2cac` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 10.0% | 1.0ms |       1 | `0xa2c9c` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+| 10.0% | 1.0ms |       1 | `0x9c2e4` | `usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+
 ##### `std::__cxx11::basic_string::~basic_string` (`usr/include/c++/12/bits/basic_string.h`)
 
 |     % |  Time | Samples | Callee                                   | Location                                 |
 | ----: | ----: | ------: | ---------------------------------------- | ---------------------------------------- |
 | 85.7% | 6.0ms |       6 | `std::__cxx11::basic_string::_M_dispose` | `usr/include/c++/12/bits/basic_string.h` |
+
+##### `0xa2cab` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|     % |  Time | Samples | Callee    | Location                              |
+| ----: | ----: | ------: | --------- | ------------------------------------- |
+| 83.3% | 5.0ms |       5 | `0x92284` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 16.7% | 1.0ms |       1 | `0x92274` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `std::__cxx11::basic_string::_M_destroy` (`usr/include/c++/12/bits/basic_string.h`)
 
@@ -751,11 +921,25 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------------- |
 | 100.0% | 6.0ms |       6 | `std::__cxx11::basic_string::_M_destroy` | `usr/include/c++/12/bits/basic_string.h` |
 
+##### `std::__new_allocator::deallocate` (`usr/include/c++/12/bits/new_allocator.h`)
+
+|     % |  Time | Samples | Callee    | Location                              |
+| ----: | ----: | ------: | --------- | ------------------------------------- |
+| 50.0% | 2.0ms |       2 | `0x92a9b` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 25.0% | 1.0ms |       1 | `0x929e0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 25.0% | 1.0ms |       1 | `0x92aa4` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `std::allocator_traits::deallocate` (`usr/include/c++/12/bits/alloc_traits.h`)
 
 |      % |  Time | Samples | Callee                             | Location                                  |
 | -----: | ----: | ------: | ---------------------------------- | ----------------------------------------- |
 | 100.0% | 4.0ms |       4 | `std::__new_allocator::deallocate` | `usr/include/c++/12/bits/new_allocator.h` |
+
+##### `0x92a9b` (`usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee    | Location                              |
+| -----: | ----: | ------: | --------- | ------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x8faa0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `std::__cxx11::basic_string::_M_set_length` (`usr/include/c++/12/bits/basic_string.h`)
 
@@ -767,27 +951,27 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `_start`
+Common call stack: `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`
 
-|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ---: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 7.2% | 37.0ms |      37 | `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 6.2% | 32.0ms |      32 | `fmt::v11::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                         |
-| 5.4% | 28.0ms |      28 | `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| 4.4% | 23.0ms |      23 | `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 4.3% | 22.0ms |      22 | `fmt::v11::detail::utf8_decode` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` ← `fmt::v11::detail::for_each_codepoint` ← `fmt::v11::detail::compute_width` ← `fmt::v11::detail::write` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                         |
-| 3.3% | 17.0ms |      17 | `fmt::v11::detail::buffer::append` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::copy` ← `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_replacement_field` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                         |
-| 3.1% | 16.0ms |      16 | `fmt::v11::detail::write_float` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                           |
-| 2.7% | 14.0ms |      14 | `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| 2.3% | 12.0ms |      12 | `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                            |
-| 2.1% | 11.0ms |      11 | `fmt::v11::detail::compute_width()::count_code_points::operator()` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` ← `fmt::v11::detail::for_each_codepoint` ← `fmt::v11::detail::compute_width` ← `fmt::v11::detail::write` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                      |
-| 1.9% | 10.0ms |      10 | `fmt::v11::detail::write_padded` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_padded` ← `fmt::v11::detail::do_write_float` ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                |
-| 1.9% | 10.0ms |      10 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`)                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 1.7% |  9.0ms |       9 | `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                          |
-| 1.5% |  8.0ms |       8 | `fmt::v11::detail::buffer::append` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::copy` ← `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_text` ← `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                    |
-| 1.5% |  8.0ms |       8 | `fmt::v11::detail::dragonbox::cache_accessor::get_cached_power` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::detail::dragonbox::get_cached_power` ← `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` |
-| 1.5% |  8.0ms |       8 | `fmt::v11::detail::do_format_decimal` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_int` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                         |
-| 1.5% |  8.0ms |       8 | `fmt::v11::detail::write_int` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                                                                 |
-| 1.4% |  7.0ms |       7 | `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_text` ← `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| 1.4% |  7.0ms |       7 | `fmt::v11::detail::parse_nonnegative_int` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_dynamic_spec` ← `fmt::v11::detail::parse_width` ← `fmt::v11::detail::parse_format_specs` ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                                                                  |
-| 1.4% |  7.0ms |       7 | `fmt::v11::detail::buffer::append` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::copy` ← `fmt::v11::detail::write()::{lambda(fmt::v11::basic_appender)#1}::operator()` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_padded` ← `fmt::v11::detail::write` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]`                                                                                                                                                                   |
+|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 6.2% | 32.0ms |      32 | `fmt::v11::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                         |
+| 5.4% | 28.0ms |      28 | `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 4.3% | 22.0ms |      22 | `fmt::v11::detail::utf8_decode` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` ← `fmt::v11::detail::for_each_codepoint` ← `fmt::v11::detail::compute_width` ← `fmt::v11::detail::write` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                         |
+| 3.7% | 19.0ms |      19 | `0x9d100` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 3.3% | 17.0ms |      17 | `fmt::v11::detail::buffer::append` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::copy` ← `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_replacement_field` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                         |
+| 2.7% | 14.0ms |      14 | `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 2.5% | 13.0ms |      13 | `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 2.5% | 13.0ms |      13 | `0x137f20` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 2.3% | 12.0ms |      12 | `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                            |
+| 2.1% | 11.0ms |      11 | `fmt::v11::detail::compute_width()::count_code_points::operator()` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` ← `fmt::v11::detail::for_each_codepoint` ← `fmt::v11::detail::compute_width` ← `fmt::v11::detail::write` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                      |
+| 1.9% | 10.0ms |      10 | `fmt::v11::detail::write_padded` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_padded` ← `fmt::v11::detail::do_write_float` ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                |
+| 1.9% | 10.0ms |      10 | `0x137f80` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `fmt::v11::detail::write_float` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                            |
+| 1.7% |  9.0ms |       9 | `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                          |
+| 1.7% |  9.0ms |       9 | `0xa0cb0` (`usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 1.5% |  8.0ms |       8 | `fmt::v11::detail::buffer::append` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::copy` ← `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_text` ← `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                    |
+| 1.5% |  8.0ms |       8 | `fmt::v11::detail::dragonbox::cache_accessor::get_cached_power` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::detail::dragonbox::get_cached_power` ← `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_float` ← `fmt::v11::detail::write` ← `fmt::v11::detail::arg_formatter::operator()` ← `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) |
+| 1.5% |  8.0ms |       8 | `fmt::v11::detail::do_format_decimal` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::write_int` ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                         |
+| 1.5% |  8.0ms |       8 | `fmt::v11::detail::write_int` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_format_specs` ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                 |
+| 1.4% |  7.0ms |       7 | `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::format_handler::on_text` ← `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.4% |  7.0ms |       7 | `fmt::v11::detail::parse_nonnegative_int` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_dynamic_spec` ← `fmt::v11::detail::parse_width` ← `fmt::v11::detail::parse_format_specs` ← `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`) ← `fmt::v11::detail::parse_format_string` ← `fmt::v11::detail::vformat_to` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::vformat[abi:cxx11]` ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`)                                                                                                                                                                                                                  |

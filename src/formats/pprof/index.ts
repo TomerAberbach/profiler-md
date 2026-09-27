@@ -23,7 +23,8 @@ export const pprofConverter = {
   fallbackOrigin: `unknown`,
   type: `binary`,
   matches: matchesPprof,
-  parse: bytes => parsePprof(bytes),
+  parse: parsePprof,
   // `pprof-format` decodes only a complete buffer.
-  parseAsync: async stream => parsePprof(await streamToUint8Array(stream)),
+  parseAsync: async (stream, recordTally) =>
+    parsePprof(await streamToUint8Array(stream), recordTally),
 } as const satisfies BinaryFormatConverter

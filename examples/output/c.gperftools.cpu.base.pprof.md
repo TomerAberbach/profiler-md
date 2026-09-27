@@ -4,8 +4,8 @@ Took 1.29s over 1,290 samples (1.0ms per sample).
 
 | Category |     % |   Time | Samples |
 | -------- | ----: | -----: | ------: |
-| Ours     | 99.1% |  1.27s |   1,279 |
-| Native   |  0.9% | 11.0ms |      11 |
+| Ours     | 99.0% |  1.27s |   1,277 |
+| Native   |  1.0% | 13.0ms |      13 |
 
 ## Hottest functions
 
@@ -13,47 +13,58 @@ Took 1.29s over 1,290 samples (1.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|     % |    Time | Samples | Function                                             | Location            |
-| ----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
-| 73.6% | 949.0ms |     949 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
-| 23.7% | 306.0ms |     306 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-|  0.5% |   7.0ms |       7 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`        |
-|  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`        |
-|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`        |
-|  0.2% |   3.0ms |       3 | `ZSTD_seqToCodes`                                    | `<unknown>`         |
-|  0.2% |   2.0ms |       2 | `ZSTD_compressStream2`                               | `<unknown>`         |
-|  0.2% |   2.0ms |       2 | `HIST_count_parallel_wksp`                           | `hist.c`            |
-|  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`        |
-|  0.1% |   1.0ms |       1 | `ZSTD_encodeSequences`                               | `<unknown>`         |
-|  0.1% |   1.0ms |       1 | `ZSTDMT_initCStream_internal`                        | `<unknown>`         |
-|  0.1% |   1.0ms |       1 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`   |
-|  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk`                           | `zstd_compress.c`   |
-|  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
-|  0.1% |   1.0ms |       1 | `ZSTDMT_getBuffer`                                   | `zstdmt_compress.c` |
-|  0.1% |   1.0ms |       1 | `HIST_countFast_wksp`                                | `<unknown>`         |
-|  0.1% |   1.0ms |       1 | `ZSTD_freeCCtx`                                      | `<unknown>`         |
-|  0.1% |   1.0ms |       1 | `HUF_optimalTableLog`                                | `<unknown>`         |
-|  0.1% |   1.0ms |       1 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`        |
-|  0.1% |   1.0ms |       1 | `FSE_buildCTable_wksp`                               | `<unknown>`         |
+|     % |    Time | Samples | Function                                             | Location                               |
+| ----: | ------: | ------: | ---------------------------------------------------- | -------------------------------------- |
+| 73.6% | 949.0ms |     949 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`                           |
+| 23.7% | 306.0ms |     306 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`                           |
+|  0.5% |   7.0ms |       7 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`                           |
+|  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`                           |
+|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`                           |
+|  0.2% |   3.0ms |       3 | `ZSTD_seqToCodes`                                    | `<unknown>`                            |
+|  0.2% |   2.0ms |       2 | `0xe7dbc`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |   2.0ms |       2 | `0x9d200`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |   2.0ms |       2 | `HIST_count_parallel_wksp`                           | `hist.c`                               |
+|  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`                           |
+|  0.1% |   1.0ms |       1 | `ZSTD_encodeSequences`                               | `<unknown>`                            |
+|  0.1% |   1.0ms |       1 | `0x9e658`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk`                           | `zstd_compress.c`                      |
+|  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`                      |
+|  0.1% |   1.0ms |       1 | `HIST_countFast_wksp`                                | `<unknown>`                            |
+|  0.1% |   1.0ms |       1 | `0xe7e0c`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   1.0ms |       1 | `HUF_optimalTableLog`                                | `<unknown>`                            |
+|  0.1% |   1.0ms |       1 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`                           |
+|  0.1% |   1.0ms |       1 | `FSE_buildCTable_wksp`                               | `<unknown>`                            |
 
 #### Categories
 
 ##### Ours
 
-|     % |    Time | Samples | Function                                             | Location            |
-| ----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
-| 73.6% | 949.0ms |     949 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
-| 23.7% | 306.0ms |     306 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-|  0.5% |   7.0ms |       7 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`        |
-|  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`        |
-|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`        |
-|  0.2% |   2.0ms |       2 | `HIST_count_parallel_wksp`                           | `hist.c`            |
-|  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`        |
-|  0.1% |   1.0ms |       1 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`   |
-|  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk`                           | `zstd_compress.c`   |
-|  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
-|  0.1% |   1.0ms |       1 | `ZSTDMT_getBuffer`                                   | `zstdmt_compress.c` |
-|  0.1% |   1.0ms |       1 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`        |
+|     % |    Time | Samples | Function                                             | Location          |
+| ----: | ------: | ------: | ---------------------------------------------------- | ----------------- |
+| 73.6% | 949.0ms |     949 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`      |
+| 23.7% | 306.0ms |     306 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`      |
+|  0.5% |   7.0ms |       7 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`      |
+|  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`      |
+|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`      |
+|  0.2% |   2.0ms |       2 | `HIST_count_parallel_wksp`                           | `hist.c`          |
+|  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`      |
+|  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk`                           | `zstd_compress.c` |
+|  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
+|  0.1% |   1.0ms |       1 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`      |
+
+##### Native
+
+|    % |  Time | Samples | Function               | Location                               |
+| ---: | ----: | ------: | ---------------------- | -------------------------------------- |
+| 0.2% | 3.0ms |       3 | `ZSTD_seqToCodes`      | `<unknown>`                            |
+| 0.2% | 2.0ms |       2 | `0xe7dbc`              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 0.2% | 2.0ms |       2 | `0x9d200`              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 0.1% | 1.0ms |       1 | `ZSTD_encodeSequences` | `<unknown>`                            |
+| 0.1% | 1.0ms |       1 | `0x9e658`              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 0.1% | 1.0ms |       1 | `HIST_countFast_wksp`  | `<unknown>`                            |
+| 0.1% | 1.0ms |       1 | `0xe7e0c`              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 0.1% | 1.0ms |       1 | `HUF_optimalTableLog`  | `<unknown>`                            |
+| 0.1% | 1.0ms |       1 | `FSE_buildCTable_wksp` | `<unknown>`                            |
 
 #### Callers
 
@@ -98,11 +109,18 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | 66.7% | 2.0ms |       2 | `ZSTD_buildBlockEntropyStats`       | `<unknown>`       |
 | 33.3% | 1.0ms |       1 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c` |
 
-##### `ZSTD_compressStream2` (`<unknown>`)
+##### `0xe7dbc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                         | Location   |
-| -----: | ----: | ------: | ------------------------------ | ---------- |
-| 100.0% | 2.0ms |       2 | `FIO_compressFilename_srcFile` | `fileio.c` |
+|     % |  Time | Samples | Caller    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 50.0% | 1.0ms |       1 | `0x905db` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 50.0% | 1.0ms |       1 | `0x8f3f7` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                 | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `ZSTD_compressStream2` | `<unknown>` |
 
 ##### `HIST_count_parallel_wksp` (`hist.c`)
 
@@ -123,17 +141,11 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ----------------------------------- | ----------------- |
 | 100.0% | 1.0ms |       1 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c` |
 
-##### `ZSTDMT_initCStream_internal` (`<unknown>`)
+##### `0x9e658` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                           | Location          |
-| -----: | ----: | ------: | -------------------------------- | ----------------- |
-| 100.0% | 1.0ms |       1 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c` |
-
-##### `ZSTD_compressBegin_internal` (`zstd_compress.c`)
-
-|      % |  Time | Samples | Caller                                 | Location    |
-| -----: | ----: | ------: | -------------------------------------- | ----------- |
-| 100.0% | 1.0ms |       1 | `ZSTD_compressBegin_advanced_internal` | `<unknown>` |
+|      % |  Time | Samples | Caller                        | Location          |
+| -----: | ----: | ------: | ----------------------------- | ----------------- |
+| 100.0% | 1.0ms |       1 | `ZSTD_compressBegin_internal` | `zstd_compress.c` |
 
 ##### `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`)
 
@@ -147,23 +159,17 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ------------------------------ | ----------------- |
 | 100.0% | 1.0ms |       1 | `ZSTD_deriveBlockSplitsHelper` | `zstd_compress.c` |
 
-##### `ZSTDMT_getBuffer` (`zstdmt_compress.c`)
-
-|      % |  Time | Samples | Caller                  | Location            |
-| -----: | ----: | ------: | ----------------------- | ------------------- |
-| 100.0% | 1.0ms |       1 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
-
 ##### `HIST_countFast_wksp` (`<unknown>`)
 
 |      % |  Time | Samples | Caller                                               | Location          |
 | -----: | ----: | ------: | ---------------------------------------------------- | ----------------- |
 | 100.0% | 1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
 
-##### `ZSTD_freeCCtx` (`<unknown>`)
+##### `0xe7e0c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                       | Location            |
-| -----: | ----: | ------: | ---------------------------- | ------------------- |
-| 100.0% | 1.0ms |       1 | `ZSTDMT_freeCCtxPool.part.0` | `zstdmt_compress.c` |
+|      % |  Time | Samples | Caller          | Location    |
+| -----: | ----: | ------: | --------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `ZSTD_freeCCtx` | `<unknown>` |
 
 ##### `HUF_optimalTableLog` (`<unknown>`)
 
@@ -187,28 +193,28 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 Functions ranked by total time spent in the function and all its callees.
 
-|     % |    Time | Samples | Function                                             | Location            |
-| ----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
-| 99.7% |   1.28s |   1,286 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
-| 99.7% |   1.28s |   1,286 | `POOL_thread`                                        | `pool.c`            |
-| 99.5% |   1.28s |   1,284 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
-| 98.7% |   1.27s |   1,273 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-| 97.4% |   1.25s |   1,257 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-| 84.2% |   1.08s |   1,086 | `ZSTD_compressContinue_public`                       | `<unknown>`         |
-| 73.7% | 951.0ms |     951 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
-| 15.3% | 198.0ms |     198 | `ZSTD_compressEnd_public`                            | `<unknown>`         |
-|  1.4% |  18.0ms |      18 | `ZSTD_compressBlock_btultra2`                        | `<unknown>`         |
-|  0.5% |   7.0ms |       7 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`        |
-|  0.5% |   6.0ms |       6 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
-|  0.5% |   6.0ms |       6 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`   |
-|  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`        |
-|  0.3% |   4.0ms |       4 | `ZSTD_compressSeqStore_singleBlock`                  | `zstd_compress.c`   |
-|  0.3% |   4.0ms |       4 | `FIO_compressFilename`                               | `<unknown>`         |
-|  0.3% |   4.0ms |       4 | `main`                                               | `<unknown>`         |
-|  0.3% |   4.0ms |       4 | `_start`                                             | `<unknown>`         |
-|  0.2% |   3.0ms |       3 | `ZSTD_compressStream2`                               | `<unknown>`         |
-|  0.2% |   3.0ms |       3 | `FIO_compressFilename_srcFile`                       | `fileio.c`          |
-|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`        |
+|     % |    Time | Samples | Function                                             | Location                               |
+| ----: | ------: | ------: | ---------------------------------------------------- | -------------------------------------- |
+| 99.7% |   1.28s |   1,286 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c`                    |
+| 99.7% |   1.28s |   1,286 | `POOL_thread`                                        | `pool.c`                               |
+| 99.7% |   1.28s |   1,286 | `0x8202f`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.7% |   1.28s |   1,286 | `0xebf5b`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.5% |   1.28s |   1,284 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`                      |
+| 98.7% |   1.27s |   1,273 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`                      |
+| 97.4% |   1.25s |   1,257 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`                           |
+| 84.2% |   1.08s |   1,086 | `ZSTD_compressContinue_public`                       | `<unknown>`                            |
+| 73.7% | 951.0ms |     951 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`                           |
+| 15.3% | 198.0ms |     198 | `ZSTD_compressEnd_public`                            | `<unknown>`                            |
+|  1.4% |  18.0ms |      18 | `ZSTD_compressBlock_btultra2`                        | `<unknown>`                            |
+|  0.5% |   7.0ms |       7 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`                           |
+|  0.5% |   6.0ms |       6 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`                      |
+|  0.5% |   6.0ms |       6 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`                      |
+|  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`                           |
+|  0.3% |   4.0ms |       4 | `ZSTD_compressSeqStore_singleBlock`                  | `zstd_compress.c`                      |
+|  0.3% |   4.0ms |       4 | `FIO_compressFilename`                               | `<unknown>`                            |
+|  0.3% |   4.0ms |       4 | `main`                                               | `<unknown>`                            |
+|  0.3% |   4.0ms |       4 | `0x27743`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.3% |   4.0ms |       4 | `0x27817`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Categories
 
@@ -237,6 +243,31 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk`                           | `zstd_compress.c`   |
 |  0.1% |   1.0ms |       1 | `ZSTDMT_getBuffer`                                   | `zstdmt_compress.c` |
 
+##### Native
+
+|     % |    Time | Samples | Function                       | Location                               |
+| ----: | ------: | ------: | ------------------------------ | -------------------------------------- |
+| 99.7% |   1.28s |   1,286 | `0x8202f`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.7% |   1.28s |   1,286 | `0xebf5b`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 84.2% |   1.08s |   1,086 | `ZSTD_compressContinue_public` | `<unknown>`                            |
+| 15.3% | 198.0ms |     198 | `ZSTD_compressEnd_public`      | `<unknown>`                            |
+|  1.4% |  18.0ms |      18 | `ZSTD_compressBlock_btultra2`  | `<unknown>`                            |
+|  0.3% |   4.0ms |       4 | `FIO_compressFilename`         | `<unknown>`                            |
+|  0.3% |   4.0ms |       4 | `main`                         | `<unknown>`                            |
+|  0.3% |   4.0ms |       4 | `0x27743`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.3% |   4.0ms |       4 | `0x27817`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.3% |   4.0ms |       4 | `_start`                       | `<unknown>`                            |
+|  0.2% |   3.0ms |       3 | `ZSTD_compressStream2`         | `<unknown>`                            |
+|  0.2% |   3.0ms |       3 | `ZSTD_seqToCodes`              | `<unknown>`                            |
+|  0.2% |   3.0ms |       3 | `ZSTD_buildBlockEntropyStats`  | `<unknown>`                            |
+|  0.2% |   2.0ms |       2 | `0xe7dbc`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |   2.0ms |       2 | `0x9d200`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   1.0ms |       1 | `ZSTD_encodeSequences`         | `<unknown>`                            |
+|  0.1% |   1.0ms |       1 | `0x905db`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   1.0ms |       1 | `0x9189b`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   1.0ms |       1 | `0x922ef`                      | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   1.0ms |       1 | `ZSTDMT_initCStream_internal`  | `<unknown>`                            |
+
 #### Callees
 
 Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -255,6 +286,18 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |  Time | Samples | Callee                  | Location            |
 | -----: | ----: | ------: | ----------------------- | ------------------- |
 | 100.0% | 1.28s |   1,286 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+
+##### `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee        | Location |
+| -----: | ----: | ------: | ------------- | -------- |
+| 100.0% | 1.28s |   1,286 | `POOL_thread` | `pool.c` |
+
+##### `0xebf5b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.28s |   1,286 | `0x8202f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `ZSTD_compress_frameChunk` (`zstd_compress.c`)
 
@@ -343,23 +386,43 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ----: | ------: | ---------------------- | ----------- |
 | 100.0% | 4.0ms |       4 | `FIO_compressFilename` | `<unknown>` |
 
-##### `_start` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee | Location    |
 | -----: | ----: | ------: | ------ | ----------- |
 | 100.0% | 4.0ms |       4 | `main` | `<unknown>` |
 
-##### `ZSTD_compressStream2` (`<unknown>`)
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|     % |  Time | Samples | Callee                           | Location          |
-| ----: | ----: | ------: | -------------------------------- | ----------------- |
-| 33.3% | 1.0ms |       1 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c` |
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 4.0ms |       4 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `_start` (`<unknown>`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 4.0ms |       4 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `FIO_compressFilename_srcFile` (`fileio.c`)
 
 |      % |  Time | Samples | Callee                 | Location    |
 | -----: | ----: | ------: | ---------------------- | ----------- |
 | 100.0% | 3.0ms |       3 | `ZSTD_compressStream2` | `<unknown>` |
+
+##### `ZSTD_compressStream2` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                           | Location                               |
+| ----: | ----: | ------: | -------------------------------- | -------------------------------------- |
+| 66.7% | 2.0ms |       2 | `0x9d200`                        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 33.3% | 1.0ms |       1 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c`                      |
+
+##### `ZSTD_buildBlockEntropyStats` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                          | Location          |
+| ----: | ----: | ------: | ------------------------------- | ----------------- |
+| 66.7% | 2.0ms |       2 | `ZSTD_seqToCodes`               | `<unknown>`       |
+| 33.3% | 1.0ms |       1 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
 
 ##### `ZSTD_buildSequencesStatistics` (`zstd_compress.c`)
 
@@ -374,29 +437,65 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ----: | ------: | ----------------------------- | ----------- |
 | 100.0% | 1.0ms |       1 | `ZSTDMT_initCStream_internal` | `<unknown>` |
 
+##### `ZSTD_compressBegin_internal` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x9e658` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `ZSTDMT_getBuffer` (`zstdmt_compress.c`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x923b7` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x905db` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0xe7dbc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9189b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x905db` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x922ef` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `ZSTDMT_initCStream_internal` (`<unknown>`)
+
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x922ef` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ## Hottest call stacks
 
 Call stacks ranked by time spent in their leaf frame.
 
-|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                             |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 60.5% | 780.0ms |     780 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                         |
-| 20.3% | 262.0ms |     262 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                           |
-| 12.0% | 155.0ms |     155 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                              |
-|  3.2% |  41.0ms |      41 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                |
-|  1.1% |  14.0ms |      14 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)         |
-|  0.5% |   6.0ms |       6 | `ZSTD_litLengthPrice.constprop.1.isra.0` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                            |
-|  0.3% |   4.0ms |       4 | `ZSTD_updateStats` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                  |
-|  0.2% |   3.0ms |       3 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                           |
-|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                            |
-|  0.2% |   2.0ms |       2 | `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `_start`                                                                                                                                                                                      |
-|  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3` (`zstd_opt.c`) ← `ZSTD_btGetAllMatches_noDict_3` ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)          |
-|  0.1% |   1.0ms |       1 | `ZSTD_encodeSequences` ← `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                              |
-|  0.1% |   1.0ms |       1 | `ZSTDMT_initCStream_internal` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `_start`                                                                                               |
-|  0.1% |   1.0ms |       1 | `ZSTD_compressBegin_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                                                                  |
-|  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                                                |
-|  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                     |
-|  0.1% |   1.0ms |       1 | `ZSTD_seqToCodes` ← `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                   |
-|  0.1% |   1.0ms |       1 | `ZSTDMT_getBuffer` (`zstdmt_compress.c`) ← `ZSTDMT_compressionJob` ← `POOL_thread` (`pool.c`)                                                                                                                                                                                                          |
-|  0.1% |   1.0ms |       1 | `ZSTD_seqToCodes` ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) |
-|  0.1% |   1.0ms |       1 | `ZSTD_seqToCodes` ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)      |
+|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                              |
+| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 60.5% | 780.0ms |     780 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                         |
+| 20.3% | 262.0ms |     262 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                           |
+| 12.0% | 155.0ms |     155 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                              |
+|  3.2% |  41.0ms |      41 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                |
+|  1.1% |  14.0ms |      14 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`         |
+|  0.5% |   6.0ms |       6 | `ZSTD_litLengthPrice.constprop.1.isra.0` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                            |
+|  0.3% |   4.0ms |       4 | `ZSTD_updateStats` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                  |
+|  0.2% |   3.0ms |       3 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                           |
+|  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                            |
+|  0.2% |   2.0ms |       2 | `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`                                                                                                                                 |
+|  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3` (`zstd_opt.c`) ← `ZSTD_btGetAllMatches_noDict_3` ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`          |
+|  0.1% |   1.0ms |       1 | `ZSTD_encodeSequences` ← `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                              |
+|  0.1% |   1.0ms |       1 | `0xe7dbc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x905db` ← `0x9189b` ← `0x922ef` ← `ZSTDMT_initCStream_internal` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`      |
+|  0.1% |   1.0ms |       1 | `0x9e658` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `ZSTD_compressBegin_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                             |
+|  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                                                |
+|  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                     |
+|  0.1% |   1.0ms |       1 | `ZSTD_seqToCodes` ← `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                   |
+|  0.1% |   1.0ms |       1 | `0xe7dbc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x8f3f7` ← `0x919ff` ← `0x923b7` ← `ZSTDMT_getBuffer` (`zstdmt_compress.c`) ← `ZSTDMT_compressionJob` ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                                                 |
+|  0.1% |   1.0ms |       1 | `ZSTD_seqToCodes` ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b` |
+|  0.1% |   1.0ms |       1 | `ZSTD_seqToCodes` ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`      |
