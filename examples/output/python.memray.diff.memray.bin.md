@@ -77,7 +77,7 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 | removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `push`                    | `blib2to3/pgen2/parse.py:386`          |
 |  -99.7% |     -1 MiB | 1.4% → <0.1% |    1 MiB → 3.03 KiB |       5 → 4 | `__init__`                | `blib2to3/pytree.py:248 → 237`         |
 |  -16.7% |     -1 MiB |  8.3% → 6.9% |       6 MiB → 5 MiB |       6 → 5 | `changed`                 | `blib2to3/pytree.py:171 → 160`         |
-| removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 318`         |
+| removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 469`         |
 | removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `__init__`                | `<string>:2`                           |
 |  -16.8% | -1.703 KiB |        <0.1% | 10.1 KiB → 8.42 KiB |           9 | `<module>`                | `black/trans.py:1`                     |
 |   -3.1% |     -768 B |        <0.1% | 24.1 KiB → 23.3 KiB |     27 → 26 | `__new__`                 | `/usr/lib/python3.11/enum.py:488`      |
@@ -96,7 +96,7 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 | removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `push`                    | `blib2to3/pgen2/parse.py:386`          |
 |  -99.7% |     -1 MiB | 1.4% → <0.1% |    1 MiB → 3.03 KiB |       5 → 4 | `__init__`                | `blib2to3/pytree.py:248 → 237`         |
 |  -16.7% |     -1 MiB |  8.3% → 6.9% |       6 MiB → 5 MiB |       6 → 5 | `changed`                 | `blib2to3/pytree.py:171 → 160`         |
-| removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 318`         |
+| removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 469`         |
 | removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |       1 → 0 | `__init__`                | `<string>:2`                           |
 |  -16.8% | -1.703 KiB |        <0.1% | 10.1 KiB → 8.42 KiB |           9 | `<module>`                | `black/trans.py:1`                     |
 |  -15.1% |     -752 B |        <0.1% | 4.86 KiB → 4.13 KiB |           5 | `<module>`                | `black/ranges.py:1`                    |
@@ -121,7 +121,6 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 | ---------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ----------------------------------- |
 |     +35.3% | +7 MiB | 27.4% → 37.0% | 19.8 MiB → 26.8 MiB | 13,398 → 13,405 | `visit_simple_stmt`   | `black/linegen.py:295`              |
 |     +29.6% | +6 MiB | 28.0% → 36.3% | 20.3 MiB → 26.3 MiB | 20,885 → 20,891 | `append`              | `black/lines.py:63 → 52`            |
-|        new | +5 MiB |   0.0% → 6.9% |         0 B → 5 MiB |           0 → 5 | `prefix`              | `blib2to3/pytree.py:469`            |
 |     +23.7% | +4 MiB | 23.3% → 28.9% | 16.9 MiB → 20.9 MiB | 10,808 → 10,812 | `visit_power`         | `black/linegen.py:341`              |
 |    +379.4% | +4 MiB |   1.5% → 7.0% | 1.05 MiB → 5.05 MiB |         90 → 94 | `whitespace`          | `black/nodes.py:194 → 183`          |
 |     +42.6% | +3 MiB |  9.7% → 13.9% |   7.04 MiB → 10 MiB |         14 → 17 | `addtoken`            | `blib2to3/pgen2/parse.py:242 → 230` |
@@ -139,6 +138,7 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 |      +2.8% | +1 MiB | 49.9% → 51.3% | 36.2 MiB → 37.2 MiB | 20,714 → 20,715 | `visit_stmt`          | `black/linegen.py:199`              |
 |     +16.7% | +1 MiB |   8.3% → 9.7% |       6 MiB → 7 MiB |         10 → 11 | `convert`             | `blib2to3/pytree.py:486 → 475`      |
 | +197100.8% | +1 MiB |  <0.1% → 1.4% |       532 B → 1 MiB |           1 → 2 | `get_string_prefix`   | `black/strings.py:89`               |
+|   +1132.6% | +1 MiB |   0.1% → 1.5% | 90.4 KiB → 1.09 MiB |       107 → 108 | `is_docstring`        | `black/nodes.py:558 → 553`          |
 
 ##### Standard library
 
@@ -158,11 +158,11 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 |  Change |      Delta |            % |              Size | Allocations | Function                    | Location                               |
 | ------: | ---------: | -----------: | ----------------: | ----------: | --------------------------- | -------------------------------------- |
-|  -85.7% |     -6 MiB |  9.7% → 1.4% |     7 MiB → 1 MiB |       7 → 1 | `prefix`                    | `blib2to3/pytree.py:480 → 318`         |
 |  -75.0% |     -3 MiB |  5.5% → 1.4% |     4 MiB → 1 MiB |       4 → 1 | `generate_tokens`           | `blib2to3/pgen2/tokenize.py:565 → 554` |
 |  -75.0% |     -3 MiB |  5.5% → 1.4% |     4 MiB → 1 MiB |       4 → 1 | `__next__`                  | `blib2to3/pgen2/driver.py:80`          |
 | removed |     -3 MiB |  4.1% → 0.0% |       3 MiB → 0 B |       3 → 0 | `__str__`                   | `black/lines.py:490`                   |
 |  -22.2% |     -2 MiB | 12.4% → 9.7% |     9 MiB → 7 MiB |       9 → 7 | `generate_comments`         | `black/comments.py:52`                 |
+|  -28.6% |     -2 MiB |  9.7% → 6.9% |     7 MiB → 5 MiB |       7 → 5 | `prefix`                    | `blib2to3/pytree.py:480 → 469`         |
 |  -28.6% |     -2 MiB |  9.7% → 6.9% |     7 MiB → 5 MiB |       7 → 5 | `normalize_trailing_prefix` | `black/comments.py:127`                |
 | removed |     -1 MiB |  1.4% → 0.0% |       1 MiB → 0 B |       1 → 0 | `push`                      | `blib2to3/pgen2/parse.py:386`          |
 |  -99.7% |     -1 MiB | 1.4% → <0.1% |  1 MiB → 3.03 KiB |       5 → 4 | `__init__`                  | `blib2to3/pytree.py:248 → 237`         |
@@ -183,11 +183,11 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 |  Change |      Delta |            % |                Size |   Allocations | Function                    | Location                               |
 | ------: | ---------: | -----------: | ------------------: | ------------: | --------------------------- | -------------------------------------- |
-|  -85.7% |     -6 MiB |  9.7% → 1.4% |       7 MiB → 1 MiB |         7 → 1 | `prefix`                    | `blib2to3/pytree.py:480 → 318`         |
 |  -75.0% |     -3 MiB |  5.5% → 1.4% |       4 MiB → 1 MiB |         4 → 1 | `generate_tokens`           | `blib2to3/pgen2/tokenize.py:565 → 554` |
 |  -75.0% |     -3 MiB |  5.5% → 1.4% |       4 MiB → 1 MiB |         4 → 1 | `__next__`                  | `blib2to3/pgen2/driver.py:80`          |
 | removed |     -3 MiB |  4.1% → 0.0% |         3 MiB → 0 B |         3 → 0 | `__str__`                   | `black/lines.py:490`                   |
 |  -22.2% |     -2 MiB | 12.4% → 9.7% |       9 MiB → 7 MiB |         9 → 7 | `generate_comments`         | `black/comments.py:52`                 |
+|  -28.6% |     -2 MiB |  9.7% → 6.9% |       7 MiB → 5 MiB |         7 → 5 | `prefix`                    | `blib2to3/pytree.py:480 → 469`         |
 |  -28.6% |     -2 MiB |  9.7% → 6.9% |       7 MiB → 5 MiB |         7 → 5 | `normalize_trailing_prefix` | `black/comments.py:127`                |
 | removed |     -1 MiB |  1.4% → 0.0% |         1 MiB → 0 B |         1 → 0 | `push`                      | `blib2to3/pgen2/parse.py:386`          |
 |  -99.7% |     -1 MiB | 1.4% → <0.1% |    1 MiB → 3.03 KiB |         5 → 4 | `__init__`                  | `blib2to3/pytree.py:248 → 237`         |
@@ -296,7 +296,7 @@ Functions with the largest decrease in bytes never freed directly in the functio
 |  -99.7% |     -1 MiB | 1.8% → <0.1% |    1 MiB → 3.03 KiB |       5 → 4 | `__init__`                | `blib2to3/pytree.py:248 → 237`         |
 |  -99.7% |     -1 MiB | 1.8% → <0.1% |    1 MiB → 3.35 KiB |       5 → 4 | `visit`                   | `black/nodes.py:163 → 152`             |
 |  -16.7% |     -1 MiB | 10.5% → 8.6% |       6 MiB → 5 MiB |       6 → 5 | `changed`                 | `blib2to3/pytree.py:171 → 160`         |
-| removed |     -1 MiB |  1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 318`         |
+| removed |     -1 MiB |  1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 469`         |
 | removed |     -1 MiB |  1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `__init__`                | `<string>:2`                           |
 |  -16.8% | -1.703 KiB |        <0.1% | 10.1 KiB → 8.42 KiB |           9 | `<module>`                | `black/trans.py:1`                     |
 |   -3.1% |     -768 B |        <0.1% | 24.1 KiB → 23.3 KiB |     27 → 26 | `__new__`                 | `/usr/lib/python3.11/enum.py:488`      |
@@ -315,7 +315,7 @@ Functions with the largest decrease in bytes never freed directly in the functio
 |  -99.7% |     -1 MiB | 1.8% → <0.1% |    1 MiB → 3.03 KiB |       5 → 4 | `__init__`                | `blib2to3/pytree.py:248 → 237`         |
 |  -99.7% |     -1 MiB | 1.8% → <0.1% |    1 MiB → 3.35 KiB |       5 → 4 | `visit`                   | `black/nodes.py:163 → 152`             |
 |  -16.7% |     -1 MiB | 10.5% → 8.6% |       6 MiB → 5 MiB |       6 → 5 | `changed`                 | `blib2to3/pytree.py:171 → 160`         |
-| removed |     -1 MiB |  1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 318`         |
+| removed |     -1 MiB |  1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `prefix`                  | `blib2to3/pytree.py:480 → 469`         |
 | removed |     -1 MiB |  1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `__init__`                | `<string>:2`                           |
 |  -16.8% | -1.703 KiB |        <0.1% | 10.1 KiB → 8.42 KiB |           9 | `<module>`                | `black/trans.py:1`                     |
 |  -15.1% |     -752 B |        <0.1% | 4.86 KiB → 4.13 KiB |           5 | `<module>`                | `black/ranges.py:1`                    |
@@ -334,13 +334,35 @@ Functions with the largest decrease in bytes never freed directly in the functio
 
 Functions with the largest increase in total bytes never freed in the function and all its callees.
 
+|  Change |  Delta |             % |                Size |     Allocations | Function              | Location                                                |
+| ------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ------------------------------------------------------- |
+|  +42.5% | +8 MiB | 33.0% → 46.2% | 18.8 MiB → 26.8 MiB | 13,397 → 13,405 | `visit_simple_stmt`   | `black/linegen.py:295`                                  |
+|  +29.6% | +6 MiB | 35.5% → 45.3% | 20.3 MiB → 26.3 MiB | 20,885 → 20,891 | `append`              | `black/lines.py:63 → 52`                                |
+|  +23.7% | +4 MiB | 29.6% → 36.0% | 16.9 MiB → 20.9 MiB | 10,808 → 10,812 | `visit_power`         | `black/linegen.py:341`                                  |
+| +379.4% | +4 MiB |   1.8% → 8.7% | 1.05 MiB → 5.05 MiB |         90 → 94 | `whitespace`          | `black/nodes.py:194 → 183`                              |
+|  +42.6% | +3 MiB | 12.3% → 17.3% |   7.04 MiB → 10 MiB |         14 → 17 | `addtoken`            | `blib2to3/pgen2/parse.py:242 → 230`                     |
+|  +42.8% | +3 MiB | 12.3% → 17.2% |      7 MiB → 10 MiB |         11 → 14 | `_addtoken`           | `blib2to3/pgen2/parse.py:290 → 278`                     |
+| +262.7% | +3 MiB |   2.0% → 7.1% | 1.14 MiB → 4.14 MiB |       196 → 199 | `update_sibling_maps` | `blib2to3/pytree.py:369 → 358`                          |
+| +262.7% | +3 MiB |   2.0% → 7.1% | 1.14 MiB → 4.14 MiB |       196 → 199 | `prev_sibling`        | `blib2to3/pytree.py:207 → 196`                          |
+|   +5.6% | +2 MiB | 62.1% → 64.5% | 35.4 MiB → 37.4 MiB | 21,086 → 21,088 | `visit`               | `black/nodes.py:163 → 152`                              |
+|   +5.6% | +2 MiB | 62.1% → 64.5% | 35.4 MiB → 37.4 MiB | 21,084 → 21,086 | `visit_default`       | `black/nodes.py:187 → 176`                              |
+|   +5.6% | +2 MiB | 62.1% → 64.5% | 35.4 MiB → 37.4 MiB | 21,084 → 21,086 | `visit_default`       | `black/linegen.py:134`                                  |
+|   +5.7% | +2 MiB | 61.6% → 64.0% | 35.2 MiB → 37.2 MiB | 20,713 → 20,715 | `visit_stmt`          | `black/linegen.py:199`                                  |
+|  +40.0% | +2 MiB |  8.8% → 12.1% |       5 MiB → 7 MiB |           5 → 7 | `__new__`             | `blib2to3/pytree.py:81 → 70`                            |
+|  +40.0% | +2 MiB |  8.8% → 12.1% |       5 MiB → 7 MiB |           5 → 7 | `shift`               | `blib2to3/pgen2/parse.py:373 → 361`                     |
+| +293.2% | +2 MiB |   1.2% → 4.6% |  698 KiB → 2.68 MiB |       900 → 902 | `visit_STRING`        | `black/linegen.py:413`                                  |
+|  +11.0% | +2 MiB | 31.9% → 34.8% | 18.2 MiB → 20.2 MiB | 20,790 → 20,792 | `mark`                | `black/brackets.py:70`                                  |
+|   +5.9% | +2 MiB | 59.1% → 61.5% | 33.7 MiB → 35.7 MiB | 20,145 → 20,147 | `visit_suite`         | `black/linegen.py:288`                                  |
+|   +5.9% | +2 MiB | 59.2% → 61.7% | 33.8 MiB → 35.8 MiB | 20,271 → 20,273 | `visit_funcdef`       | `black/linegen.py:254`                                  |
+|     new | +2 MiB |   0.0% → 3.4% |         0 B → 2 MiB |           0 → 2 | `__contains__`        | `black/mode.py:249`                                     |
+|   +1.9% | +1 MiB | 90.5% → 90.6% | 51.6 MiB → 52.6 MiB | 21,191 → 21,192 | `__call__`            | `/venv/lib/python3.11/site-packages/click/core.py:1629` |
+
 ##### Ours
 
 |  Change |  Delta |             % |                Size |     Allocations | Function              | Location                            |
 | ------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ----------------------------------- |
 |  +42.5% | +8 MiB | 33.0% → 46.2% | 18.8 MiB → 26.8 MiB | 13,397 → 13,405 | `visit_simple_stmt`   | `black/linegen.py:295`              |
 |  +29.6% | +6 MiB | 35.5% → 45.3% | 20.3 MiB → 26.3 MiB | 20,885 → 20,891 | `append`              | `black/lines.py:63 → 52`            |
-|     new | +5 MiB |   0.0% → 8.6% |         0 B → 5 MiB |           0 → 5 | `prefix`              | `blib2to3/pytree.py:469`            |
 |  +23.7% | +4 MiB | 29.6% → 36.0% | 16.9 MiB → 20.9 MiB | 10,808 → 10,812 | `visit_power`         | `black/linegen.py:341`              |
 | +379.4% | +4 MiB |   1.8% → 8.7% | 1.05 MiB → 5.05 MiB |         90 → 94 | `whitespace`          | `black/nodes.py:194 → 183`          |
 |  +42.6% | +3 MiB | 12.3% → 17.3% |   7.04 MiB → 10 MiB |         14 → 17 | `addtoken`            | `blib2to3/pgen2/parse.py:242 → 230` |
@@ -358,6 +380,7 @@ Functions with the largest increase in total bytes never freed in the function a
 |   +5.9% | +2 MiB | 59.1% → 61.5% | 33.7 MiB → 35.7 MiB | 20,145 → 20,147 | `visit_suite`         | `black/linegen.py:288`              |
 |   +5.9% | +2 MiB | 59.2% → 61.7% | 33.8 MiB → 35.8 MiB | 20,271 → 20,273 | `visit_funcdef`       | `black/linegen.py:254`              |
 |     new | +2 MiB |   0.0% → 3.4% |         0 B → 2 MiB |           0 → 2 | `__contains__`        | `black/mode.py:249`                 |
+|   +1.9% | +1 MiB | 90.5% → 90.6% | 51.6 MiB → 52.6 MiB | 21,191 → 21,192 | `patched_main`        | `black/__init__.py:1594 → 1580`     |
 
 ##### Standard library
 
@@ -378,11 +401,11 @@ Functions with the largest decrease in total bytes never freed in the function a
 
 |  Change |      Delta |             % |              Size | Allocations | Function                    | Location                               |
 | ------: | ---------: | ------------: | ----------------: | ----------: | --------------------------- | -------------------------------------- |
-|  -85.7% |     -6 MiB |  12.3% → 1.7% |     7 MiB → 1 MiB |       7 → 1 | `prefix`                    | `blib2to3/pytree.py:480 → 318`         |
 |  -75.0% |     -3 MiB |   7.0% → 1.7% |     4 MiB → 1 MiB |       4 → 1 | `generate_tokens`           | `blib2to3/pgen2/tokenize.py:565 → 554` |
 |  -75.0% |     -3 MiB |   7.0% → 1.7% |     4 MiB → 1 MiB |       4 → 1 | `__next__`                  | `blib2to3/pgen2/driver.py:80`          |
 | removed |     -3 MiB |   5.3% → 0.0% |       3 MiB → 0 B |       3 → 0 | `__str__`                   | `black/lines.py:490`                   |
 |  -22.2% |     -2 MiB | 15.8% → 12.1% |     9 MiB → 7 MiB |       9 → 7 | `generate_comments`         | `black/comments.py:52`                 |
+|  -28.6% |     -2 MiB |  12.3% → 8.6% |     7 MiB → 5 MiB |       7 → 5 | `prefix`                    | `blib2to3/pytree.py:480 → 469`         |
 |  -28.6% |     -2 MiB |  12.3% → 8.6% |     7 MiB → 5 MiB |       7 → 5 | `normalize_trailing_prefix` | `black/comments.py:127`                |
 | removed |     -1 MiB |   1.8% → 0.0% |       1 MiB → 0 B |       1 → 0 | `push`                      | `blib2to3/pgen2/parse.py:386`          |
 |  -99.7% |     -1 MiB |  1.8% → <0.1% |  1 MiB → 3.03 KiB |       5 → 4 | `__init__`                  | `blib2to3/pytree.py:248 → 237`         |
@@ -403,11 +426,11 @@ Functions with the largest decrease in total bytes never freed in the function a
 
 |  Change |      Delta |             % |                Size |   Allocations | Function                    | Location                               |
 | ------: | ---------: | ------------: | ------------------: | ------------: | --------------------------- | -------------------------------------- |
-|  -85.7% |     -6 MiB |  12.3% → 1.7% |       7 MiB → 1 MiB |         7 → 1 | `prefix`                    | `blib2to3/pytree.py:480 → 318`         |
 |  -75.0% |     -3 MiB |   7.0% → 1.7% |       4 MiB → 1 MiB |         4 → 1 | `generate_tokens`           | `blib2to3/pgen2/tokenize.py:565 → 554` |
 |  -75.0% |     -3 MiB |   7.0% → 1.7% |       4 MiB → 1 MiB |         4 → 1 | `__next__`                  | `blib2to3/pgen2/driver.py:80`          |
 | removed |     -3 MiB |   5.3% → 0.0% |         3 MiB → 0 B |         3 → 0 | `__str__`                   | `black/lines.py:490`                   |
 |  -22.2% |     -2 MiB | 15.8% → 12.1% |       9 MiB → 7 MiB |         9 → 7 | `generate_comments`         | `black/comments.py:52`                 |
+|  -28.6% |     -2 MiB |  12.3% → 8.6% |       7 MiB → 5 MiB |         7 → 5 | `prefix`                    | `blib2to3/pytree.py:480 → 469`         |
 |  -28.6% |     -2 MiB |  12.3% → 8.6% |       7 MiB → 5 MiB |         7 → 5 | `normalize_trailing_prefix` | `black/comments.py:127`                |
 | removed |     -1 MiB |   1.8% → 0.0% |         1 MiB → 0 B |         1 → 0 | `push`                      | `blib2to3/pgen2/parse.py:386`          |
 |  -99.7% |     -1 MiB |  1.8% → <0.1% |    1 MiB → 3.03 KiB |         5 → 4 | `__init__`                  | `blib2to3/pytree.py:248 → 237`         |

@@ -16,28 +16,28 @@ Took 3.63s → 4.09s (+464.00ms, +12.8%) over 3,630 samples → 4,094 samples (1
 
 Functions with the largest increase in wall time spent directly in the function body, excluding callees.
 
-|  Change |     Delta |             % |              Time |       Samples | Function                                            | Location                                          |
-| ------: | --------: | ------------: | ----------------: | ------------: | --------------------------------------------------- | ------------------------------------------------- |
-|  +25.2% | +258.00ms | 28.2% → 31.3% |     1.02s → 1.28s | 1,024 → 1,282 | `GC.GC`                                             | `<unknown>`                                       |
-|  +15.5% |  +67.00ms | 11.9% → 12.2% | 431.0ms → 498.0ms |     431 → 498 | `Data.Aeson.KeyMap.fromList`                        | `src/Data/Aeson/KeyMap.hs:247:1`                  |
-|   +3.9% |  +56.00ms | 39.3% → 36.2% |     1.42s → 1.48s | 1,426 → 1,482 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens`   | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-|  +42.9% |  +39.00ms |   2.5% → 3.2% |  91.0ms → 130.0ms |      91 → 130 | `Main.keywords`                                     | `Profile.hs:136:1`                                |
-|  +19.6% |  +22.00ms |   3.1% → 3.3% | 112.0ms → 134.0ms |     112 → 134 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`        | `src/Data/Aeson/Internal/Text.hs:29:1`            |
-|  +66.7% |  +14.00ms |   0.6% → 0.9% |   21.0ms → 35.0ms |       21 → 35 | `Data.Aeson.KeyMap.lookup`                          | `src/Data/Aeson/KeyMap.hs:178:1`                  |
-|  +16.2% |  +11.00ms |          1.9% |   68.0ms → 79.0ms |       68 → 79 | `Data.Integer.Conversion.byteStringToInteger`       | `src/Data/Integer/Conversion.hs:104:1`            |
-|  +15.6% |  +10.00ms |          1.8% |   64.0ms → 74.0ms |       64 → 74 | `Data.Aeson.Internal.Unescape.unescapeText`         | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
-|  +72.7% |   +8.00ms |   0.3% → 0.5% |   11.0ms → 19.0ms |       11 → 19 | `Main.summarize`                                    | `Profile.hs:118:1`                                |
-|  +33.3% |   +7.00ms |   0.6% → 0.7% |   21.0ms → 28.0ms |       21 → 28 | `Main.tally`                                        | `Profile.hs:112:1`                                |
-|  +83.3% |   +5.00ms |   0.2% → 0.3% |    6.0ms → 11.0ms |        6 → 11 | `Data.Aeson.Types.FromJSON..:`                      | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
-|  +60.0% |   +3.00ms |   0.1% → 0.2% |     5.0ms → 8.0ms |         5 → 8 | `SYSTEM.SYSTEM`                                     | `<unknown>`                                       |
-| +150.0% |   +3.00ms |          0.1% |     2.0ms → 5.0ms |         2 → 5 | `Data.Aeson.Types.Internal.modifyFailure`           | `src/Data/Aeson/Types/Internal.hs:671:1`          |
-| +300.0% |   +3.00ms |  <0.1% → 0.1% |     1.0ms → 4.0ms |         1 → 4 | `Data.Aeson.Encoding.Builder.object`                | `src/Data/Aeson/Encoding/Builder.hs:96:1`         |
-|     new |   +3.00ms |   0.0% → 0.1% |       0ms → 3.0ms |         0 → 3 | `Data.Aeson.Encoding.Builder.encodeToBuilder`       | `src/Data/Aeson/Encoding/Builder.hs:68:1`         |
-|  +33.3% |   +3.00ms |   0.2% → 0.3% |    9.0ms → 12.0ms |        9 → 12 | `Data.Aeson.Encoding.Builder.text`                  | `src/Data/Aeson/Encoding/Builder.hs:109:1`        |
-|     new |   +2.00ms |  0.0% → <0.1% |       0ms → 2.0ms |         0 → 2 | `Data.Aeson.encode`                                 | `src/Data/Aeson.hs:187:1`                         |
-| +100.0% |   +2.00ms |          0.1% |     2.0ms → 4.0ms |         2 → 4 | `Data.Aeson.Encoding.Builder.unquoted`              | `src/Data/Aeson/Encoding/Builder.hs:113:1`        |
-|  +20.0% |   +1.00ms |          0.1% |     5.0ms → 6.0ms |         5 → 6 | `Main.main`                                         | `Profile.hs:146:1`                                |
-|  +33.3% |   +1.00ms |          0.1% |     3.0ms → 4.0ms |         3 → 4 | `Data.Aeson.Types.FromJSON.explicitParseFieldMaybe` | `src/Data/Aeson/Types/FromJSON.hs:923:1`          |
+|  Change |     Delta |             % |              Time |       Samples | Function                                          | Location                                          |
+| ------: | --------: | ------------: | ----------------: | ------------: | ------------------------------------------------- | ------------------------------------------------- |
+|  +25.2% | +258.00ms | 28.2% → 31.3% |     1.02s → 1.28s | 1,024 → 1,282 | `GC.GC`                                           | `<unknown>`                                       |
+|  +15.5% |  +67.00ms | 11.9% → 12.2% | 431.0ms → 498.0ms |     431 → 498 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
+|   +3.9% |  +56.00ms | 39.3% → 36.2% |     1.42s → 1.48s | 1,426 → 1,482 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+|  +42.9% |  +39.00ms |   2.5% → 3.2% |  91.0ms → 130.0ms |      91 → 130 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
+|  +19.6% |  +22.00ms |   3.1% → 3.3% | 112.0ms → 134.0ms |     112 → 134 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
+|  +66.7% |  +14.00ms |   0.6% → 0.9% |   21.0ms → 35.0ms |       21 → 35 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
+|  +16.2% |  +11.00ms |          1.9% |   68.0ms → 79.0ms |       68 → 79 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
+|  +15.6% |  +10.00ms |          1.8% |   64.0ms → 74.0ms |       64 → 74 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
+|  +72.7% |   +8.00ms |   0.3% → 0.5% |   11.0ms → 19.0ms |       11 → 19 | `Main.summarize`                                  | `Profile.hs:118:1`                                |
+|  +33.3% |   +7.00ms |   0.6% → 0.7% |   21.0ms → 28.0ms |       21 → 28 | `Main.tally`                                      | `Profile.hs:112:1`                                |
+|  +83.3% |   +5.00ms |   0.2% → 0.3% |    6.0ms → 11.0ms |        6 → 11 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
+|  +60.0% |   +3.00ms |   0.1% → 0.2% |     5.0ms → 8.0ms |         5 → 8 | `SYSTEM.SYSTEM`                                   | `<unknown>`                                       |
+| +150.0% |   +3.00ms |          0.1% |     2.0ms → 5.0ms |         2 → 5 | `Data.Aeson.Types.Internal.modifyFailure`         | `src/Data/Aeson/Types/Internal.hs:671:1`          |
+| +300.0% |   +3.00ms |  <0.1% → 0.1% |     1.0ms → 4.0ms |         1 → 4 | `Data.Aeson.Encoding.Builder.object`              | `src/Data/Aeson/Encoding/Builder.hs:96:1`         |
+|     new |   +3.00ms |   0.0% → 0.1% |       0ms → 3.0ms |         0 → 3 | `Data.Aeson.Encoding.Builder.encodeToBuilder`     | `src/Data/Aeson/Encoding/Builder.hs:68:1`         |
+|  +33.3% |   +3.00ms |   0.2% → 0.3% |    9.0ms → 12.0ms |        9 → 12 | `Data.Aeson.Encoding.Builder.text`                | `src/Data/Aeson/Encoding/Builder.hs:109:1`        |
+|     new |   +2.00ms |  0.0% → <0.1% |       0ms → 2.0ms |         0 → 2 | `Data.Aeson.encode`                               | `src/Data/Aeson.hs:187:1`                         |
+| +100.0% |   +2.00ms |          0.1% |     2.0ms → 4.0ms |         2 → 4 | `Data.Aeson.Encoding.Builder.unquoted`            | `src/Data/Aeson/Encoding/Builder.hs:113:1`        |
+|  +20.0% |   +1.00ms |          0.1% |     5.0ms → 6.0ms |         5 → 6 | `Main.main`                                       | `Profile.hs:146:1`                                |
+|     new |   +1.00ms |  0.0% → <0.1% |       0ms → 1.0ms |         0 → 1 | `Main.parseJSON`                                  | `Profile.hs:72:3`                                 |
 
 ##### Ours
 
@@ -60,9 +60,9 @@ Functions with the largest increase in wall time spent directly in the function 
 |     new |  +2.00ms |  0.0% → <0.1% |       0ms → 2.0ms |         0 → 2 | `Data.Aeson.encode`                                 | `src/Data/Aeson.hs:187:1`                         |
 | +100.0% |  +2.00ms |          0.1% |     2.0ms → 4.0ms |         2 → 4 | `Data.Aeson.Encoding.Builder.unquoted`              | `src/Data/Aeson/Encoding/Builder.hs:113:1`        |
 |  +20.0% |  +1.00ms |          0.1% |     5.0ms → 6.0ms |         5 → 6 | `Main.main`                                         | `Profile.hs:146:1`                                |
+|     new |  +1.00ms |  0.0% → <0.1% |       0ms → 1.0ms |         0 → 1 | `Main.parseJSON`                                    | `Profile.hs:72:3`                                 |
 |  +33.3% |  +1.00ms |          0.1% |     3.0ms → 4.0ms |         3 → 4 | `Data.Aeson.Types.FromJSON.explicitParseFieldMaybe` | `src/Data/Aeson/Types/FromJSON.hs:923:1`          |
 |  +50.0% |  +1.00ms |          0.1% |     2.0ms → 3.0ms |         2 → 3 | `Utils.magnitude`                                   | `src/Utils.hs:78:1`                               |
-| +100.0% |  +1.00ms |         <0.1% |     1.0ms → 2.0ms |         1 → 2 | `Data.Aeson.KeyMap.toList`                          | `src/Data/Aeson/KeyMap.hs:253:1`                  |
 
 ##### Garbage collector
 
@@ -88,6 +88,7 @@ Functions with the largest decrease in wall time spent directly in the function 
 |  -10.0% |  -2.00ms |  0.6% → 0.4% |   20.0ms → 18.0ms |   20 → 18 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1`     |
 |  -33.3% |  -2.00ms |  0.2% → 0.1% |     6.0ms → 4.0ms |     6 → 4 | `Data.Scientific.toBoundedInteger`             | `src/Data/Scientific.hs:772:1`               |
 |  -10.0% |  -1.00ms |  0.3% → 0.2% |    10.0ms → 9.0ms |    10 → 9 | `Data.Aeson.Types.FromJSON.withObject`         | `src/Data/Aeson/Types/FromJSON.hs:720:1`     |
+| removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `Main.parseJSON`                               | `Profile.hs:65:3`                            |
 |  -20.0% |  -1.00ms |         0.1% |     5.0ms → 4.0ms |     5 → 4 | `Data.Aeson.Types.Internal.<?>`                | `src/Data/Aeson/Types/Internal.hs:659:1`     |
 | removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `Main.parseJSONList`                           | `Profile.hs:50:10`                           |
 
@@ -106,6 +107,7 @@ Functions with the largest decrease in wall time spent directly in the function 
 |  -10.0% |  -2.00ms |  0.6% → 0.4% |   20.0ms → 18.0ms |   20 → 18 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1`     |
 |  -33.3% |  -2.00ms |  0.2% → 0.1% |     6.0ms → 4.0ms |     6 → 4 | `Data.Scientific.toBoundedInteger`             | `src/Data/Scientific.hs:772:1`               |
 |  -10.0% |  -1.00ms |  0.3% → 0.2% |    10.0ms → 9.0ms |    10 → 9 | `Data.Aeson.Types.FromJSON.withObject`         | `src/Data/Aeson/Types/FromJSON.hs:720:1`     |
+| removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `Main.parseJSON`                               | `Profile.hs:65:3`                            |
 |  -20.0% |  -1.00ms |         0.1% |     5.0ms → 4.0ms |     5 → 4 | `Data.Aeson.Types.Internal.<?>`                | `src/Data/Aeson/Types/Internal.hs:659:1`     |
 | removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `Main.parseJSONList`                           | `Profile.hs:50:10`                           |
 
@@ -184,10 +186,11 @@ Functions with the largest decrease in total wall time spent in the function and
 |  -35.7% | -5.00ms |  0.4% → 0.2% |  14.0ms → 9.0ms |  14 → 9 | `Data.Scientific.toBoundedInteger`                  | `src/Data/Scientific.hs:772:1`            |
 |  -66.7% | -4.00ms | 0.2% → <0.1% |   6.0ms → 2.0ms |   6 → 2 | `Data.Scientific.normalize`                         | `src/Data/Scientific.hs:1102:1`           |
 |  -80.0% | -4.00ms | 0.1% → <0.1% |   5.0ms → 1.0ms |   5 → 1 | `Main.toJSON`                                       | `Profile.hs:84:3`                         |
-|  -75.0% | -3.00ms | 0.1% → <0.1% |   4.0ms → 1.0ms |   4 → 1 | `Main.parseJSONList`                                | `Profile.hs:108:10`                       |
 | removed | -3.00ms |  0.1% → 0.0% |     3.0ms → 0ms |   3 → 0 | `Main.parseJSONList`                                | `Profile.hs:50:10`                        |
+|  -75.0% | -3.00ms | 0.1% → <0.1% |   4.0ms → 1.0ms |   4 → 1 | `Main.parseJSONList`                                | `Profile.hs:108:10`                       |
 |  -37.5% | -3.00ms |  0.2% → 0.1% |   8.0ms → 5.0ms |   8 → 5 | `Main.top`                                          | `Profile.hs:115:1`                        |
 |  -11.1% | -2.00ms |  0.5% → 0.4% | 18.0ms → 16.0ms | 18 → 16 | `Data.Aeson.Types.FromJSON.withArray`               | `src/Data/Aeson/Types/FromJSON.hs:742:1`  |
+| removed | -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `Main.parseJSON`                                    | `Profile.hs:65:3`                         |
 |   -9.1% | -1.00ms |  0.3% → 0.2% | 11.0ms → 10.0ms | 11 → 10 | `Data.Aeson.Types.Internal.prependFailure`          | `src/Data/Aeson/Types/Internal.hs:681:1`  |
 |  -12.5% | -1.00ms |         0.2% |   8.0ms → 7.0ms |   8 → 7 | `Data.Aeson.Encoding.Builder.array`                 | `src/Data/Aeson/Encoding/Builder.hs:86:1` |
 
@@ -203,10 +206,11 @@ Functions with the largest decrease in total wall time spent in the function and
 |  -35.7% | -5.00ms |  0.4% → 0.2% |  14.0ms → 9.0ms |  14 → 9 | `Data.Scientific.toBoundedInteger`                  | `src/Data/Scientific.hs:772:1`            |
 |  -66.7% | -4.00ms | 0.2% → <0.1% |   6.0ms → 2.0ms |   6 → 2 | `Data.Scientific.normalize`                         | `src/Data/Scientific.hs:1102:1`           |
 |  -80.0% | -4.00ms | 0.1% → <0.1% |   5.0ms → 1.0ms |   5 → 1 | `Main.toJSON`                                       | `Profile.hs:84:3`                         |
-|  -75.0% | -3.00ms | 0.1% → <0.1% |   4.0ms → 1.0ms |   4 → 1 | `Main.parseJSONList`                                | `Profile.hs:108:10`                       |
 | removed | -3.00ms |  0.1% → 0.0% |     3.0ms → 0ms |   3 → 0 | `Main.parseJSONList`                                | `Profile.hs:50:10`                        |
+|  -75.0% | -3.00ms | 0.1% → <0.1% |   4.0ms → 1.0ms |   4 → 1 | `Main.parseJSONList`                                | `Profile.hs:108:10`                       |
 |  -37.5% | -3.00ms |  0.2% → 0.1% |   8.0ms → 5.0ms |   8 → 5 | `Main.top`                                          | `Profile.hs:115:1`                        |
 |  -11.1% | -2.00ms |  0.5% → 0.4% | 18.0ms → 16.0ms | 18 → 16 | `Data.Aeson.Types.FromJSON.withArray`               | `src/Data/Aeson/Types/FromJSON.hs:742:1`  |
+| removed | -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `Main.parseJSON`                                    | `Profile.hs:65:3`                         |
 |   -9.1% | -1.00ms |  0.3% → 0.2% | 11.0ms → 10.0ms | 11 → 10 | `Data.Aeson.Types.Internal.prependFailure`          | `src/Data/Aeson/Types/Internal.hs:681:1`  |
 |  -12.5% | -1.00ms |         0.2% |   8.0ms → 7.0ms |   8 → 7 | `Data.Aeson.Encoding.Builder.array`                 | `src/Data/Aeson/Encoding/Builder.hs:86:1` |
 

@@ -1,3 +1,4 @@
+import { alignPositions } from '../helpers/align.ts'
 import type {
   NormalizedProfileToMdOptions,
   ProfileEntry,
@@ -55,7 +56,12 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
  * Match normalization can give distinct entities one key (e.g. Zig generic
  * instantiations whose compiler-assigned IDs it strips). The first pass pairs
  * each entity on both sides with itself, and only the leftovers, whose
- * identifiers changed between the sides, pair by the normalized key.
+ * identifiers changed between the sides, pair by the normalized key. When
+ * both sides have leftovers of one own key, the first pass aligned them and
+ * rejected every pair between them. They stay unpaired, because pairing them by
+ * the normalized key would undo that decision. A leftover whose own key has no
+ * leftover on the other side is left over because its side has more entries of
+ * that key, and it pairs by the normalized key.
  *
  * The result keeps the first pass's order, with a leftover pair in its base
  * entry's position, so the second pass reorders nothing it does not pair.
@@ -78,14 +84,40 @@ const matchDiffedEntries = <Entry extends DiffableEntry>(
     return matchedByOwnKeys
   }
 
-  const leftoverMatched = matchEntryGroups(
+  const baseOwnKeys = leftovers.base.map(
+    entry => baseEntryKeys(entry).ownNameAndLocation,
+  )
+  const currentOwnKeys = leftovers.current.map(
+    entry => currentEntryKeys(entry).ownNameAndLocation,
+  )
+  const realignableBase = withoutKeysIn(
     leftovers.base,
+    baseOwnKeys,
+    new Set(currentOwnKeys),
+  )
+  const realignableCurrent = withoutKeysIn(
     leftovers.current,
+    currentOwnKeys,
+    new Set(baseOwnKeys),
+  )
+  if (realignableBase.length === 0 || realignableCurrent.length === 0) {
+    return matchedByOwnKeys
+  }
+
+  const leftoverMatched = matchEntryGroups(
+    realignableBase,
+    realignableCurrent,
     entry => baseEntryKeys(entry).nameAndLocation,
     entry => currentEntryKeys(entry).nameAndLocation,
   )
   return spliceLeftoverDiffs(matchedByOwnKeys, leftoverMatched)
 }
+
+const withoutKeysIn = <Entry>(
+  entries: Entry[],
+  keys: string[],
+  excluded: Set<string>,
+): Entry[] => entries.filter((_, index) => !excluded.has(keys[index]!))
 
 /** Collects the entries of each side that the given diffs leave unpaired. */
 const unpairedEntries = <Entry>(
@@ -105,20 +137,22 @@ const unpairedEntries = <Entry>(
 
 /**
  * Replaces the one-sided diffs of `diffs` with `leftoverDiffs`, the diffs of
- * their entries. A leftover pair takes its base entry's position, and a
- * leftover current entry left unpaired keeps its own.
+ * some of their entries. A leftover pair takes its base entry's position, and a
+ * one-sided entry the leftover diffs leave unpaired or omit keeps its own.
  */
 const spliceLeftoverDiffs = <Entry>(
   diffs: EntryDiff<Entry>[],
   leftoverDiffs: EntryDiff<Entry>[],
 ): EntryDiff<Entry>[] => {
   const leftoverDiffsByBase = new Map<Entry, EntryDiff<Entry>>()
-  const unpairedCurrent = new Set<Entry>()
+  const pairedCurrent = new Set<Entry>()
   for (const diff of leftoverDiffs) {
-    if (diff.base) {
-      leftoverDiffsByBase.set(diff.base, diff)
-    } else {
-      unpairedCurrent.add(diff.current!)
+    if (!diff.base) {
+      continue
+    }
+    leftoverDiffsByBase.set(diff.base, diff)
+    if (diff.current) {
+      pairedCurrent.add(diff.current)
     }
   }
 
@@ -127,8 +161,8 @@ const spliceLeftoverDiffs = <Entry>(
     if (diff.base && diff.current) {
       spliced.push(diff)
     } else if (diff.base) {
-      spliced.push(leftoverDiffsByBase.get(diff.base)!)
-    } else if (unpairedCurrent.has(diff.current!)) {
+      spliced.push(leftoverDiffsByBase.get(diff.base) ?? diff)
+    } else if (!pairedCurrent.has(diff.current!)) {
       spliced.push(diff)
     }
   }
@@ -180,10 +214,29 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
 }
 
 /**
- * Pairs the members of one key's base and current groups: exact definition
- * line/column matches first, then the leftovers in line/column order (a
- * definition that moved a line or two still pairs), and finally any surplus
- * members as one-sided.
+ * Pairs the members of one key's base and current groups by aligning their
+ * positions with {@link alignPositions}, so members that moved together pair
+ * even when a member was added or removed among them. Members at one position
+ * pair in order, as do members without a line. When one member is left on each
+ * side and one of them has no line, they pair, as a group of one member per
+ * side does, because the alignment excludes members without a line. Any other
+ * surplus members are one-sided.
+ *
+ * The alignment fits how an edit and sampling each change a group:
+ * - An edit moves every function after it by the same amount, so a moved
+ *   function's neighbors moved with it. The alignment pairs a run of members at
+ *   one offset
+ * - A member with no counterpart was sampled in one run only, or added or
+ *   removed. A run of pairs continues past it at no cost
+ * - A member whose offset neither neighbor shares stays unpaired, because an
+ *   edit that moved it would have moved its neighbors too
+ *
+ * Other profilers' diffs pair no functions by position. pprof, Pyroscope,
+ * Parca, and async-profiler merge the functions that share a name. The Firefox
+ * Profiler keys a JavaScript function by its line as well, because "the name
+ * is not garanteed to be unique in a resource"
+ * ([merge-compare.ts](https://github.com/firefox-devtools/profiler/blob/fbc9d0cc92cb0a1640d0d631b4f5c3d0c8903f7f/src/profile-logic/merge-compare.ts#L974-L987)).
+ * Its diff therefore shows a closure that moved as removed and added.
  */
 const pairGroups = <Entry extends DiffableEntry>(
   baseGroup: Entry[],
@@ -195,38 +248,178 @@ const pairGroups = <Entry extends DiffableEntry>(
     ]
   }
 
-  const lineColumnKey = (entry: Entry) =>
-    `${entry.location?.line ?? ``}\0${entry.location?.column ?? ``}`
-  const byLineColumn = Map.groupBy(currentGroup, lineColumnKey)
-
-  const matched: EntryDiff<Entry>[] = []
-  const remainingBase: Entry[] = []
-  for (const base of baseGroup) {
-    const exact = byLineColumn.get(lineColumnKey(base))?.shift()
-    if (exact) {
-      matched.push({ base, current: exact, byPosition: true })
-    } else {
-      remainingBase.push(base)
+  const lineWeight = Math.max(
+    positionLineWeight(baseGroup),
+    positionLineWeight(currentGroup),
+  )
+  const base = groupByPosition(baseGroup, lineWeight)
+  const current = groupByPosition(currentGroup, lineWeight)
+  const pairs = new Int32Array(baseGroup.length).fill(-1)
+  zipAlignedIndices(base, current, pairs)
+  zipIndices(base.lineless, current.lineless, pairs)
+  const isPairedCurrent = new Uint8Array(currentGroup.length)
+  for (const pair of pairs) {
+    if (pair !== -1) {
+      isPairedCurrent[pair] = 1
     }
   }
-
-  const byLine = (left: Entry, right: Entry) =>
-    (left.location?.line ?? 0) - (right.location?.line ?? 0) ||
-    (left.location?.column ?? 0) - (right.location?.column ?? 0)
-  const remainingCurrent = [...byLineColumn.values()].flat().sort(byLine)
-  remainingBase.sort(byLine)
-  for (
-    let i = 0;
-    i < Math.max(remainingBase.length, remainingCurrent.length);
-    i++
-  ) {
-    matched.push({
-      base: remainingBase[i],
-      current: remainingCurrent[i],
-      byPosition: true,
-    })
+  if (base.lineless.length > 0 || current.lineless.length > 0) {
+    pairLoneLeftoversWithoutLine(base, current, pairs, isPairedCurrent)
   }
-  return matched
+  return inGroupOrder(baseGroup, currentGroup, pairs, isPairedCurrent)
+}
+
+const pairLoneLeftoversWithoutLine = (
+  base: { lineless: number[] },
+  current: { lineless: number[] },
+  pairs: Int32Array,
+  isPairedCurrent: Uint8Array,
+) => {
+  const baseLeftover = loneIndexOf(pairs, -1)
+  if (baseLeftover === undefined) {
+    return
+  }
+  const currentLeftover = loneIndexOf(isPairedCurrent, 0)
+  if (
+    currentLeftover !== undefined &&
+    (base.lineless.includes(baseLeftover) ||
+      current.lineless.includes(currentLeftover))
+  ) {
+    pairs[baseLeftover] = currentLeftover
+    isPairedCurrent[currentLeftover] = 1
+  }
+}
+
+const loneIndexOf = (
+  values: ArrayLike<number>,
+  value: number,
+): number | undefined => {
+  let lone: number | undefined
+  for (let index = 0; index < values.length; index++) {
+    if (values[index] === value) {
+      if (lone !== undefined) {
+        return undefined
+      }
+      lone = index
+    }
+  }
+  return lone
+}
+
+/**
+ * Returns the weight of a line relative to a column, to pack a line and column
+ * into one position. Members on one line, as in a minified file, then align by
+ * column.
+ *
+ * An offset's column part ranges from minus to plus the largest column, so
+ * weighting the line by more than twice that keeps an offset's line and column
+ * parts recoverable from their sum. Two offsets are then equal only when the
+ * lines and the columns both moved by equal amounts.
+ */
+const positionLineWeight = (entries: DiffableEntry[]): number => {
+  let largestColumn = 0
+  for (const entry of entries) {
+    const column = entry.location?.column
+    if (Number.isFinite(column)) {
+      largestColumn = Math.max(largestColumn, column!)
+    }
+  }
+  return 2 * largestColumn + 1
+}
+
+/**
+ * Groups the indices of a group's entries by their line and column, as strictly
+ * increasing positions and the indices at each, and collects the indices of the
+ * entries without a line. An entry whose line or column is not a finite number
+ * counts as one without a line, so a malformed input's values still convert.
+ */
+const groupByPosition = (
+  group: DiffableEntry[],
+  lineWeight: number,
+): { positions: number[]; indices: number[][]; lineless: number[] } => {
+  const positioned: { position: number; index: number }[] = []
+  const lineless: number[] = []
+  for (let index = 0; index < group.length; index++) {
+    const { location } = group[index]!
+    const line = location?.line
+    const position =
+      line === undefined
+        ? undefined
+        : line * lineWeight + (location?.column ?? 0)
+    if (Number.isFinite(position)) {
+      positioned.push({ position: position!, index })
+    } else {
+      lineless.push(index)
+    }
+  }
+  positioned.sort((left, right) => left.position - right.position)
+
+  const positions: number[] = []
+  const indices: number[][] = []
+  for (const { position, index } of positioned) {
+    if (positions.at(-1) === position) {
+      indices.at(-1)!.push(index)
+    } else {
+      positions.push(position)
+      indices.push([index])
+    }
+  }
+  return { positions, indices, lineless }
+}
+
+const zipAlignedIndices = (
+  base: { positions: number[]; indices: number[][] },
+  current: { positions: number[]; indices: number[][] },
+  pairs: Int32Array,
+) => {
+  const positionPairs = alignPositions(base.positions, current.positions)
+  for (let index = 0; index < positionPairs.length; index++) {
+    const pair = positionPairs[index]!
+    if (pair !== -1) {
+      zipIndices(base.indices[index]!, current.indices[pair]!, pairs)
+    }
+  }
+}
+
+const zipIndices = (
+  baseIndices: number[],
+  currentIndices: number[],
+  pairs: Int32Array,
+) => {
+  const length = Math.min(baseIndices.length, currentIndices.length)
+  for (let index = 0; index < length; index++) {
+    pairs[baseIndices[index]!] = currentIndices[index]!
+  }
+}
+
+/**
+ * Returns the diffs in their groups' order, base entries first, so entries
+ * whose values tie keep their order in a ranking.
+ */
+const inGroupOrder = <Entry>(
+  baseGroup: Entry[],
+  currentGroup: Entry[],
+  pairs: Int32Array,
+  isPairedCurrent: Uint8Array,
+): EntryDiff<Entry>[] => {
+  const diffs: EntryDiff<Entry>[] = baseGroup.map((base, index) => {
+    const pair = pairs[index]!
+    return {
+      base,
+      current: pair === -1 ? undefined : currentGroup[pair],
+      byPosition: true,
+    }
+  })
+  for (let index = 0; index < currentGroup.length; index++) {
+    if (!isPairedCurrent[index]) {
+      diffs.push({
+        base: undefined,
+        current: currentGroup[index],
+        byPosition: true,
+      })
+    }
+  }
+  return diffs
 }
 
 /**
