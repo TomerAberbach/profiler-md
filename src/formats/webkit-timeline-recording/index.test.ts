@@ -7,6 +7,7 @@ import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
+  expectLogs,
   linesTables,
   summaryLines,
 } from '../../testing.ts'
@@ -223,7 +224,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`empty stack samples are skipped`, () => {
+  test(`empty stack samples count under an anonymous function`, () => {
     const recording = makeWebKitRecording({
       sampleStackTraces: [
         { stackFrames: [] },
@@ -249,8 +250,85 @@ describe(`convert`, () => {
     )
 
     expect(summaryLines(md)).toEqual([
-      expect.stringContaining(`50.0ms over 1 sample`),
+      `Took 250.0ms over 3 samples (83.3ms per sample).`,
     ])
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `80.0%`,
+          Time: `200.0ms`,
+          Samples: `2`,
+          Function: `(anonymous)`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `20.0%`,
+          Time: `50.0ms`,
+          Samples: `1`,
+          Function: `main`,
+          Location: `src/index.ts:1:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`skips samples without a duration, with a warning`, () => {
+    const frame = makeWebKitStackFrame({
+      name: `main`,
+      url: `file:///project/src/index.ts`,
+    })
+    const recording = {
+      version: 1,
+      recording: {
+        samples: [
+          {
+            stackTraces: [{ stackFrames: [frame] }],
+            durations: [0.05],
+          },
+          {
+            stackTraces: [
+              { stackFrames: [frame] },
+              { stackFrames: [frame] },
+              { stackFrames: [frame] },
+            ],
+            durations: [0.05],
+          },
+        ],
+      },
+    }
+
+    const md = convertJsonToMd(
+      webkitTimelineRecordingConverter,
+      recording,
+      normalizeProfileToMdOptions({ baseURL: `/project/` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 100.0ms over 2 samples (50.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: safari`,
+      `info: fallback origin: safari`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 samples without a duration`,
+    ])
+  })
+
+  test(`rejects a recording whose every sample lacks a duration`, () => {
+    const recording = makeWebKitRecording({
+      sampleStackTraces: [{ stackFrames: [] }, { stackFrames: [] }],
+      sampleDurations: [],
+    })
+
+    expect(() =>
+      convertJsonToMd(
+        webkitTimelineRecordingConverter,
+        recording,
+        normalizeProfileToMdOptions(),
+      ),
+    ).toThrow(
+      `no usable records because the parser skipped 2 samples without a duration`,
+    )
   })
 
   test(`frame with empty URL is formatted as unknown`, () => {

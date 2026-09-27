@@ -386,11 +386,19 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
     variant, an allocator) is unknown. Throw, or call
     `recordTally.endsBefore(...)` where the parser keeps what it read
   - Drop a record, or replace a record or reference with a default, including
-    through a lookup that misses (e.g. a sample referencing a missing node).
-    Call `recordTally.skipped(...)`, or throw when nothing after it is readable
+    through a lookup that misses (e.g. a sample referencing a missing node, or a
+    sample past the end of a parallel array such as `timeDeltas`). Call
+    `recordTally.skipped(...)`
   - Throw after `parse` returns: in a lazy iterable, after auto-detection has
     moved on (check that `samples` is an array), or in formatting, which the
-    pipeline reports as a bug (check that `timeDeltas` is as long as `samples`)
+    pipeline reports as a bug (check that a sample has a `timeDeltas` entry)
+- Where a check fails on one record and the records after it are readable, skip
+  that record with `recordTally.skipped(...)` instead of throwing, even when the
+  check prevents a crash after `parse` returns. The pipeline already rejects an
+  input whose every record was skipped. Throw only when the parser lost its
+  place, or when every record depends on the failed value (e.g. a missing
+  `tick_interval`, an unsupported snapshot type). The test: if the failed value
+  belongs to one sample, frame, node, or edge, skip
 - NEVER check anything else: a field's type, presence, or range, the order of
   records, or agreement between two fields, when the parser reads the value as
   the input states it. Such an input converts to whatever Markdown its values

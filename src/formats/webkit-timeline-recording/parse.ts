@@ -4,6 +4,7 @@ import type {
 } from '../../modalities/call-stack-profile/index.ts'
 import { SAMPLES, SECONDS_METRIC } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import type { RecordTally } from '../converter.ts'
 
 export type WebKitStackFrame = {
   /**
@@ -86,9 +87,12 @@ export type WebKitTimelineRecording = {
   }
 }
 
-export const parseWebKitTimelineRecording = ({
-  recording: { samples, sampleStackTraces, sampleDurations },
-}: WebKitTimelineRecording): CallStackProfile[] => {
+export const parseWebKitTimelineRecording = (
+  {
+    recording: { samples, sampleStackTraces, sampleDurations },
+  }: WebKitTimelineRecording,
+  recordTally: RecordTally,
+): CallStackProfile[] => {
   const { frames, intern } = createStackFrameInterner()
   const observations: Observation[] = []
   // The legacy layout is the current one with a single target. Every target
@@ -97,19 +101,24 @@ export const parseWebKitTimelineRecording = ({
   const targets = samples ?? [
     { stackTraces: sampleStackTraces ?? [], durations: sampleDurations ?? [] },
   ]
+  let skippedSamples = 0
   for (const { stackTraces, durations } of targets) {
-    for (let index = 0; index < stackTraces.length; index++) {
+    const sampleCount = Math.min(stackTraces.length, durations.length)
+    skippedSamples += stackTraces.length - sampleCount
+    for (let index = 0; index < sampleCount; index++) {
       const { stackFrames } = stackTraces[index]!
-      if (stackFrames.length === 0) {
-        continue
-      }
-
+      // A sample without frames is a stackless observation, which Web
+      // Inspector counts at the root of its call tree.
+      const leaf = stackFrames[0]
       observations.push({
         values: [durations[index]!],
         frameIndices: stackFrames.map(intern),
-        executingLine: executingLine(stackFrames[0]!),
+        ...(leaf && { executingLine: executingLine(leaf) }),
       })
     }
+  }
+  if (skippedSamples > 0) {
+    recordTally.skipped(`sample`, `without a duration`, skippedSamples)
   }
 
   return [
