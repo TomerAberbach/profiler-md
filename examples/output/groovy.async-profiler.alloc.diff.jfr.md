@@ -111,8 +111,8 @@ Functions with the largest decrease in total bytes allocated in the function and
 | -100.0% | -11.787 GiB | 98.4% → <0.1% |  11.8 GiB → 3.5 MiB |     24,146 → 7 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000e001115800` |
 | -100.0% | -10.971 GiB | 91.6% → <0.1% |    11 GiB → 512 KiB |     22,468 → 1 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000e001262400` |
 |  -92.4% | -10.263 GiB |  92.8% → 7.2% |  11.1 GiB → 868 MiB | 22,754 → 1,735 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000e00128d000` |
-| -100.0% | -10.106 GiB | 84.4% → <0.1% |    10.1 GiB → 3 MiB |     20,704 → 6 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000e001528800` |
 |  -99.9% | -10.106 GiB |  84.4% → 0.1% |  10.1 GiB → 6.5 MiB |    20,711 → 13 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000e00149ec00` |
+| -100.0% | -10.106 GiB | 84.4% → <0.1% |    10.1 GiB → 3 MiB |     20,704 → 6 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000e001528800` |
 |  -85.6% | -10.094 GiB | 98.4% → 14.4% | 11.8 GiB → 1.69 GiB | 24,140 → 3,469 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000e001105400` |
 |  -82.3% |  -9.823 GiB | 99.7% → 18.0% | 11.9 GiB → 2.11 GiB | 24,446 → 4,329 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000e0010c7800` |
 |  -81.8% |  -9.342 GiB | 95.4% → 17.8% | 11.4 GiB → 2.08 GiB | 23,402 → 4,270 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000e0010d9c00` |

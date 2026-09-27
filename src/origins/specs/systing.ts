@@ -3,7 +3,7 @@ import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import type { OriginSpec } from '../origin.ts'
-import { zigStdlibCategory } from '../zig.ts'
+import { zigMatchEntry, zigStdlibCategory } from '../zig.ts'
 
 export const systingOriginSpec = {
   id: `systing`,
@@ -26,6 +26,7 @@ export const systingOriginSpec = {
     // source location.
     locationlessCategory(entry) ??
     `ours`,
+  matchEntry: zigMatchEntry,
   normalizeStackFrame: input => {
     // A sourced frame can't be packed (systing always packs); guard anyway
     // per the normalizeStackFrame contract.

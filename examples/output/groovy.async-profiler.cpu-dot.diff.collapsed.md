@@ -104,9 +104,9 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +800.0% |    +8 | <0.1% → 0.2% |   1 → 9 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000a00102ac00`     |
 |   +80.0% |    +8 |  0.2% → 0.3% | 10 → 18 | `closure`           | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`  |
 |   +28.6% |    +6 |  0.4% → 0.5% | 21 → 27 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x000000a001088800`    |
-|      new |    +6 |  0.0% → 0.1% |   0 → 6 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000a00109a400`     |
 |   +54.5% |    +6 |  0.2% → 0.3% | 11 → 17 | `equals`            | `java.util.Objects`                                     |
 |   +46.2% |    +6 |  0.2% → 0.3% | 13 → 19 | `getNode`           | `java.util.HashMap`                                     |
+|      new |    +6 |  0.0% → 0.1% |   0 → 6 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000a00109a400`     |
 |  +150.0% |    +6 |  0.1% → 0.2% |  4 → 10 | `get`               | `java.lang.ref.SoftReference`                           |
 |  +200.0% |    +6 |  0.1% → 0.2% |   3 → 9 | `getMethods`        | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex` |
 |  +125.0% |    +5 |  0.1% → 0.2% |   4 → 9 | `getAndPut`         | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite`     |
@@ -149,11 +149,10 @@ Functions with the largest increase in samples taken directly in the function bo
 | ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
 |  +76.5% |   +13 |  0.3% → 0.5% | 17 → 30 | `itable stub`              | `<unknown>` |
 | +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `I2C/C2I adapters(0xbbb)`  | `<unknown>` |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `I2C/C2I adapters(0xbb)`   | `<unknown>` |
 | +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `I2C/C2I adapters(0xba)`   | `<unknown>` |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbab)` | `<unknown>` |
 |  +10.0% |    +1 |         0.2% | 10 → 11 | `vtable stub`              | `<unknown>` |
 |     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0x)`     | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbab)` | `<unknown>` |
 
 #### Improvements
 
@@ -166,7 +165,6 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -22.3% |   -21 |  1.6% → 1.3% |  94 → 73 | `tlv_get_addr`                                                                                                                                           | `<unknown>`                                         |
 |  -61.3% |   -19 |  0.5% → 0.2% |  31 → 12 | `PhaseIdealLoop::build_loop_late_post_work`                                                                                                              | `<unknown>`                                         |
 |  -40.6% |   -13 |  0.5% → 0.3% |  32 → 19 | `NodeHash::hash_find_insert`                                                                                                                             | `<unknown>`                                         |
-|  -92.3% |   -12 | 0.2% → <0.1% |   13 → 1 | `I2C/C2I adapters(0xbbbb)`                                                                                                                               | `<unknown>`                                         |
 |  -41.4% |   -12 |  0.5% → 0.3% |  29 → 17 | `PhaseLive::add_liveout`                                                                                                                                 | `<unknown>`                                         |
 |  -32.4% |   -12 |  0.6% → 0.4% |  37 → 25 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `<unknown>`                                         |
 |  -30.6% |   -11 |  0.6% → 0.4% |  36 → 25 | `PhaseIdealLoop::Dominators`                                                                                                                             | `<unknown>`                                         |
@@ -178,6 +176,7 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -18.0% |    -9 |  0.8% → 0.7% |  50 → 41 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `<unknown>`                                         |
 |  -23.7% |    -9 |  0.6% → 0.5% |  38 → 29 | `PhaseLive::compute`                                                                                                                                     | `<unknown>`                                         |
 |  -40.9% |    -9 |  0.4% → 0.2% |  22 → 13 | `frame::sender_for_compiled_frame`                                                                                                                       | `<unknown>`                                         |
+|  -69.2% |    -9 |  0.2% → 0.1% |   13 → 4 | `I2C/C2I adapters(0xbb)`                                                                                                                                 | `<unknown>`                                         |
 |  -29.0% |    -9 |  0.5% → 0.4% |  31 → 22 | `MachNode::rematerialize`                                                                                                                                | `<unknown>`                                         |
 |  -75.0% |    -9 |  0.2% → 0.1% |   12 → 3 | `CompiledMethod::cleanup_inline_caches_impl`                                                                                                             | `<unknown>`                                         |
 | removed |    -8 |  0.1% → 0.0% |    8 → 0 | `invoke`                                                                                                                                                 | `java.lang.invoke.LambdaForm$MH.0x000000a001504000` |
@@ -250,12 +249,12 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -18.2% |    -4 |  0.4% → 0.3% | 22 → 18 | `<init>`                   | `java.lang.invoke.MethodHandle`                       |
 |  -80.0% |    -4 | 0.1% → <0.1% |   5 → 1 | `copyWith`                 | `java.lang.invoke.BoundMethodHandle$Species_L`        |
 |  -66.7% |    -4 | 0.1% → <0.1% |   6 → 2 | `coerceArgumentsToClasses` | `org.codehaus.groovy.reflection.ParameterTypes`       |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invokeStatic`             | `java.lang.invoke.LambdaForm$DMH.0x000000a00102b400`  |
 | removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`                   | `java.lang.invoke.LambdaForm$MH.0x000000a00128cc00`   |
 | removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`                   | `java.lang.invoke.LambdaForm$MH.0x000000a00128b400`   |
 | removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`                   | `java.lang.invoke.LambdaForm$MH.0x000000a001750c00`   |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`                   | `java.lang.invoke.LambdaForm$MH.0x000000a001640800`   |
 | removed |    -3 |  0.1% → 0.0% |   3 → 0 | `visitBlockStatement`      | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`     |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `visit`                    | `org.codehaus.groovy.ast.expr.ArgumentListExpression` |
+|  -60.0% |    -3 | 0.1% → <0.1% |   5 → 2 | `checkCanSetAccessible`    | `java.lang.reflect.AccessibleObject`                  |
 
 ##### Ours
 
@@ -284,10 +283,10 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                   | Location    |
-| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
-|  -92.3% |   -12 | 0.2% → <0.1% |  13 → 1 | `I2C/C2I adapters(0xbbbb)` | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call_stub`                | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                 | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------ | ----------- |
+|  -69.2% |    -9 |  0.2% → 0.1% |  13 → 4 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call_stub`              | `<unknown>` |
 
 ### Total samples
 
@@ -401,11 +400,10 @@ Functions with the largest increase in total samples taken in the function and a
 | ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
 |  +76.5% |   +13 |  0.3% → 0.5% | 17 → 30 | `itable stub`              | `<unknown>` |
 | +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `I2C/C2I adapters(0xbbb)`  | `<unknown>` |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `I2C/C2I adapters(0xbb)`   | `<unknown>` |
 | +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `I2C/C2I adapters(0xba)`   | `<unknown>` |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbab)` | `<unknown>` |
 |  +10.0% |    +1 |         0.2% | 10 → 11 | `vtable stub`              | `<unknown>` |
 |     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0x)`     | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbab)` | `<unknown>` |
 
 #### Improvements
 
@@ -513,7 +511,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### JIT
 
-|  Change | Delta |            % | Samples | Function                   | Location    |
-| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
-|  -92.3% |   -12 | 0.2% → <0.1% |  13 → 1 | `I2C/C2I adapters(0xbbbb)` | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call_stub`                | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                 | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------ | ----------- |
+|  -69.2% |    -9 |  0.2% → 0.1% |  13 → 4 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call_stub`              | `<unknown>` |

@@ -210,8 +210,8 @@ Functions with the largest increase in total samples taken in the function and a
 | +233.3% |    +7 |         <0.1% |          3 → 10 | `parse`                    | `scopt.OptionParser`                                                                  |
 | +120.0% |    +6 |         <0.1% |          5 → 11 | `parse`                    | `org.renaissance.harness.ConfigParser`                                                |
 |  +14.6% |    +6 |          0.1% |         41 → 47 | `lambda$generateData$4`    | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
-|     new |    +4 |  0.0% → <0.1% |           0 → 4 | `apply`                    | `scopt.OptionDef$$Lambda.0x00000004010d97d8`                                          |
 |     new |    +4 |  0.0% → <0.1% |           0 → 4 | `makeDef`                  | `scopt.OptionParser`                                                                  |
+|     new |    +4 |  0.0% → <0.1% |           0 → 4 | `apply`                    | `scopt.OptionDef$$Lambda.0x00000004010d97d8`                                          |
 |   +1.5% |    +3 |          0.3% |       196 → 199 | `lambda$collectClusters$0` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
 |   +1.5% |    +3 |          0.3% |       196 → 199 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000401186b38` |
 
@@ -287,7 +287,7 @@ Functions with the largest decrease in total samples taken in the function and a
 | -13.8% |   -58 |   0.6% → 0.5% |       420 → 362 | `runBenchmarks`            | `org.renaissance.harness.RenaissanceSuite$`                            |
 | -11.6% |   -45 |          0.5% |       389 → 344 | `generateData`             | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 | -11.6% |   -45 |          0.5% |       389 → 344 | `setUpBeforeAll`           | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-| -11.5% |   -44 |          0.5% |       384 → 340 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000004011258d8` |
 | -11.5% |   -44 |          0.5% |       384 → 340 | `lambda$generateData$5`    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| -11.5% |   -44 |          0.5% |       384 → 340 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000004011258d8` |
 |  -9.6% |   -42 |   0.6% → 0.5% |       439 → 397 | `main`                     | `org.renaissance.harness.RenaissanceSuite$`                            |
 |  -9.0% |   -40 |   0.6% → 0.5% |       443 → 403 | `main`                     | `org.renaissance.harness.RenaissanceSuite`                             |

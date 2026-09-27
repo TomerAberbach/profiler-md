@@ -86,36 +86,36 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### Standard library
 
-|  Change | Delta |            % |   Samples | Function              | Location                                            |
-| ------: | ----: | -----------: | --------: | --------------------- | --------------------------------------------------- |
-|  +46.2% |   +49 |  2.3% → 3.4% | 106 → 155 | `doubleValue`         | `java.lang.Double`                                  |
-| +190.0% |   +38 |  0.4% → 1.3% |   20 → 58 | `grow`                | `java.util.ArrayList`                               |
-|  +45.8% |   +11 |  0.5% → 0.8% |   24 → 35 | `helpJoin`            | `java.util.concurrent.ForkJoinPool`                 |
-|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `scan`                | `java.util.concurrent.ForkJoinPool`                 |
-|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `copyOf`              | `java.util.Arrays`                                  |
-| +150.0% |    +3 | <0.1% → 0.1% |     2 → 5 | `nextNode`            | `java.util.HashMap$HashIterator`                    |
-|  +50.0% |    +2 |         0.1% |     4 → 6 | `forEach`             | `java.util.HashMap`                                 |
-|     new |    +2 | 0.0% → <0.1% |     0 → 2 | `getRawResult`        | `java.util.concurrent.RecursiveTask`                |
-|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `join`                | `java.util.concurrent.ForkJoinTask`                 |
-| +100.0% |    +1 |        <0.1% |     1 → 2 | `exec`                | `java.util.concurrent.RecursiveTask`                |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `invoke`              | `java.lang.invoke.LambdaForm$MH.0x0000007001000c00` |
-|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `addAll`              | `java.util.ArrayList`                               |
-|  +12.5% |    +1 |         0.2% |     8 → 9 | `merge`               | `java.util.HashMap`                                 |
-|   +3.8% |    +1 |         0.6% |   26 → 27 | `hash`                | `java.util.HashMap`                                 |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `evaluateToArrayNode` | `java.util.stream.AbstractPipeline`                 |
-| +100.0% |    +1 |        <0.1% |     1 → 2 | `newNode`             | `java.util.HashMap`                                 |
-| +100.0% |    +1 |        <0.1% |     1 → 2 | `entrySet`            | `java.util.HashMap`                                 |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `readLine`            | `java.util.jar.Manifest$FastInputStream`            |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `isKnown`             | `java.util.stream.StreamOpFlag`                     |
-|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `advance`             | `java.util.concurrent.ConcurrentHashMap$Traverser`  |
+|  Change | Delta |            % |   Samples | Function              | Location                                           |
+| ------: | ----: | -----------: | --------: | --------------------- | -------------------------------------------------- |
+|  +46.2% |   +49 |  2.3% → 3.4% | 106 → 155 | `doubleValue`         | `java.lang.Double`                                 |
+| +190.0% |   +38 |  0.4% → 1.3% |   20 → 58 | `grow`                | `java.util.ArrayList`                              |
+|  +45.8% |   +11 |  0.5% → 0.8% |   24 → 35 | `helpJoin`            | `java.util.concurrent.ForkJoinPool`                |
+|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `scan`                | `java.util.concurrent.ForkJoinPool`                |
+|  +75.0% |    +3 |  0.1% → 0.2% |     4 → 7 | `copyOf`              | `java.util.Arrays`                                 |
+| +150.0% |    +3 | <0.1% → 0.1% |     2 → 5 | `nextNode`            | `java.util.HashMap$HashIterator`                   |
+|  +50.0% |    +2 |         0.1% |     4 → 6 | `forEach`             | `java.util.HashMap`                                |
+|     new |    +2 | 0.0% → <0.1% |     0 → 2 | `getRawResult`        | `java.util.concurrent.RecursiveTask`               |
+|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `join`                | `java.util.concurrent.ForkJoinTask`                |
+| +100.0% |    +1 |        <0.1% |     1 → 2 | `exec`                | `java.util.concurrent.RecursiveTask`               |
+|  +50.0% |    +1 | <0.1% → 0.1% |     2 → 3 | `addAll`              | `java.util.ArrayList`                              |
+|  +12.5% |    +1 |         0.2% |     8 → 9 | `merge`               | `java.util.HashMap`                                |
+|   +3.8% |    +1 |         0.6% |   26 → 27 | `hash`                | `java.util.HashMap`                                |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `evaluateToArrayNode` | `java.util.stream.AbstractPipeline`                |
+| +100.0% |    +1 |        <0.1% |     1 → 2 | `newNode`             | `java.util.HashMap`                                |
+| +100.0% |    +1 |        <0.1% |     1 → 2 | `entrySet`            | `java.util.HashMap`                                |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `readLine`            | `java.util.jar.Manifest$FastInputStream`           |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `isKnown`             | `java.util.stream.StreamOpFlag`                    |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `advance`             | `java.util.concurrent.ConcurrentHashMap$Traverser` |
+|     new |    +1 | 0.0% → <0.1% |     0 → 1 | `getEntryHash`        | `java.util.zip.ZipFile$Source`                     |
 
 ##### JIT
 
 | Change | Delta |            % | Samples | Function                   | Location    |
 | -----: | ----: | -----------: | ------: | -------------------------- | ----------- |
 |    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbbb)` | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`  | `<unknown>` |
 |    new |    +1 | 0.0% → <0.1% |   0 → 1 | `itable stub`              | `<unknown>` |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`  | `<unknown>` |
 
 ##### Compiler
 
@@ -306,13 +306,12 @@ Functions with the largest increase in total samples taken in the function and a
 |   +5.7% |   +13 |   4.9% → 5.2% |     228 → 241 | `lambda$merge$6`           | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
 |   +5.7% |   +13 |   4.9% → 5.2% |     228 → 241 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001186fd0`                |
 |   +0.2% |    +7 | 86.1% → 86.9% | 4,002 → 4,009 | `compute`                  | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                                |
-|  +75.0% |    +3 |   0.1% → 0.2% |         4 → 7 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011258d8`                |
-|     new |    +3 |   0.0% → 0.1% |         0 → 3 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001125b10`                |
 | +300.0% |    +3 |  <0.1% → 0.1% |         1 → 4 | `combineResults`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
 | +200.0% |    +2 |  <0.1% → 0.1% |         1 → 3 | `add`                      | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
 |     new |    +2 |  0.0% → <0.1% |         0 → 2 | `<init>`                   | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
 |   +0.3% |    +1 |   7.7% → 7.8% |     358 → 359 | `combineResults`           | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
 |  +16.7% |    +1 |   0.1% → 0.2% |         6 → 7 | `lambda$generateData$5`    | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+|  +16.7% |    +1 |   0.1% → 0.2% |         6 → 7 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011258d8`                |
 |  +50.0% |    +1 |  <0.1% → 0.1% |         2 → 3 | `lambda$collectClusters$0` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
 |  +50.0% |    +1 |  <0.1% → 0.1% |         2 → 3 | `apply`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007001186b38` |
 |     new |    +1 |  0.0% → <0.1% |         0 → 1 | `hasOverrides`             | `org.renaissance.core.BenchmarkDescriptor$Configuration`                              |
@@ -320,6 +319,7 @@ Functions with the largest increase in total samples taken in the function and a
 |     new |    +1 |  0.0% → <0.1% |         0 → 1 | `<init>`                   | `org.renaissance.core.BenchmarkDescriptor$Configuration`                              |
 |     new |    +1 |  0.0% → <0.1% |         0 → 1 | `getConfiguration`         | `org.renaissance.core.BenchmarkDescriptor`                                            |
 |     new |    +1 |  0.0% → <0.1% |         0 → 1 | `createBenchmarkContext`   | `org.renaissance.core.BenchmarkSuite`                                                 |
+|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `OptionDef$superArg$1`     | `scopt.OptionDef`                                                                     |
 
 ##### Native
 
@@ -376,8 +376,8 @@ Functions with the largest increase in total samples taken in the function and a
 | Change | Delta |            % | Samples | Function                   | Location    |
 | -----: | ----: | -----------: | ------: | -------------------------- | ----------- |
 |    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbbb)` | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`  | `<unknown>` |
 |    new |    +1 | 0.0% → <0.1% |   0 → 1 | `itable stub`              | `<unknown>` |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`  | `<unknown>` |
 
 ##### Compiler
 
@@ -449,12 +449,12 @@ Functions with the largest decrease in total samples taken in the function and a
 | -16.2% |    -6 |   0.8% → 0.7% |       37 → 31 | `main`                      | `org.renaissance.harness.RenaissanceSuite`                             |
 |  -1.8% |    -6 |          7.3% |     341 → 335 | `lambda$merge$7`            | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |  -0.8% |    -5 |         13.9% |     646 → 641 | `computeClusterAverages`    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| -83.3% |    -5 |  0.1% → <0.1% |         6 → 1 | `apply`                     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001125d48` |
 |  -0.6% |    -4 |         13.8% |     640 → 636 | `average`                   | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
 |  -0.6% |    -4 |         13.9% |     646 → 642 | `computeDirectly`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
 | -20.0% |    -3 |          0.3% |       15 → 12 | `executeBenchmark`          | `org.renaissance.harness.ExecutionDriver`                              |
 | -15.8% |    -3 |   0.4% → 0.3% |       19 → 16 | `runBenchmarks$$anonfun$1`  | `org.renaissance.harness.RenaissanceSuite$`                            |
 | -15.8% |    -3 |   0.4% → 0.3% |       19 → 16 | `applyVoid`                 | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700111f208` |
+| -15.0% |    -3 |          0.4% |       20 → 17 | `runBenchmarks`             | `org.renaissance.harness.RenaissanceSuite$`                            |
 
 ##### Native
 

@@ -477,6 +477,51 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     }
   })
 
+  test(`pairs functions by their own keys before their colliding normalized keys`, () => {
+    const context = { format: `pprof`, origin: `gperftools` } as const
+    const free = (id: number, count: number) => ({
+      name: `mem.Allocator.free__anon_${id}`,
+      url: `file:///opt/zig/lib/std/mem/Allocator.zig`,
+      selfValues: [count],
+      selfCount: count,
+    })
+    const base = makeAggregatedCallStackProfile(
+      [MICROSECONDS_METRIC],
+      [free(1, 5), free(2, 7), free(3, 9)],
+      context,
+    )
+    const current = makeAggregatedCallStackProfile(
+      [MICROSECONDS_METRIC],
+      [free(4, 18), free(2, 14), free(1, 10)],
+      context,
+    )
+
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+
+    expect(
+      diff.functions.map(func => ({
+        base: func.base && [func.base.name, func.base.selfCount],
+        current: func.current && [func.current.name, func.current.selfCount],
+      })),
+    ).toEqual(
+      expect.arrayContaining([
+        {
+          base: [`mem.Allocator.free__anon_1`, 5],
+          current: [`mem.Allocator.free__anon_1`, 10],
+        },
+        {
+          base: [`mem.Allocator.free__anon_2`, 7],
+          current: [`mem.Allocator.free__anon_2`, 14],
+        },
+        {
+          base: [`mem.Allocator.free__anon_3`, 9],
+          current: [`mem.Allocator.free__anon_4`, 18],
+        },
+      ]),
+    )
+    expect(diff.functions).toHaveLength(3)
+  })
+
   test(`matches functions without locations by name`, () => {
     const base = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],

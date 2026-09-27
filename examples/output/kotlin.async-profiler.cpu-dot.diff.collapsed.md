@@ -27,7 +27,6 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +87.5% |    +7 | 0.6% → 1.1% |  8 → 15 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `<unknown>` |
 | +350.0% |    +7 | 0.2% → 0.7% |   2 → 9 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `<unknown>` |
 | +600.0% |    +6 | 0.1% → 0.5% |   1 → 7 | `Type::cmp`                                                                                                                                              | `<unknown>` |
-| +500.0% |    +5 | 0.1% → 0.5% |   1 → 6 | `I2C/C2I adapters(0xb)`                                                                                                                                  | `<unknown>` |
 | +100.0% |    +5 | 0.4% → 0.8% |  5 → 10 | `sys_icache_invalidate`                                                                                                                                  | `<unknown>` |
 | +500.0% |    +5 | 0.1% → 0.5% |   1 → 6 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                          | `<unknown>` |
 | +250.0% |    +5 | 0.2% → 0.5% |   2 → 7 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `<unknown>` |
@@ -41,6 +40,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +37.5% |    +3 | 0.6% → 0.8% |  8 → 11 | `PhaseIdealLoop::build_loop_late`                                                                                                                        | `<unknown>` |
 | +100.0% |    +3 | 0.2% → 0.5% |   3 → 6 | `vmSymbols::find_sid`                                                                                                                                    | `<unknown>` |
 |  +60.0% |    +3 | 0.4% → 0.6% |   5 → 8 | `inflate`                                                                                                                                                | `<unknown>` |
+| +150.0% |    +3 | 0.2% → 0.4% |   2 → 5 | `PhaseIFG::SquareUp`                                                                                                                                     | `<unknown>` |
 
 ##### Compiler
 
@@ -146,9 +146,8 @@ Functions with the largest increase in samples taken directly in the function bo
 
 |  Change | Delta |           % | Samples | Function                  | Location    |
 | ------: | ----: | ----------: | ------: | ------------------------- | ----------- |
-| +500.0% |    +5 | 0.1% → 0.5% |   1 → 6 | `I2C/C2I adapters(0xb)`   | `<unknown>` |
-| +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
 | +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `zero_blocks`             | `<unknown>` |
+| +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
 
 #### Improvements
 
@@ -159,7 +158,6 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -41.7% |   -10 | 1.9% → 1.1% | 24 → 14 | `tlv_get_addr`                                   | `<unknown>`                      |
 |  -77.8% |    -7 | 0.7% → 0.2% |   9 → 2 | `_platform_memmove`                              | `<unknown>`                      |
 |  -37.5% |    -6 | 1.2% → 0.8% | 16 → 10 | `_platform_memset`                               | `<unknown>`                      |
-|  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `I2C/C2I adapters(0xbab)`                        | `<unknown>`                      |
 |  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `Compile::disconnect_useless_nodes`              | `<unknown>`                      |
 |  -71.4% |    -5 | 0.5% → 0.2% |   7 → 2 | `PhaseIdealLoop::is_dominator`                   | `<unknown>`                      |
 |  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `sanitizeStackTrace`                             | `kotlin.jvm.internal.Intrinsics` |
@@ -167,7 +165,6 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -4 | 0.3% → 0.0% |   4 → 0 | `ClassVerifier::verify_invoke_instructions`      | `<unknown>`                      |
 |  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `TypeInstPtr::hash`                              | `<unknown>`                      |
 | removed |    -4 | 0.3% → 0.0% |   4 → 0 | `LIR_Assembler::record_non_safepoint_debug_info` | `<unknown>`                      |
-|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `I2C/C2I adapters(0xbb)`                         | `<unknown>`                      |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `PhaseIdealLoop::compute_lca_of_uses`            | `<unknown>`                      |
 |  -37.5% |    -3 | 0.6% → 0.4% |   8 → 5 | `checkNotNullParameter`                          | `kotlin.jvm.internal.Intrinsics` |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `PhaseCCP::push_more_uses`                       | `<unknown>`                      |
@@ -176,6 +173,8 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `posix_madvise`                                  | `<unknown>`                      |
 |  -23.1% |    -3 | 1.0% → 0.8% | 13 → 10 | `ciObjectFactory::get_metadata`                  | `<unknown>`                      |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `LIR_Assembler::process_debug_info`              | `<unknown>`                      |
+|  -21.4% |    -3 | 1.1% → 0.8% | 14 → 11 | `PhaseChaitin::build_ifg_physical`               | `<unknown>`                      |
+|  -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `compare_immediate_pair`                         | `<unknown>`                      |
 
 ##### Compiler
 
@@ -279,10 +278,9 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### JIT
 
-| Change | Delta |           % | Samples | Function                  | Location    |
-| -----: | ----: | ----------: | ------: | ------------------------- | ----------- |
-| -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `I2C/C2I adapters(0xbab)` | `<unknown>` |
-| -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `I2C/C2I adapters(0xbb)`  | `<unknown>` |
+| Change | Delta |           % | Samples | Function                 | Location    |
+| -----: | ----: | ----------: | ------: | ------------------------ | ----------- |
+| -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
 
 ### Total samples
 
@@ -417,9 +415,8 @@ Functions with the largest increase in total samples taken in the function and a
 
 |  Change | Delta |           % | Samples | Function                  | Location    |
 | ------: | ----: | ----------: | ------: | ------------------------- | ----------- |
-| +500.0% |    +5 | 0.1% → 0.5% |   1 → 6 | `I2C/C2I adapters(0xb)`   | `<unknown>` |
-| +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
 | +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `zero_blocks`             | `<unknown>` |
+| +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
 
 #### Improvements
 
@@ -550,7 +547,6 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### JIT
 
-| Change | Delta |           % | Samples | Function                  | Location    |
-| -----: | ----: | ----------: | ------: | ------------------------- | ----------- |
-| -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `I2C/C2I adapters(0xbab)` | `<unknown>` |
-| -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `I2C/C2I adapters(0xbb)`  | `<unknown>` |
+| Change | Delta |           % | Samples | Function                 | Location    |
+| -----: | ----: | ----------: | ------: | ------------------------ | ----------- |
+| -75.0% |    -3 | 0.3% → 0.1% |   4 → 1 | `I2C/C2I adapters(0xbb)` | `<unknown>` |

@@ -146,9 +146,9 @@ Functions with the largest increase in samples taken directly in the function bo
 | Change | Delta |           % | Samples | Function                      | Location    |
 | -----: | ----: | ----------: | ------: | ----------------------------- | ----------- |
 |    new |    +3 | 0.0% → 0.2% |   0 → 3 | `itable stub`                 | `<unknown>` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`     | `<unknown>` |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbabbab)`  | `<unknown>` |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbbbbbba)` | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbb)`      | `<unknown>` |
 
 #### Improvements
 
@@ -165,9 +165,9 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -75.0% |    -6 | 0.6% → 0.2% |   8 → 2 | `PhaseLive::add_liveout`                                                                               | `libjvm.dylib`           |
 |  -54.5% |    -6 | 0.8% → 0.4% |  11 → 5 | `PhaseIdealLoop::build_loop_late`                                                                      | `libjvm.dylib`           |
 |  -41.7% |    -5 | 0.9% → 0.5% |  12 → 7 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`         | `libjvm.dylib`           |
+|  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `I2C/C2I adapters(0xbb)`                                                                               | `<unknown>`              |
 |  -57.1% |    -4 | 0.5% → 0.2% |   7 → 3 | `PhaseIdealLoop::Dominators`                                                                           | `libjvm.dylib`           |
-|  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `I2C/C2I adapters(0xbbb)`                                                                              | `<unknown>`              |
-|  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `I2C/C2I adapters(0xbbbbb)`                                                                            | `<unknown>`              |
+|  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `I2C/C2I adapters(0xb)`                                                                                | `<unknown>`              |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` | `libjvm.dylib`           |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `Constant::as_Constant`                                                                                | `libjvm.dylib`           |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `LIR_Assembler::record_non_safepoint_debug_info`                                                       | `libjvm.dylib`           |
@@ -279,13 +279,12 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### JIT
 
-|  Change | Delta |           % | Samples | Function                    | Location    |
-| ------: | ----: | ----------: | ------: | --------------------------- | ----------- |
-|  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `I2C/C2I adapters(0xbbb)`   | `<unknown>` |
-|  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `I2C/C2I adapters(0xbbbbb)` | `<unknown>` |
-|  -50.0% |    -2 | 0.3% → 0.2% |   4 → 2 | `zero_blocks`               | `<unknown>` |
-|  -50.0% |    -1 | 0.2% → 0.1% |   2 → 1 | `I2C/C2I adapters(0xaaa)`   | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `vtable stub`               | `<unknown>` |
+|  Change | Delta |           % | Samples | Function                 | Location    |
+| ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
+|  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+|  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
+|  -50.0% |    -2 | 0.3% → 0.2% |   4 → 2 | `zero_blocks`            | `<unknown>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `vtable stub`            | `<unknown>` |
 
 ### Total samples
 
@@ -421,9 +420,9 @@ Functions with the largest increase in total samples taken in the function and a
 | Change | Delta |           % | Samples | Function                      | Location    |
 | -----: | ----: | ----------: | ------: | ----------------------------- | ----------- |
 |    new |    +3 | 0.0% → 0.2% |   0 → 3 | `itable stub`                 | `<unknown>` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`     | `<unknown>` |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbabbab)`  | `<unknown>` |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbbbbbba)` | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbb)`      | `<unknown>` |
 
 #### Improvements
 
@@ -554,10 +553,9 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### JIT
 
-|  Change | Delta |           % | Samples | Function                    | Location    |
-| ------: | ----: | ----------: | ------: | --------------------------- | ----------- |
-|  -66.7% |    -4 | 0.5% → 0.2% |   6 → 2 | `I2C/C2I adapters(0xbbb)`   | `<unknown>` |
-|  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `I2C/C2I adapters(0xbbbbb)` | `<unknown>` |
-|  -50.0% |    -2 | 0.3% → 0.2% |   4 → 2 | `zero_blocks`               | `<unknown>` |
-|  -50.0% |    -1 | 0.2% → 0.1% |   2 → 1 | `I2C/C2I adapters(0xaaa)`   | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `vtable stub`               | `<unknown>` |
+|  Change | Delta |           % | Samples | Function                 | Location    |
+| ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
+|  -83.3% |    -5 | 0.5% → 0.1% |   6 → 1 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+|  -80.0% |    -4 | 0.4% → 0.1% |   5 → 1 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
+|  -50.0% |    -2 | 0.3% → 0.2% |   4 → 2 | `zero_blocks`            | `<unknown>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `vtable stub`            | `<unknown>` |

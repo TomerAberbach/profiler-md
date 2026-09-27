@@ -6,6 +6,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import { matchEntryFromRules } from './origin.ts'
 
 /**
  * Categorizes sources the Zig toolchain ships as `stdlib`: the standard
@@ -37,3 +38,28 @@ export const zigStdlibCategory = ({
  */
 const ZIG_TOOLCHAIN_SOURCE =
   /(?:^|\/)lib\/(?:zig\/)?(?:std\/.+\.zig|(?:c|compiler_rt|fuzzer|ubsan_rt|zigc)\.zig|(?:compiler_rt|fuzzer|libc|libcxx|libcxxabi|libunwind|tsan|ubsan)\/)/u
+
+/**
+ * The compiler-assigned ID of a generic function's instantiation
+ * (`mem.Allocator.free__anon_10443`) or of an anonymous type
+ * (`zig.Ast.TokenList__struct_2756`), which changes between builds when the
+ * compiler's numbering shifts. The kept `__anon` or `__struct` marks the name as
+ * an instantiation or an anonymous type. The compiler names an anonymous union,
+ * enum, or opaque type the same way.
+ *
+ * Stripping the ID gives every instantiation of one generic the same match key.
+ * A diff pairs each instantiation whose ID is unchanged with itself first. It
+ * pairs the rest of a generic's instantiations in an arbitrary order, because
+ * they share the generic's definition line.
+ */
+const COMPILER_ASSIGNED_ID_REGEX =
+  /(?<kept>__(?:anon|struct|union|enum|opaque))_\d+/gu
+
+/**
+ * Matches an entry of a Zig program across builds. It applies to any native
+ * profiler's entries, because the stripped suffix occurs only in names the Zig
+ * compiler generates.
+ */
+export const zigMatchEntry = matchEntryFromRules({
+  name: [[COMPILER_ASSIGNED_ID_REGEX, `$<kept>`]],
+})

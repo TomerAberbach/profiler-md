@@ -216,7 +216,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +4.7% |   +19 |   0.5% → 0.6% |       408 → 427 | `main`                   | `org.renaissance.harness.RenaissanceSuite$`                            |
 |  +4.5% |   +19 |          0.6% |       419 → 438 | `launchHarnessClass`     | `org.renaissance.core.Launcher`                                        |
 |  +4.5% |   +19 |          0.6% |       419 → 438 | `main`                   | `org.renaissance.core.Launcher`                                        |
-|  +5.1% |   +18 |          0.5% |       350 → 368 | `apply`                  | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000008011258d8` |
+| +12.2% |   +18 |          0.2% |       148 → 166 | `vectorSum`              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 
 #### Improvements
 

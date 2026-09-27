@@ -102,15 +102,15 @@ Functions with the largest increase in samples taken directly in the function bo
 | +800.0% |    +8 | <0.1% → 0.2% |   1 → 9 | `<init>(MutableCallSite, Class, String, IndyInterface$CallType, boolean, boolean, boolean, Object[])` | `org.codehaus.groovy.vmplugin.v8.Selector$PropertySelector` |
 |  +63.6% |    +7 |  0.2% → 0.3% | 11 → 18 | `equals(Object)`                                                                                      | `java.lang.String`                                          |
 |  +87.5% |    +7 |  0.1% → 0.3% |  8 → 15 | `resize()`                                                                                            | `java.util.HashMap`                                         |
-|     new |    +6 |  0.0% → 0.1% |   0 → 6 | `invoke(Object, Object)`                                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`         |
 |  +54.5% |    +6 |  0.2% → 0.3% | 11 → 17 | `putVal(int, Object, Object, boolean, boolean)`                                                       | `java.util.HashMap`                                         |
+|     new |    +6 |  0.0% → 0.1% |   0 → 6 | `invoke(Object, Object)`                                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`         |
 | +300.0% |    +6 | <0.1% → 0.1% |   2 → 8 | `type()`                                                                                              | `java.lang.invoke.MethodHandle`                             |
 | +125.0% |    +5 |  0.1% → 0.2% |   4 → 9 | `getMethods(Class, String)`                                                                           | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex`     |
 |     new |    +4 |  0.0% → 0.1% |   0 → 4 | `asCollector(Class, int)`                                                                             | `java.lang.invoke.MethodHandle`                             |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invoke(Object, Object)`                                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700109b400`         |
 | +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `guard(Object, Object)`                                                                               | `java.lang.invoke.LambdaForm$MH.0x000000700109a000`         |
 |     new |    +4 |  0.0% → 0.1% |   0 → 4 | `getEpsilonTarget(ATNConfig, Transition, boolean, boolean, PredictionContextCache, boolean)`          | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`      |
 |  +26.7% |    +4 |  0.2% → 0.3% | 15 → 19 | `getNode(Object)`                                                                                     | `java.util.HashMap`                                         |
+|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invoke(Object, Object)`                                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700109b400`         |
 |     new |    +4 |  0.0% → 0.1% |   0 → 4 | `makeImpl(Class, Class[], boolean)`                                                                   | `java.lang.invoke.MethodType`                               |
 |  +66.7% |    +4 |  0.1% → 0.2% |  6 → 10 | `add(ATNConfig, PredictionContextCache)`                                                              | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`            |
 | +200.0% |    +4 | <0.1% → 0.1% |   2 → 6 | `coerceArgumentsToClasses(Object[])`                                                                  | `org.codehaus.groovy.reflection.ParameterTypes`             |
@@ -241,8 +241,8 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -80.0% |    -4 | 0.1% → <0.1% |    5 → 1 | `elementData(int)`                                                                                            | `java.util.ArrayList`                                                      |
 | removed |    -4 |  0.1% → 0.0% |    4 → 0 | `spreadArgumentsForm(int, Class, int)`                                                                        | `java.lang.invoke.LambdaFormEditor`                                        |
 | removed |    -3 | <0.1% → 0.0% |    3 → 0 | `provide(Object)`                                                                                             | `org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x000000700108f680` |
-| removed |    -3 | <0.1% → 0.0% |    3 → 0 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x00000070014f3c00`                        |
 |  -75.0% |    -3 | 0.1% → <0.1% |    4 → 1 | `<init>(Pattern, CharSequence)`                                                                               | `java.util.regex.Matcher`                                                  |
+| removed |    -3 | <0.1% → 0.0% |    3 → 0 | `asType(MethodType)`                                                                                          | `java.lang.invoke.MethodHandle`                                            |
 
 ##### Ours
 

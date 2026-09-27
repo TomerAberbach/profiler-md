@@ -107,15 +107,15 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +23.1% |    +6 |         0.5% | 26 → 32 | `invokeVirtual`     | `java.lang.invoke.DirectMethodHandle$Holder`          |
 | +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `<init>`            | `java.lang.invoke.MemberName`                         |
 |  +85.7% |    +6 |  0.1% → 0.2% |  7 → 13 | `equals`            | `java.util.Arrays`                                    |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e80109a400`   |
 |  +21.7% |    +5 |  0.4% → 0.5% | 23 → 28 | `invokeStatic`      | `java.lang.invoke.DirectMethodHandle$Holder`          |
+|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e80109a400`   |
 |  +71.4% |    +5 |  0.1% → 0.2% |  7 → 12 | `join`              | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext` |
 | +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `sourceSpliterator` | `java.util.stream.AbstractPipeline`                   |
 | +125.0% |    +5 |         0.1% |   4 → 9 | `getInCache`        | `java.lang.invoke.LambdaFormEditor`                   |
 | +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `tabAt`             | `java.util.concurrent.ConcurrentHashMap`              |
 |     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invokeVirtual`     | `java.lang.invoke.LambdaForm$DMH.0x000000e801097c00`  |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e8010aa400`   |
 |     new |    +4 |  0.0% → 0.1% |   0 → 4 | `findSpecies`       | `java.lang.invoke.ClassSpecializer`                   |
+|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e8010aa400`   |
 |  +66.7% |    +4 |  0.1% → 0.2% |  6 → 10 | `putVal`            | `java.util.HashMap`                                   |
 
 ##### Ours
@@ -238,12 +238,12 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -5 |  0.1% → 0.0% |   5 → 0 | `getCachedContext`   | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext`     |
 |  -55.6% |    -5 |  0.2% → 0.1% |   9 → 4 | `afterNodeAccess`    | `java.util.LinkedHashMap`                                 |
 |  -40.0% |    -4 |  0.2% → 0.1% |  10 → 6 | `type`               | `java.lang.invoke.MethodHandle`                           |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invokeVirtual`      | `java.lang.invoke.LambdaForm$DMH.0x000000e801952000`      |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e801181c00`       |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8018df800`       |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8018d7800`       |
 | removed |    -3 |  0.1% → 0.0% |   3 → 0 | `reinvoke`           | `java.lang.invoke.LambdaForm$MH.0x000000e801099c00`       |
-|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `collector`          | `java.lang.invoke.LambdaForm$MH.0x000000e801292400`       |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e801181c00`       |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `execATN`            | `groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator`     |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8018df800`       |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `boxBoolean`         | `sun.invoke.util.ValueConversions`                        |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8018d7800`       |
 
 ##### Ours
 

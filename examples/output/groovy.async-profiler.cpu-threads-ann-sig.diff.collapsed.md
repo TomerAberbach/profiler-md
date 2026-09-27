@@ -97,24 +97,30 @@ Functions with the largest increase in samples taken directly in the function bo
 | ------: | ----: | ----------: | ------: | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
 |     new |    +6 | 0.0% → 1.0% |   0 → 6 | `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`     |
 |     new |    +2 | 0.0% → 0.3% |   0 → 2 | `putVal(int, Object, Object, boolean, boolean)`                                                               | `java.util.HashMap`                                        |
-|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`        |
-|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001217c00`        |
-|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x00000070012c3800`        |
-|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001303000`        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `evaluate(TerminalOp)`                                                                                        | `java.util.stream.AbstractPipeline`                        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `delegate(Object, Object)`                                                                                    | `java.lang.invoke.DelegatingMethodHandle$Holder`           |
-|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object, Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x00000070012d2c00`        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `delegate(Object, Object, Object, Object, Object)`                                                            | `java.lang.invoke.DelegatingMethodHandle$Holder`           |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `equals(Object)`                                                                                              | `groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext` |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `get(Object)`                                                                                                 | `java.util.concurrent.ConcurrentHashMap`                   |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `optimizeConfigs(ATNSimulator)`                                                                               | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`           |
+|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `putVal(Object, Object, boolean)`                                                                             | `java.util.concurrent.ConcurrentHashMap`                   |
+|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object, Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x00000070012d2c00`        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `commandExpression()`                                                                                         | `org.apache.groovy.parser.antlr4.GroovyParser`             |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `matcher(CharSequence)`                                                                                       | `java.util.regex.Pattern`                                  |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `visitFile(Path, BasicFileAttributes)`                                                                        | `org.codehaus.groovy.vmplugin.v9.ClassFinder$1`            |
+|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001217c00`        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `realBootstrap(MethodHandles$Lookup, String, int, MethodType, boolean, boolean, boolean)`                     | `org.codehaus.groovy.vmplugin.v8.IndyInterface`            |
+|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x00000070012c3800`        |
 |     new |    +1 | 0.0% → 0.2% |   0 → 1 | `getTargetMethodInfo()`                                                                                       | `java.beans.Introspector`                                  |
 | +100.0% |    +1 | 0.2% → 0.3% |   1 → 2 | `newInstance(Class, int)`                                                                                     | `java.lang.reflect.Array`                                  |
+|     new |    +1 | 0.0% → 0.2% |   0 → 1 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001303000`        |
+
+##### JIT
+
+|  Change | Delta |           % | Samples | Function                | Location    |
+| ------: | ----: | ----------: | ------: | ----------------------- | ----------- |
+| +100.0% |    +1 | 0.2% → 0.3% |   1 → 2 | `I2C/C2I adapters(0xb)` | `<unknown>` |
 
 #### Improvements
 
@@ -220,10 +226,10 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### JIT
 
-|  Change | Delta |           % | Samples | Function                | Location    |
-| ------: | ----: | ----------: | ------: | ----------------------- | ----------- |
-| removed |    -2 | 0.3% → 0.0% |   2 → 0 | `vtable stub`           | `<unknown>` |
-|  -33.3% |    -1 | 0.5% → 0.3% |   3 → 2 | `I2C/C2I adapters(0xb)` | `<unknown>` |
+|  Change | Delta |           % | Samples | Function                 | Location    |
+| ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
+|  -66.7% |    -2 | 0.5% → 0.2% |   3 → 1 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+| removed |    -2 | 0.3% → 0.0% |   2 → 0 | `vtable stub`            | `<unknown>` |
 
 ### Total samples
 
@@ -306,28 +312,34 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |             % |   Samples | Function                                                | Location                                             |
-| ------: | ----: | ------------: | --------: | ------------------------------------------------------- | ---------------------------------------------------- |
-| +533.3% |   +96 |  2.9% → 18.2% |  18 → 114 | `invoke(Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$MH.0x00000070010c8000`  |
-| +431.8% |   +95 |  3.6% → 18.7% |  22 → 117 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x00000070010d3800`  |
-| +137.0% |   +74 |  8.8% → 20.4% |  54 → 128 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x000000700108e000`  |
-| +352.4% |   +74 |  3.4% → 15.2% |   21 → 95 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x00000070011ba000`  |
-| +127.8% |   +69 |  8.8% → 19.6% |  54 → 123 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x000000700102b000`  |
-|  +66.7% |   +36 |  8.8% → 14.4% |   54 → 90 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x0000007001212400`  |
-|  +41.9% |   +36 | 13.9% → 19.5% |  86 → 122 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00`  |
-| +212.5% |   +34 |   2.6% → 8.0% |   16 → 50 | `invoke(Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$MH.0x000000700121a000`  |
-| +181.3% |   +29 |   2.6% → 7.2% |   16 → 45 | `invoke(Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$MH.0x0000007001229800`  |
-| +460.0% |   +23 |   0.8% → 4.5% |    5 → 28 | `invoke(Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400`  |
-| +575.0% |   +23 |   0.6% → 4.3% |    4 → 27 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x00000070012acc00`  |
-| +700.0% |   +21 |   0.5% → 3.8% |    3 → 24 | `invoke(Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$MH.0x00000070012dd400`  |
-| +233.3% |   +21 |   1.5% → 4.8% |    9 → 30 | `invoke(Object, Object, Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x00000070011b0400`  |
-| +475.0% |   +19 |   0.6% → 3.7% |    4 → 23 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x00000070012e3400`  |
-|  +16.4% |   +18 | 17.8% → 20.4% | 110 → 128 | `invoke(Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$MH.0x00000070010a9800`  |
-| +228.6% |   +16 |   1.1% → 3.7% |    7 → 23 | `invoke(Object, Object)`                                | `java.lang.invoke.LambdaForm$MH.0x00000070010c7c00`  |
-|  +16.5% |   +13 | 12.8% → 14.7% |   79 → 92 | `delegate(Object, Object, Object, Object, Object)`      | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
-|  +15.0% |   +12 | 13.0% → 14.7% |   80 → 92 | `invokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000700118a400` |
-|  +15.6% |   +12 | 12.5% → 14.2% |   77 → 89 | `invoke(Object, Object, Object, Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x0000007001212800`  |
-|  +15.0% |   +12 | 13.0% → 14.7% |   80 → 92 | `invoke(Object, Object, Object, Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x0000007001200800`  |
+|  Change | Delta |             % |   Samples | Function                                                         | Location                                             |
+| ------: | ----: | ------------: | --------: | ---------------------------------------------------------------- | ---------------------------------------------------- |
+| +533.3% |   +96 |  2.9% → 18.2% |  18 → 114 | `invoke(Object, Object, Object)`                                 | `java.lang.invoke.LambdaForm$MH.0x00000070010c8000`  |
+| +431.8% |   +95 |  3.6% → 18.7% |  22 → 117 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x00000070010d3800`  |
+| +137.0% |   +74 |  8.8% → 20.4% |  54 → 128 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x000000700108e000`  |
+| +352.4% |   +74 |  3.4% → 15.2% |   21 → 95 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x00000070011ba000`  |
+| +127.8% |   +69 |  8.8% → 19.6% |  54 → 123 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x000000700102b000`  |
+|  +66.7% |   +36 |  8.8% → 14.4% |   54 → 90 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x0000007001212400`  |
+|  +41.9% |   +36 | 13.9% → 19.5% |  86 → 122 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00`  |
+| +212.5% |   +34 |   2.6% → 8.0% |   16 → 50 | `invoke(Object, Object, Object)`                                 | `java.lang.invoke.LambdaForm$MH.0x000000700121a000`  |
+| +181.3% |   +29 |   2.6% → 7.2% |   16 → 45 | `invoke(Object, Object, Object)`                                 | `java.lang.invoke.LambdaForm$MH.0x0000007001229800`  |
+| +460.0% |   +23 |   0.8% → 4.5% |    5 → 28 | `invoke(Object, Object, Object)`                                 | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400`  |
+| +575.0% |   +23 |   0.6% → 4.3% |    4 → 27 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x00000070012acc00`  |
+| +700.0% |   +21 |   0.5% → 3.8% |    3 → 24 | `invoke(Object, Object, Object)`                                 | `java.lang.invoke.LambdaForm$MH.0x00000070012dd400`  |
+| +233.3% |   +21 |   1.5% → 4.8% |    9 → 30 | `invoke(Object, Object, Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x00000070011b0400`  |
+| +475.0% |   +19 |   0.6% → 3.7% |    4 → 23 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x00000070012e3400`  |
+|  +16.4% |   +18 | 17.8% → 20.4% | 110 → 128 | `invoke(Object, Object, Object)`                                 | `java.lang.invoke.LambdaForm$MH.0x00000070010a9800`  |
+| +228.6% |   +16 |   1.1% → 3.7% |    7 → 23 | `invoke(Object, Object)`                                         | `java.lang.invoke.LambdaForm$MH.0x00000070010c7c00`  |
+|  +16.5% |   +13 | 12.8% → 14.7% |   79 → 92 | `delegate(Object, Object, Object, Object, Object)`               | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+|  +15.0% |   +12 | 13.0% → 14.7% |   80 → 92 | `invokeSpecial(Object, Object, Object, Object, Object)`          | `java.lang.invoke.LambdaForm$DMH.0x000000700118a400` |
+|  +15.6% |   +12 | 12.5% → 14.2% |   77 → 89 | `invoke(Object, Object, Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001212800`  |
+|  +15.0% |   +12 | 13.0% → 14.7% |   80 → 92 | `invokeExact_MT(Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700103c000`  |
+
+##### JIT
+
+|  Change | Delta |           % | Samples | Function                | Location    |
+| ------: | ----: | ----------: | ------: | ----------------------- | ----------- |
+| +100.0% |    +1 | 0.2% → 0.3% |   1 → 2 | `I2C/C2I adapters(0xb)` | `<unknown>` |
 
 #### Improvements
 
@@ -344,8 +356,8 @@ Functions with the largest decrease in total samples taken in the function and a
 | -44.2% |   -34 |  12.5% → 6.9% |   77 → 43 | `invoke(Object, Object)`                                                        | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00`                        |
 | -25.8% |   -32 | 20.1% → 14.7% |  124 → 92 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x000000700120f800`                        |
 | -58.3% |   -28 |   7.8% → 3.2% |   48 → 20 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x000000700112d800`                        |
-| -61.9% |   -26 |   6.8% → 2.6% |   42 → 16 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x0000007001104000`                        |
 | -22.2% |   -26 | 19.0% → 14.5% |  117 → 91 | `invoke(Object, Object)`                                                        | `java.lang.invoke.LambdaForm$MH.0x0000007001205c00`                        |
+| -61.9% |   -26 |   6.8% → 2.6% |   42 → 16 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x0000007001104000`                        |
 | -81.5% |   -22 |   4.4% → 0.8% |    27 → 5 | `invoke(Object, Object, Object, Object)`                                        | `java.lang.invoke.LambdaForm$MH.0x00000070012fe400`                        |
 | -87.0% |   -20 |   3.7% → 0.5% |    23 → 3 | `invoke(Object, Object)`                                                        | `java.lang.invoke.LambdaForm$MH.0x0000007001213000`                        |
 | -65.4% |   -17 |   4.2% → 1.4% |    26 → 9 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x00000070012e7400`                        |
@@ -419,8 +431,8 @@ Functions with the largest decrease in total samples taken in the function and a
 | -44.2% |   -34 |  12.5% → 6.9% |  77 → 43 | `invoke(Object, Object)`                                                        | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00`                        |
 | -25.8% |   -32 | 20.1% → 14.7% | 124 → 92 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x000000700120f800`                        |
 | -58.3% |   -28 |   7.8% → 3.2% |  48 → 20 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x000000700112d800`                        |
-| -61.9% |   -26 |   6.8% → 2.6% |  42 → 16 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x0000007001104000`                        |
 | -22.2% |   -26 | 19.0% → 14.5% | 117 → 91 | `invoke(Object, Object)`                                                        | `java.lang.invoke.LambdaForm$MH.0x0000007001205c00`                        |
+| -61.9% |   -26 |   6.8% → 2.6% |  42 → 16 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x0000007001104000`                        |
 | -81.5% |   -22 |   4.4% → 0.8% |   27 → 5 | `invoke(Object, Object, Object, Object)`                                        | `java.lang.invoke.LambdaForm$MH.0x00000070012fe400`                        |
 | -87.0% |   -20 |   3.7% → 0.5% |   23 → 3 | `invoke(Object, Object)`                                                        | `java.lang.invoke.LambdaForm$MH.0x0000007001213000`                        |
 | -65.4% |   -17 |   4.2% → 1.4% |   26 → 9 | `invoke(Object, Object, Object)`                                                | `java.lang.invoke.LambdaForm$MH.0x00000070012e7400`                        |
@@ -433,7 +445,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### JIT
 
-|  Change | Delta |           % | Samples | Function                | Location    |
-| ------: | ----: | ----------: | ------: | ----------------------- | ----------- |
-|  -50.0% |    -2 | 0.6% → 0.3% |   4 → 2 | `I2C/C2I adapters(0xb)` | `<unknown>` |
-| removed |    -2 | 0.3% → 0.0% |   2 → 0 | `vtable stub`           | `<unknown>` |
+|  Change | Delta |           % | Samples | Function                 | Location    |
+| ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
+|  -75.0% |    -3 | 0.6% → 0.2% |   4 → 1 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+| removed |    -2 | 0.3% → 0.0% |   2 → 0 | `vtable stub`            | `<unknown>` |

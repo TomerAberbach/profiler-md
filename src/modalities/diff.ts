@@ -13,6 +13,102 @@ type DiffableEntry = {
   location?: { line?: number; column?: number } | undefined
 }
 
+/** The keys pairing an entry across a diff's two sides. */
+type DiffedEntryKeys = {
+  /** The key built from the entry's own name and location. */
+  ownNameAndLocation: string
+
+  /** The key built from the entry's match normalization. */
+  nameAndLocation: string
+}
+
+/**
+ * Matches each side's entries by their own keys, then groups the
+ * leftovers by their normalized keys and matches those.
+ *
+ * Match normalization can give distinct entities one key (e.g. Zig generic
+ * instantiations whose compiler-assigned IDs it strips). The first pass pairs
+ * each entity on both sides with itself, and only the leftovers, whose
+ * identifiers changed between the sides, pair by the normalized key.
+ *
+ * The result keeps the first pass's order, with a leftover pair in its base
+ * entry's position, so the second pass reorders nothing it does not pair.
+ */
+export const matchDiffedEntries = <Entry extends DiffableEntry>(
+  baseEntries: Entry[],
+  currentEntries: Entry[],
+  baseEntryKeys: (entry: Entry) => DiffedEntryKeys,
+  currentEntryKeys: (entry: Entry) => DiffedEntryKeys,
+): Diff<Entry>[] => {
+  const matchedByOwnKeys = matchEntryGroups(
+    baseEntries,
+    currentEntries,
+    entry => baseEntryKeys(entry).ownNameAndLocation,
+    entry => currentEntryKeys(entry).ownNameAndLocation,
+  )
+
+  const leftovers = unpairedEntries(matchedByOwnKeys)
+  if (leftovers.base.length === 0 || leftovers.current.length === 0) {
+    return matchedByOwnKeys
+  }
+
+  const leftoverMatched = matchEntryGroups(
+    leftovers.base,
+    leftovers.current,
+    entry => baseEntryKeys(entry).nameAndLocation,
+    entry => currentEntryKeys(entry).nameAndLocation,
+  )
+  return spliceLeftoverDiffs(matchedByOwnKeys, leftoverMatched)
+}
+
+/** Collects the entries of each side that the given diffs leave unpaired. */
+const unpairedEntries = <Entry>(
+  diffs: Diff<Entry>[],
+): { base: Entry[]; current: Entry[] } => {
+  const base: Entry[] = []
+  const current: Entry[] = []
+  for (const diff of diffs) {
+    if (!diff.current) {
+      base.push(diff.base!)
+    } else if (!diff.base) {
+      current.push(diff.current)
+    }
+  }
+  return { base, current }
+}
+
+/**
+ * Replaces the one-sided diffs of `diffs` with `leftoverDiffs`, the diffs of
+ * their entries. A leftover pair takes its base entry's position, and a
+ * leftover current entry left unpaired keeps its own.
+ */
+const spliceLeftoverDiffs = <Entry>(
+  diffs: Diff<Entry>[],
+  leftoverDiffs: Diff<Entry>[],
+): Diff<Entry>[] => {
+  const leftoverDiffsByBase = new Map<Entry, Diff<Entry>>()
+  const unpairedCurrent = new Set<Entry>()
+  for (const diff of leftoverDiffs) {
+    if (diff.base) {
+      leftoverDiffsByBase.set(diff.base, diff)
+    } else {
+      unpairedCurrent.add(diff.current!)
+    }
+  }
+
+  const spliced: Diff<Entry>[] = []
+  for (const diff of diffs) {
+    if (diff.base && diff.current) {
+      spliced.push(diff)
+    } else if (diff.base) {
+      spliced.push(leftoverDiffsByBase.get(diff.base)!)
+    } else if (unpairedCurrent.has(diff.current!)) {
+      spliced.push(diff)
+    }
+  }
+  return spliced
+}
+
 /**
  * Matches each side's entries by that side's entry key.
  *
@@ -20,7 +116,7 @@ type DiffableEntry = {
  * defined at different lines of the same file, whose match key ignores line
  * and column), so {@link pairGroups} pairs same-key groups member by member.
  */
-export const matchDiffedEntries = <Entry extends DiffableEntry>(
+const matchEntryGroups = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
   currentEntries: Entry[],
   baseEntryKey: (entry: Entry) => string,
