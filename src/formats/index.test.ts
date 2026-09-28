@@ -683,6 +683,7 @@ describe(`profileToMd`, () => {
         shared: {},
         profiles: [],
         nodes: [{ id: 1, callFrame: null }],
+        samples: [],
         timeDeltas: [1],
       })
 

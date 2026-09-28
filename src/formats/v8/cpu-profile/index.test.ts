@@ -648,6 +648,68 @@ describe(`options`, () => {
   })
 })
 
+describe(`malformed profiles`, () => {
+  const node = {
+    id: 1,
+    hitCount: 1,
+    callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`),
+  }
+
+  test(`rejects samples that aren't an array`, () => {
+    expect(() =>
+      convertJsonToMd(
+        v8CpuProfileConverter,
+        { nodes: [node], samples: `abc`, timeDeltas: [] },
+        normalizeProfileToMdOptions(),
+      ),
+    ).toThrow(`samples and timeDeltas must be arrays`)
+  })
+
+  test(`rejects fewer timeDeltas than samples`, () => {
+    expect(() =>
+      convertJsonToMd(
+        v8CpuProfileConverter,
+        { nodes: [node], samples: [1, 1], timeDeltas: [5] },
+        normalizeProfileToMdOptions(),
+      ),
+    ).toThrow(`timeDeltas has fewer entries than samples, got: 1 for 2 samples`)
+  })
+
+  test.each([
+    { scenario: `a hit count of 0`, hits: { hitCount: 0 } },
+    { scenario: `no hit count`, hits: {} },
+  ])(
+    `skips the position ticks of a node with $scenario, with a warning`,
+    ({ hits }) => {
+      const md = convertJsonToMd(
+        v8CpuProfileConverter,
+        {
+          nodes: [
+            makeV8CpuProfileRoot([2]),
+            {
+              id: 2,
+              callFrame: node.callFrame,
+              ...hits,
+              positionTicks: [{ line: 3, ticks: 1 }],
+            },
+          ],
+          samples: [2],
+          timeDeltas: [5],
+        },
+        normalizeProfileToMdOptions({ baseURL: `/project` }),
+      )
+
+      expect(linesTables(md, `foo`)).toEqual([])
+      expectLogs([
+        `debug: origin candidates, in priority order: deno, bun, node, chrome`,
+        `info: fallback origin: chrome`,
+        `debug: no entry marked another origin`,
+        `warn: skipped 1 position tick on a node with no hits`,
+      ])
+    },
+  )
+})
+
 describe(`samples referencing a missing node`, () => {
   const makeProfile = (samples: number[]): V8CpuProfile => ({
     nodes: [
