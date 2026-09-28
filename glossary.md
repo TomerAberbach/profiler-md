@@ -22,10 +22,11 @@ ambiguous.
 | Term                | Definition                                                                                                 | Aliases to avoid      |
 | ------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------- |
 | **Parse**           | Convert raw input bytes to a parsed input                                                                  | decode, deserialize   |
+| **Record**          | A unit of a format's input a parser reads (e.g. a V8 CPU profile sample, a collapsed line)                 | row, item             |
 | **Detect**          | Infer an input's format or origin when the user doesn't specify one                                        | sniff, guess          |
 | **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                                      | signature, evidence   |
 | **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker                       | —                     |
-| **Entry**           | A name + location pair; the unit of filtering                                                              | record                |
+| **Entry**           | A name + location pair; the unit of filtering                                                              | —                     |
 | **Category**        | A classification of an entity in an input, drawn from a closed per-modality set                            | type, group           |
 | **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                                  | default origin        |
 | **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, move misfiled positions, drop pseudo-frames) | clean, fix up         |
@@ -74,7 +75,7 @@ ambiguous.
 
 | Term               | Definition                                                                                          | Aliases to avoid                 |
 | ------------------ | --------------------------------------------------------------------------------------------------- | -------------------------------- |
-| **Observation**    | One record: a call stack, a value per metric, and how many occurrences it stands for                | sample, record, event            |
+| **Observation**    | A call stack, a value per metric, and how many occurrences it stands for                            | sample, event                    |
 | **Count metric**   | What one unit of a profile's count measures: a sample, an entry, an allocated object, a microsecond | unit                             |
 | **Rate**           | The average metric value per counted unit, computed as total value ÷ total count                    | sampling rate, sampling interval |
 | **Executing line** | The line a frame was at when recorded, not its function's definition line                           | sampled line                     |

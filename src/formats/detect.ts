@@ -7,16 +7,16 @@ import type {
   FormatConverter,
   JsonFormatConverter,
   Parse,
-  ParsedInput,
 } from './converter.ts'
-import { FormatDetectError } from './error.ts'
+import { FormatDetectError, toFormatRejectionError } from './error.ts'
 import type { FormatRejectionError } from './error.ts'
-import { classifyLazyParseFailures, toFormatRejectionError } from './parse.ts'
+import { runParse } from './parse.ts'
+import type { ParseResult } from './parse.ts'
 import { formatConverters, formats } from './registry.ts'
 import type { Format, RegisteredFormatConverter } from './registry.ts'
 
 /** An input a format recognized and parsed during auto-detection. */
-export type DetectedInput = { format: Format; parsed: ParsedInput[] }
+export type DetectedInput = ParseResult & { format: Format }
 
 export const detectJsonFormat = (
   json: unknown,
@@ -24,9 +24,9 @@ export const detectJsonFormat = (
   options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
   for (const converter of jsonFormatConverters) {
-    const parsed = detectWithConverter(converter, json, rejections, options)
-    if (parsed) {
-      return { format: converter.format, parsed }
+    const result = detectWithConverter(converter, json, rejections, options)
+    if (result) {
+      return { ...result, format: converter.format }
     }
   }
   return undefined
@@ -38,9 +38,9 @@ export const detectBinaryFormat = (
   options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
   for (const converter of binaryFormatConverters) {
-    const parsed = detectWithConverter(converter, bytes, rejections, options)
-    if (parsed) {
-      return { format: converter.format, parsed }
+    const result = detectWithConverter(converter, bytes, rejections, options)
+    if (result) {
+      return { ...result, format: converter.format }
     }
   }
   return undefined
@@ -72,7 +72,7 @@ const detectWithConverter = <Input>(
   input: Input,
   rejections: FormatRejectionError[],
   { logger }: AggregationProfileToMdOptions,
-): ParsedInput[] | undefined => {
+): ParseResult | undefined => {
   try {
     if (!converter.matches(input)) {
       return undefined
@@ -85,7 +85,9 @@ const detectWithConverter = <Input>(
   }
 
   try {
-    return classifyLazyParseFailures(converter, converter.parse(input))
+    return runParse(converter, recordTally =>
+      converter.parse(input, recordTally),
+    )
   } catch (error: unknown) {
     logger.debug?.(
       `${converter.format} recognized the input but rejected it: ${reasonOf(error)}`,

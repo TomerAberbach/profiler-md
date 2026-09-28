@@ -13,5 +13,6 @@ export const v8CpuProfileConverter = {
   fallbackOrigin: `chrome`,
   type: `json`,
   matches: matchesV8CpuProfile,
-  parse: json => parseV8CpuProfile(json as V8CpuProfile),
+  parse: (json, recordTally) =>
+    parseV8CpuProfile(json as V8CpuProfile, recordTally),
 } as const satisfies JsonFormatConverter
