@@ -378,14 +378,26 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 ### Parsing
 
-- Cast untyped profile data to typed data for performance. Validate only when
-  necessary to make progress. Check the shape of what a lazy iterable reads
-  (e.g. that `samples` is an array) before `parse` returns, because
-  auto-detection moves on to the next format only while `parse` is running.
-  Check for a wrong cast that would crash formatting, because the pipeline
-  reports that error as a bug. NEVER add a check to a parser for a nicer message
-  alone: the pipeline already reports an error escaping `parse` as unusable
-  input
+- Cast untyped profile data to typed data for performance. Add a check to a
+  parser only where, without it, the conversion would:
+  - Lose its place: read past the end of the input or of the enclosing record,
+    loop on a length the remaining bytes can't hold, or read a record by the
+    wrong layout because the value that selects the layout (an encoding, a
+    variant, an allocator) is unknown. Throw, or call
+    `recordTally.endsBefore(...)` where the parser keeps what it read
+  - Drop a record, or replace a record or reference with a default, including
+    through a lookup that misses (e.g. a sample referencing a missing node).
+    Call `recordTally.skipped(...)`, or throw when nothing after it is readable
+  - Throw after `parse` returns: in a lazy iterable, after auto-detection has
+    moved on (check that `samples` is an array), or in formatting, which the
+    pipeline reports as a bug (check that `timeDeltas` is as long as `samples`)
+- NEVER check anything else: a field's type, presence, or range, the order of
+  records, or agreement between two fields, when the parser reads the value as
+  the input states it. Such an input converts to whatever Markdown its values
+  produce. An error the unchecked value throws inside `parse` is already
+  reported as unusable input, so NEVER add a check for a nicer message. The
+  test: delete the check. If the bad value then throws inside `parse` or shows
+  up in the output as the input stated it, the check was validation
 - Parse a specified format to its spec, accepting every shape the spec allows.
   Add handling for a shape the spec forbids only when an input contains it, and
   name the emitter that writes it in a comment
