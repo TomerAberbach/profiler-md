@@ -4,10 +4,14 @@ import type { Format } from '../formats/registry.ts'
 type LanguageAlias = {
   readonly id: string
   readonly name: string
+  /** The language's icon name in the Devicon set. */
+  readonly icon: string
 }
 
 type LanguageMeta = {
   readonly name: string
+  /** The language's icon name in the Devicon set. */
+  readonly icon: string
   readonly aliases?: readonly LanguageAlias[]
   /**
    * File extensions accepted as undocumented `--help` topic aliases, excluding
@@ -18,12 +22,18 @@ type LanguageMeta = {
 
 export type Language = LanguageMeta & { formats: Format[] }
 
+export const DEVICON_VERSION = `2.17.0`
+
+export const languageIconUrl = (icon: string): string =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon@v${DEVICON_VERSION}/icons/${icon}/${icon}-original.svg`
+
 const languageMetas = [
   [
     `c`,
     {
       name: `C`,
-      aliases: [{ id: `cpp`, name: `C++` }],
+      icon: `c`,
+      aliases: [{ id: `cpp`, name: `C++`, icon: `cplusplus` }],
       extensions: [`h`, `cc`, `cxx`, `hpp`],
     },
   ],
@@ -31,7 +41,8 @@ const languageMetas = [
     `csharp`,
     {
       name: `C#`,
-      aliases: [{ id: `fsharp`, name: `F#` }],
+      icon: `csharp`,
+      aliases: [{ id: `fsharp`, name: `F#`, icon: `fsharp` }],
       extensions: [`cs`, `fs`, `fsx`],
     },
   ],
@@ -39,7 +50,8 @@ const languageMetas = [
     `elixir`,
     {
       name: `Elixir`,
-      aliases: [{ id: `erlang`, name: `Erlang` }],
+      icon: `elixir`,
+      aliases: [{ id: `erlang`, name: `Erlang`, icon: `erlang` }],
       extensions: [`ex`, `exs`, `erl`],
     },
   ],
@@ -47,6 +59,7 @@ const languageMetas = [
     `fortran`,
     {
       name: `Fortran`,
+      icon: `fortran`,
       extensions: [`f90`, `f95`, `f03`, `f08`, `for`, `f`],
     },
   ],
@@ -54,12 +67,14 @@ const languageMetas = [
     `go`,
     {
       name: `Go`,
+      icon: `go`,
     },
   ],
   [
     `haskell`,
     {
       name: `Haskell`,
+      icon: `haskell`,
       extensions: [`hs`, `lhs`],
     },
   ],
@@ -67,9 +82,10 @@ const languageMetas = [
     `java`,
     {
       name: `Java`,
+      icon: `java`,
       aliases: [
-        { id: `kotlin`, name: `Kotlin` },
-        { id: `groovy`, name: `Groovy` },
+        { id: `kotlin`, name: `Kotlin`, icon: `kotlin` },
+        { id: `groovy`, name: `Groovy`, icon: `groovy` },
       ],
       extensions: [`kt`, `kts`, `gvy`, `gy`, `gsh`],
     },
@@ -78,7 +94,8 @@ const languageMetas = [
     `javascript`,
     {
       name: `JavaScript`,
-      aliases: [{ id: `typescript`, name: `TypeScript` }],
+      icon: `javascript`,
+      aliases: [{ id: `typescript`, name: `TypeScript`, icon: `typescript` }],
       extensions: [`js`, `mjs`, `cjs`, `jsx`, `ts`, `mts`, `cts`, `tsx`],
     },
   ],
@@ -86,6 +103,7 @@ const languageMetas = [
     `julia`,
     {
       name: `Julia`,
+      icon: `julia`,
       extensions: [`jl`],
     },
   ],
@@ -93,18 +111,21 @@ const languageMetas = [
     `nix`,
     {
       name: `Nix`,
+      icon: `nixos`,
     },
   ],
   [
     `php`,
     {
       name: `PHP`,
+      icon: `php`,
     },
   ],
   [
     `python`,
     {
       name: `Python`,
+      icon: `python`,
       extensions: [`py`],
     },
   ],
@@ -112,6 +133,7 @@ const languageMetas = [
     `ruby`,
     {
       name: `Ruby`,
+      icon: `ruby`,
       extensions: [`rb`],
     },
   ],
@@ -119,6 +141,7 @@ const languageMetas = [
     `rust`,
     {
       name: `Rust`,
+      icon: `rust`,
       extensions: [`rs`],
     },
   ],
@@ -126,12 +149,14 @@ const languageMetas = [
     `swift`,
     {
       name: `Swift`,
+      icon: `swift`,
     },
   ],
   [
     `zig`,
     {
       name: `Zig`,
+      icon: `zig`,
     },
   ],
 ] as const satisfies readonly (readonly [string, LanguageMeta])[]

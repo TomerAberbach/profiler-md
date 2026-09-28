@@ -25,7 +25,8 @@ profiler-md
 │   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
 │   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color), and a plain Ansis for uncolored output
 │   │   ├── help.ts               # Prints CLI help (synopsis, examples, flag sections) and per-topic docs
-│   │   ├── languages.ts          # Language display metadata
+│   │   ├── languages.ts          # Language display metadata, including each language's Devicon icon
+│   │   ├── devicon-icons.txt     # Pinned Devicon icon names the languages test checks each language's icon against
 │   │   ├── examples.ts           # Parses metadata from examples/ filenames
 │   │   └── error.ts              # CliError class and top-level error reporting
 │   │

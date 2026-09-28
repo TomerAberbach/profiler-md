@@ -7,7 +7,12 @@ import {
 } from '../src/cli/examples.ts'
 import type { Example, ExampleVariant } from '../src/cli/examples.ts'
 import { formatUsageExamples } from '../src/cli/help.ts'
-import { languageAliasToPrimary, languages } from '../src/cli/languages.ts'
+import {
+  languageAliasToPrimary,
+  languageIconUrl,
+  languages,
+} from '../src/cli/languages.ts'
+import type { Language } from '../src/cli/languages.ts'
 import { formatToConverter } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
 
@@ -70,62 +75,117 @@ const escapeHtml = (text: string): string =>
 const anchor = (text: string, href: string): string =>
   `<a href="${href}">${escapeHtml(text)}</a>`
 
+const iconImage = (
+  { name, icon }: { name: string; icon: string },
+  size: number,
+): string =>
+  `<img src="${languageIconUrl(icon)}" alt="${escapeHtml(name)}" width="${size}" height="${size}" />`
+
 const variantLinks = (combo: Combo): string =>
   variants
     .flatMap(variant => {
       const filename = combo.variants.get(variant)
       return filename ? [anchor(variant, `examples/output/${filename}`)] : []
     })
-    .join(`, `)
+    .join(`&nbsp;·&nbsp;`)
 
-const formatCell = (id: string, format: Format): string => {
-  const link = anchor(
-    formatToConverter[format].title,
-    `docs/formats/${format}.md`,
+const languageMembers = (language: Language) => [
+  language,
+  ...(language.aliases ?? []),
+]
+
+const languageIcons = (language: Language, size: number): string =>
+  languageMembers(language)
+    .map(member => iconImage(member, size))
+    .join(` `)
+
+const languageNames = (language: Language): string =>
+  languageMembers(language)
+    .map(member => escapeHtml(member.name))
+    .join(`⁠/⁠`)
+
+const formatLink = (format: Format): string =>
+  anchor(formatToConverter[format].title, `docs/formats/${format}.md`)
+
+const languageEntries = [...languages.entries()]
+
+const languageMatrix = (): string => {
+  const exampleRows = languageEntries.flatMap(languageExampleRows)
+  return `${languageGrid()}
+
+### Examples
+
+Each example links to the Markdown for a base profile, a current profile, and
+the diff between them.
+
+<details>
+<summary><b>Browse ${exampleRows.length} examples</b></summary>
+<br />
+<table>
+<thead>
+<tr><th>Language</th><th>Profile</th><th>Format</th><th>Markdown</th></tr>
+</thead>
+<tbody>
+${exampleRows.join(`\n`)}
+</tbody>
+</table>
+</details>`
+}
+
+const gridColumnCount = 4
+const gridCellWidth = `${100 / gridColumnCount}%`
+
+const languageGrid = (): string => {
+  const rows: string[] = []
+  for (
+    let index = 0;
+    index < languageEntries.length;
+    index += gridColumnCount
+  ) {
+    rows.push(gridRow(languageEntries.slice(index, index + gridColumnCount)))
+  }
+  return `<table>\n${rows.join(`\n`)}\n</table>`
+}
+
+const gridRow = (entries: [string, Language][]): string => {
+  const cells = entries.map(gridCell)
+  // Empty cells keep a partial row's borders spanning every column
+  while (cells.length < gridColumnCount) {
+    cells.push(`<td width="${gridCellWidth}"></td>`)
+  }
+  return `<tr>\n${cells.join(`\n`)}\n</tr>`
+}
+
+const gridCell = ([id, language]: [string, Language]): string => {
+  const formatLinks = language.formats.map(formatLink).join(` · `)
+  return `<td align="center" width="${gridCellWidth}"><br /><a href="docs/languages/${id}.md">${languageIcons(language, 40)}<br /><b>${languageNames(language)}</b></a><br /><sub>${formatLinks}</sub><br /><br /></td>`
+}
+
+const languageExampleRows = ([id, language]: [string, Language]): string[] => {
+  const includeLanguage = languageMembers(language).length > 1
+  const cells = language.formats.flatMap(format =>
+    sortedExampleCombos(id, format).map(
+      combo =>
+        `<td>${escapeHtml(exampleComboLabel(combo, { includeLanguage }))}</td><td>${formatLink(format)}</td><td>${variantLinks(combo)}</td>`,
+    ),
   )
-  const combos = [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])]
-  if (combos.length === 0) {
-    return `<div>${link}</div>`
+  if (cells.length === 0) {
+    return []
   }
 
-  combos.sort(
+  const languageCell = `<td rowspan="${cells.length}" align="center"><a href="docs/languages/${id}.md">${languageIcons(language, 32)}<br /><sub><b>${languageNames(language)}</b></sub></a></td>`
+  return cells.map(
+    (cell, index) => `<tr>${index === 0 ? languageCell : ``}${cell}</tr>`,
+  )
+}
+
+const sortedExampleCombos = (id: string, format: Format): Combo[] =>
+  [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])].sort(
     (first, second) =>
       first.language.localeCompare(second.language) ||
       first.origin.localeCompare(second.origin) ||
       first.config.localeCompare(second.config),
   )
-
-  const items = combos
-    .map(
-      combo =>
-        `<li>${escapeHtml(exampleComboLabel(combo))} (${variantLinks(combo)})</li>`,
-    )
-    .join(``)
-  return `<details><summary>${link}</summary><ul>${items}</ul></details>`
-}
-
-const rows = Array.from(
-  languages.entries(),
-  ([id, { name, aliases, formats: langFormats }]) => {
-    const languageCell = anchor(
-      [name, ...(aliases ?? []).map(alias => alias.name)].join(`⁠/⁠`),
-      `docs/languages/${id}.md`,
-    )
-    const formatsCell = langFormats
-      .map(format => formatCell(id, format))
-      .join(`\n`)
-    return `<tr>\n<td>${languageCell}</td>\n<td>\n${formatsCell}\n</td>\n</tr>`
-  },
-).join(`\n`)
-
-const matrix = `<table>
-<thead>
-<tr><th>Language</th><th>Formats</th></tr>
-</thead>
-<tbody>
-${rows}
-</tbody>
-</table>`
 
 const examplePath = `examples/output/javascript.node.base.cpuprofile.md`
 const exampleLines = readFileSync(examplePath, `utf8`).split(`\n`)
@@ -161,7 +221,7 @@ readme = readme.replace(
 
 readme = readme.replace(
   /<!-- LANGUAGE_MATRIX START -->[\S\s]*?<!-- LANGUAGE_MATRIX END -->/u,
-  `<!-- LANGUAGE_MATRIX START -->\n\n${matrix}\n\n<!-- LANGUAGE_MATRIX END -->`,
+  `<!-- LANGUAGE_MATRIX START -->\n\n${languageMatrix()}\n\n<!-- LANGUAGE_MATRIX END -->`,
 )
 
 if (check) {
