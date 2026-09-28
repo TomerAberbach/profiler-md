@@ -4,7 +4,7 @@
  */
 
 import { execFileSync } from 'node:child_process'
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { lintSource } from '@secretlint/core'
 import { creator as recommendedSecretRules } from '@secretlint/secretlint-rule-preset-recommend'
@@ -609,15 +609,23 @@ const assetMatches = async (): Promise<Set<string>> => {
 }
 
 /**
- * The committed assets, listed by git so a fetched asset, which is gitignored
- * and absent in CI, exempts nothing locally either.
+ * The committed assets, listed by version control so a fetched asset, which
+ * is gitignored and absent in CI, exempts nothing locally either. A jj
+ * workspace without a colocated git repository has no `.git`, so jj lists
+ * its tracked files instead.
  */
 const committedAssets = (): string[] =>
-  execFileSync(`git`, [`ls-files`, `-z`, ASSETS_DIRECTORY], {
-    encoding: `utf8`,
-  })
-    .split(`\0`)
-    .filter(path => path.length > 0)
+  existsSync(`.jj`) && !existsSync(`.git`)
+    ? execFileSync(`jj`, [`file`, `list`, ASSETS_DIRECTORY], {
+        encoding: `utf8`,
+      })
+        .split(`\n`)
+        .filter(path => path.length > 0)
+    : execFileSync(`git`, [`ls-files`, `-z`, ASSETS_DIRECTORY], {
+        encoding: `utf8`,
+      })
+        .split(`\0`)
+        .filter(path => path.length > 0)
 
 const committedInputs = (): string[] =>
   readdirSync(INPUT_DIRECTORY)
