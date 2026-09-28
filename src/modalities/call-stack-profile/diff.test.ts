@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { resolveProfileToMdOptions } from '../../testing.ts'
+import { resolveProfileToMdOptions } from '../../options.ts'
 import { countMetricOf } from '../metric.ts'
 import {
   BYTES_METRIC,

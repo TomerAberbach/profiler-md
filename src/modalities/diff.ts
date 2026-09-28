@@ -1,3 +1,9 @@
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileEntry,
+  ProfileToMdContext,
+} from '../options.ts'
+
 /**
  * A pairing of base and current data for an entity matched across the two
  * sides of a diff. A side is absent if the entity only appears on the other
@@ -13,6 +19,13 @@ type DiffableEntry = {
   location?: { line?: number; column?: number } | undefined
 }
 
+/**
+ * A diff of matched entries. `byPosition` is true when several entries on
+ * either side share the match key that matched it, so its pairing follows
+ * their positions.
+ */
+export type EntryDiff<Entry> = Diff<Entry> & { byPosition: boolean }
+
 /** The keys pairing an entry across a diff's two sides. */
 type DiffedEntryKeys = {
   /** The key built from the entry's own name and location. */
@@ -21,6 +34,19 @@ type DiffedEntryKeys = {
   /** The key built from the entry's match normalization. */
   nameAndLocation: string
 }
+
+/** Matches two inputs' functions by their match keys under each input's context. */
+export const matchDiffedFunctions = <Func extends ProfileEntry>(
+  base: { functions: Func[]; context: ProfileToMdContext },
+  current: { functions: Func[]; context: ProfileToMdContext },
+  { entryMatchKeys }: Pick<NormalizedProfileToMdOptions, `entryMatchKeys`>,
+): EntryDiff<Func>[] =>
+  matchDiffedEntries(
+    base.functions,
+    current.functions,
+    func => entryMatchKeys(func, base.context),
+    func => entryMatchKeys(func, current.context),
+  )
 
 /**
  * Matches each side's entries by their own keys, then groups the
@@ -34,12 +60,12 @@ type DiffedEntryKeys = {
  * The result keeps the first pass's order, with a leftover pair in its base
  * entry's position, so the second pass reorders nothing it does not pair.
  */
-export const matchDiffedEntries = <Entry extends DiffableEntry>(
+const matchDiffedEntries = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
   currentEntries: Entry[],
   baseEntryKeys: (entry: Entry) => DiffedEntryKeys,
   currentEntryKeys: (entry: Entry) => DiffedEntryKeys,
-): Diff<Entry>[] => {
+): EntryDiff<Entry>[] => {
   const matchedByOwnKeys = matchEntryGroups(
     baseEntries,
     currentEntries,
@@ -83,10 +109,10 @@ const unpairedEntries = <Entry>(
  * leftover current entry left unpaired keeps its own.
  */
 const spliceLeftoverDiffs = <Entry>(
-  diffs: Diff<Entry>[],
-  leftoverDiffs: Diff<Entry>[],
-): Diff<Entry>[] => {
-  const leftoverDiffsByBase = new Map<Entry, Diff<Entry>>()
+  diffs: EntryDiff<Entry>[],
+  leftoverDiffs: EntryDiff<Entry>[],
+): EntryDiff<Entry>[] => {
+  const leftoverDiffsByBase = new Map<Entry, EntryDiff<Entry>>()
   const unpairedCurrent = new Set<Entry>()
   for (const diff of leftoverDiffs) {
     if (diff.base) {
@@ -96,7 +122,7 @@ const spliceLeftoverDiffs = <Entry>(
     }
   }
 
-  const spliced: Diff<Entry>[] = []
+  const spliced: EntryDiff<Entry>[] = []
   for (const diff of diffs) {
     if (diff.base && diff.current) {
       spliced.push(diff)
@@ -121,22 +147,34 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
   currentEntries: Entry[],
   baseEntryKey: (entry: Entry) => string,
   currentEntryKey: (entry: Entry) => string,
-): Diff<Entry>[] => {
+): EntryDiff<Entry>[] => {
   const baseByKey = Map.groupBy(baseEntries, baseEntryKey)
   const currentByKey = Map.groupBy(currentEntries, currentEntryKey)
 
-  const matched: Diff<Entry>[] = []
+  const matched: EntryDiff<Entry>[] = []
   for (const [key, baseGroup] of baseByKey) {
     const currentGroup = currentByKey.get(key)
     if (!currentGroup) {
-      matched.push(...baseGroup.map(base => ({ base, current: undefined })))
+      matched.push(
+        ...baseGroup.map(base => ({
+          base,
+          current: undefined,
+          byPosition: false,
+        })),
+      )
       continue
     }
     currentByKey.delete(key)
     matched.push(...pairGroups(baseGroup, currentGroup))
   }
   for (const currentGroup of currentByKey.values()) {
-    matched.push(...currentGroup.map(current => ({ base: undefined, current })))
+    matched.push(
+      ...currentGroup.map(current => ({
+        base: undefined,
+        current,
+        byPosition: false,
+      })),
+    )
   }
   return matched
 }
@@ -150,21 +188,23 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
 const pairGroups = <Entry extends DiffableEntry>(
   baseGroup: Entry[],
   currentGroup: Entry[],
-): Diff<Entry>[] => {
+): EntryDiff<Entry>[] => {
   if (baseGroup.length === 1 && currentGroup.length === 1) {
-    return [{ base: baseGroup[0]!, current: currentGroup[0]! }]
+    return [
+      { base: baseGroup[0]!, current: currentGroup[0]!, byPosition: false },
+    ]
   }
 
   const lineColumnKey = (entry: Entry) =>
     `${entry.location?.line ?? ``}\0${entry.location?.column ?? ``}`
   const byLineColumn = Map.groupBy(currentGroup, lineColumnKey)
 
-  const matched: Diff<Entry>[] = []
+  const matched: EntryDiff<Entry>[] = []
   const remainingBase: Entry[] = []
   for (const base of baseGroup) {
     const exact = byLineColumn.get(lineColumnKey(base))?.shift()
     if (exact) {
-      matched.push({ base, current: exact })
+      matched.push({ base, current: exact, byPosition: true })
     } else {
       remainingBase.push(base)
     }
@@ -180,7 +220,11 @@ const pairGroups = <Entry extends DiffableEntry>(
     i < Math.max(remainingBase.length, remainingCurrent.length);
     i++
   ) {
-    matched.push({ base: remainingBase[i], current: remainingCurrent[i] })
+    matched.push({
+      base: remainingBase[i],
+      current: remainingCurrent[i],
+      byPosition: true,
+    })
   }
   return matched
 }

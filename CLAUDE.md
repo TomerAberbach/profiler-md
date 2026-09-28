@@ -159,6 +159,20 @@ profiler-md
 │   ├── update-examples.ts        # Update examples/output/ from examples/input/ on a worker thread pool
 │   ├── update-examples-worker.ts # Converts one example per message, then checks or writes it
 │   ├── check-input-privacy.ts    # Fails an input containing data about the generating machine (addresses, cookies, environment, process list)
+│   ├── evaluate-diff-matching/   # Score how a diff pairs functions against ground truth: same code, version changes, and synthetic edits
+│   │   ├── index.ts              # Entry point: scores every committed pair per ground truth kind, or updates or checks ground-truth.json
+│   │   ├── inputs.ts             # Committed base/current pairs and their aggregated inputs with functions
+│   │   ├── position.ts           # Function positions and the base-to-current position map type
+│   │   ├── upgraded-projects.ts  # Projects a pair profiles at two versions, their version pins, and how to fetch their files
+│   │   ├── fetch.ts              # Downloads cached in node_modules/.cache/evaluate-diff-matching/
+│   │   ├── cache.ts              # The cache directory
+│   │   ├── file-diff.ts          # A file's line or character diff from `git diff`, and mapping a position through it
+│   │   ├── ground-truth.ts       # Reads, updates, and checks ground-truth.json
+│   │   ├── ground-truth.json     # File diffs of the upgraded projects' profiled files, the version-change ground truth (`--update` rewrites it)
+│   │   ├── version-change.ts     # The position map of a pair that profiles two versions of an upgraded project
+│   │   ├── synthetic-edits.ts    # Seeded edits to one source reference of the current side, and the position map they produce
+│   │   ├── score.ts              # Pairs two inputs' functions as a diff does and scores the pairs against a position map
+│   │   └── table.ts              # Prints a table of scores per pair or origin
 │   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
 │   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
 │
@@ -199,6 +213,7 @@ pnpm update-readme
 pnpm check-examples
 pnpm check-demo
 pnpm check-readme
+pnpm check-diff-matching
 
 # Fail any committed input (or the given ones) containing data about the generating machine
 pnpm check-input-privacy
@@ -214,6 +229,11 @@ pnpm bench ./examples/input/javascript.node.base.cpuprofile
 pnpm categories
 # Report the function names a candidate rule matches, by their category today
 pnpm categories --rule '^LinearScan'
+
+# Score how a diff pairs functions against ground truth
+pnpm evaluate-diff-matching
+# Rewrite the version-change ground truth after regenerating inputs or changing a pin
+pnpm evaluate-diff-matching --update
 
 # Generate inputs
 pnpm generate-inputs           # Skip already-generated inputs (the default, --missing)

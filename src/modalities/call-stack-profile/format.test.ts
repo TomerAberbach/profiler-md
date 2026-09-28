@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import { resolveProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryRankingTables,
@@ -9,7 +10,6 @@ import {
   profileTitles,
   rankingTable,
   rankingTables,
-  resolveProfileToMdOptions,
   summaryLines,
 } from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'

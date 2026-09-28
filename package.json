@@ -80,6 +80,8 @@
     "coverage": "vitest --coverage",
     "bench": "./scripts/bench",
     "categories": "node scripts/categories.ts",
+    "evaluate-diff-matching": "node scripts/evaluate-diff-matching/index.ts",
+    "check-diff-matching": "node scripts/evaluate-diff-matching/index.ts --check",
     "build": "tsdown",
     "generate-inputs": "./scripts/generate-inputs",
     "update-readme": "node scripts/update-readme.ts",
@@ -90,7 +92,7 @@
     "check-examples": "node scripts/update-examples.ts --check",
     "check-input-privacy": "node scripts/check-input-privacy.ts",
     "check": "run-p -lc check:platform check:static",
-    "check:platform": "run-s \"test --run\" check-examples",
+    "check:platform": "run-s \"test --run\" check-examples check-diff-matching",
     "check:static": "run-s -c build typecheck \"lint --no-fix\" \"format --no-write --check\" knip check-readme check-demo check-input-privacy",
     "prepublishOnly": "pnpm build"
   },
