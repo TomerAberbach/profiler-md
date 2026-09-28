@@ -579,11 +579,11 @@ function* parseObservations(
 ): Iterable<Observation> {
   const valueCount = profile.sampleType.length
   let skippedSamples = 0
+  let shortSamples = 0
   for (const { locationId, value } of profile.sample) {
     if (value.length < valueCount) {
-      throw new FormatParseError(
-        `sample has fewer values than the profile has sample types, got: ${value.length}`,
-      )
+      shortSamples++
+      continue
     }
     const frameIndices = resolveCallStack(locationId, framesByLocationId)
     if (frameIndices === undefined) {
@@ -613,6 +613,13 @@ function* parseObservations(
       `sample`,
       `referencing a missing location`,
       skippedSamples,
+    )
+  }
+  if (shortSamples > 0) {
+    recordTally?.skipped(
+      `sample`,
+      `with fewer values than the profile has sample types`,
+      shortSamples,
     )
   }
 }
