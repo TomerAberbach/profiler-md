@@ -355,12 +355,6 @@ class Capture {
    */
   readonly #mainThreadStacks = new Set<number>()
 
-  /**
-   * The highest stack an allocation record of a capture written with
-   * `--aggregate` references, checked against the stacks its records define.
-   */
-  #maxAllocationStack = 0
-
   readonly #stacksByThread = new Map<number, number[]>()
   #currentStack: number[]
   #onMainThread = true
@@ -410,9 +404,7 @@ class Capture {
   }
 
   public toProfiles(): CallStackProfile[] {
-    if (this.#header.fileFormat === `aggregated`) {
-      this.#stackTree.checkReferences(this.#maxAllocationStack)
-    } else {
+    if (this.#header.fileFormat !== `aggregated`) {
       this.#heap.visitPeak(this.#accumulate(`peak`))
       this.#heap.visitLeaked(this.#accumulate(`leaked`))
     }
@@ -420,7 +412,7 @@ class Capture {
     const stackFrames = this.#stackTree.frames.map(frame =>
       this.#toStackFrame(frame),
     )
-    this.#skipStacksWithMissingCodeObjects(stackFrames)
+    this.#skipUnresolvableStacks(stackFrames)
     const frames = stackFrames.map(frame => frame ?? {})
     return [
       {
@@ -665,7 +657,6 @@ class Capture {
     if (threadId === this.#header.mainThreadId) {
       this.#mainThreadStacks.add(stack)
     }
-    this.#maxAllocationStack = Math.max(this.#maxAllocationStack, stack)
 
     const usage = this.#usageOf(stack)
     usage.peakCount += peakCount
@@ -746,29 +737,25 @@ class Capture {
   }
 
   /**
-   * Skips every stack holding a frame whose code object no record defines, since
-   * the frame has no name or location.
+   * Skips every stack an allocation is on whose frames can't be resolved: a
+   * stack or frame no record defines, a cycle of stacks, or a frame whose code
+   * object no record defines, which has no name or location.
    */
-  #skipStacksWithMissingCodeObjects(
-    frames: readonly (StackFrame | undefined)[],
-  ): void {
-    if (!frames.includes(undefined)) {
-      return
-    }
-
-    let skippedStacks = 0
+  #skipUnresolvableStacks(frames: readonly (StackFrame | undefined)[]): void {
+    const skippedByReason = new Map<string, number>()
     for (const stack of this.#usageByStack.keys()) {
-      if (this.#framesOf(stack).some(frame => frames[frame] === undefined)) {
+      const reason =
+        this.#stackTree.unresolvableReason(stack) ??
+        (this.#framesOf(stack).some(frame => frames[frame] === undefined)
+          ? `referencing a missing code object`
+          : undefined)
+      if (reason !== undefined) {
         this.#usageByStack.delete(stack)
-        skippedStacks++
+        skippedByReason.set(reason, (skippedByReason.get(reason) ?? 0) + 1)
       }
     }
-    if (skippedStacks > 0) {
-      this.#recordTally.skipped(
-        `stack`,
-        `referencing a missing code object`,
-        skippedStacks,
-      )
+    for (const [reason, count] of skippedByReason) {
+      this.#recordTally.skipped(`stack`, reason, count)
     }
   }
 
@@ -887,6 +874,11 @@ class StackTree {
   /** The frames of each resolved stack, leaf first. */
   readonly #framesByStack: number[][] = []
 
+  /**
+   * Why each stack a walk visited can't be resolved, or `null` if it can.
+   */
+  readonly #unresolvableReasons: (string | null)[] = []
+
   public get frames(): readonly CaptureFrame[] {
     return this.#frames
   }
@@ -896,43 +888,46 @@ class StackTree {
     this.#frames.push(frame)
   }
 
-  /**
-   * Adds a stack a capture written with `--aggregate` numbers itself.
-   *
-   * @throws if the stack's parent is itself or a stack no earlier record
-   *   defines, which would leave {@link framesOf} walking a cycle.
-   */
+  /** Adds a stack a capture written with `--aggregate` numbers itself. */
   public addStack(parent: number, frame: number): void {
-    const stack = this.#stackFrame.length
-    if (parent >= stack) {
-      throw new FormatParseError(
-        `stack ${stack} is under a stack that follows it, got parent: ${parent}`,
-      )
-    }
-
     this.#stackFrame.push(frame)
     this.#stackParent.push(parent)
   }
 
   /**
-   * Checks that every stack up to {@link maxStack} is defined and holds a
-   * defined frame.
+   * Why {@link stack}'s frames can't be resolved, or `undefined` if they can:
+   * the stack or one of its ancestors is undefined, in an undefined frame, or
+   * in a cycle, which would leave {@link framesOf} walking forever. Memoized,
+   * since a stack's parent chain is shared by every stack below it.
    */
-  public checkReferences(maxStack: number): void {
-    if (maxStack >= this.#stackFrame.length) {
-      throw new FormatParseError(
-        `allocation is on a stack no record defines, got: ${maxStack}`,
-      )
-    }
-
-    for (let stack = 1; stack <= maxStack; stack++) {
-      const frame = this.#stackFrame[stack]!
-      if (frame >= this.#frames.length) {
-        throw new FormatParseError(
-          `stack ${stack} is in a frame no record defines, got: ${frame}`,
-        )
+  public unresolvableReason(stack: number): string | undefined {
+    const chain = new Set<number>()
+    let reason: string | null = null
+    for (let current = stack; current !== 0;) {
+      const known = this.#unresolvableReasons[current]
+      if (known !== undefined) {
+        reason = known
+        break
       }
+      if (chain.has(current)) {
+        reason = `under a cycle of stacks`
+        break
+      }
+      if (!(current < this.#stackFrame.length)) {
+        reason = `that no record defines`
+        break
+      }
+      if (!(this.#stackFrame[current]! < this.#frames.length)) {
+        reason = `in a frame no record defines`
+        break
+      }
+      chain.add(current)
+      current = this.#stackParent[current]!
     }
+    for (const visited of chain) {
+      this.#unresolvableReasons[visited] = reason
+    }
+    return reason ?? undefined
   }
 
   /** The stack extending {@link parent} with the given frame. */
