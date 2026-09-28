@@ -8,11 +8,13 @@ JVM_LANGUAGE=groovy
 JVM_WORKLOAD="CodeNarc analysis of Spock"
 
 # CodeNarc's `-all` jar bundles Groovy, GMetrics, and SLF4J, so it runs
-# self-contained under plain `java`.
-CODENARC_VERSION="3.7.0-groovy-4.0"
-CODENARC_JAR="$REPO/scripts/inputs/assets/groovy/CodeNarc-$CODENARC_VERSION-all.jar"
-CODENARC_URL="https://repo1.maven.org/maven2/org/codenarc/CodeNarc/$CODENARC_VERSION/CodeNarc-$CODENARC_VERSION-all.jar"
-CODENARC_SHA256="860f91195072b67ab94f9b9e46c9e4b945df8ad64668b901789d6c530958d806"
+# self-contained under plain `java`. Base and current profile consecutive
+# CodeNarc releases, so a diff compares two versions of the same code.
+declare -A CODENARC_VERSION=([base]="3.6.0-groovy-4.0" [current]="3.7.0-groovy-4.0")
+declare -A CODENARC_SHA256=(
+  [base]="3f63f87a3880f49b2d29cea62070b6347ebd5a1a7aa0f56d2ef8aa9d1c9db528"
+  [current]="860f91195072b67ab94f9b9e46c9e4b945df8ad64668b901789d6c530958d806"
+)
 
 SPOCK_REPO="https://github.com/spockframework/spock"
 SPOCK_TAG="spock-2.3"
@@ -53,9 +55,16 @@ ensure_spock() {
 # appends method signatures, multiplying CodeNarc's distinct stacks. A full
 # collapsed alloc capture writes ~585 MB.
 run_jvm_workload() {
-  local jvm_arg=$1 cfg=$2 ext=$3 includes rulesets
-  fetch_asset "CodeNarc $CODENARC_VERSION all jar" \
-    "$CODENARC_URL" "$CODENARC_SHA256" "$CODENARC_JAR" || return 1
+  local jvm_arg=$1 cfg=$2 ext=$3 role=$4 includes rulesets
+  local version=${CODENARC_VERSION[$role]}
+  local jar="$REPO/scripts/inputs/assets/groovy/CodeNarc-$version-all.jar"
+  fetch_asset "CodeNarc $version all jar" \
+    "https://repo1.maven.org/maven2/org/codenarc/CodeNarc/$version/CodeNarc-$version-all.jar" \
+    "${CODENARC_SHA256[$role]}" "$jar" || return 1
+  # The JVM's command line names the jar, and a recording holds the command
+  # line, so the jar runs from WORKDIR rather than the checkout.
+  cp "$jar" "$WORKDIR/codenarc.jar" || return 1
+  jar="$WORKDIR/codenarc.jar"
   ensure_spock || return 1
   if [[ "$cfg" == nativemem || "$cfg" == cpu-threads-ann-sig \
     || ("$cfg" == alloc* && "$ext" == collapsed) ]]; then
@@ -65,7 +74,7 @@ run_jvm_workload() {
     includes='**/*.groovy'
     rulesets="$(IFS=,; echo "${RULESETS[*]}")"
   fi
-  java "$jvm_arg" -jar "$CODENARC_JAR" \
+  java "$jvm_arg" -jar "$jar" \
     -basedir="$spock_source" \
     -includes="$includes" \
     -rulesetfiles="$rulesets" \

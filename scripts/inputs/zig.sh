@@ -3,11 +3,25 @@
 cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
-ZIG_VERSION="0.16.0"
-ZIG_TARBALL="https://ziglang.org/download/$ZIG_VERSION/zig-aarch64-linux-$ZIG_VERSION.tar.xz"
-ZIG_SHA256="ea4b09bfb22ec6f6c6ceac57ab63efb6b46e17ab08d21f69f3a48b38e1534f17"
+# Base and current profile consecutive Zig releases, whose standard library
+# holds the parser and renderer the workload runs, so a diff compares two
+# versions of the same code. Zig 0.16 replaced the file system and process APIs
+# the workload uses, so each release has its own copy of it, and both are staged
+# as `profile.zig` so they record the same path.
+declare -A ZIG_VERSION=([base]="0.15.2" [current]="0.16.0")
+declare -A ZIG_SHA256=(
+  [base]="958ed7d1e00d0ea76590d27666efbf7a932281b3d7ba0c6b01b0ff26498f667f"
+  [current]="ea4b09bfb22ec6f6c6ceac57ab63efb6b46e17ab08d21f69f3a48b38e1534f17"
+)
+declare -A ZIG_PROFILE=(
+  [base]="$REPO/scripts/inputs/assets/zig/profile-0.15.zig"
+  [current]="$REPO/scripts/inputs/assets/zig/profile.zig"
+)
 
-profile="$REPO/scripts/inputs/assets/zig/profile.zig"
+zig_tarball() {
+  local version=${ZIG_VERSION[$1]}
+  echo "https://ziglang.org/download/$version/zig-aarch64-linux-$version.tar.xz"
+}
 
 declare -A rundir=()
 run_for_role() {
@@ -18,7 +32,7 @@ run_for_role() {
   local dir="$WORKDIR/zig-$role"
   mkdir -p "$dir"
   # Stage the workload where the container can read it.
-  cp "$profile" "$dir/profile.zig"
+  cp "${ZIG_PROFILE[$role]}" "$dir/profile.zig"
 
   notice "Profiling zig fmt with gperftools ($role)"
 
@@ -30,8 +44,8 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         ca-certificates curl xz-utils
 
-      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$ZIG_TARBALL"'"
-      echo "'"$ZIG_SHA256"'  /tmp/zig.tar.xz" | sha256sum -c -
+      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$(zig_tarball "$role")"'"
+      echo "'"${ZIG_SHA256[$role]}"'  /tmp/zig.tar.xz" | sha256sum -c -
       mkdir -p /opt/zig
       tar -xJf /tmp/zig.tar.xz -C /opt/zig --strip-components=1
 
@@ -86,7 +100,7 @@ capture_perf() {
   local out=$1 role=$2
   local dir="$WORKDIR/zig-perf-$role"
   mkdir -p "$dir"
-  cp "$profile" "$dir/profile.zig"
+  cp "${ZIG_PROFILE[$role]}" "$dir/profile.zig"
 
   notice "Profiling zig fmt with perf ($role)"
 
@@ -105,8 +119,8 @@ capture_perf() {
       # the capture is user-space only rather than failing.
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$ZIG_TARBALL"'"
-      echo "'"$ZIG_SHA256"'  /tmp/zig.tar.xz" | sha256sum -c -
+      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$(zig_tarball "$role")"'"
+      echo "'"${ZIG_SHA256[$role]}"'  /tmp/zig.tar.xz" | sha256sum -c -
       mkdir -p /opt/zig
       tar -xJf /tmp/zig.tar.xz -C /opt/zig --strip-components=1
 

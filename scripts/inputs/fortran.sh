@@ -4,7 +4,9 @@ cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
 JSON_FORTRAN_REPO="https://github.com/jacobwilliams/json-fortran"
-JSON_FORTRAN_TAG="8.5.2"
+# Base and current profile consecutive json-fortran releases, so a diff
+# compares two versions of the same code.
+declare -A JSON_FORTRAN_TAG=([base]="8.5.2" [current]="9.0.0")
 
 profile="$REPO/scripts/inputs/assets/fortran/profile.f90"
 
@@ -30,7 +32,7 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         gfortran git ca-certificates
 
-      git clone --depth 1 --branch "'"$JSON_FORTRAN_TAG"'" \
+      git clone --depth 1 --branch "'"${JSON_FORTRAN_TAG[$role]}"'" \
         "'"$JSON_FORTRAN_REPO"'" /src/json-fortran
 
       # Compile the library sources in dependency order, then the workload

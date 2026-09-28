@@ -7,20 +7,28 @@ source scripts/inputs/_common.sh
 
 assets="$REPO/scripts/inputs/assets/nix"
 
-# The nixpkgs revision the dev shell's flake.lock pins, so the evaluation reads
-# the same source tree every run and the profile's store paths stay stable.
+# Base evaluates the nixpkgs revision the dev shell's flake.lock pins, and
+# current a nixpkgs-unstable revision two weeks later, so a diff compares two
+# versions of the same code. Each is fixed, so the evaluation reads the same
+# source tree every run and the profile's store paths stay stable.
+CURRENT_NIXPKGS_REV="22bbca0e89aeef5b8245efb3cbc872e0b2b52e55"
 nixpkgs_rev() {
-  jq -r .nodes.nixpkgs.locked.rev "$REPO/scripts/inputs/flake.lock"
+  local role=$1
+  if [[ "$role" == current ]]; then
+    echo "$CURRENT_NIXPKGS_REV"
+  else
+    jq -r .nodes.nixpkgs.locked.rev "$REPO/scripts/inputs/flake.lock"
+  fi
 }
 
 # capture_fn for emit: $1=out  $2=role
 #   Evaluates a NixOS system configuration's derivation, the evaluation that
-#   `nixos-rebuild` runs, from the nixpkgs revision the dev shell pins.
+#   `nixos-rebuild` runs, from the role's nixpkgs revision.
 #   Evaluating the full system closure exercises the module system, the stdenv
 #   bootstrap, and the package set, so the samples fall in nixpkgs' own code.
 record_eval() {
   local out=$1 role=$2 rev
-  rev="$(nixpkgs_rev)" || return 1
+  rev="$(nixpkgs_rev "$role")" || return 1
 
   notice "Profiling a NixOS system evaluation with the Nix evaluator ($role)"
 

@@ -1,14 +1,16 @@
 # CPU profile
 
-Took 2.20s over 3,072 samples (716.5µs per sample).
+Took 2.15s over 2,926 samples (736.0µs per sample).
 
 | Category           |     % |    Time | Samples |
 | ------------------ | ----: | ------: | ------: |
-| Third-party        | 87.3% |   1.92s |   2,859 |
-| Garbage collector  |  6.3% | 139.5ms |     114 |
-| Standard library   |  4.2% |  92.4ms |      57 |
-| Native             |  2.1% |  45.6ms |      39 |
-| Regular expression |  0.1% |   1.9ms |       3 |
+| Third-party        | 84.6% |   1.82s |   2,668 |
+| Standard library   |  6.1% | 132.3ms |      88 |
+| Garbage collector  |  5.8% | 125.4ms |     102 |
+| Native             |  2.9% |  62.8ms |      58 |
+| Regular expression |  0.3% |   5.4ms |       5 |
+| Unknown            |  0.2% |   4.2ms |       4 |
+| Ours               |  0.1% |   1.3ms |       1 |
 
 ## Hottest functions
 
@@ -16,327 +18,303 @@ Took 2.20s over 3,072 samples (716.5µs per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|    % |    Time | Samples | Function                            | Location                                                                                                                                                       |
-| ---: | ------: | ------: | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 6.3% | 139.5ms |     114 | `(garbage collector)`               | `<unknown>`                                                                                                                                                    |
-| 3.3% |  72.1ms |      84 | `recursiveTypeRelatedTo`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44` |
-| 3.2% |  71.0ms |      84 | `isRelatedTo`                       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
-| 1.6% |  34.7ms |      32 | `getRelationKey`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32` |
-| 1.5% |  33.1ms |      30 | `checkTypeRelatedTo`                | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
-| 1.4% |  30.7ms |      28 | `getObjectTypeInstantiation`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44` |
-| 1.3% |  27.9ms |      25 | `createTypeReference`               | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37` |
-| 1.2% |  26.6ms |      37 | `instantiateTypeWorker`             | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39` |
-| 1.2% |  26.2ms |       1 | `post`                              | `ext:deno_node/inspector.js:179:7`                                                                                                                             |
-| 1.1% |  25.2ms |      29 | `scan`                              | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22` |
-| 1.0% |  22.2ms |      18 | `getIdentifierToken`                | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11153:36` |
-| 1.0% |  21.3ms |      17 | `op_fs_stat_sync`                   | `<unknown>`                                                                                                                                                    |
-| 1.0% |  21.1ms |      24 | `createUnionOrIntersectionProperty` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51` |
-| 0.9% |  20.5ms |      19 | `getMappedType`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31` |
-| 0.9% |  19.3ms |      48 | `inferFromTypes`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36` |
-| 0.8% |  18.2ms |      23 | `getNormalizedType`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35` |
-| 0.8% |  16.6ms |      17 | `isTypeRelatedTo`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33` |
-| 0.7% |  15.7ms |      31 | `structuredTypeRelatedToWorker`     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51` |
-| 0.7% |  15.4ms |      13 | `buildCustomError`                  | `ext:core/00_infra.js:94:28`                                                                                                                                   |
-| 0.7% |  15.4ms |      29 | `bindWorker`                        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45538:28` |
+|    % |    Time | Samples | Function                        | Location                                                                                                                   |
+| ---: | ------: | ------: | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 5.8% | 125.4ms |     102 | `(garbage collector)`           | `<unknown>`                                                                                                                |
+| 3.4% |  72.6ms |      58 | `compileFunction`               | `ext:core/01_core.js:1100:22`                                                                                              |
+| 3.0% |  63.6ms |      81 | `recursiveTypeRelatedTo`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36` |
+| 2.5% |  54.1ms |      88 | `isRelatedTo`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25` |
+| 1.6% |  34.4ms |      42 | `instantiateTypeWorker`         | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283:33` |
+| 1.5% |  33.0ms |      37 | `getObjectTypeInstantiation`    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66040:38` |
+| 1.5% |  32.9ms |      61 | `inferFromTypes`                | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28` |
+| 1.4% |  30.9ms |      28 | `checkTypeRelatedTo`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445:30` |
+| 1.4% |  30.4ms |      28 | `isTypeRelatedTo`               | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27` |
+| 1.3% |  28.0ms |      22 | `op_compile_function`           | `<unknown>`                                                                                                                |
+| 1.2% |  26.6ms |       1 | `post`                          | `ext:deno_node/inspector.js:179:7`                                                                                         |
+| 1.1% |  22.6ms |      18 | `internIdentifier`              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33331:28` |
+| 1.0% |  21.4ms |      26 | `scan`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12895:16` |
+| 1.0% |  20.9ms |      18 | `createTypeReference`           | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62794:31` |
+| 0.8% |  18.1ms |      17 | `getReducedApparentType`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61750:34` |
+| 0.8% |  17.2ms |      17 | `isDeeplyNestedType`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70031:30` |
+| 0.7% |  15.8ms |      19 | `some`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794:14`  |
+| 0.7% |  14.6ms |      33 | `structuredTypeRelatedToWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68537:43` |
+| 0.7% |  14.5ms |      14 | `getPropertyOfType`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61994:29` |
+| 0.6% |  13.2ms |      19 | `bind`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793:16` |
 
 #### Categories
 
 ##### Third-party
 
-|    % |   Time | Samples | Function                            | Location                                                                                                                                                       |
-| ---: | -----: | ------: | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 3.3% | 72.1ms |      84 | `recursiveTypeRelatedTo`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44` |
-| 3.2% | 71.0ms |      84 | `isRelatedTo`                       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
-| 1.6% | 34.7ms |      32 | `getRelationKey`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32` |
-| 1.5% | 33.1ms |      30 | `checkTypeRelatedTo`                | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
-| 1.4% | 30.7ms |      28 | `getObjectTypeInstantiation`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44` |
-| 1.3% | 27.9ms |      25 | `createTypeReference`               | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37` |
-| 1.2% | 26.6ms |      37 | `instantiateTypeWorker`             | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39` |
-| 1.1% | 25.2ms |      29 | `scan`                              | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22` |
-| 1.0% | 22.2ms |      18 | `getIdentifierToken`                | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11153:36` |
-| 1.0% | 21.1ms |      24 | `createUnionOrIntersectionProperty` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51` |
-| 0.9% | 20.5ms |      19 | `getMappedType`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31` |
-| 0.9% | 19.3ms |      48 | `inferFromTypes`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36` |
-| 0.8% | 18.2ms |      23 | `getNormalizedType`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35` |
-| 0.8% | 16.6ms |      17 | `isTypeRelatedTo`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33` |
-| 0.7% | 15.7ms |      31 | `structuredTypeRelatedToWorker`     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51` |
-| 0.7% | 15.4ms |      29 | `bindWorker`                        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45538:28` |
-| 0.7% | 15.2ms |      15 | `getObjectFlags`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28` |
-| 0.7% | 14.9ms |      13 | `structuredTypeRelatedTo`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63918:45` |
-| 0.7% | 14.7ms |      17 | `(anonymous)`                       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66494:47` |
-| 0.6% | 13.6ms |      14 | `instantiateList`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61591:33` |
+|    % |   Time | Samples | Function                        | Location                                                                                                                   |
+| ---: | -----: | ------: | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 3.0% | 63.6ms |      81 | `recursiveTypeRelatedTo`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36` |
+| 2.5% | 54.1ms |      88 | `isRelatedTo`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25` |
+| 1.6% | 34.4ms |      42 | `instantiateTypeWorker`         | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283:33` |
+| 1.5% | 33.0ms |      37 | `getObjectTypeInstantiation`    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66040:38` |
+| 1.5% | 32.9ms |      61 | `inferFromTypes`                | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28` |
+| 1.4% | 30.9ms |      28 | `checkTypeRelatedTo`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445:30` |
+| 1.4% | 30.4ms |      28 | `isTypeRelatedTo`               | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27` |
+| 1.1% | 22.6ms |      18 | `internIdentifier`              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33331:28` |
+| 1.0% | 21.4ms |      26 | `scan`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12895:16` |
+| 1.0% | 20.9ms |      18 | `createTypeReference`           | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62794:31` |
+| 0.8% | 18.1ms |      17 | `getReducedApparentType`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61750:34` |
+| 0.8% | 17.2ms |      17 | `isDeeplyNestedType`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70031:30` |
+| 0.7% | 15.8ms |      19 | `some`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794:14`  |
+| 0.7% | 14.6ms |      33 | `structuredTypeRelatedToWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68537:43` |
+| 0.7% | 14.5ms |      14 | `getPropertyOfType`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61994:29` |
+| 0.6% | 13.2ms |      19 | `bind`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793:16` |
+| 0.6% | 12.5ms |      13 | `invokeOnce`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71374:24` |
+| 0.6% | 12.4ms |      10 | `getObjectFlags`                | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21225:24` |
+| 0.6% | 12.1ms |      22 | `bindWorker`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47856:22` |
+| 0.6% | 12.0ms |      15 | `getReducedType`                | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61933:26` |
+
+##### Standard library
+
+|     % |   Time | Samples | Function               | Location                                        |
+| ----: | -----: | ------: | ---------------------- | ----------------------------------------------- |
+|  3.4% | 72.6ms |      58 | `compileFunction`      | `ext:core/01_core.js:1100:22`                   |
+|  1.2% | 26.6ms |       1 | `post`                 | `ext:deno_node/inspector.js:179:7`              |
+|  0.3% |  6.9ms |       6 | `NotFound`             | `ext:runtime/01_errors.js:7:14`                 |
+|  0.2% |  5.0ms |       5 | `buildCustomError`     | `ext:core/00_infra.js:94:28`                    |
+|  0.2% |  3.5ms |       3 | `defineStatExtraProps` | `ext:deno_node/internal/fs/stat_utils.ts:26:30` |
+|  0.2% |  3.3ms |       3 | `SafeIterator`         | `ext:core/00_primordials.js:316:18`             |
+|  0.1% |  2.5ms |       2 | `readFileMaybeDecode`  | `ext:deno_node/fs.ts:268:31`                    |
+|  0.1% |  1.4ms |       1 | `CFISBIS`              | `ext:deno_node/internal/fs/stat_utils.ts:73:24` |
+|  0.1% |  1.3ms |       1 | `dateFromMs`           | `ext:deno_node/internal/fs/utils.mjs:526:20`    |
+|  0.1% |  1.3ms |       1 | `loadMaybeCjs`         | `node:module:1669:22`                           |
+|  0.1% |  1.3ms |       1 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:539:8`     |
+|  0.1% |  1.3ms |       1 | `(anonymous)`          | `ext:deno_node/crypto.ts:1:32`                  |
+|  0.1% |  1.2ms |       1 | `decodeUtf8`           | `ext:deno_node/internal/buffer.mjs:706:20`      |
+|  0.1% |  1.2ms |       1 | `readFileSync`         | `ext:deno_node/fs.ts:399:24`                    |
+|  0.1% |  1.2ms |       1 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:569:8`     |
+|  0.1% |  1.2ms |       1 | `getOptions`           | `ext:deno_node/internal/fs/utils.mjs:363:27`    |
+| <0.1% |  0.5ms |       1 | `statSync`             | `ext:deno_fs/30_fs.js:473:18`                   |
 
 ##### Garbage collector
 
 |    % |    Time | Samples | Function              | Location    |
 | ---: | ------: | ------: | --------------------- | ----------- |
-| 6.3% | 139.5ms |     114 | `(garbage collector)` | `<unknown>` |
-
-##### Standard library
-
-|     % |   Time | Samples | Function               | Location                                            |
-| ----: | -----: | ------: | ---------------------- | --------------------------------------------------- |
-|  1.2% | 26.2ms |       1 | `post`                 | `ext:deno_node/inspector.js:179:7`                  |
-|  0.7% | 15.4ms |      13 | `buildCustomError`     | `ext:core/00_infra.js:94:28`                        |
-|  0.6% | 12.6ms |      10 | `compileFunction`      | `ext:core/01_core.js:1100:22`                       |
-|  0.4% |  9.3ms |       8 | `NotFound`             | `ext:runtime/01_errors.js:7:14`                     |
-|  0.4% |  8.8ms |       7 | `loadMaybeCjs`         | `node:module:1669:22`                               |
-|  0.2% |  3.8ms |       3 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:539:8`         |
-|  0.1% |  2.5ms |       2 | `decodeUtf8`           | `ext:deno_node/internal/buffer.mjs:706:20`          |
-|  0.1% |  1.3ms |       1 | `value`                | `ext:deno_node/internal/fs/stat_utils.ts:36:14`     |
-|  0.1% |  1.3ms |       1 | `loadExtScript`        | `ext:core/01_core.js:951:25`                        |
-|  0.1% |  1.3ms |       1 | `defineStatExtraProps` | `ext:deno_node/internal/fs/stat_utils.ts:26:30`     |
-|  0.1% |  1.3ms |       1 | `(anonymous)`          | `ext:deno_node/internal/fs/utils.mjs:410:3`         |
-|  0.1% |  1.3ms |       1 | `(anonymous)`          | `ext:deno_node/internal/fs/utils.mjs:892:3`         |
-|  0.1% |  1.3ms |       1 | `SafeIterator`         | `ext:core/00_primordials.js:316:18`                 |
-|  0.1% |  1.2ms |       1 | `dateFromMs`           | `ext:deno_node/internal/fs/utils.mjs:526:20`        |
-|  0.1% |  1.2ms |       1 | `wrappedFn`            | `ext:deno_node/internal/hide_stack_frames.ts:13:23` |
-|  0.1% |  1.2ms |       1 | `readdirSync`          | `ext:deno_node/_fs/_fs_readdir.ts:109:28`           |
-|  0.1% |  1.2ms |       1 | `statSync`             | `ext:deno_fs/30_fs.js:473:18`                       |
-| <0.1% |  0.6ms |       1 | `toPathIfFileURL`      | `ext:deno_node/internal/url.ts:12:27`               |
-| <0.1% |  0.4ms |       1 | `readFileMaybeDecode`  | `ext:deno_node/fs.ts:268:31`                        |
-| <0.1% |  0.4ms |       1 | `next`                 | `ext:core/00_primordials.js:319:11`                 |
+| 5.8% | 125.4ms |     102 | `(garbage collector)` | `<unknown>` |
 
 ##### Native
 
-|    % |   Time | Samples | Function               | Location    |
-| ---: | -----: | ------: | ---------------------- | ----------- |
-| 1.0% | 21.3ms |      17 | `op_fs_stat_sync`      | `<unknown>` |
-| 0.4% |  9.2ms |      10 | `(program)`            | `<unknown>` |
-| 0.3% |  7.6ms |       6 | `op_fs_read_file_sync` | `<unknown>` |
-| 0.2% |  5.1ms |       4 | `op_require_read_file` | `<unknown>` |
-| 0.1% |  1.3ms |       1 | `op_compile_function`  | `<unknown>` |
-| 0.1% |  1.2ms |       1 | `op_fs_realpath_sync`  | `<unknown>` |
+|     % |   Time | Samples | Function                   | Location    |
+| ----: | -----: | ------: | -------------------------- | ----------- |
+|  1.3% | 28.0ms |      22 | `op_compile_function`      | `<unknown>` |
+|  0.5% | 10.0ms |       8 | `op_fs_stat_sync`          | `<unknown>` |
+|  0.4% |  7.6ms |       6 | `op_fs_read_file_sync`     | `<unknown>` |
+|  0.3% |  7.3ms |      13 | `(program)`                | `<unknown>` |
+|  0.2% |  3.7ms |       3 | `op_require_read_file`     | `<unknown>` |
+|  0.1% |  1.7ms |       2 | `op_node_encoding_slice`   | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_fs_realpath_sync`      | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_url_get_serialization` | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_require_try_self`      | `<unknown>` |
+| <0.1% |  0.7ms |       1 | `op_inspector_dispatch`    | `<unknown>` |
 
 #### Lines
 
 Lines ranked by contribution to each function's self time.
 
-##### `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 69.8% | 50.4ms |      46 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63811` |
-|  9.6% |  6.9ms |       6 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63810` |
-|  3.4% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63865` |
-|  3.4% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63859` |
-|  3.0% |  2.2ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63913` |
-
-##### `isRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 28.5% | 20.3ms |      17 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63326` |
-| 15.3% | 10.9ms |       9 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63327` |
-|  8.8% |  6.2ms |       5 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63374` |
-|  8.3% |  5.9ms |       5 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63403` |
-|  3.6% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63357` |
-
-##### `getRelationKey` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 83.9% | 29.1ms |      26 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65399` |
-|  7.3% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65396` |
-|  7.1% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65391` |
-
-##### `checkTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 51.5% | 17.1ms |      14 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999` |
-| 18.8% |  6.2ms |       5 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63030` |
-| 12.4% |  4.1ms |       4 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63015` |
-|  3.9% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63009` |
-|  3.9% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63014` |
-
-##### `getObjectTypeInstantiation` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 54.6% | 16.8ms |      14 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61776` |
-|  8.2% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61763` |
-|  7.7% |  2.4ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61770` |
-|  4.1% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61768` |
-|  4.1% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740` |
-
-##### `createTypeReference` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 73.3% | 20.5ms |      18 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58637` |
-|  9.2% |  2.6ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58641` |
-|  8.9% |  2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58640` |
-|  4.5% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58638` |
-|  4.1% |  1.1ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58643` |
-
-##### `instantiateTypeWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 60.7% | 16.1ms |      13 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61999` |
-|  4.8% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61991` |
-|  4.7% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62017` |
-|  4.7% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62011` |
-|  4.7% |  1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62046` |
-
-##### `scan` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 17.0% | 4.3ms |       4 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11247` |
-| 10.1% | 2.6ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11653` |
-| 10.0% | 2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11412` |
-| 10.0% | 2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11299` |
-|  6.4% | 1.6ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226` |
-
-##### `getIdentifierToken` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11153:36`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 77.3% | 17.2ms |      14 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11159` |
-|  5.8% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11157` |
-|  5.7% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11156` |
-|  5.6% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11165` |
-|  5.6% |  1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11155` |
-
-##### `op_fs_stat_sync` (`<unknown>`)
-
-|     % |   Time | Samples | Location |
-| ----: | -----: | ------: | -------- |
-| 94.1% | 20.0ms |      16 | 474      |
-
-##### `createUnionOrIntersectionProperty` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 21.0% | 4.4ms |       4 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57628` |
-| 17.9% | 3.8ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57667` |
-| 17.9% | 3.8ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57631` |
-|  5.9% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57647` |
-|  5.9% | 1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57765` |
-
-##### `getMappedType` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 33.5% | 6.9ms |       6 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61621` |
-| 19.8% | 4.1ms |       5 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61629` |
-| 18.0% | 3.7ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620` |
-| 10.1% | 2.1ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61640` |
-|  6.4% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61623` |
-
-##### `inferFromTypes` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 19.6% | 3.8ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66890` |
-|  9.1% | 1.8ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66907` |
-|  6.7% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66908` |
-|  6.7% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66772` |
-|  6.6% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66728` |
-
-##### `getNormalizedType` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 27.9% | 5.1ms |       4 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62976` |
-| 13.9% | 2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62978` |
-| 13.8% | 2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62981` |
-| 13.5% | 2.5ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973` |
-|  6.8% | 1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62979` |
-
-##### `isTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 71.1% | 11.8ms |      10 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62966` |
-|  9.9% |  1.6ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62949` |
-|  7.5% |  1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62956` |
-|  7.3% |  1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62960` |
-|  1.2% |  0.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62939` |
-
-##### `structuredTypeRelatedToWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 18.1% | 2.8ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64383` |
-| 16.2% | 2.5ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64395` |
-| 15.6% | 2.4ms |       2 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64347` |
-|  7.9% | 1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924` |
-|  6.6% | 1.0ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63935` |
-
-##### `buildCustomError` (`ext:core/00_infra.js:94:28`)
-
-|     % |   Time | Samples | Location                   |
-| ----: | -----: | ------: | -------------------------- |
-| 67.5% | 10.4ms |       9 | `ext:core/00_infra.js:105` |
-| 16.3% |  2.5ms |       2 | `ext:core/00_infra.js:95`  |
-|  8.1% |  1.2ms |       1 | `ext:core/00_infra.js:112` |
-|  8.1% |  1.2ms |       1 | `ext:core/00_infra.js:108` |
-
-##### `bindWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45538:28`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 34.9% | 5.4ms |       9 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45539` |
-| 15.5% | 2.4ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45668` |
-|  8.3% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45538` |
-|  8.2% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45555` |
-|  8.2% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45771` |
-
-##### `getObjectFlags` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28`)
-
-|     % |   Time | Samples | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 87.7% | 13.3ms |      12 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19395` |
-| 12.3% |  1.9ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394` |
-
-##### `structuredTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63918:45`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 66.2% | 9.8ms |       9 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63920` |
-| 25.4% | 3.8ms |       3 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63919` |
-|  8.5% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63921` |
-
-##### `(anonymous)` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66494:47`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 34.1% | 5.0ms |       4 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66497` |
-|  8.8% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66526` |
-|  8.7% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66529` |
-|  8.6% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66522` |
-|  8.5% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66507` |
-
-##### `instantiateList` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61591:33`)
-
-|     % |  Time | Samples | Location                                                                                                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 45.8% | 6.2ms |       5 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61595` |
-|  9.5% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61591` |
-|  9.2% | 1.3ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61597` |
-|  9.2% | 1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61593` |
-|  9.1% | 1.2ms |       1 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61600` |
-
 ##### `compileFunction` (`ext:core/01_core.js:1100:22`)
 
 |      % |   Time | Samples | Location                   |
 | -----: | -----: | ------: | -------------------------- |
-| 100.0% | 12.6ms |      10 | `ext:core/01_core.js:1106` |
+| 100.0% | 72.6ms |      58 | `ext:core/01_core.js:1106` |
 
-##### `NotFound` (`ext:runtime/01_errors.js:7:14`)
+##### `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36`)
 
-|      % |  Time | Samples | Location                     |
-| -----: | ----: | ------: | ---------------------------- |
-| 100.0% | 9.3ms |       8 | `ext:runtime/01_errors.js:8` |
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 57.7% | 36.7ms |      35 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68336` |
+| 14.5% |  9.3ms |       8 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68328` |
+|  4.0% |  2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68383` |
+|  4.0% |  2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68389` |
+|  3.7% |  2.4ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68373` |
 
-##### `loadMaybeCjs` (`node:module:1669:22`)
+##### `isRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25`)
 
-|      % |  Time | Samples | Location           |
-| -----: | ----: | ------: | ------------------ |
-| 100.0% | 8.8ms |       7 | `node:module:1670` |
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 35.3% | 19.1ms |      17 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67765` |
+| 35.2% | 19.0ms |      17 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67770` |
+|  8.6% |  4.7ms |       4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753` |
+|  4.3% |  2.3ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67754` |
+|  2.4% |  1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67809` |
+
+##### `instantiateTypeWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283:33`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 55.4% | 19.1ms |      17 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66299` |
+|  7.2% |  2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66293` |
+|  7.2% |  2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283` |
+|  6.1% |  2.1ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66349` |
+|  3.7% |  1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66286` |
+
+##### `getObjectTypeInstantiation` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66040:38`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 37.0% | 12.2ms |      12 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66070` |
+| 15.5% |  5.1ms |       4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66079` |
+| 11.4% |  3.8ms |       3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66078` |
+|  6.3% |  2.1ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66044` |
+|  4.2% |  1.4ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66041` |
+
+##### `inferFromTypes` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 11.7% | 3.8ms |       3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71185` |
+|  7.8% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71198` |
+|  7.6% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71311` |
+|  7.6% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71345` |
+|  3.9% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71315` |
+
+##### `checkTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445:30`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 72.2% | 22.3ms |      19 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445` |
+|  6.8% |  2.1ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67462` |
+|  4.2% |  1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67463` |
+|  4.1% |  1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67464` |
+|  4.1% |  1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67496` |
+
+##### `isTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 55.6% | 16.9ms |      15 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67395` |
+| 20.8% |  6.3ms |       5 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67382` |
+| 16.5% |  5.0ms |       4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67372` |
+|  3.0% |  0.9ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67381` |
+
+##### `op_compile_function` (`<unknown>`)
+
+|      % |   Time | Samples | Location |
+| -----: | -----: | ------: | -------- |
+| 100.0% | 28.0ms |      22 | 1106     |
+
+##### `internIdentifier` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33331:28`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 89.0% | 20.1ms |      16 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33332` |
+| 11.0% |  2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33334` |
+
+##### `scan` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12895:16`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 23.7% | 5.1ms |       4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12915` |
+| 11.6% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:13336` |
+|  8.7% | 1.9ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:13051` |
+|  7.0% | 1.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:13078` |
+|  5.9% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:13076` |
+
+##### `createTypeReference` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62794:31`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 74.5% | 15.6ms |      13 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62796` |
+| 19.4% |  4.1ms |       4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62799` |
+|  6.1% |  1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62795` |
+
+##### `getReducedApparentType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61750:34`)
+
+|      % |   Time | Samples | Location                                                                                                                |
+| -----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 18.1ms |      17 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61751` |
+
+##### `isDeeplyNestedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70031:30`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 56.0% | 9.6ms |       8 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70044` |
+| 21.9% | 3.8ms |       3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70031` |
+|  7.3% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70055` |
+|  7.2% | 1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70032` |
+|  5.8% | 1.0ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70033` |
+
+##### `some` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794:14`)
+
+|     % |  Time | Samples | Location                                                                                                               |
+| ----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------- |
+| 32.7% | 5.2ms |       6 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2798` |
+| 24.0% | 3.8ms |       3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2797` |
+| 23.9% | 3.8ms |       3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794` |
+|  8.0% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2806` |
+|  4.4% | 0.7ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2803` |
+
+##### `structuredTypeRelatedToWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68537:43`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 17.0% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68980` |
+|  8.7% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68541` |
+|  8.6% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69026` |
+|  8.5% | 1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68537` |
+|  8.5% | 1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68653` |
+
+##### `getPropertyOfType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61994:29`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 69.3% | 10.0ms |       8 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61996` |
+| 11.8% |  1.7ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61999` |
+|  8.6% |  1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61997` |
+
+##### `bind` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793:16`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 26.2% | 3.5ms |       4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47801` |
+| 18.8% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47802` |
+|  9.9% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47816` |
+|  9.7% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793` |
+|  9.6% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47794` |
+
+##### `invokeOnce` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71374:24`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 48.7% | 6.1ms |       6 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71376` |
+| 19.8% | 2.5ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71392` |
+| 10.4% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71375` |
+| 10.1% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71387` |
+| 10.0% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71389` |
+
+##### `getObjectFlags` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21225:24`)
+
+|     % |   Time | Samples | Location                                                                                                                |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 80.6% | 10.0ms |       8 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21226` |
+| 19.4% |  2.4ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21225` |
+
+##### `bindWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47856:22`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 60.8% | 7.4ms |       6 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47857` |
+| 10.4% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:48082` |
+| 10.1% | 1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:48022` |
+
+##### `getReducedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61933:26`)
+
+|     % |  Time | Samples | Location                                                                                                                |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 23.1% | 2.8ms |       3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61933` |
+| 10.8% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61934` |
+| 10.6% | 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61938` |
+| 10.2% | 1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61937` |
+|  9.2% | 1.1ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61936` |
+
+##### `op_fs_stat_sync` (`<unknown>`)
+
+|      % |   Time | Samples | Location |
+| -----: | -----: | ------: | -------- |
+| 100.0% | 10.0ms |       8 | 474      |
 
 ##### `op_fs_read_file_sync` (`<unknown>`)
 
@@ -344,304 +322,322 @@ Lines ranked by contribution to each function's self time.
 | -----: | ----: | ------: | -------- |
 | 100.0% | 7.6ms |       6 | 409      |
 
+##### `NotFound` (`ext:runtime/01_errors.js:7:14`)
+
+|      % |  Time | Samples | Location                     |
+| -----: | ----: | ------: | ---------------------------- |
+| 100.0% | 6.9ms |       6 | `ext:runtime/01_errors.js:8` |
+
+##### `buildCustomError` (`ext:core/00_infra.js:94:28`)
+
+|     % |  Time | Samples | Location                   |
+| ----: | ----: | ------: | -------------------------- |
+| 87.6% | 4.4ms |       4 | `ext:core/00_infra.js:105` |
+| 12.4% | 0.6ms |       1 | `ext:core/00_infra.js:95`  |
+
 ##### `op_require_read_file` (`<unknown>`)
 
 |      % |  Time | Samples | Location |
 | -----: | ----: | ------: | -------- |
-| 100.0% | 5.1ms |       4 | 1670     |
-
-##### `set` (`ext:deno_node/internal/fs/utils.mjs:539:8`)
-
-|     % |  Time | Samples | Location                                  |
-| ----: | ----: | ------: | ----------------------------------------- |
-| 66.6% | 2.5ms |       2 | `ext:deno_node/internal/fs/utils.mjs:540` |
-| 33.4% | 1.3ms |       1 | `ext:deno_node/internal/fs/utils.mjs:542` |
-
-##### `decodeUtf8` (`ext:deno_node/internal/buffer.mjs:706:20`)
-
-|      % |  Time | Samples | Location                                |
-| -----: | ----: | ------: | --------------------------------------- |
-| 100.0% | 2.5ms |       2 | `ext:deno_node/internal/buffer.mjs:707` |
-
-##### `op_compile_function` (`<unknown>`)
-
-|      % |  Time | Samples | Location |
-| -----: | ----: | ------: | -------- |
-| 100.0% | 1.3ms |       1 | 1106     |
-
-##### `value` (`ext:deno_node/internal/fs/stat_utils.ts:36:14`)
-
-|      % |  Time | Samples | Location                                     |
-| -----: | ----: | ------: | -------------------------------------------- |
-| 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/stat_utils.ts:36` |
-
-##### `loadExtScript` (`ext:core/01_core.js:951:25`)
-
-|      % |  Time | Samples | Location                  |
-| -----: | ----: | ------: | ------------------------- |
-| 100.0% | 1.3ms |       1 | `ext:core/01_core.js:955` |
+| 100.0% | 3.7ms |       3 | 1670     |
 
 ##### `defineStatExtraProps` (`ext:deno_node/internal/fs/stat_utils.ts:26:30`)
 
-|      % |  Time | Samples | Location                                     |
-| -----: | ----: | ------: | -------------------------------------------- |
-| 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/stat_utils.ts:27` |
-
-##### `(anonymous)` (`ext:deno_node/internal/fs/utils.mjs:410:3`)
-
-|      % |  Time | Samples | Location                                  |
-| -----: | ----: | ------: | ----------------------------------------- |
-| 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/utils.mjs:417` |
-
-##### `(anonymous)` (`ext:deno_node/internal/fs/utils.mjs:892:3`)
-
-|      % |  Time | Samples | Location                                  |
-| -----: | ----: | ------: | ----------------------------------------- |
-| 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/utils.mjs:892` |
+|     % |  Time | Samples | Location                                     |
+| ----: | ----: | ------: | -------------------------------------------- |
+| 64.3% | 2.3ms |       2 | `ext:deno_node/internal/fs/stat_utils.ts:27` |
+| 35.7% | 1.3ms |       1 | `ext:deno_node/internal/fs/stat_utils.ts:71` |
 
 ##### `SafeIterator` (`ext:core/00_primordials.js:316:18`)
 
 |      % |  Time | Samples | Location                         |
 | -----: | ----: | ------: | -------------------------------- |
-| 100.0% | 1.3ms |       1 | `ext:core/00_primordials.js:318` |
-
-##### `op_fs_realpath_sync` (`<unknown>`)
-
-|      % |  Time | Samples | Location |
-| -----: | ----: | ------: | -------- |
-| 100.0% | 1.2ms |       1 | 281      |
-
-##### `dateFromMs` (`ext:deno_node/internal/fs/utils.mjs:526:20`)
-
-|      % |  Time | Samples | Location                                  |
-| -----: | ----: | ------: | ----------------------------------------- |
-| 100.0% | 1.2ms |       1 | `ext:deno_node/internal/fs/utils.mjs:527` |
-
-##### `wrappedFn` (`ext:deno_node/internal/hide_stack_frames.ts:13:23`)
-
-|      % |  Time | Samples | Location                                         |
-| -----: | ----: | ------: | ------------------------------------------------ |
-| 100.0% | 1.2ms |       1 | `ext:deno_node/internal/hide_stack_frames.ts:15` |
-
-##### `readdirSync` (`ext:deno_node/_fs/_fs_readdir.ts:109:28`)
-
-|      % |  Time | Samples | Location                               |
-| -----: | ----: | ------: | -------------------------------------- |
-| 100.0% | 1.2ms |       1 | `ext:deno_node/_fs/_fs_readdir.ts:121` |
-
-##### `statSync` (`ext:deno_fs/30_fs.js:473:18`)
-
-|      % |  Time | Samples | Location                   |
-| -----: | ----: | ------: | -------------------------- |
-| 100.0% | 1.2ms |       1 | `ext:deno_fs/30_fs.js:474` |
-
-##### `toPathIfFileURL` (`ext:deno_node/internal/url.ts:12:27`)
-
-|      % |  Time | Samples | Location                           |
-| -----: | ----: | ------: | ---------------------------------- |
-| 100.0% | 0.6ms |       1 | `ext:deno_node/internal/url.ts:17` |
+| 100.0% | 3.3ms |       3 | `ext:core/00_primordials.js:318` |
 
 ##### `readFileMaybeDecode` (`ext:deno_node/fs.ts:268:31`)
 
 |      % |  Time | Samples | Location                  |
 | -----: | ----: | ------: | ------------------------- |
-| 100.0% | 0.4ms |       1 | `ext:deno_node/fs.ts:270` |
+| 100.0% | 2.5ms |       2 | `ext:deno_node/fs.ts:270` |
 
-##### `next` (`ext:core/00_primordials.js:319:11`)
+##### `op_node_encoding_slice` (`<unknown>`)
 
-|      % |  Time | Samples | Location                         |
-| -----: | ----: | ------: | -------------------------------- |
-| 100.0% | 0.4ms |       1 | `ext:core/00_primordials.js:320` |
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 1.7ms |       2 | 707      |
+
+##### `CFISBIS` (`ext:deno_node/internal/fs/stat_utils.ts:73:24`)
+
+|      % |  Time | Samples | Location                                     |
+| -----: | ----: | ------: | -------------------------------------------- |
+| 100.0% | 1.4ms |       1 | `ext:deno_node/internal/fs/stat_utils.ts:74` |
+
+##### `op_fs_realpath_sync` (`<unknown>`)
+
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 1.3ms |       1 | 281      |
+
+##### `op_url_get_serialization` (`<unknown>`)
+
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 1.3ms |       1 | 101      |
+
+##### `dateFromMs` (`ext:deno_node/internal/fs/utils.mjs:526:20`)
+
+|      % |  Time | Samples | Location                                  |
+| -----: | ----: | ------: | ----------------------------------------- |
+| 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/utils.mjs:527` |
+
+##### `op_require_try_self` (`<unknown>`)
+
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 1.3ms |       1 | 1370     |
+
+##### `loadMaybeCjs` (`node:module:1669:22`)
+
+|      % |  Time | Samples | Location           |
+| -----: | ----: | ------: | ------------------ |
+| 100.0% | 1.3ms |       1 | `node:module:1670` |
+
+##### `set` (`ext:deno_node/internal/fs/utils.mjs:539:8`)
+
+|      % |  Time | Samples | Location                                  |
+| -----: | ----: | ------: | ----------------------------------------- |
+| 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/utils.mjs:542` |
+
+##### `(anonymous)` (`ext:deno_node/crypto.ts:1:32`)
+
+|      % |  Time | Samples | Location                      |
+| -----: | ----: | ------: | ----------------------------- |
+| 100.0% | 1.3ms |       1 | `ext:deno_node/crypto.ts:297` |
+
+##### `decodeUtf8` (`ext:deno_node/internal/buffer.mjs:706:20`)
+
+|      % |  Time | Samples | Location                                |
+| -----: | ----: | ------: | --------------------------------------- |
+| 100.0% | 1.2ms |       1 | `ext:deno_node/internal/buffer.mjs:707` |
+
+##### `readFileSync` (`ext:deno_node/fs.ts:399:24`)
+
+|      % |  Time | Samples | Location                  |
+| -----: | ----: | ------: | ------------------------- |
+| 100.0% | 1.2ms |       1 | `ext:deno_node/fs.ts:409` |
+
+##### `set` (`ext:deno_node/internal/fs/utils.mjs:569:8`)
+
+|      % |  Time | Samples | Location                                  |
+| -----: | ----: | ------: | ----------------------------------------- |
+| 100.0% | 1.2ms |       1 | `ext:deno_node/internal/fs/utils.mjs:570` |
+
+##### `getOptions` (`ext:deno_node/internal/fs/utils.mjs:363:27`)
+
+|      % |  Time | Samples | Location                                  |
+| -----: | ----: | ------: | ----------------------------------------- |
+| 100.0% | 1.2ms |       1 | `ext:deno_node/internal/fs/utils.mjs:363` |
+
+##### `op_inspector_dispatch` (`<unknown>`)
+
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 0.7ms |       1 | 203      |
+
+##### `statSync` (`ext:deno_fs/30_fs.js:473:18`)
+
+|      % |  Time | Samples | Location                   |
+| -----: | ----: | ------: | -------------------------- |
+| 100.0% | 0.5ms |       1 | `ext:deno_fs/30_fs.js:475` |
 
 #### Callers
 
 Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
 
-##### `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`)
+##### `compileFunction` (`ext:core/01_core.js:1100:22`)
 
-|     % |   Time | Samples | Caller          | Location                                                                                                                                                       |
-| ----: | -----: | ------: | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 51.9% | 37.4ms |      39 | `isIdenticalTo` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63524:35` |
-| 48.1% | 34.7ms |      45 | `isRelatedTo`   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
+|      % |   Time | Samples | Caller     | Location              |
+| -----: | -----: | ------: | ---------- | --------------------- |
+| 100.0% | 72.6ms |      58 | `wrapSafe` | `node:module:1596:18` |
 
-##### `isRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`)
+##### `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36`)
 
-|     % |   Time | Samples | Caller                        | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 42.0% | 29.8ms |      32 | `checkTypeRelatedTo`          | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
-| 25.2% | 17.9ms |      16 | `typeRelatedToSomeType`       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63650:43` |
-|  7.9% |  5.6ms |      12 | `isPropertySymbolTypeRelated` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64638:49` |
-|  7.7% |  5.5ms |      11 | `isRelatedToWorker`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63300:39` |
-|  3.5% |  2.5ms |       2 | `typeArgumentsRelatedTo`      | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63741:44` |
+|      % |   Time | Samples | Caller        | Location                                                                                                                   |
+| -----: | -----: | ------: | ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 63.6ms |      81 | `isRelatedTo` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25` |
 
-##### `getRelationKey` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32`)
+##### `isRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25`)
 
-|     % |   Time | Samples | Caller                   | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 90.2% | 31.2ms |      28 | `recursiveTypeRelatedTo` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44` |
-|  9.8% |  3.4ms |       4 | `isTypeRelatedTo`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33` |
+|     % |   Time | Samples | Caller                        | Location                                                                                                                   |
+| ----: | -----: | ------: | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 75.6% | 40.9ms |      47 | `checkTypeRelatedTo`          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445:30` |
+|  6.8% |  3.7ms |      13 | `isPropertySymbolTypeRelated` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69211:41` |
+|  4.8% |  2.6ms |       3 | `typeArgumentsRelatedTo`      | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68233:36` |
+|  3.5% |  1.9ms |       4 | `typeRelatedToSomeType`       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68087:35` |
+|  2.3% |  1.2ms |       1 | `checkTypeAssignableTo`       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66493:33` |
 
-##### `checkTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`)
+##### `instantiateTypeWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283:33`)
 
-|     % |   Time | Samples | Caller                                     | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 98.0% | 32.4ms |      27 | `isTypeRelatedTo`                          | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33` |
-|  1.6% |  0.5ms |       2 | `checkTypeRelatedToAndOptionallyElaborate` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62216:58` |
-|  0.5% |  0.2ms |       1 | `checkTypeAssignableTo`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62206:39` |
+|     % |   Time | Samples | Caller                     | Location                                                                                                                   |
+| ----: | -----: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 98.4% | 33.9ms |      41 | `instantiateTypeWithAlias` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66266:36` |
 
-##### `getObjectTypeInstantiation` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44`)
+##### `getObjectTypeInstantiation` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66040:38`)
 
-|      % |   Time | Samples | Caller                  | Location                                                                                                                                                       |
-| -----: | -----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 30.7ms |      28 | `instantiateTypeWorker` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39` |
+|      % |   Time | Samples | Caller                  | Location                                                                                                                   |
+| -----: | -----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 33.0ms |      37 | `instantiateTypeWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283:33` |
 
-##### `createTypeReference` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37`)
+##### `inferFromTypes` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28`)
 
-|     % |   Time | Samples | Caller                          | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 68.2% | 19.1ms |      17 | `createNormalizedTypeReference` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:59406:47` |
-| 28.9% |  8.1ms |       7 | `getTypeWithThisArgument`       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:56374:41` |
-|  2.9% |  0.8ms |       1 | `getNormalizedType`             | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35` |
+|     % |  Time | Samples | Caller                        | Location                                                                                                                   |
+| ----: | ----: | ------: | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 19.8% | 6.5ms |      10 | `applyToReturnTypes`          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70758:30` |
+| 16.3% | 5.3ms |       7 | `inferToMultipleTypes`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71462:34` |
+| 15.4% | 5.1ms |       8 | `inferFromContravariantTypes` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71429:41` |
+| 14.5% | 4.7ms |       7 | `inferFromTypeArguments`      | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71419:36` |
+| 12.2% | 4.0ms |      12 | `inferTypes`                  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71175:22` |
 
-##### `instantiateTypeWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39`)
+##### `checkTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445:30`)
 
-|     % |   Time | Samples | Caller                     | Location                                                                                                                                                       |
-| ----: | -----: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 95.3% | 25.3ms |      36 | `instantiateTypeWithAlias` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61964:42` |
+|     % |   Time | Samples | Caller                                     | Location                                                                                                                   |
+| ----: | -----: | ------: | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| 90.6% | 28.0ms |      23 | `isTypeRelatedTo`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27` |
+|  4.2% |  1.3ms |       2 | `checkTypeRelatedToAndOptionallyElaborate` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66509:52` |
+|  4.0% |  1.2ms |       1 | `isTypeComparableTo`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66487:30` |
+|  1.2% |  0.4ms |       2 | `checkTypeAssignableTo`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66493:33` |
+
+##### `isTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27`)
+
+|     % |   Time | Samples | Caller                                     | Location                                                                                                                   |
+| ----: | -----: | ------: | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| 58.7% | 17.8ms |      16 | `isTypeIdenticalTo`                        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66463:29` |
+| 18.7% |  5.7ms |       5 | `isTypeAssignableTo`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66481:30` |
+| 13.8% |  4.2ms |       4 | `isTypeComparableTo`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66487:30` |
+|  8.7% |  2.7ms |       3 | `checkTypeRelatedToAndOptionallyElaborate` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66509:52` |
+
+##### `op_compile_function` (`<unknown>`)
+
+|      % |   Time | Samples | Caller            | Location                      |
+| -----: | -----: | ------: | ----------------- | ----------------------------- |
+| 100.0% | 28.0ms |      22 | `compileFunction` | `ext:core/01_core.js:1100:22` |
 
 ##### `post` (`ext:deno_node/inspector.js:179:7`)
 
 |      % |   Time | Samples | Caller        | Location                   |
 | -----: | -----: | ------: | ------------- | -------------------------- |
-| 100.0% | 26.2ms |       1 | `(anonymous)` | `cpuprofile-run.mjs:15:15` |
+| 100.0% | 26.6ms |       1 | `(anonymous)` | `cpuprofile-run.mjs:15:15` |
 
-##### `scan` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22`)
+##### `internIdentifier` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33331:28`)
 
-|      % |   Time | Samples | Caller                  | Location                                                                                                                                                       |
-| -----: | -----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 25.2ms |      29 | `nextTokenWithoutCheck` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31155:39` |
+|     % |   Time | Samples | Caller                                  | Location                                                                                                                   |
+| ----: | -----: | ------: | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 89.1% | 20.1ms |      16 | `createIdentifier`                      | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33338:28` |
+| 10.9% |  2.5ms |       2 | `parseAmbientExternalModuleDeclaration` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:37814:49` |
 
-##### `getIdentifierToken` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11153:36`)
+##### `scan` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12895:16`)
 
-|     % |   Time | Samples | Caller           | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 60.4% | 13.4ms |      11 | `scanJsDocToken` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11950:32` |
-| 39.6% |  8.8ms |       7 | `scanIdentifier` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11685:32` |
+|      % |   Time | Samples | Caller                  | Location                                                                                                                   |
+| -----: | -----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 21.4ms |      26 | `nextTokenWithoutCheck` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33008:33` |
+
+##### `createTypeReference` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62794:31`)
+
+|     % |   Time | Samples | Caller                          | Location                                                                                                                   |
+| ----: | -----: | ------: | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 64.6% | 13.5ms |      11 | `createNormalizedTypeReference` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:63796:41` |
+| 18.3% |  3.8ms |       3 | `getNormalizedType`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67408:29` |
+|  6.1% |  1.3ms |       1 | `getTypeWithThisArgument`       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60454:35` |
+|  6.0% |  1.3ms |       1 | `createMarkerType`              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69926:28` |
+|  2.9% |  0.6ms |       1 | `createPromiseLikeType`         | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:80633:33` |
+
+##### `getReducedApparentType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61750:34`)
+
+|     % |  Time | Samples | Caller                | Location                                                                                                                   |
+| ----: | ----: | ------: | --------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 33.4% | 6.1ms |       5 | `getSignaturesOfType` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62044:31` |
+| 31.7% | 5.7ms |       6 | `getPropertyOfType`   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61994:29` |
+| 21.1% | 3.8ms |       4 | `getIndexInfosOfType` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62110:31` |
+| 13.7% | 2.5ms |       2 | `getPropertiesOfType` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61411:31` |
+
+##### `isDeeplyNestedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70031:30`)
+
+|     % |   Time | Samples | Caller                   | Location                                                                                                                   |
+| ----: | -----: | ------: | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| 77.7% | 13.4ms |      13 | `recursiveTypeRelatedTo` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36` |
+| 22.2% |  3.8ms |       3 | `invokeOnce`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71374:24` |
+|  0.1% | 19.0µs |       1 | `(anonymous)`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70037:33` |
+
+##### `some` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794:14`)
+
+|     % |  Time | Samples | Caller                         | Location                                                                                                                   |
+| ----: | ----: | ------: | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| 15.8% | 2.5ms |       2 | `isReadonlySymbol`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81206:28` |
+|  8.2% | 1.3ms |       3 | `hasMatchingRecursionIdentity` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70064:40` |
+|  8.1% | 1.3ms |       1 | `couldContainTypeVariables`    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70860:37` |
+|  8.0% | 1.3ms |       1 | `getTupleTargetType`           | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:63730:30` |
+|  8.0% | 1.3ms |       1 | `inferFromProperties`          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71715:33` |
+
+##### `structuredTypeRelatedToWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68537:43`)
+
+|      % |   Time | Samples | Caller                    | Location                                                                                                                   |
+| -----: | -----: | ------: | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 14.6ms |      33 | `structuredTypeRelatedTo` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68467:37` |
+
+##### `getPropertyOfType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61994:29`)
+
+|     % |  Time | Samples | Caller                                         | Location                                                                                                                   |
+| ----: | ----: | ------: | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 51.9% | 7.5ms |       6 | `createUnionOrIntersectionProperty`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61753:45` |
+| 24.1% | 3.5ms |       4 | `checkPropertyAccessExpressionOrQualifiedName` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:77201:56` |
+| 17.3% | 2.5ms |       2 | `getUnmatchedProperties`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70992:35` |
+|  4.7% | 0.7ms |       1 | `resolveESModuleSymbol`                        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:53296:33` |
+|  2.0% | 0.3ms |       1 | `getSymbolHasInstanceMethodOfObjectType`       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81495:50` |
+
+##### `bind` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793:16`)
+
+|     % |  Time | Samples | Caller              | Location                                                                                                                   |
+| ----: | ----: | ------: | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 46.1% | 6.1ms |       6 | `visitNode2`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:31772:20` |
+| 34.9% | 4.6ms |       4 | `forEach`           | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2378:17`  |
+| 19.1% | 2.5ms |       9 | `bindParameterFlow` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47252:29` |
+
+##### `invokeOnce` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71374:24`)
+
+|      % |   Time | Samples | Caller           | Location                                                                                                                   |
+| -----: | -----: | ------: | ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 12.5ms |      13 | `inferFromTypes` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28` |
+
+##### `getObjectFlags` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21225:24`)
+
+|     % |  Time | Samples | Caller                       | Location                                                                                                                   |
+| ----: | ----: | ------: | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 30.0% | 3.7ms |       3 | `couldContainTypeVariables`  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70860:37` |
+| 20.3% | 2.5ms |       2 | `isNonDeferredTypeReference` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69954:38` |
+| 19.8% | 2.5ms |       2 | `inferFromTypes`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28` |
+| 10.0% | 1.2ms |       1 | `isGenericMappedType`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61325:31` |
+| 10.0% | 1.2ms |       1 | `isRelatedTo`                | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25` |
+
+##### `bindWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47856:22`)
+
+|      % |   Time | Samples | Caller | Location                                                                                                                   |
+| -----: | -----: | ------: | ------ | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 12.1ms |      22 | `bind` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793:16` |
+
+##### `getReducedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61933:26`)
+
+|     % |  Time | Samples | Caller                                 | Location                                                                                                                   |
+| ----: | ----: | ------: | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 45.4% | 5.4ms |       7 | `getReducedApparentType`               | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61750:34` |
+| 26.8% | 3.2ms |       4 | `getNormalizedUnionOrIntersectionType` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67416:48` |
+| 10.6% | 1.3ms |       1 | `instantiateMappedType`                | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66151:33` |
+|  8.4% | 1.0ms |       1 | `inferFromTypes`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28` |
 
 ##### `op_fs_stat_sync` (`<unknown>`)
 
 |      % |   Time | Samples | Caller     | Location                      |
 | -----: | -----: | ------: | ---------- | ----------------------------- |
-| 100.0% | 21.3ms |      17 | `statSync` | `ext:deno_fs/30_fs.js:473:18` |
-
-##### `createUnionOrIntersectionProperty` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51`)
-
-|     % |   Time | Samples | Caller                                 | Location                                                                                                                                                       |
-| ----: | -----: | ------: | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 94.1% | 19.9ms |      23 | `getUnionOrIntersectionProperty`       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57774:48` |
-|  5.9% |  1.2ms |       1 | `getPropertyOfUnionOrIntersectionType` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57787:54` |
-
-##### `getMappedType` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31`)
-
-|     % |  Time | Samples | Caller                  | Location                                                                                                                                                       |
-| ----: | ----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 42.9% | 8.8ms |       8 | `getMappedType`         | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31` |
-| 27.9% | 5.7ms |       5 | `(anonymous)`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61768:69` |
-| 24.5% | 5.0ms |       4 | `instantiateTypeWorker` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39` |
-|  0.7% | 0.1ms |       1 | `(anonymous)`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61942:79` |
-
-##### `inferFromTypes` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36`)
-
-|     % |  Time | Samples | Caller                   | Location                                                                                                                                                       |
-| ----: | ----: | ------: | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 27.0% | 5.2ms |      10 | `inferFromProperties`    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67265:41` |
-| 15.7% | 3.0ms |      10 | `inferTypes`             | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66691:28` |
-| 14.0% | 2.7ms |       4 | `inferFromTypeArguments` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66970:44` |
-| 13.2% | 2.5ms |       3 | `inferFromMatchingTypes` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66951:44` |
-|  8.3% | 1.6ms |       4 | `inferToMultipleTypes`   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67014:42` |
-
-##### `getNormalizedType` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35`)
-
-|     % |   Time | Samples | Caller               | Location                                                                                                                                                       |
-| ----: | -----: | ------: | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 97.2% | 17.7ms |      22 | `isRelatedTo`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
-|  2.8% |  0.5ms |       1 | `checkTypeRelatedTo` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
-
-##### `isTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33`)
-
-|     % |   Time | Samples | Caller                                     | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 63.0% | 10.4ms |       9 | `isTypeIdenticalTo`                        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62156:35` |
-| 32.0% |  5.3ms |       5 | `isTypeAssignableTo`                       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62171:36` |
-|  2.5% |  0.4ms |       1 | `compareTypesAssignable`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62162:40` |
-|  1.2% |  0.2ms |       1 | `isTypeAssignableToKind`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76512:40` |
-|  1.2% |  0.2ms |       1 | `checkTypeRelatedToAndOptionallyElaborate` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62216:58` |
-
-##### `structuredTypeRelatedToWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`)
-
-|      % |   Time | Samples | Caller                    | Location                                                                                                                                                       |
-| -----: | -----: | ------: | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 15.7ms |      31 | `structuredTypeRelatedTo` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63918:45` |
-
-##### `buildCustomError` (`ext:core/00_infra.js:94:28`)
-
-|      % |   Time | Samples | Caller            | Location    |
-| -----: | -----: | ------: | ----------------- | ----------- |
-| 100.0% | 15.4ms |      13 | `op_fs_stat_sync` | `<unknown>` |
-
-##### `bindWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45538:28`)
-
-|      % |   Time | Samples | Caller | Location                                                                                                                                                       |
-| -----: | -----: | ------: | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 15.4ms |      29 | `bind` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45448:22` |
-
-##### `getObjectFlags` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28`)
-
-|     % |  Time | Samples | Caller                                 | Location                                                                                                                                                       |
-| ----: | ----: | ------: | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 17.1% | 2.6ms |       3 | `getApparentType`                      | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57594:33` |
-| 15.9% | 2.4ms |       2 | `getNormalizedType`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35` |
-| 13.1% | 2.0ms |       2 | `couldContainTypeVariables`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66377:43` |
-|  9.0% | 1.4ms |       2 | `getSingleBaseForNonAugmentingSubtype` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65696:54` |
-|  8.5% | 1.3ms |       1 | `isNonDeferredTypeReference`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65344:44` |
-
-##### `structuredTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63918:45`)
-
-|     % |   Time | Samples | Caller                   | Location                                                                                                                                                       |
-| ----: | -----: | ------: | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 78.9% | 11.7ms |      10 | `recursiveTypeRelatedTo` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44` |
-| 21.1% |  3.1ms |       3 | `isRelatedTo`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
-
-##### `(anonymous)` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66494:47`)
-
-|     % |   Time | Samples | Caller | Location                                                                                                                                                    |
-| ----: | -----: | ------: | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 91.3% | 13.4ms |      16 | `step` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45:18` |
-
-##### `instantiateList` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61591:33`)
-
-|     % |  Time | Samples | Caller                 | Location                                                                                                                                                       |
-| ----: | ----: | ------: | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 64.4% | 8.7ms |       7 | `instantiateSignature` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61688:38` |
-| 35.6% | 4.8ms |       7 | `instantiateTypes`     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61608:34` |
-
-##### `compileFunction` (`ext:core/01_core.js:1100:22`)
-
-|      % |   Time | Samples | Caller     | Location              |
-| -----: | -----: | ------: | ---------- | --------------------- |
-| 100.0% | 12.6ms |      10 | `wrapSafe` | `node:module:1596:18` |
-
-##### `NotFound` (`ext:runtime/01_errors.js:7:14`)
-
-|      % |  Time | Samples | Caller        | Location                      |
-| -----: | ----: | ------: | ------------- | ----------------------------- |
-| 100.0% | 9.3ms |       8 | `(anonymous)` | `ext:core/00_infra.js:127:37` |
-
-##### `loadMaybeCjs` (`node:module:1669:22`)
-
-|      % |  Time | Samples | Caller        | Location              |
-| -----: | ----: | ------: | ------------- | --------------------- |
-| 100.0% | 8.8ms |       7 | `(anonymous)` | `node:module:1653:37` |
+| 100.0% | 10.0ms |       8 | `statSync` | `ext:deno_fs/30_fs.js:473:18` |
 
 ##### `op_fs_read_file_sync` (`<unknown>`)
 
@@ -649,211 +645,233 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | -------------- | ---------------------------- |
 | 100.0% | 7.6ms |       6 | `readFileSync` | `ext:deno_node/fs.ts:399:24` |
 
+##### `NotFound` (`ext:runtime/01_errors.js:7:14`)
+
+|      % |  Time | Samples | Caller        | Location                      |
+| -----: | ----: | ------: | ------------- | ----------------------------- |
+| 100.0% | 6.9ms |       6 | `(anonymous)` | `ext:core/00_infra.js:127:37` |
+
+##### `buildCustomError` (`ext:core/00_infra.js:94:28`)
+
+|      % |  Time | Samples | Caller            | Location    |
+| -----: | ----: | ------: | ----------------- | ----------- |
+| 100.0% | 5.0ms |       5 | `op_fs_stat_sync` | `<unknown>` |
+
 ##### `op_require_read_file` (`<unknown>`)
 
 |      % |  Time | Samples | Caller         | Location              |
 | -----: | ----: | ------: | -------------- | --------------------- |
-| 100.0% | 5.1ms |       4 | `loadMaybeCjs` | `node:module:1669:22` |
-
-##### `set` (`ext:deno_node/internal/fs/utils.mjs:539:8`)
-
-|      % |  Time | Samples | Caller  | Location                                     |
-| -----: | ----: | ------: | ------- | -------------------------------------------- |
-| 100.0% | 3.8ms |       3 | `Stats` | `ext:deno_node/internal/fs/utils.mjs:650:22` |
-
-##### `decodeUtf8` (`ext:deno_node/internal/buffer.mjs:706:20`)
-
-|      % |  Time | Samples | Caller     | Location                                   |
-| -----: | ----: | ------: | ---------- | ------------------------------------------ |
-| 100.0% | 2.5ms |       2 | `toString` | `ext:deno_node/internal/buffer.mjs:751:46` |
-
-##### `op_compile_function` (`<unknown>`)
-
-|      % |  Time | Samples | Caller            | Location                      |
-| -----: | ----: | ------: | ----------------- | ----------------------------- |
-| 100.0% | 1.3ms |       1 | `compileFunction` | `ext:core/01_core.js:1100:22` |
-
-##### `value` (`ext:deno_node/internal/fs/stat_utils.ts:36:14`)
-
-|      % |  Time | Samples | Caller                  | Location                                                                                                                                                      |
-| -----: | ----: | ------: | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.3ms |       1 | `fileSystemEntryExists` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7962:43` |
-
-##### `loadExtScript` (`ext:core/01_core.js:951:25`)
-
-|      % |  Time | Samples | Caller        | Location                       |
-| -----: | ----: | ------: | ------------- | ------------------------------ |
-| 100.0% | 1.3ms |       1 | `(anonymous)` | `ext:deno_node/crypto.ts:1:32` |
+| 100.0% | 3.7ms |       3 | `loadMaybeCjs` | `node:module:1669:22` |
 
 ##### `defineStatExtraProps` (`ext:deno_node/internal/fs/stat_utils.ts:26:30`)
 
 |      % |  Time | Samples | Caller                   | Location                                       |
 | -----: | ----: | ------: | ------------------------ | ---------------------------------------------- |
-| 100.0% | 1.3ms |       1 | `convertFileInfoToStats` | `ext:deno_node/internal/fs/stat_utils.ts:6:39` |
-
-##### `(anonymous)` (`ext:deno_node/internal/fs/utils.mjs:410:3`)
-
-|      % |  Time | Samples | Caller      | Location                                            |
-| -----: | ----: | ------: | ----------- | --------------------------------------------------- |
-| 100.0% | 1.3ms |       1 | `wrappedFn` | `ext:deno_node/internal/hide_stack_frames.ts:13:23` |
-
-##### `(anonymous)` (`ext:deno_node/internal/fs/utils.mjs:892:3`)
-
-|      % |  Time | Samples | Caller      | Location                                            |
-| -----: | ----: | ------: | ----------- | --------------------------------------------------- |
-| 100.0% | 1.3ms |       1 | `wrappedFn` | `ext:deno_node/internal/hide_stack_frames.ts:13:23` |
+| 100.0% | 3.5ms |       3 | `convertFileInfoToStats` | `ext:deno_node/internal/fs/stat_utils.ts:6:39` |
 
 ##### `SafeIterator` (`ext:core/00_primordials.js:316:18`)
 
 |      % |  Time | Samples | Caller             | Location                     |
 | -----: | ----: | ------: | ------------------ | ---------------------------- |
-| 100.0% | 1.3ms |       1 | `buildCustomError` | `ext:core/00_infra.js:94:28` |
-
-##### `op_fs_realpath_sync` (`<unknown>`)
-
-|      % |  Time | Samples | Caller         | Location                      |
-| -----: | ----: | ------: | -------------- | ----------------------------- |
-| 100.0% | 1.2ms |       1 | `realPathSync` | `ext:deno_fs/30_fs.js:280:22` |
-
-##### `dateFromMs` (`ext:deno_node/internal/fs/utils.mjs:526:20`)
-
-|      % |  Time | Samples | Caller  | Location                                     |
-| -----: | ----: | ------: | ------- | -------------------------------------------- |
-| 100.0% | 1.2ms |       1 | `Stats` | `ext:deno_node/internal/fs/utils.mjs:650:22` |
-
-##### `wrappedFn` (`ext:deno_node/internal/hide_stack_frames.ts:13:23`)
-
-|      % |  Time | Samples | Caller                     | Location                                     |
-| -----: | ----: | ------: | -------------------------- | -------------------------------------------- |
-| 100.0% | 1.2ms |       1 | `getValidatedPathToString` | `ext:deno_node/internal/fs/utils.mjs:904:41` |
-
-##### `readdirSync` (`ext:deno_node/_fs/_fs_readdir.ts:109:28`)
-
-|      % |  Time | Samples | Caller                           | Location                                                                                                                                                      |
-| -----: | ----: | ------: | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.2ms |       1 | `getAccessibleFileSystemEntries` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7913:52` |
-
-##### `statSync` (`ext:deno_fs/30_fs.js:473:18`)
-
-|      % |  Time | Samples | Caller     | Location                    |
-| -----: | ----: | ------: | ---------- | --------------------------- |
-| 100.0% | 1.2ms |       1 | `statSync` | `ext:deno_node/fs.ts:97:20` |
-
-##### `toPathIfFileURL` (`ext:deno_node/internal/url.ts:12:27`)
-
-|      % |  Time | Samples | Caller        | Location                                    |
-| -----: | ----: | ------: | ------------- | ------------------------------------------- |
-| 100.0% | 0.6ms |       1 | `(anonymous)` | `ext:deno_node/internal/fs/utils.mjs:892:3` |
+| 100.0% | 3.3ms |       3 | `buildCustomError` | `ext:core/00_infra.js:94:28` |
 
 ##### `readFileMaybeDecode` (`ext:deno_node/fs.ts:268:31`)
 
 |      % |  Time | Samples | Caller         | Location                     |
 | -----: | ----: | ------: | -------------- | ---------------------------- |
-| 100.0% | 0.4ms |       1 | `readFileSync` | `ext:deno_node/fs.ts:399:24` |
+| 100.0% | 2.5ms |       2 | `readFileSync` | `ext:deno_node/fs.ts:399:24` |
 
-##### `next` (`ext:core/00_primordials.js:319:11`)
+##### `op_node_encoding_slice` (`<unknown>`)
 
-|      % |  Time | Samples | Caller             | Location                     |
-| -----: | ----: | ------: | ------------------ | ---------------------------- |
-| 100.0% | 0.4ms |       1 | `buildCustomError` | `ext:core/00_infra.js:94:28` |
+|      % |  Time | Samples | Caller       | Location                                   |
+| -----: | ----: | ------: | ------------ | ------------------------------------------ |
+| 100.0% | 1.7ms |       2 | `decodeUtf8` | `ext:deno_node/internal/buffer.mjs:706:20` |
+
+##### `CFISBIS` (`ext:deno_node/internal/fs/stat_utils.ts:73:24`)
+
+|      % |  Time | Samples | Caller     | Location                    |
+| -----: | ----: | ------: | ---------- | --------------------------- |
+| 100.0% | 1.4ms |       1 | `statSync` | `ext:deno_node/fs.ts:97:20` |
+
+##### `op_fs_realpath_sync` (`<unknown>`)
+
+|      % |  Time | Samples | Caller         | Location                      |
+| -----: | ----: | ------: | -------------- | ----------------------------- |
+| 100.0% | 1.3ms |       1 | `realPathSync` | `ext:deno_fs/30_fs.js:280:22` |
+
+##### `op_url_get_serialization` (`<unknown>`)
+
+|      % |  Time | Samples | Caller             | Location                       |
+| -----: | ----: | ------: | ------------------ | ------------------------------ |
+| 100.0% | 1.3ms |       1 | `getSerialization` | `ext:deno_web/00_url.js:97:26` |
+
+##### `dateFromMs` (`ext:deno_node/internal/fs/utils.mjs:526:20`)
+
+|      % |  Time | Samples | Caller  | Location                                     |
+| -----: | ----: | ------: | ------- | -------------------------------------------- |
+| 100.0% | 1.3ms |       1 | `Stats` | `ext:deno_node/internal/fs/utils.mjs:650:22` |
+
+##### `op_require_try_self` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location              |
+| -----: | ----: | ------: | ------------- | --------------------- |
+| 100.0% | 1.3ms |       1 | `(anonymous)` | `node:module:1259:35` |
+
+##### `loadMaybeCjs` (`node:module:1669:22`)
+
+|      % |  Time | Samples | Caller        | Location              |
+| -----: | ----: | ------: | ------------- | --------------------- |
+| 100.0% | 1.3ms |       1 | `(anonymous)` | `node:module:1653:37` |
+
+##### `set` (`ext:deno_node/internal/fs/utils.mjs:539:8`)
+
+|      % |  Time | Samples | Caller  | Location                                     |
+| -----: | ----: | ------: | ------- | -------------------------------------------- |
+| 100.0% | 1.3ms |       1 | `Stats` | `ext:deno_node/internal/fs/utils.mjs:650:22` |
+
+##### `(anonymous)` (`ext:deno_node/crypto.ts:1:32`)
+
+|      % |  Time | Samples | Caller        | Location                      |
+| -----: | ----: | ------: | ------------- | ----------------------------- |
+| 100.0% | 1.3ms |       1 | `(anonymous)` | `ext:deno_node/crypto.ts:1:1` |
+
+##### `decodeUtf8` (`ext:deno_node/internal/buffer.mjs:706:20`)
+
+|      % |  Time | Samples | Caller     | Location                                   |
+| -----: | ----: | ------: | ---------- | ------------------------------------------ |
+| 100.0% | 1.2ms |       1 | `toString` | `ext:deno_node/internal/buffer.mjs:751:46` |
+
+##### `readFileSync` (`ext:deno_node/fs.ts:399:24`)
+
+|      % |  Time | Samples | Caller           | Location                                                                                                                  |
+| -----: | ----: | ------: | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.2ms |       1 | `readFileWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:8751:28` |
+
+##### `set` (`ext:deno_node/internal/fs/utils.mjs:569:8`)
+
+|      % |  Time | Samples | Caller  | Location                                     |
+| -----: | ----: | ------: | ------- | -------------------------------------------- |
+| 100.0% | 1.2ms |       1 | `Stats` | `ext:deno_node/internal/fs/utils.mjs:650:22` |
+
+##### `getOptions` (`ext:deno_node/internal/fs/utils.mjs:363:27`)
+
+|      % |  Time | Samples | Caller           | Location                                                                                                                  |
+| -----: | ----: | ------: | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.2ms |       1 | `readFileWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:8751:28` |
+
+##### `op_inspector_dispatch` (`<unknown>`)
+
+|      % |  Time | Samples | Caller | Location                           |
+| -----: | ----: | ------: | ------ | ---------------------------------- |
+| 100.0% | 0.7ms |       1 | `post` | `ext:deno_node/inspector.js:179:7` |
+
+##### `statSync` (`ext:deno_fs/30_fs.js:473:18`)
+
+|      % |  Time | Samples | Caller     | Location                    |
+| -----: | ----: | ------: | ---------- | --------------------------- |
+| 100.0% | 0.5ms |       1 | `statSync` | `ext:deno_node/fs.ts:97:20` |
 
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
 
-|     % |  Time | Samples | Function                                   | Location                                                                                                                                                        |
-| ----: | ----: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 91.2% |    2s |   2,851 | `(anonymous)`                              | `cpuprofile-run.mjs`                                                                                                                                            |
-| 91.1% |    2s |   2,849 | `processTicksAndRejections`                | `ext:core/01_core.js:356:37`                                                                                                                                    |
-| 91.0% |    2s |   2,847 | `drainTicks`                               | `ext:core/01_core.js:425:22`                                                                                                                                    |
-| 91.0% |    2s |   2,847 | `__drainNextTickAndMacrotasks`             | `ext:core/01_core.js:479:40`                                                                                                                                    |
-| 90.0% | 1.98s |   2,850 | `typeCheckProject`                         | `tsc-workload.mjs:3:33`                                                                                                                                         |
-| 89.9% | 1.97s |   2,849 | `op_run_microtasks`                        | `<unknown>`                                                                                                                                                     |
-| 83.4% | 1.83s |   2,693 | `forEach`                                  | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`    |
-| 71.7% | 1.57s |   2,386 | `(anonymous)`                              | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54` |
-| 71.7% | 1.57s |   2,386 | `runWithCancellationToken`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42` |
-| 71.7% | 1.57s |   2,385 | `getBindAndCheckDiagnosticsForFileNoCache` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114734:58` |
-| 71.7% | 1.57s |   2,385 | `getAndCacheDiagnostics`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40` |
-| 71.7% | 1.57s |   2,385 | `getBindAndCheckDiagnosticsForFile`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114731:51` |
-| 71.7% | 1.57s |   2,385 | `getSemanticDiagnosticsForFile`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47` |
-| 71.7% | 1.57s |   2,385 | `(anonymous)`                              | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114653:99` |
-| 71.7% | 1.57s |   2,384 | `flatMap`                                  | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21`    |
-| 71.7% | 1.57s |   2,384 | `getDiagnosticsHelper`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
-| 71.7% | 1.57s |   2,384 | `getSemanticDiagnostics`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114663:40` |
-| 65.9% | 1.45s |   2,043 | `checkSourceFile`                          | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33`  |
-| 65.9% | 1.44s |   2,042 | `getDiagnosticsWorker`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38`  |
-| 65.9% | 1.44s |   2,042 | `getDiagnostics`                           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`  |
+|     % |  Time | Samples | Function                                   | Location                                                                                                                    |
+| ----: | ----: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 91.8% | 1.97s |   2,690 | `(anonymous)`                              | `cpuprofile-run.mjs`                                                                                                        |
+| 91.8% | 1.97s |   2,688 | `processTicksAndRejections`                | `ext:core/01_core.js:356:37`                                                                                                |
+| 91.7% | 1.97s |   2,686 | `drainTicks`                               | `ext:core/01_core.js:425:22`                                                                                                |
+| 91.7% | 1.97s |   2,684 | `__drainNextTickAndMacrotasks`             | `ext:core/01_core.js:479:40`                                                                                                |
+| 90.5% | 1.94s |   2,689 | `op_run_microtasks`                        | `<unknown>`                                                                                                                 |
+| 90.5% | 1.94s |   2,689 | `typeCheckProject`                         | `tsc-workload.mjs:3:33`                                                                                                     |
+| 80.3% | 1.72s |   2,482 | `forEach`                                  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2378:17`   |
+| 67.6% | 1.45s |   2,152 | `(anonymous)`                              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124967:37` |
+| 67.6% | 1.45s |   2,146 | `getSemanticDiagnosticsForFile`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124957:41` |
+| 67.6% | 1.45s |   2,149 | `runWithCancellationToken`                 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124947:36` |
+| 67.6% | 1.45s |   2,147 | `getBindAndCheckDiagnosticsForFileNoCache` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124966:52` |
+| 67.6% | 1.45s |   2,145 | `getAndCacheDiagnostics`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:125252:34` |
+| 67.6% | 1.45s |   2,145 | `getBindAndCheckDiagnosticsForFile`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124963:45` |
+| 67.5% | 1.45s |   2,144 | `(anonymous)`                              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124899:76` |
+| 67.5% | 1.45s |   2,143 | `flatMap`                                  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2625:17`   |
+| 67.4% | 1.45s |   2,141 | `getDiagnosticsHelper`                     | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124895:32` |
+| 67.4% | 1.45s |   2,140 | `getSemanticDiagnostics`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124909:34` |
+| 62.2% | 1.33s |   1,858 | `getDiagnosticsWorker`                     | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88656:32`  |
+| 62.2% | 1.33s |   1,858 | `getDiagnostics2`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88635:27`  |
+| 62.2% | 1.33s |   1,859 | `checkSourceFileWorker`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88583:33`  |
 
 #### Categories
 
 ##### Third-party
 
-|     % |  Time | Samples | Function                                   | Location                                                                                                                                                        |
-| ----: | ----: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 83.4% | 1.83s |   2,693 | `forEach`                                  | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`    |
-| 71.7% | 1.57s |   2,386 | `(anonymous)`                              | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54` |
-| 71.7% | 1.57s |   2,386 | `runWithCancellationToken`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42` |
-| 71.7% | 1.57s |   2,385 | `getBindAndCheckDiagnosticsForFileNoCache` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114734:58` |
-| 71.7% | 1.57s |   2,385 | `getAndCacheDiagnostics`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40` |
-| 71.7% | 1.57s |   2,385 | `getBindAndCheckDiagnosticsForFile`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114731:51` |
-| 71.7% | 1.57s |   2,385 | `getSemanticDiagnosticsForFile`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47` |
-| 71.7% | 1.57s |   2,385 | `(anonymous)`                              | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114653:99` |
-| 71.7% | 1.57s |   2,384 | `flatMap`                                  | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21`    |
-| 71.7% | 1.57s |   2,384 | `getDiagnosticsHelper`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
-| 71.7% | 1.57s |   2,384 | `getSemanticDiagnostics`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114663:40` |
-| 65.9% | 1.45s |   2,043 | `checkSourceFile`                          | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33`  |
-| 65.9% | 1.44s |   2,042 | `getDiagnosticsWorker`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38`  |
-| 65.9% | 1.44s |   2,042 | `getDiagnostics`                           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`  |
-| 65.8% | 1.44s |   2,042 | `checkSourceFileWorker`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83677:39`  |
-| 64.9% | 1.42s |   2,010 | `checkSourceElementWorker`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83338:42`  |
-| 64.9% | 1.42s |   2,010 | `checkSourceElement`                       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83329:36`  |
-| 48.7% | 1.07s |   1,377 | `checkExpression`                          | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77792:33`  |
-| 48.7% | 1.07s |   1,376 | `checkExpressionWorker`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77834:39`  |
-| 47.7% | 1.05s |   1,501 | `checkBlock`                               | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80106:28`  |
+|     % |    Time | Samples | Function                                   | Location                                                                                                                    |
+| ----: | ------: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 80.3% |   1.72s |   2,482 | `forEach`                                  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2378:17`   |
+| 67.6% |   1.45s |   2,152 | `(anonymous)`                              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124967:37` |
+| 67.6% |   1.45s |   2,146 | `getSemanticDiagnosticsForFile`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124957:41` |
+| 67.6% |   1.45s |   2,149 | `runWithCancellationToken`                 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124947:36` |
+| 67.6% |   1.45s |   2,147 | `getBindAndCheckDiagnosticsForFileNoCache` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124966:52` |
+| 67.6% |   1.45s |   2,145 | `getAndCacheDiagnostics`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:125252:34` |
+| 67.6% |   1.45s |   2,145 | `getBindAndCheckDiagnosticsForFile`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124963:45` |
+| 67.5% |   1.45s |   2,144 | `(anonymous)`                              | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124899:76` |
+| 67.5% |   1.45s |   2,143 | `flatMap`                                  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2625:17`   |
+| 67.4% |   1.45s |   2,141 | `getDiagnosticsHelper`                     | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124895:32` |
+| 67.4% |   1.45s |   2,140 | `getSemanticDiagnostics`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124909:34` |
+| 62.2% |   1.33s |   1,858 | `getDiagnosticsWorker`                     | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88656:32`  |
+| 62.2% |   1.33s |   1,858 | `getDiagnostics2`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88635:27`  |
+| 62.2% |   1.33s |   1,859 | `checkSourceFileWorker`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88583:33`  |
+| 62.1% |   1.33s |   1,858 | `checkSourceFile`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88552:27`  |
+| 62.1% |   1.33s |   1,857 | `checkSourceFileWithEagerDiagnostics`      | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88649:47`  |
+| 61.2% |   1.31s |   1,836 | `checkSourceElementWorker`                 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88208:36`  |
+| 61.2% |   1.31s |   1,835 | `checkSourceElement`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88199:30`  |
+| 46.2% | 995.6ms |   1,254 | `checkExpression`                          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82771:27`  |
+| 46.2% | 995.3ms |   1,253 | `checkExpressionWorker`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82811:33`  |
+
+##### Standard library
+
+|     % |    Time | Samples | Function                       | Location                                        |
+| ----: | ------: | ------: | ------------------------------ | ----------------------------------------------- |
+| 91.8% |   1.97s |   2,688 | `processTicksAndRejections`    | `ext:core/01_core.js:356:37`                    |
+| 91.7% |   1.97s |   2,686 | `drainTicks`                   | `ext:core/01_core.js:425:22`                    |
+| 91.7% |   1.97s |   2,684 | `__drainNextTickAndMacrotasks` | `ext:core/01_core.js:479:40`                    |
+|  5.8% | 124.4ms |      99 | `loadMaybeCjs`                 | `node:module:1669:22`                           |
+|  5.8% | 124.4ms |      99 | `(anonymous)`                  | `node:module:1653:37`                           |
+|  5.8% | 124.4ms |      99 | `(anonymous)`                  | `node:module:1438:33`                           |
+|  5.8% | 124.4ms |      99 | `(anonymous)`                  | `node:module:1050:24`                           |
+|  5.8% | 124.4ms |      99 | `(anonymous)`                  | `node:module:1525:36`                           |
+|  5.8% | 124.4ms |      99 | `require`                      | `node:module:1752:35`                           |
+|  5.5% | 119.5ms |      95 | `(anonymous)`                  | `node:module:1622:37`                           |
+|  4.7% | 101.9ms |      81 | `wrapSafe`                     | `node:module:1596:18`                           |
+|  4.7% | 100.6ms |      80 | `compileFunction`              | `ext:core/01_core.js:1100:22`                   |
+|  1.8% |  38.7ms |      34 | `statSync`                     | `ext:deno_node/fs.ts:97:20`                     |
+|  1.4% |  30.0ms |      27 | `statSync`                     | `ext:deno_fs/30_fs.js:473:18`                   |
+|  1.3% |  27.3ms |       2 | `post`                         | `ext:deno_node/inspector.js:179:7`              |
+|  0.7% |  15.2ms |      14 | `buildCustomError`             | `ext:core/00_infra.js:94:28`                    |
+|  0.5% |  11.3ms |       9 | `readFileSync`                 | `ext:deno_node/fs.ts:399:24`                    |
+|  0.4% |   8.6ms |       7 | `CFISBIS`                      | `ext:deno_node/internal/fs/stat_utils.ts:73:24` |
+|  0.3% |   7.3ms |       6 | `convertFileInfoToStats`       | `ext:deno_node/internal/fs/stat_utils.ts:6:39`  |
+|  0.3% |   6.9ms |       6 | `NotFound`                     | `ext:runtime/01_errors.js:7:14`                 |
 
 ##### Garbage collector
 
 |    % |    Time | Samples | Function              | Location    |
 | ---: | ------: | ------: | --------------------- | ----------- |
-| 6.3% | 139.5ms |     114 | `(garbage collector)` | `<unknown>` |
-
-##### Standard library
-
-|     % |   Time | Samples | Function                       | Location                                       |
-| ----: | -----: | ------: | ------------------------------ | ---------------------------------------------- |
-| 91.1% |     2s |   2,849 | `processTicksAndRejections`    | `ext:core/01_core.js:356:37`                   |
-| 91.0% |     2s |   2,847 | `drainTicks`                   | `ext:core/01_core.js:425:22`                   |
-| 91.0% |     2s |   2,847 | `__drainNextTickAndMacrotasks` | `ext:core/01_core.js:479:40`                   |
-|  2.6% | 58.2ms |      49 | `statSync`                     | `ext:deno_node/fs.ts:97:20`                    |
-|  2.2% | 48.8ms |      41 | `statSync`                     | `ext:deno_fs/30_fs.js:473:18`                  |
-|  1.8% | 40.1ms |      32 | `loadMaybeCjs`                 | `node:module:1669:22`                          |
-|  1.8% | 40.1ms |      32 | `(anonymous)`                  | `node:module:1653:37`                          |
-|  1.8% | 40.1ms |      32 | `(anonymous)`                  | `node:module:1438:33`                          |
-|  1.8% | 40.1ms |      32 | `(anonymous)`                  | `node:module:1050:24`                          |
-|  1.8% | 40.1ms |      32 | `(anonymous)`                  | `node:module:1525:36`                          |
-|  1.8% | 40.1ms |      32 | `require`                      | `node:module:1752:35`                          |
-|  1.2% | 26.3ms |      23 | `buildCustomError`             | `ext:core/00_infra.js:94:28`                   |
-|  1.2% | 26.2ms |      21 | `(anonymous)`                  | `node:module:1622:37`                          |
-|  1.2% | 26.2ms |       1 | `post`                         | `ext:deno_node/inspector.js:179:7`             |
-|  0.6% | 13.8ms |      11 | `compileFunction`              | `ext:core/01_core.js:1100:22`                  |
-|  0.6% | 13.8ms |      11 | `wrapSafe`                     | `node:module:1596:18`                          |
-|  0.4% |  9.3ms |       8 | `NotFound`                     | `ext:runtime/01_errors.js:7:14`                |
-|  0.4% |  9.3ms |       8 | `(anonymous)`                  | `ext:core/00_infra.js:127:37`                  |
-|  0.4% |  9.3ms |       8 | `readFileSync`                 | `ext:deno_node/fs.ts:399:24`                   |
-|  0.3% |  6.3ms |       5 | `convertFileInfoToStats`       | `ext:deno_node/internal/fs/stat_utils.ts:6:39` |
+| 5.8% | 125.4ms |     102 | `(garbage collector)` | `<unknown>` |
 
 ##### Native
 
-|     % |   Time | Samples | Function               | Location    |
-| ----: | -----: | ------: | ---------------------- | ----------- |
-| 89.9% |  1.97s |   2,849 | `op_run_microtasks`    | `<unknown>` |
-|  2.2% | 47.6ms |      40 | `op_fs_stat_sync`      | `<unknown>` |
-|  0.4% |  9.2ms |      10 | `(program)`            | `<unknown>` |
-|  0.3% |  7.6ms |       6 | `op_fs_read_file_sync` | `<unknown>` |
-|  0.2% |  5.1ms |       4 | `op_require_read_file` | `<unknown>` |
-|  0.1% |  1.3ms |       1 | `op_compile_function`  | `<unknown>` |
-|  0.1% |  1.3ms |       1 | `op_load_ext_script`   | `<unknown>` |
-|  0.1% |  1.2ms |       1 | `op_fs_realpath_sync`  | `<unknown>` |
+|     % |   Time | Samples | Function                   | Location    |
+| ----: | -----: | ------: | -------------------------- | ----------- |
+| 90.5% |  1.94s |   2,689 | `op_run_microtasks`        | `<unknown>` |
+|  1.3% | 28.0ms |      22 | `op_compile_function`      | `<unknown>` |
+|  1.2% | 25.3ms |      22 | `op_fs_stat_sync`          | `<unknown>` |
+|  0.4% |  7.6ms |       6 | `op_fs_read_file_sync`     | `<unknown>` |
+|  0.3% |  7.3ms |      13 | `(program)`                | `<unknown>` |
+|  0.2% |  3.7ms |       3 | `op_require_read_file`     | `<unknown>` |
+|  0.1% |  1.7ms |       2 | `op_node_encoding_slice`   | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_fs_realpath_sync`      | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_url_get_serialization` | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_require_try_self`      | `<unknown>` |
+|  0.1% |  1.3ms |       1 | `op_load_ext_script`       | `<unknown>` |
+| <0.1% |  0.7ms |       1 | `op_inspector_dispatch`    | `<unknown>` |
 
 #### Callees
 
@@ -863,292 +881,296 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 |     % |   Time | Samples | Callee             | Location                   |
 | ----: | -----: | ------: | ------------------ | -------------------------- |
-| 98.7% |  1.98s |   2,850 | `typeCheckProject` | `tsc-workload.mjs:3:33`    |
-|  1.3% | 26.2ms |       1 | `post`             | `cpuprofile-run.mjs:14:14` |
+| 98.6% |  1.94s |   2,688 | `typeCheckProject` | `tsc-workload.mjs:3:33`    |
+|  1.4% | 27.3ms |       2 | `post`             | `cpuprofile-run.mjs:14:14` |
 
 ##### `processTicksAndRejections` (`ext:core/01_core.js:356:37`)
 
 |     % |   Time | Samples | Callee              | Location             |
 | ----: | -----: | ------: | ------------------- | -------------------- |
-| 98.7% |  1.97s |   2,848 | `op_run_microtasks` | `<unknown>`          |
-|  1.3% | 26.2ms |       1 | `(anonymous)`       | `cpuprofile-run.mjs` |
+| 98.7% |  1.94s |   2,687 | `op_run_microtasks` | `<unknown>`          |
+|  1.3% | 26.6ms |       1 | `(anonymous)`       | `cpuprofile-run.mjs` |
 
 ##### `drainTicks` (`ext:core/01_core.js:425:22`)
 
-|      % | Time | Samples | Callee                      | Location                     |
-| -----: | ---: | ------: | --------------------------- | ---------------------------- |
-| 100.0% |   2s |   2,847 | `processTicksAndRejections` | `ext:core/01_core.js:356:37` |
+|      % |  Time | Samples | Callee                      | Location                     |
+| -----: | ----: | ------: | --------------------------- | ---------------------------- |
+| 100.0% | 1.97s |   2,686 | `processTicksAndRejections` | `ext:core/01_core.js:356:37` |
 
 ##### `__drainNextTickAndMacrotasks` (`ext:core/01_core.js:479:40`)
 
-|      % | Time | Samples | Callee       | Location                     |
-| -----: | ---: | ------: | ------------ | ---------------------------- |
-| 100.0% |   2s |   2,847 | `drainTicks` | `ext:core/01_core.js:425:22` |
-
-##### `typeCheckProject` (`tsc-workload.mjs:3:33`)
-
-|     % |    Time | Samples | Callee                             | Location                                                                                                                                                        |
-| ----: | ------: | ------: | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 79.6% |   1.57s |   2,384 | `getSemanticDiagnostics`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114663:40` |
-| 17.8% | 353.2ms |     425 | `createProgram`                    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
-|  2.0% |  40.1ms |      32 | `require`                          | `node:module:1752:35`                                                                                                                                           |
-|  0.4% |   8.7ms |       8 | `getParsedCommandLineOfConfigFile` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
-|  0.1% |   1.3ms |       1 | `findConfigFile`                   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113025:28` |
+|      % |  Time | Samples | Callee       | Location                     |
+| -----: | ----: | ------: | ------------ | ---------------------------- |
+| 100.0% | 1.97s |   2,684 | `drainTicks` | `ext:core/01_core.js:425:22` |
 
 ##### `op_run_microtasks` (`<unknown>`)
 
 |      % |  Time | Samples | Callee        | Location             |
 | -----: | ----: | ------: | ------------- | -------------------- |
-| 100.0% | 1.97s |   2,849 | `(anonymous)` | `cpuprofile-run.mjs` |
+| 100.0% | 1.94s |   2,689 | `(anonymous)` | `cpuprofile-run.mjs` |
 
-##### `forEach` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`)
+##### `typeCheckProject` (`tsc-workload.mjs:3:33`)
 
-|     % |    Time | Samples | Callee               | Location                                                                                                                                                        |
-| ----: | ------: | ------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 77.6% |   1.42s |   2,007 | `checkSourceElement` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83329:36`  |
-| 13.0% | 238.1ms |     313 | `(anonymous)`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113905:44` |
-|  6.0% | 109.4ms |     306 | `(anonymous)`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43922:38`  |
-|  4.9% |  89.3ms |      91 | `(anonymous)`        | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115532:55` |
-|  4.9% |  89.1ms |     230 | `bind`               | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45448:22`  |
+|     % |    Time | Samples | Callee                             | Location                                                                                                                    |
+| ----: | ------: | ------: | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 74.5% |   1.45s |   2,139 | `getSemanticDiagnostics`           | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124909:34` |
+| 18.6% | 362.0ms |     443 | `createProgram`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:123840:23` |
+|  6.4% | 124.4ms |      99 | `require`                          | `node:module:1752:35`                                                                                                       |
+|  0.4% |   8.8ms |       7 | `getParsedCommandLineOfConfigFile` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:41625:42`  |
 
-##### `(anonymous)` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54`)
+##### `forEach` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2378:17`)
 
-|     % |    Time | Samples | Callee                               | Location                                                                                                                                                        |
-| ----: | ------: | ------: | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 91.9% |   1.44s |   2,042 | `getDiagnostics`                     | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`  |
-|  8.1% | 127.6ms |     343 | `getDiagnosticsProducingTypeChecker` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114603:52` |
-| <0.1% |   0.5ms |       1 | `getMergedBindAndCheckDiagnostics`   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114751:50` |
+|     % |    Time | Samples | Callee               | Location                                                                                                                    |
+| ----: | ------: | ------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 76.2% |   1.31s |   1,826 | `checkSourceElement` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88199:30`  |
+| 13.8% | 239.0ms |     325 | `(anonymous)`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124028:24` |
+|  6.1% | 105.0ms |     264 | `(anonymous)`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46417:21`  |
+|  4.6% |  80.4ms |     195 | `bind`               | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:47793:16`  |
+|  4.3% |  74.8ms |      82 | `(anonymous)`        | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:125782:35` |
 
-##### `runWithCancellationToken` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42`)
+##### `(anonymous)` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124967:37`)
 
-|      % |  Time | Samples | Callee        | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,386 | `(anonymous)` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54` |
+|     % |    Time | Samples | Callee                             | Location                                                                                                                    |
+| ----: | ------: | ------: | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 91.9% |   1.33s |   1,857 | `getDiagnostics2`                  | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88635:27`  |
+|  8.0% | 117.2ms |     293 | `getTypeChecker`                   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124848:26` |
+|  0.1% |   1.2ms |       2 | `getMergedBindAndCheckDiagnostics` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124987:44` |
 
-##### `getBindAndCheckDiagnosticsForFileNoCache` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114734:58`)
+##### `getSemanticDiagnosticsForFile` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124957:41`)
 
-|      % |  Time | Samples | Callee                     | Location                                                                                                                                                        |
-| -----: | ----: | ------: | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,385 | `runWithCancellationToken` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42` |
+|      % |  Time | Samples | Callee                              | Location                                                                                                                    |
+| -----: | ----: | ------: | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,145 | `getBindAndCheckDiagnosticsForFile` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124963:45` |
+|  <0.1% | 0.6ms |       1 | `concatenate`                       | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2823:21`   |
 
-##### `getAndCacheDiagnostics` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40`)
+##### `runWithCancellationToken` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124947:36`)
 
-|      % |  Time | Samples | Callee                                     | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,385 | `getBindAndCheckDiagnosticsForFileNoCache` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114734:58` |
+|      % |  Time | Samples | Callee        | Location                                                                                                                    |
+| -----: | ----: | ------: | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,149 | `(anonymous)` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124967:37` |
 
-##### `getBindAndCheckDiagnosticsForFile` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114731:51`)
+##### `getBindAndCheckDiagnosticsForFileNoCache` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124966:52`)
 
-|      % |  Time | Samples | Callee                   | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,385 | `getAndCacheDiagnostics` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40` |
+|      % |  Time | Samples | Callee                     | Location                                                                                                                    |
+| -----: | ----: | ------: | -------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,147 | `runWithCancellationToken` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124947:36` |
 
-##### `getSemanticDiagnosticsForFile` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47`)
+##### `getAndCacheDiagnostics` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:125252:34`)
 
-|      % |  Time | Samples | Callee                              | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,384 | `getBindAndCheckDiagnosticsForFile` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114731:51` |
-|  <0.1% | 0.6ms |       1 | `concatenate`                       | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:980:25`    |
+|      % |  Time | Samples | Callee                                     | Location                                                                                                                    |
+| -----: | ----: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,145 | `getBindAndCheckDiagnosticsForFileNoCache` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124966:52` |
 
-##### `(anonymous)` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114653:99`)
+##### `getBindAndCheckDiagnosticsForFile` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124963:45`)
 
-|      % |  Time | Samples | Callee                          | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,385 | `getSemanticDiagnosticsForFile` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47` |
+|      % |  Time | Samples | Callee                   | Location                                                                                                                    |
+| -----: | ----: | ------: | ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,145 | `getAndCacheDiagnostics` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:125252:34` |
 
-##### `flatMap` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21`)
+##### `(anonymous)` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124899:76`)
 
-|      % |  Time | Samples | Callee        | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,384 | `(anonymous)` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114653:99` |
-|  <0.1% | 0.5ms |       1 | `addRange`    | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:1202:22`   |
+|      % |  Time | Samples | Callee                          | Location                                                                                                                    |
+| -----: | ----: | ------: | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,144 | `getSemanticDiagnosticsForFile` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124957:41` |
 
-##### `getDiagnosticsHelper` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38`)
+##### `flatMap` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2625:17`)
 
-|      % |  Time | Samples | Callee    | Location                                                                                                                                                     |
-| -----: | ----: | ------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.57s |   2,384 | `flatMap` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21` |
+|     % |  Time | Samples | Callee        | Location                                                                                                                    |
+| ----: | ----: | ------: | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 99.9% | 1.45s |   2,142 | `(anonymous)` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124899:76` |
+|  0.1% | 1.2ms |       1 | `(anonymous)` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:22094:25`  |
+| <0.1% | 0.1ms |       1 | `addRange`    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2992:18`   |
 
-##### `getSemanticDiagnostics` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114663:40`)
+##### `getDiagnosticsHelper` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124895:32`)
 
-|      % |  Time | Samples | Callee                 | Location                                                                                                                                                        |
-| -----: | ----: | ------: | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57s |   2,384 | `getDiagnosticsHelper` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
+|      % |  Time | Samples | Callee    | Location                                                                                                                  |
+| -----: | ----: | ------: | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,141 | `flatMap` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2625:17` |
 
-##### `checkSourceFile` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33`)
+##### `getSemanticDiagnostics` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124909:34`)
 
-|     % |  Time | Samples | Callee                  | Location                                                                                                                                                       |
-| ----: | ----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 99.8% | 1.44s |   2,041 | `checkSourceFileWorker` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83677:39` |
-|  0.1% | 1.3ms |       1 | `clear`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:643:19`   |
+|      % |  Time | Samples | Callee                 | Location                                                                                                                    |
+| -----: | ----: | ------: | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   2,140 | `getDiagnosticsHelper` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:124895:32` |
 
-##### `getDiagnosticsWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38`)
+##### `getDiagnosticsWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88656:32`)
 
-|      % |  Time | Samples | Callee            | Location                                                                                                                                                       |
-| -----: | ----: | ------: | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.44s |   2,042 | `checkSourceFile` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33` |
+|     % |  Time | Samples | Callee                                | Location                                                                                                                   |
+| ----: | ----: | ------: | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 99.9% | 1.33s |   1,857 | `checkSourceFileWithEagerDiagnostics` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88649:47` |
+|  0.1% | 1.3ms |       1 | `getDiagnostics2`                     | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:19826:27` |
 
-##### `getDiagnostics` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`)
+##### `getDiagnostics2` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88635:27`)
 
-|      % |  Time | Samples | Callee                 | Location                                                                                                                                                       |
-| -----: | ----: | ------: | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.44s |   2,042 | `getDiagnosticsWorker` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38` |
+|      % |  Time | Samples | Callee                 | Location                                                                                                                   |
+| -----: | ----: | ------: | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.33s |   1,858 | `getDiagnosticsWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88656:32` |
 
-##### `checkSourceFileWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83677:39`)
+##### `checkSourceFileWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88583:33`)
 
-|     % |    Time | Samples | Callee                              | Location                                                                                                                                                       |
-| ----: | ------: | ------: | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 55.5% | 803.4ms |     931 | `checkDeferredNodes`                | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83607:36` |
-| 44.3% | 642.1ms |   1,106 | `forEach`                           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`   |
-|  0.2% |   2.5ms |       4 | `checkUnusedIdentifiers`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79822:40` |
-| <0.1% |   0.5ms |       1 | `registerForUnusedIdentifiersCheck` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79808:51` |
+|     % |    Time | Samples | Callee                       | Location                                                                                                                   |
+| ----: | ------: | ------: | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 54.1% | 723.8ms |     800 | `checkDeferredNodes`         | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88492:30` |
+| 45.6% | 610.7ms |   1,052 | `forEach`                    | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2378:17`  |
+|  0.2% |   2.1ms |       2 | `checkExternalModuleExports` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88158:38` |
+|  0.1% |   1.4ms |       3 | `addLazyDiagnostic`          | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88652:25` |
 
-##### `checkSourceElementWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83338:42`)
+##### `checkSourceFile` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88552:27`)
 
-|     % |    Time | Samples | Callee                     | Location                                                                                                                                                       |
-| ----: | ------: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 73.5% |   1.05s |   1,500 | `checkBlock`               | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80106:28` |
-| 44.2% | 631.9ms |     687 | `checkVariableStatement`   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80542:40` |
-| 44.2% | 631.2ms |     684 | `checkVariableDeclaration` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80532:42` |
-| 22.7% | 324.5ms |     507 | `checkTypeReferenceNode`   | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:78559:40` |
-| 22.0% | 314.8ms |     417 | `checkExpressionStatement` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80548:42` |
+|      % |  Time | Samples | Callee                  | Location                                                                                                                   |
+| -----: | ----: | ------: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.33s |   1,858 | `checkSourceFileWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88583:33` |
 
-##### `checkSourceElement` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83329:36`)
+##### `checkSourceFileWithEagerDiagnostics` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88649:47`)
 
-|      % |  Time | Samples | Callee                     | Location                                                                                                                                                       |
-| -----: | ----: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.42s |   2,010 | `checkSourceElementWorker` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83338:42` |
+|      % |  Time | Samples | Callee            | Location                                                                                                                   |
+| -----: | ----: | ------: | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.33s |   1,857 | `checkSourceFile` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88552:27` |
 
-##### `checkExpression` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77792:33`)
+##### `checkSourceElementWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88208:36`)
 
-|      % |   Time | Samples | Callee                                          | Location                                                                                                                                                       |
-| -----: | -----: | ------: | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% |  1.07s |   1,376 | `checkExpressionWorker`                         | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77834:39` |
-|   1.4% | 15.4ms |      19 | `instantiateTypeWithSingleGenericCallSignature` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77574:63` |
-|   0.2% |  1.9ms |       2 | `isConstEnumObjectType`                         | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76535:39` |
+|     % |    Time | Samples | Callee                     | Location                                                                                                                   |
+| ----: | ------: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 74.8% | 986.3ms |   1,359 | `checkBlock`               | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:85011:22` |
+| 43.6% | 574.8ms |     629 | `checkVariableStatement`   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:85414:34` |
+| 43.6% | 574.5ms |     627 | `checkVariableDeclaration` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:85396:36` |
+| 23.2% | 305.5ms |     372 | `checkExpressionStatement` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:85419:36` |
+| 21.1% | 278.4ms |     450 | `checkTypeReferenceNode`   | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:83518:34` |
 
-##### `checkExpressionWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77834:39`)
+##### `checkSourceElement` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88199:30`)
 
-|     % |    Time | Samples | Callee                          | Location                                                                                                                                                       |
-| ----: | ------: | ------: | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 90.8% | 974.5ms |   1,171 | `checkCallExpression`           | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:75115:37` |
-| 30.9% | 331.1ms |     457 | `checkPropertyAccessExpression` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72575:47` |
-| 27.9% | 299.4ms |     350 | `checkObjectLiteral`            | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:71589:36` |
-| 15.3% | 164.4ms |     160 | `checkArrayLiteral`             | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:71403:35` |
-|  8.9% |  95.6ms |     173 | `checkIdentifier`               | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:69711:33` |
+|      % |  Time | Samples | Callee                     | Location                                                                                                                   |
+| -----: | ----: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.31s |   1,835 | `checkSourceElementWorker` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:88208:36` |
 
-##### `checkBlock` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80106:28`)
+##### `checkExpression` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82771:27`)
 
-|      % |  Time | Samples | Callee                    | Location                                                                                                                                                       |
-| -----: | ----: | ------: | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.05s |   1,501 | `forEach`                 | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`   |
-|   0.1% | 1.1ms |       1 | `isFunctionOrModuleBlock` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:13368:37` |
+|      % |    Time | Samples | Callee                                          | Location                                                                                                                   |
+| -----: | ------: | ------: | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 995.3ms |   1,253 | `checkExpressionWorker`                         | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82811:33` |
+|   1.1% |  11.2ms |      13 | `instantiateTypeWithSingleGenericCallSignature` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82561:57` |
+
+##### `checkExpressionWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82811:33`)
+
+|     % |    Time | Samples | Callee                          | Location                                                                                                                   |
+| ----: | ------: | ------: | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 89.1% | 887.3ms |   1,046 | `checkCallExpression`           | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:79584:31` |
+| 29.9% | 297.4ms |     384 | `checkPropertyAccessExpression` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:77069:41` |
+| 27.9% | 278.1ms |     338 | `checkObjectLiteral`            | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:76097:30` |
+| 16.4% | 163.3ms |     152 | `checkArrayLiteral`             | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:75934:29` |
+| 10.0% |  99.4ms |     143 | `checkIdentifier`               | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:74242:27` |
+
+##### `loadMaybeCjs` (`node:module:1669:22`)
+
+|     % |    Time | Samples | Callee                 | Location              |
+| ----: | ------: | ------: | ---------------------- | --------------------- |
+| 96.0% | 119.5ms |      95 | `(anonymous)`          | `node:module:1622:37` |
+|  3.0% |   3.7ms |       3 | `op_require_read_file` | `<unknown>`           |
+
+##### `(anonymous)` (`node:module:1653:37`)
+
+|      % |    Time | Samples | Callee         | Location              |
+| -----: | ------: | ------: | -------------- | --------------------- |
+| 100.0% | 124.4ms |      99 | `loadMaybeCjs` | `node:module:1669:22` |
+
+##### `(anonymous)` (`node:module:1438:33`)
+
+|      % |    Time | Samples | Callee        | Location              |
+| -----: | ------: | ------: | ------------- | --------------------- |
+| 100.0% | 124.4ms |      99 | `(anonymous)` | `node:module:1653:37` |
+
+##### `(anonymous)` (`node:module:1050:24`)
+
+|      % |    Time | Samples | Callee             | Location              |
+| -----: | ------: | ------: | ------------------ | --------------------- |
+| 100.0% | 124.4ms |      99 | `(anonymous)`      | `node:module:1438:33` |
+|   1.0% |   1.3ms |       1 | `(anonymous)`      | `node:module:1259:35` |
+|   1.0% |   1.3ms |       1 | `loadNativeModule` | `node:module:2019:26` |
+
+##### `(anonymous)` (`node:module:1525:36`)
+
+|      % |    Time | Samples | Callee        | Location              |
+| -----: | ------: | ------: | ------------- | --------------------- |
+| 100.0% | 124.4ms |      99 | `(anonymous)` | `node:module:1050:24` |
+
+##### `require` (`node:module:1752:35`)
+
+|      % |    Time | Samples | Callee        | Location              |
+| -----: | ------: | ------: | ------------- | --------------------- |
+| 100.0% | 124.4ms |      99 | `(anonymous)` | `node:module:1525:36` |
+
+##### `(anonymous)` (`node:module:1622:37`)
+
+|     % |    Time | Samples | Callee        | Location                                                                                                              |
+| ----: | ------: | ------: | ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 85.3% | 101.9ms |      81 | `wrapSafe`    | `node:module:1596:18`                                                                                                 |
+| 14.7% |  17.6ms |      14 | `(anonymous)` | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:1:1` |
+
+##### `wrapSafe` (`node:module:1596:18`)
+
+|     % |    Time | Samples | Callee            | Location                       |
+| ----: | ------: | ------: | ----------------- | ------------------------------ |
+| 98.8% | 100.6ms |      80 | `compileFunction` | `ext:core/01_core.js:1100:22`  |
+|  1.2% |   1.3ms |       1 | `pathToFileURL`   | `ext:deno_node/url.ts:1337:27` |
+
+##### `compileFunction` (`ext:core/01_core.js:1100:22`)
+
+|     % |   Time | Samples | Callee                | Location    |
+| ----: | -----: | ------: | --------------------- | ----------- |
+| 27.8% | 28.0ms |      22 | `op_compile_function` | `<unknown>` |
 
 ##### `statSync` (`ext:deno_node/fs.ts:97:20`)
 
-|     % |   Time | Samples | Callee                     | Location                                        |
-| ----: | -----: | ------: | -------------------------- | ----------------------------------------------- |
-| 83.9% | 48.8ms |      41 | `statSync`                 | `ext:deno_fs/30_fs.js:473:18`                   |
-| 10.8% |  6.3ms |       5 | `CFISBIS`                  | `ext:deno_node/internal/fs/stat_utils.ts:73:24` |
-|  5.3% |  3.1ms |       3 | `getValidatedPathToString` | `ext:deno_node/internal/fs/utils.mjs:904:41`    |
+|     % |   Time | Samples | Callee     | Location                                        |
+| ----: | -----: | ------: | ---------- | ----------------------------------------------- |
+| 77.7% | 30.0ms |      27 | `statSync` | `ext:deno_fs/30_fs.js:473:18`                   |
+| 22.3% |  8.6ms |       7 | `CFISBIS`  | `ext:deno_node/internal/fs/stat_utils.ts:73:24` |
 
 ##### `statSync` (`ext:deno_fs/30_fs.js:473:18`)
 
 |     % |   Time | Samples | Callee            | Location    |
 | ----: | -----: | ------: | ----------------- | ----------- |
-| 97.5% | 47.6ms |      40 | `op_fs_stat_sync` | `<unknown>` |
+| 84.1% | 25.3ms |      22 | `op_fs_stat_sync` | `<unknown>` |
+| 14.1% |  4.2ms |       4 | `(anonymous)`     | `<unknown>` |
+
+##### `post` (`ext:deno_node/inspector.js:179:7`)
+
+|    % |  Time | Samples | Callee                  | Location    |
+| ---: | ----: | ------: | ----------------------- | ----------- |
+| 2.6% | 0.7ms |       1 | `op_inspector_dispatch` | `<unknown>` |
 
 ##### `op_fs_stat_sync` (`<unknown>`)
 
 |     % |   Time | Samples | Callee             | Location                     |
 | ----: | -----: | ------: | ------------------ | ---------------------------- |
-| 55.3% | 26.3ms |      23 | `buildCustomError` | `ext:core/00_infra.js:94:28` |
-
-##### `loadMaybeCjs` (`node:module:1669:22`)
-
-|     % |   Time | Samples | Callee                 | Location              |
-| ----: | -----: | ------: | ---------------------- | --------------------- |
-| 65.4% | 26.2ms |      21 | `(anonymous)`          | `node:module:1622:37` |
-| 12.6% |  5.1ms |       4 | `op_require_read_file` | `<unknown>`           |
-
-##### `(anonymous)` (`node:module:1653:37`)
-
-|      % |   Time | Samples | Callee         | Location              |
-| -----: | -----: | ------: | -------------- | --------------------- |
-| 100.0% | 40.1ms |      32 | `loadMaybeCjs` | `node:module:1669:22` |
-
-##### `(anonymous)` (`node:module:1438:33`)
-
-|      % |   Time | Samples | Callee        | Location              |
-| -----: | -----: | ------: | ------------- | --------------------- |
-| 100.0% | 40.1ms |      32 | `(anonymous)` | `node:module:1653:37` |
-
-##### `(anonymous)` (`node:module:1050:24`)
-
-|      % |   Time | Samples | Callee             | Location              |
-| -----: | -----: | ------: | ------------------ | --------------------- |
-| 100.0% | 40.1ms |      32 | `(anonymous)`      | `node:module:1438:33` |
-|   3.2% |  1.3ms |       1 | `loadNativeModule` | `node:module:2019:26` |
-
-##### `(anonymous)` (`node:module:1525:36`)
-
-|      % |   Time | Samples | Callee        | Location              |
-| -----: | -----: | ------: | ------------- | --------------------- |
-| 100.0% | 40.1ms |      32 | `(anonymous)` | `node:module:1050:24` |
-
-##### `require` (`node:module:1752:35`)
-
-|      % |   Time | Samples | Callee        | Location              |
-| -----: | -----: | ------: | ------------- | --------------------- |
-| 100.0% | 40.1ms |      32 | `(anonymous)` | `node:module:1525:36` |
+| 60.3% | 15.2ms |      14 | `buildCustomError` | `ext:core/00_infra.js:94:28` |
 
 ##### `buildCustomError` (`ext:core/00_infra.js:94:28`)
 
 |     % |  Time | Samples | Callee         | Location                            |
 | ----: | ----: | ------: | -------------- | ----------------------------------- |
-| 35.3% | 9.3ms |       8 | `(anonymous)`  | `ext:core/00_infra.js:127:37`       |
-|  4.8% | 1.3ms |       1 | `SafeIterator` | `ext:core/00_primordials.js:316:18` |
-|  1.3% | 0.4ms |       1 | `next`         | `ext:core/00_primordials.js:319:11` |
-
-##### `(anonymous)` (`node:module:1622:37`)
-
-|     % |   Time | Samples | Callee        | Location                                                                                                                                                  |
-| ----: | -----: | ------: | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 52.8% | 13.8ms |      11 | `wrapSafe`    | `node:module:1596:18`                                                                                                                                     |
-| 47.2% | 12.4ms |      10 | `(anonymous)` | `/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:1:1` |
-
-##### `compileFunction` (`ext:core/01_core.js:1100:22`)
-
-|    % |  Time | Samples | Callee                | Location    |
-| ---: | ----: | ------: | --------------------- | ----------- |
-| 9.3% | 1.3ms |       1 | `op_compile_function` | `<unknown>` |
-
-##### `wrapSafe` (`node:module:1596:18`)
-
-|      % |   Time | Samples | Callee            | Location                      |
-| -----: | -----: | ------: | ----------------- | ----------------------------- |
-| 100.0% | 13.8ms |      11 | `compileFunction` | `ext:core/01_core.js:1100:22` |
-
-##### `(anonymous)` (`ext:core/00_infra.js:127:37`)
-
-|      % |  Time | Samples | Callee     | Location                        |
-| -----: | ----: | ------: | ---------- | ------------------------------- |
-| 100.0% | 9.3ms |       8 | `NotFound` | `ext:runtime/01_errors.js:7:14` |
+| 45.6% | 6.9ms |       6 | `(anonymous)`  | `ext:core/00_infra.js:127:37`       |
+| 21.6% | 3.3ms |       3 | `SafeIterator` | `ext:core/00_primordials.js:316:18` |
 
 ##### `readFileSync` (`ext:deno_node/fs.ts:399:24`)
 
-|     % |  Time | Samples | Callee                     | Location                                     |
-| ----: | ----: | ------: | -------------------------- | -------------------------------------------- |
-| 81.9% | 7.6ms |       6 | `op_fs_read_file_sync`     | `<unknown>`                                  |
-| 13.6% | 1.3ms |       1 | `getValidatedPathToString` | `ext:deno_node/internal/fs/utils.mjs:904:41` |
-|  4.5% | 0.4ms |       1 | `readFileMaybeDecode`      | `ext:deno_node/fs.ts:268:31`                 |
+|     % |  Time | Samples | Callee                 | Location                     |
+| ----: | ----: | ------: | ---------------------- | ---------------------------- |
+| 67.1% | 7.6ms |       6 | `op_fs_read_file_sync` | `<unknown>`                  |
+| 21.9% | 2.5ms |       2 | `readFileMaybeDecode`  | `ext:deno_node/fs.ts:268:31` |
+
+##### `CFISBIS` (`ext:deno_node/internal/fs/stat_utils.ts:73:24`)
+
+|     % |  Time | Samples | Callee                   | Location                                       |
+| ----: | ----: | ------: | ------------------------ | ---------------------------------------------- |
+| 84.3% | 7.3ms |       6 | `convertFileInfoToStats` | `ext:deno_node/internal/fs/stat_utils.ts:6:39` |
 
 ##### `convertFileInfoToStats` (`ext:deno_node/internal/fs/stat_utils.ts:6:39`)
 
 |     % |  Time | Samples | Callee                 | Location                                        |
 | ----: | ----: | ------: | ---------------------- | ----------------------------------------------- |
-| 79.8% | 5.0ms |       4 | `Stats`                | `ext:deno_node/internal/fs/utils.mjs:650:22`    |
-| 20.2% | 1.3ms |       1 | `defineStatExtraProps` | `ext:deno_node/internal/fs/stat_utils.ts:26:30` |
+| 51.7% | 3.8ms |       3 | `Stats`                | `ext:deno_node/internal/fs/utils.mjs:650:22`    |
+| 48.3% | 3.5ms |       3 | `defineStatExtraProps` | `ext:deno_node/internal/fs/stat_utils.ts:26:30` |
 
 ##### `op_load_ext_script` (`<unknown>`)
 
@@ -1162,25 +1184,25 @@ Call stacks ranked by time spent in their leaf frame.
 
 Common call stack: `processTicksAndRejections` (`ext:core/01_core.js:356:37`) ← `drainTicks` (425:22) ← `__drainNextTickAndMacrotasks` (479:40)
 
-|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ---: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.2% | 26.2ms |       1 | `post` (`ext:deno_node/inspector.js:179:7`) ← `(anonymous)` (`cpuprofile-run.mjs:15:15`) ← `post` (14:14) ← `(anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 0.6% | 12.6ms |      10 | `compileFunction` (`ext:core/01_core.js:1100:22`) ← `wrapSafe` (`node:module:1596:18`) ← `(anonymous)` (1622:37) ← `loadMaybeCjs` (1669:22) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 0.4% |  8.8ms |       7 | `loadMaybeCjs` (`node:module:1669:22`) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 0.3% |  7.6ms |       6 | `createUnionOrIntersectionProperty` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51`) ← `getUnionOrIntersectionProperty` (57774:48) ← `getPropertyOfUnionOrIntersectionType` (57787:54) ← `getPropertiesOfUnionOrIntersectionType` (57225:56) ← `getReducedType` (57798:32) ← `getReducedApparentType` (57608:40) ← `getPropertyOfType` (57857:35) ← `checkPropertyAccessExpressionOrQualifiedName` (72679:62) ← `checkPropertyAccessExpression` (72575:47) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionStatement` (80548:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 0.3% |  7.3ms |       6 | `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `typeRelatedToSomeType` (63650:43) ← `eachTypeRelatedToSomeType` (63637:47) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `checkTypeRelatedTo` (62999:36) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkPropertyAssignment` (77553:41) ← `checkObjectLiteral` (71589:36) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkArrayLiteral` (71403:35) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                               |
-| 0.3% |  6.3ms |       5 | `buildCustomError` (`ext:core/00_infra.js:94:28`) ← `op_fs_stat_sync` ← `statSync` (`ext:deno_fs/30_fs.js:473:18`) ← `statSync` (`ext:deno_node/fs.ts:97:20`) ← `statSync` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7616:30`) ← `fileSystemEntryExists` (7962:43) ← `directoryExists` (7988:37) ← `directoryExists` (113177:39) ← `directoryProbablyExists` (19040:37) ← `loadModuleFromImmediateNodeModulesDirectory` (43045:57) ← `(anonymous)` (43035:85) ← `forEachAncestorDirectory` (6613:38) ← `loadModuleFromNearestNodeModulesDirectoryWorker` (43033:61) ← `loadModuleFromNearestNodeModulesDirectory` (43026:55) ← `tryResolve` (42390:28) ← `(anonymous)` (42388:54) ← `forEach` (388:21) ← `nodeModuleNameResolverWorker` (42373:42) ← `nodeModuleNameResolver` (42369:36) ← `resolveModuleName` (42056:31) ← `loader_1` (113809:37) ← `loadWithModeAwareCache` (113518:36) ← `actualResolveModuleNamesWorker` (113810:55) ← `resolveModuleNamesWorker` (114058:42) ← `resolveModuleNamesReusingOldState` (114157:51) ← `processImportedModules` (115645:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `(anonymous)` (115532:55) ← `forEach` (388:21) ← `processReferencedFiles` (115531:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `processTypeReferenceDirectiveWorker` (115559:53) ← `processTypeReferenceDirective` (115554:47) ← `processTypeReferenceDirectives` (115538:48) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `processImportedModules` (115645:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `processImportedModules` (115645:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `processRootFile` (115042:33) ← `(anonymous)` (113905:44) ← `forEach` (388:21) ← `createProgram` (113744:27) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 0.2% |  5.1ms |       4 | `op_require_read_file` ← `loadMaybeCjs` (`node:module:1669:22`) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 0.2% |  5.0ms |       4 | `isRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`) ← `typeRelatedToSomeType` (63650:43) ← `eachTypeRelatedToSomeType` (63637:47) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `checkTypeRelatedTo` (62999:36) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkPropertyAssignment` (77553:41) ← `checkObjectLiteral` (71589:36) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| 0.2% |  3.8ms |       3 | `checkTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkPropertyAssignment` (77553:41) ← `checkObjectLiteral` (71589:36) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 0.2% |  3.8ms |       3 | `getReducedApparentType` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57608:40`) ← `getPropertyOfType` (57857:35) ← `createUnionOrIntersectionProperty` (57615:51) ← `getUnionOrIntersectionProperty` (57774:48) ← `getPropertyOfUnionOrIntersectionType` (57787:54) ← `getPropertiesOfUnionOrIntersectionType` (57225:56) ← `getReducedType` (57798:32) ← `getReducedApparentType` (57608:40) ← `getPropertyOfType` (57857:35) ← `checkPropertyAccessExpressionOrQualifiedName` (72679:62) ← `checkPropertyAccessExpression` (72575:47) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionStatement` (80548:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| 0.2% |  3.8ms |       3 | `declareSymbol` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43626:31`) ← `declareSymbolAndAddToSymbolTable` (44993:50) ← `bindParameter` (46296:31) ← `bindWorker` (45538:28) ← `bind` (45448:22) ← `forEach` (388:21) ← `bindEach` (43924:26) ← `visitNodes` (29885:24) ← `forEachChild` (29919:26) ← `bindEachChild` (43931:31) ← `bindChildren` (43934:30) ← `bindContainer` (43814:31) ← `bind` (45448:22) ← `forEach` (388:21) ← `bindEach` (43924:26) ← `visitNodes` (29885:24) ← `forEachChild` (29919:26) ← `bindEachChild` (43931:31) ← `bindChildren` (43934:30) ← `bindContainer` (43814:31) ← `bind` (45448:22) ← `(anonymous)` (43922:38) ← `forEach` (388:21) ← `bindEach` (43924:26) ← `bindEachFunctionsFirst` (43920:40) ← `bindChildren` (43934:30) ← `bindContainer` (43814:31) ← `bind` (45448:22) ← `visitNode` (29882:23) ← `forEachChild` (29919:26) ← `bindEachChild` (43931:31) ← `bindChildren` (43934:30) ← `bindContainer` (43814:31) ← `bind` (45448:22) ← `(anonymous)` (43922:38) ← `forEach` (388:21) ← `bindEach` (43924:26) ← `bindEachFunctionsFirst` (43920:40) ← `bindChildren` (43934:30) ← `bindContainer` (43814:31) ← `bind` (45448:22) ← `bindSourceFile` (43471:32) ← `bindSourceFile` (43415:28) ← `initializeTypeChecker` (85192:39) ← `createTypeChecker` (46937:31) ← `getDiagnosticsProducingTypeChecker` (114603:52) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| 0.2% |  3.8ms |       3 | `structuredTypeRelatedToWorker` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`) ← `structuredTypeRelatedTo` (63918:45) ← `recursiveTypeRelatedTo` (63805:44) ← `isRelatedTo` (63309:33) ← `isPropertySymbolTypeRelated` (64638:49) ← `propertyRelatedTo` (64644:39) ← `propertiesRelatedTo` (64743:41) ← `structuredTypeRelatedToWorker` (63924:51) ← `structuredTypeRelatedTo` (63918:45) ← `recursiveTypeRelatedTo` (63805:44) ← `isRelatedTo` (63309:33) ← `membersRelatedToIndexInfo` (65036:47) ← `typeRelatedToIndexInfo` (65104:44) ← `indexSignaturesRelatedTo` (65085:46) ← `structuredTypeRelatedToWorker` (63924:51) ← `structuredTypeRelatedTo` (63918:45) ← `recursiveTypeRelatedTo` (63805:44) ← `isRelatedTo` (63309:33) ← `checkTypeRelatedTo` (62999:36) ← `isTypeRelatedTo` (62938:33) ← `compareTypesAssignable` (62162:40) ← `getInferredType` (67383:33) ← `getInferredTypes` (67435:34) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkArrayLiteral` (71403:35) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| 0.2% |  3.7ms |       3 | `op_fs_stat_sync` ← `statSync` (`ext:deno_fs/30_fs.js:473:18`) ← `statSync` (`ext:deno_node/fs.ts:97:20`) ← `statSync` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7616:30`) ← `fileSystemEntryExists` (7962:43) ← `directoryExists` (7988:37) ← `directoryExists` (113177:39) ← `directoryProbablyExists` (19040:37) ← `loadModuleFromImmediateNodeModulesDirectory` (43045:57) ← `(anonymous)` (43035:85) ← `forEachAncestorDirectory` (6613:38) ← `loadModuleFromNearestNodeModulesDirectoryWorker` (43033:61) ← `loadModuleFromNearestNodeModulesDirectory` (43026:55) ← `tryResolve` (42390:28) ← `(anonymous)` (42388:54) ← `forEach` (388:21) ← `nodeModuleNameResolverWorker` (42373:42) ← `nodeModuleNameResolver` (42369:36) ← `resolveModuleName` (42056:31) ← `loader_1` (113809:37) ← `loadWithModeAwareCache` (113518:36) ← `actualResolveModuleNamesWorker` (113810:55) ← `resolveModuleNamesWorker` (114058:42) ← `resolveModuleNamesReusingOldState` (114157:51) ← `processImportedModules` (115645:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `(anonymous)` (115532:55) ← `forEach` (388:21) ← `processReferencedFiles` (115531:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `processTypeReferenceDirectiveWorker` (115559:53) ← `processTypeReferenceDirective` (115554:47) ← `processTypeReferenceDirectives` (115538:48) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `processImportedModules` (115645:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `processImportedModules` (115645:40) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `processRootFile` (115042:33) ← `(anonymous)` (113905:44) ← `forEach` (388:21) ← `createProgram` (113744:27) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 0.2% |  3.7ms |       3 | `checkTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromTypes` (66703:36) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `getSpreadArgumentType` (73612:39) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkNonNullExpression` (72531:40) ← `checkPropertyAccessExpression` (72575:47) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkNonNullExpression` (72531:40) ← `getQuickTypeOfExpression` (77740:42) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| 0.2% |  3.7ms |       3 | `getRelationKey` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32`) ← `recursiveTypeRelatedTo` (63805:44) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `typeRelatedToSomeType` (63650:43) ← `eachTypeRelatedToSomeType` (63637:47) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `checkTypeRelatedTo` (62999:36) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkPropertyAssignment` (77553:41) ← `checkObjectLiteral` (71589:36) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkArrayLiteral` (71403:35) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks` |
-| 0.2% |  3.6ms |       3 | `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `typeRelatedToSomeType` (63650:43) ← `eachTypeRelatedToSomeType` (63637:47) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `checkTypeRelatedTo` (62999:36) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkPropertyAssignment` (77553:41) ← `checkObjectLiteral` (71589:36) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 0.2% |  3.6ms |       3 | `checkPropertyAccessExpressionOrQualifiedName` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72679:62`) ← `checkPropertyAccessExpression` (72575:47) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionStatement` (80548:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| 0.1% |  2.6ms |       2 | `createTypeReference` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37`) ← `createNormalizedTypeReference` (59406:47) ← `instantiateTypeWorker` (61983:39) ← `instantiateTypeWithAlias` (61964:42) ← `instantiateType` (61961:33) ← `getReturnTypeOfSignature` (58288:42) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkArrayLiteral` (71403:35) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| 0.1% |  2.5ms |       2 | `scanJsDocToken` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11950:32`) ← `nextTokenJSDoc` (31170:32) ← `(anonymous)` (36647:74) ← `scanRange` (12054:27) ← `parseJSDocCommentWorker` (36627:45) ← `(anonymous)` (36600:79) ← `doInsideOfContext` (31060:35) ← `parseJSDocComment` (36596:39) ← `(anonymous)` (30890:92) ← `mapDefined` (809:24) ← `addJSDocComment` (30888:33) ← `withJSDoc` (30884:27) ← `parsePropertyOrMethodSignature` (32801:48) ← `parseTypeMember` (32860:33) ← `parseListElement` (31909:34) ← `parseList` (31892:27) ← `parseObjectTypeMembers` (32901:40) ← `parseInterfaceDeclaration` (36062:43) ← `parseDeclarationWorker` (35510:40) ← `parseDeclaration` (35473:34) ← `parseStatement` (35399:32) ← `parseListElement` (31909:34) ← `parseList` (31892:27) ← `parseSourceFileWorker` (30853:39) ← `parseSourceFile` (30679:33) ← `createSourceFile` (30483:30) ← `getSourceFile` (113089:31) ← `findSourceFileWorker` (115294:38) ← `findSourceFile` (115284:32) ← `(anonymous)` (115242:65) ← `getSourceFileFromReferenceWorker` (115194:50) ← `processSourceFile` (115241:35) ← `processRootFile` (115042:33) ← `(anonymous)` (113932:54) ← `forEach` (388:21) ← `createProgram` (113744:27) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 0.1% |  2.5ms |       2 | `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.TBtwcX/profiler-md-input-generation.DBmawf/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `typeRelatedToSomeType` (63650:43) ← `eachTypeRelatedToSomeType` (63637:47) ← `isIdenticalTo` (63524:35) ← `isRelatedTo` (63309:33) ← `checkTypeRelatedTo` (62999:36) ← `isTypeRelatedTo` (62938:33) ← `isTypeIdenticalTo` (62156:35) ← `isTypeOrBaseIdenticalTo` (67332:41) ← `inferFromMatchingTypes` (66951:44) ← `inferFromTypes` (66703:36) ← `inferFromContravariantTypes` (66981:49) ← `applyToParameterTypes` (66270:39) ← `inferFromSignature` (67286:40) ← `inferFromSignatures` (67275:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferFromProperties` (67265:41) ← `inferFromObjectTypes` (67171:42) ← `invokeOnce` (66918:32) ← `inferFromTypes` (66703:36) ← `inferTypes` (66691:28) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionForMutableLocation` (77547:51) ← `checkArrayLiteral` (71403:35) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionWithContextualType` (77427:51) ← `inferTypeArguments` (73538:36) ← `chooseOverload` (74299:36) ← `resolveCall` (74104:29) ← `resolveCallExpression` (74486:39) ← `resolveSignature` (74959:34) ← `getResolvedSignature` (74982:38) ← `checkCallExpression` (75115:37) ← `checkExpressionWorker` (77834:39) ← `checkExpression` (77792:33) ← `checkExpressionCached` (77450:39) ← `checkDeclarationInitializer` (77475:45) ← `getTypeForVariableLikeDeclaration` (54427:51) ← `getWidenedTypeForVariableLikeDeclaration` (54968:58) ← `getTypeOfVariableOrParameterOrPropertyWorker` (55025:62) ← `getTypeOfVariableOrParameterOrProperty` (55012:56) ← `getTypeOfSymbol` (55373:33) ← `checkVariableLikeDeclaration` (80369:46) ← `checkVariableDeclaration` (80532:42) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkVariableStatement` (80542:40) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `forEach` (388:21) ← `checkBlock` (80106:28) ← `checkSourceElementWorker` (83338:42) ← `checkSourceElement` (83329:36) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (76186:70) ← `checkDeferredNode` (83613:35) ← `checkDeferredNodes` (83607:36) ← `checkSourceFileWorker` (83677:39) ← `checkSourceFile` (83652:33) ← `getDiagnosticsWorker` (83741:38) ← `getDiagnostics` (83729:32) ← `(anonymous)` (114735:54) ← `runWithCancellationToken` (114707:42) ← `getBindAndCheckDiagnosticsForFileNoCache` (114734:58) ← `getAndCacheDiagnostics` (115004:40) ← `getBindAndCheckDiagnosticsForFile` (114731:51) ← `getSemanticDiagnosticsForFile` (114728:47) ← `(anonymous)` (114653:99) ← `flatMap` (712:21) ← `getDiagnosticsHelper` (114649:38) ← `getSemanticDiagnostics` (114663:40) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3.4% | 72.6ms |      58 | `compileFunction` (`ext:core/01_core.js:1100:22`) ← `wrapSafe` (`node:module:1596:18`) ← `(anonymous)` (1622:37) ← `loadMaybeCjs` (1669:22) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 1.3% | 28.0ms |      22 | `op_compile_function` ← `compileFunction` (`ext:core/01_core.js:1100:22`) ← `wrapSafe` (`node:module:1596:18`) ← `(anonymous)` (1622:37) ← `loadMaybeCjs` (1669:22) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 1.2% | 26.6ms |       1 | `post` (`ext:deno_node/inspector.js:179:7`) ← `(anonymous)` (`cpuprofile-run.mjs:15:15`) ← `post` (14:14) ← `(anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 0.4% |  8.9ms |       7 | `(anonymous)` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:16:15`) ← `(anonymous)` (1:1) ← `(anonymous)` (`node:module:1622:37`) ← `loadMaybeCjs` (1669:22) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 0.4% |  7.5ms |       6 | `isRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25`) ← `checkTypeRelatedTo` (67445:30) ← `isTypeRelatedTo` (67361:27) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 0.3% |  7.5ms |       6 | `getPropertyOfType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61994:29`) ← `createUnionOrIntersectionProperty` (61753:45) ← `getUnionOrIntersectionProperty` (61892:42) ← `getPropertyOfUnionOrIntersectionType` (61929:48) ← `getPropertiesOfUnionOrIntersectionType` (61386:50) ← `getReducedType` (61933:26) ← `getReducedApparentType` (61750:34) ← `getPropertyOfType` (61994:29) ← `checkPropertyAccessExpressionOrQualifiedName` (77201:56) ← `checkPropertyAccessExpression` (77069:41) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionStatement` (85419:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 0.3% |  7.3ms |       6 | `isRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25`) ← `checkTypeRelatedTo` (67445:30) ← `isTypeRelatedTo` (67361:27) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkArrayLiteral` (75934:29) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                       |
+| 0.3% |  6.3ms |       5 | `checkTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67445:30`) ← `isTypeRelatedTo` (67361:27) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkArrayLiteral` (75934:29) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                  |
+| 0.2% |  4.9ms |       4 | `isTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27`) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 0.2% |  4.0ms |       4 | `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36`) ← `isRelatedTo` (67753:25) ← `checkTypeRelatedTo` (67445:30) ← `isTypeRelatedTo` (67361:27) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkArrayLiteral` (75934:29) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks` |
+| 0.2% |  3.8ms |       3 | `createTypeReference` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62794:31`) ← `createNormalizedTypeReference` (63796:41) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `getReturnTypeOfSignature` (62462:36) ← `compareSignaturesRelated` (67064:36) ← `signatureRelatedTo` (69635:32) ← `signaturesRelatedTo` (69505:33) ← `structuredTypeRelatedToWorker` (68537:43) ← `structuredTypeRelatedTo` (68467:37) ← `recursiveTypeRelatedTo` (68323:36) ← `isRelatedTo` (67753:25) ← `isPropertySymbolTypeRelated` (69211:41) ← `propertyRelatedTo` (69230:31) ← `propertiesRelatedTo` (69333:33) ← `structuredTypeRelatedToWorker` (68537:43) ← `structuredTypeRelatedTo` (68467:37) ← `recursiveTypeRelatedTo` (68323:36) ← `isRelatedTo` (67753:25) ← `membersRelatedToIndexInfo` (69676:39) ← `typeRelatedToIndexInfo` (69751:36) ← `indexSignaturesRelatedTo` (69735:38) ← `structuredTypeRelatedToWorker` (68537:43) ← `structuredTypeRelatedTo` (68467:37) ← `recursiveTypeRelatedTo` (68323:36) ← `isRelatedTo` (67753:25) ← `checkTypeRelatedTo` (67445:30) ← `isTypeRelatedTo` (67361:27) ← `compareTypesAssignable` (66469:34) ← `getInferredType` (71816:27) ← `getInferredTypes` (71853:28) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 0.2% |  3.8ms |       3 | `isTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27`) ← `isTypeAssignableTo` (66481:30) ← `getConditionalType` (65229:30) ← `getConditionalTypeInstantiation` (66239:43) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `instantiateList` (65878:27) ← `instantiateTypes` (65895:28) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `getTypeOfMappedSymbol` (61244:33) ← `getTypeOfSymbol` (59663:27) ← `getPropertyTypeForIndexType` (64803:39) ← `getIndexedAccessTypeOrUndefined` (65149:43) ← `getIndexedAccessType` (65134:32) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `getConditionalType` (65229:30) ← `getConditionalTypeInstantiation` (66239:43) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `isGenericMappedType` (61325:31) ← `shouldDeferIndexType` (64600:32) ← `getIndexType` (64603:24) ← `getTypeFromTypeOperatorNode` (64615:39) ← `getTypeFromTypeNodeWorker` (65782:37) ← `getTypeFromTypeNode` (65779:31) ← `getDeclaredTypeOfTypeAlias` (60102:38) ← `tryGetDeclaredTypeOfSymbol` (60200:38) ← `getDeclaredTypeOfSymbol` (60197:35) ← `getTypeFromTypeAliasReference` (62903:41) ← `getTypeReferenceType` (63005:32) ← `getTypeFromTypeReference` (63179:36) ← `getTypeFromTypeNodeWorker` (65782:37) ← `getTypeFromTypeNode` (65779:31) ← `checkTypeReferenceOrImport` (83529:38) ← `checkTypeReferenceNode` (83518:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionStatement` (85419:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 0.2% |  3.8ms |       3 | `getUnionOrIntersectionProperty` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61892:42`) ← `getPropertyOfUnionOrIntersectionType` (61929:48) ← `getPropertiesOfUnionOrIntersectionType` (61386:50) ← `getReducedType` (61933:26) ← `getReducedApparentType` (61750:34) ← `getPropertyOfType` (61994:29) ← `checkPropertyAccessExpressionOrQualifiedName` (77201:56) ← `checkPropertyAccessExpression` (77069:41) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionStatement` (85419:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 0.2% |  3.7ms |       3 | `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36`) ← `isRelatedTo` (67753:25) ← `checkTypeRelatedTo` (67445:30) ← `isTypeRelatedTo` (67361:27) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkArrayLiteral` (75934:29) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 0.2% |  3.7ms |       3 | `op_require_read_file` ← `loadMaybeCjs` (`node:module:1669:22`) ← `(anonymous)` (1653:37) ← `(anonymous)` (1438:33) ← `(anonymous)` (1050:24) ← `(anonymous)` (1525:36) ← `require` (1752:35) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 0.1% |  3.0ms |       3 | `getIntersectionType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64367:31`) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `getMappedType` (65907:25) ← `(anonymous)` (66062:49) ← `map` (2580:13) ← `getObjectTypeInstantiation` (66040:38) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `instantiateList` (65878:27) ← `instantiateTypes` (65895:28) ← `instantiateTypeWorker` (66283:33) ← `instantiateTypeWithAlias` (66266:36) ← `instantiateType` (66256:27) ← `getReturnTypeOfSignature` (62462:36) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkNonNullExpression` (76990:34) ← `checkPropertyAccessExpression` (77069:41) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionStatement` (85419:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 0.1% |  2.8ms |       3 | `isRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25`) ← `checkTypeRelatedTo` (67445:30) ← `isTypeRelatedTo` (67361:27) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 0.1% |  2.7ms |       3 | `isTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27`) ← `isTypeIdenticalTo` (66463:29) ← `isTypeOrBaseIdenticalTo` (71779:35) ← `inferFromMatchingTypes` (71402:36) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 0.1% |  2.6ms |       2 | `createUnionOrIntersectionProperty` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61753:45`) ← `getUnionOrIntersectionProperty` (61892:42) ← `getPropertyOfUnionOrIntersectionType` (61929:48) ← `getPropertiesOfUnionOrIntersectionType` (61386:50) ← `getReducedType` (61933:26) ← `getReducedApparentType` (61750:34) ← `getPropertyOfType` (61994:29) ← `checkPropertyAccessExpressionOrQualifiedName` (77201:56) ← `checkPropertyAccessExpression` (77069:41) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionStatement` (85419:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 0.1% |  2.6ms |       2 | `inferFromMatchingTypes` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71402:36`) ← `inferFromTypes` (71184:28) ← `inferFromContravariantTypes` (71429:41) ← `inferFromContravariantTypesIfStrictFunctionTypes` (71434:62) ← `applyToParameterTypes` (70732:33) ← `inferFromSignature` (71739:32) ← `inferFromSignatures` (71727:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferFromProperties` (71715:33) ← `inferFromObjectTypes` (71615:34) ← `invokeOnce` (71374:24) ← `inferFromTypes` (71184:28) ← `inferTypes` (71175:22) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionForMutableLocation` (82534:45) ← `checkPropertyAssignment` (82547:35) ← `checkObjectLiteral` (76097:30) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionWithContextualType` (82417:45) ← `inferTypeArguments` (77951:30) ← `chooseOverload` (78765:28) ← `resolveCall` (78594:23) ← `resolveCallExpression` (78984:33) ← `resolveSignature` (79450:28) ← `getResolvedSignature` (79468:32) ← `checkCallExpression` (79584:31) ← `checkExpressionWorker` (82811:33) ← `checkExpression` (82771:27) ← `checkExpressionCached` (82440:33) ← `checkDeclarationInitializer` (82464:39) ← `getTypeForVariableLikeDeclaration` (58745:45) ← `getWidenedTypeForVariableLikeDeclaration` (59264:52) ← `getTypeOfVariableOrParameterOrPropertyWorker` (59354:56) ← `getTypeOfVariableOrParameterOrProperty` (59343:50) ← `getTypeOfSymbol` (59663:27) ← `checkVariableLikeDeclaration` (85202:40) ← `checkVariableDeclaration` (85396:36) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkVariableDeclarationList` (85407:40) ← `checkVariableStatement` (85414:34) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `forEach` (2378:17) ← `checkBlock` (85011:22) ← `checkSourceElementWorker` (88208:36) ← `checkSourceElement` (88199:30) ← `checkFunctionExpressionOrObjectLiteralMethodDeferred` (81135:64) ← `checkDeferredNode` (88499:29) ← `checkDeferredNodes` (88492:30) ← `checkSourceFileWorker` (88583:33) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`cpuprofile-run.mjs`) ← `op_run_microtasks`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |

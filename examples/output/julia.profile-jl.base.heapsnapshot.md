@@ -1,10 +1,10 @@
 # Heap snapshot
 
-Allocated 155 MiB across 1,797,991 nodes and 5,735,164 edges.
+Allocated 155 MiB across 1,797,992 nodes and 5,735,164 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
-| String             | 45.1% |   70 MiB | 295,592 |
+| String             | 45.1% |   70 MiB | 295,593 |
 | Code               | 18.4% | 28.6 MiB | 402,515 |
 | Array              | 15.7% | 24.4 MiB | 631,413 |
 | Object             | 10.8% | 16.8 MiB | 164,867 |

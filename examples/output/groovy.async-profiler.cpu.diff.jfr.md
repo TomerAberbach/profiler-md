@@ -1,15 +1,15 @@
 # Sampling profile diff
 
-Collected 6,107 samples → 5,853 samples (-254 samples, -4.2%).
+Collected 5,809 samples → 6,132 samples (+323 samples, +5.6%).
 
 | Category          | Change | Delta |             % |       Samples |
 | ----------------- | -----: | ----: | ------------: | ------------: |
-| Compiler          |  -4.7% |  -125 | 43.7% → 43.4% | 2,666 → 2,541 |
-| Native            |  -7.3% |  -130 | 29.0% → 28.1% | 1,772 → 1,642 |
-| Standard library  |  +0.3% |    +4 | 25.3% → 26.4% | 1,544 → 1,548 |
-| Ours              |  +1.3% |    +1 |          1.3% |       77 → 78 |
-| JIT               |  -4.7% |    -2 |          0.7% |       43 → 41 |
-| Garbage collector | -40.0% |    -2 |          0.1% |         5 → 3 |
+| Compiler          |  +6.9% |  +174 | 43.4% → 43.9% | 2,520 → 2,694 |
+| Native            |  +8.9% |  +145 | 27.9% → 28.8% | 1,621 → 1,766 |
+| Standard library  |  +2.0% |   +31 | 26.0% → 25.2% | 1,513 → 1,544 |
+| Ours              | -16.7% |   -15 |   1.5% → 1.2% |       90 → 75 |
+| JIT               | -19.7% |   -12 |   1.1% → 0.8% |       61 → 49 |
+| Garbage collector |   0.0% |     0 |          0.1% |             4 |
 
 ## Hottest functions
 
@@ -19,255 +19,274 @@ Collected 6,107 samples → 5,853 samples (-254 samples, -4.2%).
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |            % | Samples | Function                                                                                              | Location                                                    |
-| ------: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-|  +70.8% |   +17 |  0.4% → 0.7% | 24 → 41 | `__psynch_cvwait`                                                                                     | `libsystem_kernel.dylib`                                    |
-| +115.4% |   +15 |  0.2% → 0.5% | 13 → 28 | `PhaseLive::add_liveout`                                                                              | `libjvm.dylib`                                              |
-|  +65.2% |   +15 |  0.4% → 0.6% | 23 → 38 | `invokeVirtual(Object, Object)`                                                                       | `java.lang.invoke.DirectMethodHandle$Holder`                |
-| +107.7% |   +14 |  0.2% → 0.5% | 13 → 27 | `Compile::disconnect_useless_nodes`                                                                   | `libjvm.dylib`                                              |
-|  +18.2% |   +12 |  1.1% → 1.3% | 66 → 78 | `Arena::contains`                                                                                     | `libjvm.dylib`                                              |
-| +550.0% |   +11 | <0.1% → 0.2% |  2 → 13 | `IfFalseNode::Opcode`                                                                                 | `libjvm.dylib`                                              |
-|  +55.0% |   +11 |  0.3% → 0.5% | 20 → 31 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)`           | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800`        |
-| +110.0% |   +11 |  0.2% → 0.4% | 10 → 21 | `LinearScanWalker::alloc_free_reg`                                                                    | `libjvm.dylib`                                              |
-|  +47.4% |    +9 |  0.3% → 0.5% | 19 → 28 | `invokeStatic(Object, Object, Object)`                                                                | `java.lang.invoke.DirectMethodHandle$Holder`                |
-| +112.5% |    +9 |  0.1% → 0.3% |  8 → 17 | `LIR_OpVisitState::visit`                                                                             | `libjvm.dylib`                                              |
-|  +36.4% |    +8 |  0.4% → 0.5% | 22 → 30 | `sys_icache_invalidate`                                                                               | `libsystem_platform.dylib`                                  |
-| +800.0% |    +8 | <0.1% → 0.2% |   1 → 9 | `<init>(MutableCallSite, Class, String, IndyInterface$CallType, boolean, boolean, boolean, Object[])` | `org.codehaus.groovy.vmplugin.v8.Selector$PropertySelector` |
-|  +23.3% |    +7 |  0.5% → 0.6% | 30 → 37 | `__psynch_mutexwait`                                                                                  | `libsystem_kernel.dylib`                                    |
-| +100.0% |    +7 |  0.1% → 0.2% |  7 → 14 | `PhaseIFG::effective_degree`                                                                          | `libjvm.dylib`                                              |
-| +116.7% |    +7 |  0.1% → 0.2% |  6 → 13 | `Node::Node`                                                                                          | `libjvm.dylib`                                              |
-| +175.0% |    +7 |  0.1% → 0.2% |  4 → 11 | `Node::clone`                                                                                         | `libjvm.dylib`                                              |
-|  +63.6% |    +7 |  0.2% → 0.3% | 11 → 18 | `equals(Object)`                                                                                      | `java.lang.String`                                          |
-|  +87.5% |    +7 |  0.1% → 0.3% |  8 → 15 | `resize()`                                                                                            | `java.util.HashMap`                                         |
-|  +54.5% |    +6 |  0.2% → 0.3% | 11 → 17 | `Node::is_CFG`                                                                                        | `libjvm.dylib`                                              |
-| +100.0% |    +6 |  0.1% → 0.2% |  6 → 12 | `Type::hashcons`                                                                                      | `libjvm.dylib`                                              |
+|  Change | Delta |           % |   Samples | Function                                                                                                                     | Location                                            |
+| ------: | ----: | ----------: | --------: | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+|  +59.0% |   +36 | 1.1% → 1.6% |   61 → 97 | `Node::dominates`                                                                                                            | `libjvm.dylib`                                      |
+|  +30.4% |   +31 | 1.8% → 2.2% | 102 → 133 | `PhaseChaitin::Split`                                                                                                        | `libjvm.dylib`                                      |
+|  +45.6% |   +26 | 1.0% → 1.4% |   57 → 83 | `Arena::contains`                                                                                                            | `libjvm.dylib`                                      |
+|  +25.8% |   +25 | 1.7% → 2.0% |  97 → 122 | `pthread_jit_write_protect_np`                                                                                               | `libsystem_pthread.dylib`                           |
+|  +30.3% |   +23 | 1.3% → 1.6% |   76 → 99 | `tlv_get_addr`                                                                                                               | `libdyld.dylib`                                     |
+| +135.3% |   +23 | 0.3% → 0.7% |   17 → 40 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                              | `libjvm.dylib`                                      |
+|  +71.0% |   +22 | 0.5% → 0.9% |   31 → 53 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                            | `libjvm.dylib`                                      |
+| +136.4% |   +15 | 0.2% → 0.4% |   11 → 26 | `LinearScanWalker::alloc_free_reg`                                                                                           | `libjvm.dylib`                                      |
+|  +61.9% |   +13 | 0.4% → 0.6% |   21 → 34 | `collector(Object, Object, Object)`                                                                                          | `java.lang.invoke.LambdaForm$MH.0x00000070010a1000` |
+| +100.0% |   +12 | 0.2% → 0.4% |   12 → 24 | `sys_icache_invalidate`                                                                                                      | `libsystem_platform.dylib`                          |
+|  +91.7% |   +11 | 0.2% → 0.4% |   12 → 23 | `Dict::Insert`                                                                                                               | `libjvm.dylib`                                      |
+| +220.0% |   +11 | 0.1% → 0.3% |    5 → 16 | `Node::clone`                                                                                                                | `libjvm.dylib`                                      |
+|  +45.8% |   +11 | 0.4% → 0.6% |   24 → 35 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `libjvm.dylib`                                      |
+|  +76.9% |   +10 | 0.2% → 0.4% |   13 → 23 | `Matcher::match_tree`                                                                                                        | `libjvm.dylib`                                      |
+|  +71.4% |   +10 | 0.2% → 0.4% |   14 → 24 | `Type::cmp`                                                                                                                  | `libjvm.dylib`                                      |
+| +125.0% |   +10 | 0.1% → 0.3% |    8 → 18 | `LinearScan::build_intervals`                                                                                                | `libjvm.dylib`                                      |
+| +125.0% |   +10 | 0.1% → 0.3% |    8 → 18 | `ValueStack::values_do`                                                                                                      | `libjvm.dylib`                                      |
+|  +42.9% |    +9 | 0.4% → 0.5% |   21 → 30 | `PhaseLive::add_liveout`                                                                                                     | `libjvm.dylib`                                      |
+|  +23.1% |    +9 | 0.7% → 0.8% |   39 → 48 | `PhaseAggressiveCoalesce::insert_copies`                                                                                     | `libjvm.dylib`                                      |
+|  +75.0% |    +9 | 0.2% → 0.3% |   12 → 21 | `_platform_memmove`                                                                                                          | `libsystem_platform.dylib`                          |
 
 ##### Compiler
 
-|  Change | Delta |            % | Samples | Function                                              | Location       |
-| ------: | ----: | -----------: | ------: | ----------------------------------------------------- | -------------- |
-| +115.4% |   +15 |  0.2% → 0.5% | 13 → 28 | `PhaseLive::add_liveout`                              | `libjvm.dylib` |
-| +107.7% |   +14 |  0.2% → 0.5% | 13 → 27 | `Compile::disconnect_useless_nodes`                   | `libjvm.dylib` |
-| +550.0% |   +11 | <0.1% → 0.2% |  2 → 13 | `IfFalseNode::Opcode`                                 | `libjvm.dylib` |
-| +110.0% |   +11 |  0.2% → 0.4% | 10 → 21 | `LinearScanWalker::alloc_free_reg`                    | `libjvm.dylib` |
-| +112.5% |    +9 |  0.1% → 0.3% |  8 → 17 | `LIR_OpVisitState::visit`                             | `libjvm.dylib` |
-| +100.0% |    +7 |  0.1% → 0.2% |  7 → 14 | `PhaseIFG::effective_degree`                          | `libjvm.dylib` |
-| +116.7% |    +7 |  0.1% → 0.2% |  6 → 13 | `Node::Node`                                          | `libjvm.dylib` |
-| +175.0% |    +7 |  0.1% → 0.2% |  4 → 11 | `Node::clone`                                         | `libjvm.dylib` |
-|  +54.5% |    +6 |  0.2% → 0.3% | 11 → 17 | `Node::is_CFG`                                        | `libjvm.dylib` |
-| +100.0% |    +6 |  0.1% → 0.2% |  6 → 12 | `Type::hashcons`                                      | `libjvm.dylib` |
-| +150.0% |    +6 |  0.1% → 0.2% |  4 → 10 | `RegMask::is_aligned_pairs`                           | `libjvm.dylib` |
-| +120.0% |    +6 |  0.1% → 0.2% |  5 → 11 | `ProjNode::is_CFG`                                    | `libjvm.dylib` |
-| +120.0% |    +6 |  0.1% → 0.2% |  5 → 11 | `MethodLiveness::BasicBlock::compute_gen_kill_single` | `libjvm.dylib` |
-| +100.0% |    +5 |  0.1% → 0.2% |  5 → 10 | `PhaseIterGVN::remove_globally_dead_node`             | `libjvm.dylib` |
-| +166.7% |    +5 | <0.1% → 0.1% |   3 → 8 | `PhaseIdealLoop::split_if_with_blocks_pre`            | `libjvm.dylib` |
-| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `TypeInstPtr::hash`                                   | `libjvm.dylib` |
-| +125.0% |    +5 |  0.1% → 0.2% |   4 → 9 | `TypeOopPtr::eq`                                      | `libjvm.dylib` |
-| +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `CatchNode::Opcode`                                   | `libjvm.dylib` |
-| +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `PhaseCCP::fetch_next_node`                           | `libjvm.dylib` |
-|  +11.4% |    +4 |  0.6% → 0.7% | 35 → 39 | `ciObjectFactory::get_metadata`                       | `libjvm.dylib` |
+|  Change | Delta |            % |   Samples | Function                                             | Location       |
+| ------: | ----: | -----------: | --------: | ---------------------------------------------------- | -------------- |
+|  +59.0% |   +36 |  1.1% → 1.6% |   61 → 97 | `Node::dominates`                                    | `libjvm.dylib` |
+|  +30.4% |   +31 |  1.8% → 2.2% | 102 → 133 | `PhaseChaitin::Split`                                | `libjvm.dylib` |
+| +136.4% |   +15 |  0.2% → 0.4% |   11 → 26 | `LinearScanWalker::alloc_free_reg`                   | `libjvm.dylib` |
+| +220.0% |   +11 |  0.1% → 0.3% |    5 → 16 | `Node::clone`                                        | `libjvm.dylib` |
+|  +76.9% |   +10 |  0.2% → 0.4% |   13 → 23 | `Matcher::match_tree`                                | `libjvm.dylib` |
+|  +71.4% |   +10 |  0.2% → 0.4% |   14 → 24 | `Type::cmp`                                          | `libjvm.dylib` |
+| +125.0% |   +10 |  0.1% → 0.3% |    8 → 18 | `LinearScan::build_intervals`                        | `libjvm.dylib` |
+| +125.0% |   +10 |  0.1% → 0.3% |    8 → 18 | `ValueStack::values_do`                              | `libjvm.dylib` |
+|  +42.9% |    +9 |  0.4% → 0.5% |   21 → 30 | `PhaseLive::add_liveout`                             | `libjvm.dylib` |
+|  +23.1% |    +9 |  0.7% → 0.8% |   39 → 48 | `PhaseAggressiveCoalesce::insert_copies`             | `libjvm.dylib` |
+|  +80.0% |    +8 |  0.2% → 0.3% |   10 → 18 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` | `libjvm.dylib` |
+|  +25.0% |    +7 |  0.5% → 0.6% |   28 → 35 | `PhaseChaitin::gather_lrg_masks`                     | `libjvm.dylib` |
+| +140.0% |    +7 |  0.1% → 0.2% |    5 → 12 | `MachNode::ideal_reg`                                | `libjvm.dylib` |
+| +233.3% |    +7 |  0.1% → 0.2% |    3 → 10 | `LinearScan::assign_reg_num`                         | `libjvm.dylib` |
+| +700.0% |    +7 | <0.1% → 0.1% |     1 → 8 | `Node::has_special_unique_user`                      | `libjvm.dylib` |
+|  +26.1% |    +6 |  0.4% → 0.5% |   23 → 29 | `PhaseChaitin::post_allocate_copy_removal`           | `libjvm.dylib` |
+| +300.0% |    +6 | <0.1% → 0.1% |     2 → 8 | `PhaseChaitin::raise_pressure`                       | `libjvm.dylib` |
+|  +54.5% |    +6 |  0.2% → 0.3% |   11 → 17 | `Node::is_CFG`                                       | `libjvm.dylib` |
+| +300.0% |    +6 | <0.1% → 0.1% |     2 → 8 | `Node::rematerialize`                                | `libjvm.dylib` |
+| +600.0% |    +6 | <0.1% → 0.1% |     1 → 7 | `BoolNode::Opcode`                                   | `libjvm.dylib` |
 
 ##### Native
 
-|  Change | Delta |            % |   Samples | Function                                                             | Location                   |
-| ------: | ----: | -----------: | --------: | -------------------------------------------------------------------- | -------------------------- |
-|  +70.8% |   +17 |  0.4% → 0.7% |   24 → 41 | `__psynch_cvwait`                                                    | `libsystem_kernel.dylib`   |
-|  +18.2% |   +12 |  1.1% → 1.3% |   66 → 78 | `Arena::contains`                                                    | `libjvm.dylib`             |
-|  +36.4% |    +8 |  0.4% → 0.5% |   22 → 30 | `sys_icache_invalidate`                                              | `libsystem_platform.dylib` |
-|  +23.3% |    +7 |  0.5% → 0.6% |   30 → 37 | `__psynch_mutexwait`                                                 | `libsystem_kernel.dylib`   |
-|  +75.0% |    +6 |  0.1% → 0.2% |    8 → 14 | `CodeHeap::search_freelist`                                          | `libjvm.dylib`             |
-| +100.0% |    +6 |  0.1% → 0.2% |    6 → 12 | `CodeCache::make_marked_nmethods_deoptimized`                        | `libjvm.dylib`             |
-| +200.0% |    +6 | <0.1% → 0.2% |     3 → 9 | `CodeHeap::find_blob`                                                | `libjvm.dylib`             |
-|   +4.6% |    +5 |  1.8% → 1.9% | 109 → 114 | `pthread_jit_write_protect_np`                                       | `libsystem_pthread.dylib`  |
-| +500.0% |    +5 | <0.1% → 0.1% |     1 → 6 | `fwd_copy_again`                                                     | `libjvm.dylib`             |
-|  +66.7% |    +4 |  0.1% → 0.2% |    6 → 10 | `semaphore_wait_trap`                                                | `libsystem_kernel.dylib`   |
-| +200.0% |    +4 | <0.1% → 0.1% |     2 → 6 | `Symbol::increment_refcount`                                         | `libjvm.dylib`             |
-| +100.0% |    +4 |         0.1% |     4 → 8 | `trampoline_stub_Relocation::get_trampoline_for`                     | `libjvm.dylib`             |
-| +100.0% |    +4 |         0.1% |     4 → 8 | `JavaFrameAnchor::make_walkable`                                     | `libjvm.dylib`             |
-| +400.0% |    +4 | <0.1% → 0.1% |     1 → 5 | `stat64`                                                             | `libsystem_kernel.dylib`   |
-| +400.0% |    +4 | <0.1% → 0.1% |     1 → 5 | `JvmtiVMObjectAllocEventCollector::JvmtiVMObjectAllocEventCollector` | `libjvm.dylib`             |
-| +133.3% |    +4 | <0.1% → 0.1% |     3 → 7 | `CompiledMethod::cleanup_inline_caches_impl`                         | `libjvm.dylib`             |
-|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `pthread_mutex_lock`                                                 | `libsystem_pthread.dylib`  |
-|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `java_lang_ClassLoader::non_reflection_class_loader`                 | `libjvm.dylib`             |
-|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `LocationValue::write_on`                                            | `libjvm.dylib`             |
-|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `inflate_fast`                                                       | `libzip.dylib`             |
+|  Change | Delta |            % |  Samples | Function                                                                                                                     | Location                   |
+| ------: | ----: | -----------: | -------: | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+|  +45.6% |   +26 |  1.0% → 1.4% |  57 → 83 | `Arena::contains`                                                                                                            | `libjvm.dylib`             |
+|  +25.8% |   +25 |  1.7% → 2.0% | 97 → 122 | `pthread_jit_write_protect_np`                                                                                               | `libsystem_pthread.dylib`  |
+|  +30.3% |   +23 |  1.3% → 1.6% |  76 → 99 | `tlv_get_addr`                                                                                                               | `libdyld.dylib`            |
+| +135.3% |   +23 |  0.3% → 0.7% |  17 → 40 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                              | `libjvm.dylib`             |
+|  +71.0% |   +22 |  0.5% → 0.9% |  31 → 53 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                            | `libjvm.dylib`             |
+| +100.0% |   +12 |  0.2% → 0.4% |  12 → 24 | `sys_icache_invalidate`                                                                                                      | `libsystem_platform.dylib` |
+|  +91.7% |   +11 |  0.2% → 0.4% |  12 → 23 | `Dict::Insert`                                                                                                               | `libjvm.dylib`             |
+|  +45.8% |   +11 |  0.4% → 0.6% |  24 → 35 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `libjvm.dylib`             |
+|  +75.0% |    +9 |  0.2% → 0.3% |  12 → 21 | `_platform_memmove`                                                                                                          | `libsystem_platform.dylib` |
+|  +23.7% |    +9 |  0.7% → 0.8% |  38 → 47 | `__psynch_mutexwait`                                                                                                         | `libsystem_kernel.dylib`   |
+|  +72.7% |    +8 |  0.2% → 0.3% |  11 → 19 | `posix_madvise`                                                                                                              | `libsystem_kernel.dylib`   |
+| +266.7% |    +8 |  0.1% → 0.2% |   3 → 11 | `__psynch_mutexdrop`                                                                                                         | `libsystem_kernel.dylib`   |
+|  +40.0% |    +6 |         0.3% |  15 → 21 | `InstanceKlass::find_method_index`                                                                                           | `libjvm.dylib`             |
+| +600.0% |    +6 | <0.1% → 0.1% |    1 → 7 | `CompiledMethod::cleanup_inline_caches_impl`                                                                                 | `libjvm.dylib`             |
+|  +42.9% |    +6 |  0.2% → 0.3% |  14 → 20 | `BacktraceBuilder::push`                                                                                                     | `libjvm.dylib`             |
+| +125.0% |    +5 |         0.1% |    4 → 9 | `SignatureStream::next`                                                                                                      | `libjvm.dylib`             |
+|   +7.8% |    +5 |         1.1% |  64 → 69 | `java_lang_Throwable::fill_in_stack_trace`                                                                                   | `libjvm.dylib`             |
+| +250.0% |    +5 | <0.1% → 0.1% |    2 → 7 | `ResolvedMethodTable::find_method`                                                                                           | `libjvm.dylib`             |
+| +500.0% |    +5 | <0.1% → 0.1% |    1 → 6 | `pthread_mutex_lock`                                                                                                         | `libsystem_pthread.dylib`  |
+| +133.3% |    +4 |         0.1% |    3 → 7 | `void OopOopIterateDispatch<G1RootRegionScanClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                      | `libjvm.dylib`             |
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function                                                                                              | Location                                                    |
-| ------: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-|  +65.2% |   +15 |  0.4% → 0.6% | 23 → 38 | `invokeVirtual(Object, Object)`                                                                       | `java.lang.invoke.DirectMethodHandle$Holder`                |
-|  +55.0% |   +11 |  0.3% → 0.5% | 20 → 31 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)`           | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800`        |
-|  +47.4% |    +9 |  0.3% → 0.5% | 19 → 28 | `invokeStatic(Object, Object, Object)`                                                                | `java.lang.invoke.DirectMethodHandle$Holder`                |
-| +800.0% |    +8 | <0.1% → 0.2% |   1 → 9 | `<init>(MutableCallSite, Class, String, IndyInterface$CallType, boolean, boolean, boolean, Object[])` | `org.codehaus.groovy.vmplugin.v8.Selector$PropertySelector` |
-|  +63.6% |    +7 |  0.2% → 0.3% | 11 → 18 | `equals(Object)`                                                                                      | `java.lang.String`                                          |
-|  +87.5% |    +7 |  0.1% → 0.3% |  8 → 15 | `resize()`                                                                                            | `java.util.HashMap`                                         |
-|  +54.5% |    +6 |  0.2% → 0.3% | 11 → 17 | `putVal(int, Object, Object, boolean, boolean)`                                                       | `java.util.HashMap`                                         |
-|     new |    +6 |  0.0% → 0.1% |   0 → 6 | `invoke(Object, Object)`                                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`         |
-| +300.0% |    +6 | <0.1% → 0.1% |   2 → 8 | `type()`                                                                                              | `java.lang.invoke.MethodHandle`                             |
-| +125.0% |    +5 |  0.1% → 0.2% |   4 → 9 | `getMethods(Class, String)`                                                                           | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex`     |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `asCollector(Class, int)`                                                                             | `java.lang.invoke.MethodHandle`                             |
-| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `guard(Object, Object)`                                                                               | `java.lang.invoke.LambdaForm$MH.0x000000700109a000`         |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `getEpsilonTarget(ATNConfig, Transition, boolean, boolean, PredictionContextCache, boolean)`          | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`      |
-|  +26.7% |    +4 |  0.2% → 0.3% | 15 → 19 | `getNode(Object)`                                                                                     | `java.util.HashMap`                                         |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invoke(Object, Object)`                                                                              | `java.lang.invoke.LambdaForm$MH.0x000000700109b400`         |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `makeImpl(Class, Class[], boolean)`                                                                   | `java.lang.invoke.MethodType`                               |
-|  +66.7% |    +4 |  0.1% → 0.2% |  6 → 10 | `add(ATNConfig, PredictionContextCache)`                                                              | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`            |
-| +200.0% |    +4 | <0.1% → 0.1% |   2 → 6 | `coerceArgumentsToClasses(Object[])`                                                                  | `org.codehaus.groovy.reflection.ParameterTypes`             |
-| +133.3% |    +4 | <0.1% → 0.1% |   3 → 7 | `sameClasses(Class[], Object[], boolean)`                                                             | `org.codehaus.groovy.runtime.MetaClassHelper`               |
-|  +66.7% |    +4 |  0.1% → 0.2% |  6 → 10 | `collector(Object, Object, Object, Object)`                                                           | `java.lang.invoke.LambdaForm$MH.0x00000070010d3c00`         |
+|  Change | Delta |            % | Samples | Function                                                                                                    | Location                                                                   |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+|  +61.9% |   +13 |  0.4% → 0.6% | 21 → 34 | `collector(Object, Object, Object)`                                                                         | `java.lang.invoke.LambdaForm$MH.0x00000070010a1000`                        |
+|     new |    +9 |  0.0% → 0.1% |   0 → 9 | `copyWithExtendL(MethodType, LambdaForm, Object)`                                                           | `java.lang.invoke.BoundMethodHandle$Species_LL`                            |
+|  +42.1% |    +8 |  0.3% → 0.4% | 19 → 27 | `invokeStatic(Object, Object, Object)`                                                                      | `java.lang.invoke.DirectMethodHandle$Holder`                               |
+| +350.0% |    +7 | <0.1% → 0.1% |   2 → 9 | `tryAdvance(Consumer)`                                                                                      | `java.util.Spliterators$ArraySpliterator`                                  |
+|  +87.5% |    +7 |  0.1% → 0.2% |  8 → 15 | `equals(Object, Object)`                                                                                    | `java.util.Objects`                                                        |
+| +100.0% |    +6 |  0.1% → 0.2% |  6 → 12 | `getAndPut(String, MemoizeCache$ValueProvider)`                                                             | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite`                        |
+|     new |    +6 |  0.0% → 0.1% |   0 → 6 | `unreflect(Method)`                                                                                         | `java.lang.invoke.MethodHandles$Lookup`                                    |
+| +100.0% |    +5 |  0.1% → 0.2% |  5 → 10 | `invoke(Object, Object)`                                                                                    | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`                        |
+|  +71.4% |    +5 |  0.1% → 0.2% |  7 → 12 | `join(PredictionContext, PredictionContext, PredictionContextCache)`                                        | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext`                      |
+|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `provide(Object)`                                                                                           | `org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x000000700108f680` |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `invoke(Object, int)`                                                                                       | `java.lang.invoke.LambdaForm$MH.0x0000007001031400`                        |
+|  +80.0% |    +4 |         0.1% |   5 → 9 | `getInCache(LambdaFormEditor$TransformKey)`                                                                 | `java.lang.invoke.LambdaFormEditor`                                        |
+|  +80.0% |    +4 |         0.1% |   5 → 9 | `sameClasses(Class[], Object[])`                                                                            | `org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures`           |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `getNoCheckStale(Object)`                                                                                   | `jdk.internal.util.ReferencedKeyMap`                                       |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `next()`                                                                                                    | `java.util.ArrayList$Itr`                                                  |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `getReturnState(int)`                                                                                       | `groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext`                 |
+| +200.0% |    +4 | <0.1% → 0.1% |   2 → 6 | `makeReinvokerForm(MethodHandle, int, Object, boolean, LambdaForm$NamedFunction, LambdaForm$NamedFunction)` | `java.lang.invoke.DelegatingMethodHandle`                                  |
+|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `<init>(MutableCallSite, Class, String, IndyInterface$CallType, Boolean, Boolean, Boolean, Object[])`       | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`                  |
+|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `boxBoolean(boolean)`                                                                                       | `sun.invoke.util.ValueConversions`                                         |
+|     new |    +3 | 0.0% → <0.1% |   0 → 3 | `setCallSiteTarget()`                                                                                       | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`                  |
 
 ##### Ours
 
-|  Change | Delta |            % | Samples | Function                                                    | Location                                                                           |
-| ------: | ----: | -----------: | ------: | ----------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `isNotWhitespace(String, int)`                              | `org.codenarc.rule.formatting.AbstractSpaceAroundBraceAstVisitor`                  |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `init()`                                                    | `org.codenarc.analyzer.SuppressionAnalyzer`                                        |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `isRuleSuppressed(Rule)`                                    | `org.codenarc.analyzer.SuppressionAnalyzer`                                        |
-| +100.0% |    +1 |        <0.1% |   1 → 2 | `visitMethod(MethodNode)`                                   | `org.codenarc.rule.AbstractAstVisitor`                                             |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `applyTo(SourceCode)`                                       | `org.codenarc.rule.AbstractRule`                                                   |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `processLine(String)`                                       | `org.codenarc.util.MultilineCommentChecker`                                        |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitBlockStatement(BlockStatement)`                       | `org.codenarc.rule.formatting.SpaceAfterClosingBraceAstVisitor`                    |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `checkForCorrectColumn(ASTNode, String, int)`               | `org.codenarc.rule.formatting.IndentationAstVisitor`                               |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object)`                                            | `org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7` |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `extractVariableOrFieldName(BinaryExpression)`              | `org.codenarc.rule.design.PrivateFieldCouldBeFinalAstVisitor`                      |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `addViolation(ASTNode, String)`                             | `org.codenarc.rule.AbstractAstVisitor`                                             |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitBinaryExpression(BinaryExpression)`                   | `org.codenarc.rule.basic.BrokenOddnessCheckAstVisitor`                             |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClassEx(ClassNode)`                                   | `org.codenarc.rule.naming.AbstractTypeNameAstVisitor`                              |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `super$3$visitBlockStatement(BlockStatement)`               | `org.codenarc.rule.formatting.SpaceAfterSemicolonAstVisitor`                       |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethod(MethodNode)`                                   | `org.codenarc.rule.naming.MethodNameAstVisitor`                                    |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClassEx(ClassNode)`                                   | `org.codenarc.rule.formatting.SpaceBeforeClosingBraceAstVisitor`                   |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitConstructorCallExpression(ConstructorCallExpression)` | `org.codenarc.rule.groovyism.ExplicitTypeInstantiationAstVisitor`                  |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `super$2$visitBinaryExpression(BinaryExpression)`           | `org.codenarc.rule.unnecessary.UnnecessaryToStringAstVisitor`                      |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethodEx(MethodNode)`                                 | `org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor`                |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitBinaryExpression(BinaryExpression)`                   | `org.codenarc.rule.convention.InvertedConditionAstVisitor`                         |
+| Change | Delta |            % | Samples | Function                                          | Location                                                                                          |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+|    new |    +3 | 0.0% → <0.1% |   0 → 3 | `getAstVisitor()`                                 | `org.codenarc.rule.AbstractAstVisitorRule`                                                        |
+|    new |    +2 | 0.0% → <0.1% |   0 → 2 | `<init>()`                                        | `org.codenarc.rule.AbstractAstVisitor`                                                            |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `init()`                                          | `org.codenarc.source.AbstractSourceCode`                                                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object)`                                  | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`                        |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object)`                                  | `org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3`             |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object)`                                  | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`                        |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `getLines()`                                      | `org.codenarc.source.AbstractSourceCode`                                                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethodComplete(MethodNode)`                 | `org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor`                       |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `isNotAnInterface(ClassNode)`                     | `org.gmetrics.metric.AbstractMetric`                                                              |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `calculateForClass(ClassNode, SourceCode)`        | `org.gmetrics.metric.AbstractMethodMetric`                                                        |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object)`                                  | `org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7`                |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethodCallExpression(MethodCallExpression)` | `org.codenarc.rule.formatting.IndentationAstVisitor`                                              |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `processSourceLine(String, int)`                  | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor`                                   |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object, Object)`                          | `org.codenarc.rule.unused.UnusedVariableAstVisitor$_afterBlock_closure2`                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `applyTo(SourceCode, List)`                       | `org.codenarc.rule.formatting.ConsecutiveBlankLinesRule`                                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `getMagnitude()`                                  | `org.gmetrics.metric.abc.AbcVector`                                                               |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object)`                                  | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_processMethodOrConstructorCall_closure3` |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClosureExpression(ClosureExpression)`       | `org.codenarc.rule.formatting.SpaceBeforeClosingBraceAstVisitor`                                  |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `isValid()`                                       | `org.codenarc.source.AbstractSourceCode`                                                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall(Object, Object)`                          | `org.codenarc.rule.formatting.TrailingWhitespaceRule$_applyTo_closure1`                           |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                  | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------- | ----------- |
+| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `zero_blocks`             | `<unknown>` |
+| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
+|  +12.5% |    +1 |         0.1% |   8 → 9 | `vtable stub`             | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0x)`    | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |            % |  Samples | Function                                                                                               | Location                                            |
-| ------: | ----: | -----------: | -------: | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
-|  -21.9% |   -25 |  1.9% → 1.5% | 114 → 89 | `tlv_get_addr`                                                                                         | `libdyld.dylib`                                     |
-|  -16.7% |   -19 |  1.9% → 1.6% | 114 → 95 | `cast(Object)`                                                                                         | `java.lang.Class`                                   |
-|  -45.9% |   -17 |  0.6% → 0.3% |  37 → 20 | `PhaseChaitin::gather_lrg_masks`                                                                       | `libjvm.dylib`                                      |
-|  -14.9% |   -15 |  1.7% → 1.5% | 101 → 86 | `Node::dominates`                                                                                      | `libjvm.dylib`                                      |
-|  -48.4% |   -15 |  0.5% → 0.3% |  31 → 16 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib`                                      |
-|  -36.8% |   -14 |  0.6% → 0.4% |  38 → 24 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`         | `libjvm.dylib`                                      |
-|  -21.1% |   -12 |  0.9% → 0.8% |  57 → 45 | `PhaseChaitin::build_ifg_physical`                                                                     | `libjvm.dylib`                                      |
-|  -30.8% |   -12 |  0.6% → 0.5% |  39 → 27 | `Compile::identify_useful_nodes`                                                                       | `libjvm.dylib`                                      |
-|  -41.4% |   -12 |  0.5% → 0.3% |  29 → 17 | `MachNode::rematerialize`                                                                              | `libjvm.dylib`                                      |
-|  -26.1% |   -12 |  0.8% → 0.6% |  46 → 34 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                      | `libjvm.dylib`                                      |
-|  -17.4% |   -12 |  1.1% → 1.0% |  69 → 57 | `java_lang_Throwable::fill_in_stack_trace`                                                             | `libjvm.dylib`                                      |
-|  -91.7% |   -11 | 0.2% → <0.1% |   12 → 1 | `PhaseCFG::sched_call`                                                                                 | `libjvm.dylib`                                      |
-|  -31.4% |   -11 |  0.6% → 0.4% |  35 → 24 | `G1ParScanThreadState::trim_queue_to_threshold`                                                        | `libjvm.dylib`                                      |
-| removed |   -11 |  0.2% → 0.0% |   11 → 0 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                  | `libjvm.dylib`                                      |
-|  -47.6% |   -10 |  0.3% → 0.2% |  21 → 11 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal`                                                   | `libjvm.dylib`                                      |
-|  -29.0% |    -9 |  0.5% → 0.4% |  31 → 22 | `_platform_memset`                                                                                     | `libsystem_platform.dylib`                          |
-|  -64.3% |    -9 |  0.2% → 0.1% |   14 → 5 | `_platform_memmove`                                                                                    | `libsystem_platform.dylib`                          |
-|  -33.3% |    -9 |  0.4% → 0.3% |  27 → 18 | `IntervalWalker::walk_to`                                                                              | `libjvm.dylib`                                      |
-|  -27.6% |    -8 |  0.5% → 0.4% |  29 → 21 | `Node_Backward_Iterator::next`                                                                         | `libjvm.dylib`                                      |
-| removed |    -8 |  0.1% → 0.0% |    8 → 0 | `invoke(Object, Object)`                                                                               | `java.lang.invoke.LambdaForm$MH.0x0000007001368c00` |
+|  Change | Delta |            % | Samples | Function                                              | Location                  |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------------- | ------------------------- |
+|  -23.6% |   -17 |  1.2% → 0.9% | 72 → 55 | `IndexSetIterator::advance_and_next`                  | `libjvm.dylib`            |
+|  -60.0% |   -15 |  0.4% → 0.2% | 25 → 10 | `frame::sender_for_compiled_frame`                    | `libjvm.dylib`            |
+|  -36.8% |   -14 |  0.7% → 0.4% | 38 → 24 | `PhaseIdealLoop::build_loop_late`                     | `libjvm.dylib`            |
+|  -29.5% |   -13 |  0.8% → 0.5% | 44 → 31 | `ciObjectFactory::get_metadata`                       | `libjvm.dylib`            |
+|  -56.5% |   -13 |  0.4% → 0.2% | 23 → 10 | `itable stub`                                         | `<unknown>`               |
+|  -34.4% |   -11 |  0.6% → 0.3% | 32 → 21 | `Node::set_req_X`                                     | `libjvm.dylib`            |
+|  -64.7% |   -11 |  0.3% → 0.1% |  17 → 6 | `LinearScanWalker::free_collect_inactive_fixed`       | `libjvm.dylib`            |
+|  -27.8% |   -10 |  0.6% → 0.4% | 36 → 26 | `PhaseIdealLoop::build_loop_late_post_work`           | `libjvm.dylib`            |
+|  -33.3% |   -10 |  0.5% → 0.3% | 30 → 20 | `IntervalWalker::walk_to`                             | `libjvm.dylib`            |
+|  -38.5% |   -10 |  0.4% → 0.3% | 26 → 16 | `getNode(Object)`                                     | `java.util.HashMap`       |
+| removed |    -9 |  0.2% → 0.0% |   9 → 0 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass` | `libjvm.dylib`            |
+|  -81.8% |    -9 | 0.2% → <0.1% |  11 → 2 | `JNIHandleBlock::allocate_handle`                     | `libjvm.dylib`            |
+|  -13.8% |    -9 |  1.1% → 0.9% | 65 → 56 | `newInstance(Class, int)`                             | `java.lang.reflect.Array` |
+|  -64.3% |    -9 |  0.2% → 0.1% |  14 → 5 | `frame::sender_raw`                                   | `libjvm.dylib`            |
+|  -30.8% |    -8 |  0.4% → 0.3% | 26 → 18 | `vmSymbols::find_sid`                                 | `libjvm.dylib`            |
+|  -61.5% |    -8 |  0.2% → 0.1% |  13 → 5 | `Node::disconnect_inputs`                             | `libjvm.dylib`            |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `PhaseCCP::push_cmpu`                                 | `libjvm.dylib`            |
+|  -77.8% |    -7 | 0.2% → <0.1% |   9 → 2 | `PhiNode::Ideal`                                      | `libjvm.dylib`            |
+|  -46.7% |    -7 |  0.3% → 0.1% |  15 → 8 | `G1CardSet::add_to_howl`                              | `libjvm.dylib`            |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `inflate_fast`                                        | `libzip.dylib`            |
 
 ##### Compiler
 
-|  Change | Delta |            % |  Samples | Function                                             | Location       |
-| ------: | ----: | -----------: | -------: | ---------------------------------------------------- | -------------- |
-|  -45.9% |   -17 |  0.6% → 0.3% |  37 → 20 | `PhaseChaitin::gather_lrg_masks`                     | `libjvm.dylib` |
-|  -14.9% |   -15 |  1.7% → 1.5% | 101 → 86 | `Node::dominates`                                    | `libjvm.dylib` |
-|  -21.1% |   -12 |  0.9% → 0.8% |  57 → 45 | `PhaseChaitin::build_ifg_physical`                   | `libjvm.dylib` |
-|  -30.8% |   -12 |  0.6% → 0.5% |  39 → 27 | `Compile::identify_useful_nodes`                     | `libjvm.dylib` |
-|  -41.4% |   -12 |  0.5% → 0.3% |  29 → 17 | `MachNode::rematerialize`                            | `libjvm.dylib` |
-|  -91.7% |   -11 | 0.2% → <0.1% |   12 → 1 | `PhaseCFG::sched_call`                               | `libjvm.dylib` |
-|  -47.6% |   -10 |  0.3% → 0.2% |  21 → 11 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` | `libjvm.dylib` |
-|  -33.3% |    -9 |  0.4% → 0.3% |  27 → 18 | `IntervalWalker::walk_to`                            | `libjvm.dylib` |
-|  -27.6% |    -8 |  0.5% → 0.4% |  29 → 21 | `Node_Backward_Iterator::next`                       | `libjvm.dylib` |
-|  -72.7% |    -8 |  0.2% → 0.1% |   11 → 3 | `LinearScan::compute_local_live_sets`                | `libjvm.dylib` |
-|  -30.4% |    -7 |  0.4% → 0.3% |  23 → 16 | `Matcher::xform`                                     | `libjvm.dylib` |
-| removed |    -7 |  0.1% → 0.0% |    7 → 0 | `ciInstanceKlass::get_field_by_offset`               | `libjvm.dylib` |
-|  -70.0% |    -7 |  0.2% → 0.1% |   10 → 3 | `MergeMemNode::Opcode`                               | `libjvm.dylib` |
-|  -40.0% |    -6 |         0.2% |   15 → 9 | `PhaseIterGVN::subsume_node`                         | `libjvm.dylib` |
-|  -24.0% |    -6 |  0.4% → 0.3% |  25 → 19 | `PhaseChaitin::post_allocate_copy_removal`           | `libjvm.dylib` |
-|  -54.5% |    -6 |  0.2% → 0.1% |   11 → 5 | `IndexSet::alloc_block_containing`                   | `libjvm.dylib` |
-|  -28.6% |    -6 |         0.3% |  21 → 15 | `Type::cmp`                                          | `libjvm.dylib` |
-|  -50.0% |    -6 |  0.2% → 0.1% |   12 → 6 | `Compile::find_alias_type`                           | `libjvm.dylib` |
-|  -50.0% |    -5 |  0.2% → 0.1% |   10 → 5 | `RegMask::is_misaligned_pair`                        | `libjvm.dylib` |
-|  -55.6% |    -5 |         0.1% |    9 → 4 | `Compile::final_graph_reshaping_walk`                | `libjvm.dylib` |
+|  Change | Delta |            % | Samples | Function                                        | Location       |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------- | -------------- |
+|  -23.6% |   -17 |  1.2% → 0.9% | 72 → 55 | `IndexSetIterator::advance_and_next`            | `libjvm.dylib` |
+|  -36.8% |   -14 |  0.7% → 0.4% | 38 → 24 | `PhaseIdealLoop::build_loop_late`               | `libjvm.dylib` |
+|  -29.5% |   -13 |  0.8% → 0.5% | 44 → 31 | `ciObjectFactory::get_metadata`                 | `libjvm.dylib` |
+|  -34.4% |   -11 |  0.6% → 0.3% | 32 → 21 | `Node::set_req_X`                               | `libjvm.dylib` |
+|  -64.7% |   -11 |  0.3% → 0.1% |  17 → 6 | `LinearScanWalker::free_collect_inactive_fixed` | `libjvm.dylib` |
+|  -27.8% |   -10 |  0.6% → 0.4% | 36 → 26 | `PhaseIdealLoop::build_loop_late_post_work`     | `libjvm.dylib` |
+|  -33.3% |   -10 |  0.5% → 0.3% | 30 → 20 | `IntervalWalker::walk_to`                       | `libjvm.dylib` |
+|  -61.5% |    -8 |  0.2% → 0.1% |  13 → 5 | `Node::disconnect_inputs`                       | `libjvm.dylib` |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `PhaseCCP::push_cmpu`                           | `libjvm.dylib` |
+|  -77.8% |    -7 | 0.2% → <0.1% |   9 → 2 | `PhiNode::Ideal`                                | `libjvm.dylib` |
+|  -75.0% |    -6 | 0.1% → <0.1% |   8 → 2 | `TypeInstPtr::hash`                             | `libjvm.dylib` |
+|  -40.0% |    -6 |  0.3% → 0.1% |  15 → 9 | `Node::add_req`                                 | `libjvm.dylib` |
+|  -50.0% |    -5 |  0.2% → 0.1% |  10 → 5 | `Matcher::find_shared`                          | `libjvm.dylib` |
+|  -27.8% |    -5 |  0.3% → 0.2% | 18 → 13 | `PhaseIterGVN::subsume_node`                    | `libjvm.dylib` |
+|  -20.8% |    -5 |  0.4% → 0.3% | 24 → 19 | `NodeHash::hash_find_insert`                    | `libjvm.dylib` |
+|  -62.5% |    -5 | 0.1% → <0.1% |   8 → 3 | `PhaseIterGVN::remove_globally_dead_node`       | `libjvm.dylib` |
+| removed |    -5 |  0.1% → 0.0% |   5 → 0 | `ProjNode::Value`                               | `libjvm.dylib` |
+|  -50.0% |    -5 |  0.2% → 0.1% |  10 → 5 | `Node::Node`                                    | `libjvm.dylib` |
+|  -71.4% |    -5 | 0.1% → <0.1% |   7 → 2 | `TypeInstPtr::eq`                               | `libjvm.dylib` |
+|  -55.6% |    -5 |  0.2% → 0.1% |   9 → 4 | `LinearScanWalker::split_before_usage`          | `libjvm.dylib` |
 
 ##### Native
 
-|  Change | Delta |            % |  Samples | Function                                                                                               | Location                   |
-| ------: | ----: | -----------: | -------: | ------------------------------------------------------------------------------------------------------ | -------------------------- |
-|  -21.9% |   -25 |  1.9% → 1.5% | 114 → 89 | `tlv_get_addr`                                                                                         | `libdyld.dylib`            |
-|  -48.4% |   -15 |  0.5% → 0.3% |  31 → 16 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib`             |
-|  -36.8% |   -14 |  0.6% → 0.4% |  38 → 24 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`         | `libjvm.dylib`             |
-|  -26.1% |   -12 |  0.8% → 0.6% |  46 → 34 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                      | `libjvm.dylib`             |
-|  -17.4% |   -12 |  1.1% → 1.0% |  69 → 57 | `java_lang_Throwable::fill_in_stack_trace`                                                             | `libjvm.dylib`             |
-|  -31.4% |   -11 |  0.6% → 0.4% |  35 → 24 | `G1ParScanThreadState::trim_queue_to_threshold`                                                        | `libjvm.dylib`             |
-| removed |   -11 |  0.2% → 0.0% |   11 → 0 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                  | `libjvm.dylib`             |
-|  -29.0% |    -9 |  0.5% → 0.4% |  31 → 22 | `_platform_memset`                                                                                     | `libsystem_platform.dylib` |
-|  -64.3% |    -9 |  0.2% → 0.1% |   14 → 5 | `_platform_memmove`                                                                                    | `libsystem_platform.dylib` |
-|  -63.6% |    -7 |  0.2% → 0.1% |   11 → 4 | `void OopOopIterateDispatch<G1ScanCardClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`      | `libjvm.dylib`             |
-|  -54.5% |    -6 |  0.2% → 0.1% |   11 → 5 | `G1CardSet::add_card`                                                                                  | `libjvm.dylib`             |
-|  -66.7% |    -6 |         0.1% |    9 → 3 | `arrayof_oop_disjoint_arraycopy`                                                                       | `<unknown>`                |
-|  -83.3% |    -5 | 0.1% → <0.1% |    6 → 1 | `DataLayout::cell_count`                                                                               | `libjvm.dylib`             |
-| removed |    -5 |  0.1% → 0.0% |    5 → 0 | `stub:bzero`                                                                                           | `libjvm.dylib`             |
-|  -55.6% |    -5 |         0.1% |    9 → 4 | `void G1CMTask::process_grey_task_entry<true>`                                                         | `libjvm.dylib`             |
-|  -50.0% |    -5 |  0.2% → 0.1% |   10 → 5 | `JVM_NewArray`                                                                                         | `libjvm.dylib`             |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `BitMap::set_union`                                                                                    | `libjvm.dylib`             |
-|  -80.0% |    -4 | 0.1% → <0.1% |    5 → 1 | `methodHandle::~methodHandle`                                                                          | `libjvm.dylib`             |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `Pipeline_Use::full_latency`                                                                           | `libjvm.dylib`             |
-|  -40.0% |    -4 |  0.2% → 0.1% |   10 → 6 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                               | `libjvm.dylib`             |
+|  Change | Delta |            % | Samples | Function                                                                                                                                                     | Location                   |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+|  -60.0% |   -15 |  0.4% → 0.2% | 25 → 10 | `frame::sender_for_compiled_frame`                                                                                                                           | `libjvm.dylib`             |
+| removed |    -9 |  0.2% → 0.0% |   9 → 0 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                                                                        | `libjvm.dylib`             |
+|  -81.8% |    -9 | 0.2% → <0.1% |  11 → 2 | `JNIHandleBlock::allocate_handle`                                                                                                                            | `libjvm.dylib`             |
+|  -64.3% |    -9 |  0.2% → 0.1% |  14 → 5 | `frame::sender_raw`                                                                                                                                          | `libjvm.dylib`             |
+|  -30.8% |    -8 |  0.4% → 0.3% | 26 → 18 | `vmSymbols::find_sid`                                                                                                                                        | `libjvm.dylib`             |
+|  -46.7% |    -7 |  0.3% → 0.1% |  15 → 8 | `G1CardSet::add_to_howl`                                                                                                                                     | `libjvm.dylib`             |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `inflate_fast`                                                                                                                                               | `libzip.dylib`             |
+|  -66.7% |    -6 | 0.2% → <0.1% |   9 → 3 | `AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier<2383974ull, G1BarrierSet>, (AccessInternal::BarrierType)1, 2383974ull>::oop_access_barrier` | `libjvm.dylib`             |
+|   -9.4% |    -5 |  0.9% → 0.8% | 53 → 48 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>`     | `libjvm.dylib`             |
+|  -13.9% |    -5 |  0.6% → 0.5% | 36 → 31 | `_platform_memset`                                                                                                                                           | `libsystem_platform.dylib` |
+|  -83.3% |    -5 | 0.1% → <0.1% |   6 → 1 | `Dict::doubhash`                                                                                                                                             | `libjvm.dylib`             |
+|  -38.5% |    -5 |  0.2% → 0.1% |  13 → 8 | `resource_allocate_bytes`                                                                                                                                    | `libjvm.dylib`             |
+|  -45.5% |    -5 |  0.2% → 0.1% |  11 → 6 | `Dictionary::find`                                                                                                                                           | `libjvm.dylib`             |
+|  -83.3% |    -5 | 0.1% → <0.1% |   6 → 1 | `G1CodeRootSet::add`                                                                                                                                         | `libjvm.dylib`             |
+|  -62.5% |    -5 | 0.1% → <0.1% |   8 → 3 | `semaphore_wait_trap`                                                                                                                                        | `libsystem_kernel.dylib`   |
+|  -83.3% |    -5 | 0.1% → <0.1% |   6 → 1 | `PcDescContainer::find_pc_desc_internal`                                                                                                                     | `libjvm.dylib`             |
+|  -20.0% |    -4 |         0.3% | 20 → 16 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                               | `libjvm.dylib`             |
+|  -44.4% |    -4 |  0.2% → 0.1% |   9 → 5 | `nmethod::is_unloading`                                                                                                                                      | `libjvm.dylib`             |
+|  -66.7% |    -4 | 0.1% → <0.1% |   6 → 2 | `pthread_mutex_unlock`                                                                                                                                       | `libsystem_pthread.dylib`  |
+|  -80.0% |    -4 | 0.1% → <0.1% |   5 → 1 | `read`                                                                                                                                                       | `libsystem_kernel.dylib`   |
 
 ##### Standard library
 
-|  Change | Delta |            % |  Samples | Function                                                                                                      | Location                                                                   |
-| ------: | ----: | -----------: | -------: | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-|  -16.7% |   -19 |  1.9% → 1.6% | 114 → 95 | `cast(Object)`                                                                                                | `java.lang.Class`                                                          |
-| removed |    -8 |  0.1% → 0.0% |    8 → 0 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x0000007001368c00`                        |
-|  -63.6% |    -7 |  0.2% → 0.1% |   11 → 4 | `equals(Object[], Object[])`                                                                                  | `java.util.Arrays`                                                         |
-|  -50.0% |    -6 |  0.2% → 0.1% |   12 → 6 | `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`                     |
-|  -40.0% |    -6 |         0.2% |   15 → 9 | `checkCustomized(MethodHandle)`                                                                               | `java.lang.invoke.Invokers`                                                |
-|  -71.4% |    -5 | 0.1% → <0.1% |    7 → 2 | `equals(LambdaFormEditor$TransformKey)`                                                                       | `java.lang.invoke.LambdaFormEditor$Transform`                              |
-|  -83.3% |    -5 | 0.1% → <0.1% |    6 → 1 | `copyWith(MethodType, LambdaForm)`                                                                            | `java.lang.invoke.BoundMethodHandle$Species_L`                             |
-|  -55.6% |    -5 |         0.1% |    9 → 4 | `get()`                                                                                                       | `java.lang.ref.SoftReference`                                              |
-| removed |    -5 |  0.1% → 0.0% |    5 → 0 | `linkToTargetMethod(Object)`                                                                                  | `java.lang.invoke.Invokers$Holder`                                         |
-|  -55.6% |    -5 |         0.1% |    9 → 4 | `sameClasses(Class[], Object[])`                                                                              | `org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures`           |
-|  -50.0% |    -5 |  0.2% → 0.1% |   10 → 5 | `isNullConversion(Class, Class, boolean)`                                                                     | `sun.invoke.util.VerifyType`                                               |
-|  -50.0% |    -4 |         0.1% |    8 → 4 | `insertParameterTypes(int, Class[])`                                                                          | `java.lang.invoke.MethodType`                                              |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `visitListOfExpressions(List)`                                                                                | `org.codehaus.groovy.ast.GroovyCodeVisitor`                                |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `invoke(Object, int)`                                                                                         | `java.lang.invoke.LambdaForm$MH.0x0000007001235400`                        |
-|  -80.0% |    -4 | 0.1% → <0.1% |    5 → 1 | `divideAndRemainderKnuth(BigInteger)`                                                                         | `java.math.BigInteger`                                                     |
-|  -80.0% |    -4 | 0.1% → <0.1% |    5 → 1 | `elementData(int)`                                                                                            | `java.util.ArrayList`                                                      |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `spreadArgumentsForm(int, Class, int)`                                                                        | `java.lang.invoke.LambdaFormEditor`                                        |
-| removed |    -3 | <0.1% → 0.0% |    3 → 0 | `provide(Object)`                                                                                             | `org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x000000700108f680` |
-|  -75.0% |    -3 | 0.1% → <0.1% |    4 → 1 | `<init>(Pattern, CharSequence)`                                                                               | `java.util.regex.Matcher`                                                  |
-| removed |    -3 | <0.1% → 0.0% |    3 → 0 | `asType(MethodType)`                                                                                          | `java.lang.invoke.MethodHandle`                                            |
+|  Change | Delta |            % |   Samples | Function                                                                                                      | Location                                                |
+| ------: | ----: | -----------: | --------: | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+|  -38.5% |   -10 |  0.4% → 0.3% |   26 → 16 | `getNode(Object)`                                                                                             | `java.util.HashMap`                                     |
+|  -13.8% |    -9 |  1.1% → 0.9% |   65 → 56 | `newInstance(Class, int)`                                                                                     | `java.lang.reflect.Array`                               |
+|  -77.8% |    -7 | 0.2% → <0.1% |     9 → 2 | `invokeSpecial(Object, Object, Object)`                                                                       | `java.lang.invoke.DirectMethodHandle$Holder`            |
+|  -63.6% |    -7 |  0.2% → 0.1% |    11 → 4 | `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`  |
+|  -85.7% |    -6 | 0.1% → <0.1% |     7 → 1 | `getExactSizeIfKnown()`                                                                                       | `java.util.Spliterator`                                 |
+|  -60.0% |    -6 |  0.2% → 0.1% |    10 → 4 | `collector(Object, Object, Object, Object)`                                                                   | `java.lang.invoke.LambdaForm$MH.0x00000070010d3c00`     |
+|   -4.6% |    -5 |  1.9% → 1.7% | 108 → 103 | `cast(Object)`                                                                                                | `java.lang.Class`                                       |
+|  -45.5% |    -5 |  0.2% → 0.1% |    11 → 6 | `checkCustomized(MethodHandle)`                                                                               | `java.lang.invoke.Invokers`                             |
+|  -83.3% |    -5 | 0.1% → <0.1% |     6 → 1 | `newArray(Class, int)`                                                                                        | `java.lang.reflect.Array`                               |
+|  -62.5% |    -5 | 0.1% → <0.1% |     8 → 3 | `invoke(Object, Object)`                                                                                      | `java.lang.invoke.LambdaForm$MH.0x000000700109a400`     |
+|  -15.4% |    -4 |         0.4% |   26 → 22 | `<init>(MethodType, LambdaForm)`                                                                              | `java.lang.invoke.MethodHandle`                         |
+| removed |    -4 |  0.1% → 0.0% |     4 → 0 | `visit(GroovyCodeVisitor)`                                                                                    | `org.codehaus.groovy.ast.expr.VariableExpression`       |
+|  -57.1% |    -4 | 0.1% → <0.1% |     7 → 3 | `getWeakMetaClass()`                                                                                          | `org.codehaus.groovy.reflection.ClassInfo`              |
+|  -57.1% |    -4 | 0.1% → <0.1% |     7 → 3 | `resize()`                                                                                                    | `java.util.HashMap`                                     |
+| removed |    -4 |  0.1% → 0.0% |     4 → 0 | `map(Function)`                                                                                               | `java.util.stream.ReferencePipeline`                    |
+|  -50.0% |    -4 |         0.1% |     8 → 4 | `getMethods(Class, String)`                                                                                   | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex` |
+|  -75.0% |    -3 | 0.1% → <0.1% |     4 → 1 | `forEachRemaining(Consumer)`                                                                                  | `java.util.Spliterators$ArraySpliterator`               |
+|  -33.3% |    -3 |  0.2% → 0.1% |     9 → 6 | `makePairwiseConvertByEditor(MethodHandle, MethodType, boolean, boolean)`                                     | `java.lang.invoke.MethodHandleImpl`                     |
+| removed |    -3 |  0.1% → 0.0% |     3 → 0 | `getReachableConfigSet(CharStream, ATNConfigSet, ATNConfigSet, int)`                                          | `groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator`   |
+| removed |    -3 |  0.1% → 0.0% |     3 → 0 | `getSemanticContext()`                                                                                        | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig`           |
 
 ##### Ours
 
-|  Change | Delta |            % | Samples | Function                                                 | Location                                                                              |
-| ------: | ----: | -----------: | ------: | -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| removed |    -3 | <0.1% → 0.0% |   3 → 0 | `addViolationIfDuplicate(Expression, boolean)`           | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                                    |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `visitMethodComplete(MethodNode)`                        | `org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor`           |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `applyTo(SourceCode, List)`                              | `org.codenarc.rule.unused.UnusedVariableRule`                                         |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `init()`                                                 | `org.codenarc.source.AbstractSourceCode`                                              |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getAst()`                                               | `org.codenarc.source.AbstractSourceCode`                                              |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `doCall(Object)`                                         | `org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3` |
-|  -50.0% |    -1 |        <0.1% |   2 → 1 | `getAstVisitor()`                                        | `org.codenarc.rule.AbstractAstVisitorRule`                                            |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `<init>()`                                               | `org.codenarc.rule.formatting.IndentationAstVisitor`                                  |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getMetaClass()`                                         | `org.codenarc.rule.groovyism.ExplicitLinkedHashMapInstantiationRule`                  |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitBinaryExpression(BinaryExpression)`                | `org.codenarc.rule.unnecessary.UnnecessaryInstanceOfCheckAstVisitor`                  |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `<init>(ExplicitLinkedHashMapInstantiationRule, Object)` | `org.codenarc.rule.groovyism.ExplicitLinkedHashMapInstantiationRule$1`                |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `validateAstCompilerPhase(SourceCode)`                   | `org.codenarc.rule.AbstractRule`                                                      |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `<init>(Metric, MetricLevel, AbcVector, Integer)`        | `org.gmetrics.metric.abc.result.AbcMetricResult`                                      |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `checkIfThereIsBlankLineAfterOpeningBrace(ClassNode)`    | `org.codenarc.rule.formatting.ClassStartsWithBlankLineAstVisitor`                     |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitPropertyExpression(PropertyExpression)`            | `org.codenarc.rule.ClassReferenceAstVisitor`                                          |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitBinaryExpression(BinaryExpression)`                | `org.codenarc.rule.unnecessary.ConsecutiveStringConcatenationAstVisitor`              |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `isViolationSuppressed(Violation)`                       | `org.codenarc.analyzer.SuppressionAnalyzer`                                           |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `checkExpression(Expression, Expression)`                | `org.codenarc.rule.unnecessary.UnnecessarySafeNavigationOperatorAstVisitor`           |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `createUsagePattern(String)`                             | `org.codenarc.rule.imports.UnusedImportRule`                                          |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `processMethodNode(MethodNode)`                          | `org.codenarc.rule.formatting.SpaceBeforeClosingBraceAstVisitor`                      |
+|  Change | Delta |            % | Samples | Function                                        | Location                                                                           |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------- | ---------------------------------------------------------------------------------- |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `applyTo(SourceCode, List)`                     | `org.codenarc.rule.AbstractAstVisitorRule`                                         |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `collectViolations(SourceCode, RuleSet)`        | `org.codenarc.analyzer.AbstractSourceAnalyzer`                                     |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `getRule()`                                     | `org.codenarc.rule.Violation`                                                      |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `assertClassImplementsRuleInterface(Class)`     | `org.codenarc.ruleset.RuleSetUtil`                                                 |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getMetaClass()`                                | `org.codenarc.ruleset.XmlReaderRuleSet`                                            |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `applyTo(SourceCode)`                           | `org.codenarc.rule.AbstractRule`                                                   |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.ClassReferenceAstVisitor`                                       |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `$getStaticMetaClass()`                         | `org.codenarc.rule.unused.UnusedArrayAstVisitor`                                   |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `line(int)`                                     | `org.codenarc.source.AbstractSourceCode`                                           |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `isMatchingUniqueCall(Expression)`              | `org.codenarc.rule.groovyism.AssignCollectionUniqueAstVisitor`                     |
+|  -50.0% |    -1 |        <0.1% |   2 → 1 | `addViolationIfDuplicate(Expression, boolean)`  | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                                 |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitField(FieldNode)`                         | `org.codenarc.rule.design.OptionalFieldAstVisitor`                                 |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getRule()`                                     | `org.codenarc.rule.AbstractAstVisitor`                                             |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `lastSourceLine(ASTNode)`                       | `org.codenarc.rule.AbstractAstVisitor`                                             |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `doCall(Object)`                                | `org.codenarc.rule.groovyism.GroovyLangImmutableAstVisitor$_visitImports_closure2` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getMetaClass()`                                | `org.codenarc.rule.design.EmptyMethodInAbstractClassRule`                          |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getMethodArguments(ASTNode)`                   | `org.codenarc.util.AstUtil`                                                        |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `isMethodCallOnObject(Expression, String)`      | `org.codenarc.util.AstUtil`                                                        |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getMetaClass()`                                | `org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsRule`              |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`                           |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                   | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
+|  -56.5% |   -13 |  0.4% → 0.2% | 23 → 10 | `itable stub`              | `<unknown>` |
+|  -46.7% |    -7 |  0.3% → 0.1% |  15 → 8 | `I2C/C2I adapters(0xbb)`   | `<unknown>` |
+|  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `I2C/C2I adapters(0xbab)`  | `<unknown>` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `I2C/C2I adapters(0xbbaa)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbaa)`  | `<unknown>` |
 
 ### Total samples
 
@@ -275,229 +294,248 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
-##### Compiler
-
-|  Change | Delta |            % |   Samples | Function                                    | Location       |
-| ------: | ----: | -----------: | --------: | ------------------------------------------- | -------------- |
-|  +37.5% |   +30 |  1.3% → 1.9% |  80 → 110 | `PhaseGVN::transform_no_reclaim`            | `libjvm.dylib` |
-|   +4.1% |   +24 | 9.7% → 10.5% | 592 → 616 | `Compilation::compile_method`               | `libjvm.dylib` |
-|   +4.1% |   +24 | 9.7% → 10.5% | 592 → 616 | `Compilation::Compilation`                  | `libjvm.dylib` |
-|  +11.6% |   +22 |  3.1% → 3.6% | 190 → 212 | `Compilation::build_hir`                    | `libjvm.dylib` |
-|  +11.7% |   +18 |  2.5% → 2.9% | 154 → 172 | `Matcher::xform`                            | `libjvm.dylib` |
-|   +8.5% |   +18 |  3.5% → 3.9% | 211 → 229 | `Matcher::match`                            | `libjvm.dylib` |
-|  +14.4% |   +18 |  2.0% → 2.4% | 125 → 143 | `GraphBuilder::invoke`                      | `libjvm.dylib` |
-|  +14.0% |   +16 |  1.9% → 2.2% | 114 → 130 | `GraphBuilder::try_inline_full`             | `libjvm.dylib` |
-|  +13.9% |   +16 |  1.9% → 2.2% | 115 → 131 | `GraphBuilder::try_inline`                  | `libjvm.dylib` |
-|  +10.7% |   +15 |  2.3% → 2.6% | 140 → 155 | `GraphBuilder::iterate_bytecodes_for_block` | `libjvm.dylib` |
-|  +10.6% |   +15 |  2.3% → 2.7% | 141 → 156 | `GraphBuilder::iterate_all_blocks`          | `libjvm.dylib` |
-|  +10.1% |   +15 |  2.4% → 2.8% | 149 → 164 | `GraphBuilder::GraphBuilder`                | `libjvm.dylib` |
-|  +54.5% |   +12 |  0.4% → 0.6% |   22 → 34 | `CompileQueue::get`                         | `libjvm.dylib` |
-| +133.3% |   +12 |  0.1% → 0.4% |    9 → 21 | `BlockBegin::iterate_preorder`              | `libjvm.dylib` |
-|  +16.9% |   +11 |  1.1% → 1.3% |   65 → 76 | `Type::hashcons`                            | `libjvm.dylib` |
-| +550.0% |   +11 | <0.1% → 0.2% |    2 → 13 | `IfFalseNode::Opcode`                       | `libjvm.dylib` |
-|   +2.1% |   +11 |  8.7% → 9.3% | 533 → 544 | `Compilation::compile_java_method`          | `libjvm.dylib` |
-|  +21.7% |   +10 |  0.8% → 1.0% |   46 → 56 | `PhaseIterGVN::remove_globally_dead_node`   | `libjvm.dylib` |
-|  +12.5% |   +10 |  1.3% → 1.5% |   80 → 90 | `ciEnv::register_method`                    | `libjvm.dylib` |
-| +100.0% |   +10 |  0.2% → 0.3% |   10 → 20 | `Compile::flatten_alias_type`               | `libjvm.dylib` |
-
-##### Native
-
-|  Change | Delta |            % |   Samples | Function                                           | Location                 |
-| ------: | ----: | -----------: | --------: | -------------------------------------------------- | ------------------------ |
-| +600.0% |   +24 |  0.1% → 0.5% |    4 → 28 | `TaskTerminator::offer_termination`                | `libjvm.dylib`           |
-| +600.0% |   +24 |  0.1% → 0.5% |    4 → 28 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib`           |
-|   +4.0% |   +24 | 9.7% → 10.6% | 594 → 618 | `Compiler::compile_method`                         | `libjvm.dylib`           |
-|  +75.0% |   +21 |  0.5% → 0.8% |   28 → 49 | `PlatformMonitor::wait`                            | `libjvm.dylib`           |
-|  +31.6% |   +18 |  0.9% → 1.3% |   57 → 75 | `G1ParEvacuateFollowersClosure::do_void`           | `libjvm.dylib`           |
-|  +31.6% |   +18 |  0.9% → 1.3% |   57 → 75 | `G1EvacuateRegionsTask::evacuate_live_objects`     | `libjvm.dylib`           |
-|  +70.8% |   +17 |  0.4% → 0.7% |   24 → 41 | `__psynch_cvwait`                                  | `libsystem_kernel.dylib` |
-|  +24.2% |   +16 |  1.1% → 1.4% |   66 → 82 | `nmethod::new_nmethod`                             | `libjvm.dylib`           |
-| +214.3% |   +15 |  0.1% → 0.4% |    7 → 22 | `InstanceKlass::link_class_impl`                   | `libjvm.dylib`           |
-| +350.0% |   +14 |  0.1% → 0.3% |    4 → 18 | `Mutex::lock_without_safepoint_check`              | `libjvm.dylib`           |
-|   +9.3% |   +14 |  2.5% → 2.8% | 151 → 165 | `IRScope::IRScope`                                 | `libjvm.dylib`           |
-|   +9.3% |   +14 |  2.5% → 2.8% | 151 → 165 | `IR::IR`                                           | `libjvm.dylib`           |
-| +162.5% |   +13 |  0.1% → 0.4% |    8 → 21 | `CodeCacheUnloadingTask::work`                     | `libjvm.dylib`           |
-| +162.5% |   +13 |  0.1% → 0.4% |    8 → 21 | `G1ParallelCleaningTask::work`                     | `libjvm.dylib`           |
-|  +18.2% |   +12 |  1.1% → 1.3% |   66 → 78 | `Arena::contains`                                  | `libjvm.dylib`           |
-|  +60.0% |   +12 |  0.3% → 0.5% |   20 → 32 | `Monitor::wait`                                    | `libjvm.dylib`           |
-|  +16.1% |   +10 |  1.0% → 1.2% |   62 → 72 | `Parse::do_field_access`                           | `libjvm.dylib`           |
-|  +76.9% |   +10 |  0.2% → 0.4% |   13 → 23 | `GlobalValueNumbering::GlobalValueNumbering`       | `libjvm.dylib`           |
-| +300.0% |    +9 | <0.1% → 0.2% |    3 → 12 | `InstanceKlass::initialize_impl`                   | `libjvm.dylib`           |
-| +150.0% |    +9 |  0.1% → 0.3% |    6 → 15 | `Exceptions::_throw_msg`                           | `libjvm.dylib`           |
-
-##### Standard library
-
 |     Change |  Delta |             % |       Samples | Function                                 | Location                                            |
 | ---------: | -----: | ------------: | ------------: | ---------------------------------------- | --------------------------------------------------- |
-| +222300.0% | +2,223 | <0.1% → 38.0% |     1 → 2,224 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010c7000` |
-| +183200.0% | +1,832 | <0.1% → 31.3% |     1 → 1,833 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070015a1c00` |
-| +181900.0% | +1,819 | <0.1% → 31.1% |     1 → 1,820 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070015a4800` |
-| +170800.0% | +1,708 | <0.1% → 29.2% |     1 → 1,709 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001369c00` |
-| +167500.0% | +1,675 | <0.1% → 28.6% |     1 → 1,676 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001679400` |
-| +167500.0% | +1,675 | <0.1% → 28.6% |     1 → 1,676 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001679800` |
-|  +55766.7% | +1,673 | <0.1% → 28.6% |     3 → 1,676 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001678c00` |
-|    +271.6% | +1,559 |  9.4% → 36.4% |   574 → 2,133 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070010d5c00` |
-|    +578.4% | +1,475 |  4.2% → 29.6% |   255 → 1,730 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700126a400` |
-|  +68200.0% | +1,364 | <0.1% → 23.3% |     2 → 1,366 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070017fdc00` |
-|   +5830.4% | +1,341 |  0.4% → 23.3% |    23 → 1,364 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d4800` |
-|   +1277.8% |   +690 |  0.9% → 12.7% |      54 → 744 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001291000` |
-|    +467.3% |   +486 |  1.7% → 10.1% |     104 → 590 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001290000` |
-|     +18.1% |   +317 | 28.6% → 35.3% | 1,749 → 2,066 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001282400` |
-|        new |   +258 |   0.0% → 4.4% |       0 → 258 | `invoke(Object, int)`                    | `java.lang.invoke.LambdaForm$MH.0x0000007001031400` |
-|   +1012.5% |   +243 |   0.4% → 4.6% |      24 → 267 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001326c00` |
-|   +4800.0% |   +240 |   0.1% → 4.2% |       5 → 245 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001105400` |
-|  +23900.0% |   +239 |  <0.1% → 4.1% |       1 → 240 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001291800` |
-|    +807.4% |   +218 |   0.4% → 4.2% |      27 → 245 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001314400` |
-|    +200.0% |   +190 |   1.6% → 4.9% |      95 → 285 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010d9c00` |
-
-##### Ours
-
-|  Change | Delta |             % |       Samples | Function                                                                | Location                                                                       |
-| ------: | ----: | ------------: | ------------: | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-|   +3.3% |   +33 | 16.5% → 17.8% | 1,010 → 1,043 | `applyTo(SourceCode, List)`                                             | `org.codenarc.rule.AbstractAstVisitorRule`                                     |
-|   +2.3% |   +27 | 19.6% → 20.9% | 1,199 → 1,226 | `applyTo(SourceCode)`                                                   | `org.codenarc.rule.AbstractRule`                                               |
-| +100.0% |   +10 |   0.2% → 0.3% |       10 → 20 | `doCall(Object)`                                                        | `org.codenarc.util.WildcardPattern$_closure1`                                  |
-|   +0.8% |   +10 | 21.7% → 22.8% | 1,325 → 1,335 | `doCall(Object)`                                                        | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`     |
-|  +14.5% |    +9 |   1.0% → 1.2% |       62 → 71 | `super$3$applyTo(SourceCode, List)`                                     | `org.codenarc.rule.formatting.IndentationRule`                                 |
-|  +14.5% |    +9 |   1.0% → 1.2% |       62 → 71 | `applyTo(SourceCode, List)`                                             | `org.codenarc.rule.formatting.IndentationRule`                                 |
-| +128.6% |    +9 |   0.1% → 0.3% |        7 → 16 | `recordMethodColumnAndSourceLineForClosureBlocks(MethodCallExpression)` | `org.codenarc.rule.formatting.IndentationAstVisitor`                           |
-|  +40.9% |    +9 |   0.4% → 0.5% |       22 → 31 | `visitConstructorOrMethod(MethodNode, boolean)`                         | `org.codenarc.rule.formatting.SpaceAroundOperatorAstVisitor`                   |
-|  +53.3% |    +8 |   0.2% → 0.4% |       15 → 23 | `<init>(String, boolean)`                                               | `org.codenarc.util.WildcardPattern`                                            |
-|  +57.1% |    +8 |   0.2% → 0.4% |       14 → 22 | `addMethodsToMetricResults(SourceCode, ClassNode, Map)`                 | `org.gmetrics.metric.AbstractMethodMetric`                                     |
-|  +66.7% |    +8 |   0.2% → 0.3% |       12 → 20 | `doCall(Object)`                                                        | `org.gmetrics.metric.AbstractMethodMetric$_addMethodsToMetricResults_closure4` |
-|  +57.1% |    +8 |   0.2% → 0.4% |       14 → 22 | `super$2$visitMethodCallExpression(MethodCallExpression)`               | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                             |
-|  +24.2% |    +8 |   0.5% → 0.7% |       33 → 41 | `visitBinaryExpression(BinaryExpression)`                               | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                             |
-|  +29.6% |    +8 |   0.4% → 0.6% |       27 → 35 | `visitMethodCallExpression(MethodCallExpression)`                       | `org.codenarc.rule.formatting.IndentationAstVisitor`                           |
-|  +36.4% |    +8 |   0.4% → 0.5% |       22 → 30 | `visitClass(ClassNode)`                                                 | `org.codenarc.rule.AbstractMethodVisitor`                                      |
-|  +77.8% |    +7 |   0.1% → 0.3% |        9 → 16 | `calculate(MethodNode, SourceCode)`                                     | `org.gmetrics.metric.abc.AbcMetric`                                            |
-|  +46.7% |    +7 |   0.2% → 0.4% |       15 → 22 | `checkDeclaration(ASTNode, String, String)`                             | `org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor`            |
-| +350.0% |    +7 |  <0.1% → 0.2% |         2 → 9 | `visitMethodEx(MethodNode)`                                             | `org.codenarc.rule.formatting.IndentationAstVisitor`                           |
-| +150.0% |    +6 |   0.1% → 0.2% |        4 → 10 | `visitVariableExpression(VariableExpression)`                           | `org.codenarc.rule.unnecessary.UnnecessaryPackageReferenceAstVisitor`          |
-|  +33.3% |    +6 |   0.3% → 0.4% |       18 → 24 | `visitMethodCallExpression(MethodCallExpression)`                       | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                             |
-
-#### Improvements
-
-Functions with the largest decrease in total samples taken in the function and all its callees.
-
-|  Change |  Delta |             % |       Samples | Function                                 | Location                                            |
-| ------: | -----: | ------------: | ------------: | ---------------------------------------- | --------------------------------------------------- |
-|  -99.7% | -2,217 |  36.4% → 0.1% |     2,224 → 7 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010a0800` |
-|  -99.9% | -2,129 | 34.9% → <0.1% |     2,131 → 2 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700118b000` |
-| -100.0% | -2,080 | 34.1% → <0.1% |     2,081 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001181000` |
-|  -99.0% | -1,820 |  30.1% → 0.3% |    1,838 → 18 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070013a2c00` |
-|  -97.2% | -1,790 |  30.2% → 0.9% |    1,842 → 52 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010ab000` |
-|  -99.8% | -1,686 |  27.7% → 0.1% |     1,689 → 3 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700165c000` |
-|  -99.8% | -1,685 |  27.7% → 0.1% |     1,689 → 4 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700165b000` |
-|  -99.4% | -1,679 |  27.7% → 0.2% |    1,689 → 10 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070014d2c00` |
-|  -99.9% | -1,400 | 22.9% → <0.1% |     1,401 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001440800` |
-|  -99.4% | -1,352 |  22.3% → 0.1% |     1,360 → 8 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d9800` |
-|  -66.6% | -1,171 | 28.8% → 10.0% |   1,759 → 588 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001290c00` |
-|  -99.9% |   -710 | 11.6% → <0.1% |       711 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001180000` |
-|  -60.5% |   -354 |   9.6% → 3.9% |     585 → 231 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700128b800` |
-|  -98.7% |   -299 |   5.0% → 0.1% |       303 → 4 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001115800` |
-|  -99.7% |   -294 |  4.8% → <0.1% |       295 → 1 | `invoke(Object, int)`                    | `java.lang.invoke.LambdaForm$MH.0x0000007001235400` |
-|  -98.0% |   -251 |   4.2% → 0.1% |       256 → 5 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c6800` |
-|  -95.7% |   -246 |   4.2% → 0.2% |      257 → 11 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001424c00` |
-|   -6.2% |   -238 | 62.6% → 61.2% | 3,820 → 3,582 | `Thread::call_run`                       | `libjvm.dylib`                                      |
-|   -6.2% |   -238 | 62.6% → 61.2% | 3,820 → 3,582 | `thread_native_entry`                    | `libjvm.dylib`                                      |
-|   -6.2% |   -237 | 62.6% → 61.2% | 3,820 → 3,583 | `_pthread_start`                         | `libsystem_pthread.dylib`                           |
+|  +17491.7% | +2,099 |  0.2% → 34.4% |    12 → 2,111 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001182800` |
+|  +60800.0% | +1,824 |  0.1% → 29.8% |     3 → 1,827 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000700159fc00` |
+|  +36180.0% | +1,809 |  0.1% → 29.6% |     5 → 1,814 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070015a2800` |
+|  +87800.0% | +1,756 | <0.1% → 28.7% |     2 → 1,758 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001268800` |
+|    +369.8% | +1,749 |  8.1% → 36.2% |   473 → 2,222 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c6400` |
+|  +21812.5% | +1,745 |  0.1% → 28.6% |     8 → 1,753 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700126a400` |
+| +167600.0% | +1,676 | <0.1% → 27.3% |     1 → 1,677 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001638800` |
+| +167600.0% | +1,676 | <0.1% → 27.3% |     1 → 1,677 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001639000` |
+|   +9814.3% | +1,374 |  0.2% → 22.6% |    14 → 1,388 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d4800` |
+| +137200.0% | +1,372 | <0.1% → 22.4% |     1 → 1,373 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001365800` |
+|  +13640.0% | +1,364 |  0.2% → 22.4% |    10 → 1,374 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070017c2400` |
+|  +44533.3% | +1,336 |  0.1% → 21.8% |     3 → 1,339 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000700135b400` |
+|   +1465.2% |   +674 |  0.8% → 11.7% |      46 → 720 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001291000` |
+|  +28700.0% |   +574 |  <0.1% → 9.4% |       2 → 576 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001290c00` |
+|    +225.0% |   +333 |   2.5% → 7.8% |     148 → 481 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c7800` |
+|      +8.5% |   +302 | 61.0% → 62.8% | 3,546 → 3,848 | `Thread::call_run`                       | `libjvm.dylib`                                      |
+|      +8.5% |   +302 | 61.0% → 62.8% | 3,546 → 3,848 | `thread_native_entry`                    | `libjvm.dylib`                                      |
+|      +8.5% |   +302 | 61.1% → 62.8% | 3,547 → 3,849 | `_pthread_start`                         | `libsystem_pthread.dylib`                           |
+|      +8.5% |   +302 | 61.1% → 62.8% | 3,547 → 3,849 | `thread_start`                           | `libsystem_pthread.dylib`                           |
+|  +25100.0% |   +251 |  <0.1% → 4.1% |       1 → 252 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001325400` |
 
 ##### Compiler
 
 | Change | Delta |             % |       Samples | Function                                   | Location       |
 | -----: | ----: | ------------: | ------------: | ------------------------------------------ | -------------- |
-|  -6.7% |  -186 | 45.6% → 44.4% | 2,785 → 2,599 | `Compile::Compile`                         | `libjvm.dylib` |
-|  -6.7% |  -186 | 45.7% → 44.5% | 2,789 → 2,603 | `C2Compiler::compile_method`               | `libjvm.dylib` |
-|  -4.7% |  -161 | 55.6% → 55.3% | 3,397 → 3,236 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
-|  -4.4% |  -149 | 56.0% → 55.9% | 3,419 → 3,270 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib` |
-|  -7.7% |  -104 | 22.1% → 21.3% | 1,352 → 1,248 | `Compile::Code_Gen`                        | `libjvm.dylib` |
-|  -7.9% |   -84 | 17.4% → 16.8% |   1,065 → 981 | `Compile::Optimize`                        | `libjvm.dylib` |
-|  -7.2% |   -55 | 12.4% → 12.0% |     759 → 704 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib` |
-| -19.6% |   -33 |   2.8% → 2.3% |     168 → 135 | `PhaseOutput::Output`                      | `libjvm.dylib` |
-| -43.8% |   -32 |   1.2% → 0.7% |       73 → 41 | `PhaseChaitin::gather_lrg_masks`           | `libjvm.dylib` |
-| -16.3% |   -29 |   2.9% → 2.5% |     178 → 149 | `LinearScan::do_linear_scan`               | `libjvm.dylib` |
-| -17.3% |   -28 |   2.7% → 2.3% |     162 → 134 | `PhaseCFG::global_code_motion`             | `libjvm.dylib` |
-| -16.9% |   -28 |   2.7% → 2.4% |     166 → 138 | `PhaseCFG::do_global_code_motion`          | `libjvm.dylib` |
-| -32.2% |   -28 |   1.4% → 1.0% |       87 → 59 | `ConnectionGraph::do_analysis`             | `libjvm.dylib` |
-|  -7.4% |   -27 |   6.0% → 5.8% |     364 → 337 | `PhaseIterGVN::optimize`                   | `libjvm.dylib` |
-| -30.6% |   -26 |   1.4% → 1.0% |       85 → 59 | `ConnectionGraph::compute_escape`          | `libjvm.dylib` |
-|  -5.0% |   -24 |   7.9% → 7.8% |     483 → 459 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
-| -29.6% |   -24 |   1.3% → 1.0% |       81 → 57 | `PhaseOutput::fill_buffer`                 | `libjvm.dylib` |
-| -10.0% |   -23 |   3.7% → 3.5% |     229 → 206 | `Compilation::emit_lir`                    | `libjvm.dylib` |
-| -25.9% |   -21 |   1.3% → 1.0% |       81 → 60 | `Compile::call_generator`                  | `libjvm.dylib` |
-|  -4.5% |   -18 |          6.5% |     399 → 381 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib` |
+|  +7.6% |  +244 | 55.1% → 56.2% | 3,201 → 3,445 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+|  +7.5% |  +243 | 55.6% → 56.7% | 3,231 → 3,474 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib` |
+|  +8.0% |  +208 | 44.5% → 45.6% | 2,587 → 2,795 | `Compile::Compile`                         | `libjvm.dylib` |
+|  +8.0% |  +208 | 44.6% → 45.6% | 2,591 → 2,799 | `C2Compiler::compile_method`               | `libjvm.dylib` |
+| +14.7% |  +177 | 20.7% → 22.5% | 1,203 → 1,380 | `Compile::Code_Gen`                        | `libjvm.dylib` |
+| +16.2% |  +112 | 11.9% → 13.1% |     690 → 802 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib` |
+| +25.1% |   +50 |   3.4% → 4.1% |     199 → 249 | `Matcher::match`                           | `libjvm.dylib` |
+| +29.1% |   +46 |   2.7% → 3.3% |     158 → 204 | `PhaseChaitin::Split`                      | `libjvm.dylib` |
+| +25.2% |   +39 |   2.7% → 3.2% |     155 → 194 | `Matcher::xform`                           | `libjvm.dylib` |
+|  +7.7% |   +37 |   8.3% → 8.4% |     480 → 517 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
+| +60.7% |   +37 |   1.1% → 1.6% |       61 → 98 | `Node::dominates`                          | `libjvm.dylib` |
+|  +6.3% |   +37 |         10.2% |     591 → 628 | `Compilation::compile_method`              | `libjvm.dylib` |
+|  +6.3% |   +37 |         10.2% |     591 → 628 | `Compilation::Compilation`                 | `libjvm.dylib` |
+| +55.4% |   +36 |   1.1% → 1.6% |      65 → 101 | `MemNode::all_controls_dominate`           | `libjvm.dylib` |
+| +64.3% |   +36 |   1.0% → 1.5% |       56 → 92 | `InitializeNode::detect_init_independence` | `libjvm.dylib` |
+|  +3.4% |   +35 | 17.8% → 17.4% | 1,033 → 1,068 | `Compile::Optimize`                        | `libjvm.dylib` |
+| +60.3% |   +35 |   1.0% → 1.5% |       58 → 93 | `InitializeNode::can_capture_store`        | `libjvm.dylib` |
+| +50.8% |   +32 |   1.1% → 1.5% |       63 → 95 | `StoreNode::Ideal`                         | `libjvm.dylib` |
+| +62.5% |   +25 |   0.7% → 1.1% |       40 → 65 | `BlockList::iterate_forward`               | `libjvm.dylib` |
+| +61.5% |   +24 |   0.7% → 1.0% |       39 → 63 | `LIRGenerator::block_do`                   | `libjvm.dylib` |
 
 ##### Native
 
 | Change | Delta |             % |       Samples | Function                                                                                                                                                        | Location                  |
 | -----: | ----: | ------------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-|  -6.2% |  -238 | 62.6% → 61.2% | 3,820 → 3,582 | `Thread::call_run`                                                                                                                                              | `libjvm.dylib`            |
-|  -6.2% |  -238 | 62.6% → 61.2% | 3,820 → 3,582 | `thread_native_entry`                                                                                                                                           | `libjvm.dylib`            |
-|  -6.2% |  -237 | 62.6% → 61.2% | 3,820 → 3,583 | `_pthread_start`                                                                                                                                                | `libsystem_pthread.dylib` |
-|  -6.2% |  -237 | 62.6% → 61.2% | 3,820 → 3,583 | `thread_start`                                                                                                                                                  | `libsystem_pthread.dylib` |
-|  -4.5% |  -153 | 56.1% → 55.9% | 3,424 → 3,271 | `JavaThread::thread_main_inner`                                                                                                                                 | `libjvm.dylib`            |
-| -24.5% |   -95 |   6.4% → 5.0% |     388 → 293 | `WorkerThread::run`                                                                                                                                             | `libjvm.dylib`            |
-| -39.2% |   -40 |   1.7% → 1.1% |      102 → 62 | `G1EvacuateRegionsTask::scan_roots`                                                                                                                             | `libjvm.dylib`            |
-| -47.5% |   -38 |   1.3% → 0.7% |       80 → 42 | `HeapRegionManager::par_iterate`                                                                                                                                | `libjvm.dylib`            |
-| -41.4% |   -36 |   1.4% → 0.9% |       87 → 51 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib`            |
-| -41.4% |   -36 |   1.4% → 0.9% |       87 → 51 | `G1ScanHRForRegionClosure::scan_heap_roots`                                                                                                                     | `libjvm.dylib`            |
-| -41.4% |   -36 |   1.4% → 0.9% |       87 → 51 | `G1ScanHRForRegionClosure::do_heap_region`                                                                                                                      | `libjvm.dylib`            |
-| -41.4% |   -36 |   1.4% → 0.9% |       87 → 51 | `G1RemSet::scan_heap_roots`                                                                                                                                     | `libjvm.dylib`            |
-| -40.7% |   -35 |   1.4% → 0.9% |       86 → 51 | `G1ScanHRForRegionClosure::scan_memregion`                                                                                                                      | `libjvm.dylib`            |
-| -44.7% |   -34 |   1.2% → 0.7% |       76 → 42 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region`                                                                              | `libjvm.dylib`            |
-| -44.7% |   -34 |   1.2% → 0.7% |       76 → 42 | `G1RebuildRSAndScrubTask::work`                                                                                                                                 | `libjvm.dylib`            |
-| -42.9% |   -30 |   1.1% → 0.7% |       70 → 40 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                                                                                        | `libjvm.dylib`            |
-| -36.1% |   -30 |   1.4% → 0.9% |       83 → 53 | `G1CMConcurrentMarkingTask::work`                                                                                                                               | `libjvm.dylib`            |
-| -42.3% |   -30 |   1.2% → 0.7% |       71 → 41 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb`                                                                               | `libjvm.dylib`            |
-| -35.4% |   -29 |   1.3% → 0.9% |       82 → 53 | `G1CMTask::do_marking_step`                                                                                                                                     | `libjvm.dylib`            |
-| -20.8% |   -26 |   2.0% → 1.7% |      125 → 99 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                                 | `libjvm.dylib`            |
+|  +8.5% |  +302 | 61.0% → 62.8% | 3,546 → 3,848 | `Thread::call_run`                                                                                                                                              | `libjvm.dylib`            |
+|  +8.5% |  +302 | 61.0% → 62.8% | 3,546 → 3,848 | `thread_native_entry`                                                                                                                                           | `libjvm.dylib`            |
+|  +8.5% |  +302 | 61.1% → 62.8% | 3,547 → 3,849 | `_pthread_start`                                                                                                                                                | `libsystem_pthread.dylib` |
+|  +8.5% |  +302 | 61.1% → 62.8% | 3,547 → 3,849 | `thread_start`                                                                                                                                                  | `libsystem_pthread.dylib` |
+|  +7.6% |  +245 | 55.7% → 56.8% | 3,235 → 3,480 | `JavaThread::thread_main_inner`                                                                                                                                 | `libjvm.dylib`            |
+| +58.6% |   +75 |   2.2% → 3.3% |     128 → 203 | `G1EvacuateRegionsBaseTask::work`                                                                                                                               | `libjvm.dylib`            |
+| +77.2% |   +61 |   1.4% → 2.3% |      79 → 140 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                                 | `libjvm.dylib`            |
+| +20.6% |   +59 |   4.9% → 5.6% |     287 → 346 | `WorkerThread::run`                                                                                                                                             | `libjvm.dylib`            |
+| +71.4% |   +45 |   1.1% → 1.8% |      63 → 108 | `G1EvacuateRegionsTask::scan_roots`                                                                                                                             | `libjvm.dylib`            |
+| +80.0% |   +40 |   0.9% → 1.5% |       50 → 90 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib`            |
+| +80.0% |   +40 |   0.9% → 1.5% |       50 → 90 | `G1ScanHRForRegionClosure::scan_heap_roots`                                                                                                                     | `libjvm.dylib`            |
+| +80.0% |   +40 |   0.9% → 1.5% |       50 → 90 | `G1ScanHRForRegionClosure::do_heap_region`                                                                                                                      | `libjvm.dylib`            |
+| +80.0% |   +40 |   0.9% → 1.5% |       50 → 90 | `G1RemSet::scan_heap_roots`                                                                                                                                     | `libjvm.dylib`            |
+|  +6.4% |   +38 | 10.2% → 10.3% |     593 → 631 | `Compiler::compile_method`                                                                                                                                      | `libjvm.dylib`            |
+| +76.0% |   +38 |   0.9% → 1.4% |       50 → 88 | `G1ScanHRForRegionClosure::scan_memregion`                                                                                                                      | `libjvm.dylib`            |
+| +53.2% |   +33 |   1.1% → 1.5% |       62 → 95 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                               | `libjvm.dylib`            |
+| +28.3% |   +28 |   1.7% → 2.1% |      99 → 127 | `JVM_NewArray`                                                                                                                                                  | `libjvm.dylib`            |
+| +45.6% |   +26 |   1.0% → 1.4% |       57 → 83 | `Arena::contains`                                                                                                                                               | `libjvm.dylib`            |
+| +25.8% |   +25 |   1.7% → 2.0% |      97 → 122 | `pthread_jit_write_protect_np`                                                                                                                                  | `libsystem_pthread.dylib` |
+| +30.3% |   +23 |   1.3% → 1.6% |       76 → 99 | `tlv_get_addr`                                                                                                                                                  | `libdyld.dylib`           |
+
+##### Standard library
+
+|     Change |  Delta |             % |     Samples | Function                                 | Location                                            |
+| ---------: | -----: | ------------: | ----------: | ---------------------------------------- | --------------------------------------------------- |
+|  +17491.7% | +2,099 |  0.2% → 34.4% |  12 → 2,111 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001182800` |
+|  +60800.0% | +1,824 |  0.1% → 29.8% |   3 → 1,827 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000700159fc00` |
+|  +36180.0% | +1,809 |  0.1% → 29.6% |   5 → 1,814 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070015a2800` |
+|  +87800.0% | +1,756 | <0.1% → 28.7% |   2 → 1,758 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001268800` |
+|    +369.8% | +1,749 |  8.1% → 36.2% | 473 → 2,222 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c6400` |
+|  +21812.5% | +1,745 |  0.1% → 28.6% |   8 → 1,753 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700126a400` |
+| +167600.0% | +1,676 | <0.1% → 27.3% |   1 → 1,677 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001638800` |
+| +167600.0% | +1,676 | <0.1% → 27.3% |   1 → 1,677 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001639000` |
+|   +9814.3% | +1,374 |  0.2% → 22.6% |  14 → 1,388 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d4800` |
+| +137200.0% | +1,372 | <0.1% → 22.4% |   1 → 1,373 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001365800` |
+|  +13640.0% | +1,364 |  0.2% → 22.4% |  10 → 1,374 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070017c2400` |
+|  +44533.3% | +1,336 |  0.1% → 21.8% |   3 → 1,339 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000700135b400` |
+|   +1465.2% |   +674 |  0.8% → 11.7% |    46 → 720 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001291000` |
+|  +28700.0% |   +574 |  <0.1% → 9.4% |     2 → 576 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001290c00` |
+|    +225.0% |   +333 |   2.5% → 7.8% |   148 → 481 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c7800` |
+|  +25100.0% |   +251 |  <0.1% → 4.1% |     1 → 252 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001325400` |
+|   +2960.0% |   +148 |   0.1% → 2.5% |     5 → 153 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070017c3000` |
+|  +12200.0% |   +122 |  <0.1% → 2.0% |     1 → 123 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001120400` |
+|  +11900.0% |   +119 |  <0.1% → 2.0% |     1 → 120 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070017c7800` |
+|    +600.0% |   +114 |   0.3% → 2.2% |    19 → 133 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001121800` |
+
+##### Ours
+
+|  Change | Delta |             % |       Samples | Function                                                | Location                                                                    |
+| ------: | ----: | ------------: | ------------: | ------------------------------------------------------- | --------------------------------------------------------------------------- |
+|   +3.1% |   +51 | 28.5% → 27.8% | 1,654 → 1,705 | `measureRuleProcessingTime(Rule, Closure)`              | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|   +3.4% |   +44 | 22.6% → 22.1% | 1,313 → 1,357 | `doCall(Object)`                                        | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
+|   +3.6% |   +43 | 20.5% → 20.1% | 1,191 → 1,234 | `applyTo(SourceCode)`                                   | `org.codenarc.rule.AbstractRule`                                            |
+|   +2.2% |   +22 | 16.9% → 16.4% |   981 → 1,003 | `applyTo(SourceCode, List)`                             | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
+|   +0.9% |   +19 | 38.2% → 36.5% | 2,218 → 2,237 | `main(String[])`                                        | `org.codenarc.CodeNarc`                                                     |
+|   +2.0% |   +19 | 16.0% → 15.4% |     927 → 946 | `visitClass(ClassNode)`                                 | `org.codenarc.rule.AbstractAstVisitor`                                      |
+|   +0.8% |   +17 | 34.8% → 33.3% | 2,022 → 2,039 | `collectViolations(SourceCode, RuleSet)`                | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|  +66.7% |   +16 |   0.4% → 0.7% |       24 → 40 | `applyTo(SourceCode, List)`                             | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                    |
+|   +0.7% |   +15 | 38.0% → 36.2% | 2,207 → 2,222 | `execute(String[])`                                     | `org.codenarc.CodeNarc`                                                     |
+|   +0.7% |   +15 | 37.7% → 36.0% | 2,192 → 2,207 | `execute()`                                             | `org.codenarc.CodeNarcRunner`                                               |
+|   +0.7% |   +15 | 35.1% → 33.5% | 2,038 → 2,053 | `processFile(String, DirectoryResults, RuleSet)`        | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|   +0.6% |   +12 | 35.4% → 33.7% | 2,056 → 2,068 | `analyze(RuleSet)`                                      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|   +0.6% |   +12 | 35.4% → 33.7% | 2,055 → 2,067 | `doCall(Object)`                                        | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+|   +0.6% |   +12 | 35.4% → 33.7% | 2,055 → 2,067 | `processDirectory(String, RuleSet)`                     | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  +37.5% |    +9 |   0.4% → 0.5% |       24 → 33 | `visitClass(ClassNode)`                                 | `org.codenarc.rule.AbstractMethodVisitor`                                   |
+| +225.0% |    +9 |   0.1% → 0.2% |        4 → 13 | `applyTo(SourceCode, List)`                             | `org.codenarc.rule.formatting.BlankLineBeforePackageRule`                   |
+| +300.0% |    +9 |   0.1% → 0.2% |        3 → 12 | `visitClassEx(ClassNode)`                               | `org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor`         |
+|  +53.3% |    +8 |   0.3% → 0.4% |       15 → 23 | `visitArgumentlistExpression(ArgumentListExpression)`   | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                          |
+| +100.0% |    +8 |   0.1% → 0.3% |        8 → 16 | `checkDeclaration(ASTNode, String, String)`             | `org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor`         |
+|  +66.7% |    +8 |   0.2% → 0.3% |       12 → 20 | `super$3$visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`                    |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                  | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------- | ----------- |
+| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `zero_blocks`             | `<unknown>` |
+| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
+|  +12.5% |    +1 |         0.1% |   8 → 9 | `vtable stub`             | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0x)`    | `<unknown>` |
+
+#### Improvements
+
+Functions with the largest decrease in total samples taken in the function and all its callees.
+
+##### Compiler
+
+| Change | Delta |            % |   Samples | Function                                           | Location       |
+| -----: | ----: | -----------: | --------: | -------------------------------------------------- | -------------- |
+| -23.6% |   -17 |  1.2% → 0.9% |   72 → 55 | `IndexSetIterator::advance_and_next`               | `libjvm.dylib` |
+| -22.2% |   -16 |  1.2% → 0.9% |   72 → 56 | `PhaseIterGVN::remove_globally_dead_node`          | `libjvm.dylib` |
+|  -8.7% |   -15 |  3.0% → 2.6% | 172 → 157 | `GraphBuilder::iterate_all_blocks`                 | `libjvm.dylib` |
+|  -8.2% |   -14 |  2.9% → 2.6% | 171 → 157 | `GraphBuilder::iterate_bytecodes_for_block`        | `libjvm.dylib` |
+|  -9.8% |   -14 |  2.5% → 2.1% | 143 → 129 | `GraphBuilder::try_inline_full`                    | `libjvm.dylib` |
+|  -6.3% |   -14 |  3.9% → 3.4% | 224 → 210 | `Compilation::build_hir`                           | `libjvm.dylib` |
+| -70.0% |   -14 |  0.3% → 0.1% |    20 → 6 | `GraphBuilder::method_return`                      | `libjvm.dylib` |
+| -15.3% |   -13 |  1.5% → 1.2% |   85 → 72 | `PhaseIterGVN::subsume_node`                       | `libjvm.dylib` |
+| -54.2% |   -13 |  0.4% → 0.2% |   24 → 11 | `ciMethod::find_monomorphic_target`                | `libjvm.dylib` |
+|  -7.1% |   -13 |  3.2% → 2.8% | 183 → 170 | `GraphBuilder::GraphBuilder`                       | `libjvm.dylib` |
+|  -8.4% |   -12 |  2.5% → 2.1% | 143 → 131 | `GraphBuilder::try_inline`                         | `libjvm.dylib` |
+|  -7.5% |   -12 |  2.8% → 2.4% | 160 → 148 | `GraphBuilder::invoke`                             | `libjvm.dylib` |
+| -33.3% |   -11 |  0.6% → 0.4% |   33 → 22 | `ciEnv::get_klass_by_index_impl`                   | `libjvm.dylib` |
+| -23.4% |   -11 |  0.8% → 0.6% |   47 → 36 | `ciTypeFlow::flow_types`                           | `libjvm.dylib` |
+| -23.4% |   -11 |  0.8% → 0.6% |   47 → 36 | `ciTypeFlow::do_flow`                              | `libjvm.dylib` |
+| -39.3% |   -11 |  0.5% → 0.3% |   28 → 17 | `DebugInformationRecorder::serialize_scope_values` | `libjvm.dylib` |
+| -64.7% |   -11 |  0.3% → 0.1% |    17 → 6 | `LinearScanWalker::free_collect_inactive_fixed`    | `libjvm.dylib` |
+| -45.8% |   -11 |  0.4% → 0.2% |   24 → 13 | `CompilationPolicy::event`                         | `libjvm.dylib` |
+| -20.4% |   -10 |  0.8% → 0.6% |   49 → 39 | `ciMethod::get_flow_analysis`                      | `libjvm.dylib` |
+| -76.9% |   -10 | 0.2% → <0.1% |    13 → 3 | `GraphKit::kill_dead_locals`                       | `libjvm.dylib` |
+
+##### Native
+
+|  Change | Delta |            % |   Samples | Function                                                                                               | Location        |
+| ------: | ----: | -----------: | --------: | ------------------------------------------------------------------------------------------------------ | --------------- |
+|  -11.9% |   -22 |  3.2% → 2.7% | 185 → 163 | `java_lang_Throwable::fill_in_stack_trace`                                                             | `libjvm.dylib`  |
+|  -10.8% |   -20 |  3.2% → 2.7% | 186 → 166 | `JVM_FillInStackTrace`                                                                                 | `libjvm.dylib`  |
+|  -10.8% |   -20 |  3.2% → 2.7% | 186 → 166 | `Java_java_lang_Throwable_fillInStackTrace`                                                            | `libjava.dylib` |
+| removed |   -16 |  0.3% → 0.0% |    16 → 0 | `KlassCleaningTask::work`                                                                              | `libjvm.dylib`  |
+|  -38.9% |   -14 |  0.6% → 0.4% |   36 → 22 | `stale_jmethodID`                                                                                      | `<unknown>`     |
+|  -22.8% |   -13 |  1.0% → 0.7% |   57 → 44 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                               | `libjvm.dylib`  |
+|   -7.1% |   -13 |  3.2% → 2.8% | 183 → 170 | `IRScope::IRScope`                                                                                     | `libjvm.dylib`  |
+|   -7.1% |   -13 |  3.2% → 2.8% | 183 → 170 | `IR::IR`                                                                                               | `libjvm.dylib`  |
+|  -25.6% |   -11 |  0.7% → 0.5% |   43 → 32 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib`  |
+|  -18.3% |   -11 |  1.0% → 0.8% |   60 → 49 | `HeapRegionManager::par_iterate`                                                                       | `libjvm.dylib`  |
+|  -37.9% |   -11 |  0.5% → 0.3% |   29 → 18 | `frame::sender_for_compiled_frame`                                                                     | `libjvm.dylib`  |
+|  -66.7% |   -10 |  0.3% → 0.1% |    15 → 5 | `Parse::do_exits`                                                                                      | `libjvm.dylib`  |
+|  -17.2% |   -10 |  1.0% → 0.8% |   58 → 48 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb`                      | `libjvm.dylib`  |
+|  -16.9% |   -10 |  1.0% → 0.8% |   59 → 49 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region`                     | `libjvm.dylib`  |
+|  -16.9% |   -10 |  1.0% → 0.8% |   59 → 49 | `G1RebuildRSAndScrubTask::work`                                                                        | `libjvm.dylib`  |
+|  -47.6% |   -10 |  0.4% → 0.2% |   21 → 11 | `G1CardSet::add_card`                                                                                  | `libjvm.dylib`  |
+|  -62.5% |   -10 |  0.3% → 0.1% |    16 → 6 | `frame::sender_raw`                                                                                    | `libjvm.dylib`  |
+| removed |    -9 |  0.2% → 0.0% |     9 → 0 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                  | `libjvm.dylib`  |
+|  -81.8% |    -9 | 0.2% → <0.1% |    11 → 2 | `JNIHandleBlock::allocate_handle`                                                                      | `libjvm.dylib`  |
+|  -30.8% |    -8 |  0.4% → 0.3% |   26 → 18 | `vmSymbols::find_sid`                                                                                  | `libjvm.dylib`  |
 
 ##### Standard library
 
 |  Change |  Delta |             % |     Samples | Function                                 | Location                                            |
 | ------: | -----: | ------------: | ----------: | ---------------------------------------- | --------------------------------------------------- |
-|  -99.7% | -2,217 |  36.4% → 0.1% |   2,224 → 7 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010a0800` |
-|  -99.9% | -2,129 | 34.9% → <0.1% |   2,131 → 2 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700118b000` |
-| -100.0% | -2,080 | 34.1% → <0.1% |   2,081 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001181000` |
-|  -99.0% | -1,820 |  30.1% → 0.3% |  1,838 → 18 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070013a2c00` |
-|  -97.2% | -1,790 |  30.2% → 0.9% |  1,842 → 52 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010ab000` |
-|  -99.8% | -1,686 |  27.7% → 0.1% |   1,689 → 3 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700165c000` |
-|  -99.8% | -1,685 |  27.7% → 0.1% |   1,689 → 4 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700165b000` |
-|  -99.4% | -1,679 |  27.7% → 0.2% |  1,689 → 10 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070014d2c00` |
-|  -99.9% | -1,400 | 22.9% → <0.1% |   1,401 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001440800` |
-|  -99.4% | -1,352 |  22.3% → 0.1% |   1,360 → 8 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d9800` |
-|  -66.6% | -1,171 | 28.8% → 10.0% | 1,759 → 588 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001290c00` |
-|  -99.9% |   -710 | 11.6% → <0.1% |     711 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001180000` |
-|  -60.5% |   -354 |   9.6% → 3.9% |   585 → 231 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700128b800` |
-|  -98.7% |   -299 |   5.0% → 0.1% |     303 → 4 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001115800` |
-|  -99.7% |   -294 |  4.8% → <0.1% |     295 → 1 | `invoke(Object, int)`                    | `java.lang.invoke.LambdaForm$MH.0x0000007001235400` |
-|  -98.0% |   -251 |   4.2% → 0.1% |     256 → 5 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c6800` |
-|  -95.7% |   -246 |   4.2% → 0.2% |    257 → 11 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001424c00` |
-|  -99.1% |   -233 |  3.8% → <0.1% |     235 → 2 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001236c00` |
-|  -96.5% |   -167 |   2.8% → 0.1% |     173 → 6 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000700159d800` |
-|  -53.7% |   -138 |   4.2% → 2.0% |   257 → 119 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001120400` |
+|  -99.6% | -2,198 |  38.0% → 0.1% |   2,207 → 9 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c6800` |
+| -100.0% | -2,101 | 36.2% → <0.1% |   2,102 → 1 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070011ebc00` |
+|  -99.8% | -1,818 | 31.3% → <0.1% |   1,821 → 3 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001451000` |
+|  -99.1% | -1,788 |  31.1% → 0.3% |  1,804 → 16 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070014f1c00` |
+|  -99.9% | -1,693 | 29.2% → <0.1% |   1,694 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001319400` |
+|  -99.9% | -1,669 | 28.7% → <0.1% |   1,670 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001480c00` |
+|  -99.5% | -1,661 |  28.7% → 0.1% |   1,670 → 9 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001625800` |
+|  -96.9% | -1,623 |  28.8% → 0.8% |  1,675 → 52 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700118b000` |
+|  -99.9% | -1,361 | 23.5% → <0.1% |   1,363 → 2 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001615400` |
+|  -88.0% | -1,182 |  23.1% → 2.6% | 1,343 → 161 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010c7400` |
+|  -85.7% | -1,134 |  22.8% → 3.1% | 1,323 → 189 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070012a4c00` |
+|  -82.0% | -1,064 |  22.3% → 3.8% | 1,297 → 233 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001291800` |
+|  -97.7% |   -559 |   9.8% → 0.2% |    572 → 13 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001326000` |
+|  -86.4% |   -216 |   4.3% → 0.6% |    250 → 34 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001378800` |
+|  -87.2% |   -211 |   4.2% → 0.5% |    242 → 31 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001181800` |
+|  -96.8% |   -184 |   3.3% → 0.1% |     190 → 6 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001182400` |
+|  -99.4% |   -167 |  2.9% → <0.1% |     168 → 1 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070017ebc00` |
+|  -18.9% |   -136 |  12.4% → 9.5% |   719 → 583 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001290000` |
+|  -95.3% |   -123 |   2.2% → 0.1% |     129 → 6 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d9800` |
+|  -98.3% |   -117 |  2.0% → <0.1% |     119 → 2 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001534c00` |
 
 ##### Ours
 
-| Change | Delta |             % |       Samples | Function                                         | Location                                                                     |
-| -----: | ----: | ------------: | ------------: | ------------------------------------------------ | ---------------------------------------------------------------------------- |
-|  -1.1% |   -23 | 33.8% → 34.8% | 2,062 → 2,039 | `collectViolations(SourceCode, RuleSet)`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                               |
-|  -1.1% |   -22 | 33.9% → 35.0% | 2,073 → 2,051 | `processFile(String, DirectoryResults, RuleSet)` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                             |
-|  -0.7% |   -15 | 34.1% → 35.3% | 2,082 → 2,067 | `analyze(RuleSet)`                               | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                             |
-|  -0.7% |   -15 | 34.1% → 35.3% | 2,081 → 2,066 | `doCall(Object)`                                 | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`  |
-|  -0.7% |   -15 | 34.1% → 35.3% | 2,081 → 2,066 | `processDirectory(String, RuleSet)`              | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                             |
-|  -0.6% |   -14 | 36.9% → 38.2% | 2,251 → 2,237 | `main(String[])`                                 | `org.codenarc.CodeNarc`                                                      |
-|  -0.6% |   -14 | 36.6% → 38.0% | 2,238 → 2,224 | `execute(String[])`                              | `org.codenarc.CodeNarc`                                                      |
-|  -0.6% |   -13 | 36.4% → 37.7% | 2,221 → 2,208 | `execute()`                                      | `org.codenarc.CodeNarcRunner`                                                |
-| -25.5% |   -12 |   0.8% → 0.6% |       47 → 35 | `applyVisitor(AstVisitor, SourceCode)`           | `org.codenarc.rule.AbstractSharedAstVisitorRule`                             |
-|  -4.1% |   -11 |          4.4% |     269 → 258 | `doCall(Object)`                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`   |
-|  -0.6% |   -11 | 27.9% → 29.0% | 1,706 → 1,695 | `measureRuleProcessingTime(Rule, Closure)`       | `org.codenarc.analyzer.AbstractSourceAnalyzer`                               |
-| -17.5% |   -10 |   0.9% → 0.8% |       57 → 47 | `applyTo(SourceCode, List)`                      | `org.codenarc.rule.AbstractSharedAstVisitorRule`                             |
-| -66.7% |   -10 |   0.2% → 0.1% |        15 → 5 | `visitMethodEx(MethodNode)`                      | `org.codenarc.rule.design.ReturnsNullInsteadOfEmptyCollectionRuleAstVisitor` |
-|  -3.8% |    -9 |          3.9% |     238 → 229 | `init()`                                         | `org.codenarc.source.AbstractSourceCode`                                     |
-|  -3.8% |    -9 |          3.9% |     239 → 230 | `getAst()`                                       | `org.codenarc.source.AbstractSourceCode`                                     |
-|  -3.4% |    -8 |          3.9% |     237 → 229 | `init()`                                         | `org.codenarc.analyzer.SuppressionAnalyzer`                                  |
-|  -3.3% |    -8 |          4.0% |     242 → 234 | `isRuleSuppressed(Rule)`                         | `org.codenarc.analyzer.SuppressionAnalyzer`                                  |
-| -53.3% |    -8 |   0.2% → 0.1% |        15 → 7 | `doCall(List)`                                   | `org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1`  |
-| -53.3% |    -8 |   0.2% → 0.1% |        15 → 7 | `removeGrabTransformation(CompilationUnit)`      | `org.codenarc.source.AbstractSourceCode`                                     |
-|  -1.1% |    -8 | 12.1% → 12.5% |     742 → 734 | `visitMethod(MethodNode)`                        | `org.codenarc.rule.AbstractAstVisitor`                                       |
+|  Change | Delta |            % |   Samples | Function                                                | Location                                                                       |
+| ------: | ----: | -----------: | --------: | ------------------------------------------------------- | ------------------------------------------------------------------------------ |
+|   -8.5% |   -23 |  4.7% → 4.0% | 271 → 248 | `doCall(Object)`                                        | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`     |
+|   -5.1% |   -12 |  4.1% → 3.7% | 236 → 224 | `isRuleSuppressed(Rule)`                                | `org.codenarc.analyzer.SuppressionAnalyzer`                                    |
+|  -78.6% |   -11 | 0.2% → <0.1% |    14 → 3 | `getText()`                                             | `org.codenarc.source.SourceFile`                                               |
+|  -40.0% |   -10 |  0.4% → 0.2% |   25 → 15 | `doCall(Object)`                                        | `org.gmetrics.metric.AbstractMethodMetric$_addMethodsToMetricResults_closure4` |
+|  -40.0% |   -10 |  0.4% → 0.2% |   25 → 15 | `addMethodsToMetricResults(SourceCode, ClassNode, Map)` | `org.gmetrics.metric.AbstractMethodMetric`                                     |
+|   -3.5% |    -8 |  3.9% → 3.6% | 228 → 220 | `init()`                                                | `org.codenarc.source.AbstractSourceCode`                                       |
+|   -3.5% |    -8 |  3.9% → 3.6% | 229 → 221 | `init()`                                                | `org.codenarc.analyzer.SuppressionAnalyzer`                                    |
+|  -42.1% |    -8 |  0.3% → 0.2% |   19 → 11 | `calculate(MethodNode, SourceCode)`                     | `org.gmetrics.metric.abc.AbcMetric`                                            |
+|   -3.1% |    -7 |  3.9% → 3.6% | 229 → 222 | `getAst()`                                              | `org.codenarc.source.AbstractSourceCode`                                       |
+|  -23.3% |    -7 |  0.5% → 0.4% |   30 → 23 | `visitClass(ClassNode)`                                 | `org.codenarc.rule.AbstractMethodCallExpressionVisitor`                        |
+|  -77.8% |    -7 | 0.2% → <0.1% |     9 → 2 | `visitBinaryExpression(BinaryExpression)`               | `org.gmetrics.metric.abc.AbcAstVisitor`                                        |
+|  -70.0% |    -7 | 0.2% → <0.1% |    10 → 3 | `visitDeclarationExpression(DeclarationExpression)`     | `org.codenarc.rule.groovyism.AssignCollectionUniqueAstVisitor`                 |
+|  -41.2% |    -7 |  0.3% → 0.2% |   17 → 10 | `getNonStaticImportsSortedByLineNumber(SourceCode)`     | `org.codenarc.util.ImportUtil`                                                 |
+|  -66.7% |    -6 | 0.2% → <0.1% |     9 → 3 | `super$3$visitMethod(MethodNode)`                       | `org.gmetrics.metric.abc.AbcAstVisitor`                                        |
+|  -66.7% |    -6 | 0.2% → <0.1% |     9 → 3 | `visitMethod(MethodNode)`                               | `org.gmetrics.metric.abc.AbcAstVisitor`                                        |
+|  -85.7% |    -6 | 0.1% → <0.1% |     7 → 1 | `isMatchingUniqueCall(Expression)`                      | `org.codenarc.rule.groovyism.AssignCollectionUniqueAstVisitor`                 |
+|  -66.7% |    -6 | 0.2% → <0.1% |     9 → 3 | `isChainedUnique(Expression)`                           | `org.codenarc.rule.groovyism.AssignCollectionUniqueAstVisitor`                 |
+| removed |    -6 |  0.1% → 0.0% |     6 → 0 | `visitClosureExpression(ClosureExpression)`             | `org.codenarc.rule.naming.ParameterNameAstVisitor`                             |
+|  -54.5% |    -6 |  0.2% → 0.1% |    11 → 5 | `applyTo(SourceCode, List)`                             | `org.codenarc.rule.imports.UnnecessaryGroovyImportRule`                        |
+|  -54.5% |    -6 |  0.2% → 0.1% |    11 → 5 | `visitBlockStatement(BlockStatement)`                   | `org.codenarc.rule.unnecessary.UnnecessaryObjectReferencesAstVisitor`          |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                   | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------- | ----------- |
+|  -56.5% |   -13 |  0.4% → 0.2% | 23 → 10 | `itable stub`              | `<unknown>` |
+|  -40.0% |    -6 |  0.3% → 0.1% |  15 → 9 | `I2C/C2I adapters(0xbb)`   | `<unknown>` |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `I2C/C2I adapters(0xbab)`  | `<unknown>` |
+|  -50.0% |    -1 |        <0.1% |   2 → 1 | `I2C/C2I adapters(0xbbaa)` | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbaa)`  | `<unknown>` |

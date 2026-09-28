@@ -1,11 +1,12 @@
 # CPU profile diff
 
-Took 5.82s → 6.04s (+222.00ms, +3.8%) over 5,822 samples → 6,044 samples (1.0ms per sample).
+Took 5.23s → 5.79s (+559.00ms, +10.7%) over 5,237 samples → 5,796 samples (1.0ms per sample).
 
-| Category         | Change |     Delta |             % |              Time |       Samples |
-| ---------------- | -----: | --------: | ------------: | ----------------: | ------------: |
-| Standard library |  +4.0% | +227.00ms | 98.0% → 98.1% |     5.70s → 5.93s | 5,703 → 5,930 |
-| Native           |  -4.2% |   -5.00ms |   2.0% → 1.9% | 119.0ms → 114.0ms |     119 → 114 |
+| Category         |  Change |     Delta |             % |              Time |       Samples |
+| ---------------- | ------: | --------: | ------------: | ----------------: | ------------: |
+| Standard library |  +17.6% | +850.00ms | 92.4% → 98.1% |     4.83s → 5.68s | 4,837 → 5,687 |
+| Native           |  -71.5% | -274.00ms |   7.3% → 1.9% | 383.0ms → 109.0ms |     383 → 109 |
+| Ours             | removed |  -17.00ms |   0.3% → 0.0% |      17.0ms → 0ms |        17 → 0 |
 
 ## Hottest functions
 
@@ -15,155 +16,150 @@ Took 5.82s → 6.04s (+222.00ms, +3.8%) over 5,822 samples → 6,044 samples (1.
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|  Change |    Delta |             % |              Time |       Samples | Function                                                                                  | Location                                   |
-| ------: | -------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------- | ------------------------------------------ |
-|   +3.1% | +41.00ms | 22.6% → 22.4% |     1.31s → 1.35s | 1,313 → 1,354 | `zig.tokenizer.Tokenizer.next`                                                            | `../opt/zig/lib/std/zig/tokenizer.zig`     |
-|  +54.7% | +35.00ms |   1.1% → 1.6% |   64.0ms → 99.0ms |       64 → 99 | `static_string_map.defaultEql`                                                            | `../opt/zig/lib/std/static_string_map.zig` |
-|   +8.4% | +29.00ms |   5.9% → 6.2% | 345.0ms → 374.0ms |     345 → 374 | `memset`                                                                                  | `../opt/zig/lib/compiler_rt.zig`           |
-|  +35.2% | +19.00ms |   0.9% → 1.2% |   54.0ms → 73.0ms |       54 → 73 | `zig.Ast.nodeTag`                                                                         | `../opt/zig/lib/std/zig/Ast.zig`           |
-|  +53.1% | +17.00ms |   0.5% → 0.8% |   32.0ms → 49.0ms |       32 → 49 | `zig.Parse.parseTypeExpr`                                                                 | `../opt/zig/lib/std/zig/Parse.zig`         |
-|  +30.4% | +14.00ms |   0.8% → 1.0% |   46.0ms → 60.0ms |       46 → 60 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                             | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-|  +22.8% | +13.00ms |   1.0% → 1.2% |   57.0ms → 70.0ms |       57 → 70 | `zig.Ast.firstToken`                                                                      | `../opt/zig/lib/std/zig/Ast.zig`           |
-|  +17.3% | +13.00ms |   1.3% → 1.5% |   75.0ms → 88.0ms |       75 → 88 | `zig.Ast.Render.renderIdentifier`                                                         | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-|  +52.0% | +13.00ms |   0.4% → 0.6% |   25.0ms → 38.0ms |       25 → 38 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).Slice.items__anon_32582` | `../opt/zig/lib/std/multi_array_list.zig`  |
-|  +16.3% | +13.00ms |   1.4% → 1.5% |   80.0ms → 93.0ms |       80 → 93 | `Io.Writer.write`                                                                         | `../opt/zig/lib/std/Io/Writer.zig`         |
-|  +23.5% | +12.00ms |   0.9% → 1.0% |   51.0ms → 63.0ms |       51 → 63 | `Io.Writer.writeAll`                                                                      | `../opt/zig/lib/std/Io/Writer.zig`         |
-| +122.2% | +11.00ms |   0.2% → 0.3% |    9.0ms → 20.0ms |        9 → 20 | `zig.Ast.Render.renderFnProto`                                                            | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-|  +47.8% | +11.00ms |   0.4% → 0.6% |   23.0ms → 34.0ms |       23 → 34 | `Io.Writer.writeByte`                                                                     | `../opt/zig/lib/std/Io/Writer.zig`         |
-|  +38.5% | +10.00ms |   0.4% → 0.6% |   26.0ms → 36.0ms |       26 → 36 | `0xe3e00`                                                                                 | `../usr/lib/aarch64-linux-gnu/libc.so.6`   |
-|   +3.1% |  +8.00ms |          4.4% | 255.0ms → 263.0ms |     255 → 263 | `zig.Ast.tokenSlice`                                                                      | `../opt/zig/lib/std/zig/Ast.zig`           |
-|   +4.7% |  +8.00ms |          2.9% | 170.0ms → 178.0ms |     170 → 178 | `zig.tokenizer.Token.Tag.lexeme`                                                          | `../opt/zig/lib/std/zig/tokenizer.zig`     |
-|   +6.1% |  +8.00ms |          2.3% | 132.0ms → 140.0ms |     132 → 140 | `mem.findScalarPos__anon_6382`                                                            | `../opt/zig/lib/std/mem.zig`               |
-|  +80.0% |  +8.00ms |   0.2% → 0.3% |   10.0ms → 18.0ms |       10 → 18 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).appendAssumeCapacity`    | `../opt/zig/lib/std/multi_array_list.zig`  |
-|  +61.5% |  +8.00ms |   0.2% → 0.3% |   13.0ms → 21.0ms |       13 → 21 | `zig.Parse.parseErrorUnionExpr`                                                           | `../opt/zig/lib/std/zig/Parse.zig`         |
-|  +30.8% |  +8.00ms |   0.4% → 0.6% |   26.0ms → 34.0ms |       26 → 34 | `zig.Ast.Render.AutoIndentingStream.applyIndent`                                          | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
+|  Change |     Delta |             % |              Time |       Samples | Function                                                                                  | Location                               |
+| ------: | --------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------- | -------------------------------------- |
+|     new | +351.00ms |   0.0% → 6.1% |     0ms → 351.0ms |       0 → 351 | `memset`                                                                                  | `opt/zig/lib/compiler_rt.zig`          |
+|     new | +112.00ms |   0.0% → 1.9% |     0ms → 112.0ms |       0 → 112 | `mem.findScalarPos__anon_6382`                                                            | `opt/zig/lib/std/mem.zig`              |
+|   +7.9% |  +93.00ms | 22.4% → 21.9% |     1.17s → 1.26s | 1,175 → 1,268 | `zig.tokenizer.Tokenizer.next`                                                            | `opt/zig/lib/std/zig/tokenizer.zig`    |
+|  +65.0% |  +76.00ms |   2.2% → 3.3% | 117.0ms → 193.0ms |     117 → 193 | `zig.Ast.Render.renderExpression`                                                         | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  +46.3% |  +62.00ms |   2.6% → 3.4% | 134.0ms → 196.0ms |     134 → 196 | `zig.Ast.Render.renderComments`                                                           | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  +27.6% |  +55.00ms |   3.8% → 4.4% | 199.0ms → 254.0ms |     199 → 254 | `zig.Ast.Render.tokenSliceForRender`                                                      | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| +134.4% |  +43.00ms |   0.6% → 1.3% |   32.0ms → 75.0ms |       32 → 75 | `zig.Ast.lastToken`                                                                       | `opt/zig/lib/std/zig/Ast.zig`          |
+|     new |  +39.00ms |   0.0% → 0.7% |      0ms → 39.0ms |        0 → 39 | `0xe3e00`                                                                                 | `usr/lib/aarch64-linux-gnu/libc.so.6`  |
+| +237.5% |  +38.00ms |   0.3% → 0.9% |   16.0ms → 54.0ms |       16 → 54 | `zig.Ast.nodeMainToken`                                                                   | `opt/zig/lib/std/zig/Ast.zig`          |
+|     new |  +33.00ms |   0.0% → 0.6% |      0ms → 33.0ms |        0 → 33 | `compiler_rt.memcpy.copyLessThan16`                                                       | `opt/zig/lib/compiler_rt/memcpy.zig`   |
+| +620.0% |  +31.00ms |   0.1% → 0.6% |    5.0ms → 36.0ms |        5 → 36 | `zig.Parse.addNode`                                                                       | `opt/zig/lib/std/zig/Parse.zig`        |
+|  +21.3% |  +30.00ms |   2.7% → 3.0% | 141.0ms → 171.0ms |     141 → 171 | `zig.Ast.Render.renderSpace`                                                              | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|     new |  +28.00ms |   0.0% → 0.5% |      0ms → 28.0ms |        0 → 28 | `mem.findPosLinear__anon_31435`                                                           | `opt/zig/lib/std/mem.zig`              |
+| +525.0% |  +21.00ms |   0.1% → 0.4% |    4.0ms → 25.0ms |        4 → 25 | `zig.Ast.nodeData`                                                                        | `opt/zig/lib/std/zig/Ast.zig`          |
+| +110.5% |  +21.00ms |   0.4% → 0.7% |   19.0ms → 40.0ms |       19 → 40 | `zig.Ast.Render.hasComment`                                                               | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|     new |  +20.00ms |   0.0% → 0.3% |      0ms → 20.0ms |        0 → 20 | `zig.Ast.Render.renderExpressionComma`                                                    | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| +118.8% |  +19.00ms |   0.3% → 0.6% |   16.0ms → 35.0ms |       16 → 35 | `zig.Ast.Render.AutoIndentingStream.writeByte`                                            | `opt/zig/lib/std/debug.zig`            |
+| +112.5% |  +18.00ms |   0.3% → 0.6% |   16.0ms → 34.0ms |       16 → 34 | `zig.Ast.parse`                                                                           | `opt/zig/lib/std/zig/Ast.zig`          |
+|  +78.3% |  +18.00ms |   0.4% → 0.7% |   23.0ms → 41.0ms |       23 → 41 | `zig.Ast.Render.AutoIndentingStream.currentIndent`                                        | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  +75.0% |  +18.00ms |   0.5% → 0.7% |   24.0ms → 42.0ms |       24 → 42 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).Slice.items__anon_32582` | `opt/zig/lib/std/multi_array_list.zig` |
 
 ##### Standard library
 
-|  Change |    Delta |             % |              Time |       Samples | Function                                                                                  | Location                                   |
-| ------: | -------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------- | ------------------------------------------ |
-|   +3.1% | +41.00ms | 22.6% → 22.4% |     1.31s → 1.35s | 1,313 → 1,354 | `zig.tokenizer.Tokenizer.next`                                                            | `../opt/zig/lib/std/zig/tokenizer.zig`     |
-|  +54.7% | +35.00ms |   1.1% → 1.6% |   64.0ms → 99.0ms |       64 → 99 | `static_string_map.defaultEql`                                                            | `../opt/zig/lib/std/static_string_map.zig` |
-|   +8.4% | +29.00ms |   5.9% → 6.2% | 345.0ms → 374.0ms |     345 → 374 | `memset`                                                                                  | `../opt/zig/lib/compiler_rt.zig`           |
-|  +35.2% | +19.00ms |   0.9% → 1.2% |   54.0ms → 73.0ms |       54 → 73 | `zig.Ast.nodeTag`                                                                         | `../opt/zig/lib/std/zig/Ast.zig`           |
-|  +53.1% | +17.00ms |   0.5% → 0.8% |   32.0ms → 49.0ms |       32 → 49 | `zig.Parse.parseTypeExpr`                                                                 | `../opt/zig/lib/std/zig/Parse.zig`         |
-|  +30.4% | +14.00ms |   0.8% → 1.0% |   46.0ms → 60.0ms |       46 → 60 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                             | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-|  +22.8% | +13.00ms |   1.0% → 1.2% |   57.0ms → 70.0ms |       57 → 70 | `zig.Ast.firstToken`                                                                      | `../opt/zig/lib/std/zig/Ast.zig`           |
-|  +17.3% | +13.00ms |   1.3% → 1.5% |   75.0ms → 88.0ms |       75 → 88 | `zig.Ast.Render.renderIdentifier`                                                         | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-|  +52.0% | +13.00ms |   0.4% → 0.6% |   25.0ms → 38.0ms |       25 → 38 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).Slice.items__anon_32582` | `../opt/zig/lib/std/multi_array_list.zig`  |
-|  +16.3% | +13.00ms |   1.4% → 1.5% |   80.0ms → 93.0ms |       80 → 93 | `Io.Writer.write`                                                                         | `../opt/zig/lib/std/Io/Writer.zig`         |
-|  +23.5% | +12.00ms |   0.9% → 1.0% |   51.0ms → 63.0ms |       51 → 63 | `Io.Writer.writeAll`                                                                      | `../opt/zig/lib/std/Io/Writer.zig`         |
-| +122.2% | +11.00ms |   0.2% → 0.3% |    9.0ms → 20.0ms |        9 → 20 | `zig.Ast.Render.renderFnProto`                                                            | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-|  +47.8% | +11.00ms |   0.4% → 0.6% |   23.0ms → 34.0ms |       23 → 34 | `Io.Writer.writeByte`                                                                     | `../opt/zig/lib/std/Io/Writer.zig`         |
-|   +3.1% |  +8.00ms |          4.4% | 255.0ms → 263.0ms |     255 → 263 | `zig.Ast.tokenSlice`                                                                      | `../opt/zig/lib/std/zig/Ast.zig`           |
-|   +4.7% |  +8.00ms |          2.9% | 170.0ms → 178.0ms |     170 → 178 | `zig.tokenizer.Token.Tag.lexeme`                                                          | `../opt/zig/lib/std/zig/tokenizer.zig`     |
-|   +6.1% |  +8.00ms |          2.3% | 132.0ms → 140.0ms |     132 → 140 | `mem.findScalarPos__anon_6382`                                                            | `../opt/zig/lib/std/mem.zig`               |
-|  +80.0% |  +8.00ms |   0.2% → 0.3% |   10.0ms → 18.0ms |       10 → 18 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).appendAssumeCapacity`    | `../opt/zig/lib/std/multi_array_list.zig`  |
-|  +61.5% |  +8.00ms |   0.2% → 0.3% |   13.0ms → 21.0ms |       13 → 21 | `zig.Parse.parseErrorUnionExpr`                                                           | `../opt/zig/lib/std/zig/Parse.zig`         |
-|  +30.8% |  +8.00ms |   0.4% → 0.6% |   26.0ms → 34.0ms |       26 → 34 | `zig.Ast.Render.AutoIndentingStream.applyIndent`                                          | `../opt/zig/lib/std/zig/Ast/Render.zig`    |
-| +266.7% |  +8.00ms |   0.1% → 0.2% |    3.0ms → 11.0ms |        3 → 11 | `compiler_rt.memcpy.copySmallLength`                                                      | `../opt/zig/lib/compiler_rt/memcpy.zig`    |
+|  Change |     Delta |             % |              Time |       Samples | Function                                                                                  | Location                               |
+| ------: | --------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------- | -------------------------------------- |
+|     new | +351.00ms |   0.0% → 6.1% |     0ms → 351.0ms |       0 → 351 | `memset`                                                                                  | `opt/zig/lib/compiler_rt.zig`          |
+|     new | +112.00ms |   0.0% → 1.9% |     0ms → 112.0ms |       0 → 112 | `mem.findScalarPos__anon_6382`                                                            | `opt/zig/lib/std/mem.zig`              |
+|   +7.9% |  +93.00ms | 22.4% → 21.9% |     1.17s → 1.26s | 1,175 → 1,268 | `zig.tokenizer.Tokenizer.next`                                                            | `opt/zig/lib/std/zig/tokenizer.zig`    |
+|  +65.0% |  +76.00ms |   2.2% → 3.3% | 117.0ms → 193.0ms |     117 → 193 | `zig.Ast.Render.renderExpression`                                                         | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  +46.3% |  +62.00ms |   2.6% → 3.4% | 134.0ms → 196.0ms |     134 → 196 | `zig.Ast.Render.renderComments`                                                           | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  +27.6% |  +55.00ms |   3.8% → 4.4% | 199.0ms → 254.0ms |     199 → 254 | `zig.Ast.Render.tokenSliceForRender`                                                      | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| +134.4% |  +43.00ms |   0.6% → 1.3% |   32.0ms → 75.0ms |       32 → 75 | `zig.Ast.lastToken`                                                                       | `opt/zig/lib/std/zig/Ast.zig`          |
+| +237.5% |  +38.00ms |   0.3% → 0.9% |   16.0ms → 54.0ms |       16 → 54 | `zig.Ast.nodeMainToken`                                                                   | `opt/zig/lib/std/zig/Ast.zig`          |
+|     new |  +33.00ms |   0.0% → 0.6% |      0ms → 33.0ms |        0 → 33 | `compiler_rt.memcpy.copyLessThan16`                                                       | `opt/zig/lib/compiler_rt/memcpy.zig`   |
+| +620.0% |  +31.00ms |   0.1% → 0.6% |    5.0ms → 36.0ms |        5 → 36 | `zig.Parse.addNode`                                                                       | `opt/zig/lib/std/zig/Parse.zig`        |
+|  +21.3% |  +30.00ms |   2.7% → 3.0% | 141.0ms → 171.0ms |     141 → 171 | `zig.Ast.Render.renderSpace`                                                              | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|     new |  +28.00ms |   0.0% → 0.5% |      0ms → 28.0ms |        0 → 28 | `mem.findPosLinear__anon_31435`                                                           | `opt/zig/lib/std/mem.zig`              |
+| +525.0% |  +21.00ms |   0.1% → 0.4% |    4.0ms → 25.0ms |        4 → 25 | `zig.Ast.nodeData`                                                                        | `opt/zig/lib/std/zig/Ast.zig`          |
+| +110.5% |  +21.00ms |   0.4% → 0.7% |   19.0ms → 40.0ms |       19 → 40 | `zig.Ast.Render.hasComment`                                                               | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|     new |  +20.00ms |   0.0% → 0.3% |      0ms → 20.0ms |        0 → 20 | `zig.Ast.Render.renderExpressionComma`                                                    | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| +118.8% |  +19.00ms |   0.3% → 0.6% |   16.0ms → 35.0ms |       16 → 35 | `zig.Ast.Render.AutoIndentingStream.writeByte`                                            | `opt/zig/lib/std/debug.zig`            |
+| +112.5% |  +18.00ms |   0.3% → 0.6% |   16.0ms → 34.0ms |       16 → 34 | `zig.Ast.parse`                                                                           | `opt/zig/lib/std/zig/Ast.zig`          |
+|  +78.3% |  +18.00ms |   0.4% → 0.7% |   23.0ms → 41.0ms |       23 → 41 | `zig.Ast.Render.AutoIndentingStream.currentIndent`                                        | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  +75.0% |  +18.00ms |   0.5% → 0.7% |   24.0ms → 42.0ms |       24 → 42 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).Slice.items__anon_32582` | `opt/zig/lib/std/multi_array_list.zig` |
+|     new |  +18.00ms |   0.0% → 0.3% |      0ms → 18.0ms |        0 → 18 | `mem.findScalar__anon_6379`                                                               | `opt/zig/lib/std/mem.zig`              |
 
 ##### Native
 
-|  Change |    Delta |            % |            Time | Samples | Function  | Location                                 |
-| ------: | -------: | -----------: | --------------: | ------: | --------- | ---------------------------------------- |
-|  +38.5% | +10.00ms |  0.4% → 0.6% | 26.0ms → 36.0ms | 26 → 36 | `0xe3e00` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +400.0% |  +4.00ms | <0.1% → 0.1% |   1.0ms → 5.0ms |   1 → 5 | `0xde3c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +200.0% |  +2.00ms |        <0.1% |   1.0ms → 3.0ms |   1 → 3 | `0x9d210` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |   0 → 2 | `0x92240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |   0 → 2 | `0x92284` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +14.3% |  +1.00ms |         0.1% |   7.0ms → 8.0ms |   7 → 8 | `0xe3acc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |  +1.00ms |        <0.1% |   1.0ms → 2.0ms |   1 → 2 | `0x9d218` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |  +1.00ms |        <0.1% |   1.0ms → 2.0ms |   1 → 2 | `0x929c4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |  +1.00ms |        <0.1% |   1.0ms → 2.0ms |   1 → 2 | `0x8fab8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x911a8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x90574` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x92c70` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x8fce0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x8fb54` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x8fbf4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x91228` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x8fb28` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x8e9a0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `0x90ba0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| Change |    Delta |            % |          Time | Samples | Function  | Location                              |
+| -----: | -------: | -----------: | ------------: | ------: | --------- | ------------------------------------- |
+|    new | +39.00ms |  0.0% → 0.7% |  0ms → 39.0ms |  0 → 39 | `0xe3e00` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |   0 → 4 | `0xdd2b4` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |   0 → 3 | `0x929c4` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |   0 → 3 | `0x91d0c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +16.7% |  +1.00ms |         0.1% | 6.0ms → 7.0ms |   6 → 7 | `0xde3c8` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xe7e0c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92274` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91c70` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92240` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8fd10` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8ff24` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8ffd0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x90e1c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92dcc` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |  +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8fad8` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-| Change |    Delta |            % |              Time |   Samples | Function                                                                               | Location                                  |
-| -----: | -------: | -----------: | ----------------: | --------: | -------------------------------------------------------------------------------------- | ----------------------------------------- |
-| -12.0% | -25.00ms |  3.6% → 3.0% | 208.0ms → 183.0ms | 208 → 183 | `zig.Ast.Render.renderExpression`                                                      | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -12.5% | -18.00ms |  2.5% → 2.1% | 144.0ms → 126.0ms | 144 → 126 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_28815`                | `../opt/zig/lib/std/multi_array_list.zig` |
-| -17.7% | -14.00ms |  1.4% → 1.1% |   79.0ms → 65.0ms |   79 → 65 | `zig.Ast.lastToken`                                                                    | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -53.8% | -14.00ms |  0.4% → 0.2% |   26.0ms → 12.0ms |   26 → 12 | `zig.Ast.Render.renderExpressionComma`                                                 | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -24.6% | -14.00ms |  1.0% → 0.7% |   57.0ms → 43.0ms |   57 → 43 | `zig.Parse.parseSuffixOp`                                                              | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -4.7% | -12.00ms |  4.4% → 4.0% | 255.0ms → 243.0ms | 255 → 243 | `zig.Ast.Render.tokenSliceForRender`                                                   | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-|  -6.5% | -11.00ms |  2.9% → 2.6% | 170.0ms → 159.0ms | 170 → 159 | `zig.Ast.Render.renderComments`                                                        | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -33.3% | -11.00ms |  0.6% → 0.4% |   33.0ms → 22.0ms |   33 → 22 | `0xdda44`                                                                              | `../usr/lib/aarch64-linux-gnu/libc.so.6`  |
-| -55.6% | -10.00ms |  0.3% → 0.1% |    18.0ms → 8.0ms |    18 → 8 | `0x9d200`                                                                              | `../usr/lib/aarch64-linux-gnu/libc.so.6`  |
-| -32.1% |  -9.00ms |  0.5% → 0.3% |   28.0ms → 19.0ms |   28 → 19 | `mem.findPosLinear__anon_31435`                                                        | `../opt/zig/lib/std/mem.zig`              |
-| -32.1% |  -9.00ms |  0.5% → 0.3% |   28.0ms → 19.0ms |   28 → 19 | `zig.Parse.parsePrimaryTypeExpr`                                                       | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -18.0% |  -9.00ms |  0.9% → 0.7% |   50.0ms → 41.0ms |   50 → 41 | `zig.Ast.Render.AutoIndentingStream.currentIndent`                                     | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -61.5% |  -8.00ms |  0.2% → 0.1% |    13.0ms → 5.0ms |    13 → 5 | `zig.Parse.parseContainerMembers`                                                      | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -33.3% |  -8.00ms |  0.4% → 0.3% |   24.0ms → 16.0ms |   24 → 16 | `zig.Parse.parsePrimaryExpr`                                                           | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -6.9% |  -7.00ms |  1.7% → 1.6% |  101.0ms → 94.0ms |  101 → 94 | `zig.Ast.tokenTag`                                                                     | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -15.4% |  -6.00ms |  0.7% → 0.5% |   39.0ms → 33.0ms |   39 → 33 | `zig.Ast.parse`                                                                        | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -28.6% |  -6.00ms |  0.4% → 0.2% |   21.0ms → 15.0ms |   21 → 15 | `zig.Ast.Render.renderArrayInit`                                                       | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -75.0% |  -6.00ms | 0.1% → <0.1% |     8.0ms → 2.0ms |     8 → 2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).ensureUnusedCapacity` | `../opt/zig/lib/std/multi_array_list.zig` |
-| -21.4% |  -6.00ms |  0.5% → 0.4% |   28.0ms → 22.0ms |   28 → 22 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureTotalCapacity`                    | `../opt/zig/lib/std/multi_array_list.zig` |
-| -11.1% |  -5.00ms |  0.8% → 0.7% |   45.0ms → 40.0ms |   45 → 40 | `zig.Ast.Render.hasComment`                                                            | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  Change |     Delta |            % |              Time |   Samples | Function                                                                                             | Location                                                                   |
+| ------: | --------: | -----------: | ----------------: | --------: | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+|  -88.6% | -117.00ms |  2.5% → 0.3% |  132.0ms → 15.0ms |  132 → 15 | `0x9d200`                                                                                            | `usr/lib/aarch64-linux-gnu/libc.so.6`                                      |
+| removed |  -77.00ms |  1.5% → 0.0% |      77.0ms → 0ms |    77 → 0 | `mem.indexOfScalarPos__anon_8996`                                                                    | `opt/zig/lib/std/mem.zig`                                                  |
+| removed |  -69.00ms |  1.3% → 0.0% |      69.0ms → 0ms |    69 → 0 | `0x9e670`                                                                                            | `usr/lib/aarch64-linux-gnu/libc.so.6`                                      |
+|  -96.7% |  -59.00ms | 1.2% → <0.1% |    61.0ms → 2.0ms |    61 → 2 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_32303`                              | `opt/zig/lib/std/multi_array_list.zig`                                     |
+|  -64.0% |  -55.00ms |  1.6% → 0.5% |   86.0ms → 31.0ms |   86 → 31 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).Slice.items__anon_27682`            | `opt/zig/lib/std/multi_array_list.zig`                                     |
+|  -33.3% |  -43.00ms |  2.5% → 1.5% |  129.0ms → 86.0ms |  129 → 86 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_32262`                              | `opt/zig/lib/std/multi_array_list.zig`                                     |
+|  -21.1% |  -30.00ms |  2.7% → 1.9% | 142.0ms → 112.0ms | 142 → 112 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_28815`                              | `opt/zig/lib/std/multi_array_list.zig`                                     |
+|  -48.4% |  -30.00ms |  1.2% → 0.6% |   62.0ms → 32.0ms |   62 → 32 | `mem.eqlBytes`                                                                                       | `opt/zig/lib/std/mem.zig`                                                  |
+| removed |  -21.00ms |  0.4% → 0.0% |      21.0ms → 0ms |    21 → 0 | `mem.indexOfPosLinear__anon_26200`                                                                   | `opt/zig/lib/std/mem.zig`                                                  |
+|   -8.0% |  -20.00ms |  4.8% → 4.0% | 249.0ms → 229.0ms | 249 → 229 | `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex` | `opt/zig/lib/std/static_string_map.zig`                                    |
+| removed |  -20.00ms |  0.4% → 0.0% |      20.0ms → 0ms |    20 → 0 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureTotalCapacity`                | `opt/zig/lib/std/math.zig`                                                 |
+|  -48.8% |  -20.00ms |  0.8% → 0.4% |   41.0ms → 21.0ms |   41 → 21 | `zig.Parse.parsePrimaryTypeExpr`                                                                     | `opt/zig/lib/std/zig/Parse.zig`                                            |
+| removed |  -19.00ms |  0.4% → 0.0% |      19.0ms → 0ms |    19 → 0 | `0x9e674`                                                                                            | `usr/lib/aarch64-linux-gnu/libc.so.6`                                      |
+| removed |  -19.00ms |  0.4% → 0.0% |      19.0ms → 0ms |    19 → 0 | `0xddb88`                                                                                            | `usr/lib/aarch64-linux-gnu/libc.so.6`                                      |
+|  -29.1% |  -16.00ms |  1.1% → 0.7% |   55.0ms → 39.0ms |   55 → 39 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                                        | `opt/zig/lib/std/zig/Ast/Render.zig`                                       |
+| removed |  -16.00ms |  0.3% → 0.0% |      16.0ms → 0ms |    16 → 0 | `zig.Parse.parseTypeExpr`                                                                            | `opt/zig/lib/std/multi_array_list.zig`                                     |
+| removed |  -16.00ms |  0.3% → 0.0% |      16.0ms → 0ms |    16 → 0 | `0x76974`                                                                                            | `tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fYcQks/zig-base/binary` |
+|  -25.9% |  -15.00ms |  1.1% → 0.7% |   58.0ms → 43.0ms |   58 → 43 | `zig.Ast.Render.renderToken`                                                                         | `opt/zig/lib/std/zig/Ast/Render.zig`                                       |
+|  -61.9% |  -13.00ms |  0.4% → 0.1% |    21.0ms → 8.0ms |    21 → 8 | `zig.Parse.parseSuffixExpr`                                                                          | `opt/zig/lib/std/zig/Parse.zig`                                            |
+| removed |  -12.00ms |  0.2% → 0.0% |      12.0ms → 0ms |    12 → 0 | `os.linux.errnoFromSyscall`                                                                          | `opt/zig/lib/std/os/linux.zig`                                             |
 
 ##### Standard library
 
-| Change |    Delta |            % |              Time |   Samples | Function                                                                               | Location                                  |
-| -----: | -------: | -----------: | ----------------: | --------: | -------------------------------------------------------------------------------------- | ----------------------------------------- |
-| -12.0% | -25.00ms |  3.6% → 3.0% | 208.0ms → 183.0ms | 208 → 183 | `zig.Ast.Render.renderExpression`                                                      | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -12.5% | -18.00ms |  2.5% → 2.1% | 144.0ms → 126.0ms | 144 → 126 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_28815`                | `../opt/zig/lib/std/multi_array_list.zig` |
-| -17.7% | -14.00ms |  1.4% → 1.1% |   79.0ms → 65.0ms |   79 → 65 | `zig.Ast.lastToken`                                                                    | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -53.8% | -14.00ms |  0.4% → 0.2% |   26.0ms → 12.0ms |   26 → 12 | `zig.Ast.Render.renderExpressionComma`                                                 | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -24.6% | -14.00ms |  1.0% → 0.7% |   57.0ms → 43.0ms |   57 → 43 | `zig.Parse.parseSuffixOp`                                                              | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -4.7% | -12.00ms |  4.4% → 4.0% | 255.0ms → 243.0ms | 255 → 243 | `zig.Ast.Render.tokenSliceForRender`                                                   | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-|  -6.5% | -11.00ms |  2.9% → 2.6% | 170.0ms → 159.0ms | 170 → 159 | `zig.Ast.Render.renderComments`                                                        | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -32.1% |  -9.00ms |  0.5% → 0.3% |   28.0ms → 19.0ms |   28 → 19 | `mem.findPosLinear__anon_31435`                                                        | `../opt/zig/lib/std/mem.zig`              |
-| -32.1% |  -9.00ms |  0.5% → 0.3% |   28.0ms → 19.0ms |   28 → 19 | `zig.Parse.parsePrimaryTypeExpr`                                                       | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -18.0% |  -9.00ms |  0.9% → 0.7% |   50.0ms → 41.0ms |   50 → 41 | `zig.Ast.Render.AutoIndentingStream.currentIndent`                                     | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -61.5% |  -8.00ms |  0.2% → 0.1% |    13.0ms → 5.0ms |    13 → 5 | `zig.Parse.parseContainerMembers`                                                      | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -33.3% |  -8.00ms |  0.4% → 0.3% |   24.0ms → 16.0ms |   24 → 16 | `zig.Parse.parsePrimaryExpr`                                                           | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -6.9% |  -7.00ms |  1.7% → 1.6% |  101.0ms → 94.0ms |  101 → 94 | `zig.Ast.tokenTag`                                                                     | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -15.4% |  -6.00ms |  0.7% → 0.5% |   39.0ms → 33.0ms |   39 → 33 | `zig.Ast.parse`                                                                        | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -28.6% |  -6.00ms |  0.4% → 0.2% |   21.0ms → 15.0ms |   21 → 15 | `zig.Ast.Render.renderArrayInit`                                                       | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -75.0% |  -6.00ms | 0.1% → <0.1% |     8.0ms → 2.0ms |     8 → 2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2756).ensureUnusedCapacity` | `../opt/zig/lib/std/multi_array_list.zig` |
-| -21.4% |  -6.00ms |  0.5% → 0.4% |   28.0ms → 22.0ms |   28 → 22 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureTotalCapacity`                    | `../opt/zig/lib/std/multi_array_list.zig` |
-| -11.1% |  -5.00ms |  0.8% → 0.7% |   45.0ms → 40.0ms |   45 → 40 | `zig.Ast.Render.hasComment`                                                            | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -19.0% |  -4.00ms |  0.4% → 0.3% |   21.0ms → 17.0ms |   21 → 17 | `hash.wyhash.Wyhash.hash`                                                              | `../opt/zig/lib/std/hash/wyhash.zig`      |
-|  -9.8% |  -4.00ms |  0.7% → 0.6% |   41.0ms → 37.0ms |   41 → 37 | `zig.Parse.eatToken`                                                                   | `../opt/zig/lib/std/zig/Parse.zig`        |
+|  Change |    Delta |            % |              Time |   Samples | Function                                                                                             | Location                                |
+| ------: | -------: | -----------: | ----------------: | --------: | ---------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| removed | -77.00ms |  1.5% → 0.0% |      77.0ms → 0ms |    77 → 0 | `mem.indexOfScalarPos__anon_8996`                                                                    | `opt/zig/lib/std/mem.zig`               |
+|  -96.7% | -59.00ms | 1.2% → <0.1% |    61.0ms → 2.0ms |    61 → 2 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_32303`                              | `opt/zig/lib/std/multi_array_list.zig`  |
+|  -64.0% | -55.00ms |  1.6% → 0.5% |   86.0ms → 31.0ms |   86 → 31 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).Slice.items__anon_27682`            | `opt/zig/lib/std/multi_array_list.zig`  |
+|  -33.3% | -43.00ms |  2.5% → 1.5% |  129.0ms → 86.0ms |  129 → 86 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_32262`                              | `opt/zig/lib/std/multi_array_list.zig`  |
+|  -21.1% | -30.00ms |  2.7% → 1.9% | 142.0ms → 112.0ms | 142 → 112 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_28815`                              | `opt/zig/lib/std/multi_array_list.zig`  |
+|  -48.4% | -30.00ms |  1.2% → 0.6% |   62.0ms → 32.0ms |   62 → 32 | `mem.eqlBytes`                                                                                       | `opt/zig/lib/std/mem.zig`               |
+| removed | -21.00ms |  0.4% → 0.0% |      21.0ms → 0ms |    21 → 0 | `mem.indexOfPosLinear__anon_26200`                                                                   | `opt/zig/lib/std/mem.zig`               |
+|   -8.0% | -20.00ms |  4.8% → 4.0% | 249.0ms → 229.0ms | 249 → 229 | `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex` | `opt/zig/lib/std/static_string_map.zig` |
+| removed | -20.00ms |  0.4% → 0.0% |      20.0ms → 0ms |    20 → 0 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureTotalCapacity`                | `opt/zig/lib/std/math.zig`              |
+|  -48.8% | -20.00ms |  0.8% → 0.4% |   41.0ms → 21.0ms |   41 → 21 | `zig.Parse.parsePrimaryTypeExpr`                                                                     | `opt/zig/lib/std/zig/Parse.zig`         |
+|  -29.1% | -16.00ms |  1.1% → 0.7% |   55.0ms → 39.0ms |   55 → 39 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                                        | `opt/zig/lib/std/zig/Ast/Render.zig`    |
+| removed | -16.00ms |  0.3% → 0.0% |      16.0ms → 0ms |    16 → 0 | `zig.Parse.parseTypeExpr`                                                                            | `opt/zig/lib/std/multi_array_list.zig`  |
+|  -25.9% | -15.00ms |  1.1% → 0.7% |   58.0ms → 43.0ms |   58 → 43 | `zig.Ast.Render.renderToken`                                                                         | `opt/zig/lib/std/zig/Ast/Render.zig`    |
+|  -61.9% | -13.00ms |  0.4% → 0.1% |    21.0ms → 8.0ms |    21 → 8 | `zig.Parse.parseSuffixExpr`                                                                          | `opt/zig/lib/std/zig/Parse.zig`         |
+| removed | -12.00ms |  0.2% → 0.0% |      12.0ms → 0ms |    12 → 0 | `os.linux.errnoFromSyscall`                                                                          | `opt/zig/lib/std/os/linux.zig`          |
+|  -22.9% |  -8.00ms |  0.7% → 0.5% |   35.0ms → 27.0ms |   35 → 27 | `zig.Parse.eatToken`                                                                                 | `opt/zig/lib/std/zig/Parse.zig`         |
+|   -2.6% |  -7.00ms |  5.1% → 4.5% | 269.0ms → 262.0ms | 269 → 262 | `zig.Ast.tokenSlice`                                                                                 | `opt/zig/lib/std/zig/Ast.zig`           |
+| removed |  -7.00ms |  0.1% → 0.0% |       7.0ms → 0ms |     7 → 0 | `mem.indexOfPos__anon_23640`                                                                         | `opt/zig/lib/std/mem.zig`               |
+| removed |  -7.00ms |  0.1% → 0.0% |       7.0ms → 0ms |     7 → 0 | `zig.Parse.expectExpr`                                                                               | `opt/zig/lib/std/zig/Parse.zig`         |
+|  -77.8% |  -7.00ms | 0.2% → <0.1% |     9.0ms → 2.0ms |     9 → 2 | `zig.Ast.fullCall`                                                                                   | `opt/zig/lib/std/zig/Ast.zig`           |
 
 ##### Native
 
-|  Change |    Delta |            % |            Time | Samples | Function  | Location                                 |
-| ------: | -------: | -----------: | --------------: | ------: | --------- | ---------------------------------------- |
-|  -33.3% | -11.00ms |  0.6% → 0.4% | 33.0ms → 22.0ms | 33 → 22 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -55.6% | -10.00ms |  0.3% → 0.1% |  18.0ms → 8.0ms |  18 → 8 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -50.0% |  -3.00ms | 0.1% → <0.1% |   6.0ms → 3.0ms |   6 → 3 | `0xdd2b4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x8ffd0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9d220` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9d208` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x8fc48` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x913a8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x915a0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -33.3% |  -1.00ms | 0.1% → <0.1% |   3.0ms → 2.0ms |   3 → 2 | `0x91d0c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x8e998` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x91be0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x92dcc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0xdd9e8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x91370` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x90e08` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0xde3a0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9235c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x8fb64` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x91c18` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |     Delta |            % |             Time |  Samples | Function  | Location                              |
+| ------: | --------: | -----------: | ---------------: | -------: | --------- | ------------------------------------- |
+|  -88.6% | -117.00ms |  2.5% → 0.3% | 132.0ms → 15.0ms | 132 → 15 | `0x9d200` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -69.00ms |  1.3% → 0.0% |     69.0ms → 0ms |   69 → 0 | `0x9e670` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -19.00ms |  0.4% → 0.0% |     19.0ms → 0ms |   19 → 0 | `0x9e674` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -19.00ms |  0.4% → 0.0% |     19.0ms → 0ms |   19 → 0 | `0xddb88` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -11.00ms |  0.2% → 0.0% |     11.0ms → 0ms |   11 → 0 | `0x9d11c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -11.00ms |  0.2% → 0.0% |     11.0ms → 0ms |   11 → 0 | `0x9d100` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -10.00ms |  0.2% → 0.0% |     10.0ms → 0ms |   10 → 0 | `0x9d184` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -9.00ms |  0.2% → 0.0% |      9.0ms → 0ms |    9 → 0 | `0x9d138` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -7.00ms |  0.1% → 0.0% |      7.0ms → 0ms |    7 → 0 | `0x9d168` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -5.00ms |  0.1% → 0.0% |      5.0ms → 0ms |    5 → 0 | `0x9d150` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -26.3% |   -5.00ms |  0.4% → 0.2% |  19.0ms → 14.0ms |  19 → 14 | `0xdda44` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |      4.0ms → 0ms |    4 → 0 | `0x9e5c0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |      4.0ms → 0ms |    4 → 0 | `0x9e580` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |      4.0ms → 0ms |    4 → 0 | `0x9d114` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -3.00ms |  0.1% → 0.0% |      3.0ms → 0ms |    3 → 0 | `0x9e584` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -21.4% |   -3.00ms |  0.3% → 0.2% |  14.0ms → 11.0ms |  14 → 11 | `0xe3acc` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |      2.0ms → 0ms |    2 → 0 | `0x9d160` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -50.0% |   -2.00ms | 0.1% → <0.1% |    4.0ms → 2.0ms |    4 → 2 | `0x9d210` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |      2.0ms → 0ms |    2 → 0 | `0x9d124` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |      2.0ms → 0ms |    2 → 0 | `0x929e0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ### Total time
 
@@ -171,129 +167,152 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-| Change |     Delta |             % |          Time |       Samples | Function                                    | Location                                            |
-| -----: | --------: | ------------: | ------------: | ------------: | ------------------------------------------- | --------------------------------------------------- |
-|  +3.8% | +222.00ms |         99.9% | 5.81s → 6.03s | 5,817 → 6,039 | `profile.main`                              | `profile.zig`                                       |
-|  +3.8% | +222.00ms |        100.0% | 5.82s → 6.04s | 5,822 → 6,044 | `start.callMain`                            | `../opt/zig/lib/std/start.zig`                      |
-|  +3.8% | +222.00ms |        100.0% | 5.82s → 6.04s | 5,822 → 6,044 | `start.callMainWithArgs`                    | `../opt/zig/lib/std/start.zig`                      |
-|  +3.8% | +222.00ms |        100.0% | 5.82s → 6.04s | 5,822 → 6,044 | `start.main`                                | `../opt/zig/lib/std/start.zig`                      |
-|  +3.8% | +222.00ms |        100.0% | 5.82s → 6.04s | 5,822 → 6,044 | `0x27743`                                   | `../usr/lib/aarch64-linux-gnu/libc.so.6`            |
-|  +3.8% | +222.00ms |        100.0% | 5.82s → 6.04s | 5,822 → 6,044 | `0x27817`                                   | `../usr/lib/aarch64-linux-gnu/libc.so.6`            |
-|  +3.8% | +222.00ms |        100.0% | 5.82s → 6.04s | 5,822 → 6,044 | `_start`                                    | `../opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
-|  +3.6% | +147.00ms | 71.0% → 70.8% | 4.13s → 4.28s | 4,135 → 4,282 | `zig.Ast.Render.renderMembers`              | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.5% | +144.00ms | 71.2% → 70.9% | 4.14s → 4.28s | 4,143 → 4,287 | `zig.Ast.Render.renderTree`                 | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.5% | +144.00ms | 71.2% → 70.9% | 4.14s → 4.28s | 4,143 → 4,287 | `zig.Ast.render`                            | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +3.5% | +144.00ms | 71.2% → 70.9% | 4.14s → 4.28s | 4,143 → 4,287 | `zig.Ast.renderAlloc`                       | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +3.0% | +121.00ms | 69.4% → 68.9% | 4.04s → 4.16s | 4,041 → 4,162 | `zig.Ast.Render.renderExpression`           | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +2.9% | +106.00ms | 61.8% → 61.3% | 3.59s → 3.70s | 3,598 → 3,704 | `zig.Ast.Render.renderMember`               | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.5% |  +98.00ms | 47.7% → 47.6% | 2.78s → 2.87s | 2,780 → 2,878 | `zig.Ast.Render.renderBlock`                | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.4% |  +95.00ms | 47.6% → 47.4% | 2.76s → 2.86s | 2,769 → 2,864 | `zig.Ast.Render.finishRenderBlock`          | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +5.0% |  +80.00ms | 27.6% → 27.9% | 1.60s → 1.68s | 1,605 → 1,685 | `zig.tokenizer.Tokenizer.next`              | `../opt/zig/lib/std/zig/tokenizer.zig`              |
-|  +4.5% |  +71.00ms | 27.0% → 27.2% | 1.57s → 1.64s | 1,570 → 1,641 | `zig.Ast.parse`                             | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +2.8% |  +69.00ms | 42.7% → 42.3% | 2.48s → 2.55s | 2,487 → 2,556 | `zig.Ast.Render.renderVarDecl`              | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +5.2% |  +68.00ms | 22.3% → 22.7% | 1.30s → 1.36s | 1,301 → 1,369 | `zig.Ast.tokenSlice`                        | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +2.7% |  +68.00ms | 42.7% → 42.3% | 2.48s → 2.55s | 2,487 → 2,555 | `zig.Ast.Render.renderVarDeclWithoutFixups` | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
+|   Change |     Delta |             % |             Time |       Samples | Function                                             | Location                                         |
+| -------: | --------: | ------------: | ---------------: | ------------: | ---------------------------------------------------- | ------------------------------------------------ |
+|      new |   +5.796s | 0.0% → 100.0% |      0ms → 5.79s |     0 → 5,796 | `start.main`                                         | `opt/zig/lib/std/start.zig`                      |
+| +9832.1% |   +2.753s |  0.5% → 48.0% |   28.0ms → 2.78s |    28 → 2,781 | `zig.Ast.Render.renderBlock`                         | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|      new | +760.00ms |  0.0% → 13.1% |    0ms → 760.0ms |       0 → 760 | `zig.Ast.parseTokens`                                | `opt/zig/lib/std/zig/Ast.zig`                    |
+|   +10.7% | +559.00ms |         99.9% |    5.23s → 5.79s | 5,232 → 5,791 | `profile.main`                                       | `out/profile.zig`                                |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `start.callMain`                                     | `opt/zig/lib/std/start.zig`                      |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `start.callMainWithArgs`                             | `opt/zig/lib/std/start.zig`                      |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `0x27743`                                            | `usr/lib/aarch64-linux-gnu/libc.so.6`            |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `0x27817`                                            | `usr/lib/aarch64-linux-gnu/libc.so.6`            |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `_start`                                             | `opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
+|      new | +351.00ms |   0.0% → 6.1% |    0ms → 351.0ms |       0 → 351 | `memset`                                             | `opt/zig/lib/compiler_rt.zig`                    |
+|   +28.1% | +334.00ms | 22.7% → 26.3% |    1.18s → 1.52s | 1,189 → 1,523 | `zig.Ast.parse`                                      | `opt/zig/lib/std/zig/Ast.zig`                    |
+| +3575.0% | +286.00ms |   0.2% → 5.1% |  8.0ms → 294.0ms |       8 → 294 | `mem.Allocator.allocAdvancedWithRetAddr`             | `opt/zig/lib/std/mem/Allocator.zig`              |
+| +6950.0% | +278.00ms |   0.1% → 4.9% |  4.0ms → 282.0ms |       4 → 282 | `mem.Allocator.allocWithSizeAndAlignment__anon_9851` | `opt/zig/lib/std/mem/Allocator.zig`              |
+| +6950.0% | +278.00ms |   0.1% → 4.9% |  4.0ms → 282.0ms |       4 → 282 | `mem.Allocator.alignedAlloc__anon_9848`              | `opt/zig/lib/std/mem/Allocator.zig`              |
+| +5540.0% | +277.00ms |   0.1% → 4.9% |  5.0ms → 282.0ms |       5 → 282 | `mem.Allocator.allocBytesWithAlignment__anon_10001`  | `opt/zig/lib/std/mem/Allocator.zig`              |
+|    +6.6% | +250.00ms | 72.8% → 70.1% |    3.81s → 4.06s | 3,813 → 4,063 | `zig.Ast.Render.renderExpression`                    | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+| +1205.6% | +217.00ms |   0.3% → 4.1% | 18.0ms → 235.0ms |      18 → 235 | `zig.Ast.Render.renderExpressionComma`               | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|    +5.2% | +208.00ms | 75.7% → 71.9% |    3.96s → 4.17s | 3,962 → 4,170 | `zig.Ast.Render.renderMembers`                       | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|    +5.2% | +206.00ms | 75.8% → 72.0% |    3.96s → 4.17s | 3,968 → 4,174 | `zig.Ast.Render.renderTree`                          | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|    +5.2% | +206.00ms | 75.8% → 72.0% |    3.96s → 4.17s | 3,968 → 4,174 | `zig.Ast.render`                                     | `opt/zig/lib/std/zig/Ast.zig`                    |
 
 ##### Standard library
 
-| Change |     Delta |             % |              Time |       Samples | Function                                      | Location                                            |
-| -----: | --------: | ------------: | ----------------: | ------------: | --------------------------------------------- | --------------------------------------------------- |
-|  +3.8% | +222.00ms |        100.0% |     5.82s → 6.04s | 5,822 → 6,044 | `start.callMain`                              | `../opt/zig/lib/std/start.zig`                      |
-|  +3.8% | +222.00ms |        100.0% |     5.82s → 6.04s | 5,822 → 6,044 | `start.callMainWithArgs`                      | `../opt/zig/lib/std/start.zig`                      |
-|  +3.8% | +222.00ms |        100.0% |     5.82s → 6.04s | 5,822 → 6,044 | `start.main`                                  | `../opt/zig/lib/std/start.zig`                      |
-|  +3.8% | +222.00ms |        100.0% |     5.82s → 6.04s | 5,822 → 6,044 | `_start`                                      | `../opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
-|  +3.6% | +147.00ms | 71.0% → 70.8% |     4.13s → 4.28s | 4,135 → 4,282 | `zig.Ast.Render.renderMembers`                | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.5% | +144.00ms | 71.2% → 70.9% |     4.14s → 4.28s | 4,143 → 4,287 | `zig.Ast.Render.renderTree`                   | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.5% | +144.00ms | 71.2% → 70.9% |     4.14s → 4.28s | 4,143 → 4,287 | `zig.Ast.render`                              | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +3.5% | +144.00ms | 71.2% → 70.9% |     4.14s → 4.28s | 4,143 → 4,287 | `zig.Ast.renderAlloc`                         | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +3.0% | +121.00ms | 69.4% → 68.9% |     4.04s → 4.16s | 4,041 → 4,162 | `zig.Ast.Render.renderExpression`             | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +2.9% | +106.00ms | 61.8% → 61.3% |     3.59s → 3.70s | 3,598 → 3,704 | `zig.Ast.Render.renderMember`                 | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.5% |  +98.00ms | 47.7% → 47.6% |     2.78s → 2.87s | 2,780 → 2,878 | `zig.Ast.Render.renderBlock`                  | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.4% |  +95.00ms | 47.6% → 47.4% |     2.76s → 2.86s | 2,769 → 2,864 | `zig.Ast.Render.finishRenderBlock`            | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +5.0% |  +80.00ms | 27.6% → 27.9% |     1.60s → 1.68s | 1,605 → 1,685 | `zig.tokenizer.Tokenizer.next`                | `../opt/zig/lib/std/zig/tokenizer.zig`              |
-|  +4.5% |  +71.00ms | 27.0% → 27.2% |     1.57s → 1.64s | 1,570 → 1,641 | `zig.Ast.parse`                               | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +2.8% |  +69.00ms | 42.7% → 42.3% |     2.48s → 2.55s | 2,487 → 2,556 | `zig.Ast.Render.renderVarDecl`                | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +5.2% |  +68.00ms | 22.3% → 22.7% |     1.30s → 1.36s | 1,301 → 1,369 | `zig.Ast.tokenSlice`                          | `../opt/zig/lib/std/zig/Ast.zig`                    |
-|  +2.7% |  +68.00ms | 42.7% → 42.3% |     2.48s → 2.55s | 2,487 → 2,555 | `zig.Ast.Render.renderVarDeclWithoutFixups`   | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +3.7% |  +59.00ms |         27.1% |     1.57s → 1.63s | 1,576 → 1,635 | `zig.Ast.Render.renderToken`                  | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-|  +4.4% |  +59.00ms | 23.1% → 23.3% |     1.34s → 1.40s | 1,347 → 1,406 | `zig.Ast.Render.renderIdentifier`             | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
-| +15.5% |  +51.00ms |   5.6% → 6.3% | 328.0ms → 379.0ms |     328 → 379 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `../opt/zig/lib/std/zig/Ast/Render.zig`             |
+|   Change |     Delta |             % |             Time |       Samples | Function                                             | Location                                         |
+| -------: | --------: | ------------: | ---------------: | ------------: | ---------------------------------------------------- | ------------------------------------------------ |
+|      new |   +5.796s | 0.0% → 100.0% |      0ms → 5.79s |     0 → 5,796 | `start.main`                                         | `opt/zig/lib/std/start.zig`                      |
+| +9832.1% |   +2.753s |  0.5% → 48.0% |   28.0ms → 2.78s |    28 → 2,781 | `zig.Ast.Render.renderBlock`                         | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|      new | +760.00ms |  0.0% → 13.1% |    0ms → 760.0ms |       0 → 760 | `zig.Ast.parseTokens`                                | `opt/zig/lib/std/zig/Ast.zig`                    |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `start.callMain`                                     | `opt/zig/lib/std/start.zig`                      |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `start.callMainWithArgs`                             | `opt/zig/lib/std/start.zig`                      |
+|   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `_start`                                             | `opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
+|      new | +351.00ms |   0.0% → 6.1% |    0ms → 351.0ms |       0 → 351 | `memset`                                             | `opt/zig/lib/compiler_rt.zig`                    |
+|   +28.1% | +334.00ms | 22.7% → 26.3% |    1.18s → 1.52s | 1,189 → 1,523 | `zig.Ast.parse`                                      | `opt/zig/lib/std/zig/Ast.zig`                    |
+| +3575.0% | +286.00ms |   0.2% → 5.1% |  8.0ms → 294.0ms |       8 → 294 | `mem.Allocator.allocAdvancedWithRetAddr`             | `opt/zig/lib/std/mem/Allocator.zig`              |
+| +6950.0% | +278.00ms |   0.1% → 4.9% |  4.0ms → 282.0ms |       4 → 282 | `mem.Allocator.allocWithSizeAndAlignment__anon_9851` | `opt/zig/lib/std/mem/Allocator.zig`              |
+| +6950.0% | +278.00ms |   0.1% → 4.9% |  4.0ms → 282.0ms |       4 → 282 | `mem.Allocator.alignedAlloc__anon_9848`              | `opt/zig/lib/std/mem/Allocator.zig`              |
+| +5540.0% | +277.00ms |   0.1% → 4.9% |  5.0ms → 282.0ms |       5 → 282 | `mem.Allocator.allocBytesWithAlignment__anon_10001`  | `opt/zig/lib/std/mem/Allocator.zig`              |
+|    +6.6% | +250.00ms | 72.8% → 70.1% |    3.81s → 4.06s | 3,813 → 4,063 | `zig.Ast.Render.renderExpression`                    | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+| +1205.6% | +217.00ms |   0.3% → 4.1% | 18.0ms → 235.0ms |      18 → 235 | `zig.Ast.Render.renderExpressionComma`               | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|    +5.2% | +208.00ms | 75.7% → 71.9% |    3.96s → 4.17s | 3,962 → 4,170 | `zig.Ast.Render.renderMembers`                       | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|    +5.2% | +206.00ms | 75.8% → 72.0% |    3.96s → 4.17s | 3,968 → 4,174 | `zig.Ast.Render.renderTree`                          | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|    +5.2% | +206.00ms | 75.8% → 72.0% |    3.96s → 4.17s | 3,968 → 4,174 | `zig.Ast.render`                                     | `opt/zig/lib/std/zig/Ast.zig`                    |
+|    +5.2% | +206.00ms | 75.8% → 72.0% |    3.96s → 4.17s | 3,968 → 4,174 | `zig.Ast.renderAlloc`                                | `opt/zig/lib/std/zig/Ast.zig`                    |
+|  +638.7% | +198.00ms |   0.6% → 4.0% | 31.0ms → 229.0ms |      31 → 229 | `zig.Ast.Render.renderFor`                           | `opt/zig/lib/std/zig/Ast/Render.zig`             |
+|   +19.2% | +189.00ms | 18.8% → 20.3% |  985.0ms → 1.17s |   985 → 1,174 | `zig.Ast.Render.renderParamList`                     | `opt/zig/lib/std/zig/Ast/Render.zig`             |
 
 ##### Native
 
-|  Change |     Delta |            % |            Time |       Samples | Function  | Location                                 |
-| ------: | --------: | -----------: | --------------: | ------------: | --------- | ---------------------------------------- |
-|   +3.8% | +222.00ms |       100.0% |   5.82s → 6.04s | 5,822 → 6,044 | `0x27743` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   +3.8% | +222.00ms |       100.0% |   5.82s → 6.04s | 5,822 → 6,044 | `0x27817` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +38.5% |  +10.00ms |  0.4% → 0.6% | 26.0ms → 36.0ms |       26 → 36 | `0xe3e00` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +116.7% |   +7.00ms |  0.1% → 0.2% |  6.0ms → 13.0ms |        6 → 13 | `0x92a9b` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +400.0% |   +4.00ms | <0.1% → 0.1% |   1.0ms → 5.0ms |         1 → 5 | `0xde3c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +33.3% |   +2.00ms |         0.1% |   6.0ms → 8.0ms |         6 → 8 | `0x8fa47` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +33.3% |   +2.00ms |         0.1% |   6.0ms → 8.0ms |         6 → 8 | `0x9023f` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +200.0% |   +2.00ms |        <0.1% |   1.0ms → 3.0ms |         1 → 3 | `0x9d210` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |         0 → 2 | `0x92240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |         0 → 2 | `0x92284` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +14.3% |   +1.00ms |         0.1% |   7.0ms → 8.0ms |         7 → 8 | `0xe3acc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +14.3% |   +1.00ms |         0.1% |   7.0ms → 8.0ms |         7 → 8 | `0x8f987` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |   +1.00ms |        <0.1% |   1.0ms → 2.0ms |         1 → 2 | `0x9d218` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |   +1.00ms |        <0.1% |   1.0ms → 2.0ms |         1 → 2 | `0x929c4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |   +1.00ms |        <0.1% |   1.0ms → 2.0ms |         1 → 2 | `0x8fab8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |         0 → 1 | `0x911a8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |         0 → 1 | `0x90574` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |         0 → 1 | `0x92c70` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |         0 → 1 | `0x8fce0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |         0 → 1 | `0x8fb54` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |     Delta |            % |          Time |       Samples | Function  | Location                              |
+| ------: | --------: | -----------: | ------------: | ------------: | --------- | ------------------------------------- |
+|  +10.7% | +559.00ms |       100.0% | 5.23s → 5.79s | 5,237 → 5,796 | `0x27743` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  +10.7% | +559.00ms |       100.0% | 5.23s → 5.79s | 5,237 → 5,796 | `0x27817` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |  +39.00ms |  0.0% → 0.7% |  0ms → 39.0ms |        0 → 39 | `0xe3e00` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |  +27.00ms |  0.0% → 0.5% |  0ms → 27.0ms |        0 → 27 | `0x92f67` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0xdd2b4` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `0x929c4` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `0x91d0c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `0x91bfb` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x91b93` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  +16.7% |   +1.00ms |         0.1% | 6.0ms → 7.0ms |         6 → 7 | `0xde3c8` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x90817` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x9189b` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0xe7e0c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92274` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x91c70` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92240` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8fd10` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8ff24` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8ffd0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x90e1c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
+|  Change |     Delta |             % |              Time |       Samples | Function                                                                                  | Location                               |
+| ------: | --------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------- | -------------------------------------- |
+| removed |   -5.237s | 100.0% → 0.0% |       5.23s → 0ms |     5,237 → 0 | `main`                                                                                    | `opt/zig/lib/std/start.zig`            |
+|  -90.0% | -189.00ms |   4.0% → 0.4% |  210.0ms → 21.0ms |      210 → 21 | `zig.Ast.Render.renderBuiltinCall`                                                        | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| removed | -149.00ms |   2.8% → 0.0% |     149.0ms → 0ms |       149 → 0 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                        | `opt/zig/lib/std/array_list.zig`       |
+|  -31.7% | -139.00ms |   8.4% → 5.2% | 439.0ms → 300.0ms |     439 → 300 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                             | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  -83.6% | -127.00ms |   2.9% → 0.4% |  152.0ms → 25.0ms |      152 → 25 | `Io.Writer.Allocating.drain`                                                              | `opt/zig/lib/std/Io/Writer.zig`        |
+|  -88.6% | -117.00ms |   2.5% → 0.3% |  132.0ms → 15.0ms |      132 → 15 | `0x9d200`                                                                                 | `usr/lib/aarch64-linux-gnu/libc.so.6`  |
+|   -6.5% | -110.00ms | 32.3% → 27.2% |     1.68s → 1.57s | 1,689 → 1,579 | `zig.Ast.Render.renderToken`                                                              | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  -59.1% | -107.00ms |   3.5% → 1.3% |  181.0ms → 74.0ms |      181 → 74 | `Io.Writer.write`                                                                         | `opt/zig/lib/std/Io/Writer.zig`        |
+|  -41.6% |  -97.00ms |   4.4% → 2.3% | 233.0ms → 136.0ms |     233 → 136 | `Io.Writer.writeAll`                                                                      | `opt/zig/lib/std/Io/Writer.zig`        |
+|  -42.9% |  -93.00ms |   4.1% → 2.1% | 217.0ms → 124.0ms |     217 → 124 | `zig.Ast.firstToken`                                                                      | `opt/zig/lib/std/zig/Ast.zig`          |
+| removed |  -86.00ms |   1.6% → 0.0% |      86.0ms → 0ms |        86 → 0 | `mem.indexOfPos__anon_23640`                                                              | `opt/zig/lib/std/mem.zig`              |
+| removed |  -84.00ms |   1.6% → 0.0% |      84.0ms → 0ms |        84 → 0 | `mem.indexOf__anon_18425`                                                                 | `opt/zig/lib/std/mem.zig`              |
+| removed |  -79.00ms |   1.5% → 0.0% |      79.0ms → 0ms |        79 → 0 | `mem.indexOfScalarPos__anon_8996`                                                         | `opt/zig/lib/std/mem.zig`              |
+| removed |  -77.00ms |   1.5% → 0.0% |      77.0ms → 0ms |        77 → 0 | `mem.indexOfPosLinear__anon_26200`                                                        | `opt/zig/lib/std/mem.zig`              |
+| removed |  -76.00ms |   1.5% → 0.0% |      76.0ms → 0ms |        76 → 0 | `mem.indexOfScalar__anon_5905`                                                            | `opt/zig/lib/std/mem.zig`              |
+| removed |  -69.00ms |   1.3% → 0.0% |      69.0ms → 0ms |        69 → 0 | `0x9e670`                                                                                 | `usr/lib/aarch64-linux-gnu/libc.so.6`  |
+|  -96.7% |  -59.00ms |  1.2% → <0.1% |    61.0ms → 2.0ms |        61 → 2 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_32303`                   | `opt/zig/lib/std/multi_array_list.zig` |
+|  -25.0% |  -58.00ms |   4.4% → 3.0% | 232.0ms → 174.0ms |     232 → 174 | `zig.Ast.Render.renderExtraNewline`                                                       | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| removed |  -58.00ms |   1.1% → 0.0% |      58.0ms → 0ms |        58 → 0 | `zig.Ast.Render.rowSize`                                                                  | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  -64.0% |  -55.00ms |   1.6% → 0.5% |   86.0ms → 31.0ms |       86 → 31 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).Slice.items__anon_27682` | `opt/zig/lib/std/multi_array_list.zig` |
+
 ##### Standard library
 
-| Change |    Delta |             % |              Time |   Samples | Function                                                                | Location                                  |
-| -----: | -------: | ------------: | ----------------: | --------: | ----------------------------------------------------------------------- | ----------------------------------------- |
-| -14.1% | -35.00ms |   4.3% → 3.5% | 249.0ms → 214.0ms | 249 → 214 | `zig.Parse.parseContainerDeclAuto`                                      | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -3.8% | -32.00ms | 14.6% → 13.5% | 849.0ms → 817.0ms | 849 → 817 | `zig.Ast.Render.renderWhile`                                            | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -20.9% | -28.00ms |   2.3% → 1.8% | 134.0ms → 106.0ms | 134 → 106 | `zig.Parse.parseBlockExpr`                                              | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -7.7% | -27.00ms |   6.0% → 5.3% | 349.0ms → 322.0ms | 349 → 322 | `zig.Parse.expectVarDeclExprStatement`                                  | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -11.2% | -27.00ms |   4.1% → 3.5% | 241.0ms → 214.0ms | 241 → 214 | `zig.Ast.Render.renderExpressionComma`                                  | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -17.2% | -27.00ms |   2.7% → 2.2% | 157.0ms → 130.0ms | 157 → 130 | `zig.Ast.Render.renderSwitchCase`                                       | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -11.4% | -19.00ms |   2.9% → 2.4% | 167.0ms → 148.0ms | 167 → 148 | `zig.Ast.nodeData`                                                      | `../opt/zig/lib/std/zig/Ast.zig`          |
-| -12.5% | -18.00ms |   2.5% → 2.1% | 144.0ms → 126.0ms | 144 → 126 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_28815` | `../opt/zig/lib/std/multi_array_list.zig` |
-|  -4.9% | -18.00ms |   6.3% → 5.8% | 367.0ms → 349.0ms | 367 → 349 | `zig.Parse.parsePrimaryTypeExpr`                                        | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -6.4% | -17.00ms |   4.6% → 4.1% | 266.0ms → 249.0ms | 266 → 249 | `zig.Ast.lastToken`                                                     | `../opt/zig/lib/std/zig/Ast.zig`          |
-|  -2.7% | -17.00ms | 10.6% → 10.0% | 620.0ms → 603.0ms | 620 → 603 | `zig.Ast.Render.renderIf`                                               | `../opt/zig/lib/std/zig/Ast/Render.zig`   |
-| -16.3% | -16.00ms |   1.7% → 1.4% |   98.0ms → 82.0ms |   98 → 82 | `zig.Parse.expectIfStatement`                                           | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -84.2% | -16.00ms |  0.3% → <0.1% |    19.0ms → 3.0ms |    19 → 3 | `array_list.Aligned(u32,null).appendSlice`                              | `../opt/zig/lib/std/array_list.zig`       |
-| -31.3% | -15.00ms |   0.8% → 0.5% |   48.0ms → 33.0ms |   48 → 33 | `zig.Parse.expectContainerField`                                        | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -37.5% | -15.00ms |   0.7% → 0.4% |   40.0ms → 25.0ms |   40 → 25 | `heap.c_allocator_impl.remap`                                           | `../opt/zig/lib/std/heap.zig`             |
-|  -2.6% | -14.00ms |   9.2% → 8.7% | 537.0ms → 523.0ms | 537 → 523 | `zig.Parse.expectTopLevelDecl`                                          | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -2.6% | -14.00ms |   9.2% → 8.7% | 537.0ms → 523.0ms | 537 → 523 | `zig.Parse.expectTopLevelDeclRecoverable`                               | `../opt/zig/lib/std/zig/Parse.zig`        |
-| -35.0% | -14.00ms |   0.7% → 0.4% |   40.0ms → 26.0ms |   40 → 26 | `mem.Allocator.rawRemap`                                                | `../opt/zig/lib/std/mem/Allocator.zig`    |
-| -63.6% | -14.00ms |   0.4% → 0.1% |    22.0ms → 8.0ms |    22 → 8 | `zig.Parse.listToSpan`                                                  | `../opt/zig/lib/std/zig/Parse.zig`        |
-|  -5.4% | -13.00ms |   4.1% → 3.7% | 239.0ms → 226.0ms | 239 → 226 | `zig.Parse.parseGlobalVarDecl`                                          | `../opt/zig/lib/std/zig/Parse.zig`        |
+|  Change |     Delta |             % |              Time |       Samples | Function                                                                                  | Location                               |
+| ------: | --------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------- | -------------------------------------- |
+| removed |   -5.237s | 100.0% → 0.0% |       5.23s → 0ms |     5,237 → 0 | `main`                                                                                    | `opt/zig/lib/std/start.zig`            |
+|  -90.0% | -189.00ms |   4.0% → 0.4% |  210.0ms → 21.0ms |      210 → 21 | `zig.Ast.Render.renderBuiltinCall`                                                        | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| removed | -149.00ms |   2.8% → 0.0% |     149.0ms → 0ms |       149 → 0 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                        | `opt/zig/lib/std/array_list.zig`       |
+|  -31.7% | -139.00ms |   8.4% → 5.2% | 439.0ms → 300.0ms |     439 → 300 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                             | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  -83.6% | -127.00ms |   2.9% → 0.4% |  152.0ms → 25.0ms |      152 → 25 | `Io.Writer.Allocating.drain`                                                              | `opt/zig/lib/std/Io/Writer.zig`        |
+|   -6.5% | -110.00ms | 32.3% → 27.2% |     1.68s → 1.57s | 1,689 → 1,579 | `zig.Ast.Render.renderToken`                                                              | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  -59.1% | -107.00ms |   3.5% → 1.3% |  181.0ms → 74.0ms |      181 → 74 | `Io.Writer.write`                                                                         | `opt/zig/lib/std/Io/Writer.zig`        |
+|  -41.6% |  -97.00ms |   4.4% → 2.3% | 233.0ms → 136.0ms |     233 → 136 | `Io.Writer.writeAll`                                                                      | `opt/zig/lib/std/Io/Writer.zig`        |
+|  -42.9% |  -93.00ms |   4.1% → 2.1% | 217.0ms → 124.0ms |     217 → 124 | `zig.Ast.firstToken`                                                                      | `opt/zig/lib/std/zig/Ast.zig`          |
+| removed |  -86.00ms |   1.6% → 0.0% |      86.0ms → 0ms |        86 → 0 | `mem.indexOfPos__anon_23640`                                                              | `opt/zig/lib/std/mem.zig`              |
+| removed |  -84.00ms |   1.6% → 0.0% |      84.0ms → 0ms |        84 → 0 | `mem.indexOf__anon_18425`                                                                 | `opt/zig/lib/std/mem.zig`              |
+| removed |  -79.00ms |   1.5% → 0.0% |      79.0ms → 0ms |        79 → 0 | `mem.indexOfScalarPos__anon_8996`                                                         | `opt/zig/lib/std/mem.zig`              |
+| removed |  -77.00ms |   1.5% → 0.0% |      77.0ms → 0ms |        77 → 0 | `mem.indexOfPosLinear__anon_26200`                                                        | `opt/zig/lib/std/mem.zig`              |
+| removed |  -76.00ms |   1.5% → 0.0% |      76.0ms → 0ms |        76 → 0 | `mem.indexOfScalar__anon_5905`                                                            | `opt/zig/lib/std/mem.zig`              |
+|  -96.7% |  -59.00ms |  1.2% → <0.1% |    61.0ms → 2.0ms |        61 → 2 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_32303`                   | `opt/zig/lib/std/multi_array_list.zig` |
+|  -25.0% |  -58.00ms |   4.4% → 3.0% | 232.0ms → 174.0ms |     232 → 174 | `zig.Ast.Render.renderExtraNewline`                                                       | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+| removed |  -58.00ms |   1.1% → 0.0% |      58.0ms → 0ms |        58 → 0 | `zig.Ast.Render.rowSize`                                                                  | `opt/zig/lib/std/zig/Ast/Render.zig`   |
+|  -64.0% |  -55.00ms |   1.6% → 0.5% |   86.0ms → 31.0ms |       86 → 31 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).Slice.items__anon_27682` | `opt/zig/lib/std/multi_array_list.zig` |
+| removed |  -46.00ms |   0.9% → 0.0% |      46.0ms → 0ms |        46 → 0 | `fs.Dir.readFileAllocOptions__anon_2384`                                                  | `opt/zig/lib/std/fs/Dir.zig`           |
+|  -39.6% |  -44.00ms |   2.1% → 1.2% |  111.0ms → 67.0ms |      111 → 67 | `zig.Ast.nodeTag`                                                                         | `opt/zig/lib/std/zig/Ast.zig`          |
 
 ##### Native
 
-|  Change |    Delta |            % |            Time | Samples | Function  | Location                                 |
-| ------: | -------: | -----------: | --------------: | ------: | --------- | ---------------------------------------- |
-|  -34.2% | -13.00ms |  0.7% → 0.4% | 38.0ms → 25.0ms | 38 → 25 | `0x92f67` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -33.3% | -11.00ms |  0.6% → 0.4% | 33.0ms → 22.0ms | 33 → 22 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -55.6% | -10.00ms |  0.3% → 0.1% |  18.0ms → 8.0ms |  18 → 8 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -50.0% |  -3.00ms | 0.1% → <0.1% |   6.0ms → 3.0ms |   6 → 3 | `0xdd2b4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -50.0% |  -2.00ms | 0.1% → <0.1% |   4.0ms → 2.0ms |   4 → 2 | `0x91bfb` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -33.3% |  -2.00ms |         0.1% |   6.0ms → 4.0ms |   6 → 4 | `0x91b93` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x8ffd0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9d220` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9d208` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x8fc48` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x913a8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x915a0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x90817` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -33.3% |  -1.00ms | 0.1% → <0.1% |   3.0ms → 2.0ms |   3 → 2 | `0x91d0c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x8e998` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9155f` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x91be0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x92dcc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0xdd9e8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x91370` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |     Delta |            % |             Time |  Samples | Function  | Location                              |
+| ------: | --------: | -----------: | ---------------: | -------: | --------- | ------------------------------------- |
+|  -88.6% | -117.00ms |  2.5% → 0.3% | 132.0ms → 15.0ms | 132 → 15 | `0x9d200` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -69.00ms |  1.3% → 0.0% |     69.0ms → 0ms |   69 → 0 | `0x9e670` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -19.00ms |  0.4% → 0.0% |     19.0ms → 0ms |   19 → 0 | `0x9e674` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -19.00ms |  0.4% → 0.0% |     19.0ms → 0ms |   19 → 0 | `0xddb88` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -11.00ms |  0.2% → 0.0% |     11.0ms → 0ms |   11 → 0 | `0x9d11c` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -11.00ms |  0.2% → 0.0% |     11.0ms → 0ms |   11 → 0 | `0x9d100` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -10.00ms |  0.2% → 0.0% |     10.0ms → 0ms |   10 → 0 | `0x9d184` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -9.00ms |  0.2% → 0.0% |      9.0ms → 0ms |    9 → 0 | `0x9d138` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -41.2% |   -7.00ms |  0.3% → 0.2% |  17.0ms → 10.0ms |  17 → 10 | `0x92a9b` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -7.00ms |  0.1% → 0.0% |      7.0ms → 0ms |    7 → 0 | `0x9d168` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -6.00ms |  0.1% → 0.0% |      6.0ms → 0ms |    6 → 0 | `0x9405b` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -5.00ms |  0.1% → 0.0% |      5.0ms → 0ms |    5 → 0 | `0x9d150` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -26.3% |   -5.00ms |  0.4% → 0.2% |  19.0ms → 14.0ms |  19 → 14 | `0xdda44` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |      4.0ms → 0ms |    4 → 0 | `0x9e5c0` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |      4.0ms → 0ms |    4 → 0 | `0x9e580` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |      4.0ms → 0ms |    4 → 0 | `0x9d114` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -30.8% |   -4.00ms |         0.2% |   13.0ms → 9.0ms |   13 → 9 | `0x8fa47` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -30.8% |   -4.00ms |         0.2% |   13.0ms → 9.0ms |   13 → 9 | `0x9023f` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -75.0% |   -3.00ms | 0.1% → <0.1% |    4.0ms → 1.0ms |    4 → 1 | `0x9245b` | `usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -3.00ms |  0.1% → 0.0% |      3.0ms → 0ms |    3 → 0 | `0x9e584` | `usr/lib/aarch64-linux-gnu/libc.so.6` |

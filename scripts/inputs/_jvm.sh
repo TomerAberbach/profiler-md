@@ -7,7 +7,9 @@
 #   run_jvm_workload  runs the workload once. $1 is a JVM arg to pass through
 #                     (the agent or StartFlightRecording option). $2 and $3 are
 #                     the capture config and the input's extension, for
-#                     workloads that shrink high-volume captures like nativemem
+#                     workloads that shrink high-volume captures like nativemem.
+#                     $4 is the role, for workloads that run a different
+#                     version per role
 #
 # and calls `emit_jvm_captures` followed by `verify_pairs`. A workload that also
 # captures a heap dump sets:
@@ -56,12 +58,22 @@ JDK_JFR_CONFIGS=(cpu alloc live lock all)
 # repository. profiler-md reads neither event.
 JDK_JFR_PRIVACY_OPTS="+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false"
 
+# A JFR recording holds the JVM's command line, so a JFR capture writes to
+# WORKDIR and moves the recording into place, and the recording names no path in
+# the checkout.
+capture_path() {
+  echo "$WORKDIR/$(basename "$1")"
+}
+
 # capture_fn for emit: $1=out  $2=role  $3=config  $4=event-spec
 capture_ap_jfr() {
-  local out=$1 role=$2 cfg=$3 event_spec=$4
+  local out=$1 role=$2 cfg=$3 event_spec=$4 capture
+  capture="$(capture_path "$out")"
   ensure_ap_lib || return 1
   notice "Profiling $JVM_WORKLOAD using async-profiler JFR ($role, $event_spec)"
-  run_jvm_workload "-agentpath:$ap_lib=start,$event_spec,file=$out,jfr" "$cfg" jfr
+  run_jvm_workload "-agentpath:$ap_lib=start,$event_spec,file=$capture,jfr" "$cfg" jfr "$role" \
+    || return 1
+  mv "$capture" "$out"
 }
 
 # The collapsed format holds one event type, so each config records one.
@@ -79,7 +91,7 @@ capture_ap_collapsed() {
   local out=$1 role=$2 cfg=$3 opts=$4
   ensure_ap_lib || return 1
   notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($role, $opts)"
-  run_jvm_workload "-agentpath:$ap_lib=start,$opts,file=$out,collapsed" "$cfg" collapsed
+  run_jvm_workload "-agentpath:$ap_lib=start,$opts,file=$out,collapsed" "$cfg" collapsed "$role"
 }
 
 # The JVMs running now, one PID per line, excluding the `jcmd` process listing
@@ -102,7 +114,9 @@ capture_jdk_heap_dump() {
   local warmup=${JVM_HEAP_DUMP_WARMUP:-15}
   notice "Dumping $JVM_WORKLOAD's heap using jcmd ($role)"
   before="$(jvm_pids)"
-  run_jvm_workload "-XX:+UsePerfData" heap hprof &
+  # A heap dump holds the JVM's working directory, so the workload runs from
+  # WORKDIR rather than the checkout.
+  (cd "$WORKDIR" && run_jvm_workload "-XX:+UsePerfData" heap hprof "$role") &
   workload_pid=$!
 
   while ((waited < HEAP_DUMP_STARTUP_TIMEOUT)); do
@@ -139,9 +153,12 @@ capture_jdk_heap_dump() {
 
 # capture_fn for emit: $1=out  $2=role  $3=config  $4=extra StartFlightRecording options
 capture_jdk_jfr() {
-  local out=$1 role=$2 cfg=$3 extra=$4
+  local out=$1 role=$2 cfg=$3 extra=$4 capture
+  capture="$(capture_path "$out")"
   notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($role, $extra)"
-  run_jvm_workload "-XX:StartFlightRecording=filename=$out,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg" jfr
+  run_jvm_workload "-XX:StartFlightRecording=filename=$capture,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg" jfr "$role" \
+    || return 1
+  mv "$capture" "$out"
 }
 
 emit_jvm_captures() {

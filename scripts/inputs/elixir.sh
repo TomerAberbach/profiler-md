@@ -6,7 +6,9 @@ source scripts/inputs/_common.sh
 export MIX_HOME="$WORKDIR/mix"
 export HEX_HOME="$WORKDIR/hex"
 
-JASON_PIN="1.4.4"
+# Base and current profile consecutive jason releases, so a diff compares two
+# versions of the same code.
+declare -A JASON_PIN=([base]="1.4.4" [current]="1.4.5")
 EFLAMBE_PIN="0.3.1"
 
 assets="$REPO/scripts/inputs/assets/elixir"
@@ -24,9 +26,9 @@ retry_net() {
   done
 }
 
-project_dir=""
-setup_project() {
-  [[ -n "$project_dir" ]] && return 0
+hex_installed=""
+install_hex() {
+  [[ -n "$hex_installed" ]] && return 0
 
   notice "Installing Hex and rebar"
 
@@ -34,9 +36,20 @@ setup_project() {
   retry_net mix local.hex --force
   retry_net mix local.rebar --force
 
-  notice "Creating mix project (jason $JASON_PIN, eflambe $EFLAMBE_PIN)"
+  hex_installed=1
+}
 
-  local dir="$WORKDIR/elixir-profile"
+# Each role creates its project in one directory, so both record the same
+# paths.
+project_dir="$WORKDIR/elixir-profile"
+setup_project() {
+  local role=$1
+  install_hex || return 1
+
+  notice "Creating mix project (jason ${JASON_PIN[$role]}, eflambe $EFLAMBE_PIN)"
+
+  local dir="$project_dir"
+  rm -rf "$dir"
   mix new "$dir" --app profile >/dev/null </dev/null
 
   cat >"$dir/mix.exs" <<EOF
@@ -56,7 +69,7 @@ defmodule Profile.MixProject do
 
   defp deps do
     [
-      {:jason, "$JASON_PIN"},
+      {:jason, "${JASON_PIN[$role]}"},
       {:eflambe, "$EFLAMBE_PIN"}
     ]
   end
@@ -69,14 +82,12 @@ EOF
 
   ( cd "$dir" && MIX_ENV=prod retry_net mix deps.get )
   ( cd "$dir" && MIX_ENV=prod mix compile </dev/null )
-
-  project_dir="$dir"
 }
 
 # capture_fn for emit: $1=out  $2=role
 record_eflambe() {
   local out=$1 role=$2
-  setup_project
+  setup_project "$role" || return 1
   fetch_twitter_json
   local dir="$project_dir"
 

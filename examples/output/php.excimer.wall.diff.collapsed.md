@@ -1,11 +1,11 @@
 # Sampling profile diff
 
-Collected 3,892 samples → 3,896 samples (+4 samples, +0.1%).
+Collected 4,164 samples → 3,944 samples (-220 samples, -5.3%).
 
-| Category    | Change | Delta |             % |       Samples |
-| ----------- | -----: | ----: | ------------: | ------------: |
-| Ours        |  +0.1% |    +5 | 99.5% → 99.6% | 3,874 → 3,879 |
-| Third-party |  -5.6% |    -1 |   0.5% → 0.4% |       18 → 17 |
+| Category    | Change | Delta |     % |       Samples |
+| ----------- | -----: | ----: | ----: | ------------: |
+| Ours        |  -5.3% |  -219 | 99.6% | 4,146 → 3,927 |
+| Third-party |  -5.6% |    -1 |  0.4% |       18 → 17 |
 
 ## Hottest functions
 
@@ -15,105 +15,82 @@ Collected 3,892 samples → 3,896 samples (+4 samples, +0.1%).
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |             % |   Samples | Function                | Location                                                       |
-| ------: | ----: | ------------: | --------: | ----------------------- | -------------------------------------------------------------- |
-|  +51.9% |   +27 |   1.3% → 2.0% |   52 → 79 | `scanPaths`             | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
-|  +25.0% |   +21 |   2.2% → 2.7% |  84 → 105 | `checkOffsetCapture`    | `Composer\Pcre\Preg`                                           |
-|   +2.4% |   +16 | 16.9% → 17.3% | 657 → 673 | `findClasses`           | `Composer\ClassMapGenerator\PhpFileParser`                     |
-|  +44.8% |   +13 |   0.7% → 1.1% |   29 → 42 | `normalizePath`         | `Composer\Util\Filesystem`                                     |
-|  +28.6% |   +10 |   0.9% → 1.2% |   35 → 45 | `hasChildren`           | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
-|  +13.5% |    +5 |   1.0% → 1.1% |   37 → 42 | `start`                 | `Symfony\Component\Process\Process`                            |
-|   +1.8% |    +5 |   7.2% → 7.3% | 279 → 284 | `pregMatch`             | `Composer\Pcre\Preg`                                           |
-|  +50.0% |    +5 |   0.3% → 0.4% |   10 → 15 | `skipToNewline`         | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
-|  +44.4% |    +4 |   0.2% → 0.3% |    9 → 13 | `findShortestPath`      | `Composer\Util\Filesystem`                                     |
-| +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `skipHeredoc`           | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
-| +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `current`               | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
-| +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `wait`                  | `Symfony\Component\Process\Process`                            |
-|   +1.6% |    +3 |   4.8% → 4.9% | 187 → 190 | `matchAll`              | `Composer\Pcre\Preg`                                           |
-|   +2.4% |    +3 |   3.2% → 3.3% | 124 → 127 | `enforceNonNullMatches` | `Composer\Pcre\Preg`                                           |
-| +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `filesAreEqual`         | `Composer\Util\Filesystem`                                     |
-|  +37.5% |    +3 |   0.2% → 0.3% |    8 → 11 | `next`                  | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
-| +150.0% |    +3 |          0.1% |     2 → 5 | `peek`                  | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
-|     new |    +3 |   0.0% → 0.1% |     0 → 3 | `add`                   | `Composer\ClassMapGenerator\FileList`                          |
-|     new |    +3 |   0.0% → 0.1% |     0 → 3 | `(anonymous)`           | `vendor/composer/autoload_namespaces.php`                      |
-| +200.0% |    +2 |  <0.1% → 0.1% |     1 → 3 | `doRun`                 | `Composer\Console\Application`                                 |
+|  Change | Delta |             % |   Samples | Function             | Location                                                       |
+| ------: | ----: | ------------: | --------: | -------------------- | -------------------------------------------------------------- |
+|  +51.9% |   +28 |   1.3% → 2.1% |   54 → 82 | `__construct`        | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
+|  +14.1% |   +21 |   3.6% → 4.3% | 149 → 170 | `match`              | `Composer\Pcre\Preg`                                           |
+|  +22.6% |   +19 |   2.0% → 2.6% |  84 → 103 | `checkOffsetCapture` | `Composer\Pcre\Preg`                                           |
+|   +1.8% |   +12 | 15.8% → 17.0% | 659 → 671 | `findClasses`        | `Composer\ClassMapGenerator\PhpFileParser`                     |
+|   +8.4% |    +9 |   2.6% → 2.9% | 107 → 116 | `match`              | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|  +35.7% |    +5 |   0.3% → 0.5% |   14 → 19 | `loadClass`          | `Composer\Autoload\ClassLoader`                                |
+| +125.0% |    +5 |   0.1% → 0.2% |     4 → 9 | `loadSchema`         | `JsonSchema\Uri\UriRetriever`                                  |
+|   +2.8% |    +4 |   3.4% → 3.7% | 143 → 147 | `matchStrictGroups`  | `Composer\Pcre\Preg`                                           |
+| +200.0% |    +4 |  <0.1% → 0.2% |     2 → 6 | `current`            | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
+| +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `getStaticFile`      | `Composer\Autoload\AutoloadGenerator`                          |
+|   +7.7% |    +3 |   0.9% → 1.1% |   39 → 42 | `start`              | `Symfony\Component\Process\Process`                            |
+|  +37.5% |    +3 |   0.2% → 0.3% |    8 → 11 | `(anonymous)`        | `vendor/composer/autoload_classmap.php`                        |
+| +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `isAbsolutePath`     | `Composer\Util\Filesystem`                                     |
+|     new |    +2 |   0.0% → 0.1% |     0 → 2 | `getTlsDefaults`     | `Composer\Util\StreamContextFactory`                           |
+| +100.0% |    +2 |  <0.1% → 0.1% |     2 → 4 | `wait`               | `Symfony\Component\Process\Process`                            |
+|  +14.3% |    +2 |   0.3% → 0.4% |   14 → 16 | `skipToNewline`      | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|  +20.0% |    +2 |   0.2% → 0.3% |   10 → 12 | `getPathCode`        | `Composer\Autoload\AutoloadGenerator`                          |
+|  +12.5% |    +2 |   0.4% → 0.5% |   16 → 18 | `findShortestPath`   | `Composer\Util\Filesystem`                                     |
+| +200.0% |    +2 |  <0.1% → 0.1% |     1 → 3 | `skipToPhp`          | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|     new |    +2 |   0.0% → 0.1% |     0 → 2 | `getCwd`             | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
 
 ##### Ours
 
-|  Change | Delta |             % |   Samples | Function                | Location                                                       |
-| ------: | ----: | ------------: | --------: | ----------------------- | -------------------------------------------------------------- |
-|  +51.9% |   +27 |   1.3% → 2.0% |   52 → 79 | `scanPaths`             | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
-|  +25.0% |   +21 |   2.2% → 2.7% |  84 → 105 | `checkOffsetCapture`    | `Composer\Pcre\Preg`                                           |
-|   +2.4% |   +16 | 16.9% → 17.3% | 657 → 673 | `findClasses`           | `Composer\ClassMapGenerator\PhpFileParser`                     |
-|  +44.8% |   +13 |   0.7% → 1.1% |   29 → 42 | `normalizePath`         | `Composer\Util\Filesystem`                                     |
-|  +28.6% |   +10 |   0.9% → 1.2% |   35 → 45 | `hasChildren`           | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
-|  +13.5% |    +5 |   1.0% → 1.1% |   37 → 42 | `start`                 | `Symfony\Component\Process\Process`                            |
-|   +1.8% |    +5 |   7.2% → 7.3% | 279 → 284 | `pregMatch`             | `Composer\Pcre\Preg`                                           |
-|  +50.0% |    +5 |   0.3% → 0.4% |   10 → 15 | `skipToNewline`         | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
-|  +44.4% |    +4 |   0.2% → 0.3% |    9 → 13 | `findShortestPath`      | `Composer\Util\Filesystem`                                     |
-| +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `skipHeredoc`           | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
-| +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `current`               | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
-| +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `wait`                  | `Symfony\Component\Process\Process`                            |
-|   +1.6% |    +3 |   4.8% → 4.9% | 187 → 190 | `matchAll`              | `Composer\Pcre\Preg`                                           |
-|   +2.4% |    +3 |   3.2% → 3.3% | 124 → 127 | `enforceNonNullMatches` | `Composer\Pcre\Preg`                                           |
-| +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `filesAreEqual`         | `Composer\Util\Filesystem`                                     |
-|  +37.5% |    +3 |   0.2% → 0.3% |    8 → 11 | `next`                  | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
-| +150.0% |    +3 |          0.1% |     2 → 5 | `peek`                  | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
-|     new |    +3 |   0.0% → 0.1% |     0 → 3 | `add`                   | `Composer\ClassMapGenerator\FileList`                          |
-| +200.0% |    +2 |  <0.1% → 0.1% |     1 → 3 | `doRun`                 | `Composer\Console\Application`                                 |
-|     new |    +2 |   0.0% → 0.1% |     0 → 2 | `__construct`           | `Composer\Util\Http\CurlDownloader`                            |
+|  Change | Delta |             % |   Samples | Function             | Location                                                       |
+| ------: | ----: | ------------: | --------: | -------------------- | -------------------------------------------------------------- |
+|  +51.9% |   +28 |   1.3% → 2.1% |   54 → 82 | `__construct`        | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
+|  +14.1% |   +21 |   3.6% → 4.3% | 149 → 170 | `match`              | `Composer\Pcre\Preg`                                           |
+|  +22.6% |   +19 |   2.0% → 2.6% |  84 → 103 | `checkOffsetCapture` | `Composer\Pcre\Preg`                                           |
+|   +1.8% |   +12 | 15.8% → 17.0% | 659 → 671 | `findClasses`        | `Composer\ClassMapGenerator\PhpFileParser`                     |
+|   +8.4% |    +9 |   2.6% → 2.9% | 107 → 116 | `match`              | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|  +35.7% |    +5 |   0.3% → 0.5% |   14 → 19 | `loadClass`          | `Composer\Autoload\ClassLoader`                                |
+| +125.0% |    +5 |   0.1% → 0.2% |     4 → 9 | `loadSchema`         | `JsonSchema\Uri\UriRetriever`                                  |
+|   +2.8% |    +4 |   3.4% → 3.7% | 143 → 147 | `matchStrictGroups`  | `Composer\Pcre\Preg`                                           |
+| +200.0% |    +4 |  <0.1% → 0.2% |     2 → 6 | `current`            | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
+| +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `getStaticFile`      | `Composer\Autoload\AutoloadGenerator`                          |
+|   +7.7% |    +3 |   0.9% → 1.1% |   39 → 42 | `start`              | `Symfony\Component\Process\Process`                            |
+| +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `isAbsolutePath`     | `Composer\Util\Filesystem`                                     |
+|     new |    +2 |   0.0% → 0.1% |     0 → 2 | `getTlsDefaults`     | `Composer\Util\StreamContextFactory`                           |
+| +100.0% |    +2 |  <0.1% → 0.1% |     2 → 4 | `wait`               | `Symfony\Component\Process\Process`                            |
+|  +14.3% |    +2 |   0.3% → 0.4% |   14 → 16 | `skipToNewline`      | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|  +20.0% |    +2 |   0.2% → 0.3% |   10 → 12 | `getPathCode`        | `Composer\Autoload\AutoloadGenerator`                          |
+|  +12.5% |    +2 |   0.4% → 0.5% |   16 → 18 | `findShortestPath`   | `Composer\Util\Filesystem`                                     |
+| +200.0% |    +2 |  <0.1% → 0.1% |     1 → 3 | `skipToPhp`          | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|     new |    +2 |   0.0% → 0.1% |     0 → 2 | `getCwd`             | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
+|     new |    +2 |   0.0% → 0.1% |     0 → 2 | `hasParameterOption` | `Symfony\Component\Console\Input\ArrayInput`                   |
 
 #### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |             % |   Samples | Function              | Location                                                           |
-| ------: | ----: | ------------: | --------: | --------------------- | ------------------------------------------------------------------ |
-|  -14.8% |   -22 |   3.8% → 3.3% | 149 → 127 | `matchStrictGroups`   | `Composer\Pcre\Preg`                                               |
-|   -5.9% |   -13 |   5.7% → 5.4% | 222 → 209 | `skipString`          | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|  -61.9% |   -13 |   0.5% → 0.2% |    21 → 8 | `isMatch`             | `Composer\Pcre\Preg`                                               |
-|   -1.9% |   -12 | 16.4% → 16.1% | 638 → 626 | `readAndWrite`        | `Symfony\Component\Process\Pipes\UnixPipes`                        |
-|  -44.4% |   -12 |   0.7% → 0.4% |   27 → 15 | `normalizePath`       | `Composer\ClassMapGenerator\ClassMapGenerator`                     |
-|  -61.5% |    -8 |   0.3% → 0.1% |    13 → 5 | `getDefaultEnv`       | `Symfony\Component\Process\Process`                                |
-|  -57.1% |    -8 |   0.4% → 0.2% |    14 → 6 | `getPathCode`         | `Composer\Autoload\AutoloadGenerator`                              |
-|   -1.5% |    -6 | 10.6% → 10.4% | 411 → 405 | `clean`               | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|   -4.3% |    -6 |   3.6% → 3.4% | 139 → 133 | `isMatchStrictGroups` | `Composer\Pcre\Preg`                                               |
-|   -5.3% |    -6 |   2.9% → 2.7% | 113 → 107 | `match`               | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|  -62.5% |    -5 |   0.2% → 0.1% |     8 → 3 | `dump`                | `Composer\Autoload\AutoloadGenerator`                              |
-|  -38.5% |    -5 |   0.3% → 0.2% |    13 → 8 | `(anonymous)`         | `vendor/composer/autoload_classmap.php`                            |
-|  -26.7% |    -4 |   0.4% → 0.3% |   15 → 11 | `replaceCallback`     | `Composer\Pcre\Preg`                                               |
-|  -50.0% |    -4 |   0.2% → 0.1% |     8 → 4 | `isAccepted`          | `Symfony\Component\Finder\Iterator\MultiplePcreFilterIterator`     |
-|  -75.0% |    -3 |  0.1% → <0.1% |     4 → 1 | `getTlsDefaults`      | `Composer\Util\StreamContextFactory`                               |
-|  -60.0% |    -3 |          0.1% |     5 → 2 | `accept`              | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
-|  -60.0% |    -3 |          0.1% |     5 → 2 | `getStaticFile`       | `Composer\Autoload\AutoloadGenerator`                              |
-| removed |    -3 |   0.1% → 0.0% |     3 → 0 | `updateStatus`        | `Symfony\Component\Process\Process`                                |
-| removed |    -3 |   0.1% → 0.0% |     3 → 0 | `suppress`            | `Composer\Util\Silencer`                                           |
-| removed |    -2 |   0.1% → 0.0% |     2 → 0 | `__construct`         | `Composer\Console\Application`                                     |
-
 ##### Ours
 
-|  Change | Delta |             % |   Samples | Function              | Location                                                           |
-| ------: | ----: | ------------: | --------: | --------------------- | ------------------------------------------------------------------ |
-|  -14.8% |   -22 |   3.8% → 3.3% | 149 → 127 | `matchStrictGroups`   | `Composer\Pcre\Preg`                                               |
-|   -5.9% |   -13 |   5.7% → 5.4% | 222 → 209 | `skipString`          | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|  -61.9% |   -13 |   0.5% → 0.2% |    21 → 8 | `isMatch`             | `Composer\Pcre\Preg`                                               |
-|   -1.9% |   -12 | 16.4% → 16.1% | 638 → 626 | `readAndWrite`        | `Symfony\Component\Process\Pipes\UnixPipes`                        |
-|  -44.4% |   -12 |   0.7% → 0.4% |   27 → 15 | `normalizePath`       | `Composer\ClassMapGenerator\ClassMapGenerator`                     |
-|  -61.5% |    -8 |   0.3% → 0.1% |    13 → 5 | `getDefaultEnv`       | `Symfony\Component\Process\Process`                                |
-|  -57.1% |    -8 |   0.4% → 0.2% |    14 → 6 | `getPathCode`         | `Composer\Autoload\AutoloadGenerator`                              |
-|   -1.5% |    -6 | 10.6% → 10.4% | 411 → 405 | `clean`               | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|   -4.3% |    -6 |   3.6% → 3.4% | 139 → 133 | `isMatchStrictGroups` | `Composer\Pcre\Preg`                                               |
-|   -5.3% |    -6 |   2.9% → 2.7% | 113 → 107 | `match`               | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|  -62.5% |    -5 |   0.2% → 0.1% |     8 → 3 | `dump`                | `Composer\Autoload\AutoloadGenerator`                              |
-|  -26.7% |    -4 |   0.4% → 0.3% |   15 → 11 | `replaceCallback`     | `Composer\Pcre\Preg`                                               |
-|  -50.0% |    -4 |   0.2% → 0.1% |     8 → 4 | `isAccepted`          | `Symfony\Component\Finder\Iterator\MultiplePcreFilterIterator`     |
-|  -75.0% |    -3 |  0.1% → <0.1% |     4 → 1 | `getTlsDefaults`      | `Composer\Util\StreamContextFactory`                               |
-|  -60.0% |    -3 |          0.1% |     5 → 2 | `accept`              | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
-|  -60.0% |    -3 |          0.1% |     5 → 2 | `getStaticFile`       | `Composer\Autoload\AutoloadGenerator`                              |
-| removed |    -3 |   0.1% → 0.0% |     3 → 0 | `updateStatus`        | `Symfony\Component\Process\Process`                                |
-| removed |    -3 |   0.1% → 0.0% |     3 → 0 | `suppress`            | `Composer\Util\Silencer`                                           |
-| removed |    -2 |   0.1% → 0.0% |     2 → 0 | `__construct`         | `Composer\Console\Application`                                     |
-| removed |    -2 |   0.1% → 0.0% |     2 → 0 | `getDefaultName`      | `Symfony\Component\Console\Command\Command`                        |
+|  Change | Delta |             % |   Samples | Function                | Location                                                       |
+| ------: | ----: | ------------: | --------: | ----------------------- | -------------------------------------------------------------- |
+|  -90.4% |  -151 |   4.0% → 0.4% |  167 → 16 | `readFromProcess`       | `Symfony\Component\Console\Terminal`                           |
+|  -13.0% |   -35 |   6.5% → 5.9% | 269 → 234 | `call`                  | `Composer\Util\Silencer`                                       |
+|   -6.2% |   -27 | 10.4% → 10.3% | 435 → 408 | `clean`                 | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|   -2.5% |   -16 | 15.5% → 15.9% | 645 → 629 | `readAndWrite`          | `Symfony\Component\Process\Pipes\UnixPipes`                    |
+|  -19.5% |   -15 |   1.8% → 1.6% |   77 → 62 | `scanPaths`             | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
+|   -4.3% |   -12 |   6.6% → 6.7% | 276 → 264 | `pregMatch`             | `Composer\Pcre\Preg`                                           |
+|   -7.8% |   -11 |   3.4% → 3.3% | 141 → 130 | `enforceNonNullMatches` | `Composer\Pcre\Preg`                                           |
+|   -7.0% |   -10 |   3.4% → 3.3% | 142 → 132 | `isMatchStrictGroups`   | `Composer\Pcre\Preg`                                           |
+|   -4.0% |    -8 |          4.9% | 202 → 194 | `skipString`            | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
+|   -4.3% |    -8 |          4.5% | 187 → 179 | `matchAll`              | `Composer\Pcre\Preg`                                           |
+|  -85.7% |    -6 |  0.2% → <0.1% |     7 → 1 | `replace`               | `Composer\Pcre\Preg`                                           |
+|  -25.0% |    -5 |   0.5% → 0.4% |   20 → 15 | `normalizePath`         | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
+|  -31.3% |    -5 |   0.4% → 0.3% |   16 → 11 | `isMatch`               | `Composer\Pcre\Preg`                                           |
+|  -66.7% |    -4 |          0.1% |     6 → 2 | `dump`                  | `Composer\Autoload\AutoloadGenerator`                          |
+|  -36.4% |    -4 |   0.3% → 0.2% |    11 → 7 | `next`                  | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
+|  -17.6% |    -3 |          0.4% |   17 → 14 | `replaceCallback`       | `Composer\Pcre\Preg`                                           |
+|   -9.1% |    -3 |          0.8% |   33 → 30 | `normalizePath`         | `Composer\Util\Filesystem`                                     |
+| removed |    -3 |   0.1% → 0.0% |     3 → 0 | `unregister`            | `Seld\Signal\SignalHandler`                                    |
+| removed |    -3 |   0.1% → 0.0% |     3 → 0 | `checkSetOrder`         | `Composer\Pcre\Preg`                                           |
+| removed |    -2 |  <0.1% → 0.0% |     2 → 0 | `find`                  | `Symfony\Component\Console\Application`                        |
 
 ### Total samples
 
@@ -121,30 +98,53 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
+|  Change | Delta |             % |     Samples | Function              | Location                                                           |
+| ------: | ----: | ------------: | ----------: | --------------------- | ------------------------------------------------------------------ |
+|   +7.0% |   +35 | 12.1% → 13.6% |   502 → 537 | `match`               | `Composer\Pcre\Preg`                                               |
+|   +3.1% |   +31 | 23.8% → 25.9% | 989 → 1,020 | `match`               | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
+|  +51.9% |   +28 |   1.3% → 2.1% |     54 → 82 | `__construct`         | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
+|   +3.5% |   +27 | 18.5% → 20.2% |   769 → 796 | `matchStrictGroups`   | `Composer\Pcre\Preg`                                               |
+|  +49.1% |   +26 |   1.3% → 2.0% |     53 → 79 | `getChildren`         | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
+|  +43.6% |   +24 |   1.3% → 2.0% |     55 → 79 | `getChildren`         | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
+|  +22.6% |   +19 |   2.0% → 2.6% |    84 → 103 | `checkOffsetCapture`  | `Composer\Pcre\Preg`                                               |
+|   +1.9% |   +17 | 21.9% → 23.5% |   911 → 928 | `isMatchStrictGroups` | `Composer\Pcre\Preg`                                               |
+|   +7.1% |    +8 |   2.7% → 3.0% |   112 → 120 | `getPathCode`         | `Composer\Autoload\AutoloadGenerator`                              |
+|  +12.1% |    +8 |   1.6% → 1.9% |     66 → 74 | `findShortestPath`    | `Composer\Util\Filesystem`                                         |
+| +150.0% |    +6 |   0.1% → 0.3% |      4 → 10 | `loadSchema`          | `JsonSchema\Uri\UriRetriever`                                      |
+|  +45.5% |    +5 |   0.3% → 0.4% |     11 → 16 | `init`                | `Symfony\Component\Console\Application`                            |
+|  +36.4% |    +4 |   0.3% → 0.4% |     11 → 15 | `getDefaultCommands`  | `Composer\Console\Application`                                     |
+|  +57.1% |    +4 |   0.2% → 0.3% |      7 → 11 | `current`             | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
+|  +60.0% |    +3 |   0.1% → 0.2% |       5 → 8 | `__construct`         | `Symfony\Component\Console\Command\Command`                        |
+|  +23.1% |    +3 |   0.3% → 0.4% |     13 → 16 | `find`                | `Symfony\Component\Console\Application`                            |
+|   +6.7% |    +3 |   1.1% → 1.2% |     45 → 48 | `start`               | `Symfony\Component\Process\Process`                                |
+|  +37.5% |    +3 |   0.2% → 0.3% |      8 → 11 | `(anonymous)`         | `vendor/composer/autoload_classmap.php`                            |
+|  +42.9% |    +3 |   0.2% → 0.3% |      7 → 10 | `retrieve`            | `JsonSchema\Uri\UriRetriever`                                      |
+| +300.0% |    +3 |  <0.1% → 0.1% |       1 → 4 | `isAbsolutePath`      | `Composer\Util\Filesystem`                                         |
+
 ##### Ours
 
-| Change | Delta |             % |       Samples | Function             | Location                                                           |
-| -----: | ----: | ------------: | ------------: | -------------------- | ------------------------------------------------------------------ |
-|  +1.0% |   +29 | 73.7% → 74.4% | 2,870 → 2,899 | `dump`               | `Composer\Autoload\AutoloadGenerator`                              |
-|  +5.7% |   +29 | 13.0% → 13.8% |     507 → 536 | `match`              | `Composer\Pcre\Preg`                                               |
-|  +0.9% |   +27 | 73.8% → 74.4% | 2,872 → 2,899 | `execute`            | `Composer\Command\DumpAutoloadCommand`                             |
-|  +1.0% |   +26 | 69.9% → 70.5% | 2,721 → 2,747 | `scanPaths`          | `Composer\ClassMapGenerator\ClassMapGenerator`                     |
-| +45.1% |   +23 |   1.3% → 1.9% |       51 → 74 | `normalizePath`      | `Composer\Util\Filesystem`                                         |
-| +25.0% |   +21 |   2.2% → 2.7% |      84 → 105 | `checkOffsetCapture` | `Composer\Pcre\Preg`                                               |
-|  +0.4% |   +13 | 93.0% → 93.2% | 3,618 → 3,631 | `doRun`              | `Symfony\Component\Console\Application`                            |
-|  +0.3% |   +12 | 92.9% → 93.1% | 3,617 → 3,629 | `run`                | `Symfony\Component\Console\Command\Command`                        |
-|  +0.3% |   +12 | 92.9% → 93.1% | 3,617 → 3,629 | `doRunCommand`       | `Symfony\Component\Console\Application`                            |
-|  +0.3% |   +11 | 99.4% → 99.6% | 3,869 → 3,880 | `doRun`              | `Composer\Console\Application`                                     |
-| +31.4% |   +11 |   0.9% → 1.2% |       35 → 46 | `hasChildren`        | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
-|  +0.3% |   +10 | 99.7% → 99.9% | 3,882 → 3,892 | `run`                | `Symfony\Component\Console\Application`                            |
-|  +0.3% |   +10 | 99.7% → 99.9% | 3,882 → 3,892 | `run`                | `Composer\Console\Application`                                     |
-| +28.6% |   +10 |   0.9% → 1.2% |       35 → 45 | `hasChildren`        | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
-|  +7.3% |    +8 |   2.8% → 3.0% |     110 → 118 | `getPathCode`        | `Composer\Autoload\AutoloadGenerator`                              |
-| +57.1% |    +8 |   0.4% → 0.6% |       14 → 22 | `skipHeredoc`        | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
-|  +0.8% |    +6 | 19.7% → 19.8% |     766 → 772 | `matchStrictGroups`  | `Composer\Pcre\Preg`                                               |
-|  +9.4% |    +6 |   1.6% → 1.8% |       64 → 70 | `findShortestPath`   | `Composer\Util\Filesystem`                                         |
-|  +1.8% |    +5 |   7.2% → 7.3% |     279 → 284 | `pregMatch`          | `Composer\Pcre\Preg`                                               |
-| +50.0% |    +5 |   0.3% → 0.4% |       10 → 15 | `skipToNewline`      | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
+|  Change | Delta |             % |     Samples | Function              | Location                                                           |
+| ------: | ----: | ------------: | ----------: | --------------------- | ------------------------------------------------------------------ |
+|   +7.0% |   +35 | 12.1% → 13.6% |   502 → 537 | `match`               | `Composer\Pcre\Preg`                                               |
+|   +3.1% |   +31 | 23.8% → 25.9% | 989 → 1,020 | `match`               | `Composer\ClassMapGenerator\PhpFileCleaner`                        |
+|  +51.9% |   +28 |   1.3% → 2.1% |     54 → 82 | `__construct`         | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
+|   +3.5% |   +27 | 18.5% → 20.2% |   769 → 796 | `matchStrictGroups`   | `Composer\Pcre\Preg`                                               |
+|  +49.1% |   +26 |   1.3% → 2.0% |     53 → 79 | `getChildren`         | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
+|  +43.6% |   +24 |   1.3% → 2.0% |     55 → 79 | `getChildren`         | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
+|  +22.6% |   +19 |   2.0% → 2.6% |    84 → 103 | `checkOffsetCapture`  | `Composer\Pcre\Preg`                                               |
+|   +1.9% |   +17 | 21.9% → 23.5% |   911 → 928 | `isMatchStrictGroups` | `Composer\Pcre\Preg`                                               |
+|   +7.1% |    +8 |   2.7% → 3.0% |   112 → 120 | `getPathCode`         | `Composer\Autoload\AutoloadGenerator`                              |
+|  +12.1% |    +8 |   1.6% → 1.9% |     66 → 74 | `findShortestPath`    | `Composer\Util\Filesystem`                                         |
+| +150.0% |    +6 |   0.1% → 0.3% |      4 → 10 | `loadSchema`          | `JsonSchema\Uri\UriRetriever`                                      |
+|  +45.5% |    +5 |   0.3% → 0.4% |     11 → 16 | `init`                | `Symfony\Component\Console\Application`                            |
+|  +36.4% |    +4 |   0.3% → 0.4% |     11 → 15 | `getDefaultCommands`  | `Composer\Console\Application`                                     |
+|  +57.1% |    +4 |   0.2% → 0.3% |      7 → 11 | `current`             | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator`     |
+|  +60.0% |    +3 |   0.1% → 0.2% |       5 → 8 | `__construct`         | `Symfony\Component\Console\Command\Command`                        |
+|  +23.1% |    +3 |   0.3% → 0.4% |     13 → 16 | `find`                | `Symfony\Component\Console\Application`                            |
+|   +6.7% |    +3 |   1.1% → 1.2% |     45 → 48 | `start`               | `Symfony\Component\Process\Process`                                |
+|  +42.9% |    +3 |   0.2% → 0.3% |      7 → 10 | `retrieve`            | `JsonSchema\Uri\UriRetriever`                                      |
+| +300.0% |    +3 |  <0.1% → 0.1% |       1 → 4 | `isAbsolutePath`      | `Composer\Util\Filesystem`                                         |
+|     new |    +3 |   0.0% → 0.1% |       0 → 3 | `create`              | `Seld\Signal\SignalHandler`                                        |
 
 #### Improvements
 
@@ -152,25 +152,25 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Ours
 
-| Change | Delta |             % |       Samples | Function          | Location                                       |
-| -----: | ----: | ------------: | ------------: | ----------------- | ---------------------------------------------- |
-|  -1.3% |   -21 | 42.4% → 41.8% | 1,649 → 1,628 | `clean`           | `Composer\ClassMapGenerator\PhpFileCleaner`    |
-| -39.5% |   -17 |   1.1% → 0.7% |       43 → 26 | `normalizePath`   | `Composer\ClassMapGenerator\ClassMapGenerator` |
-|  -2.1% |   -16 | 19.1% → 18.7% |     745 → 729 | `initialize`      | `Composer\Command\BaseCommand`                 |
-|  -2.0% |   -15 | 19.1% → 18.7% |     744 → 729 | `createComposer`  | `Composer\Factory`                             |
-|  -2.0% |   -15 | 19.1% → 18.7% |     744 → 729 | `create`          | `Composer\Factory`                             |
-|  -2.0% |   -15 | 19.1% → 18.7% |     744 → 729 | `getComposer`     | `Composer\Console\Application`                 |
-|  -2.0% |   -15 | 19.1% → 18.7% |     744 → 729 | `tryComposer`     | `Composer\Command\BaseCommand`                 |
-|  -2.1% |   -15 | 17.9% → 17.5% |     698 → 683 | `runProcess`      | `Composer\Util\ProcessExecutor`                |
-|  -2.1% |   -15 | 18.0% → 17.6% |     699 → 684 | `doExecute`       | `Composer\Util\ProcessExecutor`                |
-|  -2.1% |   -15 | 18.0% → 17.6% |     700 → 685 | `execute`         | `Composer\Util\ProcessExecutor`                |
-|  -1.5% |   -15 | 25.6% → 25.2% |     995 → 980 | `match`           | `Composer\ClassMapGenerator\PhpFileCleaner`    |
-|  -2.0% |   -14 | 18.0% → 17.6% |     700 → 686 | `guessVersion`    | `Composer\Package\Version\VersionGuesser`      |
-|  -1.8% |   -13 | 18.1% → 17.7% |     703 → 690 | `load`            | `Composer\Package\Loader\RootPackageLoader`    |
-|  -1.9% |   -13 | 17.8% → 17.5% |     694 → 681 | `run`             | `Symfony\Component\Process\Process`            |
-|  -1.9% |   -12 | 16.4% → 16.1% |     639 → 627 | `readAndWrite`    | `Symfony\Component\Process\Pipes\UnixPipes`    |
-|  -1.9% |   -12 | 16.4% → 16.1% |     639 → 627 | `readPipes`       | `Symfony\Component\Process\Process`            |
-|  -1.9% |   -12 | 16.5% → 16.2% |     642 → 630 | `wait`            | `Symfony\Component\Process\Process`            |
-|  -5.0% |   -11 |   5.7% → 5.4% |     222 → 211 | `skipString`      | `Composer\ClassMapGenerator\PhpFileCleaner`    |
-| -25.7% |    -9 |   0.9% → 0.7% |       35 → 26 | `isMatch`         | `Composer\Pcre\Preg`                           |
-|  -1.8% |    -8 | 11.7% → 11.5% |     457 → 449 | `guessGitVersion` | `Composer\Package\Version\VersionGuesser`      |
+| Change | Delta |             % |       Samples | Function                  | Location                                       |
+| -----: | ----: | ------------: | ------------: | ------------------------- | ---------------------------------------------- |
+|  -5.3% |  -220 |        100.0% | 4,164 → 3,944 | `(anonymous)`             | `profile.php`                                  |
+|  -5.2% |  -217 | 99.8% → 99.9% | 4,157 → 3,940 | `run`                     | `Symfony\Component\Console\Application`        |
+|  -5.2% |  -217 | 99.8% → 99.9% | 4,157 → 3,940 | `run`                     | `Composer\Console\Application`                 |
+| -94.4% |  -152 |   3.9% → 0.2% |       161 → 9 | `getHeight`               | `Symfony\Component\Console\Terminal`           |
+| -90.4% |  -151 |   4.0% → 0.4% |      167 → 16 | `readFromProcess`         | `Symfony\Component\Console\Terminal`           |
+| -90.4% |  -151 |   4.0% → 0.4% |      167 → 16 | `getSttyColumns`          | `Symfony\Component\Console\Terminal`           |
+| -90.4% |  -151 |   4.0% → 0.4% |      167 → 16 | `initDimensionsUsingStty` | `Symfony\Component\Console\Terminal`           |
+| -90.4% |  -151 |   4.0% → 0.4% |      167 → 16 | `initDimensions`          | `Symfony\Component\Console\Terminal`           |
+|  -1.7% |   -67 | 95.8% → 99.5% | 3,990 → 3,923 | `doRun`                   | `Composer\Console\Application`                 |
+| -13.2% |   -38 |   6.9% → 6.3% |     287 → 249 | `call`                    | `Composer\Util\Silencer`                       |
+|  -1.0% |   -38 | 88.7% → 92.7% | 3,694 → 3,656 | `doRun`                   | `Symfony\Component\Console\Application`        |
+|  -1.0% |   -38 | 88.7% → 92.6% | 3,692 → 3,654 | `run`                     | `Symfony\Component\Console\Command\Command`    |
+|  -1.0% |   -38 | 88.7% → 92.6% | 3,692 → 3,654 | `doRunCommand`            | `Symfony\Component\Console\Application`        |
+|  -0.8% |   -24 | 70.7% → 74.0% | 2,944 → 2,920 | `dump`                    | `Composer\Autoload\AutoloadGenerator`          |
+|  -0.7% |   -22 | 70.7% → 74.1% | 2,944 → 2,922 | `execute`                 | `Composer\Command\DumpAutoloadCommand`         |
+|  -0.8% |   -19 | 60.5% → 63.4% | 2,520 → 2,501 | `findClasses`             | `Composer\ClassMapGenerator\PhpFileParser`     |
+|  -0.6% |   -18 | 66.9% → 70.1% | 2,784 → 2,766 | `scanPaths`               | `Composer\ClassMapGenerator\ClassMapGenerator` |
+|  -9.1% |   -18 |   4.7% → 4.5% |     197 → 179 | `matchAll`                | `Composer\Pcre\Preg`                           |
+|  -2.1% |   -16 | 18.0% → 18.6% |     748 → 732 | `createComposer`          | `Composer\Factory`                             |
+|  -2.1% |   -16 | 18.0% → 18.6% |     748 → 732 | `create`                  | `Composer\Factory`                             |

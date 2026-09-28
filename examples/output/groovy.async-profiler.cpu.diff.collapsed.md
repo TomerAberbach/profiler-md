@@ -1,16 +1,16 @@
 # Sampling profile diff
 
-Collected 5,644 samples → 6,003 samples (+359 samples, +6.4%).
+Collected 6,010 samples → 6,091 samples (+81 samples, +1.3%).
 
 | Category          | Change | Delta |             % |       Samples |
 | ----------------- | -----: | ----: | ------------: | ------------: |
-| Compiler          |  +6.1% |  +152 | 44.0% → 43.9% | 2,484 → 2,636 |
-| Native            |  +6.4% |  +101 |         28.1% | 1,588 → 1,689 |
-| Standard library  |  +6.7% |   +97 | 25.7% → 25.8% | 1,450 → 1,547 |
-| Ours              |  +6.0% |    +4 |          1.2% |       67 → 71 |
-| JIT               | +16.3% |    +7 |          0.8% |       43 → 50 |
-| Garbage collector | -14.3% |    -1 |          0.1% |         7 → 6 |
-| Unknown           | -20.0% |    -1 |          0.1% |         5 → 4 |
+| Compiler          |  -0.8% |   -21 | 44.1% → 43.2% | 2,650 → 2,629 |
+| Native            |  +6.8% |  +111 | 27.1% → 28.6% | 1,630 → 1,741 |
+| Standard library  |  +0.4% |    +6 | 26.1% → 25.8% | 1,568 → 1,574 |
+| Ours              |  -1.3% |    -1 |          1.3% |       80 → 79 |
+| JIT               | -16.7% |   -13 |   1.3% → 1.1% |       78 → 65 |
+| Unknown           | -33.3% |    -1 |         <0.1% |         3 → 2 |
+| Garbage collector |   0.0% |     0 |         <0.1% |             1 |
 
 ## Hottest functions
 
@@ -20,255 +20,279 @@ Collected 5,644 samples → 6,003 samples (+359 samples, +6.4%).
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |            % | Samples | Function                             | Location                                             |
-| ------: | ----: | -----------: | ------: | ------------------------------------ | ---------------------------------------------------- |
-|  +96.9% |   +31 |  0.6% → 1.0% | 32 → 63 | `__psynch_mutexwait`                 | `<unknown>`                                          |
-|  +93.9% |   +31 |  0.6% → 1.1% | 33 → 64 | `__psynch_cvwait`                    | `<unknown>`                                          |
-|  +44.0% |   +22 |  0.9% → 1.2% | 50 → 72 | `IndexSetIterator::advance_and_next` | `<unknown>`                                          |
-| +233.3% |   +21 |  0.2% → 0.5% |  9 → 30 | `collector`                          | `java.lang.invoke.LambdaForm$MH.0x000000e801031800`  |
-|  +48.4% |   +15 |  0.5% → 0.8% | 31 → 46 | `ciObjectFactory::get_metadata`      | `<unknown>`                                          |
-|  +17.5% |   +14 |  1.4% → 1.6% | 80 → 94 | `cast`                               | `java.lang.Class`                                    |
-| +150.0% |   +12 |  0.1% → 0.3% |  8 → 20 | `equals`                             | `java.util.Objects`                                  |
-|  +20.3% |   +12 |  1.0% → 1.2% | 59 → 71 | `Arena::contains`                    | `<unknown>`                                          |
-| +550.0% |   +11 | <0.1% → 0.2% |  2 → 13 | `invoke`                             | `java.lang.invoke.LambdaForm$MH.0x000000e80102ac00`  |
-|  +40.7% |   +11 |  0.5% → 0.6% | 27 → 38 | `vmSymbols::find_sid`                | `<unknown>`                                          |
-|  +45.5% |   +10 |  0.4% → 0.5% | 22 → 32 | `MachNode::rematerialize`            | `<unknown>`                                          |
-|  +45.5% |   +10 |  0.4% → 0.5% | 22 → 32 | `PhaseIdealLoop::Dominators`         | `<unknown>`                                          |
-|  +66.7% |   +10 |  0.3% → 0.4% | 15 → 25 | `InstanceKlass::find_method_index`   | `<unknown>`                                          |
-| +150.0% |    +9 |  0.1% → 0.2% |  6 → 15 | `posix_madvise`                      | `<unknown>`                                          |
-|  +42.1% |    +8 |  0.3% → 0.4% | 19 → 27 | `invokeStatic`                       | `java.lang.invoke.LambdaForm$DMH.0x000000e801088800` |
-|  +40.0% |    +8 |  0.4% → 0.5% | 20 → 28 | `<init>`                             | `java.lang.invoke.MethodHandle`                      |
-| +100.0% |    +8 |  0.1% → 0.3% |  8 → 16 | `BacktraceBuilder::push`             | `<unknown>`                                          |
-| +266.7% |    +8 |  0.1% → 0.2% |  3 → 11 | `checkExactType`                     | `java.lang.invoke.Invokers`                          |
-|  +26.7% |    +8 |  0.5% → 0.6% | 30 → 38 | `PhaseChaitin::gather_lrg_masks`     | `<unknown>`                                          |
-| +200.0% |    +8 |  0.1% → 0.2% |  4 → 12 | `IndexSet::alloc_block_containing`   | `<unknown>`                                          |
+|  Change | Delta |            % |   Samples | Function                                                                                       | Location                        |
+| ------: | ----: | -----------: | --------: | ---------------------------------------------------------------------------------------------- | ------------------------------- |
+| +160.0% |   +40 |  0.4% → 1.1% |   25 → 65 | `__psynch_cvwait`                                                                              | `<unknown>`                     |
+|  +75.0% |   +18 |  0.4% → 0.7% |   24 → 42 | `__psynch_mutexwait`                                                                           | `<unknown>`                     |
+| +120.0% |   +18 |  0.2% → 0.5% |   15 → 33 | `PhaseLive::compute`                                                                           | `<unknown>`                     |
+|  +68.2% |   +15 |  0.4% → 0.6% |   22 → 37 | `Compile::identify_useful_nodes`                                                               | `<unknown>`                     |
+|  +28.0% |   +14 |  0.8% → 1.1% |   50 → 64 | `IndexSetIterator::advance_and_next`                                                           | `<unknown>`                     |
+|  +10.5% |   +11 |  1.7% → 1.9% | 105 → 116 | `cast`                                                                                         | `java.lang.Class`               |
+| +100.0% |   +10 |  0.2% → 0.3% |   10 → 20 | `G1ParScanThreadState::trim_queue_to_threshold`                                                | `<unknown>`                     |
+|  +40.0% |   +10 |  0.4% → 0.6% |   25 → 35 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `<unknown>`                     |
+| +500.0% |   +10 | <0.1% → 0.2% |    2 → 12 | `type`                                                                                         | `java.lang.invoke.MethodHandle` |
+|  +81.8% |    +9 |  0.2% → 0.3% |   11 → 20 | `Matcher::match_tree`                                                                          | `<unknown>`                     |
+| +100.0% |    +9 |  0.1% → 0.3% |    9 → 18 | `nmethodBucket::next_not_unloading`                                                            | `<unknown>`                     |
+| +300.0% |    +9 | <0.1% → 0.2% |    3 → 12 | `PhaseIFG::SquareUp`                                                                           | `<unknown>`                     |
+|  +88.9% |    +8 |  0.1% → 0.3% |    9 → 17 | `DebugInformationRecorder::describe_scope`                                                     | `<unknown>`                     |
+|  +66.7% |    +8 |  0.2% → 0.3% |   12 → 20 | `vtable stub`                                                                                  | `<unknown>`                     |
+| +266.7% |    +8 | <0.1% → 0.2% |    3 → 11 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                       | `<unknown>`                     |
+|  +33.3% |    +8 |  0.4% → 0.5% |   24 → 32 | `G1ParScanThreadState::do_copy_to_survivor_space`                                              | `<unknown>`                     |
+| +200.0% |    +8 |  0.1% → 0.2% |    4 → 12 | `RelocIterator::set_limits`                                                                    | `<unknown>`                     |
+|     new |    +8 |  0.0% → 0.1% |     0 → 8 | `copyOfRange`                                                                                  | `java.util.Arrays`              |
+| +200.0% |    +8 |  0.1% → 0.2% |    4 → 12 | `PcDescContainer::find_pc_desc_internal`                                                       | `<unknown>`                     |
+| +160.0% |    +8 |  0.1% → 0.2% |    5 → 13 | `Node::Node`                                                                                   | `<unknown>`                     |
 
 ##### Compiler
 
-|  Change | Delta |            % | Samples | Function                                      | Location    |
-| ------: | ----: | -----------: | ------: | --------------------------------------------- | ----------- |
-|  +44.0% |   +22 |  0.9% → 1.2% | 50 → 72 | `IndexSetIterator::advance_and_next`          | `<unknown>` |
-|  +48.4% |   +15 |  0.5% → 0.8% | 31 → 46 | `ciObjectFactory::get_metadata`               | `<unknown>` |
-|  +45.5% |   +10 |  0.4% → 0.5% | 22 → 32 | `MachNode::rematerialize`                     | `<unknown>` |
-|  +45.5% |   +10 |  0.4% → 0.5% | 22 → 32 | `PhaseIdealLoop::Dominators`                  | `<unknown>` |
-|  +26.7% |    +8 |  0.5% → 0.6% | 30 → 38 | `PhaseChaitin::gather_lrg_masks`              | `<unknown>` |
-| +200.0% |    +8 |  0.1% → 0.2% |  4 → 12 | `IndexSet::alloc_block_containing`            | `<unknown>` |
-| +350.0% |    +7 | <0.1% → 0.1% |   2 → 9 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep` | `<unknown>` |
-|  +87.5% |    +7 |  0.1% → 0.2% |  8 → 15 | `RegionNode::is_CFG`                          | `<unknown>` |
-| +116.7% |    +7 |  0.1% → 0.2% |  6 → 13 | `PhiNode::Opcode`                             | `<unknown>` |
-| +150.0% |    +6 |  0.1% → 0.2% |  4 → 10 | `Compile::remove_speculative_types`           | `<unknown>` |
-| +200.0% |    +6 |         0.1% |   3 → 9 | `PhiNode::wait_for_region_igvn`               | `<unknown>` |
-|  +35.3% |    +6 |  0.3% → 0.4% | 17 → 23 | `IntervalWalker::walk_to`                     | `<unknown>` |
-|  +85.7% |    +6 |  0.1% → 0.2% |  7 → 13 | `PhaseIdealLoop::build_loop_tree`             | `<unknown>` |
-|  +41.7% |    +5 |  0.2% → 0.3% | 12 → 17 | `Matcher::match_tree`                         | `<unknown>` |
-| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `BlockListBuilder::set_leaders`               | `<unknown>` |
-|  +55.6% |    +5 |         0.2% |  9 → 14 | `PhaseIdealLoop::split_if_with_blocks`        | `<unknown>` |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `Compile::flatten_alias_type`                 | `<unknown>` |
-| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `ProjNode::pinned`                            | `<unknown>` |
-| +100.0% |    +5 |  0.1% → 0.2% |  5 → 10 | `Compile::final_graph_reshaping_walk`         | `<unknown>` |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `MemNode::can_see_stored_value`               | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                                   | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------------------------ | ----------- |
+| +120.0% |   +18 |  0.2% → 0.5% | 15 → 33 | `PhaseLive::compute`                       | `<unknown>` |
+|  +68.2% |   +15 |  0.4% → 0.6% | 22 → 37 | `Compile::identify_useful_nodes`           | `<unknown>` |
+|  +28.0% |   +14 |  0.8% → 1.1% | 50 → 64 | `IndexSetIterator::advance_and_next`       | `<unknown>` |
+|  +81.8% |    +9 |  0.2% → 0.3% | 11 → 20 | `Matcher::match_tree`                      | `<unknown>` |
+| +300.0% |    +9 | <0.1% → 0.2% |  3 → 12 | `PhaseIFG::SquareUp`                       | `<unknown>` |
+|  +88.9% |    +8 |  0.1% → 0.3% |  9 → 17 | `DebugInformationRecorder::describe_scope` | `<unknown>` |
+| +200.0% |    +8 |  0.1% → 0.2% |  4 → 12 | `RelocIterator::set_limits`                | `<unknown>` |
+| +160.0% |    +8 |  0.1% → 0.2% |  5 → 13 | `Node::Node`                               | `<unknown>` |
+| +100.0% |    +7 |  0.1% → 0.2% |  7 → 14 | `PhaseIterGVN::transform_old`              | `<unknown>` |
+|  +28.0% |    +7 |  0.4% → 0.5% | 25 → 32 | `PhaseIdealLoop::Dominators`               | `<unknown>` |
+| +350.0% |    +7 | <0.1% → 0.1% |   2 → 9 | `PhaseIdealLoop::compute_lca_of_uses`      | `<unknown>` |
+|  +50.0% |    +6 |  0.2% → 0.3% | 12 → 18 | `Compile::find_alias_type`                 | `<unknown>` |
+|  +33.3% |    +6 |  0.3% → 0.4% | 18 → 24 | `NodeHash::hash_find_insert`               | `<unknown>` |
+| +100.0% |    +5 |  0.1% → 0.2% |  5 → 10 | `Matcher::Label_Root`                      | `<unknown>` |
+|  +83.3% |    +5 |  0.1% → 0.2% |  6 → 11 | `PhaseIdealLoop::get_early_ctrl`           | `<unknown>` |
+|  +55.6% |    +5 |  0.1% → 0.2% |  9 → 14 | `PhaseIdealLoop::split_if_with_blocks`     | `<unknown>` |
+|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `LinearScanWalker::activate_current`       | `<unknown>` |
+| +166.7% |    +5 | <0.1% → 0.1% |   3 → 8 | `Scheduling::ComputeUseCount`              | `<unknown>` |
+| +125.0% |    +5 |         0.1% |   4 → 9 | `MergeMemNode::Ideal`                      | `<unknown>` |
+|  +55.6% |    +5 |  0.1% → 0.2% |  9 → 14 | `LIR_OpVisitState::visit`                  | `<unknown>` |
 
 ##### Native
 
-|  Change | Delta |            % | Samples | Function                                                                                          | Location    |
-| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------- | ----------- |
-|  +96.9% |   +31 |  0.6% → 1.0% | 32 → 63 | `__psynch_mutexwait`                                                                              | `<unknown>` |
-|  +93.9% |   +31 |  0.6% → 1.1% | 33 → 64 | `__psynch_cvwait`                                                                                 | `<unknown>` |
-|  +20.3% |   +12 |  1.0% → 1.2% | 59 → 71 | `Arena::contains`                                                                                 | `<unknown>` |
-|  +40.7% |   +11 |  0.5% → 0.6% | 27 → 38 | `vmSymbols::find_sid`                                                                             | `<unknown>` |
-|  +66.7% |   +10 |  0.3% → 0.4% | 15 → 25 | `InstanceKlass::find_method_index`                                                                | `<unknown>` |
-| +150.0% |    +9 |  0.1% → 0.2% |  6 → 15 | `posix_madvise`                                                                                   | `<unknown>` |
-| +100.0% |    +8 |  0.1% → 0.3% |  8 → 16 | `BacktraceBuilder::push`                                                                          | `<unknown>` |
-| +140.0% |    +7 |  0.1% → 0.2% |  5 → 12 | `JVM_NewArray`                                                                                    | `<unknown>` |
-|  +22.6% |    +7 |  0.5% → 0.6% | 31 → 38 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`    | `<unknown>` |
-| +100.0% |    +5 |  0.1% → 0.2% |  5 → 10 | `__psynch_mutexdrop`                                                                              | `<unknown>` |
-| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `MHN_init_Mem`                                                                                    | `<unknown>` |
-| +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `Method::bci_from`                                                                                | `<unknown>` |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `CodeHeap::next_used`                                                                             | `<unknown>` |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `CompiledMethod::cleanup_inline_caches_impl`                                                      | `<unknown>` |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `_nanov2_free`                                                                                    | `<unknown>` |
-| +100.0% |    +4 |         0.1% |   4 → 8 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                          | `<unknown>` |
-|  +50.0% |    +4 |  0.1% → 0.2% |  8 → 12 | `resource_allocate_bytes`                                                                         | `<unknown>` |
-| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `InstanceKlass::find_local_field`                                                                 | `<unknown>` |
-|  +40.0% |    +4 |         0.2% | 10 → 14 | `nmethod::is_unloading`                                                                           | `<unknown>` |
-| +100.0% |    +4 |         0.1% |   4 → 8 | `void OopOopIterateDispatch<G1ScanCardClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                                                                                                                     | Location    |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| +160.0% |   +40 |  0.4% → 1.1% | 25 → 65 | `__psynch_cvwait`                                                                                                            | `<unknown>` |
+|  +75.0% |   +18 |  0.4% → 0.7% | 24 → 42 | `__psynch_mutexwait`                                                                                                         | `<unknown>` |
+| +100.0% |   +10 |  0.2% → 0.3% | 10 → 20 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                              | `<unknown>` |
+|  +40.0% |   +10 |  0.4% → 0.6% | 25 → 35 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                               | `<unknown>` |
+| +100.0% |    +9 |  0.1% → 0.3% |  9 → 18 | `nmethodBucket::next_not_unloading`                                                                                          | `<unknown>` |
+| +266.7% |    +8 | <0.1% → 0.2% |  3 → 11 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                                                     | `<unknown>` |
+|  +33.3% |    +8 |  0.4% → 0.5% | 24 → 32 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                            | `<unknown>` |
+| +200.0% |    +8 |  0.1% → 0.2% |  4 → 12 | `PcDescContainer::find_pc_desc_internal`                                                                                     | `<unknown>` |
+| +233.3% |    +7 | <0.1% → 0.2% |  3 → 10 | `G1CardSet::add_card`                                                                                                        | `<unknown>` |
+| +140.0% |    +7 |  0.1% → 0.2% |  5 → 12 | `nmethod::is_unloading`                                                                                                      | `<unknown>` |
+|  +35.0% |    +7 |  0.3% → 0.4% | 20 → 27 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                       | `<unknown>` |
+| +350.0% |    +7 | <0.1% → 0.1% |   2 → 9 | `__psynch_cvbroad`                                                                                                           | `<unknown>` |
+| +350.0% |    +7 | <0.1% → 0.1% |   2 → 9 | `_qsort`                                                                                                                     | `<unknown>` |
+|  +37.5% |    +6 |  0.3% → 0.4% | 16 → 22 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `<unknown>` |
+|  +35.3% |    +6 |  0.3% → 0.4% | 17 → 23 | `frame::sender_for_compiled_frame`                                                                                           | `<unknown>` |
+| +150.0% |    +6 |  0.1% → 0.2% |  4 → 10 | `void G1CMTask::process_grey_task_entry<true>`                                                                               | `<unknown>` |
+| +150.0% |    +6 |  0.1% → 0.2% |  4 → 10 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>`                       | `<unknown>` |
+| +100.0% |    +6 |  0.1% → 0.2% |  6 → 12 | `semaphore_wait_trap`                                                                                                        | `<unknown>` |
+| +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `pthread_mutex_lock`                                                                                                         | `<unknown>` |
+|  +36.4% |    +4 |         0.2% | 11 → 15 | `Dict::Insert`                                                                                                               | `<unknown>` |
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function            | Location                                              |
-| ------: | ----: | -----------: | ------: | ------------------- | ----------------------------------------------------- |
-| +233.3% |   +21 |  0.2% → 0.5% |  9 → 30 | `collector`         | `java.lang.invoke.LambdaForm$MH.0x000000e801031800`   |
-|  +17.5% |   +14 |  1.4% → 1.6% | 80 → 94 | `cast`              | `java.lang.Class`                                     |
-| +150.0% |   +12 |  0.1% → 0.3% |  8 → 20 | `equals`            | `java.util.Objects`                                   |
-| +550.0% |   +11 | <0.1% → 0.2% |  2 → 13 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e80102ac00`   |
-|  +42.1% |    +8 |  0.3% → 0.4% | 19 → 27 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x000000e801088800`  |
-|  +40.0% |    +8 |  0.4% → 0.5% | 20 → 28 | `<init>`            | `java.lang.invoke.MethodHandle`                       |
-| +266.7% |    +8 |  0.1% → 0.2% |  3 → 11 | `checkExactType`    | `java.lang.invoke.Invokers`                           |
-|  +23.1% |    +6 |         0.5% | 26 → 32 | `invokeVirtual`     | `java.lang.invoke.DirectMethodHandle$Holder`          |
-| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `<init>`            | `java.lang.invoke.MemberName`                         |
-|  +85.7% |    +6 |  0.1% → 0.2% |  7 → 13 | `equals`            | `java.util.Arrays`                                    |
-|  +21.7% |    +5 |  0.4% → 0.5% | 23 → 28 | `invokeStatic`      | `java.lang.invoke.DirectMethodHandle$Holder`          |
-|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e80109a400`   |
-|  +71.4% |    +5 |  0.1% → 0.2% |  7 → 12 | `join`              | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext` |
-| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `sourceSpliterator` | `java.util.stream.AbstractPipeline`                   |
-| +125.0% |    +5 |         0.1% |   4 → 9 | `getInCache`        | `java.lang.invoke.LambdaFormEditor`                   |
-| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `tabAt`             | `java.util.concurrent.ConcurrentHashMap`              |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invokeVirtual`     | `java.lang.invoke.LambdaForm$DMH.0x000000e801097c00`  |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `findSpecies`       | `java.lang.invoke.ClassSpecializer`                   |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x000000e8010aa400`   |
-|  +66.7% |    +4 |  0.1% → 0.2% |  6 → 10 | `putVal`            | `java.util.HashMap`                                   |
+|  Change | Delta |            % |   Samples | Function                      | Location                                            |
+| ------: | ----: | -----------: | --------: | ----------------------------- | --------------------------------------------------- |
+|  +10.5% |   +11 |  1.7% → 1.9% | 105 → 116 | `cast`                        | `java.lang.Class`                                   |
+| +500.0% |   +10 | <0.1% → 0.2% |    2 → 12 | `type`                        | `java.lang.invoke.MethodHandle`                     |
+|     new |    +8 |  0.0% → 0.1% |     0 → 8 | `copyOfRange`                 | `java.util.Arrays`                                  |
+|     new |    +7 |  0.0% → 0.1% |     0 → 7 | `invoke`                      | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00` |
+|  +23.3% |    +7 |  0.5% → 0.6% |   30 → 37 | `collector`                   | `java.lang.invoke.LambdaForm$MH.0x0000007001031800` |
+| +600.0% |    +6 | <0.1% → 0.1% |     1 → 7 | `divideOneWord`               | `java.math.MutableBigInteger`                       |
+|     new |    +5 |  0.0% → 0.1% |     0 → 5 | `invoke`                      | `java.lang.invoke.LambdaForm$MH.0x000000700108e000` |
+|     new |    +5 |  0.0% → 0.1% |     0 → 5 | `invoke`                      | `java.lang.invoke.LambdaForm$MH.0x0000007001031400` |
+| +250.0% |    +5 | <0.1% → 0.1% |     2 → 7 | `newArray`                    | `java.lang.reflect.Array`                           |
+| +166.7% |    +5 | <0.1% → 0.1% |     3 → 8 | `makePairwiseConvertByEditor` | `java.lang.invoke.MethodHandleImpl`                 |
+|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `guardWithCatch`              | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `visitBlockStatement`         | `org.codehaus.groovy.ast.CodeVisitorSupport`        |
+|  +16.0% |    +4 |  0.4% → 0.5% |   25 → 29 | `invokeStatic`                | `java.lang.invoke.DirectMethodHandle$Holder`        |
+| +400.0% |    +4 | <0.1% → 0.1% |     1 → 5 | `binarySort`                  | `java.util.TimSort`                                 |
+| +133.3% |    +4 | <0.1% → 0.1% |     3 → 7 | `equals`                      | `java.lang.invoke.MethodType`                       |
+| +400.0% |    +4 | <0.1% → 0.1% |     1 → 5 | `makeImpl`                    | `java.lang.invoke.MethodType`                       |
+|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `invoke`                      | `java.lang.invoke.LambdaForm$MH.0x000000700109a400` |
+|     new |    +4 |  0.0% → 0.1% |     0 → 4 | `invoke`                      | `java.lang.invoke.LambdaForm$MH.0x00000070010aa400` |
+| +400.0% |    +4 | <0.1% → 0.1% |     1 → 5 | `charAt`                      | `java.lang.String`                                  |
+| +133.3% |    +4 | <0.1% → 0.1% |     3 → 7 | `coerceArgumentsToClasses`    | `org.codehaus.groovy.reflection.ParameterTypes`     |
 
 ##### Ours
 
-|  Change | Delta |            % | Samples | Function                    | Location                                                                    |
-| ------: | ----: | -----------: | ------: | --------------------------- | --------------------------------------------------------------------------- |
-| +200.0% |    +2 |        <0.1% |   1 → 3 | `<init>`                    | `org.codenarc.rule.AbstractAstVisitor`                                      |
-|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `visitBlockStatement`       | `org.codenarc.rule.formatting.IndentationAstVisitor`                        |
-| +200.0% |    +2 |        <0.1% |   1 → 3 | `isFirstVisit`              | `org.codenarc.rule.AbstractAstVisitor`                                      |
-|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `getIgnoreMethodNames`      | `org.codenarc.rule.convention.PublicMethodsBeforeNonPublicMethodsRule`      |
-| +100.0% |    +1 |        <0.1% |   1 → 2 | `getAstVisitor`             | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `applyTo`                   | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethod`               | `org.codenarc.rule.AbstractAstVisitor`                                      |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `addViolationIfDuplicate`   | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                          |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `init`                      | `org.codenarc.source.AbstractSourceCode`                                    |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `contains`                  | `org.codenarc.rule.unnecessary.UnnecessaryDefInMethodDeclarationAstVisitor` |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitStatement`            | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`              |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClassComplete`        | `org.codenarc.rule.formatting.ClassEndsWithBlankLineAstVisitor`             |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `hasSingletonAnnotation`    | `org.codenarc.rule.design.StatelessSingletonAstVisitor`                     |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `writeViolation`            | `org.codenarc.report.TextReportWriter`                                      |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethodCallExpression` | `org.codenarc.rule.formatting.SpaceAfterMethodCallNameRuleAstVisitor`       |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `addOrderingViolations`     | `org.codenarc.rule.imports.MisorderedStaticImportsRule`                     |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClassEx`              | `org.codenarc.rule.basic.EmptyClassAstVisitor`                              |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `getText`                   | `org.codenarc.source.SourceFile`                                            |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `matches`                   | `org.codenarc.util.WildcardPattern`                                         |
-|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `<init>`                    | `org.codenarc.rule.formatting.AbstractSingleSpaceAfterKeywordAstVisitor`    |
+| Change | Delta |            % | Samples | Function                      | Location                                                                                           |
+| -----: | ----: | -----------: | ------: | ----------------------------- | -------------------------------------------------------------------------------------------------- |
+|    new |    +3 | 0.0% → <0.1% |   0 → 3 | `isEmptyBlock`                | `org.codenarc.util.AstUtil`                                                                        |
+|    new |    +2 | 0.0% → <0.1% |   0 → 2 | `visitMethodEx`               | `org.codenarc.rule.AbstractAstVisitor`                                                             |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall`                      | `org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7`                 |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `<init>`                      | `org.codenarc.util.WildcardPattern`                                                                |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClass`                  | `org.codenarc.rule.AbstractMethodVisitor`                                                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `getAst`                      | `org.codenarc.source.AbstractSourceCode`                                                           |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `isMethodNode`                | `org.codenarc.util.AstUtil`                                                                        |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitConstantExpression`     | `org.codenarc.rule.unnecessary.UnnecessaryGStringAstVisitor`                                       |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `sourceLineOrEmpty`           | `org.codenarc.rule.formatting.AbstractSpaceAroundBraceAstVisitor`                                  |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClassComplete`          | `org.codenarc.rule.formatting.ClassStartsWithBlankLineAstVisitor`                                  |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitMethodCallExpression`   | `org.codenarc.rule.formatting.SpaceAfterMethodCallNameRuleAstVisitor`                              |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `checkNode`                   | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`                                     |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `applyTo`                     | `org.codenarc.rule.imports.DuplicateImportRule`                                                    |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `isNotWhitespace`             | `org.codenarc.rule.formatting.AbstractSpaceAroundBraceAstVisitor`                                  |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall`                      | `org.codenarc.plugin.disablerules.DisableRulesInCommentsPlugin$_processViolationsForFile_closure1` |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `createAggregateMetricResult` | `org.gmetrics.result.MetricResultBuilder`                                                          |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `<init>`                      | `org.codenarc.rule.naming.ObjectOverrideMisspelledMethodNameAstVisitor`                            |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitBinaryExpression`       | `org.codenarc.rule.basic.BrokenNullCheckAstVisitor`                                                |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `doCall`                      | `org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1`                     |
+|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `visitClassEx`                | `org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor`                                |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                  | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------- | ----------- |
+|  +66.7% |    +8 |  0.2% → 0.3% | 12 → 20 | `vtable stub`             | `<unknown>` |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `zero_blocks`             | `<unknown>` |
+| +100.0% |    +3 | <0.1% → 0.1% |   3 → 6 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
+|  +25.0% |    +1 |         0.1% |   4 → 5 | `I2C/C2I adapters(0xb)`   | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |            % | Samples | Function                                                                                                                     | Location                                                  |
-| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-|  -81.8% |   -18 |  0.4% → 0.1% |  22 → 4 | `collector`                                                                                                                  | `java.lang.invoke.LambdaForm$MH.0x000000e8010d2800`       |
-|  -33.3% |   -12 |  0.6% → 0.4% | 36 → 24 | `PhaseIdealLoop::build_loop_late_post_work`                                                                                  | `<unknown>`                                               |
-|  -50.0% |   -12 |  0.4% → 0.2% | 24 → 12 | `frame::sender_for_compiled_frame`                                                                                           | `<unknown>`                                               |
-|  -52.2% |   -12 |  0.4% → 0.2% | 23 → 11 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `<unknown>`                                               |
-| removed |   -11 |  0.2% → 0.0% |  11 → 0 | `invoke`                                                                                                                     | `java.lang.invoke.LambdaForm$MH.0x000000e8014b5000`       |
-|  -15.1% |   -11 |  1.3% → 1.0% | 73 → 62 | `java_lang_Throwable::fill_in_stack_trace`                                                                                   | `<unknown>`                                               |
-|  -45.8% |   -11 |  0.4% → 0.2% | 24 → 13 | `NodeHash::hash_find_insert`                                                                                                 | `<unknown>`                                               |
-|  -38.5% |   -10 |  0.5% → 0.3% | 26 → 16 | `collector`                                                                                                                  | `java.lang.invoke.LambdaForm$MH.0x000000e8010a1000`       |
-|  -90.9% |   -10 | 0.2% → <0.1% |  11 → 1 | `MemAllocator::Allocation::notify_allocation`                                                                                | `<unknown>`                                               |
-| removed |   -10 |  0.2% → 0.0% |  10 → 0 | `setGuards`                                                                                                                  | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
-|  -90.9% |   -10 | 0.2% → <0.1% |  11 → 1 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>`                                                                     | `<unknown>`                                               |
-|   -8.8% |    -8 |  1.6% → 1.4% | 91 → 83 | `tlv_get_addr`                                                                                                               | `<unknown>`                                               |
-|  -61.5% |    -8 |  0.2% → 0.1% |  13 → 5 | `equals`                                                                                                                     | `java.lang.String`                                        |
-|  -53.3% |    -8 |  0.3% → 0.1% |  15 → 7 | `nmethodBucket::next_not_unloading`                                                                                          | `<unknown>`                                               |
-|  -53.8% |    -7 |  0.2% → 0.1% |  13 → 6 | `getAndPut`                                                                                                                  | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite`       |
-| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `Interval::add_use_pos`                                                                                                      | `<unknown>`                                               |
-|  -63.6% |    -7 |  0.2% → 0.1% |  11 → 4 | `ProjNode::is_CFG`                                                                                                           | `<unknown>`                                               |
-|  -66.7% |    -6 | 0.2% → <0.1% |   9 → 3 | `guard`                                                                                                                      | `java.lang.invoke.LambdaForm$MH.0x000000e801189000`       |
-|  -75.0% |    -6 | 0.1% → <0.1% |   8 → 2 | `unboxInteger`                                                                                                               | `sun.invoke.util.ValueConversions`                        |
-|  -46.2% |    -6 |  0.2% → 0.1% |  13 → 7 | `MachNode::ideal_reg`                                                                                                        | `<unknown>`                                               |
+|  Change | Delta |            % |  Samples | Function                                                                                                                                                 | Location                                             |
+| ------: | ----: | -----------: | -------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+|  -26.6% |   -33 |  2.1% → 1.5% | 124 → 91 | `Node::dominates`                                                                                                                                        | `<unknown>`                                          |
+|  -52.5% |   -21 |  0.7% → 0.3% |  40 → 19 | `PhaseIdealLoop::is_dominator`                                                                                                                           | `<unknown>`                                          |
+|  -43.9% |   -18 |  0.7% → 0.4% |  41 → 23 | `PhaseIdealLoop::build_loop_early`                                                                                                                       | `<unknown>`                                          |
+|  -15.7% |   -13 |  1.4% → 1.1% |  83 → 70 | `Arena::contains`                                                                                                                                        | `<unknown>`                                          |
+|  -23.1% |   -12 |  0.9% → 0.7% |  52 → 40 | `PhaseAggressiveCoalesce::insert_copies`                                                                                                                 | `<unknown>`                                          |
+| removed |   -11 |  0.2% → 0.0% |   11 → 0 | `invoke`                                                                                                                                                 | `java.lang.invoke.LambdaForm$MH.0x000000700148e800`  |
+|  -33.3% |   -11 |  0.5% → 0.4% |  33 → 22 | `InstanceKlass::find_method_index`                                                                                                                       | `<unknown>`                                          |
+|  -39.3% |   -11 |  0.5% → 0.3% |  28 → 17 | `PhaseLive::add_liveout`                                                                                                                                 | `<unknown>`                                          |
+|  -50.0% |   -10 |  0.3% → 0.2% |  20 → 10 | `I2C/C2I adapters(0xbb)`                                                                                                                                 | `<unknown>`                                          |
+|  -66.7% |   -10 |  0.2% → 0.1% |   15 → 5 | `PhaseIFG::effective_degree`                                                                                                                             | `<unknown>`                                          |
+|  -23.7% |    -9 |  0.6% → 0.5% |  38 → 29 | `PhaseIdealLoop::build_loop_late_post_work`                                                                                                              | `<unknown>`                                          |
+|  -15.3% |    -9 |  1.0% → 0.8% |  59 → 50 | `PhaseChaitin::build_ifg_physical`                                                                                                                       | `<unknown>`                                          |
+|  -32.0% |    -8 |  0.4% → 0.3% |  25 → 17 | `invokeStatic`                                                                                                                                           | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+|  -11.4% |    -8 |  1.2% → 1.0% |  70 → 62 | `newInstance`                                                                                                                                            | `java.lang.reflect.Array`                            |
+|  -28.6% |    -8 |  0.5% → 0.3% |  28 → 20 | `collector`                                                                                                                                              | `java.lang.invoke.LambdaForm$MH.0x00000070010a1000`  |
+|  -15.7% |    -8 |  0.8% → 0.7% |  51 → 43 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `<unknown>`                                          |
+|  -80.0% |    -8 | 0.2% → <0.1% |   10 → 2 | `Node::add_req`                                                                                                                                          | `<unknown>`                                          |
+|  -21.6% |    -8 |  0.6% → 0.5% |  37 → 29 | `PhaseChaitin::elide_copy`                                                                                                                               | `<unknown>`                                          |
+|  -13.3% |    -8 |  1.0% → 0.9% |  60 → 52 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                               | `<unknown>`                                          |
+| removed |    -8 |  0.1% → 0.0% |    8 → 0 | `ShouldNotReachHereNode::is_block_proj`                                                                                                                  | `<unknown>`                                          |
 
 ##### Compiler
 
-|  Change | Delta |            % |  Samples | Function                                        | Location    |
-| ------: | ----: | -----------: | -------: | ----------------------------------------------- | ----------- |
-|  -33.3% |   -12 |  0.6% → 0.4% |  36 → 24 | `PhaseIdealLoop::build_loop_late_post_work`     | `<unknown>` |
-|  -45.8% |   -11 |  0.4% → 0.2% |  24 → 13 | `NodeHash::hash_find_insert`                    | `<unknown>` |
-|  -63.6% |    -7 |  0.2% → 0.1% |   11 → 4 | `ProjNode::is_CFG`                              | `<unknown>` |
-|  -46.2% |    -6 |  0.2% → 0.1% |   13 → 7 | `MachNode::ideal_reg`                           | `<unknown>` |
-|  -66.7% |    -6 | 0.2% → <0.1% |    9 → 3 | `Node::disconnect_inputs`                       | `<unknown>` |
-|  -40.0% |    -6 |  0.3% → 0.1% |   15 → 9 | `PhaseIFG::effective_degree`                    | `<unknown>` |
-|  -37.5% |    -6 |  0.3% → 0.2% |  16 → 10 | `LinearScanWalker::free_collect_inactive_fixed` | `<unknown>` |
-|  -62.5% |    -5 | 0.1% → <0.1% |    8 → 3 | `PhaseIdealLoop::split_if_with_blocks_pre`      | `<unknown>` |
-|  -33.3% |    -5 |  0.3% → 0.2% |  15 → 10 | `DebugInformationRecorder::describe_scope`      | `<unknown>` |
-|  -41.7% |    -5 |  0.2% → 0.1% |   12 → 7 | `RegionNode::is_unreachable_from_root`          | `<unknown>` |
-|  -27.8% |    -5 |  0.3% → 0.2% |  18 → 13 | `PhaseChaitin::build_ifg_virtual`               | `<unknown>` |
-|  -25.0% |    -5 |  0.4% → 0.2% |  20 → 15 | `PhaseOutput::BuildOopMaps`                     | `<unknown>` |
-|   -4.0% |    -4 |  1.8% → 1.6% | 101 → 97 | `Node::dominates`                               | `<unknown>` |
-|  -36.4% |    -4 |  0.2% → 0.1% |   11 → 7 | `LinearScan::assign_reg_num`                    | `<unknown>` |
-|  -23.5% |    -4 |  0.3% → 0.2% |  17 → 13 | `MultiNode::is_CFG`                             | `<unknown>` |
-|  -50.0% |    -4 |         0.1% |    8 → 4 | `CallStaticJavaNode::Opcode`                    | `<unknown>` |
-|  -66.7% |    -4 | 0.1% → <0.1% |    6 → 2 | `IfFalseNode::Opcode`                           | `<unknown>` |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `PhaseIdealLoop::compute_early_ctrl`            | `<unknown>` |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `InitializeNode::detect_init_independence`      | `<unknown>` |
-| removed |    -4 |  0.1% → 0.0% |    4 → 0 | `LIR_List::append`                              | `<unknown>` |
+|  Change | Delta |            % |  Samples | Function                                      | Location    |
+| ------: | ----: | -----------: | -------: | --------------------------------------------- | ----------- |
+|  -26.6% |   -33 |  2.1% → 1.5% | 124 → 91 | `Node::dominates`                             | `<unknown>` |
+|  -52.5% |   -21 |  0.7% → 0.3% |  40 → 19 | `PhaseIdealLoop::is_dominator`                | `<unknown>` |
+|  -43.9% |   -18 |  0.7% → 0.4% |  41 → 23 | `PhaseIdealLoop::build_loop_early`            | `<unknown>` |
+|  -23.1% |   -12 |  0.9% → 0.7% |  52 → 40 | `PhaseAggressiveCoalesce::insert_copies`      | `<unknown>` |
+|  -39.3% |   -11 |  0.5% → 0.3% |  28 → 17 | `PhaseLive::add_liveout`                      | `<unknown>` |
+|  -66.7% |   -10 |  0.2% → 0.1% |   15 → 5 | `PhaseIFG::effective_degree`                  | `<unknown>` |
+|  -23.7% |    -9 |  0.6% → 0.5% |  38 → 29 | `PhaseIdealLoop::build_loop_late_post_work`   | `<unknown>` |
+|  -15.3% |    -9 |  1.0% → 0.8% |  59 → 50 | `PhaseChaitin::build_ifg_physical`            | `<unknown>` |
+|  -80.0% |    -8 | 0.2% → <0.1% |   10 → 2 | `Node::add_req`                               | `<unknown>` |
+|  -21.6% |    -8 |  0.6% → 0.5% |  37 → 29 | `PhaseChaitin::elide_copy`                    | `<unknown>` |
+| removed |    -8 |  0.1% → 0.0% |    8 → 0 | `ShouldNotReachHereNode::is_block_proj`       | `<unknown>` |
+|  -18.9% |    -7 |  0.6% → 0.5% |  37 → 30 | `Node::set_req_X`                             | `<unknown>` |
+|  -50.0% |    -7 |  0.2% → 0.1% |   14 → 7 | `PhaseChaitin::Select`                        | `<unknown>` |
+|  -41.2% |    -7 |  0.3% → 0.2% |  17 → 10 | `PhaseCFG::partial_latency_of_defs`           | `<unknown>` |
+|  -20.0% |    -6 |  0.5% → 0.4% |  30 → 24 | `Matcher::xform`                              | `<unknown>` |
+|  -46.2% |    -6 |  0.2% → 0.1% |   13 → 7 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep` | `<unknown>` |
+|  -35.3% |    -6 |  0.3% → 0.2% |  17 → 11 | `Node::is_CFG`                                | `<unknown>` |
+|  -27.3% |    -6 |  0.4% → 0.3% |  22 → 16 | `Unique_Node_List::remove`                    | `<unknown>` |
+|  -66.7% |    -6 | 0.1% → <0.1% |    9 → 3 | `RegMask::is_misaligned_pair`                 | `<unknown>` |
+|  -60.0% |    -6 |  0.2% → 0.1% |   10 → 4 | `PhaseCFG::schedule_pinned_nodes`             | `<unknown>` |
 
 ##### Native
 
-|  Change | Delta |            % |   Samples | Function                                                                                                                     | Location    |
-| ------: | ----: | -----------: | --------: | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `frame::sender_for_compiled_frame`                                                                                           | `<unknown>` |
-|  -52.2% |   -12 |  0.4% → 0.2% |   23 → 11 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `<unknown>` |
-|  -15.1% |   -11 |  1.3% → 1.0% |   73 → 62 | `java_lang_Throwable::fill_in_stack_trace`                                                                                   | `<unknown>` |
-|  -90.9% |   -10 | 0.2% → <0.1% |    11 → 1 | `MemAllocator::Allocation::notify_allocation`                                                                                | `<unknown>` |
-|  -90.9% |   -10 | 0.2% → <0.1% |    11 → 1 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>`                                                                     | `<unknown>` |
-|   -8.8% |    -8 |  1.6% → 1.4% |   91 → 83 | `tlv_get_addr`                                                                                                               | `<unknown>` |
-|  -53.3% |    -8 |  0.3% → 0.1% |    15 → 7 | `nmethodBucket::next_not_unloading`                                                                                          | `<unknown>` |
-| removed |    -7 |  0.1% → 0.0% |     7 → 0 | `Interval::add_use_pos`                                                                                                      | `<unknown>` |
-|  -85.7% |    -6 | 0.1% → <0.1% |     7 → 1 | `G1CardSet::add_card`                                                                                                        | `<unknown>` |
-|   -4.0% |    -5 |  2.2% → 2.0% | 125 → 120 | `pthread_jit_write_protect_np`                                                                                               | `<unknown>` |
-|  -83.3% |    -5 | 0.1% → <0.1% |     6 → 1 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>`                               | `<unknown>` |
-|  -17.9% |    -5 |  0.5% → 0.4% |   28 → 23 | `sys_icache_invalidate`                                                                                                      | `<unknown>` |
-|  -80.0% |    -4 | 0.1% → <0.1% |     5 → 1 | `Location::write_on`                                                                                                         | `<unknown>` |
-|  -30.8% |    -4 |  0.2% → 0.1% |    13 → 9 | `bsearch`                                                                                                                    | `<unknown>` |
-|  -57.1% |    -4 | 0.1% → <0.1% |     7 → 3 | `CodeBlob::is_upcall_stub`                                                                                                   | `<unknown>` |
-|  -26.7% |    -4 |  0.3% → 0.2% |   15 → 11 | `CodeHeap::search_freelist`                                                                                                  | `<unknown>` |
-| removed |    -4 |  0.1% → 0.0% |     4 → 0 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                                        | `<unknown>` |
-| removed |    -3 |  0.1% → 0.0% |     3 → 0 | `CollectedHeap::array_allocate`                                                                                              | `<unknown>` |
-|  -60.0% |    -3 | 0.1% → <0.1% |     5 → 2 | `SymbolTable::lookup_shared`                                                                                                 | `<unknown>` |
-|  -75.0% |    -3 | 0.1% → <0.1% |     4 → 1 | `is_valid_sve_arith_imm_pattern`                                                                                             | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                                                                                                                                                 | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -15.7% |   -13 |  1.4% → 1.1% | 83 → 70 | `Arena::contains`                                                                                                                                        | `<unknown>` |
+|  -33.3% |   -11 |  0.5% → 0.4% | 33 → 22 | `InstanceKlass::find_method_index`                                                                                                                       | `<unknown>` |
+|  -15.7% |    -8 |  0.8% → 0.7% | 51 → 43 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `<unknown>` |
+|  -13.3% |    -8 |  1.0% → 0.9% | 60 → 52 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                               | `<unknown>` |
+|  -87.5% |    -7 | 0.1% → <0.1% |   8 → 1 | `__open`                                                                                                                                                 | `<unknown>` |
+|  -38.9% |    -7 |  0.3% → 0.2% | 18 → 11 | `_platform_memmove`                                                                                                                                      | `<unknown>` |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `Interval::add_use_pos`                                                                                                                                  | `<unknown>` |
+|  -75.0% |    -6 | 0.1% → <0.1% |   8 → 2 | `Parse::do_one_bytecode`                                                                                                                                 | `<unknown>` |
+|   -7.6% |    -6 |  1.3% → 1.2% | 79 → 73 | `tlv_get_addr`                                                                                                                                           | `<unknown>` |
+|  -21.4% |    -6 |  0.5% → 0.4% | 28 → 22 | `vmSymbols::find_sid`                                                                                                                                    | `<unknown>` |
+|  -28.6% |    -6 |  0.3% → 0.2% | 21 → 15 | `BacktraceBuilder::push`                                                                                                                                 | `<unknown>` |
+|  -85.7% |    -6 | 0.1% → <0.1% |   7 → 1 | `nmethod::fix_oop_relocations`                                                                                                                           | `<unknown>` |
+| removed |    -5 |  0.1% → 0.0% |   5 → 0 | `iRegPNoSpOper::type`                                                                                                                                    | `<unknown>` |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `JavaFrameAnchor::make_walkable`                                                                                                                         | `<unknown>` |
+|  -12.5% |    -4 |         0.5% | 32 → 28 | `_platform_memset`                                                                                                                                       | `<unknown>` |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `InstanceKlass::find_local_field`                                                                                                                        | `<unknown>` |
+|  -30.8% |    -4 |  0.2% → 0.1% |  13 → 9 | `_platform_bzero`                                                                                                                                        | `<unknown>` |
+|  -57.1% |    -4 | 0.1% → <0.1% |   7 → 3 | `ResourceBitMap::ResourceBitMap`                                                                                                                         | `<unknown>` |
+|  -57.1% |    -4 | 0.1% → <0.1% |   7 → 3 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                                                                    | `<unknown>` |
+|  -40.0% |    -4 |  0.2% → 0.1% |  10 → 6 | `mach_absolute_time`                                                                                                                                     | `<unknown>` |
 
 ##### Standard library
 
-|  Change | Delta |            % | Samples | Function             | Location                                                  |
-| ------: | ----: | -----------: | ------: | -------------------- | --------------------------------------------------------- |
-|  -81.8% |   -18 |  0.4% → 0.1% |  22 → 4 | `collector`          | `java.lang.invoke.LambdaForm$MH.0x000000e8010d2800`       |
-| removed |   -11 |  0.2% → 0.0% |  11 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8014b5000`       |
-|  -38.5% |   -10 |  0.5% → 0.3% | 26 → 16 | `collector`          | `java.lang.invoke.LambdaForm$MH.0x000000e8010a1000`       |
-| removed |   -10 |  0.2% → 0.0% |  10 → 0 | `setGuards`          | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
-|  -61.5% |    -8 |  0.2% → 0.1% |  13 → 5 | `equals`             | `java.lang.String`                                        |
-|  -53.8% |    -7 |  0.2% → 0.1% |  13 → 6 | `getAndPut`          | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite`       |
-|  -66.7% |    -6 | 0.2% → <0.1% |   9 → 3 | `guard`              | `java.lang.invoke.LambdaForm$MH.0x000000e801189000`       |
-|  -75.0% |    -6 | 0.1% → <0.1% |   8 → 2 | `unboxInteger`       | `sun.invoke.util.ValueConversions`                        |
-|  -37.5% |    -6 |  0.3% → 0.2% | 16 → 10 | `checkCustomized`    | `java.lang.invoke.Invokers`                               |
-|  -85.7% |    -6 | 0.1% → <0.1% |   7 → 1 | `internalMemberName` | `java.lang.invoke.DirectMethodHandle`                     |
-| removed |    -5 |  0.1% → 0.0% |   5 → 0 | `nextToken`          | `groovyjarjarantlr4.v4.runtime.Lexer`                     |
-| removed |    -5 |  0.1% → 0.0% |   5 → 0 | `getCachedContext`   | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext`     |
-|  -55.6% |    -5 |  0.2% → 0.1% |   9 → 4 | `afterNodeAccess`    | `java.util.LinkedHashMap`                                 |
-|  -40.0% |    -4 |  0.2% → 0.1% |  10 → 6 | `type`               | `java.lang.invoke.MethodHandle`                           |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `reinvoke`           | `java.lang.invoke.LambdaForm$MH.0x000000e801099c00`       |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e801181c00`       |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `execATN`            | `groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator`     |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8018df800`       |
-|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `boxBoolean`         | `sun.invoke.util.ValueConversions`                        |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `invoke`             | `java.lang.invoke.LambdaForm$MH.0x000000e8018d7800`       |
+|  Change | Delta |            % | Samples | Function                 | Location                                                |
+| ------: | ----: | -----------: | ------: | ------------------------ | ------------------------------------------------------- |
+| removed |   -11 |  0.2% → 0.0% |  11 → 0 | `invoke`                 | `java.lang.invoke.LambdaForm$MH.0x000000700148e800`     |
+|  -32.0% |    -8 |  0.4% → 0.3% | 25 → 17 | `invokeStatic`           | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800`    |
+|  -11.4% |    -8 |  1.2% → 1.0% | 70 → 62 | `newInstance`            | `java.lang.reflect.Array`                               |
+|  -28.6% |    -8 |  0.5% → 0.3% | 28 → 20 | `collector`              | `java.lang.invoke.LambdaForm$MH.0x00000070010a1000`     |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `getOptimizedTransition` | `groovyjarjarantlr4.v4.runtime.atn.ATNState`            |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `lambdaFormEditor`       | `java.lang.invoke.LambdaFormEditor`                     |
+|  -14.3% |    -6 |  0.7% → 0.6% | 42 → 36 | `invokeBasic`            | `java.lang.invoke.MethodHandle`                         |
+| removed |    -5 |  0.1% → 0.0% |   5 → 0 | `invoke`                 | `java.lang.invoke.LambdaForm$MH.0x00000070014e6c00`     |
+|  -71.4% |    -5 | 0.1% → <0.1% |   7 → 2 | `removeStaleReferences`  | `jdk.internal.util.ReferencedKeyMap`                    |
+| removed |    -5 |  0.1% → 0.0% |   5 → 0 | `of`                     | `java.lang.invoke.LambdaFormEditor$TransformKey`        |
+|  -83.3% |    -5 | 0.1% → <0.1% |   6 → 1 | `uncustomize`            | `java.lang.invoke.LambdaForm`                           |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `invoke`                 | `java.lang.invoke.LambdaForm$MH.0x00000070014ad400`     |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `guard`                  | `java.lang.invoke.LambdaForm$MH.0x00000070010db400`     |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `invoke`                 | `java.lang.invoke.LambdaForm$MH.0x0000007001121000`     |
+|  -50.0% |    -4 |         0.1% |   8 → 4 | `putVal`                 | `java.util.HashMap`                                     |
+|  -50.0% |    -4 |         0.1% |   8 → 4 | `getMethods`             | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex` |
+|  -80.0% |    -4 | 0.1% → <0.1% |   5 → 1 | `computeIfAbsent`        | `java.util.concurrent.ConcurrentHashMap`                |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `getLexerActionExecutor` | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig`           |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `<init>`                 | `java.util.stream.AbstractPipeline`                     |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `doMethodInvoke`         | `groovy.lang.MetaMethod`                                |
 
 ##### Ours
 
-|  Change | Delta |            % | Samples | Function                            | Location                                                                             |
-| ------: | ----: | -----------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------ |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `applyTo`                           | `org.codenarc.rule.formatting.ConsecutiveBlankLinesRule`                             |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `visitVariableExpression`           | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`                             |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `getMetaClass`                      | `org.codenarc.rule.convention.IfStatementCouldBeTernaryRule`                         |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `doCall`                            | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`           |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `measureRuleProcessingTime`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                                       |
-|  -50.0% |    -1 |        <0.1% |   2 → 1 | `collectViolations`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                                       |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `doCall`                            | `org.codenarc.rule.size.NestedBlockDepthAstVisitor$_visitClosureExpression_closure8` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `nestingLevelForClass`              | `org.codenarc.rule.formatting.IndentationAstVisitor`                                 |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitConstructorOrMethod`          | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`                             |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getName`                           | `org.codenarc.rule.size.MethodCountRule`                                             |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `<init>`                            | `org.codenarc.rule.design.ReturnsNullInsteadOfEmptyArrayAstVisitor`                  |
-|  -50.0% |    -1 |        <0.1% |   2 → 1 | `checkForCorrectColumn`             | `org.codenarc.rule.formatting.IndentationAstVisitor`                                 |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `super$2$visitMethodCallExpression` | `org.codenarc.rule.FieldReferenceAstVisitor`                                         |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getAstVisitorClass`                | `org.codenarc.rule.unnecessary.UnnecessaryBigDecimalInstantiationRule`               |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `<init>`                            | `org.codenarc.rule.AbstractMethodVisitor`                                            |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getName`                           | `org.codenarc.rule.basic.ParameterAssignmentInFilterClosureRule`                     |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getName`                           | `org.codenarc.rule.unnecessary.UnnecessaryCollectionCallRule`                        |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `findFirstLineAfterOpeningBrace`    | `org.codenarc.rule.formatting.ClassStartsWithBlankLineAstVisitor`                    |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `isViolationDisabled`               | `org.codenarc.plugin.disablerules.DisableRulesInCommentsPlugin`                      |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `isFunctionSpecifiedOrImplied`      | `org.gmetrics.result.MetricResultBuilder`                                            |
+|  Change | Delta |            % | Samples | Function                           | Location                                                              |
+| ------: | ----: | -----------: | ------: | ---------------------------------- | --------------------------------------------------------------------- |
+|  -66.7% |    -2 |        <0.1% |   3 → 1 | `collectViolations`                | `org.codenarc.analyzer.AbstractSourceAnalyzer`                        |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `writeViolation`                   | `org.codenarc.report.TextReportWriter`                                |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `getName`                          | `org.codenarc.rule.formatting.BlockStartsWithBlankLineRule`           |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `checkStatementIndent`             | `org.codenarc.rule.formatting.IndentationAstVisitor`                  |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getAstVisitor`                    | `org.codenarc.rule.AbstractAstVisitorRule`                            |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getName`                          | `org.codenarc.rule.basic.BooleanGetBooleanRule`                       |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `$getStaticMetaClass`              | `org.codenarc.rule.ClassReferenceAstVisitor`                          |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitMethodCallExpression`        | `org.codenarc.rule.groovyism.CollectAllIsDeprecatedAstVisitor`        |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitStatement`                   | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`        |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitMethodEx`                    | `org.codenarc.rule.FieldReferenceAstVisitor`                          |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `applyTo`                          | `org.codenarc.rule.imports.NoWildcardImportsRule`                     |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitField`                       | `org.codenarc.rule.design.PublicInstanceFieldAstVisitor`              |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `findFirstNonAnnotationLine`       | `org.codenarc.util.AstUtil`                                           |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `visitDeclarationExpression`       | `org.codenarc.rule.convention.VariableTypeRequiredAstVisitor`         |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `processSourceLine`                | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor`       |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `<init>`                           | `org.codenarc.rule.basic.EqualsOverloadedAstVisitor`                  |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `lineNumberForMethod`              | `org.gmetrics.metric.AbstractMethodMetric`                            |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getMetaClass`                     | `org.codenarc.rule.groovyism.ExplicitTreeSetInstantiationRule`        |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `getCatchOnSameLineAsOpeningBrace` | `org.codenarc.rule.formatting.BracesForTryCatchFinallyRule`           |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call`                             | `org.gmetrics.result.MetricResultBuilder$createAggregateMetricResult` |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                         | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------------- | ----------- |
+|  -50.0% |   -10 |  0.3% → 0.2% | 20 → 10 | `I2C/C2I adapters(0xbb)`         | `<unknown>` |
+|  -36.8% |    -7 |  0.3% → 0.2% | 19 → 12 | `itable stub`                    | `<unknown>` |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `I2C/C2I adapters(0xbbbb)`       | `<unknown>` |
+|  -66.7% |    -2 |        <0.1% |   3 → 1 | `I2C/C2I adapters(0xbbbbaabaab)` | `<unknown>` |
+|  -33.3% |    -1 |        <0.1% |   3 → 2 | `I2C/C2I adapters(0xba)`         | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xaab)`        | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call_stub`                      | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xa)`          | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbbb)`     | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbabaaaaa)`  | `<unknown>` |
 
 ### Total samples
 
@@ -278,103 +302,112 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Compiler
 
-| Change | Delta |             % |       Samples | Function                                    | Location    |
-| -----: | ----: | ------------: | ------------: | ------------------------------------------- | ----------- |
-|  +6.9% |  +223 | 57.2% → 57.5% | 3,231 → 3,454 | `CompileBroker::compiler_thread_loop`       | `<unknown>` |
-|  +7.7% |  +197 | 45.6% → 46.1% | 2,572 → 2,769 | `Compile::Compile`                          | `<unknown>` |
-|  +6.1% |  +196 | 56.7% → 56.5% | 3,198 → 3,394 | `CompileBroker::invoke_compiler_on_method`  | `<unknown>` |
-|  +7.5% |  +194 | 45.7% → 46.2% | 2,577 → 2,771 | `C2Compiler::compile_method`                | `<unknown>` |
-|  +7.5% |   +94 | 22.2% → 22.4% | 1,251 → 1,345 | `Compile::Code_Gen`                         | `<unknown>` |
-|  +7.9% |   +55 | 12.3% → 12.5% |     696 → 751 | `PhaseChaitin::Register_Allocate`           | `<unknown>` |
-|  +5.2% |   +52 | 17.6% → 17.4% |   994 → 1,046 | `Compile::Optimize`                         | `<unknown>` |
-|  +8.0% |   +37 |   8.2% → 8.3% |     461 → 498 | `PhaseIdealLoop::optimize`                  | `<unknown>` |
-| +64.2% |   +34 |   0.9% → 1.4% |       53 → 87 | `Compile::call_generator`                   | `<unknown>` |
-| +44.0% |   +33 |   1.3% → 1.8% |      75 → 108 | `ciBytecodeStream::get_method`              | `<unknown>` |
-| +93.5% |   +29 |   0.5% → 1.0% |       31 → 60 | `CompileQueue::get`                         | `<unknown>` |
-| +76.3% |   +29 |   0.7% → 1.1% |       38 → 67 | `ciMethod::get_flow_analysis`               | `<unknown>` |
-| +45.2% |   +28 |   1.1% → 1.5% |       62 → 90 | `ciObjectFactory::get_metadata`             | `<unknown>` |
-| +18.4% |   +27 |   2.6% → 2.9% |     147 → 174 | `GraphBuilder::GraphBuilder`                | `<unknown>` |
-|  +7.5% |   +26 |          6.2% |     348 → 374 | `PhaseIterGVN::optimize`                    | `<unknown>` |
-| +18.8% |   +26 |   2.4% → 2.7% |     138 → 164 | `GraphBuilder::iterate_bytecodes_for_block` | `<unknown>` |
-| +18.7% |   +26 |   2.5% → 2.7% |     139 → 165 | `GraphBuilder::iterate_all_blocks`          | `<unknown>` |
-| +12.7% |   +25 |   3.5% → 3.7% |     197 → 222 | `Compile::optimize_loops`                   | `<unknown>` |
-|  +7.3% |   +24 |   5.8% → 5.9% |     328 → 352 | `PhaseIterGVN::transform_old`               | `<unknown>` |
-| +25.6% |   +23 |   1.6% → 1.9% |      90 → 113 | `PhaseChaitin::build_ifg_physical`          | `<unknown>` |
+|  Change | Delta |             % |   Samples | Function                                    | Location    |
+| ------: | ----: | ------------: | --------: | ------------------------------------------- | ----------- |
+| +185.0% |   +37 |   0.3% → 0.9% |   20 → 57 | `CompileQueue::get`                         | `<unknown>` |
+|   +4.2% |   +25 | 10.0% → 10.2% | 598 → 623 | `Compilation::Compilation`                  | `<unknown>` |
+|   +4.0% |   +24 | 10.0% → 10.2% | 598 → 622 | `Compilation::compile_method`               | `<unknown>` |
+|  +31.0% |   +22 |   1.2% → 1.5% |   71 → 93 | `ciEnv::register_method`                    | `<unknown>` |
+|  +13.3% |   +19 |   2.4% → 2.7% | 143 → 162 | `GraphBuilder::iterate_bytecodes_for_block` | `<unknown>` |
+| +100.0% |   +18 |   0.3% → 0.6% |   18 → 36 | `PhaseOutput::Process_OopMap_Node`          | `<unknown>` |
+|  +12.2% |   +18 |   2.4% → 2.7% | 147 → 165 | `PhaseOutput::Output`                       | `<unknown>` |
+|  +11.6% |   +17 |   2.4% → 2.7% | 147 → 164 | `GraphBuilder::iterate_all_blocks`          | `<unknown>` |
+|  +11.9% |   +16 |   2.2% → 2.5% | 135 → 151 | `GraphBuilder::invoke`                      | `<unknown>` |
+|  +28.6% |   +16 |   0.9% → 1.2% |   56 → 72 | `PhaseOutput::fill_buffer`                  | `<unknown>` |
+|  +72.7% |   +16 |   0.4% → 0.6% |   22 → 38 | `Compile::identify_useful_nodes`            | `<unknown>` |
+|   +9.8% |   +15 |   2.5% → 2.8% | 153 → 168 | `GraphBuilder::GraphBuilder`                | `<unknown>` |
+|  +45.2% |   +14 |   0.5% → 0.7% |   31 → 45 | `ciEnv::get_klass_by_index_impl`            | `<unknown>` |
+|  +28.0% |   +14 |   0.8% → 1.1% |   50 → 64 | `IndexSetIterator::advance_and_next`        | `<unknown>` |
+| +155.6% |   +14 |   0.1% → 0.4% |    9 → 23 | `PhaseIFG::SquareUp`                        | `<unknown>` |
+|  +39.4% |   +13 |   0.5% → 0.8% |   33 → 46 | `Matcher::Label_Root`                       | `<unknown>` |
+|   +2.4% |   +13 |   9.0% → 9.1% | 540 → 553 | `Compilation::compile_java_method`          | `<unknown>` |
+| +433.3% |   +13 |  <0.1% → 0.3% |    3 → 16 | `CompileBroker::compile_method`             | `<unknown>` |
+| +260.0% |   +13 |   0.1% → 0.3% |    5 → 18 | `PhaseBlockLayout::PhaseBlockLayout`        | `<unknown>` |
+| +133.3% |   +12 |   0.1% → 0.3% |    9 → 21 | `CompilationPolicy::event`                  | `<unknown>` |
 
 ##### Native
 
-|  Change | Delta |             % |       Samples | Function                            | Location    |
-| ------: | ----: | ------------: | ------------: | ----------------------------------- | ----------- |
-|   +7.0% |  +226 | 57.3% → 57.6% | 3,233 → 3,459 | `JavaThread::thread_main_inner`     | `<unknown>` |
-|   +6.4% |  +226 |         62.1% | 3,504 → 3,730 | `Thread::call_run`                  | `<unknown>` |
-|   +6.4% |  +226 |         62.1% | 3,504 → 3,730 | `thread_native_entry`               | `<unknown>` |
-|   +6.4% |  +226 | 62.1% → 62.2% | 3,505 → 3,731 | `_pthread_start`                    | `<unknown>` |
-|   +6.4% |  +226 | 62.1% → 62.2% | 3,505 → 3,731 | `thread_start`                      | `<unknown>` |
-|  +14.4% |   +48 |   5.9% → 6.3% |     333 → 381 | `Parse::Parse`                      | `<unknown>` |
-|  +14.4% |   +48 |   5.9% → 6.3% |     333 → 381 | `ParseGenerator::generate`          | `<unknown>` |
-|  +12.7% |   +42 |   5.9% → 6.2% |     331 → 373 | `Parse::do_one_block`               | `<unknown>` |
-|  +12.7% |   +42 |   5.9% → 6.2% |     331 → 373 | `Parse::do_all_blocks`              | `<unknown>` |
-|  +10.0% |   +32 |   5.7% → 5.8% |     319 → 351 | `Parse::do_call`                    | `<unknown>` |
-|  +96.9% |   +31 |   0.6% → 1.0% |       32 → 63 | `__psynch_mutexwait`                | `<unknown>` |
-|  +79.5% |   +31 |   0.7% → 1.2% |       39 → 70 | `PlatformMonitor::wait`             | `<unknown>` |
-|  +93.9% |   +31 |   0.6% → 1.1% |       33 → 64 | `__psynch_cvwait`                   | `<unknown>` |
-|  +90.9% |   +30 |   0.6% → 1.0% |       33 → 63 | `_pthread_mutex_firstfit_lock_slow` | `<unknown>` |
-|  +18.4% |   +27 |   2.6% → 2.9% |     147 → 174 | `IRScope::IRScope`                  | `<unknown>` |
-|  +18.4% |   +27 |   2.6% → 2.9% |     147 → 174 | `IR::IR`                            | `<unknown>` |
-|  +83.9% |   +26 |   0.5% → 0.9% |       31 → 57 | `Monitor::wait`                     | `<unknown>` |
-|  +53.7% |   +22 |   0.7% → 1.0% |       41 → 63 | `InlineTree::ok_to_inline`          | `<unknown>` |
-| +137.5% |   +22 |   0.3% → 0.6% |       16 → 38 | `Chunk::operator new`               | `<unknown>` |
-| +157.1% |   +22 |   0.2% → 0.6% |       14 → 36 | `Arena::grow`                       | `<unknown>` |
+|  Change | Delta |             % |       Samples | Function                                                                           | Location    |
+| ------: | ----: | ------------: | ------------: | ---------------------------------------------------------------------------------- | ----------- |
+|  +32.8% |   +81 |   4.1% → 5.4% |     247 → 328 | `WorkerThread::run`                                                                | `<unknown>` |
+|   +1.7% |   +63 | 61.7% → 61.9% | 3,706 → 3,769 | `Thread::call_run`                                                                 | `<unknown>` |
+|   +1.7% |   +63 | 61.7% → 61.9% | 3,706 → 3,769 | `thread_native_entry`                                                              | `<unknown>` |
+|   +1.7% |   +62 | 61.7% → 61.9% | 3,707 → 3,769 | `_pthread_start`                                                                   | `<unknown>` |
+|   +1.7% |   +62 | 61.7% → 61.9% | 3,707 → 3,769 | `thread_start`                                                                     | `<unknown>` |
+| +160.0% |   +40 |   0.4% → 1.1% |       25 → 65 | `__psynch_cvwait`                                                                  | `<unknown>` |
+| +134.5% |   +39 |   0.5% → 1.1% |       29 → 68 | `PlatformMonitor::wait`                                                            | `<unknown>` |
+| +200.0% |   +38 |   0.3% → 0.9% |       19 → 57 | `Monitor::wait`                                                                    | `<unknown>` |
+|  +77.3% |   +34 |   0.7% → 1.3% |       44 → 78 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb`  | `<unknown>` |
+|  +75.6% |   +34 |   0.7% → 1.3% |       45 → 79 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `<unknown>` |
+|  +71.7% |   +33 |   0.8% → 1.3% |       46 → 79 | `G1RebuildRSAndScrubTask::work`                                                    | `<unknown>` |
+|  +72.1% |   +31 |   0.7% → 1.2% |       43 → 74 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`           | `<unknown>` |
+|  +60.0% |   +30 |   0.8% → 1.3% |       50 → 80 | `G1CMConcurrentMarkingTask::work`                                                  | `<unknown>` |
+|  +58.0% |   +29 |   0.8% → 1.3% |       50 → 79 | `G1CMTask::do_marking_step`                                                        | `<unknown>` |
+|  +50.9% |   +27 |   0.9% → 1.3% |       53 → 80 | `HeapRegionManager::par_iterate`                                                   | `<unknown>` |
+|   +4.3% |   +26 | 10.0% → 10.2% |     598 → 624 | `Compiler::compile_method`                                                         | `<unknown>` |
+|  +35.5% |   +22 |   1.0% → 1.4% |       62 → 84 | `nmethod::new_nmethod`                                                             | `<unknown>` |
+| +133.3% |   +20 |   0.2% → 0.6% |       15 → 35 | `G1CMTask::drain_local_queue`                                                      | `<unknown>` |
+|  +45.5% |   +20 |   0.7% → 1.1% |       44 → 64 | `void G1CMTask::process_grey_task_entry<true>`                                     | `<unknown>` |
+| +172.7% |   +19 |   0.2% → 0.5% |       11 → 30 | `DependencyContext::add_dependent_nmethod`                                         | `<unknown>` |
 
 ##### Standard library
 
-|    Change |  Delta |             % |       Samples | Function        | Location                                             |
-| --------: | -----: | ------------: | ------------: | --------------- | ---------------------------------------------------- |
-|   +659.0% | +1,865 |  5.0% → 35.8% |   283 → 2,148 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8010d3800`  |
-|   +916.0% | +1,832 |  3.5% → 33.8% |   200 → 2,032 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x000000e80118a400` |
-|   +375.2% | +1,741 |  8.2% → 36.7% |   464 → 2,205 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e80108e000`  |
-|  +5800.0% | +1,682 |  0.5% → 28.5% |    29 → 1,711 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x000000e8011ea400` |
-|  +2018.5% | +1,635 |  1.4% → 28.6% |    81 → 1,716 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801268800`  |
-|  +1592.1% | +1,608 |  1.8% → 28.5% |   101 → 1,709 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8011e1000`  |
-|  +1693.6% | +1,592 |  1.7% → 28.1% |    94 → 1,686 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801367800`  |
-|   +189.6% | +1,333 | 12.5% → 33.9% |   703 → 2,036 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801282000`  |
-|  +1947.0% | +1,285 |  1.2% → 22.5% |    66 → 1,351 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8010d3400`  |
-|   +990.8% | +1,179 |  2.1% → 21.6% |   119 → 1,298 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e80135fc00`  |
-|    +65.2% |   +862 | 23.4% → 36.4% | 1,323 → 2,185 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8010a9800`  |
-|    +48.8% |   +588 | 21.3% → 29.9% | 1,204 → 1,792 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801595800`  |
-| +14050.0% |   +562 |   0.1% → 9.4% |       4 → 566 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801290800`  |
-|    +43.5% |   +544 | 22.2% → 29.9% | 1,251 → 1,795 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801592c00`  |
-|    +30.5% |   +516 | 29.9% → 36.7% | 1,690 → 2,206 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8010c6400`  |
-|    +29.6% |   +500 | 29.9% → 36.5% | 1,690 → 2,190 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e80102b000`  |
-|    +29.2% |   +471 | 28.6% → 34.7% | 1,615 → 2,086 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801181c00`  |
-|    +33.6% |   +414 | 21.8% → 27.4% | 1,232 → 1,646 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e80166e000`  |
-| +10100.0% |   +303 |   0.1% → 5.1% |       3 → 306 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8010dcc00`  |
-| +13750.0% |   +275 |  <0.1% → 4.6% |       2 → 277 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801105400`  |
+|     Change |  Delta |             % |       Samples | Function        | Location                                             |
+| ---------: | -----: | ------------: | ------------: | --------------- | ---------------------------------------------------- |
+| +219200.0% | +2,192 | <0.1% → 36.0% |     1 → 2,193 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010d3800`  |
+|  +23833.3% | +2,145 |  0.1% → 35.4% |     9 → 2,154 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010d8800`  |
+|  +25214.3% | +1,765 |  0.1% → 29.1% |     7 → 1,772 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070011e1000`  |
+|   +5927.6% | +1,719 |  0.5% → 28.7% |    29 → 1,748 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001369000`  |
+|    +548.9% | +1,504 |  4.6% → 29.2% |   274 → 1,778 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x00000070011ea400` |
+|  +17200.0% | +1,376 |  0.1% → 22.7% |     8 → 1,384 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001369400`  |
+|  +26940.0% | +1,347 |  0.1% → 22.2% |     5 → 1,352 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001361400`  |
+|     +56.4% |   +759 | 22.4% → 34.5% | 1,345 → 2,104 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001288800`  |
+|  +61600.0% |   +616 | <0.1% → 10.1% |       1 → 617 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001290800`  |
+|     +34.7% |   +581 | 27.8% → 37.0% | 1,673 → 2,254 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010c6400`  |
+|     +33.8% |   +566 | 27.8% → 36.8% | 1,673 → 2,239 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000700109bc00`  |
+|     +33.8% |   +565 | 27.8% → 36.7% | 1,673 → 2,238 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000700102b000`  |
+|   +6200.0% |   +496 |   0.1% → 8.3% |       8 → 504 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010c8000`  |
+|     +23.7% |   +410 | 28.8% → 35.1% | 1,729 → 2,139 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001288400`  |
+|     +27.0% |   +391 | 24.1% → 30.2% | 1,448 → 1,839 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000700159c000`  |
+|     +22.1% |   +305 | 22.9% → 27.6% | 1,379 → 1,684 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001673800`  |
+|   +1034.6% |   +269 |   0.4% → 4.8% |      26 → 295 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x00000070010dcc00`  |
+|     +14.5% |   +265 | 30.4% → 34.3% | 1,827 → 2,092 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001282000`  |
+|  +12750.0% |   +255 |  <0.1% → 4.2% |       2 → 257 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001322400`  |
+|    +750.0% |   +255 |   0.6% → 4.7% |      34 → 289 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x0000007001031400`  |
 
 ##### Ours
 
-| Change | Delta |             % |       Samples | Function                    | Location                                                                    |
-| -----: | ----: | ------------: | ------------: | --------------------------- | --------------------------------------------------------------------------- |
-|  +6.1% |  +127 | 36.8% → 36.7% | 2,079 → 2,206 | `execute`                   | `org.codenarc.CodeNarc`                                                     |
-|  +6.1% |  +127 | 37.1% → 37.0% | 2,093 → 2,220 | `main`                      | `org.codenarc.CodeNarc`                                                     |
-|  +6.1% |  +126 | 36.6% → 36.5% | 2,063 → 2,189 | `execute`                   | `org.codenarc.CodeNarcRunner`                                               |
-| +14.3% |  +126 | 15.6% → 16.8% |   881 → 1,007 | `applyTo`                   | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
-|  +5.8% |  +112 | 34.0% → 33.8% | 1,920 → 2,032 | `processFile`               | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  +5.6% |  +108 | 34.2% → 33.9% | 1,928 → 2,036 | `doCall`                    | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
-|  +5.6% |  +108 | 34.2% → 33.9% | 1,928 → 2,036 | `processDirectory`          | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  +5.6% |  +108 | 34.2% → 33.9% | 1,929 → 2,037 | `analyze`                   | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  +9.8% |  +107 | 19.4% → 20.0% | 1,095 → 1,202 | `applyTo`                   | `org.codenarc.rule.AbstractRule`                                            |
-|  +5.5% |  +106 | 33.9% → 33.7% | 1,915 → 2,021 | `collectViolations`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-|  +8.0% |   +97 | 21.6% → 21.9% | 1,219 → 1,316 | `doCall`                    | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
-|  +5.3% |   +84 | 28.0% → 27.7% | 1,578 → 1,662 | `measureRuleProcessingTime` | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-|  +9.9% |   +83 | 14.8% → 15.3% |     838 → 921 | `visitClass`                | `org.codenarc.rule.AbstractAstVisitor`                                      |
-| +10.7% |   +69 | 11.4% → 11.9% |     645 → 714 | `visitMethod`               | `org.codenarc.rule.AbstractAstVisitor`                                      |
-| +38.0% |   +19 |   0.9% → 1.1% |       50 → 69 | `getAstVisitor`             | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
-|  +6.9% |   +16 |          4.1% |     233 → 249 | `isRuleSuppressed`          | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
-|  +6.1% |   +14 |   4.1% → 4.0% |     229 → 243 | `init`                      | `org.codenarc.source.AbstractSourceCode`                                    |
-|  +6.0% |   +14 |          4.1% |     233 → 247 | `getAst`                    | `org.codenarc.source.AbstractSourceCode`                                    |
-|  +6.1% |   +14 |   4.1% → 4.0% |     229 → 243 | `init`                      | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
-| +30.2% |   +13 |   0.8% → 0.9% |       43 → 56 | `loadRuleSetFile`           | `org.codenarc.ruleset.RuleSetUtil`                                          |
+|   Change | Delta |             % |       Samples | Function                            | Location                                                                    |
+| -------: | ----: | ------------: | ------------: | ----------------------------------- | --------------------------------------------------------------------------- |
+|    +2.0% |   +34 | 28.2% → 28.4% | 1,693 → 1,727 | `measureRuleProcessingTime`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|    +2.5% |   +30 | 20.2% → 20.5% | 1,216 → 1,246 | `applyTo`                           | `org.codenarc.rule.AbstractRule`                                            |
+|    +2.1% |   +28 | 22.3% → 22.4% | 1,339 → 1,367 | `doCall`                            | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
+|    +1.0% |   +20 | 34.2% → 34.1% | 2,054 → 2,074 | `collectViolations`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|    +0.9% |   +19 | 36.9% → 36.7% | 2,219 → 2,238 | `execute`                           | `org.codenarc.CodeNarcRunner`                                               |
+|    +0.9% |   +19 | 37.2% → 37.0% | 2,235 → 2,254 | `execute`                           | `org.codenarc.CodeNarc`                                                     |
+|    +0.9% |   +18 | 34.4% → 34.2% | 2,066 → 2,084 | `processFile`                       | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|    +0.8% |   +18 | 37.4% → 37.2% | 2,250 → 2,268 | `main`                              | `org.codenarc.CodeNarc`                                                     |
+|    +0.8% |   +16 | 34.5% → 34.3% | 2,076 → 2,092 | `processDirectory`                  | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  +160.0% |   +16 |   0.2% → 0.4% |       10 → 26 | `eachImportLine`                    | `org.codenarc.rule.imports.AbstractImportRule`                              |
+|    +0.7% |   +15 | 34.5% → 34.3% | 2,076 → 2,091 | `doCall`                            | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+|    +0.7% |   +15 | 34.6% → 34.3% | 2,077 → 2,092 | `analyze`                           | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|    +2.0% |   +15 | 12.5% → 12.6% |     752 → 767 | `visitMethod`                       | `org.codenarc.rule.AbstractAstVisitor`                                      |
+|  +144.4% |   +13 |   0.1% → 0.4% |        9 → 22 | `applyTo`                           | `org.codenarc.rule.imports.DuplicateImportRule`                             |
+| +1300.0% |   +13 |  <0.1% → 0.2% |        1 → 14 | `super$2$visitMethodCallExpression` | `org.codenarc.rule.unused.UnusedVariableAstVisitor`                         |
+|   +38.7% |   +12 |   0.5% → 0.7% |       31 → 43 | `visitMethodCallExpression`         | `org.codenarc.rule.formatting.IndentationAstVisitor`                        |
+|  +600.0% |   +12 |  <0.1% → 0.2% |        2 → 14 | `visitMethodCallExpression`         | `org.codenarc.rule.unused.UnusedVariableAstVisitor`                         |
+|  +133.3% |   +12 |   0.1% → 0.3% |        9 → 21 | `processMethodOrConstructorCall`    | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`                    |
+|    +1.1% |   +11 | 17.3% → 17.2% | 1,037 → 1,048 | `applyTo`                           | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
+|   +21.6% |   +11 |   0.8% → 1.0% |       51 → 62 | `visitBlockStatement`               | `org.codenarc.rule.formatting.IndentationAstVisitor`                        |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                  | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------- | ----------- |
+|  +66.7% |    +8 |  0.2% → 0.3% | 12 → 20 | `vtable stub`             | `<unknown>` |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `zero_blocks`             | `<unknown>` |
+| +100.0% |    +3 | <0.1% → 0.1% |   3 → 6 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
+|  +25.0% |    +1 |         0.1% |   4 → 5 | `I2C/C2I adapters(0xb)`   | `<unknown>` |
 
 #### Improvements
 
@@ -382,100 +415,115 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Compiler
 
-| Change | Delta |            % |   Samples | Function                                    | Location    |
-| -----: | ----: | -----------: | --------: | ------------------------------------------- | ----------- |
-| -33.3% |   -12 |  0.6% → 0.4% |   36 → 24 | `NodeHash::hash_find_insert`                | `<unknown>` |
-| -15.7% |   -11 |  1.2% → 1.0% |   70 → 59 | `LinearScan::allocate_registers`            | `<unknown>` |
-| -11.1% |   -10 |  1.6% → 1.3% |   90 → 80 | `ciEnv::register_method`                    | `<unknown>` |
-| -30.3% |   -10 |  0.6% → 0.4% |   33 → 23 | `PhiNode::Ideal`                            | `<unknown>` |
-| -24.4% |   -10 |  0.7% → 0.5% |   41 → 31 | `Matcher::Label_Root`                       | `<unknown>` |
-| -18.9% |   -10 |  0.9% → 0.7% |   53 → 43 | `LinearScanWalker::activate_current`        | `<unknown>` |
-| -20.0% |    -9 |  0.8% → 0.6% |   45 → 36 | `LIR_Assembler::add_call_info`              | `<unknown>` |
-| -26.5% |    -9 |  0.6% → 0.4% |   34 → 25 | `LIR_Assembler::emit_slow_case_stubs`       | `<unknown>` |
-| -26.5% |    -9 |  0.6% → 0.4% |   34 → 25 | `Compilation::emit_code_epilog`             | `<unknown>` |
-| -56.3% |    -9 |  0.3% → 0.1% |    16 → 7 | `ConnectionGraph::add_java_object_edges`    | `<unknown>` |
-|  -4.7% |    -8 |  3.0% → 2.7% | 170 → 162 | `LinearScan::do_linear_scan`                | `<unknown>` |
-| -20.5% |    -8 |  0.7% → 0.5% |   39 → 31 | `LinearScanWalker::alloc_free_reg`          | `<unknown>` |
-|  -3.0% |    -7 |  4.1% → 3.7% | 231 → 224 | `Compilation::emit_lir`                     | `<unknown>` |
-| -36.8% |    -7 |  0.3% → 0.2% |   19 → 12 | `RegionNode::is_unreachable_region`         | `<unknown>` |
-|  -6.6% |    -7 |  1.9% → 1.6% |  106 → 99 | `PhaseIdealLoop::build_loop_late_post_work` | `<unknown>` |
-| -46.7% |    -7 |  0.3% → 0.1% |    15 → 8 | `RegionNode::is_unreachable_from_root`      | `<unknown>` |
-| -63.6% |    -7 |  0.2% → 0.1% |    11 → 4 | `ProjNode::is_CFG`                          | `<unknown>` |
-|  -3.1% |    -6 |  3.4% → 3.1% | 192 → 186 | `PhaseChaitin::Split`                       | `<unknown>` |
-| -42.9% |    -6 |  0.2% → 0.1% |    14 → 8 | `MachNode::ideal_reg`                       | `<unknown>` |
-| -66.7% |    -6 | 0.2% → <0.1% |     9 → 3 | `Node::disconnect_inputs`                   | `<unknown>` |
+| Change | Delta |             % |       Samples | Function                                    | Location    |
+| -----: | ----: | ------------: | ------------: | ------------------------------------------- | ----------- |
+|  -3.0% |   -83 | 46.8% → 44.8% | 2,811 → 2,728 | `C2Compiler::compile_method`                | `<unknown>` |
+|  -2.9% |   -81 | 46.7% → 44.8% | 2,807 → 2,726 | `Compile::Compile`                          | `<unknown>` |
+|  -5.7% |   -65 | 18.8% → 17.5% | 1,132 → 1,067 | `Compile::Optimize`                         | `<unknown>` |
+|  -1.7% |   -59 | 56.9% → 55.2% | 3,421 → 3,362 | `CompileBroker::invoke_compiler_on_method`  | `<unknown>` |
+|  -7.3% |   -55 | 12.5% → 11.4% |     752 → 697 | `PhaseChaitin::Register_Allocate`           | `<unknown>` |
+| -12.1% |   -45 |   6.2% → 5.4% |     371 → 326 | `PhaseIterGVN::transform_old`               | `<unknown>` |
+| -25.8% |   -32 |   2.1% → 1.5% |      124 → 92 | `Node::dominates`                           | `<unknown>` |
+|  -6.4% |   -30 |   7.8% → 7.2% |     468 → 438 | `PhaseIdealLoop::build_and_optimize`        | `<unknown>` |
+|  -6.4% |   -30 |   7.8% → 7.2% |     468 → 438 | `PhaseIdealLoop::PhaseIdealLoop`            | `<unknown>` |
+|  -5.3% |   -29 |   9.2% → 8.6% |     552 → 523 | `PhaseIdealLoop::optimize`                  | `<unknown>` |
+| -22.0% |   -29 |   2.2% → 1.7% |     132 → 103 | `PhaseIdealLoop::build_loop_late_post_work` | `<unknown>` |
+|  -7.3% |   -28 |   6.4% → 5.9% |     386 → 358 | `PhaseIterGVN::optimize`                    | `<unknown>` |
+| -24.1% |   -28 |   1.9% → 1.4% |      116 → 88 | `InitializeNode::can_capture_store`         | `<unknown>` |
+| -22.4% |   -28 |   2.1% → 1.6% |      125 → 97 | `MemNode::all_controls_dominate`            | `<unknown>` |
+|  -2.1% |   -27 | 21.7% → 21.0% | 1,304 → 1,277 | `Compile::Code_Gen`                         | `<unknown>` |
+| -23.7% |   -27 |   1.9% → 1.4% |      114 → 87 | `InitializeNode::detect_init_independence`  | `<unknown>` |
+| -27.0% |   -24 |   1.5% → 1.1% |       89 → 65 | `PhaseIterGVN::subsume_node`                | `<unknown>` |
+| -24.7% |   -24 |   1.6% → 1.2% |       97 → 73 | `Compile::inline_incrementally`             | `<unknown>` |
+| -20.2% |   -24 |   2.0% → 1.6% |      119 → 95 | `StoreNode::Ideal`                          | `<unknown>` |
+| -13.2% |   -23 |   2.9% → 2.5% |     174 → 151 | `PhaseIdealLoop::build_loop_late`           | `<unknown>` |
 
 ##### Native
 
-|  Change | Delta |            % |   Samples | Function                                                                                                                                                                                | Location    |
-| ------: | ----: | -----------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-|  -64.5% |   -20 |  0.5% → 0.2% |   31 → 11 | `G1ParEvacuateFollowersClosure::do_void`                                                                                                                                                | `<unknown>` |
-|  -64.5% |   -20 |  0.5% → 0.2% |   31 → 11 | `G1EvacuateRegionsTask::evacuate_live_objects`                                                                                                                                          | `<unknown>` |
-|  -40.5% |   -17 |  0.7% → 0.4% |   42 → 25 | `CodeEmitInfo::record_debug_info`                                                                                                                                                       | `<unknown>` |
-|  -56.7% |   -17 |  0.5% → 0.2% |   30 → 13 | `MemAllocator::allocate`                                                                                                                                                                | `<unknown>` |
-|  -85.0% |   -17 | 0.4% → <0.1% |    20 → 3 | `G1ParScanThreadState::steal_and_trim_queue`                                                                                                                                            | `<unknown>` |
-|  -48.5% |   -16 |  0.6% → 0.3% |   33 → 17 | `frame::sender_for_compiled_frame`                                                                                                                                                      | `<unknown>` |
-|  -27.8% |   -15 |  1.0% → 0.6% |   54 → 39 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                                                       | `<unknown>` |
-|  -21.1% |   -15 |  1.3% → 0.9% |   71 → 56 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                                                         | `<unknown>` |
-|  -38.2% |   -13 |  0.6% → 0.3% |   34 → 21 | `CollectedHeap::array_allocate`                                                                                                                                                         | `<unknown>` |
-|   -7.2% |   -13 |  3.2% → 2.8% | 180 → 167 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                                                              | `<unknown>` |
-|  -10.9% |   -12 |  1.9% → 1.6% |  110 → 98 | `G1EvacuateRegionsBaseTask::work`                                                                                                                                                       | `<unknown>` |
-|  -32.4% |   -12 |  0.7% → 0.4% |   37 → 25 | `IRScopeDebugInfo::record_debug_info`                                                                                                                                                   | `<unknown>` |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `G1ScanAndCountCodeBlobClosure::do_code_blob`                                                                                                                                           | `<unknown>` |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `void ConcurrentHashTable<G1CodeRootSetHashTableConfig, (MEMFLAGS)5>::ScanTask::do_safepoint_scan<G1CodeRootSetHashTable::iterate_at_safepoint(CodeBlobClosure*)::'lambda'(nmethod**)>` | `<unknown>` |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `G1CodeRootSet::nmethods_do`                                                                                                                                                            | `<unknown>` |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `G1ScanCodeRootsClosure::do_heap_region`                                                                                                                                                | `<unknown>` |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `G1CollectedHeap::par_iterate_regions_array`                                                                                                                                            | `<unknown>` |
-|  -50.0% |   -12 |  0.4% → 0.2% |   24 → 12 | `G1RemSet::scan_collection_set_code_roots`                                                                                                                                              | `<unknown>` |
-|  -52.2% |   -12 |  0.4% → 0.2% |   23 → 11 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                                                            | `<unknown>` |
-| removed |   -11 |  0.2% → 0.0% |    11 → 0 | `KlassCleaningTask::work`                                                                                                                                                               | `<unknown>` |
+|  Change | Delta |             % |       Samples | Function                                                                                                                                                 | Location    |
+| ------: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|   -0.7% |   -23 | 57.4% → 56.2% | 3,447 → 3,424 | `JavaThread::thread_main_inner`                                                                                                                          | `<unknown>` |
+|  -15.7% |   -13 |   1.4% → 1.1% |       83 → 70 | `Arena::contains`                                                                                                                                        | `<unknown>` |
+|  -33.3% |   -11 |   0.5% → 0.4% |       33 → 22 | `InstanceKlass::find_method_index`                                                                                                                       | `<unknown>` |
+|  -37.0% |   -10 |   0.4% → 0.3% |       27 → 17 | `LinkResolver::resolve_static_call`                                                                                                                      | `<unknown>` |
+|  -64.3% |    -9 |   0.2% → 0.1% |        14 → 5 | `InlineTree::check_can_parse`                                                                                                                            | `<unknown>` |
+|  -64.3% |    -9 |   0.2% → 0.1% |        14 → 5 | `CallGenerator::for_inline`                                                                                                                              | `<unknown>` |
+|  -40.9% |    -9 |   0.4% → 0.2% |       22 → 13 | `Parse::do_checkcast`                                                                                                                                    | `<unknown>` |
+|  -40.9% |    -9 |   0.4% → 0.2% |       22 → 13 | `LinkResolver::linktime_resolve_static_method`                                                                                                           | `<unknown>` |
+|  -20.5% |    -8 |   0.6% → 0.5% |       39 → 31 | `LinkResolver::resolve_method`                                                                                                                           | `<unknown>` |
+|  -72.7% |    -8 |  0.2% → <0.1% |        11 → 3 | `Parse::do_exceptions`                                                                                                                                   | `<unknown>` |
+|  -33.3% |    -8 |   0.4% → 0.3% |       24 → 16 | `nmethod::oops_do_process_weak`                                                                                                                          | `<unknown>` |
+|  -33.3% |    -8 |   0.4% → 0.3% |       24 → 16 | `G1CodeBlobClosure::do_code_blob`                                                                                                                        | `<unknown>` |
+|  -58.3% |    -7 |   0.2% → 0.1% |        12 → 5 | `ClassHierarchyIterator::next`                                                                                                                           | `<unknown>` |
+|  -23.3% |    -7 |   0.5% → 0.4% |       30 → 23 | `InstanceKlass::uncached_lookup_method`                                                                                                                  | `<unknown>` |
+|  -13.7% |    -7 |   0.8% → 0.7% |       51 → 44 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `<unknown>` |
+|  -10.3% |    -7 |   1.1% → 1.0% |       68 → 61 | `Parse::do_field_access`                                                                                                                                 | `<unknown>` |
+|  -87.5% |    -7 |  0.1% → <0.1% |         8 → 1 | `__open`                                                                                                                                                 | `<unknown>` |
+|  -87.5% |    -7 |  0.1% → <0.1% |         8 → 1 | `handleOpen`                                                                                                                                             | `<unknown>` |
+|  -38.9% |    -7 |   0.3% → 0.2% |       18 → 11 | `_platform_memmove`                                                                                                                                      | `<unknown>` |
+| removed |    -7 |   0.1% → 0.0% |         7 → 0 | `Interval::add_use_pos`                                                                                                                                  | `<unknown>` |
 
 ##### Standard library
 
-| Change |  Delta |             % |       Samples | Function        | Location                                             |
-| -----: | -----: | ------------: | ------------: | --------------- | ---------------------------------------------------- |
-| -99.9% | -1,927 | 34.2% → <0.1% |     1,928 → 1 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801438000`  |
-| -97.2% | -1,866 |  34.0% → 0.9% |    1,920 → 54 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x000000e801030400` |
-| -87.0% | -1,716 |  35.0% → 4.3% |   1,973 → 257 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801322400`  |
-| -99.5% | -1,539 |  27.4% → 0.1% |     1,546 → 7 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801483c00`  |
-| -99.5% | -1,539 |  27.4% → 0.1% |     1,546 → 7 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801483400`  |
-| -99.5% | -1,538 |  27.4% → 0.1% |     1,546 → 8 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801705800`  |
-| -85.3% | -1,449 |  30.1% → 4.1% |   1,698 → 249 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801368000`  |
-| -87.5% | -1,422 |  28.8% → 3.4% |   1,625 → 203 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x000000e801109c00` |
-| -63.7% | -1,254 | 34.9% → 11.9% |   1,969 → 715 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e80128dc00`  |
-| -98.7% | -1,248 |  22.4% → 0.3% |    1,265 → 17 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801428000`  |
-| -36.0% |   -748 | 36.8% → 22.2% | 2,079 → 1,331 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801367c00`  |
-| -33.8% |   -698 | 36.6% → 22.8% | 2,064 → 1,366 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8017f7000`  |
-| -30.2% |   -622 | 36.4% → 23.9% | 2,057 → 1,435 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8010abc00`  |
-| -88.4% |   -512 |  10.3% → 1.1% |      579 → 67 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801130000`  |
-| -54.6% |   -307 |  10.0% → 4.2% |     562 → 255 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801326000`  |
-| -13.2% |   -272 | 36.6% → 29.9% | 2,064 → 1,792 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801595c00`  |
-| -98.5% |   -260 |   4.7% → 0.1% |       264 → 4 | `reinvoke`      | `java.lang.invoke.LambdaForm$MH.0x000000e80134f400`  |
-| -94.9% |   -259 |   4.8% → 0.2% |      273 → 14 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e801429c00`  |
-| -97.3% |   -253 |   4.6% → 0.1% |       260 → 7 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x000000e801398000` |
-| -99.2% |   -252 |  4.5% → <0.1% |       254 → 2 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000e8014a2c00`  |
+| Change |  Delta |             % |       Samples | Function         | Location                                             |
+| -----: | -----: | ------------: | ------------: | ---------------- | ---------------------------------------------------- |
+| -99.8% | -2,231 |  37.2% → 0.1% |     2,235 → 4 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001755000`  |
+| -98.3% | -2,183 |  36.9% → 0.6% |    2,220 → 37 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001379000`  |
+| -98.5% | -2,045 |  34.5% → 0.5% |    2,076 → 31 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001662400`  |
+| -88.8% | -1,984 |  37.2% → 4.1% |   2,234 → 250 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001369800`  |
+| -88.7% | -1,982 |  37.2% → 4.2% |   2,235 → 253 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001326000`  |
+| -99.8% | -1,739 |  29.0% → 0.1% |     1,743 → 4 | `invokeVirtual`  | `java.lang.invoke.LambdaForm$DMH.0x0000007001398400` |
+| -38.6% |   -858 | 36.9% → 22.4% | 2,220 → 1,362 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070017fa000`  |
+| -31.7% |   -690 | 36.2% → 24.4% | 2,176 → 1,486 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010abc00`  |
+| -82.1% |   -612 |  12.4% → 2.2% |     745 → 133 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000700102ac00`  |
+| -99.5% |   -587 |  9.8% → <0.1% |       590 → 3 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070014d9400`  |
+| -40.6% |   -536 | 21.9% → 12.9% |   1,319 → 783 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000700128dc00`  |
+| -19.5% |   -433 | 36.9% → 29.3% | 2,215 → 1,782 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001268800`  |
+| -85.9% |   -427 |   8.3% → 1.1% |      497 → 70 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000700118a000`  |
+| -97.3% |   -291 |   5.0% → 0.1% |       299 → 8 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001362400`  |
+| -96.8% |   -270 |   4.6% → 0.1% |       279 → 9 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070014ad400`  |
+| -99.6% |   -251 |  4.2% → <0.1% |       252 → 1 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001546c00`  |
+| -98.0% |   -250 |   4.2% → 0.1% |       255 → 5 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001535000`  |
+| -98.8% |   -248 |  4.2% → <0.1% |       251 → 3 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070014cd800`  |
+| -96.5% |   -248 |   4.3% → 0.1% |       257 → 9 | `linkToCallSite` | `java.lang.invoke.LambdaForm$MH.0x00000070013f8000`  |
+| -99.6% |   -248 |  4.1% → <0.1% |       249 → 1 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001626c00`  |
 
 ##### Ours
 
-| Change | Delta |           % | Samples | Function                                | Location                                                                                     |
-| -----: | ----: | ----------: | ------: | --------------------------------------- | -------------------------------------------------------------------------------------------- |
-| -18.6% |   -13 | 1.2% → 0.9% | 70 → 57 | `super$3$applyTo`                       | `org.codenarc.rule.formatting.IndentationRule`                                               |
-| -18.6% |   -13 | 1.2% → 0.9% | 70 → 57 | `applyTo`                               | `org.codenarc.rule.formatting.IndentationRule`                                               |
-| -68.4% |   -13 | 0.3% → 0.1% |  19 → 6 | `super$2$visitMethodCallExpression`     | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`                                     |
-| -17.1% |   -12 | 1.2% → 1.0% | 70 → 58 | `applyTo`                               | `org.codenarc.rule.AbstractSharedAstVisitorRule`                                             |
-| -54.5% |   -12 | 0.4% → 0.2% | 22 → 10 | `checkStatementIndent`                  | `org.codenarc.rule.formatting.IndentationAstVisitor`                                         |
-| -36.4% |   -12 | 0.6% → 0.3% | 33 → 21 | `doCall`                                | `org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7`           |
-| -50.0% |   -11 | 0.4% → 0.2% | 22 → 11 | `visitVariableExpression`               | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`                                     |
-| -50.0% |   -10 | 0.4% → 0.2% | 20 → 10 | `getNonStaticImportsSortedByLineNumber` | `org.codenarc.util.ImportUtil`                                                               |
-| -41.7% |   -10 | 0.4% → 0.2% | 24 → 14 | `processSourceLine`                     | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor`                              |
-| -43.5% |   -10 | 0.4% → 0.2% | 23 → 13 | `visitMethodCallExpression`             | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`                                     |
-| -17.3% |    -9 | 0.9% → 0.7% | 52 → 43 | `applyVisitor`                          | `org.codenarc.rule.AbstractSharedAstVisitorRule`                                             |
-| -36.4% |    -8 | 0.4% → 0.2% | 22 → 14 | `super$3$visitBlockStatement`           | `org.codenarc.rule.unused.UnusedVariableAstVisitor`                                          |
-| -53.3% |    -8 | 0.3% → 0.1% |  15 → 7 | `visitClassEx`                          | `org.codenarc.rule.formatting.IndentationAstVisitor`                                         |
-| -50.0% |    -8 | 0.3% → 0.1% |  16 → 8 | `sourceLineAndNumberForImport`          | `org.codenarc.util.ImportUtil`                                                               |
-| -17.4% |    -8 | 0.8% → 0.6% | 46 → 38 | `visitBlockStatement`                   | `org.codenarc.rule.formatting.IndentationAstVisitor`                                         |
-| -32.0% |    -8 | 0.4% → 0.3% | 25 → 17 | `doCall`                                | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor$_visitClassComplete_closure1` |
-| -30.8% |    -8 | 0.5% → 0.3% | 26 → 18 | `visitClassComplete`                    | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor`                              |
-| -57.1% |    -8 | 0.2% → 0.1% |  14 → 6 | `visitClassEx`                          | `org.codenarc.rule.naming.ConfusingMethodNameAstVisitor`                                     |
-| -43.8% |    -7 | 0.3% → 0.1% |  16 → 9 | `doCall`                                | `org.codenarc.util.ImportUtil$_sortImportsByLineNumber_closure4`                             |
-| -41.2% |    -7 | 0.3% → 0.2% | 17 → 10 | `sortImportsByLineNumber`               | `org.codenarc.util.ImportUtil`                                                               |
+|  Change | Delta |            % |   Samples | Function                           | Location                                                                   |
+| ------: | ----: | -----------: | --------: | ---------------------------------- | -------------------------------------------------------------------------- |
+|   -5.7% |   -14 |  4.1% → 3.8% | 244 → 230 | `isRuleSuppressed`                 | `org.codenarc.analyzer.SuppressionAnalyzer`                                |
+|   -5.0% |   -12 |  4.0% → 3.7% | 239 → 227 | `init`                             | `org.codenarc.analyzer.SuppressionAnalyzer`                                |
+|   -3.7% |   -10 |  4.5% → 4.3% | 271 → 261 | `doCall`                           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
+|   -4.2% |   -10 |  3.9% → 3.7% | 237 → 227 | `init`                             | `org.codenarc.source.AbstractSourceCode`                                   |
+|   -3.8% |    -9 |  4.0% → 3.8% | 238 → 229 | `getAst`                           | `org.codenarc.source.AbstractSourceCode`                                   |
+|  -22.5% |    -9 |  0.7% → 0.5% |   40 → 31 | `applyTo`                          | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                   |
+|  -56.3% |    -9 |  0.3% → 0.1% |    16 → 7 | `super$3$visitConstructorOrMethod` | `org.codenarc.rule.ClassReferenceAstVisitor`                               |
+|  -72.7% |    -8 | 0.2% → <0.1% |    11 → 3 | `getAstVisitor`                    | `org.codenarc.rule.unused.UnusedPrivateFieldRule`                          |
+|  -14.8% |    -8 |  0.9% → 0.8% |   54 → 46 | `visitBinaryExpression`            | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                         |
+|  -53.3% |    -8 |  0.2% → 0.1% |    15 → 7 | `getText`                          | `org.codenarc.source.SourceFile`                                           |
+|  -38.1% |    -8 |  0.3% → 0.2% |   21 → 13 | `visitMethodCallExpression`        | `org.codenarc.rule.formatting.SpaceAfterMethodCallNameRuleAstVisitor`      |
+|  -42.1% |    -8 |  0.3% → 0.2% |   19 → 11 | `suppressException`                | `org.codenarc.rule.unnecessary.UnnecessaryGStringAstVisitor`               |
+|  -70.0% |    -7 | 0.2% → <0.1% |    10 → 3 | `collectAllPrivateFields`          | `org.codenarc.rule.unused.UnusedPrivateFieldRule`                          |
+|  -21.2% |    -7 |  0.5% → 0.4% |   33 → 26 | `visitConstantExpression`          | `org.codenarc.rule.unnecessary.UnnecessaryGStringAstVisitor`               |
+| removed |    -7 |  0.1% → 0.0% |     7 → 0 | `checkLastLineForSemicolon`        | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                   |
+|  -70.0% |    -7 | 0.2% → <0.1% |    10 → 3 | `addViolation`                     | `org.codenarc.rule.AbstractAstVisitor`                                     |
+|  -58.3% |    -7 |  0.2% → 0.1% |    12 → 5 | `visitVariableExpression`          | `org.codenarc.rule.ClassReferenceAstVisitor`                               |
+|  -23.3% |    -7 |  0.5% → 0.4% |   30 → 23 | `visitBinaryExpression`            | `org.codenarc.rule.formatting.SpaceAroundOperatorAstVisitor`               |
+|  -26.9% |    -7 |  0.4% → 0.3% |   26 → 19 | `visitVariableExpression`          | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`                   |
+|  -50.0% |    -7 |  0.2% → 0.1% |    14 → 7 | `visitConstructorOrMethod`         | `org.codenarc.rule.formatting.BlockEndsWithBlankLineAstVisitor`            |
+
+##### JIT
+
+|  Change | Delta |            % | Samples | Function                         | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------------- | ----------- |
+|  -50.0% |   -10 |  0.3% → 0.2% | 20 → 10 | `I2C/C2I adapters(0xbb)`         | `<unknown>` |
+|  -36.8% |    -7 |  0.3% → 0.2% | 19 → 12 | `itable stub`                    | `<unknown>` |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `I2C/C2I adapters(0xbbbb)`       | `<unknown>` |
+|  -66.7% |    -2 |        <0.1% |   3 → 1 | `I2C/C2I adapters(0xbbbbaabaab)` | `<unknown>` |
+|  -33.3% |    -1 |        <0.1% |   3 → 2 | `I2C/C2I adapters(0xba)`         | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xaab)`        | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `call_stub`                      | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xa)`          | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbbb)`     | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbabaaaaa)`  | `<unknown>` |

@@ -1,12 +1,12 @@
 # CPU profile
 
-Took 12s over 12,004 samples (1.0ms per sample).
+Took 20.05s over 20,056 samples (1.0ms per sample).
 
 | Category |     % |   Time | Samples |
 | -------- | ----: | -----: | ------: |
-| Ours     | 99.7% | 11.96s |  11,964 |
-| Kernel   |  0.3% | 34.0ms |      34 |
-| Native   | <0.1% |  6.0ms |       6 |
+| Ours     | 99.9% | 20.02s |  20,028 |
+| Native   |  0.1% | 14.0ms |      14 |
+| Kernel   |  0.1% | 14.0ms |      14 |
 
 ## Hottest functions
 
@@ -14,55 +14,55 @@ Took 12s over 12,004 samples (1.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|     % |   Time | Samples | Function                            | Location                    |
-| ----: | -----: | ------: | ----------------------------------- | --------------------------- |
-| 84.1% | 10.09s |  10,096 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
-| 13.4% |  1.60s |   1,606 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
-|  0.8% | 95.0ms |      95 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
-|  0.3% | 39.0ms |      39 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`                |
-|  0.2% | 30.0ms |      30 | `ZSTD_insertBt1`                    | `zstd_opt.c`                |
-|  0.1% | 18.0ms |      18 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
-|  0.1% | 18.0ms |      18 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
-|  0.1% | 15.0ms |      15 | `HIST_count_parallel_wksp`          | `hist.c`                    |
-|  0.1% |  8.0ms |       8 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
-|  0.1% |  7.0ms |       7 | `handle_softirqs ([kernel])`        | `<unknown>`                 |
-| <0.1% |  6.0ms |       6 | `unknown (libc.so.6)`               | `<unknown>`                 |
-| <0.1% |  6.0ms |       6 | `ZSTD_encodeSequences`              | `zstd_compress_sequences.c` |
-| <0.1% |  6.0ms |       6 | `FSE_buildCTable_wksp`              | `fse_compress.c`            |
-| <0.1% |  5.0ms |       5 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
-| <0.1% |  5.0ms |       5 | `__arch_copy_to_user ([kernel])`    | `<unknown>`                 |
-| <0.1% |  4.0ms |       4 | `clear_page ([kernel])`             | `<unknown>`                 |
-| <0.1% |  4.0ms |       4 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
-| <0.1% |  4.0ms |       4 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
-| <0.1% |  3.0ms |       3 | `ZSTD_XXH64_update`                 | `xxhash.h`                  |
-| <0.1% |  3.0ms |       3 | `__bpf_trace_softirq ([kernel])`    | `<unknown>`                 |
+|     % |    Time | Samples | Function                            | Location                    |
+| ----: | ------: | ------: | ----------------------------------- | --------------------------- |
+| 72.5% |  14.54s |  14,548 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
+| 14.8% |   2.96s |   2,962 | `ZSTD_insertBt1`                    | `zstd_opt.c`                |
+| 10.9% |   2.19s |   2,191 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
+|  0.7% | 140.0ms |     140 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
+|  0.2% |  50.0ms |      50 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`                |
+|  0.1% |  28.0ms |      28 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
+|  0.1% |  18.0ms |      18 | `HIST_count_parallel_wksp`          | `hist.c`                    |
+|  0.1% |  17.0ms |      17 | `ZSTD_recordFingerprint_1`          | `zstd_preSplit.c`           |
+|  0.1% |  14.0ms |      14 | `unknown (libc.so.6)`               | `<unknown>`                 |
+|  0.1% |  13.0ms |      13 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
+|  0.1% |  12.0ms |      12 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
+| <0.1% |   9.0ms |       9 | `ZSTD_encodeSequences`              | `zstd_compress_sequences.c` |
+| <0.1% |   8.0ms |       8 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
+| <0.1% |   7.0ms |       7 | `__arch_copy_to_user ([kernel])`    | `<unknown>`                 |
+| <0.1% |   6.0ms |       6 | `ZSTD_splitBlock`                   | `zstd_preSplit.c`           |
+| <0.1% |   6.0ms |       6 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
+| <0.1% |   4.0ms |       4 | `ZSTD_XXH64_update`                 | `xxhash.h`                  |
+| <0.1% |   4.0ms |       4 | `HIST_count_simple`                 | `hist.c`                    |
+| <0.1% |   3.0ms |       3 | `FSE_writeNCount_generic`           | `fse_compress.c`            |
+| <0.1% |   3.0ms |       3 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
 
 #### Categories
 
 ##### Ours
 
-|     % |   Time | Samples | Function                            | Location                    |
-| ----: | -----: | ------: | ----------------------------------- | --------------------------- |
-| 84.1% | 10.09s |  10,096 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
-| 13.4% |  1.60s |   1,606 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
-|  0.8% | 95.0ms |      95 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
-|  0.3% | 39.0ms |      39 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`                |
-|  0.2% | 30.0ms |      30 | `ZSTD_insertBt1`                    | `zstd_opt.c`                |
-|  0.1% | 18.0ms |      18 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
-|  0.1% | 18.0ms |      18 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
-|  0.1% | 15.0ms |      15 | `HIST_count_parallel_wksp`          | `hist.c`                    |
-|  0.1% |  8.0ms |       8 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
-| <0.1% |  6.0ms |       6 | `ZSTD_encodeSequences`              | `zstd_compress_sequences.c` |
-| <0.1% |  6.0ms |       6 | `FSE_buildCTable_wksp`              | `fse_compress.c`            |
-| <0.1% |  5.0ms |       5 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
-| <0.1% |  4.0ms |       4 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
-| <0.1% |  4.0ms |       4 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
-| <0.1% |  3.0ms |       3 | `ZSTD_XXH64_update`                 | `xxhash.h`                  |
-| <0.1% |  2.0ms |       2 | `HUF_writeCTable_wksp`              | `huf_compress.c`            |
-| <0.1% |  2.0ms |       2 | `HIST_count_simple`                 | `hist.c`                    |
-| <0.1% |  2.0ms |       2 | `ZSTD_deriveSeqStoreChunk`          | `zstd_compress.c`           |
-| <0.1% |  1.0ms |       1 | `ZSTDMT_compressionJob`             | `zstdmt_compress.c`         |
-| <0.1% |  1.0ms |       1 | `HUF_optimalTableLog`               | `huf_compress.c`            |
+|     % |    Time | Samples | Function                            | Location                    |
+| ----: | ------: | ------: | ----------------------------------- | --------------------------- |
+| 72.5% |  14.54s |  14,548 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
+| 14.8% |   2.96s |   2,962 | `ZSTD_insertBt1`                    | `zstd_opt.c`                |
+| 10.9% |   2.19s |   2,191 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
+|  0.7% | 140.0ms |     140 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
+|  0.2% |  50.0ms |      50 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`                |
+|  0.1% |  28.0ms |      28 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
+|  0.1% |  18.0ms |      18 | `HIST_count_parallel_wksp`          | `hist.c`                    |
+|  0.1% |  17.0ms |      17 | `ZSTD_recordFingerprint_1`          | `zstd_preSplit.c`           |
+|  0.1% |  13.0ms |      13 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
+|  0.1% |  12.0ms |      12 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
+| <0.1% |   9.0ms |       9 | `ZSTD_encodeSequences`              | `zstd_compress_sequences.c` |
+| <0.1% |   8.0ms |       8 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
+| <0.1% |   6.0ms |       6 | `ZSTD_splitBlock`                   | `zstd_preSplit.c`           |
+| <0.1% |   6.0ms |       6 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
+| <0.1% |   4.0ms |       4 | `ZSTD_XXH64_update`                 | `xxhash.h`                  |
+| <0.1% |   4.0ms |       4 | `HIST_count_simple`                 | `hist.c`                    |
+| <0.1% |   3.0ms |       3 | `FSE_writeNCount_generic`           | `fse_compress.c`            |
+| <0.1% |   3.0ms |       3 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
+| <0.1% |   2.0ms |       2 | `FSE_buildCTable_wksp`              | `fse_compress.c`            |
+| <0.1% |   2.0ms |       2 | `ZSTD_updateTree`                   | `zstd_opt.c`                |
 
 #### Lines
 
@@ -72,153 +72,153 @@ Lines ranked by contribution to each function's self time.
 
 |      % |   Time | Samples | Location         |
 | -----: | -----: | ------: | ---------------- |
-| 100.0% | 10.09s |  10,096 | `zstd_opt.c:876` |
+| 100.0% | 14.54s |  14,548 | `zstd_opt.c:876` |
+
+##### `ZSTD_insertBt1` (`zstd_opt.c`)
+
+|     % |    Time | Samples | Location         |
+| ----: | ------: | ------: | ---------------- |
+| 28.2% | 836.0ms |     836 | `zstd_opt.c:538` |
+| 27.4% | 813.0ms |     813 | `zstd_opt.c:545` |
+| 17.6% | 522.0ms |     522 | `zstd_opt.c:489` |
+| 10.9% | 322.0ms |     322 | `zstd_opt.c:528` |
+|  6.8% | 202.0ms |     202 | `zstd_opt.c:518` |
 
 ##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
 
 |      % |  Time | Samples | Location          |
 | -----: | ----: | ------: | ----------------- |
-| 100.0% | 1.60s |   1,606 | `zstd_opt.c:1455` |
+| 100.0% | 2.19s |   2,191 | `zstd_opt.c:1459` |
 
 ##### `ZSTD_litLengthPrice` (`zstd_opt.c`)
 
 |     % |   Time | Samples | Location         |
 | ----: | -----: | ------: | ---------------- |
-| 37.9% | 36.0ms |      36 | `zstd_opt.c:315` |
-| 37.9% | 36.0ms |      36 | `zstd_opt.c:313` |
-| 10.5% | 10.0ms |      10 | `zstd_opt.c:306` |
-|  8.4% |  8.0ms |       8 | `zstd_opt.c:298` |
-|  5.3% |  5.0ms |       5 | `zstd_opt.c:310` |
+| 34.3% | 48.0ms |      48 | `zstd_opt.c:313` |
+| 30.0% | 42.0ms |      42 | `zstd_opt.c:315` |
+| 17.9% | 25.0ms |      25 | `zstd_opt.c:306` |
+| 10.0% | 14.0ms |      14 | `zstd_opt.c:298` |
+|  7.9% | 11.0ms |      11 | `zstd_opt.c:310` |
 
 ##### `ZSTD_rawLiteralsCost` (`zstd_opt.c`)
 
 |     % |   Time | Samples | Location         |
 | ----: | -----: | ------: | ---------------- |
-| 82.1% | 32.0ms |      32 | `zstd_opt.c:266` |
-| 10.3% |  4.0ms |       4 | `zstd_opt.c:273` |
-|  7.7% |  3.0ms |       3 | `zstd_opt.c:276` |
-
-##### `ZSTD_insertBt1` (`zstd_opt.c`)
-
-|     % |   Time | Samples | Location         |
-| ----: | -----: | ------: | ---------------- |
-| 33.3% | 10.0ms |      10 | `zstd_opt.c:518` |
-| 26.7% |  8.0ms |       8 | `zstd_opt.c:545` |
-| 23.3% |  7.0ms |       7 | `zstd_opt.c:538` |
-|  6.7% |  2.0ms |       2 | `zstd_opt.c:490` |
-|  6.7% |  2.0ms |       2 | `zstd_opt.c:528` |
-
-##### `ZSTD_updateStats` (`zstd_opt.c`)
-
-|     % |  Time | Samples | Location         |
-| ----: | ----: | ------: | ---------------- |
-| 33.3% | 6.0ms |       6 | `zstd_opt.c:377` |
-| 22.2% | 4.0ms |       4 | `zstd_opt.c:378` |
-| 16.7% | 3.0ms |       3 | `zstd_opt.c:384` |
-| 11.1% | 2.0ms |       2 | `zstd_opt.c:371` |
-| 11.1% | 2.0ms |       2 | `zstd_opt.c:385` |
+| 72.0% | 36.0ms |      36 | `zstd_opt.c:266` |
+| 18.0% |  9.0ms |       9 | `zstd_opt.c:273` |
+|  6.0% |  3.0ms |       3 | `zstd_opt.c:276` |
+|  4.0% |  2.0ms |       2 | `zstd_opt.c:291` |
 
 ##### `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`)
 
-|     % |  Time | Samples | Location         |
-| ----: | ----: | ------: | ---------------- |
-| 33.3% | 6.0ms |       6 | `zstd_opt.c:430` |
-| 27.8% | 5.0ms |       5 | `zstd_opt.c:423` |
-| 16.7% | 3.0ms |       3 | `zstd_opt.c:424` |
-| 11.1% | 2.0ms |       2 | `zstd_opt.c:415` |
-| 11.1% | 2.0ms |       2 | `zstd_opt.c:420` |
+|     % |   Time | Samples | Location         |
+| ----: | -----: | ------: | ---------------- |
+| 42.9% | 12.0ms |      12 | `zstd_opt.c:420` |
+| 35.7% | 10.0ms |      10 | `zstd_opt.c:424` |
+| 14.3% |  4.0ms |       4 | `zstd_opt.c:430` |
+|  3.6% |  1.0ms |       1 | `zstd_opt.c:423` |
+|  3.6% |  1.0ms |       1 | `zstd_opt.c:415` |
 
 ##### `HIST_count_parallel_wksp` (`hist.c`)
 
 |     % |  Time | Samples | Location     |
 | ----: | ----: | ------: | ------------ |
-| 20.0% | 3.0ms |       3 | `hist.c:112` |
-| 13.3% | 2.0ms |       2 | `hist.c:92`  |
-| 13.3% | 2.0ms |       2 | `hist.c:109` |
-|  6.7% | 1.0ms |       1 | `hist.c:111` |
-|  6.7% | 1.0ms |       1 | `hist.c:118` |
+| 16.7% | 3.0ms |       3 | `hist.c:120` |
+| 16.7% | 3.0ms |       3 | `hist.c:122` |
+| 11.1% | 2.0ms |       2 | `hist.c:110` |
+| 11.1% | 2.0ms |       2 | `hist.c:115` |
+|  5.6% | 1.0ms |       1 | `hist.c:112` |
+
+##### `ZSTD_recordFingerprint_1` (`zstd_preSplit.c`)
+
+|      % |   Time | Samples | Location             |
+| -----: | -----: | ------: | -------------------- |
+| 100.0% | 17.0ms |      17 | `zstd_preSplit.c:87` |
 
 ##### `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`)
 
-|     % |  Time | Samples | Location          |
-| ----: | ----: | ------: | ----------------- |
-| 87.5% | 7.0ms |       7 | `zstd_opt.c:1028` |
-| 12.5% | 1.0ms |       1 | `zstd_opt.c:1044` |
-
-##### `ZSTD_encodeSequences` (`zstd_compress_sequences.c`)
-
-|      % |  Time | Samples | Location                        |
-| -----: | ----: | ------: | ------------------------------- |
-| 100.0% | 6.0ms |       6 | `zstd_compress_sequences.c:437` |
-
-##### `FSE_buildCTable_wksp` (`fse_compress.c`)
-
-|     % |  Time | Samples | Location             |
-| ----: | ----: | ------: | -------------------- |
-| 66.7% | 4.0ms |       4 | `fse_compress.c:172` |
-| 16.7% | 1.0ms |       1 | `fse_compress.c:162` |
-| 16.7% | 1.0ms |       1 | `fse_compress.c:160` |
-
-##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
-
-|      % |  Time | Samples | Location               |
-| -----: | ----: | ------: | ---------------------- |
-| 100.0% | 5.0ms |       5 | `zstd_compress.c:3822` |
+|      % |   Time | Samples | Location          |
+| -----: | -----: | ------: | ----------------- |
+| 100.0% | 13.0ms |      13 | `zstd_opt.c:1030` |
 
 ##### `ZSTD_seqToCodes` (`zstd_compress.c`)
 
 |     % |  Time | Samples | Location               |
 | ----: | ----: | ------: | ---------------------- |
-| 50.0% | 2.0ms |       2 | `zstd_compress.c:2694` |
-| 25.0% | 1.0ms |       1 | `zstd_compress.c:2697` |
-| 25.0% | 1.0ms |       1 | `zstd_compress.c:2696` |
+| 41.7% | 5.0ms |       5 | `zstd_compress.c:2706` |
+| 33.3% | 4.0ms |       4 | `zstd_compress.c:2708` |
+| 16.7% | 2.0ms |       2 | `zstd_compress.c:2709` |
+|  8.3% | 1.0ms |       1 | `zstd_compress.c:2707` |
+
+##### `ZSTD_encodeSequences` (`zstd_compress_sequences.c`)
+
+|      % |  Time | Samples | Location                        |
+| -----: | ----: | ------: | ------------------------------- |
+| 100.0% | 9.0ms |       9 | `zstd_compress_sequences.c:437` |
 
 ##### `HUF_buildCTable_wksp` (`huf_compress.c`)
 
 |     % |  Time | Samples | Location             |
 | ----: | ----: | ------: | -------------------- |
-| 50.0% | 2.0ms |       2 | `huf_compress.c:778` |
-| 25.0% | 1.0ms |       1 | `huf_compress.c:785` |
-| 25.0% | 1.0ms |       1 | `huf_compress.c:788` |
+| 50.0% | 4.0ms |       4 | `huf_compress.c:778` |
+| 37.5% | 3.0ms |       3 | `huf_compress.c:788` |
+| 12.5% | 1.0ms |       1 | `huf_compress.c:782` |
+
+##### `ZSTD_splitBlock` (`zstd_preSplit.c`)
+
+|      % |  Time | Samples | Location              |
+| -----: | ----: | ------: | --------------------- |
+| 100.0% | 6.0ms |       6 | `zstd_preSplit.c:237` |
+
+##### `ZSTD_updateStats` (`zstd_opt.c`)
+
+|     % |  Time | Samples | Location         |
+| ----: | ----: | ------: | ---------------- |
+| 50.0% | 3.0ms |       3 | `zstd_opt.c:385` |
+| 33.3% | 2.0ms |       2 | `zstd_opt.c:364` |
+| 16.7% | 1.0ms |       1 | `zstd_opt.c:371` |
 
 ##### `ZSTD_XXH64_update` (`xxhash.h`)
 
 |     % |  Time | Samples | Location        |
 | ----: | ----: | ------: | --------------- |
-| 33.3% | 1.0ms |       1 | `xxhash.h:3559` |
-| 33.3% | 1.0ms |       1 | `xxhash.h:3557` |
-| 33.3% | 1.0ms |       1 | `xxhash.h:3558` |
-
-##### `HUF_writeCTable_wksp` (`huf_compress.c`)
-
-|     % |  Time | Samples | Location             |
-| ----: | ----: | ------: | -------------------- |
-| 50.0% | 1.0ms |       1 | `huf_compress.c:271` |
-| 50.0% | 1.0ms |       1 | `huf_compress.c:276` |
+| 75.0% | 3.0ms |       3 | `xxhash.h:3608` |
+| 25.0% | 1.0ms |       1 | `xxhash.h:3607` |
 
 ##### `HIST_count_simple` (`hist.c`)
 
-|      % |  Time | Samples | Location    |
-| -----: | ----: | ------: | ----------- |
-| 100.0% | 2.0ms |       2 | `hist.c:42` |
+|     % |  Time | Samples | Location    |
+| ----: | ----: | ------: | ----------- |
+| 75.0% | 3.0ms |       3 | `hist.c:52` |
+| 25.0% | 1.0ms |       1 | `hist.c:60` |
 
-##### `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`)
+##### `FSE_writeNCount_generic` (`fse_compress.c`)
 
-|      % |  Time | Samples | Location               |
-| -----: | ----: | ------: | ---------------------- |
-| 100.0% | 2.0ms |       2 | `zstd_compress.c:3961` |
+|     % |  Time | Samples | Location             |
+| ----: | ----: | ------: | -------------------- |
+| 33.3% | 1.0ms |       1 | `fse_compress.c:264` |
+| 33.3% | 1.0ms |       1 | `fse_compress.c:304` |
+| 33.3% | 1.0ms |       1 | `fse_compress.c:263` |
 
-##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
+##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
 
-|      % |  Time | Samples | Location                |
-| -----: | ----: | ------: | ----------------------- |
-| 100.0% | 1.0ms |       1 | `zstdmt_compress.c:735` |
+|     % |  Time | Samples | Location               |
+| ----: | ----: | ------: | ---------------------- |
+| 66.7% | 2.0ms |       2 | `zstd_compress.c:3886` |
+| 33.3% | 1.0ms |       1 | `zstd_compress.c:3888` |
 
-##### `HUF_optimalTableLog` (`huf_compress.c`)
+##### `FSE_buildCTable_wksp` (`fse_compress.c`)
 
-|      % |  Time | Samples | Location              |
-| -----: | ----: | ------: | --------------------- |
-| 100.0% | 1.0ms |       1 | `huf_compress.c:1313` |
+|     % |  Time | Samples | Location             |
+| ----: | ----: | ------: | -------------------- |
+| 50.0% | 1.0ms |       1 | `fse_compress.c:197` |
+| 50.0% | 1.0ms |       1 | `fse_compress.c:160` |
+
+##### `ZSTD_updateTree` (`zstd_opt.c`)
+
+|      % |  Time | Samples | Location         |
+| -----: | ----: | ------: | ---------------- |
+| 100.0% | 2.0ms |       2 | `zstd_opt.c:584` |
 
 #### Callers
 
@@ -226,216 +226,201 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
-|      % |   Time | Samples | Caller                    | Location     |
-| -----: | -----: | ------: | ------------------------- | ------------ |
-| 100.0% | 10.09s |  10,096 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
+|      % |   Time | Samples | Caller                    | Location          |
+| -----: | -----: | ------: | ------------------------- | ----------------- |
+| 100.0% | 14.54s |  14,547 | `ZSTD_compressBlock_opt2` | `zstd_opt.c`      |
+|  <0.1% |  1.0ms |       1 | `ZSTD_buildSeqStore`      | `zstd_compress.c` |
+
+##### `ZSTD_insertBt1` (`zstd_opt.c`)
+
+|     % |   Time | Samples | Caller                          | Location     |
+| ----: | -----: | ------: | ------------------------------- | ------------ |
+| 98.6% |  2.92s |   2,920 | `ZSTD_updateTree`               | `zstd_opt.c` |
+|  1.4% | 42.0ms |      42 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
 
 ##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
 
 |     % |  Time | Samples | Caller                        | Location          |
 | ----: | ----: | ------: | ----------------------------- | ----------------- |
-| 99.5% | 1.59s |   1,598 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
-|  0.5% | 8.0ms |       8 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
+| 99.8% | 2.18s |   2,187 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
+|  0.2% | 4.0ms |       4 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
 
 ##### `ZSTD_litLengthPrice` (`zstd_opt.c`)
 
-|     % |   Time | Samples | Caller                        | Location          |
-| ----: | -----: | ------: | ----------------------------- | ----------------- |
-| 98.9% | 94.0ms |      94 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
-|  1.1% |  1.0ms |       1 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
+|     % |    Time | Samples | Caller                        | Location          |
+| ----: | ------: | ------: | ----------------------------- | ----------------- |
+| 99.3% | 139.0ms |     139 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
+|  0.7% |   1.0ms |       1 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
 
 ##### `ZSTD_rawLiteralsCost` (`zstd_opt.c`)
 
-|     % |   Time | Samples | Caller                        | Location          |
-| ----: | -----: | ------: | ----------------------------- | ----------------- |
-| 97.4% | 38.0ms |      38 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
-|  2.6% |  1.0ms |       1 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
-
-##### `ZSTD_insertBt1` (`zstd_opt.c`)
-
-|      % |   Time | Samples | Caller                          | Location     |
-| -----: | -----: | ------: | ------------------------------- | ------------ |
-| 100.0% | 30.0ms |      30 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
-
-##### `ZSTD_updateStats` (`zstd_opt.c`)
-
 |      % |   Time | Samples | Caller               | Location          |
 | -----: | -----: | ------: | -------------------- | ----------------- |
-| 100.0% | 18.0ms |      18 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
+| 100.0% | 50.0ms |      50 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
 
 ##### `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`)
 
 |      % |   Time | Samples | Caller                    | Location     |
 | -----: | -----: | ------: | ------------------------- | ------------ |
-| 100.0% | 18.0ms |      18 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
+| 100.0% | 28.0ms |      28 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
 
 ##### `HIST_count_parallel_wksp` (`hist.c`)
 
-|     % |  Time | Samples | Caller                                               | Location          |
-| ----: | ----: | ------: | ---------------------------------------------------- | ----------------- |
-| 53.3% | 8.0ms |       8 | `ZSTD_estimateBlockSize_symbolType`                  | `zstd_compress.c` |
-| 40.0% | 6.0ms |       6 | `ZSTD_buildSequencesStatistics`                      | `zstd_compress.c` |
-|  6.7% | 1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
+|     % |   Time | Samples | Caller                              | Location          |
+| ----: | -----: | ------: | ----------------------------------- | ----------------- |
+| 83.3% | 15.0ms |      15 | `ZSTD_buildSequencesStatistics`     | `zstd_compress.c` |
+| 16.7% |  3.0ms |       3 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c` |
 
-##### `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`)
+##### `ZSTD_recordFingerprint_1` (`zstd_preSplit.c`)
 
-|      % |  Time | Samples | Caller               | Location          |
-| -----: | ----: | ------: | -------------------- | ----------------- |
-| 100.0% | 8.0ms |       8 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
-
-##### `handle_softirqs ([kernel])` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                    | Location    |
-| -----: | ----: | ------: | ------------------------- | ----------- |
-| 100.0% | 7.0ms |       7 | `__do_softirq ([kernel])` | `<unknown>` |
+|      % |   Time | Samples | Caller            | Location          |
+| -----: | -----: | ------: | ----------------- | ----------------- |
+| 100.0% | 17.0ms |      17 | `ZSTD_splitBlock` | `zstd_preSplit.c` |
 
 ##### `unknown (libc.so.6)` (`<unknown>`)
 
-|      % |  Time | Samples | Caller                 | Location          |
-| -----: | ----: | ------: | ---------------------- | ----------------- |
-| 100.0% | 6.0ms |       6 | `ZSTD_compressStream2` | `zstd_compress.c` |
+|     % |  Time | Samples | Caller                                  | Location          |
+| ----: | ----: | ------: | --------------------------------------- | ----------------- |
+| 64.3% | 9.0ms |       9 | `ZSTD_compressStream2`                  | `zstd_compress.c` |
+| 21.4% | 3.0ms |       3 | `ZSTD_resetCCtx_internal`               | `zstd_compress.c` |
+|  7.1% | 1.0ms |       1 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c` |
+|  7.1% | 1.0ms |       1 | `HUF_optimalTableLog`                   | `huf_compress.c`  |
 
-##### `ZSTD_encodeSequences` (`zstd_compress_sequences.c`)
+##### `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`)
 
-|      % |  Time | Samples | Caller                                  | Location          |
-| -----: | ----: | ------: | --------------------------------------- | ----------------- |
-| 100.0% | 6.0ms |       6 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c` |
-
-##### `FSE_buildCTable_wksp` (`fse_compress.c`)
-
-|      % |  Time | Samples | Caller             | Location                    |
-| -----: | ----: | ------: | ------------------ | --------------------------- |
-| 100.0% | 6.0ms |       6 | `ZSTD_buildCTable` | `zstd_compress_sequences.c` |
-
-##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
-
-|      % |  Time | Samples | Caller                                               | Location          |
-| -----: | ----: | ------: | ---------------------------------------------------- | ----------------- |
-| 100.0% | 5.0ms |       5 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
-
-##### `__arch_copy_to_user ([kernel])` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                         | Location    |
-| -----: | ----: | ------: | ------------------------------ | ----------- |
-| 100.0% | 5.0ms |       5 | `copy_page_to_iter ([kernel])` | `<unknown>` |
-
-##### `clear_page ([kernel])` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                                | Location    |
-| -----: | ----: | ------: | ------------------------------------- | ----------- |
-| 100.0% | 4.0ms |       4 | `vma_alloc_anon_folio_pmd ([kernel])` | `<unknown>` |
+|      % |   Time | Samples | Caller               | Location          |
+| -----: | -----: | ------: | -------------------- | ----------------- |
+| 100.0% | 13.0ms |      13 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
 
 ##### `ZSTD_seqToCodes` (`zstd_compress.c`)
 
 |     % |  Time | Samples | Caller                                  | Location          |
 | ----: | ----: | ------: | --------------------------------------- | ----------------- |
-| 50.0% | 2.0ms |       2 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c` |
-| 50.0% | 2.0ms |       2 | `ZSTD_buildBlockEntropyStats`           | `zstd_compress.c` |
+| 66.7% | 8.0ms |       8 | `ZSTD_buildBlockEntropyStats`           | `zstd_compress.c` |
+| 33.3% | 4.0ms |       4 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c` |
+
+##### `ZSTD_encodeSequences` (`zstd_compress_sequences.c`)
+
+|      % |  Time | Samples | Caller                                  | Location          |
+| -----: | ----: | ------: | --------------------------------------- | ----------------- |
+| 100.0% | 9.0ms |       9 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c` |
 
 ##### `HUF_buildCTable_wksp` (`huf_compress.c`)
 
 |     % |  Time | Samples | Caller                        | Location          |
 | ----: | ----: | ------: | ----------------------------- | ----------------- |
-| 75.0% | 3.0ms |       3 | `HUF_optimalTableLog`         | `huf_compress.c`  |
-| 25.0% | 1.0ms |       1 | `ZSTD_buildBlockEntropyStats` | `zstd_compress.c` |
+| 62.5% | 5.0ms |       5 | `HUF_optimalTableLog`         | `huf_compress.c`  |
+| 25.0% | 2.0ms |       2 | `ZSTD_buildBlockEntropyStats` | `zstd_compress.c` |
+| 12.5% | 1.0ms |       1 | `HUF_compress_internal`       | `huf_compress.c`  |
 
-##### `ZSTD_XXH64_update` (`xxhash.h`)
+##### `__arch_copy_to_user ([kernel])` (`<unknown>`)
 
-|     % |  Time | Samples | Caller                           | Location            |
-| ----: | ----: | ------: | -------------------------------- | ------------------- |
-| 66.7% | 2.0ms |       2 | `ZSTDMT_compressionJob`          | `zstdmt_compress.c` |
-| 33.3% | 1.0ms |       1 | `ZSTD_compressContinue_internal` | `zstd_compress.c`   |
+|      % |  Time | Samples | Caller                         | Location    |
+| -----: | ----: | ------: | ------------------------------ | ----------- |
+| 100.0% | 7.0ms |       7 | `copy_page_to_iter ([kernel])` | `<unknown>` |
 
-##### `__bpf_trace_softirq ([kernel])` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                    | Location    |
-| -----: | ----: | ------: | ------------------------- | ----------- |
-| 100.0% | 3.0ms |       3 | `__do_softirq ([kernel])` | `<unknown>` |
-
-##### `HUF_writeCTable_wksp` (`huf_compress.c`)
-
-|     % |  Time | Samples | Caller                        | Location          |
-| ----: | ----: | ------: | ----------------------------- | ----------------- |
-| 50.0% | 1.0ms |       1 | `HUF_compress_internal`       | `huf_compress.c`  |
-| 50.0% | 1.0ms |       1 | `ZSTD_buildBlockEntropyStats` | `zstd_compress.c` |
-
-##### `HIST_count_simple` (`hist.c`)
-
-|      % |  Time | Samples | Caller            | Location |
-| -----: | ----: | ------: | ----------------- | -------- |
-| 100.0% | 2.0ms |       2 | `HIST_count_wksp` | `hist.c` |
-
-##### `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`)
+##### `ZSTD_splitBlock` (`zstd_preSplit.c`)
 
 |      % |  Time | Samples | Caller                           | Location          |
 | -----: | ----: | ------: | -------------------------------- | ----------------- |
-| 100.0% | 2.0ms |       2 | `ZSTD_compressContinue_internal` | `zstd_compress.c` |
+| 100.0% | 6.0ms |       6 | `ZSTD_compressContinue_internal` | `zstd_compress.c` |
 
-##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
+##### `ZSTD_updateStats` (`zstd_opt.c`)
 
-|      % |  Time | Samples | Caller        | Location |
-| -----: | ----: | ------: | ------------- | -------- |
-| 100.0% | 1.0ms |       1 | `POOL_thread` | `pool.c` |
+|      % |  Time | Samples | Caller               | Location          |
+| -----: | ----: | ------: | -------------------- | ----------------- |
+| 100.0% | 6.0ms |       6 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
 
-##### `HUF_optimalTableLog` (`huf_compress.c`)
+##### `ZSTD_XXH64_update` (`xxhash.h`)
 
-|      % |  Time | Samples | Caller                        | Location          |
-| -----: | ----: | ------: | ----------------------------- | ----------------- |
-| 100.0% | 1.0ms |       1 | `ZSTD_buildBlockEntropyStats` | `zstd_compress.c` |
+|      % |  Time | Samples | Caller                  | Location            |
+| -----: | ----: | ------: | ----------------------- | ------------------- |
+| 100.0% | 4.0ms |       4 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+
+##### `HIST_count_simple` (`hist.c`)
+
+|     % |  Time | Samples | Caller                 | Location         |
+| ----: | ----: | ------: | ---------------------- | ---------------- |
+| 75.0% | 3.0ms |       3 | `HIST_count_wksp`      | `hist.c`         |
+| 25.0% | 1.0ms |       1 | `HUF_writeCTable_wksp` | `huf_compress.c` |
+
+##### `FSE_writeNCount_generic` (`fse_compress.c`)
+
+|      % |  Time | Samples | Caller            | Location                    |
+| -----: | ----: | ------: | ----------------- | --------------------------- |
+| 100.0% | 3.0ms |       3 | `ZSTD_NCountCost` | `zstd_compress_sequences.c` |
+
+##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                                               | Location          |
+| -----: | ----: | ------: | ---------------------------------------------------- | ----------------- |
+| 100.0% | 3.0ms |       3 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
+
+##### `FSE_buildCTable_wksp` (`fse_compress.c`)
+
+|      % |  Time | Samples | Caller             | Location                    |
+| -----: | ----: | ------: | ------------------ | --------------------------- |
+| 100.0% | 2.0ms |       2 | `ZSTD_buildCTable` | `zstd_compress_sequences.c` |
+
+##### `ZSTD_updateTree` (`zstd_opt.c`)
+
+|      % |  Time | Samples | Caller                       | Location          |
+| -----: | ----: | ------: | ---------------------------- | ----------------- |
+| 100.0% | 2.0ms |       2 | `ZSTD_loadDictionaryContent` | `zstd_compress.c` |
 
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
 
-|      % |   Time | Samples | Function                                             | Location            |
-| -----: | -----: | ------: | ---------------------------------------------------- | ------------------- |
-| 100.0% |    12s |  12,004 | `unknown (libc.so.6)`                                | `<unknown>`         |
-|  99.9% | 11.99s |  11,994 | `POOL_thread`                                        | `pool.c`            |
-|  99.8% | 11.98s |  11,985 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
-|  99.8% | 11.97s |  11,979 | `ZSTD_compressContinue_internal`                     | `zstd_compress.c`   |
-|  99.4% | 11.92s |  11,929 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-|  98.0% | 11.76s |  11,769 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-|  84.5% | 10.14s |  10,141 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
-|   0.8% | 95.0ms |      95 | `ZSTD_litLengthPrice`                                | `zstd_opt.c`        |
-|   0.3% | 39.0ms |      39 | `ZSTD_rawLiteralsCost`                               | `zstd_opt.c`        |
-|   0.3% | 33.0ms |      33 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
-|   0.3% | 33.0ms |      33 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`   |
-|   0.2% | 30.0ms |      30 | `ZSTD_insertBt1`                                     | `zstd_opt.c`        |
-|   0.2% | 19.0ms |      19 | `ZSTD_compressBlock_btultra2`                        | `zstd_opt.c`        |
-|   0.2% | 19.0ms |      19 | `ZSTD_insertAndFindFirstIndexHash3`                  | `zstd_opt.c`        |
-|   0.2% | 19.0ms |      19 | `__do_softirq ([kernel])`                            | `<unknown>`         |
-|   0.2% | 19.0ms |      19 | `____do_softirq ([kernel])`                          | `<unknown>`         |
-|   0.2% | 19.0ms |      19 | `call_on_irq_stack ([kernel])`                       | `<unknown>`         |
-|   0.2% | 19.0ms |      19 | `do_softirq_own_stack ([kernel])`                    | `<unknown>`         |
-|   0.2% | 19.0ms |      19 | `__irq_exit_rcu ([kernel])`                          | `<unknown>`         |
-|   0.2% | 19.0ms |      19 | `irq_exit_rcu ([kernel])`                            | `<unknown>`         |
+|      % |    Time | Samples | Function                                             | Location            |
+| -----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
+| 100.0% |  20.05s |  20,056 | `unknown (libc.so.6)`                                | `<unknown>`         |
+|  99.9% |  20.04s |  20,045 | `POOL_thread`                                        | `pool.c`            |
+|  99.9% |  20.03s |  20,038 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
+|  85.3% |  17.10s |  17,104 | `ZSTD_compressContinue_internal`                     | `zstd_compress.c`   |
+|  84.9% |  17.01s |  17,018 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+|  83.8% |  16.80s |  16,808 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+|  72.7% |  14.59s |  14,590 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
+|  14.8% |   2.96s |   2,962 | `ZSTD_insertBt1`                                     | `zstd_opt.c`        |
+|  14.6% |   2.92s |   2,929 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`   |
+|  14.6% |   2.92s |   2,929 | `ZSTD_compressBegin_advanced_internal`               | `zstd_compress.c`   |
+|  14.6% |   2.92s |   2,922 | `ZSTD_updateTree`                                    | `zstd_opt.c`        |
+|  14.6% |   2.92s |   2,922 | `ZSTD_loadDictionaryContent`                         | `zstd_compress.c`   |
+|   1.3% | 265.0ms |     265 | `ZSTD_compressEnd_public`                            | `zstd_compress.c`   |
+|   0.7% | 140.0ms |     140 | `ZSTD_litLengthPrice`                                | `zstd_opt.c`        |
+|   0.2% |  50.0ms |      50 | `ZSTD_rawLiteralsCost`                               | `zstd_opt.c`        |
+|   0.2% |  42.0ms |      42 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`   |
+|   0.2% |  41.0ms |      41 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
+|   0.2% |  34.0ms |      34 | `ZSTD_buildBlockEntropyStats`                        | `zstd_compress.c`   |
+|   0.1% |  28.0ms |      28 | `ZSTD_insertAndFindFirstIndexHash3`                  | `zstd_opt.c`        |
+|   0.1% |  23.0ms |      23 | `ZSTD_splitBlock`                                    | `zstd_preSplit.c`   |
 
 #### Categories
 
 ##### Ours
 
-|     % |   Time | Samples | Function                                             | Location            |
-| ----: | -----: | ------: | ---------------------------------------------------- | ------------------- |
-| 99.9% | 11.99s |  11,994 | `POOL_thread`                                        | `pool.c`            |
-| 99.8% | 11.98s |  11,985 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
-| 99.8% | 11.97s |  11,979 | `ZSTD_compressContinue_internal`                     | `zstd_compress.c`   |
-| 99.4% | 11.92s |  11,929 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-| 98.0% | 11.76s |  11,769 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-| 84.5% | 10.14s |  10,141 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
-|  0.8% | 95.0ms |      95 | `ZSTD_litLengthPrice`                                | `zstd_opt.c`        |
-|  0.3% | 39.0ms |      39 | `ZSTD_rawLiteralsCost`                               | `zstd_opt.c`        |
-|  0.3% | 33.0ms |      33 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
-|  0.3% | 33.0ms |      33 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`   |
-|  0.2% | 30.0ms |      30 | `ZSTD_insertBt1`                                     | `zstd_opt.c`        |
-|  0.2% | 19.0ms |      19 | `ZSTD_compressBlock_btultra2`                        | `zstd_opt.c`        |
-|  0.2% | 19.0ms |      19 | `ZSTD_insertAndFindFirstIndexHash3`                  | `zstd_opt.c`        |
-|  0.1% | 18.0ms |      18 | `ZSTD_updateStats`                                   | `zstd_opt.c`        |
-|  0.1% | 17.0ms |      17 | `ZSTD_buildBlockEntropyStats`                        | `zstd_compress.c`   |
-|  0.1% | 15.0ms |      15 | `HIST_count_parallel_wksp`                           | `hist.c`            |
-|  0.1% | 14.0ms |      14 | `ZSTD_entropyCompressSeqStore_internal`              | `zstd_compress.c`   |
-|  0.1% | 14.0ms |      14 | `ZSTD_compressSeqStore_singleBlock`                  | `zstd_compress.c`   |
-|  0.1% | 13.0ms |      13 | `ZSTD_estimateBlockSize_symbolType`                  | `zstd_compress.c`   |
-|  0.1% | 12.0ms |      12 | `ZSTD_buildSequencesStatistics`                      | `zstd_compress.c`   |
+|     % |    Time | Samples | Function                                             | Location            |
+| ----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
+| 99.9% |  20.04s |  20,045 | `POOL_thread`                                        | `pool.c`            |
+| 99.9% |  20.03s |  20,038 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
+| 85.3% |  17.10s |  17,104 | `ZSTD_compressContinue_internal`                     | `zstd_compress.c`   |
+| 84.9% |  17.01s |  17,018 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+| 83.8% |  16.80s |  16,808 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+| 72.7% |  14.59s |  14,590 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
+| 14.8% |   2.96s |   2,962 | `ZSTD_insertBt1`                                     | `zstd_opt.c`        |
+| 14.6% |   2.92s |   2,929 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`   |
+| 14.6% |   2.92s |   2,929 | `ZSTD_compressBegin_advanced_internal`               | `zstd_compress.c`   |
+| 14.6% |   2.92s |   2,922 | `ZSTD_updateTree`                                    | `zstd_opt.c`        |
+| 14.6% |   2.92s |   2,922 | `ZSTD_loadDictionaryContent`                         | `zstd_compress.c`   |
+|  1.3% | 265.0ms |     265 | `ZSTD_compressEnd_public`                            | `zstd_compress.c`   |
+|  0.7% | 140.0ms |     140 | `ZSTD_litLengthPrice`                                | `zstd_opt.c`        |
+|  0.2% |  50.0ms |      50 | `ZSTD_rawLiteralsCost`                               | `zstd_opt.c`        |
+|  0.2% |  42.0ms |      42 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`   |
+|  0.2% |  41.0ms |      41 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
+|  0.2% |  34.0ms |      34 | `ZSTD_buildBlockEntropyStats`                        | `zstd_compress.c`   |
+|  0.1% |  28.0ms |      28 | `ZSTD_insertAndFindFirstIndexHash3`                  | `zstd_opt.c`        |
+|  0.1% |  23.0ms |      23 | `ZSTD_splitBlock`                                    | `zstd_preSplit.c`   |
+|  0.1% |  22.0ms |      22 | `ZSTD_entropyCompressSeqStore_internal`              | `zstd_compress.c`   |
 
 #### Callees
 
@@ -445,204 +430,167 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 |     % |   Time | Samples | Callee                    | Location    |
 | ----: | -----: | ------: | ------------------------- | ----------- |
-| 99.9% | 11.99s |  11,994 | `POOL_thread`             | `pool.c`    |
-| 99.9% | 11.99s |  11,994 | `unknown (libc.so.6)`     | `<unknown>` |
-|  0.1% | 10.0ms |      10 | `main`                    | `zstdcli.c` |
-|  0.1% |  7.0ms |       7 | `el0t_64_sync ([kernel])` | `<unknown>` |
-|  0.1% |  7.0ms |       7 | `__read (libc.so.6)`      | `<unknown>` |
+| 99.9% | 20.04s |  20,045 | `POOL_thread`             | `pool.c`    |
+| 99.9% | 20.04s |  20,045 | `unknown (libc.so.6)`     | `<unknown>` |
+|  0.1% | 11.0ms |      11 | `main`                    | `zstdcli.c` |
+| <0.1% |  7.0ms |       7 | `__read (libc.so.6)`      | `<unknown>` |
+| <0.1% |  4.0ms |       4 | `el0t_64_sync ([kernel])` | `<unknown>` |
 
 ##### `POOL_thread` (`pool.c`)
 
-|     % |   Time | Samples | Callee                          | Location            |
-| ----: | -----: | ------: | ------------------------------- | ------------------- |
-| 99.9% | 11.98s |  11,985 | `ZSTDMT_compressionJob`         | `zstdmt_compress.c` |
-|  0.1% |  8.0ms |       8 | `AIO_ReadPool_executeReadJob`   | `fileio_asyncio.c`  |
-| <0.1% |  1.0ms |       1 | `pthread_cond_wait (libc.so.6)` | `<unknown>`         |
+|      % |   Time | Samples | Callee                        | Location            |
+| -----: | -----: | ------: | ----------------------------- | ------------------- |
+| 100.0% | 20.03s |  20,038 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
+|  <0.1% |  7.0ms |       7 | `AIO_ReadPool_executeReadJob` | `fileio_asyncio.c`  |
 
 ##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
 
-|     % |   Time | Samples | Callee                                 | Location          |
-| ----: | -----: | ------: | -------------------------------------- | ----------------- |
-| 99.9% | 11.97s |  11,979 | `ZSTD_compressContinue_internal`       | `zstd_compress.c` |
-| <0.1% |  2.0ms |       2 | `ZSTD_compressBegin_advanced_internal` | `zstd_compress.c` |
-| <0.1% |  2.0ms |       2 | `ZSTD_XXH64_update`                    | `xxhash.h`        |
-| <0.1% |  1.0ms |       1 | `pthread_cond_signal (libc.so.6)`      | `<unknown>`       |
+|     % |    Time | Samples | Callee                                 | Location          |
+| ----: | ------: | ------: | -------------------------------------- | ----------------- |
+| 84.0% |  16.83s |  16,839 | `ZSTD_compressContinue_internal`       | `zstd_compress.c` |
+| 14.6% |   2.92s |   2,929 | `ZSTD_compressBegin_advanced_internal` | `zstd_compress.c` |
+|  1.3% | 265.0ms |     265 | `ZSTD_compressEnd_public`              | `zstd_compress.c` |
+| <0.1% |   4.0ms |       4 | `ZSTD_XXH64_update`                    | `xxhash.h`        |
+| <0.1% |   1.0ms |       1 | `ZSTD_deriveBlockSplitsHelper`         | `zstd_compress.c` |
 
 ##### `ZSTD_compressContinue_internal` (`zstd_compress.c`)
 
 |     % |   Time | Samples | Callee                              | Location          |
 | ----: | -----: | ------: | ----------------------------------- | ----------------- |
-| 99.6% | 11.92s |  11,929 | `ZSTD_buildSeqStore`                | `zstd_compress.c` |
-|  0.3% | 33.0ms |      33 | `ZSTD_deriveBlockSplitsHelper`      | `zstd_compress.c` |
-|  0.1% | 14.0ms |      14 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c` |
-| <0.1% |  2.0ms |       2 | `ZSTD_deriveSeqStoreChunk`          | `zstd_compress.c` |
-| <0.1% |  1.0ms |       1 | `ZSTD_XXH64_update`                 | `xxhash.h`        |
+| 99.5% | 17.01s |  17,018 | `ZSTD_buildSeqStore`                | `zstd_compress.c` |
+|  0.2% | 41.0ms |      41 | `ZSTD_deriveBlockSplitsHelper`      | `zstd_compress.c` |
+|  0.1% | 23.0ms |      23 | `ZSTD_splitBlock`                   | `zstd_preSplit.c` |
+|  0.1% | 22.0ms |      22 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c` |
 
 ##### `ZSTD_buildSeqStore` (`zstd_compress.c`)
 
-|     % |   Time | Samples | Callee                        | Location     |
-| ----: | -----: | ------: | ----------------------------- | ------------ |
-| 98.5% | 11.75s |  11,752 | `ZSTD_compressBlock_opt2`     | `zstd_opt.c` |
-|  0.8% | 94.0ms |      94 | `ZSTD_litLengthPrice`         | `zstd_opt.c` |
-|  0.3% | 38.0ms |      38 | `ZSTD_rawLiteralsCost`        | `zstd_opt.c` |
-|  0.2% | 19.0ms |      19 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c` |
-|  0.2% | 18.0ms |      18 | `ZSTD_updateStats`            | `zstd_opt.c` |
+|     % |    Time | Samples | Callee                              | Location     |
+| ----: | ------: | ------: | ----------------------------------- | ------------ |
+| 98.7% |  16.79s |  16,791 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c` |
+|  0.8% | 139.0ms |     139 | `ZSTD_litLengthPrice`               | `zstd_opt.c` |
+|  0.3% |  50.0ms |      50 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c` |
+|  0.1% |  18.0ms |      18 | `ZSTD_compressBlock_btultra2`       | `zstd_opt.c` |
+|  0.1% |  13.0ms |      13 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c` |
 
 ##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
 
 |     % |   Time | Samples | Callee                              | Location     |
 | ----: | -----: | ------: | ----------------------------------- | ------------ |
-| 86.2% | 10.14s |  10,141 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c` |
-|  0.2% | 19.0ms |      19 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c` |
-| <0.1% |  3.0ms |       3 | `el0t_64_irq ([kernel])`            | `<unknown>`  |
+| 86.8% | 14.58s |  14,589 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c` |
+|  0.2% | 28.0ms |      28 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c` |
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
-|    % |   Time | Samples | Callee                   | Location     |
-| ---: | -----: | ------: | ------------------------ | ------------ |
-| 0.3% | 30.0ms |      30 | `ZSTD_insertBt1`         | `zstd_opt.c` |
-| 0.1% | 15.0ms |      15 | `el0t_64_irq ([kernel])` | `<unknown>`  |
+|    % |   Time | Samples | Callee           | Location     |
+| ---: | -----: | ------: | ---------------- | ------------ |
+| 0.3% | 42.0ms |      42 | `ZSTD_insertBt1` | `zstd_opt.c` |
 
-##### `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`)
+##### `ZSTD_compressBegin_internal` (`zstd_compress.c`)
 
-|     % |   Time | Samples | Callee                              | Location                    |
-| ----: | -----: | ------: | ----------------------------------- | --------------------------- |
-| 51.5% | 17.0ms |      17 | `ZSTD_buildBlockEntropyStats`       | `zstd_compress.c`           |
-| 39.4% | 13.0ms |      13 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
-|  3.0% |  1.0ms |       1 | `HIST_count_parallel_wksp`          | `hist.c`                    |
-|  3.0% |  1.0ms |       1 | `HIST_count_wksp`                   | `hist.c`                    |
-|  3.0% |  1.0ms |       1 | `ZSTD_fseBitCost`                   | `zstd_compress_sequences.c` |
+|     % |  Time | Samples | Callee                       | Location          |
+| ----: | ----: | ------: | ---------------------------- | ----------------- |
+| 99.8% | 2.92s |   2,922 | `ZSTD_loadDictionaryContent` | `zstd_compress.c` |
+|  0.2% | 7.0ms |       7 | `ZSTD_resetCCtx_internal`    | `zstd_compress.c` |
+
+##### `ZSTD_compressBegin_advanced_internal` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Callee                        | Location          |
+| -----: | ----: | ------: | ----------------------------- | ----------------- |
+| 100.0% | 2.92s |   2,929 | `ZSTD_compressBegin_internal` | `zstd_compress.c` |
+
+##### `ZSTD_updateTree` (`zstd_opt.c`)
+
+|     % |  Time | Samples | Callee           | Location     |
+| ----: | ----: | ------: | ---------------- | ------------ |
+| 99.9% | 2.92s |   2,920 | `ZSTD_insertBt1` | `zstd_opt.c` |
+
+##### `ZSTD_loadDictionaryContent` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Callee            | Location     |
+| -----: | ----: | ------: | ----------------- | ------------ |
+| 100.0% | 2.92s |   2,922 | `ZSTD_updateTree` | `zstd_opt.c` |
+
+##### `ZSTD_compressEnd_public` (`zstd_compress.c`)
+
+|      % |    Time | Samples | Callee                           | Location          |
+| -----: | ------: | ------: | -------------------------------- | ----------------- |
+| 100.0% | 265.0ms |     265 | `ZSTD_compressContinue_internal` | `zstd_compress.c` |
 
 ##### `ZSTD_deriveBlockSplitsHelper` (`zstd_compress.c`)
 
-|      % |   Time | Samples | Callee                                               | Location          |
-| -----: | -----: | ------: | ---------------------------------------------------- | ----------------- |
-| 100.0% | 33.0ms |      33 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
-|   6.1% |  2.0ms |       2 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c` |
+|     % |   Time | Samples | Callee                                               | Location          |
+| ----: | -----: | ------: | ---------------------------------------------------- | ----------------- |
+| 97.6% | 41.0ms |      41 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
+|  4.8% |  2.0ms |       2 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c` |
 
-##### `ZSTD_compressBlock_btultra2` (`zstd_opt.c`)
+##### `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`)
 
-|     % |   Time | Samples | Callee                    | Location     |
-| ----: | -----: | ------: | ------------------------- | ------------ |
-| 89.5% | 17.0ms |      17 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
-|  5.3% |  1.0ms |       1 | `ZSTD_rawLiteralsCost`    | `zstd_opt.c` |
-|  5.3% |  1.0ms |       1 | `ZSTD_litLengthPrice`     | `zstd_opt.c` |
-
-##### `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`)
-
-|    % |  Time | Samples | Callee                   | Location    |
-| ---: | ----: | ------: | ------------------------ | ----------- |
-| 5.3% | 1.0ms |       1 | `el0t_64_irq ([kernel])` | `<unknown>` |
-
-##### `__do_softirq ([kernel])` (`<unknown>`)
-
-|     % |   Time | Samples | Callee                           | Location    |
-| ----: | -----: | ------: | -------------------------------- | ----------- |
-| 84.2% | 16.0ms |      16 | `handle_softirqs ([kernel])`     | `<unknown>` |
-| 15.8% |  3.0ms |       3 | `__bpf_trace_softirq ([kernel])` | `<unknown>` |
-
-##### `____do_softirq ([kernel])` (`<unknown>`)
-
-|      % |   Time | Samples | Callee                    | Location    |
-| -----: | -----: | ------: | ------------------------- | ----------- |
-| 100.0% | 19.0ms |      19 | `__do_softirq ([kernel])` | `<unknown>` |
-
-##### `call_on_irq_stack ([kernel])` (`<unknown>`)
-
-|      % |   Time | Samples | Callee                      | Location    |
-| -----: | -----: | ------: | --------------------------- | ----------- |
-| 100.0% | 19.0ms |      19 | `____do_softirq ([kernel])` | `<unknown>` |
-
-##### `do_softirq_own_stack ([kernel])` (`<unknown>`)
-
-|      % |   Time | Samples | Callee                         | Location    |
-| -----: | -----: | ------: | ------------------------------ | ----------- |
-| 100.0% | 19.0ms |      19 | `call_on_irq_stack ([kernel])` | `<unknown>` |
-
-##### `__irq_exit_rcu ([kernel])` (`<unknown>`)
-
-|      % |   Time | Samples | Callee                            | Location    |
-| -----: | -----: | ------: | --------------------------------- | ----------- |
-| 100.0% | 19.0ms |      19 | `do_softirq_own_stack ([kernel])` | `<unknown>` |
-
-##### `irq_exit_rcu ([kernel])` (`<unknown>`)
-
-|      % |   Time | Samples | Callee                      | Location    |
-| -----: | -----: | ------: | --------------------------- | ----------- |
-| 100.0% | 19.0ms |      19 | `__irq_exit_rcu ([kernel])` | `<unknown>` |
+|     % |   Time | Samples | Callee                              | Location          |
+| ----: | -----: | ------: | ----------------------------------- | ----------------- |
+| 82.9% | 34.0ms |      34 | `ZSTD_buildBlockEntropyStats`       | `zstd_compress.c` |
+| 14.6% |  6.0ms |       6 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c` |
+|  2.4% |  1.0ms |       1 | `HIST_count_wksp`                   | `hist.c`          |
 
 ##### `ZSTD_buildBlockEntropyStats` (`zstd_compress.c`)
 
 |     % |   Time | Samples | Callee                          | Location          |
 | ----: | -----: | ------: | ------------------------------- | ----------------- |
-| 58.8% | 10.0ms |      10 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
-| 11.8% |  2.0ms |       2 | `HUF_optimalTableLog`           | `huf_compress.c`  |
-| 11.8% |  2.0ms |       2 | `HUF_writeCTable_wksp`          | `huf_compress.c`  |
-| 11.8% |  2.0ms |       2 | `ZSTD_seqToCodes`               | `zstd_compress.c` |
-|  5.9% |  1.0ms |       1 | `HUF_buildCTable_wksp`          | `huf_compress.c`  |
+| 47.1% | 16.0ms |      16 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
+| 23.5% |  8.0ms |       8 | `ZSTD_seqToCodes`               | `zstd_compress.c` |
+| 14.7% |  5.0ms |       5 | `HUF_optimalTableLog`           | `huf_compress.c`  |
+|  5.9% |  2.0ms |       2 | `HUF_buildCTable_wksp`          | `huf_compress.c`  |
+|  5.9% |  2.0ms |       2 | `HIST_count_wksp`               | `hist.c`          |
+
+##### `ZSTD_splitBlock` (`zstd_preSplit.c`)
+
+|     % |   Time | Samples | Callee                     | Location          |
+| ----: | -----: | ------: | -------------------------- | ----------------- |
+| 73.9% | 17.0ms |      17 | `ZSTD_recordFingerprint_1` | `zstd_preSplit.c` |
 
 ##### `ZSTD_entropyCompressSeqStore_internal` (`zstd_compress.c`)
 
-|     % |  Time | Samples | Callee                          | Location                    |
-| ----: | ----: | ------: | ------------------------------- | --------------------------- |
-| 42.9% | 6.0ms |       6 | `ZSTD_encodeSequences`          | `zstd_compress_sequences.c` |
-| 28.6% | 4.0ms |       4 | `ZSTD_compressLiterals`         | `zstd_compress_literals.c`  |
-| 14.3% | 2.0ms |       2 | `ZSTD_seqToCodes`               | `zstd_compress.c`           |
-| 14.3% | 2.0ms |       2 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c`           |
-
-##### `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`)
-
-|      % |   Time | Samples | Callee                                  | Location          |
-| -----: | -----: | ------: | --------------------------------------- | ----------------- |
-| 100.0% | 14.0ms |      14 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c` |
-
-##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
-
-|     % |  Time | Samples | Callee                     | Location |
-| ----: | ----: | ------: | -------------------------- | -------- |
-| 61.5% | 8.0ms |       8 | `HIST_count_parallel_wksp` | `hist.c` |
-
-##### `ZSTD_buildSequencesStatistics` (`zstd_compress.c`)
-
-|     % |  Time | Samples | Callee                     | Location                    |
-| ----: | ----: | ------: | -------------------------- | --------------------------- |
-| 50.0% | 6.0ms |       6 | `HIST_count_parallel_wksp` | `hist.c`                    |
-| 50.0% | 6.0ms |       6 | `ZSTD_buildCTable`         | `zstd_compress_sequences.c` |
+|     % |   Time | Samples | Callee                          | Location                    |
+| ----: | -----: | ------: | ------------------------------- | --------------------------- |
+| 45.5% | 10.0ms |      10 | `ZSTD_encodeSequences`          | `zstd_compress_sequences.c` |
+| 18.2% |  4.0ms |       4 | `ZSTD_seqToCodes`               | `zstd_compress.c`           |
+| 18.2% |  4.0ms |       4 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c`           |
+| 13.6% |  3.0ms |       3 | `ZSTD_compressLiterals`         | `zstd_compress_literals.c`  |
+|  4.5% |  1.0ms |       1 | `unknown (libc.so.6)`           | `<unknown>`                 |
 
 ## Hottest call stacks
 
 Call stacks ranked by time spent in their leaf frame.
 
-|     % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 84.0% | 10.08s |  10,087 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| 13.3% |  1.59s |   1,598 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.8% | 94.0ms |      94 | `ZSTD_litLengthPrice` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  0.3% | 38.0ms |      38 | `ZSTD_rawLiteralsCost` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  0.2% | 30.0ms |      30 | `ZSTD_insertBt1` (`zstd_opt.c`) ← `ZSTD_btGetAllMatches_noDict_3` ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.1% | 18.0ms |      18 | `ZSTD_updateStats` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|  0.1% | 18.0ms |      18 | `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|  0.1% |  9.0ms |       9 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  0.1% |  8.0ms |       8 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.1% |  8.0ms |       8 | `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.1% |  7.0ms |       7 | `HIST_count_parallel_wksp` (`hist.c`) ← `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`) ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                       |
-| <0.1% |  6.0ms |       6 | `ZSTD_encodeSequences` (`zstd_compress_sequences.c`) ← `ZSTD_entropyCompressSeqStore_internal` (`zstd_compress.c`) ← `ZSTD_compressSeqStore_singleBlock` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| <0.1% |  6.0ms |       6 | `unknown (libc.so.6)` ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| <0.1% |  5.0ms |       5 | `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`) ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| <0.1% |  5.0ms |       5 | `HIST_count_parallel_wksp` (`hist.c`) ← `ZSTD_buildSequencesStatistics` (`zstd_compress.c`) ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                           |
-| <0.1% |  5.0ms |       5 | `FSE_buildCTable_wksp` (`fse_compress.c`) ← `ZSTD_buildCTable` (`zstd_compress_sequences.c`) ← `ZSTD_buildSequencesStatistics` (`zstd_compress.c`) ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                    |
-| <0.1% |  5.0ms |       5 | `handle_softirqs ([kernel])` ← `__do_softirq ([kernel])` ← `____do_softirq ([kernel])` ← `call_on_irq_stack ([kernel])` ← `do_softirq_own_stack ([kernel])` ← `__irq_exit_rcu ([kernel])` ← `irq_exit_rcu ([kernel])` ← `el0_interrupt ([kernel])` ← `__el0_irq_handler_common ([kernel])` ← `el0t_64_irq_handler ([kernel])` ← `el0t_64_irq ([kernel])` ← `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                              |
-| <0.1% |  5.0ms |       5 | `__arch_copy_to_user ([kernel])` ← `copy_page_to_iter ([kernel])` ← `filemap_read ([kernel])` ← `generic_file_read_iter ([kernel])` ← `ext4_file_read_iter ([kernel])` ← `do_iter_readv_writev ([kernel])` ← `vfs_iter_read ([kernel])` ← `backing_file_read_iter ([kernel])` ← `ovl_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `__arm64_sys_read ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `__read (libc.so.6)` ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)` |
-| <0.1% |  3.0ms |       3 | `__bpf_trace_softirq ([kernel])` ← `__do_softirq ([kernel])` ← `____do_softirq ([kernel])` ← `call_on_irq_stack ([kernel])` ← `do_softirq_own_stack ([kernel])` ← `__irq_exit_rcu ([kernel])` ← `irq_exit_rcu ([kernel])` ← `el0_interrupt ([kernel])` ← `__el0_irq_handler_common ([kernel])` ← `el0t_64_irq_handler ([kernel])` ← `el0t_64_irq ([kernel])` ← `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                          |
-| <0.1% |  2.0ms |       2 | `clear_page ([kernel])` ← `vma_alloc_anon_folio_pmd ([kernel])` ← `do_huge_pmd_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_page_fault ([kernel])` ← `do_translation_fault ([kernel])` ← `do_mem_abort ([kernel])` ← `el0_da ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                    |
+|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 71.4% |  14.31s |  14,315 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 14.6% |   2.92s |   2,920 | `ZSTD_insertBt1` (`zstd_opt.c`) ← `ZSTD_updateTree` ← `ZSTD_loadDictionaryContent` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 10.7% |   2.14s |   2,146 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  1.1% | 219.0ms |     219 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  0.7% | 136.0ms |     136 | `ZSTD_litLengthPrice` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  0.2% |  50.0ms |      50 | `ZSTD_rawLiteralsCost` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  0.2% |  41.0ms |      41 | `ZSTD_insertBt1` (`zstd_opt.c`) ← `ZSTD_btGetAllMatches_noDict_3` ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  0.2% |  41.0ms |      41 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  0.1% |  28.0ms |      28 | `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|  0.1% |  17.0ms |      17 | `ZSTD_recordFingerprint_1` (`zstd_preSplit.c`) ← `ZSTD_splitBlock` ← `ZSTD_compressContinue_internal` (`zstd_compress.c`) ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  0.1% |  13.0ms |      13 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  0.1% |  13.0ms |      13 | `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  0.1% |  12.0ms |      12 | `HIST_count_parallel_wksp` (`hist.c`) ← `ZSTD_buildSequencesStatistics` (`zstd_compress.c`) ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                           |
+| <0.1% |   9.0ms |       9 | `ZSTD_encodeSequences` (`zstd_compress_sequences.c`) ← `ZSTD_entropyCompressSeqStore_internal` (`zstd_compress.c`) ← `ZSTD_entropyCompressSeqStore` ← `ZSTD_compressSeqStore_singleBlock` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                     |
+| <0.1% |   9.0ms |       9 | `unknown (libc.so.6)` ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% |   8.0ms |       8 | `ZSTD_seqToCodes` (`zstd_compress.c`) ← `ZSTD_buildBlockEntropyStats` ← `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| <0.1% |   7.0ms |       7 | `__arch_copy_to_user ([kernel])` ← `copy_page_to_iter ([kernel])` ← `filemap_read ([kernel])` ← `generic_file_read_iter ([kernel])` ← `ext4_file_read_iter ([kernel])` ← `do_iter_readv_writev ([kernel])` ← `vfs_iter_read ([kernel])` ← `backing_file_read_iter ([kernel])` ← `ovl_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `__arm64_sys_read ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `__read (libc.so.6)` ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)` |
+| <0.1% |   6.0ms |       6 | `ZSTD_updateStats` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| <0.1% |   5.0ms |       5 | `ZSTD_splitBlock` (`zstd_preSplit.c`) ← `ZSTD_compressContinue_internal` (`zstd_compress.c`) ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| <0.1% |   4.0ms |       4 | `ZSTD_XXH64_update` (`xxhash.h`) ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 # Uninterruptible sleep profile
 
-Slept 3 times.
+Slept 5 times.
 
 | Category |      % | Sleeps |
 | -------- | -----: | -----: |
-| Kernel   | 100.0% |      3 |
+| Kernel   | 100.0% |      5 |
 
 ## Hottest functions
 
@@ -656,7 +604,7 @@ Functions ranked by uninterruptible sleeps entered directly in the function body
 
 |      % | Sleeps | Function                    | Location    |
 | -----: | -----: | --------------------------- | ----------- |
-| 100.0% |      3 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 #### Callers
 
@@ -666,38 +614,61 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 
 |      % | Sleeps | Caller                                | Location    |
 | -----: | -----: | ------------------------------------- | ----------- |
-| 100.0% |      3 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
 Functions ranked by total uninterruptible sleeps entered in the function and all its callees.
 
+|      % | Sleeps | Function                                | Location    |
+| -----: | -----: | --------------------------------------- | ----------- |
+| 100.0% |      5 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+| 100.0% |      5 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+| 100.0% |      5 | `__schedule ([kernel])`                 | `<unknown>` |
+| 100.0% |      5 | `schedule ([kernel])`                   | `<unknown>` |
+| 100.0% |      5 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+| 100.0% |      5 | `el0_svc ([kernel])`                    | `<unknown>` |
+| 100.0% |      5 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+| 100.0% |      5 | `el0t_64_sync ([kernel])`               | `<unknown>` |
+| 100.0% |      5 | `unknown (libc.so.6)`                   | `<unknown>` |
+| 100.0% |      5 | `POOL_thread`                           | `pool.c`    |
+|  80.0% |      4 | `schedule_preempt_disabled ([kernel])`  | `<unknown>` |
+|  80.0% |      4 | `rwsem_down_read_slowpath ([kernel])`   | `<unknown>` |
+|  80.0% |      4 | `down_read_killable ([kernel])`         | `<unknown>` |
+|  80.0% |      4 | `lock_mm_and_find_vma ([kernel])`       | `<unknown>` |
+|  80.0% |      4 | `do_page_fault ([kernel])`              | `<unknown>` |
+|  80.0% |      4 | `do_translation_fault ([kernel])`       | `<unknown>` |
+|  80.0% |      4 | `do_mem_abort ([kernel])`               | `<unknown>` |
+|  80.0% |      4 | `el1_abort ([kernel])`                  | `<unknown>` |
+|  80.0% |      4 | `el1h_64_sync_handler ([kernel])`       | `<unknown>` |
+
 #### Categories
 
 ##### Kernel
 
-|      % | Sleeps | Function                               | Location    |
-| -----: | -----: | -------------------------------------- | ----------- |
-| 100.0% |      3 | `bpf_trace_run4 ([kernel])`            | `<unknown>` |
-| 100.0% |      3 | `__bpf_trace_sched_switch ([kernel])`  | `<unknown>` |
-| 100.0% |      3 | `__schedule ([kernel])`                | `<unknown>` |
-| 100.0% |      3 | `schedule ([kernel])`                  | `<unknown>` |
-| 100.0% |      3 | `schedule_preempt_disabled ([kernel])` | `<unknown>` |
-| 100.0% |      3 | `rwsem_down_read_slowpath ([kernel])`  | `<unknown>` |
-| 100.0% |      3 | `down_read_killable ([kernel])`        | `<unknown>` |
-| 100.0% |      3 | `lock_mm_and_find_vma ([kernel])`      | `<unknown>` |
-| 100.0% |      3 | `do_page_fault ([kernel])`             | `<unknown>` |
-| 100.0% |      3 | `do_translation_fault ([kernel])`      | `<unknown>` |
-| 100.0% |      3 | `do_mem_abort ([kernel])`              | `<unknown>` |
-| 100.0% |      3 | `el1_abort ([kernel])`                 | `<unknown>` |
-| 100.0% |      3 | `el1h_64_sync_handler ([kernel])`      | `<unknown>` |
-| 100.0% |      3 | `el1h_64_sync ([kernel])`              | `<unknown>` |
-| 100.0% |      3 | `__arch_copy_to_user ([kernel])`       | `<unknown>` |
-| 100.0% |      3 | `copy_page_to_iter ([kernel])`         | `<unknown>` |
-| 100.0% |      3 | `filemap_read ([kernel])`              | `<unknown>` |
-| 100.0% |      3 | `generic_file_read_iter ([kernel])`    | `<unknown>` |
-| 100.0% |      3 | `ext4_file_read_iter ([kernel])`       | `<unknown>` |
-| 100.0% |      3 | `do_iter_readv_writev ([kernel])`      | `<unknown>` |
+|      % | Sleeps | Function                                | Location    |
+| -----: | -----: | --------------------------------------- | ----------- |
+| 100.0% |      5 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+| 100.0% |      5 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+| 100.0% |      5 | `__schedule ([kernel])`                 | `<unknown>` |
+| 100.0% |      5 | `schedule ([kernel])`                   | `<unknown>` |
+| 100.0% |      5 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+| 100.0% |      5 | `el0_svc ([kernel])`                    | `<unknown>` |
+| 100.0% |      5 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+| 100.0% |      5 | `el0t_64_sync ([kernel])`               | `<unknown>` |
+|  80.0% |      4 | `schedule_preempt_disabled ([kernel])`  | `<unknown>` |
+|  80.0% |      4 | `rwsem_down_read_slowpath ([kernel])`   | `<unknown>` |
+|  80.0% |      4 | `down_read_killable ([kernel])`         | `<unknown>` |
+|  80.0% |      4 | `lock_mm_and_find_vma ([kernel])`       | `<unknown>` |
+|  80.0% |      4 | `do_page_fault ([kernel])`              | `<unknown>` |
+|  80.0% |      4 | `do_translation_fault ([kernel])`       | `<unknown>` |
+|  80.0% |      4 | `do_mem_abort ([kernel])`               | `<unknown>` |
+|  80.0% |      4 | `el1_abort ([kernel])`                  | `<unknown>` |
+|  80.0% |      4 | `el1h_64_sync_handler ([kernel])`       | `<unknown>` |
+|  80.0% |      4 | `el1h_64_sync ([kernel])`               | `<unknown>` |
+|  80.0% |      4 | `__arch_copy_to_user ([kernel])`        | `<unknown>` |
 
 #### Callees
 
@@ -707,131 +678,151 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 |      % | Sleeps | Callee                      | Location    |
 | -----: | -----: | --------------------------- | ----------- |
-| 100.0% |      3 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ##### `__schedule ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                                | Location    |
 | -----: | -----: | ------------------------------------- | ----------- |
-| 100.0% |      3 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
 
 ##### `schedule ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                  | Location    |
 | -----: | -----: | ----------------------- | ----------- |
-| 100.0% |      3 | `__schedule ([kernel])` | `<unknown>` |
+| 100.0% |      5 | `__schedule ([kernel])` | `<unknown>` |
+
+##### `invoke_syscall.constprop.0 ([kernel])` (`<unknown>`)
+
+|     % | Sleeps | Callee                        | Location    |
+| ----: | -----: | ----------------------------- | ----------- |
+| 80.0% |      4 | `__arm64_sys_read ([kernel])` | `<unknown>` |
+| 20.0% |      1 | `__arm64_sys_mmap ([kernel])` | `<unknown>` |
+
+##### `do_el0_svc ([kernel])` (`<unknown>`)
+
+|      % | Sleeps | Callee                                  | Location    |
+| -----: | -----: | --------------------------------------- | ----------- |
+| 100.0% |      5 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+
+##### `el0_svc ([kernel])` (`<unknown>`)
+
+|      % | Sleeps | Callee                  | Location    |
+| -----: | -----: | ----------------------- | ----------- |
+| 100.0% |      5 | `do_el0_svc ([kernel])` | `<unknown>` |
+
+##### `el0t_64_sync_handler ([kernel])` (`<unknown>`)
+
+|      % | Sleeps | Callee               | Location    |
+| -----: | -----: | -------------------- | ----------- |
+| 100.0% |      5 | `el0_svc ([kernel])` | `<unknown>` |
+
+##### `el0t_64_sync ([kernel])` (`<unknown>`)
+
+|      % | Sleeps | Callee                            | Location    |
+| -----: | -----: | --------------------------------- | ----------- |
+| 100.0% |      5 | `el0t_64_sync_handler ([kernel])` | `<unknown>` |
+
+##### `unknown (libc.so.6)` (`<unknown>`)
+
+|      % | Sleeps | Callee                | Location    |
+| -----: | -----: | --------------------- | ----------- |
+| 100.0% |      5 | `POOL_thread`         | `pool.c`    |
+| 100.0% |      5 | `unknown (libc.so.6)` | `<unknown>` |
+|  80.0% |      4 | `__read (libc.so.6)`  | `<unknown>` |
+|  20.0% |      1 | `mmap64 (libc.so.6)`  | `<unknown>` |
+
+##### `POOL_thread` (`pool.c`)
+
+|     % | Sleeps | Callee                        | Location            |
+| ----: | -----: | ----------------------------- | ------------------- |
+| 80.0% |      4 | `AIO_ReadPool_executeReadJob` | `fileio_asyncio.c`  |
+| 20.0% |      1 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
 
 ##### `schedule_preempt_disabled ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                | Location    |
 | -----: | -----: | --------------------- | ----------- |
-| 100.0% |      3 | `schedule ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `schedule ([kernel])` | `<unknown>` |
 
 ##### `rwsem_down_read_slowpath ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                                 | Location    |
 | -----: | -----: | -------------------------------------- | ----------- |
-| 100.0% |      3 | `schedule_preempt_disabled ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `schedule_preempt_disabled ([kernel])` | `<unknown>` |
 
 ##### `down_read_killable ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                                | Location    |
 | -----: | -----: | ------------------------------------- | ----------- |
-| 100.0% |      3 | `rwsem_down_read_slowpath ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `rwsem_down_read_slowpath ([kernel])` | `<unknown>` |
 
 ##### `lock_mm_and_find_vma ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                          | Location    |
 | -----: | -----: | ------------------------------- | ----------- |
-| 100.0% |      3 | `down_read_killable ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `down_read_killable ([kernel])` | `<unknown>` |
 
 ##### `do_page_fault ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                            | Location    |
 | -----: | -----: | --------------------------------- | ----------- |
-| 100.0% |      3 | `lock_mm_and_find_vma ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `lock_mm_and_find_vma ([kernel])` | `<unknown>` |
 
 ##### `do_translation_fault ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                     | Location    |
 | -----: | -----: | -------------------------- | ----------- |
-| 100.0% |      3 | `do_page_fault ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `do_page_fault ([kernel])` | `<unknown>` |
 
 ##### `do_mem_abort ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                            | Location    |
 | -----: | -----: | --------------------------------- | ----------- |
-| 100.0% |      3 | `do_translation_fault ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `do_translation_fault ([kernel])` | `<unknown>` |
 
 ##### `el1_abort ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                    | Location    |
 | -----: | -----: | ------------------------- | ----------- |
-| 100.0% |      3 | `do_mem_abort ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `do_mem_abort ([kernel])` | `<unknown>` |
 
 ##### `el1h_64_sync_handler ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                 | Location    |
 | -----: | -----: | ---------------------- | ----------- |
-| 100.0% |      3 | `el1_abort ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `el1_abort ([kernel])` | `<unknown>` |
 
 ##### `el1h_64_sync ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                            | Location    |
 | -----: | -----: | --------------------------------- | ----------- |
-| 100.0% |      3 | `el1h_64_sync_handler ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `el1h_64_sync_handler ([kernel])` | `<unknown>` |
 
 ##### `__arch_copy_to_user ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                    | Location    |
 | -----: | -----: | ------------------------- | ----------- |
-| 100.0% |      3 | `el1h_64_sync ([kernel])` | `<unknown>` |
-
-##### `copy_page_to_iter ([kernel])` (`<unknown>`)
-
-|      % | Sleeps | Callee                           | Location    |
-| -----: | -----: | -------------------------------- | ----------- |
-| 100.0% |      3 | `__arch_copy_to_user ([kernel])` | `<unknown>` |
-
-##### `filemap_read ([kernel])` (`<unknown>`)
-
-|      % | Sleeps | Callee                         | Location    |
-| -----: | -----: | ------------------------------ | ----------- |
-| 100.0% |      3 | `copy_page_to_iter ([kernel])` | `<unknown>` |
-
-##### `generic_file_read_iter ([kernel])` (`<unknown>`)
-
-|      % | Sleeps | Callee                    | Location    |
-| -----: | -----: | ------------------------- | ----------- |
-| 100.0% |      3 | `filemap_read ([kernel])` | `<unknown>` |
-
-##### `ext4_file_read_iter ([kernel])` (`<unknown>`)
-
-|      % | Sleeps | Callee                              | Location    |
-| -----: | -----: | ----------------------------------- | ----------- |
-| 100.0% |      3 | `generic_file_read_iter ([kernel])` | `<unknown>` |
-
-##### `do_iter_readv_writev ([kernel])` (`<unknown>`)
-
-|      % | Sleeps | Callee                           | Location    |
-| -----: | -----: | -------------------------------- | ----------- |
-| 100.0% |      3 | `ext4_file_read_iter ([kernel])` | `<unknown>` |
+| 100.0% |      4 | `el1h_64_sync ([kernel])` | `<unknown>` |
 
 ## Hottest call stacks
 
 Call stacks ranked by uninterruptible sleeps entered in their leaf frame.
 
-|      % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| -----: | -----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% |      3 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_read_slowpath ([kernel])` ← `down_read_killable ([kernel])` ← `lock_mm_and_find_vma ([kernel])` ← `do_page_fault ([kernel])` ← `do_translation_fault ([kernel])` ← `do_mem_abort ([kernel])` ← `el1_abort ([kernel])` ← `el1h_64_sync_handler ([kernel])` ← `el1h_64_sync ([kernel])` ← `__arch_copy_to_user ([kernel])` ← `copy_page_to_iter ([kernel])` ← `filemap_read ([kernel])` ← `generic_file_read_iter ([kernel])` ← `ext4_file_read_iter ([kernel])` ← `do_iter_readv_writev ([kernel])` ← `vfs_iter_read ([kernel])` ← `backing_file_read_iter ([kernel])` ← `ovl_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `__arm64_sys_read ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `__read (libc.so.6)` ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)` |
+Common call stack: `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`
+
+|     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ----: | -----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 80.0% |      4 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_read_slowpath ([kernel])` ← `down_read_killable ([kernel])` ← `lock_mm_and_find_vma ([kernel])` ← `do_page_fault ([kernel])` ← `do_translation_fault ([kernel])` ← `do_mem_abort ([kernel])` ← `el1_abort ([kernel])` ← `el1h_64_sync_handler ([kernel])` ← `el1h_64_sync ([kernel])` ← `__arch_copy_to_user ([kernel])` ← `copy_page_to_iter ([kernel])` ← `filemap_read ([kernel])` ← `generic_file_read_iter ([kernel])` ← `ext4_file_read_iter ([kernel])` ← `do_iter_readv_writev ([kernel])` ← `vfs_iter_read ([kernel])` ← `backing_file_read_iter ([kernel])` ← `ovl_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `__arm64_sys_read ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `__read (libc.so.6)` ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) |
+| 20.0% |      1 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `__vma_start_exclude_readers ([kernel])` ← `__vma_start_write ([kernel])` ← `vma_expand ([kernel])` ← `vma_merge_new_range ([kernel])` ← `__mmap_region ([kernel])` ← `mmap_region ([kernel])` ← `do_mmap ([kernel])` ← `vm_mmap_pgoff ([kernel])` ← `ksys_mmap_pgoff ([kernel])` ← `__arm64_sys_mmap ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `mmap64 (libc.so.6)` ← `unknown (libc.so.6)` ← `unknown (libc.so.6)` ← `malloc (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`)                                                                                                                                                                                                                                                                           |
 
 # Interruptible sleep profile
 
-Slept 215 times.
+Slept 214 times.
 
 | Category |      % | Sleeps |
 | -------- | -----: | -----: |
-| Kernel   | 100.0% |    215 |
+| Kernel   | 100.0% |    214 |
 
 ## Hottest functions
 
@@ -845,7 +836,7 @@ Functions ranked by interruptible sleeps entered directly in the function body, 
 
 |      % | Sleeps | Function                    | Location    |
 | -----: | -----: | --------------------------- | ----------- |
-| 100.0% |    215 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 #### Callers
 
@@ -855,7 +846,7 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 
 |      % | Sleeps | Caller                                | Location    |
 | -----: | -----: | ------------------------------------- | ----------- |
-| 100.0% |    215 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
@@ -863,26 +854,26 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 
 |      % | Sleeps | Function                                | Location    |
 | -----: | -----: | --------------------------------------- | ----------- |
-| 100.0% |    215 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
-| 100.0% |    215 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
-| 100.0% |    215 | `__schedule ([kernel])`                 | `<unknown>` |
-| 100.0% |    215 | `schedule ([kernel])`                   | `<unknown>` |
-| 100.0% |    215 | `futex_do_wait ([kernel])`              | `<unknown>` |
-| 100.0% |    215 | `__futex_wait ([kernel])`               | `<unknown>` |
-| 100.0% |    215 | `futex_wait ([kernel])`                 | `<unknown>` |
-| 100.0% |    215 | `do_futex ([kernel])`                   | `<unknown>` |
-| 100.0% |    215 | `__arm64_sys_futex ([kernel])`          | `<unknown>` |
-| 100.0% |    215 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
-| 100.0% |    215 | `do_el0_svc ([kernel])`                 | `<unknown>` |
-| 100.0% |    215 | `el0_svc ([kernel])`                    | `<unknown>` |
-| 100.0% |    215 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
-| 100.0% |    215 | `el0t_64_sync ([kernel])`               | `<unknown>` |
-| 100.0% |    215 | `unknown (libc.so.6)`                   | `<unknown>` |
-| 100.0% |    215 | `pthread_cond_wait (libc.so.6)`         | `<unknown>` |
-|  78.6% |    169 | `POOL_thread`                           | `pool.c`    |
-|  21.4% |     46 | `FIO_compressFilename_srcFile`          | `fileio.c`  |
-|  21.4% |     46 | `FIO_compressFilename`                  | `fileio.c`  |
-|  21.4% |     46 | `main`                                  | `zstdcli.c` |
+| 100.0% |    214 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+| 100.0% |    214 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+| 100.0% |    214 | `__schedule ([kernel])`                 | `<unknown>` |
+| 100.0% |    214 | `schedule ([kernel])`                   | `<unknown>` |
+| 100.0% |    214 | `futex_do_wait ([kernel])`              | `<unknown>` |
+| 100.0% |    214 | `__futex_wait ([kernel])`               | `<unknown>` |
+| 100.0% |    214 | `futex_wait ([kernel])`                 | `<unknown>` |
+| 100.0% |    214 | `do_futex ([kernel])`                   | `<unknown>` |
+| 100.0% |    214 | `__arm64_sys_futex ([kernel])`          | `<unknown>` |
+| 100.0% |    214 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+| 100.0% |    214 | `el0_svc ([kernel])`                    | `<unknown>` |
+| 100.0% |    214 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+| 100.0% |    214 | `el0t_64_sync ([kernel])`               | `<unknown>` |
+| 100.0% |    214 | `unknown (libc.so.6)`                   | `<unknown>` |
+|  99.5% |    213 | `pthread_cond_wait (libc.so.6)`         | `<unknown>` |
+|  78.5% |    168 | `POOL_thread`                           | `pool.c`    |
+|  21.5% |     46 | `FIO_compressFilename_srcFile`          | `fileio.c`  |
+|  21.5% |     46 | `FIO_compressFilename`                  | `fileio.c`  |
+|  21.5% |     46 | `main`                                  | `zstdcli.c` |
 
 #### Categories
 
@@ -890,20 +881,20 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 
 |      % | Sleeps | Function                                | Location    |
 | -----: | -----: | --------------------------------------- | ----------- |
-| 100.0% |    215 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
-| 100.0% |    215 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
-| 100.0% |    215 | `__schedule ([kernel])`                 | `<unknown>` |
-| 100.0% |    215 | `schedule ([kernel])`                   | `<unknown>` |
-| 100.0% |    215 | `futex_do_wait ([kernel])`              | `<unknown>` |
-| 100.0% |    215 | `__futex_wait ([kernel])`               | `<unknown>` |
-| 100.0% |    215 | `futex_wait ([kernel])`                 | `<unknown>` |
-| 100.0% |    215 | `do_futex ([kernel])`                   | `<unknown>` |
-| 100.0% |    215 | `__arm64_sys_futex ([kernel])`          | `<unknown>` |
-| 100.0% |    215 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
-| 100.0% |    215 | `do_el0_svc ([kernel])`                 | `<unknown>` |
-| 100.0% |    215 | `el0_svc ([kernel])`                    | `<unknown>` |
-| 100.0% |    215 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
-| 100.0% |    215 | `el0t_64_sync ([kernel])`               | `<unknown>` |
+| 100.0% |    214 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+| 100.0% |    214 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+| 100.0% |    214 | `__schedule ([kernel])`                 | `<unknown>` |
+| 100.0% |    214 | `schedule ([kernel])`                   | `<unknown>` |
+| 100.0% |    214 | `futex_do_wait ([kernel])`              | `<unknown>` |
+| 100.0% |    214 | `__futex_wait ([kernel])`               | `<unknown>` |
+| 100.0% |    214 | `futex_wait ([kernel])`                 | `<unknown>` |
+| 100.0% |    214 | `do_futex ([kernel])`                   | `<unknown>` |
+| 100.0% |    214 | `__arm64_sys_futex ([kernel])`          | `<unknown>` |
+| 100.0% |    214 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+| 100.0% |    214 | `el0_svc ([kernel])`                    | `<unknown>` |
+| 100.0% |    214 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+| 100.0% |    214 | `el0t_64_sync ([kernel])`               | `<unknown>` |
 
 #### Callees
 
@@ -913,107 +904,108 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 |      % | Sleeps | Callee                      | Location    |
 | -----: | -----: | --------------------------- | ----------- |
-| 100.0% |    215 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ##### `__schedule ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                                | Location    |
 | -----: | -----: | ------------------------------------- | ----------- |
-| 100.0% |    215 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `__bpf_trace_sched_switch ([kernel])` | `<unknown>` |
 
 ##### `schedule ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                  | Location    |
 | -----: | -----: | ----------------------- | ----------- |
-| 100.0% |    215 | `__schedule ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `__schedule ([kernel])` | `<unknown>` |
 
 ##### `futex_do_wait ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                | Location    |
 | -----: | -----: | --------------------- | ----------- |
-| 100.0% |    215 | `schedule ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `schedule ([kernel])` | `<unknown>` |
 
 ##### `__futex_wait ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                     | Location    |
 | -----: | -----: | -------------------------- | ----------- |
-| 100.0% |    215 | `futex_do_wait ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `futex_do_wait ([kernel])` | `<unknown>` |
 
 ##### `futex_wait ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                    | Location    |
 | -----: | -----: | ------------------------- | ----------- |
-| 100.0% |    215 | `__futex_wait ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `__futex_wait ([kernel])` | `<unknown>` |
 
 ##### `do_futex ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                  | Location    |
 | -----: | -----: | ----------------------- | ----------- |
-| 100.0% |    215 | `futex_wait ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `futex_wait ([kernel])` | `<unknown>` |
 
 ##### `__arm64_sys_futex ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                | Location    |
 | -----: | -----: | --------------------- | ----------- |
-| 100.0% |    215 | `do_futex ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `do_futex ([kernel])` | `<unknown>` |
 
 ##### `invoke_syscall.constprop.0 ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                         | Location    |
 | -----: | -----: | ------------------------------ | ----------- |
-| 100.0% |    215 | `__arm64_sys_futex ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `__arm64_sys_futex ([kernel])` | `<unknown>` |
 
 ##### `do_el0_svc ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                                  | Location    |
 | -----: | -----: | --------------------------------------- | ----------- |
-| 100.0% |    215 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
 
 ##### `el0_svc ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                  | Location    |
 | -----: | -----: | ----------------------- | ----------- |
-| 100.0% |    215 | `do_el0_svc ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `do_el0_svc ([kernel])` | `<unknown>` |
 
 ##### `el0t_64_sync_handler ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee               | Location    |
 | -----: | -----: | -------------------- | ----------- |
-| 100.0% |    215 | `el0_svc ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `el0_svc ([kernel])` | `<unknown>` |
 
 ##### `el0t_64_sync ([kernel])` (`<unknown>`)
 
 |      % | Sleeps | Callee                            | Location    |
 | -----: | -----: | --------------------------------- | ----------- |
-| 100.0% |    215 | `el0t_64_sync_handler ([kernel])` | `<unknown>` |
+| 100.0% |    214 | `el0t_64_sync_handler ([kernel])` | `<unknown>` |
 
 ##### `unknown (libc.so.6)` (`<unknown>`)
 
 |      % | Sleeps | Callee                    | Location    |
 | -----: | -----: | ------------------------- | ----------- |
-| 100.0% |    215 | `el0t_64_sync ([kernel])` | `<unknown>` |
-|  78.6% |    169 | `POOL_thread`             | `pool.c`    |
-|  78.6% |    169 | `unknown (libc.so.6)`     | `<unknown>` |
-|  21.4% |     46 | `main`                    | `zstdcli.c` |
+| 100.0% |    214 | `el0t_64_sync ([kernel])` | `<unknown>` |
+|  78.5% |    168 | `POOL_thread`             | `pool.c`    |
+|  78.5% |    168 | `unknown (libc.so.6)`     | `<unknown>` |
+|  21.5% |     46 | `main`                    | `zstdcli.c` |
 
 ##### `pthread_cond_wait (libc.so.6)` (`<unknown>`)
 
 |      % | Sleeps | Callee                | Location    |
 | -----: | -----: | --------------------- | ----------- |
-| 100.0% |    215 | `unknown (libc.so.6)` | `<unknown>` |
+| 100.0% |    213 | `unknown (libc.so.6)` | `<unknown>` |
 
 ##### `POOL_thread` (`pool.c`)
 
-|      % | Sleeps | Callee                          | Location    |
-| -----: | -----: | ------------------------------- | ----------- |
-| 100.0% |    169 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
+|     % | Sleeps | Callee                          | Location            |
+| ----: | -----: | ------------------------------- | ------------------- |
+| 99.4% |    167 | `pthread_cond_wait (libc.so.6)` | `<unknown>`         |
+|  0.6% |      1 | `ZSTDMT_compressionJob`         | `zstdmt_compress.c` |
 
 ##### `FIO_compressFilename_srcFile` (`fileio.c`)
 
 |     % | Sleeps | Callee                    | Location           |
 | ----: | -----: | ------------------------- | ------------------ |
-| 89.1% |     41 | `ZSTD_compressStream2`    | `zstd_compress.c`  |
-|  6.5% |      3 | `AIO_ReadPool_fillBuffer` | `fileio_asyncio.c` |
+| 87.0% |     40 | `ZSTD_compressStream2`    | `zstd_compress.c`  |
+|  8.7% |      4 | `AIO_ReadPool_fillBuffer` | `fileio_asyncio.c` |
 |  4.3% |      2 | `AIO_ReadPool_setFile`    | `fileio_asyncio.c` |
 
 ##### `FIO_compressFilename` (`fileio.c`)
@@ -1034,7 +1026,9 @@ Call stacks ranked by interruptible sleeps entered in their leaf frame.
 
 |     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----: | -----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 78.6% |    169 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                     |
-| 19.1% |     41 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`) ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)` |
-|  1.4% |      3 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_fillBuffer` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                             |
+| 76.6% |    164 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                     |
+| 18.7% |     40 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`) ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)` |
+|  1.9% |      4 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_fillBuffer` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                             |
+|  1.4% |      3 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                             |
 |  0.9% |      2 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_setFile` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                                |
+|  0.5% |      1 | `bpf_trace_run4 ([kernel])` ← `__bpf_trace_sched_switch ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_do_wait ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__arm64_sys_futex ([kernel])` ← `invoke_syscall.constprop.0 ([kernel])` ← `do_el0_svc ([kernel])` ← `el0_svc ([kernel])` ← `el0t_64_sync_handler ([kernel])` ← `el0t_64_sync ([kernel])` ← `unknown (libc.so.6)` ← `__pthread_mutex_lock (libc.so.6)` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                  |

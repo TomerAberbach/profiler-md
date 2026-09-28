@@ -1,11 +1,11 @@
 # Instruction profile
 
-Recorded 39,556,676 instructions.
+Recorded 39,558,155 instructions.
 
 | Category |      % | Instructions |
 | -------- | -----: | -----------: |
-| Ours     | 100.0% |   39,549,377 |
-| Native   |  <0.1% |        7,299 |
+| Ours     | 100.0% |   39,550,586 |
+| Native   |  <0.1% |        7,569 |
 
 ## Hottest functions
 
@@ -21,7 +21,7 @@ Functions ranked by instructions recorded directly in the function body, excludi
 | ----: | -----------: | ------------------------------------------------- | --------------------------------------------------- |
 | 30.6% |   12,117,184 | `ZSTD_encodeSequences`                            | `lib//common/bitstream.h`                           |
 | 29.6% |   11,716,441 | `ZSTD_compressBlock_doubleFast`                   | `lib//compress/zstd_double_fast.c`                  |
-| 21.1% |    8,326,805 | `ZSTD_compressBlock_doubleFast`                   | `lib//compress/zstd_compress_internal.h`            |
+| 21.0% |    8,326,805 | `ZSTD_compressBlock_doubleFast`                   | `lib//compress/zstd_compress_internal.h`            |
 |  5.0% |    1,959,721 | `HIST_count_parallel_wksp`                        | `lib//compress/hist.c`                              |
 |  3.8% |    1,507,463 | `ZSTD_XXH64_update`                               | `lib//common/xxhash.h`                              |
 |  3.5% |    1,370,282 | `ZSTD_seqToCodes`                                 | `lib//compress/zstd_compress_internal.h`            |
@@ -252,8 +252,8 @@ Functions ranked by total instructions recorded in the function and all its call
 | 50.7% |   20,043,157 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_compress_internal.h`  |
 | 49.8% |   19,696,431 | `ZSTD_compressContinue_public`  | `lib//compress/zstd_compress.c`           |
 | 49.8% |   19,696,318 | `ZSTD_compressContinue_public`  | `lib//compress/zstd_compress_internal.h`  |
-| 47.2% |   18,651,635 | `ZSTD_compressEnd_public`       | `lib//compress/zstd_compress.c`           |
-| 47.2% |   18,651,568 | `ZSTD_compressEnd_public`       | `lib//compress/zstd_compress_internal.h`  |
+| 47.1% |   18,651,635 | `ZSTD_compressEnd_public`       | `lib//compress/zstd_compress.c`           |
+| 47.1% |   18,651,568 | `ZSTD_compressEnd_public`       | `lib//compress/zstd_compress_internal.h`  |
 | 30.6% |   12,119,320 | `ZSTD_encodeSequences`          | `lib//compress/zstd_compress_sequences.c` |
 | 30.6% |   12,118,064 | `ZSTD_encodeSequences`          | `lib//common/mem.h`                       |
 | 30.6% |   12,117,184 | `ZSTD_encodeSequences`          | `lib//common/bitstream.h`                 |

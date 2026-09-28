@@ -1,20 +1,20 @@
 # Heap snapshot
 
-Allocated 155 MiB across 1,797,991 nodes and 5,735,169 edges.
+Allocated 155 MiB across 1,795,753 nodes and 5,724,326 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
-| String             | 45.1% |   70 MiB | 295,592 |
-| Code               | 18.4% | 28.6 MiB | 402,515 |
-| Array              | 15.7% | 24.4 MiB | 631,413 |
-| Object             | 10.8% | 16.8 MiB | 164,867 |
-| Internal           |  9.5% | 14.8 MiB | 269,102 |
-| Symbol             |  0.4% |  592 KiB |  27,476 |
-| Function           |  0.1% |   81 KiB |   3,510 |
-| Number             | <0.1% | 40.9 KiB |   2,766 |
-| Native             | <0.1% | 11.4 KiB |     515 |
-| Regular expression | <0.1% | 4.48 KiB |     174 |
-| Synthetic          | <0.1% |    384 B |      61 |
+| String             | 45.0% | 69.7 MiB | 295,316 |
+| Code               | 18.4% | 28.5 MiB | 401,901 |
+| Array              | 15.7% | 24.3 MiB | 630,555 |
+| Object             | 10.9% | 16.9 MiB | 168,753 |
+| Internal           |  9.5% | 14.8 MiB | 268,763 |
+| Symbol             |  0.4% |  592 KiB |  27,475 |
+| Number             | <0.1% | 39.7 KiB |   2,704 |
+| Regular expression | <0.1% | 1.67 KiB |      85 |
+| Function           | <0.1% |    728 B |      85 |
+| Native             | <0.1% |    536 B |      52 |
+| Synthetic          | <0.1% |    440 B |      64 |
 
 ## Largest constructors
 
@@ -26,28 +26,28 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 ##### Object
 
-|     % |     Size | Instances | Constructor                                                                                                   |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------- |
-|  6.4% | 9.88 MiB |   120,343 | `<generic memory - inline alloc>`                                                                             |
-|  3.9% | 5.99 MiB |    11,696 | `<generic memory - malloc>`                                                                                   |
-| <0.1% | 6.35 KiB |       271 | `Memory{String}`                                                                                              |
-| <0.1% |      8 B |         1 | `Base.Val{Char(0x64000000)}`                                                                                  |
-| <0.1% |      8 B |         1 | `typeof(Base.close)`                                                                                          |
-| <0.1% |      8 B |         1 | `Parsers.var"#36#37"`                                                                                         |
-| <0.1% |      8 B |         1 | `typeof(Base.Filesystem.delayed_delete_ref)`                                                                  |
-| <0.1% |      8 B |         1 | `typeof(Base.Threads.atomic_min!)`                                                                            |
-| <0.1% |      8 B |         1 | `typeof(Base.SimdLoop.simd_outer_range)`                                                                      |
-| <0.1% |      8 B |         1 | `typeof(Base.Threads.atomic_or!)`                                                                             |
-| <0.1% |      8 B |         1 | `typeof(Base.PCRE.substring_length_bynumber)`                                                                 |
-| <0.1% |      8 B |         1 | `Base.Broadcast.var"#_maxndims##0#_maxndims##1"{Tuple}`                                                       |
-| <0.1% |      8 B |         1 | `Base.var"##_truncated_pipebuffer#392"`                                                                       |
-| <0.1% |      8 B |         1 | `typeof(Base.JuliaSyntax.is_prec_pipe_gt)`                                                                    |
-| <0.1% |      8 B |         1 | `Profile.var"#print_tree##0#print_tree##1"`                                                                   |
-| <0.1% |      8 B |         1 | `Tuple{typeof(Base.Order.ord), typeof(Base.isless), typeof(Base.first), Nothing, Base.Order.ForwardOrdering}` |
-| <0.1% |      8 B |         1 | `typeof(Base.TOML.set_marker!)`                                                                               |
-| <0.1% |      8 B |         1 | `Tuple{Base.MathConstants.var"#4#5"}`                                                                         |
-| <0.1% |      8 B |         1 | `Base.MathConstants.var"##BigFloat#7"`                                                                        |
-| <0.1% |      8 B |         1 | `typeof(LinearAlgebra.matprod)`                                                                               |
+|     % |     Size | Instances | Constructor                                                                                                                                          |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  6.4% | 9.87 MiB |   120,202 | `<generic memory - inline alloc>`                                                                                                                    |
+|  3.9% | 5.98 MiB |    11,691 | `<generic memory - malloc>`                                                                                                                          |
+| <0.1% | 6.35 KiB |       271 | `Memory{String}`                                                                                                                                     |
+| <0.1% |     48 B |         2 | `Memory{Dates.DateLocale}`                                                                                                                           |
+| <0.1% |     24 B |         1 | `Memory{Tuple{String, Array{String, 1}, Array{String, 1}}}`                                                                                          |
+| <0.1% |      8 B |         1 | `typeof(Dates.dayabbr_to_value)`                                                                                                                     |
+| <0.1% |      8 B |         1 | `Base.Sort.var"#_sort!##10#_sort!##11"{Base.Order.By{Base.var"#run_extension_callbacks##0#run_extension_callbacks##1", Base.Order.ForwardOrdering}}` |
+| <0.1% |      8 B |         1 | `typeof(Base.position)`                                                                                                                              |
+| <0.1% |      8 B |         1 | `typeof(Base.Compiler.simple_walk_constraint)`                                                                                                       |
+| <0.1% |      8 B |         1 | `typeof(Base.valid_import_path)`                                                                                                                     |
+| <0.1% |      8 B |         1 | `Base.MappingRF{typeof(Base.identity), typeof(Base.max)}`                                                                                            |
+| <0.1% |      8 B |         1 | `Base.Compiler.var"#sroa_pass!##2#sroa_pass!##3"`                                                                                                    |
+| <0.1% |      8 B |         1 | `Tuple{typeof(Base.stacktrace_linebreaks)}`                                                                                                          |
+| <0.1% |      8 B |         1 | `Base.JuliaSyntax.var"##emit#35"`                                                                                                                    |
+| <0.1% |      8 B |         1 | `Base.IteratorsMD.var"#22#23"`                                                                                                                       |
+| <0.1% |      8 B |         1 | `typeof(Base.Compiler.renumber_ssa!)`                                                                                                                |
+| <0.1% |      8 B |         1 | `Tuple{typeof(Base.in_sysimage)}`                                                                                                                    |
+| <0.1% |      8 B |         1 | `LinearAlgebra.var"##lu#186"`                                                                                                                        |
+| <0.1% |      8 B |         1 | `typeof(Base.Compiler.has_extended_unionsplit)`                                                                                                      |
+| <0.1% |      8 B |         1 | `typeof(Base.print_module_path_file)`                                                                                                                |
 
 #### Instances
 
@@ -67,7 +67,7 @@ Instances ranked by contribution to each constructor's self size.
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 80.4% | 4.82 MiB |        10 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← [<unknown>] Memory{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}} ← .ref.mem Array{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}, 1} ← .local var (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .stack Task` |
+| 80.5% | 4.82 MiB |        10 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← [<unknown>] Memory{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}} ← .ref.mem Array{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}, 1} ← .local var (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .stack Task` |
 |  2.5% |  153 KiB |         1 | `.<native> Memory{Tuple{UInt64, UInt64, UInt64}} ← .ref.mem Array{Tuple{UInt64, UInt64, UInt64}, 1}`                                                                                                                                                                                                                                                                                                                                           |
 |  1.0% |   64 KiB |         1 | `.<native> Memory{UInt16} ← .bindingkeyset Base`                                                                                                                                                                                                                                                                                                                                                                                               |
 |  1.0% |   64 KiB |         1 | `.<native> Memory{Any} ← .leafcache Core.MethodCache ← .cache Core.MethodTable`                                                                                                                                                                                                                                                                                                                                                                |
@@ -83,103 +83,104 @@ Instances ranked by contribution to each constructor's self size.
 | 0.4% | 24 B |         1 | `.ref.mem Array{String, 1} ← .restriction Core.BindingPartition ← .partitions Core.Binding ← [60] SimpleVector ← .bindings Unicode`                |
 | 0.4% | 24 B |         1 | `.keys Base.Dict{String, Dates.DateLocale} ← .restriction Core.BindingPartition ← .partitions Core.Binding ← [231] SimpleVector ← .bindings Dates` |
 
-##### `Base.Val{Char(0x64000000)}`
+##### `Memory{Dates.DateLocale}`
 
-|      % | Size | Instances | Path                                   |
-| -----: | ---: | --------: | -------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Base.Val{Char(0x64000000)}` |
+|     % | Size | Instances | Path                                                                                                                                               |
+| ----: | ---: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 50.0% | 24 B |         1 | `.instance Memory{Dates.DateLocale}`                                                                                                               |
+| 50.0% | 24 B |         1 | `.vals Base.Dict{String, Dates.DateLocale} ← .restriction Core.BindingPartition ← .partitions Core.Binding ← [231] SimpleVector ← .bindings Dates` |
 
-##### `typeof(Base.close)`
+##### `Memory{Tuple{String, Array{String, 1}, Array{String, 1}}}`
 
-|      % | Size | Instances | Path        |
-| -----: | ---: | --------: | ----------- |
-| 100.0% |  8 B |         1 | `(GC root)` |
+|      % | Size | Instances | Path                                                                  |
+| -----: | ---: | --------: | --------------------------------------------------------------------- |
+| 100.0% | 24 B |         1 | `.instance Memory{Tuple{String, Array{String, 1}, Array{String, 1}}}` |
 
-##### `Parsers.var"#36#37"`
-
-|      % | Size | Instances | Path                            |
-| -----: | ---: | --------: | ------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Parsers.var"#36#37"` |
-
-##### `typeof(Base.Filesystem.delayed_delete_ref)`
+##### `typeof(Dates.dayabbr_to_value)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.Threads.atomic_min!)`
+##### `Base.Sort.var"#_sort!##10#_sort!##11"{Base.Order.By{Base.var"#run_extension_callbacks##0#run_extension_callbacks##1", Base.Order.ForwardOrdering}}`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.SimdLoop.simd_outer_range)`
+##### `typeof(Base.position)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.Threads.atomic_or!)`
+##### `typeof(Base.Compiler.simple_walk_constraint)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.PCRE.substring_length_bynumber)`
+##### `typeof(Base.valid_import_path)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `Base.Broadcast.var"#_maxndims##0#_maxndims##1"{Tuple}`
-
-|      % | Size | Instances | Path                                                              |
-| -----: | ---: | --------: | ----------------------------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Base.Broadcast.var"#_maxndims##0#_maxndims##1"{Tuple}` |
-
-##### `Base.var"##_truncated_pipebuffer#392"`
+##### `Base.MappingRF{typeof(Base.identity), typeof(Base.max)}`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.JuliaSyntax.is_prec_pipe_gt)`
+##### `Base.Compiler.var"#sroa_pass!##2#sroa_pass!##3"`
 
-|      % | Size | Instances | Path        |
-| -----: | ---: | --------: | ----------- |
-| 100.0% |  8 B |         1 | `(GC root)` |
+|      % | Size | Instances | Path                                                        |
+| -----: | ---: | --------: | ----------------------------------------------------------- |
+| 100.0% |  8 B |         1 | `.instance Base.Compiler.var"#sroa_pass!##2#sroa_pass!##3"` |
 
-##### `Profile.var"#print_tree##0#print_tree##1"`
+##### `Tuple{typeof(Base.stacktrace_linebreaks)}`
 
 |      % | Size | Instances | Path                                                  |
 | -----: | ---: | --------: | ----------------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Profile.var"#print_tree##0#print_tree##1"` |
+| 100.0% |  8 B |         1 | `.instance Tuple{typeof(Base.stacktrace_linebreaks)}` |
 
-##### `Tuple{typeof(Base.Order.ord), typeof(Base.isless), typeof(Base.first), Nothing, Base.Order.ForwardOrdering}`
-
-|      % | Size | Instances | Path                                                                                                                    |
-| -----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Tuple{typeof(Base.Order.ord), typeof(Base.isless), typeof(Base.first), Nothing, Base.Order.ForwardOrdering}` |
-
-##### `typeof(Base.TOML.set_marker!)`
+##### `Base.JuliaSyntax.var"##emit#35"`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `Tuple{Base.MathConstants.var"#4#5"}`
+##### `Base.IteratorsMD.var"#22#23"`
 
-|      % | Size | Instances | Path                                            |
-| -----: | ---: | --------: | ----------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Tuple{Base.MathConstants.var"#4#5"}` |
+|      % | Size | Instances | Path                                     |
+| -----: | ---: | --------: | ---------------------------------------- |
+| 100.0% |  8 B |         1 | `.instance Base.IteratorsMD.var"#22#23"` |
 
-##### `Base.MathConstants.var"##BigFloat#7"`
+##### `typeof(Base.Compiler.renumber_ssa!)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(LinearAlgebra.matprod)`
+##### `Tuple{typeof(Base.in_sysimage)}`
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% |  8 B |         1 | `(GC root)` |
+
+##### `LinearAlgebra.var"##lu#186"`
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% |  8 B |         1 | `(GC root)` |
+
+##### `typeof(Base.Compiler.has_extended_unionsplit)`
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% |  8 B |         1 | `(GC root)` |
+
+##### `typeof(Base.print_module_path_file)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
@@ -193,28 +194,28 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 ##### Object
 
-|     % |     Size | Instances | Constructor                                                                                                   |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------- |
-|  6.4% | 9.88 MiB |   120,343 | `<generic memory - inline alloc>`                                                                             |
-|  3.9% | 5.99 MiB |    11,696 | `<generic memory - malloc>`                                                                                   |
-|  0.2% |  284 KiB |       271 | `Memory{String}`                                                                                              |
-| <0.1% |      8 B |         1 | `Base.Val{Char(0x64000000)}`                                                                                  |
-| <0.1% |      8 B |         1 | `typeof(Base.close)`                                                                                          |
-| <0.1% |      8 B |         1 | `Parsers.var"#36#37"`                                                                                         |
-| <0.1% |      8 B |         1 | `typeof(Base.Filesystem.delayed_delete_ref)`                                                                  |
-| <0.1% |      8 B |         1 | `typeof(Base.Threads.atomic_min!)`                                                                            |
-| <0.1% |      8 B |         1 | `typeof(Base.SimdLoop.simd_outer_range)`                                                                      |
-| <0.1% |      8 B |         1 | `typeof(Base.Threads.atomic_or!)`                                                                             |
-| <0.1% |      8 B |         1 | `typeof(Base.PCRE.substring_length_bynumber)`                                                                 |
-| <0.1% |      8 B |         1 | `Base.Broadcast.var"#_maxndims##0#_maxndims##1"{Tuple}`                                                       |
-| <0.1% |      8 B |         1 | `Base.var"##_truncated_pipebuffer#392"`                                                                       |
-| <0.1% |      8 B |         1 | `typeof(Base.JuliaSyntax.is_prec_pipe_gt)`                                                                    |
-| <0.1% |      8 B |         1 | `Profile.var"#print_tree##0#print_tree##1"`                                                                   |
-| <0.1% |      8 B |         1 | `Tuple{typeof(Base.Order.ord), typeof(Base.isless), typeof(Base.first), Nothing, Base.Order.ForwardOrdering}` |
-| <0.1% |      8 B |         1 | `typeof(Base.TOML.set_marker!)`                                                                               |
-| <0.1% |      8 B |         1 | `Tuple{Base.MathConstants.var"#4#5"}`                                                                         |
-| <0.1% |      8 B |         1 | `Base.MathConstants.var"##BigFloat#7"`                                                                        |
-| <0.1% |      8 B |         1 | `typeof(LinearAlgebra.matprod)`                                                                               |
+|     % |     Size | Instances | Constructor                                                                                                                                          |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  6.4% | 9.87 MiB |   120,202 | `<generic memory - inline alloc>`                                                                                                                    |
+|  3.9% | 5.98 MiB |    11,691 | `<generic memory - malloc>`                                                                                                                          |
+|  0.2% |  284 KiB |       271 | `Memory{String}`                                                                                                                                     |
+| <0.1% | 1.05 KiB |         2 | `Memory{Dates.DateLocale}`                                                                                                                           |
+| <0.1% |     24 B |         1 | `Memory{Tuple{String, Array{String, 1}, Array{String, 1}}}`                                                                                          |
+| <0.1% |      8 B |         1 | `typeof(Dates.dayabbr_to_value)`                                                                                                                     |
+| <0.1% |      8 B |         1 | `Base.Sort.var"#_sort!##10#_sort!##11"{Base.Order.By{Base.var"#run_extension_callbacks##0#run_extension_callbacks##1", Base.Order.ForwardOrdering}}` |
+| <0.1% |      8 B |         1 | `typeof(Base.position)`                                                                                                                              |
+| <0.1% |      8 B |         1 | `typeof(Base.Compiler.simple_walk_constraint)`                                                                                                       |
+| <0.1% |      8 B |         1 | `typeof(Base.valid_import_path)`                                                                                                                     |
+| <0.1% |      8 B |         1 | `Base.MappingRF{typeof(Base.identity), typeof(Base.max)}`                                                                                            |
+| <0.1% |      8 B |         1 | `Base.Compiler.var"#sroa_pass!##2#sroa_pass!##3"`                                                                                                    |
+| <0.1% |      8 B |         1 | `Tuple{typeof(Base.stacktrace_linebreaks)}`                                                                                                          |
+| <0.1% |      8 B |         1 | `Base.JuliaSyntax.var"##emit#35"`                                                                                                                    |
+| <0.1% |      8 B |         1 | `Base.IteratorsMD.var"#22#23"`                                                                                                                       |
+| <0.1% |      8 B |         1 | `typeof(Base.Compiler.renumber_ssa!)`                                                                                                                |
+| <0.1% |      8 B |         1 | `Tuple{typeof(Base.in_sysimage)}`                                                                                                                    |
+| <0.1% |      8 B |         1 | `LinearAlgebra.var"##lu#186"`                                                                                                                        |
+| <0.1% |      8 B |         1 | `typeof(Base.Compiler.has_extended_unionsplit)`                                                                                                      |
+| <0.1% |      8 B |         1 | `typeof(Base.print_module_path_file)`                                                                                                                |
 
 #### Instances
 
@@ -234,7 +235,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 80.4% | 4.82 MiB |        10 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← [<unknown>] Memory{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}} ← .ref.mem Array{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}, 1} ← .local var (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .stack Task` |
+| 80.5% | 4.82 MiB |        10 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← [<unknown>] Memory{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}} ← .ref.mem Array{JSON3.Object{Base.CodeUnits{UInt8, String}, Array{UInt64, 1}}, 1} ← .local var (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .next frame (stack frame) ← .stack Task` |
 |  2.5% |  153 KiB |         1 | `.<native> Memory{Tuple{UInt64, UInt64, UInt64}} ← .ref.mem Array{Tuple{UInt64, UInt64, UInt64}, 1}`                                                                                                                                                                                                                                                                                                                                           |
 |  1.0% |   64 KiB |         1 | `.<native> Memory{UInt16} ← .bindingkeyset Base`                                                                                                                                                                                                                                                                                                                                                                                               |
 |  1.0% |   64 KiB |         1 | `.<native> Memory{Any} ← .leafcache Core.MethodCache ← .cache Core.MethodTable`                                                                                                                                                                                                                                                                                                                                                                |
@@ -250,103 +251,104 @@ Instances ranked by contribution to each constructor's retained size.
 |  4.6% |   13 KiB |         1 | `.vals Base.Dict{Union{Int64, Symbol}, String}`                                                                                                                                                                                        |
 |  1.3% | 3.72 KiB |         1 | `.keys Base.Dict{String, Any} ← [<unknown>] Memory{Any} ← .vals Base.Dict{String, Any} ← .d Base.CachedTOMLDict ← [<unknown>] Memory{Base.CachedTOMLDict} ← .vals Base.Dict{String, Base.CachedTOMLDict} ← .d Base.TOMLCache{nothing}` |
 
-##### `Base.Val{Char(0x64000000)}`
+##### `Memory{Dates.DateLocale}`
 
-|      % | Size | Instances | Path                                   |
-| -----: | ---: | --------: | -------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Base.Val{Char(0x64000000)}` |
+|     % |     Size | Instances | Path                                                                                                                                               |
+| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 97.8% | 1.02 KiB |         1 | `.vals Base.Dict{String, Dates.DateLocale} ← .restriction Core.BindingPartition ← .partitions Core.Binding ← [231] SimpleVector ← .bindings Dates` |
+|  2.2% |     24 B |         1 | `.instance Memory{Dates.DateLocale}`                                                                                                               |
 
-##### `typeof(Base.close)`
+##### `Memory{Tuple{String, Array{String, 1}, Array{String, 1}}}`
 
-|      % | Size | Instances | Path        |
-| -----: | ---: | --------: | ----------- |
-| 100.0% |  8 B |         1 | `(GC root)` |
+|      % | Size | Instances | Path                                                                  |
+| -----: | ---: | --------: | --------------------------------------------------------------------- |
+| 100.0% | 24 B |         1 | `.instance Memory{Tuple{String, Array{String, 1}, Array{String, 1}}}` |
 
-##### `Parsers.var"#36#37"`
-
-|      % | Size | Instances | Path                            |
-| -----: | ---: | --------: | ------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Parsers.var"#36#37"` |
-
-##### `typeof(Base.Filesystem.delayed_delete_ref)`
+##### `typeof(Dates.dayabbr_to_value)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.Threads.atomic_min!)`
+##### `Base.Sort.var"#_sort!##10#_sort!##11"{Base.Order.By{Base.var"#run_extension_callbacks##0#run_extension_callbacks##1", Base.Order.ForwardOrdering}}`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.SimdLoop.simd_outer_range)`
+##### `typeof(Base.position)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.Threads.atomic_or!)`
+##### `typeof(Base.Compiler.simple_walk_constraint)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.PCRE.substring_length_bynumber)`
+##### `typeof(Base.valid_import_path)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `Base.Broadcast.var"#_maxndims##0#_maxndims##1"{Tuple}`
-
-|      % | Size | Instances | Path                                                              |
-| -----: | ---: | --------: | ----------------------------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Base.Broadcast.var"#_maxndims##0#_maxndims##1"{Tuple}` |
-
-##### `Base.var"##_truncated_pipebuffer#392"`
+##### `Base.MappingRF{typeof(Base.identity), typeof(Base.max)}`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(Base.JuliaSyntax.is_prec_pipe_gt)`
+##### `Base.Compiler.var"#sroa_pass!##2#sroa_pass!##3"`
 
-|      % | Size | Instances | Path        |
-| -----: | ---: | --------: | ----------- |
-| 100.0% |  8 B |         1 | `(GC root)` |
+|      % | Size | Instances | Path                                                        |
+| -----: | ---: | --------: | ----------------------------------------------------------- |
+| 100.0% |  8 B |         1 | `.instance Base.Compiler.var"#sroa_pass!##2#sroa_pass!##3"` |
 
-##### `Profile.var"#print_tree##0#print_tree##1"`
+##### `Tuple{typeof(Base.stacktrace_linebreaks)}`
 
 |      % | Size | Instances | Path                                                  |
 | -----: | ---: | --------: | ----------------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Profile.var"#print_tree##0#print_tree##1"` |
+| 100.0% |  8 B |         1 | `.instance Tuple{typeof(Base.stacktrace_linebreaks)}` |
 
-##### `Tuple{typeof(Base.Order.ord), typeof(Base.isless), typeof(Base.first), Nothing, Base.Order.ForwardOrdering}`
-
-|      % | Size | Instances | Path                                                                                                                    |
-| -----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Tuple{typeof(Base.Order.ord), typeof(Base.isless), typeof(Base.first), Nothing, Base.Order.ForwardOrdering}` |
-
-##### `typeof(Base.TOML.set_marker!)`
+##### `Base.JuliaSyntax.var"##emit#35"`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `Tuple{Base.MathConstants.var"#4#5"}`
+##### `Base.IteratorsMD.var"#22#23"`
 
-|      % | Size | Instances | Path                                            |
-| -----: | ---: | --------: | ----------------------------------------------- |
-| 100.0% |  8 B |         1 | `.instance Tuple{Base.MathConstants.var"#4#5"}` |
+|      % | Size | Instances | Path                                     |
+| -----: | ---: | --------: | ---------------------------------------- |
+| 100.0% |  8 B |         1 | `.instance Base.IteratorsMD.var"#22#23"` |
 
-##### `Base.MathConstants.var"##BigFloat#7"`
+##### `typeof(Base.Compiler.renumber_ssa!)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |
 | 100.0% |  8 B |         1 | `(GC root)` |
 
-##### `typeof(LinearAlgebra.matprod)`
+##### `Tuple{typeof(Base.in_sysimage)}`
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% |  8 B |         1 | `(GC root)` |
+
+##### `LinearAlgebra.var"##lu#186"`
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% |  8 B |         1 | `(GC root)` |
+
+##### `typeof(Base.Compiler.has_extended_unionsplit)`
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% |  8 B |         1 | `(GC root)` |
+
+##### `typeof(Base.print_module_path_file)`
 
 |      % | Size | Instances | Path        |
 | -----: | ---: | --------: | ----------- |

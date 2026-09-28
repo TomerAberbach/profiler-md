@@ -1,12 +1,12 @@
 # Sampling profile diff
 
-Collected 1,119 samples → 962 samples (-157 samples, -14.0%).
+Collected 933 samples → 1,845 samples (+912 samples, +97.7%).
 
-| Category          | Change | Delta |             % |   Samples |
-| ----------------- | -----: | ----: | ------------: | --------: |
-| Ours              | -11.1% |   -80 | 64.4% → 66.6% | 721 → 641 |
-| Garbage collector | -21.6% |   -82 | 33.9% → 30.9% | 379 → 297 |
-| Standard library  | +26.3% |    +5 |   1.7% → 2.5% |   19 → 24 |
+| Category          |  Change | Delta |             % |     Samples |
+| ----------------- | ------: | ----: | ------------: | ----------: |
+| Ours              | +101.9% |  +634 | 66.7% → 68.1% | 622 → 1,256 |
+| Garbage collector |  +91.3% |  +264 | 31.0% → 30.0% |   289 → 553 |
+| Standard library  |  +63.6% |   +14 |   2.4% → 2.0% |     22 → 36 |
 
 ## Hottest functions
 
@@ -16,127 +16,129 @@ Collected 1,119 samples → 962 samples (-157 samples, -14.0%).
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |           % | Samples | Function                            | Location                                 |
-| ------: | ----: | ----------: | ------: | ----------------------------------- | ---------------------------------------- |
-| +120.0% |    +6 | 0.4% → 1.1% |  5 → 11 | `_compile_bytecode`                 | `<frozen importlib._bootstrap_external>` |
-|  +41.7% |    +5 | 1.1% → 1.8% | 12 → 17 | `_stringify_ast`                    | `parsing.py`                             |
-| +125.0% |    +5 | 0.4% → 0.9% |   4 → 9 | `line_to_string`                    | `lines.py`                               |
-|  +83.3% |    +5 | 0.5% → 1.1% |  6 → 11 | `BracketTracker.mark`               | `brackets.py`                            |
-|     new |    +4 | 0.0% → 0.4% |   0 → 4 | `generate_comments`                 | `comments.py`                            |
-|     new |    +3 | 0.0% → 0.3% |   0 → 3 | `DFAState.unifystate`               | `pgen.py`                                |
-|  +66.7% |    +2 | 0.3% → 0.5% |   3 → 5 | `format_str`                        | `__init__.py`                            |
-|  +66.7% |    +2 | 0.3% → 0.5% |   3 → 5 | `LinesBlock.all_lines`              | `lines.py`                               |
-|  +50.0% |    +2 | 0.4% → 0.6% |   4 → 6 | `_stringify_ast_with_new_parent`    | `parsing.py`                             |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `Base.prev_sibling`                 | `pytree.py`                              |
-| +200.0% |    +2 | 0.1% → 0.3% |   1 → 3 | `whitespace`                        | `nodes.py`                               |
-| +200.0% |    +2 | 0.1% → 0.3% |   1 → 3 | `_hugging_power_ops_line_to_string` | `linegen.py`                             |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `_parse_sub`                        | `_parser.py`                             |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `_first_right_hand_split`           | `linegen.py`                             |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `LineGenerator.visit_STRING`        | `linegen.py`                             |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `delimiter_split`                   | `linegen.py`                             |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `lib2to3_parse`                     | `parsing.py`                             |
-|  +50.0% |    +1 | 0.2% → 0.3% |   2 → 3 | `assert_stable`                     | `__init__.py`                            |
-|  +11.1% |    +1 | 0.8% → 1.0% |  9 → 10 | `_call_with_frames_removed`         | `<frozen importlib._bootstrap>`          |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `SourceLoader.get_code`             | `<frozen importlib._bootstrap_external>` |
+|   Change | Delta |             % |   Samples | Function                          | Location      |
+| -------: | ----: | ------------: | --------: | --------------------------------- | ------------- |
+|   +91.3% |  +264 | 31.0% → 30.0% | 289 → 553 | `(garbage collector)`             | `<unknown>`   |
+|   +94.2% |  +114 | 13.0% → 12.7% | 121 → 235 | `Parser._addtoken`                | `parse.py`    |
+|  +306.3% |   +49 |   1.7% → 3.5% |   16 → 65 | `Visitor.visit`                   | `nodes.py`    |
+| +1125.0% |   +45 |   0.4% → 2.7% |    4 → 49 | `BracketTracker.mark`             | `brackets.py` |
+|   +45.5% |   +40 |   9.4% → 6.9% |  88 → 128 | `get_features_used`               | `__init__.py` |
+|      new |   +31 |   0.0% → 1.7% |    0 → 31 | `Base.__new__`                    | `pytree.py`   |
+|  +966.7% |   +29 |   0.3% → 1.7% |    3 → 32 | `whitespace`                      | `nodes.py`    |
+|   +74.3% |   +26 |   3.8% → 3.3% |   35 → 61 | `Driver.parse_tokens`             | `driver.py`   |
+|      new |   +20 |   0.0% → 1.1% |    0 → 20 | `Base.changed`                    | `pytree.py`   |
+|  +380.0% |   +19 |   0.5% → 1.3% |    5 → 24 | `transform_line`                  | `linegen.py`  |
+| +1900.0% |   +19 |   0.1% → 1.1% |    1 → 20 | `__create_fn__.<locals>.__init__` | `<string>`    |
+|   +46.2% |   +18 |   4.2% → 3.1% |   39 → 57 | `generate_tokens`                 | `tokenize.py` |
+|  +425.0% |   +17 |   0.4% → 1.1% |    4 → 21 | `convert`                         | `pytree.py`   |
+|  +133.3% |   +16 |   1.3% → 1.5% |   12 → 28 | `Parser.push`                     | `parse.py`    |
+|      new |   +15 |   0.0% → 0.8% |    0 → 15 | `Node.update_sibling_maps`        | `pytree.py`   |
+|      new |   +15 |   0.0% → 0.8% |    0 → 15 | `Line.__str__`                    | `lines.py`    |
+|  +183.3% |   +11 |   0.6% → 0.9% |    6 → 17 | `_format_str_once`                | `__init__.py` |
+|   +52.6% |   +10 |   2.0% → 1.6% |   19 → 29 | `Parser.pop`                      | `parse.py`    |
+|   +23.1% |    +9 |   4.2% → 2.6% |   39 → 48 | `parse`                           | `ast.py`      |
+|  +450.0% |    +9 |   0.2% → 0.6% |    2 → 11 | `hug_power_op`                    | `trans.py`    |
 
 ##### Ours
 
-|  Change | Delta |           % | Samples | Function                            | Location         |
-| ------: | ----: | ----------: | ------: | ----------------------------------- | ---------------- |
-|  +41.7% |    +5 | 1.1% → 1.8% | 12 → 17 | `_stringify_ast`                    | `parsing.py`     |
-| +125.0% |    +5 | 0.4% → 0.9% |   4 → 9 | `line_to_string`                    | `lines.py`       |
-|  +83.3% |    +5 | 0.5% → 1.1% |  6 → 11 | `BracketTracker.mark`               | `brackets.py`    |
-|     new |    +4 | 0.0% → 0.4% |   0 → 4 | `generate_comments`                 | `comments.py`    |
-|     new |    +3 | 0.0% → 0.3% |   0 → 3 | `DFAState.unifystate`               | `pgen.py`        |
-|  +66.7% |    +2 | 0.3% → 0.5% |   3 → 5 | `format_str`                        | `__init__.py`    |
-|  +66.7% |    +2 | 0.3% → 0.5% |   3 → 5 | `LinesBlock.all_lines`              | `lines.py`       |
-|  +50.0% |    +2 | 0.4% → 0.6% |   4 → 6 | `_stringify_ast_with_new_parent`    | `parsing.py`     |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `Base.prev_sibling`                 | `pytree.py`      |
-| +200.0% |    +2 | 0.1% → 0.3% |   1 → 3 | `whitespace`                        | `nodes.py`       |
-| +200.0% |    +2 | 0.1% → 0.3% |   1 → 3 | `_hugging_power_ops_line_to_string` | `linegen.py`     |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `_parse_sub`                        | `_parser.py`     |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `_first_right_hand_split`           | `linegen.py`     |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `LineGenerator.visit_STRING`        | `linegen.py`     |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `delimiter_split`                   | `linegen.py`     |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `lib2to3_parse`                     | `parsing.py`     |
-|  +50.0% |    +1 | 0.2% → 0.3% |   2 → 3 | `assert_stable`                     | `__init__.py`    |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `LineGenerator.visit_funcdef`       | `linegen.py`     |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `Leaf.prefix`                       | `pytree.py`      |
-|  +25.0% |    +1 | 0.4% → 0.5% |   4 → 5 | `_FuncBuilder.add_fns_to_class`     | `dataclasses.py` |
-
-##### Standard library
-
-|  Change | Delta |           % | Samples | Function                    | Location                                 |
-| ------: | ----: | ----------: | ------: | --------------------------- | ---------------------------------------- |
-| +120.0% |    +6 | 0.4% → 1.1% |  5 → 11 | `_compile_bytecode`         | `<frozen importlib._bootstrap_external>` |
-|  +11.1% |    +1 | 0.8% → 1.0% |  9 → 10 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `SourceLoader.get_code`     | `<frozen importlib._bootstrap_external>` |
-
-#### Improvements
-
-Functions with the largest decrease in samples taken directly in the function body, excluding callees.
-
-|  Change | Delta |             % |   Samples | Function                          | Location      |
-| ------: | ----: | ------------: | --------: | --------------------------------- | ------------- |
-|  -21.6% |   -82 | 33.9% → 30.9% | 379 → 297 | `(garbage collector)`             | `<unknown>`   |
-|  -27.4% |   -17 |   5.5% → 4.7% |   62 → 45 | `Driver.parse_tokens`             | `driver.py`   |
-|  -52.2% |   -12 |   2.1% → 1.1% |   23 → 11 | `Parser.shift`                    | `parse.py`    |
-|  -44.4% |   -12 |   2.4% → 1.6% |   27 → 15 | `Visitor.visit`                   | `nodes.py`    |
-|  -26.3% |   -10 |   3.4% → 2.9% |   38 → 28 | `generate_tokens`                 | `tokenize.py` |
-|   -5.0% |    -8 | 14.3% → 15.8% | 160 → 152 | `Parser._addtoken`                | `parse.py`    |
-|  -87.5% |    -7 |   0.7% → 0.1% |     8 → 1 | `Parser.classify`                 | `parse.py`    |
-|  -11.6% |    -5 |   3.8% → 4.0% |   43 → 38 | `parse`                           | `ast.py`      |
-|  -21.1% |    -4 |   1.7% → 1.6% |   19 → 15 | `Parser.addtoken`                 | `parse.py`    |
-|  -44.4% |    -4 |   0.8% → 0.5% |     9 → 5 | `Visitor.visit_default`           | `nodes.py`    |
-|  -23.5% |    -4 |   1.5% → 1.4% |   17 → 13 | `Line.append`                     | `lines.py`    |
-|  -44.4% |    -4 |   0.8% → 0.5% |     9 → 5 | `normalize_invisible_parens`      | `linegen.py`  |
-|   -3.0% |    -3 |  8.8% → 10.0% |   99 → 96 | `get_features_used`               | `__init__.py` |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `TokenProxy.__next__`             | `driver.py`   |
-|  -15.0% |    -3 |          1.8% |   20 → 17 | `Parser.pop`                      | `parse.py`    |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `__create_fn__.<locals>.__init__` | `<string>`    |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `hug_power_op`                    | `trans.py`    |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `is_line_short_enough`            | `lines.py`    |
-| removed |    -2 |   0.2% → 0.0% |     2 → 0 | `Driver.parse_string`             | `driver.py`   |
-|  -33.3% |    -2 |   0.5% → 0.4% |     6 → 4 | `transform_line`                  | `linegen.py`  |
-
-##### Ours
-
-|  Change | Delta |             % |   Samples | Function                          | Location      |
-| ------: | ----: | ------------: | --------: | --------------------------------- | ------------- |
-|  -27.4% |   -17 |   5.5% → 4.7% |   62 → 45 | `Driver.parse_tokens`             | `driver.py`   |
-|  -52.2% |   -12 |   2.1% → 1.1% |   23 → 11 | `Parser.shift`                    | `parse.py`    |
-|  -44.4% |   -12 |   2.4% → 1.6% |   27 → 15 | `Visitor.visit`                   | `nodes.py`    |
-|  -26.3% |   -10 |   3.4% → 2.9% |   38 → 28 | `generate_tokens`                 | `tokenize.py` |
-|   -5.0% |    -8 | 14.3% → 15.8% | 160 → 152 | `Parser._addtoken`                | `parse.py`    |
-|  -87.5% |    -7 |   0.7% → 0.1% |     8 → 1 | `Parser.classify`                 | `parse.py`    |
-|  -11.6% |    -5 |   3.8% → 4.0% |   43 → 38 | `parse`                           | `ast.py`      |
-|  -21.1% |    -4 |   1.7% → 1.6% |   19 → 15 | `Parser.addtoken`                 | `parse.py`    |
-|  -44.4% |    -4 |   0.8% → 0.5% |     9 → 5 | `Visitor.visit_default`           | `nodes.py`    |
-|  -23.5% |    -4 |   1.5% → 1.4% |   17 → 13 | `Line.append`                     | `lines.py`    |
-|  -44.4% |    -4 |   0.8% → 0.5% |     9 → 5 | `normalize_invisible_parens`      | `linegen.py`  |
-|   -3.0% |    -3 |  8.8% → 10.0% |   99 → 96 | `get_features_used`               | `__init__.py` |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `TokenProxy.__next__`             | `driver.py`   |
-|  -15.0% |    -3 |          1.8% |   20 → 17 | `Parser.pop`                      | `parse.py`    |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `__create_fn__.<locals>.__init__` | `<string>`    |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `hug_power_op`                    | `trans.py`    |
-| removed |    -3 |   0.3% → 0.0% |     3 → 0 | `is_line_short_enough`            | `lines.py`    |
-| removed |    -2 |   0.2% → 0.0% |     2 → 0 | `Driver.parse_string`             | `driver.py`   |
-|  -33.3% |    -2 |   0.5% → 0.4% |     6 → 4 | `transform_line`                  | `linegen.py`  |
-|  -25.0% |    -2 |   0.7% → 0.6% |     8 → 6 | `Parser.push`                     | `parse.py`    |
+|   Change | Delta |             % |   Samples | Function                          | Location      |
+| -------: | ----: | ------------: | --------: | --------------------------------- | ------------- |
+|   +94.2% |  +114 | 13.0% → 12.7% | 121 → 235 | `Parser._addtoken`                | `parse.py`    |
+|  +306.3% |   +49 |   1.7% → 3.5% |   16 → 65 | `Visitor.visit`                   | `nodes.py`    |
+| +1125.0% |   +45 |   0.4% → 2.7% |    4 → 49 | `BracketTracker.mark`             | `brackets.py` |
+|   +45.5% |   +40 |   9.4% → 6.9% |  88 → 128 | `get_features_used`               | `__init__.py` |
+|      new |   +31 |   0.0% → 1.7% |    0 → 31 | `Base.__new__`                    | `pytree.py`   |
+|  +966.7% |   +29 |   0.3% → 1.7% |    3 → 32 | `whitespace`                      | `nodes.py`    |
+|   +74.3% |   +26 |   3.8% → 3.3% |   35 → 61 | `Driver.parse_tokens`             | `driver.py`   |
+|      new |   +20 |   0.0% → 1.1% |    0 → 20 | `Base.changed`                    | `pytree.py`   |
+|  +380.0% |   +19 |   0.5% → 1.3% |    5 → 24 | `transform_line`                  | `linegen.py`  |
+| +1900.0% |   +19 |   0.1% → 1.1% |    1 → 20 | `__create_fn__.<locals>.__init__` | `<string>`    |
+|   +46.2% |   +18 |   4.2% → 3.1% |   39 → 57 | `generate_tokens`                 | `tokenize.py` |
+|  +425.0% |   +17 |   0.4% → 1.1% |    4 → 21 | `convert`                         | `pytree.py`   |
+|  +133.3% |   +16 |   1.3% → 1.5% |   12 → 28 | `Parser.push`                     | `parse.py`    |
+|      new |   +15 |   0.0% → 0.8% |    0 → 15 | `Node.update_sibling_maps`        | `pytree.py`   |
+|      new |   +15 |   0.0% → 0.8% |    0 → 15 | `Line.__str__`                    | `lines.py`    |
+|  +183.3% |   +11 |   0.6% → 0.9% |    6 → 17 | `_format_str_once`                | `__init__.py` |
+|   +52.6% |   +10 |   2.0% → 1.6% |   19 → 29 | `Parser.pop`                      | `parse.py`    |
+|   +23.1% |    +9 |   4.2% → 2.6% |   39 → 48 | `parse`                           | `ast.py`      |
+|  +450.0% |    +9 |   0.2% → 0.6% |    2 → 11 | `hug_power_op`                    | `trans.py`    |
+|      new |    +9 |   0.0% → 0.5% |     0 → 9 | `Leaf.__init__`                   | `pytree.py`   |
 
 ##### Garbage collector
 
 | Change | Delta |             % |   Samples | Function              | Location    |
 | -----: | ----: | ------------: | --------: | --------------------- | ----------- |
-| -21.6% |   -82 | 33.9% → 30.9% | 379 → 297 | `(garbage collector)` | `<unknown>` |
+| +91.3% |  +264 | 31.0% → 30.0% | 289 → 553 | `(garbage collector)` | `<unknown>` |
 
 ##### Standard library
 
-|  Change | Delta |           % | Samples | Function                 | Location                                 |
-| ------: | ----: | ----------: | ------: | ------------------------ | ---------------------------------------- |
-|  -33.3% |    -1 | 0.3% → 0.2% |   3 → 2 | `FileLoader.get_data`    | `<frozen importlib._bootstrap_external>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_classify_pyc`          | `<frozen importlib._bootstrap_external>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_code_to_timestamp_pyc` | `<frozen importlib._bootstrap_external>` |
+| Change | Delta |           % | Samples | Function                    | Location                                 |
+| -----: | ----: | ----------: | ------: | --------------------------- | ---------------------------------------- |
+| +75.0% |    +6 | 0.9% → 0.8% |  8 → 14 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
+| +37.5% |    +3 | 0.9% → 0.6% |  8 → 11 | `_compile_bytecode`         | `<frozen importlib._bootstrap_external>` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `_write_atomic`             | `<frozen importlib._bootstrap_external>` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `_LoaderBasics.exec_module` | `<frozen importlib._bootstrap_external>` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `_find_spec`                | `<frozen importlib._bootstrap>`          |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `_new_module`               | `<frozen importlib._bootstrap>`          |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `_ModuleLock.release`       | `<frozen importlib._bootstrap>`          |
+
+#### Improvements
+
+Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+
+|  Change | Delta |           % | Samples | Function                           | Location                                 |
+| ------: | ----: | ----------: | ------: | ---------------------------------- | ---------------------------------------- |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `ParserGenerator.make_label`       | `pgen.py`                                |
+|  -33.3% |    -3 | 1.0% → 0.3% |   9 → 6 | `LineGenerator.visit_simple_stmt`  | `linegen.py`                             |
+|  -50.0% |    -3 | 0.6% → 0.2% |   6 → 3 | `_stringify_ast_with_new_parent`   | `parsing.py`                             |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `Base.remove`                      | `pytree.py`                              |
+|  -42.9% |    -3 | 0.8% → 0.2% |   7 → 4 | `wrap_in_parentheses`              | `nodes.py`                               |
+|  -40.0% |    -2 | 0.5% → 0.2% |   5 → 3 | `line_to_string`                   | `lines.py`                               |
+|  -13.3% |    -2 | 1.6% → 0.7% | 15 → 13 | `_stringify_ast`                   | `parsing.py`                             |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `_parse`                           | `_parser.py`                             |
+| removed |    -2 | 0.2% → 0.0% |   2 → 0 | `Driver._partially_consume_prefix` | `driver.py`                              |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `format_file_in_place`             | `__init__.py`                            |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                         | `mode.py`                                |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `namedtuple`                       | `__init__.py`                            |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_stat`                       | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `Command.get_params`               | `core.py`                                |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `list_comments`                    | `comments.py`                            |
+|  -50.0% |    -1 | 0.2% → 0.1% |   2 → 1 | `type_repr`                        | `pytree.py`                              |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `lines_with_leading_tabs_expanded` | `strings.py`                             |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `Node.prefix`                      | `pytree.py`                              |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `LineGenerator.visit_factor`       | `linegen.py`                             |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `BracketTracker.get_open_lsqb`     | `brackets.py`                            |
+
+##### Ours
+
+|  Change | Delta |           % | Samples | Function                           | Location      |
+| ------: | ----: | ----------: | ------: | ---------------------------------- | ------------- |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `ParserGenerator.make_label`       | `pgen.py`     |
+|  -33.3% |    -3 | 1.0% → 0.3% |   9 → 6 | `LineGenerator.visit_simple_stmt`  | `linegen.py`  |
+|  -50.0% |    -3 | 0.6% → 0.2% |   6 → 3 | `_stringify_ast_with_new_parent`   | `parsing.py`  |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `Base.remove`                      | `pytree.py`   |
+|  -42.9% |    -3 | 0.8% → 0.2% |   7 → 4 | `wrap_in_parentheses`              | `nodes.py`    |
+|  -40.0% |    -2 | 0.5% → 0.2% |   5 → 3 | `line_to_string`                   | `lines.py`    |
+|  -13.3% |    -2 | 1.6% → 0.7% | 15 → 13 | `_stringify_ast`                   | `parsing.py`  |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `_parse`                           | `_parser.py`  |
+| removed |    -2 | 0.2% → 0.0% |   2 → 0 | `Driver._partially_consume_prefix` | `driver.py`   |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `format_file_in_place`             | `__init__.py` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                         | `mode.py`     |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `namedtuple`                       | `__init__.py` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `Command.get_params`               | `core.py`     |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `list_comments`                    | `comments.py` |
+|  -50.0% |    -1 | 0.2% → 0.1% |   2 → 1 | `type_repr`                        | `pytree.py`   |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `lines_with_leading_tabs_expanded` | `strings.py`  |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `Node.prefix`                      | `pytree.py`   |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `LineGenerator.visit_factor`       | `linegen.py`  |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `BracketTracker.get_open_lsqb`     | `brackets.py` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `Line.is_import`                   | `lines.py`    |
+
+##### Standard library
+
+|  Change | Delta |           % | Samples | Function     | Location                                 |
+| ------: | ----: | ----------: | ------: | ------------ | ---------------------------------------- |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_stat` | `<frozen importlib._bootstrap_external>` |
 
 ### Total samples
 
@@ -144,139 +146,145 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
-|  Change | Delta |            % |   Samples | Function                         | Location                                 |
-| ------: | ----: | -----------: | --------: | -------------------------------- | ---------------------------------------- |
-| +180.0% |    +9 |  0.4% → 1.5% |    5 → 14 | `generate_comments`              | `comments.py`                            |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `_call_with_frames_removed`      | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `_LoaderBasics.exec_module`      | `<frozen importlib._bootstrap_external>` |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `_load_unlocked`                 | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `_find_and_load_unlocked`        | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `_find_and_load`                 | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `<module>`                       | `__init__.py`                            |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `_get_module_details`            | `<frozen runpy>`                         |
-|  +43.8% |    +7 |  1.4% → 2.4% |   16 → 23 | `_stringify_ast`                 | `parsing.py`                             |
-|  +50.0% |    +7 |  1.3% → 2.2% |   14 → 21 | `_stringify_ast_with_new_parent` | `parsing.py`                             |
-|  +35.3% |    +6 |  1.5% → 2.4% |   17 → 23 | `SourceLoader.get_code`          | `<frozen importlib._bootstrap_external>` |
-| +120.0% |    +6 |  0.4% → 1.1% |    5 → 11 | `_compile_bytecode`              | `<frozen importlib._bootstrap_external>` |
-|  +85.7% |    +6 |  0.6% → 1.4% |    7 → 13 | `BracketTracker.mark`            | `brackets.py`                            |
-|  +50.0% |    +5 |  0.9% → 1.6% |   10 → 15 | `<module>`                       | `comments.py`                            |
-|   +4.7% |    +5 | 9.5% → 11.5% | 106 → 111 | `LineGenerator.visit_funcdef`    | `linegen.py`                             |
-|  +11.1% |    +4 |  3.2% → 4.2% |   36 → 40 | `StringTransformer.__init__`     | `trans.py`                               |
-|  +66.7% |    +4 |  0.5% → 1.0% |    6 → 10 | `initialize`                     | `pygram.py`                              |
-|  +40.0% |    +4 |  0.9% → 1.5% |   10 → 14 | `<module>`                       | `nodes.py`                               |
-|  +11.4% |    +4 |  3.1% → 4.1% |   35 → 39 | `Line.append`                    | `lines.py`                               |
-|  +50.0% |    +3 |  0.5% → 0.9% |     6 → 9 | `generate_grammar`               | `pgen.py`                                |
+|  Change | Delta |             % |     Samples | Function                         | Location         |
+| ------: | ----: | ------------: | ----------: | -------------------------------- | ---------------- |
+|  +97.7% |  +912 |        100.0% | 933 → 1,845 | `_run_code`                      | `<frozen runpy>` |
+|  +97.7% |  +912 |        100.0% | 933 → 1,845 | `run_module`                     | `<frozen runpy>` |
+|  +97.7% |  +912 |        100.0% | 933 → 1,845 | `_run_module_as_main`            | `<frozen runpy>` |
+|  +99.9% |  +890 | 95.5% → 96.5% | 891 → 1,781 | `format_file_contents`           | `__init__.py`    |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `reformat_one`                   | `__init__.py`    |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `main`                           | `__init__.py`    |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `pass_context.<locals>.new_func` | `decorators.py`  |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `Context.invoke`                 | `core.py`        |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `Command.invoke`                 | `core.py`        |
+|  +99.7% |  +889 | 95.6% → 96.5% | 892 → 1,781 | `format_file_in_place`           | `__init__.py`    |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `Command.main`                   | `core.py`        |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `Command.__call__`               | `core.py`        |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `patched_main`                   | `__init__.py`    |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `<module>`                       | `__main__.py`    |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `_run_module_code`               | `<frozen runpy>` |
+| +107.7% |  +871 | 86.7% → 91.1% | 809 → 1,680 | `_format_str_once`               | `__init__.py`    |
+| +160.1% |  +682 | 45.7% → 60.1% | 426 → 1,108 | `format_str`                     | `__init__.py`    |
+|  +95.9% |  +446 | 49.8% → 49.4% |   465 → 911 | `Driver.parse_string`            | `driver.py`      |
+|  +95.9% |  +446 | 49.8% → 49.4% |   465 → 911 | `lib2to3_parse`                  | `parsing.py`     |
+|  +95.0% |  +440 | 49.6% → 48.9% |   463 → 903 | `Driver.parse_tokens`            | `driver.py`      |
 
 ##### Ours
 
-|  Change | Delta |            % |   Samples | Function                            | Location      |
-| ------: | ----: | -----------: | --------: | ----------------------------------- | ------------- |
-| +180.0% |    +9 |  0.4% → 1.5% |    5 → 14 | `generate_comments`                 | `comments.py` |
-|  +17.5% |    +7 |  3.6% → 4.9% |   40 → 47 | `<module>`                          | `__init__.py` |
-|  +43.8% |    +7 |  1.4% → 2.4% |   16 → 23 | `_stringify_ast`                    | `parsing.py`  |
-|  +50.0% |    +7 |  1.3% → 2.2% |   14 → 21 | `_stringify_ast_with_new_parent`    | `parsing.py`  |
-|  +85.7% |    +6 |  0.6% → 1.4% |    7 → 13 | `BracketTracker.mark`               | `brackets.py` |
-|  +50.0% |    +5 |  0.9% → 1.6% |   10 → 15 | `<module>`                          | `comments.py` |
-|   +4.7% |    +5 | 9.5% → 11.5% | 106 → 111 | `LineGenerator.visit_funcdef`       | `linegen.py`  |
-|  +11.1% |    +4 |  3.2% → 4.2% |   36 → 40 | `StringTransformer.__init__`        | `trans.py`    |
-|  +66.7% |    +4 |  0.5% → 1.0% |    6 → 10 | `initialize`                        | `pygram.py`   |
-|  +40.0% |    +4 |  0.9% → 1.5% |   10 → 14 | `<module>`                          | `nodes.py`    |
-|  +11.4% |    +4 |  3.1% → 4.1% |   35 → 39 | `Line.append`                       | `lines.py`    |
-|  +50.0% |    +3 |  0.5% → 0.9% |     6 → 9 | `generate_grammar`                  | `pgen.py`     |
-|  +50.0% |    +3 |  0.5% → 0.9% |     6 → 9 | `load_grammar`                      | `driver.py`   |
-|  +50.0% |    +3 |  0.5% → 0.9% |     6 → 9 | `load_packaged_grammar`             | `driver.py`   |
-|  +37.5% |    +3 |  0.7% → 1.1% |    8 → 11 | `line_to_string`                    | `lines.py`    |
-| +150.0% |    +3 |  0.2% → 0.5% |     2 → 5 | `ParserGenerator.parse`             | `pgen.py`     |
-| +150.0% |    +3 |  0.2% → 0.5% |     2 → 5 | `ParserGenerator.__init__`          | `pgen.py`     |
-|     new |    +3 |  0.0% → 0.3% |     0 → 3 | `DFAState.unifystate`               | `pgen.py`     |
-|     new |    +3 |  0.0% → 0.3% |     0 → 3 | `ParserGenerator.simplify_dfa`      | `pgen.py`     |
-|  +28.6% |    +2 |  0.6% → 0.9% |     7 → 9 | `_hugging_power_ops_line_to_string` | `linegen.py`  |
-
-##### Standard library
-
-|  Change | Delta |           % | Samples | Function                      | Location                                 |
-| ------: | ----: | ----------: | ------: | ----------------------------- | ---------------------------------------- |
-|  +17.5% |    +7 | 3.6% → 4.9% | 40 → 47 | `_call_with_frames_removed`   | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 | 3.6% → 4.9% | 40 → 47 | `_LoaderBasics.exec_module`   | `<frozen importlib._bootstrap_external>` |
-|  +17.5% |    +7 | 3.6% → 4.9% | 40 → 47 | `_load_unlocked`              | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 | 3.6% → 4.9% | 40 → 47 | `_find_and_load_unlocked`     | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 | 3.6% → 4.9% | 40 → 47 | `_find_and_load`              | `<frozen importlib._bootstrap>`          |
-|  +17.5% |    +7 | 3.6% → 4.9% | 40 → 47 | `_get_module_details`         | `<frozen runpy>`                         |
-|  +35.3% |    +6 | 1.5% → 2.4% | 17 → 23 | `SourceLoader.get_code`       | `<frozen importlib._bootstrap_external>` |
-| +120.0% |    +6 | 0.4% → 1.1% |  5 → 11 | `_compile_bytecode`           | `<frozen importlib._bootstrap_external>` |
-|  +28.6% |    +2 | 0.6% → 0.9% |   7 → 9 | `SourceLoader.source_to_code` | `<frozen importlib._bootstrap_external>` |
-
-#### Improvements
-
-Functions with the largest decrease in total samples taken in the function and all its callees.
-
-| Change | Delta |             % |     Samples | Function                         | Location         |
-| -----: | ----: | ------------: | ----------: | -------------------------------- | ---------------- |
-| -16.8% |  -167 | 88.7% → 85.9% |   993 → 826 | `_format_str_once`               | `__init__.py`    |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `reformat_one`                   | `__init__.py`    |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `main`                           | `__init__.py`    |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `pass_context.<locals>.new_func` | `decorators.py`  |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `Context.invoke`                 | `core.py`        |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `Command.invoke`                 | `core.py`        |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `Command.main`                   | `core.py`        |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `Command.__call__`               | `core.py`        |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `patched_main`                   | `__init__.py`    |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `<module>`                       | `__main__.py`    |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `_run_module_code`               | `<frozen runpy>` |
-| -15.1% |  -163 | 96.2% → 95.0% | 1,077 → 914 | `format_file_contents`           | `__init__.py`    |
-| -15.1% |  -163 | 96.2% → 95.0% | 1,077 → 914 | `format_file_in_place`           | `__init__.py`    |
-| -24.6% |  -159 | 57.8% → 50.7% |   647 → 488 | `Driver.parse_string`            | `driver.py`      |
-| -24.4% |  -158 | 57.8% → 50.8% |   647 → 489 | `lib2to3_parse`                  | `parsing.py`     |
-| -24.3% |  -157 | 57.6% → 50.7% |   645 → 488 | `Driver.parse_tokens`            | `driver.py`      |
-| -14.0% |  -157 |        100.0% | 1,119 → 962 | `_run_code`                      | `<frozen runpy>` |
-| -14.0% |  -157 |        100.0% | 1,119 → 962 | `run_module`                     | `<frozen runpy>` |
-| -14.0% |  -157 |        100.0% | 1,119 → 962 | `_run_module_as_main`            | `<frozen runpy>` |
-| -21.3% |  -103 | 43.2% → 39.5% |   483 → 380 | `assert_stable`                  | `__init__.py`    |
-
-##### Ours
-
-| Change | Delta |             % |     Samples | Function                          | Location        |
-| -----: | ----: | ------------: | ----------: | --------------------------------- | --------------- |
-| -16.8% |  -167 | 88.7% → 85.9% |   993 → 826 | `_format_str_once`                | `__init__.py`   |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `reformat_one`                    | `__init__.py`   |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `main`                            | `__init__.py`   |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `pass_context.<locals>.new_func`  | `decorators.py` |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `Context.invoke`                  | `core.py`       |
-| -15.2% |  -164 | 96.3% → 95.0% | 1,078 → 914 | `Command.invoke`                  | `core.py`       |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `Command.main`                    | `core.py`       |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `Command.__call__`                | `core.py`       |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `patched_main`                    | `__init__.py`   |
-| -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `<module>`                        | `__main__.py`   |
-| -15.1% |  -163 | 96.2% → 95.0% | 1,077 → 914 | `format_file_contents`            | `__init__.py`   |
-| -15.1% |  -163 | 96.2% → 95.0% | 1,077 → 914 | `format_file_in_place`            | `__init__.py`   |
-| -24.6% |  -159 | 57.8% → 50.7% |   647 → 488 | `Driver.parse_string`             | `driver.py`     |
-| -24.4% |  -158 | 57.8% → 50.8% |   647 → 489 | `lib2to3_parse`                   | `parsing.py`    |
-| -24.3% |  -157 | 57.6% → 50.7% |   645 → 488 | `Driver.parse_tokens`             | `driver.py`     |
-| -21.3% |  -103 | 43.2% → 39.5% |   483 → 380 | `assert_stable`                   | `__init__.py`   |
-| -18.1% |  -102 | 50.2% → 47.8% |   562 → 460 | `check_stability_and_equivalence` | `__init__.py`   |
-| -11.8% |   -61 | 46.0% → 47.2% |   515 → 454 | `format_str`                      | `__init__.py`   |
-| -14.0% |   -40 |         25.6% |   286 → 246 | `Parser.addtoken`                 | `parse.py`      |
-| -14.0% |   -36 |         23.1% |   258 → 222 | `Parser._addtoken`                | `parse.py`      |
+|  Change | Delta |             % |     Samples | Function                         | Location        |
+| ------: | ----: | ------------: | ----------: | -------------------------------- | --------------- |
+|  +99.9% |  +890 | 95.5% → 96.5% | 891 → 1,781 | `format_file_contents`           | `__init__.py`   |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `reformat_one`                   | `__init__.py`   |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `main`                           | `__init__.py`   |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `pass_context.<locals>.new_func` | `decorators.py` |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `Context.invoke`                 | `core.py`       |
+|  +99.8% |  +890 | 95.6% → 96.6% | 892 → 1,782 | `Command.invoke`                 | `core.py`       |
+|  +99.7% |  +889 | 95.6% → 96.5% | 892 → 1,781 | `format_file_in_place`           | `__init__.py`   |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `Command.main`                   | `core.py`       |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `Command.__call__`               | `core.py`       |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `patched_main`                   | `__init__.py`   |
+|  +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `<module>`                       | `__main__.py`   |
+| +107.7% |  +871 | 86.7% → 91.1% | 809 → 1,680 | `_format_str_once`               | `__init__.py`   |
+| +160.1% |  +682 | 45.7% → 60.1% | 426 → 1,108 | `format_str`                     | `__init__.py`   |
+|  +95.9% |  +446 | 49.8% → 49.4% |   465 → 911 | `Driver.parse_string`            | `driver.py`     |
+|  +95.9% |  +446 | 49.8% → 49.4% |   465 → 911 | `lib2to3_parse`                  | `parsing.py`    |
+|  +95.0% |  +440 | 49.6% → 48.9% |   463 → 903 | `Driver.parse_tokens`            | `driver.py`     |
+| +103.3% |  +377 | 39.1% → 40.2% |   365 → 742 | `Parser._addtoken`               | `parse.py`      |
+|  +94.2% |  +373 | 42.4% → 41.7% |   396 → 769 | `Parser.addtoken`                | `parse.py`      |
+| +220.0% |  +297 | 14.5% → 23.4% |   135 → 432 | `Visitor.visit_default`          | `nodes.py`      |
+| +220.0% |  +297 | 14.5% → 23.4% |   135 → 432 | `LineGenerator.visit_default`    | `linegen.py`    |
 
 ##### Garbage collector
 
 | Change | Delta |             % |   Samples | Function              | Location    |
 | -----: | ----: | ------------: | --------: | --------------------- | ----------- |
-| -21.6% |   -82 | 33.9% → 30.9% | 379 → 297 | `(garbage collector)` | `<unknown>` |
+| +91.3% |  +264 | 31.0% → 30.0% | 289 → 553 | `(garbage collector)` | `<unknown>` |
 
 ##### Standard library
 
-|  Change | Delta |             % |     Samples | Function                            | Location                                 |
-| ------: | ----: | ------------: | ----------: | ----------------------------------- | ---------------------------------------- |
-|  -15.2% |  -164 | 96.4% → 95.1% | 1,079 → 915 | `_run_module_code`                  | `<frozen runpy>`                         |
-|  -14.0% |  -157 |        100.0% | 1,119 → 962 | `_run_code`                         | `<frozen runpy>`                         |
-|  -14.0% |  -157 |        100.0% | 1,119 → 962 | `run_module`                        | `<frozen runpy>`                         |
-|  -14.0% |  -157 |        100.0% | 1,119 → 962 | `_run_module_as_main`               | `<frozen runpy>`                         |
-|  -40.0% |    -2 |   0.4% → 0.3% |       5 → 3 | `_handle_fromlist`                  | `<frozen importlib._bootstrap>`          |
-|  -50.0% |    -1 |   0.2% → 0.1% |       2 → 1 | `_get_module_lock`                  | `<frozen importlib._bootstrap>`          |
-|  -50.0% |    -1 |   0.2% → 0.1% |       2 → 1 | `_ModuleLockManager.__enter__`      | `<frozen importlib._bootstrap>`          |
-|  -33.3% |    -1 |   0.3% → 0.2% |       3 → 2 | `FileLoader.get_data`               | `<frozen importlib._bootstrap_external>` |
-| removed |    -1 |   0.1% → 0.0% |       1 → 0 | `_classify_pyc`                     | `<frozen importlib._bootstrap_external>` |
-| removed |    -1 |   0.1% → 0.0% |       1 → 0 | `ExtensionFileLoader.create_module` | `<frozen importlib._bootstrap_external>` |
-| removed |    -1 |   0.1% → 0.0% |       1 → 0 | `module_from_spec`                  | `<frozen importlib._bootstrap>`          |
-| removed |    -1 |   0.1% → 0.0% |       1 → 0 | `_code_to_timestamp_pyc`            | `<frozen importlib._bootstrap_external>` |
+| Change | Delta |             % |     Samples | Function                             | Location                                 |
+| -----: | ----: | ------------: | ----------: | ------------------------------------ | ---------------------------------------- |
+| +97.7% |  +912 |        100.0% | 933 → 1,845 | `_run_code`                          | `<frozen runpy>`                         |
+| +97.7% |  +912 |        100.0% | 933 → 1,845 | `run_module`                         | `<frozen runpy>`                         |
+| +97.7% |  +912 |        100.0% | 933 → 1,845 | `_run_module_as_main`                | `<frozen runpy>`                         |
+| +99.6% |  +889 | 95.7% → 96.6% | 893 → 1,782 | `_run_module_code`                   | `<frozen runpy>`                         |
+| +57.5% |   +23 |   4.3% → 3.4% |     40 → 63 | `_call_with_frames_removed`          | `<frozen importlib._bootstrap>`          |
+| +57.5% |   +23 |   4.3% → 3.4% |     40 → 63 | `_LoaderBasics.exec_module`          | `<frozen importlib._bootstrap_external>` |
+| +57.5% |   +23 |   4.3% → 3.4% |     40 → 63 | `_load_unlocked`                     | `<frozen importlib._bootstrap>`          |
+| +57.5% |   +23 |   4.3% → 3.4% |     40 → 63 | `_find_and_load_unlocked`            | `<frozen importlib._bootstrap>`          |
+| +57.5% |   +23 |   4.3% → 3.4% |     40 → 63 | `_find_and_load`                     | `<frozen importlib._bootstrap>`          |
+| +57.5% |   +23 |   4.3% → 3.4% |     40 → 63 | `_get_module_details`                | `<frozen runpy>`                         |
+| +33.3% |    +7 |   2.3% → 1.5% |     21 → 28 | `SourceLoader.get_code`              | `<frozen importlib._bootstrap_external>` |
+|    new |    +4 |   0.0% → 0.2% |       0 → 4 | `_get_module_lock`                   | `<frozen importlib._bootstrap>`          |
+|    new |    +4 |   0.0% → 0.2% |       0 → 4 | `_HierarchicalLockManager.__enter__` | `<frozen importlib._bootstrap>`          |
+| +42.9% |    +3 |   0.8% → 0.5% |      7 → 10 | `SourceLoader.source_to_code`        | `<frozen importlib._bootstrap_external>` |
+|    new |    +3 |   0.0% → 0.2% |       0 → 3 | `module_from_spec`                   | `<frozen importlib._bootstrap>`          |
+| +20.0% |    +2 |   1.1% → 0.7% |     10 → 12 | `_compile_bytecode`                  | `<frozen importlib._bootstrap_external>` |
+|    new |    +2 |   0.0% → 0.1% |       0 → 2 | `ExtensionFileLoader.create_module`  | `<frozen importlib._bootstrap_external>` |
+|    new |    +2 |   0.0% → 0.1% |       0 → 2 | `_write_atomic`                      | `<frozen importlib._bootstrap_external>` |
+|    new |    +2 |   0.0% → 0.1% |       0 → 2 | `SourceFileLoader.set_data`          | `<frozen importlib._bootstrap_external>` |
+|    new |    +2 |   0.0% → 0.1% |       0 → 2 | `SourceFileLoader._cache_bytecode`   | `<frozen importlib._bootstrap_external>` |
+
+#### Improvements
+
+Functions with the largest decrease in total samples taken in the function and all its callees.
+
+|  Change | Delta |           % | Samples | Function                         | Location                                 |
+| ------: | ----: | ----------: | ------: | -------------------------------- | ---------------------------------------- |
+|  -30.0% |    -6 | 2.1% → 0.8% | 20 → 14 | `_stringify_ast_with_new_parent` | `parsing.py`                             |
+|  -23.8% |    -5 | 2.3% → 0.9% | 21 → 16 | `_stringify_ast`                 | `parsing.py`                             |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `ParserGenerator.make_label`     | `pgen.py`                                |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `ParserGenerator.make_grammar`   | `pgen.py`                                |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `Base.remove`                    | `pytree.py`                              |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `ParserGenerator.make_first`     | `pgen.py`                                |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `_parse`                         | `_parser.py`                             |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `_parse_sub`                     | `_parser.py`                             |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `parse`                          | `_parser.py`                             |
+| removed |    -2 | 0.2% → 0.0% |   2 → 0 | `<module>`                       | `tokenize.py`                            |
+|  -50.0% |    -1 | 0.2% → 0.1% |   2 → 1 | `<module>`                       | `types.py`                               |
+|  -14.3% |    -1 | 0.8% → 0.3% |   7 → 6 | `_handle_fromlist`               | `<frozen importlib._bootstrap>`          |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `formatting.py`                          |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `_base.py`                               |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `base.py`                                |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `mode.py`                                |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `namedtuple`                     | `__init__.py`                            |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_make_nmtuple`                  | `typing.py`                              |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `NamedTupleMeta.__new__`         | `typing.py`                              |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_stat`                     | `<frozen importlib._bootstrap_external>` |
+
+##### Ours
+
+|  Change | Delta |           % | Samples | Function                         | Location        |
+| ------: | ----: | ----------: | ------: | -------------------------------- | --------------- |
+|  -30.0% |    -6 | 2.1% → 0.8% | 20 → 14 | `_stringify_ast_with_new_parent` | `parsing.py`    |
+|  -23.8% |    -5 | 2.3% → 0.9% | 21 → 16 | `_stringify_ast`                 | `parsing.py`    |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `ParserGenerator.make_label`     | `pgen.py`       |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `ParserGenerator.make_grammar`   | `pgen.py`       |
+|  -75.0% |    -3 | 0.4% → 0.1% |   4 → 1 | `Base.remove`                    | `pytree.py`     |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `ParserGenerator.make_first`     | `pgen.py`       |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `_parse`                         | `_parser.py`    |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `_parse_sub`                     | `_parser.py`    |
+|  -66.7% |    -2 | 0.3% → 0.1% |   3 → 1 | `parse`                          | `_parser.py`    |
+| removed |    -2 | 0.2% → 0.0% |   2 → 0 | `<module>`                       | `tokenize.py`   |
+|  -50.0% |    -1 | 0.2% → 0.1% |   2 → 1 | `<module>`                       | `types.py`      |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `formatting.py` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `_base.py`      |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `base.py`       |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `<module>`                       | `mode.py`       |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `namedtuple`                     | `__init__.py`   |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_make_nmtuple`                  | `typing.py`     |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `NamedTupleMeta.__new__`         | `typing.py`     |
+|  -33.3% |    -1 | 0.3% → 0.1% |   3 → 2 | `compile`                        | `_compiler.py`  |
+|  -33.3% |    -1 | 0.3% → 0.1% |   3 → 2 | `_compile`                       | `__init__.py`   |
+
+##### Standard library
+
+|  Change | Delta |           % | Samples | Function               | Location                                 |
+| ------: | ----: | ----------: | ------: | ---------------------- | ---------------------------------------- |
+|  -14.3% |    -1 | 0.8% → 0.3% |   7 → 6 | `_handle_fromlist`     | `<frozen importlib._bootstrap>`          |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_stat`           | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_is_mode_type`   | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_isfile`         | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `FileFinder.find_spec` | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `PathFinder._get_spec` | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `PathFinder.find_spec` | `<frozen importlib._bootstrap_external>` |
