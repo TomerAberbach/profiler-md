@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Fails when a bash script in the repository doesn't parse, checking each file
+# whose shebang runs bash with `bash -n`, which parses without running. Version
+# control lists the files, skipping the gitignored ones. A jj workspace without
+# a colocated git repository has no `.git`, so jj lists its tracked files
+# instead.
+
+set -uo pipefail
+
+cd "$(dirname "$0")/.." || exit 1
+
+shebang='^#!/usr/bin/env bash'
+
+bash_scripts() {
+  if [[ -d .jj && ! -e .git ]]; then
+    jj file list -T 'path ++ "\0"' | xargs -0 grep -lIE --null "$shebang"
+  else
+    git grep -lzIE --untracked "$shebang"
+  fi
+}
+
+status=0
+while IFS= read -r -d '' file; do
+  bash -n "$file" || status=1
+done < <(bash_scripts)
+exit "$status"
