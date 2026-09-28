@@ -1,4 +1,4 @@
-# Go's standard-library import paths, for src/origins/specs/go.test.ts.
+# Go's standard-library import paths.
 #
 # Regenerate with:
 #   nix develop ./scripts/inputs --command go list std
