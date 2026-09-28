@@ -1,3 +1,4 @@
+import { Profile, StringTable, ValueType } from 'pprof-format'
 import { describe, expect, test } from 'vitest'
 import { streamOf } from '../../helpers/testing.ts'
 import {
@@ -10,12 +11,17 @@ import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
+  expectLogs,
   linesTables,
   profileTitles,
   summaryLines,
 } from '../../testing.ts'
 import { FormatParseError } from '../error.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { pprofConverter } from './index.ts'
 import { makePprof } from './testing.ts'
 
@@ -67,7 +73,7 @@ describe(`parse and matches`, () => {
 
   test(`rejects invalid binary data`, () => {
     expect(() =>
-      pprofConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd])),
+      pprofConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd]), noopRecordTally),
     ).toThrow(FormatParseError)
   })
 
@@ -76,8 +82,45 @@ describe(`parse and matches`, () => {
       JSON.stringify({ nodes: [], timeDeltas: [] }),
     )
 
-    expect(() => pprofConverter.parse(bytes)).toThrow(
+    expect(() => pprofConverter.parse(bytes, noopRecordTally)).toThrow(
       `invalid protobuf encoding`,
+    )
+  })
+
+  test(`rejects a profile cut off inside a field`, () => {
+    const bytes = makePprof({
+      functions: [{ id: 1, name: `funcA` }],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [100_000] }],
+    })
+
+    expect(() =>
+      pprofConverter.parse(bytes.subarray(0, -3), noopRecordTally),
+    ).toThrow(`truncated protobuf encoding`)
+  })
+
+  test(`rejects a string index past the end of the string table`, () => {
+    const bytes = new Profile({
+      stringTable: new StringTable(),
+      sampleType: [new ValueType({ type: 99n, unit: 0n })],
+    }).encode()
+
+    expect(() => pprofConverter.parse(bytes, noopRecordTally)).toThrow(
+      `string index is past the end of the string table, got: 99`,
+    )
+  })
+
+  test(`rejects a sample with fewer values than sample types`, () => {
+    const bytes = makePprof({
+      functions: [{ id: 1, name: `funcA` }],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [] }],
+    })
+
+    expect(() =>
+      convertBytesToMd(pprofConverter, bytes, normalizeProfileToMdOptions()),
+    ).toThrow(
+      `sample has fewer values than the profile has sample types, got: 0`,
     )
   })
 })
@@ -465,7 +508,7 @@ describe(`convert`, () => {
     ).toEqual([[`_ZN7myClass6methodEv`]])
   })
 
-  test(`skips samples with no locations`, () => {
+  test(`counts a sample with no locations under an anonymous function`, () => {
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
@@ -486,11 +529,18 @@ describe(`convert`, () => {
     expect(selfTimeTables(md)).toEqual([
       [
         {
-          '%': `100.0%`,
+          '%': `66.7%`,
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
           Location: `src/a.ts:1`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `50.0µs`,
+          Samples: `1`,
+          Function: `(anonymous)`,
+          Location: `<unknown>`,
         },
       ],
     ])
@@ -762,15 +812,103 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`drops sample references to absent locations`, () => {
-    // The sample references a location missing from the table alongside a
-    // valid one.
+  test(`names an unsymbolized location by its offset into the mapped file`, () => {
+    const data = makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      mappings: [
+        {
+          id: 1,
+          memoryStart: 0x7f_00_00,
+          fileOffset: 0x10_00,
+          filename: `/usr/lib/libc.so.6`,
+        },
+      ],
+      locations: [
+        { id: 1, mappingId: 1, address: 0x7f_12_34, lines: [] },
+        { id: 2, lines: [{ functionId: 1, line: 5 }] },
+      ],
+      samples: [{ locationIds: [1, 2], values: [100_000] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    // 0x7f1234 is 0x1234 past the mapping's start, which maps file offset
+    // 0x1000.
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `0x2234`,
+          Location: `/usr/lib/libc.so.6`,
+        },
+      ],
+    ])
+  })
+
+  test(`names an unsymbolized location in an anonymous mapping by its address`, () => {
+    // Both addresses are 0x1234 past their mapping's start.
+    const data = makePprof({
+      functions: [],
+      mappings: [
+        { id: 1, memoryStart: 0x10_00_00, filename: `` },
+        { id: 2, memoryStart: 0x20_00_00, filename: `` },
+      ],
+      locations: [
+        { id: 1, mappingId: 1, address: 0x10_12_34, lines: [] },
+        { id: 2, mappingId: 2, address: 0x20_12_34, lines: [] },
+      ],
+      samples: [
+        { locationIds: [1], values: [100_000] },
+        { locationIds: [2], values: [100_000] },
+      ],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `50.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `0x101234`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `50.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `0x201234`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
+  test(`skips a sample referencing an absent location, with a warning`, () => {
+    // The first sample references a location missing from the table alongside
+    // a valid one.
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
       ],
       locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
-      samples: [{ locationIds: [99, 1], values: [100_000] }],
+      samples: [
+        { locationIds: [99, 1], values: [100_000] },
+        { locationIds: [1], values: [100_000] },
+      ],
     })
 
     const md = convertBytesToMd(
@@ -789,6 +927,44 @@ describe(`convert`, () => {
           Location: `src/a.ts:1`,
         },
       ],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: node-pprof, pprof-rs, go, pprof-jl, rbspy, gperftools`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 sample referencing a missing location`,
+    ])
+  })
+
+  test(`warns once for a skipped sample read by several profiles`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `alloc_objects`, unit: `count` },
+        { type: `alloc_space`, unit: `bytes` },
+        { type: `inuse_objects`, unit: `count` },
+        { type: `inuse_space`, unit: `bytes` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [
+        { locationIds: [99], values: [1, 512, 1, 512] },
+        { locationIds: [1], values: [1, 512, 1, 512] },
+      ],
+    })
+
+    convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expectLogs([
+      `debug: origin candidates, in priority order: node-pprof, pprof-rs, go, pprof-jl, rbspy, gperftools`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 sample referencing a missing location`,
     ])
   })
 })

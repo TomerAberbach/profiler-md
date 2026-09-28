@@ -1,6 +1,7 @@
 import {
   Function,
   Location,
+  Mapping,
   Profile,
   Sample,
   StringTable,
@@ -10,6 +11,7 @@ import {
 export const makePprof = ({
   valueTypes = [{ type: `cpu`, unit: `nanoseconds` }],
   functions,
+  mappings = [],
   locations,
   samples,
 }: {
@@ -21,8 +23,16 @@ export const makePprof = ({
     filename?: string
     startLine?: number
   }[]
+  mappings?: {
+    id: number | bigint
+    memoryStart: number
+    fileOffset?: number
+    filename: string
+  }[]
   locations: {
     id: number | bigint
+    mappingId?: number | bigint
+    address?: number
     lines: { functionId: number | bigint; line: number }[]
   }[]
   samples: { locationIds: (number | bigint)[]; values: number[] }[]
@@ -46,10 +56,21 @@ export const makePprof = ({
           startLine: BigInt(startLine),
         }),
     ),
+    mapping: mappings.map(
+      ({ id, memoryStart, fileOffset = 0, filename }) =>
+        new Mapping({
+          id: BigInt(id),
+          memoryStart: BigInt(memoryStart),
+          fileOffset: BigInt(fileOffset),
+          filename: stringIndex(filename),
+        }),
+    ),
     location: locations.map(
-      ({ id, lines }) =>
+      ({ id, mappingId = 0, address = 0, lines }) =>
         new Location({
           id: BigInt(id),
+          mappingId: BigInt(mappingId),
+          address: BigInt(address),
           line: lines.map(({ functionId, line }) => ({
             functionId: BigInt(functionId),
             line: BigInt(line),

@@ -8,15 +8,14 @@ import { countMetricOf } from '../../modalities/metric.ts'
 import type { CountMetric, Metric } from '../../modalities/metric.ts'
 import { parseMetric, SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
 
-export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
-  let profile
-  try {
-    profile = PprofProto.decode(bytes)
-  } catch (error) {
-    throw new FormatParseError(`invalid protobuf encoding`, { cause: error })
-  }
+export const parsePprof = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => {
+  const profile = decodeProfile(bytes)
   const string = makeStringReader(profile)
 
   const originHint = pprofOriginHint(profile, string)
@@ -24,7 +23,7 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
   const { frames, framesByLocationId } = parseStackFrames(profile, string)
 
   return layouts.map(
-    ({ metrics, countMetric, metricValueIndices, countValueIndex }) => ({
+    ({ metrics, countMetric, metricValueIndices, countValueIndex }, index) => ({
       type: `call-stack-profile`,
       ...(originHint && { originHint }),
       frames,
@@ -35,16 +34,95 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
         framesByLocationId,
         metricValueIndices,
         countValueIndex,
+        // Every layout reads the same samples, so only the first tallies skips.
+        index === 0 ? recordTally : undefined,
       ),
     }),
   )
 }
 
+const decodeProfile = (bytes: Uint8Array): PprofProto => {
+  let profile
+  try {
+    profile = PprofProto.decode(bytes)
+  } catch (error) {
+    throw new FormatParseError(`invalid protobuf encoding`, { cause: error })
+  }
+  if (endsInsideTopLevelField(bytes)) {
+    throw new FormatParseError(`truncated protobuf encoding`)
+  }
+  return profile
+}
+
+/**
+ * Whether a top-level field's length runs past the end of {@link bytes}.
+ * `pprof-format` clamps such a field to the bytes that remain, so it decodes a
+ * truncated profile without an error. Every nested field is inside a top-level
+ * one, so the top-level fields alone establish that the profile is complete.
+ */
+const endsInsideTopLevelField = (bytes: Uint8Array): boolean => {
+  let offset = 0
+  while (offset < bytes.length) {
+    // A tag is one byte, as `pprof-format` reads it, because every field number
+    // of `profile.proto` is below 16.
+    const wireType = bytes[offset++]! & 0b111
+    const varintEnd = endOfVarint(bytes, offset)
+    if (varintEnd === undefined) {
+      return true
+    }
+    if (wireType === WIRE_TYPE_LENGTH_DELIMITED) {
+      offset = varintEnd + readVarint(bytes, offset, varintEnd)
+      if (offset > bytes.length) {
+        return true
+      }
+    } else {
+      // Decoding rejects every other wire type but a varint.
+      offset = varintEnd
+    }
+  }
+  return false
+}
+
+/** The offset after the varint at {@link offset}, or `undefined` past the end. */
+const endOfVarint = (bytes: Uint8Array, offset: number): number | undefined => {
+  for (let index = offset; index < bytes.length; index++) {
+    if (!(bytes[index]! & 0x80)) {
+      return index + 1
+    }
+  }
+  return undefined
+}
+
+const readVarint = (bytes: Uint8Array, start: number, end: number): number => {
+  let value = 0
+  for (let index = end - 1; index >= start; index--) {
+    value = value * 128 + (bytes[index]! & 0x7f)
+  }
+  return value
+}
+
+const WIRE_TYPE_LENGTH_DELIMITED = 2
+
 type StringReader = (index: number | bigint) => string
 
+/**
+ * Reads a string by its index into the string table. Index 0 is the empty
+ * string, which a profile with no strings leaves out of its table.
+ */
 const makeStringReader = (profile: PprofProto): StringReader => {
   const { strings } = profile.stringTable
-  return index => strings[Number(index)] ?? ``
+  return index => {
+    const string = strings[Number(index)]
+    if (string === undefined) {
+      if (Number(index) === 0) {
+        return ``
+      }
+      throw new FormatParseError(
+        `string index is past the end of the string table, got: ${index}`,
+      )
+    }
+    return string
+  }
 }
 
 const pprofOriginHint = (
@@ -277,8 +355,12 @@ const layoutWithCountsAsMetrics = (valueTypes: ValueType[]): ValueLayout => ({
  * are where the frame was when sampled: the executing position in the leaf,
  * and the call site in a caller.
  *
- * A line whose function is absent from the table (unsymbolized) is dropped
- * rather than passing a reference to a missing function into aggregation.
+ * A location without lines is unsymbolized, and is one {@link PprofMapping}
+ * frame.
+ *
+ * A line whose function is absent from the table is dropped rather than
+ * passing a reference to a missing function into aggregation. PProf.jl writes
+ * such lines.
  *
  * IDs are keyed raw (pprof-format decodes a given varint to `number`, or
  * `bigint` past 4 encoded bytes, deterministically per value) so the
@@ -291,6 +373,37 @@ const parseStackFrames = (
   frames: StackFrame[]
   framesByLocationId: Map<number | bigint, number[]>
 } => {
+  const functionById = parseFunctions(profile, string)
+  const mappingById = parseMappings(profile, string)
+  const unmapped = new PprofMapping(undefined, string)
+
+  const frames: StackFrame[] = []
+  const framesByLocationId = new Map<number | bigint, number[]>()
+  for (const location of profile.location) {
+    framesByLocationId.set(
+      location.id,
+      location.line.length === 0
+        ? [
+            (mappingById.get(location.mappingId) ?? unmapped).frameFor(
+              location.address,
+              frames,
+            ),
+          ]
+        : location.line.flatMap(({ functionId, line, column }) => {
+            const func = functionById.get(functionId)
+            return func === undefined
+              ? []
+              : func.frameFor(knownPprofPosition(line, column), frames)
+          }),
+    )
+  }
+  return { frames, framesByLocationId }
+}
+
+const parseFunctions = (
+  profile: PprofProto,
+  string: StringReader,
+): Map<number | bigint, PprofFunction> => {
   const functionById = new Map<number | bigint, PprofFunction>()
   for (const func of profile.function) {
     // An unset filename decodes to the empty string, which references no
@@ -313,21 +426,66 @@ const parseStackFrames = (
       }),
     )
   }
+  return functionById
+}
 
-  const frames: StackFrame[] = []
-  const framesByLocationId = new Map<number | bigint, number[]>()
-  for (const location of profile.location) {
-    framesByLocationId.set(
-      location.id,
-      location.line.flatMap(({ functionId, line, column }) => {
-        const func = functionById.get(functionId)
-        return func === undefined
-          ? []
-          : func.frameFor(knownPprofPosition(line, column), frames)
-      }),
-    )
+const parseMappings = (
+  profile: PprofProto,
+  string: StringReader,
+): Map<number | bigint, PprofMapping> => {
+  const mappingById = new Map<number | bigint, PprofMapping>()
+  for (const mapping of profile.mapping) {
+    mappingById.set(mapping.id, new PprofMapping(mapping, string))
   }
-  return { frames, framesByLocationId }
+  return mappingById
+}
+
+/**
+ * A mapped file, owning the frames of the unsymbolized addresses sampled
+ * within it so an address interns without a composite key.
+ *
+ * A frame in a named file is named by its offset into the file, as `pprof`
+ * names it, because the offset is the same across runs. A frame in an anonymous mapping, such as JIT code, is named
+ * by its address, because the same offset into two anonymous mappings is two
+ * different pieces of code.
+ */
+class PprofMapping {
+  readonly #source: StackFrame[`definition`]
+
+  /**
+   * Subtracted from an address to give its offset into the file, or `0n` for
+   * an anonymous mapping.
+   */
+  readonly #offsetDelta: bigint
+
+  /** A frame's name, as a number, to its index in the profile's frames. */
+  readonly #frames = new Map<bigint, number>()
+
+  public constructor(
+    mapping: PprofProto[`mapping`][number] | undefined,
+    string: StringReader,
+  ) {
+    const filename = mapping ? string(mapping.filename) : ``
+    this.#source = filename ? { type: `file`, urlOrPath: filename } : undefined
+    this.#offsetDelta =
+      mapping && filename
+        ? BigInt(mapping.memoryStart) - BigInt(mapping.fileOffset)
+        : 0n
+  }
+
+  public frameFor(address: number | bigint, frames: StackFrame[]): number {
+    const key = BigInt(address) - this.#offsetDelta
+    let index = this.#frames.get(key)
+    if (index === undefined) {
+      index = frames.length
+      frames.push({
+        name: `0x${key.toString(16)}`,
+        ...(this.#source && { definition: this.#source }),
+      })
+      this.#frames.set(key, index)
+    }
+    return index
+  }
 }
 
 /**
@@ -406,16 +564,30 @@ const knownPprofLine = (
   return signedLine > 0 ? Number(signedLine) : undefined
 }
 
-/** Each profile reads the samples again, so no profile stores its own copy. */
+/**
+ * Each profile reads the samples again, so no profile stores its own copy.
+ *
+ * A sample without locations is a stackless observation. PProf.jl writes one
+ * for a sample whose every frame it filtered out.
+ */
 function* parseObservations(
   profile: PprofProto,
   framesByLocationId: Map<number | bigint, number[]>,
   metricValueIndices: number[],
   countValueIndex: number | undefined,
+  recordTally: RecordTally | undefined,
 ): Iterable<Observation> {
+  const valueCount = profile.sampleType.length
+  let skippedSamples = 0
   for (const { locationId, value } of profile.sample) {
+    if (value.length < valueCount) {
+      throw new FormatParseError(
+        `sample has fewer values than the profile has sample types, got: ${value.length}`,
+      )
+    }
     const frameIndices = resolveCallStack(locationId, framesByLocationId)
-    if (frameIndices.length === 0) {
+    if (frameIndices === undefined) {
+      skippedSamples++
       continue
     }
     const recordedCount =
@@ -436,15 +608,27 @@ function* parseObservations(
     }
     yield { values, frameIndices, count }
   }
+  if (skippedSamples > 0) {
+    recordTally?.skipped(
+      `sample`,
+      `referencing a missing location`,
+      skippedSamples,
+    )
+  }
 }
 
+/** The sample's frames, or `undefined` if it references a missing location. */
 const resolveCallStack = (
   locationId: readonly (number | bigint)[],
   framesByLocationId: Map<number | bigint, number[]>,
-): number[] => {
+): number[] | undefined => {
   const frameIndices: number[] = []
   for (const id of locationId) {
-    for (const frame of framesByLocationId.get(id) ?? []) {
+    const frames = framesByLocationId.get(id)
+    if (frames === undefined) {
+      return undefined
+    }
+    for (const frame of frames) {
       frameIndices.push(frame)
     }
   }
