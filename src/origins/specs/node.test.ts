@@ -20,6 +20,20 @@ describe(`detection`, () => {
       }),
     ).toBe(`node`)
   })
+
+  test(`does not detect Node by a page script a development server serves from node_modules`, () => {
+    expect(
+      determineOrigin({
+        format: `v8-cpu-profile`,
+        entries: [
+          absoluteEntry(
+            `f`,
+            `http://localhost:5173/node_modules/.vite/deps/d3.js`,
+          ),
+        ],
+      }),
+    ).toBe(`chrome`)
+  })
 })
 
 describe(`categorizeEntry`, () => {
