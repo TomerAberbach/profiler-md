@@ -40,7 +40,7 @@ run_for_role() {
       # stays small.
       mkdir -p /work
       INPUT=/work/input.bin
-      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
       # Extract then truncate as two steps. Piping `unzip -p` into `head -c`
       # makes head close the pipe early, killing unzip with SIGPIPE, which trips
       # `set -o pipefail`.
@@ -118,7 +118,7 @@ run_systing() {
 
       # systing builds its BPF skeletons with rustfmt, which the minimal
       # profile excludes.
-      curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt -q
+      curl -sSf --retry 5 https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt -q
       . "$HOME/.cargo/env"
       # The generated Perfetto protobuf crate and DuckDB compiling side by side
       # exhaust the memory Docker allocates to its VM.
@@ -139,7 +139,7 @@ run_systing() {
       # then stops the traced command, hence `|| true`.
       mkdir -p /work
       INPUT=/work/input.bin
-      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
       unzip -p /work/dickens.zip dickens >/work/dickens.full
       for _ in 1 2 3 4; do cat /work/dickens.full >>"$INPUT"; done
       rm -f /work/dickens.full
@@ -195,7 +195,7 @@ capture_callgrind() {
       # instruction, ~50x slower than native.
       mkdir -p /work
       INPUT=/work/input.bin
-      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
       unzip -p /work/dickens.zip dickens >/work/dickens.full
       head -c 1048576 /work/dickens.full >"$INPUT"
       rm -f /work/dickens.full
@@ -242,7 +242,7 @@ capture_perf() {
       # Extracted in two steps as in run_for_role.
       mkdir -p /work
       INPUT=/work/input.bin
-      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
       unzip -p /work/dickens.zip dickens >/work/dickens.full
       head -c 4194304 /work/dickens.full >"$INPUT"
       rm -f /work/dickens.full
@@ -305,7 +305,7 @@ capture_simpleperf() {
       # Extracted in two steps as in run_for_role.
       mkdir -p /work
       INPUT=/work/input.bin
-      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
       unzip -p /work/dickens.zip dickens >/work/dickens.full
       head -c 4194304 /work/dickens.full >"$INPUT"
       rm -f /work/dickens.full

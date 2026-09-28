@@ -30,7 +30,7 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         ca-certificates curl xz-utils
 
-      curl -sSL -o /tmp/zig.tar.xz "'"$ZIG_TARBALL"'"
+      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$ZIG_TARBALL"'"
       echo "'"$ZIG_SHA256"'  /tmp/zig.tar.xz" | sha256sum -c -
       mkdir -p /opt/zig
       tar -xJf /tmp/zig.tar.xz -C /opt/zig --strip-components=1
@@ -105,7 +105,7 @@ capture_perf() {
       # the capture is user-space only rather than failing.
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      curl -sSL -o /tmp/zig.tar.xz "'"$ZIG_TARBALL"'"
+      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$ZIG_TARBALL"'"
       echo "'"$ZIG_SHA256"'  /tmp/zig.tar.xz" | sha256sum -c -
       mkdir -p /opt/zig
       tar -xJf /tmp/zig.tar.xz -C /opt/zig --strip-components=1

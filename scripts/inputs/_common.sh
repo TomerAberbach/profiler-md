@@ -45,7 +45,8 @@ ensure_docker() {
 }
 
 # fetch_asset <label> <url> <sha256> <dest>
-#   Downloads a checksum-verified file unless <dest> already exists.
+#   Downloads a checksum-verified file unless <dest> already exists, retrying a
+#   transient failure (a timeout, or an HTTP 408, 429, or 5xx response).
 fetch_asset() {
   local label=$1 url=$2 sha256=$3 dest=$4 tmp
   [[ -f "$dest" ]] && return 0
@@ -54,7 +55,7 @@ fetch_asset() {
   # Renaming into place only after the checksum passes keeps an interrupted
   # download from leaving a partial file the existence check would trust.
   tmp="$(mktemp "$dest.XXXXXX")" || return 1
-  curl -fsSL "$url" -o "$tmp" \
+  curl -fsSL --retry 5 "$url" -o "$tmp" \
     || { rm -f "$tmp"; echo "  FAILED to fetch: $url" >&2; return 1; }
   echo "$sha256  $tmp" | shasum -a 256 -c - >/dev/null \
     || { rm -f "$tmp"; echo "  CHECKSUM mismatch: $url" >&2; return 1; }
