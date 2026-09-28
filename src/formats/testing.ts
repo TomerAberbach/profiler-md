@@ -8,6 +8,7 @@ import type {
   BinaryFormatConverter,
   FormatConverter,
   JsonFormatConverter,
+  RecordTally,
 } from './converter.ts'
 import { formatAggregatedInputs } from './format.ts'
 import type { Format } from './index.ts'
@@ -82,6 +83,12 @@ export const smallestInput = (filenames: string[]): string[] =>
             : smallest,
         ),
       ]
+
+/** Records nothing, for a test that calls a parse directly. */
+export const noopRecordTally: RecordTally = {
+  skipped: () => {},
+  endsBefore: () => {},
+}
 
 export const convertJsonToMd = (
   converter: JsonFormatConverter,

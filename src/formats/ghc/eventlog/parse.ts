@@ -6,6 +6,7 @@ import type {
 import type { Metric } from '../../../modalities/metric.ts'
 import { SAMPLES, WALL_TIME_METRIC } from '../../../modalities/metrics.ts'
 import type { StackFrame } from '../../../modalities/stack-frame.ts'
+import type { RecordTally } from '../../converter.ts'
 import { FormatParseError } from '../../error.ts'
 import { costCentreStackFrame } from '../cost-centre.ts'
 
@@ -15,9 +16,10 @@ import { costCentreStackFrame } from '../cost-centre.ts'
  *
  * @see https://downloads.haskell.org/ghc/latest/docs/users_guide/eventlog-formats.html
  */
-export const parseGhcEventlog = (bytes: Uint8Array): CallStackProfile[] => [
-  new Eventlog(bytes).profile(),
-]
+export const parseGhcEventlog = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => [new Eventlog(bytes).profile(recordTally)]
 
 /**
  * Like {@link parseGhcEventlog}, but consumes the log from a stream.
@@ -29,8 +31,9 @@ export const parseGhcEventlog = (bytes: Uint8Array): CallStackProfile[] => [
  */
 export const parseGhcEventlogAsync = async (
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): Promise<CallStackProfile[]> =>
-  parseGhcEventlog(await streamToUint8Array(stream))
+  parseGhcEventlog(await streamToUint8Array(stream), recordTally)
 
 type EventlogCostCentres = {
   frames: StackFrame[]
@@ -67,8 +70,9 @@ class Eventlog {
     this.#eventsOffset = this.#readHeader()
   }
 
-  public profile(): CallStackProfile {
-    const { frames, idToFrameIndex, tickInterval } = this.#readCostCentres()
+  public profile(recordTally: RecordTally): CallStackProfile {
+    const { frames, idToFrameIndex, tickInterval } =
+      this.#readCostCentres(recordTally)
 
     // Every sample is one tick, so the interval the runtime reports is what
     // each sample measured. A log written without `+RTS -p` declares no
@@ -132,7 +136,7 @@ class Eventlog {
     return cursor.offset
   }
 
-  #readCostCentres(): EventlogCostCentres {
+  #readCostCentres(recordTally: RecordTally): EventlogCostCentres {
     const frames: StackFrame[] = []
     // Cost-centre IDs are assigned sequentially as modules register them, so a
     // sparse array indexed by ID stays dense enough to outperform a `Map`.
@@ -146,7 +150,10 @@ class Eventlog {
     // the format's title and records a rejected format during auto-detection.
     const undefinedIds = new Set<number>()
 
-    for (const { eventType, payload, size } of this.#events()) {
+    const events = this.#events()
+    let next = events.next()
+    for (; !next.done; next = events.next()) {
+      const { eventType, payload, size } = next.value
       switch (eventType) {
         case COST_CENTRE_DEFINITION: {
           const id = this.#view.getUint32(payload)
@@ -172,7 +179,14 @@ class Eventlog {
       }
     }
 
-    if (!sampled) {
+    const reachedDataEnd = next.value
+    if (!reachedDataEnd) {
+      recordTally.endsBefore(`the end-of-data marker`)
+    }
+
+    // A log cut short before its first sample is reported as cut short rather
+    // than as a run without `+RTS -p`.
+    if (!sampled && reachedDataEnd) {
       throw new FormatParseError(
         `no cost-centre samples, which a run records with +RTS -p -l-au`,
       )
@@ -246,19 +260,28 @@ class Eventlog {
   }
 
   /**
-   * Yields every event in the log.
+   * Yields every event in the log, then returns whether it reached the
+   * end-of-data marker.
    *
    * Stops at the end-of-data marker, and at a truncated trailing event, which
    * ends a log written by a program that died mid-write.
    */
-  *#events(): Iterable<{ eventType: number; payload: number; size: number }> {
+  *#events(): Generator<
+    { eventType: number; payload: number; size: number },
+    boolean
+  > {
     const { length } = this.#bytes
     let offset = this.#eventsOffset
 
-    while (offset + EVENT_HEADER_SIZE <= length) {
+    // The end-of-data marker is a bare event type, without the timestamp the
+    // header of every other event holds.
+    while (offset + 2 <= length) {
       const eventType = this.#view.getUint16(offset)
       if (eventType === DATA_END) {
-        return
+        return true
+      }
+      if (offset + EVENT_HEADER_SIZE > length) {
+        return false
       }
       offset += EVENT_HEADER_SIZE
 
@@ -268,18 +291,19 @@ class Eventlog {
       }
       if (size === VARIABLE_SIZE) {
         if (offset + 2 > length) {
-          return
+          return false
         }
         size = this.#view.getUint16(offset)
         offset += 2
       }
 
       if (offset + size > length) {
-        return
+        return false
       }
       yield { eventType, payload: offset, size }
       offset += size
     }
+    return false
   }
 }
 

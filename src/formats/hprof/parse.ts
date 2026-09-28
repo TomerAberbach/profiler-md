@@ -10,6 +10,7 @@ import {
   JVM_PRIMITIVE_DESCRIPTOR_NAMES,
   jvmSourceClassName,
 } from '../../origins/jvm.ts'
+import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
 import { ObjectIdToOrdinal } from './object-ids.ts'
 
@@ -19,15 +20,20 @@ import { ObjectIdToOrdinal } from './object-ids.ts'
  * @see https://github.com/JetBrains/jdk8u_jdk/blob/master/src/share/demo/jvmti/hprof/manual.html
  * @see https://github.com/openjdk/jdk/blob/master/src/hotspot/share/services/heapDumper.cpp
  */
-export const parseHprof = (bytes: Uint8Array): HeapSnapshot[] => {
+export const parseHprof = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): HeapSnapshot[] => {
   const dump = readDump(bytes)
-  const nodes = readNodes(dump)
+  const nodes = readNodes(dump, recordTally)
   return [buildHeapSnapshot(dump, nodes)]
 }
 
 export const parseHprofAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<HeapSnapshot[]> => parseHprof(await streamToUint8Array(stream))
+  recordTally: RecordTally,
+): Promise<HeapSnapshot[]> =>
+  parseHprof(await streamToUint8Array(stream), recordTally)
 
 /** The prefix of the format name every dump begins with, which the version follows. */
 export const HPROF_MAGIC = new TextEncoder().encode(`JAVA PROFILE `)
@@ -408,7 +414,7 @@ const basicTypeSize = (typeSizes: Int32Array, type: number): number => {
  * Ordinal 0 is a synthetic GC root, the super-node referencing every root
  * object, so the dominator analysis has a single entry point.
  */
-const readNodes = (dump: Dump): Nodes => {
+const readNodes = (dump: Dump, recordTally: RecordTally): Nodes => {
   const { readId } = dump
 
   const ordinalOf = new ObjectIdToOrdinal()
@@ -424,6 +430,8 @@ const readNodes = (dump: Dump): Nodes => {
   recordOffsets.ensureCapacity(1)
   selfSizes.ensureCapacity(1)
 
+  let repeatedCount = 0
+
   /**
    * Adds a node for the object at {@link body}, or returns the ordinal already
    * assigned when the dump repeats an object ID, so a repeated ID stays one
@@ -436,6 +444,7 @@ const readNodes = (dump: Dump): Nodes => {
   ): number => {
     const assigned = ordinalOf.get(objectId)
     if (assigned !== -1) {
+      repeatedCount++
       return assigned
     }
 
@@ -472,6 +481,14 @@ const readNodes = (dump: Dump): Nodes => {
   })
 
   const rootTags = resolveRootTags(ordinalOf, nodeCount, rootRecords)
+
+  if (repeatedCount > 0) {
+    recordTally.skipped(
+      `object record`,
+      `repeating an earlier object ID`,
+      repeatedCount,
+    )
+  }
 
   return {
     nodeCount,

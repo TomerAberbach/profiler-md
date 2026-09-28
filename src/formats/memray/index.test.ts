@@ -9,12 +9,17 @@ import {
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   categoryTables,
+  expectLogs,
   linesTables,
   profileTitles,
   rankingTables,
   summaryLines,
 } from '../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { memrayConverter } from './index.ts'
 import { MINIMUM_COMPACTION_LENGTH, parseMemray } from './parse.ts'
 import {
@@ -83,20 +88,48 @@ describe(`matches`, () => {
 
   test(`parse rejects bytes that aren't a capture`, () => {
     expect(() =>
-      parseMemray(new TextEncoder().encode(`not a capture`)),
+      parseMemray(new TextEncoder().encode(`not a capture`), noopRecordTally),
     ).toThrow(`missing magic`)
   })
 
   test(`parse reports a capture that ends mid-record`, () => {
-    expect(() => parseMemray(risesThenFalls.subarray(0, 10))).toThrow(
-      `truncated capture`,
-    )
+    expect(() =>
+      parseMemray(risesThenFalls.subarray(0, 10), noopRecordTally),
+    ).toThrow(`truncated capture`)
   })
 
+  test.each([
+    [`ends between records`, risesThenFalls.subarray(0, -1)],
+    [
+      `ends in zero fill`,
+      Uint8Array.from([...risesThenFalls.subarray(0, -1), 0, 0, 0, 0]),
+    ],
+  ])(
+    `converts a capture a killed process left that %s, with a warning`,
+    (_, bytes) => {
+      const originLogs = [
+        `debug: origin candidates, in priority order: memray`,
+        `info: fallback origin: memray`,
+        `debug: no entry marked another origin`,
+      ]
+      const complete = convertBytesToMd(
+        memrayConverter,
+        risesThenFalls,
+        options(),
+      )
+      expectLogs(originLogs)
+
+      const md = convertBytesToMd(memrayConverter, bytes, options())
+
+      expect(md).toBe(complete)
+      expectLogs([...originLogs, `warn: the input ends before the trailer`])
+    },
+  )
+
   test(`parse reports a capture version it can't read`, () => {
-    expect(() => parseMemray(makeMemray({ version: 14, records: [] }))).toThrow(
-      `unsupported version 14`,
-    )
+    expect(() =>
+      parseMemray(makeMemray({ version: 14, records: [] }), noopRecordTally),
+    ).toThrow(`unsupported version 14`)
   })
 
   test(`parse reports an allocation naming an uncached address`, () => {
@@ -104,6 +137,7 @@ describe(`matches`, () => {
     expect(() =>
       parseMemray(
         makeMemray({ records: [{ type: `raw`, bytes: [0x86, 0x80, 0x08] }] }),
+        noopRecordTally,
       ),
     ).toThrow(
       `record names an address no earlier record wrote, got cache index: 0`,
@@ -127,6 +161,7 @@ describe(`matches`, () => {
             },
           ],
         }),
+        noopRecordTally,
       ),
     ).toThrow(`allocation is on a stack no record defines, got: 3`)
   })
@@ -148,6 +183,7 @@ describe(`matches`, () => {
             },
           ],
         }),
+        noopRecordTally,
       ),
     ).toThrow(`stack 1 is in a frame no record defines, got: 2`)
   })
@@ -162,6 +198,7 @@ describe(`matches`, () => {
           stacks: [{ frame: 0, parent: 5 }],
           allocations: [],
         }),
+        noopRecordTally,
       ),
     ).toThrow(`stack 1 is under a stack that follows it, got parent: 5`)
   })

@@ -11,6 +11,7 @@ import {
   PEAK_MEMORY_METRIC,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
 
 /**
@@ -24,10 +25,13 @@ import { FormatParseError } from '../error.ts'
  *
  * @see https://github.com/bloomberg/memray/tree/main/src/memray/_memray
  */
-export const parseMemray = (input: Uint8Array): CallStackProfile[] => {
+export const parseMemray = (
+  input: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => {
   const parser = new MemrayParser()
   parser.push(input)
-  return parser.end()
+  return parser.end(recordTally)
 }
 
 /**
@@ -37,6 +41,7 @@ export const parseMemray = (input: Uint8Array): CallStackProfile[] => {
  */
 export const parseMemrayAsync = async (
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): Promise<CallStackProfile[]> => {
   const parser = new MemrayParser()
   const reader = stream.getReader()
@@ -51,7 +56,7 @@ export const parseMemrayAsync = async (
   } finally {
     reader.releaseLock()
   }
-  return parser.end()
+  return parser.end(recordTally)
 }
 
 /**
@@ -67,11 +72,11 @@ export const parseMemrayAsync = async (
 class MemrayParser {
   readonly #reader = new ByteReader()
   #capture: Capture | undefined
-  /** Whether the trailer has been read, after which the rest is ignored. */
-  #done = false
+  /** How the records ended, after which the rest is ignored. */
+  #recordsEnd: RecordsEnd | undefined
 
   public push(bytes: Uint8Array): void {
-    if (this.#done) {
+    if (this.#recordsEnd !== undefined) {
       return
     }
 
@@ -82,8 +87,10 @@ class MemrayParser {
       try {
         if (this.#capture === undefined) {
           this.#capture = new Capture(readHeader(reader))
-        } else if (!this.#capture.readRecord(reader)) {
-          this.#done = true
+          continue
+        }
+        this.#recordsEnd = this.#capture.readRecord(reader)
+        if (this.#recordsEnd !== undefined) {
           return
         }
       } catch (error) {
@@ -98,19 +105,30 @@ class MemrayParser {
 
   /**
    * @throws if the capture ended inside its header or a record. A capture
-   *   ending between records without a trailer is read to where it ended, as
-   *   one a killed process left behind.
+   *   ending between records or in zero fill without a trailer is read to
+   *   where it ended, as one a killed process left behind, and recorded on
+   *   {@link recordTally}.
    */
-  public end(): CallStackProfile[] {
+  public end(recordTally: RecordTally): CallStackProfile[] {
+    const capture = this.#capture
     if (
-      !this.#done &&
-      (this.#capture === undefined || this.#reader.remaining > 0)
+      capture === undefined ||
+      (this.#recordsEnd === undefined && this.#reader.remaining > 0)
     ) {
       throw new FormatParseError(`truncated capture`)
     }
-    return this.#capture!.toProfiles()
+    if (this.#recordsEnd !== `trailer`) {
+      recordTally.endsBefore(`the trailer`)
+    }
+    return capture.toProfiles()
   }
 }
+
+/**
+ * How a capture's records ended: at the trailer, or at the zero fill a capture
+ * killed mid-write leaves.
+ */
+type RecordsEnd = `trailer` | `zero fill`
 
 /** The magic every memray capture begins with: `memray` and a null byte. */
 export const MEMRAY_MAGIC = Uint8Array.from([
@@ -366,13 +384,14 @@ class Capture {
   }
 
   /**
-   * Reads one record and applies its effect on the capture's state, returning
-   * `false` at the trailer.
+   * Reads one record and applies its effect on the capture's state. Returns how
+   * the records ended when the record is the trailer or zero fill, and
+   * `undefined` otherwise.
    *
    * Reads everything the record holds before changing any state, so that a
    * record the input cuts short can be read again whole.
    */
-  public readRecord(reader: ByteReader): boolean {
+  public readRecord(reader: ByteReader): RecordsEnd | undefined {
     const token = reader.byte()
     return this.#header.fileFormat === `aggregated`
       ? this.#readAggregatedRecord(reader, token)
@@ -409,7 +428,10 @@ class Capture {
   }
 
   /** Reads a record of a capture written without `--aggregate`. */
-  #readAllocationsRecord(reader: ByteReader, token: number): boolean {
+  #readAllocationsRecord(
+    reader: ByteReader,
+    token: number,
+  ): RecordsEnd | undefined {
     // A record type that packs flags into its discriminator claims every byte
     // that sets its bit, so the byte's type is the highest-valued one whose
     // bit it sets. A zero byte is the padding a capture killed mid-write
@@ -425,14 +447,14 @@ class Capture {
     } else if (token & RECORD_FRAME_POP) {
       this.#popFrames((token & 0x0f) + 1)
     } else if (token === RECORD_TRAILER || token === 0) {
-      return false
+      return token === RECORD_TRAILER ? `trailer` : `zero fill`
     } else if (token === RECORD_MEMORY) {
       reader.varint() // Resident bytes
       reader.varint() // Milliseconds since tracking started
     } else {
       this.#readSharedRecord(reader, token)
     }
-    return true
+    return undefined
   }
 
   /**
@@ -440,11 +462,15 @@ class Capture {
    * state each stack's peak and leaked totals rather than the allocations
    * behind them.
    */
-  #readAggregatedRecord(reader: ByteReader, recordType: number): boolean {
+  #readAggregatedRecord(
+    reader: ByteReader,
+    recordType: number,
+  ): RecordsEnd | undefined {
     switch (recordType) {
       case AGGREGATED_TRAILER:
+        return `trailer`
       case 0:
-        return false
+        return `zero fill`
       case AGGREGATED_MEMORY_SNAPSHOT:
         // A timestamp and the resident and heap sizes at it.
         reader.skip(24)
@@ -477,7 +503,7 @@ class Capture {
       default:
         this.#readSharedRecord(reader, recordType)
     }
-    return true
+    return undefined
   }
 
   /** Reads a record encoded the same way in both capture file formats. */

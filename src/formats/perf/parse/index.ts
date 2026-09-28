@@ -1,5 +1,6 @@
 import { streamToUint8Array } from '../../../helpers/bytes.ts'
 import type { CallStackProfile } from '../../../modalities/call-stack-profile/index.ts'
+import type { RecordTally } from '../../converter.ts'
 import { PerfFile } from './file.ts'
 
 export { hasPerfMagic } from './file.ts'
@@ -17,9 +18,13 @@ export { hasPerfMagic } from './file.ts'
  * @see https://github.com/torvalds/linux/blob/master/tools/perf/Documentation/perf.data-file-format.txt
  * @see https://github.com/torvalds/linux/blob/master/include/uapi/linux/perf_event.h
  */
-export const parsePerf = (bytes: Uint8Array): CallStackProfile[] =>
-  new PerfFile(bytes).toProfiles()
+export const parsePerf = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => new PerfFile(bytes, recordTally).toProfiles()
 
 export const parsePerfAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<CallStackProfile[]> => parsePerf(await streamToUint8Array(stream))
+  recordTally: RecordTally,
+): Promise<CallStackProfile[]> =>
+  parsePerf(await streamToUint8Array(stream), recordTally)

@@ -13,10 +13,14 @@ import {
   SAMPLES,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
 
-export const parseCallgrind = (bytes: Uint8Array): CallGraph[] => {
-  const builder = new CallgrindProfileBuilder()
+export const parseCallgrind = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallGraph[] => {
+  const builder = new CallgrindProfileBuilder(recordTally)
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
   }
@@ -25,8 +29,9 @@ export const parseCallgrind = (bytes: Uint8Array): CallGraph[] => {
 
 export const parseCallgrindAsync = async (
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): Promise<CallGraph[]> => {
-  const builder = new CallgrindProfileBuilder()
+  const builder = new CallgrindProfileBuilder(recordTally)
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
   }
@@ -61,6 +66,45 @@ type CallgrindCall = {
 type PendingCall = {
   calleeName: string
   callCount: number
+}
+
+/**
+ * Holds at most one {@link PendingCall}. Only {@link take} and {@link skip}
+ * remove a call, and {@link replace} skips the call it replaces, so every call
+ * whose cost line never arrives is recorded on the {@link RecordTally}.
+ */
+class PendingCallSlot {
+  readonly #recordTally: RecordTally
+  #call: PendingCall | undefined
+
+  public constructor(recordTally: RecordTally) {
+    this.#recordTally = recordTally
+  }
+
+  public replace(call: PendingCall): void {
+    this.skip()
+    this.#call = call
+  }
+
+  /** Removes and returns the call the current cost line completes. */
+  public take(): PendingCall | undefined {
+    const call = this.#call
+    this.#call = undefined
+    return call
+  }
+
+  /**
+   * Skips a `calls=` whose cost line never arrived (a truncated file, a
+   * part boundary written without a `part:` header, another `calls=`). The
+   * stale `calls=` would otherwise consume the next cost line as an arc to the
+   * stale callee.
+   */
+  public skip(): void {
+    if (this.#call) {
+      this.#recordTally.skipped(`call`, `without a cost line`)
+      this.#call = undefined
+    }
+  }
 }
 
 const SPEC_KEYS: ReadonlySet<string> = new Set([
@@ -162,13 +206,20 @@ class CallgrindProfileBuilder {
   #function: CallgrindFunction | undefined
 
   // The pending call context (`cob=`/`cfi=`/`cfn=`), consumed by the cost line
-  // following a `calls=` line, which contains the call's inclusive cost.
+  // following a `calls=` line, which contains the call's inclusive cost. A
+  // skipped call leaves the context, which a later `calls=` in another function
+  // still resolves against: Valgrind writes those specs only when they differ
+  // from the last ones written, including across function boundaries.
   #callObject: string | undefined
   #callFile: string | undefined
   #callName: string | undefined
-  #pendingCall: PendingCall | undefined
+  readonly #pendingCall: PendingCallSlot
 
   readonly #functions = new Map<string, CallgrindFunction>()
+
+  public constructor(recordTally: RecordTally) {
+    this.#pendingCall = new PendingCallSlot(recordTally)
+  }
 
   public addLine(line: string): void {
     if (line.length === 0 || line.startsWith(`#`)) {
@@ -287,7 +338,8 @@ class CallgrindProfileBuilder {
     this.#file = ``
     this.#costFile = ``
     this.#function = undefined
-    this.#clearPendingCall()
+    this.#pendingCall.skip()
+    this.#clearCallObjectAndFile()
     // A part's specs are self-contained, so the callee name a `calls=` would
     // otherwise resolve against stops at the boundary.
     this.#callName = undefined
@@ -302,7 +354,7 @@ class CallgrindProfileBuilder {
       case `fl`:
         this.#file = resolveName(this.#fileNames, rest)
         this.#costFile = this.#file
-        this.#dropPendingCall()
+        this.#pendingCall.skip()
         break
       case `fi`:
       case `fe`:
@@ -316,7 +368,7 @@ class CallgrindProfileBuilder {
         )
         // A new function starts back in its own file, ending any `fi=` switch.
         this.#costFile = this.#file
-        this.#dropPendingCall()
+        this.#pendingCall.skip()
         break
       case `cob`:
         this.#callObject = resolveName(this.#objectNames, rest)
@@ -335,10 +387,10 @@ class CallgrindProfileBuilder {
           throw new FormatParseError(`calls= without a preceding cfn=`)
         }
         const count = rest.split(/\s+/u, 1)[0]!
-        this.#pendingCall = {
+        this.#pendingCall.replace({
           calleeName: this.#callName,
           callCount: count.length === 0 ? 0 : parseCost(count),
-        }
+        })
         break
       }
       // Jump specs (`jump=`/`jcnd=`) contain control-flow counts, not costs.
@@ -386,7 +438,7 @@ class CallgrindProfileBuilder {
     const costLine = this.#parseSubpositions(tokens)
     const values = this.#parseValues(tokens, eventIndices)
 
-    const pendingCall = this.#pendingCall
+    const pendingCall = this.#pendingCall.take()
     if (pendingCall) {
       this.#addCallCost(func, pendingCall, values)
       return
@@ -453,7 +505,7 @@ class CallgrindProfileBuilder {
       call.callCount += pendingCall.callCount
       addValues(call.totalValues, values)
     }
-    this.#clearPendingCall()
+    this.#clearCallObjectAndFile()
   }
 
   /** Accumulates a cost recorded in the function's own body. */
@@ -491,41 +543,25 @@ class CallgrindProfileBuilder {
   }
 
   /**
-   * Consumes the call the cost line completed.
-   *
-   * The `cob=`/`cfi=` context resets, matching what Valgrind writes. Valgrind
-   * omits `cfi=` for a call whose callee is in the caller's own file even
-   * after a `cfi=` naming another file, so carrying the last one forward would
-   * file the callee under the wrong source.
+   * Resets the `cob=`/`cfi=` context after a call's cost line, matching what
+   * Valgrind writes. Valgrind omits `cfi=` for a call whose callee is in the
+   * caller's own file even after a `cfi=` naming another file, so carrying the
+   * last one forward would file the callee under the wrong source.
    *
    * The `cfn=` callee name stays, because a position spec holds until it is
    * written again, and a `calls=` with no `cfn=` of its own calls the last
    * callee named.
    */
-  #clearPendingCall(): void {
-    this.#pendingCall = undefined
+  #clearCallObjectAndFile(): void {
     this.#callObject = undefined
     this.#callFile = undefined
-  }
-
-  /**
-   * Abandons a `calls=` whose cost line never arrived (a truncated file, a
-   * part boundary written without a `part:` header). The stale `calls=` would
-   * otherwise consume the next function's first cost line as an arc to the
-   * stale callee.
-   *
-   * Leaves the `cob=`/`cfi=`/`cfn=` context, which a later `calls=` in another
-   * function still resolves against: Valgrind writes those specs only when they
-   * differ from the last ones written, including across function boundaries.
-   */
-  #dropPendingCall(): void {
-    this.#pendingCall = undefined
   }
 
   public build(): CallGraph[] {
     if (this.#eventNames.length === 0) {
       throw new FormatParseError(`missing events header`)
     }
+    this.#pendingCall.skip()
 
     const originHint = creatorOriginHint(this.#creator)
     const functions = [...this.#functions.values()]

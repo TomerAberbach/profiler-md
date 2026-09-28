@@ -13,6 +13,7 @@ import {
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
+  expectLogs,
   linesTables,
   profileTitles,
   summaryLines,
@@ -578,16 +579,43 @@ describe(`convert`, () => {
     expect(linesTables(md, `funcB`)).toEqual([])
   })
 
-  test(`a truncated recording is parsed without throwing`, () => {
-    const bytes = makeJfr({
+  test(`keeps the chunks before one a killed JVM left cut off, with a warning`, async () => {
+    const recording = makeJfr({
       methods: [{ name: `a`, className: `C` }],
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
       events: [{ type: `cpu`, stack: 0 }],
     })
+    const bytes = concatUint8Arrays([recording, recording.subarray(0, -5)])
 
-    // A recording cut mid-chunk (a killed JVM or interrupted dump) must not
-    // throw; complete chunks are kept and the partial one is dropped.
-    expect(() => jfrConverter.parse(bytes.subarray(0, -5))).not.toThrow()
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
+    expect(await convertToMdAsync(jfrConverter, streamOf(bytes), options)).toBe(
+      md,
+    )
+    const conversionLogs = [
+      `debug: origin candidates, in priority order: async-profiler, jdk`,
+      `info: detected origin: async-profiler`,
+      `debug: async-profiler is named by the format's metadata`,
+      `warn: skipped 1 chunk cut off by the end of the input`,
+    ]
+    expectLogs([...conversionLogs, ...conversionLogs])
+  })
+
+  test(`rejects a recording whose only chunk is cut off`, async () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+    }).subarray(0, -5)
+
+    const message = `no usable records because the parser skipped 1 chunk cut off by the end of the input`
+    expect(() => convertBytesToMd(jfrConverter, bytes, options)).toThrow(
+      message,
+    )
+    await expect(
+      convertToMdAsync(jfrConverter, streamOf(bytes), options),
+    ).rejects.toThrow(message)
   })
 })
 
@@ -703,7 +731,7 @@ describe(`malformed recordings`, () => {
     ])
   })
 
-  test(`a chunk whose declared size is smaller than its header is dropped`, async () => {
+  test(`rejects a recording whose only chunk declares a size smaller than its header`, async () => {
     const bytes = makeJfr({
       methods: [{ name: `a`, className: `C` }],
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
@@ -714,12 +742,13 @@ describe(`malformed recordings`, () => {
     // header's fields from a chunk that short would run past its bounds.
     new DataView(bytes.buffer, bytes.byteOffset).setBigInt64(8, 20n)
 
-    const md = convertBytesToMd(jfrConverter, bytes, options)
-
-    expect(md).toBe(`No profiling data found.\n`)
-    expect(await convertToMdAsync(jfrConverter, streamOf(bytes), options)).toBe(
-      md,
+    const message = `no usable records because the parser skipped ${bytes.length.toLocaleString(`en-US`)} bytes not forming a chunk`
+    expect(() => convertBytesToMd(jfrConverter, bytes, options)).toThrow(
+      message,
     )
+    await expect(
+      convertToMdAsync(jfrConverter, streamOf(bytes), options),
+    ).rejects.toThrow(message)
   })
 
   test(`reads an unrecognized frame layout like the flat one`, () => {

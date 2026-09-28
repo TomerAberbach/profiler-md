@@ -18,13 +18,18 @@ import {
   categorySectionTables,
   categoryTables,
   diffRankingTable,
+  expectLogs,
   linesTables,
   profileTitles,
   rankingTable,
   rankingTables,
   summaryLines,
 } from '../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { callgrindConverter } from './index.ts'
 import { parseCallgrind } from './parse.ts'
 import { makeCallgrind } from './testing.ts'
@@ -83,31 +88,40 @@ describe(`matches`, () => {
 describe(`parse`, () => {
   test(`rejects prose`, () => {
     expect(() =>
-      parseCallgrind(makeCallgrind([`hello world, not a profile`])),
+      parseCallgrind(
+        makeCallgrind([`hello world, not a profile`]),
+        noopRecordTally,
+      ),
     ).toThrow(`unrecognized line, got: "hello world, not a profile"`)
   })
 
   test(`rejects a file without an events header`, () => {
     expect(() =>
-      parseCallgrind(makeCallgrind([`fl=/app/a.c`, `fn=main`])),
+      parseCallgrind(
+        makeCallgrind([`fl=/app/a.c`, `fn=main`]),
+        noopRecordTally,
+      ),
     ).toThrow(`missing events header`)
   })
 
   test(`rejects a cost line before the events header`, () => {
-    expect(() => parseCallgrind(makeCallgrind([`fn=main`, `1 10`]))).toThrow(
-      `cost line before events header`,
-    )
+    expect(() =>
+      parseCallgrind(makeCallgrind([`fn=main`, `1 10`]), noopRecordTally),
+    ).toThrow(`cost line before events header`)
   })
 
   test(`rejects a cost line before any fn=`, () => {
-    expect(() => parseCallgrind(makeCallgrind([`events: Ir`, `1 10`]))).toThrow(
-      `cost line before fn=`,
-    )
+    expect(() =>
+      parseCallgrind(makeCallgrind([`events: Ir`, `1 10`]), noopRecordTally),
+    ).toThrow(`cost line before fn=`)
   })
 
   test(`rejects a compressed name referenced before definition`, () => {
     expect(() =>
-      parseCallgrind(makeCallgrind([`events: Ir`, `fn=(3)`, `1 10`])),
+      parseCallgrind(
+        makeCallgrind([`events: Ir`, `fn=(3)`, `1 10`]),
+        noopRecordTally,
+      ),
     ).toThrow(`name (3) referenced before definition`)
   })
 
@@ -115,19 +129,26 @@ describe(`parse`, () => {
     expect(() =>
       parseCallgrind(
         makeCallgrind([`events: Ir`, `fn=main`, `calls=1 5`, `1 10`]),
+        noopRecordTally,
       ),
     ).toThrow(`calls= without a preceding cfn=`)
   })
 
   test(`rejects a cost line with more values than events`, () => {
     expect(() =>
-      parseCallgrind(makeCallgrind([`events: Ir`, `fn=main`, `1 10 20`])),
+      parseCallgrind(
+        makeCallgrind([`events: Ir`, `fn=main`, `1 10 20`]),
+        noopRecordTally,
+      ),
     ).toThrow(`cost line with more values than events`)
   })
 
   test(`rejects a relative subposition with no offset after its sign`, () => {
     expect(() =>
-      parseCallgrind(makeCallgrind([`events: Ir`, `fn=main`, `1 10`, `+ 20`])),
+      parseCallgrind(
+        makeCallgrind([`events: Ir`, `fn=main`, `1 10`, `+ 20`]),
+        noopRecordTally,
+      ),
     ).toThrow(`invalid number, got: ""`)
   })
 
@@ -141,6 +162,7 @@ describe(`parse`, () => {
         `fn=(1)`,
         `2 20`,
       ]),
+      noopRecordTally,
     )
 
     expect(graph!.frames).toEqual([
@@ -151,6 +173,7 @@ describe(`parse`, () => {
   test(`reads a cost line whose last value is followed by a space`, () => {
     const [graph] = parseCallgrind(
       makeCallgrind([`events: Ir`, `fl=/app/a.c`, `fn=main`, `1 10 `, `2 20 `]),
+      noopRecordTally,
     )
 
     expect(graph!.functions).toEqual([
@@ -176,6 +199,7 @@ describe(`parse`, () => {
         `fn=(1)`,
         `2 20`,
       ]),
+      noopRecordTally,
     )
 
     expect(graph!.frames).toEqual([
@@ -198,6 +222,7 @@ describe(`parse`, () => {
         `calls=2 20`,
         `2 400`,
       ]),
+      noopRecordTally,
     )
 
     expect(graph!.frames).toEqual([
@@ -229,11 +254,86 @@ describe(`parse`, () => {
         `fn=work`,
         `2 20`,
       ]),
+      noopRecordTally,
     )
 
     expect(graph!.functions).toEqual([
       { selfValues: [10], lineToValues: new Map([[1, [10]]]), calls: [] },
       { selfValues: [20], lineToValues: new Map([[2, [20]]]), calls: [] },
+    ])
+  })
+})
+
+describe(`calls without a cost line`, () => {
+  test(`are skipped with a warning`, () => {
+    // A `calls=` before `fn=`, before a new part, and at the end of the file.
+    const md = convertBytesToMd(
+      callgrindConverter,
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `1 10`,
+        `cfn=missing`,
+        `calls=1 5`,
+        `fn=work`,
+        `2 20`,
+        `cfn=missing`,
+        `calls=1 5`,
+        `part: 2`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `1 10`,
+        `cfn=missing`,
+        `calls=1 5`,
+      ]),
+      options,
+    )
+
+    // The costs after each skipped call stay self costs, not arcs to `missing`.
+    expect(summaryLines(md)).toEqual([`Recorded 40 instructions.`])
+    expectLogs([
+      `debug: origin candidates, in priority order: valgrind, rbspy`,
+      `info: fallback origin: valgrind`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 3 calls without a cost line`,
+    ])
+  })
+
+  test(`are skipped with a warning before another calls=`, () => {
+    const md = convertBytesToMd(
+      callgrindConverter,
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `1 10`,
+        `cfn=missing`,
+        `calls=1 5`,
+        `cfn=work`,
+        `calls=1 6`,
+        `1 20`,
+      ]),
+      options,
+    )
+
+    // The dropped call adds no arc to `missing`.
+    expect(calleesTables(md, `main`)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Instructions: `20`,
+          Calls: `1`,
+          Callee: `work`,
+          Location: `app/a.c`,
+        },
+      ],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: valgrind, rbspy`,
+      `info: fallback origin: valgrind`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 call without a cost line`,
     ])
   })
 })
