@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
+import { nativeMatchEntry } from './native.ts'
 import { relativeEntry } from './testing.ts'
-import { zigMatchEntry, zigStdlibCategory } from './zig.ts'
+import { zigStdlibCategory } from './zig.ts'
 
 describe(`zigStdlibCategory`, () => {
   test.each([
@@ -48,7 +49,7 @@ describe(`zigStdlibCategory`, () => {
   })
 })
 
-describe(`zigMatchEntry`, () => {
+describe(`nativeMatchEntry on Zig names`, () => {
   test.each([
     [
       `a generic instantiation`,
@@ -69,14 +70,14 @@ describe(`zigMatchEntry`, () => {
     `strips the compiler-assigned ID of %s`,
     (_description, name, expected) => {
       expect(
-        zigMatchEntry(relativeEntry(name, `/opt/zig/lib/std/mem.zig`)),
+        nativeMatchEntry(relativeEntry(name, `/opt/zig/lib/std/mem.zig`)),
       ).toEqual({ name: expected })
     },
   )
 
   test(`leaves a non-generic function unmatched`, () => {
     expect(
-      zigMatchEntry(
+      nativeMatchEntry(
         relativeEntry(`mem.copyForwards`, `/opt/zig/lib/std/mem.zig`),
       ),
     ).toBeUndefined()

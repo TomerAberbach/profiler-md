@@ -1,6 +1,6 @@
 import { categorizeLinuxEntry } from '../linux.ts'
+import { nativeMatchEntry } from '../native.ts'
 import type { OriginSpec } from '../origin.ts'
-import { zigMatchEntry } from '../zig.ts'
 
 /**
  * Linux's `perf`, the sampling profiler built on the kernel's `perf_event`
@@ -18,5 +18,5 @@ export const perfOriginSpec = {
   formats: [`perf`],
   isMarkerEntry: () => false,
   categorizeEntry: categorizeLinuxEntry,
-  matchEntry: zigMatchEntry,
+  matchEntry: nativeMatchEntry,
 } as const satisfies OriginSpec

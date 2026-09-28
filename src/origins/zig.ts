@@ -6,7 +6,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
-import { matchEntryFromRules } from './origin.ts'
+import type { EntryMatchRule } from './origin.ts'
 
 /**
  * Categorizes sources the Zig toolchain ships as `stdlib`: the standard
@@ -56,10 +56,9 @@ const COMPILER_ASSIGNED_ID_REGEX =
   /(?<kept>__(?:anon|struct|union|enum|opaque))_\d+/gu
 
 /**
- * Matches an entry of a Zig program across builds. It applies to any native
- * profiler's entries, because the stripped suffix occurs only in names the Zig
- * compiler generates.
+ * The rule strips a suffix that occurs only in names the Zig compiler
+ * generates.
  */
-export const zigMatchEntry = matchEntryFromRules({
-  name: [[COMPILER_ASSIGNED_ID_REGEX, `$<kept>`]],
-})
+export const ZIG_NAME_MATCH_RULES: readonly EntryMatchRule[] = [
+  [COMPILER_ASSIGNED_ID_REGEX, `$<kept>`],
+]

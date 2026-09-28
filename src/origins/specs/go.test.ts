@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, test } from 'vitest'
+import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { GO_STDLIB_PACKAGES, goOriginSpec } from './go.ts'
 
@@ -231,5 +232,39 @@ describe(`GO_STDLIB_PACKAGES`, () => {
     expect([...GO_STDLIB_PACKAGES].sort()).toStrictEqual(
       [...new Set(packages)].sort(),
     )
+  })
+})
+
+describe(`matchEntry`, () => {
+  test.each([
+    [
+      `the module cache`,
+      `/home/alice/go/pkg/mod/github.com/spf13/cobra@v1.9.1/command.go`,
+      `/home/alice/go/pkg/mod/github.com/spf13/cobra/command.go`,
+    ],
+    [
+      `a -trimpath build`,
+      `github.com/spf13/cobra@v1.9.1/command.go`,
+      `github.com/spf13/cobra/command.go`,
+    ],
+  ])(`strips a module's version from %s`, (_description, path, expected) => {
+    expect(
+      matchEntryForOrigin(
+        relativeEntry(`github.com/spf13/cobra.(*Command).Execute`, path),
+        `go`,
+      ),
+    ).toEqual({ location: expected })
+  })
+
+  test(`leaves a standard library source unchanged`, () => {
+    expect(
+      matchEntryForOrigin(
+        relativeEntry(
+          `encoding/json.Unmarshal`,
+          `/usr/local/go/src/encoding/json/decode.go`,
+        ),
+        `go`,
+      ),
+    ).toBeUndefined()
   })
 })

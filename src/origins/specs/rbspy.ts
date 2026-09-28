@@ -42,6 +42,23 @@ const RUBY_NAME_MATCH_RULES: EntryMatchRule[] = [
 ]
 
 /**
+ * The version of an installed gem's directory, e.g. the `-8.1.3.1` of
+ * `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch.rb`, and a
+ * platform gem's platform after it (`nokogiri-1.16.0-arm64-darwin`). The path
+ * without the version, `/usr/local/bundle/gems/actionpack/lib/action_dispatch.rb`,
+ * identifies the file across versions, because RubyGems installs each gem
+ * version to its own `<name>-<version>` directory. Bundler activates one
+ * version of a gem per process, so no two entries of one profile share a match
+ * key once the rule strips the version. The rule requires the gem name to start
+ * with a letter, so it skips the Ruby version directory in `gems/3.4.0/gems/`.
+ */
+const GEM_VERSION_REGEX = /(?<prefix>\/gems\/[A-Za-z][\w.-]*?)-\d[^/]*(?=\/)/u
+
+const RUBY_LOCATION_MATCH_RULES: EntryMatchRule[] = [
+  [GEM_VERSION_REGEX, `$<prefix>`],
+]
+
+/**
  * `rbspy`, the sampling profiler for Ruby.
  *
  * Its collapsed frames are `method - file:line` (e.g.
@@ -54,7 +71,10 @@ export const rbspyOriginSpec = {
   id: `rbspy`,
   formats: [`callgrind`, `collapsed`, `pprof`, `speedscope`],
   isMarkerEntry: entry => isRbspyStackFrame(entry.name),
-  matchEntry: matchEntryFromRules({ name: RUBY_NAME_MATCH_RULES }),
+  matchEntry: matchEntryFromRules({
+    name: RUBY_NAME_MATCH_RULES,
+    location: RUBY_LOCATION_MATCH_RULES,
+  }),
   categorizeEntry: entry =>
     cFunctionCategory(entry) ??
     rubyGemCategory(entry) ??

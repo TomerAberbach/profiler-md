@@ -60,7 +60,10 @@ profiler-md
 │   │   ├── cpython.ts            # CPython interpreter conventions shared across origins
 │   │   ├── linux.ts              # Linux kernel and system mapping conventions for native profilers
 │   │   ├── swift.ts              # Swift standard library conventions for native profilers
+│   │   ├── rust.ts               # Rust toolchain conventions shared by pprof-rs and the native profilers
+│   │   ├── go.ts                 # Go toolchain conventions shared by Go's profiler and the native profilers
 │   │   ├── zig.ts                # Zig toolchain conventions for native profilers (Zig registers no origin)
+│   │   ├── native.ts             # Match rules every native profiler applies, from each compiled language's conventions
 │   │   ├── specs/
 │   │   │   ├── <name>.ts         # One file per origin (e.g. node, node-pprof, jdk)
 │   │   │   ├── go-std-packages.txt # Pinned `go list std` output the go spec's test checks its stdlib rule against
