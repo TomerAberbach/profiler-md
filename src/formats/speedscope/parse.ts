@@ -167,11 +167,6 @@ const sampledProfile = (
   if (!Array.isArray(profile.samples) || !Array.isArray(profile.weights)) {
     throw new FormatParseError(`samples and weights must be arrays`)
   }
-  if (profile.weights.length < profile.samples.length) {
-    throw new FormatParseError(
-      `weights has fewer entries than samples, got: ${profile.weights.length} for ${profile.samples.length} samples`,
-    )
-  }
   return {
     type: `call-stack-profile`,
     frames,
@@ -189,9 +184,10 @@ function* sampledObservations(
   frameCount: number,
   recordTally: RecordTally,
 ): Iterable<Observation> {
+  const sampleCount = Math.min(profile.samples.length, profile.weights.length)
   let negativeWeightCount = 0
   let missingFrameCount = 0
-  for (let index = 0; index < profile.samples.length; index++) {
+  for (let index = 0; index < sampleCount; index++) {
     const weight = profile.weights[index]!
     if (weight < 0) {
       negativeWeightCount++
@@ -220,6 +216,13 @@ function* sampledObservations(
   }
   if (negativeWeightCount > 0) {
     recordTally.skipped(`sample`, `with a negative weight`, negativeWeightCount)
+  }
+  if (sampleCount < profile.samples.length) {
+    recordTally.skipped(
+      `sample`,
+      `without a weight`,
+      profile.samples.length - sampleCount,
+    )
   }
 }
 

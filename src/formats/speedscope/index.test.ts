@@ -747,13 +747,34 @@ describe(`malformed profiles`, () => {
     ])
   })
 
-  test(`rejects fewer weights than samples`, () => {
+  test(`skips samples without a weight, with a warning`, () => {
+    const md = convert({
+      profiles: [
+        makeSampledProfile({ samples: [[0], [0, 1], [0]], weights: [2] }),
+      ],
+      frames,
+    })
+
+    expect(summaryLines(md)).toEqual([
+      `Took 2.0ms over 1 sample (2.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: pyinstrument, py-spy, dotnet-trace, rbspy, excimer`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 samples without a weight`,
+    ])
+  })
+
+  test(`rejects a profile whose every sample lacks a weight`, () => {
     expect(() =>
       convert({
-        profiles: [makeSampledProfile({ samples: [[0], [0]], weights: [1] })],
+        profiles: [makeSampledProfile({ samples: [[0], [0]], weights: [] })],
         frames,
       }),
-    ).toThrow(`weights has fewer entries than samples, got: 1 for 2 samples`)
+    ).toThrow(
+      `no usable records because the parser skipped 2 samples without a weight`,
+    )
   })
 
   test.each([
