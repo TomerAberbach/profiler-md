@@ -11,5 +11,6 @@ export const webkitTimelineRecordingConverter = {
   fallbackOrigin: `safari`,
   type: `json`,
   matches: matchesWebKitTimelineRecording,
-  parse: json => parseWebKitTimelineRecording(json as WebKitTimelineRecording),
+  parse: (json, recordTally) =>
+    parseWebKitTimelineRecording(json as WebKitTimelineRecording, recordTally),
 } as const satisfies JsonFormatConverter
