@@ -5,6 +5,7 @@ import {
   startsJsonDocument,
   startsJsonDocumentAsync,
 } from '../helpers/json.ts'
+import type { AggregatedInput } from '../modalities/registry.ts'
 import type {
   AggregationProfileToMdOptions,
   AsyncProfileData,
@@ -23,7 +24,6 @@ import {
   withDecompressed,
   withDecompressedAsync,
 } from './compression.ts'
-import type { AggregatedInput } from './converter.ts'
 import {
   detectBinaryFormat,
   detectJsonFormat,

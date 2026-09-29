@@ -1,5 +1,6 @@
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type { CategorySet } from '../category-sets.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 
 /**
@@ -91,6 +92,12 @@ export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
   `synthetic`,
   `unknown`,
 ] as const
+
+export const HEAP_SNAPSHOT_NODE_CATEGORY_SET = {
+  title: `Heap snapshot categories`,
+  noun: `heap snapshot node`,
+  categories: HEAP_SNAPSHOT_NODE_CATEGORIES,
+} as const satisfies CategorySet
 
 /**
  * What a heap snapshot node holds, as the format categorized it, before the

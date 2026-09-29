@@ -1171,7 +1171,7 @@ describe(`origin detection`, () => {
       observations: [{ values: [], frameIndices: [0] }],
     }
     const converter: JsonFormatConverter = {
-      format: `multi`,
+      id: `multi`,
       title: `Multi-profile test format`,
       extension: `multi.json`,
       languages: [],

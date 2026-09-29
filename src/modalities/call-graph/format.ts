@@ -32,9 +32,9 @@ import {
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
-import type { Category } from '../format.ts'
 import { formatProseValue, formatProseValueDelta } from '../measure.ts'
 import type { Metric } from '../metric.ts'
+import type { EntryCategory } from '../registry.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type {
   AggregatedCallGraph,
@@ -198,7 +198,7 @@ const formatHottestSelfFunctions = ({
 }: {
   measure: Measure
   graph: AggregatedCallGraph
-  categories: Category[]
+  categories: EntryCategory[]
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -318,7 +318,7 @@ const formatHottestTotalFunctions = ({
 }: {
   measure: Measure
   graph: AggregatedCallGraph
-  categories: Category[]
+  categories: EntryCategory[]
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -610,7 +610,7 @@ const formatDiffDirectionFunctions = ({
 }: {
   diff: AggregatedCallGraphDiff
   measure: AggregatedCallGraphDiff[`metrics`][number]
-  categories: Category[]
+  categories: EntryCategory[]
   options: FormattingProfileToMdOptions
   headingLevel: number
   direction: `self` | `total`

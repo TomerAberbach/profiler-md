@@ -1,9 +1,9 @@
 import { JumboJSON } from 'jumbo-json'
 import { classifyStreamFailures, concatUint8Arrays } from '../helpers/bytes.ts'
+import type { ParsedInput } from '../modalities/registry.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
-import type { FormatConverter, ParsedInput, RecordTally } from './converter.ts'
+import type { FormatConverter, RecordTally } from './converter.ts'
 import { FormatParseError, toFormatRejectionError } from './error.ts'
-import type { FormatRejectionError } from './error.ts'
 import { RecordTallyCounts } from './record-tally.ts'
 
 export type ParseResult = {
@@ -68,7 +68,7 @@ export const runParse = (
 ): ParseResult => {
   const recordTally = new RecordTallyCounts(converter)
   return {
-    parsed: wrapParsedInputs(converter, parse(recordTally), recordTally),
+    parsed: parse(recordTally),
     recordTally,
   }
 }
@@ -79,77 +79,10 @@ export const runParseAsync = async (
 ): Promise<ParseResult> => {
   const recordTally = new RecordTallyCounts(converter)
   return {
-    parsed: wrapParsedInputs(converter, await parse(recordTally), recordTally),
+    parsed: await parse(recordTally),
     recordTally,
   }
 }
-
-/**
- * Wraps each lazily consumed iterable of the parsed inputs, so an error the
- * parser throws while aggregation consumes it is classified the same way as
- * one it throws before returning, and sets
- * {@link RecordTallyCounts.hasRecords} once the parsed inputs produce a record.
- */
-const wrapParsedInputs = (
-  converter: FormatConverter,
-  parsed: ParsedInput[],
-  recordTally: RecordTallyCounts,
-): ParsedInput[] => {
-  const toError = (error: unknown): FormatRejectionError =>
-    toFormatRejectionError(converter, error)
-  return parsed.map(input => {
-    switch (input.type) {
-      case `call-stack-profile`:
-        return {
-          ...input,
-          observations: classifyFailuresAndTally(
-            input.observations,
-            toError,
-            recordTally,
-          ),
-          ...(input.lineMetrics && {
-            lineMetrics: classifyFailuresAndTally(input.lineMetrics, toError),
-          }),
-        }
-      case `call-graph`:
-        if (input.functions.length > 0) {
-          recordTally.hasRecords = true
-        }
-        return input
-      case `heap-snapshot`:
-        return {
-          ...input,
-          nodes: classifyFailuresAndTally(input.nodes, toError, recordTally),
-        }
-    }
-  })
-}
-
-// A plain iterator object, because a delegating generator costs more per item.
-const classifyFailuresAndTally = <Value>(
-  iterable: Iterable<Value>,
-  toError: (error: unknown) => Error,
-  recordTally?: RecordTallyCounts,
-): Iterable<Value> => ({
-  [Symbol.iterator]: () => {
-    const iterator = iterable[Symbol.iterator]()
-    return {
-      next: () => {
-        try {
-          const result = iterator.next()
-          if (recordTally && !result.done) {
-            recordTally.hasRecords = true
-          }
-          return result
-        } catch (error: unknown) {
-          throw toError(error)
-        }
-      },
-      return: value =>
-        iterator.return?.(value) ?? { done: true, value: undefined },
-    }
-  },
-})
 
 /**
  * Decodes JSON, wrapping a decoding failure in a {@link FormatParseError}.

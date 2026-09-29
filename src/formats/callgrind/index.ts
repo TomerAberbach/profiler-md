@@ -3,7 +3,7 @@ import { matchesCallgrind } from './matches.ts'
 import { parseCallgrind, parseCallgrindAsync } from './parse.ts'
 
 export const callgrindConverter = {
-  format: `callgrind`,
+  id: `callgrind`,
   title: `Callgrind`,
   extension: `callgrind`,
   languages: [`c`, `ruby`],

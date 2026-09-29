@@ -5,45 +5,23 @@ import {
   commonAncestorDirectoryURL,
   isBaseURLInferableLocation,
 } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
-import {
-  diffAggregatedCallGraphs,
-  formatCallGraph,
-  formatCallGraphDiff,
-} from '../modalities/call-graph/index.ts'
-import { diffAggregatedCallStackProfiles } from '../modalities/call-stack-profile/diff.ts'
-import {
-  formatCallStackProfile,
-  formatCallStackProfileDiff,
-} from '../modalities/call-stack-profile/format.ts'
-import { entityLocation } from '../modalities/heap-snapshot/aggregate.ts'
-import { diffAggregatedHeapSnapshots } from '../modalities/heap-snapshot/diff.ts'
-import {
-  formatHeapSnapshot,
-  formatHeapSnapshotDiff,
-} from '../modalities/heap-snapshot/format.ts'
+import type { EntityLocation } from '../modalities/modality.ts'
+import { modalitySpecOf } from '../modalities/registry.ts'
+import type { AggregatedInput, Modality } from '../modalities/registry.ts'
 import type {
   FormattingProfileToMdOptions,
   NormalizedProfileToMdOptions,
 } from '../options.ts'
 import { SourceMapResolver } from '../source-map.ts'
-import type { AggregatedInput, ParsedInput } from './converter.ts'
 
 export const formatAggregatedInputs = (
   inputs: AggregatedInput[],
   options: NormalizedProfileToMdOptions,
 ): string => {
   const formattingOptions = makeFormattingProfileToMdOptions(options, inputs)
-  const contents = inputs.flatMap(input => {
-    switch (input.type) {
-      case `call-stack-profile`:
-        return formatCallStackProfile(input, formattingOptions)
-      case `call-graph`:
-        return formatCallGraph(input, formattingOptions)
-      case `heap-snapshot`:
-        return formatHeapSnapshot(input, formattingOptions)
-    }
-  })
+  const contents = inputs.flatMap(input =>
+    modalitySpecOf(input).format(input, formattingOptions),
+  )
   formattingOptions.sourceMaps.report(formattingOptions.baseURL)
   return toMarkdown(contents)
 }
@@ -52,7 +30,7 @@ export const formatAggregatedInputs = (
  * Diffs the aggregated {@link base} and {@link current} inputs element by
  * element, returning the differences as Markdown.
  *
- * Throws when the sides differ in length or in `type` at an index.
+ * Throws when the sides differ in length or in modality at an index.
  */
 export const formatAggregatedDiff = (
   base: AggregatedInput[],
@@ -73,44 +51,23 @@ export const formatAggregatedDiff = (
   ])
   const contents = base.flatMap((baseInput, index) => {
     const currentInput = current[index]!
-    if (
-      baseInput.type === `call-stack-profile` &&
-      currentInput.type === `call-stack-profile`
-    ) {
-      return formatCallStackProfileDiff(
-        diffAggregatedCallStackProfiles(
-          baseInput,
-          currentInput,
-          formattingOptions,
-        ),
-        formattingOptions,
+    if (baseInput.type !== currentInput.type) {
+      throw new ProfilerMdError(
+        `cannot diff a ${modalityName(baseInput.type)} against a ${modalityName(currentInput.type)}`,
       )
     }
-    if (baseInput.type === `call-graph` && currentInput.type === `call-graph`) {
-      return formatCallGraphDiff(
-        diffAggregatedCallGraphs(baseInput, currentInput, formattingOptions),
-        formattingOptions,
-      )
-    }
-    if (
-      baseInput.type === `heap-snapshot` &&
-      currentInput.type === `heap-snapshot`
-    ) {
-      return formatHeapSnapshotDiff(
-        diffAggregatedHeapSnapshots(baseInput, currentInput, formattingOptions),
-        formattingOptions,
-      )
-    }
-    throw new ProfilerMdError(
-      `cannot diff a ${modalityName(baseInput.type)} against a ${modalityName(currentInput.type)}`,
+    return modalitySpecOf(baseInput).formatDiff(
+      baseInput,
+      currentInput,
+      formattingOptions,
     )
   })
   formattingOptions.sourceMaps.report(formattingOptions.baseURL)
   return toMarkdown(contents)
 }
 
-const modalityName = (type: ParsedInput[`type`]): string =>
-  type.replaceAll(`-`, ` `)
+const modalityName = (modality: Modality): string =>
+  modality.replaceAll(`-`, ` `)
 
 const toMarkdown = (contents: RootContent[]): string =>
   mdastToMarkdown(
@@ -148,6 +105,12 @@ const makeFormattingProfileToMdOptions = (
   return { ...options, baseURL: inferredBaseURL, sourceMaps }
 }
 
+function* locations(inputs: AggregatedInput[]): Iterable<EntityLocation> {
+  for (const input of inputs) {
+    yield* modalitySpecOf(input).locations(input)
+  }
+}
+
 const logInferredBaseURL = (
   inferredBaseURL: URL | undefined,
   urls: readonly URL[],
@@ -162,40 +125,5 @@ const logInferredBaseURL = (
     logger.warn?.(
       `baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
     )
-  }
-}
-
-/**
- * Yields the location of each entity in {@link inputs}, and whether the
- * location may contribute to base URL inference.
- */
-function* locations(
-  inputs: AggregatedInput[],
-): Iterable<{ location: SourceLocation; inferable: boolean }> {
-  for (const input of inputs) {
-    switch (input.type) {
-      case `call-stack-profile`:
-      case `call-graph`:
-        for (const func of input.functions) {
-          if (func.location) {
-            yield {
-              location: func.location,
-              // A dependency's install path can be far outside the source
-              // tree. Including it would move the inferred base up to an
-              // ancestor the install path shares with the tree.
-              inferable: func.category === `ours`,
-            }
-          }
-        }
-        break
-      case `heap-snapshot`:
-        for (const entity of [...input.constructors, ...input.functions]) {
-          const location = entityLocation(entity)
-          if (location) {
-            yield { location, inferable: true }
-          }
-        }
-        break
-    }
   }
 }

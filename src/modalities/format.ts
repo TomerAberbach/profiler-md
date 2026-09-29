@@ -14,12 +14,11 @@ import type { SourceLocation } from '../location.ts'
 import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
-  FunctionCategory,
   ProfileToMdContext,
 } from '../options.ts'
 import type { Diff } from './diff.ts'
-import type { HeapSnapshotNodeCategory } from './heap-snapshot/type.ts'
 import type { Metric, MetricImprovement } from './metric.ts'
+import type { EntryCategory } from './registry.ts'
 import { formatDiffTable } from './table.ts'
 import type { Table } from './table.ts'
 
@@ -79,13 +78,10 @@ export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every recorded
  * spells out the abbreviations and run-together words a reader would otherwise
  * expand. Categories both modalities define share a name.
  */
-export const formatCategory = (category: Category): string =>
+export const formatCategory = (category: EntryCategory): string =>
   CATEGORY_NAMES[category]
 
-/** A category from either modality's set of categories. */
-export type Category = FunctionCategory | HeapSnapshotNodeCategory
-
-const CATEGORY_NAMES: Record<Category, string> = {
+const CATEGORY_NAMES: Record<EntryCategory, string> = {
   ours: `Ours`,
   'third-party': `Third-party`,
   stdlib: `Standard library`,
@@ -287,7 +283,7 @@ const formatDiffRankingTables = <Entity, Row>({
   headingLevel: number
   columns: Table<Row>
   entities: Entity[]
-  categoryEntities: { category: Category; entities: Entity[] }[]
+  categoryEntities: { category: EntryCategory; entities: Entity[] }[]
   rowOf: (entity: Entity) => Diff<Row>
 }): RootContent[] => [
   ...(isRepeatedByCategory(
@@ -323,7 +319,7 @@ export const isRepeatedByCategory = <Entity>(
 
 /** One category's own increases and decreases within a diff ranking. */
 export type DiffCategoryRanking<Item> = {
-  category: Category
+  category: EntryCategory
   increases: Item[]
   decreases: Item[]
 }
@@ -392,8 +388,8 @@ export const selectDiffEntities = <
   sides: DiffSides,
   options: FormattingProfileToMdOptions,
   categories?: {
-    categories: Category[]
-    categoryOf: (entity: Entity) => Category
+    categories: EntryCategory[]
+    categoryOf: (entity: Entity) => EntryCategory
   },
 ): {
   hasActive: boolean

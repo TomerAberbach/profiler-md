@@ -21,8 +21,9 @@ import {
 } from '../location.ts'
 import { normalizeLogger } from '../logger.ts'
 import type { Logger, LogLevel } from '../logger.ts'
+import type { EntryCategory } from '../modalities/registry.ts'
 import { formatRegexRule } from './cli.ts'
-import type { EntryCategory, RegexCategory, RegexReplacement } from './cli.ts'
+import type { RegexCategory, RegexReplacement } from './cli.ts'
 import { CliError } from './error.ts'
 
 /**

@@ -22,7 +22,7 @@ import { originSpecs } from './specs/index.ts'
  * Auto-detected from a profile's entries via {@link OriginDetector}, or
  * specified explicitly.
  */
-export type Origin = SpecificOriginSpec[`id`]
+export type Origin = RegisteredOriginSpec[`id`]
 
 export const categorizeEntryForOrigin = (
   entry: DeepReadonly<ProfileEntry>,
@@ -115,8 +115,8 @@ export const normalizeStackFrameForContext = (
  * An explicit origin skips detection.
  */
 export class OriginDetector {
-  readonly #candidates: readonly SpecificOriginSpec[]
-  readonly #fallback: SpecificOriginSpec
+  readonly #candidates: readonly RegisteredOriginSpec[]
+  readonly #fallback: RegisteredOriginSpec
   /**
    * Whether the fallback is unconditional: no candidate, or a single candidate
    * that is already the fallback (e.g. a single-runtime format), so no entry
@@ -276,13 +276,13 @@ const matchedIndex = (match: OriginMatch): number =>
   match.type === `marker` || match.type === `hint` ? match.index : Infinity
 
 /** One of the concrete origin specs, with its literal {@link Origin} ID. */
-type SpecificOriginSpec = (typeof originSpecs)[number]
+type RegisteredOriginSpec = (typeof originSpecs)[number]
 
 export const origins: Origin[] = originSpecs
   .map(originSpec => originSpec.id)
   .sort()
 
-const originToSpec = new Map<Origin, SpecificOriginSpec>(
+const originToSpec = new Map<Origin, RegisteredOriginSpec>(
   originSpecs.map(originSpec => [originSpec.id, originSpec]),
 )
 
@@ -291,8 +291,8 @@ export const originTitle = (origin: Origin): string => {
   return spec.title ?? origin
 }
 
-const makeFormatToOriginSpecs = (): Map<Format, SpecificOriginSpec[]> => {
-  const index = new Map<Format, SpecificOriginSpec[]>()
+const makeFormatToOriginSpecs = (): Map<Format, RegisteredOriginSpec[]> => {
+  const index = new Map<Format, RegisteredOriginSpec[]>()
   for (const originSpec of originSpecs) {
     for (const format of originSpec.formats) {
       let candidates = index.get(format)

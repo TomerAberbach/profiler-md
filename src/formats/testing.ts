@@ -144,6 +144,6 @@ const convertParseResultToMd = (
   )
 
 const profileToMdContext = (converter: FormatConverter) => ({
-  format: converter.format as Format,
+  format: converter.id as Format,
   origin: null,
 })

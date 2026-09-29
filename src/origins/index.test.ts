@@ -1,14 +1,14 @@
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
-import type { AggregatedInput } from '../formats/converter.ts'
 import { aggregateInput } from '../formats/index.ts'
 import {
   injectedFormat,
   injectedInputs,
   readInput,
 } from '../formats/testing.ts'
-import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
-import { FUNCTION_CATEGORIES, normalizeProfileToMdOptions } from '../options.ts'
+import { modalitySpecOf } from '../modalities/registry.ts'
+import type { AggregatedInput } from '../modalities/registry.ts'
+import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import {
   categorizeHeapSnapshotConstructorForOrigin,
@@ -116,22 +116,23 @@ const expectCanonicalAggregation = (
     .filter(resolved => resolved !== origin)
   expect(new Set(unexpectedOrigins)).toEqual(new Set())
 
-  // `FunctionCategory` is closed so that formatting can partition by
-  // category, but the origins reach it through casts that types alone
-  // don't check. `syntheticFrameCategory` promotes a frame's `(label)` to
-  // a category.
-  const functionCategories = new Set(
-    inputs.flatMap(input =>
-      input.type === `call-stack-profile` || input.type === `call-graph`
-        ? input.functions.map(func => func.category)
-        : [],
-    ),
-  )
-  expect(
-    [...functionCategories].filter(
-      category => !FUNCTION_CATEGORY_SET.has(category),
-    ),
-  ).toEqual([])
+  // The category sets are closed so that formatting can partition by
+  // category, but the origins reach them through casts that types alone
+  // don't check. `syntheticFrameCategory` promotes a frame's `(label)` to a
+  // function category. Julia writes Julia's types into V8's
+  // `meta.node_types`, and a format declaring its own node type names reaches
+  // the node categories through its origin, which types can't check against
+  // the names an input contains.
+  const unexpectedCategories = inputs.flatMap(input => {
+    const modalitySpec = modalitySpecOf(input)
+    const categories: ReadonlySet<string> = new Set(
+      modalitySpec.categorySet.categories,
+    )
+    return [...modalitySpec.categories(input)].filter(
+      category => !categories.has(category),
+    )
+  })
+  expect(new Set(unexpectedCategories)).toEqual(new Set())
 
   // A function executes at or after its definition, so an executing
   // line before the definition line is a position in the wrong
@@ -156,21 +157,6 @@ const expectCanonicalAggregation = (
       expect(misfiledPositions).toEqual([])
     }
   }
-
-  // Julia writes Julia's types into V8's `meta.node_types`. A format
-  // declaring its own node type names reaches the categories through its
-  // origin, and types can't check that mapping against the names an input
-  // contains.
-  const nodeCategories = new Set(
-    inputs.flatMap(input =>
-      input.type === `heap-snapshot`
-        ? [...input.nodeCategoryToStats.keys()]
-        : [],
-    ),
-  )
-  expect(
-    [...nodeCategories].filter(category => !NODE_CATEGORY_SET.has(category)),
-  ).toEqual([])
 }
 
 /**
@@ -182,11 +168,7 @@ const matchKeys = (inputs: AggregatedInput[]): Set<string> => {
   const options = normalizeProfileToMdOptions()
   const keys = new Set<string>()
   for (const input of inputs) {
-    const entries =
-      input.type === `heap-snapshot`
-        ? [...input.constructors, ...input.functions]
-        : input.functions
-    for (const entry of entries) {
+    for (const entry of modalitySpecOf(input).entries(input)) {
       const { name, nameAndLocation } = options.entryMatchKeys(
         entry,
         input.context,
@@ -237,11 +219,6 @@ const maskAddresses = (key: string): string => key.replaceAll(ADDRESS, `#`)
 
 const ADDRESS = /0x[0-9a-fA-F]+|\b(?=[0-9a-f]*\d)[0-9a-f]{8,}\b/gu
 const UNSYMBOLIZED_ADDRESS = /^0x[0-9a-fA-F]+$/u
-
-const FUNCTION_CATEGORY_SET: ReadonlySet<string> = new Set(FUNCTION_CATEGORIES)
-const NODE_CATEGORY_SET: ReadonlySet<string> = new Set(
-  HEAP_SNAPSHOT_NODE_CATEGORIES,
-)
 
 /**
  * Counts the executing lines of every call stack profile function with a

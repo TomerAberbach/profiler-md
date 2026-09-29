@@ -4,7 +4,7 @@ import { parseWebKitTimelineRecording } from './parse.ts'
 import type { WebKitTimelineRecording } from './parse.ts'
 
 export const webkitTimelineRecordingConverter = {
-  format: `webkit-timeline-recording`,
+  id: `webkit-timeline-recording`,
   title: `WebKit timeline recording`,
   extension: `webkit-timeline-recording.json`,
   languages: [`javascript`],

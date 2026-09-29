@@ -2,10 +2,10 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { exampleDiffPairs } from '../../src/cli/examples.ts'
 import type { ExampleDiffPair } from '../../src/cli/examples.ts'
-import type { AggregatedInput } from '../../src/formats/converter.ts'
 import { aggregateInput } from '../../src/formats/index.ts'
 import type { AggregatedCallGraph } from '../../src/modalities/call-graph/aggregate.ts'
 import type { AggregatedCallStackProfile } from '../../src/modalities/call-stack-profile/aggregate.ts'
+import type { AggregatedInput } from '../../src/modalities/registry.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 
 const INPUT_DIRECTORY = `examples/input`

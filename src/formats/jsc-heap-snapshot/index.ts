@@ -4,7 +4,7 @@ import { parseJSCHeapSnapshot } from './parse.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
 export const jscHeapSnapshotConverter = {
-  format: `jsc-heap-snapshot`,
+  id: `jsc-heap-snapshot`,
   title: `JSC heap snapshot`,
   extension: `jsc-heap-snapshot.json`,
   languages: [`javascript`],

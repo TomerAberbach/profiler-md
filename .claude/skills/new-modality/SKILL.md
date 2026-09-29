@@ -2,8 +2,8 @@
 name: new-modality
 description: |
   Implement a new modality end-to-end: aggregated form, modality module,
-  converter union, pipeline dispatch, options, tests, and docs. Use when asked
-  to add a modality, or when a format fits neither supported modality.
+  registration, options, tests, and docs. Use when asked to add a modality, or
+  when a format fits none of the supported modalities.
 argument-hint: '[modality name, motivating format, issue link, or guidance]'
 ---
 
@@ -19,9 +19,10 @@ $ARGUMENTS
   form and Markdown output, not by any single format. Add one only when a
   format's data can't aggregate into an existing modality's form
 
-- Unlike formats and origins, modalities are structural, not registered: adding
-  one extends the converter union in `src/formats/converter.ts` and the shared
-  dispatch in `src/formats/index.ts`
+- A modality registers in exactly one place: its `ModalitySpec` in
+  `src/modalities/registry.ts`. The pipeline in `src/formats/` calls a modality
+  only through the `ModalitySpec` it looks up by an input's `type`, so adding a
+  modality edits no pipeline file
 
 - Mirror the existing modalities' pipelines: per-format code only parses to the
   modality's uniform parsed type; aggregation, categorization, diffing, and
@@ -46,11 +47,12 @@ $ARGUMENTS
 ## Implement the modality module
 
 3. Create `src/modalities/<name>/`:
-   - `type.ts`: the uniform parsed type with a `type: '<name>'` field
+   - `type.ts`: the uniform parsed type, with a `type` discriminant naming the
+     modality
    - `aggregate.ts`:
-     - The aggregated form, with `type: '<name>'` and `context` fields
-     - A `<Name>Aggregator` class implementing `InputAggregator` from
-       `src/modalities/aggregator.ts`. `detectOrigin(detector)` feeds the
+     - The aggregated form, with the same `type` and a `context` field
+     - A `<Name>Aggregator` class implementing `InputAggregator<Aggregated>`
+       from `src/modalities/aggregator.ts`. `detectOrigin(detector)` feeds the
        input's origin-detection entries; `aggregate(options, context)`
        aggregates and categorizes under the file's resolved context
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
@@ -60,34 +62,45 @@ $ARGUMENTS
      `src/cli/highlight-markdown.ts`, which recovers heat intensities by
      re-parsing the output (column headers like `%`, `Delta`, and `Location`,
      and `name (location)` heading keys)
+   - `modality.ts`: the `<name>ModalitySpec` satisfying `ModalitySpec` from
+     `src/modalities/modality.ts`, modeled on
+     `src/modalities/call-graph/modality.ts`. Its third type argument is the
+     entry type `showEntry` receives, from which the registry derives
+     `AggregatedProfileEntry`:
+     - `aggregator(parsed, reader)` returns the `<Name>Aggregator`, passing each
+       lazily consumed iterable of the parsed input through `reader.records` (or
+       `reader.iterable` for one that yields no records), or calling
+       `reader.parsed(count)` for records parsed eagerly
+     - `format` and `formatDiff`, `locations` for base URL inference, the
+       `entries` a diff pairs by match key, and the `categories` it assigned
+       from its `categorySet`. Annotate `entries` to return the entry type when
+       the entries it returns are a narrower type
    - `index.ts` barrel, `testing.ts` for modality-specific test utilities
    - Colocated tests asserting on Markdown output per the CLAUDE.md testing
      rules
 
-## Extend the pipeline
+## Connect the modality
 
-4. Extend the unions in `src/formats/converter.ts`: add the uniform parsed type
-   to `ParsedInput` and the aggregated form to `AggregatedInput`
+4. Add the modality's spec to `modalitySpecs` in `src/modalities/registry.ts`
 
-5. Run `pnpm typecheck` and extend every dispatch site it reports
-
-6. Extend the option types in `src/options.ts` if the modality has filterable
-   entries (see `AggregatedProfileEntry` and `showEntry`)
+5. If the modality's entries draw from a new closed set of categories, give each
+   new category a display name in `CATEGORY_NAMES` in
+   `src/modalities/format.ts`. `CATEGORY_SETS` derives the set from the registry
 
 ## Test, document, and finish
 
-7. Confirm the parameterized input tests cover the modality:
+6. Confirm the parameterized input tests cover the modality:
    `src/formats/index.test.ts` exercises every committed input through the
-   registry, and the detected-input-origins test in `src/origins/index.test.ts`
-   asserts on each aggregated input by its `type`
+   registry, and `src/origins/index.test.ts` checks each aggregated input's
+   categories and entry match keys through its `ModalitySpec`
 
-8. Document:
+7. Document:
    - `glossary.md`: a term entry for the modality's name plus entries for its
      core nouns
    - The CLAUDE.md project structure tree and any principle that enumerates
      modalities
 
-9. Implement the motivating format via `/new-format`; a modality with no format
+8. Implement the motivating format via `/new-format`; a modality with no format
    exercising it is dead code and must not be committed alone
 
-10. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`
+9. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`

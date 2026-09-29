@@ -3,7 +3,7 @@ import { matchesCollapsed } from './matches.ts'
 import { parseCollapsed, parseCollapsedAsync } from './parse.ts'
 
 export const collapsedConverter = {
-  format: `collapsed`,
+  id: `collapsed`,
   title: `Collapsed stacks`,
   extension: `collapsed`,
   languages: [`elixir`, `java`, `nix`, `php`, `python`, `ruby`],
