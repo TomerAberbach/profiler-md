@@ -5,23 +5,28 @@ source scripts/inputs/_common.sh
 
 assets="$REPO/scripts/inputs/assets/fsharp"
 
-app_dll=""
-setup_once() {
-  [[ -n "$app_dll" ]] && return 0
+# Base and current profile consecutive Argu releases, so a diff compares
+# two versions of the same code.
+declare -A ARGU_VERSION=([base]="6.2.4" [current]="6.2.5")
 
-  notice "Building Argu profile"
+# Each role builds in one directory, so both record the same paths.
+app_dll="$WORKDIR/fsharp-profile/bin/Release/net8.0/Profile.dll"
+build_for_role() {
+  local role=$1
+  notice "Building Argu ${ARGU_VERSION[$role]} profile"
 
   local build="$WORKDIR/fsharp-profile"
+  rm -rf "$build"
   mkdir -p "$build"
   cp "$assets/Profile.fsproj" "$assets/Profile.fs" "$build/"
-  dotnet build "$build/Profile.fsproj" --configuration Release
-  app_dll="$build/bin/Release/net8.0/Profile.dll"
+  dotnet build "$build/Profile.fsproj" --configuration Release \
+    -p:ArguVersion="${ARGU_VERSION[$role]}"
 }
 
 # capture_fn for emit: $1=out  $2=role
 capture_dotnet_trace() {
   local out=$1 role=$2
-  setup_once
+  build_for_role "$role" || return 1
 
   notice "Profiling Argu using dotnet-trace ($role)"
 

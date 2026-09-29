@@ -1,12 +1,12 @@
 # CPU profile diff
 
-Took 5.75s → 5.78s (+32.03ms, +0.6%) over 5,749 samples → 5,781 samples (1.0ms per sample).
+Took 5.24s → 5.95s (+715.72ms, +13.6%) over 5,239 samples → 5,954 samples (1.0ms per sample).
 
-| Category | Change |    Delta |             % |            Time |       Samples |
-| -------- | -----: | -------: | ------------: | --------------: | ------------: |
-| Ours     |  -0.2% | -12.01ms | 98.5% → 97.7% |   5.66s → 5.65s | 5,660 → 5,648 |
-| Kernel   | +51.7% | +31.03ms |   1.0% → 1.6% | 60.1ms → 91.1ms |       60 → 91 |
-| Native   | +44.8% | +13.01ms |   0.5% → 0.7% | 29.0ms → 42.0ms |       29 → 42 |
+| Category | Change |     Delta |             % |              Time |       Samples |
+| -------- | -----: | --------: | ------------: | ----------------: | ------------: |
+| Ours     | +19.8% | +961.96ms | 92.6% → 97.6% |     4.85s → 5.81s | 4,852 → 5,813 |
+| Kernel   |  -6.1% |   -7.01ms |   2.2% → 1.8% | 115.1ms → 108.1ms |     115 → 108 |
+| Native   | -87.9% | -239.24ms |   5.2% → 0.6% |  272.3ms → 33.0ms |      272 → 33 |
 
 ## Hottest functions
 
@@ -16,132 +16,180 @@ Took 5.75s → 5.78s (+32.03ms, +0.6%) over 5,749 samples → 5,781 samples (1.0
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|  Change |    Delta |            % |            Time | Samples | Function  | Location                                 |
-| ------: | -------: | -----------: | --------------: | ------: | --------- | ---------------------------------------- |
-|  +45.3% | +24.02ms |  0.9% → 1.3% | 53.1ms → 77.1ms | 53 → 77 | `0x70040` | `binary`                                 |
-|  +87.5% | +21.02ms |  0.4% → 0.8% | 24.0ms → 45.0ms | 24 → 45 | `0x6f798` | `binary`                                 |
-|  +43.2% | +16.02ms |  0.6% → 0.9% | 37.0ms → 53.1ms | 37 → 53 | `0x7009c` | `binary`                                 |
-|  +26.0% | +13.01ms |  0.9% → 1.1% | 50.1ms → 63.1ms | 50 → 63 | `0x700cc` | `binary`                                 |
-|  +26.0% | +13.01ms |  0.9% → 1.1% | 50.1ms → 63.1ms | 50 → 63 | `0x70918` | `binary`                                 |
-|  +61.9% | +13.01ms |  0.4% → 0.6% | 21.0ms → 34.0ms | 21 → 34 | `0x6feb8` | `binary`                                 |
-|  +50.0% | +12.01ms |  0.4% → 0.6% | 24.0ms → 36.0ms | 24 → 36 | `0x221d0` | `binary`                                 |
-|  +33.3% | +11.01ms |  0.6% → 0.8% | 33.0ms → 44.0ms | 33 → 44 | `0x6f6f4` | `binary`                                 |
-|  +26.8% | +11.01ms |  0.7% → 0.9% | 41.0ms → 52.1ms | 41 → 52 | `0x674a0` | `binary`                                 |
-| +110.0% | +11.01ms |  0.2% → 0.4% | 10.0ms → 21.0ms | 10 → 21 | `0x7d854` | `binary`                                 |
-| +112.5% |  +9.01ms |  0.1% → 0.3% |  8.0ms → 17.0ms |  8 → 17 | `0x7d684` | `binary`                                 |
-| +200.0% |  +8.01ms |  0.1% → 0.2% |  4.0ms → 12.0ms |  4 → 12 | `0x74f7c` | `binary`                                 |
-| +160.0% |  +8.01ms |  0.1% → 0.2% |  5.0ms → 13.0ms |  5 → 13 | `0x674b8` | `binary`                                 |
-| +200.0% |  +8.01ms |  0.1% → 0.2% |  4.0ms → 12.0ms |  4 → 12 | `0x7a060` | `binary`                                 |
-|  +31.8% |  +7.01ms |  0.4% → 0.5% | 22.0ms → 29.0ms | 22 → 29 | `0x6756c` | `binary`                                 |
-|  +53.8% |  +7.01ms |  0.2% → 0.3% | 13.0ms → 20.0ms | 13 → 20 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +36.8% |  +7.01ms |  0.3% → 0.4% | 19.0ms → 26.0ms | 19 → 26 | `0x7b164` | `binary`                                 |
-| +350.0% |  +7.01ms | <0.1% → 0.2% |   2.0ms → 9.0ms |   2 → 9 | `0x8b1a4` | `binary`                                 |
-| +140.0% |  +7.01ms |  0.1% → 0.2% |  5.0ms → 12.0ms |  5 → 12 | `0x79d70` | `binary`                                 |
-| +140.0% |  +7.01ms |  0.1% → 0.2% |  5.0ms → 12.0ms |  5 → 12 | `0x6f76c` | `binary`                                 |
-
 ##### Ours
 
-|  Change |    Delta |            % |            Time | Samples | Function  | Location |
-| ------: | -------: | -----------: | --------------: | ------: | --------- | -------- |
-|  +45.3% | +24.02ms |  0.9% → 1.3% | 53.1ms → 77.1ms | 53 → 77 | `0x70040` | `binary` |
-|  +87.5% | +21.02ms |  0.4% → 0.8% | 24.0ms → 45.0ms | 24 → 45 | `0x6f798` | `binary` |
-|  +43.2% | +16.02ms |  0.6% → 0.9% | 37.0ms → 53.1ms | 37 → 53 | `0x7009c` | `binary` |
-|  +26.0% | +13.01ms |  0.9% → 1.1% | 50.1ms → 63.1ms | 50 → 63 | `0x700cc` | `binary` |
-|  +26.0% | +13.01ms |  0.9% → 1.1% | 50.1ms → 63.1ms | 50 → 63 | `0x70918` | `binary` |
-|  +61.9% | +13.01ms |  0.4% → 0.6% | 21.0ms → 34.0ms | 21 → 34 | `0x6feb8` | `binary` |
-|  +50.0% | +12.01ms |  0.4% → 0.6% | 24.0ms → 36.0ms | 24 → 36 | `0x221d0` | `binary` |
-|  +33.3% | +11.01ms |  0.6% → 0.8% | 33.0ms → 44.0ms | 33 → 44 | `0x6f6f4` | `binary` |
-|  +26.8% | +11.01ms |  0.7% → 0.9% | 41.0ms → 52.1ms | 41 → 52 | `0x674a0` | `binary` |
-| +110.0% | +11.01ms |  0.2% → 0.4% | 10.0ms → 21.0ms | 10 → 21 | `0x7d854` | `binary` |
-| +112.5% |  +9.01ms |  0.1% → 0.3% |  8.0ms → 17.0ms |  8 → 17 | `0x7d684` | `binary` |
-| +200.0% |  +8.01ms |  0.1% → 0.2% |  4.0ms → 12.0ms |  4 → 12 | `0x74f7c` | `binary` |
-| +160.0% |  +8.01ms |  0.1% → 0.2% |  5.0ms → 13.0ms |  5 → 13 | `0x674b8` | `binary` |
-| +200.0% |  +8.01ms |  0.1% → 0.2% |  4.0ms → 12.0ms |  4 → 12 | `0x7a060` | `binary` |
-|  +31.8% |  +7.01ms |  0.4% → 0.5% | 22.0ms → 29.0ms | 22 → 29 | `0x6756c` | `binary` |
-|  +36.8% |  +7.01ms |  0.3% → 0.4% | 19.0ms → 26.0ms | 19 → 26 | `0x7b164` | `binary` |
-| +350.0% |  +7.01ms | <0.1% → 0.2% |   2.0ms → 9.0ms |   2 → 9 | `0x8b1a4` | `binary` |
-| +140.0% |  +7.01ms |  0.1% → 0.2% |  5.0ms → 12.0ms |  5 → 12 | `0x79d70` | `binary` |
-| +140.0% |  +7.01ms |  0.1% → 0.2% |  5.0ms → 12.0ms |  5 → 12 | `0x6f76c` | `binary` |
-|     new |  +7.01ms |  0.0% → 0.1% |     0ms → 7.0ms |   0 → 7 | `0x79998` | `binary` |
+| Change |     Delta |           % |          Time | Samples | Function  | Location |
+| -----: | --------: | ----------: | ------------: | ------: | --------- | -------- |
+|    new | +372.37ms | 0.0% → 6.2% | 0ms → 372.4ms | 0 → 372 | `0x9a704` | `binary` |
+|    new | +184.18ms | 0.0% → 3.1% | 0ms → 184.2ms | 0 → 184 | `0x70014` | `binary` |
+|    new | +121.12ms | 0.0% → 2.0% | 0ms → 121.1ms | 0 → 121 | `0x70050` | `binary` |
+|    new |  +82.08ms | 0.0% → 1.4% |  0ms → 82.1ms |  0 → 82 | `0x70034` | `binary` |
+|    new |  +68.07ms | 0.0% → 1.1% |  0ms → 68.1ms |  0 → 68 | `0x6f6c4` | `binary` |
+|    new |  +62.06ms | 0.0% → 1.0% |  0ms → 62.1ms |  0 → 62 | `0x700cc` | `binary` |
+|    new |  +60.06ms | 0.0% → 1.0% |  0ms → 60.1ms |  0 → 60 | `0x6f844` | `binary` |
+|    new |  +52.05ms | 0.0% → 0.9% |  0ms → 52.1ms |  0 → 52 | `0x70040` | `binary` |
+|    new |  +51.05ms | 0.0% → 0.9% |  0ms → 51.1ms |  0 → 51 | `0x7b36c` | `binary` |
+|    new |  +51.05ms | 0.0% → 0.9% |  0ms → 51.1ms |  0 → 51 | `0x70090` | `binary` |
+|    new |  +51.05ms | 0.0% → 0.9% |  0ms → 51.1ms |  0 → 51 | `0x70918` | `binary` |
+|    new |  +51.05ms | 0.0% → 0.9% |  0ms → 51.1ms |  0 → 51 | `0x70020` | `binary` |
+|    new |  +48.05ms | 0.0% → 0.8% |  0ms → 48.0ms |  0 → 48 | `0x7009c` | `binary` |
+|    new |  +47.05ms | 0.0% → 0.8% |  0ms → 47.0ms |  0 → 47 | `0x70028` | `binary` |
+|    new |  +45.05ms | 0.0% → 0.8% |  0ms → 45.0ms |  0 → 45 | `0x674a0` | `binary` |
+|    new |  +42.04ms | 0.0% → 0.7% |  0ms → 42.0ms |  0 → 42 | `0x6f834` | `binary` |
+|    new |  +41.04ms | 0.0% → 0.7% |  0ms → 41.0ms |  0 → 41 | `0x700d4` | `binary` |
+|    new |  +41.04ms | 0.0% → 0.7% |  0ms → 41.0ms |  0 → 41 | `0x6f798` | `binary` |
+|    new |  +40.04ms | 0.0% → 0.7% |  0ms → 40.0ms |  0 → 40 | `0x6feb8` | `binary` |
+|    new |  +39.04ms | 0.0% → 0.7% |  0ms → 39.0ms |  0 → 39 | `0x6f6f4` | `binary` |
+
+##### Native
+
+|  Change |   Delta |            % |          Time | Samples | Function  | Location                                 |
+| ------: | ------: | -----------: | ------------: | ------: | --------- | ---------------------------------------- |
+|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0xe3e00` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0x8faf4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% | +1.00ms |        <0.1% | 1.0ms → 2.0ms |   1 → 2 | `0x8e9cc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xde3c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdd2b4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92284` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91b64` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8faa0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8fc14` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x901c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x9d20c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdd9f8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92dcc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91b68` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92c70` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x90b58` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
 |  Change |   Delta |            % |           Time | Samples | Function    | Location            |
 | ------: | ------: | -----------: | -------------: | ------: | ----------- | ------------------- |
-|     new | +5.01ms |  0.0% → 0.1% |    0ms → 5.0ms |   0 → 5 | `0x33b7a4`  | `[kernel.kallsyms]` |
-|  +37.5% | +3.00ms |  0.1% → 0.2% | 8.0ms → 11.0ms |  8 → 11 | `0x12e138c` | `[kernel.kallsyms]` |
-| +300.0% | +3.00ms | <0.1% → 0.1% |  1.0ms → 4.0ms |   1 → 4 | `0x12e137c` | `[kernel.kallsyms]` |
-|  +66.7% | +2.00ms |         0.1% |  3.0ms → 5.0ms |   3 → 5 | `0x1327fb8` | `[kernel.kallsyms]` |
-|     new | +2.00ms | 0.0% → <0.1% |    0ms → 2.0ms |   0 → 2 | `0x26b840`  | `[kernel.kallsyms]` |
-|     new | +2.00ms | 0.0% → <0.1% |    0ms → 2.0ms |   0 → 2 | `0x33a3dc`  | `[kernel.kallsyms]` |
-|     new | +2.00ms | 0.0% → <0.1% |    0ms → 2.0ms |   0 → 2 | `0x12e1370` | `[kernel.kallsyms]` |
-|     new | +2.00ms | 0.0% → <0.1% |    0ms → 2.0ms |   0 → 2 | `0x333114`  | `[kernel.kallsyms]` |
-|  +50.0% | +1.00ms | <0.1% → 0.1% |  2.0ms → 3.0ms |   2 → 3 | `0x12e0de4` | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x347ff8`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2f16f8`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x6b2440`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2e0228`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2cb528`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x12e39e0` | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x28f370`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x37f358`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x35f6e4`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2efa20`  | `[kernel.kallsyms]` |
-|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0xac9f30`  | `[kernel.kallsyms]` |
+| +133.3% | +4.00ms |         0.1% |  3.0ms → 7.0ms |   3 → 7 | `0x39db08`  | `[kernel.kallsyms]` |
+|     new | +3.00ms |  0.0% → 0.1% |    0ms → 3.0ms |   0 → 3 | `0x3c3834`  | `[kernel.kallsyms]` |
+|  +22.2% | +2.00ms |         0.2% | 9.0ms → 11.0ms |  9 → 11 | `0x14837cc` | `[kernel.kallsyms]` |
+| +200.0% | +2.00ms | <0.1% → 0.1% |  1.0ms → 3.0ms |   1 → 3 | `0x14837c4` | `[kernel.kallsyms]` |
+|     new | +2.00ms | 0.0% → <0.1% |    0ms → 2.0ms |   0 → 2 | `0x14837d0` | `[kernel.kallsyms]` |
+|     new | +2.00ms | 0.0% → <0.1% |    0ms → 2.0ms |   0 → 2 | `0x2aa344`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x14c6048` | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2bec84`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2c0a60`  | `[kernel.kallsyms]` |
+|  +50.0% | +1.00ms | <0.1% → 0.1% |  2.0ms → 3.0ms |   2 → 3 | `0x44d484`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x2837d8`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x4ced8c`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x30bf14`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x1485f44` | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x3df9a8`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x438f64`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x14831f4` | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0xfbee8`   | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x3092bc`  | `[kernel.kallsyms]` |
+|     new | +1.00ms | 0.0% → <0.1% |    0ms → 1.0ms |   0 → 1 | `0x77ee90`  | `[kernel.kallsyms]` |
 
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
+|  Change |     Delta |           % |            Time | Samples | Function  | Location                                 |
+| ------: | --------: | ----------: | --------------: | ------: | --------- | ---------------------------------------- |
+| removed | -203.20ms | 3.9% → 0.0% |   203.2ms → 0ms | 203 → 0 | `0x138f0` | `binary`                                 |
+| removed | -148.15ms | 2.8% → 0.0% |   148.1ms → 0ms | 148 → 0 | `0x1392c` | `binary`                                 |
+| removed | -125.13ms | 2.4% → 0.0% |   125.1ms → 0ms | 125 → 0 | `0x13910` | `binary`                                 |
+|  -92.4% | -109.11ms | 2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -75.08ms | 1.4% → 0.0% |    75.1ms → 0ms |  75 → 0 | `0x1396c` | `binary`                                 |
+| removed |  -74.07ms | 1.4% → 0.0% |    74.1ms → 0ms |  74 → 0 | `0x1391c` | `binary`                                 |
+| removed |  -67.07ms | 1.3% → 0.0% |    67.1ms → 0ms |  67 → 0 | `0x138fc` | `binary`                                 |
+| removed |  -66.07ms | 1.3% → 0.0% |    66.1ms → 0ms |  66 → 0 | `0x433d0` | `binary`                                 |
+| removed |  -64.06ms | 1.2% → 0.0% |    64.1ms → 0ms |  64 → 0 | `0x13904` | `binary`                                 |
+| removed |  -62.06ms | 1.2% → 0.0% |    62.1ms → 0ms |  62 → 0 | `0x139b0` | `binary`                                 |
+| removed |  -60.06ms | 1.1% → 0.0% |    60.1ms → 0ms |  60 → 0 | `0x139a8` | `binary`                                 |
+| removed |  -56.06ms | 1.1% → 0.0% |    56.1ms → 0ms |  56 → 0 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -52.05ms | 1.0% → 0.0% |    52.1ms → 0ms |  52 → 0 | `0x13978` | `binary`                                 |
+| removed |  -46.05ms | 0.9% → 0.0% |    46.0ms → 0ms |  46 → 0 | `0x53b84` | `binary`                                 |
+| removed |  -42.04ms | 0.8% → 0.0% |    42.0ms → 0ms |  42 → 0 | `0x53c64` | `binary`                                 |
+| removed |  -41.04ms | 0.8% → 0.0% |    41.0ms → 0ms |  41 → 0 | `0x131a4` | `binary`                                 |
+| removed |  -40.04ms | 0.8% → 0.0% |    40.0ms → 0ms |  40 → 0 | `0x13990` | `binary`                                 |
+| removed |  -35.04ms | 0.7% → 0.0% |    35.0ms → 0ms |  35 → 0 | `0x53bb4` | `binary`                                 |
+| removed |  -31.03ms | 0.6% → 0.0% |    31.0ms → 0ms |  31 → 0 | `0x53c80` | `binary`                                 |
+| removed |  -31.03ms | 0.6% → 0.0% |    31.0ms → 0ms |  31 → 0 | `0x140b0` | `binary`                                 |
+
 ##### Ours
 
-| Change |    Delta |           % |              Time |   Samples | Function  | Location |
-| -----: | -------: | ----------: | ----------------: | --------: | --------- | -------- |
-| -14.8% | -29.03ms | 3.4% → 2.9% | 196.2ms → 167.2ms | 196 → 167 | `0x70014` | `binary` |
-| -38.3% | -23.02ms | 1.0% → 0.6% |   60.1ms → 37.0ms |   60 → 37 | `0x700d4` | `binary` |
-| -50.0% | -23.02ms | 0.8% → 0.4% |   46.0ms → 23.0ms |   46 → 23 | `0x221f0` | `binary` |
-| -35.5% | -22.02ms | 1.1% → 0.7% |   62.1ms → 40.0ms |   62 → 40 | `0x6f844` | `binary` |
-| -14.3% | -17.02ms | 2.1% → 1.8% | 119.1ms → 102.1ms | 119 → 102 | `0x70050` | `binary` |
-| -35.0% | -14.01ms | 0.7% → 0.4% |   40.0ms → 26.0ms |   40 → 26 | `0x7dc74` | `binary` |
-| -81.3% | -13.01ms | 0.3% → 0.1% |    16.0ms → 3.0ms |    16 → 3 | `0x6feac` | `binary` |
-| -45.5% | -10.01ms | 0.4% → 0.2% |   22.0ms → 12.0ms |   22 → 12 | `0x704f4` | `binary` |
-| -43.5% | -10.01ms | 0.4% → 0.2% |   23.0ms → 13.0ms |   23 → 13 | `0x7e230` | `binary` |
-| -55.6% | -10.01ms | 0.3% → 0.1% |    18.0ms → 8.0ms |    18 → 8 | `0x674a8` | `binary` |
-| -20.0% |  -9.01ms | 0.8% → 0.6% |   45.0ms → 36.0ms |   45 → 36 | `0x6f834` | `binary` |
-| -69.2% |  -9.01ms | 0.2% → 0.1% |    13.0ms → 4.0ms |    13 → 4 | `0x14f2c` | `binary` |
-| -36.0% |  -9.01ms | 0.4% → 0.3% |   25.0ms → 16.0ms |   25 → 16 | `0x67588` | `binary` |
-| -28.6% |  -8.01ms | 0.5% → 0.3% |   28.0ms → 20.0ms |   28 → 20 | `0x6f81c` | `binary` |
-| -53.3% |  -8.01ms | 0.3% → 0.1% |    15.0ms → 7.0ms |    15 → 7 | `0x7ed10` | `binary` |
-| -57.1% |  -8.01ms | 0.2% → 0.1% |    14.0ms → 6.0ms |    14 → 6 | `0x8a6b4` | `binary` |
-| -42.1% |  -8.01ms | 0.3% → 0.2% |   19.0ms → 11.0ms |   19 → 11 | `0x7a000` | `binary` |
-| -35.0% |  -7.01ms | 0.3% → 0.2% |   20.0ms → 13.0ms |   20 → 13 | `0x9a708` | `binary` |
-|  -2.1% |  -7.01ms | 5.9% → 5.7% | 337.3ms → 330.3ms | 337 → 330 | `0x9a704` | `binary` |
-| -43.8% |  -7.01ms | 0.3% → 0.2% |    16.0ms → 9.0ms |    16 → 9 | `0x74ec8` | `binary` |
+|  Change |     Delta |           % |          Time | Samples | Function  | Location |
+| ------: | --------: | ----------: | ------------: | ------: | --------- | -------- |
+| removed | -203.20ms | 3.9% → 0.0% | 203.2ms → 0ms | 203 → 0 | `0x138f0` | `binary` |
+| removed | -148.15ms | 2.8% → 0.0% | 148.1ms → 0ms | 148 → 0 | `0x1392c` | `binary` |
+| removed | -125.13ms | 2.4% → 0.0% | 125.1ms → 0ms | 125 → 0 | `0x13910` | `binary` |
+| removed |  -75.08ms | 1.4% → 0.0% |  75.1ms → 0ms |  75 → 0 | `0x1396c` | `binary` |
+| removed |  -74.07ms | 1.4% → 0.0% |  74.1ms → 0ms |  74 → 0 | `0x1391c` | `binary` |
+| removed |  -67.07ms | 1.3% → 0.0% |  67.1ms → 0ms |  67 → 0 | `0x138fc` | `binary` |
+| removed |  -66.07ms | 1.3% → 0.0% |  66.1ms → 0ms |  66 → 0 | `0x433d0` | `binary` |
+| removed |  -64.06ms | 1.2% → 0.0% |  64.1ms → 0ms |  64 → 0 | `0x13904` | `binary` |
+| removed |  -62.06ms | 1.2% → 0.0% |  62.1ms → 0ms |  62 → 0 | `0x139b0` | `binary` |
+| removed |  -60.06ms | 1.1% → 0.0% |  60.1ms → 0ms |  60 → 0 | `0x139a8` | `binary` |
+| removed |  -52.05ms | 1.0% → 0.0% |  52.1ms → 0ms |  52 → 0 | `0x13978` | `binary` |
+| removed |  -46.05ms | 0.9% → 0.0% |  46.0ms → 0ms |  46 → 0 | `0x53b84` | `binary` |
+| removed |  -42.04ms | 0.8% → 0.0% |  42.0ms → 0ms |  42 → 0 | `0x53c64` | `binary` |
+| removed |  -41.04ms | 0.8% → 0.0% |  41.0ms → 0ms |  41 → 0 | `0x131a4` | `binary` |
+| removed |  -40.04ms | 0.8% → 0.0% |  40.0ms → 0ms |  40 → 0 | `0x13990` | `binary` |
+| removed |  -35.04ms | 0.7% → 0.0% |  35.0ms → 0ms |  35 → 0 | `0x53bb4` | `binary` |
+| removed |  -31.03ms | 0.6% → 0.0% |  31.0ms → 0ms |  31 → 0 | `0x53c80` | `binary` |
+| removed |  -31.03ms | 0.6% → 0.0% |  31.0ms → 0ms |  31 → 0 | `0x140b0` | `binary` |
+| removed |  -30.03ms | 0.6% → 0.0% |  30.0ms → 0ms |  30 → 0 | `0x138c8` | `binary` |
+| removed |  -29.03ms | 0.6% → 0.0% |  29.0ms → 0ms |  29 → 0 | `0x63400` | `binary` |
+
+##### Native
+
+|  Change |     Delta |            % |            Time | Samples | Function  | Location                                 |
+| ------: | --------: | -----------: | --------------: | ------: | --------- | ---------------------------------------- |
+|  -92.4% | -109.11ms |  2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -56.06ms |  1.1% → 0.0% |    56.1ms → 0ms |  56 → 0 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -13.01ms |  0.2% → 0.0% |    13.0ms → 0ms |  13 → 0 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -12.01ms |  0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9d184` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -10.01ms |  0.2% → 0.0% |    10.0ms → 0ms |  10 → 0 | `0x9d11c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -6.01ms |  0.1% → 0.0% |     6.0ms → 0ms |   6 → 0 | `0x9d138` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -5.01ms |  0.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x9d150` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d168` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9e580` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d114` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e674` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -50.0% |   -2.00ms | 0.1% → <0.1% |   4.0ms → 2.0ms |   4 → 2 | `0x9d210` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e5c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e590` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e5e0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e678` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9d148` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0xddb88` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9e680` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x914e8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
 |  Change |   Delta |            % |          Time | Samples | Function    | Location            |
 | ------: | ------: | -----------: | ------------: | ------: | ----------- | ------------------- |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x25a754`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x1327fc0` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0xa244d0`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0xa24d30`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x1302964` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x12e39dc` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x6b2448`  | `[kernel.kallsyms]` |
-|  -50.0% | -1.00ms |        <0.1% | 2.0ms → 1.0ms |   2 → 1 | `0x33a3f8`  | `[kernel.kallsyms]` |
-|  -50.0% | -1.00ms |        <0.1% | 2.0ms → 1.0ms |   2 → 1 | `0x12e1384` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x6ade60`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x365dd8`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x2ed41c`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x12e3600` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x6bc990`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x2e40fc`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x6b24c4`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x3690b8`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x25cec4`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x12f12fc` | `[kernel.kallsyms]` |
-|  -33.3% | -1.00ms | 0.1% → <0.1% | 3.0ms → 2.0ms |   3 → 2 | `0x35c7e0`  | `[kernel.kallsyms]` |
+| removed | -4.00ms |  0.1% → 0.0% |   4.0ms → 0ms |   4 → 0 | `0x3a4ee0`  | `[kernel.kallsyms]` |
+|  -50.0% | -3.00ms |         0.1% | 6.0ms → 3.0ms |   6 → 3 | `0x14b23b8` | `[kernel.kallsyms]` |
+| removed | -3.00ms |  0.1% → 0.0% |   3.0ms → 0ms |   3 → 0 | `0x14837b8` | `[kernel.kallsyms]` |
+|  -66.7% | -2.00ms | 0.1% → <0.1% | 3.0ms → 1.0ms |   3 → 1 | `0x3c3850`  | `[kernel.kallsyms]` |
+|  -66.7% | -2.00ms | 0.1% → <0.1% | 3.0ms → 1.0ms |   3 → 1 | `0x39db44`  | `[kernel.kallsyms]` |
+|  -40.0% | -2.00ms |         0.1% | 5.0ms → 3.0ms |   5 → 3 | `0x14b2aac` | `[kernel.kallsyms]` |
+|  -40.0% | -2.00ms |         0.1% | 5.0ms → 3.0ms |   5 → 3 | `0x2be198`  | `[kernel.kallsyms]` |
+| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x34b3e8`  | `[kernel.kallsyms]` |
+| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x3a3538`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x315ccc`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x325cc0`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x3a4b04`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x2ab7f4`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x33e980`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x770c24`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x168a20`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x3a2db8`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x14c2704` | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x3157e4`  | `[kernel.kallsyms]` |
+| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x39edcc`  | `[kernel.kallsyms]` |
 
 ### Total time
 
@@ -149,78 +197,103 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-| Change |    Delta |             % |              Time |       Samples | Function  | Location                                 |
-| -----: | -------: | ------------: | ----------------: | ------------: | --------- | ---------------------------------------- |
-|  +2.0% | +79.08ms | 70.0% → 71.0% |     4.03s → 4.10s | 4,026 → 4,105 | `0x15964` | `binary`                                 |
-|  +2.8% | +64.06ms | 39.9% → 40.7% |     2.29s → 2.35s | 2,291 → 2,355 | `0x78ff4` | `binary`                                 |
-|  +4.4% | +53.05ms | 21.2% → 22.0% |     1.21s → 1.27s | 1,218 → 1,271 | `0x71d44` | `binary`                                 |
-| +18.1% | +53.05ms |   5.1% → 6.0% | 293.3ms → 346.3ms |     293 → 346 | `0x6627c` | `binary`                                 |
-|  +2.9% | +49.05ms | 29.2% → 29.9% |     1.67s → 1.72s | 1,678 → 1,727 | `0x61a90` | `binary`                                 |
-| +14.1% | +47.05ms |   5.8% → 6.6% | 333.3ms → 380.4ms |     333 → 380 | `0x5e64c` | `binary`                                 |
-| +14.7% | +34.03ms |   4.0% → 4.6% | 232.2ms → 266.3ms |     232 → 266 | `0x79dc4` | `binary`                                 |
-|  +0.6% | +32.03ms |        100.0% |     5.75s → 5.78s | 5,749 → 5,781 | `0x16900` | `binary`                                 |
-|  +0.6% | +32.03ms |        100.0% |     5.75s → 5.78s | 5,749 → 5,781 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +0.6% | +32.03ms |        100.0% |     5.75s → 5.78s | 5,749 → 5,781 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +0.6% | +32.03ms |        100.0% |     5.75s → 5.78s | 5,749 → 5,781 | `0x13e30` | `binary`                                 |
-|  +5.9% | +32.03ms |   9.4% → 9.9% | 541.5ms → 573.6ms |     541 → 573 | `0x6c3fc` | `binary`                                 |
-| +51.7% | +31.03ms |   1.0% → 1.6% |   60.1ms → 91.1ms |       60 → 91 | `0x14d0`  | `[kernel.kallsyms]`                      |
-| +17.4% | +30.03ms |   3.0% → 3.5% | 172.2ms → 202.2ms |     172 → 202 | `0x90450` | `binary`                                 |
-| +17.4% | +30.03ms |   3.0% → 3.5% | 172.2ms → 202.2ms |     172 → 202 | `0x15034` | `binary`                                 |
-|  +1.5% | +27.03ms | 30.6% → 30.9% |     1.76s → 1.78s | 1,760 → 1,787 | `0x6503c` | `binary`                                 |
-|  +4.7% | +27.03ms |  9.9% → 10.4% | 572.6ms → 599.6ms |     572 → 599 | `0x60bf8` | `binary`                                 |
-| +45.3% | +24.02ms |   0.9% → 1.3% |   53.1ms → 77.1ms |       53 → 77 | `0x70040` | `binary`                                 |
-|  +2.4% | +21.02ms | 15.5% → 15.8% | 891.9ms → 912.9ms |     891 → 912 | `0x672d4` | `binary`                                 |
-| +11.4% | +21.02ms |   3.2% → 3.6% | 185.2ms → 206.2ms |     185 → 206 | `0x66f5c` | `binary`                                 |
+|    Change |     Delta |             % |            Time |       Samples | Function  | Location                                 |
+| --------: | --------: | ------------: | --------------: | ------------: | --------- | ---------------------------------------- |
+|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x16900` | `binary`                                 |
+|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x13e30` | `binary`                                 |
+|       new |   +4.174s |  0.0% → 70.0% |     0ms → 4.17s |     0 → 4,170 | `0x15964` | `binary`                                 |
+|       new |   +2.810s |  0.0% → 47.2% |     0ms → 2.81s |     0 → 2,808 | `0x5eff4` | `binary`                                 |
+|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.33s |     0 → 2,335 | `0x78ff4` | `binary`                                 |
+|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.18s |     0 → 2,187 | `0x672f0` | `binary`                                 |
+|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.13s |     0 → 2,136 | `0x6639c` | `binary`                                 |
+|       new |   +1.793s |  0.0% → 30.1% |     0ms → 1.79s |     0 → 1,792 | `0x6503c` | `binary`                                 |
+|       new |   +1.696s |  0.0% → 28.5% |     0ms → 1.69s |     0 → 1,695 | `0x61a90` | `binary`                                 |
+|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.22s |     0 → 1,226 | `0x71d44` | `binary`                                 |
+|       new |   +1.201s |  0.0% → 20.2% |     0ms → 1.20s |     0 → 1,200 | `0x61f50` | `binary`                                 |
+|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.14s |     0 → 1,147 | `0x674d4` | `binary`                                 |
+|       new | +967.97ms |  0.0% → 16.2% |   0ms → 968.0ms |       0 → 967 | `0x6f75c` | `binary`                                 |
+|       new | +921.92ms |  0.0% → 15.5% |   0ms → 921.9ms |       0 → 921 | `0x6a0c8` | `binary`                                 |
+|       new | +912.91ms |  0.0% → 15.3% |   0ms → 912.9ms |       0 → 912 | `0x672d4` | `binary`                                 |
+|       new | +755.76ms |  0.0% → 12.7% |   0ms → 755.8ms |       0 → 755 | `0x6aea0` | `binary`                                 |
+|       new | +728.73ms |  0.0% → 12.2% |   0ms → 728.7ms |       0 → 728 | `0x5ebe0` | `binary`                                 |
+| +72500.0% | +725.73ms | <0.1% → 12.2% | 1.0ms → 726.7ms |       1 → 726 | `0x6944c` | `binary`                                 |
+|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Ours
 
-| Change |    Delta |             % |              Time |       Samples | Function  | Location |
-| -----: | -------: | ------------: | ----------------: | ------------: | --------- | -------- |
-|  +2.0% | +79.08ms | 70.0% → 71.0% |     4.03s → 4.10s | 4,026 → 4,105 | `0x15964` | `binary` |
-|  +2.8% | +64.06ms | 39.9% → 40.7% |     2.29s → 2.35s | 2,291 → 2,355 | `0x78ff4` | `binary` |
-|  +4.4% | +53.05ms | 21.2% → 22.0% |     1.21s → 1.27s | 1,218 → 1,271 | `0x71d44` | `binary` |
-| +18.1% | +53.05ms |   5.1% → 6.0% | 293.3ms → 346.3ms |     293 → 346 | `0x6627c` | `binary` |
-|  +2.9% | +49.05ms | 29.2% → 29.9% |     1.67s → 1.72s | 1,678 → 1,727 | `0x61a90` | `binary` |
-| +14.1% | +47.05ms |   5.8% → 6.6% | 333.3ms → 380.4ms |     333 → 380 | `0x5e64c` | `binary` |
-| +14.7% | +34.03ms |   4.0% → 4.6% | 232.2ms → 266.3ms |     232 → 266 | `0x79dc4` | `binary` |
-|  +0.6% | +32.03ms |        100.0% |     5.75s → 5.78s | 5,749 → 5,781 | `0x16900` | `binary` |
-|  +0.6% | +32.03ms |        100.0% |     5.75s → 5.78s | 5,749 → 5,781 | `0x13e30` | `binary` |
-|  +5.9% | +32.03ms |   9.4% → 9.9% | 541.5ms → 573.6ms |     541 → 573 | `0x6c3fc` | `binary` |
-| +17.4% | +30.03ms |   3.0% → 3.5% | 172.2ms → 202.2ms |     172 → 202 | `0x90450` | `binary` |
-| +17.4% | +30.03ms |   3.0% → 3.5% | 172.2ms → 202.2ms |     172 → 202 | `0x15034` | `binary` |
-|  +1.5% | +27.03ms | 30.6% → 30.9% |     1.76s → 1.78s | 1,760 → 1,787 | `0x6503c` | `binary` |
-|  +4.7% | +27.03ms |  9.9% → 10.4% | 572.6ms → 599.6ms |     572 → 599 | `0x60bf8` | `binary` |
-| +45.3% | +24.02ms |   0.9% → 1.3% |   53.1ms → 77.1ms |       53 → 77 | `0x70040` | `binary` |
-|  +2.4% | +21.02ms | 15.5% → 15.8% | 891.9ms → 912.9ms |     891 → 912 | `0x672d4` | `binary` |
-| +11.4% | +21.02ms |   3.2% → 3.6% | 185.2ms → 206.2ms |     185 → 206 | `0x66f5c` | `binary` |
-| +87.5% | +21.02ms |   0.4% → 0.8% |   24.0ms → 45.0ms |       24 → 45 | `0x6f798` | `binary` |
-|  +8.7% | +20.02ms |   4.0% → 4.3% | 231.2ms → 251.3ms |     231 → 251 | `0x5ec7c` | `binary` |
-| +42.6% | +20.02ms |   0.8% → 1.2% |   47.0ms → 67.1ms |       47 → 67 | `0x5e960` | `binary` |
+|    Change |     Delta |             % |            Time |   Samples | Function  | Location |
+| --------: | --------: | ------------: | --------------: | --------: | --------- | -------- |
+|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s | 0 → 5,954 | `0x16900` | `binary` |
+|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s | 0 → 5,954 | `0x13e30` | `binary` |
+|       new |   +4.174s |  0.0% → 70.0% |     0ms → 4.17s | 0 → 4,170 | `0x15964` | `binary` |
+|       new |   +2.810s |  0.0% → 47.2% |     0ms → 2.81s | 0 → 2,808 | `0x5eff4` | `binary` |
+|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.33s | 0 → 2,335 | `0x78ff4` | `binary` |
+|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.18s | 0 → 2,187 | `0x672f0` | `binary` |
+|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.13s | 0 → 2,136 | `0x6639c` | `binary` |
+|       new |   +1.793s |  0.0% → 30.1% |     0ms → 1.79s | 0 → 1,792 | `0x6503c` | `binary` |
+|       new |   +1.696s |  0.0% → 28.5% |     0ms → 1.69s | 0 → 1,695 | `0x61a90` | `binary` |
+|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.22s | 0 → 1,226 | `0x71d44` | `binary` |
+|       new |   +1.201s |  0.0% → 20.2% |     0ms → 1.20s | 0 → 1,200 | `0x61f50` | `binary` |
+|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.14s | 0 → 1,147 | `0x674d4` | `binary` |
+|       new | +967.97ms |  0.0% → 16.2% |   0ms → 968.0ms |   0 → 967 | `0x6f75c` | `binary` |
+|       new | +921.92ms |  0.0% → 15.5% |   0ms → 921.9ms |   0 → 921 | `0x6a0c8` | `binary` |
+|       new | +912.91ms |  0.0% → 15.3% |   0ms → 912.9ms |   0 → 912 | `0x672d4` | `binary` |
+|       new | +755.76ms |  0.0% → 12.7% |   0ms → 755.8ms |   0 → 755 | `0x6aea0` | `binary` |
+|       new | +728.73ms |  0.0% → 12.2% |   0ms → 728.7ms |   0 → 728 | `0x5ebe0` | `binary` |
+| +72500.0% | +725.73ms | <0.1% → 12.2% | 1.0ms → 726.7ms |   1 → 726 | `0x6944c` | `binary` |
+|       new | +699.70ms |  0.0% → 11.7% |   0ms → 699.7ms |   0 → 699 | `0x5e5a4` | `binary` |
+|       new | +650.65ms |  0.0% → 10.9% |   0ms → 650.7ms |   0 → 650 | `0x68820` | `binary` |
+
+##### Native
+
+|  Change |     Delta |            % |          Time |       Samples | Function  | Location                                 |
+| ------: | --------: | -----------: | ------------: | ------------: | --------- | ---------------------------------------- |
+|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |  +39.04ms |  0.0% → 0.7% |  0ms → 39.0ms |        0 → 39 | `0xe3e00` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |  +24.02ms |  0.0% → 0.4% |  0ms → 24.0ms |        0 → 24 | `0x92f68` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0xdd2b4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0x91d0c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `0x91bfc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +200.0% |   +2.00ms | <0.1% → 0.1% | 1.0ms → 3.0ms |         1 → 3 | `0x90818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +2.00ms | <0.1% → 0.1% | 2.0ms → 4.0ms |         2 → 4 | `0x9189c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x8faf4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x91b94` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x8e9cc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x900c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92284` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x91b64` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8faa0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8fc14` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x901c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x9d20c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
-|  Change |    Delta |           % |            Time | Samples | Function    | Location            |
-| ------: | -------: | ----------: | --------------: | ------: | ----------- | ------------------- |
-|  +51.7% | +31.03ms | 1.0% → 1.6% | 60.1ms → 91.1ms | 60 → 91 | `0x14d0`    | `[kernel.kallsyms]` |
-| +271.4% | +19.02ms | 0.1% → 0.4% |  7.0ms → 26.0ms |  7 → 26 | `0x1337320` | `[kernel.kallsyms]` |
-| +271.4% | +19.02ms | 0.1% → 0.4% |  7.0ms → 26.0ms |  7 → 26 | `0x1a2f0`   | `[kernel.kallsyms]` |
-| +271.4% | +19.02ms | 0.1% → 0.4% |  7.0ms → 26.0ms |  7 → 26 | `0x1328594` | `[kernel.kallsyms]` |
-| +190.0% | +19.02ms | 0.2% → 0.5% | 10.0ms → 29.0ms | 10 → 29 | `0x1328e1c` | `[kernel.kallsyms]` |
-| +257.1% | +18.02ms | 0.1% → 0.4% |  7.0ms → 25.0ms |  7 → 25 | `0x1336ec8` | `[kernel.kallsyms]` |
-| +242.9% | +17.02ms | 0.1% → 0.4% |  7.0ms → 24.0ms |  7 → 24 | `0x2b9940`  | `[kernel.kallsyms]` |
-|  +27.9% | +12.01ms | 0.7% → 1.0% | 43.0ms → 55.1ms | 43 → 55 | `0x12c98`   | `[kernel.kallsyms]` |
-|  +24.0% | +12.01ms | 0.9% → 1.1% | 50.1ms → 62.1ms | 50 → 62 | `0x1328e88` | `[kernel.kallsyms]` |
-|  +24.4% | +11.01ms | 0.8% → 1.0% | 45.0ms → 56.1ms | 45 → 56 | `0x12d6c`   | `[kernel.kallsyms]` |
-|  +21.7% | +10.01ms | 0.8% → 1.0% | 46.0ms → 56.1ms | 46 → 56 | `0x1327fc0` | `[kernel.kallsyms]` |
-| +333.3% | +10.01ms | 0.1% → 0.2% |  3.0ms → 13.0ms |  3 → 13 | `0x33b7a4`  | `[kernel.kallsyms]` |
-| +333.3% | +10.01ms | 0.1% → 0.2% |  3.0ms → 13.0ms |  3 → 13 | `0x2b919c`  | `[kernel.kallsyms]` |
-|  +47.1% |  +8.01ms | 0.3% → 0.4% | 17.0ms → 25.0ms | 17 → 25 | `0x34909c`  | `[kernel.kallsyms]` |
-|  +47.1% |  +8.01ms | 0.3% → 0.4% | 17.0ms → 25.0ms | 17 → 25 | `0x349b08`  | `[kernel.kallsyms]` |
-|  +38.9% |  +7.01ms | 0.3% → 0.4% | 18.0ms → 25.0ms | 18 → 25 | `0x34a030`  | `[kernel.kallsyms]` |
-|  +43.8% |  +7.01ms | 0.3% → 0.4% | 16.0ms → 23.0ms | 16 → 23 | `0x25c5d4`  | `[kernel.kallsyms]` |
-|  +43.8% |  +7.01ms | 0.3% → 0.4% | 16.0ms → 23.0ms | 16 → 23 | `0x44ab98`  | `[kernel.kallsyms]` |
-|  +43.8% |  +7.01ms | 0.3% → 0.4% | 16.0ms → 23.0ms | 16 → 23 | `0x34955c`  | `[kernel.kallsyms]` |
-|  +43.8% |  +7.01ms | 0.3% → 0.4% | 16.0ms → 23.0ms | 16 → 23 | `0x3db354`  | `[kernel.kallsyms]` |
+|  Change |    Delta |            % |            Time | Samples | Function    | Location            |
+| ------: | -------: | -----------: | --------------: | ------: | ----------- | ------------------- |
+|     new | +36.04ms |  0.0% → 0.6% |    0ms → 36.0ms |  0 → 36 | `0x3b21fc`  | `[kernel.kallsyms]` |
+|     new | +36.04ms |  0.0% → 0.6% |    0ms → 36.0ms |  0 → 36 | `0x3b253c`  | `[kernel.kallsyms]` |
+|     new | +36.04ms |  0.0% → 0.6% |    0ms → 36.0ms |  0 → 36 | `0x3b25d4`  | `[kernel.kallsyms]` |
+|  +50.0% | +12.01ms |  0.5% → 0.6% | 24.0ms → 36.0ms | 24 → 36 | `0x3b15e4`  | `[kernel.kallsyms]` |
+|  +47.8% | +11.01ms |  0.4% → 0.6% | 23.0ms → 34.0ms | 23 → 34 | `0x2ab954`  | `[kernel.kallsyms]` |
+|  +44.0% | +11.01ms |  0.5% → 0.6% | 25.0ms → 36.0ms | 25 → 36 | `0x7768d0`  | `[kernel.kallsyms]` |
+|  +41.7% | +10.01ms |  0.5% → 0.6% | 24.0ms → 34.0ms | 24 → 34 | `0x4cb8b8`  | `[kernel.kallsyms]` |
+|  +36.0% |  +9.01ms |  0.5% → 0.6% | 25.0ms → 34.0ms | 25 → 34 | `0x3b1aa0`  | `[kernel.kallsyms]` |
+|  +36.0% |  +9.01ms |  0.5% → 0.6% | 25.0ms → 34.0ms | 25 → 34 | `0x44a7e0`  | `[kernel.kallsyms]` |
+|  +30.0% |  +6.01ms |         0.4% | 20.0ms → 26.0ms | 20 → 26 | `0xb54524`  | `[kernel.kallsyms]` |
+|  +30.0% |  +6.01ms |         0.4% | 20.0ms → 26.0ms | 20 → 26 | `0x2ab6f8`  | `[kernel.kallsyms]` |
+| +500.0% |  +5.01ms | <0.1% → 0.1% |   1.0ms → 6.0ms |   1 → 6 | `0x2aad18`  | `[kernel.kallsyms]` |
+| +500.0% |  +5.01ms | <0.1% → 0.1% |   1.0ms → 6.0ms |   1 → 6 | `0x2ab618`  | `[kernel.kallsyms]` |
+|   +6.2% |  +4.00ms |         1.2% | 65.1ms → 69.1ms | 65 → 69 | `0x2ecb8`   | `[kernel.kallsyms]` |
+|   +6.1% |  +4.00ms |  1.3% → 1.2% | 66.1ms → 70.1ms | 66 → 70 | `0x2ed74`   | `[kernel.kallsyms]` |
+|   +6.1% |  +4.00ms |  1.3% → 1.2% | 66.1ms → 70.1ms | 66 → 70 | `0x14b23c0` | `[kernel.kallsyms]` |
+| +133.3% |  +4.00ms |         0.1% |   3.0ms → 7.0ms |   3 → 7 | `0x39db08`  | `[kernel.kallsyms]` |
+| +200.0% |  +4.00ms | <0.1% → 0.1% |   2.0ms → 6.0ms |   2 → 6 | `0x3d17e4`  | `[kernel.kallsyms]` |
+| +200.0% |  +4.00ms | <0.1% → 0.1% |   2.0ms → 6.0ms |   2 → 6 | `0x3d171c`  | `[kernel.kallsyms]` |
+| +200.0% |  +4.00ms | <0.1% → 0.1% |   2.0ms → 6.0ms |   2 → 6 | `0x779ba8`  | `[kernel.kallsyms]` |
 
 #### Improvements
 
@@ -228,50 +301,75 @@ Functions with the largest decrease in total time spent in the function and all 
 
 ##### Ours
 
-| Change |    Delta |             % |              Time |       Samples | Function  | Location |
-| -----: | -------: | ------------: | ----------------: | ------------: | --------- | -------- |
-| -12.8% | -61.06ms |   8.3% → 7.2% | 476.5ms → 415.4ms |     476 → 415 | `0x8c2f8` | `binary` |
-|  -9.5% | -58.06ms |  10.6% → 9.6% | 612.6ms → 554.6ms |     612 → 554 | `0x150ac` | `binary` |
-| -11.6% | -54.05ms |   8.1% → 7.1% | 467.5ms → 413.4ms |     467 → 413 | `0x81914` | `binary` |
-| -23.2% | -52.05ms |   3.9% → 3.0% | 224.2ms → 172.2ms |     224 → 172 | `0x83e04` | `binary` |
-| -10.8% | -51.05ms |   8.2% → 7.3% | 472.5ms → 421.4ms |     472 → 421 | `0x82bf0` | `binary` |
-| -13.5% | -47.05ms |   6.1% → 5.2% | 349.3ms → 302.3ms |     349 → 302 | `0x8666c` | `binary` |
-|  -2.2% | -47.05ms | 37.6% → 36.5% |     2.16s → 2.11s | 2,159 → 2,112 | `0x672f0` | `binary` |
-|  -9.2% | -46.05ms |   8.7% → 7.9% | 501.5ms → 455.5ms |     501 → 455 | `0x7e6b4` | `binary` |
-| -10.2% | -46.05ms |   7.9% → 7.0% | 452.5ms → 406.4ms |     452 → 406 | `0x82438` | `binary` |
-| -17.4% | -41.04ms |   4.1% → 3.4% | 236.2ms → 195.2ms |     236 → 195 | `0x88cb4` | `binary` |
-| -16.2% | -37.04ms |   4.0% → 3.3% | 229.2ms → 192.2ms |     229 → 192 | `0x8fa64` | `binary` |
-| -17.0% | -36.04ms |   3.7% → 3.0% | 212.2ms → 176.2ms |     212 → 176 | `0x894ac` | `binary` |
-|  -9.5% | -35.04ms |   6.4% → 5.7% | 367.4ms → 332.3ms |     367 → 332 | `0x8f8ec` | `binary` |
-| -14.5% | -35.04ms |   4.2% → 3.6% | 241.2ms → 206.2ms |     241 → 206 | `0x5e490` | `binary` |
-|  -1.1% | -32.03ms | 48.5% → 47.7% |     2.78s → 2.75s | 2,787 → 2,755 | `0x5eff4` | `binary` |
-| -11.4% | -30.03ms |   4.6% → 4.0% | 263.3ms → 233.2ms |     263 → 233 | `0x74ec8` | `binary` |
-| -14.8% | -29.03ms |   3.4% → 2.9% | 196.2ms → 167.2ms |     196 → 167 | `0x70014` | `binary` |
-| -21.3% | -27.03ms |   2.2% → 1.7% | 127.1ms → 100.1ms |     127 → 100 | `0x8a974` | `binary` |
-| -27.5% | -25.03ms |   1.6% → 1.1% |   91.1ms → 66.1ms |       91 → 66 | `0x847f0` | `binary` |
-| -29.6% | -24.02ms |   1.4% → 1.0% |   81.1ms → 57.1ms |       81 → 57 | `0x84fbc` | `binary` |
+|  Change |     Delta |             % |          Time |   Samples | Function  | Location |
+| ------: | --------: | ------------: | ------------: | --------: | --------- | -------- |
+| removed |   -5.244s | 100.0% → 0.0% |   5.24s → 0ms | 5,239 → 0 | `0x1130c` | `binary` |
+| removed |   -5.244s | 100.0% → 0.0% |   5.24s → 0ms | 5,239 → 0 | `0xdf70`  | `binary` |
+| removed |   -3.903s |  74.4% → 0.0% |   3.90s → 0ms | 3,900 → 0 | `0x10144` | `binary` |
+| removed |   -2.659s |  50.7% → 0.0% |   2.65s → 0ms | 2,657 → 0 | `0x368f8` | `binary` |
+| removed |   -2.133s |  40.7% → 0.0% |   2.13s → 0ms | 2,131 → 0 | `0x4aa18` | `binary` |
+| removed |   -2.012s |  38.4% → 0.0% |   2.01s → 0ms | 2,010 → 0 | `0x45be0` | `binary` |
+| removed |   -1.704s |  32.5% → 0.0% |   1.70s → 0ms | 1,703 → 0 | `0x44b48` | `binary` |
+| removed |   -1.662s |  31.7% → 0.0% |   1.66s → 0ms | 1,661 → 0 | `0x6449c` | `binary` |
+| removed |   -1.622s |  30.9% → 0.0% |   1.62s → 0ms | 1,621 → 0 | `0x383d0` | `binary` |
+| removed |   -1.304s |  24.9% → 0.0% |   1.30s → 0ms | 1,303 → 0 | `0x62fd4` | `binary` |
+| removed |   -1.206s |  23.0% → 0.0% |   1.20s → 0ms | 1,205 → 0 | `0x36b64` | `binary` |
+| removed |   -1.159s |  22.1% → 0.0% |   1.15s → 0ms | 1,158 → 0 | `0x537bc` | `binary` |
+| removed |   -1.085s |  20.7% → 0.0% |   1.08s → 0ms | 1,084 → 0 | `0x53c28` | `binary` |
+| removed | -775.78ms |  14.8% → 0.0% | 775.8ms → 0ms |   775 → 0 | `0x642d8` | `binary` |
+| removed | -703.70ms |  13.4% → 0.0% | 703.7ms → 0ms |   703 → 0 | `0x66174` | `binary` |
+| removed | -678.68ms |  12.9% → 0.0% | 678.7ms → 0ms |   678 → 0 | `0x36d98` | `binary` |
+| removed | -653.65ms |  12.5% → 0.0% | 653.7ms → 0ms |   653 → 0 | `0x58e54` | `binary` |
+| removed | -650.65ms |  12.4% → 0.0% | 650.7ms → 0ms |   650 → 0 | `0x3695c` | `binary` |
+| removed | -637.64ms |  12.2% → 0.0% | 637.6ms → 0ms |   637 → 0 | `0x64480` | `binary` |
+| removed | -624.62ms |  11.9% → 0.0% | 624.6ms → 0ms |   624 → 0 | `0x66a6c` | `binary` |
+
+##### Native
+
+|  Change |     Delta |           % |            Time | Samples | Function  | Location                                 |
+| ------: | --------: | ----------: | --------------: | ------: | --------- | ---------------------------------------- |
+|  -92.4% | -109.11ms | 2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -86.09ms | 1.6% → 0.0% |    86.1ms → 0ms |  86 → 0 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -29.03ms | 0.6% → 0.0% |    29.0ms → 0ms |  29 → 0 | `0xddb88` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -13.01ms | 0.2% → 0.0% |    13.0ms → 0ms |  13 → 0 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -12.01ms | 0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9e674` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -12.01ms | 0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9d184` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -10.01ms | 0.2% → 0.0% |    10.0ms → 0ms |  10 → 0 | `0x9d11c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -52.9% |   -9.01ms | 0.3% → 0.1% |  17.0ms → 8.0ms |  17 → 8 | `0x92a9c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -9.01ms | 0.2% → 0.0% |     9.0ms → 0ms |   9 → 0 | `0x9405c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -58.3% |   -7.01ms | 0.2% → 0.1% |  12.0ms → 5.0ms |  12 → 5 | `0x8fa48` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -58.3% |   -7.01ms | 0.2% → 0.1% |  12.0ms → 5.0ms |  12 → 5 | `0x90240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -6.01ms | 0.1% → 0.0% |     6.0ms → 0ms |   6 → 0 | `0x9d138` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -38.5% |   -5.01ms | 0.2% → 0.1% |  13.0ms → 8.0ms |  13 → 8 | `0xe3acc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -38.5% |   -5.01ms | 0.2% → 0.1% |  13.0ms → 8.0ms |  13 → 8 | `0x8f988` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -5.01ms | 0.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x9d150` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -62.5% |   -5.01ms | 0.2% → 0.1% |   8.0ms → 3.0ms |   8 → 3 | `0x9245c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -19.0% |   -4.00ms | 0.4% → 0.3% | 21.0ms → 17.0ms | 21 → 17 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d168` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9e580` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d114` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
-|  Change |   Delta |            % |          Time | Samples | Function    | Location            |
-| ------: | ------: | -----------: | ------------: | ------: | ----------- | ------------------- |
-|  -80.0% | -4.00ms | 0.1% → <0.1% | 5.0ms → 1.0ms |   5 → 1 | `0x354c18`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x354ac4`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x25a754`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x2c2008`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x2c2b54`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x2d8410`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x353c2c`  | `[kernel.kallsyms]` |
-| removed | -2.00ms | <0.1% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x354a74`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0xa244d0`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0xa26d14`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x349a20`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0xa24d30`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x1302964` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x12e39dc` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x6b2448`  | `[kernel.kallsyms]` |
-|  -50.0% | -1.00ms |        <0.1% | 2.0ms → 1.0ms |   2 → 1 | `0x33a3f8`  | `[kernel.kallsyms]` |
-|  -50.0% | -1.00ms |        <0.1% | 2.0ms → 1.0ms |   2 → 1 | `0x12e1384` | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x6ade60`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x365dd8`  | `[kernel.kallsyms]` |
-| removed | -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x2ed41c`  | `[kernel.kallsyms]` |
+|  Change |    Delta |            % |              Time |   Samples | Function    | Location            |
+| ------: | -------: | -----------: | ----------------: | --------: | ----------- | ------------------- |
+| removed | -26.03ms |  0.5% → 0.0% |      26.0ms → 0ms |    26 → 0 | `0x3b47b4`  | `[kernel.kallsyms]` |
+| removed | -26.03ms |  0.5% → 0.0% |      26.0ms → 0ms |    26 → 0 | `0x3b4878`  | `[kernel.kallsyms]` |
+| removed | -25.03ms |  0.5% → 0.0% |      25.0ms → 0ms |    25 → 0 | `0x3b3c5c`  | `[kernel.kallsyms]` |
+|  -24.4% | -10.01ms |  0.8% → 0.5% |   41.0ms → 31.0ms |   41 → 31 | `0x14b33d0` | `[kernel.kallsyms]` |
+|   -7.8% |  -9.01ms |  2.2% → 1.8% | 115.1ms → 106.1ms | 115 → 106 | `0x15a0`    | `[kernel.kallsyms]` |
+|  -27.3% |  -9.01ms |  0.6% → 0.4% |   33.0ms → 24.0ms |   33 → 24 | `0x315eb8`  | `[kernel.kallsyms]` |
+|  -25.7% |  -9.01ms |  0.7% → 0.4% |   35.0ms → 26.0ms |   35 → 26 | `0x14c6048` | `[kernel.kallsyms]` |
+|  -22.9% |  -8.01ms |  0.7% → 0.5% |   35.0ms → 27.0ms |   35 → 27 | `0x14c6678` | `[kernel.kallsyms]` |
+|  -22.2% |  -8.01ms |  0.7% → 0.5% |   36.0ms → 28.0ms |   36 → 28 | `0x14b2ab4` | `[kernel.kallsyms]` |
+| removed |  -7.01ms |  0.1% → 0.0% |       7.0ms → 0ms |     7 → 0 | `0x31daf4`  | `[kernel.kallsyms]` |
+| removed |  -7.01ms |  0.1% → 0.0% |       7.0ms → 0ms |     7 → 0 | `0x31e728`  | `[kernel.kallsyms]` |
+|  -87.5% |  -7.01ms | 0.2% → <0.1% |     8.0ms → 1.0ms |     8 → 1 | `0x3383e8`  | `[kernel.kallsyms]` |
+|  -58.3% |  -7.01ms |  0.2% → 0.1% |    12.0ms → 5.0ms |    12 → 5 | `0x33851c`  | `[kernel.kallsyms]` |
+|  -58.3% |  -7.01ms |  0.2% → 0.1% |    12.0ms → 5.0ms |    12 → 5 | `0x3398ac`  | `[kernel.kallsyms]` |
+|  -20.0% |  -7.01ms |  0.7% → 0.5% |   35.0ms → 28.0ms |   35 → 28 | `0x36870`   | `[kernel.kallsyms]` |
+|  -58.3% |  -7.01ms |  0.2% → 0.1% |    12.0ms → 5.0ms |    12 → 5 | `0x31b6c0`  | `[kernel.kallsyms]` |
+| removed |  -6.01ms |  0.1% → 0.0% |       6.0ms → 0ms |     6 → 0 | `0x3a4b04`  | `[kernel.kallsyms]` |
+| removed |  -5.01ms |  0.1% → 0.0% |       5.0ms → 0ms |     5 → 0 | `0x361c28`  | `[kernel.kallsyms]` |
+|  -38.5% |  -5.01ms |  0.2% → 0.1% |    13.0ms → 8.0ms |    13 → 8 | `0x31b744`  | `[kernel.kallsyms]` |
+| removed |  -4.00ms |  0.1% → 0.0% |       4.0ms → 0ms |     4 → 0 | `0x3a4ee0`  | `[kernel.kallsyms]` |

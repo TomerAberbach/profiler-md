@@ -5,23 +5,28 @@ source scripts/inputs/_common.sh
 
 assets="$REPO/scripts/inputs/assets/csharp"
 
-app_dll=""
-setup_once() {
-  [[ -n "$app_dll" ]] && return 0
+# Base and current profile consecutive Newtonsoft.Json releases, so a diff compares
+# two versions of the same code.
+declare -A NEWTONSOFT_JSON_VERSION=([base]="13.0.3" [current]="13.0.4")
 
-  notice "Building Newtonsoft.Json profile"
+# Each role builds in one directory, so both record the same paths.
+app_dll="$WORKDIR/csharp-profile/bin/Release/net8.0/Profile.dll"
+build_for_role() {
+  local role=$1
+  notice "Building Newtonsoft.Json ${NEWTONSOFT_JSON_VERSION[$role]} profile"
 
   local build="$WORKDIR/csharp-profile"
+  rm -rf "$build"
   mkdir -p "$build"
   cp "$assets/Profile.csproj" "$assets/Profile.cs" "$build/"
-  dotnet build "$build/Profile.csproj" --configuration Release
-  app_dll="$build/bin/Release/net8.0/Profile.dll"
+  dotnet build "$build/Profile.csproj" --configuration Release \
+    -p:NewtonsoftJsonVersion="${NEWTONSOFT_JSON_VERSION[$role]}"
 }
 
 # capture_fn for emit: $1=out  $2=role
 capture_dotnet_trace() {
   local out=$1 role=$2
-  setup_once
+  build_for_role "$role" || return 1
 
   notice "Profiling Newtonsoft.Json using dotnet-trace ($role)"
 

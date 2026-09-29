@@ -1,12 +1,11 @@
 # Heap profile diff
 
-Allocated 4.82 GiB → 4.84 GiB (+27.796 MiB, +0.6%) over 9,794 samples → 9,843 samples (516 KiB per sample).
+Allocated 4.75 GiB → 4.71 GiB (-44.605 MiB, -0.9%) over 9,660 samples → 9,574 samples (516 KiB per sample).
 
-| Category         |  Change |        Delta |             % |               Size |       Samples |
-| ---------------- | ------: | -----------: | ------------: | -----------------: | ------------: |
-| Third-party      |   -0.4% |  -19.153 MiB | 91.4% → 90.5% | 4.4 GiB → 4.38 GiB | 8,992 → 8,964 |
-| Standard library |  +11.2% |   +47.45 MiB |   8.6% → 9.5% |  423 MiB → 471 MiB |     801 → 879 |
-| Native           | removed | -512.031 KiB |  <0.1% → 0.0% |      512 KiB → 0 B |         1 → 0 |
+| Category         | Change |       Delta |             % |                Size |       Samples |
+| ---------------- | -----: | ----------: | ------------: | ------------------: | ------------: |
+| Third-party      |  -0.7% | -32.626 MiB | 91.6% → 91.8% | 4.35 GiB → 4.32 GiB | 8,892 → 8,825 |
+| Standard library |  -2.9% | -11.978 MiB |   8.4% → 8.2% |   408 MiB → 396 MiB |     768 → 749 |
 
 ## Hottest functions
 
@@ -16,153 +15,151 @@ Allocated 4.82 GiB → 4.84 GiB (+27.796 MiB, +0.6%) over 9,794 samples → 9
 
 Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
 
-| Change |        Delta |            % |           Size |   Samples | Function                          | Location                                                                                  |
-| -----: | -----------: | -----------: | -------------: | --------: | --------------------------------- | ----------------------------------------------------------------------------------------- |
-|    new |   +2.183 GiB | 0.0% → 45.1% | 0 B → 2.18 GiB | 0 → 4,460 | `checkTypeRelatedTo`              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`  |
-|    new | +324.589 MiB |  0.0% → 6.5% |  0 B → 325 MiB |   0 → 649 | `isRelatedTo`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`  |
-|    new | +195.025 MiB |  0.0% → 3.9% |  0 B → 195 MiB |   0 → 390 | `getObjectTypeInstantiation`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44`  |
-|    new | +146.269 MiB |  0.0% → 2.9% |  0 B → 146 MiB |   0 → 292 | `getFlowTypeOfReference`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:68502:40`  |
-|    new | +105.007 MiB |  0.0% → 2.1% |  0 B → 105 MiB |   0 → 210 | `recursiveTypeRelatedTo`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`  |
-|    new |   +95.01 MiB |  0.0% → 1.9% |   0 B → 95 MiB |   0 → 190 | `concat`                          | `<unknown>`                                                                               |
-|    new |  +53.004 MiB |  0.0% → 1.1% |   0 B → 53 MiB |   0 → 106 | `structuredTypeRelatedToWorker`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`  |
-|    new |  +47.644 MiB |  0.0% → 1.0% | 0 B → 47.6 MiB |    0 → 95 | `parseJSDocCommentWorker`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36627:45`  |
-|    new |  +44.063 MiB |  0.0% → 0.9% | 0 B → 44.1 MiB |    0 → 88 | `inferFromObjectTypes`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67171:42`  |
-|    new |  +33.502 MiB |  0.0% → 0.7% | 0 B → 33.5 MiB |    0 → 67 | `createNodeArray`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31475:33`  |
-|    new |  +28.503 MiB |  0.0% → 0.6% | 0 B → 28.5 MiB |    0 → 57 | `instantiateAnonymousType`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61919:42`  |
-|    new |  +27.001 MiB |  0.0% → 0.5% |   0 B → 27 MiB |    0 → 54 | `declareSymbol`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43626:31`  |
-|    new |      +27 MiB |  0.0% → 0.5% |   0 B → 27 MiB |    0 → 54 | `createBaseNode`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30583:38`  |
-|    new |  +26.504 MiB |  0.0% → 0.5% | 0 B → 26.5 MiB |    0 → 53 | `createPrinter`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:108110:27` |
-|    new |  +25.503 MiB |  0.0% → 0.5% | 0 B → 25.5 MiB |    0 → 51 | `getConditionalTypeInstantiation` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61936:49`  |
-|    new |  +24.021 MiB |  0.0% → 0.5% |   0 B → 24 MiB |    0 → 48 | `__generator`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:41:58`     |
-|    new |  +23.003 MiB |  0.0% → 0.5% |   0 B → 23 MiB |    0 → 46 | `instantiateSignature`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61688:38`  |
-|    new |  +23.003 MiB |  0.0% → 0.5% |   0 B → 23 MiB |    0 → 46 | `instantiateTypes`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61608:34`  |
-|    new |  +22.004 MiB |  0.0% → 0.4% |   0 B → 22 MiB |    0 → 44 | `signaturesRelatedTo`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64910:41`  |
-|    new |  +21.522 MiB |  0.0% → 0.4% | 0 B → 21.5 MiB |    0 → 43 | `propertiesRelatedTo`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64743:41`  |
+|   Change |       Delta |            % |                Size |   Samples | Function                       | Location                                              |
+| -------: | ----------: | -----------: | ------------------: | --------: | ------------------------------ | ----------------------------------------------------- |
+|      new | +26.505 MiB |  0.0% → 0.5% |      0 B → 26.5 MiB |    0 → 53 | `createBaseIdentifierNode`     | `node_modules/typescript/lib/typescript.js:32447:31`  |
+|      new | +22.007 MiB |  0.0% → 0.5% |        0 B → 22 MiB |    0 → 44 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:53728:21`  |
+|    +9.3% | +12.001 MiB |  2.6% → 2.9% |   129 MiB → 141 MiB | 257 → 281 | `getObjectTypeInstantiation`   | `node_modules/typescript/lib/typescript.js:66040:38`  |
+|   +11.4% |  +9.997 MiB |  1.8% → 2.0% |     88 MiB → 98 MiB | 176 → 196 | `instantiateSymbol`            | `node_modules/typescript/lib/typescript.js:66013:29`  |
+|   +10.5% |  +9.501 MiB |  1.9% → 2.1% | 90.2 MiB → 99.7 MiB | 180 → 199 | `parseJSDocCommentWorker`      | `node_modules/typescript/lib/typescript.js:38286:37`  |
+|  +190.0% |    +9.5 MiB |  0.1% → 0.3% |    5 MiB → 14.5 MiB |   10 → 29 | `createParameterDeclaration`   | `node_modules/typescript/lib/typescript.js:25241:38`  |
+|   +11.5% |  +6.508 MiB |  1.2% → 1.3% |   56.5 MiB → 63 MiB | 113 → 126 | `next`                         | `<unknown>`                                           |
+|      new |    +6.5 MiB |  0.0% → 0.1% |       0 B → 6.5 MiB |    0 → 13 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:53423:20`  |
+|   +24.1% |    +6.5 MiB |  0.6% → 0.7% |   27 MiB → 33.5 MiB |   54 → 67 | `isDeeplyNestedType`           | `node_modules/typescript/lib/typescript.js:70031:30`  |
+|  +110.0% |    +5.5 MiB |  0.1% → 0.2% |    5 MiB → 10.5 MiB |   10 → 21 | `parseLiteralLikeNode`         | `node_modules/typescript/lib/typescript.js:34151:32`  |
+| +1094.3% |  +5.498 MiB | <0.1% → 0.1% |     514 KiB → 6 MiB |    1 → 12 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:34471:157` |
+|   +13.9% |      +5 MiB |  0.7% → 0.9% |     36 MiB → 41 MiB |   72 → 82 | `parseDelimitedList`           | `node_modules/typescript/lib/typescript.js:33930:30`  |
+|  +142.9% |      +5 MiB |  0.1% → 0.2% |   3.5 MiB → 8.5 MiB |    7 → 17 | `getTypeWithThisArgument`      | `node_modules/typescript/lib/typescript.js:60454:35`  |
+|  +180.1% |   +4.53 MiB |         0.1% | 2.52 MiB → 7.05 MiB |    5 → 14 | `add`                          | `<unknown>`                                           |
+|   +81.8% |    +4.5 MiB |  0.1% → 0.2% |    5.5 MiB → 10 MiB |   11 → 20 | `createIdentifier`             | `node_modules/typescript/lib/typescript.js:24991:28`  |
+|   +64.3% |    +4.5 MiB |  0.1% → 0.2% |    7 MiB → 11.5 MiB |   14 → 23 | `createBaseTokenNode`          | `node_modules/typescript/lib/typescript.js:32461:26`  |
+|   +44.9% |  +4.493 MiB |  0.2% → 0.3% |   10 MiB → 14.5 MiB |   20 → 29 | `doJSDocScan`                  | `node_modules/typescript/lib/typescript.js:38308:27`  |
+|  +100.0% |      +4 MiB |  0.1% → 0.2% |       4 MiB → 8 MiB |    8 → 16 | `onSuccessfullyResolvedSymbol` | `node_modules/typescript/lib/typescript.js:51743:40`  |
+|   +66.7% |      +4 MiB |  0.1% → 0.2% |      6 MiB → 10 MiB |   12 → 20 | `join`                         | `<unknown>`                                           |
+|  +700.1% |    +3.5 MiB | <0.1% → 0.1% |     512 KiB → 4 MiB |     1 → 8 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:32748:71`  |
 
 ##### Third-party
 
-| Change |        Delta |            % |           Size |   Samples | Function                          | Location                                                                                  |
-| -----: | -----------: | -----------: | -------------: | --------: | --------------------------------- | ----------------------------------------------------------------------------------------- |
-|    new |   +2.183 GiB | 0.0% → 45.1% | 0 B → 2.18 GiB | 0 → 4,460 | `checkTypeRelatedTo`              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`  |
-|    new | +324.589 MiB |  0.0% → 6.5% |  0 B → 325 MiB |   0 → 649 | `isRelatedTo`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`  |
-|    new | +195.025 MiB |  0.0% → 3.9% |  0 B → 195 MiB |   0 → 390 | `getObjectTypeInstantiation`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44`  |
-|    new | +146.269 MiB |  0.0% → 2.9% |  0 B → 146 MiB |   0 → 292 | `getFlowTypeOfReference`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:68502:40`  |
-|    new | +105.007 MiB |  0.0% → 2.1% |  0 B → 105 MiB |   0 → 210 | `recursiveTypeRelatedTo`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`  |
-|    new |  +53.004 MiB |  0.0% → 1.1% |   0 B → 53 MiB |   0 → 106 | `structuredTypeRelatedToWorker`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`  |
-|    new |  +47.644 MiB |  0.0% → 1.0% | 0 B → 47.6 MiB |    0 → 95 | `parseJSDocCommentWorker`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36627:45`  |
-|    new |  +44.063 MiB |  0.0% → 0.9% | 0 B → 44.1 MiB |    0 → 88 | `inferFromObjectTypes`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67171:42`  |
-|    new |  +33.502 MiB |  0.0% → 0.7% | 0 B → 33.5 MiB |    0 → 67 | `createNodeArray`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31475:33`  |
-|    new |  +28.503 MiB |  0.0% → 0.6% | 0 B → 28.5 MiB |    0 → 57 | `instantiateAnonymousType`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61919:42`  |
-|    new |  +27.001 MiB |  0.0% → 0.5% |   0 B → 27 MiB |    0 → 54 | `declareSymbol`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43626:31`  |
-|    new |      +27 MiB |  0.0% → 0.5% |   0 B → 27 MiB |    0 → 54 | `createBaseNode`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30583:38`  |
-|    new |  +26.504 MiB |  0.0% → 0.5% | 0 B → 26.5 MiB |    0 → 53 | `createPrinter`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:108110:27` |
-|    new |  +25.503 MiB |  0.0% → 0.5% | 0 B → 25.5 MiB |    0 → 51 | `getConditionalTypeInstantiation` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61936:49`  |
-|    new |  +24.021 MiB |  0.0% → 0.5% |   0 B → 24 MiB |    0 → 48 | `__generator`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:41:58`     |
-|    new |  +23.003 MiB |  0.0% → 0.5% |   0 B → 23 MiB |    0 → 46 | `instantiateSignature`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61688:38`  |
-|    new |  +23.003 MiB |  0.0% → 0.5% |   0 B → 23 MiB |    0 → 46 | `instantiateTypes`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61608:34`  |
-|    new |  +22.004 MiB |  0.0% → 0.4% |   0 B → 22 MiB |    0 → 44 | `signaturesRelatedTo`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64910:41`  |
-|    new |  +21.522 MiB |  0.0% → 0.4% | 0 B → 21.5 MiB |    0 → 43 | `propertiesRelatedTo`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64743:41`  |
-|    new |  +21.509 MiB |  0.0% → 0.4% | 0 B → 21.5 MiB |    0 → 43 | `(anonymous)`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36647:74`  |
+|   Change |       Delta |            % |                Size |   Samples | Function                         | Location                                              |
+| -------: | ----------: | -----------: | ------------------: | --------: | -------------------------------- | ----------------------------------------------------- |
+|      new | +26.505 MiB |  0.0% → 0.5% |      0 B → 26.5 MiB |    0 → 53 | `createBaseIdentifierNode`       | `node_modules/typescript/lib/typescript.js:32447:31`  |
+|      new | +22.007 MiB |  0.0% → 0.5% |        0 B → 22 MiB |    0 → 44 | `(anonymous)`                    | `node_modules/typescript/lib/typescript.js:53728:21`  |
+|    +9.3% | +12.001 MiB |  2.6% → 2.9% |   129 MiB → 141 MiB | 257 → 281 | `getObjectTypeInstantiation`     | `node_modules/typescript/lib/typescript.js:66040:38`  |
+|   +11.4% |  +9.997 MiB |  1.8% → 2.0% |     88 MiB → 98 MiB | 176 → 196 | `instantiateSymbol`              | `node_modules/typescript/lib/typescript.js:66013:29`  |
+|   +10.5% |  +9.501 MiB |  1.9% → 2.1% | 90.2 MiB → 99.7 MiB | 180 → 199 | `parseJSDocCommentWorker`        | `node_modules/typescript/lib/typescript.js:38286:37`  |
+|  +190.0% |    +9.5 MiB |  0.1% → 0.3% |    5 MiB → 14.5 MiB |   10 → 29 | `createParameterDeclaration`     | `node_modules/typescript/lib/typescript.js:25241:38`  |
+|      new |    +6.5 MiB |  0.0% → 0.1% |       0 B → 6.5 MiB |    0 → 13 | `(anonymous)`                    | `node_modules/typescript/lib/typescript.js:53423:20`  |
+|   +24.1% |    +6.5 MiB |  0.6% → 0.7% |   27 MiB → 33.5 MiB |   54 → 67 | `isDeeplyNestedType`             | `node_modules/typescript/lib/typescript.js:70031:30`  |
+|  +110.0% |    +5.5 MiB |  0.1% → 0.2% |    5 MiB → 10.5 MiB |   10 → 21 | `parseLiteralLikeNode`           | `node_modules/typescript/lib/typescript.js:34151:32`  |
+| +1094.3% |  +5.498 MiB | <0.1% → 0.1% |     514 KiB → 6 MiB |    1 → 12 | `(anonymous)`                    | `node_modules/typescript/lib/typescript.js:34471:157` |
+|   +13.9% |      +5 MiB |  0.7% → 0.9% |     36 MiB → 41 MiB |   72 → 82 | `parseDelimitedList`             | `node_modules/typescript/lib/typescript.js:33930:30`  |
+|  +142.9% |      +5 MiB |  0.1% → 0.2% |   3.5 MiB → 8.5 MiB |    7 → 17 | `getTypeWithThisArgument`        | `node_modules/typescript/lib/typescript.js:60454:35`  |
+|   +81.8% |    +4.5 MiB |  0.1% → 0.2% |    5.5 MiB → 10 MiB |   11 → 20 | `createIdentifier`               | `node_modules/typescript/lib/typescript.js:24991:28`  |
+|   +64.3% |    +4.5 MiB |  0.1% → 0.2% |    7 MiB → 11.5 MiB |   14 → 23 | `createBaseTokenNode`            | `node_modules/typescript/lib/typescript.js:32461:26`  |
+|   +44.9% |  +4.493 MiB |  0.2% → 0.3% |   10 MiB → 14.5 MiB |   20 → 29 | `doJSDocScan`                    | `node_modules/typescript/lib/typescript.js:38308:27`  |
+|  +100.0% |      +4 MiB |  0.1% → 0.2% |       4 MiB → 8 MiB |    8 → 16 | `onSuccessfullyResolvedSymbol`   | `node_modules/typescript/lib/typescript.js:51743:40`  |
+|  +700.1% |    +3.5 MiB | <0.1% → 0.1% |     512 KiB → 4 MiB |     1 → 8 | `(anonymous)`                    | `node_modules/typescript/lib/typescript.js:32748:71`  |
+|   +77.8% |    +3.5 MiB |  0.1% → 0.2% |     4.5 MiB → 8 MiB |    9 → 16 | `createTypeReference`            | `node_modules/typescript/lib/typescript.js:62794:31`  |
+|   +35.0% |  +3.498 MiB |  0.2% → 0.3% |   10 MiB → 13.5 MiB |   20 → 27 | `getIntersectionType`            | `node_modules/typescript/lib/typescript.js:64367:31`  |
+|   +66.7% |      +3 MiB |  0.1% → 0.2% |   4.5 MiB → 7.5 MiB |    9 → 15 | `parsePropertyOrMethodSignature` | `node_modules/typescript/lib/typescript.js:34548:42`  |
 
 ##### Standard library
 
-|  Change |        Delta |            % |                Size |   Samples | Function                   | Location                                   |
-| ------: | -----------: | -----------: | ------------------: | --------: | -------------------------- | ------------------------------------------ |
-|     new |   +95.01 MiB |  0.0% → 1.9% |        0 B → 95 MiB |   0 → 190 | `concat`                   | `<unknown>`                                |
-|  +22.2% |  +16.008 MiB |  1.5% → 1.8% |     72 MiB → 88 MiB | 144 → 176 | `Map`                      | `<unknown>`                                |
-| +123.7% |  +10.781 MiB |  0.2% → 0.4% | 8.72 MiB → 19.5 MiB |     1 → 2 | `readFileSync`             | `node:fs:433:22`                           |
-| +118.2% |     +6.5 MiB |  0.1% → 0.2% |    5.5 MiB → 12 MiB |   11 → 24 | `slice`                    | `<unknown>`                                |
-|     new |   +4.004 MiB |  0.0% → 0.1% |         0 B → 4 MiB |     0 → 8 | `assign`                   | `<unknown>`                                |
-| +700.1% |     +3.5 MiB | <0.1% → 0.1% |     512 KiB → 4 MiB |     1 → 8 | `getStatsFromBinding`      | `node:internal/fs/utils:552:29`            |
-|   +7.7% |    +2.49 MiB |         0.7% |   32.5 MiB → 35 MiB |   65 → 70 | `push`                     | `<unknown>`                                |
-|   +1.3% |   +1.794 MiB |         2.8% |   136 MiB → 138 MiB | 259 → 260 | `set`                      | `<unknown>`                                |
-|  +17.7% |   +1.502 MiB |         0.2% |    8.5 MiB → 10 MiB |   17 → 20 | `join`                     | `<unknown>`                                |
-|     new |       +1 MiB | 0.0% → <0.1% |         0 B → 1 MiB |     0 → 2 | `startsWith`               | `<unknown>`                                |
-|     new |       +1 MiB | 0.0% → <0.1% |         0 B → 1 MiB |     0 → 2 | `substring`                | `<unknown>`                                |
-|     new | +512.109 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `indexOf`                  | `<unknown>`                                |
-|     new | +512.062 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `Uint8Array`               | `<unknown>`                                |
-|     new | +512.031 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `toString`                 | `node:buffer:839:46`                       |
-| +100.0% | +512.031 KiB |        <0.1% |     512 KiB → 1 MiB |     1 → 2 | `map`                      | `<unknown>`                                |
-|     new | +512.031 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `compileForInternalLoader` | `node:internal/bootstrap/realm:385:27`     |
-|     new | +512.015 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `getDirent`                | `node:internal/fs/utils:291:19`            |
-|   +0.8% |  +19.523 KiB |         0.1% |  2.5 MiB → 2.52 MiB |         5 | `wrapSafe`                 | `node:internal/modules/cjs/loader:1671:18` |
-|     ~0% |       +112 B |         0.4% |            19.5 MiB |        39 | `splice`                   | `<unknown>`                                |
+|  Change |        Delta |            % |                Size |   Samples | Function              | Location                        |
+| ------: | -----------: | -----------: | ------------------: | --------: | --------------------- | ------------------------------- |
+|  +11.5% |   +6.508 MiB |  1.2% → 1.3% |   56.5 MiB → 63 MiB | 113 → 126 | `next`                | `<unknown>`                     |
+| +180.1% |    +4.53 MiB |         0.1% | 2.52 MiB → 7.05 MiB |    5 → 14 | `add`                 | `<unknown>`                     |
+|  +66.7% |       +4 MiB |  0.1% → 0.2% |      6 MiB → 10 MiB |   12 → 20 | `join`                | `<unknown>`                     |
+|  +11.9% |     +2.5 MiB |  0.4% → 0.5% |   21 MiB → 23.5 MiB |   42 → 47 | `splice`              | `<unknown>`                     |
+|     new |     +516 KiB | 0.0% → <0.1% |       0 B → 516 KiB |     0 → 1 | `isArray`             | `<unknown>`                     |
+|     new | +512.109 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `filter`              | `<unknown>`                     |
+|     new | +512.062 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `Uint8Array`          | `<unknown>`                     |
+|     new | +512.031 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `map`                 | `<unknown>`                     |
+|     new | +512.031 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `readSync`            | `node:fs:695:18`                |
+| +100.0% | +512.015 KiB |        <0.1% |     512 KiB → 1 MiB |     1 → 2 | `wrappedFn`           | `node:internal/errors:535:21`   |
+|     new | +512.015 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `fromCharCode`        | `<unknown>`                     |
+|     new | +512.015 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `msFromTimeSpec`      | `node:internal/fs/utils:428:24` |
+|     new | +512.015 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `getStatsFromBinding` | `node:internal/fs/utils:552:29` |
+|     new | +512.015 KiB | 0.0% → <0.1% |       0 B → 512 KiB |     0 → 1 | `StatsBase`           | `node:internal/fs/utils:382:19` |
+|   +0.7% | +511.257 KiB |         1.5% |   71.5 MiB → 72 MiB | 143 → 144 | `Map`                 | `<unknown>`                     |
+|  +33.2% | +511.015 KiB |        <0.1% |     1.5 MiB → 2 MiB |     3 → 4 | `delete`              | `<unknown>`                     |
 
 #### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
-|  Change |        Delta |            % |           Size |   Samples | Function                        | Location                                             |
-| ------: | -----------: | -----------: | -------------: | --------: | ------------------------------- | ---------------------------------------------------- |
-| removed |   -2.467 GiB | 51.2% → 0.0% | 2.47 GiB → 0 B | 5,033 → 0 | `checkTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:63505:32` |
-| removed | -159.288 MiB |  3.2% → 0.0% |  159 MiB → 0 B |   318 → 0 | `getFlowTypeOfReference`        | `node_modules/typescript/lib/typescript.js:68915:36` |
-| removed | -150.023 MiB |  3.0% → 0.0% |  150 MiB → 0 B |   300 → 0 | `recursiveTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:64383:38` |
-| removed | -130.015 MiB |  2.6% → 0.0% |  130 MiB → 0 B |   260 → 0 | `getObjectTypeInstantiation`    | `node_modules/typescript/lib/typescript.js:62119:40` |
-| removed |  -99.028 MiB |  2.0% → 0.0% |   99 MiB → 0 B |   198 → 0 | `getTypeFactsWorker`            | `node_modules/typescript/lib/typescript.js:68231:32` |
-| removed |  -90.078 MiB |  1.8% → 0.0% | 90.1 MiB → 0 B |   180 → 0 | `parseJSDocCommentWorker`       | `node_modules/typescript/lib/typescript.js:35053:43` |
-| removed |  -87.017 MiB |  1.8% → 0.0% |   87 MiB → 0 B |   174 → 0 | `instantiateSymbol`             | `node_modules/typescript/lib/typescript.js:62092:31` |
-|  -87.0% |  -60.003 MiB |  1.4% → 0.2% | 69 MiB → 9 MiB |  138 → 18 | `next`                          | `<unknown>`                                          |
-| removed |  -37.502 MiB |  0.8% → 0.0% | 37.5 MiB → 0 B |    75 → 0 | `isDeeplyNestedType`            | `node_modules/typescript/lib/typescript.js:66088:32` |
-| removed |  -35.504 MiB |  0.7% → 0.0% | 35.5 MiB → 0 B |    71 → 0 | `structuredTypeRelatedToWorker` | `node_modules/typescript/lib/typescript.js:64597:45` |
-| removed |  -33.002 MiB |  0.7% → 0.0% |   33 MiB → 0 B |    66 → 0 | `createNodeArray`               | `node_modules/typescript/lib/typescript.js:30064:33` |
-| removed |  -30.506 MiB |  0.6% → 0.0% | 30.5 MiB → 0 B |    61 → 0 | `setParentRecursive`            | `node_modules/typescript/lib/typescript.js:18640:30` |
-| removed |  -27.502 MiB |  0.6% → 0.0% | 27.5 MiB → 0 B |    55 → 0 | `getUnmatchedProperty`          | `node_modules/typescript/lib/typescript.js:67049:34` |
-| removed |  -23.504 MiB |  0.5% → 0.0% | 23.5 MiB → 0 B |    47 → 0 | `createBaseIdentifierNode`      | `node_modules/typescript/lib/typescript.js:29227:37` |
-| removed |      -22 MiB |  0.4% → 0.0% |   22 MiB → 0 B |    44 → 0 | `instantiateAnonymousType`      | `node_modules/typescript/lib/typescript.js:62289:38` |
-| removed |   -21.01 MiB |  0.4% → 0.0% |   21 MiB → 0 B |    42 → 0 | `(anonymous)`                   | `node_modules/typescript/lib/typescript.js:50117:23` |
-| removed |  -21.004 MiB |  0.4% → 0.0% |   21 MiB → 0 B |    42 → 0 | `instantiateTypes`              | `node_modules/typescript/lib/typescript.js:61974:30` |
-| removed |   -20.52 MiB |  0.4% → 0.0% | 20.5 MiB → 0 B |    41 → 0 | `isRelatedTo`                   | `node_modules/typescript/lib/typescript.js:63813:27` |
-| removed |  -20.501 MiB |  0.4% → 0.0% | 20.5 MiB → 0 B |    41 → 0 | `declareSymbol`                 | `node_modules/typescript/lib/typescript.js:42491:27` |
-| removed |  -19.012 MiB |  0.4% → 0.0% |   19 MiB → 0 B |    38 → 0 | `getNormalizedType`             | `node_modules/typescript/lib/typescript.js:63479:31` |
+|  Change |       Delta |             % |                Size |       Samples | Function                        | Location                                              |
+| ------: | ----------: | ------------: | ------------------: | ------------: | ------------------------------- | ----------------------------------------------------- |
+|   -1.4% | -35.543 MiB | 51.2% → 50.9% |  2.43 GiB → 2.4 GiB | 4,961 → 4,890 | `checkTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:67445:30`  |
+| removed | -26.005 MiB |   0.5% → 0.0% |        26 MiB → 0 B |        52 → 0 | `createBaseIdentifierNode`      | `node_modules/typescript/lib/typescript.js:31395:31`  |
+| removed |  -24.01 MiB |   0.5% → 0.0% |        24 MiB → 0 B |        48 → 0 | `(anonymous)`                   | `node_modules/typescript/lib/typescript.js:64605:361` |
+|  -42.9% |     -15 MiB |   0.7% → 0.4% |     35 MiB → 20 MiB |       70 → 40 | `instantiateAnonymousType`      | `node_modules/typescript/lib/typescript.js:66215:36`  |
+|  -33.9% |     -10 MiB |   0.6% → 0.4% | 29.5 MiB → 19.5 MiB |       59 → 39 | `createBaseNode`                | `node_modules/typescript/lib/typescript.js:32468:21`  |
+|   -7.5% |  -7.004 MiB |   1.9% → 1.8% | 93.5 MiB → 86.5 MiB |     187 → 173 | `getTypeFactsWorker`            | `node_modules/typescript/lib/typescript.js:72224:30`  |
+|   -5.0% |  -6.561 MiB |   2.7% → 2.6% |   131 MiB → 125 MiB |     248 → 237 | `set`                           | `<unknown>`                                           |
+|  -34.3% |      -6 MiB |   0.4% → 0.2% | 17.5 MiB → 11.5 MiB |       35 → 23 | `values`                        | `<unknown>`                                           |
+|  -28.0% |  -5.968 MiB |   0.4% → 0.3% | 21.3 MiB → 15.3 MiB |       28 → 17 | `slice`                         | `node:buffer:640:12`                                  |
+|  -91.7% |    -5.5 MiB |  0.1% → <0.1% |     6 MiB → 512 KiB |        12 → 1 | `parseLiteralTypeNode`          | `node_modules/typescript/lib/typescript.js:34779:32`  |
+|  -16.4% |  -5.002 MiB |   0.6% → 0.5% | 30.5 MiB → 25.5 MiB |       61 → 51 | `setParentRecursive`            | `node_modules/typescript/lib/typescript.js:22701:28`  |
+|  -37.0% |      -5 MiB |   0.3% → 0.2% |  13.5 MiB → 8.5 MiB |       27 → 17 | `createBaseDeclaration`         | `node_modules/typescript/lib/typescript.js:24876:33`  |
+|  -83.3% |      -5 MiB |  0.1% → <0.1% |       6 MiB → 1 MiB |        12 → 2 | `parseParameterWorker`          | `node_modules/typescript/lib/typescript.js:34394:32`  |
+|  -71.4% |      -5 MiB |  0.1% → <0.1% |       7 MiB → 2 MiB |        14 → 4 | `createObjectType`              | `node_modules/typescript/lib/typescript.js:53707:28`  |
+|  -52.6% |      -5 MiB |   0.2% → 0.1% |   9.5 MiB → 4.5 MiB |        19 → 9 | `getTypeListId`                 | `node_modules/typescript/lib/typescript.js:62753:25`  |
+|  -90.9% |  -4.999 MiB |  0.1% → <0.1% |   5.5 MiB → 513 KiB |        11 → 1 | `fillMissingTypeArguments`      | `node_modules/typescript/lib/typescript.js:62192:36`  |
+|  -39.1% |    -4.5 MiB |   0.2% → 0.1% |    11.5 MiB → 7 MiB |       23 → 14 | `slice`                         | `<unknown>`                                           |
+|  -36.0% |    -4.5 MiB |   0.3% → 0.2% |    12.5 MiB → 8 MiB |       25 → 16 | `createNormalizedTypeReference` | `node_modules/typescript/lib/typescript.js:63796:41`  |
+|  -11.8% |  -4.004 MiB |   0.7% → 0.6% |     34 MiB → 30 MiB |       68 → 60 | `declareSymbol`                 | `node_modules/typescript/lib/typescript.js:46190:25`  |
+|  -57.1% |      -4 MiB |          0.1% |       7 MiB → 3 MiB |        14 → 6 | `signatureRelatedTo`            | `node_modules/typescript/lib/typescript.js:69635:32`  |
 
 ##### Third-party
 
-|  Change |        Delta |            % |           Size |   Samples | Function                        | Location                                             |
-| ------: | -----------: | -----------: | -------------: | --------: | ------------------------------- | ---------------------------------------------------- |
-| removed |   -2.467 GiB | 51.2% → 0.0% | 2.47 GiB → 0 B | 5,033 → 0 | `checkTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:63505:32` |
-| removed | -159.288 MiB |  3.2% → 0.0% |  159 MiB → 0 B |   318 → 0 | `getFlowTypeOfReference`        | `node_modules/typescript/lib/typescript.js:68915:36` |
-| removed | -150.023 MiB |  3.0% → 0.0% |  150 MiB → 0 B |   300 → 0 | `recursiveTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:64383:38` |
-| removed | -130.015 MiB |  2.6% → 0.0% |  130 MiB → 0 B |   260 → 0 | `getObjectTypeInstantiation`    | `node_modules/typescript/lib/typescript.js:62119:40` |
-| removed |  -99.028 MiB |  2.0% → 0.0% |   99 MiB → 0 B |   198 → 0 | `getTypeFactsWorker`            | `node_modules/typescript/lib/typescript.js:68231:32` |
-| removed |  -90.078 MiB |  1.8% → 0.0% | 90.1 MiB → 0 B |   180 → 0 | `parseJSDocCommentWorker`       | `node_modules/typescript/lib/typescript.js:35053:43` |
-| removed |  -87.017 MiB |  1.8% → 0.0% |   87 MiB → 0 B |   174 → 0 | `instantiateSymbol`             | `node_modules/typescript/lib/typescript.js:62092:31` |
-| removed |  -37.502 MiB |  0.8% → 0.0% | 37.5 MiB → 0 B |    75 → 0 | `isDeeplyNestedType`            | `node_modules/typescript/lib/typescript.js:66088:32` |
-| removed |  -35.504 MiB |  0.7% → 0.0% | 35.5 MiB → 0 B |    71 → 0 | `structuredTypeRelatedToWorker` | `node_modules/typescript/lib/typescript.js:64597:45` |
-| removed |  -33.002 MiB |  0.7% → 0.0% |   33 MiB → 0 B |    66 → 0 | `createNodeArray`               | `node_modules/typescript/lib/typescript.js:30064:33` |
-| removed |  -30.506 MiB |  0.6% → 0.0% | 30.5 MiB → 0 B |    61 → 0 | `setParentRecursive`            | `node_modules/typescript/lib/typescript.js:18640:30` |
-| removed |  -27.502 MiB |  0.6% → 0.0% | 27.5 MiB → 0 B |    55 → 0 | `getUnmatchedProperty`          | `node_modules/typescript/lib/typescript.js:67049:34` |
-| removed |  -23.504 MiB |  0.5% → 0.0% | 23.5 MiB → 0 B |    47 → 0 | `createBaseIdentifierNode`      | `node_modules/typescript/lib/typescript.js:29227:37` |
-| removed |      -22 MiB |  0.4% → 0.0% |   22 MiB → 0 B |    44 → 0 | `instantiateAnonymousType`      | `node_modules/typescript/lib/typescript.js:62289:38` |
-| removed |   -21.01 MiB |  0.4% → 0.0% |   21 MiB → 0 B |    42 → 0 | `(anonymous)`                   | `node_modules/typescript/lib/typescript.js:50117:23` |
-| removed |  -21.004 MiB |  0.4% → 0.0% |   21 MiB → 0 B |    42 → 0 | `instantiateTypes`              | `node_modules/typescript/lib/typescript.js:61974:30` |
-| removed |   -20.52 MiB |  0.4% → 0.0% | 20.5 MiB → 0 B |    41 → 0 | `isRelatedTo`                   | `node_modules/typescript/lib/typescript.js:63813:27` |
-| removed |  -20.501 MiB |  0.4% → 0.0% | 20.5 MiB → 0 B |    41 → 0 | `declareSymbol`                 | `node_modules/typescript/lib/typescript.js:42491:27` |
-| removed |  -19.012 MiB |  0.4% → 0.0% |   19 MiB → 0 B |    38 → 0 | `getNormalizedType`             | `node_modules/typescript/lib/typescript.js:63479:31` |
-| removed |  -19.003 MiB |  0.4% → 0.0% |   19 MiB → 0 B |    38 → 0 | `instantiateSignature`          | `node_modules/typescript/lib/typescript.js:62067:34` |
+|  Change |       Delta |             % |                Size |       Samples | Function                        | Location                                              |
+| ------: | ----------: | ------------: | ------------------: | ------------: | ------------------------------- | ----------------------------------------------------- |
+|   -1.4% | -35.543 MiB | 51.2% → 50.9% |  2.43 GiB → 2.4 GiB | 4,961 → 4,890 | `checkTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:67445:30`  |
+| removed | -26.005 MiB |   0.5% → 0.0% |        26 MiB → 0 B |        52 → 0 | `createBaseIdentifierNode`      | `node_modules/typescript/lib/typescript.js:31395:31`  |
+| removed |  -24.01 MiB |   0.5% → 0.0% |        24 MiB → 0 B |        48 → 0 | `(anonymous)`                   | `node_modules/typescript/lib/typescript.js:64605:361` |
+|  -42.9% |     -15 MiB |   0.7% → 0.4% |     35 MiB → 20 MiB |       70 → 40 | `instantiateAnonymousType`      | `node_modules/typescript/lib/typescript.js:66215:36`  |
+|  -33.9% |     -10 MiB |   0.6% → 0.4% | 29.5 MiB → 19.5 MiB |       59 → 39 | `createBaseNode`                | `node_modules/typescript/lib/typescript.js:32468:21`  |
+|   -7.5% |  -7.004 MiB |   1.9% → 1.8% | 93.5 MiB → 86.5 MiB |     187 → 173 | `getTypeFactsWorker`            | `node_modules/typescript/lib/typescript.js:72224:30`  |
+|  -91.7% |    -5.5 MiB |  0.1% → <0.1% |     6 MiB → 512 KiB |        12 → 1 | `parseLiteralTypeNode`          | `node_modules/typescript/lib/typescript.js:34779:32`  |
+|  -16.4% |  -5.002 MiB |   0.6% → 0.5% | 30.5 MiB → 25.5 MiB |       61 → 51 | `setParentRecursive`            | `node_modules/typescript/lib/typescript.js:22701:28`  |
+|  -37.0% |      -5 MiB |   0.3% → 0.2% |  13.5 MiB → 8.5 MiB |       27 → 17 | `createBaseDeclaration`         | `node_modules/typescript/lib/typescript.js:24876:33`  |
+|  -83.3% |      -5 MiB |  0.1% → <0.1% |       6 MiB → 1 MiB |        12 → 2 | `parseParameterWorker`          | `node_modules/typescript/lib/typescript.js:34394:32`  |
+|  -71.4% |      -5 MiB |  0.1% → <0.1% |       7 MiB → 2 MiB |        14 → 4 | `createObjectType`              | `node_modules/typescript/lib/typescript.js:53707:28`  |
+|  -52.6% |      -5 MiB |   0.2% → 0.1% |   9.5 MiB → 4.5 MiB |        19 → 9 | `getTypeListId`                 | `node_modules/typescript/lib/typescript.js:62753:25`  |
+|  -90.9% |  -4.999 MiB |  0.1% → <0.1% |   5.5 MiB → 513 KiB |        11 → 1 | `fillMissingTypeArguments`      | `node_modules/typescript/lib/typescript.js:62192:36`  |
+|  -36.0% |    -4.5 MiB |   0.3% → 0.2% |    12.5 MiB → 8 MiB |       25 → 16 | `createNormalizedTypeReference` | `node_modules/typescript/lib/typescript.js:63796:41`  |
+|  -11.8% |  -4.004 MiB |   0.7% → 0.6% |     34 MiB → 30 MiB |       68 → 60 | `declareSymbol`                 | `node_modules/typescript/lib/typescript.js:46190:25`  |
+|  -57.1% |      -4 MiB |          0.1% |       7 MiB → 3 MiB |        14 → 6 | `signatureRelatedTo`            | `node_modules/typescript/lib/typescript.js:69635:32`  |
+|  -50.0% |      -4 MiB |   0.2% → 0.1% |       8 MiB → 4 MiB |        16 → 8 | `mapType`                       | `node_modules/typescript/lib/typescript.js:72551:19`  |
+|   -2.6% |  -3.998 MiB |   3.2% → 3.1% |   156 MiB → 152 MiB |     311 → 303 | `recursiveTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:68323:36`  |
+|  -54.6% |  -3.001 MiB |          0.1% |   5.5 MiB → 2.5 MiB |        11 → 5 | `toLowerCase`                   | `node_modules/typescript/lib/typescript.js:3505:21`   |
+|  -37.5% |      -3 MiB |   0.2% → 0.1% |       8 MiB → 5 MiB |       16 → 10 | `getPropertyTypeForIndexType`   | `node_modules/typescript/lib/typescript.js:64803:39`  |
 
 ##### Standard library
 
-|  Change |        Delta |            % |                Size |  Samples | Function         | Location                                  |
-| ------: | -----------: | -----------: | ------------------: | -------: | ---------------- | ----------------------------------------- |
-|  -87.0% |  -60.003 MiB |  1.4% → 0.2% |      69 MiB → 9 MiB | 138 → 18 | `next`           | `<unknown>`                               |
-|  -92.9% |      -13 MiB | 0.3% → <0.1% |      14 MiB → 1 MiB |   28 → 2 | `values`         | `<unknown>`                               |
-| removed |   -5.001 MiB |  0.1% → 0.0% |         5 MiB → 0 B |   10 → 0 | `delete`         | `<unknown>`                               |
-|  -90.9% |       -5 MiB | 0.1% → <0.1% |   5.5 MiB → 512 KiB |   11 → 1 | `Set`            | `<unknown>`                               |
-|  -81.6% |   -4.506 MiB | 0.1% → <0.1% | 5.52 MiB → 1.02 MiB |   11 → 2 | `add`            | `<unknown>`                               |
-|  -14.6% |   -2.431 MiB |         0.3% | 16.6 MiB → 14.2 MiB |  20 → 21 | `slice`          | `node:buffer:640:12`                      |
-| removed |   -2.004 MiB | <0.1% → 0.0% |         2 MiB → 0 B |    4 → 0 | `get`            | `<unknown>`                               |
-| removed |       -2 MiB | <0.1% → 0.0% |         2 MiB → 0 B |    4 → 0 | `trimEnd`        | `<unknown>`                               |
-| removed |       -1 MiB | <0.1% → 0.0% |         1 MiB → 0 B |    2 → 0 | `exec`           | `<unknown>`                               |
-|  -33.3% |       -1 MiB | 0.1% → <0.1% |       3 MiB → 2 MiB |    6 → 4 | `split`          | `<unknown>`                               |
-| removed | -516.375 KiB | <0.1% → 0.0% |       516 KiB → 0 B |    1 → 0 | `test`           | `<unknown>`                               |
-| removed | -512.187 KiB | <0.1% → 0.0% |       512 KiB → 0 B |    1 → 0 | `tryExtensions`  | `node:internal/modules/cjs/loader:558:23` |
-| removed | -512.031 KiB | <0.1% → 0.0% |       512 KiB → 0 B |    1 → 0 | `wrappedFn`      | `node:internal/errors:535:21`             |
-| removed | -512.015 KiB | <0.1% → 0.0% |       512 KiB → 0 B |    1 → 0 | `Stats`          | `node:internal/fs/utils:524:15`           |
-| removed | -512.015 KiB | <0.1% → 0.0% |       512 KiB → 0 B |    1 → 0 | `msFromTimeSpec` | `node:internal/fs/utils:428:24`           |
-| removed | -512.015 KiB | <0.1% → 0.0% |       512 KiB → 0 B |    1 → 0 | `toLowerCase`    | `<unknown>`                               |
-|  -14.0% | -208.968 KiB |        <0.1% | 1.46 MiB → 1.25 MiB |        1 | `post`           | `node:inspector:118:7`                    |
-|   -0.5% |   -2.703 KiB |        <0.1% |   515 KiB → 512 KiB |        1 | `toString`       | `<unknown>`                               |
-|     ~0% |       -360 B |         0.1% |               7 MiB |       14 | `replace`        | `<unknown>`                               |
+|  Change |        Delta |            % |                Size |   Samples | Function          | Location                                   |
+| ------: | -----------: | -----------: | ------------------: | --------: | ----------------- | ------------------------------------------ |
+|   -5.0% |   -6.561 MiB |  2.7% → 2.6% |   131 MiB → 125 MiB | 248 → 237 | `set`             | `<unknown>`                                |
+|  -34.3% |       -6 MiB |  0.4% → 0.2% | 17.5 MiB → 11.5 MiB |   35 → 23 | `values`          | `<unknown>`                                |
+|  -28.0% |   -5.968 MiB |  0.4% → 0.3% | 21.3 MiB → 15.3 MiB |   28 → 17 | `slice`           | `node:buffer:640:12`                       |
+|  -39.1% |     -4.5 MiB |  0.2% → 0.1% |    11.5 MiB → 7 MiB |   23 → 14 | `slice`           | `<unknown>`                                |
+|  -80.0% |       -2 MiB | 0.1% → <0.1% |   2.5 MiB → 512 KiB |     5 → 1 | `trimEnd`         | `<unknown>`                                |
+|  -60.0% |     -1.5 MiB | 0.1% → <0.1% |     2.5 MiB → 1 MiB |     5 → 2 | `split`           | `<unknown>`                                |
+| removed |     -1.5 MiB | <0.1% → 0.0% |       1.5 MiB → 0 B |     3 → 0 | `get`             | `<unknown>`                                |
+| removed |   -1.468 MiB | <0.1% → 0.0% |      1.47 MiB → 0 B |     1 → 0 | `post`            | `node:inspector:118:7`                     |
+|  -25.0% |       -1 MiB |         0.1% |       4 MiB → 3 MiB |     8 → 6 | `Set`             | `<unknown>`                                |
+| removed | -522.375 KiB | <0.1% → 0.0% |       522 KiB → 0 B |     1 → 0 | `charCodeAt`      | `<unknown>`                                |
+| removed |  -513.75 KiB | <0.1% → 0.0% |       514 KiB → 0 B |     1 → 0 | `tryStatSync`     | `node:fs:389:21`                           |
+| removed | -512.078 KiB | <0.1% → 0.0% |       512 KiB → 0 B |     1 → 0 | `internalBinding` | `node:internal/bootstrap/realm:185:45`     |
+| removed | -512.062 KiB | <0.1% → 0.0% |       512 KiB → 0 B |     1 → 0 | `(anonymous)`     | `node:crypto:1:1`                          |
+| removed | -512.031 KiB | <0.1% → 0.0% |       512 KiB → 0 B |     1 → 0 | `substring`       | `<unknown>`                                |
+| removed | -512.015 KiB | <0.1% → 0.0% |       512 KiB → 0 B |     1 → 0 | `trimStart`       | `<unknown>`                                |
+| removed | -512.015 KiB | <0.1% → 0.0% |       512 KiB → 0 B |     1 → 0 | `getDirent`       | `node:internal/fs/utils:291:19`            |
+|   -5.3% | -511.984 KiB |         0.2% |     9.5 MiB → 9 MiB |   19 → 18 | `replace`         | `<unknown>`                                |
+|   -1.8% | -510.234 KiB |  0.6% → 0.5% |   27 MiB → 26.5 MiB |   54 → 53 | `push`            | `<unknown>`                                |
+|   -4.5% | -401.937 KiB |         0.2% | 8.77 MiB → 8.37 MiB |     2 → 1 | `readFileSync`    | `node:fs:433:22`                           |
+|   -2.2% | -120.312 KiB |         0.1% | 5.27 MiB → 5.16 MiB |        10 | `wrapSafe`        | `node:internal/modules/cjs/loader:1671:18` |
 
 ### Total size
 
@@ -172,53 +169,53 @@ Functions with the largest increase in total bytes allocated in the function and
 
 ##### Third-party
 
-| Change |      Delta |            % |           Size |   Samples | Function                                   | Location                                                                                  |
-| -----: | ---------: | -----------: | -------------: | --------: | ------------------------------------------ | ----------------------------------------------------------------------------------------- |
-|    new | +4.241 GiB | 0.0% → 87.5% | 0 B → 4.24 GiB | 0 → 8,655 | `(anonymous)`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54` |
-|    new | +4.239 GiB | 0.0% → 87.5% | 0 B → 4.24 GiB | 0 → 8,652 | `runWithCancellationToken`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42` |
-|    new | +4.235 GiB | 0.0% → 87.4% | 0 B → 4.24 GiB | 0 → 8,643 | `getBindAndCheckDiagnosticsForFileNoCache` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114734:58` |
-|    new | +4.233 GiB | 0.0% → 87.4% | 0 B → 4.23 GiB | 0 → 8,639 | `getAndCacheDiagnostics`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40` |
-|    new |  +4.23 GiB | 0.0% → 87.3% | 0 B → 4.23 GiB | 0 → 8,634 | `getBindAndCheckDiagnosticsForFile`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114731:51` |
-|    new | +4.229 GiB | 0.0% → 87.3% | 0 B → 4.23 GiB | 0 → 8,631 | `getSemanticDiagnosticsForFile`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47` |
-|    new | +4.228 GiB | 0.0% → 87.3% | 0 B → 4.23 GiB | 0 → 8,628 | `(anonymous)`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114653:99` |
-|    new | +4.227 GiB | 0.0% → 87.3% | 0 B → 4.23 GiB | 0 → 8,626 | `flatMap`                                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21`    |
-|    new | +4.224 GiB | 0.0% → 87.2% | 0 B → 4.22 GiB | 0 → 8,621 | `getDiagnosticsHelper`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
-|    new | +4.223 GiB | 0.0% → 87.2% | 0 B → 4.22 GiB | 0 → 8,618 | `getSemanticDiagnostics`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114663:40` |
-|    new | +4.112 GiB | 0.0% → 84.9% | 0 B → 4.11 GiB | 0 → 8,391 | `checkSourceElementWorker`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83338:42`  |
-|    new | +4.111 GiB | 0.0% → 84.9% | 0 B → 4.11 GiB | 0 → 8,389 | `checkSourceElement`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83329:36`  |
-|    new | +4.104 GiB | 0.0% → 84.7% |  0 B → 4.1 GiB | 0 → 8,375 | `checkSourceFileWorker`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83677:39`  |
-|    new | +4.095 GiB | 0.0% → 84.5% |  0 B → 4.1 GiB | 0 → 8,356 | `checkSourceFile`                          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33`  |
-|    new | +4.093 GiB | 0.0% → 84.5% | 0 B → 4.09 GiB | 0 → 8,353 | `getDiagnosticsWorker`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38`  |
-|    new |  +4.09 GiB | 0.0% → 84.4% | 0 B → 4.09 GiB | 0 → 8,346 | `getDiagnostics`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`  |
-|    new | +3.645 GiB | 0.0% → 75.2% | 0 B → 3.65 GiB | 0 → 7,433 | `forEach`                                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`    |
-|    new | +3.528 GiB | 0.0% → 72.8% | 0 B → 3.53 GiB | 0 → 7,200 | `checkTypeRelatedTo`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`  |
-|    new | +3.516 GiB | 0.0% → 72.6% | 0 B → 3.52 GiB | 0 → 7,175 | `checkExpressionWorker`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77834:39`  |
-|    new | +3.402 GiB | 0.0% → 70.2% |  0 B → 3.4 GiB | 0 → 6,942 | `checkCallExpression`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:75115:37`  |
+|     Change |        Delta |             % |                Size |       Samples | Function            | Location                                              |
+| ---------: | -----------: | ------------: | ------------------: | ------------: | ------------------- | ----------------------------------------------------- |
+| +838473.6% |   +4.094 GiB | <0.1% → 87.0% |  512 KiB → 4.09 GiB |     1 → 8,349 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:124899:76` |
+|  +46528.7% |   +4.092 GiB |  0.2% → 87.1% |  9.01 MiB → 4.1 GiB |    18 → 8,362 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:124967:37` |
+|  +20222.4% | +506.102 MiB |  0.1% → 10.5% |   2.5 MiB → 509 MiB |     5 → 1,003 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:125505:7`  |
+|  +13304.7% | +467.084 MiB |   0.1% → 9.8% |  3.51 MiB → 471 MiB |       7 → 927 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:123071:10` |
+|  +67289.1% | +336.455 MiB |  <0.1% → 7.0% |   512 KiB → 337 MiB |       1 → 670 | `addLazyDiagnostic` | `node_modules/typescript/lib/typescript.js:88652:25`  |
+|   +2902.7% | +232.465 MiB |   0.2% → 5.0% |  8.01 MiB → 240 MiB |      16 → 480 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:124028:24` |
+|   +3702.9% | +229.035 MiB |   0.1% → 4.9% |  6.19 MiB → 235 MiB |      12 → 467 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:83533:27`  |
+|   +4526.3% | +181.069 MiB |   0.1% → 3.8% |     4 MiB → 185 MiB |       8 → 370 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:37111:56`  |
+|    +991.7% |  +163.72 MiB |   0.3% → 3.7% |  16.5 MiB → 180 MiB |      33 → 348 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:124077:30` |
+|  +29639.5% | +148.201 MiB |  <0.1% → 3.1% |   512 KiB → 149 MiB |       1 → 297 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:32748:71`  |
+|  +27119.1% | +135.605 MiB |  <0.1% → 2.8% |   512 KiB → 136 MiB |       1 → 272 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:46417:21`  |
+|  +18053.8% |   +91.26 MiB |  <0.1% → 1.9% |  518 KiB → 91.8 MiB |       1 → 183 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:125782:35` |
+|   +5498.6% |  +82.753 MiB |  <0.1% → 1.7% |  1.5 MiB → 84.3 MiB |       3 → 168 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:81757:12`  |
+|  +15129.2% |   +76.01 MiB |  <0.1% → 1.6% |  514 KiB → 76.5 MiB |       1 → 153 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:34471:157` |
+|  +12234.6% |  +61.176 MiB |  <0.1% → 1.3% |  512 KiB → 61.7 MiB |       1 → 123 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:66186:61`  |
+|   +1933.7% |  +58.014 MiB |   0.1% → 1.3% |      3 MiB → 61 MiB |       6 → 122 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:72303:29`  |
+|      +4.0% |  +44.164 MiB | 23.0% → 24.1% | 1.09 GiB → 1.13 GiB | 2,227 → 2,315 | `checkArrayLiteral` | `node_modules/typescript/lib/typescript.js:75934:29`  |
+|    +263.8% |  +43.567 MiB |   0.3% → 1.2% | 16.5 MiB → 60.1 MiB |      33 → 120 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:125932:42` |
+|   +1960.7% |  +39.311 MiB |  <0.1% → 0.9% | 2.01 MiB → 41.3 MiB |        4 → 82 | `(anonymous)`       | `node_modules/typescript/lib/typescript.js:80900:39`  |
+|      +8.4% |  +34.939 MiB |   8.6% → 9.4% |   417 MiB → 452 MiB |     833 → 903 | `parseStatement`    | `node_modules/typescript/lib/typescript.js:36979:26`  |
 
 ##### Standard library
 
-|  Change |       Delta |            % |                Size |   Samples | Function              | Location                                   |
-| ------: | ----------: | -----------: | ------------------: | --------: | --------------------- | ------------------------------------------ |
-|     new |  +95.01 MiB |  0.0% → 1.9% |        0 B → 95 MiB |   0 → 190 | `concat`              | `<unknown>`                                |
-|  +19.8% | +15.511 MiB |  1.6% → 1.9% |   78.5 MiB → 94 MiB | 157 → 188 | `Map`                 | `<unknown>`                                |
-| +117.0% | +10.781 MiB |  0.2% → 0.4% |   9.22 MiB → 20 MiB |     2 → 3 | `readFileSync`        | `node:fs:433:22`                           |
-| +117.9% | +10.281 MiB |  0.2% → 0.4% |   8.72 MiB → 19 MiB |         1 | `defaultLoadImpl`     | `node:internal/modules/cjs/loader:1112:25` |
-| +117.9% | +10.281 MiB |  0.2% → 0.4% |   8.72 MiB → 19 MiB |         1 | `loadSource`          | `node:internal/modules/cjs/loader:1797:20` |
-|  +49.2% |  +9.256 MiB |  0.4% → 0.6% | 18.8 MiB → 28.1 MiB |   21 → 19 | `(anonymous)`         | `node:internal/modules/cjs/loader:1878:37` |
-|  +49.2% |  +9.256 MiB |  0.4% → 0.6% | 18.8 MiB → 28.1 MiB |   21 → 19 | `(anonymous)`         | `node:internal/modules/cjs/loader:1490:33` |
-|  +49.2% |  +9.256 MiB |  0.4% → 0.6% | 18.8 MiB → 28.1 MiB |   21 → 19 | `(anonymous)`         | `node:internal/modules/cjs/loader:1193:24` |
-|  +49.2% |  +9.256 MiB |  0.4% → 0.6% | 18.8 MiB → 28.1 MiB |   21 → 19 | `(anonymous)`         | `node:internal/modules/cjs/loader:1519:36` |
-|  +49.2% |  +9.256 MiB |  0.4% → 0.6% | 18.8 MiB → 28.1 MiB |   21 → 19 | `wrapModuleLoad`      | `node:internal/modules/cjs/loader:237:24`  |
-|  +49.2% |  +9.256 MiB |  0.4% → 0.6% | 18.8 MiB → 28.1 MiB |   21 → 19 | `require`             | `node:internal/modules/helpers:146:19`     |
-| +118.2% |    +6.5 MiB |  0.1% → 0.2% |    5.5 MiB → 12 MiB |   11 → 24 | `slice`               | `<unknown>`                                |
-|     new |  +4.004 MiB |  0.0% → 0.1% |         0 B → 4 MiB |     0 → 8 | `assign`              | `<unknown>`                                |
-| +125.0% |    +2.5 MiB | <0.1% → 0.1% |     2 MiB → 4.5 MiB |     4 → 9 | `getStatsFromBinding` | `node:internal/fs/utils:552:29`            |
-|   +7.7% |   +2.49 MiB |         0.7% |   32.5 MiB → 35 MiB |   65 → 70 | `push`                | `<unknown>`                                |
-|   +1.3% |  +1.794 MiB |         2.8% |   136 MiB → 138 MiB | 259 → 260 | `set`                 | `<unknown>`                                |
-|  +17.7% |  +1.502 MiB |         0.2% |    8.5 MiB → 10 MiB |   17 → 20 | `join`                | `<unknown>`                                |
-|  +60.0% |    +1.5 MiB |         0.1% |     2.5 MiB → 4 MiB |     5 → 8 | `sort`                | `<unknown>`                                |
-|  +20.0% |  +1.499 MiB |         0.2% |     7.5 MiB → 9 MiB |   15 → 18 | `replace`             | `<unknown>`                                |
-|     new |      +1 MiB | 0.0% → <0.1% |         0 B → 1 MiB |     0 → 2 | `startsWith`          | `<unknown>`                                |
+|  Change |        Delta |             % |                Size |       Samples | Function              | Location                        |
+| ------: | -----------: | ------------: | ------------------: | ------------: | --------------------- | ------------------------------- |
+|   +0.3% |   +7.855 MiB | 54.8% → 55.5% |            2.61 GiB | 5,309 → 5,326 | `forEach`             | `<unknown>`                     |
+| +180.1% |    +4.53 MiB |          0.1% | 2.52 MiB → 7.05 MiB |        5 → 14 | `add`                 | `<unknown>`                     |
+|  +66.7% |       +4 MiB |   0.1% → 0.2% |      6 MiB → 10 MiB |       12 → 20 | `join`                | `<unknown>`                     |
+|  +11.9% |     +2.5 MiB |   0.4% → 0.5% |   21 MiB → 23.5 MiB |       42 → 47 | `splice`              | `<unknown>`                     |
+| +400.0% |       +2 MiB |  <0.1% → 0.1% |   512 KiB → 2.5 MiB |         1 → 5 | `statSync`            | `node:fs:1745:18`               |
+|   +2.0% |   +1.546 MiB |   1.6% → 1.7% | 78.1 MiB → 79.6 MiB |     156 → 159 | `Map`                 | `<unknown>`                     |
+|     new |     +1.5 MiB |  0.0% → <0.1% |       0 B → 1.5 MiB |         0 → 3 | `getStatsFromBinding` | `node:internal/fs/utils:552:29` |
+|     new |       +1 MiB |  0.0% → <0.1% |         0 B → 1 MiB |         0 → 2 | `filter`              | `<unknown>`                     |
+|     new |     +516 KiB |  0.0% → <0.1% |       0 B → 516 KiB |         0 → 1 | `isArray`             | `<unknown>`                     |
+|     new | +512.062 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `Uint8Array`          | `<unknown>`                     |
+|     new | +512.062 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `FastBuffer`          | `node:internal/buffer:956:1`    |
+|     new | +512.062 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `createUnsafeBuffer`  | `node:internal/buffer:1082:28`  |
+|     new | +512.062 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `allocate`            | `node:buffer:436:18`            |
+|     new | +512.062 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `allocUnsafe`         | `node:buffer:411:42`            |
+|     new | +512.062 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `tryCreateBuffer`     | `node:fs:397:25`                |
+|     new | +512.031 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `readSync`            | `node:fs:695:18`                |
+|     new | +512.031 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `tryReadSync`         | `node:fs:412:21`                |
+| +100.0% | +512.015 KiB |         <0.1% |     512 KiB → 1 MiB |         1 → 2 | `wrappedFn`           | `node:internal/errors:535:21`   |
+|     new | +512.015 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `fromCharCode`        | `<unknown>`                     |
+|     new | +512.015 KiB |  0.0% → <0.1% |       0 B → 512 KiB |         0 → 1 | `msFromTimeSpec`      | `node:internal/fs/utils:428:24` |
 
 #### Improvements
 
@@ -226,50 +223,50 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 ##### Third-party
 
-|  Change |      Delta |            % |           Size |   Samples | Function                                   | Location                                              |
-| ------: | ---------: | -----------: | -------------: | --------: | ------------------------------------------ | ----------------------------------------------------- |
-| removed | -4.212 GiB | 87.4% → 0.0% | 4.21 GiB → 0 B | 8,588 → 0 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:121607:39` |
-| removed | -4.211 GiB | 87.4% → 0.0% | 4.21 GiB → 0 B | 8,586 → 0 | `runWithCancellationToken`                 | `node_modules/typescript/lib/typescript.js:121587:38` |
-| removed |  -4.21 GiB | 87.4% → 0.0% | 4.21 GiB → 0 B | 8,584 → 0 | `getBindAndCheckDiagnosticsForFileNoCache` | `node_modules/typescript/lib/typescript.js:121606:54` |
-| removed | -4.208 GiB | 87.4% → 0.0% | 4.21 GiB → 0 B | 8,580 → 0 | `getAndCacheDiagnostics`                   | `node_modules/typescript/lib/typescript.js:121892:36` |
-| removed | -4.207 GiB | 87.3% → 0.0% | 4.21 GiB → 0 B | 8,578 → 0 | `getBindAndCheckDiagnosticsForFile`        | `node_modules/typescript/lib/typescript.js:121603:47` |
-| removed | -4.205 GiB | 87.3% → 0.0% | 4.21 GiB → 0 B | 8,575 → 0 | `getSemanticDiagnosticsForFile`            | `node_modules/typescript/lib/typescript.js:121597:43` |
-| removed | -4.204 GiB | 87.3% → 0.0% |  4.2 GiB → 0 B | 8,572 → 0 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:121539:78` |
-| removed | -4.203 GiB | 87.3% → 0.0% |  4.2 GiB → 0 B | 8,570 → 0 | `flatMap`                                  | `node_modules/typescript/lib/typescript.js:299:19`    |
-| removed | -4.203 GiB | 87.3% → 0.0% |  4.2 GiB → 0 B | 8,570 → 0 | `getDiagnosticsHelper`                     | `node_modules/typescript/lib/typescript.js:121535:34` |
-| removed |   -4.2 GiB | 87.2% → 0.0% |  4.2 GiB → 0 B | 8,564 → 0 | `getSemanticDiagnostics`                   | `node_modules/typescript/lib/typescript.js:121549:36` |
-| removed | -4.089 GiB | 84.9% → 0.0% | 4.09 GiB → 0 B | 8,337 → 0 | `checkSourceFileWorker`                    | `node_modules/typescript/lib/typescript.js:84520:35`  |
-| removed | -4.088 GiB | 84.9% → 0.0% | 4.09 GiB → 0 B | 8,334 → 0 | `checkSourceFile`                          | `node_modules/typescript/lib/typescript.js:84489:29`  |
-| removed | -4.088 GiB | 84.9% → 0.0% | 4.09 GiB → 0 B | 8,334 → 0 | `checkSourceFileWithEagerDiagnostics`      | `node_modules/typescript/lib/typescript.js:84589:49`  |
-| removed | -4.087 GiB | 84.8% → 0.0% | 4.09 GiB → 0 B | 8,332 → 0 | `getDiagnosticsWorker`                     | `node_modules/typescript/lib/typescript.js:84596:34`  |
-| removed | -4.086 GiB | 84.8% → 0.0% | 4.09 GiB → 0 B | 8,331 → 0 | `getDiagnostics2`                          | `node_modules/typescript/lib/typescript.js:84575:29`  |
-| removed | -4.082 GiB | 84.7% → 0.0% | 4.08 GiB → 0 B | 8,322 → 0 | `checkSourceElementWorker`                 | `node_modules/typescript/lib/typescript.js:84147:38`  |
-| removed | -4.081 GiB | 84.7% → 0.0% | 4.08 GiB → 0 B | 8,320 → 0 | `checkSourceElement`                       | `node_modules/typescript/lib/typescript.js:84138:32`  |
-| removed | -3.619 GiB | 75.1% → 0.0% | 3.62 GiB → 0 B | 7,370 → 0 | `forEach`                                  | `node_modules/typescript/lib/typescript.js:52:19`     |
-| removed | -3.578 GiB | 74.3% → 0.0% | 3.58 GiB → 0 B | 7,294 → 0 | `checkExpressionWorker`                    | `node_modules/typescript/lib/typescript.js:78748:35`  |
-| removed | -3.455 GiB | 71.7% → 0.0% | 3.46 GiB → 0 B | 7,043 → 0 | `checkCallExpression`                      | `node_modules/typescript/lib/typescript.js:75579:33`  |
+|  Change |        Delta |             % |                Size |       Samples | Function                       | Location                                              |
+| ------: | -----------: | ------------: | ------------------: | ------------: | ------------------------------ | ----------------------------------------------------- |
+| removed |    -4.16 GiB |  87.6% → 0.0% |      4.16 GiB → 0 B |     8,484 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:123385:37` |
+| removed |   -4.154 GiB |  87.4% → 0.0% |      4.15 GiB → 0 B |     8,470 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:123317:76` |
+| removed | -492.132 MiB |  10.1% → 0.0% |       492 MiB → 0 B |       969 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:123923:7`  |
+| removed | -443.125 MiB |   9.1% → 0.0% |       443 MiB → 0 B |       871 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:121493:10` |
+| removed | -334.871 MiB |   6.9% → 0.0% |       335 MiB → 0 B |       666 → 0 | `addLazyDiagnostic`            | `node_modules/typescript/lib/typescript.js:87339:25`  |
+| removed | -240.903 MiB |   5.0% → 0.0% |       241 MiB → 0 B |       480 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:122449:24` |
+|  -93.2% | -210.852 MiB |   4.6% → 0.3% |  226 MiB → 15.3 MiB |      449 → 17 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:123127:40` |
+| removed | -159.273 MiB |   3.3% → 0.0% |       159 MiB → 0 B |       306 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:122498:30` |
+|  -89.2% | -156.576 MiB |   3.6% → 0.4% |    176 MiB → 19 MiB |      351 → 38 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:38259:63`  |
+|  -98.0% | -124.193 MiB |   2.6% → 0.1% |   127 MiB → 2.5 MiB |       253 → 5 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:35574:144` |
+|   -5.3% |  -122.41 MiB | 47.3% → 45.2% | 2.25 GiB → 2.13 GiB | 4,584 → 4,340 | `applyToParameterTypes`        | `node_modules/typescript/lib/typescript.js:70732:33`  |
+|  -75.2% | -105.053 MiB |   2.9% → 0.7% |  140 MiB → 34.6 MiB |      279 → 69 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:54299:149` |
+| removed |  -97.386 MiB |   2.0% → 0.0% |      97.4 MiB → 0 B |       194 → 0 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:124200:35` |
+|  -99.4% |  -81.766 MiB |  1.7% → <0.1% |  82.3 MiB → 512 KiB |       164 → 1 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:88171:26`  |
+|   -2.3% |  -79.892 MiB | 70.4% → 69.4% | 3.35 GiB → 3.27 GiB | 6,820 → 6,662 | `checkTypeRelatedTo`           | `node_modules/typescript/lib/typescript.js:67445:30`  |
+|  -94.9% |  -75.013 MiB |   1.6% → 0.1% |      79 MiB → 4 MiB |       158 → 8 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:36466:38`  |
+|   -1.8% |  -67.355 MiB | 75.9% → 75.2% | 3.61 GiB → 3.54 GiB | 7,344 → 7,210 | `forEach`                      | `node_modules/typescript/lib/typescript.js:2378:17`   |
+|   -3.7% |  -66.772 MiB | 37.3% → 36.2% | 1.77 GiB → 1.71 GiB | 3,614 → 3,481 | `checkVariableDeclarationList` | `node_modules/typescript/lib/typescript.js:85407:40`  |
+|   -3.7% |  -65.008 MiB | 36.4% → 35.4% | 1.73 GiB → 1.66 GiB | 3,526 → 3,396 | `checkExpressionCached`        | `node_modules/typescript/lib/typescript.js:82440:33`  |
+|  -97.0% |  -64.174 MiB |  1.4% → <0.1% |    66.2 MiB → 2 MiB |       132 → 4 | `(anonymous)`                  | `node_modules/typescript/lib/typescript.js:71416:42`  |
 
 ##### Standard library
 
-|  Change |        Delta |             % |                Size |       Samples | Function                 | Location                                   |
-| ------: | -----------: | ------------: | ------------------: | ------------: | ------------------------ | ------------------------------------------ |
-|  -90.0% |  -81.063 MiB |   1.8% → 0.2% |    90.1 MiB → 9 MiB |      180 → 18 | `next`                   | `<unknown>`                                |
-|  -92.9% |      -13 MiB |  0.3% → <0.1% |      14 MiB → 1 MiB |        28 → 2 | `values`                 | `<unknown>`                                |
-| removed |   -5.001 MiB |   0.1% → 0.0% |         5 MiB → 0 B |        10 → 0 | `delete`                 | `<unknown>`                                |
-|  -90.9% |       -5 MiB |  0.1% → <0.1% |   5.5 MiB → 512 KiB |        11 → 1 | `Set`                    | `<unknown>`                                |
-|  -81.6% |   -4.506 MiB |  0.1% → <0.1% | 5.52 MiB → 1.02 MiB |        11 → 2 | `add`                    | `<unknown>`                                |
-|   -0.1% |   -2.618 MiB | 55.6% → 55.3% |            2.68 GiB | 5,460 → 5,464 | `forEach`                | `<unknown>`                                |
-|  -14.6% |   -2.431 MiB |          0.3% | 16.6 MiB → 14.2 MiB |       20 → 21 | `slice`                  | `node:buffer:640:12`                       |
-| removed |   -2.004 MiB |  <0.1% → 0.0% |         2 MiB → 0 B |         4 → 0 | `get`                    | `<unknown>`                                |
-| removed |       -2 MiB |  <0.1% → 0.0% |         2 MiB → 0 B |         4 → 0 | `trimEnd`                | `<unknown>`                                |
-|  -11.6% |   -1.931 MiB |          0.3% | 16.6 MiB → 14.7 MiB |       20 → 22 | `toString`               | `node:buffer:839:46`                       |
-|  -10.1% |   -1.024 MiB |          0.2% | 10.1 MiB → 9.09 MiB |       20 → 18 | `(anonymous)`            | `node:internal/modules/cjs/loader:1731:37` |
-| removed |       -1 MiB |  <0.1% → 0.0% |         1 MiB → 0 B |         2 → 0 | `exec`                   | `<unknown>`                                |
-|  -33.3% |       -1 MiB |  0.1% → <0.1% |       3 MiB → 2 MiB |         6 → 4 | `split`                  | `<unknown>`                                |
-| removed | -516.375 KiB |  <0.1% → 0.0% |       516 KiB → 0 B |         1 → 0 | `test`                   | `<unknown>`                                |
-|  -33.4% | -513.593 KiB |         <0.1% |     1.5 MiB → 1 MiB |         3 → 2 | `some`                   | `<unknown>`                                |
-| removed | -512.187 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `(anonymous)`            | `node:internal/modules/cjs/loader:683:28`  |
-| removed | -512.187 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `(anonymous)`            | `node:internal/modules/cjs/loader:1346:35` |
-| removed | -512.187 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `tryExtensions`          | `node:internal/modules/cjs/loader:558:23`  |
-| removed | -512.187 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `defaultResolveImpl`     | `node:internal/modules/cjs/loader:1026:30` |
-| removed | -512.187 KiB |  <0.1% → 0.0% |       512 KiB → 0 B |         1 → 0 | `resolveForCJSWithHooks` | `node:internal/modules/cjs/loader:1021:32` |
+|  Change |      Delta |            % |                Size |   Samples | Function                   | Location                                   |
+| ------: | ---------: | -----------: | ------------------: | --------: | -------------------------- | ------------------------------------------ |
+|   -5.0% | -6.561 MiB |  2.7% → 2.6% |   131 MiB → 125 MiB | 248 → 237 | `set`                      | `<unknown>`                                |
+|  -34.3% |     -6 MiB |  0.4% → 0.2% | 17.5 MiB → 11.5 MiB |   35 → 23 | `values`                   | `<unknown>`                                |
+|  -28.0% | -5.968 MiB |  0.4% → 0.3% | 21.3 MiB → 15.3 MiB |   28 → 17 | `slice`                    | `node:buffer:640:12`                       |
+|  -28.0% | -5.968 MiB |  0.4% → 0.3% | 21.3 MiB → 15.3 MiB |   28 → 17 | `toString`                 | `node:buffer:839:46`                       |
+|   -6.6% | -5.508 MiB |  1.7% → 1.6% |   83.5 MiB → 78 MiB | 167 → 156 | `next`                     | `<unknown>`                                |
+|  -39.1% |   -4.5 MiB |  0.2% → 0.1% |    11.5 MiB → 7 MiB |   23 → 14 | `slice`                    | `<unknown>`                                |
+|  -23.3% | -3.501 MiB |  0.3% → 0.2% |   15 MiB → 11.5 MiB |   30 → 23 | `replace`                  | `<unknown>`                                |
+|  -80.0% |     -2 MiB | 0.1% → <0.1% |   2.5 MiB → 512 KiB |     5 → 1 | `trimEnd`                  | `<unknown>`                                |
+|  -60.0% |   -1.5 MiB | 0.1% → <0.1% |     2.5 MiB → 1 MiB |     5 → 2 | `split`                    | `<unknown>`                                |
+| removed |   -1.5 MiB | <0.1% → 0.0% |       1.5 MiB → 0 B |     3 → 0 | `get`                      | `<unknown>`                                |
+| removed | -1.468 MiB | <0.1% → 0.0% |      1.47 MiB → 0 B |     1 → 0 | `post`                     | `node:inspector:118:7`                     |
+| removed | -1.468 MiB | <0.1% → 0.0% |      1.47 MiB → 0 B |     1 → 0 | `(anonymous)`              | `node:internal/util:477:24`                |
+| removed | -1.468 MiB | <0.1% → 0.0% |      1.47 MiB → 0 B |     1 → 0 | `Promise`                  | `<unknown>`                                |
+| removed | -1.468 MiB | <0.1% → 0.0% |      1.47 MiB → 0 B |     1 → 0 | `fn`                       | `node:internal/util:476:14`                |
+|  -25.0% |     -1 MiB |         0.1% |       4 MiB → 3 MiB |     8 → 6 | `Set`                      | `<unknown>`                                |
+| removed |     -1 MiB | <0.1% → 0.0% |         1 MiB → 0 B |     2 → 0 | `(anonymous)`              | `node:crypto:1:1`                          |
+| removed |     -1 MiB | <0.1% → 0.0% |         1 MiB → 0 B |     2 → 0 | `compileForInternalLoader` | `node:internal/bootstrap/realm:385:27`     |
+| removed |     -1 MiB | <0.1% → 0.0% |         1 MiB → 0 B |     2 → 0 | `compileForPublicLoader`   | `node:internal/bootstrap/realm:332:25`     |
+| removed |     -1 MiB | <0.1% → 0.0% |         1 MiB → 0 B |     2 → 0 | `loadBuiltinModule`        | `node:internal/modules/helpers:113:27`     |
+| removed |     -1 MiB | <0.1% → 0.0% |         1 MiB → 0 B |     2 → 0 | `loadBuiltinWithHooks`     | `node:internal/modules/cjs/loader:1159:30` |

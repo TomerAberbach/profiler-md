@@ -3,13 +3,20 @@
 cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
-TYPESCRIPT_VERSION=5.4.5
+# Base and current profile TypeScript nightly builds a week apart, so a diff of
+# the zod type-check compares two versions of the same code. Between releases the
+# build emits most of typescript.js differently, while a week of nightly commits
+# edits it in a few hundred places, so most functions keep their code and move.
+declare -A TYPESCRIPT_VERSION=([base]=5.5.0-dev.20240415 [current]=5.5.0-dev.20240422)
 DATADOG_PPROF_VERSION=5.3.0
 # Puppeteer bundles a pinned Chromium build, so pinning the package pins the
 # browser. nixpkgs `chromium` is unavailable on aarch64-darwin (the flake's only
 # system), so the Chrome captures source the browser this way instead of via the
 # flake.
 PUPPETEER_VERSION=24.15.0
+# Base and current chart the tweets in headless Chrome with consecutive d3
+# releases, whose minified bundle moves its closures along one line.
+declare -A D3_VERSION=([base]=7.8.5 [current]=7.9.0)
 ZOD_REPO=https://github.com/colinhacks/zod
 ZOD_TAG=v3.23.8
 
@@ -18,19 +25,29 @@ assets="$REPO/scripts/inputs/assets/javascript"
 # Keep the Chromium download inside WORKDIR so the EXIT trap cleans it up.
 export PUPPETEER_CACHE_DIR="$WORKDIR/.puppeteer"
 
-node_proj=""
+# Each role installs into one directory, so both record the same paths.
+node_proj="$WORKDIR/zod"
+node_role=""
 setup_node() {
-  [[ -n "$node_proj" ]] && return 0
-  local dir="$WORKDIR/zod"
+  local role=$1
+  [[ "$node_role" == "$role" ]] && return 0
+  local dir="$node_proj"
 
-  notice "Cloning zod ($ZOD_TAG)"
-  git clone --depth 1 --branch "$ZOD_TAG" "$ZOD_REPO" "$dir" >&2 || return 1
+  if [[ -z "$node_role" ]]; then
+    notice "Cloning zod ($ZOD_TAG)"
+    git clone --depth 1 --branch "$ZOD_TAG" "$ZOD_REPO" "$dir" >&2 || return 1
+  fi
 
-  notice "Installing tsc tooling and puppeteer (downloads pinned Chromium)"
-  npm install --prefix "$dir" --no-save --no-audit --no-fund \
-    "typescript@$TYPESCRIPT_VERSION" \
+  # One install names every package, because an install with `--no-save`
+  # removes the packages an earlier one added. A nightly TypeScript is a
+  # prerelease, which satisfies no range of zod's devDependencies that peer
+  # depend on it (`typescript@>=3.7.0`), so the install skips peer resolution.
+  notice "Installing tsc ${TYPESCRIPT_VERSION[$role]}, d3 ${D3_VERSION[$role]}, tooling, and puppeteer (downloads pinned Chromium)"
+  npm install --prefix "$dir" --no-save --no-audit --no-fund --legacy-peer-deps \
+    "typescript@${TYPESCRIPT_VERSION[$role]}" \
     "@datadog/pprof@$DATADOG_PPROF_VERSION" \
-    "puppeteer@$PUPPETEER_VERSION" >&2 || return 1
+    "puppeteer@$PUPPETEER_VERSION" \
+    "d3@${D3_VERSION[$role]}" >&2 || return 1
 
   cp "$assets/cpuprofile-run.mjs" "$assets/tsc-run.mjs" \
     "$assets/tsc-workload.mjs" "$assets/heapprofile-run.mjs" \
@@ -39,12 +56,12 @@ setup_node() {
     "$assets/chrome-workload.mjs" "$assets/chrome-cpu.mjs" \
     "$assets/chrome-heap.mjs" "$assets/chrome-heap-snapshot.mjs" "$dir/" \
     || return 1
-  node_proj="$dir"
+  node_role=$role
 }
 
 capture_node_cpu() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   notice "CPU profiling zod type-check using node ($role)"
   node "$node_proj/cpuprofile-run.mjs" "$node_proj" "$out" >&2
 }
@@ -52,7 +69,7 @@ capture_node_cpu() {
 capture_node_heap() {
   local out=$1 role=$2
   local profdir
-  setup_node || return 1
+  setup_node "$role" || return 1
   profdir="$WORKDIR/node-heap-$role"
   mkdir -p "$profdir"
   notice "Heap profiling zod type-check using node ($role)"
@@ -70,44 +87,46 @@ capture_node_heap_snapshot() {
 
 capture_node_heap_all_allocations() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   notice "Heap profiling zod type-check including collected objects using node ($role)"
   node "$node_proj/heapprofile-run.mjs" "$node_proj" "$out" >&2
 }
 
 capture_pprof_cpu() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   notice "CPU profiling zod type-check using @datadog/pprof ($role)"
   node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" >&2
 }
 
 capture_pprof_cpu_lines() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   notice "CPU profiling zod type-check using @datadog/pprof with line numbers ($role)"
   node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" --line-numbers >&2
 }
 
 capture_pprof_heap() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   notice "Heap profiling zod type-check using @datadog/pprof ($role)"
   node "$node_proj/datadog-pprof-heap.mjs" "$node_proj" "$out" >&2
 }
 
 capture_deno_cpu() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   notice "CPU profiling zod type-check using deno ($role)"
-  deno run -A --node-modules-dir=auto \
+  # `manual` reads the node_modules setup_node installed. `auto` installs zod's
+  # own devDependencies over it, replacing the pinned TypeScript with zod's.
+  deno run -A --node-modules-dir=manual \
     "$node_proj/cpuprofile-run.mjs" "$node_proj" "$out" >&2
 }
 
 capture_bun_cpu() {
   local out=$1 role=$2
   local profdir prof
-  setup_node || return 1
+  setup_node "$role" || return 1
   profdir="$WORKDIR/bun-cpu-$role"
   mkdir -p "$profdir"
   notice "CPU profiling zod type-check using bun ($role)"
@@ -147,25 +166,25 @@ capture_bun_jsc_heap_snapshot() {
 
 capture_chrome_cpu() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   fetch_twitter_json || return 1
-  notice "CPU profiling DOM build using headless Chrome ($role)"
+  notice "CPU profiling d3 chart using headless Chrome ($role)"
   node "$node_proj/chrome-cpu.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   fetch_twitter_json || return 1
-  notice "Heap allocation profiling DOM build using headless Chrome ($role)"
+  notice "Heap allocation profiling d3 chart using headless Chrome ($role)"
   node "$node_proj/chrome-heap.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap_snapshot() {
   local out=$1 role=$2
-  setup_node || return 1
+  setup_node "$role" || return 1
   fetch_twitter_json || return 1
-  notice "Heap snapshotting DOM build using headless Chrome ($role)"
+  notice "Heap snapshotting d3 chart using headless Chrome ($role)"
   node "$node_proj/chrome-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 

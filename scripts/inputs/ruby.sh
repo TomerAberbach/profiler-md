@@ -8,7 +8,9 @@ source scripts/inputs/_common.sh
 # records those labels, so the captures run on the official Ruby image instead.
 DOCKER_IMAGE="ruby:3.4.10-slim-bookworm"
 
-RAILS_VERSION="8.1.3.1"
+# Base and current profile consecutive Rails releases, so a diff compares two
+# versions of the same code.
+declare -A RAILS_VERSION=([base]="8.1.3.1" [current]="8.1.4")
 RBSPY_VERSION="0.51.0"
 RBSPY_URL="https://github.com/rbspy/rbspy/releases/download/v$RBSPY_VERSION/rbspy-aarch64-unknown-linux-musl.tar.gz"
 
@@ -57,6 +59,9 @@ run_for_role() {
       rails new app --minimal --skip-active-record --skip-asset-pipeline \
         --skip-git --skip-test --skip-docker --skip-bundle
       cd app
+      # The generated Gemfile accepts any later patch release, so pin the one
+      # installed above.
+      sed -i "s/^gem \"rails\".*/gem \"rails\", \"$RAILS_VERSION\"/" Gemfile
       bundle install --quiet
       cp /out/statuses_controller.rb app/controllers/
       mkdir -p app/views/statuses
@@ -79,7 +84,7 @@ run_for_role() {
     ' \
     --cap-add SYS_PTRACE \
     -e RBSPY_URL="$RBSPY_URL" \
-    -e RAILS_VERSION="$RAILS_VERSION" \
+    -e RAILS_VERSION="${RAILS_VERSION[$role]}" \
     -e REQUEST_SECONDS="$REQUEST_SECONDS" || return 1
 
   rundir[$role]=$dir

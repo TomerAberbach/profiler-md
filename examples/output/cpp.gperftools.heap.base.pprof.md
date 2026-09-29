@@ -71,13 +71,13 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  99.1% | 119 MiB | 1,982,596 | `0xffffffffffffffff`                       | `<unknown>`                                |
 |  98.3% | 118 MiB | 1,966,776 | `0x6400000009`                             | `<unknown>`                                |
 |   0.5% | 653 KiB |     9,881 | `0x6400000000`                             | `<unknown>`                                |
-|   0.3% | 398 KiB |     7,061 | `0xffff9cba0027`                           | `<unknown>`                                |
+|   0.3% | 398 KiB |     7,061 | `0xffffa3610027`                           | `<unknown>`                                |
 |  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `usr/include/c++/12/bits/new_allocator.h`  |
 |  <0.1% |   8 KiB |         1 | `std::allocator_traits::allocate`          | `usr/include/c++/12/bits/alloc_traits.h`   |
 |  <0.1% |   8 KiB |         1 | `std::_Vector_base::_M_allocate`           | `usr/include/c++/12/bits/stl_vector.h`     |
 |  <0.1% |   8 KiB |         1 | `std::vector::reserve`                     | `usr/include/c++/12/bits/vector.tcc`       |
 |  <0.1% |   8 KiB |         1 | `0xffff00000000`                           | `<unknown>`                                |
-|  <0.1% |   137 B |         2 | `0xffffe5e97fd7`                           | `<unknown>`                                |
+|  <0.1% |   137 B |         2 | `0xffffc92ac017`                           | `<unknown>`                                |
 
 #### Categories
 
@@ -157,9 +157,9 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | ----: | ------: | --------: | ---------------- | ----------- |
 | 99.2% | 118 MiB | 1,966,776 | `0x6400000009`   | `<unknown>` |
 |  0.5% | 653 KiB |     9,881 | `0x6400000000`   | `<unknown>` |
-|  0.3% | 323 KiB |     5,936 | `0xffff9cba0027` | `<unknown>` |
+|  0.3% | 323 KiB |     5,936 | `0xffffa3610027` | `<unknown>` |
 | <0.1% |   8 KiB |         1 | `0xffff00000000` | `<unknown>` |
-| <0.1% |   137 B |         2 | `0xffffe5e97fd7` | `<unknown>` |
+| <0.1% |   137 B |         2 | `0xffffc92ac017` | `<unknown>` |
 
 ##### `0x6400000009` (`<unknown>`)
 
@@ -173,12 +173,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | ------: | ------: | -------- | ----------- |
 | 100.0% | 653 KiB |   9,881 | `_start` | `<unknown>` |
 
-##### `0xffff9cba0027` (`<unknown>`)
+##### `0xffffa3610027` (`<unknown>`)
 
 |      % |     Size | Objects | Callee           | Location    |
 | -----: | -------: | ------: | ---------------- | ----------- |
 | 100.0% |  398 KiB |   7,061 | `_start`         | `<unknown>` |
-|  18.7% | 74.4 KiB |   1,125 | `0xffff9cba0027` | `<unknown>` |
+|  18.7% | 74.4 KiB |   1,125 | `0xffffa3610027` | `<unknown>` |
 
 ##### `std::allocator_traits::allocate` (`usr/include/c++/12/bits/alloc_traits.h`)
 
@@ -204,7 +204,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | ----: | ------: | -------- | ----------- |
 | 100.0% | 8 KiB |       1 | `_start` | `<unknown>` |
 
-##### `0xffffe5e97fd7` (`<unknown>`)
+##### `0xffffc92ac017` (`<unknown>`)
 
 |      % |  Size | Objects | Callee   | Location    |
 | -----: | ----: | ------: | -------- | ----------- |
@@ -219,10 +219,10 @@ Call stacks ranked by bytes allocated in their leaf frame.
 | 98.3% |   118 MiB | 1,966,776 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x6400000009` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                          |
 |  0.8% | 1,016 KiB |    14,280 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) |
 |  0.5% |   653 KiB |     9,881 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x6400000000` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                          |
-|  0.3% |   323 KiB |     5,936 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffff9cba0027` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                        |
-|  0.1% |  74.4 KiB |     1,125 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffff9cba0027` ← `0xffff9cba0027`                                                                                                                                                                                                                                                                            |
+|  0.3% |   323 KiB |     5,936 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffa3610027` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                        |
+|  0.1% |  74.4 KiB |     1,125 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffa3610027` ← `0xffffa3610027`                                                                                                                                                                                                                                                                            |
 | <0.1% |     8 KiB |         1 | `std::__new_allocator::allocate` (`usr/include/c++/12/bits/new_allocator.h`) ← `std::allocator_traits::allocate` (`usr/include/c++/12/bits/alloc_traits.h`) ← `std::_Vector_base::_M_allocate` (`usr/include/c++/12/bits/stl_vector.h`) ← `std::vector::reserve` (`usr/include/c++/12/bits/vector.tcc`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffff00000000` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                                                                                     |
-| <0.1% |     137 B |         2 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffe5e97fd7` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                        |
+| <0.1% |     137 B |         2 | `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`src/fmt/include/fmt/format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`src/fmt/include/fmt/format-inl.h`) ← `fmt::v11::format` (`src/fmt/include/fmt/format.h`) ← `main` (`out/profile.cpp`) ← `0x27743` (`usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffc92ac017` ← `0xffffffffffffffff`                                                                                                                                                                                                                                                                        |
 
 # Retained heap profile
 

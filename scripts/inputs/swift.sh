@@ -11,6 +11,10 @@ SWIFT_IMAGE="swift:6.1-noble"
 
 profile_dir="$REPO/scripts/inputs/assets/swift/profile"
 
+# Base and current profile consecutive swift-syntax releases, so a diff
+# compares two versions of the same code. The committed manifest pins base's.
+declare -A SWIFT_SYNTAX_VERSION=([base]="601.0.1" [current]="602.0.0")
+
 rundir=
 run_failed=
 run_swift() {
@@ -28,10 +32,12 @@ run_swift() {
 
   notice "Profiling swift-syntax with gperftools (base + current; builds swift-syntax from source)"
 
-  # Both roles come from one container: a second would repeat the build for a
-  # binary the two recordings share.
+  # Both roles come from one container, so gperftools installs once and current
+  # parses the sources base's build checked out.
   docker run --rm --platform "$DOCKER_PLATFORM" \
     -v "$dir:/out" \
+    -e SWIFT_SYNTAX_VERSION_base="${SWIFT_SYNTAX_VERSION[base]}" \
+    -e SWIFT_SYNTAX_VERSION_current="${SWIFT_SYNTAX_VERSION[current]}" \
     "$SWIFT_IMAGE" \
     bash -euo pipefail -c '
       export DEBIAN_FRONTEND=noninteractive
@@ -45,23 +51,34 @@ run_swift() {
       cp -R /out/pkg /src
       cd /src
 
-      # -g records the line info the host pprof needs to symbolize swift-syntax
-      # frames.
-      # SwiftPM statically links the package and its dependencies into the
-      # executable, so their symbols are in the one binary pprof reads.
-      swift build -c release -Xswiftc -g
-
-      # Real parsing input: swift-syntax'"'"'s own sources, 295 Swift files the
-      # build already checked out. Six passes keep each recording around six
-      # seconds.
-      SRC=/src/.build/checkouts/swift-syntax/Sources
-
       # `-print -quit` avoids a `| head` pipe, whose early close would SIGPIPE
       # `find` and trip `set -o pipefail`.
       LIBPROFILER=$(find / -name "libprofiler.so*" -print -quit 2>/dev/null)
       LIBTCMALLOC=$(find / -name "libtcmalloc.so" -print -quit 2>/dev/null)
 
+      # Each role builds and runs in /src, so both record the same paths.
       for role in base current; do
+        version=SWIFT_SYNTAX_VERSION_$role
+        sed -i "s/exact: \"[^\"]*\"/exact: \"${!version}\"/" Package.swift
+        if [ "$role" = current ]; then
+          rm -rf .build Package.resolved
+        fi
+
+        # -g records the line info the host pprof needs to symbolize
+        # swift-syntax frames. SwiftPM statically links the package and its
+        # dependencies into the executable, so their symbols are in the one
+        # binary pprof reads.
+        swift build -c release -Xswiftc -g
+
+        # Real parsing input: base'"'"'s swift-syntax sources, 295 Swift files
+        # its build checked out, which both roles parse. Six passes keep each
+        # recording around six seconds.
+        SRC=/work/swift-syntax-sources
+        if [ "$role" = base ]; then
+          mkdir -p /work
+          cp -R .build/checkouts/swift-syntax/Sources "$SRC"
+        fi
+
         # The raw profile is written on exit. 1 kHz sampling, against the 100 Hz
         # default, gives a denser profile.
         CPUPROFILE="/out/cpu.$role.raw" CPUPROFILE_FREQUENCY=1000 \
@@ -74,10 +91,10 @@ run_swift() {
         HEAPPROFILE="/out/heap.$role" LD_PRELOAD="$LIBTCMALLOC" \
           ./.build/release/profile "$SRC" 6
         cp "$(ls -1 "/out/heap.$role".*.heap | sort | tail -n1)" "/out/heap.$role.raw"
-      done
 
-      # The host needs the binary to symbolize the raw profiles.
-      cp ./.build/release/profile /out/binary
+        # The host needs the binary to symbolize the raw profiles.
+        cp ./.build/release/profile "/out/binary.$role"
+      done
     ' || {
     run_failed=1
     return 1
@@ -95,7 +112,7 @@ symbolize_swift_profile() {
   # cross-OS, so the grep drops those expected warnings. Real errors still print
   # and fail the build via the exit code.
   local drop='Local symbolization failed'
-  pprof -proto "$rundir/binary" "$rundir/$name.$role.raw" >"$rundir/$name.$role.pprof" \
+  pprof -proto "$rundir/binary.$role" "$rundir/$name.$role.raw" >"$rundir/$name.$role.pprof" \
     2> >(grep -v "$drop" >&2 || true) || return 1
   cp "$rundir/$name.$role.pprof" "$out"
 }

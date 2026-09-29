@@ -4,7 +4,9 @@ cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
 FMT_REPO="https://github.com/fmtlib/fmt"
-FMT_TAG="11.2.0"
+# Base and current profile consecutive fmt releases, so a diff compares two
+# versions of the same code.
+declare -A FMT_TAG=([base]="11.2.0" [current]="12.0.0")
 
 profile="$REPO/scripts/inputs/assets/cpp/profile.cpp"
 
@@ -29,7 +31,7 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         build-essential git ca-certificates
 
-      git clone --depth 1 --branch "'"$FMT_TAG"'" "'"$FMT_REPO"'" /src/fmt
+      git clone --depth 1 --branch "'"${FMT_TAG[$role]}"'" "'"$FMT_REPO"'" /src/fmt
 
       # -g gives the host pprof line and inline info to symbolize fmt frames.
       g++ -O2 -g -std=c++17 -DFMT_HEADER_ONLY -I /src/fmt/include \
@@ -97,7 +99,7 @@ capture_perf() {
       # the capture is user-space only rather than failing.
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      git clone --depth 1 --branch "'"$FMT_TAG"'" "'"$FMT_REPO"'" /src/fmt
+      git clone --depth 1 --branch "'"${FMT_TAG[$role]}"'" "'"$FMT_REPO"'" /src/fmt
 
       # Frame pointers so perf can walk the stack without the debug info its
       # dwarf unwinder would copy whole stacks to reach.

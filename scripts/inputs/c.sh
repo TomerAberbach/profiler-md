@@ -4,7 +4,9 @@ cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
 ZSTD_REPO="https://github.com/facebook/zstd"
-ZSTD_TAG="v1.5.6"
+# Base and current profile consecutive zstd releases, so a diff compares two
+# versions of the same code.
+declare -A ZSTD_TAG=([base]="v1.5.6" [current]="v1.5.7")
 # systing is not published to crates.io, so cargo installs it from its repository.
 SYSTING_TAG="v1.13.14"
 SILESIA_DICKENS_URL="https://raw.githubusercontent.com/MiloszKrajewski/SilesiaCorpus/3f3fa2cdbbb3795c903b74e774acb309e1360337/dickens.zip"
@@ -28,7 +30,7 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         build-essential git ca-certificates curl unzip
 
-      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # libprofiler and libtcmalloc load through LD_PRELOAD at run time, because
       # the default --as-needed drops them from the link.
@@ -36,8 +38,8 @@ run_for_role() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # The Silesia corpus's `dickens` text, truncated to a few MB so the capture
-      # stays small.
+      # The `dickens` text of the Silesia corpus, truncated to a few MB so the
+      # capture stays small.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -107,6 +109,7 @@ run_systing() {
   docker run --rm --privileged --pid=host \
     -v "$dir:/out" \
     -e SYSTING_TAG="$SYSTING_TAG" \
+    -e ZSTD_TAG_base="${ZSTD_TAG[base]}" -e ZSTD_TAG_current="${ZSTD_TAG[current]}" \
     "$DOCKER_IMAGE" \
     bash -euo pipefail -c '
       export DEBIAN_FRONTEND=noninteractive
@@ -125,19 +128,24 @@ run_systing() {
       cargo install -j 2 --locked -q --git https://github.com/josefbacik/systing.git \
         --tag "$SYSTING_TAG" systing
 
-      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
-
       # Frame pointers so systing'"'"'s unwinder can walk the stack, and debug
-      # info so frames carry source locations.
-      make -C /src/zstd -j"$(nproc)" zstd CFLAGS="-O2 -g -fno-omit-frame-pointer"
-      ZSTD=/src/zstd/zstd
-      [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
+      # info so frames carry source locations. Each role builds in /src/zstd,
+      # so both binaries record the same source paths.
+      mkdir -p /work
+      for role in base current; do
+        tag=ZSTD_TAG_$role
+        rm -rf /src/zstd
+        git clone --depth 1 --branch "${!tag}" "'"$ZSTD_REPO"'" /src/zstd
+        make -C /src/zstd -j"$(nproc)" zstd CFLAGS="-O2 -g -fno-omit-frame-pointer"
+        ZSTD=/src/zstd/zstd
+        [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
+        cp "$ZSTD" "/work/zstd-$role"
+      done
 
       # systing symbolizes against the live process when the recording window
       # closes, and a command that has exited leaves every frame
       # `unknown ([exited])`. At -19 the input must outlast the window. systing
       # then stops the traced command, hence `|| true`.
-      mkdir -p /work
       INPUT=/work/input.bin
       curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
       unzip -p /work/dickens.zip dickens >/work/dickens.full
@@ -146,11 +154,13 @@ run_systing() {
 
       mount -t tracefs tracefs /sys/kernel/tracing 2>/dev/null || true
 
+      # Both roles run from one path, so their frames name the same binary.
       for role in base current; do
+        cp "/work/zstd-$role" /work/zstd
         systing --duration 12 \
           --output "/out/cpu.$role.systing" \
           --output-dir "/work/traces-$role" \
-          -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null || true
+          -- /work/zstd -19 -f -q "$INPUT" -o /dev/null || true
         [ -s "/out/cpu.$role.systing" ]
       done
     '
@@ -182,7 +192,7 @@ capture_callgrind() {
       apt-get install -y -qq --no-install-recommends \
         valgrind build-essential git ca-certificates curl unzip
 
-      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # Build with debug info so callgrind resolves function names and source
       # files/lines rather than raw addresses.
@@ -231,7 +241,7 @@ capture_perf() {
       # the capture is user-space only rather than failing.
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # Frame pointers so perf can walk the stack without the debug info its
       # dwarf unwinder would copy whole stacks to reach.
@@ -294,7 +304,7 @@ capture_simpleperf() {
 
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # Frame pointers so simpleperf can walk the stack without its dwarf
       # unwinder, whose stack copies the parser ignores.

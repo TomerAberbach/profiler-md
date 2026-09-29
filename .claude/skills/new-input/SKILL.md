@@ -49,6 +49,12 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
    - Name outputs `<lang>.<origin>.<config?>.<base|current>.<ext>`; the second
      token must be the origin's registered ID, and the extension must match the
      converter's `extension`
+   - When a pinned library, package, or tool release sets the profiled code, pin
+     consecutive releases per role (e.g.
+     `declare -A ZSTD_TAG=([base]=… [current]=…)`), so a diff compares two
+     versions of the same code. Build and run both roles from the same paths, so
+     their functions pair across the diff. A workload whose code only the
+     toolchain sets profiles one version in both roles
    - When a profiler can export multiple supported formats, export all from a
      single recording
    - Keep every input under GitHub's 100 MB limit (`verify_generated_input`

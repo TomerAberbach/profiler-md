@@ -26,7 +26,7 @@ try {
   // Loop many passes for a few thousand samples. `resetEachPass` keeps the live
   // DOM bounded so JS frames stay visible instead of being swamped by the native
   // layout cost of an ever-growing document.
-  await runInPage(page, data, 2000, { resetEachPass: true })
+  await runInPage(page, data, 300, { resetEachPass: true })
 
   const { profile } = await client.send(`Profiler.stop`)
   writeFileSync(out, JSON.stringify(profile))

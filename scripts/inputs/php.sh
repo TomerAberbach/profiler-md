@@ -3,9 +3,13 @@
 cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
-COMPOSER_VERSION="2.7.7"
-COMPOSER_URL="https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar"
-COMPOSER_SHA256="aab940cd53d285a54c50465820a2080fcb7182a4ba1e5f795abfb10414a4b4be"
+# Base and current profile consecutive composer releases, so a diff compares
+# two versions of the same code.
+declare -A COMPOSER_VERSION=([base]="2.7.7" [current]="2.7.8")
+declare -A COMPOSER_SHA256=(
+  [base]="aab940cd53d285a54c50465820a2080fcb7182a4ba1e5f795abfb10414a4b4be"
+  [current]="3da35dc2abb99d8ef3fdb1dec3166c39189f7cb29974a225e7bbca04c1b2c6e0"
+)
 
 GUZZLE_URL="https://github.com/guzzle/guzzle"
 GUZZLE_TAG="7.9.2"
@@ -42,22 +46,28 @@ setup_workload_dir() {
   workload_ready=1
 }
 
-composer_src=""
+# Each role extracts its composer into one directory, so both record the same
+# paths.
+composer_src="$WORKLOAD_DIR/composer"
+composer_role=""
 setup_composer() {
-  [[ -n "$composer_src" ]] && return 0
+  local role=$1
+  [[ "$composer_role" == "$role" ]] && return 0
 
-  local phar="$WORKDIR/composer.phar"
-  fetch_asset "composer $COMPOSER_VERSION" \
-    "$COMPOSER_URL" "$COMPOSER_SHA256" "$phar" || return 1
+  local version=${COMPOSER_VERSION[$role]}
+  local phar="$WORKDIR/composer-$version.phar"
+  fetch_asset "composer $version" \
+    "https://getcomposer.org/download/$version/composer.phar" \
+    "${COMPOSER_SHA256[$role]}" "$phar" || return 1
 
   # Composer runs from the extracted phar so its frames name plain file paths,
   # as a PHP application's frames do, rather than `phar://` URLs.
-  local src="$WORKLOAD_DIR/composer"
-  notice "Extracting composer $COMPOSER_VERSION"
+  notice "Extracting composer $version"
+  rm -rf "$composer_src" || return 1
   php -r '$p = new Phar($argv[1]); $p->extractTo($argv[2], null, true);' \
-    "$phar" "$src" || return 1
+    "$phar" "$composer_src" || return 1
 
-  composer_src="$src"
+  composer_role=$role
 }
 
 guzzle_src=""
@@ -72,8 +82,8 @@ setup_guzzle() {
   guzzle_src="$src"
 }
 
-# Both roles profile the same workload from the same paths, so their functions
-# pair across a diff and only the sampling differs.
+# Both roles profile the workload from the same paths, so their functions pair
+# across a diff.
 declare -A rundir=()
 run_for_role() {
   local role=$1 cfg=$2
@@ -81,7 +91,7 @@ run_for_role() {
   [[ -n "${rundir[$key]:-}" ]] && return 0
 
   setup_workload_dir || return 1
-  setup_composer || return 1
+  setup_composer "$role" || return 1
   setup_guzzle || return 1
 
   local dir="$WORKDIR/php-$key"

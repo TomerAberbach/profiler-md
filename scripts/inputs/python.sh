@@ -12,7 +12,10 @@ PY_SPY_VERSION="0.4.0"
 MEMRAY_V12_VERSION="1.19.3"
 MEMRAY_V13_VERSION="1.20.0"
 PYINSTRUMENT_VERSION="5.1.3"
-BLACK_VERSION="24.8.0"
+# Base and current profile consecutive Black releases, and the Hypothesis
+# captures consecutive Hypothesis releases, so a diff compares two versions of
+# the same code.
+declare -A BLACK_VERSION=([base]="24.8.0" [current]="24.10.0")
 
 # Black formats CPython's own _pydecimal.py as a real, sizeable workload.
 CPYTHON_VERSION="3.13.2"
@@ -68,7 +71,7 @@ run_for_role() {
       cap /out/function.speedscope.json speedscope --function
     ' --cap-add SYS_PTRACE \
     -e PY_SPY_VERSION="$PY_SPY_VERSION" \
-    -e BLACK_VERSION="$BLACK_VERSION" || return 1
+    -e BLACK_VERSION="${BLACK_VERSION[$role]}" || return 1
 
   rundir[$role]=$dir
 }
@@ -98,7 +101,7 @@ run_native() {
       apt-get install -y -qq --no-install-recommends python3 python3-venv python3-pip
 
       python3 -m venv /venv
-      /venv/bin/pip install --quiet "py-spy==$PY_SPY_VERSION" "black==$BLACK_VERSION"
+      /venv/bin/pip install --quiet "py-spy==$PY_SPY_VERSION"
 
       # Each capture formats a fresh copy of the input so Black always has work.
       # Because py-spy runs Black as the SSH user, the copy is world-readable.
@@ -119,11 +122,17 @@ run_native() {
         done
         return 1
       }
+      # Each role installs its Black into one environment, so both record the
+      # same paths.
       for role in base current; do
+        version=BLACK_VERSION_$role
+        /venv/bin/pip install --quiet "black==${!version}"
         cap /out/$role/native.collapsed raw
         cap /out/$role/native.speedscope.json speedscope
       done
-    ' PY_SPY_VERSION="$PY_SPY_VERSION" BLACK_VERSION="$BLACK_VERSION" || return 1
+    ' PY_SPY_VERSION="$PY_SPY_VERSION" \
+    BLACK_VERSION_base="${BLACK_VERSION[base]}" \
+    BLACK_VERSION_current="${BLACK_VERSION[current]}" || return 1
 
   native_dir=$dir
 }
@@ -178,7 +187,7 @@ run_memray_for_role() {
       cap /venv13 /out/v13.memray.bin
     ' -e MEMRAY_V12_VERSION="$MEMRAY_V12_VERSION" \
     -e MEMRAY_V13_VERSION="$MEMRAY_V13_VERSION" \
-    -e BLACK_VERSION="$BLACK_VERSION" || return 1
+    -e BLACK_VERSION="${BLACK_VERSION[$role]}" || return 1
 
   memray_rundir[$role]=$dir
 }
@@ -225,7 +234,7 @@ run_pyinstrument_for_role() {
       /venv/bin/pyinstrument -r speedscope -o /out/default.speedscope.json \
         /venv/bin/black /tmp/work.py
     ' -e PYINSTRUMENT_VERSION="$PYINSTRUMENT_VERSION" \
-    -e BLACK_VERSION="$BLACK_VERSION" || return 1
+    -e BLACK_VERSION="${BLACK_VERSION[$role]}" || return 1
 
   pyinstrument_rundir[$role]=$dir
 }
@@ -237,7 +246,7 @@ run_pyinstrument_for_role() {
 # default seccomp profile permits process_vm_readv only with it. Black publishes
 # no compiled wheel for 3.15 yet, so its frames are the pure-Python ones.
 TACHYON_PYTHON_IMAGE="python:3.15.0rc1-trixie"
-HYPOTHESIS_VERSION="6.165.10"
+declare -A HYPOTHESIS_VERSION=([base]="6.165.10" [current]="6.165.11")
 PYTEST_VERSION="9.1.1"
 
 # The sampling modes to capture Black under, and the sampling options that
@@ -275,7 +284,7 @@ run_tachyon_for_role() {
           -o "/out/$config.collapsed" -m black /tmp/work.py
       done <<<"$TACHYON_CONFIGS"
     ' --cap-add SYS_PTRACE \
-    -e BLACK_VERSION="$BLACK_VERSION" \
+    -e BLACK_VERSION="${BLACK_VERSION[$role]}" \
     -e TACHYON_CONFIGS="$(printf '%s\n' "${TACHYON_BLACK_CONFIGS[@]}")" || return 1
 
   tachyon_rundir[$role]=$dir
@@ -309,7 +318,7 @@ run_tachyon_exception_for_role() {
         -o /out/exception.collapsed \
         -m pytest -q -p no:cacheprovider tests/quality/test_shrink_quality.py
     ' --cap-add SYS_PTRACE \
-    -e HYPOTHESIS_VERSION="$HYPOTHESIS_VERSION" \
+    -e HYPOTHESIS_VERSION="${HYPOTHESIS_VERSION[$role]}" \
     -e PYTEST_VERSION="$PYTEST_VERSION" || return 1
 
   tachyon_exception_rundir[$role]=$dir

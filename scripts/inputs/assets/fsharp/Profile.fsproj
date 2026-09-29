@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Compile Include="Profile.fs" />
-    <PackageReference Include="Argu" Version="6.2.4" />
+    <PackageReference Include="Argu" Version="$(ArguVersion)" />
   </ItemGroup>
 
 </Project>
