@@ -6,6 +6,8 @@ import type {
   NodeAdjacencyGraph,
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../modalities/heap-snapshot/index.ts'
+import type { RecordTally } from '../converter.ts'
+import { FormatParseError } from '../error.ts'
 
 /**
  * @see https://github.com/WebKit/WebKit/blob/main/Source/JavaScriptCore/heap/HeapSnapshotBuilder.cpp
@@ -13,7 +15,7 @@ import type {
 export type JSCHeapSnapshot = {
   version: number
 
-  /** Format identifier ("Inspector"). */
+  /** Snapshot variant: "Inspector", or "GCDebugging", which the parser rejects. */
   type: string
 
   /**
@@ -50,8 +52,13 @@ export type JSCHeapSnapshot = {
 
 export const parseJSCHeapSnapshot = (
   snapshot: JSCHeapSnapshot,
+  recordTally: RecordTally,
 ): HeapSnapshot[] => {
-  const { nodes, edges, edgeTypes, nodeClassNames } = snapshot
+  const { type, nodes, edges, edgeTypes, nodeClassNames } = snapshot
+  // A `GCDebugging` snapshot adds fields to each node record.
+  if (type === `GCDebugging`) {
+    throw new FormatParseError(`unsupported snapshot type, got: ${type}`)
+  }
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const rawEdgeCount = edges.length / EDGE_FIELD_COUNT
 
@@ -75,7 +82,7 @@ export const parseJSCHeapSnapshot = (
       nodeAdjacencyGraph,
       selfSizeOf: nodeOrdinal =>
         nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_SIZE_OFFSET]!,
-      nodes: jscSnapshotNodes(snapshot),
+      nodes: jscSnapshotNodes(snapshot, recordTally),
       formatEdgeLabel: (retainerOrdinal, edgeIndex) =>
         formatRetainerEdgeLabel(
           retainerOrdinal,
@@ -116,25 +123,40 @@ const isInternalNode = (
   return (flags & NODE_INTERNAL_FLAG) !== 0
 }
 
-function* jscSnapshotNodes({
-  nodes,
-  nodeClassNames,
-}: JSCHeapSnapshot): Iterable<HeapSnapshotNode> {
+/**
+ * Yields each node, and records each node whose class name index matches no
+ * entry in {@link nodeClassNames}. Such a node keeps its size and category but
+ * joins no constructor, and its label is `(unknown)`.
+ */
+function* jscSnapshotNodes(
+  { nodes, nodeClassNames }: JSCHeapSnapshot,
+  recordTally: RecordTally,
+): Iterable<HeapSnapshotNode> {
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const stringClassNameIndex = nodeClassNames.indexOf(`string`)
 
+  let missingClassNameCount = 0
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
     const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
     const flags = nodes[nodeIndex + NODE_FLAGS_OFFSET]!
 
+    const name = nodeClassNames[classNameIndex]
+    if (name === undefined) {
+      missingClassNameCount++
+    }
     yield classNameIndex === stringClassNameIndex
       ? { category: `string`, type: `string` }
-      : {
-          category: categorizeNode(flags),
-          type: `constructor`,
-          name: nodeClassNames[classNameIndex]!,
-        }
+      : name === undefined
+        ? { category: categorizeNode(flags) }
+        : { category: categorizeNode(flags), type: `constructor`, name }
+  }
+  if (missingClassNameCount > 0) {
+    recordTally.skipped(
+      `class name reference`,
+      `matching no entry in nodeClassNames`,
+      missingClassNameCount,
+    )
   }
 }
 
@@ -379,7 +401,7 @@ const formatNodeLabel = (
 ): string => {
   const classNameIndex =
     nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_CLASS_OFFSET]!
-  return nodeClassNames[classNameIndex]!
+  return nodeClassNames[classNameIndex] ?? `(unknown)`
 }
 
 const NODE_ID_OFFSET = 0

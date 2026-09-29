@@ -5,7 +5,11 @@ import {
   selfSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import { categorySectionTables, categoryTables } from '../../testing.ts'
+import {
+  categorySectionTables,
+  categoryTables,
+  expectLogs,
+} from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
 import { jscHeapSnapshotConverter } from './index.ts'
 import {
@@ -318,6 +322,67 @@ describe(`convert`, () => {
       ),
     ).toEqual([
       [`.propName Object`, `[2] Object`, `.varName Object`, `(GC root)`],
+    ])
+  })
+})
+
+describe(`malformed snapshots`, () => {
+  const snapshot = makeJSCSnapshot({
+    nodes: [
+      ...makeJSCNode({ id: 0, size: 0, nameIndex: 0 }),
+      ...makeJSCNode({ id: 1, size: 16, nameIndex: 1 }),
+    ],
+    nodeClassNames: [`<root>`, `Foo`],
+    edges: makeJSCEdge({ from: 0, to: 1, type: EDGE_INTERNAL, nameIndex: 0 }),
+    edgeNames: [],
+  })
+  const convert = (json: unknown) =>
+    convertJsonToMd(
+      jscHeapSnapshotConverter,
+      json,
+      normalizeProfileToMdOptions(),
+    )
+
+  test(`rejects a GCDebugging snapshot, which auto-detection recognizes`, () => {
+    const gcDebugging = { ...snapshot, type: `GCDebugging` }
+
+    expect(jscHeapSnapshotConverter.matches(gcDebugging)).toBe(true)
+    expect(() => convert(gcDebugging)).toThrow(
+      `unsupported snapshot type, got: GCDebugging`,
+    )
+  })
+
+  test(`leaves a node with a missing class name out of the constructors, with a warning`, () => {
+    const md = convert(
+      makeJSCSnapshot({
+        nodes: [
+          ...makeJSCNode({ id: 0, size: 0, nameIndex: 0 }),
+          ...makeJSCNode({ id: 1, size: 16, nameIndex: 1 }),
+          ...makeJSCNode({ id: 2, size: 48, nameIndex: 7 }),
+        ],
+        nodeClassNames: [`<root>`, `Foo`],
+        edges: [
+          ...makeJSCEdge({ from: 0, to: 1, type: EDGE_INTERNAL, nameIndex: 0 }),
+          ...makeJSCEdge({ from: 0, to: 2, type: EDGE_INTERNAL, nameIndex: 0 }),
+        ],
+        edgeNames: [],
+      }),
+    )
+
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `Object`, '%': `100.0%`, Size: `64 B`, Nodes: `2` },
+        { Category: `Internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+      ],
+    ])
+    expect(selfSizeTables(md)).toEqual([
+      [{ '%': `25.0%`, Size: `16 B`, Instances: `1`, Constructor: `Foo` }],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: bun, safari`,
+      `info: fallback origin: safari`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 class name reference matching no entry in nodeClassNames`,
     ])
   })
 })
