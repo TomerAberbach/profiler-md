@@ -25,6 +25,13 @@ import type { JfrTestInput } from './testing.ts'
 
 const options = normalizeProfileToMdOptions({ baseURL: `/project` })
 
+/** The lines a recording from {@link makeJfr} logs, which name async-profiler. */
+const ORIGIN_LOGS = [
+  `debug: origin candidates, in priority order: async-profiler, jdk`,
+  `info: detected origin: async-profiler`,
+  `debug: async-profiler is named by the format's metadata`,
+]
+
 describe(`parse and matches`, () => {
   test(`accepts a synthetic recording with events`, () => {
     const bytes = makeJfr({
@@ -804,7 +811,7 @@ describe(`malformed recordings`, () => {
     ])
   })
 
-  test(`abandons an event with an unreadable field without dropping others`, () => {
+  test(`abandons an event with an unreadable field without dropping others, with a warning`, () => {
     const bytes = makeJfr({
       methods: [{ name: `a`, className: `com.example.C` }],
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
@@ -829,6 +836,173 @@ describe(`malformed recordings`, () => {
         },
       ],
     ])
+    expectLogs([
+      ...ORIGIN_LOGS,
+      `warn: skipped 1 event with a field of an unreadable type`,
+    ])
+  })
+
+  test(`skips an event referencing a missing stack trace, with a warning`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `com.example.C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [
+        { type: `cpu`, stack: 0 },
+        { type: `cpu`, stack: 9 },
+      ],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
+    expectLogs([
+      ...ORIGIN_LOGS,
+      `warn: skipped 1 event referencing a missing stack trace`,
+    ])
+  })
+
+  test(`drops a frame referencing a missing method, with a warning`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `com.example.C` }],
+      stackTraces: [
+        {
+          frames: [
+            { method: 9, line: 5 },
+            { method: 0, line: 1 },
+          ],
+        },
+      ],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `1`,
+          Function: `a`,
+          Location: `com.example.C`,
+        },
+      ],
+    ])
+    expectLogs([
+      ...ORIGIN_LOGS,
+      `warn: skipped 1 frame referencing a missing method`,
+    ])
+  })
+
+  test(`rejects a recording whose only chunk's metadata offset is outside it`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+    // The metadata offset is a big-endian int64 at offset 24.
+    new DataView(bytes.buffer, bytes.byteOffset).setBigInt64(24, 1n << 40n)
+
+    expect(() => convertBytesToMd(jfrConverter, bytes, options)).toThrow(
+      `no usable records because the parser skipped 1 chunk without metadata at its metadata offset`,
+    )
+  })
+
+  test(`rejects a recording whose only chunk's metadata has a length past its end`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+    // The metadata's string count follows the five varints of its event header
+    // after the 68-byte chunk header. Overwrite it with 2^35 - 1, which fits
+    // neither the metadata event nor the chunk.
+    let position = 68
+    for (let varint = 0; varint < 5; varint++) {
+      while (bytes[position++]! & 0x80) {
+        // Skip the varint's continuation bytes.
+      }
+    }
+    bytes.set([0xff, 0xff, 0xff, 0xff, 0x7f], position)
+
+    expect(() => convertBytesToMd(jfrConverter, bytes, options)).toThrow(
+      `no usable records because the parser skipped 1 chunk whose metadata has a length past its end`,
+    )
+  })
+
+  test(`skips a stack trace whose frame count runs past its event, with a warning`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `com.example.C` }],
+      stackTraces: [
+        { frames: [{ method: 0, line: 1 }] },
+        { frames: [{ method: 0, line: 2 }] },
+      ],
+      // The events after the constant pool event hold more bytes than the
+      // extra frame claims.
+      events: [
+        { type: `cpu`, stack: 0 },
+        { type: `cpu`, stack: 0 },
+        { type: `cpu`, stack: 1 },
+      ],
+      malformations: { overlongStackTraces: [1] },
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(summaryLines(md)).toEqual([`Collected 2 samples.`])
+    expectLogs([
+      ...ORIGIN_LOGS,
+      `warn: skipped 1 constant pool entry with a length past its end`,
+      `warn: skipped 1 event referencing a missing stack trace`,
+    ])
+  })
+
+  test(`skips a constant pool entry with a string of an unknown encoding`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+      malformations: { unknownStringEncoding: true },
+    })
+
+    // The entry is the last symbol, so the constant pool event's later pools
+    // are abandoned with it.
+    expect(() => convertBytesToMd(jfrConverter, bytes, options)).toThrow(
+      `no usable records because the parser skipped 1 constant pool entry with a string of an unknown encoding and 1 event referencing a missing stack trace`,
+    )
+  })
+
+  test(`skips an event size cut off at the end of its chunk, with a warning`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+      // A varint's first byte, with its continuation bit set.
+      malformations: { trailingBytes: [0x80] },
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
+    expectLogs([
+      ...ORIGIN_LOGS,
+      `warn: skipped 1 byte from an event with an invalid size to the end of its chunk`,
+    ])
+  })
+
+  test(`rejects a recording whose event after the metadata has a size of 0`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+    // The metadata event follows the 68-byte chunk header, and its size is a
+    // two-byte varint.
+    const eventStart = 68 + ((bytes[68]! & 0x7f) | (bytes[69]! << 7))
+    bytes[eventStart] = 0
+
+    expect(() => convertBytesToMd(jfrConverter, bytes, options)).toThrow(
+      `no usable records because the parser skipped ${(bytes.length - eventStart).toLocaleString(`en-US`)} bytes from an event with an invalid size to the end of its chunk`,
+    )
   })
 })
 
