@@ -4,7 +4,7 @@ import { chmod, mkdtemp, open, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
-import { brotliCompress, gzip } from 'node:zlib'
+import { brotliCompress, constants, gzip } from 'node:zlib'
 import { expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import {
@@ -30,7 +30,14 @@ const inputFilenames = injectedInputs()
 const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
 
 const gzipAsync = promisify(gzip)
-const brotliCompressAsync = promisify(brotliCompress)
+const brotliCompressAsync = async (data: Buffer): Promise<Buffer> =>
+  promisify(brotliCompress)(data, {
+    params: {
+      // The default quality takes about 20s on a 10 MB input, and every quality
+      // decompresses the same way.
+      [constants.BROTLI_PARAM_QUALITY]: constants.BROTLI_MIN_QUALITY,
+    },
+  })
 const execFileAsync = promisify(execFile)
 
 const isGzipped = async (filename: string): Promise<boolean> => {
