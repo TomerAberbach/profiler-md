@@ -42,7 +42,7 @@ run_for_role() {
       apt-get update -qq
       apt-get install -y -qq --no-install-recommends \
         curl ca-certificates git build-essential
-      curl -fsSL "$RBSPY_URL" -o /tmp/rbspy.tgz
+      curl -fsSL --retry 5 "$RBSPY_URL" -o /tmp/rbspy.tgz
       tar -xzf /tmp/rbspy.tgz -C /tmp
       install -m755 \
         "$(find /tmp -maxdepth 1 -name "rbspy*" -type f -perm -u+x | head -1)" \
