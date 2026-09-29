@@ -3,32 +3,8 @@ import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import { matchEntryFromRules, placeholderPathNormalizer } from '../origin.ts'
-import type { EntryMatchRule, OriginSpec } from '../origin.ts'
-
-/**
- * The `rustc/<40-hex commit hash>` path segment that Rust embeds in stdlib
- * source locations, e.g.
- * `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`.
- */
-const RUSTC_COMMIT_HASH_PATH = `rustc/[0-9a-f]{40}`
-
-// Cargo build-script output directories embed a per-build hash and always emit
-// into an `out/` directory, e.g. `build/web-compiler-274140d43750284c/out/parser.rs`.
-// The `out/` lookahead keeps this from stripping unrelated `build/<name>-<16 hex>/`
-// directories (e.g. some JS bundler outputs) that aren't Cargo build scripts.
-const CARGO_BUILD_HASH_REGEX =
-  /(?<prefix>^|\/)(?<dir>build\/[^/]+)-[0-9a-f]{16}(?=\/out\/)/u
-
-// The rustc commit hash varies per toolchain build.
-const RUSTC_HASH_REGEX = new RegExp(
-  `(?<prefix>^|/)${RUSTC_COMMIT_HASH_PATH}(?=/)`,
-  `u`,
-)
-
-const RUST_LOCATION_MATCH_RULES: EntryMatchRule[] = [
-  [CARGO_BUILD_HASH_REGEX, `$<prefix>$<dir>`],
-  [RUSTC_HASH_REGEX, `$<prefix>rustc`],
-]
+import type { OriginSpec } from '../origin.ts'
+import { RUST_LOCATION_MATCH_RULES, RUSTC_COMMIT_HASH_PATH } from '../rust.ts'
 
 /**
  * The path pprof-rs writes for a symbol without debug info: its

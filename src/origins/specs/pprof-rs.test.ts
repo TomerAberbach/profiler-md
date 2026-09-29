@@ -73,6 +73,20 @@ describe(`categorizeEntry`, () => {
 })
 
 describe(`matchEntry`, () => {
+  test(`strips a registry crate's version`, () => {
+    expect(
+      matchEntryForOrigin(
+        absoluteEntry(
+          `serde_json::de::from_str`,
+          `file:///home/alice/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs`,
+        ),
+        `pprof-rs`,
+      ),
+    ).toEqual({
+      location: `file:///home/alice/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json/src/de.rs`,
+    })
+  })
+
   test(`strips a Cargo build-script hash`, () => {
     expect(
       matchEntryForOrigin(

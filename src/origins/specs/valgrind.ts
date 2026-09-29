@@ -1,4 +1,5 @@
 import { categorizeGenericEntry } from '../categorize.ts'
+import { nativeMatchEntry } from '../native.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
@@ -19,6 +20,7 @@ export const valgrindOriginSpec = {
   formats: [`callgrind`],
   isMarkerEntry: () => false,
   categorizeEntry: categorizeGenericEntry,
+  matchEntry: nativeMatchEntry,
   // The dynamic linker's lazy-binding trampoline intersperses real call chains
   // (`X → _dl_runtime_resolve → Y` on each first call), so walking its outgoing
   // arcs joins unrelated functions into a single spurious recursion cycle.

@@ -2,8 +2,24 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
-import { placeholderPathNormalizer } from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
+import { matchEntryFromRules, placeholderPathNormalizer } from '../origin.ts'
+import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+
+/**
+ * The slug of a depot package's directory, e.g. the `jSAdy` of
+ * `<depot>/packages/JSON3/jSAdy/src/read.jl`. The package manager derives it
+ * from the package's UUID and the installed version's tree hash
+ * (`Base.version_slug`), so it changes with every version. The path without
+ * it, `<depot>/packages/JSON3/src/read.jl`, identifies the file across
+ * versions. An environment installs one version of a package, so no two
+ * entries of one profile share a match key once the rule strips the slug.
+ */
+const DEPOT_PACKAGE_SLUG_REGEX =
+  /(?<prefix>\/packages\/[^/]+\/)[0-9A-Za-z]{5}\/(?=.*\.jl$)/u
+
+const JULIA_LOCATION_MATCH_RULES: EntryMatchRule[] = [
+  [DEPOT_PACKAGE_SLUG_REGEX, `$<prefix>`],
+]
 
 /**
  * Julia's builtin `Profile` stdlib exported to pprof by `PProf.jl`.
@@ -30,6 +46,7 @@ export const pprofJlOriginSpec = {
     juliaRuntimeNativeCategory(entry) ??
     locationlessCategory(entry) ??
     `ours`,
+  matchEntry: matchEntryFromRules({ location: JULIA_LOCATION_MATCH_RULES }),
   normalizeStackFrame: input => {
     // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
     // pseudo-frame. It isn't a function: dropping it returns each sample's

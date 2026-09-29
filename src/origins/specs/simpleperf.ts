@@ -1,4 +1,5 @@
 import { categorizeLinuxEntry } from '../linux.ts'
+import { nativeMatchEntry } from '../native.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
@@ -15,4 +16,5 @@ export const simpleperfOriginSpec = {
   formats: [`perf`],
   isMarkerEntry: () => false,
   categorizeEntry: categorizeLinuxEntry,
+  matchEntry: nativeMatchEntry,
 } as const satisfies OriginSpec

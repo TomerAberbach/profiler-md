@@ -93,3 +93,31 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(entry)).toBe(expected)
   })
 })
+
+describe(`matchEntry`, () => {
+  const { matchEntry } = pprofJlOriginSpec
+
+  test(`strips the slug from a depot package's path`, () => {
+    expect(
+      matchEntry(
+        absoluteEntry(
+          `read`,
+          `file:///home/alice/.julia/packages/JSON3/jSAdy/src/read.jl`,
+        ),
+      ),
+    ).toEqual({
+      location: `file:///home/alice/.julia/packages/JSON3/src/read.jl`,
+    })
+  })
+
+  test(`leaves a path outside the depot's packages alone`, () => {
+    expect(
+      matchEntry(
+        absoluteEntry(
+          `f`,
+          `file:///nix/store/x-julia-bin-1.12.6/share/julia/base/int.jl`,
+        ),
+      ),
+    ).toBeUndefined()
+  })
+})

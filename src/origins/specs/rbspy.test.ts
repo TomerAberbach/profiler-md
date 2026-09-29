@@ -261,6 +261,33 @@ describe(`matchEntry`, () => {
   )
 
   test.each([
+    [
+      `a gem`,
+      `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch.rb`,
+      `/usr/local/bundle/gems/actionpack/lib/action_dispatch.rb`,
+    ],
+    [
+      `a gem whose name has a dash`,
+      `/usr/local/bundle/gems/rails-html-sanitizer-1.6.2/lib/rails-html-sanitizer.rb`,
+      `/usr/local/bundle/gems/rails-html-sanitizer/lib/rails-html-sanitizer.rb`,
+    ],
+    [
+      `a platform gem`,
+      `/usr/local/bundle/gems/nokogiri-1.18.9-aarch64-linux-gnu/lib/nokogiri.rb`,
+      `/usr/local/bundle/gems/nokogiri/lib/nokogiri.rb`,
+    ],
+    [
+      `a gem under a Ruby version directory`,
+      `/usr/local/lib/ruby/gems/3.4.0/gems/rack-3.1.8/lib/rack.rb`,
+      `/usr/local/lib/ruby/gems/3.4.0/gems/rack/lib/rack.rb`,
+    ],
+  ])(`strips the version of %s`, (_description, path, expected) => {
+    expect(matchEntryForOrigin(located(`call`, path), `rbspy`)).toEqual({
+      location: expected,
+    })
+  })
+
+  test.each([
     [`a constant-named owner`, `Gem::Specification.each_spec`],
     [`a method name ending in digits`, `Digest::SHA2#update_1_2`],
   ])(`%s matches by its own name`, (_description, name) => {
