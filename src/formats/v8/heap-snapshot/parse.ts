@@ -13,6 +13,7 @@ import type {
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
+import type { RecordTally } from '../../converter.ts'
 import { FormatParseError } from '../../error.ts'
 
 /**
@@ -95,14 +96,37 @@ type V8HeapSnapshotMeta = {
 
 export const parseV8HeapSnapshot = (
   snapshot: V8HeapSnapshot,
+  recordTally: RecordTally,
 ): HeapSnapshot[] => {
   const {
-    snapshot: { node_count: nodeCount, edge_count: edgeCount, meta },
+    snapshot: { meta },
     nodes,
+    edges,
   } = snapshot
 
   const fieldLayout = computeFieldLayout(meta)
-  const nodeAdjacencyGraph = computeNodeAdjacencyGraph(snapshot, fieldLayout)
+  if (nodes.length % fieldLayout.nodeFieldCount !== 0) {
+    throw new FormatParseError(
+      `nodes length is not a multiple of the ${fieldLayout.nodeFieldCount} node fields, got: ${nodes.length}`,
+    )
+  }
+  if (edges.length % fieldLayout.edgeFieldCount !== 0) {
+    throw new FormatParseError(
+      `edges length is not a multiple of the ${fieldLayout.edgeFieldCount} edge fields, got: ${edges.length}`,
+    )
+  }
+  // DevTools derives the counts from the arrays rather than reading them, so
+  // the parser does too. The parsed JSON is the converter's own.
+  const nodeCount = nodes.length / fieldLayout.nodeFieldCount
+  const edgeCount = edges.length / fieldLayout.edgeFieldCount
+  snapshot.snapshot.node_count = nodeCount
+  snapshot.snapshot.edge_count = edgeCount
+
+  const nodeAdjacencyGraph = computeNodeAdjacencyGraph(
+    snapshot,
+    fieldLayout,
+    recordTally,
+  )
   const nodeOrdinalToLocation = computeNodeOrdinalToLocation(
     snapshot,
     nodeAdjacencyGraph,
@@ -241,15 +265,10 @@ function* v8SnapshotNodes(
 const computeNodeAdjacencyGraph = (
   { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
+  recordTally: RecordTally,
 ): NodeAdjacencyGraph => {
   const { nodeFieldCount, nodeEdgeCountOffset, edgeFieldCount } = fieldLayout
   const { edgeTypeOffset, edgeToNodeOffset, edgeTypeWeak } = fieldLayout
-
-  if (edges.length % edgeFieldCount !== 0) {
-    throw new FormatParseError(
-      `edges length is not a multiple of the ${edgeFieldCount} edge fields, got: ${edges.length}`,
-    )
-  }
 
   // Discovery order groups edges by their node, so these arrays are the
   // successor CSR lists.
@@ -258,25 +277,42 @@ const computeNodeAdjacencyGraph = (
   let offsetToSuccessorEdgeIndex = new Int32Array(totalEdgeCount)
   const ordinalToSuccessorCount = new Int32Array(nodeCount)
   let retainingEdgeCount = 0
+  let skippedEdgeCount = 0
   let nodeEdgesStartIndex = 0
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * nodeFieldCount
     const nodeEdgeCount = nodes[nodeIndex + nodeEdgeCountOffset]!
     for (let edgeOrdinal = 0; edgeOrdinal < nodeEdgeCount; edgeOrdinal++) {
       const edgeIndex = nodeEdgesStartIndex + edgeOrdinal * edgeFieldCount
+      const toNode = edges[edgeIndex + edgeToNodeOffset]!
+      if (!(
+        toNode >= 0 &&
+        toNode < nodes.length &&
+        toNode % nodeFieldCount === 0
+      )) {
+        skippedEdgeCount++
+        continue
+      }
       const edgeType = edges[edgeIndex + edgeTypeOffset]!
       if (edgeType === edgeTypeWeak) {
         continue
       }
 
-      const successorOrdinal =
-        edges[edgeIndex + edgeToNodeOffset]! / nodeFieldCount
+      const successorOrdinal = toNode / nodeFieldCount
       ordinalToSuccessorCount[nodeOrdinal]!++
       offsetToSuccessorOrdinal[retainingEdgeCount] = successorOrdinal
       offsetToSuccessorEdgeIndex[retainingEdgeCount] = edgeIndex
       retainingEdgeCount++
     }
     nodeEdgesStartIndex += nodeEdgeCount * edgeFieldCount
+  }
+  if (nodeEdgesStartIndex !== edges.length) {
+    throw new FormatParseError(
+      `the nodes' edge counts sum to ${nodeEdgesStartIndex / edgeFieldCount} edges, got: ${totalEdgeCount}`,
+    )
+  }
+  if (skippedEdgeCount > 0) {
+    recordTally.skipped(`edge`, `pointing at no node`, skippedEdgeCount)
   }
   if (retainingEdgeCount < totalEdgeCount) {
     // Weak edges left unused entries at the end, so copy to an exact-size
@@ -692,13 +728,19 @@ const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
   const locationFieldToIndex = valueToIndex(locationFields)
   const edgeTypeToIndex = valueToIndex(edgeTypes)
 
+  const nodeSelfSizeOffset = nodeFieldToIndex.get(`self_size`)
+  // Formatting sums the self sizes, and crashes on a missing one.
+  if (nodeSelfSizeOffset === undefined) {
+    throw new FormatParseError(`meta lacks the self_size node field`)
+  }
+
   return {
     nodeTypeOffset: nodeFieldToIndex.get(`type`)!,
     nodeTypeToCategory: nodeTypes.map(nodeType =>
       V8_NODE_TYPE_TO_CATEGORY.get(nodeType),
     ),
     nodeNameOffset: nodeFieldToIndex.get(`name`)!,
-    nodeSelfSizeOffset: nodeFieldToIndex.get(`self_size`)!,
+    nodeSelfSizeOffset,
     nodeEdgeCountOffset: nodeFieldToIndex.get(`edge_count`)!,
     nodeFieldCount: nodeFields.length,
 
