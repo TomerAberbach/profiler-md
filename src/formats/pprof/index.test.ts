@@ -110,7 +110,43 @@ describe(`parse and matches`, () => {
     )
   })
 
-  test(`rejects a sample with fewer values than sample types`, () => {
+  test(`skips a sample with fewer values than sample types, with a warning`, () => {
+    const makeBytes = (
+      samples: { locationIds: number[]; values: number[] }[],
+    ) =>
+      makePprof({
+        functions: [{ id: 1, name: `funcA` }],
+        locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+        samples,
+      })
+    const sample = { locationIds: [1], values: [100_000] }
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      makeBytes([sample, { locationIds: [1], values: [] }]),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(md).toBe(
+      convertBytesToMd(
+        pprofConverter,
+        makeBytes([sample]),
+        normalizeProfileToMdOptions(),
+      ),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: node-pprof, pprof-rs, go, pprof-jl, rbspy, gperftools`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 sample with fewer values than the profile has sample types`,
+      ...originLogs,
+    ])
+  })
+
+  test(`rejects a profile whose every sample has fewer values than sample types`, () => {
     const bytes = makePprof({
       functions: [{ id: 1, name: `funcA` }],
       locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
@@ -120,7 +156,7 @@ describe(`parse and matches`, () => {
     expect(() =>
       convertBytesToMd(pprofConverter, bytes, normalizeProfileToMdOptions()),
     ).toThrow(
-      `sample has fewer values than the profile has sample types, got: 0`,
+      `no usable records because the parser skipped 1 sample with fewer values than the profile has sample types`,
     )
   })
 })
