@@ -665,14 +665,43 @@ describe(`malformed profiles`, () => {
     ).toThrow(`samples and timeDeltas must be arrays`)
   })
 
-  test(`rejects fewer timeDeltas than samples`, () => {
+  test(`skips samples without a time delta, with a warning`, () => {
+    // The parser renumbers the nodes it reads in place.
+    const md = convertJsonToMd(
+      v8CpuProfileConverter,
+      { nodes: [{ ...node }], samples: [1, 1, 1], timeDeltas: [5] },
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(md).toBe(
+      convertJsonToMd(
+        v8CpuProfileConverter,
+        { nodes: [{ ...node }], samples: [1], timeDeltas: [5] },
+        normalizeProfileToMdOptions(),
+      ),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: deno, bun, node, chrome`,
+      `info: fallback origin: chrome`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 2 samples without a time delta`,
+      ...originLogs,
+    ])
+  })
+
+  test(`rejects a profile whose every sample lacks a time delta`, () => {
     expect(() =>
       convertJsonToMd(
         v8CpuProfileConverter,
-        { nodes: [node], samples: [1, 1], timeDeltas: [5] },
+        { nodes: [node], samples: [1, 1], timeDeltas: [] },
         normalizeProfileToMdOptions(),
       ),
-    ).toThrow(`timeDeltas has fewer entries than samples, got: 1 for 2 samples`)
+    ).toThrow(
+      `no usable records because the parser skipped 2 samples without a time delta`,
+    )
   })
 
   test.each([

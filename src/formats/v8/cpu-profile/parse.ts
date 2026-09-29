@@ -54,11 +54,6 @@ export const parseV8CpuProfile = (
   if (!Array.isArray(profile.samples) || !Array.isArray(profile.timeDeltas)) {
     throw new FormatParseError(`samples and timeDeltas must be arrays`)
   }
-  if (profile.timeDeltas.length < profile.samples.length) {
-    throw new FormatParseError(
-      `timeDeltas has fewer entries than samples, got: ${profile.timeDeltas.length} for ${profile.samples.length} samples`,
-    )
-  }
 
   const idToIndex = reindexNodes(profile)
   const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
@@ -132,8 +127,12 @@ function* cpuObservations(
   recordTally: RecordTally,
 ): Iterable<Observation> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
+  const sampleCount = Math.min(
+    profile.samples.length,
+    profile.timeDeltas.length,
+  )
   let skippedSamples = 0
-  for (let index = 0; index < profile.samples.length; index++) {
+  for (let index = 0; index < sampleCount; index++) {
     const nodeIndex = idToIndex[profile.samples[index]!]
     if (nodeIndex === undefined) {
       skippedSamples++
@@ -153,6 +152,13 @@ function* cpuObservations(
   }
   if (skippedSamples > 0) {
     recordTally.skipped(`sample`, `referencing a missing node`, skippedSamples)
+  }
+  if (sampleCount < profile.samples.length) {
+    recordTally.skipped(
+      `sample`,
+      `without a time delta`,
+      profile.samples.length - sampleCount,
+    )
   }
 }
 
