@@ -73,9 +73,9 @@ export type RecordTally = {
  * and throw a `FormatParseError` on input that isn't this format, including
  * spec invariants only parsing can check.
  *
- * Record on `recordTally` only data the spec forbids or an input cut short, never
- * a record the spec allows. The parsed inputs' lazy iterables may record on it
- * too.
+ * Record on `recordTally` only data the spec forbids, data of a part of the spec
+ * the parser doesn't support, or an input cut short, never a record the parser
+ * reads. The parsed inputs' lazy iterables may record on it too.
  */
 export type Parse<Input> = {
   parse: (input: Input, recordTally: RecordTally) => ParsedInput[]
