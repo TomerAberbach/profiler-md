@@ -913,3 +913,106 @@ describe(`convert`, () => {
     ).toBe(convertBytesToMd(perfConverter, bytes, options()))
   })
 })
+
+describe(`malformed recordings`, () => {
+  const options = () =>
+    normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true })
+  const originLogs = [
+    `debug: origin candidates, in priority order: simpleperf, perf`,
+    `info: fallback origin: perf`,
+    `debug: no entry marked another origin`,
+  ]
+
+  test(`rejects a data section of size 0`, () => {
+    expect(() => parsePerf(makePerf(), noopRecordTally)).toThrow(
+      `data section size is 0, which perf record leaves when it is not properly terminated`,
+    )
+  })
+
+  test(`rejects a file shorter than its header`, () => {
+    expect(() =>
+      parsePerf(makePerf().subarray(0, 64), noopRecordTally),
+    ).toThrow(`truncated header, got: 64 bytes`)
+  })
+
+  const cpuClock = { config: 0, ids: [1], sampleType: MULTI_EVENT_SAMPLE_TYPE }
+  const cpuClockAgain = {
+    config: 0,
+    ids: [2],
+    sampleType: MULTI_EVENT_SAMPLE_TYPE,
+  }
+
+  test(`skips a sample whose event ID matches none of several events that set sample_id_all, with a warning`, () => {
+    const md = convertBytesToMd(
+      perfConverter,
+      makePerf({
+        events: [cpuClock, cpuClockAgain],
+        records: [
+          workloadMapping,
+          sampleRecord({ id: 1, callchain: [0x40_12_34] }),
+          sampleRecord({ id: 9, callchain: [0x40_12_34] }),
+        ],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 1.0ms over 1 sample (1.0ms per sample).`,
+    ])
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 sample with an event ID no attribute lists`,
+    ])
+  })
+
+  test.each([
+    { case: `one event is recorded`, events: [cpuClock], id: 9 },
+    { case: `the ID is 0`, events: [cpuClock, cpuClockAgain], id: 0 },
+    {
+      case: `sample_id_all is unset`,
+      events: [cpuClock, cpuClockAgain],
+      id: 9,
+      sampleIdAll: false,
+    },
+  ])(
+    `attributes a sample whose event ID matches no event to the first event when $case`,
+    ({ events, id, sampleIdAll }) => {
+      const md = convertBytesToMd(
+        perfConverter,
+        makePerf({
+          events,
+          sampleIdAll,
+          records: [
+            workloadMapping,
+            sampleRecord({ id: 1, callchain: [0x40_12_34] }),
+            sampleRecord({ id, callchain: [0x40_12_34] }),
+          ],
+        }),
+        options(),
+      )
+
+      expect(summaryLines(md)).toEqual([
+        `Took 2.0ms over 2 samples (1.0ms per sample).`,
+      ])
+    },
+  )
+
+  test(`skips trailing bytes that don't form a record, with a warning`, () => {
+    const md = convertBytesToMd(
+      perfConverter,
+      makePerf({
+        records: [
+          workloadMapping,
+          sampleRecord({ callchain: [0x40_12_34] }),
+          new Uint8Array(4),
+        ],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 1.0ms over 1 sample (1.0ms per sample).`,
+    ])
+    expectLogs([...originLogs, `warn: skipped 4 bytes after the last record`])
+  })
+})

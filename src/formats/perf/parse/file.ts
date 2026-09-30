@@ -67,6 +67,8 @@ export class PerfFile {
 
   readonly #originHint: string | undefined
 
+  readonly #recordTally: RecordTally
+
   public constructor(bytes: Uint8Array, recordTally: RecordTally) {
     this.#bytes = bytes
     this.#view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
@@ -76,6 +78,7 @@ export class PerfFile {
     const attrSize = this.#uint64(16)
     const attrsSection = this.#requireSection(24, `attributes section`)
     this.#data = this.#requireSection(40, `data section`)
+    this.#recordTally = recordTally
 
     const features = this.#readFeatures(recordTally)
     if (features.has(FEATURE_COMPRESSED)) {
@@ -83,9 +86,14 @@ export class PerfFile {
         `compressed with \`perf record -z\`, which is unsupported`,
       )
     }
+    if (this.#data.size === 0) {
+      throw new FormatParseError(
+        `data section size is 0, which perf record leaves when it is not properly terminated`,
+      )
+    }
     this.#originHint = originHintOf(features)
 
-    this.#attrs = this.#readAttrs(attrsSection, attrSize)
+    this.#attrs = this.#readAttrs(attrsSection, attrSize, recordTally)
     this.#idLayout = this.#attrs[0].layout
 
     this.#nameEvents(features.get(FEATURE_EVENT_DESC))
@@ -101,12 +109,24 @@ export class PerfFile {
    * observations are read.
    */
   public toProfiles(): CallStackProfile[] {
+    let unattributedCount = 0
     for (const record of this.#records()) {
       if (record.type !== RECORD_SAMPLE) {
         continue
       }
       const attr = this.#sampleAttr(record)
+      if (!attr) {
+        unattributedCount++
+        continue
+      }
       this.#readSample(record, attr, this.#samplesFor(attr))
+    }
+    if (unattributedCount > 0) {
+      this.#recordTally.skipped(
+        `sample`,
+        `with an event ID no attribute lists`,
+        unattributedCount,
+      )
     }
 
     return this.#attrs.flatMap(attr => {
@@ -161,12 +181,14 @@ export class PerfFile {
         `streamed to a pipe rather than written to a file, which is unsupported`,
       )
     }
-    if (
-      headerSize !== FILE_HEADER_SIZE ||
-      this.#bytes.length < FILE_HEADER_SIZE
-    ) {
+    if (headerSize !== FILE_HEADER_SIZE) {
       throw new FormatParseError(
         `header size is not the ${FILE_HEADER_SIZE} bytes the format defines, got: ${headerSize}`,
+      )
+    }
+    if (this.#bytes.length < FILE_HEADER_SIZE) {
+      throw new FormatParseError(
+        `truncated header, got: ${this.#bytes.length} bytes`,
       )
     }
   }
@@ -186,7 +208,7 @@ export class PerfFile {
     const kernelRecorded = new RecordedMappings()
     const forks: Fork[] = []
 
-    for (const record of this.#records()) {
+    for (const record of this.#records(this.#recordTally)) {
       switch (record.type) {
         case RECORD_MMAP:
         case RECORD_MMAP2:
@@ -303,7 +325,14 @@ export class PerfFile {
     return file
   }
 
-  #sampleAttr({ payload, payloadEnd }: PerfRecord): EventAttr {
+  /**
+   * The event a sample belongs to, or `undefined` where perf drops the sample.
+   * Like perf's `evlist__id2evsel`, it attributes a sample to the first event
+   * when one event is recorded, when the sample's ID is 0 (a synthesized
+   * event's), or when `sample_id_all` is unset. It drops a sample only when its
+   * nonzero ID matches none of several events that set `sample_id_all`.
+   */
+  #sampleAttr({ payload, payloadEnd }: PerfRecord): EventAttr | undefined {
     if (this.#idLayout.idOffset === undefined) {
       return this.#attrs[0]
     }
@@ -313,7 +342,14 @@ export class PerfFile {
         `sample record ends before its event id, got: ${payloadEnd - payload} bytes`,
       )
     }
-    return this.#attrsById.get(this.#uint64(idOffset)) ?? this.#attrs[0]
+    const id = this.#uint64(idOffset)
+    if (this.#attrs.length === 1 || id === 0) {
+      return this.#attrs[0]
+    }
+    return (
+      this.#attrsById.get(id) ??
+      (this.#sampleIdAll ? undefined : this.#attrs[0])
+    )
   }
 
   #readSample(
@@ -568,7 +604,11 @@ export class PerfFile {
     return mapping.file.frameFor(offsetHigh, offsetLow, this.#frames)
   }
 
-  *#records(): Generator<PerfRecord, void, undefined> {
+  /**
+   * Yields the data section's records. Records the bytes it can't read as
+   * records on {@link recordTally}, which the first pass passes alone.
+   */
+  *#records(recordTally?: RecordTally): Generator<PerfRecord, void, undefined> {
     const end = this.#data.offset + this.#data.size
     let { offset } = this.#data
     while (offset + RECORD_HEADER_SIZE <= end) {
@@ -597,8 +637,20 @@ export class PerfFile {
       if (type === RECORD_AUXTRACE) {
         // An `AUXTRACE` record's payload continues past its stated size: the
         // hardware trace it introduces follows it raw.
-        offset += this.#uint64(payload)
+        const traceEnd = offset + this.#uint64(payload)
+        if (traceEnd > end) {
+          recordTally?.skipped(
+            `byte`,
+            `of an AUXTRACE trace running past the data section`,
+            end - offset,
+          )
+          return
+        }
+        offset = traceEnd
       }
+    }
+    if (offset < end) {
+      recordTally?.skipped(`byte`, `after the last record`, end - offset)
     }
   }
 
@@ -641,6 +693,7 @@ export class PerfFile {
   #readAttrs(
     section: FileSection,
     attrSize: number,
+    recordTally: RecordTally,
   ): [EventAttr, ...EventAttr[]] {
     // An attribute is a `perf_event_attr` of whatever length the recording
     // kernel's was, followed by the section listing the sample ids it owns.
@@ -652,6 +705,14 @@ export class PerfFile {
     const count = Math.floor(section.size / attrSize)
     if (!count) {
       throw new FormatParseError(`no recorded events`)
+    }
+    const trailingByteCount = section.size - count * attrSize
+    if (trailingByteCount > 0) {
+      recordTally.skipped(
+        `byte`,
+        `after the last event attribute`,
+        trailingByteCount,
+      )
     }
 
     const attrs: [EventAttr, ...EventAttr[]] = [
