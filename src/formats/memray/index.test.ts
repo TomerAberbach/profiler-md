@@ -144,63 +144,62 @@ describe(`matches`, () => {
     )
   })
 
-  test(`parse reports an aggregated allocation on an undefined stack`, () => {
-    expect(() =>
-      parseMemray(
+  test(`skips aggregated stacks it can't resolve, with a warning`, () => {
+    const allocation = {
+      peakBytes: 1024,
+      peakCount: 1,
+      leakedBytes: 0,
+      leakedCount: 0,
+    }
+    const capture = ({
+      stacks,
+      allocationStacks,
+    }: {
+      stacks: { frame: number; parent: number }[]
+      allocationStacks: number[]
+    }) =>
+      convertBytesToMd(
+        memrayConverter,
         makeAggregatedMemray({
           codeObjects: CODE_OBJECTS,
           frames: [{ codeObjectId: 1 }],
-          stacks: [{ frame: 0, parent: 0 }],
-          allocations: [
-            {
-              stack: 3,
-              peakBytes: 1024,
-              peakCount: 1,
-              leakedBytes: 0,
-              leakedCount: 0,
-            },
-          ],
+          stacks,
+          allocations: allocationStacks.map(stack => ({
+            ...allocation,
+            stack,
+          })),
         }),
-        noopRecordTally,
-      ),
-    ).toThrow(`allocation is on a stack no record defines, got: 3`)
-  })
+        options(),
+      )
+    const complete = capture({
+      stacks: [{ frame: 0, parent: 0 }],
+      allocationStacks: [1],
+    })
+    const originLogs = [
+      `debug: origin candidates, in priority order: memray`,
+      `info: fallback origin: memray`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs(originLogs)
 
-  test(`parse reports a stack in an undefined frame`, () => {
-    expect(() =>
-      parseMemray(
-        makeAggregatedMemray({
-          codeObjects: CODE_OBJECTS,
-          frames: [{ codeObjectId: 1 }],
-          stacks: [{ frame: 2, parent: 0 }],
-          allocations: [
-            {
-              stack: 1,
-              peakBytes: 1024,
-              peakCount: 1,
-              leakedBytes: 0,
-              leakedCount: 0,
-            },
-          ],
-        }),
-        noopRecordTally,
-      ),
-    ).toThrow(`stack 1 is in a frame no record defines, got: 2`)
-  })
+    const md = capture({
+      stacks: [
+        { frame: 0, parent: 0 },
+        { frame: 2, parent: 0 },
+        { frame: 0, parent: 4 },
+        { frame: 0, parent: 3 },
+        { frame: 0, parent: 5 },
+      ],
+      allocationStacks: [1, 2, 3, 9],
+    })
 
-  test(`parse reports a stack under one that follows it`, () => {
-    // Walking such a stack's parents would never reach the empty stack.
-    expect(() =>
-      parseMemray(
-        makeAggregatedMemray({
-          codeObjects: CODE_OBJECTS,
-          frames: [{ codeObjectId: 1 }],
-          stacks: [{ frame: 0, parent: 5 }],
-          allocations: [],
-        }),
-        noopRecordTally,
-      ),
-    ).toThrow(`stack 1 is under a stack that follows it, got parent: 5`)
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 stack in a frame no record defines`,
+      `warn: skipped 1 stack under a cycle of stacks`,
+      `warn: skipped 1 stack that no record defines`,
+    ])
   })
 })
 
