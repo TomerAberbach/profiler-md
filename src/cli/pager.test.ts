@@ -1,4 +1,4 @@
-import { chmod, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, afterEach, beforeAll, expect, test, vi } from 'vitest'
@@ -18,11 +18,13 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
+// Runs the script through `sh` instead of executing it, because Linux refuses
+// to execute a file that a child forked by a concurrent test's spawn still
+// holds open for writing (ETXTBSY).
 const pagerScript = async (name: string, body: string): Promise<string> => {
   const path = join(dir, name)
-  await writeFile(path, `#!/bin/sh\n${body}\n`)
-  await chmod(path, 0o755)
-  return path
+  await writeFile(path, `${body}\n`)
+  return `sh ${path}`
 }
 
 const recordingOutput = (): Output & { texts: string[] } => {

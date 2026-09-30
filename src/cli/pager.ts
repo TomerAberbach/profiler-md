@@ -88,10 +88,17 @@ const trySpawn = (
     return Promise.resolve(null)
   }
 
-  const child = spawn(bin, args, {
-    stdio: [`pipe`, `inherit`, `inherit`],
-    env,
-  })
+  // `spawn` throws synchronously for errors it doesn't emit as `error` (e.g.
+  // ETXTBSY), so a pager that fails either way falls back alike.
+  let child: PagerProcess
+  try {
+    child = spawn(bin, args, {
+      stdio: [`pipe`, `inherit`, `inherit`],
+      env,
+    })
+  } catch {
+    return Promise.resolve(null)
+  }
 
   return new Promise(resolve => {
     child.once(`spawn`, () => resolve(child))
