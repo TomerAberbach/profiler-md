@@ -1180,3 +1180,98 @@ describe(`convert`, () => {
     ).rejects.toThrow(`truncated capture`)
   })
 })
+
+describe(`malformed captures`, () => {
+  test(`rejects an allocation naming an unknown allocator`, () => {
+    expect(() =>
+      parseMemray(
+        makeMemray({
+          codeObjects: CODE_OBJECTS,
+          records: [
+            { type: `thread`, threadId: MAIN_THREAD_ID },
+            { type: `push`, codeObjectId: 1 },
+            { type: `alloc`, allocator: 99, address: 0x1000, size: 1024 },
+          ],
+        }),
+        noopRecordTally,
+      ),
+    ).toThrow(`unknown allocator, got: 99`)
+  })
+
+  test(`skips a stack referencing a missing code object, with a warning`, () => {
+    const records = [
+      { type: `thread`, threadId: MAIN_THREAD_ID },
+      { type: `push`, codeObjectId: 1 },
+      { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
+    ] as const
+    const complete = convertBytesToMd(
+      memrayConverter,
+      makeMemray({ codeObjects: CODE_OBJECTS, records: [...records] }),
+      options(),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: memray`,
+      `info: fallback origin: memray`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs(originLogs)
+
+    const md = convertBytesToMd(
+      memrayConverter,
+      makeMemray({
+        codeObjects: CODE_OBJECTS,
+        records: [
+          ...records,
+          { type: `push`, codeObjectId: 99 },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MALLOC,
+            address: 0x2000,
+            size: 2048,
+          },
+        ],
+      }),
+      options(),
+    )
+
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 stack referencing a missing code object`,
+    ])
+  })
+
+  test(`records the frame pops past the bottom of a stack, with a warning`, () => {
+    const records = [
+      { type: `thread`, threadId: MAIN_THREAD_ID },
+      { type: `push`, codeObjectId: 1 },
+      { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
+    ] as const
+    const complete = convertBytesToMd(
+      memrayConverter,
+      makeMemray({ codeObjects: CODE_OBJECTS, records: [...records] }),
+      options(),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: memray`,
+      `info: fallback origin: memray`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs(originLogs)
+
+    const md = convertBytesToMd(
+      memrayConverter,
+      makeMemray({
+        codeObjects: CODE_OBJECTS,
+        records: [...records, { type: `pop`, count: 3 }],
+      }),
+      options(),
+    )
+
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 2 frame pops past the bottom of the thread's stack`,
+    ])
+  })
+})

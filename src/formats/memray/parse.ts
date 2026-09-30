@@ -29,9 +29,9 @@ export const parseMemray = (
   input: Uint8Array,
   recordTally: RecordTally,
 ): CallStackProfile[] => {
-  const parser = new MemrayParser()
+  const parser = new MemrayParser(recordTally)
   parser.push(input)
-  return parser.end(recordTally)
+  return parser.end()
 }
 
 /**
@@ -43,7 +43,7 @@ export const parseMemrayAsync = async (
   stream: ReadableStream<Uint8Array>,
   recordTally: RecordTally,
 ): Promise<CallStackProfile[]> => {
-  const parser = new MemrayParser()
+  const parser = new MemrayParser(recordTally)
   const reader = stream.getReader()
   try {
     while (true) {
@@ -56,7 +56,7 @@ export const parseMemrayAsync = async (
   } finally {
     reader.releaseLock()
   }
-  return parser.end(recordTally)
+  return parser.end()
 }
 
 /**
@@ -70,10 +70,15 @@ export const parseMemrayAsync = async (
  * before changing the capture's state.
  */
 class MemrayParser {
+  readonly #recordTally: RecordTally
   readonly #reader = new ByteReader()
   #capture: Capture | undefined
   /** How the records ended, after which the rest is ignored. */
   #recordsEnd: RecordsEnd | undefined
+
+  public constructor(recordTally: RecordTally) {
+    this.#recordTally = recordTally
+  }
 
   public push(bytes: Uint8Array): void {
     if (this.#recordsEnd !== undefined) {
@@ -86,7 +91,7 @@ class MemrayParser {
       const start = reader.offset
       try {
         if (this.#capture === undefined) {
-          this.#capture = new Capture(readHeader(reader))
+          this.#capture = new Capture(readHeader(reader), this.#recordTally)
           continue
         }
         this.#recordsEnd = this.#capture.readRecord(reader)
@@ -106,10 +111,10 @@ class MemrayParser {
   /**
    * @throws if the capture ended inside its header or a record. A capture
    *   ending between records or in zero fill without a trailer is read to
-   *   where it ended, as one a killed process left behind, and recorded on
-   *   {@link recordTally}.
+   *   where it ended, as one a killed process left behind, and recorded on the
+   *   parser's {@link RecordTally}.
    */
-  public end(recordTally: RecordTally): CallStackProfile[] {
+  public end(): CallStackProfile[] {
     const capture = this.#capture
     if (
       capture === undefined ||
@@ -118,7 +123,7 @@ class MemrayParser {
       throw new FormatParseError(`truncated capture`)
     }
     if (this.#recordsEnd !== `trailer`) {
-      recordTally.endsBefore(`the trailer`)
+      this.#recordTally.endsBefore(`the trailer`)
     }
     return capture.toProfiles()
   }
@@ -283,6 +288,9 @@ const AGGREGATED_TRAILER = 15
  * (`mmap`) adds an address range, and a ranged deallocator (`munmap`) frees
  * whatever part of any live range its own range covers, so it can shrink a
  * range or split it in two.
+ *
+ * Memray numbers its allocators from `ALLOCATOR_PYMALLOC_FREE` to
+ * `ALLOCATOR_MUNMAP`.
  */
 const ALLOCATOR_PYMALLOC_FREE = 1
 const ALLOCATOR_FREE = 5
@@ -373,8 +381,11 @@ class Capture {
 
   readonly #heap = new HeapHistory()
 
-  public constructor(header: MemrayHeader) {
+  readonly #recordTally: RecordTally
+
+  public constructor(header: MemrayHeader, recordTally: RecordTally) {
     this.#header = header
+    this.#recordTally = recordTally
 
     // Tracking starts on the main thread, which memray states in the header
     // rather than in a context switch record, so its stack exists before any
@@ -406,9 +417,11 @@ class Capture {
       this.#heap.visitLeaked(this.#accumulate(`leaked`))
     }
 
-    const frames = this.#stackTree.frames.map(frame =>
+    const stackFrames = this.#stackTree.frames.map(frame =>
       this.#toStackFrame(frame),
     )
+    this.#skipStacksWithMissingCodeObjects(stackFrames)
+    const frames = stackFrames.map(frame => frame ?? {})
     return [
       {
         type: `call-stack-profile`,
@@ -566,6 +579,11 @@ class Capture {
     let allocator = flags & 0x07
     if (allocator === 0) {
       allocator = reader.byte()
+      // The allocator decides whether a size follows, so the rest of the
+      // capture is unreadable past one the parser doesn't know.
+      if (allocator < ALLOCATOR_PYMALLOC_FREE || allocator > ALLOCATOR_MUNMAP) {
+        throw new FormatParseError(`unknown allocator, got: ${allocator}`)
+      }
     }
 
     const simpleDeallocation = isSimpleDeallocator(allocator)
@@ -697,9 +715,20 @@ class Capture {
     )
   }
 
-  /** Leaves the thread's stack where it is once it has no frames left to pop. */
+  /**
+   * Leaves the thread's stack where it is once it has no frames left to pop,
+   * recording the pops past its bottom.
+   */
   #popFrames(count: number): void {
-    this.#currentStack.length -= Math.min(this.#currentStack.length, count)
+    const popped = Math.min(this.#currentStack.length, count)
+    if (popped < count) {
+      this.#recordTally.skipped(
+        `frame pop`,
+        `past the bottom of the thread's stack`,
+        count - popped,
+      )
+    }
+    this.#currentStack.length -= popped
   }
 
   #topStack(): number {
@@ -716,10 +745,40 @@ class Capture {
     this.#onMainThread = threadId === this.#header.mainThreadId
   }
 
-  #toStackFrame({ codeObjectId, instructionOffset }: CaptureFrame): StackFrame {
+  /**
+   * Skips every stack holding a frame whose code object no record defines, since
+   * the frame has no name or location.
+   */
+  #skipStacksWithMissingCodeObjects(
+    frames: readonly (StackFrame | undefined)[],
+  ): void {
+    if (!frames.includes(undefined)) {
+      return
+    }
+
+    let skippedStacks = 0
+    for (const stack of this.#usageByStack.keys()) {
+      if (this.#framesOf(stack).some(frame => frames[frame] === undefined)) {
+        this.#usageByStack.delete(stack)
+        skippedStacks++
+      }
+    }
+    if (skippedStacks > 0) {
+      this.#recordTally.skipped(
+        `stack`,
+        `referencing a missing code object`,
+        skippedStacks,
+      )
+    }
+  }
+
+  #toStackFrame({
+    codeObjectId,
+    instructionOffset,
+  }: CaptureFrame): StackFrame | undefined {
     const codeObject = this.#codeObjects.get(codeObjectId)
     if (!codeObject) {
-      return {}
+      return undefined
     }
 
     const line = lineNumberOf(codeObject, instructionOffset, this.#header)
@@ -1469,13 +1528,15 @@ const lineNumberOf = (
 
 /**
  * Reads a 3.11-and-later location table, whose entries each cover a run of
- * instructions and contain a line delta in one of several encodings.
+ * instructions and contain a line delta in one of several encodings. An
+ * offset past the table's last entry has no line, as memray's own reader
+ * reports it.
  */
 const lineNumberFromLocationTable = (
   lineTable: Uint8Array,
   instructionOffset: number,
   firstLineNumber: number,
-): number => {
+): number | undefined => {
   const target = Math.floor(instructionOffset / 2)
   let line = firstLineNumber
   let address = 0
@@ -1530,7 +1591,7 @@ const lineNumberFromLocationTable = (
     address = endAddress
   }
 
-  return line
+  return undefined
 }
 
 const LOCATION_ONE_LINE_0 = 10
