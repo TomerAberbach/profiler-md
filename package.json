@@ -91,9 +91,9 @@
     "update-examples": "node scripts/update-examples.ts",
     "check-examples": "node scripts/update-examples.ts --check",
     "check-input-privacy": "node scripts/check-input-privacy.ts",
-    "check": "run-p -lc check:platform check:static",
-    "check:platform": "run-s \"test --run\" check-examples check-diff-matching",
-    "check:static": "run-s -c build typecheck \"lint --no-fix\" \"format --no-write --check\" knip check-readme check-demo check-input-privacy",
+    "check": "run-p -lc check:inputs check:static",
+    "check:inputs": "run-s \"test --run\" check-examples check-diff-matching check-input-privacy",
+    "check:static": "run-s -c build typecheck \"lint --no-fix\" \"format --no-write --check\" knip check-readme check-demo",
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",
