@@ -2,55 +2,13 @@ import { readdirSync, rmSync, statSync } from 'node:fs'
 import { availableParallelism } from 'node:os'
 import { join } from 'node:path'
 import { Worker } from 'node:worker_threads'
+import { exampleDiffPairs } from '../src/cli/examples.ts'
+import type { ExampleDiffPair } from '../src/cli/examples.ts'
 import type { ExampleResult, ExampleTask } from './update-examples-worker.ts'
 
 const check = process.argv.includes(`--check`)
 
-type DiffPair = { name: string; ext: string; base: string; current: string }
-
 type Example = { name: string; inputs: string[] }
-
-// Inputs named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
-// as a pair into `examples/output/<name>.diff.<ext>.md`. Keyed by `<name>.<ext>`
-// since a single `<name>` can have several extensions (e.g. `javascript.node` has
-// `.cpuprofile`, `.heapprofile`, and `.heapsnapshot`).
-const findDiffPairs = (inputFilenames: string[]): DiffPair[] => {
-  const pairs = new Map<
-    string,
-    { name: string; ext: string; base?: string; current?: string }
-  >()
-  for (const filename of inputFilenames) {
-    // `ext` allows dots so multi-segment extensions like `.speedscope.json` pair
-    // up (e.g. `ruby.base.speedscope.json` / `ruby.current.speedscope.json`).
-    const match = /^(?<name>.+)\.(?<role>base|current)\.(?<ext>.+)$/u.exec(
-      filename,
-    )
-    if (!match) {
-      continue
-    }
-
-    const { name, role, ext } = match.groups!
-    const key = `${name}.${ext}`
-    let pair = pairs.get(key)
-    if (!pair) {
-      pair = { name: name!, ext: ext! }
-      pairs.set(key, pair)
-    }
-    pair[role as `base` | `current`] = filename
-  }
-
-  return [...pairs.values()].map(({ name, ext, base, current }) => {
-    if (!base || !current) {
-      process.stderr.write(
-        `examples/input/${base ?? current} is missing its ${
-          base ? `current` : `base`
-        } counterpart for the "${name}" diff pair.\n`,
-      )
-      process.exit(1)
-    }
-    return { name, ext, base, current }
-  })
-}
 
 const totalInputBytes = (filenames: string[]): number =>
   filenames.reduce(
@@ -64,7 +22,7 @@ const totalInputBytes = (filenames: string[]): number =>
 // stretching the run past the point everything else finished.
 const listExamplesLargestFirst = (
   inputFilenames: string[],
-  pairs: DiffPair[],
+  pairs: ExampleDiffPair[],
 ): Example[] =>
   [
     ...inputFilenames.map(filename => ({ name: filename, inputs: [filename] })),
@@ -168,7 +126,7 @@ const convertExamples = async (examples: Example[]): Promise<void> => {
 const inputFilenames = readdirSync(`examples/input`)
 const examples = listExamplesLargestFirst(
   inputFilenames,
-  findDiffPairs(inputFilenames),
+  exampleDiffPairs(inputFilenames),
 )
 deleteOutputsWithoutInput(examples)
 await convertExamples(examples)

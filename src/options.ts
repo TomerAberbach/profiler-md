@@ -18,12 +18,8 @@ import {
   matchEntryForOrigin,
 } from './origins/index.ts'
 import type { Origin } from './origins/index.ts'
-import { normalizeSourceMaps } from './source-map.ts'
-import type {
-  NormalizedSourceMaps,
-  SourceMap,
-  SourceMapResolver,
-} from './source-map.ts'
+import { normalizeSourceMaps, SourceMapResolver } from './source-map.ts'
+import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
 
 /** Profile data that can be synchronously parsed and converted to Markdown. */
 export type ProfileData = string | Uint8Array | Iterable<Uint8Array>
@@ -411,6 +407,26 @@ const normalizeMinCategoryShare = (minCategoryShare: number): number => {
     )
   }
   return minCategoryShare
+}
+
+/**
+ * Resolves options as the conversion pipeline does, except `baseURL: 'auto'`,
+ * which it rejects.
+ */
+export const resolveProfileToMdOptions = (
+  options?: ProfileToMdOptions,
+): FormattingProfileToMdOptions => {
+  const { baseURL, sourceMaps, ...rest } = normalizeProfileToMdOptions(options)
+  if (baseURL === `auto`) {
+    throw new Error(
+      `baseURL 'auto' is resolved by the conversion pipeline, so pass a concrete base URL here`,
+    )
+  }
+  return {
+    ...rest,
+    baseURL,
+    sourceMaps: new SourceMapResolver(sourceMaps, rest.logger),
+  }
 }
 
 const normalizeBaseURL = (

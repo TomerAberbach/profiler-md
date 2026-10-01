@@ -6,7 +6,7 @@ import {
 } from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
 import type { ProfileToMdContext } from '../../options.ts'
-import { resolveProfileToMdOptions } from '../../testing.ts'
+import { resolveProfileToMdOptions } from '../../options.ts'
 import type { Metric } from '../metric.ts'
 import { SAMPLES } from '../metrics.ts'
 import type { StackFrame } from '../stack-frame.ts'

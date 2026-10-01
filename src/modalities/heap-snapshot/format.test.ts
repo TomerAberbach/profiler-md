@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import { resolveProfileToMdOptions } from '../../options.ts'
 import {
   categoryRankingTables,
   categorySectionTables,
   categoryTables,
   profileTitles,
   rankingTables,
-  resolveProfileToMdOptions,
   summaryLines,
 } from '../../testing.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'

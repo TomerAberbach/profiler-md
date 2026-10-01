@@ -4,7 +4,7 @@ import type {
   FunctionCategory,
 } from '../../options.ts'
 import type { Diff } from '../diff.ts'
-import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
+import { matchDiffedFunctions, matchDiffedMaps } from '../diff.ts'
 import type { DiffMetric, Metric } from '../metric.ts'
 import { matchDiffedMetrics, metricsEqual } from '../metric.ts'
 import type {
@@ -121,16 +121,12 @@ export const diffAggregatedCallStackProfiles = (
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
 
-  const { entryMatchKeys } = options
-  const functions = matchDiffedEntries(
-    base.functions,
-    current.functions,
-    func => entryMatchKeys(func, base.context),
-    func => entryMatchKeys(func, current.context),
-  ).map(({ base: baseFunc, current: currentFunc }) => {
-    const { name, location, category } = (currentFunc ?? baseFunc)!
-    return { name, location, category, base: baseFunc, current: currentFunc }
-  })
+  const functions = matchDiffedFunctions(base, current, options).map(
+    ({ base: baseFunc, current: currentFunc }) => {
+      const { name, location, category } = (currentFunc ?? baseFunc)!
+      return { name, location, category, base: baseFunc, current: currentFunc }
+    },
+  )
 
   return {
     base,

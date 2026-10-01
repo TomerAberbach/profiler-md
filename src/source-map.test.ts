@@ -8,9 +8,10 @@ import type {
   FormattingProfileToMdOptions,
   ProfileToMdOptions,
 } from './options.ts'
+import { resolveProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
 import type { SourceMap } from './source-map.ts'
-import { expectLogs, resolveProfileToMdOptions } from './testing.ts'
+import { expectLogs } from './testing.ts'
 
 const L1_C0_TO_SOURCE_0_L1_C0 = `AAAA`
 

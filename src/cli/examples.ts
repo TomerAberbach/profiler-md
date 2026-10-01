@@ -72,6 +72,54 @@ export const parseExampleFilename = (filename: string): Example => {
   }
 }
 
+/** A base input and the current input it is diffed against. */
+export type ExampleDiffPair = {
+  name: string
+  ext: string
+  base: string
+  current: string
+}
+
+/**
+ * Pairs the inputs named `<name>.base.<ext>` and `<name>.current.<ext>`. A
+ * `<name>` with several extensions forms a pair per extension (e.g.
+ * `javascript.node` has `.cpuprofile`, `.heapprofile`, and `.heapsnapshot`).
+ */
+export const exampleDiffPairs = (
+  inputFilenames: Iterable<string>,
+): ExampleDiffPair[] => {
+  const pairs = new Map<
+    string,
+    { name: string; ext: string; base?: string; current?: string }
+  >()
+  for (const filename of inputFilenames) {
+    const { variant } = parseExampleFilename(filename)
+    if (variant === `diff`) {
+      continue
+    }
+
+    const variantStart = filename.indexOf(`.${variant}.`)
+    const name = filename.slice(0, variantStart)
+    const ext = filename.slice(variantStart + variant.length + 2)
+    const key = `${name}.${ext}`
+    let pair = pairs.get(key)
+    if (!pair) {
+      pair = { name, ext }
+      pairs.set(key, pair)
+    }
+    pair[variant] = filename
+  }
+
+  return [...pairs.values()].map(({ name, ext, base, current }) => {
+    if (!base || !current) {
+      throw new Error(
+        `example ${base ?? current} has no ${base ? `current` : `base`} counterpart`,
+      )
+    }
+    return { name, ext, base, current }
+  })
+}
+
 const isOrigin = (token: string): token is Origin =>
   (origins as string[]).includes(token)
 

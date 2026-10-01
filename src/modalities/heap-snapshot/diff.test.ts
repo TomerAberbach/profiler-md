@@ -1,11 +1,8 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import type { ProfileToMdContext } from '../../options.ts'
-import {
-  categoryTables,
-  rankingTables,
-  resolveProfileToMdOptions,
-} from '../../testing.ts'
+import { resolveProfileToMdOptions } from '../../options.ts'
+import { categoryTables, rankingTables } from '../../testing.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {

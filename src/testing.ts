@@ -10,32 +10,6 @@ import {
   rowsFromTable,
 } from './helpers/testing.ts'
 import type { Table } from './helpers/testing.ts'
-import { normalizeProfileToMdOptions } from './options.ts'
-import type {
-  FormattingProfileToMdOptions,
-  ProfileToMdOptions,
-} from './options.ts'
-import { SourceMapResolver } from './source-map.ts'
-
-/**
- * Resolves options as the conversion pipeline does, except `baseURL: 'auto'`,
- * which it rejects.
- */
-export const resolveProfileToMdOptions = (
-  options?: ProfileToMdOptions,
-): FormattingProfileToMdOptions => {
-  const { baseURL, sourceMaps, ...rest } = normalizeProfileToMdOptions(options)
-  if (baseURL === `auto`) {
-    throw new Error(
-      `baseURL 'auto' is resolved by the conversion pipeline, so pass a concrete base URL here`,
-    )
-  }
-  return {
-    ...rest,
-    baseURL,
-    sourceMaps: new SourceMapResolver(sourceMaps, rest.logger),
-  }
-}
 
 const emittedLogs: { level: string; line: string }[] = []
 
