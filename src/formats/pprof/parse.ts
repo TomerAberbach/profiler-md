@@ -359,8 +359,8 @@ const layoutWithCountsAsMetrics = (valueTypes: ValueType[]): ValueLayout => ({
  * frame.
  *
  * A line whose function is absent from the table is dropped rather than
- * passing a reference to a missing function into aggregation. PProf.jl writes
- * such lines.
+ * passing a reference to a missing function into aggregation. PProf.jl before
+ * 3.1.1 writes such lines: https://github.com/JuliaPerf/PProf.jl/pull/98
  *
  * IDs are keyed raw (pprof-format decodes a given varint to `number`, or
  * `bigint` past 4 encoded bytes, deterministically per value) so the

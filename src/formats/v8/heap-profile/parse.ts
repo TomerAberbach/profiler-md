@@ -152,7 +152,9 @@ function* heapObservations(
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
   let skippedSamples = 0
   for (const { size, nodeId } of profile.samples) {
-    // Node's `--heap-prof` writes a sample whose node the call tree omits.
+    // V8's sampling heap profiler, which Node's `--heap-prof` writes, returns a
+    // sample whose node the call tree omits:
+    // https://issues.chromium.org/issues/566593637
     const nodeIndex = idToIndex[nodeId]
     if (nodeIndex === undefined) {
       continue

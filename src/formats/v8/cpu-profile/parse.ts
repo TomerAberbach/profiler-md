@@ -178,6 +178,9 @@ function* cpuLineMetrics(
       continue
     }
 
+    // Bun's `--cpu-prof` omits the tick of a sample taken in optimized code, so
+    // a Bun node's lines sum to less than its self time:
+    // https://github.com/oven-sh/bun/issues/44158
     const selfTime = indexToSelfTime[id]!
     yield {
       frame: id,
