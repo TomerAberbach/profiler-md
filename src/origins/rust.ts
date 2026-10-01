@@ -1,4 +1,4 @@
-import type { EntryMatchRule } from './origin.ts'
+import type { EntryMatchRule } from './spec.ts'
 
 /**
  * The `rustc/<40-hex commit hash>` path segment that Rust embeds in stdlib

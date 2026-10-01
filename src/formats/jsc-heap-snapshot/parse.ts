@@ -6,8 +6,8 @@ import type {
   NodeAdjacencyGraph,
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../modalities/heap-snapshot/index.ts'
-import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
+import type { RecordTally } from '../spec.ts'
 
 /**
  * @see https://github.com/WebKit/WebKit/blob/main/Source/JavaScriptCore/heap/HeapSnapshotBuilder.cpp

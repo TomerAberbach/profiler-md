@@ -2,9 +2,9 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
-import { matchEntryFromRules, placeholderPathNormalizer } from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
 import { RUST_LOCATION_MATCH_RULES, RUSTC_COMMIT_HASH_PATH } from '../rust.ts'
+import { matchEntryFromRules, placeholderPathNormalizer } from '../spec.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * The path pprof-rs writes for a symbol without debug info: its

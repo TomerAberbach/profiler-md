@@ -9,7 +9,7 @@ import {
 import type { Message } from '@optique/core/message'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
-import { formats, formatToConverter } from '../formats/index.ts'
+import { formats, formatToSpec } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import { origins } from '../origins/index.ts'
@@ -69,7 +69,7 @@ const resolveHelpTopic = (topic: string): HelpTopic => {
   if (language) {
     return { type: `language`, id, language }
   }
-  if (Object.hasOwn(formatToConverter, topic)) {
+  if (Object.hasOwn(formatToSpec, topic)) {
     return { type: `format`, format: topic as Format }
   }
   throw new CliError(

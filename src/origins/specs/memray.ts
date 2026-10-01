@@ -1,5 +1,5 @@
 import { categorizeCPythonEntry } from '../cpython.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Memray, Bloomberg's Python memory profiler, which writes the capture files

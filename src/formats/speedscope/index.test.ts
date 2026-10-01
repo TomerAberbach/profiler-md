@@ -14,7 +14,7 @@ import {
   summaryLines,
 } from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
-import { speedscopeConverter } from './index.ts'
+import { speedscopeFormatSpec } from './index.ts'
 import {
   makeEventedProfile,
   makeSampledProfile,
@@ -24,7 +24,7 @@ import {
 describe(`matches`, () => {
   test(`accepts valid speedscope file`, () => {
     expect(
-      speedscopeConverter.matches(
+      speedscopeFormatSpec.matches(
         makeSpeedscopeProfile({
           profiles: [makeSampledProfile({ samples: [[0]], weights: [1] })],
           frames: [{ name: `main` }],
@@ -34,16 +34,16 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(speedscopeConverter.matches(null)).toBe(false)
+    expect(speedscopeFormatSpec.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(speedscopeConverter.matches(42)).toBe(false)
+    expect(speedscopeFormatSpec.matches(42)).toBe(false)
   })
 
   test(`rejects wrong $schema`, () => {
     expect(
-      speedscopeConverter.matches({
+      speedscopeFormatSpec.matches({
         $schema: `https://other.app/schema.json`,
         profiles: [],
         shared: { frames: [] },
@@ -52,14 +52,14 @@ describe(`matches`, () => {
   })
 
   test(`rejects missing profiles`, () => {
-    expect(speedscopeConverter.matches({ nodes: [], timeDeltas: [] })).toBe(
+    expect(speedscopeFormatSpec.matches({ nodes: [], timeDeltas: [] })).toBe(
       false,
     )
   })
 
   test(`rejects null shared`, () => {
     expect(
-      speedscopeConverter.matches({
+      speedscopeFormatSpec.matches({
         $schema: `https://www.speedscope.app/file-format-schema.json`,
         profiles: [],
         shared: null,
@@ -84,7 +84,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -149,7 +149,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -188,7 +188,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -218,7 +218,7 @@ describe(`convert`, () => {
       }
 
       convertJsonToMd(
-        speedscopeConverter,
+        speedscopeFormatSpec,
         profile,
         normalizeProfileToMdOptions({ baseURL: null }),
       )
@@ -250,7 +250,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -312,7 +312,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -352,7 +352,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -383,7 +383,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -415,7 +415,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -439,7 +439,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -460,7 +460,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         showEntry: () => true,
@@ -483,7 +483,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: null,
@@ -524,7 +524,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions(),
     )
@@ -597,7 +597,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -620,7 +620,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -651,7 +651,7 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -667,7 +667,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -681,7 +681,7 @@ describe(`options`, () => {
 
   test(`baseURL: null shows absolute paths`, () => {
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: null,
@@ -695,7 +695,7 @@ describe(`options`, () => {
 
   test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -719,7 +719,7 @@ describe(`malformed profiles`, () => {
   const frames = [{ name: `a` }, { name: `b` }]
   const convert = (profile: Parameters<typeof makeSpeedscopeProfile>[0]) =>
     convertJsonToMd(
-      speedscopeConverter,
+      speedscopeFormatSpec,
       makeSpeedscopeProfile(profile),
       normalizeProfileToMdOptions(),
     )

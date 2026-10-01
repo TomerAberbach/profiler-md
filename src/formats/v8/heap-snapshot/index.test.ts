@@ -10,7 +10,7 @@ import { normalizeProfileToMdOptions } from '../../../options.ts'
 import { categoryTables, expectLogs, rankingTables } from '../../../testing.ts'
 import { diffProfiles } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
-import { v8HeapSnapshotConverter } from './index.ts'
+import { v8HeapSnapshotFormatSpec } from './index.ts'
 import {
   EDGE_TYPE_ELEMENT,
   EDGE_TYPE_HIDDEN,
@@ -31,7 +31,7 @@ import {
 describe(`matches`, () => {
   test(`accepts valid snapshot`, () => {
     expect(
-      v8HeapSnapshotConverter.matches({
+      v8HeapSnapshotFormatSpec.matches({
         snapshot: { meta: { node_fields: [] } },
         edges: [],
       }),
@@ -39,32 +39,32 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(v8HeapSnapshotConverter.matches(null)).toBe(false)
+    expect(v8HeapSnapshotFormatSpec.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(v8HeapSnapshotConverter.matches(`string`)).toBe(false)
+    expect(v8HeapSnapshotFormatSpec.matches(`string`)).toBe(false)
   })
 
   test(`rejects missing snapshot`, () => {
-    expect(v8HeapSnapshotConverter.matches({ edges: [] })).toBe(false)
+    expect(v8HeapSnapshotFormatSpec.matches({ edges: [] })).toBe(false)
   })
 
   test(`rejects snapshot with null meta`, () => {
     expect(
-      v8HeapSnapshotConverter.matches({ snapshot: { meta: null }, edges: [] }),
+      v8HeapSnapshotFormatSpec.matches({ snapshot: { meta: null }, edges: [] }),
     ).toBe(false)
   })
 
   test(`rejects missing node_fields`, () => {
     expect(
-      v8HeapSnapshotConverter.matches({ snapshot: { meta: {} }, edges: [] }),
+      v8HeapSnapshotFormatSpec.matches({ snapshot: { meta: {} }, edges: [] }),
     ).toBe(false)
   })
 
   test(`rejects missing edges`, () => {
     expect(
-      v8HeapSnapshotConverter.matches({
+      v8HeapSnapshotFormatSpec.matches({
         snapshot: { meta: { node_fields: [] } },
       }),
     ).toBe(false)
@@ -317,7 +317,7 @@ const makeStringSnapshot = (value: string) =>
 describe(`convert`, () => {
   test(`formats all sections`, () => {
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeClosureSnapshot(),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -387,7 +387,7 @@ describe(`convert`, () => {
     const snapshot = makeObjectSnapshot(`Array`, `MyClass`)
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -409,7 +409,7 @@ describe(`convert`, () => {
     const snapshot = makeObjectSnapshot(`Promise`, `<generic memory - malloc>`)
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -429,7 +429,7 @@ describe(`convert`, () => {
     )
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions({ baseURL: `auto` }),
     )
@@ -576,7 +576,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -628,7 +628,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -687,7 +687,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -735,7 +735,7 @@ describe(`convert`, () => {
 
     expect(() =>
       convertJsonToMd(
-        v8HeapSnapshotConverter,
+        v8HeapSnapshotFormatSpec,
         snapshot,
         normalizeProfileToMdOptions(),
       ),
@@ -769,7 +769,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -780,7 +780,7 @@ describe(`convert`, () => {
 
   test(`a category filter hides functions`, () => {
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeClosureSnapshot(),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -804,7 +804,7 @@ describe(`convert`, () => {
 
   test(`a category filter hides a function's retained objects`, () => {
     const shown = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeRetainingClosureSnapshot(),
       normalizeProfileToMdOptions(),
     )
@@ -814,7 +814,7 @@ describe(`convert`, () => {
     ])
 
     const hidden = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeRetainingClosureSnapshot(),
       normalizeProfileToMdOptions({
         showEntry: entry => entry.category !== `string`,
@@ -838,7 +838,7 @@ describe(`convert`, () => {
 
   test(`a category filter hides strings`, () => {
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeClosureSnapshot(),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -862,7 +862,7 @@ describe(`convert`, () => {
 
   test(`a category filter hides a constructor's instances`, () => {
     const shown = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeMixedCategoryConstructorSnapshot(),
       normalizeProfileToMdOptions(),
     )
@@ -872,7 +872,7 @@ describe(`convert`, () => {
     ])
 
     const hidden = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeMixedCategoryConstructorSnapshot(),
       normalizeProfileToMdOptions({
         showEntry: entry => entry.category !== `native`,
@@ -885,7 +885,7 @@ describe(`convert`, () => {
   })
   test(`a constructor's instances take the category the origin names for its class`, () => {
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeObjectSnapshot(`Array`, `Array`),
       normalizeProfileToMdOptions({
         showEntry: entry => entry.category === `array`,
@@ -899,7 +899,7 @@ describe(`convert`, () => {
 
   test(`a string holding a synthetic entry's name is shown`, () => {
     const md = convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       makeStringSnapshot(`(module)`),
       normalizeProfileToMdOptions(),
     )
@@ -940,7 +940,7 @@ describe(`malformed snapshots`, () => {
     })
   const convert = (snapshot: unknown) =>
     convertJsonToMd(
-      v8HeapSnapshotConverter,
+      v8HeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )

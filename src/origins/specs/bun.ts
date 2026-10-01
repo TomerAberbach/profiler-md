@@ -9,7 +9,7 @@ import {
   nodeModulesCategory,
 } from '../javascript.ts'
 import { jscConstructorCategory } from '../jsc.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 export const bunOriginSpec = {
   id: `bun`,

@@ -16,7 +16,7 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../testing.ts'
-import { perfConverter } from './index.ts'
+import { perfFormatSpec } from './index.ts'
 import { parsePerf } from './parse/index.ts'
 import {
   commRecord,
@@ -47,25 +47,25 @@ const libcMapping = mmapRecord({
 
 describe(`matches`, () => {
   test(`accepts a file beginning with the magic`, () => {
-    expect(perfConverter.matches(makePerf())).toBe(true)
+    expect(perfFormatSpec.matches(makePerf())).toBe(true)
   })
 
   test(`rejects anything else`, () => {
-    expect(perfConverter.matches(new TextEncoder().encode(`PERFILE`))).toBe(
+    expect(perfFormatSpec.matches(new TextEncoder().encode(`PERFILE`))).toBe(
       false,
     )
-    expect(perfConverter.matches(new TextEncoder().encode(`{"json": 1}`))).toBe(
-      false,
-    )
-    expect(perfConverter.matches(new Uint8Array(0))).toBe(false)
+    expect(
+      perfFormatSpec.matches(new TextEncoder().encode(`{"json": 1}`)),
+    ).toBe(false)
+    expect(perfFormatSpec.matches(new Uint8Array(0))).toBe(false)
   })
 
   test(`accepts the versions and byte orders parse rejects, so it states why`, () => {
     const swapped = makePerf({ magic: `2ELIFREP` })
     const version1 = makePerf({ magic: `PERFFILE` })
 
-    expect(perfConverter.matches(swapped)).toBe(true)
-    expect(perfConverter.matches(version1)).toBe(true)
+    expect(perfFormatSpec.matches(swapped)).toBe(true)
+    expect(perfFormatSpec.matches(version1)).toBe(true)
     expect(() => parsePerf(swapped, noopRecordTally)).toThrow(
       `opposite byte order`,
     )
@@ -124,7 +124,7 @@ describe(`parse`, () => {
 
   test(`reads a recording whose stack copies were unwound before writing`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [{ sampleType: 0x127 + STACK_USER_SAMPLE_TYPE }],
         features: [{ bit: 129, payload: new Uint8Array(8) }],
@@ -219,7 +219,7 @@ describe(`origin hint`, () => {
     }).subarray(0, -24)
 
     convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       bytes,
       normalizeProfileToMdOptions({ baseURL: `/` }),
     )
@@ -250,7 +250,7 @@ describe(`convert`, () => {
     // Leaf first: the sampled address in the workload, called from another
     // address in it. Two samples at 1ms each.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           workloadMapping,
@@ -306,7 +306,7 @@ describe(`convert`, () => {
     // The kernel fills a buffer per CPU and perf writes them one after
     // another, so a mapping can trail the samples that fall in it.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           sampleRecord({ callchain: [CONTEXT_USER, 0x40_12_34] }),
@@ -331,7 +331,7 @@ describe(`convert`, () => {
 
   test(`mappings from before an execve don't resolve the new program's addresses`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           mmapRecord({
@@ -362,7 +362,7 @@ describe(`convert`, () => {
 
   test(`the kernel, a system library, and an unmapped address categorize`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           workloadMapping,
@@ -416,7 +416,7 @@ describe(`convert`, () => {
     }
 
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [cpuClock, pageFaults],
         features: [
@@ -451,7 +451,7 @@ describe(`convert`, () => {
     // kernel reports no unmapping, so only the later mapping's time states
     // which one an address in the overlap belongs to.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           mmapRecord({
@@ -490,7 +490,7 @@ describe(`convert`, () => {
     // and is sampled once under each. The later exec is written first, as a
     // record from another CPU's buffer would be.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           commRecord({ exec: true, time: 4 }),
@@ -554,7 +554,7 @@ describe(`convert`, () => {
     // parent, and a fork perf synthesized for an already-running process
     // inherits nothing, since that process's own mappings follow it.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           workloadMapping,
@@ -625,7 +625,7 @@ describe(`convert`, () => {
     // address as the file offset, so the offset from the mapping's start is
     // what stays the same across boots.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           mmapRecord({
@@ -661,7 +661,7 @@ describe(`convert`, () => {
     // Above 2^53 a number holds every 2048th address, so an address in a
     // mapping's last kilobyte rounds up to its end when compared as one.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           mmapRecord({
@@ -694,7 +694,7 @@ describe(`convert`, () => {
 
   test(`a sample whose call chain resolved to no frame keeps its executing address`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           workloadMapping,
@@ -720,7 +720,7 @@ describe(`convert`, () => {
 
   test(`a kernel module is kernel code, whether or not its file was found`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           mmapRecord({
@@ -773,7 +773,7 @@ describe(`convert`, () => {
 
   test(`a hardware event on a hybrid CPU is named by its low bits`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [
           {
@@ -799,7 +799,7 @@ describe(`convert`, () => {
 
   test(`an address in anonymous memory is jit code`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           mmapRecord({ start: 0x7f_00_00, length: 0x1_00_00, path: `//anon` }),
@@ -830,7 +830,7 @@ describe(`convert`, () => {
     // event's don't. Their ids sit at the same position, as perf requires of
     // events recorded together.
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [
           { config: 0, ids: [1], sampleType: MULTI_EVENT_SAMPLE_TYPE },
@@ -864,7 +864,7 @@ describe(`convert`, () => {
 
   test(`an event's PMU and modifiers don't change what it measures`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [{ type: 0, config: 0, freq: false, samplePeriod: 1000 }],
         features: [eventDescFeature([{ name: `cpu_core/cycles/P`, ids: [] }])],
@@ -884,7 +884,7 @@ describe(`convert`, () => {
 
   test(`a tracepoint keeps the event name after its subsystem's colon`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [{ type: 2, config: 1234, freq: false, samplePeriod: 1 }],
         features: [eventDescFeature([{ name: `kmem:kmalloc`, ids: [] }])],
@@ -906,11 +906,11 @@ describe(`convert`, () => {
 
     expect(
       await convertToMdAsync(
-        perfConverter,
+        perfFormatSpec,
         streamOf(...chunk(bytes, 7)),
         options(),
       ),
-    ).toBe(convertBytesToMd(perfConverter, bytes, options()))
+    ).toBe(convertBytesToMd(perfFormatSpec, bytes, options()))
   })
 })
 
@@ -944,7 +944,7 @@ describe(`malformed recordings`, () => {
 
   test(`skips a sample whose event ID matches none of several events that set sample_id_all, with a warning`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         events: [cpuClock, cpuClockAgain],
         records: [
@@ -978,7 +978,7 @@ describe(`malformed recordings`, () => {
     `attributes a sample whose event ID matches no event to the first event when $case`,
     ({ events, id, sampleIdAll }) => {
       const md = convertBytesToMd(
-        perfConverter,
+        perfFormatSpec,
         makePerf({
           events,
           sampleIdAll,
@@ -999,7 +999,7 @@ describe(`malformed recordings`, () => {
 
   test(`skips trailing bytes that don't form a record, with a warning`, () => {
     const md = convertBytesToMd(
-      perfConverter,
+      perfFormatSpec,
       makePerf({
         records: [
           workloadMapping,

@@ -1,6 +1,6 @@
 import { categorizeLinuxEntry } from '../linux.ts'
 import { nativeMatchEntry } from '../native.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Android's simpleperf, which records the same `perf.data` layout the Linux

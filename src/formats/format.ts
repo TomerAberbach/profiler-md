@@ -5,9 +5,9 @@ import {
   commonAncestorDirectoryURL,
   isBaseURLInferableLocation,
 } from '../location.ts'
-import type { EntityLocation } from '../modalities/modality.ts'
 import { modalitySpecOf } from '../modalities/registry.ts'
 import type { AggregatedInput, Modality } from '../modalities/registry.ts'
+import type { EntityLocation } from '../modalities/spec.ts'
 import type {
   FormattingProfileToMdOptions,
   NormalizedProfileToMdOptions,

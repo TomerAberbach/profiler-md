@@ -7,8 +7,8 @@ import type {
 } from '../../../modalities/call-stack-profile/index.ts'
 import { SAMPLES } from '../../../modalities/metrics.ts'
 import type { StackFrame } from '../../../modalities/stack-frame.ts'
-import type { RecordTally } from '../../converter.ts'
 import { FormatParseError } from '../../error.ts'
+import type { RecordTally } from '../../spec.ts'
 import {
   BRANCH_ENTRY_SIZE,
   BRANCH_HW_INDEX,

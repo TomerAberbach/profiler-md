@@ -7,8 +7,8 @@ import {
   NATIVE_LIBRARY,
   nativeLibraryCategory,
 } from './categorize.ts'
-import { matchEntryFromRules } from './origin.ts'
-import type { EntryMatchRule } from './origin.ts'
+import { matchEntryFromRules } from './spec.ts'
+import type { EntryMatchRule } from './spec.ts'
 
 /**
  * The runtime address HotSpot appends to a hidden class's name, differing per

@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesCollapsed } from './matches.ts'
 import { parseCollapsed, parseCollapsedAsync } from './parse.ts'
 
-export const collapsedConverter = {
+export const collapsedFormatSpec = {
   id: `collapsed`,
   title: `Collapsed stacks`,
   extension: `collapsed`,
@@ -14,4 +14,4 @@ export const collapsedConverter = {
   matches: matchesCollapsed,
   parse: parseCollapsed,
   parseAsync: parseCollapsedAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

@@ -81,10 +81,10 @@ export type Detect<Input> = {
   matches: (input: Input) => boolean
 }
 
-export type JsonFormatConverter = FormatMeta &
+export type JsonFormatSpec = FormatMeta &
   Detect<unknown> & { type: `json` } & Parse<unknown>
 
-export type BinaryFormatConverter = FormatMeta &
+export type BinaryFormatSpec = FormatMeta &
   Detect<Uint8Array> & {
     type: `binary`
 
@@ -101,4 +101,4 @@ export type BinaryFormatConverter = FormatMeta &
     ) => Promise<ParsedInput[]>
   } & Parse<Uint8Array>
 
-export type FormatConverter = JsonFormatConverter | BinaryFormatConverter
+export type FormatSpec = JsonFormatSpec | BinaryFormatSpec

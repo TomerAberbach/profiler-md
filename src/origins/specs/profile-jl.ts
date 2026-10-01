@@ -1,6 +1,6 @@
 import type { HeapSnapshotNodeCategory } from '../../modalities/heap-snapshot/type.ts'
 import { categorizeGenericEntry } from '../categorize.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Julia's built-in `Profile` standard-library module, which writes V8-format

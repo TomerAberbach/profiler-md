@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesPerf } from './matches.ts'
 import { parsePerf, parsePerfAsync } from './parse/index.ts'
 
-export const perfConverter = {
+export const perfFormatSpec = {
   id: `perf`,
   title: `perf.data`,
   extension: `perf.data`,
@@ -14,4 +14,4 @@ export const perfConverter = {
   matches: matchesPerf,
   parse: parsePerf,
   parseAsync: parsePerfAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

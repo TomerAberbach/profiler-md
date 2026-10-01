@@ -4,16 +4,16 @@ import { expect, inject } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import { aggregateParseResult } from './aggregate.ts'
-import type {
-  BinaryFormatConverter,
-  FormatConverter,
-  JsonFormatConverter,
-  RecordTally,
-} from './converter.ts'
 import { formatAggregatedInputs } from './format.ts'
 import type { Format } from './index.ts'
 import { runParse, runParseAsync } from './parse.ts'
 import type { ParseResult } from './parse.ts'
+import type {
+  BinaryFormatSpec,
+  FormatSpec,
+  JsonFormatSpec,
+  RecordTally,
+} from './spec.ts'
 
 declare module 'vitest' {
   // Module augmentation only merges through an interface.
@@ -91,45 +91,45 @@ export const noopRecordTally: RecordTally = {
 }
 
 export const convertJsonToMd = (
-  converter: JsonFormatConverter,
+  formatSpec: JsonFormatSpec,
   json: unknown,
   options: NormalizedProfileToMdOptions,
-  // For ad-hoc converters not in the registry, whose format can't be derived.
+  // For ad-hoc format specs not in the registry, whose format can't be derived.
   format?: Format,
 ): string =>
   convertParseResultToMd(
-    converter,
-    runParse(converter, recordTally => converter.parse(json, recordTally)),
+    formatSpec,
+    runParse(formatSpec, recordTally => formatSpec.parse(json, recordTally)),
     options,
     format,
   )
 
 export const convertBytesToMd = (
-  converter: BinaryFormatConverter,
+  formatSpec: BinaryFormatSpec,
   bytes: Uint8Array,
   options: NormalizedProfileToMdOptions,
 ): string =>
   convertParseResultToMd(
-    converter,
-    runParse(converter, recordTally => converter.parse(bytes, recordTally)),
+    formatSpec,
+    runParse(formatSpec, recordTally => formatSpec.parse(bytes, recordTally)),
     options,
   )
 
 export const convertToMdAsync = async (
-  converter: BinaryFormatConverter,
+  formatSpec: BinaryFormatSpec,
   stream: ReadableStream<Uint8Array>,
   options: NormalizedProfileToMdOptions,
 ): Promise<string> =>
   convertParseResultToMd(
-    converter,
-    await runParseAsync(converter, recordTally =>
-      converter.parseAsync(stream, recordTally),
+    formatSpec,
+    await runParseAsync(formatSpec, recordTally =>
+      formatSpec.parseAsync(stream, recordTally),
     ),
     options,
   )
 
 const convertParseResultToMd = (
-  converter: FormatConverter,
+  formatSpec: FormatSpec,
   result: ParseResult,
   options: NormalizedProfileToMdOptions,
   format?: Format,
@@ -138,12 +138,12 @@ const convertParseResultToMd = (
     aggregateParseResult(
       result,
       options,
-      format ? { format, origin: null } : profileToMdContext(converter),
+      format ? { format, origin: null } : profileToMdContext(formatSpec),
     ),
     options,
   )
 
-const profileToMdContext = (converter: FormatConverter) => ({
-  format: converter.id as Format,
+const profileToMdContext = (formatSpec: FormatSpec) => ({
+  format: formatSpec.id as Format,
   origin: null,
 })

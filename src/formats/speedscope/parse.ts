@@ -4,8 +4,8 @@ import type {
 } from '../../modalities/call-stack-profile/index.ts'
 import { parseMetric, SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
+import type { RecordTally } from '../spec.ts'
 
 /** A unique location within a function. */
 export type SpeedscopeFrame = {
@@ -135,7 +135,7 @@ const exporterOriginHint = (
 // frame. Some profilers (py-spy, rbspy) instead emit one frame per *sampled*
 // line; their origins' `normalizeStackFrame` reinterprets the line as the
 // executing line (see `normalizeSpeedscopeExecutingLine` in
-// `src/origins/origin.ts`).
+// `src/origins/spec.ts`).
 //
 // A definition position is a position within its source, so the parser drops
 // a `line` without a `file`.
@@ -203,7 +203,7 @@ function* sampledObservations(
       continue
     }
     // Speedscope stacks are caller-to-callee, and an observation's are
-    // callee-to-caller. The parsed JSON is the converter's own and read once,
+    // callee-to-caller. The parsed JSON is the parser's own and read once,
     // so reverse in place instead of copying every record's stack.
     yield { values: [weight], frameIndices: frameIndices.reverse() }
   }

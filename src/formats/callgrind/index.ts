@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesCallgrind } from './matches.ts'
 import { parseCallgrind, parseCallgrindAsync } from './parse.ts'
 
-export const callgrindConverter = {
+export const callgrindFormatSpec = {
   id: `callgrind`,
   title: `Callgrind`,
   extension: `callgrind`,
@@ -15,4 +15,4 @@ export const callgrindConverter = {
   matches: matchesCallgrind,
   parse: parseCallgrind,
   parseAsync: parseCallgrindAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

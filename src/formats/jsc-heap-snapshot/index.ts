@@ -1,9 +1,9 @@
-import type { JsonFormatConverter } from '../converter.ts'
+import type { JsonFormatSpec } from '../spec.ts'
 import { matchesJSCHeapSnapshot } from './matches.ts'
 import { parseJSCHeapSnapshot } from './parse.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
-export const jscHeapSnapshotConverter = {
+export const jscHeapSnapshotFormatSpec = {
   id: `jsc-heap-snapshot`,
   title: `JSC heap snapshot`,
   extension: `jsc-heap-snapshot.json`,
@@ -15,4 +15,4 @@ export const jscHeapSnapshotConverter = {
   matches: matchesJSCHeapSnapshot,
   parse: (json, recordTally) =>
     parseJSCHeapSnapshot(json as JSCHeapSnapshot, recordTally),
-} as const satisfies JsonFormatConverter
+} as const satisfies JsonFormatSpec

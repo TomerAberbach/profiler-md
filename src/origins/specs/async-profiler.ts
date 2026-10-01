@@ -7,7 +7,7 @@ import {
   jvmMethodDisplayName,
   jvmSourceClassName,
 } from '../jvm.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 export const asyncProfilerOriginSpec = {
   id: `async-profiler`,

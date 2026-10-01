@@ -3,7 +3,7 @@ import {
   jvmConstructorCategory,
   jvmMatchEntry,
 } from '../jvm.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * The JDK's built-in JFR recorder and its heap dumper, which `jmap`, `jcmd`,

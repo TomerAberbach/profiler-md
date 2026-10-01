@@ -1,7 +1,7 @@
 import { callGraphModalitySpec } from './call-graph/index.ts'
 import { callStackProfileModalitySpec } from './call-stack-profile/index.ts'
 import { heapSnapshotModalitySpec } from './heap-snapshot/index.ts'
-import type { ModalitySpec } from './modality.ts'
+import type { ModalitySpec } from './spec.ts'
 
 const modalitySpecs = [
   callStackProfileModalitySpec,

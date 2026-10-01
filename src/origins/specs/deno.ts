@@ -1,7 +1,7 @@
 import { protocolCategory } from '../categorize.ts'
 import { v8JavaScriptCategory } from '../javascript.ts'
-import { hasProtocol } from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
+import { hasProtocol } from '../spec.ts'
+import type { OriginSpec } from '../spec.ts'
 
 export const denoOriginSpec = {
   id: `deno`,

@@ -6,8 +6,8 @@ import type {
 import type { Metric } from '../../../modalities/metric.ts'
 import { SAMPLES, WALL_TIME_METRIC } from '../../../modalities/metrics.ts'
 import type { StackFrame } from '../../../modalities/stack-frame.ts'
-import type { RecordTally } from '../../converter.ts'
 import { FormatParseError } from '../../error.ts'
+import type { RecordTally } from '../../spec.ts'
 import { costCentreStackFrame } from '../cost-centre.ts'
 
 /**

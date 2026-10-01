@@ -2,7 +2,7 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * GHC, whose runtime system samples the cost centres of a program compiled

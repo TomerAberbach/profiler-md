@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesSysting } from './matches.ts'
 import { parseSysting, parseSystingAsync } from './parse.ts'
 
-export const systingConverter = {
+export const systingFormatSpec = {
   id: `systing`,
   title: `systing`,
   extension: `systing`,
@@ -12,4 +12,4 @@ export const systingConverter = {
   matches: matchesSysting,
   parse: parseSysting,
   parseAsync: parseSystingAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

@@ -20,7 +20,7 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../testing.ts'
-import { memrayConverter } from './index.ts'
+import { memrayFormatSpec } from './index.ts'
 import { MINIMUM_COMPACTION_LENGTH, parseMemray } from './parse.ts'
 import {
   MAIN_THREAD_ID,
@@ -73,16 +73,16 @@ const LEAKED = `Leaked memory profile`
 
 describe(`matches`, () => {
   test(`accepts a capture`, () => {
-    expect(memrayConverter.matches(risesThenFalls)).toBe(true)
+    expect(memrayFormatSpec.matches(risesThenFalls)).toBe(true)
   })
 
   test(`rejects bytes that aren't a capture`, () => {
-    expect(memrayConverter.matches(new Uint8Array(0))).toBe(false)
-    expect(memrayConverter.matches(new TextEncoder().encode(`memray!`))).toBe(
+    expect(memrayFormatSpec.matches(new Uint8Array(0))).toBe(false)
+    expect(memrayFormatSpec.matches(new TextEncoder().encode(`memray!`))).toBe(
       false,
     )
     expect(
-      memrayConverter.matches(new TextEncoder().encode(`{"json": true}`)),
+      memrayFormatSpec.matches(new TextEncoder().encode(`{"json": true}`)),
     ).toBe(false)
   })
 
@@ -113,13 +113,13 @@ describe(`matches`, () => {
         `debug: no entry marked another origin`,
       ]
       const complete = convertBytesToMd(
-        memrayConverter,
+        memrayFormatSpec,
         risesThenFalls,
         options(),
       )
       expectLogs(originLogs)
 
-      const md = convertBytesToMd(memrayConverter, bytes, options())
+      const md = convertBytesToMd(memrayFormatSpec, bytes, options())
 
       expect(md).toBe(complete)
       expectLogs([...originLogs, `warn: the input ends before the trailer`])
@@ -159,7 +159,7 @@ describe(`matches`, () => {
       allocationStacks: number[]
     }) =>
       convertBytesToMd(
-        memrayConverter,
+        memrayFormatSpec,
         makeAggregatedMemray({
           codeObjects: CODE_OBJECTS,
           frames: [{ codeObjectId: 1 }],
@@ -223,13 +223,13 @@ describe(`convert`, () => {
       records: [...records],
     })
 
-    expect(convertBytesToMd(memrayConverter, version13, options())).toEqual(
-      convertBytesToMd(memrayConverter, version12, options()),
+    expect(convertBytesToMd(memrayFormatSpec, version13, options())).toEqual(
+      convertBytesToMd(memrayFormatSpec, version12, options()),
     )
   })
 
   test(`measures the memory live at the peak and at the end`, () => {
-    const md = convertBytesToMd(memrayConverter, risesThenFalls, options())
+    const md = convertBytesToMd(memrayFormatSpec, risesThenFalls, options())
 
     expect(profileTitles(md)).toEqual([PEAK, LEAKED])
     expect(summaryLines(md)).toEqual([
@@ -290,7 +290,7 @@ describe(`convert`, () => {
       .fill(0)
       .map((_, index) => 0x1_00_00 + index * 8)
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -400,7 +400,7 @@ describe(`convert`, () => {
           { type: `alloc`, allocator: MEMRAY_FREE, address: from + index * 8 },
         ])
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -484,7 +484,7 @@ describe(`convert`, () => {
 
   test(`counts an allocation of no size`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -526,7 +526,7 @@ describe(`convert`, () => {
 
   test(`attributes an allocation to the stack its thread is in`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -582,7 +582,7 @@ describe(`convert`, () => {
     // named by its place in the writer's cache, so a reader that doesn't track
     // the cache identically frees the wrong allocation.
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -618,7 +618,7 @@ describe(`convert`, () => {
     // A deallocation memray didn't trace leaves the earlier allocation live at
     // the address the later one takes.
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -650,7 +650,7 @@ describe(`convert`, () => {
 
   test(`a mapping over a live one frees the range it covers`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -683,7 +683,7 @@ describe(`convert`, () => {
 
   test(`a partial munmap frees only the part of the mapping it covers`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -724,7 +724,7 @@ describe(`convert`, () => {
     ] as const
 
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         skippedFramesOnMainThread: 1,
@@ -750,7 +750,7 @@ describe(`convert`, () => {
 
   test(`reads a frame's executing line from its code object's line table`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: [
           {
@@ -807,7 +807,7 @@ describe(`convert`, () => {
 
   test(`reads the totals a --aggregate capture states per stack`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeAggregatedMemray({
         codeObjects: CODE_OBJECTS,
         frames: [{ codeObjectId: 1 }, { codeObjectId: 2 }],
@@ -863,7 +863,7 @@ describe(`convert`, () => {
 
   test(`counts each measure's own allocations`, () => {
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeAggregatedMemray({
         codeObjects: CODE_OBJECTS,
         frames: [{ codeObjectId: 1 }, { codeObjectId: 2 }],
@@ -933,7 +933,7 @@ describe(`convert`, () => {
     // Tracking starts on the main thread the header names, which memray states
     // there rather than in a context switch record.
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -966,7 +966,7 @@ describe(`convert`, () => {
     // Every record type carries an extra native frame ID under `--native`, so
     // reading one wrong desynchronizes the rest of the byte stream.
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         nativeTraces: true,
         codeObjects: CODE_OBJECTS,
@@ -1059,7 +1059,7 @@ describe(`convert`, () => {
   })
 
   // `memray run` writes every capture as an LZ4 frame, which the pipeline
-  // strips before the converter receives the bytes.
+  // strips before the parser receives the bytes.
   test(`converts a compressed capture`, () => {
     const md = profileToMd(asLz4Frame(risesThenFalls), { baseURL: `/app` })
 
@@ -1153,14 +1153,14 @@ describe(`convert`, () => {
 
   const captures = [everyRecord, everyAggregatedRecord].map(capture => ({
     capture,
-    expectedMd: convertBytesToMd(memrayConverter, capture, options()),
+    expectedMd: convertBytesToMd(memrayFormatSpec, capture, options()),
   }))
 
   test.prop([fc.constantFrom(...captures), fc.integer({ min: 1, max: 64 })])(
     `reads a stream the same way at any chunk size`,
     async ({ capture, expectedMd }, chunkSize) => {
       const md = await convertToMdAsync(
-        memrayConverter,
+        memrayFormatSpec,
         streamOf(...chunk(capture, chunkSize)),
         options(),
       )
@@ -1172,7 +1172,7 @@ describe(`convert`, () => {
   test(`reports a stream that ends mid-record`, async () => {
     await expect(
       convertToMdAsync(
-        memrayConverter,
+        memrayFormatSpec,
         streamOf(...chunk(risesThenFalls.subarray(0, 10), 3)),
         options(),
       ),
@@ -1204,7 +1204,7 @@ describe(`malformed captures`, () => {
       { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
     ] as const
     const complete = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({ codeObjects: CODE_OBJECTS, records: [...records] }),
       options(),
     )
@@ -1216,7 +1216,7 @@ describe(`malformed captures`, () => {
     expectLogs(originLogs)
 
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [
@@ -1247,7 +1247,7 @@ describe(`malformed captures`, () => {
       { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
     ] as const
     const complete = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({ codeObjects: CODE_OBJECTS, records: [...records] }),
       options(),
     )
@@ -1259,7 +1259,7 @@ describe(`malformed captures`, () => {
     expectLogs(originLogs)
 
     const md = convertBytesToMd(
-      memrayConverter,
+      memrayFormatSpec,
       makeMemray({
         codeObjects: CODE_OBJECTS,
         records: [...records, { type: `pop`, count: 3 }],

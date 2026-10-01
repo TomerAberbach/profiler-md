@@ -10,8 +10,8 @@ import {
   JVM_PRIMITIVE_DESCRIPTOR_NAMES,
   jvmSourceClassName,
 } from '../../origins/jvm.ts'
-import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
+import type { RecordTally } from '../spec.ts'
 import { ObjectIdToOrdinal } from './object-ids.ts'
 
 /**

@@ -40,10 +40,10 @@ import {
   parseJsonAsync,
   rethrowInputReadFailure,
 } from './parse.ts'
-import { formatToConverter } from './registry.ts'
+import { formatToSpec } from './registry.ts'
 import type { Format } from './registry.ts'
 
-export { formatToConverter, formats } from './registry.ts'
+export { formatToSpec, formats } from './registry.ts'
 export type { Format } from './registry.ts'
 
 /**
@@ -141,9 +141,9 @@ const aggregateNormalizedInput = (
   if (format) {
     logFormat(format, `specified`, options)
 
-    const converter = formatToConverter[format]
+    const formatSpec = formatToSpec[format]
     const result = withDecompressed(data, decompressed =>
-      parseAsFormat(converter, decompressed),
+      parseAsFormat(formatSpec, decompressed),
     )
     return aggregateParseResult(result, options, makeContext(format, origin))
   }
@@ -183,9 +183,9 @@ const aggregateNormalizedInputAsync = async (
   if (format) {
     logFormat(format, `specified`, options)
 
-    const converter = formatToConverter[format]
+    const formatSpec = formatToSpec[format]
     const result = await withDecompressedAsync(data, decompressed =>
-      parseAsFormatAsync(converter, decompressed),
+      parseAsFormatAsync(formatSpec, decompressed),
     )
     return aggregateParseResult(result, options, makeContext(format, origin))
   }

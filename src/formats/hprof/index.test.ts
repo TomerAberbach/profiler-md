@@ -12,7 +12,7 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../testing.ts'
-import { hprofConverter } from './index.ts'
+import { hprofFormatSpec } from './index.ts'
 import {
   HPROF_BYTE,
   HPROF_INT,
@@ -84,7 +84,7 @@ const HOLDER_GRAPH: HprofDump = {
 const holderGraph = makeHprof(HOLDER_GRAPH)
 
 const convert = (bytes: Uint8Array): string =>
-  convertBytesToMd(hprofConverter, bytes, normalizeProfileToMdOptions())
+  convertBytesToMd(hprofFormatSpec, bytes, normalizeProfileToMdOptions())
 
 /** The retainer path of each instance the ranking of {@link name} lists. */
 const retainerPaths = (md: string, name: string): (string | undefined)[][] =>
@@ -92,30 +92,32 @@ const retainerPaths = (md: string, name: string): (string | undefined)[][] =>
 
 describe(`matches`, () => {
   test(`accepts a dump`, () => {
-    expect(hprofConverter.matches(makeHprof())).toBe(true)
+    expect(hprofFormatSpec.matches(makeHprof())).toBe(true)
   })
 
   test(`accepts a version whose parsing fails`, () => {
     expect(
-      hprofConverter.matches(makeHprof({ header: `JAVA PROFILE 9.9.9` })),
+      hprofFormatSpec.matches(makeHprof({ header: `JAVA PROFILE 9.9.9` })),
     ).toBe(true)
   })
 
   test(`rejects other bytes`, () => {
     expect(
-      hprofConverter.matches(new TextEncoder().encode(`{"nodes":[]}`)),
+      hprofFormatSpec.matches(new TextEncoder().encode(`{"nodes":[]}`)),
     ).toBe(false)
   })
 
   test(`rejects bytes shorter than the format name`, () => {
-    expect(hprofConverter.matches(new TextEncoder().encode(`JAVA`))).toBe(false)
+    expect(hprofFormatSpec.matches(new TextEncoder().encode(`JAVA`))).toBe(
+      false,
+    )
   })
 })
 
 describe(`parse`, () => {
   test(`rejects a name that isn't the format's`, () => {
     expect(() =>
-      hprofConverter.parse(
+      hprofFormatSpec.parse(
         makeHprof({ header: `JAVA PROFILE 9.9.9` }),
         noopRecordTally,
       ),
@@ -129,14 +131,14 @@ describe(`parse`, () => {
       bytes.indexOf(0) + 1,
       2,
     )
-    expect(() => hprofConverter.parse(bytes, noopRecordTally)).toThrow(
+    expect(() => hprofFormatSpec.parse(bytes, noopRecordTally)).toThrow(
       `unsupported identifier size, got: 2`,
     )
   })
 
   test(`rejects a truncated record`, () => {
     expect(() =>
-      hprofConverter.parse(holderGraph.subarray(0, 40), noopRecordTally),
+      hprofFormatSpec.parse(holderGraph.subarray(0, 40), noopRecordTally),
     ).toThrow(/truncated record/u)
   })
 
@@ -146,7 +148,7 @@ describe(`parse`, () => {
     })
     // Android's dialect writes a heap dump info sub-record here.
     bytes[bytes.lastIndexOf(0x23)] = 0xfe
-    expect(() => hprofConverter.parse(bytes, noopRecordTally)).toThrow(
+    expect(() => hprofFormatSpec.parse(bytes, noopRecordTally)).toThrow(
       `unsupported heap dump sub-record tag, got: 0xfe`,
     )
   })
@@ -154,7 +156,7 @@ describe(`parse`, () => {
   test(`rejects a dump with no heap`, () => {
     const bytes = makeHprof()
     expect(() =>
-      hprofConverter.parse(bytes.subarray(0, 31), noopRecordTally),
+      hprofFormatSpec.parse(bytes.subarray(0, 31), noopRecordTally),
     ).toThrow(`no heap dump records`)
   })
 })
@@ -443,7 +445,7 @@ describe(`convert`, () => {
   test(`streaming a dump converts it the same way`, async () => {
     expect(
       await convertToMdAsync(
-        hprofConverter,
+        hprofFormatSpec,
         streamOf(holderGraph),
         normalizeProfileToMdOptions(),
       ),

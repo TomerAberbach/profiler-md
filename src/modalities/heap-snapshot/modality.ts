@@ -1,4 +1,4 @@
-import type { EntityLocation, ModalitySpec } from '../modality.ts'
+import type { EntityLocation, ModalitySpec } from '../spec.ts'
 import { entityLocation, HeapSnapshotAggregator } from './aggregate.ts'
 import type {
   AggregatedHeapSnapshot,

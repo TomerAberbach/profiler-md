@@ -1,6 +1,6 @@
 import { GO_LOCATION_MATCH_RULES } from './go.ts'
-import { matchEntryFromRules } from './origin.ts'
 import { RUST_LOCATION_MATCH_RULES } from './rust.ts'
+import { matchEntryFromRules } from './spec.ts'
 import { ZIG_NAME_MATCH_RULES } from './zig.ts'
 
 /**

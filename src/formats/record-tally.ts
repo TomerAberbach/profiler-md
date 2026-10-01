@@ -1,9 +1,9 @@
 import { formatConjunction, formatCount } from '../helpers/format.ts'
-import type { RecordReader } from '../modalities/modality.ts'
+import type { RecordReader } from '../modalities/spec.ts'
 import type { AggregationProfileToMdOptions } from '../options.ts'
-import type { FormatConverter, RecordTally } from './converter.ts'
 import { FormatParseError, toFormatRejectionError } from './error.ts'
 import type { FormatRejectionError } from './error.ts'
+import type { FormatSpec, RecordTally } from './spec.ts'
 
 /**
  * Tallies whether one parse produced a record, the records it skipped, and the
@@ -15,7 +15,7 @@ import type { FormatRejectionError } from './error.ts'
 export class RecordTallyCounts implements RecordTally, RecordReader {
   #hasRecords = false
 
-  readonly #converter: FormatConverter
+  readonly #formatSpec: FormatSpec
 
   readonly #skips = new Map<
     string,
@@ -24,8 +24,8 @@ export class RecordTallyCounts implements RecordTally, RecordReader {
 
   readonly #missing = new Set<string>()
 
-  public constructor(converter: FormatConverter) {
-    this.#converter = converter
+  public constructor(formatSpec: FormatSpec) {
+    this.#formatSpec = formatSpec
   }
 
   public skipped(unit: string, reason: string, count = 1): void {
@@ -74,7 +74,7 @@ export class RecordTallyCounts implements RecordTally, RecordReader {
               }
               return result
             } catch (error: unknown) {
-              throw toFormatRejectionError(this.#converter, error)
+              throw toFormatRejectionError(this.#formatSpec, error)
             }
           },
           return: value =>
@@ -119,7 +119,7 @@ export class RecordTallyCounts implements RecordTally, RecordReader {
       )
     }
     return toFormatRejectionError(
-      this.#converter,
+      this.#formatSpec,
       new FormatParseError(
         `no usable records because ${formatConjunction(causes)}`,
       ),

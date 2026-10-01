@@ -2,9 +2,9 @@ import { JumboJSON } from 'jumbo-json'
 import { classifyStreamFailures, concatUint8Arrays } from '../helpers/bytes.ts'
 import type { ParsedInput } from '../modalities/registry.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
-import type { FormatConverter, RecordTally } from './converter.ts'
 import { FormatParseError, toFormatRejectionError } from './error.ts'
 import { RecordTallyCounts } from './record-tally.ts'
+import type { FormatSpec, RecordTally } from './spec.ts'
 
 export type ParseResult = {
   parsed: ParsedInput[]
@@ -19,54 +19,54 @@ export type ParseResult = {
  * A failure to read the input is the input's own error, and escapes unwrapped.
  */
 export const parseAsFormat = (
-  converter: FormatConverter,
+  formatSpec: FormatSpec,
   data: ProfileData,
 ): ParseResult => {
-  if (converter.type === `binary`) {
+  if (formatSpec.type === `binary`) {
     const bytes = dataToBytes(data)
     try {
-      return runParse(converter, recordTally =>
-        converter.parse(bytes, recordTally),
+      return runParse(formatSpec, recordTally =>
+        formatSpec.parse(bytes, recordTally),
       )
     } catch (error: unknown) {
-      throw toFormatRejectionError(converter, error)
+      throw toFormatRejectionError(formatSpec, error)
     }
   }
 
   try {
-    return runParse(converter, recordTally =>
-      converter.parse(parseJson(data), recordTally),
+    return runParse(formatSpec, recordTally =>
+      formatSpec.parse(parseJson(data), recordTally),
     )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)
-    throw toFormatRejectionError(converter, error)
+    throw toFormatRejectionError(formatSpec, error)
   }
 }
 
 export const parseAsFormatAsync = async (
-  converter: FormatConverter,
+  formatSpec: FormatSpec,
   data: AsyncProfileData,
 ): Promise<ParseResult> => {
   try {
-    return await runParseAsync(converter, async recordTally =>
-      converter.type === `json`
-        ? converter.parse(await parseJsonAsync(data), recordTally)
-        : converter.parseAsync(
+    return await runParseAsync(formatSpec, async recordTally =>
+      formatSpec.type === `json`
+        ? formatSpec.parse(await parseJsonAsync(data), recordTally)
+        : formatSpec.parseAsync(
             guardStreamReads(dataToStream(data)),
             recordTally,
           ),
     )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)
-    throw toFormatRejectionError(converter, error)
+    throw toFormatRejectionError(formatSpec, error)
   }
 }
 
 export const runParse = (
-  converter: FormatConverter,
+  formatSpec: FormatSpec,
   parse: (recordTally: RecordTally) => ParsedInput[],
 ): ParseResult => {
-  const recordTally = new RecordTallyCounts(converter)
+  const recordTally = new RecordTallyCounts(formatSpec)
   return {
     parsed: parse(recordTally),
     recordTally,
@@ -74,10 +74,10 @@ export const runParse = (
 }
 
 export const runParseAsync = async (
-  converter: FormatConverter,
+  formatSpec: FormatSpec,
   parse: (recordTally: RecordTally) => Promise<ParsedInput[]>,
 ): Promise<ParseResult> => {
-  const recordTally = new RecordTallyCounts(converter)
+  const recordTally = new RecordTallyCounts(formatSpec)
   return {
     parsed: await parse(recordTally),
     recordTally,

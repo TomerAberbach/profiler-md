@@ -13,7 +13,7 @@ import {
   languages,
 } from '../src/cli/languages.ts'
 import type { Language } from '../src/cli/languages.ts'
-import { formatToConverter } from '../src/formats/index.ts'
+import { formatToSpec } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
 
 const check = process.argv.includes(`--check`)
@@ -105,7 +105,7 @@ const languageNames = (language: Language): string =>
     .join(`⁠/⁠`)
 
 const formatLink = (format: Format): string =>
-  anchor(formatToConverter[format].title, `docs/formats/${format}.md`)
+  anchor(formatToSpec[format].title, `docs/formats/${format}.md`)
 
 const languageEntries = [...languages.entries()]
 

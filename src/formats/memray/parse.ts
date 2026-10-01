@@ -11,8 +11,8 @@ import {
   PEAK_MEMORY_METRIC,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
+import type { RecordTally } from '../spec.ts'
 
 /**
  * Parses a memray capture file into a profile of the memory live at the

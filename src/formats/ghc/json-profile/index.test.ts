@@ -11,7 +11,7 @@ import {
   summaryLines,
 } from '../../../testing.ts'
 import { convertJsonToMd } from '../../testing.ts'
-import { ghcJsonProfileConverter } from './index.ts'
+import { ghcJsonProfileFormatSpec } from './index.ts'
 import { parseGhcJsonProfile } from './parse.ts'
 import {
   makeGhcCostCentre,
@@ -58,28 +58,28 @@ const profile = () =>
 
 describe(`matches`, () => {
   test(`accepts a profile`, () => {
-    expect(ghcJsonProfileConverter.matches(profile())).toBe(true)
+    expect(ghcJsonProfileFormatSpec.matches(profile())).toBe(true)
   })
 
   test(`rejects null`, () => {
-    expect(ghcJsonProfileConverter.matches(null)).toBe(false)
+    expect(ghcJsonProfileFormatSpec.matches(null)).toBe(false)
   })
 
   test(`rejects a profile missing its cost centres`, () => {
     expect(
-      ghcJsonProfileConverter.matches({ total_ticks: 1, profile: {} }),
+      ghcJsonProfileFormatSpec.matches({ total_ticks: 1, profile: {} }),
     ).toBe(false)
   })
 
   test(`rejects a profile missing its tree`, () => {
     expect(
-      ghcJsonProfileConverter.matches({ total_ticks: 1, cost_centres: [] }),
+      ghcJsonProfileFormatSpec.matches({ total_ticks: 1, cost_centres: [] }),
     ).toBe(false)
   })
 
   test(`rejects a profile whose tree is an array`, () => {
     expect(
-      ghcJsonProfileConverter.matches({
+      ghcJsonProfileFormatSpec.matches({
         total_ticks: 1,
         cost_centres: [],
         profile: [],
@@ -103,7 +103,7 @@ describe(`parse`, () => {
 
 describe(`convert`, () => {
   test(`separates the ticks the profiler sampled from the allocation it counted`, () => {
-    const md = convertJsonToMd(ghcJsonProfileConverter, profile(), options())
+    const md = convertJsonToMd(ghcJsonProfileFormatSpec, profile(), options())
 
     expect(profileTitles(md)).toEqual([
       `Wall time profile`,
@@ -116,7 +116,7 @@ describe(`convert`, () => {
   })
 
   test(`attributes each cost-centre stack's ticks to its innermost cost centre`, () => {
-    const md = convertJsonToMd(ghcJsonProfileConverter, profile(), options())
+    const md = convertJsonToMd(ghcJsonProfileFormatSpec, profile(), options())
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -153,7 +153,7 @@ describe(`convert`, () => {
 
   test(`attributes allocation to a cost-centre stack the profiler never sampled`, () => {
     const md = convertJsonToMd(
-      ghcJsonProfileConverter,
+      ghcJsonProfileFormatSpec,
       makeGhcJsonProfile({
         costCentres: COST_CENTRES,
         profile: makeGhcProfileNode({
@@ -190,7 +190,7 @@ describe(`convert`, () => {
 
   test(`attributes allocation to a cost-centre stack the program entered no times`, () => {
     const md = convertJsonToMd(
-      ghcJsonProfileConverter,
+      ghcJsonProfileFormatSpec,
       makeGhcJsonProfile({
         costCentres: COST_CENTRES,
         profile: makeGhcProfileNode({
@@ -231,7 +231,7 @@ describe(`convert`, () => {
 
   test(`counts entries into a cost-centre stack that allocated nothing`, () => {
     const md = convertJsonToMd(
-      ghcJsonProfileConverter,
+      ghcJsonProfileFormatSpec,
       makeGhcJsonProfile({
         costCentres: COST_CENTRES,
         profile: makeGhcProfileNode({
@@ -272,7 +272,7 @@ describe(`convert`, () => {
 
   test(`locates a cost centre at the position its source span starts`, () => {
     const md = convertJsonToMd(
-      ghcJsonProfileConverter,
+      ghcJsonProfileFormatSpec,
       makeGhcJsonProfile({
         costCentres: [
           makeGhcCostCentre({ id: 1, label: `main`, module: `Main` }),
@@ -354,7 +354,7 @@ describe(`convert`, () => {
 
 describe(`malformed profiles`, () => {
   const convert = (json: unknown) =>
-    convertJsonToMd(ghcJsonProfileConverter, json, options())
+    convertJsonToMd(ghcJsonProfileFormatSpec, json, options())
 
   test(`rejects a profile without tick_interval`, () => {
     const { tick_interval: _, ...profile } = makeGhcJsonProfile({

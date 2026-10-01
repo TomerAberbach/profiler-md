@@ -1,47 +1,47 @@
-import { callgrindConverter } from './callgrind/index.ts'
-import { collapsedConverter } from './collapsed/index.ts'
-import type { FormatConverter } from './converter.ts'
-import { ghcEventlogConverter } from './ghc/eventlog/index.ts'
-import { ghcJsonProfileConverter } from './ghc/json-profile/index.ts'
-import { hprofConverter } from './hprof/index.ts'
-import { jfrConverter } from './jfr/index.ts'
-import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
-import { memrayConverter } from './memray/index.ts'
-import { perfConverter } from './perf/index.ts'
-import { pprofConverter } from './pprof/index.ts'
-import { speedscopeConverter } from './speedscope/index.ts'
-import { systingConverter } from './systing/index.ts'
-import { v8CpuProfileConverter } from './v8/cpu-profile/index.ts'
-import { v8HeapProfileConverter } from './v8/heap-profile/index.ts'
-import { v8HeapSnapshotConverter } from './v8/heap-snapshot/index.ts'
-import { webkitTimelineRecordingConverter } from './webkit-timeline-recording/index.ts'
+import { callgrindFormatSpec } from './callgrind/index.ts'
+import { collapsedFormatSpec } from './collapsed/index.ts'
+import { ghcEventlogFormatSpec } from './ghc/eventlog/index.ts'
+import { ghcJsonProfileFormatSpec } from './ghc/json-profile/index.ts'
+import { hprofFormatSpec } from './hprof/index.ts'
+import { jfrFormatSpec } from './jfr/index.ts'
+import { jscHeapSnapshotFormatSpec } from './jsc-heap-snapshot/index.ts'
+import { memrayFormatSpec } from './memray/index.ts'
+import { perfFormatSpec } from './perf/index.ts'
+import { pprofFormatSpec } from './pprof/index.ts'
+import type { FormatSpec } from './spec.ts'
+import { speedscopeFormatSpec } from './speedscope/index.ts'
+import { systingFormatSpec } from './systing/index.ts'
+import { v8CpuProfileFormatSpec } from './v8/cpu-profile/index.ts'
+import { v8HeapProfileFormatSpec } from './v8/heap-profile/index.ts'
+import { v8HeapSnapshotFormatSpec } from './v8/heap-snapshot/index.ts'
+import { webkitTimelineRecordingFormatSpec } from './webkit-timeline-recording/index.ts'
 
-/** Every supported format's converter, in canonical order. */
-export const formatConverters = [
-  callgrindConverter,
-  collapsedConverter,
-  ghcEventlogConverter,
-  ghcJsonProfileConverter,
-  hprofConverter,
-  jfrConverter,
-  jscHeapSnapshotConverter,
-  memrayConverter,
-  perfConverter,
-  pprofConverter,
-  speedscopeConverter,
-  systingConverter,
-  v8CpuProfileConverter,
-  v8HeapProfileConverter,
-  v8HeapSnapshotConverter,
-  webkitTimelineRecordingConverter,
-] as const satisfies readonly FormatConverter[]
+/** Every supported format's spec, in canonical order. */
+export const formatSpecs = [
+  callgrindFormatSpec,
+  collapsedFormatSpec,
+  ghcEventlogFormatSpec,
+  ghcJsonProfileFormatSpec,
+  hprofFormatSpec,
+  jfrFormatSpec,
+  jscHeapSnapshotFormatSpec,
+  memrayFormatSpec,
+  perfFormatSpec,
+  pprofFormatSpec,
+  speedscopeFormatSpec,
+  systingFormatSpec,
+  v8CpuProfileFormatSpec,
+  v8HeapProfileFormatSpec,
+  v8HeapSnapshotFormatSpec,
+  webkitTimelineRecordingFormatSpec,
+] as const satisfies readonly FormatSpec[]
 
-export type RegisteredFormatConverter = (typeof formatConverters)[number]
+export type RegisteredFormatSpec = (typeof formatSpecs)[number]
 
-export type Format = RegisteredFormatConverter[`id`]
+export type Format = RegisteredFormatSpec[`id`]
 
-export const formatToConverter = Object.fromEntries(
-  formatConverters.map(converter => [converter.id, converter]),
-) as { [C in RegisteredFormatConverter as C[`id`]]: C }
+export const formatToSpec = Object.fromEntries(
+  formatSpecs.map(formatSpec => [formatSpec.id, formatSpec]),
+) as { [C in RegisteredFormatSpec as C[`id`]]: C }
 
-export const formats = formatConverters.map(converter => converter.id)
+export const formats = formatSpecs.map(formatSpec => formatSpec.id)

@@ -1,6 +1,6 @@
 import { categorizeGenericEntry } from '../categorize.ts'
 import { nativeMatchEntry } from '../native.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Valgrind's callgrind tool, which counts every executed instruction and

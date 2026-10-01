@@ -2,8 +2,8 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
-import { matchEntryFromRules, placeholderPathNormalizer } from '../origin.ts'
-import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+import { matchEntryFromRules, placeholderPathNormalizer } from '../spec.ts'
+import type { EntryMatchRule, OriginSpec } from '../spec.ts'
 
 /**
  * The slug of a depot package's directory, e.g. the `jSAdy` of

@@ -3,7 +3,7 @@ import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import { nativeMatchEntry } from '../native.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 import { zigStdlibCategory } from '../zig.ts'
 
 export const systingOriginSpec = {

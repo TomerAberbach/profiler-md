@@ -5,8 +5,8 @@ import {
   matchEntryFromRules,
   normalizeSpeedscopeExecutingLine,
   placeholderPathNormalizer,
-} from '../origin.ts'
-import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+} from '../spec.ts'
+import type { EntryMatchRule, OriginSpec } from '../spec.ts'
 
 /**
  * The `inspect` string of an anonymous method owner, whose heap address differs

@@ -1,6 +1,6 @@
 import { categorizeLinuxEntry } from '../linux.ts'
 import { nativeMatchEntry } from '../native.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Linux's `perf`, the sampling profiler built on the kernel's `perf_event`

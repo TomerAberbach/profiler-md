@@ -22,40 +22,42 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../testing.ts'
-import { systingConverter } from './index.ts'
+import { systingFormatSpec } from './index.ts'
 import { parseSysting } from './parse.ts'
 import { makeSysting, systingHeader } from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts a valid export, including a header-only one`, () => {
-    expect(systingConverter.matches(makeSysting([[`f`, 0, `main`]]))).toBe(true)
-    expect(systingConverter.matches(makeSysting([]))).toBe(true)
+    expect(systingFormatSpec.matches(makeSysting([[`f`, 0, `main`]]))).toBe(
+      true,
+    )
+    expect(systingFormatSpec.matches(makeSysting([]))).toBe(true)
   })
 
   test(`rejects JSON lines lacking the version key`, () => {
     expect(
-      systingConverter.matches(makeSysting([], { some: `jsonl`, file: 1 })),
+      systingFormatSpec.matches(makeSysting([], { some: `jsonl`, file: 1 })),
     ).toBe(false)
   })
 
   test(`rejects a header that is not a JSON object`, () => {
-    expect(systingConverter.matches(new TextEncoder().encode(`[1, 2]\n`))).toBe(
-      false,
-    )
-    expect(systingConverter.matches(new TextEncoder().encode(`not json`))).toBe(
-      false,
-    )
-    expect(systingConverter.matches(new Uint8Array(0))).toBe(false)
+    expect(
+      systingFormatSpec.matches(new TextEncoder().encode(`[1, 2]\n`)),
+    ).toBe(false)
+    expect(
+      systingFormatSpec.matches(new TextEncoder().encode(`not json`)),
+    ).toBe(false)
+    expect(systingFormatSpec.matches(new Uint8Array(0))).toBe(false)
   })
 
   test(`accepts an unsupported version, leaving parse to reject it`, () => {
     expect(
-      systingConverter.matches(
+      systingFormatSpec.matches(
         makeSysting([], { ...systingHeader, systing_profile_export: 2 }),
       ),
     ).toBe(true)
     expect(
-      systingConverter.matches(
+      systingFormatSpec.matches(
         makeSysting([], { ...systingHeader, systing_profile_export: 0 }),
       ),
     ).toBe(true)
@@ -78,7 +80,7 @@ describe(`matches`, () => {
 
   test(`accepts an unsupported stack order, leaving parse to reject it`, () => {
     expect(
-      systingConverter.matches(
+      systingFormatSpec.matches(
         makeSysting([], { ...systingHeader, stack_order: `root_first` }),
       ),
     ).toBe(true)
@@ -143,7 +145,7 @@ describe(`convert`, () => {
     // its caller. 3 + 1 tallies at 1ms per sample = 4ms total, 3ms self in
     // work at its packed executing line.
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting([
         [`f`, 0, `work (app [work.c:42]) <0x1000>`],
         [`f`, 1, `main (app [main.c:7]) <0x2000>`],
@@ -211,7 +213,7 @@ describe(`convert`, () => {
 
   test(`frame vocabulary categorizes: kernel, jit, native, ours`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting([
         [`f`, 0, `finish_task_switch ([kernel]) <0xffff1>`],
         [`f`, 1, `unknown ([gvisor:runtime]) <0x7f1>`],
@@ -266,7 +268,7 @@ describe(`convert`, () => {
 
   test(`python frames split their location like native ones`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting([
         [`f`, 0, `handle_request (python) [server.py:88]`],
         [`f`, 1, `serve (python) [server.py:20]`],
@@ -302,7 +304,7 @@ describe(`convert`, () => {
 
   test(`sleep events become their own occurrence-counted profiles`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting([
         [`f`, 0, `spin (app [spin.c:5]) <0x1>`],
         [`f`, 1, `do_nanosleep ([kernel]) <0xffff2>`],
@@ -365,7 +367,7 @@ describe(`convert`, () => {
 
   test(`cpu-cycles samples weight by cycles instead of time`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting(
         [
           [`f`, 0, `work (app [work.c:42]) <0x1000>`],
@@ -389,7 +391,7 @@ describe(`convert`, () => {
 
   test(`event type ids resolve through the header's legend`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting(
         [
           [`f`, 0, `work (app) <0x1000>`],
@@ -417,7 +419,7 @@ describe(`convert`, () => {
 
   test(`unknown record tags are skipped per the format's versioning rules, with a warning`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting([
         [`z`, `future record`],
         [`f`, 0, `work (app) <0x1000>`],
@@ -443,7 +445,7 @@ describe(`convert`, () => {
     // A future event type in the legend follows the format's versioning
     // rules for unknown record tags.
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting(
         [
           [`f`, 0, `work (app) <0x1000>`],
@@ -473,7 +475,7 @@ describe(`convert`, () => {
 
   test(`a header without a legend uses systing's own event type ids`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting(
         [
           [`f`, 0, `spin (app) <0x1>`],
@@ -526,7 +528,7 @@ describe(`convert`, () => {
 
   test(`a recording without sampling provenance ranks by sample count alone`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting(
         [
           [`f`, 0, `work (app) <0x1000>`],
@@ -548,7 +550,7 @@ describe(`convert`, () => {
 
   test(`duplicate sample tallies for one triple sum`, () => {
     const md = convertBytesToMd(
-      systingConverter,
+      systingFormatSpec,
       makeSysting([
         [`f`, 0, `work (app) <0x1000>`],
         [`s`, 0, [0]],
@@ -574,9 +576,9 @@ describe(`convert`, () => {
       [`x`, 1, 1, 2, 2],
     ])
 
-    const buffered = convertBytesToMd(systingConverter, bytes, options())
+    const buffered = convertBytesToMd(systingFormatSpec, bytes, options())
     const streamed = await convertToMdAsync(
-      systingConverter,
+      systingFormatSpec,
       streamOf(...chunk(bytes, 7)),
       options(),
     )

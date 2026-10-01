@@ -2,8 +2,8 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
-import { matchEntryFromRules } from '../origin.ts'
-import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+import { matchEntryFromRules } from '../spec.ts'
+import type { EntryMatchRule, OriginSpec } from '../spec.ts'
 
 /**
  * The store hash of a source tree in the Nix store, e.g. the

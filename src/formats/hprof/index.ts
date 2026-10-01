@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesHprof } from './matches.ts'
 import { parseHprof, parseHprofAsync } from './parse.ts'
 
-export const hprofConverter = {
+export const hprofFormatSpec = {
   id: `hprof`,
   title: `HPROF`,
   extension: `hprof`,
@@ -14,4 +14,4 @@ export const hprofConverter = {
   matches: matchesHprof,
   parse: parseHprof,
   parseAsync: parseHprofAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

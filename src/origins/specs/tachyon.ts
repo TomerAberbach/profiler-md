@@ -1,8 +1,8 @@
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { syntheticFrameCategory } from '../categorize.ts'
 import { categorizeCPythonEntry } from '../cpython.ts'
-import { packedLocationNormalizer } from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
+import { packedLocationNormalizer } from '../spec.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Matches tachyon's folded `file:func:line` frame strings (e.g.
