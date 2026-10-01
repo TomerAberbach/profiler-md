@@ -18,49 +18,47 @@ import { join } from 'node:path'
 import { openInputAsBlob } from '../src/cli/input.ts'
 import { profileToMdAsync } from '../src/formats/index.ts'
 import type { DeepReadonly } from '../src/helpers/types.ts'
+import { FUNCTION_CATEGORY_SET } from '../src/modalities/category-sets.ts'
 import { formatCategory } from '../src/modalities/format.ts'
-import type { Category } from '../src/modalities/format.ts'
-import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../src/modalities/heap-snapshot/type.ts'
+import { HEAP_SNAPSHOT_NODE_CATEGORY_SET } from '../src/modalities/heap-snapshot/type.ts'
+import { CATEGORY_SETS } from '../src/modalities/registry.ts'
+import type { EntryCategory } from '../src/modalities/registry.ts'
 import type { FunctionCategory, ProfileEntry } from '../src/options.ts'
-import {
-  defaultCategorizeFunctions,
-  FUNCTION_CATEGORIES,
-} from '../src/options.ts'
+import { defaultCategorizeFunctions } from '../src/options.ts'
 
 const OUTPUT_DIRECTORY = `examples/output`
 const INPUT_DIRECTORY = `examples/input`
-
-const MODALITY_TO_CATEGORIES = new Map<string, readonly Category[]>([
-  [`function`, FUNCTION_CATEGORIES],
-  [`heap snapshot node`, HEAP_SNAPSHOT_NODE_CATEGORIES],
-])
 
 const reportCategories = (): void => {
   const filenames = readdirSync(OUTPUT_DIRECTORY).filter(filename =>
     filename.endsWith(`.md`),
   )
-  const modalityToCategoryToFilenames = groupExamplesByCategory(filenames)
+  const setToCategoryToFilenames = groupExamplesByCategory(filenames)
 
   console.log(`${filenames.length} examples`)
-  for (const [modality, categoryToFilenames] of modalityToCategoryToFilenames) {
-    console.log(`\n${modality} categories\n`)
+  for (const [
+    { noun, categories },
+    categoryToFilenames,
+  ] of setToCategoryToFilenames) {
+    console.log(`\n${noun} categories\n`)
     printEmittedCategories(categoryToFilenames)
-    printUnemittedCategories(modality, categoryToFilenames)
+    printUnemittedCategories(categories, categoryToFilenames)
   }
 }
 
-/** The filenames of the examples emitting each category, per modality. */
+/** The filenames of the examples emitting each category, per category set. */
 const groupExamplesByCategory = (
   filenames: readonly string[],
-): Map<string, Map<string, string[]>> => {
-  const modalityToCategoryToFilenames = new Map<string, Map<string, string[]>>([
-    [`function`, new Map()],
-    [`heap snapshot node`, new Map()],
-  ])
+): Map<(typeof CATEGORY_SETS)[number], Map<string, string[]>> => {
+  const setToCategoryToFilenames = new Map(
+    CATEGORY_SETS.map(set => [set, new Map<string, string[]>()]),
+  )
   for (const filename of filenames) {
     const output = readFileSync(join(OUTPUT_DIRECTORY, filename), `utf8`)
-    const categoryToFilenames = modalityToCategoryToFilenames.get(
-      isHeapSnapshot(output) ? `heap snapshot node` : `function`,
+    const categoryToFilenames = setToCategoryToFilenames.get(
+      isHeapSnapshot(output)
+        ? HEAP_SNAPSHOT_NODE_CATEGORY_SET
+        : FUNCTION_CATEGORY_SET,
     )!
     for (const category of emittedCategories(output)) {
       let categoryFilenames = categoryToFilenames.get(category)
@@ -71,7 +69,7 @@ const groupExamplesByCategory = (
       categoryFilenames.push(filename)
     }
   }
-  return modalityToCategoryToFilenames
+  return setToCategoryToFilenames
 }
 
 /**
@@ -128,10 +126,10 @@ const printEmittedCategories = (
 }
 
 const printUnemittedCategories = (
-  modality: string,
+  categories: readonly EntryCategory[],
   categoryToFilenames: Map<string, string[]>,
 ): void => {
-  const unemitted = MODALITY_TO_CATEGORIES.get(modality)!
+  const unemitted = categories
     .map(category => formatCategory(category))
     .filter(category => !categoryToFilenames.has(category))
   if (unemitted.length > 0) {

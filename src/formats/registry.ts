@@ -38,10 +38,10 @@ export const formatConverters = [
 
 export type RegisteredFormatConverter = (typeof formatConverters)[number]
 
-export type Format = RegisteredFormatConverter[`format`]
+export type Format = RegisteredFormatConverter[`id`]
 
 export const formatToConverter = Object.fromEntries(
-  formatConverters.map(converter => [converter.format, converter]),
-) as { [C in RegisteredFormatConverter as C[`format`]]: C }
+  formatConverters.map(converter => [converter.id, converter]),
+) as { [C in RegisteredFormatConverter as C[`id`]]: C }
 
-export const formats = formatConverters.map(converter => converter.format)
+export const formats = formatConverters.map(converter => converter.id)

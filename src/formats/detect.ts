@@ -26,7 +26,7 @@ export const detectJsonFormat = (
   for (const converter of jsonFormatConverters) {
     const result = detectWithConverter(converter, json, rejections, options)
     if (result) {
-      return { ...result, format: converter.format }
+      return { ...result, format: converter.id }
     }
   }
   return undefined
@@ -40,7 +40,7 @@ export const detectBinaryFormat = (
   for (const converter of binaryFormatConverters) {
     const result = detectWithConverter(converter, bytes, rejections, options)
     if (result) {
-      return { ...result, format: converter.format }
+      return { ...result, format: converter.id }
     }
   }
   return undefined
@@ -79,7 +79,7 @@ const detectWithConverter = <Input>(
     }
   } catch (error: unknown) {
     logger.debug?.(
-      `skipped ${converter.format} because its detection threw: ${reasonOf(error)}`,
+      `skipped ${converter.id} because its detection threw: ${reasonOf(error)}`,
     )
     return undefined
   }
@@ -90,7 +90,7 @@ const detectWithConverter = <Input>(
     )
   } catch (error: unknown) {
     logger.debug?.(
-      `${converter.format} recognized the input but rejected it: ${reasonOf(error)}`,
+      `${converter.id} recognized the input but rejected it: ${reasonOf(error)}`,
     )
     rejections.push(toFormatRejectionError(converter, error))
     return undefined

@@ -2,7 +2,7 @@ import type { RootContent } from 'mdast'
 import { selectTopN } from '../helpers/heap.ts'
 import { formatSectionGroup, heading } from '../helpers/markdown.ts'
 import { formatCategory, isRepeatedByCategory } from './format.ts'
-import type { Category } from './format.ts'
+import type { EntryCategory } from './registry.ts'
 
 /**
  * The categories {@link entries} break down into, ordered by descending share
@@ -81,7 +81,7 @@ export const subsectionDiffCategories = <Entry, Category extends string>({
 /** The entities a ranking displays, overall and within each category. */
 export type EntityRanking<Entity> = {
   rankedEntities: Entity[]
-  categoryRankings: { category: Category; entities: Entity[] }[]
+  categoryRankings: { category: EntryCategory; entities: Entity[] }[]
   displayedEntities: Entity[]
 }
 
@@ -93,14 +93,14 @@ export type EntityRanking<Entity> = {
  * displays it, so {@link EntityRanking.displayedEntities} contains each entity
  * once, sorted by {@link valueOf} like the rankings above it.
  */
-export const rankEntities = <Entity extends { category: Category }>({
+export const rankEntities = <Entity extends { category: EntryCategory }>({
   entities,
   categories,
   valueOf,
   topN,
 }: {
   entities: Entity[]
-  categories: Category[]
+  categories: EntryCategory[]
   valueOf: (entity: Entity) => number
   topN: number
 }): EntityRanking<Entity> => {

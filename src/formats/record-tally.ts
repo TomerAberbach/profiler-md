@@ -1,4 +1,5 @@
 import { formatConjunction, formatCount } from '../helpers/format.ts'
+import type { RecordReader } from '../modalities/modality.ts'
 import type { AggregationProfileToMdOptions } from '../options.ts'
 import type { FormatConverter, RecordTally } from './converter.ts'
 import { FormatParseError, toFormatRejectionError } from './error.ts'
@@ -7,9 +8,12 @@ import type { FormatRejectionError } from './error.ts'
 /**
  * Tallies whether one parse produced a record, the records it skipped, and the
  * parts missing from the end of its input.
+ *
+ * As the parsed inputs' {@link RecordReader}, it reports an error their lazy
+ * iterables throw as the format's rejection of the input.
  */
-export class RecordTallyCounts implements RecordTally {
-  public hasRecords = false
+export class RecordTallyCounts implements RecordTally, RecordReader {
+  #hasRecords = false
 
   readonly #converter: FormatConverter
 
@@ -38,6 +42,48 @@ export class RecordTallyCounts implements RecordTally {
     this.#missing.add(missing)
   }
 
+  public records<Value>(records: Iterable<Value>): Iterable<Value> {
+    return this.#classifyFailures(records, true)
+  }
+
+  public iterable<Value>(iterable: Iterable<Value>): Iterable<Value> {
+    return this.#classifyFailures(iterable, false)
+  }
+
+  public parsed(count: number): void {
+    if (count > 0) {
+      this.#hasRecords = true
+    }
+  }
+
+  // A plain iterator object, because a delegating generator costs more per
+  // item.
+  #classifyFailures<Value>(
+    iterable: Iterable<Value>,
+    yieldsRecords: boolean,
+  ): Iterable<Value> {
+    return {
+      [Symbol.iterator]: () => {
+        const iterator = iterable[Symbol.iterator]()
+        return {
+          next: () => {
+            try {
+              const result = iterator.next()
+              if (yieldsRecords && !result.done) {
+                this.#hasRecords = true
+              }
+              return result
+            } catch (error: unknown) {
+              throw toFormatRejectionError(this.#converter, error)
+            }
+          },
+          return: value =>
+            iterator.return?.(value) ?? { done: true, value: undefined },
+        }
+      },
+    }
+  }
+
   /**
    * Throws when the parse produced no records and skipped a record or reached
    * the end of its input early. Otherwise, warns once per skip reason and
@@ -51,7 +97,7 @@ export class RecordTallyCounts implements RecordTally {
       return
     }
 
-    if (!this.hasRecords) {
+    if (!this.#hasRecords) {
       throw this.#noUsableRecordsError()
     }
 

@@ -35,13 +35,13 @@ profiler-md
 │   │   ├── registry.ts           # Format converter registry
 │   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
 │   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
-│   │   ├── record-tally.ts       # Counts what a parse skipped, then rejects an input with no records or warns
+│   │   ├── record-tally.ts       # Counts what a parse skipped and reports parsed inputs' lazy iterable failures, then rejects an input with no records or warns
 │   │   ├── compression.ts        # Strips gzip and LZ4 by their magic bytes, and tries brotli last, using the runtime's decoders
 │   │   ├── compression.node.ts   # The `#compression` runtime a Node bundle resolves to (node:zlib)
 │   │   ├── compression.web.ts    # The `#compression` runtime every other bundle resolves to (DecompressionStream)
 │   │   ├── detect.ts             # Format auto-detection and its undetected-format error
-│   │   ├── aggregate.ts          # Parsed input to aggregated input dispatch across modalities, with origin detection
-│   │   ├── format.ts             # Aggregated input and diff to Markdown dispatch across modalities
+│   │   ├── aggregate.ts          # Aggregates parsed inputs under the origin detected across them
+│   │   ├── format.ts             # Aggregated inputs and diffs to Markdown, with base URL inference
 │   │   ├── index.ts              # profileToMd(Async)/diffProfiles(Async): buffers the input, then parses or detects, aggregates, and formats
 │   │   ├── **/<name>/            # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
 │   │   │   ├── matches.ts        # Cheap auto-detection check for the format
@@ -73,8 +73,12 @@ profiler-md
 │   │   └── testing.ts            # Test-only origin detection and entry construction helpers
 │   │
 │   ├── modalities/               # Individual modality implementations
+│   │   ├── modality.ts           # The ModalitySpec contract every modality registers, and the record reader its aggregator reads through
+│   │   ├── registry.ts           # Modality registry, and the parsed input, aggregated input, entry, and category unions derived from it
 │   │   ├── aggregator.ts         # Uniform per-input aggregator contract all modalities implement
 │   │   ├── category.ts           # Splitting a ranking into per-category subsections
+│   │   ├── category-sets.ts      # The category set type, and the function category set modalities share
+│   │   ├── function-entities.ts  # The ModalitySpec fields of a modality whose entities are functions
 │   │   ├── diff.ts               # Base/current diffing primitives
 │   │   ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
 │   │   ├── metric.ts             # Recorded metric types, constructors, and equality
@@ -89,6 +93,7 @@ profiler-md
 │   │   │   ├── measure.ts        # Profile-resolved measure views with count fallback
 │   │   │   ├── table.ts          # The call stack profile formatter's table columns
 │   │   │   ├── format.ts         # Call stack profile and diff to Markdown formatting
+│   │   │   ├── modality.ts       # The modality's registered ModalitySpec
 │   │   │   ├── index.ts          # Barrel file
 │   │   │   └── testing.ts        # Test-only utilities specific to this module
 │   │   ├── call-graph/           # Common weighted call graph conversion logic
@@ -97,6 +102,7 @@ profiler-md
 │   │   │   ├── diff.ts           # Aggregated call graph diffing logic
 │   │   │   ├── table.ts          # The call graph formatter's table columns
 │   │   │   ├── format.ts         # Call graph and diff to Markdown formatting
+│   │   │   ├── modality.ts       # The modality's registered ModalitySpec
 │   │   │   ├── index.ts          # Barrel file
 │   │   │   └── testing.ts        # Test-only utilities specific to this module
 │   │   └── heap-snapshot/        # Common heap snapshot conversion logic
@@ -108,6 +114,7 @@ profiler-md
 │   │       ├── diff.ts           # Aggregated heap snapshot diffing logic
 │   │       ├── table.ts          # The heap snapshot formatter's table columns
 │   │       ├── format.ts         # Heap snapshot and diff to Markdown formatting
+│   │       ├── modality.ts       # The modality's registered ModalitySpec
 │   │       ├── index.ts          # Barrel file
 │   │       └── testing.ts        # Test-only utilities specific to this module
 │   │
@@ -275,6 +282,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 - A format registers in exactly one place (in `src/formats/registry.ts`)
 - An origin in exactly one place (in `src/origins/specs/index.ts`)
+- A modality in exactly one place (in `src/modalities/registry.ts`). The
+  pipeline calls a modality only through the `ModalitySpec` it looks up by an
+  input's `type`
 - One origin per profiler, always: every tool or runtime that writes inputs
   registers its own origin, even when its inputs carry no detectable markers.
   Origins sharing runtime conventions share logic through helper modules (e.g.
@@ -351,8 +361,8 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Name what the caller controls (a flag, an option, a file path), never an
   internal function. An invariant message is the exception, since only a
   maintainer reads it
-- Derive a format or origin name from the registry (e.g. `converter.format`),
-  never a string literal
+- Derive a format or origin name from the registry (e.g. `converter.id`), never
+  a string literal
 
 ### Logging
 

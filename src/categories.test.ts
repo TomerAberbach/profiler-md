@@ -1,10 +1,10 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, test } from 'vitest'
+import { FUNCTION_CATEGORY_SET } from './modalities/category-sets.ts'
 import { formatCategory } from './modalities/format.ts'
-import type { Category } from './modalities/format.ts'
-import { HEAP_SNAPSHOT_NODE_CATEGORIES } from './modalities/heap-snapshot/type.ts'
-import { FUNCTION_CATEGORIES } from './options.ts'
+import { HEAP_SNAPSHOT_NODE_CATEGORY_SET } from './modalities/heap-snapshot/type.ts'
+import { CATEGORY_SETS } from './modalities/registry.ts'
 
 /**
  * The categories no committed example emits, with the reason nothing reaches
@@ -63,17 +63,18 @@ const emittedCategories = (output: string): string[] => {
  * `pnpm check-examples` already checks that output against the inputs.
  */
 const emittedCategoriesByModality = (): Map<string, Map<string, string>> => {
-  const modalityToCategoryToFilename = new Map([
-    [`function`, new Map<string, string>()],
-    [`heap snapshot node`, new Map<string, string>()],
-  ])
+  const modalityToCategoryToFilename = new Map(
+    CATEGORY_SETS.map(({ noun }) => [noun, new Map<string, string>()]),
+  )
   for (const filename of readdirSync(OUTPUT_DIRECTORY)) {
     if (!filename.endsWith(`.md`)) {
       continue
     }
     const output = readFileSync(join(OUTPUT_DIRECTORY, filename), `utf8`)
     const categoryToFilename = modalityToCategoryToFilename.get(
-      output.startsWith(`# Heap snapshot`) ? `heap snapshot node` : `function`,
+      output.startsWith(`# Heap snapshot`)
+        ? HEAP_SNAPSHOT_NODE_CATEGORY_SET.noun
+        : FUNCTION_CATEGORY_SET.noun,
     )!
     for (const category of emittedCategories(output)) {
       if (!categoryToFilename.has(category)) {
@@ -84,10 +85,9 @@ const emittedCategoriesByModality = (): Map<string, Map<string, string>> => {
   return modalityToCategoryToFilename
 }
 
-describe.each([
-  [`function`, FUNCTION_CATEGORIES as readonly Category[]],
-  [`heap snapshot node`, HEAP_SNAPSHOT_NODE_CATEGORIES as readonly Category[]],
-])(`every %s category`, (modality, categories) => {
+describe.each(
+  CATEGORY_SETS.map(({ noun, categories }) => [noun, categories] as const),
+)(`every %s category`, (modality, categories) => {
   const emitted = emittedCategoriesByModality().get(modality)!
 
   test.each(categories)(`%s is emitted by an example, or listed`, category => {

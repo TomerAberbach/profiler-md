@@ -8,9 +8,9 @@ import type { ValueParser } from '@optique/core/valueparser'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
 import { LOG_LEVELS } from '../logger.ts'
-import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
-import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
-import { FUNCTION_CATEGORIES } from '../options.ts'
+import { FUNCTION_CATEGORY_SET } from '../modalities/category-sets.ts'
+import { CATEGORY_SETS } from '../modalities/registry.ts'
+import type { EntryCategory } from '../modalities/registry.ts'
 import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
@@ -58,7 +58,7 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
   format: formatRegexRule,
 })
 
-const functionCategory = choice(FUNCTION_CATEGORIES, {
+const functionCategory = choice(FUNCTION_CATEGORY_SET.categories, {
   metavar: `CATEGORY`,
   expected: `a function category listed by --help`,
 })
@@ -215,13 +215,10 @@ const rankingFlags = object(`Ranking`, {
   ),
 })
 
-export type EntryCategory = FunctionCategory | HeapSnapshotNodeCategory
-
 const entryCategories: readonly EntryCategory[] = [
-  ...new Set<EntryCategory>([
-    ...FUNCTION_CATEGORIES,
-    ...HEAP_SNAPSHOT_NODE_CATEGORIES,
-  ]),
+  ...new Set<EntryCategory>(
+    CATEGORY_SETS.flatMap(({ categories }) => categories),
+  ),
 ].sort()
 
 const entryCategory = choice(entryCategories, {

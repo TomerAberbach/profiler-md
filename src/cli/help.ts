@@ -11,8 +11,7 @@ import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats, formatToConverter } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
-import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
-import { FUNCTION_CATEGORIES } from '../options.ts'
+import { CATEGORY_SETS } from '../modalities/registry.ts'
 import { origins } from '../origins/index.ts'
 import { stdoutSupportsColor } from './ansis.ts'
 import { helpTopics, inputParser, program } from './cli.ts'
@@ -242,8 +241,7 @@ const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
 const LISTS: readonly (readonly [string, readonly string[]])[] = [
   [`Formats`, formats],
   [`Origins`, origins],
-  [`Function categories`, FUNCTION_CATEGORIES],
-  [`Heap snapshot categories`, HEAP_SNAPSHOT_NODE_CATEGORIES],
+  ...CATEGORY_SETS.map(({ title, categories }) => [title, categories] as const),
   [
     `Languages`,
     [...languages.entries()].map(([id, { aliases }]) =>

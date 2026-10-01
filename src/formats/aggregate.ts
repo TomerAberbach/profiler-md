@@ -1,8 +1,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId } from '../location.ts'
-import { CallGraphAggregator } from '../modalities/call-graph/index.ts'
-import { CallStackProfileAggregator } from '../modalities/call-stack-profile/index.ts'
-import { HeapSnapshotAggregator } from '../modalities/heap-snapshot/aggregate.ts'
+import { modalitySpecOf } from '../modalities/registry.ts'
+import type { AggregatedInput } from '../modalities/registry.ts'
 import type {
   AggregationProfileToMdOptions,
   ProfileEntry,
@@ -11,7 +10,6 @@ import type {
 } from '../options.ts'
 import { OriginDetector } from '../origins/index.ts'
 import type { Origin, OriginEvidence } from '../origins/index.ts'
-import type { AggregatedInput } from './converter.ts'
 import type { ParseResult } from './parse.ts'
 import type { Format } from './registry.ts'
 
@@ -27,16 +25,9 @@ export const aggregateParseResult = (
   options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] => {
-  const aggregators = parsed.map(input => {
-    switch (input.type) {
-      case `call-stack-profile`:
-        return new CallStackProfileAggregator(input)
-      case `call-graph`:
-        return new CallGraphAggregator(input)
-      case `heap-snapshot`:
-        return new HeapSnapshotAggregator(input)
-    }
-  })
+  const aggregators = parsed.map(input =>
+    modalitySpecOf(input).aggregator(input, recordTally),
+  )
 
   const detector = new OriginDetector(context)
   for (const aggregator of aggregators) {

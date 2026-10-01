@@ -46,7 +46,7 @@ export const toFormatRejectionError = (
   error: unknown,
 ): FormatRejectionError =>
   new FormatRejectionError(
-    converter.format,
+    converter.id,
     error instanceof FormatParseError
       ? messageOf(error)
       : `failed to parse the input`,

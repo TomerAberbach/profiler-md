@@ -1,28 +1,12 @@
 import type { LanguageId } from '../cli/languages.ts'
-import type {
-  AggregatedCallGraph,
-  CallGraph,
-} from '../modalities/call-graph/index.ts'
-import type {
-  AggregatedCallStackProfile,
-  CallStackProfile,
-} from '../modalities/call-stack-profile/index.ts'
-import type {
-  AggregatedHeapSnapshot,
-  HeapSnapshot,
-} from '../modalities/heap-snapshot/index.ts'
-
-export type ParsedInput = CallStackProfile | CallGraph | HeapSnapshot
-
-export type AggregatedInput =
-  AggregatedCallStackProfile | AggregatedCallGraph | AggregatedHeapSnapshot
+import type { ParsedInput } from '../modalities/registry.ts'
 
 type FormatMeta = {
   /**
    * The format's ID: the `--format` value and `--help` topic that select it.
    * Must be unique across formats.
    */
-  format: string
+  id: string
 
   /** The format's display name. */
   title: string
