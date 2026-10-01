@@ -1,3 +1,4 @@
+import { formatArrow } from './helpers/format.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import type { FormattingProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
@@ -196,9 +197,55 @@ export const isBaseURLInferableLocation = (
 export const formatSourceLocation = (
   location: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
+): string =>
+  joinFormattedSourceLocation(formatSourceLocationParts(location, options))
+
+/**
+ * Formats the base and current locations of a diffed entity as
+ * `base → current`, stating the path once when only the position differs
+ * (`a.js:20:5 → 20:9`).
+ */
+export const formatSourceLocationDiff = (
+  base: SourceLocation | undefined,
+  current: SourceLocation | undefined,
+  options: FormattingProfileToMdOptions,
 ): string => {
+  const baseParts = formatSourceLocationParts(base, options)
+  const currentParts = formatSourceLocationParts(current, options)
+  if (
+    baseParts.path &&
+    baseParts.kind === currentParts.kind &&
+    baseParts.path === currentParts.path &&
+    baseParts.position &&
+    currentParts.position
+  ) {
+    return `${baseParts.path}:${formatArrow(baseParts.position, currentParts.position)}`
+  }
+
+  return formatArrow(
+    joinFormattedSourceLocation(baseParts),
+    joinFormattedSourceLocation(currentParts),
+  )
+}
+
+type FormattedSourceLocation = {
+  kind?: ReturnType<typeof sourceReferenceKind>
+  path: string
+  position?: string
+}
+
+const joinFormattedSourceLocation = ({
+  path,
+  position,
+}: FormattedSourceLocation): string =>
+  (position === undefined ? path : `${path}:${position}`) || `<unknown>`
+
+const formatSourceLocationParts = (
+  location: SourceLocation | undefined,
+  options: FormattingProfileToMdOptions,
+): FormattedSourceLocation => {
   if (!location) {
-    return `<unknown>`
+    return { path: `` }
   }
 
   location = sourceMapSourceLocation(location, options)
@@ -225,14 +272,17 @@ export const formatSourceLocation = (
     path = sourceReferenceId(location)
   }
 
-  if (location.line !== undefined) {
-    path += `:${location.line}`
-    if (location.column !== undefined) {
-      path += `:${location.column}`
-    }
+  const kind = sourceReferenceKind(location)
+  const { line, column } = location
+  if (line === undefined) {
+    return { kind, path }
   }
 
-  return path || `<unknown>`
+  return {
+    kind,
+    path,
+    position: column === undefined ? String(line) : `${line}:${column}`,
+  }
 }
 
 /**

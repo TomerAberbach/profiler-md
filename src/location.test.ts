@@ -2,9 +2,11 @@ import { describe, expect, test } from 'vitest'
 import {
   commonAncestorDirectoryURL,
   formatSourceLocation,
+  formatSourceLocationDiff,
   makeFileReference,
   makeSourceLocation,
 } from './location.ts'
+import type { SourceLocation } from './location.ts'
 import { resolveProfileToMdOptions } from './options.ts'
 
 const format = ({
@@ -418,3 +420,56 @@ describe(`commonAncestorDirectoryURL`, () => {
     ).toStrictEqual(new URL(expected))
   })
 })
+
+test.each<{
+  base: SourceLocation | undefined
+  current: SourceLocation | undefined
+  expected: string
+}>([
+  {
+    base: { type: `relative`, path: `a.js`, line: 10 },
+    current: { type: `relative`, path: `a.js`, line: 90 },
+    expected: `a.js:10 → 90`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: 20, column: 5 },
+    current: { type: `relative`, path: `a.js`, line: 20, column: 9 },
+    expected: `a.js:20:5 → 20:9`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: 20, column: 5 },
+    current: { type: `relative`, path: `a.js`, line: 20, column: 5 },
+    expected: `a.js:20:5`,
+  },
+  {
+    base: { type: `relative`, path: `a.js` },
+    current: { type: `relative`, path: `a.js`, line: 20 },
+    expected: `a.js → a.js:20`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: 10 },
+    current: { type: `relative`, path: `b.js`, line: 10 },
+    expected: `a.js:10 → b.js:10`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: 10 },
+    current: { type: `logical`, name: `a.js`, line: 20 },
+    expected: `a.js:10 → a.js:20`,
+  },
+  {
+    base: undefined,
+    current: { type: `relative`, path: `a.js`, line: 10 },
+    expected: `<unknown> → a.js:10`,
+  },
+])(
+  `formatSourceLocationDiff of $base and $current`,
+  ({ base, current, expected }) => {
+    expect(
+      formatSourceLocationDiff(
+        base,
+        current,
+        resolveProfileToMdOptions({ baseURL: `/project` }),
+      ),
+    ).toBe(expected)
+  },
+)

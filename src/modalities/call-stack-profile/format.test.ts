@@ -1275,6 +1275,59 @@ describe(`formatCallStackProfileDiff`, () => {
     ])
   })
 
+  test.each([
+    { base: { line: 10 }, current: { line: 90 }, location: `src/a.ts:10 → 90` },
+    {
+      base: { line: 20, column: 5 },
+      current: { line: 20, column: 9 },
+      location: `src/a.ts:20:5 → 20:9`,
+    },
+    { base: { line: 10 }, current: { line: 10 }, location: `src/a.ts:10` },
+    { base: {}, current: { line: 10 }, location: `src/a.ts → src/a.ts:10` },
+  ])(
+    `shows both locations of functions paired at $base and $current`,
+    ({ base: basePosition, current: currentPosition, location }) => {
+      const profileAt = (
+        position: { line?: number; column?: number },
+        selfCount: number,
+      ) =>
+        makeAggregatedCallStackProfile(
+          [MICROSECONDS_METRIC],
+          [
+            {
+              name: `funcA`,
+              url: `file:///project/src/a.ts`,
+              ...position,
+              selfCount,
+              selfValues: [selfCount * 20],
+            },
+          ],
+        )
+      const diff = diffAggregatedCallStackProfiles(
+        profileAt(basePosition, 5),
+        profileAt(currentPosition, 10),
+        defaultOptions,
+      )
+      const md = mdastToMarkdown(
+        formatCallStackProfileDiff(diff, defaultOptions),
+      )
+
+      expect(categoryRankingTables(md, `Self time`, `Regressions`)).toEqual({
+        Ours: [
+          {
+            '%': `100.0%`,
+            Change: `+100.0%`,
+            Delta: `+0.10ms`,
+            Time: `0.1ms → 0.2ms`,
+            Samples: `5 → 10`,
+            Function: `funcA`,
+            Location: location,
+          },
+        ],
+      })
+    },
+  )
+
   test(`omits each function section a non-diff profile would omit instead of noting it`, () => {
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],

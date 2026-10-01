@@ -114,7 +114,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Size: `100 B → 200 B`,
           Instances: `1 → 2`,
           Constructor: `MyClass`,
-          Location: `src/a.ts:9:9`,
+          Location: `src/a.ts:1:1 → 9:9`,
         },
       ],
     ])
@@ -208,7 +208,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Instances: `1`,
           Paths: `1`,
           Name: `myFn`,
-          Location: `src/a.ts:25:3`,
+          Location: `src/a.ts:5:10 → 25:3`,
           'Example path': `(GC root)`,
         },
       ],

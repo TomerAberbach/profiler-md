@@ -88,28 +88,28 @@ Functions with the largest increase in total native bytes allocated in the funct
 
 Functions with the largest decrease in total native bytes allocated in the function and all its callees.
 
-|  Change |        Delta |            % |                Size |         Samples | Function                                      | Location                                            |
-| ------: | -----------: | -----------: | ------------------: | --------------: | --------------------------------------------- | --------------------------------------------------- |
-|  -97.0% |   -5.737 MiB | 0.5% → <0.1% |  5.91 MiB → 180 KiB |  32,237 → 1,388 | `invoke(Object, Object)`                      | `java.lang.invoke.LambdaForm$MH.0x0000007001210800` |
-| -100.0% |   -4.448 MiB | 0.4% → <0.1% |    4.45 MiB → 548 B |      20,481 → 8 | `invoke(Object, Object, Object)`              | `java.lang.invoke.LambdaForm$MH.0x0000007001215800` |
-|  -37.5% |   -1.217 MiB |  0.3% → 0.2% | 3.25 MiB → 2.03 MiB |        103 → 65 | `Matcher::Label_Root`                         | `libjvm.dylib`                                      |
-|  -30.4% |   -1.187 MiB |  0.4% → 0.2% | 3.91 MiB → 2.72 MiB |         71 → 53 | `PhaseIdealLoop::create_slow_version_of_loop` | `libjvm.dylib`                                      |
-|  -30.4% |   -1.187 MiB |  0.4% → 0.2% | 3.91 MiB → 2.72 MiB |         71 → 53 | `PhaseIdealLoop::do_unswitching`              | `libjvm.dylib`                                      |
-|  -18.3% |    -1.03 MiB |  0.5% → 0.4% | 5.62 MiB → 4.59 MiB |       455 → 422 | `Compilation::emit_lir`                       | `libjvm.dylib`                                      |
-|  -22.9% | -991.273 KiB |  0.4% → 0.3% | 4.23 MiB → 3.26 MiB |        120 → 89 | `LinearScan::do_linear_scan`                  | `libjvm.dylib`                                      |
-|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::compile_method`                 | `libjvm.dylib`                                      |
-|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::Compilation`                    | `libjvm.dylib`                                      |
-|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compiler::compile_method`                    | `libjvm.dylib`                                      |
-|  -65.1% | -895.343 KiB | 0.1% → <0.1% |  1.34 MiB → 480 KiB |         43 → 15 | `PhaseChaitin::post_allocate_copy_removal`    | `libjvm.dylib`                                      |
-|  -10.3% | -864.398 KiB |  0.8% → 0.7% | 8.23 MiB → 7.38 MiB | 16,822 → 16,776 | `Compilation::compile_java_method`            | `libjvm.dylib`                                      |
-|  -95.8% |  -735.46 KiB | 0.1% → <0.1% |    767 KiB → 32 KiB |          24 → 1 | `ResourceBitMap::ResourceBitMap`              | `libjvm.dylib`                                      |
-|  -95.7% | -703.484 KiB | 0.1% → <0.1% |    735 KiB → 32 KiB |          23 → 1 | `LinearScan::compute_local_live_sets`         | `libjvm.dylib`                                      |
-|  -16.7% | -672.078 KiB |  0.4% → 0.3% | 3.94 MiB → 3.28 MiB |         69 → 64 | `PhaseIdealLoop::fix_body_edges`              | `libjvm.dylib`                                      |
-|   -5.0% | -532.195 KiB |  1.0% → 0.9% | 10.5 MiB → 9.97 MiB |       252 → 242 | `PhaseIdealLoop::split_if_with_blocks`        | `libjvm.dylib`                                      |
-|   -4.1% | -480.101 KiB |  1.1% → 1.0% | 11.6 MiB → 11.1 MiB |       205 → 201 | `Type_Array::grow`                            | `libjvm.dylib`                                      |
-|  -11.9% | -448.273 KiB |         0.3% | 3.69 MiB → 3.25 MiB |              72 | `GraphKit::clone_map`                         | `libjvm.dylib`                                      |
-|  -31.8% | -448.117 KiB |         0.1% |  1.38 MiB → 960 KiB |         29 → 24 | `Parse::build_exits`                          | `libjvm.dylib`                                      |
-|  -28.0% | -432.007 KiB |         0.1% |  1.5 MiB → 1.08 MiB |         42 → 27 | `PhaseOutput::BuildOopMaps`                   | `libjvm.dylib`                                      |
+|  Change |        Delta |            % |                Size |         Samples | Function                                      | Location                                                                                                |
+| ------: | -----------: | -----------: | ------------------: | --------------: | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+|  -97.0% |   -5.737 MiB | 0.5% → <0.1% |  5.91 MiB → 180 KiB |  32,237 → 1,388 | `invoke(Object, Object)`                      | `java.lang.invoke.LambdaForm$MH.0x0000000401210400 → java.lang.invoke.LambdaForm$MH.0x0000007001210800` |
+| -100.0% |   -4.448 MiB | 0.4% → <0.1% |    4.45 MiB → 548 B |      20,481 → 8 | `invoke(Object, Object, Object)`              | `java.lang.invoke.LambdaForm$MH.0x0000000401218400 → java.lang.invoke.LambdaForm$MH.0x0000007001215800` |
+|  -37.5% |   -1.217 MiB |  0.3% → 0.2% | 3.25 MiB → 2.03 MiB |        103 → 65 | `Matcher::Label_Root`                         | `libjvm.dylib`                                                                                          |
+|  -30.4% |   -1.187 MiB |  0.4% → 0.2% | 3.91 MiB → 2.72 MiB |         71 → 53 | `PhaseIdealLoop::create_slow_version_of_loop` | `libjvm.dylib`                                                                                          |
+|  -30.4% |   -1.187 MiB |  0.4% → 0.2% | 3.91 MiB → 2.72 MiB |         71 → 53 | `PhaseIdealLoop::do_unswitching`              | `libjvm.dylib`                                                                                          |
+|  -18.3% |    -1.03 MiB |  0.5% → 0.4% | 5.62 MiB → 4.59 MiB |       455 → 422 | `Compilation::emit_lir`                       | `libjvm.dylib`                                                                                          |
+|  -22.9% | -991.273 KiB |  0.4% → 0.3% | 4.23 MiB → 3.26 MiB |        120 → 89 | `LinearScan::do_linear_scan`                  | `libjvm.dylib`                                                                                          |
+|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::compile_method`                 | `libjvm.dylib`                                                                                          |
+|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::Compilation`                    | `libjvm.dylib`                                                                                          |
+|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compiler::compile_method`                    | `libjvm.dylib`                                                                                          |
+|  -65.1% | -895.343 KiB | 0.1% → <0.1% |  1.34 MiB → 480 KiB |         43 → 15 | `PhaseChaitin::post_allocate_copy_removal`    | `libjvm.dylib`                                                                                          |
+|  -10.3% | -864.398 KiB |  0.8% → 0.7% | 8.23 MiB → 7.38 MiB | 16,822 → 16,776 | `Compilation::compile_java_method`            | `libjvm.dylib`                                                                                          |
+|  -95.8% |  -735.46 KiB | 0.1% → <0.1% |    767 KiB → 32 KiB |          24 → 1 | `ResourceBitMap::ResourceBitMap`              | `libjvm.dylib`                                                                                          |
+|  -95.7% | -703.484 KiB | 0.1% → <0.1% |    735 KiB → 32 KiB |          23 → 1 | `LinearScan::compute_local_live_sets`         | `libjvm.dylib`                                                                                          |
+|  -16.7% | -672.078 KiB |  0.4% → 0.3% | 3.94 MiB → 3.28 MiB |         69 → 64 | `PhaseIdealLoop::fix_body_edges`              | `libjvm.dylib`                                                                                          |
+|   -5.0% | -532.195 KiB |  1.0% → 0.9% | 10.5 MiB → 9.97 MiB |       252 → 242 | `PhaseIdealLoop::split_if_with_blocks`        | `libjvm.dylib`                                                                                          |
+|   -4.1% | -480.101 KiB |  1.1% → 1.0% | 11.6 MiB → 11.1 MiB |       205 → 201 | `Type_Array::grow`                            | `libjvm.dylib`                                                                                          |
+|  -11.9% | -448.273 KiB |         0.3% | 3.69 MiB → 3.25 MiB |              72 | `GraphKit::clone_map`                         | `libjvm.dylib`                                                                                          |
+|  -31.8% | -448.117 KiB |         0.1% |  1.38 MiB → 960 KiB |         29 → 24 | `Parse::build_exits`                          | `libjvm.dylib`                                                                                          |
+|  -28.0% | -432.007 KiB |         0.1% |  1.5 MiB → 1.08 MiB |         42 → 27 | `PhaseOutput::BuildOopMaps`                   | `libjvm.dylib`                                                                                          |
 
 ##### Native
 

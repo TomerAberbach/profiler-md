@@ -10,6 +10,9 @@ import {
 } from '../helpers/format.ts'
 import { inlineCode, table, text } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
+import { formatSourceLocation, formatSourceLocationDiff } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
+import type { FormattingProfileToMdOptions } from '../options.ts'
 import type { Diff } from './diff.ts'
 
 /** A single table cell, already resolved to a value and a formatter. */
@@ -22,6 +25,11 @@ export type Cell =
       formatDelta: (value: number) => string
     }
   | { type: `text`; children: PhrasingContent[] }
+  | {
+      type: `location`
+      location: SourceLocation | undefined
+      options: FormattingProfileToMdOptions
+    }
 
 export const numberCell = (
   value: number,
@@ -43,6 +51,15 @@ export const textCell = (children: PhrasingContent[] | string): Cell => ({
 })
 
 export const codeCell = (value: string): Cell => textCell([inlineCode(value)])
+
+/**
+ * A location cell, which a diff formats from both sides' locations because a
+ * diff pairs entities whose positions may differ.
+ */
+export const locationCell = (
+  location: SourceLocation | undefined,
+  options: FormattingProfileToMdOptions,
+): Cell => ({ type: `location`, location, options })
 
 /**
  * A table column: a header and how a row produces the column's cell,
@@ -81,6 +98,8 @@ const formatCell = (cell: Cell): PhrasingContent[] => {
       return [text(cell.format(cell.value))]
     case `text`:
       return cell.children
+    case `location`:
+      return [inlineCode(formatSourceLocation(cell.location, cell.options))]
   }
 }
 
@@ -90,8 +109,9 @@ const formatCell = (cell: Cell): PhrasingContent[] => {
  * {@link Column.changeDeltaBefore} column.
  *
  * The two sides' cells line up by column, so each numeric cell formats its own
- * `base → current` arrow and a missing side reads as `0`. Text cells take the
- * present side's content, with a preference for current.
+ * `base → current` arrow and a missing side reads as `0`. A location cell
+ * formats both sides' locations, and a text cell takes the present side's
+ * content, with a preference for current.
  */
 export const formatDiffTable = <Row>(
   columns: Table<Row>,
@@ -163,8 +183,25 @@ const formatDiffCell = (
       ]
     case `text`:
       return present.children
+    case `location`:
+      return [
+        inlineCode(
+          formatSourceLocationDiff(
+            locationOf(base, present),
+            locationOf(current, present),
+            present.options,
+          ),
+        ),
+      ]
   }
 }
+
+/** A missing side takes the present side's location, so it shows once. */
+const locationOf = (
+  cell: Cell | undefined,
+  present: Cell & { type: `location` },
+): SourceLocation | undefined =>
+  (cell?.type === `location` ? cell : present).location
 
 const numericValue = (cell: Cell | undefined): number =>
   cell?.type === `number` ? cell.value : 0

@@ -16,28 +16,28 @@ Took 101.6ms → 102.2ms (+0.55ms, +0.5%) over 89 samples → 91 samples (1.1ms 
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|  Change |   Delta |           % |          Time | Samples | Function                             | Location                                                                                                    |
-| ------: | ------: | ----------: | ------------: | ------: | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| +323.4% | +3.23ms | 1.0% → 4.1% | 1.0ms → 4.2ms |   1 → 2 | `normalizedElementTagName`           | `__InjectedScript_ReaderArticleFinder.js:12:19601`                                                          |
-|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `elementLooksLikePartOfACarousel`    | `__InjectedScript_ReaderArticleFinder.js:12:8505`                                                           |
-|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `t`                                  | `__InjectedScript_ReaderArticleFinder.js:13:56642`                                                          |
-|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `domDistance`                        | `__InjectedScript_ReaderArticleFinder.js:12:2553`                                                           |
-|  +50.0% | +2.00ms | 3.9% → 5.9% | 4.0ms → 6.0ms |   4 → 6 | `insertBefore`                       | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `register`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249`                             |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `execute`                            | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`                             |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `each`                               | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`                                    |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`                      |
-|  +25.0% | +1.00ms | 3.9% → 4.9% | 4.0ms → 5.0ms |   4 → 5 | `getPropertyValue`                   | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:24`                              |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `add`                                | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368`                            |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91`                     |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:24` |
-| +100.0% | +1.00ms | 1.0% → 2.0% | 1.0ms → 2.0ms |   1 → 2 | `collectMatchingElementsInFlatTree`  | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getVisibleNonWhitespaceTextNodes`   | `__InjectedScript_ReaderArticleFinder.js:12:13801`                                                          |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `__InjectedScript_ReaderArticleFinder.js:12:26535`                                                          |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `adjustArticleNodeUpwardIfNecessary` | `__InjectedScript_ReaderArticleFinder.js:13:4514`                                                           |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `sortCompact`                        | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `createOptions`                      | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:604`                                   |
+|  Change |   Delta |           % |          Time | Samples | Function                             | Location                                                                                                             |
+| ------: | ------: | ----------: | ------------: | ------: | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| +323.4% | +3.23ms | 1.0% → 4.1% | 1.0ms → 4.2ms |   1 → 2 | `normalizedElementTagName`           | `__InjectedScript_ReaderArticleFinder.js:12:19601`                                                                   |
+|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `elementLooksLikePartOfACarousel`    | `__InjectedScript_ReaderArticleFinder.js:12:8505`                                                                    |
+|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `t`                                  | `__InjectedScript_ReaderArticleFinder.js:13:56642`                                                                   |
+|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `domDistance`                        | `__InjectedScript_ReaderArticleFinder.js:12:2553`                                                                    |
+|  +50.0% | +2.00ms | 3.9% → 5.9% | 4.0ms → 6.0ms |   4 → 6 | `insertBefore`                       | `<unknown>`                                                                                                          |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `register`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249`                                      |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `execute`                            | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`                                      |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `each`                               | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`                                             |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`                               |
+|  +25.0% | +1.00ms | 3.9% → 4.9% | 4.0ms → 5.0ms |   4 → 5 | `getPropertyValue`                   | `<unknown>`                                                                                                          |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:24`                                       |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `add`                                | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368`                                     |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91`                              |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:21:582 → 1:24` |
+| +100.0% | +1.00ms | 1.0% → 2.0% | 1.0ms → 2.0ms |   1 → 2 | `collectMatchingElementsInFlatTree`  | `<unknown>`                                                                                                          |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getVisibleNonWhitespaceTextNodes`   | `__InjectedScript_ReaderArticleFinder.js:12:13801`                                                                   |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `__InjectedScript_ReaderArticleFinder.js:12:26535`                                                                   |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `adjustArticleNodeUpwardIfNecessary` | `__InjectedScript_ReaderArticleFinder.js:13:4514`                                                                    |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `sortCompact`                        | `<unknown>`                                                                                                          |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `createOptions`                      | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:604`                                            |
 
 ##### Standard library
 
@@ -61,28 +61,28 @@ Functions with the largest increase in time spent directly in the function body,
 
 ##### Ours
 
-| Change |   Delta |           % |        Time | Samples | Function                    | Location                                                                                                    |
-| -----: | ------: | ----------: | ----------: | ------: | --------------------------- | ----------------------------------------------------------------------------------------------------------- |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `register`                  | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249`                             |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `execute`                   | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`                             |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `each`                      | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`                                    |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`                      |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:24`                              |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `add`                       | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368`                            |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91`                     |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:24` |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `createOptions`             | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:604`                                   |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `sortDependencies`          | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:6:612`                              |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=mediawiki.api&skin=vector-2022&version=1yqeu:1:193`                             |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `init`                      | `w/load.php?lang=en&modules=ext.uls.preferences&skin=vector-2022&version=11u78:1:342`                       |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `get`                       | `w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:1:902`                          |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `filter`                    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:37:404`                                   |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=jquery.spinner&skin=vector-2022&version=2h5sk:1:100`                            |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `updateTooltipOnElement`    | `w/load.php?lang=en&modules=mediawiki.util&skin=vector-2022&version=1vbcg:15:1080`                          |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `isXMLDoc`                  | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:915`                                    |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `dataAttr`                  | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:51:398`                                   |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `remove`                    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:62:821`                                   |
-|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `bindDismissOnClickOutside` | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:13:286`                     |
+| Change |   Delta |           % |        Time | Samples | Function                    | Location                                                                                                             |
+| -----: | ------: | ----------: | ----------: | ------: | --------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `register`                  | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249`                                      |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `execute`                   | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`                                      |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `each`                      | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`                                             |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`                               |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:24`                                       |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `add`                       | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368`                                     |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91`                              |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:21:582 → 1:24` |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `createOptions`             | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:604`                                            |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `sortDependencies`          | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:6:612`                                       |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=mediawiki.api&skin=vector-2022&version=1yqeu:1:193`                                      |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `init`                      | `w/load.php?lang=en&modules=ext.uls.preferences&skin=vector-2022&version=11u78:1:342`                                |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `get`                       | `w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:1:902`                                   |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `filter`                    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:37:404`                                            |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`               | `w/load.php?lang=en&modules=jquery.spinner&skin=vector-2022&version=2h5sk:1:100`                                     |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `updateTooltipOnElement`    | `w/load.php?lang=en&modules=mediawiki.util&skin=vector-2022&version=1vbcg:15:1080`                                   |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `isXMLDoc`                  | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:915`                                             |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `dataAttr`                  | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:51:398`                                            |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `remove`                    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:62:821`                                            |
+|    new | +1.00ms | 0.0% → 1.0% | 0ms → 1.0ms |   0 → 1 | `bindDismissOnClickOutside` | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:13:286`                              |
 
 ##### Native
 
@@ -114,10 +114,10 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `resolveIndex`                                  | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:352`                      |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `load`                                          | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:20:748`                      |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `splitModuleKey`                                | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:720`                      |
-| removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:11:203`              |
+| removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:24 → 11:203`       |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:24`                     |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:420`                             |
-| removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:751`                            |
+| removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:37:790 → 41:751`                   |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `add`                                           | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:42:286`                            |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `jar.js`                                        | `w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:3:20`                    |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                   | `w/load.php?lang=en&modules=ext.visualEditor.core.utils.parsing&skin=vector-2022&version=962r8:1:86` |
@@ -159,10 +159,10 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `resolveIndex`   | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:352`                      |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `load`           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:20:748`                      |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `splitModuleKey` | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:720`                      |
-| removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:11:203`              |
+| removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:24 → 11:203`       |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:24`                     |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:420`                             |
-| removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:751`                            |
+| removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:37:790 → 41:751`                   |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `add`            | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:42:286`                            |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `jar.js`         | `w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:3:20`                    |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.visualEditor.core.utils.parsing&skin=vector-2022&version=962r8:1:86` |

@@ -401,7 +401,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           Instances: `1 → 2`,
           Paths: `1`,
           Name: `grewFn`,
-          Location: `src/a.ts:7:10`,
+          Location: `src/a.ts:5:10 → 7:10`,
           'Example path': `(GC root)`,
         },
       ],
