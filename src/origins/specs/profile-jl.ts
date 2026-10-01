@@ -17,7 +17,7 @@ export const profileJlOriginSpec = {
   isMarkerEntry: ({ name, location }) =>
     location === undefined &&
     name !== undefined &&
-    JULIA_GENERIC_MEMORY_NODES.has(name),
+    JULIA_MEMORY_NODES.has(name),
   categorizeEntry: categorizeGenericEntry,
   categorizeHeapSnapshotDeclaredType: juliaTypeCategory,
 } as const satisfies OriginSpec
@@ -165,11 +165,15 @@ const JULIA_TYPE_CONSTRUCTOR_CATEGORIES = new Map<
 ])
 
 /**
- * The synthetic class names Julia's snapshot writer gives `Memory{T}` buffer
- * nodes. V8's own writers label synthetic nodes with parenthesized or
- * `system /`-prefixed names, never angle brackets.
+ * The synthetic class names Julia's snapshot writer assigns to memory buffer
+ * nodes. Before 1.13, the name contains a `Memory{T}` buffer's allocation kind.
+ * From 1.13, the name marks a buffer allocated outside the GC. V8's own writers
+ * label synthetic nodes with parenthesized or `system /`-prefixed names, never
+ * angle brackets.
  */
-const JULIA_GENERIC_MEMORY_NODES = new Set([
+const JULIA_MEMORY_NODES = new Set([
   `<generic memory - inline alloc>`,
   `<generic memory - malloc>`,
+  `<generic memory - pool alloc>`,
+  `<foreign memory - malloc>`,
 ])

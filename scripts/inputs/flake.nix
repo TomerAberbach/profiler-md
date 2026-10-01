@@ -1,23 +1,29 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    # Julia before 1.12.7 writes `-1` as the element index of every `Memory`
+    # edge in a heap snapshot (JuliaLang/julia#60930). Julia comes from this
+    # newer pin, so the rest of the toolchain stays on the pin its committed
+    # inputs were generated with.
+    nixpkgs-julia.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
   outputs =
-    { nixpkgs, ... }:
+    { nixpkgs, nixpkgs-julia, ... }:
     let
       systems = [
         "aarch64-darwin"
       ];
 
       toolchainFor =
-        pkgs:
+        { pkgs, juliaPkgs }:
         let
           phpWithExcimer = pkgs.php.withExtensions ({ enabled, all }: enabled ++ [ all.excimer ]);
 
           # julia-bin's installCheckPhase runs Julia's entire stdlib test
           # suite, and the workloads need only a working Julia.
-          julia = pkgs.julia-bin.overrideAttrs (_: {
+          julia = juliaPkgs.julia-bin.overrideAttrs (_: {
             doInstallCheck = false;
           });
 
@@ -71,13 +77,20 @@
         ];
 
       forAllSystems =
-        f: nixpkgs.lib.genAttrs systems (system: f { pkgs = import nixpkgs { inherit system; }; });
+        f:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          f {
+            pkgs = import nixpkgs { inherit system; };
+            juliaPkgs = import nixpkgs-julia { inherit system; };
+          }
+        );
     in
     {
       devShells = forAllSystems (
-        { pkgs }: {
+        { pkgs, juliaPkgs }: {
           default = pkgs.mkShell {
-            packages = toolchainFor pkgs;
+            packages = toolchainFor { inherit pkgs juliaPkgs; };
 
             ASYNC_PROFILER_HOME = "${pkgs.async-profiler}";
             DOTNET_ROOT = "${pkgs.dotnet-sdk}/share/dotnet";
