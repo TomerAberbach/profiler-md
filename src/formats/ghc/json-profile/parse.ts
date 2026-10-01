@@ -101,6 +101,11 @@ export const parseGhcJsonProfile = (
     profile: root,
     tick_interval: tickInterval,
   } = profile
+  // The time profile's observations read the interval lazily, and formatting
+  // crashes on a value that isn't a number.
+  if (typeof tickInterval !== `number`) {
+    throw new FormatParseError(`tick_interval must be a number`)
+  }
   const { frames, idToFrameIndex } = costCentreFrames(costCentres)
   validateCostCentreReferences(root, idToFrameIndex)
 
@@ -152,13 +157,11 @@ const ENTRIES: Metric = {
 
 const costCentreFrames = (
   costCentres: GhcJsonCostCentre[],
-): { frames: StackFrame[]; idToFrameIndex: number[] } => {
+): { frames: StackFrame[]; idToFrameIndex: Map<number, number> } => {
   const frames: StackFrame[] = []
-  // Cost-centre IDs are assigned sequentially as modules register them, so a
-  // sparse array indexed by ID stays dense enough to outperform a `Map`.
-  const idToFrameIndex: number[] = []
+  const idToFrameIndex = new Map<number, number>()
   for (const costCentre of costCentres) {
-    idToFrameIndex[costCentre.id] = frames.length
+    idToFrameIndex.set(costCentre.id, frames.length)
     frames.push(
       costCentreStackFrame({
         label: costCentre.label,
@@ -182,12 +185,12 @@ const costCentreFrames = (
  */
 const validateCostCentreReferences = (
   root: GhcJsonProfileNode,
-  idToFrameIndex: number[],
+  idToFrameIndex: Map<number, number>,
 ): void => {
   const stack: GhcJsonProfileNode[] = [root]
   while (stack.length > 0) {
     const node = stack.pop()!
-    if (idToFrameIndex[node.id] === undefined) {
+    if (!idToFrameIndex.has(node.id)) {
       throw new FormatParseError(
         `cost-centre stack references undefined cost centre ${node.id}`,
       )
@@ -201,7 +204,7 @@ const validateCostCentreReferences = (
 /** A tick is one sample, so a stack's ticks are its count. */
 function* timeObservations(
   root: GhcJsonProfileNode,
-  idToFrameIndex: number[],
+  idToFrameIndex: Map<number, number>,
   tickInterval: number,
 ): Iterable<Observation> {
   for (const { node, id, path } of costCentreStacks(root, idToFrameIndex)) {
@@ -225,7 +228,7 @@ function* timeObservations(
  */
 function* allocationObservations(
   root: GhcJsonProfileNode,
-  idToFrameIndex: number[],
+  idToFrameIndex: Map<number, number>,
 ): Iterable<Observation> {
   for (const { node, id, path } of costCentreStacks(root, idToFrameIndex)) {
     if (node.alloc > 0 || node.entries > 0) {
@@ -268,7 +271,7 @@ type CostCentreStack = {
  */
 function* costCentreStacks(
   root: GhcJsonProfileNode,
-  idToFrameIndex: number[],
+  idToFrameIndex: Map<number, number>,
 ): Iterable<CostCentreStack> {
   const path: number[] = []
   const stack: { node: GhcJsonProfileNode; childIndex: number }[] = [
@@ -282,7 +285,7 @@ function* costCentreStacks(
     if (top.childIndex === 0) {
       // Parsing rejects a profile whose tree references an undefined cost
       // centre, so every node's ID resolves to a frame.
-      path.push(idToFrameIndex[top.node.id]!)
+      path.push(idToFrameIndex.get(top.node.id)!)
       yield { node: top.node, id: id++, path }
     }
 
