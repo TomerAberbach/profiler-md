@@ -1567,7 +1567,7 @@ describe(`diffProfiles`, () => {
     test(`matchEntry matches functions whose locations differ across profiles`, () => {
       // `funcA`'s file carries a per-build suffix, so by default the two sides
       // don't match. The `matchEntry` hook equates the locations; the matched
-      // row displays the current profile's real path.
+      // row displays both profiles' real paths.
       const base = JSON.stringify({
         nodes: [
           makeV8CpuProfileRoot([2]),
@@ -1619,7 +1619,7 @@ describe(`diffProfiles`, () => {
             Time: `0.1ms → 0.2ms`,
             Samples: `5 → 10`,
             Function: `funcA`,
-            Location: `src/a-222.ts:1:1`,
+            Location: `src/a-111.ts:1:1 → src/a-222.ts:1:1`,
           },
         ],
       ])

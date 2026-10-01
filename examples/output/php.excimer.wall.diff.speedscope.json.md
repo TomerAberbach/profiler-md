@@ -72,7 +72,7 @@ Functions with the largest increase in time spent directly in the function body,
 |     new | +2.00ms |  0.0% → 0.1% |     0ms → 2.0ms |   0 → 2 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `composer/src/Composer/Util/StreamContextFactory.php`     |
 |  +20.0% | +2.00ms |  0.2% → 0.3% | 10.0ms → 12.0ms | 10 → 12 | `Composer\Autoload\AutoloadGenerator::getPathCode`        | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
 |  +12.5% | +2.00ms |  0.4% → 0.5% | 16.0ms → 18.0ms | 16 → 18 | `Composer\Util\Filesystem::findShortestPath`              | `composer/src/Composer/Util/Filesystem.php`               |
-|   +7.1% | +1.00ms |  0.3% → 0.4% | 14.0ms → 15.0ms | 13 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:349`       |
+|   +7.1% | +1.00ms |  0.3% → 0.4% | 14.0ms → 15.0ms | 13 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:353 → 349` |
 |     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Factory::createComposer`                        | `composer/src/Composer/Factory.php`                       |
 |     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Repository\RepositoryManager::createRepository` | `composer/src/Composer/Repository/RepositoryManager.php`  |
 |     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Command\DumpAutoloadCommand::execute`           | `composer/src/Composer/Command/DumpAutoloadCommand.php`   |
@@ -225,7 +225,7 @@ Functions with the largest increase in total time spent in the function and all 
 | +300.0% | +3.00ms | <0.1% → 0.1% |     1.0ms → 4.0ms |     1 → 4 | `Composer\Util\Filesystem::isAbsolutePath`                | `composer/src/Composer/Util/Filesystem.php`               |
 | +200.0% | +2.00ms | <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `composer/src/Composer/Util/StreamContextFactory.php`     |
 | +200.0% | +2.00ms | <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\Console\Input\InputOption::__construct`         | `composer/src/Composer/Console/Input/InputOption.php`     |
-|   +7.1% | +1.00ms |  0.3% → 0.4% |   14.0ms → 15.0ms |   13 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:349`       |
+|   +7.1% | +1.00ms |  0.3% → 0.4% |   14.0ms → 15.0ms |   13 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:353 → 349` |
 |  +16.7% | +1.00ms |  0.1% → 0.2% |     6.0ms → 7.0ms |         1 | `Composer\Util\Git::getVersion`                           | `composer/src/Composer/Util/Git.php`                      |
 |  +16.7% | +1.00ms |  0.1% → 0.2% |     6.0ms → 7.0ms |         1 | `Composer\Util\Git::getNoShowSignatureFlag`               | `composer/src/Composer/Util/Git.php`                      |
 | +100.0% | +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `(anonymous)`                                             | `composer/src/Composer/Repository/ComposerRepository.php` |

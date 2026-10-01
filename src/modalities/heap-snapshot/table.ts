@@ -6,6 +6,7 @@ import {
   bytesCell,
   codeCell,
   countCell,
+  locationCell,
   percentCell,
   textCell,
 } from '../table.ts'
@@ -67,7 +68,7 @@ const entityColumns = (
         {
           header: `Location`,
           cellOf: (row: { entity: LabeledEntity }) =>
-            codeCell(formatSourceLocation(row.entity.location, options)),
+            locationCell(row.entity.location, options),
         },
       ]
     : []),

@@ -163,55 +163,55 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 
 Functions with the largest increase in retained size.
 
-|   Change |       Delta |            % |         Retained | Instances | Paths | Name | Location                                  | Example path           |
-| -------: | ----------: | -----------: | ---------------: | --------: | ----: | ---- | ----------------------------------------- | ---------------------- |
-| +6658.2% | +23.667 KiB | <0.1% → 0.8% |   364 B → 24 KiB |         1 |     1 | `iu` | `node_modules/d3/dist/d3.min.js:2:76774`  | `(GC root)`            |
-| +1285.5% |  +3.113 KiB | <0.1% → 0.1% | 248 B → 3.36 KiB |         1 |     1 | `Lm` | `node_modules/d3/dist/d3.min.js:2:194432` | `(GC root)`            |
-|  +772.2% |  +1.628 KiB | <0.1% → 0.1% | 216 B → 1.84 KiB |         1 |     1 | `Um` | `node_modules/d3/dist/d3.min.js:2:193552` | `.Um system / Context` |
-| +3612.5% |  +1.128 KiB |        <0.1% |  32 B → 1.16 KiB |         1 |     1 | `au` | `node_modules/d3/dist/d3.min.js:2:79110`  | `.au system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Jx` | `node_modules/d3/dist/d3.min.js:2:210278` | `.Jx system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Xx` | `node_modules/d3/dist/d3.min.js:2:206588` | `.Xx system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Wx` | `node_modules/d3/dist/d3.min.js:2:207850` | `.Wx system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Yx` | `node_modules/d3/dist/d3.min.js:2:204737` | `.Yx system / Context` |
-|      new |    +1,008 B | 0.0% → <0.1% |    0 B → 1,008 B |     0 → 1 | 0 → 1 | `ym` | `node_modules/d3/dist/d3.min.js:2:192478` | `.ym system / Context` |
-|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `lw` | `node_modules/d3/dist/d3.min.js:2:212348` | `.lw system / Context` |
-|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `fw` | `node_modules/d3/dist/d3.min.js:2:211922` | `.fw system / Context` |
-|  +403.6% |      +888 B |        <0.1% | 220 B → 1.08 KiB |         1 |     1 | `Gm` | `node_modules/d3/dist/d3.min.js:2:196504` | `.Gm system / Context` |
-|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `Kx` | `node_modules/d3/dist/d3.min.js:2:209010` | `.Kx system / Context` |
-|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `jx` | `node_modules/d3/dist/d3.min.js:2:205618` | `.jx system / Context` |
-|      new |      +724 B | 0.0% → <0.1% |      0 B → 724 B |     0 → 1 | 0 → 1 | `Ix` | `node_modules/d3/dist/d3.min.js:2:201749` | `.Ix system / Context` |
-|  +613.8% |      +712 B |        <0.1% |    116 B → 828 B |         1 |     1 | `nw` | `node_modules/d3/dist/d3.min.js:2:211383` | `.nw system / Context` |
-|  +527.6% |      +612 B |        <0.1% |    116 B → 728 B |         1 |     1 | `tx` | `node_modules/d3/dist/d3.min.js:2:198280` | `.tx system / Context` |
-|  +420.7% |      +488 B |        <0.1% |    116 B → 604 B |         1 |     1 | `km` | `node_modules/d3/dist/d3.min.js:2:192703` | `.km system / Context` |
-|   +53.0% |      +384 B |        <0.1% | 724 B → 1.08 KiB |         1 |     1 | `Ux` | `node_modules/d3/dist/d3.min.js:2:201718` | `.Ux system / Context` |
-|   +33.8% |      +280 B |        <0.1% | 828 B → 1.08 KiB |         1 |     1 | `Fx` | `node_modules/d3/dist/d3.min.js:2:201656` | `.Fx system / Context` |
+|   Change |       Delta |            % |         Retained | Instances | Paths | Name | Location                                             | Example path           |
+| -------: | ----------: | -----------: | ---------------: | --------: | ----: | ---- | ---------------------------------------------------- | ---------------------- |
+| +6658.2% | +23.667 KiB | <0.1% → 0.8% |   364 B → 24 KiB |         1 |     1 | `iu` | `node_modules/d3/dist/d3.min.js:2:76774`             | `(GC root)`            |
+| +1285.5% |  +3.113 KiB | <0.1% → 0.1% | 248 B → 3.36 KiB |         1 |     1 | `Lm` | `node_modules/d3/dist/d3.min.js:2:195934 → 2:194432` | `(GC root)`            |
+|  +772.2% |  +1.628 KiB | <0.1% → 0.1% | 216 B → 1.84 KiB |         1 |     1 | `Um` | `node_modules/d3/dist/d3.min.js:2:193534 → 2:193552` | `.Um system / Context` |
+| +3612.5% |  +1.128 KiB |        <0.1% |  32 B → 1.16 KiB |         1 |     1 | `au` | `node_modules/d3/dist/d3.min.js:2:79111 → 2:79110`   | `.au system / Context` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Jx` | `node_modules/d3/dist/d3.min.js:2:210278`            | `.Jx system / Context` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Xx` | `node_modules/d3/dist/d3.min.js:2:206588`            | `.Xx system / Context` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Wx` | `node_modules/d3/dist/d3.min.js:2:207850`            | `.Wx system / Context` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Yx` | `node_modules/d3/dist/d3.min.js:2:204737`            | `.Yx system / Context` |
+|      new |    +1,008 B | 0.0% → <0.1% |    0 B → 1,008 B |     0 → 1 | 0 → 1 | `ym` | `node_modules/d3/dist/d3.min.js:2:192478`            | `.ym system / Context` |
+|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `lw` | `node_modules/d3/dist/d3.min.js:2:212342 → 2:212348` | `.lw system / Context` |
+|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `fw` | `node_modules/d3/dist/d3.min.js:2:211904 → 2:211922` | `.fw system / Context` |
+|  +403.6% |      +888 B |        <0.1% | 220 B → 1.08 KiB |         1 |     1 | `Gm` | `node_modules/d3/dist/d3.min.js:2:196484 → 2:196504` | `.Gm system / Context` |
+|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `Kx` | `node_modules/d3/dist/d3.min.js:2:209010`            | `.Kx system / Context` |
+|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `jx` | `node_modules/d3/dist/d3.min.js:2:205618`            | `.jx system / Context` |
+|      new |      +724 B | 0.0% → <0.1% |      0 B → 724 B |     0 → 1 | 0 → 1 | `Ix` | `node_modules/d3/dist/d3.min.js:2:201749`            | `.Ix system / Context` |
+|  +613.8% |      +712 B |        <0.1% |    116 B → 828 B |         1 |     1 | `nw` | `node_modules/d3/dist/d3.min.js:2:211365 → 2:211383` | `.nw system / Context` |
+|  +527.6% |      +612 B |        <0.1% |    116 B → 728 B |         1 |     1 | `tx` | `node_modules/d3/dist/d3.min.js:2:198548 → 2:198280` | `.tx system / Context` |
+|  +420.7% |      +488 B |        <0.1% |    116 B → 604 B |         1 |     1 | `km` | `node_modules/d3/dist/d3.min.js:2:192864 → 2:192703` | `.km system / Context` |
+|   +53.0% |      +384 B |        <0.1% | 724 B → 1.08 KiB |         1 |     1 | `Ux` | `node_modules/d3/dist/d3.min.js:2:201700 → 2:201718` | `.Ux system / Context` |
+|   +33.8% |      +280 B |        <0.1% | 828 B → 1.08 KiB |         1 |     1 | `Fx` | `node_modules/d3/dist/d3.min.js:2:201638 → 2:201656` | `.Fx system / Context` |
 
 ### Improvements
 
 Functions with the largest decrease in retained size.
 
-|  Change |       Delta |            % |            Retained | Instances |     Paths | Name          | Location                                  | Example path                                                                                 |
-| ------: | ----------: | -----------: | ------------------: | --------: | --------: | ------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------- |
-|   -8.3% | -19.062 KiB |  7.1% → 6.7% |   229 KiB → 210 KiB | 765 → 760 | 485 → 484 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:30289`  | `.on Object ← .prototype fe (node_modules/d3/dist/d3.min.js:2:29314) ← .fe system / Context` |
-|  -94.1% |  -1.804 KiB | 0.1% → <0.1% |    1.92 KiB → 116 B |         1 |         1 | `Bm`          | `node_modules/d3/dist/d3.min.js:2:193642` | `.Bm system / Context`                                                                       |
-|  -86.2% |  -1.585 KiB | 0.1% → <0.1% |    1.84 KiB → 260 B |         1 |         1 | `qm`          | `node_modules/d3/dist/d3.min.js:2:193482` | `.qm system / Context`                                                                       |
-|  -42.8% |  -1.437 KiB |         0.1% | 3.36 KiB → 1.92 KiB |         1 |         1 | `Ym`          | `node_modules/d3/dist/d3.min.js:2:193669` | `(GC root)`                                                                                  |
-| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Qx`          | `node_modules/d3/dist/d3.min.js:2:210229` | `.Qx system / Context`                                                                       |
-| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Xm`          | `node_modules/d3/dist/d3.min.js:2:196455` | `.Xm system / Context`                                                                       |
-| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Hx`          | `node_modules/d3/dist/d3.min.js:2:206539` | `.Hx system / Context`                                                                       |
-| removed |    -1,008 B | <0.1% → 0.0% |       1,008 B → 0 B |     1 → 0 |     1 → 0 | `gm`          | `node_modules/d3/dist/d3.min.js:2:192429` | `.gm system / Context`                                                                       |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Bx`          | `node_modules/d3/dist/d3.min.js:2:204588` | `.Bx system / Context`                                                                       |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Vx`          | `node_modules/d3/dist/d3.min.js:2:207395` | `.Vx system / Context`                                                                       |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Rx`          | `node_modules/d3/dist/d3.min.js:2:201499` | `.Rx system / Context`                                                                       |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `sw`          | `node_modules/d3/dist/d3.min.js:2:211953` | `.sw system / Context`                                                                       |
-|  -83.0% |      -920 B |        <0.1% |    1.08 KiB → 188 B |     7 → 6 |     7 → 6 | `a`           | `node_modules/d3/dist/d3.min.js:2:99767`  | `.csvFormatValue Object ← .d3 Window / http://127.0.0.1:52789`                               |
-|  -88.2% |      -868 B |        <0.1% |       984 B → 116 B |         1 |         1 | `Qm`          | `node_modules/d3/dist/d3.min.js:2:197362` | `(GC root)`                                                                                  |
-| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Lx`          | `node_modules/d3/dist/d3.min.js:2:205569` | `.Lx system / Context`                                                                       |
-| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `tw`          | `node_modules/d3/dist/d3.min.js:2:211334` | `.tw system / Context`                                                                       |
-| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Zx`          | `node_modules/d3/dist/d3.min.js:2:208961` | `.Zx system / Context`                                                                       |
-|  -61.4% |      -604 B |        <0.1% |       984 B → 380 B |         1 |         1 | `uw`          | `node_modules/d3/dist/d3.min.js:2:211852` | `.uw system / Context`                                                                       |
-|  -80.9% |      -492 B |        <0.1% |       608 B → 116 B |         1 |         1 | `Nm`          | `node_modules/d3/dist/d3.min.js:2:192650` | `.Nm system / Context`                                                                       |
-|   -3.1% |      -424 B |         0.4% |   13.4 KiB → 13 KiB |   40 → 39 |        17 | `i`           | `node_modules/d3/dist/d3.min.js:2:159016` | `(GC root)`                                                                                  |
+|  Change |       Delta |            % |            Retained | Instances |     Paths | Name          | Location                                             | Example path                                                                                 |
+| ------: | ----------: | -----------: | ------------------: | --------: | --------: | ------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+|   -8.3% | -19.062 KiB |  7.1% → 6.7% |   229 KiB → 210 KiB | 765 → 760 | 485 → 484 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:77113 → 2:30289`   | `.on Object ← .prototype fe (node_modules/d3/dist/d3.min.js:2:29314) ← .fe system / Context` |
+|  -94.1% |  -1.804 KiB | 0.1% → <0.1% |    1.92 KiB → 116 B |         1 |         1 | `Bm`          | `node_modules/d3/dist/d3.min.js:2:193620 → 2:193642` | `.Bm system / Context`                                                                       |
+|  -86.2% |  -1.585 KiB | 0.1% → <0.1% |    1.84 KiB → 260 B |         1 |         1 | `qm`          | `node_modules/d3/dist/d3.min.js:2:193503 → 2:193482` | `.qm system / Context`                                                                       |
+|  -42.8% |  -1.437 KiB |         0.1% | 3.36 KiB → 1.92 KiB |         1 |         1 | `Ym`          | `node_modules/d3/dist/d3.min.js:2:194383 → 2:193669` | `(GC root)`                                                                                  |
+| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Qx`          | `node_modules/d3/dist/d3.min.js:2:210229`            | `.Qx system / Context`                                                                       |
+| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Xm`          | `node_modules/d3/dist/d3.min.js:2:196455`            | `.Xm system / Context`                                                                       |
+| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Hx`          | `node_modules/d3/dist/d3.min.js:2:206539`            | `.Hx system / Context`                                                                       |
+| removed |    -1,008 B | <0.1% → 0.0% |       1,008 B → 0 B |     1 → 0 |     1 → 0 | `gm`          | `node_modules/d3/dist/d3.min.js:2:192429`            | `.gm system / Context`                                                                       |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Bx`          | `node_modules/d3/dist/d3.min.js:2:204688 → 2:204588` | `.Bx system / Context`                                                                       |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Vx`          | `node_modules/d3/dist/d3.min.js:2:207801 → 2:207395` | `.Vx system / Context`                                                                       |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Rx`          | `node_modules/d3/dist/d3.min.js:2:201607 → 2:201499` | `.Rx system / Context`                                                                       |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `sw`          | `node_modules/d3/dist/d3.min.js:2:212299 → 2:211953` | `.sw system / Context`                                                                       |
+|  -83.0% |      -920 B |        <0.1% |    1.08 KiB → 188 B |     7 → 6 |     7 → 6 | `a`           | `node_modules/d3/dist/d3.min.js:2:78474 → 2:99767`   | `.csvFormatValue Object ← .d3 Window / http://127.0.0.1:52789`                               |
+|  -88.2% |      -868 B |        <0.1% |       984 B → 116 B |         1 |         1 | `Qm`          | `node_modules/d3/dist/d3.min.js:2:197651 → 2:197362` | `(GC root)`                                                                                  |
+| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Lx`          | `node_modules/d3/dist/d3.min.js:2:205569`            | `.Lx system / Context`                                                                       |
+| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `tw`          | `node_modules/d3/dist/d3.min.js:2:211334`            | `.tw system / Context`                                                                       |
+| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Zx`          | `node_modules/d3/dist/d3.min.js:2:208961`            | `.Zx system / Context`                                                                       |
+|  -61.4% |      -604 B |        <0.1% |       984 B → 380 B |         1 |         1 | `uw`          | `node_modules/d3/dist/d3.min.js:2:211842 → 2:211852` | `.uw system / Context`                                                                       |
+|  -80.9% |      -492 B |        <0.1% |       608 B → 116 B |         1 |         1 | `Nm`          | `node_modules/d3/dist/d3.min.js:2:192654 → 2:192650` | `.Nm system / Context`                                                                       |
+|   -3.1% |      -424 B |         0.4% |   13.4 KiB → 13 KiB |   40 → 39 |        17 | `i`           | `node_modules/d3/dist/d3.min.js:2:159037 → 2:159016` | `(GC root)`                                                                                  |
 
 ## Largest strings
 

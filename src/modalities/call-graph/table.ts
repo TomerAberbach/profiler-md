@@ -7,7 +7,13 @@ import { formatCategory } from '../format.ts'
 import type { NamedFunction } from '../format.ts'
 import { metricCell, metricColumnNouns } from '../measure.ts'
 import type { Metric } from '../metric.ts'
-import { codeCell, countCell, percentCell, textCell } from '../table.ts'
+import {
+  codeCell,
+  countCell,
+  locationCell,
+  percentCell,
+  textCell,
+} from '../table.ts'
 import type { Column, Table } from '../table.ts'
 import type { AggregatedCallGraphCategoryMetrics } from './aggregate.ts'
 
@@ -50,7 +56,7 @@ export const functionColumns = (
   { header: entity, cellOf: row => codeCell(row.func.name) },
   {
     header: `Location`,
-    cellOf: row => codeCell(formatSourceLocation(row.func.location, options)),
+    cellOf: row => locationCell(row.func.location, options),
   },
 ]
 
@@ -79,7 +85,7 @@ export const arcColumns = (
   { header: entity, cellOf: row => codeCell(row.func.name) },
   {
     header: `Location`,
-    cellOf: row => codeCell(formatSourceLocation(row.func.location, options)),
+    cellOf: row => locationCell(row.func.location, options),
   },
 ]
 

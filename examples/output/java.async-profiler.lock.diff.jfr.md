@@ -112,28 +112,28 @@ Functions with the largest increase in total time blocked in the function and al
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 
-|  Change |   Delta |            % |           Time | Contentions | Function                                           | Location                                                   |
-| ------: | ------: | -----------: | -------------: | ----------: | -------------------------------------------------- | ---------------------------------------------------------- |
-|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path, boolean)`                 | `org.renaissance.core.DirUtils`                            |
-|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path)`                          | `org.renaissance.core.DirUtils`                            |
-|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `lambda$createScratchDirectory$1(Path)`            | `org.renaissance.core.DirUtils`                            |
-|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `run()`                                            | `org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68` |
-|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `runWith(Object, Runnable)`                        | `java.lang.Thread`                                         |
-|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `run()`                                            | `java.lang.Thread`                                         |
-|  -43.8% | -0.17ms | 24.4% → 2.8% |  0.4ms → 0.2ms |       2 → 1 | `loadClassOrNull(String, boolean)`                 | `jdk.internal.loader.BuiltinClassLoader`                   |
-|  -43.8% | -0.17ms | 24.4% → 2.8% |  0.4ms → 0.2ms |       2 → 1 | `loadClass(String, boolean)`                       | `jdk.internal.loader.BuiltinClassLoader`                   |
-|  -43.8% | -0.17ms | 24.4% → 2.8% |  0.4ms → 0.2ms |       2 → 1 | `loadClass(String, boolean)`                       | `jdk.internal.loader.ClassLoaders$AppClassLoader`          |
-|  -58.8% | -0.12ms | 12.6% → 1.1% |  0.2ms → 0.1ms |       6 → 3 | `walkFileTree(Path, FileVisitor)`                  | `java.nio.file.Files`                                      |
-|  -54.8% | -0.10ms | 11.5% → 1.1% |  0.2ms → 0.1ms |       5 → 3 | `walkFileTree(Path, Set, int, FileVisitor)`        | `java.nio.file.Files`                                      |
-|  -62.1% | -0.06ms |  5.9% → 0.5% | 0.1ms → 36.5µs |       3 → 2 | `visit(Path, boolean, boolean)`                    | `java.nio.file.FileTreeWalker`                             |
-|  -62.1% | -0.06ms |  5.9% → 0.5% | 0.1ms → 36.5µs |       3 → 2 | `walk(Path)`                                       | `java.nio.file.FileTreeWalker`                             |
-|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `<init>(boolean)`                                  | `java.util.concurrent.locks.ReentrantReadWriteLock`        |
-|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `<init>(UnixPath, long, DirectoryStream$Filter)`   | `sun.nio.fs.UnixDirectoryStream`                           |
-|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `newDirectoryStream(Path, DirectoryStream$Filter)` | `sun.nio.fs.UnixFileSystemProvider`                        |
-|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `newDirectoryStream(Path)`                         | `java.nio.file.Files`                                      |
-| removed | -0.03ms |  1.9% → 0.0% |   30.3µs → 0ms |       1 → 0 | `visitFile(Path, BasicFileAttributes)`             | `org.renaissance.core.DirUtils$1`                          |
-| removed | -0.03ms |  1.9% → 0.0% |   30.3µs → 0ms |       1 → 0 | `visitFile(Object, BasicFileAttributes)`           | `org.renaissance.core.DirUtils$1`                          |
-| removed | -0.02ms |  1.5% → 0.0% |   23.7µs → 0ms |       1 → 0 | `iterator(DirectoryStream)`                        | `sun.nio.fs.UnixDirectoryStream`                           |
+|  Change |   Delta |            % |           Time | Contentions | Function                                           | Location                                                                                                              |
+| ------: | ------: | -----------: | -------------: | ----------: | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path, boolean)`                 | `org.renaissance.core.DirUtils`                                                                                       |
+|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path)`                          | `org.renaissance.core.DirUtils`                                                                                       |
+|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `lambda$createScratchDirectory$1(Path)`            | `org.renaissance.core.DirUtils`                                                                                       |
+|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `run()`                                            | `org.renaissance.core.DirUtils$$Lambda.0x0000000301003a68 → org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68` |
+|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `runWith(Object, Runnable)`                        | `java.lang.Thread`                                                                                                    |
+|  -46.2% | -0.26ms | 35.1% → 3.8% |  0.6ms → 0.3ms |       7 → 4 | `run()`                                            | `java.lang.Thread`                                                                                                    |
+|  -43.8% | -0.17ms | 24.4% → 2.8% |  0.4ms → 0.2ms |       2 → 1 | `loadClassOrNull(String, boolean)`                 | `jdk.internal.loader.BuiltinClassLoader`                                                                              |
+|  -43.8% | -0.17ms | 24.4% → 2.8% |  0.4ms → 0.2ms |       2 → 1 | `loadClass(String, boolean)`                       | `jdk.internal.loader.BuiltinClassLoader`                                                                              |
+|  -43.8% | -0.17ms | 24.4% → 2.8% |  0.4ms → 0.2ms |       2 → 1 | `loadClass(String, boolean)`                       | `jdk.internal.loader.ClassLoaders$AppClassLoader`                                                                     |
+|  -58.8% | -0.12ms | 12.6% → 1.1% |  0.2ms → 0.1ms |       6 → 3 | `walkFileTree(Path, FileVisitor)`                  | `java.nio.file.Files`                                                                                                 |
+|  -54.8% | -0.10ms | 11.5% → 1.1% |  0.2ms → 0.1ms |       5 → 3 | `walkFileTree(Path, Set, int, FileVisitor)`        | `java.nio.file.Files`                                                                                                 |
+|  -62.1% | -0.06ms |  5.9% → 0.5% | 0.1ms → 36.5µs |       3 → 2 | `visit(Path, boolean, boolean)`                    | `java.nio.file.FileTreeWalker`                                                                                        |
+|  -62.1% | -0.06ms |  5.9% → 0.5% | 0.1ms → 36.5µs |       3 → 2 | `walk(Path)`                                       | `java.nio.file.FileTreeWalker`                                                                                        |
+|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `<init>(boolean)`                                  | `java.util.concurrent.locks.ReentrantReadWriteLock`                                                                   |
+|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `<init>(UnixPath, long, DirectoryStream$Filter)`   | `sun.nio.fs.UnixDirectoryStream`                                                                                      |
+|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `newDirectoryStream(Path, DirectoryStream$Filter)` | `sun.nio.fs.UnixFileSystemProvider`                                                                                   |
+|  -49.7% | -0.04ms |  4.5% → 0.5% | 0.1ms → 36.5µs |           2 | `newDirectoryStream(Path)`                         | `java.nio.file.Files`                                                                                                 |
+| removed | -0.03ms |  1.9% → 0.0% |   30.3µs → 0ms |       1 → 0 | `visitFile(Path, BasicFileAttributes)`             | `org.renaissance.core.DirUtils$1`                                                                                     |
+| removed | -0.03ms |  1.9% → 0.0% |   30.3µs → 0ms |       1 → 0 | `visitFile(Object, BasicFileAttributes)`           | `org.renaissance.core.DirUtils$1`                                                                                     |
+| removed | -0.02ms |  1.5% → 0.0% |   23.7µs → 0ms |       1 → 0 | `iterator(DirectoryStream)`                        | `sun.nio.fs.UnixDirectoryStream`                                                                                      |
 
 ##### Standard library
 
@@ -162,11 +162,11 @@ Functions with the largest decrease in total time blocked in the function and al
 
 ##### Ours
 
-|  Change |   Delta |            % |          Time | Contentions | Function                                 | Location                                                   |
-| ------: | ------: | -----------: | ------------: | ----------: | ---------------------------------------- | ---------------------------------------------------------- |
-|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path, boolean)`       | `org.renaissance.core.DirUtils`                            |
-|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path)`                | `org.renaissance.core.DirUtils`                            |
-|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `lambda$createScratchDirectory$1(Path)`  | `org.renaissance.core.DirUtils`                            |
-|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `run()`                                  | `org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68` |
-| removed | -0.03ms |  1.9% → 0.0% |  30.3µs → 0ms |       1 → 0 | `visitFile(Path, BasicFileAttributes)`   | `org.renaissance.core.DirUtils$1`                          |
-| removed | -0.03ms |  1.9% → 0.0% |  30.3µs → 0ms |       1 → 0 | `visitFile(Object, BasicFileAttributes)` | `org.renaissance.core.DirUtils$1`                          |
+|  Change |   Delta |            % |          Time | Contentions | Function                                 | Location                                                                                                              |
+| ------: | ------: | -----------: | ------------: | ----------: | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path, boolean)`       | `org.renaissance.core.DirUtils`                                                                                       |
+|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `deleteRecursively(Path)`                | `org.renaissance.core.DirUtils`                                                                                       |
+|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `lambda$createScratchDirectory$1(Path)`  | `org.renaissance.core.DirUtils`                                                                                       |
+|  -46.2% | -0.26ms | 35.1% → 3.8% | 0.6ms → 0.3ms |       7 → 4 | `run()`                                  | `org.renaissance.core.DirUtils$$Lambda.0x0000000301003a68 → org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68` |
+| removed | -0.03ms |  1.9% → 0.0% |  30.3µs → 0ms |       1 → 0 | `visitFile(Path, BasicFileAttributes)`   | `org.renaissance.core.DirUtils$1`                                                                                     |
+| removed | -0.03ms |  1.9% → 0.0% |  30.3µs → 0ms |       1 → 0 | `visitFile(Object, BasicFileAttributes)` | `org.renaissance.core.DirUtils$1`                                                                                     |

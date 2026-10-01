@@ -21,6 +21,7 @@ export const makeAggregatedCallStackProfile = (
     /** A class, module, or namespace name, for a function defined in no file. */
     logicalName?: string
     line?: number
+    column?: number
     selfValues: number[]
     selfCount: number
     /** Leaf-to-caller frame indices of each record; defaults to the function alone. */
@@ -58,12 +59,14 @@ const makeDefinition = ({
   url,
   logicalName,
   line,
+  column,
 }: {
   url?: string
   logicalName?: string
   line?: number
+  column?: number
 }): StackFrame[`definition`] => {
-  const position = line === undefined ? undefined : { line }
+  const position = line === undefined ? undefined : { line, column }
   if (url) {
     return { type: `file`, urlOrPath: url, position }
   }
