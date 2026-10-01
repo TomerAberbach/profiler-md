@@ -1,8 +1,16 @@
 import { formatPercent } from '../../src/helpers/format.ts'
 import { emptyEvaluation, mergeEvaluation } from './score.ts'
-import type { Evaluation } from './score.ts'
+import type { Evaluation, Scores } from './score.ts'
 
-/** Prints a row per scored evaluation, and a total of the printed rows. */
+type Column = {
+  header: string
+  cell: (evaluation: Evaluation) => string
+}
+
+/**
+ * Prints a row per scored evaluation, and a total of the printed rows, as one
+ * table of every function's scores and one of the scores by position.
+ */
 export const printTable = (
   name: string,
   rows: Map<string, Evaluation>,
@@ -15,46 +23,90 @@ export const printTable = (
   for (const [, evaluation] of scored) {
     mergeEvaluation(total, evaluation)
   }
+  const printed = [...scored, [`total`, total] as const]
 
-  console.log(`\n${name}\n`)
-  console.table(
-    Object.fromEntries(
-      [...scored, [`total`, total] as const].map(([row, evaluation]) => [
-        row,
-        tableColumns(evaluation),
-      ]),
-    ),
+  console.log(
+    `\n${name}\n\n${formatTable(printed, [
+      ...scoreColumns(({ all }) => all),
+      {
+        header: `diff ms`,
+        cell: ({ milliseconds }) => String(Math.round(milliseconds)),
+      },
+    ])}`,
+  )
+  console.log(
+    `\n${name}, by position\n\n${formatTable(printed, [
+      {
+        header: `functions`,
+        cell: ({ byPosition }) => String(byPosition.count.expected),
+      },
+      ...scoreColumns(({ byPosition }) => byPosition),
+    ])}`,
   )
 }
 
-const tableColumns = ({
-  all,
-  byPosition,
-  milliseconds,
-}: Evaluation): Record<string, string | number> => ({
-  recall: ratio(all.count.found, all.count.expected),
-  precision: ratio(all.count.correct, all.count.predicted),
-  'weighted recall': ratio(all.weight.found, all.weight.expected),
-  'weighted precision': ratio(all.weight.correct, all.weight.predicted),
-  'by position functions': byPosition.count.expected,
-  'by position recall': ratio(
-    byPosition.count.found,
-    byPosition.count.expected,
-  ),
-  'by position precision': ratio(
-    byPosition.count.correct,
-    byPosition.count.predicted,
-  ),
-  'by position weighted recall': ratio(
-    byPosition.weight.found,
-    byPosition.weight.expected,
-  ),
-  'by position weighted precision': ratio(
-    byPosition.weight.correct,
-    byPosition.weight.predicted,
-  ),
-  'diff ms': Math.round(milliseconds),
-})
+const scoreColumns = (
+  scoresOf: (evaluation: Evaluation) => Scores,
+): Column[] => [
+  {
+    header: `recall`,
+    cell: evaluation => {
+      const { count } = scoresOf(evaluation)
+      return ratio(count.found, count.expected)
+    },
+  },
+  {
+    header: `precision`,
+    cell: evaluation => {
+      const { count } = scoresOf(evaluation)
+      return ratio(count.correct, count.predicted)
+    },
+  },
+  {
+    header: `weighted recall`,
+    cell: evaluation => {
+      const { weight } = scoresOf(evaluation)
+      return ratio(weight.found, weight.expected)
+    },
+  },
+  {
+    header: `weighted precision`,
+    cell: evaluation => {
+      const { weight } = scoresOf(evaluation)
+      return ratio(weight.correct, weight.predicted)
+    },
+  },
+]
+
+/** Left-aligns the row names and right-aligns the cells, two spaces apart. */
+const formatTable = (
+  rows: (readonly [string, Evaluation])[],
+  columns: Column[],
+): string => {
+  const lines = [
+    [``, ...columns.map(({ header }) => header)],
+    ...rows.map(([row, evaluation]) => [
+      row,
+      ...columns.map(({ cell }) => cell(evaluation)),
+    ]),
+  ]
+  const widths = lines[0]!.map((_, index) =>
+    Math.max(...lines.map(line => line[index]!.length)),
+  )
+  const formatLine = (line: string[]): string =>
+    line
+      .map((cell, index) =>
+        index === 0
+          ? cell.padEnd(widths[index]!)
+          : cell.padStart(widths[index]!),
+      )
+      .join(`  `)
+  return [
+    formatLine(lines[0]!),
+    formatLine(widths.map(width => `-`.repeat(width))),
+    ...lines.slice(1).map(formatLine),
+  ].join(`\n`)
+}
 
 const ratio = (numerator: number, denominator: number): string =>
   denominator === 0 ? `-` : formatPercent(numerator / denominator)

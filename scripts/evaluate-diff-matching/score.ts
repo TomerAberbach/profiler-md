@@ -15,7 +15,7 @@ type Score = {
  * `count` counts functions, and `weight` sums each function's total as a share
  * of its input's total, so inputs whose totals are in different units add up.
  */
-type Scores = { count: Score; weight: Score }
+export type Scores = { count: Score; weight: Score }
 
 export type Evaluation = {
   all: Scores
