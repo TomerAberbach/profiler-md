@@ -27,7 +27,7 @@
  * with it. Precision is the share of the diff's pairs that are correct. The
  * weighted columns weight each base function by its share of its input's
  * total, so a mistake on a hot function counts for more. The `by position`
- * columns count only the functions whose match key several functions share on
+ * tables count only the functions whose match key several functions share on
  * either side, which the diff pairs by position.
  *
  * Usage:
