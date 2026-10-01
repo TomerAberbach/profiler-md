@@ -217,8 +217,11 @@ class CallgrindProfileBuilder {
 
   readonly #functions = new Map<string, CallgrindFunction>()
 
+  readonly #recordTally: RecordTally
+
   public constructor(recordTally: RecordTally) {
     this.#pendingCall = new PendingCallSlot(recordTally)
+    this.#recordTally = recordTally
   }
 
   public addLine(line: string): void {
@@ -386,10 +389,10 @@ class CallgrindProfileBuilder {
         if (this.#callName === undefined) {
           throw new FormatParseError(`calls= without a preceding cfn=`)
         }
-        const count = rest.split(/\s+/u, 1)[0]!
+        const count = rest.trimStart().split(/\s+/u, 1)[0]!
         this.#pendingCall.replace({
           calleeName: this.#callName,
-          callCount: count.length === 0 ? 0 : parseCost(count),
+          callCount: parseCost(count),
         })
         break
       }
@@ -437,6 +440,11 @@ class CallgrindProfileBuilder {
     const tokens = line.trimEnd().split(/\s+/u)
     const costLine = this.#parseSubpositions(tokens)
     const values = this.#parseValues(tokens, eventIndices)
+    if (costLine === null) {
+      const unit = this.#pendingCall.take() ? `call` : `cost line`
+      this.#recordTally.skipped(unit, `with a subposition before position 0`)
+      return
+    }
 
     const pendingCall = this.#pendingCall.take()
     if (pendingCall) {
@@ -448,21 +456,26 @@ class CallgrindProfileBuilder {
 
   /**
    * Resolves the line's leading subposition columns, returning the one the
-   * `positions:` header declared as the source line.
+   * `positions:` header declared as the source line, or `null` when a relative
+   * subposition moves a column before position 0.
    */
-  #parseSubpositions(tokens: string[]): number | undefined {
+  #parseSubpositions(tokens: string[]): number | undefined | null {
     if (tokens.length < this.#subpositionCount) {
       throw new FormatParseError(`cost line with missing subpositions`)
     }
 
     let costLine: number | undefined
+    let beforePositionZero = false
     for (let column = 0; column < this.#subpositionCount; column++) {
       const subposition = this.#parseSubposition(tokens[column]!, column)
+      if (subposition < 0) {
+        beforePositionZero = true
+      }
       if (column === this.#lineSubpositionIndex) {
         costLine = subposition
       }
     }
-    return costLine
+    return beforePositionZero ? null : costLine
   }
 
   /** Reads the line's cost values into the global event indices. */

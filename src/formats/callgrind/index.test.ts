@@ -125,6 +125,15 @@ describe(`parse`, () => {
     ).toThrow(`name (3) referenced before definition`)
   })
 
+  test(`rejects calls= without a call count`, () => {
+    expect(() =>
+      parseCallgrind(
+        makeCallgrind([`events: Ir`, `fn=main`, `cfn=work`, `calls=`, `1 10`]),
+        noopRecordTally,
+      ),
+    ).toThrow(`invalid number, got: ""`)
+  })
+
   test(`rejects calls= without a preceding cfn=`, () => {
     expect(() =>
       parseCallgrind(
@@ -167,6 +176,55 @@ describe(`parse`, () => {
 
     expect(graph!.frames).toEqual([
       { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
+    ])
+  })
+
+  test(`reads a calls= count written after spaces`, () => {
+    const [graph] = parseCallgrind(
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `cfn=work`,
+        `calls=  5 1`,
+        `1 10`,
+      ]),
+      noopRecordTally,
+    )
+
+    expect(graph!.functions).toEqual([
+      {
+        selfValues: [],
+        lineToValues: new Map(),
+        calls: [{ callee: 1, callCount: 5, totalValues: [10] }],
+      },
+      { selfValues: [], lineToValues: new Map(), calls: [] },
+    ])
+  })
+
+  test(`reads a relative subposition after one before position 0`, () => {
+    // `+4` moves from the skipped line's -2, not from 3.
+    const [graph] = parseCallgrind(
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `3 10`,
+        `-5 20`,
+        `+4 30`,
+      ]),
+      noopRecordTally,
+    )
+
+    expect(graph!.functions).toEqual([
+      {
+        selfValues: [40],
+        lineToValues: new Map([
+          [3, [10]],
+          [2, [30]],
+        ]),
+        calls: [],
+      },
     ])
   })
 
@@ -334,6 +392,36 @@ describe(`calls without a cost line`, () => {
       `info: fallback origin: valgrind`,
       `debug: no entry marked another origin`,
       `warn: skipped 1 call without a cost line`,
+    ])
+  })
+})
+
+describe(`cost lines with a subposition before position 0`, () => {
+  test(`are skipped with a warning`, () => {
+    const md = convertBytesToMd(
+      callgrindConverter,
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `3 10`,
+        `-5 20`,
+        `cfn=work`,
+        `calls=1 5`,
+        `-1 40`,
+        `+9 50`,
+      ]),
+      options,
+    )
+
+    // The call whose cost line is skipped adds no arc to `work`.
+    expect(summaryLines(md)).toEqual([`Recorded 60 instructions.`])
+    expectLogs([
+      `debug: origin candidates, in priority order: valgrind, rbspy`,
+      `info: fallback origin: valgrind`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 cost line with a subposition before position 0`,
+      `warn: skipped 1 call with a subposition before position 0`,
     ])
   })
 })
