@@ -15,7 +15,7 @@ import {
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { jvmMethodDisplayName, jvmSourceClassName } from '../../origins/jvm.ts'
-import type { RecordTally } from '../converter.ts'
+import type { RecordTally } from '../spec.ts'
 
 /**
  * The kind of profiling an event represents.

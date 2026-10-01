@@ -1,9 +1,9 @@
-import type { JsonFormatConverter } from '../../converter.ts'
+import type { JsonFormatSpec } from '../../spec.ts'
 import { matchesV8CpuProfile } from './matches.ts'
 import { parseV8CpuProfile } from './parse.ts'
 import type { V8CpuProfile } from './parse.ts'
 
-export const v8CpuProfileConverter = {
+export const v8CpuProfileFormatSpec = {
   id: `v8-cpu-profile`,
   title: `V8 CPU profile`,
   extension: `cpuprofile`,
@@ -15,4 +15,4 @@ export const v8CpuProfileConverter = {
   matches: matchesV8CpuProfile,
   parse: (json, recordTally) =>
     parseV8CpuProfile(json as V8CpuProfile, recordTally),
-} as const satisfies JsonFormatConverter
+} as const satisfies JsonFormatSpec

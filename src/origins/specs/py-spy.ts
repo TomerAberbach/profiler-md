@@ -4,8 +4,8 @@ import {
   normalizeSpeedscopeExecutingLine,
   packedLocationNormalizer,
   placeholderPathNormalizer,
-} from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
+} from '../spec.ts'
+import type { OriginSpec } from '../spec.ts'
 
 export const pySpyOriginSpec = {
   id: `py-spy`,

@@ -11,8 +11,8 @@ import {
   nodeModulesCategory,
   v8RegExpCategory,
 } from '../javascript.ts'
-import { hasProtocol } from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
+import { hasProtocol } from '../spec.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * Node.js profiled by the `pprof` package or its `@datadog/pprof` fork.

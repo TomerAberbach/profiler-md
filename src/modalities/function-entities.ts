@@ -1,7 +1,7 @@
 import type { SourceLocation } from '../location.ts'
 import { FUNCTION_CATEGORY_SET } from './category-sets.ts'
 import type { FunctionCategory } from './category-sets.ts'
-import type { EntityLocation } from './modality.ts'
+import type { EntityLocation } from './spec.ts'
 
 type CategorizedFunction = {
   location?: SourceLocation

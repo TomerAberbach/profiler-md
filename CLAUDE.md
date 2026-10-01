@@ -31,8 +31,8 @@ profiler-md
 │   │   └── error.ts              # CliError class and top-level error reporting
 │   │
 │   ├── formats/                  # Individual profile format implementations
-│   │   ├── converter.ts          # Format converter types
-│   │   ├── registry.ts           # Format converter registry
+│   │   ├── spec.ts               # The FormatSpec contract every format registers
+│   │   ├── registry.ts           # Format spec registry
 │   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
 │   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
 │   │   ├── record-tally.ts       # Counts what a parse skipped and reports parsed inputs' lazy iterable failures, then rejects an input with no records or warns
@@ -46,14 +46,14 @@ profiler-md
 │   │   ├── **/<name>/            # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
 │   │   │   ├── matches.ts        # Cheap auto-detection check for the format
 │   │   │   ├── parse.ts          # Parses input into a modality's parsed type
-│   │   │   ├── index.ts          # Exports the format's converter
+│   │   │   ├── index.ts          # Exports the format's spec
 │   │   │   ├── testing.ts        # Test-only utilities specific to this format (optional)
 │   │   │   └── <helper>.ts       # Types or structures specific to the format (optional, e.g. hprof/object-ids.ts)
 │   │   ├── <subdirectory>/<shared>.ts # Types shared by a subdirectory's formats (e.g. v8/common.ts, ghc/cost-centre.ts)
-│   │   └── testing.ts            # Test-only utilities for running a converter and reading example inputs
+│   │   └── testing.ts            # Test-only utilities for running a format spec and reading example inputs
 │   │
 │   ├── origins/                  # Profiler detection and categorization
-│   │   ├── origin.ts             # OriginSpec type + match and frame-normalization helpers
+│   │   ├── spec.ts               # OriginSpec type + match and frame-normalization helpers
 │   │   ├── categorize.ts         # Generic categorization rule helpers
 │   │   ├── jvm.ts                # JVM runtime conventions shared across origins
 │   │   ├── javascript.ts         # JavaScript ecosystem conventions shared across origins
@@ -73,7 +73,7 @@ profiler-md
 │   │   └── testing.ts            # Test-only origin detection and entry construction helpers
 │   │
 │   ├── modalities/               # Individual modality implementations
-│   │   ├── modality.ts           # The ModalitySpec contract every modality registers, and the record reader its aggregator reads through
+│   │   ├── spec.ts               # The ModalitySpec contract every modality registers, and the record reader its aggregator reads through
 │   │   ├── registry.ts           # Modality registry, and the parsed input, aggregated input, entry, and category unions derived from it
 │   │   ├── aggregator.ts         # Uniform per-input aggregator contract all modalities implement
 │   │   ├── category.ts           # Splitting a ranking into per-category subsections
@@ -307,7 +307,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   one of its outputs into another format converts
 - Commit an input in a format its profiler emits. A converted input makes the
   language claim a format its ecosystem never writes, since a language's formats
-  come from the `languages` of every registered converter
+  come from the `languages` of every registered format spec
 - When a profiler emits no supported format, the format is missing. Implement it
   (`/new-format`)
 - An input should never containt data about the machine that generated it (e.g.
@@ -330,7 +330,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   the message. NEVER embed the cause's `message`: the CLI prints each cause on
   its own indented `caused by:` line under the message, and `reasonOf` joins the
   chain for a log line
-- A converter's `parse` throws a `FormatParseError` stating the reason alone,
+- A format spec's `parse` throws a `FormatParseError` stating the reason alone,
   and the conversion pipeline prefixes the format's ID. Write `matches` to
   accept anything of the format, including a version or variant the parser
   rejects, so auto-detection reports that reason instead of an undetectable
@@ -361,7 +361,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Name what the caller controls (a flag, an option, a file path), never an
   internal function. An invariant message is the exception, since only a
   maintainer reads it
-- Derive a format or origin name from the registry (e.g. `converter.id`), never
+- Derive a format or origin name from the registry (e.g. `formatSpec.id`), never
   a string literal
 
 ### Logging

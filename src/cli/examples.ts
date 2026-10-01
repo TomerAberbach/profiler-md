@@ -1,4 +1,4 @@
-import { formats, formatToConverter } from '../formats/registry.ts'
+import { formats, formatToSpec } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import { capitalizeFirst } from '../helpers/format.ts'
 import { origins, originTitle } from '../origins/index.ts'
@@ -25,7 +25,7 @@ export type Example = {
 
 const extensionFormats = new Map<string, Format>()
 for (const format of formats) {
-  const { extension } = formatToConverter[format]
+  const { extension } = formatToSpec[format]
   const existing = extensionFormats.get(extension)
   if (existing) {
     throw new Error(

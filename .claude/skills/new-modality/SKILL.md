@@ -63,7 +63,7 @@ $ARGUMENTS
      re-parsing the output (column headers like `%`, `Delta`, and `Location`,
      and `name (location)` heading keys)
    - `modality.ts`: the `<name>ModalitySpec` satisfying `ModalitySpec` from
-     `src/modalities/modality.ts`, modeled on
+     `src/modalities/spec.ts`, modeled on
      `src/modalities/call-graph/modality.ts`. Its third type argument is the
      entry type `showEntry` receives, from which the registry derives
      `AggregatedProfileEntry`:

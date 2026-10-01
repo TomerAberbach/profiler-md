@@ -1,19 +1,19 @@
 import { reasonOf } from '../error.ts'
 import { formatConjunction } from '../helpers/format.ts'
 import type { AggregationProfileToMdOptions } from '../options.ts'
-import type {
-  BinaryFormatConverter,
-  Detect,
-  FormatConverter,
-  JsonFormatConverter,
-  Parse,
-} from './converter.ts'
 import { FormatDetectError, toFormatRejectionError } from './error.ts'
 import type { FormatRejectionError } from './error.ts'
 import { runParse } from './parse.ts'
 import type { ParseResult } from './parse.ts'
-import { formatConverters, formats } from './registry.ts'
-import type { Format, RegisteredFormatConverter } from './registry.ts'
+import { formats, formatSpecs } from './registry.ts'
+import type { Format, RegisteredFormatSpec } from './registry.ts'
+import type {
+  BinaryFormatSpec,
+  Detect,
+  FormatSpec,
+  JsonFormatSpec,
+  Parse,
+} from './spec.ts'
 
 /** An input a format recognized and parsed during auto-detection. */
 export type DetectedInput = ParseResult & { format: Format }
@@ -23,10 +23,10 @@ export const detectJsonFormat = (
   rejections: FormatRejectionError[],
   options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
-  for (const converter of jsonFormatConverters) {
-    const result = detectWithConverter(converter, json, rejections, options)
+  for (const formatSpec of jsonFormatSpecs) {
+    const result = detectWithFormatSpec(formatSpec, json, rejections, options)
     if (result) {
-      return { ...result, format: converter.id }
+      return { ...result, format: formatSpec.id }
     }
   }
   return undefined
@@ -37,62 +37,58 @@ export const detectBinaryFormat = (
   rejections: FormatRejectionError[],
   options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
-  for (const converter of binaryFormatConverters) {
-    const result = detectWithConverter(converter, bytes, rejections, options)
+  for (const formatSpec of binaryFormatSpecs) {
+    const result = detectWithFormatSpec(formatSpec, bytes, rejections, options)
     if (result) {
-      return { ...result, format: converter.id }
+      return { ...result, format: formatSpec.id }
     }
   }
   return undefined
 }
 
-const jsonFormatConverters = formatConverters.filter(
-  (
-    converter,
-  ): converter is Extract<RegisteredFormatConverter, JsonFormatConverter> =>
-    converter.type === `json`,
+const jsonFormatSpecs = formatSpecs.filter(
+  (formatSpec): formatSpec is Extract<RegisteredFormatSpec, JsonFormatSpec> =>
+    formatSpec.type === `json`,
 )
 
-const binaryFormatConverters = formatConverters.filter(
-  (
-    converter,
-  ): converter is Extract<RegisteredFormatConverter, BinaryFormatConverter> =>
-    converter.type === `binary`,
+const binaryFormatSpecs = formatSpecs.filter(
+  (formatSpec): formatSpec is Extract<RegisteredFormatSpec, BinaryFormatSpec> =>
+    formatSpec.type === `binary`,
 )
 
 /**
- * Runs a converter's detection and parse, recording a rejection instead of
- * throwing when the converter recognized the input but failed to parse it.
+ * Runs a format spec's detection and parse, recording a rejection instead of
+ * throwing when the input matches the format but fails to parse.
  *
  * A `matches` that throws counts as no match, because it is a cheap prefilter
  * that never validates the input.
  */
-const detectWithConverter = <Input>(
-  converter: FormatConverter & Detect<Input> & Parse<Input>,
+const detectWithFormatSpec = <Input>(
+  formatSpec: FormatSpec & Detect<Input> & Parse<Input>,
   input: Input,
   rejections: FormatRejectionError[],
   { logger }: AggregationProfileToMdOptions,
 ): ParseResult | undefined => {
   try {
-    if (!converter.matches(input)) {
+    if (!formatSpec.matches(input)) {
       return undefined
     }
   } catch (error: unknown) {
     logger.debug?.(
-      `skipped ${converter.id} because its detection threw: ${reasonOf(error)}`,
+      `skipped ${formatSpec.id} because its detection threw: ${reasonOf(error)}`,
     )
     return undefined
   }
 
   try {
-    return runParse(converter, recordTally =>
-      converter.parse(input, recordTally),
+    return runParse(formatSpec, recordTally =>
+      formatSpec.parse(input, recordTally),
     )
   } catch (error: unknown) {
     logger.debug?.(
-      `${converter.id} recognized the input but rejected it: ${reasonOf(error)}`,
+      `${formatSpec.id} recognized the input but rejected it: ${reasonOf(error)}`,
     )
-    rejections.push(toFormatRejectionError(converter, error))
+    rejections.push(toFormatRejectionError(formatSpec, error))
     return undefined
   }
 }

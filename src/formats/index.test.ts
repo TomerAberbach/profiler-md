@@ -19,16 +19,16 @@ import {
   profileTitles,
   rankingTables,
 } from '../testing.ts'
-import type { JsonFormatConverter } from './converter.ts'
 import { FormatDetectError, mayBeParserBug } from './error.ts'
 import {
   diffProfiles,
   diffProfilesAsync,
   formats,
-  formatToConverter,
+  formatToSpec,
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
+import type { JsonFormatSpec } from './spec.ts'
 import {
   convertJsonToMd,
   detectionLogs,
@@ -87,7 +87,7 @@ if (format !== undefined) {
   // keeps the auto-detect and diff matrix small.
   for (const filename of injectedInputs()) {
     if (parseExampleFilename(filename).variant === `base`) {
-      inputSets[formatToConverter[format].type].add(filename)
+      inputSets[formatToSpec[format].type].add(filename)
     }
   }
 }
@@ -98,7 +98,7 @@ const allInputs = [...jsonInputs, ...binaryInputs]
 
 // The inputs the input-type matrix converts, or none in the `unit` project.
 // Reading bytes handed to the pipeline as a string, a `Blob`, or a stream
-// happens above the converter and is the same for every format. The matrix
+// happens before the format's parser runs and is the same for every format. The matrix
 // takes the project's smallest input because converting every committed one
 // would run gigabytes through the pipeline several times over.
 const smallestJsonInput = smallestInput(jsonInputs)
@@ -120,9 +120,9 @@ const emptyProfile = JSON.stringify({
 })
 
 if (format === undefined) {
-  // A duplicate ID would overwrite the earlier converter in the registry's map
-  // without a type error, and detection runs the converters in list order.
-  test(`registered converters have distinct format IDs in sorted order`, () => {
+  // A duplicate ID would overwrite the earlier format spec in the registry's map
+  // without a type error, and detection runs the format specs in list order.
+  test(`registered format specs have distinct IDs in sorted order`, () => {
     expect(formats).toStrictEqual([...new Set(formats)].sort())
   })
 
@@ -1170,7 +1170,7 @@ describe(`origin detection`, () => {
       countMetric: SAMPLES,
       observations: [{ values: [], frameIndices: [0] }],
     }
-    const converter: JsonFormatConverter = {
+    const formatSpec: JsonFormatSpec = {
       id: `multi`,
       title: `Multi-profile test format`,
       extension: `multi.json`,
@@ -1182,7 +1182,7 @@ describe(`origin detection`, () => {
     }
     const options = normalizeProfileToMdOptions({ baseURL: null })
 
-    const md = convertJsonToMd(converter, {}, options, `collapsed`)
+    const md = convertJsonToMd(formatSpec, {}, options, `collapsed`)
 
     expectLogs([
       `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, nix, rbspy, excimer`,

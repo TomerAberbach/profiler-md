@@ -1,5 +1,5 @@
 import { functionEntities } from '../function-entities.ts'
-import type { ModalitySpec } from '../modality.ts'
+import type { ModalitySpec } from '../spec.ts'
 import { CallStackProfileAggregator } from './aggregate.ts'
 import type {
   AggregatedCallStackProfile,

@@ -1,4 +1,4 @@
-import type { EntryMatchRule } from './origin.ts'
+import type { EntryMatchRule } from './spec.ts'
 
 /**
  * The version of a module's directory in the module cache, e.g. the `@v1.9.1`

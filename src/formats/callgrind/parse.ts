@@ -13,8 +13,8 @@ import {
   SAMPLES,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import type { RecordTally } from '../converter.ts'
 import { FormatParseError } from '../error.ts'
+import type { RecordTally } from '../spec.ts'
 
 export const parseCallgrind = (
   bytes: Uint8Array,

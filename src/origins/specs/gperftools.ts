@@ -1,6 +1,6 @@
 import { categorizeGenericEntry } from '../categorize.ts'
 import { nativeMatchEntry } from '../native.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 import { swiftStdlibCategory } from '../swift.ts'
 import { zigStdlibCategory } from '../zig.ts'
 

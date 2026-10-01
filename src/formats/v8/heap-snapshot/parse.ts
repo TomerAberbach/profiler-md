@@ -13,8 +13,8 @@ import type {
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
-import type { RecordTally } from '../../converter.ts'
 import { FormatParseError } from '../../error.ts'
+import type { RecordTally } from '../../spec.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/heap-snapshot-generator.cc
@@ -116,7 +116,7 @@ export const parseV8HeapSnapshot = (
     )
   }
   // DevTools derives the counts from the arrays rather than reading them, so
-  // the parser does too. The parsed JSON is the converter's own.
+  // the parser does too. The parsed JSON is the parser's own.
   const nodeCount = nodes.length / fieldLayout.nodeFieldCount
   const edgeCount = edges.length / fieldLayout.edgeFieldCount
   snapshot.snapshot.node_count = nodeCount

@@ -99,7 +99,7 @@ $ARGUMENTS
    workload realistic enough to carry the origin's evidence
 
 4. Revisit the `fallbackOrigin` of every format the new origin emits, in each
-   format's converter (in `src/formats/`). A format's fallback is its canonical
+   format's spec (in `src/formats/`). A format's fallback is its canonical
    origin, the tool or runtime whose definition of the format the other emitters
    write to match. It is `unknown` only when no emitting origin is canonical.
    The fallback changes when the new origin is the format's canonical origin and

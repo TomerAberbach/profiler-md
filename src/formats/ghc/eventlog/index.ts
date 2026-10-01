@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../../converter.ts'
+import type { BinaryFormatSpec } from '../../spec.ts'
 import { matchesGhcEventlog } from './matches.ts'
 import { parseGhcEventlog, parseGhcEventlogAsync } from './parse.ts'
 
-export const ghcEventlogConverter = {
+export const ghcEventlogFormatSpec = {
   id: `ghc-eventlog`,
   title: `GHC eventlog`,
   extension: `eventlog`,
@@ -12,4 +12,4 @@ export const ghcEventlogConverter = {
   matches: matchesGhcEventlog,
   parse: parseGhcEventlog,
   parseAsync: parseGhcEventlogAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

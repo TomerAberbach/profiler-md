@@ -15,7 +15,7 @@ import {
   summaryLines,
 } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
-import { collapsedConverter } from './index.ts'
+import { collapsedFormatSpec } from './index.ts'
 import { parseCollapsed } from './parse.ts'
 import { makeCollapsed } from './testing.ts'
 
@@ -31,13 +31,13 @@ const invalidByteCollapsed = concatUint8Arrays([
 
 describe(`matches`, () => {
   test(`accepts a valid collapsed buffer`, () => {
-    expect(collapsedConverter.matches(makeCollapsed([`main;work 1`]))).toBe(
+    expect(collapsedFormatSpec.matches(makeCollapsed([`main;work 1`]))).toBe(
       true,
     )
   })
 
   test(`accepts a buffer whose frame name contains an invalid UTF-8 byte`, () => {
-    expect(collapsedConverter.matches(invalidByteCollapsed)).toBe(true)
+    expect(collapsedFormatSpec.matches(invalidByteCollapsed)).toBe(true)
   })
 
   test(`parse rejects lines lacking a trailing count`, () => {
@@ -54,17 +54,17 @@ describe(`matches`, () => {
     const bytes = makeCollapsed([`main;wo\u0000rk 1`])
 
     expect(() => parseCollapsed(bytes)).not.toThrow()
-    expect(collapsedConverter.matches(bytes)).toBe(false)
+    expect(collapsedFormatSpec.matches(bytes)).toBe(false)
   })
 
   test(`rejects empty input rather than claiming it as an empty profile`, () => {
-    expect(collapsedConverter.matches(new Uint8Array(0))).toBe(false)
+    expect(collapsedFormatSpec.matches(new Uint8Array(0))).toBe(false)
   })
 
   test(`rejects comment-only and blank input`, () => {
-    expect(collapsedConverter.matches(makeCollapsed([`# a comment`, ``]))).toBe(
-      false,
-    )
+    expect(
+      collapsedFormatSpec.matches(makeCollapsed([`# a comment`, ``])),
+    ).toBe(false)
   })
 })
 
@@ -74,7 +74,7 @@ describe(`convert`, () => {
     // drops that frame as a pseudo-frame and splits the `file:func:line` shape,
     // keeping the packed line as the executing line.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([
         `tid:1;app.py:main:10;app.py:work:20 6`,
         `tid:1;app.py:main:10;app.py:work:20 4`,
@@ -134,7 +134,7 @@ describe(`convert`, () => {
     // Without a tachyon marker the generic `file:func:line` shape isn't
     // trusted, so frame names stay whole and location-less.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([`app.py:main:10;app.py:work:20 6`, `app.py:main:10 4`]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -162,7 +162,7 @@ describe(`convert`, () => {
     // `work` sampled at lines 20 and 22 stays one function (file `app.py`) with
     // a two-line breakdown rather than two functions.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([
         `main (app.py:10);work (app.py:20) 6`,
         `main (app.py:10);work (app.py:22) 4`,
@@ -191,7 +191,7 @@ describe(`convert`, () => {
 
   test(`an invalid UTF-8 byte in a frame name becomes a replacement character`, () => {
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       invalidByteCollapsed,
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -213,7 +213,7 @@ describe(`convert`, () => {
     // Rbspy splits the method off the trailing `file:line`; gems are
     // third-party and the interpreter's own library is stdlib.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([
         `<main> - /usr/local/bin/app:3;run - /var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb:40 6`,
         `<main> - /usr/local/bin/app:3;parse - /usr/lib/ruby/3.1.0/json.rb:12 4`,
@@ -250,7 +250,7 @@ describe(`convert`, () => {
     // Eflambe's frames carry no file; the module stands in for the location.
     // OTP and Elixir-core modules are stdlib while a hex dependency is ours.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([
         `<0.94.0>;eflambe:apply/2;Elixir.Profile:run/1;Elixir.Enum:reduce/3 6`,
         `<0.94.0>;eflambe:apply/2;Elixir.Profile:run/1;Elixir.Jason:encode!/1 4`,
@@ -289,7 +289,7 @@ describe(`convert`, () => {
     // becomes a dotted location and JVM packages are stdlib while app code is
     // ours.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([
         `start_thread;java/lang/Thread.run;com/ex/App.work;java/util/HashMap.put 6`,
         `start_thread;java/lang/Thread.run;com/ex/App.work 4`,
@@ -324,7 +324,7 @@ describe(`convert`, () => {
 
   test(`a stackless sample is counted and formatted as an anonymous function`, () => {
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([`main;work 6`, ` 4`]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -350,7 +350,7 @@ describe(`convert`, () => {
 
   test(`bare frames without a location are formatted as a name only`, () => {
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([`outer;inner 3`]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -371,7 +371,7 @@ describe(`convert`, () => {
     // A count padded with multiple spaces must not leave a trailing space on
     // the leaf frame `b`, which would format it as a distinct `b ` function.
     const md = convertBytesToMd(
-      collapsedConverter,
+      collapsedFormatSpec,
       makeCollapsed([`a;b  42`]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -399,18 +399,18 @@ describe(`convertAsync`, () => {
     `tid:1;app.py:main:10;app.py:work:20 4`,
     `tid:1;app.py:main:10 5`,
   ])
-  const expected = convertBytesToMd(collapsedConverter, bytes, options)
+  const expected = convertBytesToMd(collapsedFormatSpec, bytes, options)
 
   test(`streaming parse matches sync conversion`, async () => {
     expect(
-      await convertToMdAsync(collapsedConverter, streamOf(bytes), options),
+      await convertToMdAsync(collapsedFormatSpec, streamOf(bytes), options),
     ).toBe(expected)
   })
 
   test(`streaming parse matches sync conversion across a mid-line chunk boundary`, async () => {
     expect(
       await convertToMdAsync(
-        collapsedConverter,
+        collapsedFormatSpec,
         streamOf(...chunk(bytes, 7)),
         options,
       ),

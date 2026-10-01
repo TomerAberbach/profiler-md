@@ -9,7 +9,7 @@ ambiguous.
 | ---------------------- | -------------------------------------------------------------------------------------------- | ------------------------- |
 | **Input**              | A profiler output passed to the tool; qualified by pipeline stage (raw, parsed, aggregated)  | file, fixture, payload    |
 | **Format**             | A supported input type (e.g. V8 CPU profile)                                                 | —                         |
-| **Converter**          | A format's registered logic: detection plus parsing of its input to the uniform parsed form  | parser, plugin            |
+| **Spec**               | A format's, origin's, or modality's registered definition, looked up by its ID               | converter, plugin         |
 | **Modality**           | A data structure a format captures (e.g. heap snapshot)                                      | shape, kind               |
 | **Call stack profile** | The modality whose records each carry a whole call stack, however the profiler produced them | sampling profile, profile |
 | **Call graph**         | The modality produced by recording per-function costs and caller→callee arcs                 | profile                   |

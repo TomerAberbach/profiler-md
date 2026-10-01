@@ -30,7 +30,7 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../testing.ts'
-import { callgrindConverter } from './index.ts'
+import { callgrindFormatSpec } from './index.ts'
 import { parseCallgrind } from './parse.ts'
 import { makeCallgrind } from './testing.ts'
 
@@ -42,46 +42,46 @@ const options = normalizeProfileToMdOptions({
 describe(`matches`, () => {
   test(`accepts a file with the format marker as its first line`, () => {
     expect(
-      callgrindConverter.matches(makeCallgrind([`# callgrind format`])),
+      callgrindFormatSpec.matches(makeCallgrind([`# callgrind format`])),
     ).toBe(true)
   })
 
   test(`accepts a marker-less file with events and position specs`, () => {
     expect(
-      callgrindConverter.matches(
+      callgrindFormatSpec.matches(
         makeCallgrind([`events: Ir`, `fn=main`, `1 10`]),
       ),
     ).toBe(true)
   })
 
   test(`rejects an events header with no position spec`, () => {
-    expect(callgrindConverter.matches(makeCallgrind([`events: Ir`]))).toBe(
+    expect(callgrindFormatSpec.matches(makeCallgrind([`events: Ir`]))).toBe(
       false,
     )
   })
 
   test(`rejects collapsed stack text`, () => {
-    expect(callgrindConverter.matches(makeCallgrind([`main;work 1`]))).toBe(
+    expect(callgrindFormatSpec.matches(makeCallgrind([`main;work 1`]))).toBe(
       false,
     )
   })
 
   test(`rejects empty input`, () => {
-    expect(callgrindConverter.matches(new Uint8Array(0))).toBe(false)
+    expect(callgrindFormatSpec.matches(new Uint8Array(0))).toBe(false)
   })
 
   test(`rejects callgrind-shaped text containing a NUL byte`, () => {
     expect(
-      callgrindConverter.matches(
+      callgrindFormatSpec.matches(
         makeCallgrind([`events: Ir`, `fn=ma\0in`, `1 10`]),
       ),
     ).toBe(false)
   })
 
   test(`rejects non-UTF-8 bytes`, () => {
-    expect(callgrindConverter.matches(new Uint8Array([0xff, 0xfe, 0x01]))).toBe(
-      false,
-    )
+    expect(
+      callgrindFormatSpec.matches(new Uint8Array([0xff, 0xfe, 0x01])),
+    ).toBe(false)
   })
 })
 
@@ -326,7 +326,7 @@ describe(`calls without a cost line`, () => {
   test(`are skipped with a warning`, () => {
     // A `calls=` before `fn=`, before a new part, and at the end of the file.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -360,7 +360,7 @@ describe(`calls without a cost line`, () => {
 
   test(`are skipped with a warning before another calls=`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -399,7 +399,7 @@ describe(`calls without a cost line`, () => {
 describe(`cost lines with a subposition before position 0`, () => {
   test(`are skipped with a warning`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -475,7 +475,7 @@ const BASIC = [
 describe(`convert`, () => {
   test(`converts a call graph with exact self, total, line, and arc values`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind(BASIC),
       options,
     )
@@ -623,9 +623,9 @@ describe(`convert`, () => {
   test(`streaming parse across chunk boundaries matches buffered parse`, async () => {
     const bytes = makeCallgrind(BASIC)
 
-    const buffered = convertBytesToMd(callgrindConverter, bytes, options)
+    const buffered = convertBytesToMd(callgrindFormatSpec, bytes, options)
     const streamed = await convertToMdAsync(
-      callgrindConverter,
+      callgrindFormatSpec,
       streamOf(...chunk(bytes, 7)),
       options,
     )
@@ -635,7 +635,7 @@ describe(`convert`, () => {
 
   test(`reports a shared callee's exact caller arcs`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=(1) /app/a.c`,
@@ -705,7 +705,7 @@ describe(`convert`, () => {
     // Callgrind already folds direct recursion into `recur`'s costs, so the
     // self-call arc adds nothing.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -748,7 +748,7 @@ describe(`convert`, () => {
     // show them, with percentages of the function's total that can exceed
     // 100%.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -820,7 +820,7 @@ describe(`convert`, () => {
     // alone, so `parse`, the function the cycle is entered through, reports
     // its own 20 rather than the 90 the cycle costs.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -887,7 +887,7 @@ describe(`convert`, () => {
     // analysis alone leaves `work` its real 290, and the arcs still count
     // toward the trampoline's total and fill its callee table.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `creator: callgrind-3.22.0`,
@@ -981,7 +981,7 @@ describe(`convert`, () => {
     // `sysCpuTime` is recorded only under `--collect-systime=nsec`, which puts
     // `sysTime` in nanoseconds too.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir sysCount sysTime sysCpuTime`,
         `fl=/app/a.c`,
@@ -1002,7 +1002,7 @@ describe(`convert`, () => {
     // function whose self sums but whose total is the outermost level's
     // (deeper levels' costs are already inside its arcs).
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -1059,7 +1059,7 @@ describe(`convert`, () => {
 
   test(`converts multiple events into one section per metric`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir Dr`,
         `fl=/app/a.c`,
@@ -1099,7 +1099,7 @@ describe(`convert`, () => {
 
   test(`parses instr subpositions and hex numbers under positions: instr line`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `positions: instr line`,
         `events: Ir`,
@@ -1131,7 +1131,7 @@ describe(`convert`, () => {
 
   test(`names an unknown event by its event: long name`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `event: Xy : exotic happenings`,
         `events: Xy`,
@@ -1148,7 +1148,7 @@ describe(`convert`, () => {
   test(`renders a lone samples event as a count-ranked profile`, () => {
     // Sampling profilers exporting callgrind (e.g. rbspy) count samples.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([`events: Samples`, `fl=/app/foo.rb`, `fn=work`, `3 12`]),
       options,
     )
@@ -1169,7 +1169,7 @@ describe(`convert`, () => {
 
   test(`omits the Calls column when no arc records a call count`, () => {
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -1200,7 +1200,7 @@ describe(`convert`, () => {
     // The inlined cost line's line number belongs to inline.h, not a.c, so it
     // counts toward `main`'s self cost but not its per-line table.
     const md = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([
         `events: Ir`,
         `fl=/app/a.c`,
@@ -1301,7 +1301,7 @@ describe(`category subsections`, () => {
   })
 
   const md = convertBytesToMd(
-    callgrindConverter,
+    callgrindFormatSpec,
     makeCallgrind([
       `events: Ir`,
       `fl=/app/a.c`,
@@ -1370,7 +1370,7 @@ describe(`category subsections`, () => {
 
   test(`splits a ranking whose functions all fall in one category`, () => {
     const singleCategoryMd = convertBytesToMd(
-      callgrindConverter,
+      callgrindFormatSpec,
       makeCallgrind([`events: Ir`, `fl=/app/a.c`, `fn=main`, `1 600`]),
       categoryOptions,
     )

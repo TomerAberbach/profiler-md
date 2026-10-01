@@ -11,7 +11,7 @@ import {
   expectLogs,
 } from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
-import { jscHeapSnapshotConverter } from './index.ts'
+import { jscHeapSnapshotFormatSpec } from './index.ts'
 import {
   EDGE_INDEX,
   EDGE_INTERNAL,
@@ -26,7 +26,7 @@ import {
 describe(`matches`, () => {
   test(`accepts version 2 (Safari)`, () => {
     expect(
-      jscHeapSnapshotConverter.matches({
+      jscHeapSnapshotFormatSpec.matches({
         version: 2,
         type: `Inspector`,
         nodes: [],
@@ -40,7 +40,7 @@ describe(`matches`, () => {
 
   test(`accepts version 3 (Bun)`, () => {
     expect(
-      jscHeapSnapshotConverter.matches({
+      jscHeapSnapshotFormatSpec.matches({
         version: 3,
         type: `Inspector`,
         nodes: [],
@@ -53,16 +53,16 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(jscHeapSnapshotConverter.matches(null)).toBe(false)
+    expect(jscHeapSnapshotFormatSpec.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(jscHeapSnapshotConverter.matches(`string`)).toBe(false)
+    expect(jscHeapSnapshotFormatSpec.matches(`string`)).toBe(false)
   })
 
   test(`rejects bad version`, () => {
     expect(
-      jscHeapSnapshotConverter.matches({
+      jscHeapSnapshotFormatSpec.matches({
         version: `hi`,
         type: `Inspector`,
         nodes: [],
@@ -72,13 +72,13 @@ describe(`matches`, () => {
 
   test(`rejects wrong type`, () => {
     expect(
-      jscHeapSnapshotConverter.matches({ version: 2, type: `V8`, nodes: [] }),
+      jscHeapSnapshotFormatSpec.matches({ version: 2, type: `V8`, nodes: [] }),
     ).toBe(false)
   })
 
   test(`rejects V8 format`, () => {
     expect(
-      jscHeapSnapshotConverter.matches({
+      jscHeapSnapshotFormatSpec.matches({
         snapshot: { meta: { node_fields: [] } },
         edges: [],
       }),
@@ -107,7 +107,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -160,7 +160,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -189,7 +189,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -217,7 +217,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -252,7 +252,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -284,7 +284,7 @@ describe(`convert`, () => {
 
     expect(() =>
       convertJsonToMd(
-        jscHeapSnapshotConverter,
+        jscHeapSnapshotFormatSpec,
         snapshot,
         normalizeProfileToMdOptions(),
       ),
@@ -311,7 +311,7 @@ describe(`convert`, () => {
     })
 
     const md = convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       snapshot,
       normalizeProfileToMdOptions(),
     )
@@ -338,7 +338,7 @@ describe(`malformed snapshots`, () => {
   })
   const convert = (json: unknown) =>
     convertJsonToMd(
-      jscHeapSnapshotConverter,
+      jscHeapSnapshotFormatSpec,
       json,
       normalizeProfileToMdOptions(),
     )
@@ -346,7 +346,7 @@ describe(`malformed snapshots`, () => {
   test(`rejects a GCDebugging snapshot, which auto-detection recognizes`, () => {
     const gcDebugging = { ...snapshot, type: `GCDebugging` }
 
-    expect(jscHeapSnapshotConverter.matches(gcDebugging)).toBe(true)
+    expect(jscHeapSnapshotFormatSpec.matches(gcDebugging)).toBe(true)
     expect(() => convert(gcDebugging)).toThrow(
       `unsupported snapshot type, got: GCDebugging`,
     )

@@ -6,7 +6,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
-import type { EntryMatchRule } from './origin.ts'
+import type { EntryMatchRule } from './spec.ts'
 
 /**
  * Categorizes sources the Zig toolchain ships as `stdlib`: the standard

@@ -8,7 +8,7 @@ import {
   nodeModulesCategory,
 } from '../javascript.ts'
 import { jscConstructorCategory } from '../jsc.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /** The marker WebKit gives the scripts it injects (e.g. devtools internals). */
 const INJECTED_SCRIPT_MARKER = `__InjectedScript_`

@@ -1,6 +1,6 @@
 import { streamToUint8Array } from '../../../helpers/bytes.ts'
 import type { CallStackProfile } from '../../../modalities/call-stack-profile/index.ts'
-import type { RecordTally } from '../../converter.ts'
+import type { RecordTally } from '../../spec.ts'
 import { PerfFile } from './file.ts'
 
 export { hasPerfMagic } from './file.ts'

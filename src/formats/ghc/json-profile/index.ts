@@ -1,9 +1,9 @@
-import type { JsonFormatConverter } from '../../converter.ts'
+import type { JsonFormatSpec } from '../../spec.ts'
 import { matchesGhcJsonProfile } from './matches.ts'
 import { parseGhcJsonProfile } from './parse.ts'
 import type { GhcJsonProfile } from './parse.ts'
 
-export const ghcJsonProfileConverter = {
+export const ghcJsonProfileFormatSpec = {
   id: `ghc-json-profile`,
   title: `GHC JSON profile`,
   // The runtime writes the JSON report to `<program>.prof`, the same name it
@@ -14,4 +14,4 @@ export const ghcJsonProfileConverter = {
   type: `json`,
   matches: matchesGhcJsonProfile,
   parse: json => parseGhcJsonProfile(json as GhcJsonProfile),
-} as const satisfies JsonFormatConverter
+} as const satisfies JsonFormatSpec

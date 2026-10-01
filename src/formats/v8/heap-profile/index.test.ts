@@ -9,7 +9,7 @@ import {
 } from '../../../options.ts'
 import { callersTables, categoryTables, expectLogs } from '../../../testing.ts'
 import { convertJsonToMd } from '../../testing.ts'
-import { v8HeapProfileConverter } from './index.ts'
+import { v8HeapProfileFormatSpec } from './index.ts'
 import { makeV8HeapProfileRoot } from './testing.ts'
 
 // Shared profile for all diffing tests:
@@ -92,7 +92,7 @@ const baseProfile = {
 describe(`matches`, () => {
   test(`accepts valid profile`, () => {
     expect(
-      v8HeapProfileConverter.matches({
+      v8HeapProfileFormatSpec.matches({
         head: { callFrame: {}, selfSize: 0, id: 1, children: [] },
         samples: [],
       }),
@@ -100,26 +100,26 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(v8HeapProfileConverter.matches(null)).toBe(false)
+    expect(v8HeapProfileFormatSpec.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(v8HeapProfileConverter.matches(42)).toBe(false)
+    expect(v8HeapProfileFormatSpec.matches(42)).toBe(false)
   })
 
   test(`rejects missing head`, () => {
-    expect(v8HeapProfileConverter.matches({ samples: [] })).toBe(false)
+    expect(v8HeapProfileFormatSpec.matches({ samples: [] })).toBe(false)
   })
 
   test(`rejects head: null`, () => {
-    expect(v8HeapProfileConverter.matches({ head: null, samples: [] })).toBe(
+    expect(v8HeapProfileFormatSpec.matches({ head: null, samples: [] })).toBe(
       false,
     )
   })
 
   test(`rejects missing samples`, () => {
     expect(
-      v8HeapProfileConverter.matches({
+      v8HeapProfileFormatSpec.matches({
         head: { callFrame: {}, selfSize: 0, id: 1, children: [] },
       }),
     ).toBe(false)
@@ -190,7 +190,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -274,7 +274,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -329,7 +329,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -399,7 +399,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -466,7 +466,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -542,7 +542,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -572,7 +572,7 @@ describe(`convert`, () => {
     // A `node:internal/` frame allocates like any other, so it ranks with the
     // rest and its category says whose code it is.
     const defaultOutput = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -612,7 +612,7 @@ describe(`options`, () => {
     // `funcB` is excluded via `showEntry`. `funcC`'s callers section is omitted
     // because its only direct caller (`funcB`) is excluded.
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -628,7 +628,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -642,7 +642,7 @@ describe(`options`, () => {
 
   test(`baseURL: null shows absolute paths`, () => {
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: null,
@@ -663,7 +663,7 @@ describe(`options`, () => {
 
   test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -687,7 +687,7 @@ describe(`malformed profiles`, () => {
   test(`rejects samples that aren't an array`, () => {
     expect(() =>
       convertJsonToMd(
-        v8HeapProfileConverter,
+        v8HeapProfileFormatSpec,
         { head: makeV8HeapProfileRoot([]), samples: `abc` },
         normalizeProfileToMdOptions(),
       ),
@@ -701,14 +701,14 @@ describe(`malformed profiles`, () => {
     }
 
     const md = convertJsonToMd(
-      v8HeapProfileConverter,
+      v8HeapProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
     expect(md).toBe(
       convertJsonToMd(
-        v8HeapProfileConverter,
+        v8HeapProfileFormatSpec,
         structuredClone(baseProfile),
         normalizeProfileToMdOptions({ baseURL: `/project` }),
       ),

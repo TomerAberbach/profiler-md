@@ -1,9 +1,9 @@
-import type { JsonFormatConverter } from '../../converter.ts'
+import type { JsonFormatSpec } from '../../spec.ts'
 import { matchesV8HeapSnapshot } from './matches.ts'
 import { parseV8HeapSnapshot } from './parse.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 
-export const v8HeapSnapshotConverter = {
+export const v8HeapSnapshotFormatSpec = {
   id: `v8-heap-snapshot`,
   title: `V8 heap snapshot`,
   extension: `heapsnapshot`,
@@ -19,4 +19,4 @@ export const v8HeapSnapshotConverter = {
   matches: matchesV8HeapSnapshot,
   parse: (json, recordTally) =>
     parseV8HeapSnapshot(json as V8HeapSnapshot, recordTally),
-} as const satisfies JsonFormatConverter
+} as const satisfies JsonFormatSpec

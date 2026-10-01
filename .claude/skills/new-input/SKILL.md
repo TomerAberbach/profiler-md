@@ -18,7 +18,7 @@ $ARGUMENTS
 # Workflow
 
 If loaded from `/new-format`, skip step 1 and return to that workflow after step
-3: the remaining steps assume the converter already exists.
+3: the remaining steps assume the format spec already exists.
 
 ## Check support
 
@@ -48,7 +48,7 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
      Host tools may need additions to `scripts/inputs/flake.nix`
    - Name outputs `<lang>.<origin>.<config?>.<base|current>.<ext>`; the second
      token must be the origin's registered ID, and the extension must match the
-     converter's `extension`
+     format spec's `extension`
    - When a pinned library, package, or tool release sets the profiled code, pin
      consecutive releases per role (e.g.
      `declare -A ZSTD_TAG=([base]=… [current]=…)`), so a diff compares two

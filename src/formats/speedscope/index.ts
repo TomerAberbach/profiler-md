@@ -1,9 +1,9 @@
-import type { JsonFormatConverter } from '../converter.ts'
+import type { JsonFormatSpec } from '../spec.ts'
 import { matchesSpeedscope } from './matches.ts'
 import { parseSpeedscope } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
 
-export const speedscopeConverter = {
+export const speedscopeFormatSpec = {
   id: `speedscope`,
   title: `Speedscope`,
   extension: `speedscope.json`,
@@ -16,4 +16,4 @@ export const speedscopeConverter = {
   matches: matchesSpeedscope,
   parse: (json, recordTally) =>
     parseSpeedscope(json as SpeedscopeProfile, recordTally),
-} as const satisfies JsonFormatConverter
+} as const satisfies JsonFormatSpec

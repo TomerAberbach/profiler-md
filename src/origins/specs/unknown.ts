@@ -1,5 +1,5 @@
 import { categorizeGenericEntry } from '../categorize.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { OriginSpec } from '../spec.ts'
 
 /**
  * The fallback origin for any profile or snapshot whose generating runtime

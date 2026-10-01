@@ -22,7 +22,7 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../testing.ts'
-import { pprofConverter } from './index.ts'
+import { pprofFormatSpec } from './index.ts'
 import { makePprof } from './testing.ts'
 
 describe(`parse and matches`, () => {
@@ -35,7 +35,7 @@ describe(`parse and matches`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    expect(pprofConverter.matches(data)).toBe(true)
+    expect(pprofFormatSpec.matches(data)).toBe(true)
   })
 
   test.each([
@@ -57,23 +57,26 @@ describe(`parse and matches`, () => {
       })
       const reordered = new Uint8Array([...fieldBytes, ...data])
 
-      expect(pprofConverter.matches(reordered)).toBe(true)
+      expect(pprofFormatSpec.matches(reordered)).toBe(true)
     },
   )
 
   test(`rejects empty data`, () => {
-    expect(pprofConverter.matches(new Uint8Array())).toBe(false)
+    expect(pprofFormatSpec.matches(new Uint8Array())).toBe(false)
   })
 
   test(`rejects data not leading with a Profile field tag`, () => {
-    expect(pprofConverter.matches(new Uint8Array([0xff, 0xfe, 0xfd]))).toBe(
+    expect(pprofFormatSpec.matches(new Uint8Array([0xff, 0xfe, 0xfd]))).toBe(
       false,
     )
   })
 
   test(`rejects invalid binary data`, () => {
     expect(() =>
-      pprofConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd]), noopRecordTally),
+      pprofFormatSpec.parse(
+        new Uint8Array([0xff, 0xfe, 0xfd]),
+        noopRecordTally,
+      ),
     ).toThrow(FormatParseError)
   })
 
@@ -82,7 +85,7 @@ describe(`parse and matches`, () => {
       JSON.stringify({ nodes: [], timeDeltas: [] }),
     )
 
-    expect(() => pprofConverter.parse(bytes, noopRecordTally)).toThrow(
+    expect(() => pprofFormatSpec.parse(bytes, noopRecordTally)).toThrow(
       `invalid protobuf encoding`,
     )
   })
@@ -95,7 +98,7 @@ describe(`parse and matches`, () => {
     })
 
     expect(() =>
-      pprofConverter.parse(bytes.subarray(0, -3), noopRecordTally),
+      pprofFormatSpec.parse(bytes.subarray(0, -3), noopRecordTally),
     ).toThrow(`truncated protobuf encoding`)
   })
 
@@ -105,7 +108,7 @@ describe(`parse and matches`, () => {
       sampleType: [new ValueType({ type: 99n, unit: 0n })],
     }).encode()
 
-    expect(() => pprofConverter.parse(bytes, noopRecordTally)).toThrow(
+    expect(() => pprofFormatSpec.parse(bytes, noopRecordTally)).toThrow(
       `string index is past the end of the string table, got: 99`,
     )
   })
@@ -122,14 +125,14 @@ describe(`parse and matches`, () => {
     const sample = { locationIds: [1], values: [100_000] }
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       makeBytes([sample, { locationIds: [1], values: [] }]),
       normalizeProfileToMdOptions(),
     )
 
     expect(md).toBe(
       convertBytesToMd(
-        pprofConverter,
+        pprofFormatSpec,
         makeBytes([sample]),
         normalizeProfileToMdOptions(),
       ),
@@ -154,7 +157,7 @@ describe(`parse and matches`, () => {
     })
 
     expect(() =>
-      convertBytesToMd(pprofConverter, bytes, normalizeProfileToMdOptions()),
+      convertBytesToMd(pprofFormatSpec, bytes, normalizeProfileToMdOptions()),
     ).toThrow(
       `no usable records because the parser skipped 1 sample with fewer values than the profile has sample types`,
     )
@@ -180,7 +183,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -237,7 +240,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -261,7 +264,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -309,7 +312,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -357,7 +360,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -395,7 +398,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -422,7 +425,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -453,7 +456,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -485,7 +488,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -513,9 +516,9 @@ describe(`convert`, () => {
     })
     const options = normalizeProfileToMdOptions({ baseURL: `/project` })
 
-    const md = await convertToMdAsync(pprofConverter, streamOf(data), options)
+    const md = await convertToMdAsync(pprofFormatSpec, streamOf(data), options)
 
-    expect(md).toBe(convertBytesToMd(pprofConverter, data, options))
+    expect(md).toBe(convertBytesToMd(pprofFormatSpec, data, options))
   })
 
   test(`uses systemName when function name is empty`, () => {
@@ -534,7 +537,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -557,7 +560,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -593,7 +596,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -620,7 +623,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -652,7 +655,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -697,7 +700,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -731,7 +734,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -785,7 +788,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -830,7 +833,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -869,7 +872,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: null }),
     )
@@ -908,7 +911,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: null }),
     )
@@ -948,7 +951,7 @@ describe(`convert`, () => {
     })
 
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -991,7 +994,7 @@ describe(`convert`, () => {
     })
 
     convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
@@ -1023,7 +1026,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       basePprof,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -1037,7 +1040,7 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcA` is excluded; `funcB`'s total still shows
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       basePprof,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -1053,7 +1056,7 @@ describe(`options`, () => {
 
   test(`baseURL: null shows absolute paths`, () => {
     const md = convertBytesToMd(
-      pprofConverter,
+      pprofFormatSpec,
       basePprof,
       normalizeProfileToMdOptions({ baseURL: null }),
     )

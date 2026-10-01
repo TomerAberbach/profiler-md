@@ -16,31 +16,31 @@ import {
 } from '../../../testing.ts'
 import { profileToMd } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
-import { v8CpuProfileConverter } from './index.ts'
+import { v8CpuProfileFormatSpec } from './index.ts'
 import type { V8CpuProfile } from './parse.ts'
 import { makeV8CallFrame, makeV8CpuProfileRoot } from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid profile`, () => {
-    expect(v8CpuProfileConverter.matches({ nodes: [], timeDeltas: [] })).toBe(
+    expect(v8CpuProfileFormatSpec.matches({ nodes: [], timeDeltas: [] })).toBe(
       true,
     )
   })
 
   test(`rejects null`, () => {
-    expect(v8CpuProfileConverter.matches(null)).toBe(false)
+    expect(v8CpuProfileFormatSpec.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(v8CpuProfileConverter.matches(`string`)).toBe(false)
+    expect(v8CpuProfileFormatSpec.matches(`string`)).toBe(false)
   })
 
   test(`rejects missing nodes`, () => {
-    expect(v8CpuProfileConverter.matches({ timeDeltas: [] })).toBe(false)
+    expect(v8CpuProfileFormatSpec.matches({ timeDeltas: [] })).toBe(false)
   })
 
   test(`rejects missing timeDeltas`, () => {
-    expect(v8CpuProfileConverter.matches({ nodes: [] })).toBe(false)
+    expect(v8CpuProfileFormatSpec.matches({ nodes: [] })).toBe(false)
   })
 })
 
@@ -102,7 +102,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -199,7 +199,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -276,7 +276,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -325,7 +325,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -390,7 +390,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -432,7 +432,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -489,7 +489,7 @@ describe(`convert`, () => {
     }
 
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -579,7 +579,7 @@ describe(`options`, () => {
     // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
     // its only direct caller (`funcB`) is excluded.
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -595,7 +595,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -609,7 +609,7 @@ describe(`options`, () => {
 
   test(`baseURL: null shows absolute paths`, () => {
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({ baseURL: null }),
     )
@@ -628,7 +628,7 @@ describe(`options`, () => {
 
   test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -658,7 +658,7 @@ describe(`malformed profiles`, () => {
   test(`rejects samples that aren't an array`, () => {
     expect(() =>
       convertJsonToMd(
-        v8CpuProfileConverter,
+        v8CpuProfileFormatSpec,
         { nodes: [node], samples: `abc`, timeDeltas: [] },
         normalizeProfileToMdOptions(),
       ),
@@ -668,14 +668,14 @@ describe(`malformed profiles`, () => {
   test(`skips samples without a time delta, with a warning`, () => {
     // The parser renumbers the nodes it reads in place.
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       { nodes: [{ ...node }], samples: [1, 1, 1], timeDeltas: [5] },
       normalizeProfileToMdOptions(),
     )
 
     expect(md).toBe(
       convertJsonToMd(
-        v8CpuProfileConverter,
+        v8CpuProfileFormatSpec,
         { nodes: [{ ...node }], samples: [1], timeDeltas: [5] },
         normalizeProfileToMdOptions(),
       ),
@@ -695,7 +695,7 @@ describe(`malformed profiles`, () => {
   test(`rejects a profile whose every sample lacks a time delta`, () => {
     expect(() =>
       convertJsonToMd(
-        v8CpuProfileConverter,
+        v8CpuProfileFormatSpec,
         { nodes: [node], samples: [1, 1], timeDeltas: [] },
         normalizeProfileToMdOptions(),
       ),
@@ -711,7 +711,7 @@ describe(`malformed profiles`, () => {
     `skips the position ticks of a node with $scenario, with a warning`,
     ({ hits }) => {
       const md = convertJsonToMd(
-        v8CpuProfileConverter,
+        v8CpuProfileFormatSpec,
         {
           nodes: [
             makeV8CpuProfileRoot([2]),
@@ -755,7 +755,7 @@ describe(`samples referencing a missing node`, () => {
 
   test(`are skipped with a warning`, () => {
     const md = convertJsonToMd(
-      v8CpuProfileConverter,
+      v8CpuProfileFormatSpec,
       makeProfile([2, 9, 9]),
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )

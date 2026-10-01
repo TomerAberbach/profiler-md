@@ -2,8 +2,8 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { logicalReferenceName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
-import { matchEntryFromRules } from '../origin.ts'
-import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+import { matchEntryFromRules } from '../spec.ts'
+import type { EntryMatchRule, OriginSpec } from '../spec.ts'
 
 /**
  * The method table address the runtime writes for a parameter type it cannot

@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
-import { hasProtocol } from './origin.ts'
+import { hasProtocol } from './spec.ts'
 
 /**
  * The categorization for origins with no runtime-specific conventions: only

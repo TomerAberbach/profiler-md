@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesJfr } from './matches.ts'
 import { parseJfr, parseJfrAsync } from './parse.ts'
 
-export const jfrConverter = {
+export const jfrFormatSpec = {
   id: `jfr`,
   title: `JFR`,
   extension: `jfr`,
@@ -14,4 +14,4 @@ export const jfrConverter = {
   matches: matchesJfr,
   parse: parseJfr,
   parseAsync: parseJfrAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

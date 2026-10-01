@@ -1,8 +1,8 @@
-import type { BinaryFormatConverter } from '../converter.ts'
+import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesMemray } from './matches.ts'
 import { parseMemray, parseMemrayAsync } from './parse.ts'
 
-export const memrayConverter = {
+export const memrayFormatSpec = {
   id: `memray`,
   title: `memray`,
   extension: `memray.bin`,
@@ -13,4 +13,4 @@ export const memrayConverter = {
   matches: matchesMemray,
   parse: parseMemray,
   parseAsync: parseMemrayAsync,
-} as const satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatSpec

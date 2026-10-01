@@ -11,7 +11,7 @@ import {
   convertToMdAsync,
   noopRecordTally,
 } from '../../testing.ts'
-import { ghcEventlogConverter } from './index.ts'
+import { ghcEventlogFormatSpec } from './index.ts'
 import { parseGhcEventlog } from './parse.ts'
 import { makeGhcEventlog, undeclaredEvent } from './testing.ts'
 
@@ -37,17 +37,17 @@ const eventlog = () =>
 
 describe(`matches`, () => {
   test(`accepts a log by its header marker`, () => {
-    expect(ghcEventlogConverter.matches(eventlog())).toBe(true)
+    expect(ghcEventlogFormatSpec.matches(eventlog())).toBe(true)
   })
 
   test(`rejects bytes that don't begin a log`, () => {
     expect(
-      ghcEventlogConverter.matches(Uint8Array.of(0x68, 0x64, 0x72, 0x65)),
+      ghcEventlogFormatSpec.matches(Uint8Array.of(0x68, 0x64, 0x72, 0x65)),
     ).toBe(false)
   })
 
   test(`rejects bytes too short to hold the marker`, () => {
-    expect(ghcEventlogConverter.matches(Uint8Array.of(0x68, 0x64))).toBe(false)
+    expect(ghcEventlogFormatSpec.matches(Uint8Array.of(0x68, 0x64))).toBe(false)
   })
 })
 
@@ -111,7 +111,7 @@ describe(`parse`, () => {
   test(`keeps the samples before an event a dead program left truncated`, () => {
     const bytes = eventlog()
     const md = convertBytesToMd(
-      ghcEventlogConverter,
+      ghcEventlogFormatSpec,
       bytes.subarray(0, -3),
       options(),
     )
@@ -133,7 +133,7 @@ describe(`parse`, () => {
     const bytes = makeGhcEventlog({ costCentres: COST_CENTRES }).subarray(0, -2)
 
     expect(() =>
-      convertBytesToMd(ghcEventlogConverter, bytes, options()),
+      convertBytesToMd(ghcEventlogFormatSpec, bytes, options()),
     ).toThrow(
       `no usable records because the input ends before the end-of-data marker`,
     )
@@ -142,7 +142,7 @@ describe(`parse`, () => {
 
 describe(`convert`, () => {
   test(`attributes each tick to the cost-centre stack it sampled`, () => {
-    const md = convertBytesToMd(ghcEventlogConverter, eventlog(), options())
+    const md = convertBytesToMd(ghcEventlogFormatSpec, eventlog(), options())
 
     expect(summaryLines(md)).toEqual([
       `Took 5.0ms over 5 samples (1.0ms per sample).`,
@@ -179,7 +179,7 @@ describe(`convert`, () => {
   })
 
   test(`categorizes the collector's ticks apart from the program's`, () => {
-    const md = convertBytesToMd(ghcEventlogConverter, eventlog(), options())
+    const md = convertBytesToMd(ghcEventlogFormatSpec, eventlog(), options())
 
     expect(categoryTables(md)).toEqual([
       [
@@ -201,7 +201,7 @@ describe(`convert`, () => {
 
   test(`counts the samples of a log recorded without a tick interval`, () => {
     const md = convertBytesToMd(
-      ghcEventlogConverter,
+      ghcEventlogFormatSpec,
       makeGhcEventlog({ costCentres: COST_CENTRES, samples: [[2, 1], [1]] }),
       options(),
     )
@@ -227,9 +227,9 @@ describe(`convert`, () => {
 
   test(`streaming a log yields what parsing its bytes does`, async () => {
     const bytes = eventlog()
-    const buffered = convertBytesToMd(ghcEventlogConverter, bytes, options())
+    const buffered = convertBytesToMd(ghcEventlogFormatSpec, bytes, options())
     const streamed = await convertToMdAsync(
-      ghcEventlogConverter,
+      ghcEventlogFormatSpec,
       streamOf(...chunk(bytes, 7)),
       options(),
     )
