@@ -94,6 +94,202 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `ZSTD_selectEncodingType`           | `zstd_compress_sequences.c` |
 | removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `ZSTD_fseBitCost`                   | `zstd_compress_sequences.c` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
+
+| Change |   Delta |      % |           Time |        Samples | Location         |
+| -----: | ------: | -----: | -------------: | -------------: | ---------------- |
+| +46.3% | +4.605s | 100.0% | 9.94s → 14.54s | 9,943 → 14,548 | `zstd_opt.c:876` |
+
+##### `ZSTD_insertBt1` (`zstd_opt.c`)
+
+|    Change |     Delta |             % |             Time |  Samples | Location         |
+| --------: | --------: | ------------: | ---------------: | -------: | ---------------- |
+| +41700.0% | +834.00ms |  7.1% → 28.2% |  2.0ms → 836.0ms |  2 → 836 | `zstd_opt.c:538` |
+|  +8030.0% | +803.00ms | 35.7% → 27.4% | 10.0ms → 813.0ms | 10 → 813 | `zstd_opt.c:545` |
+| +10340.0% | +517.00ms | 17.9% → 17.6% |  5.0ms → 522.0ms |  5 → 522 | `zstd_opt.c:489` |
+| +16000.0% | +320.00ms |  7.1% → 10.9% |  2.0ms → 322.0ms |  2 → 322 | `zstd_opt.c:528` |
+|  +4950.0% | +198.00ms |  14.3% → 6.8% |  4.0ms → 202.0ms |  4 → 202 | `zstd_opt.c:518` |
+
+##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
+
+|  Change |   Delta |             % |        Time |   Samples | Location          |
+| ------: | ------: | ------------: | ----------: | --------: | ----------------- |
+|     new | +2.191s | 0.0% → 100.0% | 0ms → 2.19s | 0 → 2,191 | `zstd_opt.c:1459` |
+| removed | -1.728s | 100.0% → 0.0% | 1.72s → 0ms | 1,728 → 0 | `zstd_opt.c:1455` |
+
+##### `ZSTD_recordFingerprint_1` (`zstd_preSplit.c`)
+
+| Change |    Delta |             % |         Time | Samples | Location             |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------- |
+|    new | +17.00ms | 0.0% → 100.0% | 0ms → 17.0ms |  0 → 17 | `zstd_preSplit.c:87` |
+
+##### `ZSTD_rawLiteralsCost` (`zstd_opt.c`)
+
+|  Change |    Delta |             % |            Time | Samples | Location         |
+| ------: | -------: | ------------: | --------------: | ------: | ---------------- |
+|  +44.0% | +11.00ms | 69.4% → 72.0% | 25.0ms → 36.0ms | 25 → 36 | `zstd_opt.c:266` |
+| +125.0% |  +5.00ms | 11.1% → 18.0% |   4.0ms → 9.0ms |   4 → 9 | `zstd_opt.c:273` |
+|  -57.1% |  -4.00ms |  19.4% → 6.0% |   7.0ms → 3.0ms |   7 → 3 | `zstd_opt.c:276` |
+|     new |  +2.00ms |   0.0% → 4.0% |     0ms → 2.0ms |   0 → 2 | `zstd_opt.c:291` |
+
+##### `ZSTD_litLengthPrice` (`zstd_opt.c`)
+
+|  Change |    Delta |             % |            Time | Samples | Location         |
+| ------: | -------: | ------------: | --------------: | ------: | ---------------- |
+| +150.0% | +15.00ms |  7.9% → 17.9% | 10.0ms → 25.0ms | 10 → 25 | `zstd_opt.c:306` |
+|  -46.2% | -12.00ms | 20.5% → 10.0% | 26.0ms → 14.0ms | 26 → 14 | `zstd_opt.c:298` |
+|  +11.6% |  +5.00ms | 33.9% → 34.3% | 43.0ms → 48.0ms | 43 → 48 | `zstd_opt.c:313` |
+|  +13.5% |  +5.00ms | 29.1% → 30.0% | 37.0ms → 42.0ms | 37 → 42 | `zstd_opt.c:315` |
+
+##### `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`)
+
+|  Change |    Delta |             % |         Time | Samples | Location          |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------- |
+|     new | +13.00ms | 0.0% → 100.0% | 0ms → 13.0ms |  0 → 13 | `zstd_opt.c:1030` |
+| removed |  -7.00ms | 100.0% → 0.0% |  7.0ms → 0ms |   7 → 0 | `zstd_opt.c:1028` |
+
+##### `HUF_buildCTable_wksp` (`huf_compress.c`)
+
+| Change |   Delta |              % |          Time | Samples | Location             |
+| -----: | ------: | -------------: | ------------: | ------: | -------------------- |
+|    new | +4.00ms |   0.0% → 50.0% |   0ms → 4.0ms |   0 → 4 | `huf_compress.c:778` |
+|    new | +3.00ms |   0.0% → 37.5% |   0ms → 3.0ms |   0 → 3 | `huf_compress.c:788` |
+| -50.0% | -1.00ms | 100.0% → 12.5% | 2.0ms → 1.0ms |   2 → 1 | `huf_compress.c:782` |
+
+##### `ZSTD_seqToCodes` (`zstd_compress.c`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                      |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------- |
+| +150.0% | +3.00ms | 33.3% → 41.7% | 2.0ms → 5.0ms |   2 → 5 | `zstd_compress.c:2695 → 2706` |
+| +300.0% | +3.00ms | 16.7% → 33.3% | 1.0ms → 4.0ms |   1 → 4 | `zstd_compress.c:2697 → 2708` |
+|  -66.7% | -2.00ms |  50.0% → 8.3% | 3.0ms → 1.0ms |   3 → 1 | `zstd_compress.c:2696 → 2707` |
+|     new | +2.00ms |  0.0% → 16.7% |   0ms → 2.0ms |   0 → 2 | `zstd_compress.c:2709`        |
+
+##### `ZSTD_splitBlock` (`zstd_preSplit.c`)
+
+| Change |   Delta |             % |        Time | Samples | Location              |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------- |
+|    new | +6.00ms | 0.0% → 100.0% | 0ms → 6.0ms |   0 → 6 | `zstd_preSplit.c:237` |
+
+##### `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`)
+
+|  Change |   Delta |             % |            Time | Samples | Location         |
+| ------: | ------: | ------------: | --------------: | ------: | ---------------- |
+| +300.0% | +9.00ms | 12.5% → 42.9% |  3.0ms → 12.0ms |  3 → 12 | `zstd_opt.c:420` |
+|  -75.0% | -3.00ms |  16.7% → 3.6% |   4.0ms → 1.0ms |   4 → 1 | `zstd_opt.c:423` |
+| +300.0% | +3.00ms |  4.2% → 14.3% |   1.0ms → 4.0ms |   1 → 4 | `zstd_opt.c:430` |
+|  -66.7% | -2.00ms |  12.5% → 3.6% |   3.0ms → 1.0ms |   3 → 1 | `zstd_opt.c:415` |
+|  -16.7% | -2.00ms | 50.0% → 35.7% | 12.0ms → 10.0ms | 12 → 10 | `zstd_opt.c:424` |
+
+##### `FSE_writeNCount_generic` (`fse_compress.c`)
+
+|  Change |   Delta |             % |        Time | Samples | Location             |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `fse_compress.c:260` |
+|     new | +1.00ms |  0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `fse_compress.c:263` |
+|     new | +1.00ms |  0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `fse_compress.c:264` |
+|     new | +1.00ms |  0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `fse_compress.c:304` |
+
+##### `ZSTD_updateTree` (`zstd_opt.c`)
+
+| Change |   Delta |             % |        Time | Samples | Location         |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------- |
+|    new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `zstd_opt.c:584` |
+
+##### `ZSTD_deriveBlockSplitsHelper` (`zstd_compress.c`)
+
+| Change |   Delta |             % |        Time | Samples | Location               |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `zstd_compress.c:4199` |
+
+##### `HUF_writeCTable_wksp` (`huf_compress.c`)
+
+| Change |   Delta |             % |        Time | Samples | Location             |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `huf_compress.c:275` |
+
+##### `ZSTD_updateStats` (`zstd_opt.c`)
+
+|  Change |   Delta |             % |          Time | Samples | Location         |
+| ------: | ------: | ------------: | ------------: | ------: | ---------------- |
+| removed | -7.00ms |  25.0% → 0.0% |   7.0ms → 0ms |   7 → 0 | `zstd_opt.c:377` |
+| removed | -5.00ms |  17.9% → 0.0% |   5.0ms → 0ms |   5 → 0 | `zstd_opt.c:378` |
+| removed | -5.00ms |  17.9% → 0.0% |   5.0ms → 0ms |   5 → 0 | `zstd_opt.c:384` |
+| removed | -3.00ms |  10.7% → 0.0% |   3.0ms → 0ms |   3 → 0 | `zstd_opt.c:363` |
+|  -66.7% | -2.00ms | 10.7% → 16.7% | 3.0ms → 1.0ms |   3 → 1 | `zstd_opt.c:371` |
+
+##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
+
+|  Change |   Delta |             % |        Time | Samples | Location               |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------- |
+| removed | -9.00ms | 100.0% → 0.0% | 9.0ms → 0ms |   9 → 0 | `zstd_compress.c:3822` |
+|     new | +2.00ms |  0.0% → 66.7% | 0ms → 2.0ms |   0 → 2 | `zstd_compress.c:3886` |
+|     new | +1.00ms |  0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `zstd_compress.c:3888` |
+
+##### `ZSTD_XXH64_update` (`xxhash.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location        |
+| ------: | ------: | -----------: | ----------: | ------: | --------------- |
+| removed | -5.00ms | 71.4% → 0.0% | 5.0ms → 0ms |   5 → 0 | `xxhash.h:3559` |
+|     new | +3.00ms | 0.0% → 75.0% | 0ms → 3.0ms |   0 → 3 | `xxhash.h:3608` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `xxhash.h:3557` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `xxhash.h:3558` |
+|     new | +1.00ms | 0.0% → 25.0% | 0ms → 1.0ms |   0 → 1 | `xxhash.h:3607` |
+
+##### `FSE_buildCTable_wksp` (`fse_compress.c`)
+
+|  Change |   Delta |            % |        Time | Samples | Location             |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------- |
+| removed | -3.00ms | 60.0% → 0.0% | 3.0ms → 0ms |   3 → 0 | `fse_compress.c:172` |
+| removed | -2.00ms | 40.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `fse_compress.c:161` |
+|     new | +1.00ms | 0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `fse_compress.c:160` |
+|     new | +1.00ms | 0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `fse_compress.c:197` |
+
+##### `FSE_compress_usingCTable_generic` (`fse_compress.c`)
+
+|  Change |   Delta |            % |        Time | Samples | Location             |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------- |
+| removed | -1.00ms | 50.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `fse_compress.c:598` |
+| removed | -1.00ms | 50.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `fse_compress.c:602` |
+
+##### `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`)
+
+|  Change |   Delta |             % |        Time | Samples | Location               |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `zstd_compress.c:3961` |
+
+##### `HIST_count_parallel_wksp` (`hist.c`)
+
+|  Change |   Delta |            % |          Time | Samples | Location           |
+| ------: | ------: | -----------: | ------------: | ------: | ------------------ |
+|     new | +3.00ms | 0.0% → 16.7% |   0ms → 3.0ms |   0 → 3 | `hist.c:120`       |
+| removed | -2.00ms | 10.5% → 0.0% |   2.0ms → 0ms |   2 → 0 | `hist.c:92`        |
+| +200.0% | +2.00ms | 5.3% → 16.7% | 1.0ms → 3.0ms |   1 → 3 | `hist.c:108 → 122` |
+| removed | -1.00ms |  5.3% → 0.0% |   1.0ms → 0ms |   1 → 0 | `hist.c:95`        |
+| removed | -1.00ms |  5.3% → 0.0% |   1.0ms → 0ms |   1 → 0 | `hist.c:99`        |
+
+##### `ZSTD_encodeSequences` (`zstd_compress_sequences.c`)
+
+| Change |   Delta |      % |           Time | Samples | Location                        |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------- |
+| -10.0% | -1.00ms | 100.0% | 10.0ms → 9.0ms |  10 → 9 | `zstd_compress_sequences.c:437` |
+
+##### `ZSTD_selectEncodingType` (`zstd_compress_sequences.c`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                        |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `zstd_compress_sequences.c:234` |
+
+##### `ZSTD_fseBitCost` (`zstd_compress_sequences.c`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                        |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `zstd_compress_sequences.c:122` |
+
 ### Total time
 
 #### Regressions

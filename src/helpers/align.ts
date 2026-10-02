@@ -119,7 +119,11 @@ const MINIMUM_SLACK_LIMIT = 32
  */
 export const BAND_PAIRS_LIMIT = 2 ** 20
 
-const pairEqualPositions = (
+/**
+ * Pairs the equal positions of two strictly increasing lists, returning the
+ * index of the current position paired with each base position, or `-1`.
+ */
+export const pairEqualPositions = (
   base: readonly number[],
   current: readonly number[],
 ): Int32Array => {
@@ -312,7 +316,8 @@ const alignRange = (
   }
 }
 
-type Pair = { base: number; current: number }
+/** Indices into a diff's base and current lists. */
+export type Pair = { base: number; current: number }
 
 /**
  * Returns the last pair before the range's middle base position and the first

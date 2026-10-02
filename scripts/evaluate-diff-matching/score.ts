@@ -1,4 +1,7 @@
-import { matchDiffedFunctions } from '../../src/modalities/diff.ts'
+import {
+  matchDiffedFunctions,
+  matchDiffedLines,
+} from '../../src/modalities/diff.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import type { Func, FunctionInput } from './inputs.ts'
 import { positionKey, positionOf, sourcePositionOf } from './position.ts'
@@ -20,13 +23,21 @@ export type Scores = { count: Score; weight: Score }
 export type Evaluation = {
   all: Scores
   byPosition: Scores
+
+  /**
+   * The executing lines of each base function the diff pairs correctly,
+   * scored against the current lines the ground truth maps them to.
+   */
+  lines: Scores
+
   milliseconds: number
 }
 
 /**
  * Pairs the two inputs' functions the way a diff does, then scores the pairs
  * against the current functions at the positions {@link positionMap} maps each
- * base function to.
+ * base function to. For each correct pair, it pairs the two functions'
+ * executing lines the way a diff does, and scores those pairs the same way.
  */
 export const evaluate = (
   base: FunctionInput,
@@ -57,9 +68,78 @@ export const evaluate = (
     if (byPosition) {
       scorePair(evaluation.byPosition, currentFunc, expected, weight)
     }
+    if (currentFunc && expected.includes(currentFunc)) {
+      scoreLines(evaluation.lines, {
+        baseFunc,
+        currentFunc,
+        source: position.source,
+        sides: { base, current },
+        positionMap,
+        inputTotal,
+      })
+    }
   }
   return evaluation
 }
+
+/**
+ * Adds the diff's pairing of a correctly paired function's executing lines to
+ * the scores. A base line's expected counterpart is the current function's
+ * line at the position {@link positionMap} maps it to.
+ */
+const scoreLines = (
+  scores: Scores,
+  {
+    baseFunc,
+    currentFunc,
+    source,
+    sides,
+    positionMap,
+    inputTotal,
+  }: {
+    baseFunc: Func
+    currentFunc: Func
+    source: string
+    sides: { base: FunctionInput; current: FunctionInput }
+    positionMap: PositionMap
+    inputTotal: number
+  },
+): void => {
+  const lineDiffs = matchDiffedLines<LineMetrics>(
+    { base: baseFunc, current: currentFunc },
+    sides,
+  )
+  for (const { base: baseLine, current: currentLine } of lineDiffs) {
+    if (!baseLine) {
+      continue
+    }
+    const mapped = positionMap({
+      source,
+      line: baseLine.line,
+      column: undefined,
+    })
+    if (!mapped) {
+      continue
+    }
+    addOutcome(
+      scores,
+      {
+        hasExpected: currentFunc.lineToMetrics.has(mapped.line),
+        predicted: currentLine !== undefined,
+        correct: currentLine?.line === mapped.line,
+      },
+      inputTotal === 0 ? 0 : lineTotalOf(baseLine.metrics) / inputTotal,
+    )
+  }
+}
+
+type LineMetrics =
+  Func[`lineToMetrics`] extends ReadonlyMap<number, infer Metrics>
+    ? Metrics
+    : never
+
+const lineTotalOf = (metrics: LineMetrics): number =>
+  `count` in metrics ? metrics.count : (metrics[0] ?? 0)
 
 const functionsByPosition = (input: FunctionInput): Map<string, Func[]> =>
   Map.groupBy(
@@ -72,19 +152,42 @@ const functionsByPosition = (input: FunctionInput): Map<string, Func[]> =>
  * given `expected`, the current functions the ground truth pairs it with.
  */
 const scorePair = (
-  { count, weight }: Scores,
+  scores: Scores,
   currentFunc: Func | undefined,
   expected: readonly Func[],
   funcWeight: number,
+): void =>
+  addOutcome(
+    scores,
+    {
+      hasExpected: expected.length > 0,
+      predicted:
+        currentFunc !== undefined &&
+        positionOf(currentFunc.location) !== undefined,
+      correct: currentFunc !== undefined && expected.includes(currentFunc),
+    },
+    funcWeight,
+  )
+
+/**
+ * Adds one pairing to the scores: whether the ground truth expects a
+ * counterpart, whether the diff predicted one, and whether the prediction is
+ * the expected counterpart.
+ */
+const addOutcome = (
+  { count, weight }: Scores,
+  {
+    hasExpected,
+    predicted,
+    correct,
+  }: { hasExpected: boolean; predicted: boolean; correct: boolean },
+  outcomeWeight: number,
 ): void => {
-  const correct = currentFunc !== undefined && expected.includes(currentFunc)
-  const predicted =
-    currentFunc !== undefined && positionOf(currentFunc.location) !== undefined
   for (const [score, amount] of [
     [count, 1],
-    [weight, funcWeight],
+    [weight, outcomeWeight],
   ] as const) {
-    if (expected.length > 0) {
+    if (hasExpected) {
       score.expected += amount
       if (correct) {
         score.found += amount
@@ -117,6 +220,7 @@ const emptyScores = (): Scores => ({
 export const emptyEvaluation = (milliseconds = 0): Evaluation => ({
   all: emptyScores(),
   byPosition: emptyScores(),
+  lines: emptyScores(),
   milliseconds,
 })
 
@@ -137,7 +241,7 @@ export const mergeEvaluation = (
   into: Evaluation,
   evaluation: Evaluation,
 ): void => {
-  for (const scores of [`all`, `byPosition`] as const) {
+  for (const scores of [`all`, `byPosition`, `lines`] as const) {
     addScore(into[scores].count, evaluation[scores].count)
     addScore(into[scores].weight, evaluation[scores].weight)
   }

@@ -9,7 +9,8 @@ type Column = {
 
 /**
  * Prints a row per scored evaluation, and a total of the printed rows, as one
- * table of every function's scores and one of the scores by position.
+ * table of every function's scores, one of the scores by position, and one of
+ * the executing lines' scores.
  */
 export const printTable = (
   name: string,
@@ -34,15 +35,20 @@ export const printTable = (
       },
     ])}`,
   )
-  console.log(
-    `\n${name}, by position\n\n${formatTable(printed, [
-      {
-        header: `functions`,
-        cell: ({ byPosition }) => String(byPosition.count.expected),
-      },
-      ...scoreColumns(({ byPosition }) => byPosition),
-    ])}`,
-  )
+  for (const [title, header, scoresOf] of [
+    [`by position`, `functions`, ({ byPosition }) => byPosition],
+    [`lines`, `lines`, ({ lines }) => lines],
+  ] as const satisfies [string, string, (evaluation: Evaluation) => Scores][]) {
+    console.log(
+      `\n${name}, ${title}\n\n${formatTable(printed, [
+        {
+          header,
+          cell: evaluation => String(scoresOf(evaluation).count.expected),
+        },
+        ...scoreColumns(scoresOf),
+      ])}`,
+    )
+  }
 }
 
 const scoreColumns = (

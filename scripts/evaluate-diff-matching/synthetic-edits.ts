@@ -5,13 +5,15 @@ import type { Func, FunctionInput } from './inputs.ts'
 import { positionOf, sourcePositionOf } from './position.ts'
 import type { Position, PositionMap } from './position.ts'
 
-type Edit = (position: Position) => Position
+/** Returns where an edit moved a position, or `undefined` if it deleted it. */
+type Edit = (position: Position) => Position | undefined
 
 /**
  * Applies seeded edits to one source reference of the current side, picked
  * from the ones with a function the diff pairs by position, and returns where
- * each of its base positions moved. Returns `undefined` when the diff pairs no
- * function by position.
+ * each of its base positions moved. The edits move its functions and their
+ * executing lines, and drop the executing lines they delete. Returns
+ * `undefined` when the diff pairs no function by position.
  */
 export const applySyntheticEdit = (
   base: FunctionInput,
@@ -32,21 +34,43 @@ export const applySyntheticEdit = (
     random,
   )
 
-  const originals = inSource.map(func => [func, func.location!] as const)
+  const originals = inSource.map(
+    func => [func, func.location!, func.lineToMetrics] as const,
+  )
   for (const [func, location] of originals) {
-    const moved = move(positionOf(location)!)
+    // Edits insert or delete lines only between functions, so they never
+    // delete one.
+    const moved = move(positionOf(location)!)!
     func.location = { ...location, line: moved.line, column: moved.column }
+    moveLines<unknown>(func, move)
   }
 
   return {
-    positionMap: position =>
-      position.source === source ? { ...move(position), source } : undefined,
+    positionMap: position => {
+      const moved = position.source === source ? move(position) : undefined
+      return moved && { ...moved, source }
+    },
     restore: () => {
-      for (const [func, location] of originals) {
+      for (const [func, location, lineToMetrics] of originals) {
         func.location = location
+        func.lineToMetrics = lineToMetrics
       }
     },
   }
+}
+
+const moveLines = <Metrics>(
+  func: { lineToMetrics: ReadonlyMap<number, Metrics> },
+  move: Edit,
+): void => {
+  const moved = new Map<number, Metrics>()
+  for (const [line, metrics] of func.lineToMetrics) {
+    const position = move({ line, column: undefined })
+    if (position) {
+      moved.set(position.line, metrics)
+    }
+  }
+  func.lineToMetrics = moved
 }
 
 const pickEditedSource = (
@@ -72,10 +96,18 @@ const pickEditedSource = (
 const randomEdits = (positions: Position[], random: () => number): Edit => {
   const edits: Edit[] = []
   const move: Edit = position =>
-    edits.reduce((moved, edit) => edit(moved), position)
+    edits.reduce<Position | undefined>(
+      (moved, edit) => moved && edit(moved),
+      position,
+    )
   const editCount = 1 + Math.floor(random() * 3)
   for (let index = 0; index < editCount; index++) {
-    edits.push(randomEdit(positions.map(move), random))
+    edits.push(
+      randomEdit(
+        positions.map(position => move(position)!),
+        random,
+      ),
+    )
   }
   return move
 }
@@ -105,10 +137,12 @@ const randomEdit = (positions: Position[], random: () => number): Edit => {
   if (kind < 0.7 && gaps.length > 0) {
     const [above, below] = pick(gaps)
     const count = amount(below - above - 1)
-    return ({ line, column }) => ({
-      line: line > above ? line - count : line,
-      column,
-    })
+    return ({ line, column }) =>
+      line > above + count
+        ? { line: line - count, column }
+        : line > above
+          ? undefined
+          : { line, column }
   }
 
   const at = pick(positions)

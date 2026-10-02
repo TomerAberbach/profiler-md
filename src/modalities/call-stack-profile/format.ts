@@ -28,6 +28,8 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
+import { matchDiffedLines } from '../diff.ts'
+import type { DiffedLine } from '../diff.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
   formatDiffFunctionSections,
@@ -37,7 +39,9 @@ import {
   formatZeroTotalNote,
   resolveEntryFilter,
   selectDiffEntities,
+  selectLargestChanges,
   showDiffEntity,
+  shownDiffEntities,
 } from '../format.ts'
 import { formatProseValue, formatProseValueDelta } from '../measure.ts'
 import type { Metric } from '../metric.ts'
@@ -48,6 +52,7 @@ import type {
   AggregatedCallStackProfileCallStack,
   AggregatedCallStackProfileCategoryMetrics,
   AggregatedCallStackProfileFunction,
+  AggregatedCallStackProfileLineMetrics,
 } from './aggregate.ts'
 import type {
   AggregatedCallStackProfileDiff,
@@ -444,8 +449,9 @@ const formatHottestLines = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      lineColumns(measure, func, options),
+      lineColumns(measure, options),
       hottestLines.map(([line, stats]) => ({
+        func,
         line,
         value: measure.valueOf(stats.values, stats.count),
         count: stats.count,
@@ -988,6 +994,17 @@ type DiffFunctionDirection = {
   countOf: (func: AggregatedCallStackProfileFunction) => number
   titleOf: (metric: Metric) => string
   descriptionOf: (metric: Metric) => string
+
+  /** The sections breaking down the functions the rankings show. */
+  formatDetailSections: (args: DiffDetailArgs) => RootContent[]
+}
+
+type DiffDetailArgs = {
+  diff: AggregatedCallStackProfileDiff
+  measure: DiffMeasure
+  funcs: AggregatedCallStackProfileFunctionDiff[]
+  options: FormattingProfileToMdOptions
+  headingLevel: number
 }
 
 const SELF_DIRECTION: DiffFunctionDirection = {
@@ -996,6 +1013,7 @@ const SELF_DIRECTION: DiffFunctionDirection = {
   titleOf: metric => `Self ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
     `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
+  formatDetailSections: args => formatDiffLines(args),
 }
 
 const TOTAL_DIRECTION: DiffFunctionDirection = {
@@ -1004,6 +1022,7 @@ const TOTAL_DIRECTION: DiffFunctionDirection = {
   titleOf: metric => `Total ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
     `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
+  formatDetailSections: () => [],
 }
 
 const formatDiffDirectionFunctions = ({
@@ -1012,7 +1031,7 @@ const formatDiffDirectionFunctions = ({
   categories,
   options,
   headingLevel,
-  direction: { valueOf, countOf, titleOf, descriptionOf },
+  direction: { valueOf, countOf, titleOf, descriptionOf, formatDetailSections },
 }: {
   diff: AggregatedCallStackProfileDiff
   measure: DiffMeasure
@@ -1068,5 +1087,94 @@ const formatDiffDirectionFunctions = ({
     decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
+    detailSections: formatDetailSections({
+      diff,
+      measure,
+      funcs: shownDiffEntities({
+        improvement: metric.improvement,
+        increases,
+        decreases,
+        categoryRankings,
+      }).map(({ entity }) => entity),
+      options,
+      headingLevel: headingLevel + 1,
+    }),
   })
+}
+
+const formatDiffLines = ({
+  diff,
+  measure,
+  funcs,
+  options,
+  headingLevel,
+}: DiffDetailArgs): RootContent[] =>
+  formatSectionGroup(
+    [
+      heading(headingLevel, `Lines`),
+      paragraph(
+        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
+      ),
+    ],
+    funcs.flatMap(func =>
+      formatDiffFunctionLines({
+        diff,
+        measure,
+        func,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
+    ),
+  )
+
+const formatDiffFunctionLines = ({
+  diff,
+  measure,
+  func,
+  options,
+  headingLevel,
+}: {
+  diff: AggregatedCallStackProfileDiff
+  measure: DiffMeasure
+  func: AggregatedCallStackProfileFunctionDiff
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const lineValueOf = (
+    side: Measure,
+    line?: DiffedLine<AggregatedCallStackProfileLineMetrics>,
+  ) => (line ? side.valueOf(line.metrics.values, line.metrics.count) : 0)
+  const changedLines = selectLargestChanges(
+    matchDiffedLines(func, diff),
+    Math.ceil(options.topN / 4),
+    ({ base, current }) =>
+      lineValueOf(measure.current, current) - lineValueOf(measure.base, base),
+  )
+  if (changedLines.length === 0) {
+    return []
+  }
+
+  const sideRowOf = (
+    side: Measure,
+    sideFunc: AggregatedCallStackProfileFunction | undefined,
+    line: DiffedLine<AggregatedCallStackProfileLineMetrics> | undefined,
+  ) =>
+    sideFunc &&
+    line && {
+      func: sideFunc,
+      line: line.line,
+      value: lineValueOf(side, line),
+      count: line.metrics.count,
+      total: selfValueOf(side, sideFunc),
+    }
+  return [
+    formatFunctionHeading(headingLevel, func, options),
+    formatDiffTable(
+      lineColumns(measure, options),
+      changedLines.map(({ base, current }) => ({
+        base: sideRowOf(measure.base, func.base, base),
+        current: sideRowOf(measure.current, func.current, current),
+      })),
+    ),
+  ]
 }

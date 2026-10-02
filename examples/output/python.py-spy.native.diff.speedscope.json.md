@@ -176,6 +176,98 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed | -100.00ms | 0.4% → 0.0% | 100.0ms → 0ms |   1 → 0 | `__libc_malloc`  | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
 | removed | -100.00ms | 0.4% → 0.0% | 100.0ms → 0ms |   1 → 0 | `0x7ff2a7c5a480` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `parse` (`/usr/lib/python3.11/ast.py`)
+
+|  Change |     Delta |      % |            Time | Samples | Location                        |
+| ------: | --------: | -----: | --------------: | ------: | ------------------------------- |
+| +266.7% | +800.00ms | 100.0% | 300.0ms → 1.10s |  3 → 11 | `/usr/lib/python3.11/ast.py:50` |
+
+##### `__init__` (`<string>`)
+
+|  Change |     Delta |             % |              Time | Samples | Location     |
+| ------: | --------: | ------------: | ----------------: | ------: | ------------ |
+|     new | +300.00ms |  0.0% → 30.0% |     0ms → 300.0ms |   0 → 3 | `<string>:4` |
+| +100.0% | +100.00ms | 33.3% → 20.0% | 100.0ms → 200.0ms |   1 → 2 | `<string>:5` |
+| removed | -100.00ms |  33.3% → 0.0% |     100.0ms → 0ms |   1 → 0 | `<string>:6` |
+|     new | +100.00ms |  0.0% → 10.0% |     0ms → 100.0ms |   0 → 1 | `<string>:3` |
+|     new | +100.00ms |  0.0% → 10.0% |     0ms → 100.0ms |   0 → 1 | `<string>:8` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>`)
+
+| Change |     Delta |             % |          Time | Samples | Location                                     |
+| -----: | --------: | ------------: | ------------: | ------: | -------------------------------------------- |
+|    new | +400.00ms | 0.0% → 100.0% | 0ms → 400.0ms |   0 → 4 | `<frozen importlib._bootstrap_external>:729` |
+
+##### `_create_fn` (`/usr/lib/python3.11/dataclasses.py`)
+
+| Change |     Delta |             % |          Time | Samples | Location                                 |
+| -----: | --------: | ------------: | ------------: | ------: | ---------------------------------------- |
+|    new | +200.00ms | 0.0% → 100.0% | 0ms → 200.0ms |   0 → 2 | `/usr/lib/python3.11/dataclasses.py:433` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+| Change |     Delta |             % |          Time | Samples | Location                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------- |
+|    new | +100.00ms | 0.0% → 100.0% | 0ms → 100.0ms |   0 → 1 | `<frozen importlib._bootstrap>:241` |
+
+##### `<genexpr>` (`<frozen importlib._bootstrap_external>`)
+
+| Change |     Delta |             % |          Time | Samples | Location                                     |
+| -----: | --------: | ------------: | ------------: | ------: | -------------------------------------------- |
+|    new | +100.00ms | 0.0% → 100.0% | 0ms → 100.0ms |   0 → 1 | `<frozen importlib._bootstrap_external>:134` |
+
+##### `spec_from_file_location` (`<frozen importlib._bootstrap_external>`)
+
+| Change |     Delta |             % |          Time | Samples | Location                                     |
+| -----: | --------: | ------------: | ------------: | ------: | -------------------------------------------- |
+|    new | +100.00ms | 0.0% → 100.0% | 0ms → 100.0ms |   0 → 1 | `<frozen importlib._bootstrap_external>:803` |
+
+##### `__hash__` (`/usr/lib/python3.11/enum.py`)
+
+| Change |     Delta |             % |          Time | Samples | Location                           |
+| -----: | --------: | ------------: | ------------: | ------: | ---------------------------------- |
+|    new | +100.00ms | 0.0% → 100.0% | 0ms → 100.0ms |   0 → 1 | `/usr/lib/python3.11/enum.py:1230` |
+
+##### `__exit__` (`/usr/lib/python3.11/contextlib.py`)
+
+| Change |     Delta |             % |          Time | Samples | Location                                |
+| -----: | --------: | ------------: | ------------: | ------: | --------------------------------------- |
+|    new | +100.00ms | 0.0% → 100.0% | 0ms → 100.0ms |   0 → 1 | `/usr/lib/python3.11/contextlib.py:551` |
+
+##### `<module>` (`/venv/lib/python3.11/site-packages/pathspec/_backends/re2/pathspec.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                                                   |
+| ------: | --------: | ------------: | ------------: | ------: | -------------------------------------------------------------------------- |
+| removed | -100.00ms | 100.0% → 0.0% | 100.0ms → 0ms |   1 → 0 | `/venv/lib/python3.11/site-packages/pathspec/_backends/re2/pathspec.py:20` |
+
+##### `<module>` (`/venv/lib/python3.11/site-packages/platformdirs/__init__.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                                          |
+| ------: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------- |
+| removed | -100.00ms | 100.0% → 0.0% | 100.0ms → 0ms |   1 → 0 | `/venv/lib/python3.11/site-packages/platformdirs/__init__.py:383` |
+
+##### `getwidth` (`/usr/lib/python3.11/re/_parser.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------- |
+| removed | -100.00ms | 100.0% → 0.0% | 100.0ms → 0ms |   1 → 0 | `/usr/lib/python3.11/re/_parser.py:192` |
+
+##### `_optimize_charset` (`/usr/lib/python3.11/re/_compiler.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                  |
+| ------: | --------: | ------------: | ------------: | ------: | ----------------------------------------- |
+| removed | -100.00ms | 100.0% → 0.0% | 100.0ms → 0ms |   1 → 0 | `/usr/lib/python3.11/re/_compiler.py:310` |
+
+##### `__init__` (`/usr/lib/python3.11/re/_parser.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------- |
+| removed | -100.00ms | 100.0% → 0.0% | 100.0ms → 0ms |   1 → 0 | `/usr/lib/python3.11/re/_parser.py:111` |
+
 ### Total time
 
 #### Regressions

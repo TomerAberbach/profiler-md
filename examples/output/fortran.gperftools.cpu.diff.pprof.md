@@ -144,6 +144,170 @@ Functions with the largest decrease in time spent directly in the function body,
 |  -80.0% |  -4.00ms | 0.1% → <0.1% |    5.0ms → 1.0ms |    5 → 1 | `0xf8f7c`  | `usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 |  -80.0% |  -4.00ms | 0.1% → <0.1% |    5.0ms → 1.0ms |    5 → 1 | `0x923e0`  | `usr/lib/aarch64-linux-gnu/libc.so.6`            |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `__json_value_module_MOD_pop_char.part.0` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |    Delta |             % |            Time |       Samples | Location                                                   |
+| ------: | -------: | ------------: | --------------: | ------------: | ---------------------------------------------------------- |
+|     new | +90.00ms |   0.0% → 4.5% |    0ms → 90.0ms |        0 → 90 | `src/json-fortran/src/json_value_module.F90:11497`         |
+|  -76.6% | -72.00ms |   4.8% → 1.1% | 94.0ms → 22.0ms |       94 → 22 | `src/json-fortran/src/json_value_module.F90:11469`         |
+| removed | -28.00ms |   1.4% → 0.0% |    28.0ms → 0ms |        28 → 0 | `src/json-fortran/src/json_value_module.F90:11441`         |
+|  +23.3% | +17.00ms |   3.7% → 4.5% | 73.0ms → 90.0ms |       73 → 90 | `src/json-fortran/src/json_value_module.F90:11395 → 11423` |
+|   +1.0% | +14.00ms | 72.5% → 72.7% |   1.43s → 1.44s | 1,431 → 1,445 | `src/json-fortran/src/json_value_module.F90:11447 → 11475` |
+
+##### `__json_value_module_MOD_parse_object` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                   |
+| ------: | ------: | ------------: | ------------: | ------: | ---------------------------------------------------------- |
+|     new | +5.00ms |  0.0% → 21.7% |   0ms → 5.0ms |   0 → 5 | `src/json-fortran/src/json_value_module.F90:10985`         |
+| removed | -3.00ms |  20.0% → 0.0% |   3.0ms → 0ms |   3 → 0 | `src/json-fortran/src/json_value_module.F90:10980`         |
+|  -66.7% | -2.00ms |  20.0% → 4.3% | 3.0ms → 1.0ms |   3 → 1 | `src/json-fortran/src/json_value_module.F90:10902 → 10912` |
+| +100.0% | +2.00ms | 13.3% → 17.4% | 2.0ms → 4.0ms |   2 → 4 | `src/json-fortran/src/json_value_module.F90:10910 → 10920` |
+| removed | -2.00ms |  13.3% → 0.0% |   2.0ms → 0ms |   2 → 0 | `src/json-fortran/src/json_value_module.F90:10938`         |
+
+##### `__json_value_module_MOD_destroy_json_data` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |            % |          Time | Samples | Location                                                 |
+| ------: | ------: | -----------: | ------------: | ------: | -------------------------------------------------------- |
+| +700.0% | +7.00ms | 7.7% → 38.1% | 1.0ms → 8.0ms |   1 → 8 | `src/json-fortran/src/json_value_module.F90:1397 → 1403` |
+|     new | +7.00ms | 0.0% → 33.3% |   0ms → 7.0ms |   0 → 7 | `src/json-fortran/src/json_value_module.F90:1407`        |
+|  -80.0% | -4.00ms | 38.5% → 4.8% | 5.0ms → 1.0ms |   5 → 1 | `src/json-fortran/src/json_value_module.F90:1400`        |
+| removed | -2.00ms | 15.4% → 0.0% |   2.0ms → 0ms |   2 → 0 | `src/json-fortran/src/json_value_module.F90:1393`        |
+|  -66.7% | -2.00ms | 23.1% → 4.8% | 3.0ms → 1.0ms |   3 → 1 | `src/json-fortran/src/json_value_module.F90:1396 → 1402` |
+
+##### `__json_string_utilities_MOD_unescape_string` (`src/json-fortran/src/json_string_utilities.F90`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                             |
+| ------: | ------: | ------------: | ------------: | ------: | ---------------------------------------------------- |
+| +150.0% | +3.00ms | 10.0% → 20.0% | 2.0ms → 5.0ms |   2 → 5 | `src/json-fortran/src/json_string_utilities.F90:605` |
+| removed | -3.00ms |  15.0% → 0.0% |   3.0ms → 0ms |   3 → 0 | `src/json-fortran/src/json_string_utilities.F90:615` |
+|  +66.7% | +2.00ms | 15.0% → 20.0% | 3.0ms → 5.0ms |   3 → 5 | `src/json-fortran/src/json_string_utilities.F90:506` |
+|     new | +2.00ms |   0.0% → 8.0% |   0ms → 2.0ms |   0 → 2 | `src/json-fortran/src/json_string_utilities.F90:501` |
+|  +33.3% | +1.00ms | 15.0% → 16.0% | 3.0ms → 4.0ms |   3 → 4 | `src/json-fortran/src/json_string_utilities.F90:514` |
+
+##### `__json_value_module_MOD_json_value_destroy` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |            % |          Time | Samples | Location                                                 |
+| ------: | ------: | -----------: | ------------: | ------: | -------------------------------------------------------- |
+| +500.0% | +5.00ms | 7.1% → 37.5% | 1.0ms → 6.0ms |   1 → 6 | `src/json-fortran/src/json_value_module.F90:2296 → 2303` |
+| removed | -3.00ms | 21.4% → 0.0% |   3.0ms → 0ms |   3 → 0 | `src/json-fortran/src/json_value_module.F90:2269`        |
+| removed | -2.00ms | 14.3% → 0.0% |   2.0ms → 0ms |   2 → 0 | `src/json-fortran/src/json_value_module.F90:2259`        |
+| +100.0% | +1.00ms | 7.1% → 12.5% | 1.0ms → 2.0ms |   1 → 2 | `src/json-fortran/src/json_value_module.F90:2253 → 2260` |
+| removed | -1.00ms |  7.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:2273`        |
+
+##### `__json_string_utilities_MOD_string_to_integer` (`src/json-fortran/src/json_string_utilities.F90`)
+
+| Change |   Delta |             % |          Time | Samples | Location                                             |
+| -----: | ------: | ------------: | ------------: | ------: | ---------------------------------------------------- |
+|    new | +2.00ms |  0.0% → 40.0% |   0ms → 2.0ms |   0 → 2 | `src/json-fortran/src/json_string_utilities.F90:116` |
+| -50.0% | -1.00ms | 66.7% → 20.0% | 2.0ms → 1.0ms |   2 → 1 | `src/json-fortran/src/json_string_utilities.F90:134` |
+|    new | +1.00ms |  0.0% → 20.0% |   0ms → 1.0ms |   0 → 1 | `src/json-fortran/src/json_string_utilities.F90:132` |
+
+##### `__json_value_module_MOD_json_value_add_member` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                 |
+| ------: | ------: | ------------: | ------------: | ------: | -------------------------------------------------------- |
+|     new | +2.00ms |  0.0% → 25.0% |   0ms → 2.0ms |   0 → 2 | `src/json-fortran/src/json_value_module.F90:3428`        |
+| +100.0% | +1.00ms | 16.7% → 25.0% | 1.0ms → 2.0ms |   1 → 2 | `src/json-fortran/src/json_value_module.F90:3406 → 3413` |
+| removed | -1.00ms |  16.7% → 0.0% |   1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:3423`        |
+|  -50.0% | -1.00ms | 33.3% → 12.5% | 2.0ms → 1.0ms |   2 → 1 | `src/json-fortran/src/json_value_module.F90:3433 → 3440` |
+| +100.0% | +1.00ms | 16.7% → 25.0% | 1.0ms → 2.0ms |   1 → 2 | `src/json-fortran/src/json_value_module.F90:3443 → 3450` |
+
+##### `__json_value_module_MOD_string_to_int` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                          |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `src/json-fortran/src/json_value_module.F90:8094` |
+
+##### `__json_value_module_MOD_json_info` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                          |
+| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
+|     new | +2.00ms | 0.0% → 66.7% | 0ms → 2.0ms |   0 → 2 | `src/json-fortran/src/json_value_module.F90:1428` |
+| removed | -1.00ms | 50.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:1419` |
+| removed | -1.00ms | 50.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:1423` |
+|     new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `src/json-fortran/src/json_value_module.F90:1426` |
+
+##### `__json_value_module_MOD_json_value_get_child_by_name` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                          |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `src/json-fortran/src/json_value_module.F90:5652` |
+
+##### `__json_value_module_MOD_parse_string` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |    Delta |             % |            Time | Samples | Location                                                   |
+| -----: | -------: | ------------: | --------------: | ------: | ---------------------------------------------------------- |
+| -96.7% | -29.00ms |  18.2% → 0.7% |  30.0ms → 1.0ms |  30 → 1 | `src/json-fortran/src/json_value_module.F90:11098`         |
+|    new | +24.00ms |  0.0% → 16.1% |    0ms → 24.0ms |  0 → 24 | `src/json-fortran/src/json_value_module.F90:11126`         |
+| -25.0% |  -8.00ms | 19.4% → 16.1% | 32.0ms → 24.0ms | 32 → 24 | `src/json-fortran/src/json_value_module.F90:11091 → 11119` |
+| +12.0% |  +6.00ms | 30.3% → 37.6% | 50.0ms → 56.0ms | 50 → 56 | `src/json-fortran/src/json_value_module.F90:11084 → 11112` |
+| -20.7% |  -6.00ms | 17.6% → 15.4% | 29.0ms → 23.0ms | 29 → 23 | `src/json-fortran/src/json_value_module.F90:11086 → 11114` |
+
+##### `__json_value_module_MOD_parse_array` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/json-fortran/src/json_value_module.F90:11008` |
+
+##### `__json_value_module_MOD_parse_value` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |   Delta |             % |          Time | Samples | Location                                                   |
+| -----: | ------: | ------------: | ------------: | ------: | ---------------------------------------------------------- |
+| -37.5% | -3.00ms | 25.8% → 17.2% | 8.0ms → 5.0ms |   8 → 5 | `src/json-fortran/src/json_value_module.F90:10202 → 10209` |
+|    new | +3.00ms |  0.0% → 10.3% |   0ms → 3.0ms |   0 → 3 | `src/json-fortran/src/json_value_module.F90:10192`         |
+| -66.7% | -2.00ms |   9.7% → 3.4% | 3.0ms → 1.0ms |   3 → 1 | `src/json-fortran/src/json_value_module.F90:10139 → 10146` |
+| -66.7% | -2.00ms |   9.7% → 3.4% | 3.0ms → 1.0ms |   3 → 1 | `src/json-fortran/src/json_value_module.F90:10156 → 10163` |
+| +50.0% | +1.00ms |  6.5% → 10.3% | 2.0ms → 3.0ms |   2 → 3 | `src/json-fortran/src/json_value_module.F90:10145 → 10152` |
+
+##### `__json_value_module_MOD_parse_for_chars` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                           |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------------------------- |
+|     new | +8.00ms | 0.0% → 88.9% | 0ms → 8.0ms |   0 → 8 | `src/json-fortran/src/json_value_module.F90:11192` |
+| removed | -7.00ms | 63.6% → 0.0% | 7.0ms → 0ms |   7 → 0 | `src/json-fortran/src/json_value_module.F90:11164` |
+| removed | -2.00ms | 18.2% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/json-fortran/src/json_value_module.F90:11163` |
+| removed | -1.00ms |  9.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:11161` |
+| removed | -1.00ms |  9.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:11165` |
+
+##### `__json_value_module_MOD_pop_char` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------------- |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `src/json-fortran/src/json_value_module.F90:11341` |
+|     new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `src/json-fortran/src/json_value_module.F90:11369` |
+
+##### `__json_value_module_MOD_to_logical` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/json-fortran/src/json_value_module.F90:10659` |
+|     new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `src/json-fortran/src/json_value_module.F90:10678` |
+
+##### `__json_value_module_MOD_json_value_create` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                          |
+| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
+| removed | -3.00ms | 75.0% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/json-fortran/src/json_value_module.F90:2213` |
+|     new | +2.00ms | 0.0% → 66.7% | 0ms → 2.0ms |   0 → 2 | `src/json-fortran/src/json_value_module.F90:2218` |
+| removed | -1.00ms | 25.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:2211` |
+|     new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `src/json-fortran/src/json_value_module.F90:2220` |
+
+##### `__json_value_module_MOD_to_string` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:10776` |
+
+##### `__json_value_module_MOD_to_integer` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/json-fortran/src/json_value_module.F90:10703` |
+
 ### Total time
 
 #### Regressions

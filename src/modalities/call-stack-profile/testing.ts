@@ -26,6 +26,11 @@ export const makeAggregatedCallStackProfile = (
     selfCount: number
     /** Leaf-to-caller frame indices of each record; defaults to the function alone. */
     stack?: number[]
+    /**
+     * The executing line of each of the function's records, which then takes
+     * the line's share of its records.
+     */
+    executingLines?: { line: number; count: number }[]
   }[],
   context?: ProfileToMdContext,
   /** Pass `null` for counts that measure nothing. */
@@ -36,12 +41,24 @@ export const makeAggregatedCallStackProfile = (
     name: func.name,
     definition: makeDefinition(func),
   }))
-  const observations = functions.flatMap((func, index) =>
-    Array.from({ length: func.selfCount }, () => ({
-      values: func.selfValues.map(value => value / func.selfCount),
-      frameIndices: func.stack ?? [index],
-    })),
-  )
+  const observations = functions.flatMap((func, index) => {
+    const values = func.selfValues.map(value => value / func.selfCount)
+    const stack = func.stack ?? [index]
+    if (!func.executingLines) {
+      return Array.from({ length: func.selfCount }, () => ({
+        values,
+        frameIndices: stack,
+      }))
+    }
+    return func.executingLines.flatMap(({ line, count }) => {
+      const leafIndex =
+        frames.push({ ...frames[stack[0]!]!, executing: { line } }) - 1
+      return Array.from({ length: count }, () => ({
+        values,
+        frameIndices: [leafIndex, ...stack.slice(1)],
+      }))
+    })
+  })
 
   return new CallStackProfileAggregator({
     type: `call-stack-profile`,

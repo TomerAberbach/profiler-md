@@ -69,6 +69,299 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -10.00ms |   0.3% → 0.0% |      10.0ms → 0ms |   1 → 0 | `runtime.scanObject`                                                                                      | `runtime/mgcmark_greenteagc.go:1187` |
 | removed |  -10.00ms |   0.3% → 0.0% |      10.0ms → 0ms |   1 → 0 | `runtime.systemstack`                                                                                     | `runtime/asm_arm64.s:353`            |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `runtime.pthread_kill` (`runtime/sys_darwin.go:148`)
+
+| Change |    Delta |      % |             Time | Samples | Location                    |
+| -----: | -------: | -----: | ---------------: | ------: | --------------------------- |
+| +87.5% | +70.00ms | 100.0% | 80.0ms → 150.0ms |  8 → 15 | `runtime/sys_darwin.go:149` |
+
+##### `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                       |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------ |
+|     new | +20.00ms |  0.0% → 18.2% |    0ms → 20.0ms |   0 → 2 | `encoding/json/decode.go:1209` |
+| +100.0% | +10.00ms | 16.7% → 18.2% | 10.0ms → 20.0ms |   1 → 2 | `encoding/json/decode.go:1204` |
+|  +50.0% | +10.00ms | 33.3% → 27.3% | 20.0ms → 30.0ms |   2 → 3 | `encoding/json/decode.go:1205` |
+|     new | +10.00ms |   0.0% → 9.1% |    0ms → 10.0ms |   0 → 1 | `encoding/json/decode.go:1194` |
+
+##### `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                       |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------ |
+| removed | -40.00ms |  44.4% → 0.0% |    40.0ms → 0ms |   4 → 0 | `encoding/json/encode.go:1004` |
+| +400.0% | +40.00ms | 11.1% → 35.7% | 10.0ms → 50.0ms |   1 → 5 | `encoding/json/encode.go:1063` |
+|     new | +30.00ms |  0.0% → 21.4% |    0ms → 30.0ms |   0 → 3 | `encoding/json/encode.go:1005` |
+|     new | +20.00ms |  0.0% → 14.3% |    0ms → 20.0ms |   0 → 2 | `encoding/json/encode.go:1002` |
+| removed | -10.00ms |  11.1% → 0.0% |    10.0ms → 0ms |   1 → 0 | `encoding/json/encode.go:1000` |
+
+##### `encoding/json.isSpace` (`encoding/json/scanner.go:201`)
+
+| Change |    Delta |      % |            Time | Samples | Location                       |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------ |
+| +80.0% | +40.00ms | 100.0% | 50.0ms → 90.0ms |   5 → 9 | `encoding/json/scanner.go:202` |
+
+##### `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                      |
+| ------: | -------: | ------------: | --------------: | ------: | ----------------------------- |
+| +150.0% | +30.00ms | 66.7% → 71.4% | 20.0ms → 50.0ms |   2 → 5 | `encoding/json/decode.go:301` |
+| removed | -10.00ms |  33.3% → 0.0% |    10.0ms → 0ms |   1 → 0 | `encoding/json/decode.go:299` |
+|     new | +10.00ms |  0.0% → 14.3% |    0ms → 10.0ms |   0 → 1 | `encoding/json/decode.go:300` |
+|     new | +10.00ms |  0.0% → 14.3% |    0ms → 10.0ms |   0 → 1 | `encoding/json/decode.go:303` |
+
+##### `runtime.tryDeferToSpanScan` (`runtime/mgcmark_greenteagc.go:264`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                            |
+| ------: | -------: | ------------: | --------------: | ------: | ----------------------------------- |
+| +200.0% | +20.00ms | 33.3% → 42.9% | 10.0ms → 30.0ms |   1 → 3 | `runtime/mgcmark_greenteagc.go:290` |
+| removed | -10.00ms |  33.3% → 0.0% |    10.0ms → 0ms |   1 → 0 | `runtime/mgcmark_greenteagc.go:295` |
+|     new | +10.00ms |  0.0% → 14.3% |    0ms → 10.0ms |   0 → 1 | `runtime/mgcmark_greenteagc.go:272` |
+|     new | +10.00ms |  0.0% → 14.3% |    0ms → 10.0ms |   0 → 1 | `runtime/mgcmark_greenteagc.go:287` |
+|     new | +10.00ms |  0.0% → 14.3% |    0ms → 10.0ms |   0 → 1 | `runtime/mgcmark_greenteagc.go:288` |
+
+##### `encoding/json.stateBeginString` (`encoding/json/scanner.go:268`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                       |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------ |
+|  +66.7% | +20.00ms |         50.0% | 30.0ms → 50.0ms |   3 → 5 | `encoding/json/scanner.go:268` |
+| +100.0% | +10.00ms | 16.7% → 20.0% | 10.0ms → 20.0ms |   1 → 2 | `encoding/json/scanner.go:270` |
+|     new | +10.00ms |  0.0% → 10.0% |    0ms → 10.0ms |   0 → 1 | `encoding/json/scanner.go:273` |
+
+##### `cmpbody` (`internal/bytealg/compare_arm64.s:35`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                               |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------- |
+| +100.0% | +10.00ms | 50.0% → 33.3% | 10.0ms → 20.0ms |   1 → 2 | `internal/bytealg/compare_arm64.s:80`  |
+|     new | +10.00ms |  0.0% → 16.7% |    0ms → 10.0ms |   0 → 1 | `internal/bytealg/compare_arm64.s:72`  |
+|     new | +10.00ms |  0.0% → 16.7% |    0ms → 10.0ms |   0 → 1 | `internal/bytealg/compare_arm64.s:92`  |
+|     new | +10.00ms |  0.0% → 16.7% |    0ms → 10.0ms |   0 → 1 | `internal/bytealg/compare_arm64.s:102` |
+
+##### `runtime.mapassign_faststr` (`internal/runtime/maps/runtime_faststr.go:263`)
+
+| Change |    Delta |            % |         Time | Samples | Location                                       |
+| -----: | -------: | -----------: | -----------: | ------: | ---------------------------------------------- |
+|    new | +10.00ms | 0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `internal/runtime/maps/runtime_faststr.go:289` |
+|    new | +10.00ms | 0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `internal/runtime/maps/runtime_faststr.go:300` |
+|    new | +10.00ms | 0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `internal/runtime/maps/runtime_faststr.go:324` |
+
+##### `runtime.typedmemmove` (`runtime/mbarrier.go:150`)
+
+| Change |    Delta |            % |         Time | Samples | Location                  |
+| -----: | -------: | -----------: | -----------: | ------: | ------------------------- |
+|    new | +20.00ms | 0.0% → 50.0% | 0ms → 20.0ms |   0 → 2 | `runtime/mbarrier.go:150` |
+|    new | +10.00ms | 0.0% → 25.0% | 0ms → 10.0ms |   0 → 1 | `runtime/mbarrier.go:154` |
+
+##### `encoding/json.(*decodeState).objectInterface` (`encoding/json/decode.go:1078`)
+
+| Change |    Delta |            % |         Time | Samples | Location                       |
+| -----: | -------: | -----------: | -----------: | ------: | ------------------------------ |
+|    new | +10.00ms | 0.0% → 50.0% | 0ms → 10.0ms |   0 → 1 | `encoding/json/decode.go:1083` |
+|    new | +10.00ms | 0.0% → 50.0% | 0ms → 10.0ms |   0 → 1 | `encoding/json/decode.go:1110` |
+
+##### `runtime.mallocgcSmallScanNoHeader` (`runtime/malloc.go:1503`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                 |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------ |
+| +300.0% | +30.00ms | 25.0% → 66.7% | 10.0ms → 40.0ms |   1 → 4 | `runtime/malloc.go:1550` |
+| removed | -10.00ms |  25.0% → 0.0% |    10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:1526` |
+
+##### `encoding/json.stateEndValue` (`encoding/json/scanner.go:281`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                       |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `encoding/json/scanner.go:302` |
+|     new | +10.00ms |  0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `encoding/json/scanner.go:281` |
+|     new | +10.00ms |  0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `encoding/json/scanner.go:291` |
+|     new | +10.00ms |  0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `encoding/json/scanner.go:305` |
+
+##### `sync/atomic.(*Uint32).Load` (`sync/atomic/type.go:147`)
+
+| Change |    Delta |             % |         Time | Samples | Location                  |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------- |
+|    new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `sync/atomic/type.go:147` |
+
+##### `aeshashbody` (`runtime/asm_arm64.s:762`)
+
+| Change |    Delta |            % |         Time | Samples | Location                  |
+| -----: | -------: | -----------: | -----------: | ------: | ------------------------- |
+|    new | +10.00ms | 0.0% → 50.0% | 0ms → 10.0ms |   0 → 1 | `runtime/asm_arm64.s:794` |
+|    new | +10.00ms | 0.0% → 50.0% | 0ms → 10.0ms |   0 → 1 | `runtime/asm_arm64.s:798` |
+
+##### `runtime.findRunnable` (`runtime/proc.go:3389`)
+
+| Change |    Delta |             % |         Time | Samples | Location               |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `runtime/proc.go:3469` |
+
+##### `encoding/json.valueEncoder` (`encoding/json/encode.go:381`)
+
+| Change |    Delta |             % |         Time | Samples | Location                      |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `encoding/json/encode.go:381` |
+
+##### `encoding/json.(*encodeState).reflectValue` (`encoding/json/encode.go:366`)
+
+| Change |    Delta |             % |         Time | Samples | Location                      |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `encoding/json/encode.go:367` |
+
+##### `encoding/json.interfaceEncoder` (`encoding/json/encode.go:695`)
+
+| Change |    Delta |             % |         Time | Samples | Location                      |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `encoding/json/encode.go:701` |
+
+##### `runtime.convTstring` (`runtime/iface.go:419`)
+
+| Change |    Delta |             % |         Time | Samples | Location               |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `runtime/iface.go:419` |
+
+##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
+
+| Change |     Delta |      % |              Time | Samples | Location                    |
+| -----: | --------: | -----: | ----------------: | ------: | --------------------------- |
+| -28.2% | -110.00ms | 100.0% | 390.0ms → 280.0ms | 39 → 28 | `runtime/sys_darwin.go:488` |
+
+##### `runtime.madvise` (`runtime/sys_darwin.go:224`)
+
+| Change |    Delta |      % |              Time | Samples | Location                    |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------------- |
+| -12.3% | -80.00ms | 100.0% | 650.0ms → 570.0ms | 65 → 57 | `runtime/sys_darwin.go:225` |
+
+##### `encoding/json.checkValid` (`encoding/json/scanner.go:33`)
+
+| Change |    Delta |             % |            Time | Samples | Location                      |
+| -----: | -------: | ------------: | --------------: | ------: | ----------------------------- |
+| -55.6% | -50.00ms | 47.4% → 30.8% | 90.0ms → 40.0ms |   9 → 4 | `encoding/json/scanner.go:37` |
+| -50.0% | -10.00ms |  10.5% → 7.7% | 20.0ms → 10.0ms |   2 → 1 | `encoding/json/scanner.go:35` |
+
+##### `encoding/json.stateInString` (`encoding/json/scanner.go:339`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                       |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------ |
+|  -57.1% | -40.00ms | 41.2% → 25.0% | 70.0ms → 30.0ms |   7 → 3 | `encoding/json/scanner.go:351` |
+|  +50.0% | +20.00ms | 23.5% → 50.0% | 40.0ms → 60.0ms |   4 → 6 | `encoding/json/scanner.go:339` |
+| removed | -20.00ms |  11.8% → 0.0% |    20.0ms → 0ms |   2 → 0 | `encoding/json/scanner.go:340` |
+| +100.0% | +10.00ms |  5.9% → 16.7% | 10.0ms → 20.0ms |   1 → 2 | `encoding/json/scanner.go:341` |
+| removed | -10.00ms |   5.9% → 0.0% |    10.0ms → 0ms |   1 → 0 | `encoding/json/scanner.go:344` |
+
+##### `runtime.kevent` (`runtime/sys_darwin.go:438`)
+
+| Change |    Delta |      % |              Time | Samples | Location                    |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------------- |
+| -10.8% | -40.00ms | 100.0% | 370.0ms → 330.0ms | 37 → 33 | `runtime/sys_darwin.go:439` |
+
+##### `runtime.usleep` (`runtime/sys_darwin.go:273`)
+
+| Change |    Delta |      % |              Time | Samples | Location                    |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------------- |
+| -22.2% | -40.00ms | 100.0% | 180.0ms → 140.0ms | 18 → 14 | `runtime/sys_darwin.go:274` |
+
+##### `slices.insertionSortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` (`slices/zsortanyfunc.go:10`)
+
+|  Change |    Delta |              % |            Time | Samples | Location                    |
+| ------: | -------: | -------------: | --------------: | ------: | --------------------------- |
+| removed | -30.00ms |   60.0% → 0.0% |    30.0ms → 0ms |   3 → 0 | `slices/zsortanyfunc.go:12` |
+|  -50.0% | -10.00ms | 40.0% → 100.0% | 20.0ms → 10.0ms |   2 → 1 | `slices/zsortanyfunc.go:13` |
+
+##### `slices.partitionCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` (`slices/zsortanyfunc.go:135`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                     |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------- |
+| removed | -20.00ms |  40.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `slices/zsortanyfunc.go:139` |
+| removed | -10.00ms |  20.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `slices/zsortanyfunc.go:149` |
+| removed | -10.00ms |  20.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `slices/zsortanyfunc.go:158` |
+| removed | -10.00ms |  20.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `slices/zsortanyfunc.go:160` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `slices/zsortanyfunc.go:154` |
+
+##### `unicode/utf8.decodeRuneSlow` (`unicode/utf8/utf8.go:171`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                   |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------------- |
+| removed | -30.00ms |  75.0% → 0.0% | 30.0ms → 0ms |   3 → 0 | `unicode/utf8/utf8.go:185` |
+| removed | -10.00ms |  25.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `unicode/utf8/utf8.go:171` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `unicode/utf8/utf8.go:190` |
+
+##### `runtime.mallocgcTiny` (`runtime/malloc.go:1202`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                 |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------ |
+| removed | -10.00ms | 33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:1202` |
+| removed | -10.00ms | 33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:1265` |
+| removed | -10.00ms | 33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:1298` |
+
+##### `runtime.lock2` (`runtime/lock_spinbit.go:155`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                      |
+| ------: | -------: | -----------: | -----------: | ------: | ----------------------------- |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/lock_spinbit.go:155` |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/lock_spinbit.go:209` |
+
+##### `runtime.nextFreeFast` (`runtime/malloc.go:969`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------- |
+| removed | -10.00ms |  33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:970` |
+| removed | -10.00ms |  33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:973` |
+| removed | -10.00ms |  33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:975` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `runtime/malloc.go:972` |
+
+##### `runtime.mallocgc` (`runtime/malloc.go:1067`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                 |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------ |
+| removed | -30.00ms |  75.0% → 0.0% | 30.0ms → 0ms |   3 → 0 | `runtime/malloc.go:1189` |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `runtime/malloc.go:1112` |
+| removed | -10.00ms |  25.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/malloc.go:1146` |
+
+##### `runtime.acquirem` (`runtime/runtime1.go:600`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                  |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `runtime/runtime1.go:602` |
+
+##### `encoding/json.(*scanner).pushParseState` (`encoding/json/scanner.go:180`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                       |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------ |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `encoding/json/scanner.go:180` |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `encoding/json/scanner.go:183` |
+
+##### `internal/strconv.formatBase10` (`internal/strconv/itoa.go:191`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                       |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------ |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `internal/strconv/itoa.go:191` |
+
+##### `runtime.(*mheap).allocNeedsZero` (`runtime/mheap.go:1072`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `runtime/mheap.go:1077` |
+
+##### `runtime.heapArenaOf` (`runtime/mheap.go:766`)
+
+|  Change |    Delta |             % |         Time | Samples | Location               |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `runtime/mheap.go:783` |
+
+##### `runtime.scanObject` (`runtime/mgcmark_greenteagc.go:1187`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                             |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/mgcmark_greenteagc.go:1241` |
+
+##### `runtime.systemstack` (`runtime/asm_arm64.s:353`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                  |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `runtime/asm_arm64.s:365` |
+
 ### Total time
 
 #### Regressions

@@ -92,6 +92,276 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed | -10.00ms | 0.2% → 0.0% |      10.0ms → 0ms |   1 → 0 | `encoding/json.mapEncoder.encode`                    | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765`          |
 | removed | -10.00ms | 0.2% → 0.0% |      10.0ms → 0ms |   1 → 0 | `cmpbody`                                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:35`  |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `runtime.usleep` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:273`)
+
+| Change |     Delta |      % |          Time |   Samples | Location                                                                                       |
+| -----: | --------: | -----: | ------------: | --------: | ---------------------------------------------------------------------------------------------- |
+|  +5.6% | +110.00ms | 100.0% | 1.97s → 2.08s | 197 → 208 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:274` |
+
+##### `runtime.pthread_cond_signal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:508`)
+
+| Change |     Delta |      % |              Time | Samples | Location                                                                                       |
+| -----: | --------: | -----: | ----------------: | ------: | ---------------------------------------------------------------------------------------------- |
+| +50.0% | +110.00ms | 100.0% | 220.0ms → 330.0ms | 22 → 33 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:509` |
+
+##### `runtime.procyieldAsm` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1103`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                                      |
+| ------: | -------: | ------------: | --------------: | ------: | --------------------------------------------------------------------------------------------- |
+| +500.0% | +50.00ms | 25.0% → 54.5% | 10.0ms → 60.0ms |   1 → 6 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1110` |
+|  +66.7% | +20.00ms | 75.0% → 45.5% | 30.0ms → 50.0ms |   3 → 5 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1120` |
+
+##### `runtime.pthread_kill` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:148`)
+
+| Change |    Delta |      % |              Time | Samples | Location                                                                                       |
+| -----: | -------: | -----: | ----------------: | ------: | ---------------------------------------------------------------------------------------------- |
+| +22.2% | +60.00ms | 100.0% | 270.0ms → 330.0ms | 27 → 33 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:149` |
+
+##### `runtime.lock2` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:155`)
+
+| Change |    Delta |            % |         Time | Samples | Location                                                                                         |
+| -----: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------------ |
+|    new | +20.00ms | 0.0% → 66.7% | 0ms → 20.0ms |   0 → 2 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:214` |
+|    new | +10.00ms | 0.0% → 33.3% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:166` |
+
+##### `runtime.madvise` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:224`)
+
+| Change |    Delta |      % |          Time |   Samples | Location                                                                                       |
+| -----: | -------: | -----: | ------------: | --------: | ---------------------------------------------------------------------------------------------- |
+|  +1.3% | +20.00ms | 100.0% | 1.52s → 1.54s | 152 → 154 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:225` |
+
+##### `runtime.scanObject` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1187`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                                                |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------- |
+| +200.0% | +20.00ms | 33.3% → 60.0% | 10.0ms → 30.0ms |   1 → 3 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1250` |
+| removed | -10.00ms |  33.3% → 0.0% |    10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1254` |
+| removed | -10.00ms |  33.3% → 0.0% |    10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1270` |
+|     new | +10.00ms |  0.0% → 20.0% |    0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1187` |
+|     new | +10.00ms |  0.0% → 20.0% |    0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1268` |
+
+##### `runtime.pcvalue` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/symtab.go:1013`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                                                                                    |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+|     new | +20.00ms | 0.0% → 50.0% | 0ms → 20.0ms |   0 → 2 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/symtab.go:1047` |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/symtab.go:1040` |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/symtab.go:1082` |
+|     new | +10.00ms | 0.0% → 25.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/symtab.go:1071` |
+|     new | +10.00ms | 0.0% → 25.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/symtab.go:1101` |
+
+##### `internal/runtime/atomic.(*Uint8).Load` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:123`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------------------------------- |
+|    new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:124` |
+
+##### `runtime.(*mheap).alloc.func1` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1011`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                   |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------ |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1011` |
+
+##### `runtime.goschedImpl` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4334` |
+|     new | +10.00ms |  0.0% → 50.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4336` |
+|     new | +10.00ms |  0.0% → 50.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4341` |
+
+##### `runtime.park_m` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4253`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4256` |
+
+##### `runtime.wakep` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3212`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3216` |
+
+##### `runtime.bulkBarrierPreWrite` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mbitmap.go:388`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                    |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mbitmap.go:455` |
+
+##### `internal/runtime/atomic.(*UnsafePointer).Load` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:465`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:466` |
+
+##### `runtime.memclrNoHeapPointers` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/memclr_arm64.s:11`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                        |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/memclr_arm64.s:179` |
+
+##### `runtime.(*mspan).init` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1819`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                   |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------ |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1821` |
+
+##### `internal/runtime/atomic.(*Int32).Load` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:20`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                                 |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:21` |
+
+##### `gosave_systemstack_switch` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                      |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1156` |
+
+##### `unicode/utf8.DecodeRune` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/unicode/utf8/utf8.go:157`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                      |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/unicode/utf8/utf8.go:161` |
+
+##### `runtime.pthread_cond_wait` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:487`)
+
+| Change |    Delta |      % |              Time | Samples | Location                                                                                       |
+| -----: | -------: | -----: | ----------------: | ------: | ---------------------------------------------------------------------------------------------- |
+|  -3.8% | -20.00ms | 100.0% | 530.0ms → 510.0ms | 53 → 51 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:488` |
+
+##### `encoding/json.stateInString` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:339`)
+
+|  Change |    Delta |            % |            Time | Samples | Location                                                                                          |
+| ------: | -------: | -----------: | --------------: | ------: | ------------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 25.0% → 0.0% |    10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:341` |
+|  -50.0% | -10.00ms |        50.0% | 20.0ms → 10.0ms |   2 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:344` |
+
+##### `runtime.tryDeferToSpanScan` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:264`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                                               |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------ |
+| +200.0% | +20.00ms |  8.3% → 30.0% | 10.0ms → 30.0ms |   1 → 3 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:272` |
+|  -66.7% | -20.00ms | 25.0% → 10.0% | 30.0ms → 10.0ms |   3 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:288` |
+| removed | -20.00ms |  16.7% → 0.0% |    20.0ms → 0ms |   2 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:290` |
+| removed | -10.00ms |   8.3% → 0.0% |    10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:274` |
+| removed | -10.00ms |   8.3% → 0.0% |    10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:282` |
+
+##### `runtime.scanObjectsSmall` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1015`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------- |
+| removed | -10.00ms |  33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1017` |
+| removed | -10.00ms |  33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1030` |
+| removed | -10.00ms |  33.3% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1043` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:1034` |
+
+##### `encoding/json.isSpace` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:201`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                          |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:202` |
+
+##### `internal/runtime/atomic.(*UnsafePointer).StoreNoWB` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:478`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/atomic/types.go:479` |
+
+##### `runtime.(*mcache).refill` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mcache.go:160`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                   |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mcache.go:187` |
+
+##### `runtime.mallocgcSmallScanNoHeader` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1503`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1581` |
+
+##### `encoding/json.(*decodeState).valueInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                          |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1048` |
+
+##### `runtime.(*spanInlineMarkBits).init` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:113`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                               |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:141` |
+
+##### `runtime.typePointers.next` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mbitmap.go:243`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                                                                                    |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mbitmap.go:244` |
+
+##### `runtime.gcBgMarkWorker` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                 |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1845` |
+
+##### `runtime.mProf_Malloc` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:437`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:455` |
+
+##### `runtime.profilealloc` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2238`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2246` |
+
+##### `runtime.mallocgcTiny` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1202`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1300` |
+
+##### `runtime.wbBufFlush1` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mwbbuf.go:195`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                                                                                   |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------ |
+| removed | -10.00ms | 50.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mwbbuf.go:273` |
+
+##### `encoding/json.checkValid` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:33`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                                                         |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| -50.0% | -10.00ms | 100.0% | 20.0ms → 10.0ms |   2 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:37` |
+
+##### `runtime.scanObjectSmall` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:980`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                               |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark_greenteagc.go:988` |
+
+##### `runtime.pthread_mutex_unlock` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:468`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                       |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:469` |
+
+##### `encoding/json.mapEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:789` |
+
+##### `cmpbody` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:35`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                                 |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------------------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:92` |
+
 ### Total time
 
 #### Regressions

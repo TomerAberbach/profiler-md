@@ -14,9 +14,8 @@ import type { SourceLocation } from '../location.ts'
 import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
-  ProfileToMdContext,
 } from '../options.ts'
-import type { Diff } from './diff.ts'
+import type { Diff, DiffSides } from './diff.ts'
 import type { Metric, MetricImprovement } from './metric.ts'
 import type { EntryCategory } from './registry.ts'
 import { formatDiffTable } from './table.ts'
@@ -174,7 +173,8 @@ export const diffRankingSentence = (
 
 /**
  * The increase and decrease subsections for one function direction (self or
- * total), under a {@link title} heading.
+ * total), under a {@link title} heading, followed by {@link detailSections}
+ * breaking down the functions they show.
  *
  * When nothing differed but {@link hasActive} functions exist on either side,
  * the section stays, with a "did not differ" note. When no functions are
@@ -191,6 +191,7 @@ export const formatDiffFunctionSections = <Entity, Row>({
   decreases,
   categoryRankings = [],
   rowOf,
+  detailSections = [],
 }: {
   headingLevel: number
   title: string
@@ -202,6 +203,7 @@ export const formatDiffFunctionSections = <Entity, Row>({
   decreases: Entity[]
   categoryRankings?: DiffCategoryRanking<Entity>[]
   rowOf: (entity: Entity) => Diff<Row>
+  detailSections?: RootContent[]
 }): RootContent[] => {
   const sections = diffRankings(improvement).flatMap(
     ({ change, title: subtitle }) =>
@@ -227,8 +229,56 @@ export const formatDiffFunctionSections = <Entity, Row>({
     sections.push(paragraph(`No function differed in ${description}.`))
   }
 
-  return formatSectionGroup([heading(headingLevel, title)], sections)
+  return formatSectionGroup(
+    [heading(headingLevel, title)],
+    [...sections, ...detailSections],
+  )
 }
+
+/**
+ * The distinct entities a diff's rankings show, in the order they first
+ * appear.
+ */
+export const shownDiffEntities = <Entity>({
+  improvement,
+  increases,
+  decreases,
+  categoryRankings = [],
+}: {
+  improvement: MetricImprovement
+  increases: Entity[]
+  decreases: Entity[]
+  categoryRankings?: DiffCategoryRanking<Entity>[]
+}): Entity[] => [
+  ...new Set(
+    diffRankings(improvement).flatMap(({ change }) =>
+      change === `increase`
+        ? [
+            ...increases,
+            ...categoryRankings.flatMap(({ increases }) => increases),
+          ]
+        : [
+            ...decreases,
+            ...categoryRankings.flatMap(({ decreases }) => decreases),
+          ],
+    ),
+  ),
+]
+
+/**
+ * Selects at most {@link limit} of {@link items}, ranked by the size of their
+ * change either way. An item whose value did not change is left out.
+ */
+export const selectLargestChanges = <Item>(
+  items: Item[],
+  limit: number,
+  changeOf: (item: Item) => number,
+): Item[] =>
+  selectTopN(
+    items.filter(item => changeOf(item) !== 0),
+    limit,
+    item => Math.abs(changeOf(item)),
+  )
 
 export const formatDiffRankingSections = <Entity, Row>({
   headingLevel,
@@ -348,12 +398,6 @@ export const resolveEntryFilter = ({
         sectionOptions: { ...options, showEntry: () => true },
         notes: [paragraph(disabledNote)],
       }
-
-/** The two sides of a diff, each stating the context it was aggregated under. */
-export type DiffSides = {
-  base: { context: ProfileToMdContext }
-  current: { context: ProfileToMdContext }
-}
 
 export const showDiffEntity = <
   Entry extends DeepReadonly<AggregatedProfileEntry>,

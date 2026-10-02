@@ -70,6 +70,269 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -1 |   0.5% → 0.0% |   1 → 0 | `is_import`                      | `black/nodes.py`             |
 | removed |    -1 |   0.5% → 0.0% |   1 → 0 | `_maybe_empty_lines`             | `black/lines.py`             |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self samples.
+
+##### `push` (`blib2to3/pgen2/parse.py`)
+
+|  Change | Delta |             % | Samples | Location                      |
+| ------: | ----: | ------------: | ------: | ----------------------------- |
+|     new |   +19 | 0.0% → 100.0% |  0 → 19 | `blib2to3/pgen2/parse.py:374` |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `blib2to3/pgen2/parse.py:386` |
+
+##### `visit_default` (`black/linegen.py`)
+
+|  Change | Delta |      % | Samples | Location               |
+| ------: | ----: | -----: | ------: | ---------------------- |
+| +500.0% |    +5 | 100.0% |   1 → 6 | `black/linegen.py:134` |
+
+##### `parse` (`ast.py`)
+
+| Change | Delta |      % | Samples | Location    |
+| -----: | ----: | -----: | ------: | ----------- |
+| +33.3% |    +5 | 100.0% | 15 → 20 | `ast.py:33` |
+
+##### `parse_tokens` (`blib2to3/pgen2/driver.py`)
+
+|  Change | Delta |      % | Samples | Location                       |
+| ------: | ----: | -----: | ------: | ------------------------------ |
+| +200.0% |    +4 | 100.0% |   2 → 6 | `blib2to3/pgen2/driver.py:114` |
+
+##### `mark` (`black/brackets.py`)
+
+|  Change | Delta |      % | Samples | Location               |
+| ------: | ----: | -----: | ------: | ---------------------- |
+| +200.0% |    +4 | 100.0% |   2 → 6 | `black/brackets.py:70` |
+
+##### `visit_power` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Location               |
+| -----: | ----: | ------------: | ------: | ---------------------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `black/linegen.py:341` |
+
+##### `append` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Location            |
+| ------: | ----: | ------------: | ------: | ------------------- |
+|     new |    +5 | 0.0% → 100.0% |   0 → 5 | `black/lines.py:52` |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `black/lines.py:63` |
+
+##### `<genexpr>` (`blib2to3/pgen2/tokenize.py`)
+
+|  Change | Delta |             % | Samples | Location                         |
+| ------: | ----: | ------------: | ------: | -------------------------------- |
+|     new |    +4 | 0.0% → 100.0% |   0 → 4 | `blib2to3/pgen2/tokenize.py:460` |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `blib2to3/pgen2/tokenize.py:471` |
+
+##### `run_transformer` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Location                |
+| -----: | ----: | ------------: | ------: | ----------------------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `black/linegen.py:1771` |
+
+##### `format_str` (`black/__init__.py`)
+
+| Change | Delta |             % | Samples | Location                 |
+| -----: | ----: | ------------: | ------: | ------------------------ |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `black/__init__.py:1168` |
+
+##### `__init__` (`blib2to3/pytree.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+|     new |    +4 |  0.0% → 80.0% |   0 → 4 | `blib2to3/pytree.py:389` |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `blib2to3/pytree.py:248` |
+|     new |    +1 |  0.0% → 20.0% |   0 → 1 | `blib2to3/pytree.py:237` |
+
+##### `visit_default` (`black/nodes.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+|     new |    +4 | 0.0% → 100.0% |   0 → 4 | `black/nodes.py:176` |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `black/nodes.py:187` |
+
+##### `hug_power_op` (`black/trans.py`)
+
+|  Change | Delta |             % | Samples | Location            |
+| ------: | ----: | ------------: | ------: | ------------------- |
+|     new |    +3 | 0.0% → 100.0% |   0 → 3 | `black/trans.py:81` |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `black/trans.py:85` |
+
+##### `__init_subclass__` (`typing.py`)
+
+| Change | Delta |             % | Samples | Location         |
+| -----: | ----: | ------------: | ------: | ---------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `typing.py:1820` |
+
+##### `parse_parts` (`pathlib.py`)
+
+| Change | Delta |             % | Samples | Location        |
+| -----: | ----: | ------------: | ------: | --------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `pathlib.py:55` |
+
+##### `check_stability_and_equivalence` (`black/__init__.py`)
+
+| Change | Delta |             % | Samples | Location                 |
+| -----: | ----: | ------------: | ------: | ------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `black/__init__.py:1042` |
+
+##### `wrap_in_parentheses` (`black/nodes.py`)
+
+| Change | Delta |             % | Samples | Location             |
+| -----: | ----: | ------------: | ------: | -------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `black/nodes.py:930` |
+
+##### `visit` (`black/nodes.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+|     new |    +5 | 0.0% → 100.0% |   0 → 5 | `black/nodes.py:152` |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `black/nodes.py:163` |
+
+##### `visit_suite` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Location               |
+| -----: | ----: | ------------: | ------: | ---------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `black/linegen.py:288` |
+
+##### `visit_simple_stmt` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Location               |
+| -----: | ----: | ------------: | ------: | ---------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `black/linegen.py:295` |
+
+##### `get_features_used` (`black/__init__.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+| removed |   -11 | 100.0% → 0.0% |  11 → 0 | `black/__init__.py:1307` |
+|     new |    +3 | 0.0% → 100.0% |   0 → 3 | `black/__init__.py:1286` |
+
+##### `normalize_trailing_prefix` (`black/comments.py`)
+
+| Change | Delta |      % | Samples | Location                |
+| -----: | ----: | -----: | ------: | ----------------------- |
+| -77.8% |    -7 | 100.0% |   9 → 2 | `black/comments.py:127` |
+
+##### `__new__` (`blib2to3/pytree.py`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+| removed |   -15 | 100.0% → 0.0% |  15 → 0 | `blib2to3/pytree.py:81` |
+|     new |    +8 | 0.0% → 100.0% |   0 → 8 | `blib2to3/pytree.py:70` |
+
+##### `_addtoken` (`blib2to3/pgen2/parse.py`)
+
+|  Change | Delta |             % | Samples | Location                      |
+| ------: | ----: | ------------: | ------: | ----------------------------- |
+| removed |   -28 | 100.0% → 0.0% |  28 → 0 | `blib2to3/pgen2/parse.py:290` |
+|     new |   +22 | 0.0% → 100.0% |  0 → 22 | `blib2to3/pgen2/parse.py:278` |
+
+##### `_stringify_ast_with_new_parent` (`black/parsing.py`)
+
+|  Change | Delta |             % | Samples | Location               |
+| ------: | ----: | ------------: | ------: | ---------------------- |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `black/parsing.py:166` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `black/parsing.py:174` |
+
+##### `__init__` (`<string>`)
+
+| Change | Delta |      % | Samples | Location     |
+| -----: | ----: | -----: | ------: | ------------ |
+| -66.7% |    -4 | 100.0% |   6 → 2 | `<string>:2` |
+
+##### `convert` (`blib2to3/pytree.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `blib2to3/pytree.py:486` |
+|     new |    +4 | 0.0% → 100.0% |   0 → 4 | `blib2to3/pytree.py:475` |
+
+##### `_stringify_ast` (`black/parsing.py`)
+
+|  Change | Delta |             % | Samples | Location               |
+| ------: | ----: | ------------: | ------: | ---------------------- |
+| removed |    -8 | 100.0% → 0.0% |   8 → 0 | `black/parsing.py:174` |
+|     new |    +5 | 0.0% → 100.0% |   0 → 5 | `black/parsing.py:182` |
+
+##### `pop` (`blib2to3/pgen2/parse.py`)
+
+|  Change | Delta |             % | Samples | Location                      |
+| ------: | ----: | ------------: | ------: | ----------------------------- |
+| removed |    -6 | 100.0% → 0.0% |   6 → 0 | `blib2to3/pgen2/parse.py:398` |
+|     new |    +3 | 0.0% → 100.0% |   0 → 3 | `blib2to3/pgen2/parse.py:386` |
+
+##### `generate_tokens` (`blib2to3/pgen2/tokenize.py`)
+
+|  Change | Delta |             % | Samples | Location                         |
+| ------: | ----: | ------------: | ------: | -------------------------------- |
+| removed |   -12 | 100.0% → 0.0% |  12 → 0 | `blib2to3/pgen2/tokenize.py:565` |
+|     new |    +9 | 0.0% → 100.0% |   0 → 9 | `blib2to3/pgen2/tokenize.py:554` |
+
+##### `shift` (`blib2to3/pgen2/parse.py`)
+
+|  Change | Delta |             % | Samples | Location                      |
+| ------: | ----: | ------------: | ------: | ----------------------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `blib2to3/pgen2/parse.py:373` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `blib2to3/pgen2/parse.py:361` |
+
+##### `normalize_invisible_parens` (`black/linegen.py`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `black/linegen.py:1328` |
+
+##### `pre_order` (`blib2to3/pytree.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `blib2to3/pytree.py:314` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `blib2to3/pytree.py:303` |
+
+##### `changed` (`blib2to3/pytree.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `blib2to3/pytree.py:171` |
+
+##### `is_def` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `black/lines.py:160` |
+
+##### `visit_stmt` (`black/linegen.py`)
+
+|  Change | Delta |             % | Samples | Location               |
+| ------: | ----: | ------------: | ------: | ---------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `black/linegen.py:199` |
+
+##### `leaves` (`blib2to3/pytree.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `blib2to3/pytree.py:221` |
+|     new |    +3 | 0.0% → 100.0% |   0 → 3 | `blib2to3/pytree.py:210` |
+
+##### `is_complex_subscript` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `black/lines.py:441` |
+
+##### `is_import` (`black/nodes.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `black/nodes.py:871` |
+
+##### `_maybe_empty_lines` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `black/lines.py:610` |
+
 ### Total samples
 
 #### Regressions

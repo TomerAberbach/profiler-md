@@ -1,9 +1,12 @@
-import { alignPositions } from '../helpers/align.ts'
+import { alignPositions, pairEqualPositions } from '../helpers/align.ts'
+import type { Pair } from '../helpers/align.ts'
+import type { SourceLocation } from '../location.ts'
 import type {
   NormalizedProfileToMdOptions,
   ProfileEntry,
   ProfileToMdContext,
 } from '../options.ts'
+import { functionIdentityForContext } from '../origins/index.ts'
 
 /**
  * A pairing of base and current data for an entity matched across the two
@@ -13,6 +16,12 @@ import type {
 export type Diff<Value> = {
   base?: Value
   current?: Value
+}
+
+/** The two sides of a diff, each stating the context it was aggregated under. */
+export type DiffSides = {
+  base: { context: ProfileToMdContext }
+  current: { context: ProfileToMdContext }
 }
 
 /** An entry matchable across the two sides of a diff by name and location. */
@@ -257,12 +266,7 @@ const pairGroups = <Entry extends DiffableEntry>(
   const pairs = new Int32Array(baseGroup.length).fill(-1)
   zipAlignedIndices(base, current, pairs)
   zipIndices(base.lineless, current.lineless, pairs)
-  const isPairedCurrent = new Uint8Array(currentGroup.length)
-  for (const pair of pairs) {
-    if (pair !== -1) {
-      isPairedCurrent[pair] = 1
-    }
-  }
+  const isPairedCurrent = pairedCurrentFlags(pairs, currentGroup.length)
   if (base.lineless.length > 0 || current.lineless.length > 0) {
     pairLoneLeftoversWithoutLine(base, current, pairs, isPairedCurrent)
   }
@@ -392,6 +396,20 @@ const zipIndices = (
   }
 }
 
+/** Flags each current index {@link pairs} pairs a base index with. */
+const pairedCurrentFlags = (
+  pairs: Int32Array,
+  currentLength: number,
+): Uint8Array => {
+  const isPairedCurrent = new Uint8Array(currentLength)
+  for (const pair of pairs) {
+    if (pair !== -1) {
+      isPairedCurrent[pair] = 1
+    }
+  }
+  return isPairedCurrent
+}
+
 /**
  * Returns the diffs in their groups' order, base entries first, so entries
  * whose values tie keep their order in a ranking.
@@ -420,6 +438,175 @@ const inGroupOrder = <Entry>(
     }
   }
   return diffs
+}
+
+/** A function whose executing lines a diff pairs. */
+type LineDiffableFunction<Metrics> = {
+  location?: SourceLocation
+  lineToMetrics: ReadonlyMap<number, Metrics>
+}
+
+/** An executing line and its metrics on one side of a diff. */
+export type DiffedLine<Metrics> = { line: number; metrics: Metrics }
+
+/**
+ * Pairs the executing lines of a function matched across a diff's two sides.
+ *
+ * When both sides identify the function by its definition line, each line's
+ * position is its distance from that line, so an edit above the function that
+ * moved it as a whole moves none of its lines. Otherwise a line's position is
+ * the line itself.
+ *
+ * Lines at equal positions pair first. The rest pair where aligning them with
+ * {@link alignPositions} moves at least {@link MINIMUM_SHIFTED_RUN} of them by
+ * one offset, as an edit inside the function moves the lines after it. A line
+ * is often sampled in one run only, so fewer lines at a new offset are more
+ * often two different lines than one that moved. A line that is not a finite
+ * number stays unpaired.
+ *
+ * Returns the base lines in order, then the unpaired current lines in order.
+ */
+export const matchDiffedLines = <Metrics>(
+  { base, current }: Diff<LineDiffableFunction<Metrics>>,
+  sides: DiffSides,
+): Diff<DiffedLine<Metrics>>[] => {
+  const baseLines = sortedLines(base)
+  const currentLines = sortedLines(current)
+  const baseAnchor = definitionLineOf(base, sides.base.context)
+  const currentAnchor = definitionLineOf(current, sides.current.context)
+  const anchors =
+    baseAnchor !== undefined && currentAnchor !== undefined
+      ? { base: baseAnchor, current: currentAnchor }
+      : { base: 0, current: 0 }
+  const basePositions = baseLines.finite.map(({ line }) => line - anchors.base)
+  const currentPositions = currentLines.finite.map(
+    ({ line }) => line - anchors.current,
+  )
+
+  const pairs = pairEqualPositions(basePositions, currentPositions)
+  pairShiftedRuns(basePositions, currentPositions, pairs)
+  const isPairedCurrent = pairedCurrentFlags(pairs, currentPositions.length)
+
+  const diffs: Diff<DiffedLine<Metrics>>[] = []
+  for (let index = 0; index < pairs.length; index++) {
+    const pair = pairs[index]!
+    diffs.push({
+      base: baseLines.finite[index]!,
+      current: pair === -1 ? undefined : currentLines.finite[pair],
+    })
+  }
+  for (const line of baseLines.nonFinite) {
+    diffs.push({ base: line })
+  }
+  for (let index = 0; index < currentLines.finite.length; index++) {
+    if (!isPairedCurrent[index]) {
+      diffs.push({ current: currentLines.finite[index]! })
+    }
+  }
+  for (const line of currentLines.nonFinite) {
+    diffs.push({ current: line })
+  }
+  return diffs
+}
+
+/**
+ * The fewest unpaired lines an alignment must move by one offset to pair them.
+ *
+ * Measured with `pnpm evaluate-diff-matching` on the committed version
+ * changes, pairing equal positions alone pairs 90.7% of the lines with their
+ * counterparts, at 99.7% precision. Adding the runs of at least 3 lines pairs
+ * 97.1%, at 99.8%. Runs of at least 2 pair 98.6%, at 98.6%, and aligning every
+ * line pairs 99.4%, at 88.8%.
+ */
+const MINIMUM_SHIFTED_RUN = 3
+
+/**
+ * Aligns the positions {@link pairs} leaves unpaired, and pairs each run of at
+ * least {@link MINIMUM_SHIFTED_RUN} consecutive aligned pairs that share an
+ * offset.
+ */
+const pairShiftedRuns = (
+  base: number[],
+  current: number[],
+  pairs: Int32Array,
+) => {
+  const unpairedBase: number[] = []
+  for (let index = 0; index < pairs.length; index++) {
+    if (pairs[index] === -1) {
+      unpairedBase.push(index)
+    }
+  }
+  const isPairedCurrent = pairedCurrentFlags(pairs, current.length)
+  const unpairedCurrent: number[] = []
+  for (let index = 0; index < current.length; index++) {
+    if (!isPairedCurrent[index]) {
+      unpairedCurrent.push(index)
+    }
+  }
+  if (
+    unpairedBase.length < MINIMUM_SHIFTED_RUN ||
+    unpairedCurrent.length < MINIMUM_SHIFTED_RUN
+  ) {
+    return
+  }
+
+  const alignedPairs = alignPositions(
+    unpairedBase.map(index => base[index]!),
+    unpairedCurrent.map(index => current[index]!),
+  )
+  const aligned: Pair[] = []
+  for (let index = 0; index < alignedPairs.length; index++) {
+    const pair = alignedPairs[index]!
+    if (pair !== -1) {
+      aligned.push({
+        base: unpairedBase[index]!,
+        current: unpairedCurrent[pair]!,
+      })
+    }
+  }
+
+  const offsetOf = ({ base: baseIndex, current: currentIndex }: Pair) =>
+    current[currentIndex]! - base[baseIndex]!
+  for (let start = 0; start < aligned.length;) {
+    const offset = offsetOf(aligned[start]!)
+    let end = start + 1
+    while (end < aligned.length && offsetOf(aligned[end]!) === offset) {
+      end++
+    }
+    if (end - start >= MINIMUM_SHIFTED_RUN) {
+      for (const pair of aligned.slice(start, end)) {
+        pairs[pair.base] = pair.current
+      }
+    }
+    start = end
+  }
+}
+
+const sortedLines = <Metrics>(
+  func: LineDiffableFunction<Metrics> | undefined,
+): { finite: DiffedLine<Metrics>[]; nonFinite: DiffedLine<Metrics>[] } => {
+  const finite: DiffedLine<Metrics>[] = []
+  const nonFinite: DiffedLine<Metrics>[] = []
+  for (const [line, metrics] of func?.lineToMetrics ?? []) {
+    ;(Number.isFinite(line) ? finite : nonFinite).push({ line, metrics })
+  }
+  finite.sort((left, right) => left.line - right.line)
+  return { finite, nonFinite }
+}
+
+/**
+ * The line a function is defined at, or `undefined` when its location is its
+ * call site or has no finite line.
+ */
+const definitionLineOf = (
+  func: LineDiffableFunction<unknown> | undefined,
+  context: ProfileToMdContext,
+): number | undefined => {
+  const line = func?.location?.line
+  return Number.isFinite(line) &&
+    functionIdentityForContext(context) === `definition`
+    ? line
+    : undefined
 }
 
 /**
