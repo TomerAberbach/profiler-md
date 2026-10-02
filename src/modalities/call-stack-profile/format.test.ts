@@ -1283,7 +1283,7 @@ describe(`formatCallStackProfileDiff`, () => {
       location: `src/a.ts:20:5 → 20:9`,
     },
     { base: { line: 10 }, current: { line: 10 }, location: `src/a.ts:10` },
-    { base: {}, current: { line: 10 }, location: `src/a.ts → src/a.ts:10` },
+    { base: {}, current: { line: 10 }, location: `src/a.ts:? → 10` },
   ])(
     `shows both locations of functions paired at $base and $current`,
     ({ base: basePosition, current: currentPosition, location }) => {

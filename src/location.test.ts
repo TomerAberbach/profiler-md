@@ -444,7 +444,27 @@ test.each<{
   {
     base: { type: `relative`, path: `a.js` },
     current: { type: `relative`, path: `a.js`, line: 20 },
-    expected: `a.js → a.js:20`,
+    expected: `a.js:? → 20`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: 20, column: 5 },
+    current: { type: `relative`, path: `a.js` },
+    expected: `a.js:20:5 → ?`,
+  },
+  {
+    base: { type: `relative`, path: `a.js` },
+    current: { type: `relative`, path: `a.js` },
+    expected: `a.js`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: Number.NaN },
+    current: { type: `relative`, path: `a.js`, line: 20 },
+    expected: `a.js:? → 20`,
+  },
+  {
+    base: { type: `relative`, path: `a.js`, line: 20, column: Number.NaN },
+    current: { type: `relative`, path: `a.js`, line: 20, column: 9 },
+    expected: `a.js:20 → 20:9`,
   },
   {
     base: { type: `relative`, path: `a.js`, line: 10 },

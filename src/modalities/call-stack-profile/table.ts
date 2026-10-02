@@ -218,11 +218,11 @@ const formatFrameLocation = (
   }
 
   const { line, column } = frame.location
-  if (line === undefined) {
+  if (!Number.isFinite(line)) {
     return []
   }
 
-  return [text(` (${line}${column === undefined ? `` : `:${column}`})`)]
+  return [text(` (${line}${Number.isFinite(column) ? `:${column}` : ``})`)]
 }
 
 /**
