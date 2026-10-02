@@ -203,7 +203,8 @@ export const formatSourceLocation = (
 /**
  * Formats the base and current locations of a diffed entity as
  * `base → current`, stating the path once when only the position differs
- * (`a.js:20:5 → 20:9`).
+ * (`a.js:20:5 → 20:9`). A side without a position states it as `?`
+ * (`a.js:? → 20`).
  */
 export const formatSourceLocationDiff = (
   base: SourceLocation | undefined,
@@ -216,10 +217,12 @@ export const formatSourceLocationDiff = (
     baseParts.path &&
     baseParts.kind === currentParts.kind &&
     baseParts.path === currentParts.path &&
-    baseParts.position &&
-    currentParts.position
+    (baseParts.position || currentParts.position)
   ) {
-    return `${baseParts.path}:${formatArrow(baseParts.position, currentParts.position)}`
+    return `${baseParts.path}:${formatArrow(
+      baseParts.position ?? `?`,
+      currentParts.position ?? `?`,
+    )}`
   }
 
   return formatArrow(
@@ -272,16 +275,18 @@ const formatSourceLocationParts = (
     path = sourceReferenceId(location)
   }
 
+  // A line or column that is not a finite number formats as absent, so a
+  // malformed input's location reads as one without that part.
   const kind = sourceReferenceKind(location)
   const { line, column } = location
-  if (line === undefined) {
+  if (!Number.isFinite(line)) {
     return { kind, path }
   }
 
   return {
     kind,
     path,
-    position: column === undefined ? String(line) : `${line}:${column}`,
+    position: Number.isFinite(column) ? `${line}:${column}` : String(line),
   }
 }
 
