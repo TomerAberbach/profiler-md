@@ -25,3 +25,13 @@ Functions with the largest decrease in total wall time spent in the function and
 | Change |   Delta |     % |  Time | Function                | Location |
 | -----: | ------: | ----: | ----: | ----------------------- | -------- |
 |  -0.1% | -2.00µs | 10.3% | 2.0ms | `escape_binary_ascii/5` | `json`   |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `escape_binary_ascii/5` (`json`)
+
+|  Change |   Delta |           % |        Time | Callee  | Location    |
+| ------: | ------: | ----------: | ----------: | ------- | ----------- |
+| removed | -2.00µs | 0.1% → 0.0% | 2.0µs → 0ms | `sleep` | `<unknown>` |

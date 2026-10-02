@@ -7,7 +7,8 @@ export const UNPAIRED_COST = 2
  * offset takes one change to enter and one to leave, so the alignment starts a
  * new offset only for a run of at least two pairs, or for a run that ends the
  * lists, which it never leaves. A lower cost pairs a lone position whose
- * offset neither neighbor shares, and a higher one requires longer runs.
+ * offset neither adjacent position shares, and a higher one requires longer
+ * runs.
  */
 export const OFFSET_CHANGE_COST = 3.5
 
@@ -29,7 +30,7 @@ type Costs = { offsetChange: number; offset: number }
  * a fixed cost per pair whose offset differs from the previous pair's, starting
  * from offset `0`. Positions that moved together by one offset cost nothing,
  * however far apart they are or how many unpaired positions are between them.
- * A position whose offset differs from both of its neighbors' stays unpaired,
+ * A position whose offset differs from both adjacent positions' stays unpaired,
  * because pairing it would take two edits. Among alignments with equal cost,
  * the one returned has the least sum of its pairs' absolute offsets, so a
  * position with several candidates at one cost pairs with the nearest.

@@ -239,18 +239,18 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
  * surplus members are one-sided.
  *
  * The alignment fits how an edit and sampling each change a group:
- * - An edit moves every function after it by the same amount, so a moved
- *   function's neighbors moved with it. The alignment pairs a run of members at
- *   one offset
+ * - An edit moves every function after it by the same amount, so the
+ *   functions beside a moved function moved with it. The alignment pairs a
+ *   run of members at one offset
  * - A member with no counterpart was sampled in one run only, or added or
  *   removed. A run of pairs continues past it at no cost
- * - A member whose offset neither neighbor shares stays unpaired, because an
- *   edit that moved it would have moved its neighbors too
- * - A member whose neighbors in its group went unsampled has none to move
- *   with, but its file's other functions moved with it. A member the alignment
- *   leaves unpaired pairs with the other side's unpaired member at the offset
- *   of a key of one entry per side just before or after it in its file, which
- *   an edit around it moved by the same amount
+ * - A member whose offset neither adjacent member shares stays unpaired,
+ *   because an edit that moved it would have moved its adjacent members too
+ * - A member whose adjacent members in its group went unsampled has none to
+ *   move with, but its file's other functions moved with it. A member the
+ *   alignment leaves unpaired pairs with the other side's unpaired member at
+ *   the offset of a key of one entry per side just before or after it in its
+ *   file, which an edit around it moved by the same amount
  *
  * Other profilers' diffs pair no functions by position. pprof, Pyroscope,
  * Parca, and async-profiler merge the functions that share a name. The Firefox
@@ -655,6 +655,45 @@ const inGroupOrder = <Entry>(
     }
   }
   return diffs
+}
+
+/**
+ * Pairs each side's values keyed by function ID, such as a function's caller
+ * metrics, by the function diff each side's ID belongs to.
+ */
+export type FunctionIdMatcher = <Value>(
+  base: Iterable<readonly [number, Value]> | undefined,
+  current: Iterable<readonly [number, Value]> | undefined,
+) => Diff<Value>[]
+
+/**
+ * Returns a function that pairs each side's values keyed by function ID by the
+ * function diff each side's ID belongs to.
+ */
+export const functionIdMatcher = (
+  functionDiffs: readonly Diff<{ id: number }>[],
+): FunctionIdMatcher => {
+  // Sparse arrays, since IDs are sequential within a side.
+  const baseIdToFunction: Diff<{ id: number }>[] = []
+  const currentIdToFunction: Diff<{ id: number }>[] = []
+  for (const functionDiff of functionDiffs) {
+    if (functionDiff.base) {
+      baseIdToFunction[functionDiff.base.id] = functionDiff
+    }
+    if (functionDiff.current) {
+      currentIdToFunction[functionDiff.current.id] = functionDiff
+    }
+  }
+  return (base, current) => [
+    ...matchDiffedMaps(
+      Iterator.from(base ?? []).map(
+        ([id, value]) => [baseIdToFunction[id]!, value] as const,
+      ),
+      Iterator.from(current ?? []).map(
+        ([id, value]) => [currentIdToFunction[id]!, value] as const,
+      ),
+    ).values(),
+  ]
 }
 
 /** A function whose executing lines a diff pairs. */
