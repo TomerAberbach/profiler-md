@@ -66,6 +66,9 @@ importers:
       '@fast-check/vitest':
         specifier: ^0.5.0
         version: 0.5.0(vitest@5.0.2)
+      '@optique/man':
+        specifier: ^1.3.2
+        version: 1.3.2
       '@rollup/plugin-terser':
         specifier: ^1.0.0
         version: 1.0.0
@@ -346,6 +349,11 @@ packages:
   '@optique/core@1.3.2':
     resolution: {integrity: sha512-YVdAuhx7l2UcnoeAsAuRgQ5LDGlixwQ6LuSmhiNPwZt29PU4rCkbTgo8P2o+OmF8MHKCJkaApYhKY6+QYhVWiw==}
     engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
+
+  '@optique/man@1.3.2':
+    resolution: {integrity: sha512-XGuBzU8QwC3e31MN9hHDey2uopJRfAjjRl42IAzFQP41MCPnReRvMxczO6D3zz5FAvyjd7HyhHSdZZc5Cz5jXw==}
+    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
+    hasBin: true
 
   '@optique/run@1.3.2':
     resolution: {integrity: sha512-9Dovp3LHLmUZok7Eyzx0NAY+gh3tr/VA9cOmBuWDxioBayZGAStszLUHh1y9o9zuv31mNdeFgDUW9vY1vwJ/Ag==}
@@ -3381,6 +3389,11 @@ snapshots:
     optional: true
 
   '@optique/core@1.3.2': {}
+
+  '@optique/man@1.3.2':
+    dependencies:
+      '@optique/core': 1.3.2
+      '@optique/run': 1.3.2
 
   '@optique/run@1.3.2':
     dependencies:

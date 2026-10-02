@@ -9,10 +9,23 @@ import type { Logger, LogLevel } from '../logger.ts'
 import { stderrSupportsColor } from './ansis.ts'
 import { getUsageHint } from './help.ts'
 
-export class CliError extends ProfilerMdError {
-  public readonly exitCode: 1 | 2
+/** Each status the CLI exits with, and what it means. */
+export const EXIT_STATUSES = {
+  0: `Success`,
+  1: `The input or a file could not be read, converted, or written, or ${packageJson.name} failed with a bug`,
+  2: `The flags or arguments are invalid`,
+} as const
 
-  public constructor(message: string, exitCode: 1 | 2, options?: ErrorOptions) {
+type ErrorExitCode = Exclude<keyof typeof EXIT_STATUSES, 0>
+
+export class CliError extends ProfilerMdError {
+  public readonly exitCode: ErrorExitCode
+
+  public constructor(
+    message: string,
+    exitCode: ErrorExitCode,
+    options?: ErrorOptions,
+  ) {
     super(message, options)
     // eslint-disable-next-line stylistic/quotes
     this.name = 'CliError'

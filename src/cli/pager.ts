@@ -4,6 +4,19 @@ import type { Writable } from 'node:stream'
 import { isClosedReaderError } from './error.ts'
 import type { Output } from './output.ts'
 
+export const DEFAULT_PAGER = `less`
+
+/**
+ * Default `less` flags, overridable via the user's `LESS`:
+ * - `F`: Quit if output fits one screen
+ * - `I`: Ignore case in searches
+ * - `R`: Pass through ANSI colors
+ * - `S`: Chop long lines instead of wrapping
+ * - `X`: Don't clear the screen on exit
+ * - `-#6`: Scroll horizontally 6 columns at a time
+ */
+export const DEFAULT_LESS = `FIRSX -#6`
+
 /**
  * Opens the user's pager, or `less`. Returns `null` when an empty `PAGER` opts
  * out of paging or no pager spawns.
@@ -20,19 +33,12 @@ export const openPager = async (fallback: Output): Promise<Output | null> => {
   }
 
   const env = {
-    // Default `less` flags (overridable via the user's `LESS`):
-    // - `F`: Quit if output fits one screen
-    // - `I`: Ignore case in searches
-    // - `R`: Pass through ANSI colors
-    // - `S`: Chop long lines instead of wrapping
-    // - `X`: Don't clear the screen on exit
-    // - `-#6`: Scroll horizontally 6 columns at a time
-    LESS: `FIRSX -#6`,
+    LESS: DEFAULT_LESS,
     ...process.env,
   }
   const child =
     (raw === undefined ? null : await trySpawn(raw, env)) ??
-    (await trySpawn(`less`, env))
+    (await trySpawn(DEFAULT_PAGER, env))
   if (!child) {
     return null
   }

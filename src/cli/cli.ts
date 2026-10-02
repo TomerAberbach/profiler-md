@@ -1,7 +1,7 @@
 import type { InferValue } from '@optique/core'
 import { merge, object, or, tuple } from '@optique/core/constructs'
 import { message, text, value } from '@optique/core/message'
-import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
+import { map, multiple, optional } from '@optique/core/modifiers'
 import { argument, flag } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
 import type { ValueParser } from '@optique/core/valueparser'
@@ -11,10 +11,11 @@ import { LOG_LEVELS } from '../logger.ts'
 import { FUNCTION_CATEGORY_SET } from '../modalities/category-sets.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import type { EntryCategory } from '../modalities/registry.ts'
+import { DEFAULT_MIN_CATEGORY_SHARE, DEFAULT_TOP_N } from '../options.ts'
 import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
-import { defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
+import { DEFAULT_LOG_LEVEL, defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
 import {
   choice,
   filePath,
@@ -24,6 +25,7 @@ import {
   nonEmptyString,
   option,
   regex,
+  withDefault,
 } from './optique.ts'
 
 const unicodeRegex = regex()
@@ -97,10 +99,12 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
 })
 
 export const inputParser = or(
-  optional(
+  withDefault(
     argument(filePath(`FILE`), {
-      description: message`Profile to convert (default: stdin)`,
+      description: message`Profile to convert`,
     }),
+    undefined,
+    `stdin`,
   ),
   tuple([
     argument(filePath(`BASE`), {
@@ -112,12 +116,16 @@ export const inputParser = or(
   ]),
 )
 
+/** The `--format` and `--origin` value meaning the format or origin is detected. */
+const AUTO = `auto`
+
 const outputFlags = object(`Output`, {
   output: withDefault(
     option(`-o`, `--output`, filePath(`FILE`), {
-      description: message`Output file (default: - for stdout)`,
+      description: message`Output file`,
     }),
     `-`,
+    `- for stdout`,
   ),
   logLevel: withDefault(
     option(
@@ -129,37 +137,41 @@ const outputFlags = object(`Output`, {
         suggestions: [],
       }),
       {
-        description: message`Verbosity of diagnostics printed to stderr, overriding ${text(`$${LOG_LEVEL_ENV}`)} (default: warn)`,
+        description: message`Verbosity of diagnostics printed to stderr, overriding ${text(`$${LOG_LEVEL_ENV}`)}`,
       },
     ),
     defaultLogLevel,
+    DEFAULT_LOG_LEVEL,
   ),
   pager: map(
-    option(`--no-pager`, {
-      description: message`Disable stdout paging (default: auto)`,
-    }),
+    withDefault(
+      option(`--no-pager`, {
+        description: message`Disable stdout paging`,
+      }),
+      false,
+      AUTO,
+    ),
     value => !value,
   ),
-  color: optional(
+  color: withDefault(
     negatableFlag(
       { positive: `--color`, negative: `--no-color` },
       {
-        description: message`Enable or disable ANSI syntax highlighting (default: auto)`,
+        description: message`Enable or disable ANSI syntax highlighting`,
       },
     ),
+    undefined,
+    AUTO,
   ),
 })
 
-/** The `--format` and `--origin` value meaning the format or origin is detected. */
-const AUTO = `auto`
-
 const specified = <Value extends string>(
-  value: Value | typeof AUTO | undefined,
+  value: Value | typeof AUTO,
 ): Value | undefined => (value === AUTO ? undefined : value)
 
 const inputFlags = object(`Input`, {
   format: map(
-    optional(
+    withDefault(
       option(
         `-f`,
         `--format`,
@@ -168,14 +180,15 @@ const inputFlags = object(`Input`, {
           expected: `auto or a format listed by --help`,
         }),
         {
-          description: message`Input profile format (default: auto)`,
+          description: message`Input profile format`,
         },
       ),
+      AUTO,
     ),
     specified,
   ),
   origin: map(
-    optional(
+    withDefault(
       option(
         `-r`,
         `--origin`,
@@ -184,9 +197,10 @@ const inputFlags = object(`Input`, {
           expected: `auto or an origin listed by --help`,
         }),
         {
-          description: message`Input profile origin (default: auto)`,
+          description: message`Input profile origin`,
         },
       ),
+      AUTO,
     ),
     specified,
   ),
@@ -195,23 +209,27 @@ const inputFlags = object(`Input`, {
       description: message`Source maps (JSON or inline) to apply to locations (repeatable)`,
     }),
   ),
-  baseURL: optional(
+  baseURL: withDefault(
     option(`--base-url`, nonEmptyString(`STRING`, `a URL or path`), {
-      description: message`Base URL or path to show paths relative to, or auto for their common ancestor (default: cwd)`,
+      description: message`Base URL or path to show paths relative to, or auto for their common ancestor`,
     }),
+    undefined,
+    `cwd`,
   ),
 })
 
 const rankingFlags = object(`Ranking`, {
-  topN: optional(
+  topN: withDefault(
     option(`--top-n`, integerAtLeast(`N`, 0), {
-      description: message`Entries to show per ranking, including category subsections (default: 20)`,
+      description: message`Entries to show per ranking, including category subsections`,
     }),
+    DEFAULT_TOP_N,
   ),
-  minCategoryShare: optional(
+  minCategoryShare: withDefault(
     option(`--min-category-share`, fraction(`FRACTION`), {
-      description: message`Share of a profile a category needs for its own subsection, from 0 to 1 (default: 0.01)`,
+      description: message`Share of a profile a category needs for its own subsection, from 0 to 1`,
     }),
+    DEFAULT_MIN_CATEGORY_SHARE,
   ),
 })
 

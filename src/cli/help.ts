@@ -5,8 +5,9 @@ import {
   commandLine,
   createMessageFormatter,
   message,
+  text,
 } from '@optique/core/message'
-import type { Message } from '@optique/core/message'
+import type { Message, MessageTerm } from '@optique/core/message'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats, formatToSpec } from '../formats/index.ts'
@@ -113,11 +114,14 @@ export const getHelpText = ({
   const style = makeStyle(colors)
   return [
     getHeaderText(style),
-    style.page({ sections: getSections() }),
+    style.page({ sections: getDocSections() }),
     ...LISTS.map(([label, items]) => formatList(label, items, style)),
     `\n${style.label(`Docs:`)} ${style.url(packageJson.homepage)}\n${style.label(`Bugs:`)} ${style.url(packageJson.bugs.url)}\n`,
   ].join(``)
 }
+
+/** Where the per-language and per-format help is, to follow "Run". */
+export const helpTopicsHint: Message = message`${commandLine(`${program.metadata.name} --help <language>`)} for how to profile a language, and ${commandLine(`${program.metadata.name} --help <format>`)} for what a format contains`
 
 /** The description, the synopsis, the examples, and where the rest of the help is. */
 export const getBriefHelpText = ({
@@ -126,7 +130,7 @@ export const getBriefHelpText = ({
   const style = makeStyle(colors)
   const { name } = program.metadata
   const footer = style.message(
-    message`Run ${commandLine(`${name} --help`)} for every flag, ${commandLine(`${name} --help <language>`)} for how to profile a language, and ${commandLine(`${name} --help <format>`)} for what a format contains.`,
+    message`Run ${commandLine(`${name} --help`)} for every flag, ${helpTopicsHint}.`,
   )
   return `${getHeaderText(style)}\n${footer}\n`
 }
@@ -162,7 +166,7 @@ const inputUsages: Usage[] = inputParser.usage
  * The ways to invoke the CLI, in place of the usage Optique derives from every
  * flag: each input alternative with the flags, and the help.
  */
-const usage: Usage = [
+export const usage: Usage = [
   {
     type: `exclusive`,
     terms: [
@@ -223,6 +227,45 @@ export const getSections = (): DocSection[] =>
       : section,
   )
 
+/** The parser's sections in display order, each default in its description. */
+export const getDocSections = (): DocSection[] =>
+  getSections().sort(sectionOrder).map(describeDefaults)
+
+/**
+ * Appends each entry's default to its description. Optique's `showDefault`, and
+ * its wrapping of a text term that starts with a space, indent a wrapped
+ * default by one column, so the default joins the description's text.
+ */
+export const describeDefaults = (section: DocSection): DocSection => ({
+  ...section,
+  entries: section.entries.map(({ default: defaultValue, ...entry }) =>
+    defaultValue === undefined
+      ? entry
+      : {
+          ...entry,
+          description: joinTexts([
+            ...(entry.description ?? []),
+            text(` (default: `),
+            ...defaultValue,
+            text(`)`),
+          ]),
+        },
+  ),
+})
+
+const joinTexts = (message: Message): Message => {
+  const joined: MessageTerm[] = []
+  for (const term of message) {
+    const last = joined.at(-1)
+    if (term.type === `text` && last?.type === `text`) {
+      joined[joined.length - 1] = text(`${last.text}${term.text}`)
+    } else {
+      joined.push(term)
+    }
+  }
+  return joined
+}
+
 /** The section the flags `runParser` adds to the parser are listed under. */
 const RUN_PARSER_SECTION = `Help`
 
@@ -238,7 +281,7 @@ const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
   },
 ]
 
-const LISTS: readonly (readonly [string, readonly string[]])[] = [
+export const LISTS: readonly (readonly [string, readonly string[]])[] = [
   [`Formats`, formats],
   [`Origins`, origins],
   ...CATEGORY_SETS.map(({ title, categories }) => [title, categories] as const),

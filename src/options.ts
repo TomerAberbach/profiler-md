@@ -306,9 +306,13 @@ export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
   sourceMaps: SourceMapResolver
 }
 
+export const DEFAULT_TOP_N = 20
+
+export const DEFAULT_MIN_CATEGORY_SHARE = 0.01
+
 export const normalizeProfileToMdOptions = ({
-  topN = 20,
-  minCategoryShare = 0.01,
+  topN = DEFAULT_TOP_N,
+  minCategoryShare = DEFAULT_MIN_CATEGORY_SHARE,
   baseURL,
   sourceMaps = [],
   logger,
