@@ -1,3 +1,4 @@
+import type { FluentParser } from '@optique/core/fluent'
 import {
   lineBreak,
   message,
@@ -8,7 +9,9 @@ import {
   valueSet,
 } from '@optique/core/message'
 import type { Message, MessageTerm } from '@optique/core/message'
+import { withDefault as withDefaultBuiltin } from '@optique/core/modifiers'
 import type { NonEmptyString } from '@optique/core/nonempty'
+import type { Mode, Parser } from '@optique/core/parser'
 import {
   negatableFlag as negatableFlagBuiltin,
   option as optionBuiltin,
@@ -35,6 +38,24 @@ import type {
 import { path } from '@optique/run'
 import { reasonOf } from '../error.ts'
 import { uncapitalizeFirst } from '../helpers/format.ts'
+
+/**
+ * Defaults `parser` to `defaultValue`, which help shows as `label`, or as the
+ * value itself when `label` is omitted. Help would otherwise quote a plain
+ * value, and show a default read from the environment as the environment held
+ * it when the help was generated, so pass a `label` with a function.
+ */
+export const withDefault = <
+  M extends Mode,
+  TValue,
+  TState,
+  const TDefault = TValue,
+>(
+  parser: Parser<M, TValue, TState>,
+  defaultValue: TDefault | (() => TDefault),
+  label = String(defaultValue),
+): FluentParser<M, TValue | TDefault, [TState] | undefined> =>
+  withDefaultBuiltin(parser, defaultValue, { message: [text(label)] })
 
 /**
  * Parses a regex compiled with `flags`, stating the reason when it fails to

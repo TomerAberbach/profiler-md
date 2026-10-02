@@ -6,12 +6,14 @@ import type { KindlingPalette } from './theme-kindling.ts'
 
 export const LOG_LEVEL_ENV = `PROFILER_MD_LOG`
 
+export const DEFAULT_LOG_LEVEL: LogLevel = `warn`
+
 /**
- * The log level the environment sets, or the default `warn` when it sets none
+ * The log level the environment sets, or the default when it sets none
  * or an unrecognized one. An empty value counts as unset.
  */
 export const defaultLogLevel = (): LogLevel =>
-  parseLogLevelEnv(process.env[LOG_LEVEL_ENV]) ?? `warn`
+  parseLogLevelEnv(process.env[LOG_LEVEL_ENV]) ?? DEFAULT_LOG_LEVEL
 
 export const warnInvalidLogLevelEnv = (
   logger: Logger,

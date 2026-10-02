@@ -14,7 +14,7 @@ profiler-md
 │   ├── cli/
 │   │   ├── index.ts              # CLI entry point that orchestrates the run
 │   │   ├── cli.ts                # Optique flag and topic definitions, and the program
-│   │   ├── optique.ts            # Optique primitive and value parser wrappers that state errors in this CLI's style
+│   │   ├── optique.ts            # Optique primitive, modifier, and value parser wrappers that state errors and defaults in this CLI's style
 │   │   ├── parse-args.ts         # Runs the Optique parser over argv, restating its errors in this CLI's style
 │   │   ├── input.ts              # Opens stdin or a file as a Blob, reporting a read failure
 │   │   ├── options.ts            # Builds API options from CLI flags
@@ -25,6 +25,7 @@ profiler-md
 │   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
 │   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color), and a plain Ansis for uncolored output
 │   │   ├── help.ts               # Prints CLI help (synopsis, examples, flag sections) and per-topic docs
+│   │   ├── man.ts                # The profiler-md(1) man page, built from the help's synopsis, flag sections, and examples
 │   │   ├── languages.ts          # Language display metadata, including each language's Devicon icon
 │   │   ├── devicon-icons.txt     # Pinned Devicon icon names the languages test checks each language's icon against
 │   │   ├── examples.ts           # Parses metadata from examples/ filenames
@@ -180,6 +181,7 @@ profiler-md
 │   │   ├── synthetic-edits.ts    # Seeded edits to one source reference of the current side, and the position map they produce
 │   │   ├── score.ts              # Pairs two inputs' functions as a diff does and scores the pairs against a position map
 │   │   └── table.ts              # Prints a table of scores per pair or origin
+│   ├── build-man.ts              # Write the man page to dist/man/ (run by `pnpm build`)
 │   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
 │   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
 │
