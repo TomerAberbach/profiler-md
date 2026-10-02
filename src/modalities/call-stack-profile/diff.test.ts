@@ -1,11 +1,14 @@
+import type { RootContent } from 'mdast'
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import { nodesUnderHeading, parseMd } from '../../helpers/testing.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
   callersTables,
   categoryRankingTables,
   linesTables,
+  rankingTables,
 } from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'
 import {
@@ -1506,16 +1509,20 @@ describe(`formatCallStackProfileDiff lines`, () => {
   })
 })
 
-describe(`formatCallStackProfileDiff callers and callees`, () => {
-  const func = (name: string, count: number, stack?: number[]) => ({
-    name,
-    url: `file:///project/src/${name}.ts`,
-    line: 1,
-    selfValues: [count],
-    selfCount: count,
-    stack,
-  })
+const func = (
+  name: string,
+  count: number,
+  { stack, line = 1 }: { stack?: number[]; line?: number } = {},
+) => ({
+  name,
+  url: `file:///project/src/${name}.ts`,
+  line,
+  selfValues: [count],
+  selfCount: count,
+  stack,
+})
 
+describe(`formatCallStackProfileDiff callers and callees`, () => {
   const formatDiff = (options = defaultOptions) =>
     mdastToMarkdown(
       formatCallStackProfileDiff(
@@ -1523,18 +1530,18 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
           makeAggregatedCallStackProfile(
             [MICROSECONDS_METRIC],
             [
-              func(`leaf`, 4, [0, 1]),
+              func(`leaf`, 4, { stack: [0, 1] }),
               func(`parent`, 0),
-              func(`leaf`, 1, [2, 3]),
+              func(`leaf`, 1, { stack: [2, 3] }),
               func(`gone`, 0),
             ],
           ),
           makeAggregatedCallStackProfile(
             [MICROSECONDS_METRIC],
             [
-              func(`leaf`, 6, [0, 1]),
+              func(`leaf`, 6, { stack: [0, 1] }),
               func(`parent`, 0),
-              func(`leaf`, 2, [2, 3]),
+              func(`leaf`, 2, { stack: [2, 3] }),
               func(`other`, 0),
             ],
           ),
@@ -1574,6 +1581,41 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
           Samples: `1 → 0`,
           Caller: `gone`,
           Location: `./src/gone.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs call stacks across the sides by their functions`, () => {
+    expect(rankingTables(md, `Hottest call stacks`, `Regressions`)).toEqual([
+      [
+        {
+          Change: `+50.0%`,
+          Delta: `+2.00µs`,
+          '%': `80.0% → 75.0%`,
+          Time: `4.0µs → 6.0µs`,
+          Samples: `4 → 6`,
+          'Call stack': `leaf (./src/leaf.ts:1) ← parent (./src/parent.ts:1)`,
+        },
+        {
+          Change: `new`,
+          Delta: `+2.00µs`,
+          '%': `0.0% → 25.0%`,
+          Time: `0ms → 2.0µs`,
+          Samples: `0 → 2`,
+          'Call stack': `leaf (./src/leaf.ts:1) ← other (./src/other.ts:1)`,
+        },
+      ],
+    ])
+    expect(rankingTables(md, `Hottest call stacks`, `Improvements`)).toEqual([
+      [
+        {
+          Change: `removed`,
+          Delta: `-1.00µs`,
+          '%': `20.0% → 0.0%`,
+          Time: `1.0µs → 0ms`,
+          Samples: `1 → 0`,
+          'Call stack': `leaf (./src/leaf.ts:1) ← gone (./src/gone.ts:1)`,
         },
       ],
     ])
@@ -1651,5 +1693,97 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
         },
       ],
     ])
+  })
+})
+
+describe(`formatCallStackProfileDiff call stacks`, () => {
+  const formatDiff = (
+    base: ReturnType<typeof func>[],
+    current: ReturnType<typeof func>[],
+    options = defaultOptions,
+  ) =>
+    mdastToMarkdown(
+      formatCallStackProfileDiff(
+        diffAggregatedCallStackProfiles(
+          makeAggregatedCallStackProfile([MICROSECONDS_METRIC], base),
+          makeAggregatedCallStackProfile([MICROSECONDS_METRIC], current),
+          options,
+        ),
+        options,
+      ),
+    )
+
+  const callStacksSection = (md: string) =>
+    mdastToMarkdown(
+      nodesUnderHeading(parseMd(md), `Hottest call stacks`) as RootContent[],
+    )
+
+  test(`states that no call stack differed when every call stack is unchanged`, () => {
+    const profile = [func(`leaf`, 4, { stack: [0, 1] }), func(`parent`, 0)]
+
+    expect(callStacksSection(formatDiff(profile, profile))).toBe(
+      `No call stack differed in time spent in its leaf frame.\n`,
+    )
+  })
+
+  test(`ends a ranking's opening sentence with a note when it hides frames`, () => {
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name !== `middle`,
+    })
+
+    const md = formatDiff(
+      [
+        func(`leaf`, 4, { stack: [0, 1, 2] }),
+        func(`middle`, 0),
+        func(`parent`, 0),
+      ],
+      [
+        func(`leaf`, 6, { stack: [0, 1, 2] }),
+        func(`middle`, 0),
+        func(`parent`, 0),
+      ],
+      options,
+    )
+
+    expect(callStacksSection(md)).toBe(
+      [
+        `### Regressions`,
+        ``,
+        `Call stacks with the largest increase in time spent in their leaf frame. \`…\` stands for hidden frames.`,
+        ``,
+        `| Change |   Delta |      % |          Time | Samples | Call stack                                                      |`,
+        `| -----: | ------: | -----: | ------------: | ------: | --------------------------------------------------------------- |`,
+        `| +50.0% | +2.00µs | 100.0% | 4.0µs → 6.0µs |   4 → 6 | \`leaf\` (\`./src/leaf.ts:1\`) ← … ← \`parent\` (\`./src/parent.ts:1\`) |`,
+        ``,
+      ].join(`\n`),
+    )
+  })
+
+  test(`takes the common call stack's locations from the current side`, () => {
+    const md = formatDiff(
+      [
+        func(`gone`, 5, { stack: [0, 1] }),
+        func(`parent`, 0),
+        func(`leaf`, 3, { stack: [2, 1] }),
+      ],
+      [func(`leaf`, 1, { stack: [0, 1] }), func(`parent`, 0, { line: 5 })],
+    )
+
+    expect(callStacksSection(md)).toBe(
+      [
+        `### Improvements`,
+        ``,
+        `Call stacks with the largest decrease in time spent in their leaf frame.`,
+        ``,
+        `Common call stack: \`parent\` (\`./src/parent.ts:5\`)`,
+        ``,
+        `|  Change |   Delta |              % |          Time | Samples | Call stack                 |`,
+        `| ------: | ------: | -------------: | ------------: | ------: | -------------------------- |`,
+        `| removed | -0.01ms |   62.5% → 0.0% |   5.0µs → 0ms |   5 → 0 | \`gone\` (\`./src/gone.ts:1\`) |`,
+        `|  -66.7% | -2.00µs | 37.5% → 100.0% | 3.0µs → 1.0µs |   3 → 1 | \`leaf\` (\`./src/leaf.ts:1\`) |`,
+        ``,
+      ].join(`\n`),
+    )
   })
 })

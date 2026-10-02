@@ -1040,3 +1040,63 @@ Callees with the largest change in contribution to each function's total time. I
 | ------: | ------: | ------------: | ------------: | ------: | --------- | -------------------------------------- |
 |  -62.5% | -5.01ms | 80.0% → 75.0% | 8.0ms → 3.0ms |   8 → 3 | `0x8faf4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 | removed | -1.00ms |  10.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x8fb44` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+## Hottest call stacks
+
+### Regressions
+
+Call stacks with the largest increase in time spent in their leaf frame.
+
+Common call stack: `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27818` ← `0x1c30` (`./binary`)
+
+| Change |    Delta |           % |         Time | Samples | Call stack                                                                                                                |
+| -----: | -------: | ----------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------- |
+|    new | +14.01ms | 0.0% → 2.6% | 0ms → 14.0ms |  0 → 14 | `0x46f0` (`./binary`) ← `0x13620` ← `0x13b80` ← `0x1ab4`                                                                  |
+|    new | +14.01ms | 0.0% → 2.6% | 0ms → 14.0ms |  0 → 14 | `0x4f24` (`./binary`) ← `0x13b70` ← `0x1ab4`                                                                              |
+|    new | +11.01ms | 0.0% → 2.0% | 0ms → 11.0ms |  0 → 11 | `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x13b38` (`./binary`) ← `0x1ab4`                                    |
+|    new | +11.01ms | 0.0% → 2.0% | 0ms → 11.0ms |  0 → 11 | `0x137f80` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `0x115dc` (`./binary`) ← `0x1364c` ← `0x13b80` ← `0x1ab4` |
+|    new | +10.01ms | 0.0% → 1.9% | 0ms → 10.0ms |  0 → 10 | `0x9e6c0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x1388c` (`./binary`) ← `0x13b80` ← `0x1a6c`                        |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x12954` (`./binary`) ← `0x1364c` ← `0x13b80` ← `0x1ab4`                                                                 |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x12bbc` (`./binary`) ← `0x1364c` ← `0x13b80` ← `0x1ab4`                                                                 |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x4ee4` (`./binary`) ← `0x1388c` ← `0x13b80` ← `0x1ab4`                                                                  |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x13644` (`./binary`) ← `0x13b80` ← `0x1ab4`                                                                             |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x4750` (`./binary`) ← `0x13620` ← `0x13b80` ← `0x1ab4`                                                                  |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x4cf0` (`./binary`) ← `0xa9a8` ← `0x1364c` ← `0x13b80` ← `0x1ab4`                                                       |
+|    new |  +7.01ms | 0.0% → 1.3% |  0ms → 7.0ms |   0 → 7 | `0x4300` (`./binary`) ← `0x13620` ← `0x13b80` ← `0x1ab4`                                                                  |
+|    new |  +6.01ms | 0.0% → 1.1% |  0ms → 6.0ms |   0 → 6 | `0x12b30` (`./binary`) ← `0x1364c` ← `0x13b80` ← `0x1ab4`                                                                 |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x134a8` (`./binary`) ← `0x13b80` ← `0x1ab4`                                                                             |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x4cf8` (`./binary`) ← `0xa9a8` ← `0x1364c` ← `0x13b80` ← `0x1ab4`                                                       |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x13b38` (`./binary`) ← `0x1a6c`                                    |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x12990` (`./binary`) ← `0x1364c` ← `0x13b80` ← `0x1ab4`                                                                 |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x13734` (`./binary`) ← `0x13b80` ← `0x1ab4`                                                                             |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x13ad0` (`./binary`) ← `0x1ab4`                                                                                         |
+|    new |  +5.01ms | 0.0% → 0.9% |  0ms → 5.0ms |   0 → 5 | `0x137f20` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `0x13b38` (`./binary`) ← `0x1a6c`                         |
+
+### Improvements
+
+Call stacks with the largest decrease in time spent in their leaf frame.
+
+Common call stack: `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27818` ← `0x1c30` (`./binary`)
+
+|  Change |    Delta |           % |          Time | Samples | Call stack                                                                                                                                                       |
+| ------: | -------: | ----------: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -12.01ms | 2.4% → 0.0% |  12.0ms → 0ms |  12 → 0 | `0x4c30` (`./binary`) ← `0x11b08` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                             |
+| removed | -11.01ms | 2.2% → 0.0% |  11.0ms → 0ms |  11 → 0 | `0x9e6c0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x11ec0` (`./binary`) ← `0x12150` ← `0x1a6c`                                                               |
+| removed |  -9.01ms | 1.8% → 0.0% |   9.0ms → 0ms |   9 → 0 | `0x137f80` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `0x10f78` (`./binary`) ← `0x112e0` ← `0x11b44` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                |
+| removed |  -7.01ms | 1.4% → 0.0% |   7.0ms → 0ms |   7 → 0 | `0xe5a4` (`./binary`) ← `0x11b44` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                             |
+| removed |  -7.01ms | 1.4% → 0.0% |   7.0ms → 0ms |   7 → 0 | `0x137f20` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `0x12108` (`./binary`) ← `0x1ab4`                                                                |
+| removed |  -7.01ms | 1.4% → 0.0% |   7.0ms → 0ms |   7 → 0 | `0x120b0` (`./binary`) ← `0x1ab4`                                                                                                                                |
+| removed |  -6.01ms | 1.2% → 0.0% |   6.0ms → 0ms |   6 → 0 | `0x4c20` (`./binary`) ← `0x11b08` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                             |
+| removed |  -6.01ms | 1.2% → 0.0% |   6.0ms → 0ms |   6 → 0 | `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x12108` (`./binary`) ← `0x1ab4`                                                                           |
+| removed |  -6.01ms | 1.2% → 0.0% |   6.0ms → 0ms |   6 → 0 | `0x12128` (`./binary`)                                                                                                                                           |
+| removed |  -6.01ms | 1.2% → 0.0% |   6.0ms → 0ms |   6 → 0 | `0x11268` (`./binary`) ← `0x11b44` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                            |
+| removed |  -6.01ms | 1.2% → 0.0% |   6.0ms → 0ms |   6 → 0 | `0xe134` (`./binary`) ← `0x11b44` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                             |
+| removed |  -6.01ms | 1.2% → 0.0% |   6.0ms → 0ms |   6 → 0 | `0x5230` (`./binary`) ← `0xc9c4` ← `0x11b44` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                  |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x11a44` (`./binary`) ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                                        |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x4840` (`./binary`) ← `0x11b08` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                             |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x92284` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xa2cac` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`) ← `0x50d8` (`./binary`) ← `0x12108` ← `0x1ab4` |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x5424` (`./binary`) ← `0x11ec0` ← `0x12150` ← `0x1ab4`                                                                                                         |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x112a0` (`./binary`) ← `0x11b44` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                            |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x4c90` (`./binary`) ← `0x11b08` ← `0x11cd0` ← `0x12150` ← `0x1ab4`                                                                                             |
+| removed |  -5.01ms | 1.0% → 0.0% |   5.0ms → 0ms |   5 → 0 | `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x12108` (`./binary`) ← `0x1a6c`                                                                           |
+|  -71.4% |  -5.01ms | 1.4% → 0.4% | 7.0ms → 2.0ms |   7 → 2 | `0x8faf4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x92a9c` ← `0x1b18` (`./binary`)                                                                           |

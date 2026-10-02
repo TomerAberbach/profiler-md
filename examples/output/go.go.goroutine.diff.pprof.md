@@ -17,3 +17,7 @@ No function differed in goroutines recorded within the function body, excluding 
 ### Total goroutines
 
 No function differed in goroutines recorded within the function and its callees.
+
+## Hottest call stacks
+
+No call stack differed in goroutines recorded in its leaf frame.

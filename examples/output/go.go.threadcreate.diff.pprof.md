@@ -15,3 +15,7 @@ No function differed in thread creations recorded within the function body, excl
 ### Total thread creations
 
 No function differed in thread creations recorded within the function and its callees.
+
+## Hottest call stacks
+
+No call stack differed in thread creations recorded in its leaf frame.
