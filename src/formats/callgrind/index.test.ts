@@ -1292,6 +1292,48 @@ describe(`convert`, () => {
   })
 })
 
+test(`pairs the lines of a function an edit moved in a diff`, () => {
+  const graph = (lines: [number, number][]) =>
+    makeCallgrind([
+      `events: Ir`,
+      `fl=(1) /src/main.c`,
+      `fn=(1) main`,
+      ...lines.map(([line, cost]) => `${line} ${cost}`),
+    ])
+
+  const md = diffProfiles(
+    {
+      data: graph([
+        [10, 100],
+        [11, 50],
+        [12, 20],
+      ]),
+      format: `callgrind`,
+    },
+    {
+      data: graph([
+        [15, 100],
+        [16, 80],
+        [17, 20],
+      ]),
+      format: `callgrind`,
+    },
+    { baseURL: `/`, showEntry: () => true },
+  )
+
+  expect(linesTables(md, `main`)).toEqual([
+    [
+      {
+        Change: `+60.0%`,
+        Delta: `+30`,
+        '%': `29.4% → 40.0%`,
+        Instructions: `50 → 80`,
+        Location: `src/main.c:11 → 16`,
+      },
+    ],
+  ])
+})
+
 describe(`category subsections`, () => {
   // The input resolves to Valgrind, whose generic categorization makes an
   // installed system library path `stdlib` and the rest `ours`.

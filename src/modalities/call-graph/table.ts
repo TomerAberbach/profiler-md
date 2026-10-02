@@ -1,4 +1,3 @@
-import { formatSourceLocation } from '../../location.ts'
 import type {
   FormattingProfileToMdOptions,
   FunctionCategory,
@@ -89,24 +88,23 @@ export const arcColumns = (
   },
 ]
 
-export type LineRow = MeasureRow & { line: number }
+/** A row for one of {@link func}'s lines. */
+export type LineRow = MeasureRow & { func: NamedFunction; line: number }
 
+/**
+ * The value columns followed by a `Location` column resolving each line against
+ * its function's location.
+ */
 export const lineColumns = (
   metric: Metric,
-  func: NamedFunction,
   options: FormattingProfileToMdOptions,
 ): Table<LineRow> => [
   ...measureColumns(metric),
   {
     header: `Location`,
-    cellOf: ({ line }) =>
+    cellOf: ({ func, line }) =>
       func.location
-        ? codeCell(
-            formatSourceLocation(
-              { ...func.location, line, column: undefined },
-              options,
-            ),
-          )
+        ? locationCell({ ...func.location, line, column: undefined }, options)
         : textCell(String(line)),
   },
 ]
