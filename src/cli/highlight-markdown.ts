@@ -94,7 +94,7 @@ const computeLineToIntensity = async (
     } else if (node.type === `table`) {
       // Tables cannot cross heading boundaries, so the innermost section is
       // still current when the table is reached.
-      visitTable(node, sections.at(-1), unranked, lineToIntensity)
+      visitTable(node, sections, unranked, lineToIntensity)
     }
   }
   tintHeldRows(unranked, lineToIntensity)
@@ -188,6 +188,16 @@ type HeadingSection = {
    */
   intensity: number | null
 
+  /** Whether the heading names a function, as a breakdown's heading does. */
+  isFunction: boolean
+
+  /**
+   * The profile total the diff tables in this scope imply, or null where none
+   * has. A table under a function heading breaks down that function's value,
+   * so it implies none.
+   */
+  profileTotal: number | null
+
   nameLocationToIntensity: Map<string, NameIntensity>
 
   /**
@@ -231,6 +241,8 @@ const visitHeading = (
   sections.push({
     level: heading.depth,
     intensity,
+    isFunction: key !== null,
+    profileTotal: null,
     nameLocationToIntensity: new Map(),
     regressionSign: rankingSign ?? sections.at(-1)?.regressionSign ?? null,
   })
@@ -304,10 +316,11 @@ const lookupAncestorIntensity = (
 
 const visitTable = (
   table: Table,
-  headingSection: HeadingSection | undefined,
+  sections: HeadingSection[],
   unranked: UnrankedDiffRows,
   lineToIntensity: Map<number, number>,
 ): void => {
+  const headingSection = sections.at(-1)
   const [headerRow, ...dataRows] = table.children
   const headerCells = headerRow!.children.map(nodeText)
   const percentColumnIndex = headerCells.indexOf(`%`)
@@ -326,7 +339,7 @@ const visitTable = (
         delta: deltaColumnIndex,
         percent: percentColumnIndex,
       },
-      headingSection?.regressionSign ?? null,
+      sections,
       unranked,
       lineToIntensity,
     )
@@ -412,15 +425,22 @@ type DiffColumnIndexes = {
 const visitDiffTable = (
   dataRows: Table[`children`],
   columnIndexes: DiffColumnIndexes,
-  regressionSign: RegressionSign | null,
+  sections: HeadingSection[],
   unranked: UnrankedDiffRows,
   lineToIntensity: Map<number, number>,
 ): void => {
-  if (regressionSign === 0) {
+  const diffRows = dataRows.flatMap(
+    row => parseDiffRow(row, columnIndexes) ?? [],
+  )
+  const total = profileTotalOf(diffRows, sections)
+  const regressionSign = sections.at(-1)?.regressionSign ?? null
+  if (regressionSign === 0 || total === null) {
     return
   }
 
-  const rows = relativeDiffRows(dataRows, columnIndexes)
+  const rows = diffRows.flatMap(({ lineIndex, delta }) =>
+    delta === 0 ? [] : [{ lineIndex, relativeDelta: delta / total }],
+  )
   if (regressionSign === null) {
     holdRows(unranked, rows, lineToIntensity)
     return
@@ -464,8 +484,8 @@ const setIntensity = (
 }
 
 /**
- * Reads a diff table's changed rows into their line indexes and their deltas as
- * shares of the profile total, or an empty array where no row implies a total.
+ * The profile total to measure a diff table's deltas against, or null where
+ * none is known.
  *
  * The total isn't printed, but each row implies it: `Change` is
  * `delta ÷ base value` and `%` holds the base and current shares of their
@@ -473,47 +493,58 @@ const setIntensity = (
  * `removed` rows the delta itself is the changed side's whole value). The
  * estimate divides by rounded percentages, so take it from the row with the
  * largest share, where rounding error is proportionally smallest.
+ *
+ * Every table of a profile's rankings implies one total, which this records on
+ * the table's section and each enclosing section that has none. A table under
+ * a function heading breaks down that function's value, so its `%` column holds
+ * shares of the function: it takes the nearest section's total, and implies
+ * its own only where no section has one.
  */
-const relativeDiffRows = (
-  dataRows: Table[`children`],
-  columnIndexes: DiffColumnIndexes,
-): RelativeDiffRow[] => {
-  const changedRows: { lineIndex: number; delta: number }[] = []
-  let bestCandidate: TotalCandidate | null = null
-  for (const row of dataRows) {
-    const diffRow = parseDiffRow(row, columnIndexes)
-    if (diffRow === null) {
-      continue
-    }
-    if (diffRow.delta !== 0) {
-      changedRows.push({ lineIndex: diffRow.lineIndex, delta: diffRow.delta })
-    }
-    if (
-      diffRow.candidate !== null &&
-      diffRow.candidate.percent > (bestCandidate?.percent ?? 0)
-    ) {
-      bestCandidate = diffRow.candidate
-    }
-  }
-  if (bestCandidate === null) {
-    return []
+const profileTotalOf = (
+  diffRows: readonly DiffRow[],
+  sections: HeadingSection[],
+): number | null => {
+  if (sections.at(-1)?.isFunction) {
+    const recorded = sections.findLast(
+      section => section.profileTotal !== null,
+    )?.profileTotal
+    return recorded ?? impliedTotal(diffRows)
   }
 
-  const total = bestCandidate.value / bestCandidate.percent
-  return changedRows.map(({ lineIndex, delta }) => ({
-    lineIndex,
-    relativeDelta: delta / total,
-  }))
+  const total = impliedTotal(diffRows)
+  if (total !== null) {
+    for (const section of sections) {
+      section.profileTotal ??= total
+    }
+  }
+  return total
+}
+
+const impliedTotal = (diffRows: readonly DiffRow[]): number | null => {
+  let bestCandidate: TotalCandidate | null = null
+  for (const { candidate } of diffRows) {
+    if (
+      candidate !== null &&
+      candidate.percent > (bestCandidate?.percent ?? 0)
+    ) {
+      bestCandidate = candidate
+    }
+  }
+  return bestCandidate === null
+    ? null
+    : bestCandidate.value / bestCandidate.percent
+}
+
+type DiffRow = {
+  lineIndex: number
+  delta: number
+  candidate: TotalCandidate | null
 }
 
 const parseDiffRow = (
   row: TableRow,
   columnIndexes: DiffColumnIndexes,
-): {
-  lineIndex: number
-  delta: number
-  candidate: TotalCandidate | null
-} | null => {
+): DiffRow | null => {
   const changeCell = row.children[columnIndexes.change]
   const deltaCell = row.children[columnIndexes.delta]
   const percentCell = row.children[columnIndexes.percent]

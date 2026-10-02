@@ -620,6 +620,32 @@ describe(`diff table intensity`, () => {
     expect(maxGreen(highlighted, 4)).toBe(203)
   })
 
+  test(`a diff table under a function's Lines heading is tinted by its delta's share of the profile total`, async () => {
+    // The ranking row implies a 1s total. The line's `%` holds its share of the
+    // function's value, so a +10ms line tints as the +10ms ranking row does.
+    const markdown = [
+      `### Self time`,
+      ``,
+      `#### Regressions`,
+      ``,
+      `| Change  | Delta | %           | Function | Location     |`,
+      `| ------- | ----- | ----------- | -------- | ------------ |`,
+      `| +100.0% | +10ms | 1.0% → 2.0% | \`func\` | \`a.ts:1 → 5\` |`,
+      ``,
+      `#### Lines`,
+      ``,
+      `##### \`func\` (\`a.ts:5\`)`,
+      ``,
+      `| Change | Delta | %             | Location |`,
+      `| ------ | ----- | ------------- | -------- |`,
+      `| new    | +10ms | 0.0% → 100.0% | \`a.ts:6\` |`,
+    ].join(`\n`)
+
+    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+    expect(maxRed(highlighted, 14)).toBe(maxRed(highlighted, 6))
+  })
+
   test(`diff table rows don't propagate intensity to matching headings`, async () => {
     const markdown = [
       `### Regressions`,

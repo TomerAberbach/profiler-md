@@ -219,6 +219,199 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -2 | <0.1% → 0.0% |   2 → 0 | `isNullType(Class)`                                                                     | `sun.invoke.util.VerifyType`                                                                            |
 | removed |    -2 | <0.1% → 0.0% |   2 → 0 | `get(Class)`                                                                            | `java.lang.ClassValue`                                                                                  |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self samples.
+
+##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+| Change | Delta |             % | Samples | Location                                          |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------- |
+|    new |    +4 | 0.0% → 100.0% |   0 → 4 | `org.codenarc.analyzer.AbstractSourceAnalyzer:43` |
+
+##### `doWithCallSite(MutableCallSite, Object[], BiFunction)` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+| Change | Delta |             % | Samples | Location                                            |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `org.codehaus.groovy.vmplugin.v8.IndyInterface:376` |
+
+##### `<init>(MethodType, LambdaForm)` (`java.lang.invoke.MethodHandle`)
+
+|  Change | Delta |             % | Samples | Location                            |
+| ------: | ----: | ------------: | ------: | ----------------------------------- |
+| +200.0% |    +2 | 50.0% → 60.0% |   1 → 3 | `java.lang.invoke.MethodHandle:479` |
+| +100.0% |    +1 | 50.0% → 40.0% |   1 → 2 | `java.lang.invoke.MethodHandle:480` |
+
+##### `cast(Object)` (`java.lang.Class`)
+
+| Change | Delta |      % | Samples | Location               |
+| -----: | ----: | -----: | ------: | ---------------------- |
+| +18.8% |    +3 | 100.0% | 16 → 19 | `java.lang.Class:4068` |
+
+##### `equals(Object[], Object[])` (`java.util.Arrays`)
+
+| Change | Delta |            % | Samples | Location                |
+| -----: | ----: | -----------: | ------: | ----------------------- |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `java.util.Arrays:2975` |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `java.util.Arrays:2979` |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `java.util.Arrays:2980` |
+
+##### `add(ATNConfig, PredictionContextCache)` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`)
+
+|  Change | Delta |             % | Samples | Location                                             |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- |
+|     new |    +2 |  0.0% → 66.7% |   0 → 2 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet:246` |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet:291` |
+|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet:265` |
+
+##### `checkCustomized(MethodHandle)` (`java.lang.invoke.Invokers`)
+
+| Change | Delta |             % | Samples | Location                        |
+| -----: | ----: | ------------: | ------: | ------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `java.lang.invoke.Invokers:626` |
+
+##### `getMethods(Class, String)` (`org.codehaus.groovy.runtime.metaclass.MetaMethodIndex`)
+
+|  Change | Delta |      % | Samples | Location                                                    |
+| ------: | ----: | -----: | ------: | ----------------------------------------------------------- |
+| +100.0% |    +2 | 100.0% |   2 → 4 | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex:202` |
+
+##### `divideOneWord(int, MutableBigInteger)` (`java.math.MutableBigInteger`)
+
+|  Change | Delta |             % | Samples | Location                           |
+| ------: | ----: | ------------: | ------: | ---------------------------------- |
+|     new |    +2 |  0.0% → 66.7% |   0 → 2 | `java.math.MutableBigInteger:1112` |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `java.math.MutableBigInteger:1106` |
+|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `java.math.MutableBigInteger:1138` |
+
+##### `divideAndRemainderKnuth(BigInteger)` (`java.math.BigInteger`)
+
+| Change | Delta |            % | Samples | Location                    |
+| -----: | ----: | -----------: | ------: | --------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `java.math.BigInteger:2476` |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `java.math.BigInteger:2478` |
+
+##### `visit(GroovyCodeVisitor)` (`org.codehaus.groovy.ast.expr.VariableExpression`)
+
+| Change | Delta |             % | Samples | Location                                             |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `org.codehaus.groovy.ast.expr.VariableExpression:71` |
+
+##### `computeValueConversions(MethodType, MethodType, boolean, boolean)` (`java.lang.invoke.MethodHandleImpl`)
+
+| Change | Delta |            % | Samples | Location                                |
+| -----: | ----: | -----------: | ------: | --------------------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `java.lang.invoke.MethodHandleImpl:368` |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `java.lang.invoke.MethodHandleImpl:370` |
+
+##### `getNoCheckStale(Object)` (`jdk.internal.util.ReferencedKeyMap`)
+
+| Change | Delta |             % | Samples | Location                                 |
+| -----: | ----: | ------------: | ------: | ---------------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `jdk.internal.util.ReferencedKeyMap:215` |
+
+##### `getInCache(LambdaFormEditor$TransformKey)` (`java.lang.invoke.LambdaFormEditor`)
+
+|  Change | Delta |              % | Samples | Location                                |
+| ------: | ----: | -------------: | ------: | --------------------------------------- |
+|  -50.0% |    -1 | 33.3% → 100.0% |   2 → 1 | `java.lang.invoke.LambdaFormEditor:383` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `java.lang.invoke.LambdaFormEditor:391` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `java.lang.invoke.LambdaFormEditor:396` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `java.lang.invoke.LambdaFormEditor:397` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `java.lang.invoke.LambdaFormEditor:403` |
+
+##### `getNode(Object)` (`java.util.HashMap`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+|  -66.7% |    -2 | 30.0% → 16.7% |   3 → 1 | `java.util.HashMap:576` |
+|  -66.7% |    -2 | 30.0% → 16.7% |   3 → 1 | `java.util.HashMap:587` |
+|     new |    +2 |  0.0% → 33.3% |   0 → 2 | `java.util.HashMap:582` |
+| removed |    -1 |  10.0% → 0.0% |   1 → 0 | `java.util.HashMap:577` |
+| removed |    -1 |  10.0% → 0.0% |   1 → 0 | `java.util.HashMap:579` |
+
+##### `newInstance(Class, int)` (`java.lang.reflect.Array`)
+
+| Change | Delta |      % | Samples | Location                     |
+| -----: | ----: | -----: | ------: | ---------------------------- |
+| -20.0% |    -3 | 100.0% | 15 → 12 | `java.lang.reflect.Array:78` |
+
+##### `map(Function)` (`java.util.stream.ReferencePipeline`)
+
+|  Change | Delta |            % | Samples | Location                                 |
+| ------: | ----: | -----------: | ------: | ---------------------------------------- |
+| removed |    -2 | 66.7% → 0.0% |   2 → 0 | `java.util.stream.ReferencePipeline:189` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `java.util.stream.ReferencePipeline:190` |
+
+##### `equals(Object)` (`java.lang.String`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+| removed |    -2 |  40.0% → 0.0% |   2 → 0 | `java.lang.String:1847` |
+|  -50.0% |    -1 | 40.0% → 50.0% |   2 → 1 | `java.lang.String:1852` |
+
+##### `makePairwiseConvertByEditor(MethodHandle, MethodType, boolean, boolean)` (`java.lang.invoke.MethodHandleImpl`)
+
+|  Change | Delta |            % | Samples | Location                                |
+| ------: | ----: | -----------: | ------: | --------------------------------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `java.lang.invoke.MethodHandleImpl:282` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `java.lang.invoke.MethodHandleImpl:333` |
+
+##### `resize()` (`java.util.HashMap`)
+
+|  Change | Delta |            % | Samples | Location                |
+| ------: | ----: | -----------: | ------: | ----------------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `java.util.HashMap:711` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `java.util.HashMap:741` |
+
+##### `equals(LambdaFormEditor$TransformKey)` (`java.lang.invoke.LambdaFormEditor$Transform`)
+
+|  Change | Delta |             % | Samples | Location                                          |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `java.lang.invoke.LambdaFormEditor$Transform:111` |
+
+##### `rebind()` (`java.lang.invoke.BoundMethodHandle`)
+
+|  Change | Delta |             % | Samples | Location                                |
+| ------: | ----: | ------------: | ------: | --------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `java.lang.invoke.BoundMethodHandle:93` |
+
+##### `getCachedContext(PredictionContext, ConcurrentMap, PredictionContext$IdentityHashMap)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
+
+|  Change | Delta |             % | Samples | Location                                                  |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:248` |
+
+##### `study(Pattern$TreeInfo)` (`java.util.regex.Pattern$Branch`)
+
+|  Change | Delta |             % | Samples | Location                              |
+| ------: | ----: | ------------: | ------: | ------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `java.util.regex.Pattern$Branch:4922` |
+
+##### `isNullConversion(Class, Class, boolean)` (`sun.invoke.util.VerifyType`)
+
+|  Change | Delta |            % | Samples | Location                        |
+| ------: | ----: | -----------: | ------: | ------------------------------- |
+| removed |    -2 | 66.7% → 0.0% |   2 → 0 | `sun.invoke.util.VerifyType:71` |
+
+##### `boxInteger(int)` (`sun.invoke.util.ValueConversions`)
+
+| Change | Delta |      % | Samples | Location                               |
+| -----: | ----: | -----: | ------: | -------------------------------------- |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `sun.invoke.util.ValueConversions:280` |
+
+##### `isNullType(Class)` (`sun.invoke.util.VerifyType`)
+
+|  Change | Delta |             % | Samples | Location                        |
+| ------: | ----: | ------------: | ------: | ------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `sun.invoke.util.VerifyType:95` |
+
+##### `get(Class)` (`java.lang.ClassValue`)
+
+|  Change | Delta |             % | Samples | Location                   |
+| ------: | ----: | ------------: | ------: | -------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `java.lang.ClassValue:104` |
+
 ### Total samples
 
 #### Regressions

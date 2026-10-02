@@ -541,7 +541,7 @@ export type AggregatedCallStackProfileCategoryMetrics = {
  * An aggregation of observations recorded at a given line within a function's
  * body.
  */
-type AggregatedCallStackProfileLineMetrics = {
+export type AggregatedCallStackProfileLineMetrics = {
   /**
    * The number of observations recorded directly within the function's body at
    * this line.

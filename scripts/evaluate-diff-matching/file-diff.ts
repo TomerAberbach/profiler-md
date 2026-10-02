@@ -126,10 +126,10 @@ const lineLengths = (text: string): number[] =>
 export const mapPosition = (
   diff: FileDiff,
   { line, column }: Position,
-): Position | undefined => {
+): Position | null | undefined => {
   if (Array.isArray(diff)) {
     const mapped = mapLine(diff, line)
-    return mapped === undefined ? undefined : { line: mapped, column }
+    return typeof mapped === `number` ? { line: mapped, column } : mapped
   }
   return column === undefined
     ? undefined
@@ -146,7 +146,7 @@ const mapCharacterPosition = (
     diff.characterHunks,
     baseLineStarts[Math.min(line - 1, diff.baseLineLengths.length)]! + column,
   )
-  if (offset === undefined) {
+  if (typeof offset !== `number`) {
     return undefined
   }
   const currentLineStarts = prefixSums(diff.currentLineLengths)
@@ -161,9 +161,13 @@ const mapCharacterPosition = (
 
 /**
  * Maps a base line, or a character offset of a character diff, through a
- * diff's hunks, or returns `undefined` for one the diff changed.
+ * diff's hunks. Returns `null` for one a hunk deleted without replacing, and
+ * `undefined` for one a hunk replaced.
  */
-const mapLine = (hunks: readonly Hunk[], line: number): number | undefined => {
+const mapLine = (
+  hunks: readonly Hunk[],
+  line: number,
+): number | null | undefined => {
   // A hunk that only inserts lines starts after the line it follows.
   const before = countLeading(hunks.length, index => {
     const [baseStart, baseCount] = hunks[index]!
@@ -171,7 +175,7 @@ const mapLine = (hunks: readonly Hunk[], line: number): number | undefined => {
   })
   const next = hunks[before]
   if (next && next[1] > 0 && line >= next[0] && line < next[0] + next[1]) {
-    return undefined
+    return next[3] === 0 ? null : undefined
   }
   return line + hunkOffsets(hunks)[before]!
 }

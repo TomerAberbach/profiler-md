@@ -69,6 +69,231 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | -13.8% | -11.999 MiB | 0.7% → 0.6% |     87 MiB → 75 MiB | 174 → 150 | `lambda$makeRef$0(MatchOps$MatchKind, Predicate)`                                       | `java.util.stream.MatchOps`                          |
 |  -4.7% | -10.999 MiB |        1.9% |   236 MiB → 225 MiB | 472 → 450 | `newNode(int, Object, Object, HashMap$Node)`                                            | `java.util.HashMap`                                  |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `stream(Spliterator, boolean)` (`java.util.stream.StreamSupport`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                            |
+| -----: | ----------: | -----: | ----------------: | --------: | ----------------------------------- |
+| +12.0% | +31.499 MiB | 100.0% | 261 MiB → 293 MiB | 523 → 586 | `java.util.stream.StreamSupport:69` |
+
+##### `makeImpl(Class, Class[], boolean)` (`java.lang.invoke.MethodType`)
+
+| Change |       Delta |      % |              Size |       Samples | Location                          |
+| -----: | ----------: | -----: | ----------------: | ------------: | --------------------------------- |
+|  +3.6% | +27.999 MiB | 100.0% | 776 MiB → 804 MiB | 1,553 → 1,609 | `java.lang.invoke.MethodType:400` |
+
+##### `makeGuardWithTest(MethodHandle, MethodHandle, MethodHandle)` (`java.lang.invoke.MethodHandleImpl`)
+
+| Change |       Delta |      % |               Size |   Samples | Location                                |
+| -----: | ----------: | -----: | -----------------: | --------: | --------------------------------------- |
+| +14.8% | +13.999 MiB | 100.0% | 94.5 MiB → 108 MiB | 189 → 217 | `java.lang.invoke.MethodHandleImpl:631` |
+
+##### `transform(ATNState, PredictionContext, SemanticContext, boolean, LexerActionExecutor)` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfig`)
+
+| Change |       Delta |             % |              Size |   Samples | Location                                          |
+| -----: | ----------: | ------------: | ----------------: | --------: | ------------------------------------------------- |
+|  +8.8% | +19.499 MiB | 90.0% → 92.9% | 221 MiB → 241 MiB | 443 → 482 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig:232` |
+| -17.9% |  -3.499 MiB |   7.9% → 6.2% | 19.5 MiB → 16 MiB |   39 → 32 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig:225` |
+| -50.0% |  -2.499 MiB |   2.0% → 1.0% |   5 MiB → 2.5 MiB |    10 → 5 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig:229` |
+
+##### `fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+| Change |       Delta |      % |                Size |  Samples | Location                                            |
+| -----: | ----------: | -----: | ------------------: | -------: | --------------------------------------------------- |
+| +26.8% | +12.999 MiB | 100.0% | 48.5 MiB → 61.5 MiB | 97 → 123 | `org.codehaus.groovy.vmplugin.v8.IndyInterface:362` |
+
+##### `parameterArray()` (`java.lang.invoke.MethodType`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                          |
+| -----: | ----------: | -----: | ----------------: | --------: | --------------------------------- |
+|  +8.6% | +12.499 MiB | 100.0% | 145 MiB → 157 MiB | 290 → 315 | `java.lang.invoke.MethodType:885` |
+
+##### `computeValueConversions(MethodType, MethodType, boolean, boolean)` (`java.lang.invoke.MethodHandleImpl`)
+
+| Change |      Delta |      % |                Size |   Samples | Location                                |
+| -----: | ---------: | -----: | ------------------: | --------: | --------------------------------------- |
+| +19.4% | +9.999 MiB | 100.0% | 51.5 MiB → 61.5 MiB | 103 → 123 | `java.lang.invoke.MethodHandleImpl:373` |
+
+##### `divideKnuth(MutableBigInteger, MutableBigInteger, boolean)` (`java.math.MutableBigInteger`)
+
+|  Change |          Delta |             % |                Size |   Samples | Location                           |
+| ------: | -------------: | ------------: | ------------------: | --------: | ---------------------------------- |
+|  +16.2% |     +8.999 MiB | 98.2% → 97.0% | 55.5 MiB → 64.5 MiB | 111 → 129 | `java.math.MutableBigInteger:1211` |
+| +100.0% | +1,023.998 KiB |   1.8% → 3.0% |       1 MiB → 2 MiB |     2 → 4 | `java.math.MutableBigInteger:1212` |
+
+##### `lambda$setGuards$1(int)` (`org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`)
+
+| Change |      Delta |      % |              Size |  Samples | Location                                                      |
+| -----: | ---------: | -----: | ----------------: | -------: | ------------------------------------------------------------- |
+| +22.9% | +9.499 MiB | 100.0% | 41.5 MiB → 51 MiB | 83 → 102 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:960` |
+
+##### `divideOneWord(int, MutableBigInteger)` (`java.math.MutableBigInteger`)
+
+| Change |      Delta |      % |              Size |   Samples | Location                           |
+| -----: | ---------: | -----: | ----------------: | --------: | ---------------------------------- |
+| +14.4% | +9.499 MiB | 100.0% | 66 MiB → 75.5 MiB | 132 → 151 | `java.math.MutableBigInteger:1105` |
+
+##### `of(byte, int, int, int)` (`java.lang.invoke.LambdaFormEditor$TransformKey`)
+
+| Change |      Delta |      % |                Size | Samples | Location                                             |
+| -----: | ---------: | -----: | ------------------: | ------: | ---------------------------------------------------- |
+| +25.4% | +8.999 MiB | 100.0% | 35.5 MiB → 44.5 MiB | 71 → 89 | `java.lang.invoke.LambdaFormEditor$TransformKey:189` |
+
+##### `<init>(int)` (`java.lang.AbstractStringBuilder`)
+
+| Change |      Delta |      % |              Size | Samples | Location                              |
+| -----: | ---------: | -----: | ----------------: | ------: | ------------------------------------- |
+| +45.9% | +8.499 MiB | 100.0% | 18.5 MiB → 27 MiB | 37 → 54 | `java.lang.AbstractStringBuilder:101` |
+
+##### `join(PredictionContext, PredictionContext)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContextCache`)
+
+| Change |      Delta |      % |            Size | Samples | Location                                                      |
+| -----: | ---------: | -----: | --------------: | ------: | ------------------------------------------------------------- |
+| +50.0% | +7.999 MiB | 100.0% | 16 MiB → 24 MiB | 32 → 48 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContextCache:73` |
+
+##### `getAndPut(String, MemoizeCache$ValueProvider)` (`org.codehaus.groovy.vmplugin.v8.CacheableCallSite`)
+
+| Change |      Delta |      % |                Size | Samples | Location                                               |
+| -----: | ---------: | -----: | ------------------: | ------: | ------------------------------------------------------ |
+| +24.6% | +6.999 MiB | 100.0% | 28.5 MiB → 35.5 MiB | 57 → 71 | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite:71` |
+
+##### `make(MethodType, LambdaForm, Object)` (`java.lang.invoke.BoundMethodHandle$Species_L`)
+
+| Change |      Delta |      % |              Size |   Samples | Location                                           |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------------------------------- |
+|  +2.5% | +6.999 MiB | 100.0% | 277 MiB → 284 MiB | 554 → 568 | `java.lang.invoke.BoundMethodHandle$Species_L:225` |
+
+##### `basicTypesOrd(Class[])` (`java.lang.invoke.LambdaForm$BasicType`)
+
+| Change |      Delta |      % |            Size | Samples | Location                                    |
+| -----: | ---------: | -----: | --------------: | ------: | ------------------------------------------- |
+| +25.9% | +6.999 MiB | 100.0% | 27 MiB → 34 MiB | 54 → 68 | `java.lang.invoke.LambdaForm$BasicType:211` |
+
+##### `entrySet()` (`java.util.HashMap`)
+
+| Change |      Delta |      % |                Size | Samples | Location                 |
+| -----: | ---------: | -----: | ------------------: | ------: | ------------------------ |
+| +27.5% | +6.999 MiB | 100.0% | 25.5 MiB → 32.5 MiB | 51 → 65 | `java.util.HashMap:1099` |
+
+##### `newString(byte[], int, int)` (`java.lang.StringLatin1`)
+
+| Change |      Delta |      % |              Size | Samples | Location                     |
+| -----: | ---------: | -----: | ----------------: | ------: | ---------------------------- |
+| +41.9% | +6.499 MiB | 100.0% | 15.5 MiB → 22 MiB | 31 → 44 | `java.lang.StringLatin1:750` |
+
+##### `divideAndRemainderKnuth(BigInteger)` (`java.math.BigInteger`)
+
+| Change |       Delta |             % |                Size |   Samples | Location                    |
+| -----: | ----------: | ------------: | ------------------: | --------: | --------------------------- |
+| -34.9% | -26.499 MiB | 29.4% → 22.4% |   76 MiB → 49.5 MiB |  152 → 99 | `java.math.BigInteger:2475` |
+| -25.8% | -15.499 MiB | 23.2% → 20.2% |   60 MiB → 44.5 MiB |  120 → 89 | `java.math.BigInteger:2476` |
+|  +3.3% |  +1.999 MiB | 23.8% → 28.8% | 61.5 MiB → 63.5 MiB | 123 → 127 | `java.math.BigInteger:2473` |
+|  +3.3% |  +1.999 MiB | 23.6% → 28.6% |     61 MiB → 63 MiB | 122 → 126 | `java.math.BigInteger:2474` |
+
+##### `allocateInstance(Object)` (`java.lang.invoke.DirectMethodHandle`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                                  |
+| -----: | ----------: | -----: | ----------------: | --------: | ----------------------------------------- |
+| -10.5% | -26.499 MiB | 100.0% | 251 MiB → 225 MiB | 503 → 450 | `java.lang.invoke.DirectMethodHandle:501` |
+
+##### `valueOf(long)` (`java.lang.Long`)
+
+| Change |       Delta |      % |              Size |   Samples | Location              |
+| -----: | ----------: | -----: | ----------------: | --------: | --------------------- |
+| -14.0% | -23.999 MiB | 100.0% | 172 MiB → 148 MiB | 344 → 296 | `java.lang.Long:1207` |
+
+##### `makeBlockInliningWrapper(MethodHandle)` (`java.lang.invoke.MethodHandleImpl`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                                |
+| -----: | ----------: | -----: | ----------------: | --------: | --------------------------------------- |
+|  -5.3% | -23.499 MiB | 100.0% | 442 MiB → 419 MiB | 885 → 838 | `java.lang.invoke.MethodHandleImpl:667` |
+
+##### `getSelector(MutableCallSite, Class, String, int, boolean, boolean, boolean, Object[])` (`org.codehaus.groovy.vmplugin.v8.Selector`)
+
+| Change |        Delta |             % |              Size |   Samples | Location                                       |
+| -----: | -----------: | ------------: | ----------------: | --------: | ---------------------------------------------- |
+| -24.4% |  -20.499 MiB | 62.7% → 57.5% | 84 MiB → 63.5 MiB | 168 → 127 | `org.codehaus.groovy.vmplugin.v8.Selector:135` |
+| -11.1% |   -2.499 MiB | 16.8% → 18.1% | 22.5 MiB → 20 MiB |   45 → 40 | `org.codehaus.groovy.vmplugin.v8.Selector:137` |
+|  -1.8% | -511.999 KiB | 20.5% → 24.4% | 27.5 MiB → 27 MiB |   55 → 54 | `org.codehaus.groovy.vmplugin.v8.Selector:141` |
+
+##### `<init>(Object, Object)` (`groovy.lang.Tuple2`)
+
+| Change |       Delta |      % |           Size | Samples | Location                |
+| -----: | ----------: | -----: | -------------: | ------: | ----------------------- |
+| -75.0% | -20.999 MiB | 100.0% | 28 MiB → 7 MiB | 56 → 14 | `groovy.lang.Tuple2:30` |
+
+##### `<init>(Pattern, CharSequence)` (`java.util.regex.Matcher`)
+
+| Change |       Delta |             % |               Size |   Samples | Location                      |
+| -----: | ----------: | ------------: | -----------------: | --------: | ----------------------------- |
+| -27.5% | -20.499 MiB | 77.6% → 71.1% |  74.5 MiB → 54 MiB | 149 → 108 | `java.util.regex.Matcher:251` |
+| +23.5% |  +1.999 MiB |  8.9% → 13.8% | 8.5 MiB → 10.5 MiB |   17 → 21 | `java.util.regex.Matcher:253` |
+| -11.5% |  -1.499 MiB | 13.5% → 15.1% |  13 MiB → 11.5 MiB |   26 → 23 | `java.util.regex.Matcher:252` |
+
+##### `copyOf(Object[], int)` (`java.util.Arrays`)
+
+| Change |       Delta |      % |                Size |   Samples | Location                |
+| -----: | ----------: | -----: | ------------------: | --------: | ----------------------- |
+| -26.3% | -17.999 MiB | 100.0% | 68.5 MiB → 50.5 MiB | 137 → 101 | `java.util.Arrays:3482` |
+
+##### `getCachedContext(PredictionContext)` (`groovyjarjarantlr4.v4.runtime.atn.ATN`)
+
+| Change |       Delta |      % |                Size |  Samples | Location                                    |
+| -----: | ----------: | -----: | ------------------: | -------: | ------------------------------------------- |
+| -28.8% | -17.999 MiB | 100.0% | 62.5 MiB → 44.5 MiB | 125 → 89 | `groovyjarjarantlr4.v4.runtime.atn.ATN:120` |
+
+##### `copyOfRange(Object[], int, int)` (`java.util.Arrays`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                |
+| -----: | ----------: | -----: | ----------------: | --------: | ----------------------- |
+|  -6.3% | -17.499 MiB | 100.0% | 276 MiB → 259 MiB | 553 → 518 | `java.util.Arrays:3768` |
+
+##### `tuple(Object, Object)` (`groovy.lang.Tuple`)
+
+| Change |       Delta |      % |             Size | Samples | Location                |
+| -----: | ----------: | -----: | ---------------: | ------: | ----------------------- |
+| -66.0% | -17.499 MiB | 100.0% | 26.5 MiB → 9 MiB | 53 → 18 | `groovy.lang.Tuple:142` |
+
+##### `resize()` (`java.util.HashMap`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                |
+| -----: | ----------: | -----: | ----------------: | --------: | ----------------------- |
+| -11.3% | -16.999 MiB | 100.0% | 150 MiB → 133 MiB | 301 → 267 | `java.util.HashMap:710` |
+
+##### `copyOf(byte[], int)` (`java.util.Arrays`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                |
+| -----: | ----------: | -----: | ----------------: | --------: | ----------------------- |
+| -21.6% | -16.499 MiB | 100.0% | 76.5 MiB → 60 MiB | 151 → 118 | `java.util.Arrays:3541` |
+
+##### `put(Object, Object)` (`groovyjarjarantlr4.v4.runtime.misc.FlexibleHashMap`)
+
+| Change |      Delta |             % |                Size | Samples | Location                                                 |
+| -----: | ---------: | ------------: | ------------------: | ------: | -------------------------------------------------------- |
+| -27.1% | -9.499 MiB | 50.4% → 45.5% |   35 MiB → 25.5 MiB | 70 → 51 | `groovyjarjarantlr4.v4.runtime.misc.FlexibleHashMap:117` |
+| -11.6% | -3.999 MiB | 49.6% → 54.5% | 34.5 MiB → 30.5 MiB | 69 → 61 | `groovyjarjarantlr4.v4.runtime.misc.FlexibleHashMap:106` |
+
+##### `methodType(Class, Class)` (`java.lang.invoke.MethodType`)
+
+| Change |       Delta |      % |              Size | Samples | Location                          |
+| -----: | ----------: | -----: | ----------------: | ------: | --------------------------------- |
+| -30.1% | -12.499 MiB | 100.0% | 41.5 MiB → 29 MiB | 83 → 58 | `java.lang.invoke.MethodType:340` |
+
+##### `lambda$makeRef$0(MatchOps$MatchKind, Predicate)` (`java.util.stream.MatchOps`)
+
+| Change |       Delta |      % |            Size |   Samples | Location                       |
+| -----: | ----------: | -----: | --------------: | --------: | ------------------------------ |
+| -13.8% | -11.999 MiB | 100.0% | 87 MiB → 75 MiB | 174 → 150 | `java.util.stream.MatchOps:97` |
+
+##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
+
+| Change |       Delta |      % |              Size |   Samples | Location                 |
+| -----: | ----------: | -----: | ----------------: | --------: | ------------------------ |
+|  -4.7% | -10.999 MiB | 100.0% | 236 MiB → 225 MiB | 472 → 450 | `java.util.HashMap:1909` |
+
 ### Total size
 
 #### Regressions

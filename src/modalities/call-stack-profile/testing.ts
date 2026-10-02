@@ -15,7 +15,7 @@ import type { AggregatedCallStackProfile } from './aggregate.ts'
 
 export const makeAggregatedCallStackProfile = (
   metrics: Metric[],
-  functions: {
+  functions: ({
     name: string
     url?: string
     /** A class, module, or namespace name, for a function defined in no file. */
@@ -23,10 +23,19 @@ export const makeAggregatedCallStackProfile = (
     line?: number
     column?: number
     selfValues: number[]
-    selfCount: number
     /** Leaf-to-caller frame indices of each record; defaults to the function alone. */
     stack?: number[]
-  }[],
+  } & (
+    | { selfCount: number; executingLines?: never }
+    | {
+        selfCount?: never
+        /**
+         * The executing line of each of the function's records, whose counts
+         * sum to its self count.
+         */
+        executingLines: { line: number; count: number }[]
+      }
+  ))[],
   context?: ProfileToMdContext,
   /** Pass `null` for counts that measure nothing. */
   countMetric: Metric | null = SAMPLES,
@@ -36,12 +45,27 @@ export const makeAggregatedCallStackProfile = (
     name: func.name,
     definition: makeDefinition(func),
   }))
-  const observations = functions.flatMap((func, index) =>
-    Array.from({ length: func.selfCount }, () => ({
-      values: func.selfValues.map(value => value / func.selfCount),
-      frameIndices: func.stack ?? [index],
-    })),
-  )
+  const observations = functions.flatMap((func, index) => {
+    const selfCount =
+      func.executingLines?.reduce((sum, { count }) => sum + count, 0) ??
+      func.selfCount!
+    const values = func.selfValues.map(value => value / selfCount)
+    const stack = func.stack ?? [index]
+    if (!func.executingLines) {
+      return Array.from({ length: selfCount }, () => ({
+        values,
+        frameIndices: stack,
+      }))
+    }
+    return func.executingLines.flatMap(({ line, count }) => {
+      const leafIndex =
+        frames.push({ ...frames[stack[0]!]!, executing: { line } }) - 1
+      return Array.from({ length: count }, () => ({
+        values,
+        frameIndices: [leafIndex, ...stack.slice(1)],
+      }))
+    })
+  })
 
   return new CallStackProfileAggregator({
     type: `call-stack-profile`,

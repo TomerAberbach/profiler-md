@@ -7,13 +7,14 @@ export type Position = { line: number; column: number | undefined }
 type SourcePosition = Position & { source: string }
 
 /**
- * Maps a base function's position to its position on the current side, or to
- * `undefined` when the edit that produced the current side leaves it unknown.
- * The source can differ when its path contains a version.
+ * Maps a base position to its position on the current side, to `null` when the
+ * edit that produced the current side deleted it, so it has no counterpart, or
+ * to `undefined` when the edit leaves it unknown. The source can differ when
+ * its path contains a version.
  */
 export type PositionMap = (
   position: SourcePosition,
-) => SourcePosition | undefined
+) => SourcePosition | null | undefined
 
 /**
  * Maps a base function's source reference to its source reference on the
