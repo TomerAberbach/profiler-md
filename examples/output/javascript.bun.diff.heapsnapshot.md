@@ -41,6 +41,43 @@ Constructors with the largest increase in retained size.
 |    +0.1% |      +608 B |         40.8% |   622 KiB → 623 KiB |     1,367 | `Object`              |
 |    +0.5% |      +272 B |          3.4% | 51.9 KiB → 52.1 KiB |         1 | `url `                |
 
+#### Instances
+
+Instances with the largest change in contribution to each constructor's retained size.
+
+##### `GlobalObject`
+
+| Change |       Delta |      % |                Size | Instances | Path        |
+| -----: | ----------: | -----: | ------------------: | --------: | ----------- |
+|  +6.6% | +84.572 KiB | 100.0% | 1.25 MiB → 1.33 MiB |         1 | `(GC root)` |
+
+##### `FixedCircularBuffer`
+
+|   Change |  Delta |      % |         Size | Instances | Path               |
+| -------: | -----: | -----: | -----------: | --------: | ------------------ |
+| +1375.0% | +880 B | 100.0% | 64 B → 944 B |         1 | `.head FixedQueue` |
+
+##### `FixedQueue`
+
+|  Change |  Delta |      % |         Size | Instances | Path        |
+| ------: | -----: | -----: | -----------: | --------: | ----------- |
+| +916.7% | +880 B | 100.0% | 96 B → 976 B |         1 | `(GC root)` |
+
+##### `Object`
+
+|  Change |  Delta |             % |                Size | Instances | Path                                                                                  |
+| ------: | -----: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------- |
+|   +0.8% | +608 B | 12.2% → 12.3% | 76.2 KiB → 76.8 KiB |        31 | `(GC root)`                                                                           |
+|  -81.0% | -272 B |  0.1% → <0.1% |        336 B → 64 B |         1 | `.scheduler Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+| removed | -234 B |  <0.1% → 0.0% |         234 B → 0 B |     1 → 0 | `.Symbol.unscopables Array (0)`                                                       |
+|     new | +234 B |  0.0% → <0.1% |         0 B → 234 B |     0 → 1 | `.Symbol.unscopables Array (0) ← . GlobalObject`                                      |
+
+##### `url `
+
+| Change |  Delta |      % |                Size | Instances | Path                    |
+| -----: | -----: | -----: | ------------------: | --------: | ----------------------- |
+|  +0.5% | +272 B | 100.0% | 51.9 KiB → 52.1 KiB |         1 | `.process GlobalObject` |
+
 ## Largest functions
 
 No function differed in bytes that would be freed if the function were garbage collected.

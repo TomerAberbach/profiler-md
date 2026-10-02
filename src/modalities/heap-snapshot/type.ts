@@ -27,14 +27,10 @@ export type HeapSnapshot = {
   nodes: Iterable<HeapSnapshotNode>
 
   /**
-   * Computed lazily at formatting time, so it receives the resolved formatting
-   * options.
+   * The retainer path step of the edge at {@link edgeIndex}, whose meaning is
+   * the format's own, held by the node at {@link retainerOrdinal}.
    */
-  formatEdgeLabel: (
-    retainerOrdinal: number,
-    edgeIndex: number,
-    options: FormattingProfileToMdOptions,
-  ) => string
+  retainerStepOf: (retainerOrdinal: number, edgeIndex: number) => RetainerStep
 
   /**
    * Computed lazily at formatting time, so it receives the resolved formatting
@@ -143,3 +139,46 @@ export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
         name?: string
       }
   )
+
+/**
+ * One step of a retainer path: the edge a retainer holds to the node the path
+ * reached so far, and the retainer.
+ */
+export type RetainerStep = {
+  edge: RetainerEdge
+  retainer: RetainerNode
+}
+
+/** How a retainer refers to the node it retains. */
+export type RetainerEdge =
+  | {
+      type: `property`
+      name: string
+
+      /** The file reference the {@link name} parses as, when it is URL-shaped. */
+      nameLocation?: FileReference
+    }
+  | {
+      type: `element`
+
+      /** Undefined when the format records an index no array can have. */
+      index: number | undefined
+    }
+  | {
+      /** A reference the format names other than as a property or element. */
+      type: `labeled`
+      label: string
+    }
+  | { type: `unlabeled` }
+
+type RetainerNode = {
+  /** The retainer's node ordinal. */
+  id: number
+
+  name: string
+
+  /** The file reference the {@link name} parses as, when it is URL-shaped. */
+  nameLocation?: FileReference
+
+  location?: SourceLocation
+}

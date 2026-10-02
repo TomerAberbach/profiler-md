@@ -10,6 +10,7 @@ import type {
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
   NodeAdjacencyGraph,
+  RetainerEdge,
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
@@ -145,15 +146,14 @@ export const parseV8HeapSnapshot = (
             fieldLayout.nodeSelfSizeOffset
         ]!,
       nodes: v8SnapshotNodes(snapshot, fieldLayout, nodeOrdinalToLocation),
-      formatEdgeLabel: (retainerOrdinal, edgeIndex, options) =>
-        formatRetainerEdgeLabel(
-          retainerOrdinal,
-          edgeIndex,
-          snapshot,
-          fieldLayout,
-          nodeOrdinalToLocation,
-          options,
-        ),
+      retainerStepOf: (retainerOrdinal, edgeIndex) => ({
+        edge: retainerEdge(edgeIndex, snapshot, fieldLayout),
+        retainer: {
+          id: retainerOrdinal,
+          ...nodeName(retainerOrdinal, snapshot, fieldLayout),
+          location: nodeOrdinalToLocation[retainerOrdinal],
+        },
+      }),
       formatNodeLabel: (nodeOrdinal, options) =>
         formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
       isInternalNode: nodeOrdinal =>
@@ -481,54 +481,31 @@ const computeScriptIdToFileLocation = (
   return scriptIdToFileLocation
 }
 
-const formatRetainerEdgeLabel = (
-  retainerOrdinal: number,
-  edgeIndex: number,
-  snapshot: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-  nodeOrdinalToLocation: SourceLocation[],
-  options: FormattingProfileToMdOptions,
-): string => {
-  const edgeLabel = formatEdgeLabel(edgeIndex, snapshot, fieldLayout, options)
-  const retainerLabel = formatNodeLabel(
-    retainerOrdinal,
-    snapshot,
-    fieldLayout,
-    options,
-  )
-  const retainerLocation = nodeOrdinalToLocation[retainerOrdinal]
-  return `${edgeLabel} ${retainerLabel}${
-    retainerLocation
-      ? ` (${formatSourceLocation(retainerLocation, options)})`
-      : ``
-  }`
-}
-
-const formatEdgeLabel = (
+const retainerEdge = (
   edgeIndex: number,
   { edges, strings }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: FormattingProfileToMdOptions,
-) => {
+): RetainerEdge => {
   const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
   const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
   if (edgeType === fieldLayout.edgeTypeElement) {
     // Julia's snapshot writer stores the index as a `size_t` and writes `-1`,
     // read back as 2^64, for a slot outside the array's element data:
     // https://github.com/JuliaLang/julia/issues/63443
-    return Number.isSafeInteger(edgeNameOrIndex)
-      ? `[${edgeNameOrIndex}]`
-      : `[<unknown>]`
+    return {
+      type: `element`,
+      index: Number.isSafeInteger(edgeNameOrIndex)
+        ? edgeNameOrIndex
+        : undefined,
+    }
   }
 
-  const rawEdgeName = strings[edgeNameOrIndex]!
+  const name = strings[edgeNameOrIndex]!
   // An edge name can be a file URL.
-  const fileReference = rawEdgeName ? makeFileReference(rawEdgeName) : undefined
-  const edgeName = fileReference
-    ? formatSourceLocation(fileReference, options)
-    : rawEdgeName
-
-  return `.${edgeName}`
+  const nameLocation = name ? makeFileReference(name) : undefined
+  return nameLocation
+    ? { type: `property`, name, nameLocation }
+    : { type: `property`, name }
 }
 
 /**

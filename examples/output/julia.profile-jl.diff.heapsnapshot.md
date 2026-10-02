@@ -32,6 +32,20 @@ Constructors with the largest decrease in self size.
 | -----: | ---------: | ---: | ----------------: | --------------: | --------------------------- |
 |  -0.1% | -1.097 KiB | 0.6% | 885 KiB → 883 KiB | 14,864 → 14,860 | `<foreign memory - malloc>` |
 
+#### Instances
+
+Instances with the largest change in contribution to each constructor's self size.
+
+##### `<foreign memory - malloc>`
+
+|  Change |  Delta |             % |            Size |     Instances | Path                                                                                                                                                                                                                                                                         |
+| ------: | -----: | ------------: | --------------: | ------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   -1.4% | -1 KiB |   8.4% → 8.3% | 74 KiB → 73 KiB |       17 → 16 | `.<native> Memory{UInt16} ← .speckeyset Method`                                                                                                                                                                                                                              |
+|   -0.1% |  -96 B | 19.8% → 19.9% |         175 KiB | 4,731 → 4,729 | `.<native> Memory{UInt8} ← .speckeyset Method`                                                                                                                                                                                                                               |
+| removed |  -64 B |  <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← .root_blocks Method ← [22079] Memory{Any} ← .arg1 Core.TypeMapLevel ← .defs Core.MethodTable`                                                                                                                        |
+| removed |  -64 B |  <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← .root_blocks Method ← .next Core.TypeMapEntry ← [1965] Memory{Any} ← .arg1 Core.TypeMapLevel ← [15] Memory{Any} ← .name1 Core.TypeMapLevel ← [14543] Memory{Any} ← .arg1 Core.TypeMapLevel ← .defs Core.MethodTable` |
+| removed |  -64 B |  <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← .root_blocks Method ← [1601] Memory{Any} ← .arg1 Core.TypeMapLevel ← [15] Memory{Any} ← .name1 Core.TypeMapLevel ← [14543] Memory{Any} ← .arg1 Core.TypeMapLevel ← .defs Core.MethodTable`                           |
+
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
@@ -45,3 +59,17 @@ Constructors with the largest decrease in retained size.
 | Change |      Delta |    % |              Size |       Instances | Constructor                 |
 | -----: | ---------: | ---: | ----------------: | --------------: | --------------------------- |
 |  -0.1% | -1.097 KiB | 0.6% | 885 KiB → 883 KiB | 14,864 → 14,860 | `<foreign memory - malloc>` |
+
+#### Instances
+
+Instances with the largest change in contribution to each constructor's retained size.
+
+##### `<foreign memory - malloc>`
+
+|  Change |  Delta |             % |            Size |     Instances | Path                                                                                                                                                                                                                                                                         |
+| ------: | -----: | ------------: | --------------: | ------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   -1.4% | -1 KiB |   8.4% → 8.3% | 74 KiB → 73 KiB |       17 → 16 | `.<native> Memory{UInt16} ← .speckeyset Method`                                                                                                                                                                                                                              |
+|   -0.1% |  -96 B | 19.8% → 19.9% |         175 KiB | 4,731 → 4,729 | `.<native> Memory{UInt8} ← .speckeyset Method`                                                                                                                                                                                                                               |
+| removed |  -64 B |  <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← .root_blocks Method ← [22079] Memory{Any} ← .arg1 Core.TypeMapLevel ← .defs Core.MethodTable`                                                                                                                        |
+| removed |  -64 B |  <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← .root_blocks Method ← .next Core.TypeMapEntry ← [1965] Memory{Any} ← .arg1 Core.TypeMapLevel ← [15] Memory{Any} ← .name1 Core.TypeMapLevel ← [14543] Memory{Any} ← .arg1 Core.TypeMapLevel ← .defs Core.MethodTable` |
+| removed |  -64 B |  <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `.<native> Memory{UInt64} ← .ref.mem Array{UInt64, 1} ← .root_blocks Method ← [1601] Memory{Any} ← .arg1 Core.TypeMapLevel ← [15] Memory{Any} ← .name1 Core.TypeMapLevel ← [14543] Memory{Any} ← .arg1 Core.TypeMapLevel ← .defs Core.MethodTable`                           |

@@ -1,7 +1,7 @@
 /**
- * Scores how a diff pairs functions across its base and current sides against
- * ground truth, to measure a change to the pairing instead of judging it from
- * examples.
+ * Scores how a diff pairs functions, and a heap snapshot's instance groups,
+ * across its base and current sides against ground truth, to measure a change
+ * to the pairing instead of judging it from examples.
  *
  * A diff pairs functions by match key, which ignores line and column, and
  * pairs the functions that share a match key by their positions. The ground
@@ -41,6 +41,14 @@
  * line by its share of its input's total. Synthetic edits move and delete
  * executing lines as they do functions.
  *
+ * The `instance groups` tables score how a heap snapshot diff pairs each
+ * constructor's instance groups. A base group's counterpart is the current
+ * group whose retainer path has the same steps, with each step's position
+ * mapped under the same kinds of ground truth, and its edge and retainer
+ * compared by match key. A group weighs its share of its snapshot's size. The
+ * synthetic edits move the positions of the current side's paths in one
+ * source reference, and only the groups with a step located in it are scored.
+ *
  * Usage:
  * - `pnpm evaluate-diff-matching` scores every committed pair
  * - `--update` fetches both versions of each upgraded project's profiled files
@@ -65,7 +73,12 @@ import {
   readGroundTruth,
   updateGroundTruth,
 } from './ground-truth.ts'
-import { committedPairs, functionInputPairs } from './inputs.ts'
+import { committedPairs, scoredInputPairs } from './inputs.ts'
+import {
+  applyInstanceGroupEdit,
+  evaluateInstanceGroups,
+  instanceGroupInput,
+} from './instance-groups.ts'
 import { identity } from './position.ts'
 import { addEvaluation, evaluate } from './score.ts'
 import type { Evaluation } from './score.ts'
@@ -103,14 +116,15 @@ const main = (): void => {
     },
     options,
   )
-  for (const [name, rows] of Object.entries(tables)) {
-    printTable(name, rows)
+  for (const [name, { rows, entities }] of Object.entries(tables)) {
+    printTable(name, rows, entities)
   }
 }
 
 /**
  * Scores each committed pair under the kinds of ground truth that apply to it,
- * and returns the evaluations keyed by kind, then by row.
+ * and returns the evaluations keyed by kind, then by row, with the entities
+ * each kind scores.
  */
 const scoreCommittedPairs = (
   {
@@ -120,12 +134,30 @@ const scoreCommittedPairs = (
     verbose,
   }: { filter?: string; edits: number; seed: number; verbose: boolean },
   options: FormattingProfileToMdOptions,
-): Record<string, Map<string, Evaluation>> => {
+): Record<string, { rows: Map<string, Evaluation>; entities: string }> => {
   const groundTruth = readGroundTruth()
   const tables = {
-    'same code': new Map<string, Evaluation>(),
-    'version change': new Map<string, Evaluation>(),
-    'synthetic edits': new Map<string, Evaluation>(),
+    'same code': { rows: new Map<string, Evaluation>(), entities: `functions` },
+    'version change': {
+      rows: new Map<string, Evaluation>(),
+      entities: `functions`,
+    },
+    'synthetic edits': {
+      rows: new Map<string, Evaluation>(),
+      entities: `functions`,
+    },
+    'same code, instance groups': {
+      rows: new Map<string, Evaluation>(),
+      entities: `groups`,
+    },
+    'version change, instance groups': {
+      rows: new Map<string, Evaluation>(),
+      entities: `groups`,
+    },
+    'synthetic edits, instance groups': {
+      rows: new Map<string, Evaluation>(),
+      entities: `groups`,
+    },
   }
 
   for (const pair of committedPairs(filter)) {
@@ -133,15 +165,50 @@ const scoreCommittedPairs = (
       ? `${pair.name}.${pair.ext}`
       : parseExampleFilename(pair.base).origin
     const random = pairRandom(seed, pair.base)
-    for (const [baseInput, currentInput] of functionInputPairs(pair, options)) {
+    for (const inputs of scoredInputPairs(pair, options)) {
       const versionChange = versionChangeMap(
-        baseInput,
-        currentInput,
+        inputs.base,
+        inputs.current,
         groundTruth,
       )
+
+      if (inputs.type === `heap-snapshot`) {
+        const input = instanceGroupInput(inputs.base, inputs.current, options)
+        if (versionChange) {
+          addEvaluation(
+            tables[`version change, instance groups`].rows,
+            row,
+            evaluateInstanceGroups(input, options, versionChange),
+          )
+          continue
+        }
+
+        addEvaluation(
+          tables[`same code, instance groups`].rows,
+          row,
+          evaluateInstanceGroups(input, options, { positionMap: identity }),
+        )
+        for (let edit = 0; edit < edits; edit++) {
+          const edited = applyInstanceGroupEdit(input, random)
+          if (!edited) {
+            break
+          }
+          addEvaluation(
+            tables[`synthetic edits, instance groups`].rows,
+            row,
+            evaluateInstanceGroups(edited.input, options, {
+              positionMap: edited.positionMap,
+              editedSource: edited.source,
+            }),
+          )
+        }
+        continue
+      }
+
+      const { base: baseInput, current: currentInput } = inputs
       if (versionChange) {
         addEvaluation(
-          tables[`version change`],
+          tables[`version change`].rows,
           row,
           evaluate(
             baseInput,
@@ -155,7 +222,7 @@ const scoreCommittedPairs = (
       }
 
       addEvaluation(
-        tables[`same code`],
+        tables[`same code`].rows,
         row,
         evaluate(baseInput, currentInput, options, identity),
       )
@@ -165,7 +232,7 @@ const scoreCommittedPairs = (
           break
         }
         addEvaluation(
-          tables[`synthetic edits`],
+          tables[`synthetic edits`].rows,
           row,
           evaluate(baseInput, currentInput, options, map.positionMap),
         )

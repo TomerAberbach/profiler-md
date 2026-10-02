@@ -5,6 +5,7 @@ import { locationlessCategory, syntheticFrameCategory } from '../categorize.ts'
 import {
   ecmaScriptBuiltinCategory,
   javaScriptConstructorCategory,
+  javaScriptMatchHeapSnapshotEdgeName,
   nodeModulesCategory,
 } from '../javascript.ts'
 import { jscConstructorCategory } from '../jsc.ts'
@@ -37,6 +38,7 @@ export const safariOriginSpec = {
     `ours`,
   categorizeHeapSnapshotConstructor: name =>
     jscConstructorCategory(name) ?? javaScriptConstructorCategory(name),
+  matchHeapSnapshotEdgeName: javaScriptMatchHeapSnapshotEdgeName,
 } as const satisfies OriginSpec
 
 /**

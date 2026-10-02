@@ -3,8 +3,10 @@ import { join } from 'node:path'
 import { exampleDiffPairs } from '../../src/cli/examples.ts'
 import type { ExampleDiffPair } from '../../src/cli/examples.ts'
 import { aggregateInput } from '../../src/formats/index.ts'
+import type { SourceLocation } from '../../src/location.ts'
 import type { AggregatedCallGraph } from '../../src/modalities/call-graph/aggregate.ts'
 import type { AggregatedCallStackProfile } from '../../src/modalities/call-stack-profile/aggregate.ts'
+import type { AggregatedHeapSnapshot } from '../../src/modalities/heap-snapshot/aggregate.ts'
 import type { AggregatedInput } from '../../src/modalities/registry.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 
@@ -20,18 +22,50 @@ export const committedPairs = (filter?: string): ExampleDiffPair[] =>
     .filter(({ base }) => !filter || base.includes(filter))
     .sort((left, right) => left.base.localeCompare(right.base))
 
-export const functionInputPairs = (
+/**
+ * The aggregated inputs of a pair whose sides a diff can pair entities of: a
+ * function input or a heap snapshot on both sides.
+ */
+export const scoredInputPairs = (
   pair: ExampleDiffPair,
   options: FormattingProfileToMdOptions,
-): [FunctionInput, FunctionInput][] => {
+): ScoredInputPair[] => {
   const current = aggregate(pair.current, options)
-  return aggregate(pair.base, options).flatMap((base, index) => {
-    const currentInput = current[index]
-    return currentInput && hasFunctions(base) && hasFunctions(currentInput)
-      ? [[base, currentInput] as [FunctionInput, FunctionInput]]
-      : []
-  })
+  return aggregate(pair.base, options).flatMap(
+    (base, index): ScoredInputPair[] => {
+      const currentInput = current[index]
+      if (!currentInput) {
+        return []
+      }
+      if (isFunctionInput(base) && isFunctionInput(currentInput)) {
+        return [{ type: `function`, base, current: currentInput }]
+      }
+      return base.type === `heap-snapshot` &&
+        currentInput.type === `heap-snapshot`
+        ? [{ type: `heap-snapshot`, base, current: currentInput }]
+        : []
+    },
+  )
 }
+
+export type ScoredInputPair =
+  | { type: `function`; base: FunctionInput; current: FunctionInput }
+  | {
+      type: `heap-snapshot`
+      base: AggregatedHeapSnapshot
+      current: AggregatedHeapSnapshot
+    }
+
+/**
+ * The input's entities with a location: its functions, and a heap snapshot's
+ * constructors, whose locations its retainer paths contain.
+ */
+export const locatedEntitiesOf = (
+  input: FunctionInput | AggregatedHeapSnapshot,
+): readonly { location?: SourceLocation }[] =>
+  input.type === `heap-snapshot`
+    ? [...input.functions, ...input.constructors]
+    : input.functions
 
 const aggregate = (
   filename: string,
@@ -42,5 +76,5 @@ const aggregate = (
     options,
   )
 
-const hasFunctions = (input: AggregatedInput): input is FunctionInput =>
+const isFunctionInput = (input: AggregatedInput): input is FunctionInput =>
   input.type === `call-stack-profile` || input.type === `call-graph`

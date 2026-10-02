@@ -217,3 +217,21 @@ const CATEGORY_TO_CLASS_NAMES = {
 } as const satisfies Partial<
   Record<HeapSnapshotNodeCategory, readonly string[]>
 >
+
+/**
+ * Strips the per-page-load part of the property jQuery stores a DOM node's data
+ * under. jQuery names it by its expando, `"jQuery"` followed by its version's
+ * and a `Math.random()`'s digits
+ * ([core.js](https://github.com/jquery/jquery/blob/3.7.1/src/core.js#L208)),
+ * and appends the counter of the data store
+ * ([Data.js](https://github.com/jquery/jquery/blob/3.7.1/src/data/Data.js#L11)).
+ *
+ * The random digits vary in number, so the counter can't be told apart from
+ * them, and the property of jQuery's private data store shares a match key
+ * with that of the page's.
+ */
+export const javaScriptMatchHeapSnapshotEdgeName = (
+  name: string,
+): string | undefined => (JQUERY_EXPANDO.test(name) ? `jQuery` : undefined)
+
+const JQUERY_EXPANDO = /^jQuery\d+$/u

@@ -4,6 +4,7 @@ import { protocolCategory } from '../categorize.ts'
 import {
   hasNodeModulesPath,
   javaScriptConstructorCategory,
+  javaScriptMatchHeapSnapshotEdgeName,
   v8JavaScriptCategory,
 } from '../javascript.ts'
 import { hasProtocol } from '../spec.ts'
@@ -24,6 +25,7 @@ export const nodeOriginSpec = {
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
   categorizeHeapSnapshotConstructor: javaScriptConstructorCategory,
+  matchHeapSnapshotEdgeName: javaScriptMatchHeapSnapshotEdgeName,
 } as const satisfies OriginSpec
 
 /** The module specifiers Node resolves to runtime builtins. */

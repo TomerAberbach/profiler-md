@@ -68,6 +68,9 @@ $ARGUMENTS
      normalizer. Functions are then keyed and located by call site
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
      runtime addresses) into names or paths (see `matchEntryFromRules`)
+   - `matchHeapSnapshotEdgeName` when the origin writes heap snapshots of a
+     language whose programs write run-varying identifiers into property names
+     (see `javaScriptMatchHeapSnapshotEdgeName`)
    - `countMetric` when what one of the origin's per-sample counts measures
      differs from what the format's other emitters count. It overrides the same
      field the format's parser sets. For example, eflambe writes one collapsed

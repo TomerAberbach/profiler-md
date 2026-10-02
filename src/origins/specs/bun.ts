@@ -6,6 +6,7 @@ import {
 import {
   ecmaScriptBuiltinCategory,
   javaScriptConstructorCategory,
+  javaScriptMatchHeapSnapshotEdgeName,
   nodeModulesCategory,
 } from '../javascript.ts'
 import { jscConstructorCategory } from '../jsc.ts'
@@ -34,6 +35,7 @@ export const bunOriginSpec = {
     `ours`,
   categorizeHeapSnapshotConstructor: name =>
     jscConstructorCategory(name) ?? javaScriptConstructorCategory(name),
+  matchHeapSnapshotEdgeName: javaScriptMatchHeapSnapshotEdgeName,
 } as const satisfies OriginSpec
 
 /**

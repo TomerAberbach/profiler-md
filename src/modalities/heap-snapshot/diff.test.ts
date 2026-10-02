@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import type { SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
 import { categoryTables, rankingTables } from '../../testing.ts'
@@ -10,8 +11,12 @@ import {
   makeAggregatedHeapSnapshotConstructor,
   makeAggregatedHeapSnapshotFunction,
   makeAggregatedHeapSnapshotString,
+  makeRetainerHops,
   makeSourceLocation,
+  retainedSizeInstancesTables,
+  selfSizeInstancesTables,
 } from './testing.ts'
+import type { RetainerStep } from './type.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
@@ -456,6 +461,251 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           '%': `100.0% → 0.0%`,
           Size: `200 B → 0 B`,
           Nodes: `2 → 0`,
+        },
+      ],
+    ])
+  })
+})
+
+describe(`formatHeapSnapshotDiff instances`, () => {
+  /** A snapshot of `Foo` instances, each of a size and at a retainer path. */
+  const snapshotOf = (instances: { size: number; steps: RetainerStep[] }[]) => {
+    const constructor = makeAggregatedHeapSnapshotConstructor({
+      name: `Foo`,
+      selfSize: instances.reduce((sum, { size }) => sum + size, 0),
+      retainedSize: instances.reduce((sum, { size }) => sum + size, 0),
+      instanceCount: 0,
+    })
+    constructor.instances = instances.map(({ size }, id) => ({
+      type: `node`,
+      id,
+      name: `Foo`,
+      category: `object`,
+      selfSize: size,
+      retainedSize: size,
+    }))
+    return {
+      ...makeAggregatedHeapSnapshot({ constructors: [constructor] }),
+      ...makeRetainerHops(instances.map(({ steps }) => steps)),
+    }
+  }
+
+  /** A step through the property {@link name} of a retainer. */
+  const propertyStep = (
+    name: string,
+    retainer: string,
+    location?: SourceLocation,
+  ): RetainerStep => ({
+    edge: { type: `property`, name },
+    retainer: { id: 0, name: retainer, location },
+  })
+
+  const instanceTablesOf = (
+    base: { size: number; steps: RetainerStep[] }[],
+    current: { size: number; steps: RetainerStep[] }[],
+  ) => {
+    const md = mdastToMarkdown(
+      formatHeapSnapshotDiff(
+        diffAggregatedHeapSnapshots(
+          snapshotOf(base),
+          snapshotOf(current),
+          defaultOptions,
+        ),
+        defaultOptions,
+      ),
+    )
+    const tables = selfSizeInstancesTables(md, `Foo`)
+    expect(retainedSizeInstancesTables(md, `Foo`)).toEqual(tables)
+    return tables
+  }
+
+  test(`pairs each constructor's instance groups by retainer path`, () => {
+    expect(
+      instanceTablesOf(
+        [
+          { size: 100, steps: [propertyStep(`a`, `Holder`)] },
+          { size: 50, steps: [propertyStep(`b`, `Holder`)] },
+        ],
+        [
+          { size: 100, steps: [propertyStep(`a`, `Holder`)] },
+          { size: 300, steps: [propertyStep(`b`, `Holder`)] },
+          { size: 40, steps: [propertyStep(`c`, `Holder`)] },
+        ],
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+500.0%`,
+          Delta: `+250 B`,
+          '%': `33.3% → 68.2%`,
+          Size: `50 B → 300 B`,
+          Instances: `1`,
+          Path: `.b Holder`,
+        },
+        {
+          Change: `new`,
+          Delta: `+40 B`,
+          '%': `0.0% → 9.1%`,
+          Size: `0 B → 40 B`,
+          Instances: `0 → 1`,
+          Path: `.c Holder`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the groups whose retainers an edit moved along their file`, () => {
+    const stepAt = (column: number) =>
+      propertyStep(
+        `context`,
+        `l`,
+        makeSourceLocation(`/project/d3.js`, 2, column),
+      )
+
+    expect(
+      instanceTablesOf(
+        [
+          { size: 10, steps: [stepAt(100)] },
+          { size: 20, steps: [stepAt(200)] },
+        ],
+        [
+          { size: 30, steps: [stepAt(80)] },
+          { size: 60, steps: [stepAt(180)] },
+        ],
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+40 B`,
+          '%': `66.7%`,
+          Size: `20 B → 60 B`,
+          Instances: `1`,
+          Path: `.context l (d3.js:2:180)`,
+        },
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `33.3%`,
+          Size: `10 B → 30 B`,
+          Instances: `1`,
+          Path: `.context l (d3.js:2:80)`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the groups with one path before pairing by position`, () => {
+    const pathTo = (column: number) => [
+      propertyStep(`context`, `l`, makeSourceLocation(`/project/d3.js`, 2, 10)),
+      propertyStep(
+        `context`,
+        `t`,
+        makeSourceLocation(`/project/d3.js`, 2, column),
+      ),
+    ]
+
+    expect(
+      instanceTablesOf(
+        [
+          { size: 10, steps: pathTo(100) },
+          { size: 20, steps: pathTo(200) },
+        ],
+        [
+          { size: 40, steps: pathTo(200) },
+          { size: 30, steps: pathTo(100) },
+        ],
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `33.3% → 42.9%`,
+          Size: `10 B → 30 B`,
+          Instances: `1`,
+          Path: `.context l (d3.js:2:10) ← .context t (d3.js:2:100)`,
+        },
+        {
+          Change: `+100.0%`,
+          Delta: `+20 B`,
+          '%': `66.7% → 57.1%`,
+          Size: `20 B → 40 B`,
+          Instances: `1`,
+          Path: `.context l (d3.js:2:10) ← .context t (d3.js:2:200)`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the groups by the step an edit moved past a step it did not`, () => {
+    const pathTo = (column: number) => [
+      propertyStep(`context`, `l`, makeSourceLocation(`/project/d3.js`, 2, 10)),
+      propertyStep(
+        `context`,
+        `t`,
+        makeSourceLocation(`/project/d3.js`, 2, column),
+      ),
+    ]
+
+    expect(
+      instanceTablesOf(
+        [
+          { size: 10, steps: pathTo(100) },
+          { size: 20, steps: pathTo(200) },
+        ],
+        [
+          { size: 60, steps: pathTo(180) },
+          { size: 30, steps: pathTo(80) },
+        ],
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+40 B`,
+          '%': `66.7%`,
+          Size: `20 B → 60 B`,
+          Instances: `1`,
+          Path: `.context l (d3.js:2:10) ← .context t (d3.js:2:180)`,
+        },
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `33.3%`,
+          Size: `10 B → 30 B`,
+          Instances: `1`,
+          Path: `.context l (d3.js:2:10) ← .context t (d3.js:2:80)`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the groups whose jQuery data property differs per page load`, () => {
+    expect(
+      instanceTablesOf(
+        [
+          {
+            size: 10,
+            steps: [propertyStep(`jQuery371070616879042118561`, `HTMLElement`)],
+          },
+        ],
+        [
+          {
+            size: 30,
+            steps: [propertyStep(`jQuery37102850593049792911`, `HTMLElement`)],
+          },
+        ],
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `100.0%`,
+          Size: `10 B → 30 B`,
+          Instances: `1`,
+          Path: `.jQuery37102850593049792911 HTMLElement`,
         },
       ],
     ])

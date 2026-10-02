@@ -4,6 +4,7 @@ import { nodeAdjacencyGraphFromSuccessors } from '../../modalities/heap-snapshot
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
+  RetainerEdge,
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../modalities/heap-snapshot/index.ts'
 import {
@@ -638,8 +639,10 @@ const buildHeapSnapshot = (dump: Dump, nodes: Nodes): HeapSnapshot => {
     nodeAdjacencyGraph,
     selfSizeOf: nodeOrdinal => selfSizes[nodeOrdinal]!,
     nodes: heapSnapshotNodes(dump, nodes, names),
-    formatEdgeLabel: (retainerOrdinal, edgeIndex) =>
-      formatRetainerEdgeLabel(dump, nodes, names, retainerOrdinal, edgeIndex),
+    retainerStepOf: (retainerOrdinal, edgeIndex) => ({
+      edge: retainerEdge(dump, nodes, names, retainerOrdinal, edgeIndex),
+      retainer: { id: retainerOrdinal, name: names.labelOf(retainerOrdinal) },
+    }),
     formatNodeLabel: nodeOrdinal => names.labelOf(nodeOrdinal),
     // The GC root is the only node the dump doesn't record, and every other
     // node is a Java object that can reference user code.
@@ -706,15 +709,19 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
   let referenceCount = 0
 
   let nodeOrdinal = GC_ROOT_ORDINAL
+  // A reference's edge index is its position among the record's references,
+  // counting the null and dangling ones it skips, so a label reads the field
+  // or element at that position without reading the ones before it.
   let nodeEdgeIndex = 0
   const addReference = (targetOrdinal: number): void => {
+    const edgeIndex = nodeEdgeIndex++
     if (targetOrdinal === -1) {
       return
     }
     successorOrdinals.ensureCapacity(referenceCount + 1)[referenceCount] =
       targetOrdinal
     successorEdgeIndices.ensureCapacity(referenceCount + 1)[referenceCount] =
-      nodeEdgeIndex++
+      edgeIndex
     referenceCount++
     successorCounts[nodeOrdinal]!++
   }
@@ -1041,103 +1048,69 @@ const javaClassName = (rawName: string): string => {
 }
 
 /**
- * Formats one step of a retainer path: the reference's label followed by the
- * label of the node holding it.
- */
-const formatRetainerEdgeLabel = (
-  dump: Dump,
-  nodes: Nodes,
-  names: NodeNames,
-  retainerOrdinal: number,
-  edgeIndex: number,
-): string => {
-  const retainerLabel = names.labelOf(retainerOrdinal)
-  // The GC root's references are the root objects themselves, which no record
-  // labels.
-  if (retainerOrdinal === GC_ROOT_ORDINAL) {
-    return retainerLabel
-  }
-
-  return `${referenceLabel(dump, nodes, names, retainerOrdinal, edgeIndex)} ${retainerLabel}`
-}
-
-/**
- * The label of the reference at {@link edgeIndex} among those the node at
+ * The edge of the reference at {@link edgeIndex} among those the node at
  * {@link retainerOrdinal} holds: the field name for an instance or class, and
  * the index for an array element.
  *
- * The node's record is read again rather than a label kept per reference, of
+ * The node's record is read again rather than an edge kept per reference, of
  * which a dump holds millions and a converted snapshot shows a few dozen.
  */
-const referenceLabel = (
+const retainerEdge = (
   dump: Dump,
   nodes: Nodes,
   names: NodeNames,
   retainerOrdinal: number,
   edgeIndex: number,
-): string => {
+): RetainerEdge => {
+  // The GC root's references are the root objects themselves, which no record
+  // labels.
+  if (retainerOrdinal === GC_ROOT_ORDINAL) {
+    return { type: `unlabeled` }
+  }
+
   const body = nodes.recordOffsets[retainerOrdinal]!
   switch (dump.bytes[body - 1]!) {
     case HPROF_GC_CLASS_DUMP:
-      return classReferenceLabel(nodes, names, retainerOrdinal, edgeIndex)
+      return classReferenceEdge(nodes, names, retainerOrdinal, edgeIndex)
     case HPROF_GC_INSTANCE_DUMP:
-      return instanceFieldLabel(dump, nodes, names, body, edgeIndex)
+      return instanceFieldEdge(dump, nodes, names, body, edgeIndex)
     default:
-      return arrayElementLabel(dump, nodes, body, edgeIndex)
+      return { type: `element`, index: edgeIndex }
   }
 }
 
-const classReferenceLabel = (
+const classReferenceEdge = (
   nodes: Nodes,
   names: NodeNames,
   classOrdinal: number,
   edgeIndex: number,
-): string => {
-  const { ordinalOf, classes } = nodes
-  const {
-    staticObjectIds,
-    staticNameStringIds,
-    loaderObjectId,
-    signersObjectId,
-    protectionDomainObjectId,
-  } = classes.get(classOrdinal)!
-
-  let index = 0
-  for (
-    let staticIndex = 0;
-    staticIndex < staticObjectIds.length;
-    staticIndex++
-  ) {
-    if (ordinalOf.get(staticObjectIds[staticIndex]!) === -1) {
-      continue
-    }
-    if (index++ === edgeIndex) {
-      return `.${names.stringOf(staticNameStringIds[staticIndex]!)}`
+): RetainerEdge => {
+  const { staticNameStringIds } = nodes.classes.get(classOrdinal)!
+  if (edgeIndex < staticNameStringIds.length) {
+    return {
+      type: `property`,
+      name: names.stringOf(staticNameStringIds[edgeIndex]!),
     }
   }
-  for (const [objectId, label] of [
-    [loaderObjectId, `<class loader>`],
-    [signersObjectId, `<signers>`],
-    [protectionDomainObjectId, `<protection domain>`],
-  ] as const) {
-    if (ordinalOf.get(objectId) === -1) {
-      continue
-    }
-    if (index++ === edgeIndex) {
-      return label
-    }
-  }
-  return `.(unknown)`
+  const label = CLASS_REFERENCE_LABELS[edgeIndex - staticNameStringIds.length]
+  return label === undefined ? UNKNOWN_FIELD_EDGE : { type: `labeled`, label }
 }
 
-const instanceFieldLabel = (
+/** The labels of the references a class holds after its static fields. */
+const CLASS_REFERENCE_LABELS = [
+  `<class loader>`,
+  `<signers>`,
+  `<protection domain>`,
+]
+
+const instanceFieldEdge = (
   dump: Dump,
   nodes: Nodes,
   names: NodeNames,
   body: number,
   edgeIndex: number,
-): string => {
-  const { idSize, readId, typeSizes } = dump
+): RetainerEdge => {
+  const { idSize, readId } = dump
   const { ordinalOf } = nodes
 
   const fields = flattenedFieldsOf(
@@ -1146,37 +1119,15 @@ const instanceFieldLabel = (
     ordinalOf.get(readId(body + idSize + 4)),
   )
   let index = 0
-  let offset = body + idSize * 2 + 8
   for (let field = 0; field < fields.types.length; field++) {
-    const type = fields.types[field]!
-    if (
-      type === TYPE_OBJECT &&
-      ordinalOf.get(readId(offset)) !== -1 &&
-      index++ === edgeIndex
-    ) {
-      return `.${names.stringOf(fields.nameStringIds[field]!)}`
-    }
-    offset += basicTypeSize(typeSizes, type)
-  }
-  return `.(unknown)`
-}
-
-const arrayElementLabel = (
-  dump: Dump,
-  nodes: Nodes,
-  body: number,
-  edgeIndex: number,
-): string => {
-  const { view, idSize, readId } = dump
-  const { ordinalOf } = nodes
-
-  const length = view.getUint32(body + idSize + 4)
-  let index = 0
-  let offset = body + idSize * 2 + 8
-  for (let element = 0; element < length; element++, offset += idSize) {
-    if (ordinalOf.get(readId(offset)) !== -1 && index++ === edgeIndex) {
-      return `[${element}]`
+    if (fields.types[field] === TYPE_OBJECT && index++ === edgeIndex) {
+      return {
+        type: `property`,
+        name: names.stringOf(fields.nameStringIds[field]!),
+      }
     }
   }
-  return `[]`
+  return UNKNOWN_FIELD_EDGE
 }
+
+const UNKNOWN_FIELD_EDGE: RetainerEdge = { type: `property`, name: `(unknown)` }
