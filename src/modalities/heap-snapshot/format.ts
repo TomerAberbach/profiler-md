@@ -1,5 +1,4 @@
 import type { Heading, RootContent } from 'mdast'
-import { DynamicTypedArray } from '../../helpers/array.ts'
 import {
   formatArrow,
   formatBytes,
@@ -17,10 +16,7 @@ import {
 } from '../../helpers/markdown.ts'
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
-import type {
-  FormattingProfileToMdOptions,
-  ProfileToMdContext,
-} from '../../options.ts'
+import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
   formatRankingTables,
   rankEntities,
@@ -50,6 +46,7 @@ import type {
   AggregatedHeapSnapshotNode,
   AggregatedHeapSnapshotString,
 } from './aggregate.ts'
+import { shownRetainedNodes } from './aggregate.ts'
 import { diffRetainerPaths, matchConstructorInstanceGroups } from './diff.ts'
 import type {
   AggregatedHeapSnapshotDiff,
@@ -400,7 +397,7 @@ const formatLargestFunctions = ({
   }
 
   const retainedSections = largestFunctions.flatMap(fn =>
-    formatFunctionRetainedObjects({ fn, snapshot, hasLocation, options }),
+    formatFunctionRetainedNodes({ fn, snapshot, hasLocation, options }),
   )
 
   return [
@@ -432,9 +429,9 @@ const formatLargestFunctions = ({
   ]
 }
 
-const formatFunctionRetainedObjects = ({
+const formatFunctionRetainedNodes = ({
   fn,
-  snapshot: { retainedNodesOf, retainerPathOf, context },
+  snapshot,
   hasLocation,
   options,
 }: {
@@ -444,7 +441,10 @@ const formatFunctionRetainedObjects = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const retainedNodes = selectTopN(
-    collectShownRetainedNodes(fn, retainedNodesOf, context, options),
+    Array.from(
+      shownRetainedNodes(fn.instanceIds, snapshot, options),
+      ({ node }) => node,
+    ),
     Math.ceil(options.topN / 4),
     node => node.selfSize,
   )
@@ -460,37 +460,10 @@ const formatFunctionRetainedObjects = ({
         name: node.name,
         size: node.selfSize,
         total: fn.retainedSize,
-        path: retainerPathOf(node.id, options),
+        path: snapshot.retainerPathOf(node.id, options),
       })),
     ),
   ]
-}
-
-/**
- * The shown nodes retained by the function's instances, deduplicated across
- * instances.
- */
-const collectShownRetainedNodes = (
-  fn: AggregatedHeapSnapshotFunction,
-  retainedNodesOf: AggregatedHeapSnapshot[`retainedNodesOf`],
-  context: ProfileToMdContext,
-  options: FormattingProfileToMdOptions,
-): AggregatedHeapSnapshotNode[] => {
-  const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
-  const retainedNodes: AggregatedHeapSnapshotNode[] = []
-  for (const instanceId of fn.instanceIds) {
-    for (const node of retainedNodesOf(instanceId, options)) {
-      const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
-      if (seen[node.id]) {
-        continue
-      }
-      seen[node.id] = 1
-      if (options.showEntry(node, context)) {
-        retainedNodes.push(node)
-      }
-    }
-  }
-  return retainedNodes
 }
 
 const formatLargestStrings = ({

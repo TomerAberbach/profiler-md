@@ -23,6 +23,7 @@ import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
   attributeCategoryRetainedSizes,
   computeNodeOrdinalToRetainedSize,
+  newOutermostInstanceIdsOf,
 } from './retained.ts'
 import type {
   HeapSnapshot,
@@ -292,6 +293,9 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       constructors: this.#constructors,
       functions: this.#functions,
       strings: this.#strings,
+      outermostInstanceIdsOf: newOutermostInstanceIdsOf(
+        this.#immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+      ),
       retainerHopOf: this.#retainerHopOf,
       retainerPathOf: (nodeOrdinal, options) =>
         formatRetainerPath(
@@ -498,6 +502,37 @@ export const formatRetainerEdge = (
   }
 }
 
+/** A shown retained node, and the instance retaining it. */
+export type ShownRetainedNode = {
+  node: AggregatedHeapSnapshotNode
+  instanceId: number
+}
+
+/**
+ * Yields each shown node the outermost of the distinct {@link instanceIds}
+ * retain, and the instance retaining it.
+ */
+export function* shownRetainedNodes(
+  instanceIds: readonly number[],
+  {
+    outermostInstanceIdsOf,
+    retainedNodesOf,
+    context,
+  }: Pick<
+    AggregatedHeapSnapshot,
+    `outermostInstanceIdsOf` | `retainedNodesOf` | `context`
+  >,
+  options: FormattingProfileToMdOptions,
+): Iterable<ShownRetainedNode> {
+  for (const instanceId of outermostInstanceIdsOf(instanceIds)) {
+    for (const node of retainedNodesOf(instanceId, options)) {
+      if (options.showEntry(node, context)) {
+        yield { node, instanceId }
+      }
+    }
+  }
+}
+
 const computeRetainedNodes = (
   nodeOrdinal: number,
   {
@@ -632,6 +667,13 @@ export type AggregatedHeapSnapshot = {
   constructors: AggregatedHeapSnapshotConstructor[]
   functions: AggregatedHeapSnapshotFunction[]
   strings: AggregatedHeapSnapshotString[]
+
+  /**
+   * The reachable instances among distinct instance IDs that no other of them
+   * dominates. Their retained nodes are disjoint, and contain every other
+   * reachable instance's.
+   */
+  outermostInstanceIdsOf: (instanceIds: readonly number[]) => readonly number[]
 
   /**
    * The first hop of a node's retainer path along its dominators, or

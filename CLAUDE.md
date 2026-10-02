@@ -110,7 +110,7 @@ profiler-md
 │   │   └── heap-snapshot/        # Common heap snapshot conversion logic
 │   │       ├── type.ts           # Parsed heap snapshot types
 │   │       ├── graph.ts          # Node adjacency graph in CSR format
-│   │       ├── retained.ts       # Retained size computation
+│   │       ├── retained.ts       # Retained size computation, and the outermost of a set of instances
 │   │       ├── aggregate.ts      # Heap snapshot aggregation over classified nodes
 │   │       ├── categorize.ts     # Node and entity categorization under the resolved origin
 │   │       ├── diff.ts           # Aggregated heap snapshot diffing logic
