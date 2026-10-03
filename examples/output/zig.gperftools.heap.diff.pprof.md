@@ -31,6 +31,28 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | ------: | -----------: | ------------: | ------------: | ---------: | ------------------------------ | ----------------------------- |
 | removed | -224.492 MiB | 100.0% → 0.0% | 224 MiB → 0 B | 56,362 → 0 | `heap.CAllocator.alignedAlloc` | `../opt/zig/lib/std/heap.zig` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `heap.c_allocator_impl.alloc` (`../opt/zig/lib/std/heap.zig`)
+
+| Change |        Delta |             % |          Size |    Objects | Location                          |
+| -----: | -----------: | ------------: | ------------: | ---------: | --------------------------------- |
+|    new | +224.254 MiB | 0.0% → 100.0% | 0 B → 224 MiB | 0 → 42,029 | `../opt/zig/lib/std/heap.zig:232` |
+
+##### `heap.c_allocator_impl.remap` (`../opt/zig/lib/std/heap.zig`)
+
+| Change |       Delta |             % |           Size |   Objects | Location                          |
+| -----: | ----------: | ------------: | -------------: | --------: | --------------------------------- |
+|    new | +76.877 MiB | 0.0% → 100.0% | 0 B → 76.9 MiB | 0 → 9,282 | `../opt/zig/lib/std/heap.zig:309` |
+
+##### `heap.CAllocator.alignedAlloc` (`../opt/zig/lib/std/heap.zig`)
+
+|  Change |        Delta |             % |          Size |    Objects | Location                          |
+| ------: | -----------: | ------------: | ------------: | ---------: | --------------------------------- |
+| removed | -224.492 MiB | 100.0% → 0.0% | 224 MiB → 0 B | 56,362 → 0 | `../opt/zig/lib/std/heap.zig:165` |
+
 ### Total size
 
 #### Regressions

@@ -74,6 +74,196 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |   -7.3% |   -2.826 KiB |         <0.1% |   39 KiB → 36.1 KiB |                9 → 21 | `runtime/pprof.(*profileBuilder).stringIndex`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:133`              |
 |     ~0% |         -8 B |         <0.1% |            36.3 KiB |             601 → 622 | `encoding/json.newEncodeState`                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:315`             |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `encoding/json.(*decodeState).literalInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1129`)
+
+| Change |        Delta |             % |                Size |               Objects | Location                                                                                          |
+| -----: | -----------: | ------------: | ------------------: | --------------------: | ------------------------------------------------------------------------------------------------- |
+|  +3.1% | +869.697 KiB | 87.8% → 87.6% | 27.8 MiB → 28.6 MiB | 1,821,150 → 1,876,811 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1148` |
+|  +4.8% | +192.378 KiB | 12.2% → 12.4% | 3.88 MiB → 4.06 MiB |     216,211 → 228,441 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1154` |
+
+##### `encoding/json.mapEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765`)
+
+| Change |          Delta |      % |              Size |           Objects | Location                                                                                         |
+| -----: | -------------: | -----: | ----------------: | ----------------: | ------------------------------------------------------------------------------------------------ |
+|  +0.4% | +1,012.675 KiB | 100.0% | 223 MiB → 224 MiB | 499,177 → 501,806 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:784` |
+
+##### `reflect.unsafe_New` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177`)
+
+| Change |        Delta |      % |    Size |                 Objects | Location                                                                                    |
+| -----: | -----------: | -----: | ------: | ----------------------: | ------------------------------------------------------------------------------------------- |
+|  +0.2% | +320.626 KiB | 100.0% | 163 MiB | 10,689,894 → 10,710,418 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2178` |
+
+##### `encoding/json.(*decodeState).convertNumber` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:838`)
+
+| Change |        Delta |      % |               Size |           Objects | Location                                                                                         |
+| -----: | -----------: | -----: | -----------------: | ----------------: | ------------------------------------------------------------------------------------------------ |
+|  +1.8% | +132.258 KiB | 100.0% | 7.1 MiB → 7.23 MiB | 465,543 → 474,008 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:846` |
+
+##### `runtime/pprof.allFrames` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:209`)
+
+| Change |       Delta |             % |                Size |   Objects | Location                                                                                        |
+| -----: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------- |
+| +45.3% | +41.073 KiB | 71.3% → 73.1% |  90.6 KiB → 132 KiB | 386 → 800 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:214` |
+| +33.3% | +12.141 KiB | 28.7% → 26.9% | 36.4 KiB → 48.6 KiB | 388 → 518 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:232` |
+
+##### `sync.(*Pool).pinSlow` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/pool.go:223`)
+
+| Change |       Delta |      % |              Size |   Objects | Location                                                                              |
+| -----: | ----------: | -----: | ----------------: | --------: | ------------------------------------------------------------------------------------- |
+| +13.3% | +47.267 KiB | 100.0% | 355 KiB → 402 KiB | 257 → 292 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/pool.go:241` |
+
+##### `encoding/json.appendString[go.shape.string]` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:999`)
+
+| Change |       Delta |             % |                Size |       Objects | Location                                                                                          |
+| -----: | ----------: | ------------: | ------------------: | ------------: | ------------------------------------------------------------------------------------------------- |
+| +53.9% | +56.451 KiB | 47.2% → 63.4% |   105 KiB → 161 KiB | 2,879 → 4,533 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:1063` |
+| -62.5% | -20.085 KiB |  14.5% → 4.7% | 32.1 KiB → 12.1 KiB |   1,070 → 299 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:1064` |
+|  -8.3% |  -4.071 KiB | 22.0% → 17.6% | 48.8 KiB → 44.8 KiB |     347 → 318 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:1011` |
+
+##### `runtime/pprof.(*profileBuilder).emitLocation` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:589`)
+
+|  Change |       Delta |             % |                Size |   Objects | Location                                                                                        |
+| ------: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------- |
+| +125.0% | +20.235 KiB | 13.4% → 24.3% | 16.2 KiB → 36.4 KiB | 172 → 388 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:613` |
+|  +37.8% |  +8.811 KiB | 19.3% → 21.4% | 23.3 KiB → 32.1 KiB |     9 → 8 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:625` |
+| removed |  -8.015 KiB |   6.6% → 0.0% |      8.02 KiB → 0 B |   512 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:611` |
+|  +10.9% |  +7.967 KiB | 60.7% → 54.3% | 73.4 KiB → 81.4 KiB |     9 → 6 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:609` |
+
+##### `internal/strconv.fmtF` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/strconv/ftoa.go:460`)
+
+| Change |       Delta |            % |         Size |   Objects | Location                                                                                          |
+| -----: | ----------: | -----------: | -----------: | --------: | ------------------------------------------------------------------------------------------------- |
+|    new | +16.031 KiB | 0.0% → 57.1% | 0 B → 16 KiB | 0 → 1,026 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/strconv/ftoa.go:469` |
+
+##### `encoding/json.Unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102`)
+
+| Change |       Delta |      % |                Size |   Objects | Location                                                                                         |
+| -----: | ----------: | -----: | ------------------: | --------: | ------------------------------------------------------------------------------------------------ |
+| +18.8% | +12.212 KiB | 100.0% | 65.1 KiB → 77.3 KiB | 463 → 550 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:106` |
+
+##### `bytes.(*Buffer).grow` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144`)
+
+| Change |      Delta |      % |                Size |   Objects | Location                                                                                 |
+| -----: | ---------: | -----: | ------------------: | --------: | ---------------------------------------------------------------------------------------- |
+| +66.7% | +8.062 KiB | 100.0% | 12.1 KiB → 20.2 KiB | 193 → 322 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:155` |
+
+##### `runtime/pprof.newProfileBuilder` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:259`)
+
+| Change |      Delta |             % |           Size | Objects | Location                                                                                        |
+| -----: | ---------: | ------------: | -------------: | ------: | ----------------------------------------------------------------------------------------------- |
+|    new | +4.173 KiB | 0.0% → 100.0% | 0 B → 4.17 KiB |  0 → 12 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:261` |
+
+##### `reflect.addReflectOff` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/runtime1.go:707`)
+
+| Change |     Delta |             % |           Size | Objects | Location                                                                                     |
+| -----: | --------: | ------------: | -------------: | ------: | -------------------------------------------------------------------------------------------- |
+|    new | +4.07 KiB | 0.0% → 100.0% | 0 B → 4.07 KiB |  0 → 28 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/runtime1.go:719` |
+
+##### `sync.(*poolChain).pushHead` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/poolqueue.go:220`)
+
+| Change |      Delta |             % |           Size | Objects | Location                                                                                   |
+| -----: | ---------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------ |
+|    new | +4.023 KiB | 0.0% → 100.0% | 0 B → 4.02 KiB |  0 → 85 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/poolqueue.go:225` |
+
+##### `runtime/pprof.(*protobuf).varint` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/protobuf.go:14`)
+
+| Change |      Delta |              % |              Size | Objects | Location                                                                                          |
+| -----: | ---------: | -------------: | ----------------: | ------: | ------------------------------------------------------------------------------------------------- |
+|    new | +7.182 KiB |   0.0% → 24.2% |    0 B → 7.18 KiB |   0 → 1 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/protobuf.go:16` |
+| -22.6% | -6.567 KiB | 100.0% → 75.8% | 29 KiB → 22.4 KiB |   8 → 6 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/protobuf.go:19` |
+
+##### `encoding/json.(*decodeState).objectInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078`)
+
+| Change |        Delta |             % |              Size |               Objects | Location                                                                                          |
+| -----: | -----------: | ------------: | ----------------: | --------------------: | ------------------------------------------------------------------------------------------------- |
+|  -0.3% |   -1.691 MiB | 95.8% → 95.9% | 535 MiB → 533 MiB | 1,335,135 → 1,337,626 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1110` |
+|  -1.8% | -438.561 KiB |   4.2% → 4.1% | 23.4 MiB → 23 MiB |     510,964 → 501,609 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1079` |
+
+##### `bytes.growSlice` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`)
+
+| Change |        Delta |      % |              Size |       Objects | Location                                                                                 |
+| -----: | -----------: | -----: | ----------------: | ------------: | ---------------------------------------------------------------------------------------- |
+|  -0.3% | -916.634 KiB | 100.0% | 349 MiB → 348 MiB | 4,660 → 4,364 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:267` |
+
+##### `os.readFileContents` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:886`)
+
+|  Change |    Delta |             % |          Size | Objects | Location                                                                            |
+| ------: | -------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------- |
+| removed | -624 KiB | 100.0% → 0.0% | 624 KiB → 0 B |   1 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:906` |
+
+##### `encoding/json.unquote` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187`)
+
+| Change |        Delta |      % |    Size |               Objects | Location                                                                                          |
+| -----: | -----------: | -----: | ------: | --------------------: | ------------------------------------------------------------------------------------------------- |
+|  -0.3% | -557.882 KiB | 100.0% | 162 MiB | 5,518,199 → 5,503,076 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1189` |
+
+##### `encoding/json.(*decodeState).valueInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035`)
+
+| Change |        Delta |      % |              Size |           Objects | Location                                                                                          |
+| -----: | -----------: | -----: | ----------------: | ----------------: | ------------------------------------------------------------------------------------------------- |
+|  -3.6% | -365.067 KiB | 100.0% | 10 MiB → 9.67 MiB | 438,014 → 422,438 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1040` |
+
+##### `encoding/json.unquoteBytes` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1193`)
+
+| Change |        Delta |      % |                Size |           Objects | Location                                                                                          |
+| -----: | -----------: | -----: | ------------------: | ----------------: | ------------------------------------------------------------------------------------------------- |
+|  -1.1% | -214.197 KiB | 100.0% | 19.6 MiB → 19.4 MiB | 123,445 → 122,176 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1218` |
+
+##### `compress/flate.(*huffmanEncoder).generate` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/huffman_code.go:272`)
+
+|  Change |       Delta |             % |           Size | Objects | Location                                                                                                |
+| ------: | ----------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------------------- |
+| removed | -15.688 KiB | 100.0% → 0.0% | 15.7 KiB → 0 B |   6 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/huffman_code.go:277` |
+
+##### `runtime.mallocgc` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067`)
+
+| Change |      Delta |             % |                Size |   Objects | Location                                                                                    |
+| -----: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------- |
+| -23.5% | -9.353 KiB | 44.0% → 39.2% | 39.8 KiB → 30.5 KiB |   13 → 14 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1152` |
+| -11.2% | -3.688 KiB | 36.4% → 37.7% |   33 KiB → 29.3 KiB | 212 → 119 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1150` |
+|  +1.9% |     +341 B | 19.5% → 23.2% |   17.7 KiB → 18 KiB |   25 → 20 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1143` |
+
+##### `encoding/json.(*scanner).pushParseState` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:180`)
+
+| Change |       Delta |      % |               Size |       Objects | Location                                                                                          |
+| -----: | ----------: | -----: | -----------------: | ------------: | ------------------------------------------------------------------------------------------------- |
+| -11.3% | -11.913 KiB | 100.0% | 105 KiB → 93.1 KiB | 2,156 → 1,514 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:181` |
+
+##### `encoding/json.(*decodeState).arrayInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1052`)
+
+| Change |      Delta |      % |     Size |           Objects | Location                                                                                          |
+| -----: | ---------: | -----: | -------: | ----------------: | ------------------------------------------------------------------------------------------------- |
+|  -0.2% | -9.516 KiB | 100.0% | 5.53 MiB | 190,700 → 186,046 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1061` |
+
+##### `main.workload.func1` (`profile.go:25`)
+
+| Change |      Delta |      % |              Size |   Objects | Location        |
+| -----: | ---------: | -----: | ----------------: | --------: | --------------- |
+| -66.7% | -8.015 KiB | 100.0% | 12 KiB → 4.01 KiB | 769 → 256 | `profile.go:28` |
+
+##### `compress/flate.newHuffmanBitWriter` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/huffman_bit_writer.go:94`)
+
+|  Change |      Delta |             % |           Size | Objects | Location                                                                                                     |
+| ------: | ---------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------------------------ |
+| removed | -4.062 KiB | 100.0% → 0.0% | 4.06 KiB → 0 B |  32 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/huffman_bit_writer.go:98` |
+
+##### `runtime/pprof.(*profileBuilder).stringIndex` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:133`)
+
+| Change |      Delta |             % |                Size | Objects | Location                                                                                        |
+| -----: | ---------: | ------------: | ------------------: | ------: | ----------------------------------------------------------------------------------------------- |
+| -37.7% | -2.579 KiB | 17.5% → 11.8% | 6.83 KiB → 4.25 KiB |   1 → 8 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:137` |
+|  -0.8% |     -253 B | 82.5% → 88.2% | 32.1 KiB → 31.9 KiB |  8 → 13 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:138` |
+
+##### `encoding/json.newEncodeState` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:315`)
+
+| Change | Delta |      % |     Size |   Objects | Location                                                                                         |
+| -----: | ----: | -----: | -------: | --------: | ------------------------------------------------------------------------------------------------ |
+|    ~0% |  -8 B | 100.0% | 36.3 KiB | 601 → 622 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:325` |
+
 ### Total size
 
 #### Regressions
@@ -192,6 +382,48 @@ Functions with the largest decrease in bytes retained directly in the function b
 |  -25.0% |    -512 KiB | 95.6% → 94.5% |     2 MiB → 1.5 MiB |     4 → 3 | `bytes.growSlice`                              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`          |
 |  -14.0% | -12.708 KiB |   4.2% → 4.8% | 90.5 KiB → 77.8 KiB | 250 → 153 | `runtime.mallocgc`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067`       |
 | removed |  -4.054 KiB |   0.2% → 0.0% |      4.05 KiB → 0 B |    37 → 0 | `encoding/json.(*decodeState).objectInterface` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078` |
+
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `reflect.addReflectOff` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/runtime1.go:707`)
+
+| Change |     Delta |             % |           Size | Objects | Location                                                                                     |
+| -----: | --------: | ------------: | -------------: | ------: | -------------------------------------------------------------------------------------------- |
+|    new | +4.07 KiB | 0.0% → 100.0% | 0 B → 4.07 KiB |  0 → 28 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/runtime1.go:719` |
+
+##### `encoding/json.mapEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765`)
+
+| Change |      Delta |             % |           Size | Objects | Location                                                                                         |
+| -----: | ---------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------------ |
+|    new | +4.054 KiB | 0.0% → 100.0% | 0 B → 4.05 KiB |  0 → 37 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:784` |
+
+##### `encoding/json.newEncodeState` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:315`)
+
+| Change |      Delta |             % |           Size | Objects | Location                                                                                         |
+| -----: | ---------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------------ |
+|    new | +4.031 KiB | 0.0% → 100.0% | 0 B → 4.03 KiB |  0 → 64 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:325` |
+
+##### `bytes.growSlice` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`)
+
+| Change |    Delta |      % |            Size | Objects | Location                                                                                 |
+| -----: | -------: | -----: | --------------: | ------: | ---------------------------------------------------------------------------------------- |
+| -25.0% | -512 KiB | 100.0% | 2 MiB → 1.5 MiB |   4 → 3 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:267` |
+
+##### `runtime.mallocgc` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067`)
+
+| Change |      Delta |             % |                Size |   Objects | Location                                                                                    |
+| -----: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------- |
+| -23.5% | -9.353 KiB | 44.0% → 39.2% | 39.8 KiB → 30.5 KiB |   13 → 14 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1152` |
+| -11.2% | -3.688 KiB | 36.4% → 37.7% |   33 KiB → 29.3 KiB | 212 → 119 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1150` |
+|  +1.9% |     +341 B | 19.5% → 23.2% |   17.7 KiB → 18 KiB |   25 → 20 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1143` |
+
+##### `encoding/json.(*decodeState).objectInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078`)
+
+|  Change |      Delta |             % |           Size | Objects | Location                                                                                          |
+| ------: | ---------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------------- |
+| removed | -4.054 KiB | 100.0% → 0.0% | 4.05 KiB → 0 B |  37 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1110` |
 
 ### Total size
 

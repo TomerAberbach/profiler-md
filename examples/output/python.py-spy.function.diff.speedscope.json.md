@@ -146,6 +146,314 @@ Functions with the largest decrease in time spent directly in the function body,
 | -----: | -------: | ----------: | --------------: | ------: | ---------- | ---------- |
 | -80.0% | -40.00ms | 2.2% → 0.5% | 50.0ms → 10.0ms |   5 → 1 | `__init__` | `<string>` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `get_features_used` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                                    |
+| ------: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+|     new | +120.00ms | 0.0% → 100.0% | 0ms → 120.0ms |  0 → 12 | `/venv/lib/python3.11/site-packages/black/__init__.py:1286` |
+| removed |  -30.00ms | 100.0% → 0.0% |  30.0ms → 0ms |   3 → 0 | `/venv/lib/python3.11/site-packages/black/__init__.py:1307` |
+
+##### `pop` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------- |
+|     new | +90.00ms | 0.0% → 100.0% | 0ms → 90.0ms |   0 → 9 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:386` |
+| removed | -30.00ms | 100.0% → 0.0% | 30.0ms → 0ms |   3 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:398` |
+
+##### `addtoken` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                         |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------- |
+|    new | +30.00ms | 0.0% → 100.0% | 0ms → 30.0ms |   0 → 3 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:230` |
+
+##### `transform_line` (`/venv/lib/python3.11/site-packages/black/linegen.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+|    new | +30.00ms | 0.0% → 100.0% | 0ms → 30.0ms |   0 → 3 | `/venv/lib/python3.11/site-packages/black/linegen.py:601` |
+
+##### `whitespace` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+|    new | +30.00ms | 0.0% → 100.0% | 0ms → 30.0ms |   0 → 3 | `/venv/lib/python3.11/site-packages/black/nodes.py:183` |
+
+##### `push` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------- |
+|     new | +80.00ms | 0.0% → 100.0% | 0ms → 80.0ms |   0 → 8 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:374` |
+| removed | -60.00ms | 100.0% → 0.0% | 60.0ms → 0ms |   6 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:386` |
+
+##### `leaves` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                    |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+|    new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:210` |
+
+##### `is_split_before_delimiter` (`/venv/lib/python3.11/site-packages/black/brackets.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                   |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------- |
+|    new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/black/brackets.py:232` |
+
+##### `normalize_string_prefix` (`/venv/lib/python3.11/site-packages/black/strings.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+|    new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/black/strings.py:143` |
+
+##### `visit_default` (`/venv/lib/python3.11/site-packages/black/linegen.py`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                  |
+| ------: | -------: | -----: | --------------: | ------: | --------------------------------------------------------- |
+| +200.0% | +20.00ms | 100.0% | 10.0ms → 30.0ms |   1 → 3 | `/venv/lib/python3.11/site-packages/black/linegen.py:134` |
+
+##### `is_multiline_string` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+|     new | +30.00ms | 0.0% → 100.0% | 0ms → 30.0ms |   0 → 3 | `/venv/lib/python3.11/site-packages/black/nodes.py:773` |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/venv/lib/python3.11/site-packages/black/nodes.py:778` |
+
+##### `parse` (`/usr/lib/python3.11/ast.py`)
+
+| Change |    Delta |      % |              Time | Samples | Location                        |
+| -----: | -------: | -----: | ----------------: | ------: | ------------------------------- |
+|  +6.3% | +10.00ms | 100.0% | 160.0ms → 170.0ms | 16 → 17 | `/usr/lib/python3.11/ast.py:33` |
+
+##### `shift` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------- |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:361` |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:373` |
+
+##### `visit_power` (`/venv/lib/python3.11/site-packages/black/linegen.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/black/linegen.py:341` |
+
+##### `prev_sibling` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:196` |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:207` |
+
+##### `check_stability_and_equivalence` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                    |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/black/__init__.py:1042` |
+
+##### `get_string_prefix` (`/venv/lib/python3.11/site-packages/black/strings.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                 |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/black/strings.py:89` |
+
+##### `is_comment` (`/venv/lib/python3.11/site-packages/black/lines.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/black/lines.py:113` |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/venv/lib/python3.11/site-packages/black/lines.py:124` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                     |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `<frozen importlib._bootstrap_external>:727` |
+
+##### `__str__` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                    |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:429` |
+
+##### `is_def` (`/venv/lib/python3.11/site-packages/black/lines.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/black/lines.py:149` |
+
+##### `_can_add_trailing_comma` (`/venv/lib/python3.11/site-packages/black/linegen.py`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                   |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------- |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/black/linegen.py:1196` |
+
+##### `__new__` (`<frozen abc>`)
+
+| Change |    Delta |             % |         Time | Samples | Location           |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------ |
+|    new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `<frozen abc>:105` |
+
+##### `__init__` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+| removed | -60.00ms |  75.0% → 0.0% | 60.0ms → 0ms |   6 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:400` |
+| removed | -20.00ms |  25.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:248` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:389` |
+
+##### `__new__` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                   |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------- |
+| removed | -90.00ms | 100.0% → 0.0% | 90.0ms → 0ms |   9 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:81` |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:70` |
+
+##### `generate_comments` (`/venv/lib/python3.11/site-packages/black/comments.py`)
+
+| Change |    Delta |      % |              Time | Samples | Location                                                  |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------------------------------------------- |
+| -35.0% | -70.00ms | 100.0% | 200.0ms → 130.0ms | 20 → 13 | `/venv/lib/python3.11/site-packages/black/comments.py:52` |
+
+##### `parse_tokens` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                          |
+| -----: | -------: | -----: | --------------: | ------: | ----------------------------------------------------------------- |
+| -66.7% | -60.00ms | 100.0% | 90.0ms → 30.0ms |   9 → 3 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py:114` |
+
+##### `__init__` (`<string>`)
+
+| Change |    Delta |      % |            Time | Samples | Location     |
+| -----: | -------: | -----: | --------------: | ------: | ------------ |
+| -80.0% | -40.00ms | 100.0% | 50.0ms → 10.0ms |   5 → 1 | `<string>:2` |
+
+##### `_stringify_ast` (`/venv/lib/python3.11/site-packages/black/parsing.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+| removed | -80.00ms | 100.0% → 0.0% | 80.0ms → 0ms |   8 → 0 | `/venv/lib/python3.11/site-packages/black/parsing.py:174` |
+|     new | +40.00ms | 0.0% → 100.0% | 0ms → 40.0ms |   0 → 4 | `/venv/lib/python3.11/site-packages/black/parsing.py:182` |
+
+##### `mark` (`/venv/lib/python3.11/site-packages/black/brackets.py`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                  |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------- |
+| -44.4% | -40.00ms | 100.0% | 90.0ms → 50.0ms |   9 → 5 | `/venv/lib/python3.11/site-packages/black/brackets.py:70` |
+
+##### `maybe_empty_lines` (`/venv/lib/python3.11/site-packages/black/lines.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -30.00ms | 100.0% → 0.0% | 30.0ms → 0ms |   3 → 0 | `/venv/lib/python3.11/site-packages/black/lines.py:560` |
+
+##### `__init__` (`/venv/lib/python3.11/site-packages/black/trans.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -30.00ms | 100.0% → 0.0% | 30.0ms → 0ms |   3 → 0 | `/venv/lib/python3.11/site-packages/black/trans.py:282` |
+
+##### `_addtoken` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                                         |
+| ------: | --------: | ------------: | ------------: | ------: | ---------------------------------------------------------------- |
+| removed | -310.00ms | 100.0% → 0.0% | 310.0ms → 0ms |  31 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:290` |
+|     new | +290.00ms | 0.0% → 100.0% | 0ms → 290.0ms |  0 → 29 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py:278` |
+
+##### `pre_order` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+| removed | -40.00ms | 100.0% → 0.0% | 40.0ms → 0ms |   4 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:314` |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:303` |
+
+##### `visit` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -40.00ms | 100.0% → 0.0% | 40.0ms → 0ms |   4 → 0 | `/venv/lib/python3.11/site-packages/black/nodes.py:163` |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/black/nodes.py:152` |
+
+##### `visit_default` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -40.00ms | 100.0% → 0.0% | 40.0ms → 0ms |   4 → 0 | `/venv/lib/python3.11/site-packages/black/nodes.py:187` |
+|     new | +20.00ms | 0.0% → 100.0% | 0ms → 20.0ms |   0 → 2 | `/venv/lib/python3.11/site-packages/black/nodes.py:176` |
+
+##### `normalize_trailing_prefix` (`/venv/lib/python3.11/site-packages/black/comments.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                   |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/black/comments.py:127` |
+
+##### `is_docstring` (`/venv/lib/python3.11/site-packages/black/lines.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/black/lines.py:214` |
+
+##### `normalize_string_quotes` (`/venv/lib/python3.11/site-packages/black/strings.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/black/strings.py:169` |
+
+##### `is_parent_function_or_class` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/black/nodes.py:790` |
+
+##### `contains_implicit_multiline_string_with_comments` (`/venv/lib/python3.11/site-packages/black/lines.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/black/lines.py:261` |
+
+##### `_partially_consume_prefix` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                          |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py:205` |
+
+##### `assert_is_leaf_string` (`/venv/lib/python3.11/site-packages/black/strings.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |   2 → 0 | `/venv/lib/python3.11/site-packages/black/strings.py:108` |
+
+##### `convert` (`/venv/lib/python3.11/site-packages/blib2to3/pytree.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+| removed | -30.00ms | 100.0% → 0.0% | 30.0ms → 0ms |   3 → 0 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:486` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |   0 → 1 | `/venv/lib/python3.11/site-packages/blib2to3/pytree.py:475` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                            |
+| ------: | -------: | ------------: | -----------: | ------: | ----------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `<frozen importlib._bootstrap>:233` |
+
+##### `isEnabledFor` (`/usr/lib/python3.11/logging/__init__.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                       |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/usr/lib/python3.11/logging/__init__.py:1734` |
+
+##### `__eq__` (`/usr/lib/python3.11/typing.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                             |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------ |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/usr/lib/python3.11/typing.py:1345` |
+
+##### `_subx` (`/usr/lib/python3.11/re/__init__.py`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                 |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------- |
+| removed | -10.00ms | 100.0% → 0.0% | 10.0ms → 0ms |   1 → 0 | `/usr/lib/python3.11/re/__init__.py:315` |
+
 ### Total time
 
 #### Regressions

@@ -20,6 +20,16 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | -----: | ----: | -----: | ------: | --------: | ------------------------------------------ | ------------------------------------------ |
 |    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `usr/include/c++/12/bits/basic_string.tcc` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
+
+| Change | Delta |      % |    Size |   Objects | Location                                       |
+| -----: | ----: | -----: | ------: | --------: | ---------------------------------------------- |
+|    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,000 | `usr/include/c++/12/bits/basic_string.tcc:225` |
+
 ### Total size
 
 #### Regressions

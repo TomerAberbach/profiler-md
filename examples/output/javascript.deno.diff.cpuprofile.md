@@ -154,6 +154,524 @@ Functions with the largest decrease in time spent directly in the function body,
 |   -8.1% | -0.65ms | 0.4% → 0.3% |   7.9ms → 7.3ms | 10 → 13 | `(program)`              | `<unknown>` |
 |   -2.5% | -0.09ms |        0.2% |   3.8ms → 3.7ms |       3 | `op_require_read_file`   | `<unknown>` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `internIdentifier` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:33331:28`)
+
+|  Change |    Delta |             % |           Time | Samples | Location                                                                                                                        |
+| ------: | -------: | ------------: | -------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| +434.8% | +16.37ms | 89.4% → 89.0% | 3.8ms → 20.1ms |  3 → 16 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:32277 → 33332` |
+| +457.8% |  +2.04ms | 10.6% → 11.0% |  0.4ms → 2.5ms |   1 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:32279 → 33334` |
+
+##### `isTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67361:27`)
+
+|  Change |   Delta |             % |            Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|     new | +6.31ms |  0.0% → 20.8% |     0ms → 6.3ms |   0 → 5 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67382`         |
+|  +49.0% | +5.56ms | 67.2% → 55.6% | 11.3ms → 16.9ms |  9 → 15 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66135 → 67395` |
+| +299.4% | +3.75ms |  7.4% → 16.5% |   1.3ms → 5.0ms |   1 → 4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66112 → 67372` |
+| removed | -1.24ms |   7.4% → 0.0% |     1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66106`         |
+| removed | -1.22ms |   7.2% → 0.0% |     1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66101`         |
+
+##### `isDeeplyNestedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70031:30`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| +344.1% | +7.46ms | 28.8% → 56.0% | 2.2ms → 9.6ms |   2 → 8 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68784 → 70044` |
+| removed | -1.26ms |  16.7% → 0.0% |   1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68782`         |
+|     new | +1.24ms |   0.0% → 7.2% |   0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70032`         |
+|  +47.9% | +1.22ms | 33.8% → 21.9% | 2.5ms → 3.8ms |   2 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68771 → 70031` |
+|     new | +0.99ms |   0.0% → 5.8% |   0ms → 1.0ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70033`         |
+
+##### `instantiateTypeWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283:33`)
+
+|  Change |   Delta |             % |            Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|  +89.5% | +9.01ms | 39.7% → 55.4% | 10.1ms → 19.1ms |  9 → 17 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65039 → 66299` |
+| removed | -2.52ms |   9.9% → 0.0% |     2.5ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65051`         |
+|     new | +2.47ms |   0.0% → 7.2% |     0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66283`         |
+| +996.4% | +1.92ms |   0.8% → 6.1% |   0.2ms → 2.1ms |   1 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65089 → 66349` |
+|     new | +1.28ms |   0.0% → 3.7% |     0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66286`         |
+
+##### `createTypeReference` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:62794:31`)
+
+|   Change |   Delta |             % |            Time | Samples | Location                                                                                                                        |
+| -------: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|   +48.0% | +5.06ms | 80.5% → 74.5% | 10.5ms → 15.6ms |  9 → 13 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61541 → 62796` |
+|   +65.3% | +1.60ms | 18.8% → 19.4% |   2.5ms → 4.1ms |   2 → 4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61544 → 62799` |
+| +1262.8% | +1.19ms |   0.7% → 6.1% |   0.1ms → 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61540 → 62795` |
+
+##### `isSimpleTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67312:33`)
+
+|    Change |   Delta |            % |         Time | Samples | Location                                                                                                                        |
+| --------: | ------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|       new | +2.53ms | 0.0% → 23.8% |  0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67313`         |
+|       new | +2.47ms | 0.0% → 23.3% |  0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67312`         |
+|       new | +1.24ms | 0.0% → 11.7% |  0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67351`         |
+|       new | +0.73ms |  0.0% → 6.9% |  0ms → 0.7ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67354`         |
+| -46800.0% | +0.47ms | -0.0% → 4.4% | -0ms → 0.5ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66096 → 67356` |
+
+##### `inferFromTypes` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71184:28`)
+
+|  Change |   Delta |            % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | -----------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|     new | +2.55ms |  0.0% → 7.8% |   0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71198`         |
+|  -65.5% | -2.44ms | 14.2% → 3.9% | 3.7ms → 1.3ms |   3 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:70032 → 71315` |
+|     new | +1.27ms |  0.0% → 3.9% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71294`         |
+|     new | +1.27ms |  0.0% → 3.9% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:71239`         |
+| removed | -1.27ms |  4.8% → 0.0% |   1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69923`         |
+
+##### `createIdentifier` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:24991:28`)
+
+| Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+|    new | +2.51ms | 0.0% → 36.7% | 0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:25005` |
+|    new | +1.26ms | 0.0% → 18.4% | 0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:24999` |
+|    new | +1.25ms | 0.0% → 18.3% | 0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:24992` |
+|    new | +0.90ms | 0.0% → 13.2% | 0ms → 0.9ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:24995` |
+
+##### `canHaveJSDoc` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:18835:22`)
+
+| Change |   Delta |              % |          Time | Samples | Location                                                                                                                        |
+| -----: | ------: | -------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|    new | +2.86ms |   0.0% → 36.5% |   0ms → 2.9ms |   0 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:18835`         |
+| +51.4% | +1.27ms | 100.0% → 47.8% | 2.5ms → 3.7ms |   2 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:17853 → 18836` |
+|    new | +1.23ms |   0.0% → 15.7% |   0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:18905`         |
+
+##### `getIndexedAccessTypeOrUndefined` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65149:43`)
+
+| Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+|    new | +1.33ms | 0.0% → 20.4% | 0ms → 1.3ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65165` |
+|    new | +1.26ms | 0.0% → 19.2% | 0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65157` |
+|    new | +1.25ms | 0.0% → 19.2% | 0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65164` |
+|    new | +0.90ms | 0.0% → 13.8% | 0ms → 0.9ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65153` |
+|    new | +0.49ms |  0.0% → 7.4% | 0ms → 0.5ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65171` |
+
+##### `some` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794:14`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                      |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------- |
+|     new | +3.78ms |  0.0% → 23.9% |   0ms → 3.8ms |   0 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2794`        |
+| +105.6% | +2.65ms | 23.9% → 32.7% | 2.5ms → 5.2ms |   3 → 6 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2785 → 2798` |
+| removed | -1.81ms |  17.2% → 0.0% |   1.8ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2782`        |
+|  -31.4% | -1.73ms | 52.4% → 24.0% | 5.5ms → 3.8ms |   5 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2784 → 2797` |
+|     new | +1.27ms |   0.0% → 8.0% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:2806`        |
+
+##### `instantiateTypeWithAlias` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66266:36`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| +155.9% | +4.98ms | 75.1% → 90.8% | 3.2ms → 8.2ms |   4 → 7 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65019 → 66279` |
+| removed | -1.06ms |  24.9% → 0.0% |   1.1ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65008`         |
+|     new | +0.83ms |   0.0% → 9.2% |   0ms → 0.8ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66280`         |
+
+##### `modifiersToFlags` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20637:26`)
+
+| Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+|    new | +2.50ms | 0.0% → 53.6% | 0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20637` |
+|    new | +1.26ms | 0.0% → 27.0% | 0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20639` |
+|    new | +0.90ms | 0.0% → 19.3% | 0ms → 0.9ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20644` |
+
+##### `declareSymbol` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46190:25`)
+
+| Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| -----: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|    new | +2.36ms |  0.0% → 30.3% |   0ms → 2.4ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46209`         |
+| -50.7% | -1.28ms | 72.6% → 15.9% | 2.5ms → 1.2ms |   2 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:45005 → 46198` |
+|    new | +1.27ms |  0.0% → 16.3% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46191`         |
+|    new | +1.25ms |  0.0% → 16.0% |   0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46190`         |
+|    new | +1.19ms |  0.0% → 15.2% |   0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46256`         |
+
+##### `normalizePath` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:9164:23`)
+
+| Change |   Delta |            % |        Time | Samples | Location                                                                                                               |
+| -----: | ------: | -----------: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------- |
+|    new | +2.77ms | 0.0% → 68.8% | 0ms → 2.8ms |   0 → 4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:9166` |
+|    new | +1.26ms | 0.0% → 31.2% | 0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:9165` |
+
+##### `instantiateType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66256:27`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| +109.0% | +2.74ms | 67.1% → 68.1% | 2.5ms → 5.3ms |   2 → 5 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64997 → 66257` |
+|     new | +1.25ms |  0.0% → 16.2% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66256`         |
+|   -1.5% | -0.02ms | 32.9% → 15.7% |         1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65004 → 66264` |
+
+##### `maybeTypeOfKind` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81463:27`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|     new | +2.49ms |  0.0% → 40.0% |   0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81463`         |
+|     new | +2.49ms |  0.0% → 40.0% |   0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81470`         |
+| removed | -1.29ms |  53.7% → 0.0% |   1.3ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:80174`         |
+|  +11.5% | +0.13ms | 46.3% → 19.9% | 1.1ms → 1.2ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:80180 → 81475` |
+
+##### `normalizeSlashes` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:9114:26`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                                                                                               |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------- |
+|    new | +3.81ms | 0.0% → 100.0% | 0ms → 3.8ms |   0 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:9115` |
+
+##### `(anonymous)` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69958:77`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                                                                                                |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+|    new | +3.76ms | 0.0% → 100.0% | 0ms → 3.8ms |   0 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69958` |
+
+##### `withJSDoc` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:32743:21`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                                                                                                |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+|    new | +3.75ms | 0.0% → 100.0% | 0ms → 3.8ms |   0 → 3 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:32748` |
+
+##### `defineStatExtraProps` (`ext:deno_node/internal/fs/stat_utils.ts:26:30`)
+
+| Change |   Delta |            % |        Time | Samples | Location                                     |
+| -----: | ------: | -----------: | ----------: | ------: | -------------------------------------------- |
+|    new | +2.26ms | 0.0% → 64.3% | 0ms → 2.3ms |   0 → 2 | `ext:deno_node/internal/fs/stat_utils.ts:27` |
+|    new | +1.25ms | 0.0% → 35.7% | 0ms → 1.3ms |   0 → 1 | `ext:deno_node/internal/fs/stat_utils.ts:71` |
+
+##### `CFISBIS` (`ext:deno_node/internal/fs/stat_utils.ts:73:24`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                     |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------------------------- |
+|    new | +1.36ms | 0.0% → 100.0% | 0ms → 1.4ms |   0 → 1 | `ext:deno_node/internal/fs/stat_utils.ts:74` |
+
+##### `set` (`ext:deno_node/internal/fs/utils.mjs:539:8`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                  |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------------------------- |
+|    new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `ext:deno_node/internal/fs/utils.mjs:542` |
+
+##### `(anonymous)` (`ext:deno_node/crypto.ts:1:32`)
+
+| Change |   Delta |             % |        Time | Samples | Location                      |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------------- |
+|    new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `ext:deno_node/crypto.ts:297` |
+
+##### `readFileSync` (`ext:deno_node/fs.ts:399:24`)
+
+| Change |   Delta |             % |        Time | Samples | Location                  |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------- |
+|    new | +1.24ms | 0.0% → 100.0% | 0ms → 1.2ms |   0 → 1 | `ext:deno_node/fs.ts:409` |
+
+##### `getOptions` (`ext:deno_node/internal/fs/utils.mjs:363:27`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                  |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------------------------- |
+|    new | +1.23ms | 0.0% → 100.0% | 0ms → 1.2ms |   0 → 1 | `ext:deno_node/internal/fs/utils.mjs:363` |
+
+##### `compileFunction` (`ext:core/01_core.js:1100:22`)
+
+| Change |   Delta |      % |            Time | Samples | Location                   |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------- |
+|  +1.7% | +1.23ms | 100.0% | 71.4ms → 72.6ms | 57 → 58 | `ext:core/01_core.js:1106` |
+
+##### `statSync` (`ext:deno_fs/30_fs.js:473:18`)
+
+| Change |   Delta |             % |        Time | Samples | Location                   |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------- |
+|    new | +0.54ms | 0.0% → 100.0% | 0ms → 0.5ms |   0 → 1 | `ext:deno_fs/30_fs.js:475` |
+
+##### `decodeUtf8` (`ext:deno_node/internal/buffer.mjs:706:20`)
+
+| Change |   Delta |      % |  Time | Samples | Location                                |
+| -----: | ------: | -----: | ----: | ------: | --------------------------------------- |
+|  +6.8% | +0.08ms | 100.0% | 1.2ms |       1 | `ext:deno_node/internal/buffer.mjs:707` |
+
+##### `op_url_get_serialization` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Location |
+| -----: | ------: | ------------: | ----------: | ------: | -------- |
+|    new | +1.27ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | 101      |
+
+##### `op_require_try_self` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Location |
+| -----: | ------: | ------------: | ----------: | ------: | -------- |
+|    new | +1.27ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | 1370     |
+
+##### `op_fs_read_file_sync` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Location |
+| -----: | ------: | -----: | ------------: | ------: | -------- |
+| +19.8% | +1.25ms | 100.0% | 6.3ms → 7.6ms |   5 → 6 | 409      |
+
+##### `op_inspector_dispatch` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Location |
+| -----: | ------: | ------------: | ----------: | ------: | -------- |
+|    new | +0.70ms | 0.0% → 100.0% | 0ms → 0.7ms |   0 → 1 | 203      |
+
+##### `buildCustomError` (`ext:core/00_infra.js:94:28`)
+
+|  Change |   Delta |             % |           Time | Samples | Location                   |
+| ------: | ------: | ------------: | -------------: | ------: | -------------------------- |
+|  -68.0% | -9.31ms | 76.6% → 87.6% | 13.7ms → 4.4ms |  11 → 4 | `ext:core/00_infra.js:105` |
+| removed | -1.28ms |   7.2% → 0.0% |    1.3ms → 0ms |   1 → 0 | `ext:core/00_infra.js:115` |
+| removed | -1.25ms |   7.0% → 0.0% |    1.3ms → 0ms |   1 → 0 | `ext:core/00_infra.js:108` |
+|  -49.6% | -0.61ms |  6.9% → 12.4% |  1.2ms → 0.6ms |       1 | `ext:core/00_infra.js:95`  |
+| removed | -0.42ms |   2.3% → 0.0% |    0.4ms → 0ms |   1 → 0 | `ext:core/00_infra.js:97`  |
+
+##### `isRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753:25`)
+
+|  Change |   Delta |             % |            Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|  -20.9% | -5.04ms | 36.1% → 35.2% | 24.1ms → 19.0ms | 21 → 17 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66510 → 67770` |
+| removed | -2.51ms |   3.8% → 0.0% |     2.5ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66560`         |
+| removed | -2.46ms |   3.7% → 0.0% |     2.5ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66518`         |
+|  +86.8% | +2.16ms |   3.7% → 8.6% |   2.5ms → 4.7ms |   2 → 4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66493 → 67753` |
+|  -81.3% | -2.02ms |   3.7% → 0.9% |   2.5ms → 0.5ms |   2 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66590 → 67850` |
+
+##### `getObjectFlags` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21225:24`)
+
+| Change |   Delta |             % |            Time | Samples | Location                                                                                                                        |
+| -----: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| -64.7% | -4.43ms | 36.3% → 19.4% |   6.8ms → 2.4ms |   8 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20242 → 21225` |
+| -16.6% | -1.99ms | 63.7% → 80.6% | 12.0ms → 10.0ms |  11 → 8 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20243 → 21226` |
+
+##### `__export` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:22:16`)
+
+| Change |   Delta |      % |          Time | Samples | Location                                                                                                             |
+| -----: | ------: | -----: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------- |
+| -84.1% | -6.35ms | 100.0% | 7.5ms → 1.2ms |   6 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:24` |
+
+##### `getMappedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65907:25`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -3.73ms | 30.6% → 0.0% | 3.7ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64683` |
+| removed | -1.92ms | 15.7% → 0.0% | 1.9ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64677` |
+|     new | +1.65ms | 0.0% → 27.1% | 0ms → 1.6ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65914` |
+| removed | -1.26ms | 10.3% → 0.0% | 1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64681` |
+| removed | -0.78ms |  6.4% → 0.0% | 0.8ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64655` |
+
+##### `getNamedMembers` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:53726:27`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -4.71ms | 77.6% → 0.0% | 4.7ms → 0ms |   4 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:52487` |
+| removed | -1.36ms | 22.4% → 0.0% | 1.4ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:52492` |
+
+##### `createUnionOrIntersectionProperty` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61753:45`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -3.24ms |  37.0% → 0.0% |   3.2ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60509`         |
+| removed | -2.50ms |  28.6% → 0.0% |   2.5ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60511`         |
+| removed | -1.32ms |  15.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60599`         |
+|     new | +1.29ms |  0.0% → 46.7% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61801`         |
+|  +30.8% | +0.30ms | 11.3% → 46.7% | 1.0ms → 1.3ms |       1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60512 → 61767` |
+
+##### `isGenericMappedType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61325:31`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -2.52ms | 40.1% → 0.0% | 2.5ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60077` |
+| removed | -2.05ms | 32.6% → 0.0% | 2.1ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60071` |
+| removed | -0.53ms |  8.5% → 0.0% | 0.5ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60070` |
+
+##### `getApparentType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61745:27`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -3.52ms |  31.0% → 0.0% |   3.5ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60490`         |
+|  -43.1% | -3.25ms | 66.4% → 74.9% | 7.6ms → 4.3ms |   6 → 4 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60493 → 61748` |
+|     new | +1.01ms |  0.0% → 17.5% |   0ms → 1.0ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61746`         |
+
+##### `recursiveTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68323:36`)
+
+|  Change |   Delta |             % |            Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|  -10.5% | -4.32ms | 59.3% → 57.7% | 41.0ms → 36.7ms | 37 → 35 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67076 → 68336` |
+| removed | -4.12ms |   6.0% → 0.0% |     4.1ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67135`         |
+|  -75.2% | -3.79ms |   7.3% → 2.0% |   5.0ms → 1.2ms |   4 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67063 → 68323` |
+|     new | +2.52ms |   0.0% → 4.0% |     0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68383`         |
+|     new | +2.52ms |   0.0% → 4.0% |     0ms → 2.5ms |   0 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68389`         |
+
+##### `resolveObjectTypeMembers` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:60465:36`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| +667.4% | +3.17ms |  3.7% → 48.9% | 0.5ms → 3.6ms |   1 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59245 → 60500` |
+| removed | -2.48ms |  19.4% → 0.0% |   2.5ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59233`         |
+| removed | -2.48ms |  19.3% → 0.0% |   2.5ms → 0ms |   2 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59234`         |
+| removed | -1.25ms |   9.7% → 0.0% |   1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59247`         |
+|  -33.0% | -1.24ms | 29.3% → 33.7% | 3.8ms → 2.5ms |   3 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59223 → 60478` |
+
+##### `op_fs_stat_sync` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Location |
+| -----: | ------: | -----: | --------------: | ------: | -------- |
+| -34.8% | -5.35ms | 100.0% | 15.4ms → 10.0ms |  14 → 8 | 474      |
+
+##### `structuredTypeRelatedToWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68537:43`)
+
+|  Change |   Delta |            % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | -----------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -4.56ms | 22.9% → 0.0% |   4.6ms → 0ms |   4 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67753`         |
+|  -84.5% | -1.93ms | 11.5% → 2.4% | 2.3ms → 0.4ms |       2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67764 → 69024` |
+|     new | +1.27ms |  0.0% → 8.7% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68541`         |
+|     new | +1.26ms |  0.0% → 8.6% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69026`         |
+|     new | +1.24ms |  0.0% → 8.5% |   0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68653`         |
+
+##### `addMemberForKeyTypeWorker` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:61206:39`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -1.28ms | 25.4% → 0.0% | 1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59961` |
+| removed | -1.27ms | 25.3% → 0.0% | 1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59959` |
+| removed | -1.25ms | 24.7% → 0.0% | 1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59972` |
+| removed | -1.24ms | 24.6% → 0.0% | 1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:59979` |
+
+##### `(anonymous)` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66062:49`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -4.96ms | 100.0% → 0.0% | 5.0ms → 0ms |   4 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64807` |
+
+##### `isOptionalDeclaration` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:22956:31`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -2.70ms | 49.8% → 0.0% | 2.7ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21964` |
+| removed | -1.25ms | 23.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21967` |
+| removed | -1.25ms | 23.0% → 0.0% | 1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:21969` |
+
+##### `getIdentifierToken` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12836:30`)
+
+| Change |   Delta |      % |          Time | Samples | Location                                                                                                                        |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| -51.9% | -4.80ms | 100.0% | 9.2ms → 4.4ms |   8 → 6 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:12711 → 12841` |
+
+##### `isFreshLiteralType` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:65663:30`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -3.13ms | 69.0% → 0.0% | 3.1ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64409` |
+| removed | -1.26ms | 27.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:64408` |
+
+##### `getRelationKey` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69989:26`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -4.36ms |  53.1% → 0.0% |   4.4ms → 0ms |   5 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68736`         |
+|  -33.9% | -1.29ms | 46.2% → 65.5% | 3.8ms → 2.5ms |   3 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68730 → 69990` |
+|     new | +1.27ms |  0.0% → 33.1% |   0ms → 1.3ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:69995`         |
+
+##### `aggregateChildrenFlags` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:28504:32`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -3.79ms | 79.0% → 0.0% | 3.8ms → 0ms |   3 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:27456` |
+
+##### `checkExpression` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:82771:27`)
+
+|  Change |   Delta |            % |         Time | Samples | Location                                                                                                                |
+| ------: | ------: | -----------: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| removed | -1.27ms | 27.7% → 0.0% |  1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81487` |
+| removed | -1.25ms | 27.3% → 0.0% |  1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81480` |
+| removed | -1.12ms | 24.3% → 0.0% |  1.1ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81488` |
+| removed | -0.03ms |  0.5% → 0.0% | 25.0µs → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:81482` |
+
+##### `structuredTypeRelatedTo` (`/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68467:37`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                                                                        |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|  -74.1% | -3.73ms | 38.8% → 14.4% | 5.0ms → 1.3ms |   5 → 2 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67209 → 68469` |
+| removed | -1.25ms |   9.7% → 0.0% |   1.3ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67247`         |
+|     new | +1.25ms |  0.0% → 13.8% |   0ms → 1.2ms |   0 → 1 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:68467`         |
+| removed | -1.25ms |   9.6% → 0.0% |   1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67263`         |
+| removed | -1.21ms |   9.3% → 0.0% |   1.2ms → 0ms |   1 → 0 | `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:67238`         |
+
+##### `NotFound` (`ext:runtime/01_errors.js:7:14`)
+
+| Change |   Delta |      % |          Time | Samples | Location                     |
+| -----: | ------: | -----: | ------------: | ------: | ---------------------------- |
+| -23.7% | -2.15ms | 100.0% | 9.1ms → 6.9ms |   9 → 6 | `ext:runtime/01_errors.js:8` |
+
+##### `encodeRealpathResult` (`ext:deno_node/fs.ts:116:32`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------- |
+| removed | -1.83ms | 100.0% → 0.0% | 1.8ms → 0ms |   2 → 0 | `ext:deno_node/fs.ts:117` |
+
+##### `readFileMaybeDecode` (`ext:deno_node/fs.ts:268:31`)
+
+| Change |   Delta |      % |          Time | Samples | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------- |
+| -34.0% | -1.28ms | 100.0% | 3.8ms → 2.5ms |   3 → 2 | `ext:deno_node/fs.ts:270` |
+
+##### `SafeIterator` (`ext:core/00_primordials.js:316:18`)
+
+| Change |   Delta |      % |          Time | Samples | Location                         |
+| -----: | ------: | -----: | ------------: | ------: | -------------------------------- |
+| -13.2% | -0.50ms | 100.0% | 3.8ms → 3.3ms |       3 | `ext:core/00_primordials.js:318` |
+
+##### `value` (`ext:deno_node/internal/fs/stat_utils.ts:30:14`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                     |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------- |
+| removed | -0.46ms | 100.0% → 0.0% | 0.5ms → 0ms |   1 → 0 | `ext:deno_node/internal/fs/stat_utils.ts:30` |
+
+##### `FastBuffer` (`ext:deno_node/internal/buffer.mjs:192:14`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------- |
+| removed | -0.23ms | 100.0% → 0.0% | 0.2ms → 0ms |   1 → 0 | `ext:deno_node/internal/buffer.mjs:193` |
+
+##### `set` (`ext:deno_node/internal/fs/utils.mjs:569:8`)
+
+| Change |   Delta |      % |          Time | Samples | Location                                        |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------- |
+|  -1.8% | -0.02ms | 100.0% | 1.3ms → 1.2ms |       1 | `ext:deno_node/internal/fs/utils.mjs:555 → 570` |
+
+##### `dateFromMs` (`ext:deno_node/internal/fs/utils.mjs:526:20`)
+
+| Change |   Delta |      % |  Time | Samples | Location                                  |
+| -----: | ------: | -----: | ----: | ------: | ----------------------------------------- |
+|  -0.8% | -0.01ms | 100.0% | 1.3ms |       1 | `ext:deno_node/internal/fs/utils.mjs:527` |
+
+##### `op_compile_function` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Location |
+| -----: | ------: | -----: | --------------: | ------: | -------- |
+| -12.1% | -3.85ms | 100.0% | 31.8ms → 28.0ms | 25 → 22 | 1106     |
+
+##### `op_require_real_path` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Location |
+| ------: | ------: | ------------: | ----------: | ------: | -------- |
+| removed | -1.36ms | 100.0% → 0.0% | 1.4ms → 0ms |   1 → 0 | 811      |
+
+##### `op_fs_read_dir_sync` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Location |
+| ------: | ------: | ------------: | ----------: | ------: | -------- |
+| removed | -1.26ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | 121      |
+
+##### `op_fs_realpath_sync` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Location |
+| -----: | ------: | -----: | ------------: | ------: | -------- |
+| -45.7% | -1.10ms | 100.0% | 2.4ms → 1.3ms |   2 → 1 | 281      |
+
+##### `op_node_encoding_slice` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Location |
+| -----: | ------: | -----: | ------------: | ------: | -------- |
+| -34.4% | -0.88ms | 100.0% | 2.6ms → 1.7ms |       2 | 707      |
+
+##### `op_require_read_file` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Location |
+| -----: | ------: | -----: | ------------: | ------: | -------- |
+|  -2.5% | -0.09ms | 100.0% | 3.8ms → 3.7ms |       3 | 1670     |
+
 ### Total time
 
 #### Regressions

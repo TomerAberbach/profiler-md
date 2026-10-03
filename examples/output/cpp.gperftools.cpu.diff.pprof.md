@@ -119,6 +119,369 @@ Functions with the largest decrease in time spent directly in the function body,
 | ------: | ------: | ----------: | ----------: | ------: | ------------------------------------- | ---------------------------------------- |
 | removed | -2.00ms | 0.4% → 0.0% | 2.0ms → 0ms |   2 → 0 | `std::__cxx11::basic_string::_M_data` | `usr/include/c++/12/bits/basic_string.h` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `fmt::v12::detail::buffer::append` (`src/fmt/include/fmt/base.h`)
+
+| Change |    Delta |            % |         Time | Samples | Location                          |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+|    new | +24.00ms | 0.0% → 53.3% | 0ms → 24.0ms |  0 → 24 | `src/fmt/include/fmt/base.h:1853` |
+|    new | +10.00ms | 0.0% → 22.2% | 0ms → 10.0ms |  0 → 10 | `src/fmt/include/fmt/base.h:1854` |
+|    new |  +6.00ms | 0.0% → 13.3% |  0ms → 6.0ms |   0 → 6 | `src/fmt/include/fmt/base.h:1852` |
+|    new |  +4.00ms |  0.0% → 8.9% |  0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/base.h:1846` |
+|    new |  +1.00ms |  0.0% → 2.2% |  0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:1845` |
+
+##### `fmt::v12::detail::utf8_decode` (`src/fmt/include/fmt/format.h`)
+
+| Change |    Delta |            % |         Time | Samples | Location                           |
+| -----: | -------: | -----------: | -----------: | ------: | ---------------------------------- |
+|    new | +13.00ms | 0.0% → 31.0% | 0ms → 13.0ms |  0 → 13 | `src/fmt/include/fmt/format.h:595` |
+|    new |  +7.00ms | 0.0% → 16.7% |  0ms → 7.0ms |   0 → 7 | `src/fmt/include/fmt/format.h:622` |
+|    new |  +6.00ms | 0.0% → 14.3% |  0ms → 6.0ms |   0 → 6 | `src/fmt/include/fmt/format.h:598` |
+|    new |  +4.00ms |  0.0% → 9.5% |  0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/format.h:621` |
+|    new |  +3.00ms |  0.0% → 7.1% |  0ms → 3.0ms |   0 → 3 | `src/fmt/include/fmt/format.h:592` |
+
+##### `fmt::v12::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`)
+
+| Change |    Delta |            % |         Time | Samples | Location                          |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+|    new | +14.00ms | 0.0% → 45.2% | 0ms → 14.0ms |  0 → 14 | `src/fmt/include/fmt/base.h:1498` |
+|    new | +10.00ms | 0.0% → 32.3% | 0ms → 10.0ms |  0 → 10 | `src/fmt/include/fmt/base.h:1596` |
+|    new |  +5.00ms | 0.0% → 16.1% |  0ms → 5.0ms |   0 → 5 | `src/fmt/include/fmt/base.h:1461` |
+|    new |  +2.00ms |  0.0% → 6.5% |  0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:1593` |
+
+##### `fmt::v12::detail::copy_noinline` (`src/fmt/include/fmt/format.h`)
+
+| Change |    Delta |            % |         Time | Samples | Location                           |
+| -----: | -------: | -----------: | -----------: | ------: | ---------------------------------- |
+|    new | +17.00ms | 0.0% → 68.0% | 0ms → 17.0ms |  0 → 17 | `src/fmt/include/fmt/format.h:571` |
+|    new |  +8.00ms | 0.0% → 32.0% |  0ms → 8.0ms |   0 → 8 | `src/fmt/include/fmt/format.h:568` |
+
+##### `fmt::v12::detail::parse_format_string` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                          |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+|    new | +9.00ms | 0.0% → 47.4% | 0ms → 9.0ms |   0 → 9 | `src/fmt/include/fmt/base.h:1651` |
+|    new | +6.00ms | 0.0% → 31.6% | 0ms → 6.0ms |   0 → 6 | `src/fmt/include/fmt/base.h:1655` |
+|    new | +4.00ms | 0.0% → 21.1% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/base.h:1650` |
+
+##### `fmt::v12::detail::write` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                            |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+|    new | +4.00ms | 0.0% → 22.2% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/format.h:3434` |
+|    new | +2.00ms | 0.0% → 11.1% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2239` |
+|    new | +2.00ms | 0.0% → 11.1% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2284` |
+|    new | +1.00ms |  0.0% → 5.6% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:1688` |
+|    new | +1.00ms |  0.0% → 5.6% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:2161` |
+
+##### `fmt::v12::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`)
+
+| Change |    Delta |            % |         Time | Samples | Location                          |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+|    new | +15.00ms | 0.0% → 93.8% | 0ms → 15.0ms |  0 → 15 | `src/fmt/include/fmt/base.h:2531` |
+|    new |  +1.00ms |  0.0% → 6.3% |  0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:2550` |
+
+##### `fmt::v12::detail::parse_dynamic_spec` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                          |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+|    new | +8.00ms | 0.0% → 57.1% | 0ms → 8.0ms |   0 → 8 | `src/fmt/include/fmt/base.h:1400` |
+|    new | +2.00ms | 0.0% → 14.3% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:1406` |
+|    new | +2.00ms | 0.0% → 14.3% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:1408` |
+|    new | +2.00ms | 0.0% → 14.3% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:1430` |
+
+##### `fmt::v12::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                          |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+|    new | +4.00ms | 0.0% → 30.8% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/base.h:1609` |
+|    new | +4.00ms | 0.0% → 30.8% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/base.h:1643` |
+|    new | +3.00ms | 0.0% → 23.1% | 0ms → 3.0ms |   0 → 3 | `src/fmt/include/fmt/base.h:1603` |
+|    new | +2.00ms | 0.0% → 15.4% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:1640` |
+
+##### `fmt::v12::detail::write_int` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                            |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+|    new | +8.00ms | 0.0% → 66.7% | 0ms → 8.0ms |   0 → 8 | `src/fmt/include/fmt/format.h:2050` |
+|    new | +2.00ms | 0.0% → 16.7% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2096` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:2062` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:2111` |
+
+##### `fmt::v12::detail::format_float` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                            |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+|    new | +3.00ms | 0.0% → 25.0% | 0ms → 3.0ms |   0 → 3 | `src/fmt/include/fmt/format.h:3208` |
+|    new | +2.00ms | 0.0% → 16.7% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:3152` |
+|    new | +2.00ms | 0.0% → 16.7% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:3199` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:3222` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:3325` |
+
+##### `fmt::v12::detail::parse_nonnegative_int` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                          |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+|    new | +9.00ms | 0.0% → 75.0% | 0ms → 9.0ms |   0 → 9 | `src/fmt/include/fmt/base.h:1321` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:1319` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:1322` |
+|    new | +1.00ms |  0.0% → 8.3% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:1325` |
+
+##### `fmt::v12::detail::write2digits` (`src/fmt/include/fmt/format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Location                            |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------- |
+|    new | +11.00ms | 0.0% → 100.0% | 0ms → 11.0ms |  0 → 11 | `src/fmt/include/fmt/format.h:1197` |
+
+##### `fmt::v12::detail::write()::{lambda(unsigned int, fmt::v12::basic_string_view)#1}::operator()` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                            |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+|    new | +4.00ms | 0.0% → 36.4% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/format.h:2197` |
+|    new | +3.00ms | 0.0% → 27.3% | 0ms → 3.0ms |   0 → 3 | `src/fmt/include/fmt/format.h:2172` |
+|    new | +2.00ms | 0.0% → 18.2% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2173` |
+|    new | +2.00ms | 0.0% → 18.2% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2199` |
+
+##### `fmt::v12::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                            |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+|    new | +6.00ms | 0.0% → 60.0% | 0ms → 6.0ms |   0 → 6 | `src/fmt/include/fmt/format.h:3779` |
+|    new | +4.00ms | 0.0% → 40.0% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/format.h:3788` |
+
+##### `fmt::v12::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                           |
+| -----: | ------: | -----------: | ----------: | ------: | ---------------------------------- |
+|    new | +8.00ms | 0.0% → 80.0% | 0ms → 8.0ms |   0 → 8 | `src/fmt/include/fmt/format.h:637` |
+|    new | +2.00ms | 0.0% → 20.0% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:639` |
+
+##### `fmt::v12::basic_format_args::get` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                          |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+|    new | +4.00ms | 0.0% → 44.4% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/base.h:2639` |
+|    new | +2.00ms | 0.0% → 22.2% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:2633` |
+|    new | +2.00ms | 0.0% → 22.2% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/base.h:2637` |
+|    new | +1.00ms | 0.0% → 11.1% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:2638` |
+
+##### `fmt::v12::detail::write_fixed` (`src/fmt/include/fmt/format.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                            |
+| -----: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+|    new | +4.00ms | 0.0% → 44.4% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/format.h:2487` |
+|    new | +2.00ms | 0.0% → 22.2% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2522` |
+|    new | +2.00ms | 0.0% → 22.2% | 0ms → 2.0ms |   0 → 2 | `src/fmt/include/fmt/format.h:2549` |
+|    new | +1.00ms | 0.0% → 11.1% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/format.h:2539` |
+
+##### `fmt::v12::detail::buffer::try_reserve` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |             % |        Time | Samples | Location                          |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------------------- |
+|    new | +8.00ms | 0.0% → 100.0% | 0ms → 8.0ms |   0 → 8 | `src/fmt/include/fmt/base.h:1829` |
+
+##### `fmt::v12::detail::buffer::push_back` (`src/fmt/include/fmt/base.h`)
+
+| Change |   Delta |            % |        Time | Samples | Location                          |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+|    new | +4.00ms | 0.0% → 50.0% | 0ms → 4.0ms |   0 → 4 | `src/fmt/include/fmt/base.h:1834` |
+|    new | +3.00ms | 0.0% → 37.5% | 0ms → 3.0ms |   0 → 3 | `src/fmt/include/fmt/base.h:1835` |
+|    new | +1.00ms | 0.0% → 12.5% | 0ms → 1.0ms |   0 → 1 | `src/fmt/include/fmt/base.h:1832` |
+
+##### `std::__cxx11::basic_string::_M_construct` (`usr/include/c++/12/bits/basic_string.tcc`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                       |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------------------------------------- |
+|    new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `usr/include/c++/12/bits/basic_string.tcc:221` |
+
+##### `std::char_traits::copy` (`usr/include/c++/12/bits/char_traits.h`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                    |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `usr/include/c++/12/bits/char_traits.h:431` |
+
+##### `std::__cxx11::basic_string::size` (`usr/include/c++/12/bits/basic_string.h`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                      |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `usr/include/c++/12/bits/basic_string.h:1064` |
+
+##### `fmt::v11::detail::buffer::append` (`src/fmt/include/fmt/base.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                          |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+| removed | -31.00ms | 66.0% → 0.0% | 31.0ms → 0ms |  31 → 0 | `src/fmt/include/fmt/base.h:1837` |
+| removed |  -7.00ms | 14.9% → 0.0% |  7.0ms → 0ms |   7 → 0 | `src/fmt/include/fmt/base.h:1836` |
+| removed |  -6.00ms | 12.8% → 0.0% |  6.0ms → 0ms |   6 → 0 | `src/fmt/include/fmt/base.h:1838` |
+| removed |  -3.00ms |  6.4% → 0.0% |  3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/base.h:1830` |
+
+##### `fmt::v11::detail::utf8_decode` (`src/fmt/include/fmt/format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                           |
+| ------: | -------: | -----------: | -----------: | ------: | ---------------------------------- |
+| removed | -14.00ms | 45.2% → 0.0% | 14.0ms → 0ms |  14 → 0 | `src/fmt/include/fmt/format.h:561` |
+| removed |  -6.00ms | 19.4% → 0.0% |  6.0ms → 0ms |   6 → 0 | `src/fmt/include/fmt/format.h:560` |
+| removed |  -2.00ms |  6.5% → 0.0% |  2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:564` |
+| removed |  -2.00ms |  6.5% → 0.0% |  2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:581` |
+| removed |  -2.00ms |  6.5% → 0.0% |  2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:588` |
+
+##### `fmt::v11::detail::parse_format_string` (`src/fmt/include/fmt/base.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                          |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+| removed | -19.00ms | 67.9% → 0.0% | 19.0ms → 0ms |  19 → 0 | `src/fmt/include/fmt/base.h:1635` |
+| removed |  -5.00ms | 17.9% → 0.0% |  5.0ms → 0ms |   5 → 0 | `src/fmt/include/fmt/base.h:1639` |
+| removed |  -4.00ms | 14.3% → 0.0% |  4.0ms → 0ms |   4 → 0 | `src/fmt/include/fmt/base.h:1634` |
+
+##### `fmt::v11::detail::parse_format_specs` (`src/fmt/include/fmt/base.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                          |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+| removed | -16.00ms | 61.5% → 0.0% | 16.0ms → 0ms |  16 → 0 | `src/fmt/include/fmt/base.h:1482` |
+| removed |  -4.00ms | 15.4% → 0.0% |  4.0ms → 0ms |   4 → 0 | `src/fmt/include/fmt/base.h:1445` |
+| removed |  -4.00ms | 15.4% → 0.0% |  4.0ms → 0ms |   4 → 0 | `src/fmt/include/fmt/base.h:1580` |
+| removed |  -2.00ms |  7.7% → 0.0% |  2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/base.h:1577` |
+
+##### `fmt::v11::detail::copy_noinline` (`src/fmt/include/fmt/format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                           |
+| ------: | -------: | -----------: | -----------: | ------: | ---------------------------------- |
+| removed | -16.00ms | 76.2% → 0.0% | 16.0ms → 0ms |  16 → 0 | `src/fmt/include/fmt/format.h:537` |
+| removed |  -5.00ms | 23.8% → 0.0% |  5.0ms → 0ms |   5 → 0 | `src/fmt/include/fmt/format.h:534` |
+
+##### `fmt::v11::detail::parse_replacement_field` (`src/fmt/include/fmt/base.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                          |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+| removed | -6.00ms | 31.6% → 0.0% | 6.0ms → 0ms |   6 → 0 | `src/fmt/include/fmt/base.h:1593` |
+| removed | -5.00ms | 26.3% → 0.0% | 5.0ms → 0ms |   5 → 0 | `src/fmt/include/fmt/base.h:1624` |
+| removed | -5.00ms | 26.3% → 0.0% | 5.0ms → 0ms |   5 → 0 | `src/fmt/include/fmt/base.h:1627` |
+| removed | -3.00ms | 15.8% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/base.h:1583` |
+
+##### `fmt::v11::detail::parse_dynamic_spec` (`src/fmt/include/fmt/base.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                          |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+| removed | -7.00ms | 43.8% → 0.0% | 7.0ms → 0ms |   7 → 0 | `src/fmt/include/fmt/base.h:1384` |
+| removed | -4.00ms | 25.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `src/fmt/include/fmt/base.h:1392` |
+| removed | -3.00ms | 18.8% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/base.h:1390` |
+| removed | -2.00ms | 12.5% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/base.h:1414` |
+
+##### `fmt::v11::detail::write_float` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                            |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+| removed | -7.00ms | 53.8% → 0.0% | 7.0ms → 0ms |   7 → 0 | `src/fmt/include/fmt/format.h:3301` |
+| removed | -2.00ms | 15.4% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:3353` |
+| removed | -1.00ms |  7.7% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3306` |
+| removed | -1.00ms |  7.7% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3316` |
+| removed | -1.00ms |  7.7% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3336` |
+
+##### `fmt::v11::detail::do_format_decimal` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                            |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+| removed | -9.00ms | 75.0% → 0.0% | 9.0ms → 0ms |   9 → 0 | `src/fmt/include/fmt/format.h:1191` |
+| removed | -2.00ms | 16.7% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:1198` |
+| removed | -1.00ms |  8.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:1195` |
+
+##### `fmt::v11::basic_format_arg::visit` (`src/fmt/include/fmt/base.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                          |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------- |
+| removed | -11.00ms | 91.7% → 0.0% | 11.0ms → 0ms |  11 → 0 | `src/fmt/include/fmt/base.h:2518` |
+| removed |  -1.00ms |  8.3% → 0.0% |  1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/base.h:2537` |
+
+##### `fmt::v11::detail::parse_format_specs()::{unnamed type#1}::operator()` (`src/fmt/include/fmt/base.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                          |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------- |
+| removed | -11.00ms | 100.0% → 0.0% | 11.0ms → 0ms |  11 → 0 | `src/fmt/include/fmt/base.h:1461` |
+
+##### `fmt::v11::detail::format_handler::on_format_specs` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                            |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+| removed | -4.00ms | 40.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `src/fmt/include/fmt/format.h:3630` |
+| removed | -2.00ms | 20.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:3619` |
+| removed | -2.00ms | 20.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:3620` |
+| removed | -2.00ms | 20.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:3628` |
+
+##### `fmt::v11::detail::parse_nonnegative_int` (`src/fmt/include/fmt/base.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                          |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+| removed | -7.00ms | 70.0% → 0.0% | 7.0ms → 0ms |   7 → 0 | `src/fmt/include/fmt/base.h:1305` |
+| removed | -2.00ms | 20.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/base.h:1303` |
+| removed | -1.00ms | 10.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/base.h:1306` |
+
+##### `fmt::v11::detail::write_int` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                            |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+| removed | -3.00ms | 37.5% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/format.h:2017` |
+| removed | -3.00ms | 37.5% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/format.h:2063` |
+| removed | -1.00ms | 12.5% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:2029` |
+| removed | -1.00ms | 12.5% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:2078` |
+
+##### `fmt::v11::detail::compute_width()::count_code_points::operator()` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                           |
+| ------: | ------: | -----------: | ----------: | ------: | ---------------------------------- |
+| removed | -6.00ms | 75.0% → 0.0% | 6.0ms → 0ms |   6 → 0 | `src/fmt/include/fmt/format.h:644` |
+| removed | -2.00ms | 25.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:648` |
+
+##### `fmt::v11::parse_context::next_arg_id` (`src/fmt/include/fmt/base.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                         |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------- |
+| removed | -5.00ms | 71.4% → 0.0% | 5.0ms → 0ms |   5 → 0 | `src/fmt/include/fmt/base.h:899` |
+| removed | -2.00ms | 28.6% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/base.h:903` |
+
+##### `fmt::v11::detail::format_float` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                            |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+| removed | -2.00ms | 28.6% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/fmt/include/fmt/format.h:3189` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3071` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3072` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3231` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:3280` |
+
+##### `fmt::v11::detail::write_padded` (`src/fmt/include/fmt/format.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                            |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- |
+| removed | -3.00ms | 42.9% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/format.h:1641` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:1636` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:1643` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:1646` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format.h:1648` |
+
+##### `fmt::v11::detail::buffer::push_back` (`src/fmt/include/fmt/base.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                          |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------- |
+| removed | -6.00ms | 85.7% → 0.0% | 6.0ms → 0ms |   6 → 0 | `src/fmt/include/fmt/base.h:1818` |
+| removed | -1.00ms | 14.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/base.h:1816` |
+
+##### `fmt::v11::detail::dragonbox::cache_accessor::get_cached_power` (`src/fmt/include/fmt/format-inl.h`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------- |
+| removed | -3.00ms | 60.0% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/fmt/include/fmt/format-inl.h:1059` |
+| removed | -1.00ms | 20.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format-inl.h:1054` |
+| removed | -1.00ms | 20.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/fmt/include/fmt/format-inl.h:1055` |
+
+##### `std::__cxx11::basic_string::_M_data` (`usr/include/c++/12/bits/basic_string.h`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                     |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `usr/include/c++/12/bits/basic_string.h:234` |
+
 ### Total time
 
 #### Regressions

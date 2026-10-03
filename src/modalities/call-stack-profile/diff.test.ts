@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
-import { categoryRankingTables } from '../../testing.ts'
+import { categoryRankingTables, linesTables } from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'
 import {
   BYTES_METRIC,
@@ -1062,5 +1062,139 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     expect(() =>
       diffAggregatedCallStackProfiles(base, current, defaultOptions),
     ).toThrow(`no metrics in common`)
+  })
+})
+
+describe(`formatCallStackProfileDiff lines`, () => {
+  /** A function at `a.ts` sampled a microsecond per record at each line. */
+  const funcWithLines = (
+    line: number,
+    executingLines: { line: number; count: number }[],
+  ) => {
+    const count = executingLines.reduce((sum, { count }) => sum + count, 0)
+    return {
+      name: `funcA`,
+      url: `file:///project/src/a.ts`,
+      line,
+      selfValues: [count],
+      selfCount: count,
+      executingLines,
+    }
+  }
+
+  const linesOf = (
+    base: ReturnType<typeof funcWithLines>,
+    current: ReturnType<typeof funcWithLines>,
+  ) =>
+    linesTables(
+      mdastToMarkdown(
+        formatCallStackProfileDiff(
+          diffAggregatedCallStackProfiles(
+            makeAggregatedCallStackProfile([MICROSECONDS_METRIC], [base]),
+            makeAggregatedCallStackProfile([MICROSECONDS_METRIC], [current]),
+            defaultOptions,
+          ),
+          defaultOptions,
+        ),
+      ),
+      `funcA`,
+    )
+
+  test(`pairs the lines of a function an edit above it moved`, () => {
+    expect(
+      linesOf(
+        funcWithLines(10, [
+          { line: 12, count: 5 },
+          { line: 15, count: 3 },
+        ]),
+        funcWithLines(20, [
+          { line: 22, count: 8 },
+          { line: 25, count: 3 },
+        ]),
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+60.0%`,
+          Delta: `+3.00µs`,
+          '%': `62.5% → 72.7%`,
+          Time: `5.0µs → 8.0µs`,
+          Samples: `5 → 8`,
+          Location: `src/a.ts:12 → 22`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs a run of lines an edit inside the function moved`, () => {
+    expect(
+      linesOf(
+        funcWithLines(10, [
+          { line: 11, count: 1 },
+          { line: 13, count: 2 },
+          { line: 15, count: 3 },
+          { line: 17, count: 4 },
+        ]),
+        funcWithLines(10, [
+          { line: 11, count: 2 },
+          { line: 16, count: 2 },
+          { line: 18, count: 3 },
+          { line: 20, count: 4 },
+        ]),
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+1.00µs`,
+          '%': `10.0% → 18.2%`,
+          Time: `1.0µs → 2.0µs`,
+          Samples: `1 → 2`,
+          Location: `src/a.ts:11`,
+        },
+      ],
+    ])
+  })
+
+  test(`leaves a line unpaired that moved apart from the others`, () => {
+    expect(
+      linesOf(
+        funcWithLines(10, [
+          { line: 11, count: 4 },
+          { line: 14, count: 2 },
+        ]),
+        funcWithLines(10, [
+          { line: 11, count: 6 },
+          { line: 19, count: 2 },
+        ]),
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+50.0%`,
+          Delta: `+2.00µs`,
+          '%': `66.7% → 75.0%`,
+          Time: `4.0µs → 6.0µs`,
+          Samples: `4 → 6`,
+          Location: `src/a.ts:11`,
+        },
+        {
+          Change: `removed`,
+          Delta: `-2.00µs`,
+          '%': `33.3% → 0.0%`,
+          Time: `2.0µs → 0ms`,
+          Samples: `2 → 0`,
+          Location: `src/a.ts:14`,
+        },
+        {
+          Change: `new`,
+          Delta: `+2.00µs`,
+          '%': `0.0% → 25.0%`,
+          Time: `0ms → 2.0µs`,
+          Samples: `0 → 2`,
+          Location: `src/a.ts:19`,
+        },
+      ],
+    ])
   })
 })

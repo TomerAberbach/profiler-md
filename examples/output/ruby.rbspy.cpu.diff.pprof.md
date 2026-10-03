@@ -209,6 +209,384 @@ Functions with the largest decrease in wall time spent directly in the function 
 | removed |  -9.06ms | 0.1% → 0.0% |     9.1ms → 0ms |   1 → 0 | `Bundler::LazySpecification#choose_compatible` | `../../usr/local/lib/ruby/3.4.0/bundler/lazy_specification.rb` |
 |   -0.6% |  -0.06ms |        0.1% |          10.0ms |       1 | `Gem::Version#<=>`                             | `../../usr/local/lib/ruby/3.4.0/rubygems/version.rb`           |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` (`../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                                                                                                 |
+| ------: | --------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------ |
+|     new | +194.68ms | 0.0% → 100.0% | 0ms → 194.7ms |  0 → 19 | `../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb:37`   |
+| removed |  -19.80ms | 100.0% → 0.0% |  19.8ms → 0ms |   2 → 0 | `../../usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb:38` |
+
+##### `ActionView::Helpers::NumberHelper#number_with_delimiter` (`../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`)
+
+| Change |     Delta |             % |          Time | Samples | Location                                                                                   |
+| -----: | --------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------ |
+|    new | +105.17ms | 0.0% → 100.0% | 0ms → 105.2ms |  0 → 10 | `../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb:85` |
+
+##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`app/views/statuses/index.html.erb`)
+
+| Change |     Delta |      % |              Time | Samples | Location                               |
+| -----: | --------: | -----: | ----------------: | ------: | -------------------------------------- |
+| +42.7% | +101.40ms | 100.0% | 237.5ms → 339.0ms | 24 → 34 | `app/views/statuses/index.html.erb:29` |
+
+##### `Loofah::HTML5::Scrub.cdata_needs_escaping?` (`../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`)
+
+|  Change |    Delta |      % |             Time | Samples | Location                                                                  |
+| ------: | -------: | -----: | ---------------: | ------: | ------------------------------------------------------------------------- |
+| +820.7% | +90.58ms | 100.0% | 11.0ms → 101.6ms |  1 → 10 | `../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb:264` |
+
+##### `ActionView::OutputBuffer#<<` (`../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`)
+
+| Change |    Delta |      % |             Time | Samples | Location                                                                                                                                                    |
+| -----: | -------: | -----: | ---------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +73.4% | +67.89ms | 100.0% | 92.5ms → 160.4ms |  9 → 16 | `../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/buffers.rb:52 → ../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb:52` |
+
+##### `Nokogiri::HTML5::DocumentFragment#initialize` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`)
+
+|  Change |    Delta |      % |             Time | Samples | Location                                                                                                    |
+| ------: | -------: | -----: | ---------------: | ------: | ----------------------------------------------------------------------------------------------------------- |
+| +126.0% | +65.94ms | 100.0% | 52.3ms → 118.3ms |  5 → 11 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb:167` |
+
+##### `Nokogiri::XML::Node#attributes` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`)
+
+|  Change |    Delta |      % |           Time | Samples | Location                                                                                     |
+| ------: | -------: | -----: | -------------: | ------: | -------------------------------------------------------------------------------------------- |
+| +552.7% | +54.84ms | 100.0% | 9.9ms → 64.8ms |   1 → 6 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb:739` |
+
+##### `Loofah::HTML5::Scrub.scrub_css_attribute` (`../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                                  |
+| ------: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------- |
+| +487.4% | +51.86ms | 100.0% | 10.6ms → 62.5ms |   1 → 6 | `../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb:108` |
+
+##### `Rails::HTML::Concern::Serializer::UTF8Encode#serialize` (`../../usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`)
+
+|  Change |    Delta |      % |           Time | Samples | Location                                                                                 |
+| ------: | -------: | -----: | -------------: | ------: | ---------------------------------------------------------------------------------------- |
+| +545.5% | +51.81ms | 100.0% | 9.5ms → 61.3ms |   1 → 6 | `../../usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb:192` |
+
+##### `ActionView::Helpers::UrlHelper#convert_options_to_data_attributes` (`../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                                                                                                                                            |
+| ------: | -------: | -----: | --------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +511.9% | +51.66ms | 100.0% | 10.1ms → 61.8ms |   1 → 6 | `../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb:720 → ../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb:720` |
+
+##### `Nokogiri::XML::Document#decorate` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`)
+
+| Change |    Delta |      % |             Time | Samples | Location                                                                                         |
+| -----: | -------: | -----: | ---------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| +69.5% | +50.71ms | 100.0% | 73.0ms → 123.7ms |  7 → 12 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb:418` |
+
+##### `block in to_html` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                                                         |
+| ------: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| +207.8% | +38.91ms | 100.0% | 18.7ms → 57.6ms |   2 → 6 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb:354` |
+
+##### `Loofah::Scrubber#traverse_conditionally_bottom_up` (`../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb`)
+
+| Change |    Delta |      % |              Time | Samples | Location                                                               |
+| -----: | -------: | -----: | ----------------: | ------: | ---------------------------------------------------------------------- |
+| +31.9% | +36.86ms | 100.0% | 115.4ms → 152.3ms | 11 → 16 | `../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb:138` |
+
+##### `Nokogiri::XML::Document#initialize` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                                                         |
+| ------: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| +116.1% | +35.16ms | 100.0% | 30.3ms → 65.4ms |   3 → 6 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb:195` |
+
+##### `I18n::Backend::Base#translate` (`../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/base.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                              |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------------------- |
+| +79.0% | +33.19ms | 100.0% | 42.0ms → 75.2ms |   4 → 7 | `../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/base.rb:69` |
+
+##### `Nokogiri::XML::Document#decorators` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                                                         |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| +50.7% | +32.78ms | 100.0% | 64.7ms → 97.4ms |  6 → 10 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb:372` |
+
+##### `ActiveSupport::NumberHelper::NumberConverter#namespace` (`../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------------------------------- |
+|    new | +31.95ms | 0.0% → 100.0% | 0ms → 32.0ms |   0 → 3 | `../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb:14` |
+
+##### `I18n::Base#normalize_key` (`../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------- |
+|    new | +31.12ms | 0.0% → 100.0% | 0ms → 31.1ms |   0 → 3 | `../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb:492` |
+
+##### `I18n::Config#enforce_available_locales` (`../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/config.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                         |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------- |
+|    new | +30.49ms | 0.0% → 100.0% | 0ms → 30.5ms |   0 → 3 | `../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/config.rb:177` |
+
+##### `Nokogiri::XML::Node#xml?` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                                                      |
+| ------: | -------: | -----: | --------------: | ------: | --------------------------------------------------------------------------------------------- |
+| +141.1% | +29.79ms | 100.0% | 21.1ms → 50.9ms |   2 → 5 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb:1272` |
+
+##### `Loofah::ScrubBehavior.resolve_scrubber` (`../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                              |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------- |
+|    new | +29.33ms | 0.0% → 100.0% | 0ms → 29.3ms |   0 → 3 | `../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb:66` |
+
+##### `Time#initialize` (`<internal:timev>`)
+
+| Change |    Delta |             % |         Time | Samples | Location               |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------- |
+|    new | +20.37ms | 0.0% → 100.0% | 0ms → 20.4ms |   0 → 2 | `<internal:timev>:453` |
+
+##### `Array#map` (`<internal:array>`)
+
+| Change |    Delta |             % |         Time | Samples | Location               |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------- |
+|    new | +19.74ms | 0.0% → 100.0% | 0ms → 19.7ms |   0 → 1 | `<internal:array>:251` |
+
+##### `Bundler::Settings.key_to_s` (`../../usr/local/lib/ruby/3.4.0/bundler/settings.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                 |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------- |
+|    new | +19.71ms | 0.0% → 100.0% | 0ms → 19.7ms |   0 → 1 | `../../usr/local/lib/ruby/3.4.0/bundler/settings.rb:583` |
+
+##### `Singleton::SingletonClassMethods#instance` (`../../usr/local/lib/ruby/3.4.0/singleton.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                          |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------- |
+|    new | +19.56ms | 0.0% → 100.0% | 0ms → 19.6ms |   0 → 2 | `../../usr/local/lib/ruby/3.4.0/singleton.rb:128` |
+
+##### `Array#each` (`<internal:array>`)
+
+| Change |    Delta |      % |             Time | Samples | Location               |
+| -----: | -------: | -----: | ---------------: | ------: | ---------------------- |
+| +20.0% | +18.75ms | 100.0% | 93.8ms → 112.5ms |  9 → 11 | `<internal:array>:231` |
+
+##### `block (2 levels) in <class:CurrentRuby>` (`../../usr/local/lib/ruby/3.4.0/bundler/current_ruby.rb`)
+
+| Change |    Delta |             % |         Time | Samples | Location                                                    |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------- |
+|    new | +10.92ms | 0.0% → 100.0% | 0ms → 10.9ms |   0 → 1 | `../../usr/local/lib/ruby/3.4.0/bundler/current_ruby.rb:79` |
+
+##### `Bundler::Materialization#initialize` (`../../usr/local/lib/ruby/3.4.0/bundler/materialization.rb`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                                       |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------------------------------------------- |
+|    new | +9.07ms | 0.0% → 100.0% | 0ms → 9.1ms |   0 → 1 | `../../usr/local/lib/ruby/3.4.0/bundler/materialization.rb:15` |
+
+##### `Random::Formatter#urlsafe_base64` (`../../usr/local/lib/ruby/3.4.0/random/formatter.rb`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                                 |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------------------------------------- |
+|    new | +9.01ms | 0.0% → 100.0% | 0ms → 9.0ms |   0 → 1 | `../../usr/local/lib/ruby/3.4.0/random/formatter.rb:151` |
+
+##### `Gem::Version.new` (`../../usr/local/lib/ruby/3.4.0/rubygems/version.rb`)
+
+| Change |   Delta |             % |        Time | Samples | Location                                                 |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------------------------------------- |
+|    new | +8.64ms | 0.0% → 100.0% | 0ms → 8.6ms |   0 → 1 | `../../usr/local/lib/ruby/3.4.0/rubygems/version.rb:207` |
+
+##### `MonitorMixin::ConditionVariable#initialize` (`../../usr/local/lib/ruby/3.4.0/monitor.rb`)
+
+| Change |   Delta |      % |          Time | Samples | Location                                        |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------- |
+|  +1.6% | +0.14ms | 100.0% | 9.1ms → 9.2ms |       1 | `../../usr/local/lib/ruby/3.4.0/monitor.rb:149` |
+
+##### `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` (`../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
+
+|  Change |     Delta |             % |          Time | Samples | Location                                                                                                     |
+| ------: | --------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------ |
+| removed |   -1.494s | 100.0% → 0.0% |   1.49s → 0ms | 148 → 0 | `../../usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb:164` |
+|     new | +203.77ms | 0.0% → 100.0% | 0ms → 203.8ms |  0 → 20 | `../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb:167`   |
+
+##### `Nokogiri::XML::NodeSet#each` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
+
+| Change |     Delta |      % |              Time | Samples | Location                                                                                         |
+| -----: | --------: | -----: | ----------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| -72.6% | -578.26ms | 100.0% | 796.5ms → 218.2ms | 79 → 22 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb:240` |
+
+##### `block in decorate` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`)
+
+| Change |     Delta |      % |              Time | Samples | Location                                                                                         |
+| -----: | --------: | -----: | ----------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| -53.9% | -253.42ms | 100.0% | 470.2ms → 216.8ms | 46 → 21 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb:417` |
+
+##### `Nokogiri::XML::Node#to_format` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`)
+
+| Change |    Delta |      % |             Time | Samples | Location                                                                                      |
+| -----: | -------: | -----: | ---------------: | ------: | --------------------------------------------------------------------------------------------- |
+| -61.1% | -85.75ms | 100.0% | 140.3ms → 54.6ms |  14 → 5 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb:1677` |
+
+##### `Nokogiri::XML::Node#serialize` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`)
+
+| Change |    Delta |      % |             Time | Samples | Location                                                                                      |
+| -----: | -------: | -----: | ---------------: | ------: | --------------------------------------------------------------------------------------------- |
+| -61.4% | -62.64ms | 100.0% | 102.1ms → 39.5ms |  10 → 4 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb:1433` |
+
+##### `block in each` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
+
+| Change |    Delta |      % |             Time | Samples | Location                                                                                         |
+| -----: | -------: | -----: | ---------------: | ------: | ------------------------------------------------------------------------------------------------ |
+| -48.7% | -58.51ms | 100.0% | 120.2ms → 61.7ms |  12 → 6 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb:238` |
+
+##### `Set#include?` (`../../usr/local/lib/ruby/3.4.0/set.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                    |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------------------- |
+| -72.1% | -52.94ms | 100.0% | 73.4ms → 20.5ms |   7 → 2 | `../../usr/local/lib/ruby/3.4.0/set.rb:398` |
+
+##### `Nokogiri::HTML5::Document#initialize` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document.rb`)
+
+| Change |    Delta |      % |           Time | Samples | Location                                                                                           |
+| -----: | -------: | -----: | -------------: | ------: | -------------------------------------------------------------------------------------------------- |
+| -81.2% | -42.46ms | 100.0% | 52.3ms → 9.8ms |   5 → 1 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document.rb:163` |
+
+##### `Nokogiri::XML::DocumentFragment.new` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`)
+
+| Change |    Delta |      % |             Time | Samples | Location                                                                                                 |
+| -----: | -------: | -----: | ---------------: | ------: | -------------------------------------------------------------------------------------------------------- |
+| -30.7% | -40.82ms | 100.0% | 132.8ms → 92.0ms |  13 → 9 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb:46` |
+
+##### `ActiveSupport::CoreExt::ERBUtil#html_escape` (`../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                                                                                                                                                    |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -64.0% | -37.21ms | 100.0% | 58.2ms → 21.0ms |   6 → 2 | `../../usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/erb/util.rb:17 → ../../usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb:17` |
+
+##### `Loofah::ScrubBehavior::Node#scrub!` (`../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                              |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------------------- |
+| -35.4% | -31.84ms | 100.0% | 90.1ms → 58.2ms |   9 → 6 | `../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb:48` |
+
+##### `I18n::Backend::Simple::Implementation#lookup` (`../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/simple.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                 |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------ |
+| removed | -30.68ms | 100.0% → 0.0% | 30.7ms → 0ms |   3 → 0 | `../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/simple.rb:107` |
+
+##### `Nokogiri::XML::Node#to_html` (`../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                                                      |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------------------------------------------- |
+| -51.3% | -30.24ms | 100.0% | 59.0ms → 28.7ms |   6 → 3 | `../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb:1444` |
+
+##### `Rack::Request::Env#get_header` (`../../usr/local/bundle/gems/rack-3.2.7/lib/rack/request.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------- |
+| removed | -29.07ms | 100.0% → 0.0% | 29.1ms → 0ms |   3 → 0 | `../../usr/local/bundle/gems/rack-3.2.7/lib/rack/request.rb:107` |
+
+##### `ActionView::PathRegistry.get_view_paths` (`../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/path_registry.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                             |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------ |
+| removed | -28.53ms | 100.0% → 0.0% | 28.5ms → 0ms |   3 → 0 | `../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/path_registry.rb:16` |
+
+##### `Loofah::HtmlFragmentBehavior::ClassMethods#parse` (`../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`)
+
+| Change |    Delta |      % |           Time | Samples | Location                                                               |
+| -----: | -------: | -----: | -------------: | ------: | ---------------------------------------------------------------------- |
+| -74.0% | -28.00ms | 100.0% | 37.8ms → 9.8ms |   4 → 1 | `../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb:178` |
+
+##### `Rails::HTML::PermitScrubber#validate!` (`../../usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                 |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------------------- |
+| removed | -22.49ms | 100.0% → 0.0% | 22.5ms → 0ms |   2 → 0 | `../../usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb:160` |
+
+##### `I18n.fallbacks` (`../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                   |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------------------------- |
+| removed | -21.95ms | 100.0% → 0.0% | 21.9ms → 0ms |   2 → 0 | `../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb:24` |
+
+##### `I18n::Backend::Fallbacks#extract_non_symbol_default!` (`../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`)
+
+| Change |    Delta |      % |            Time | Samples | Location                                                                    |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------------------------- |
+| -41.7% | -21.46ms | 100.0% | 51.4ms → 30.0ms |   5 → 3 | `../../usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb:104` |
+
+##### `ActionView::Helpers::ControllerHelper#response` (`../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/controller_helper.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------ |
+| removed | -21.30ms | 100.0% → 0.0% | 21.3ms → 0ms |   2 → 0 | `../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/controller_helper.rb:18` |
+
+##### `ActionView::Rendering#_process_render_template_options` (`../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/rendering.rb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                          |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------- |
+| removed | -21.20ms | 100.0% → 0.0% | 21.2ms → 0ms |   2 → 0 | `../../usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/rendering.rb:187` |
+
+##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`app/views/layouts/application.html.erb`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------- |
+| removed | -19.71ms | 100.0% → 0.0% | 19.7ms → 0ms |   2 → 0 | `app/views/layouts/application.html.erb:31` |
+
+##### `String#unpack` (`<internal:pack>`)
+
+|  Change |    Delta |             % |         Time | Samples | Location             |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------- |
+| removed | -18.88ms | 100.0% → 0.0% | 18.9ms → 0ms |   2 → 0 | `<internal:pack>:26` |
+
+##### `Hash#initialize` (`<internal:hash>`)
+
+|  Change |    Delta |             % |         Time | Samples | Location             |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------- |
+| removed | -11.27ms | 100.0% → 0.0% | 11.3ms → 0ms |   1 → 0 | `<internal:hash>:39` |
+
+##### `Array#select` (`<internal:array>`)
+
+|  Change |    Delta |             % |         Time | Samples | Location               |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------- |
+| removed | -10.22ms | 100.0% → 0.0% | 10.2ms → 0ms |   1 → 0 | `<internal:array>:276` |
+
+##### `OpenSSL::Cipher#random_iv` (`../../usr/local/lib/ruby/3.4.0/openssl/cipher.rb`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                              |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------------------------------------------- |
+| removed | -9.72ms | 100.0% → 0.0% | 9.7ms → 0ms |   1 → 0 | `../../usr/local/lib/ruby/3.4.0/openssl/cipher.rb:58` |
+
+##### `Kernel#Float` (`<internal:kernel>`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------------- |
+| removed | -9.61ms | 100.0% → 0.0% | 9.6ms → 0ms |   1 → 0 | `<internal:kernel>:199` |
+
+##### `Time.now` (`<internal:timev>`)
+
+|  Change |   Delta |             % |        Time | Samples | Location               |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------- |
+| removed | -9.59ms | 100.0% → 0.0% | 9.6ms → 0ms |   1 → 0 | `<internal:timev>:266` |
+
+##### `Ractor.make_shareable` (`<internal:ractor>`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------------- |
+| removed | -9.43ms | 100.0% → 0.0% | 9.4ms → 0ms |   1 → 0 | `<internal:ractor>:836` |
+
+##### `Bundler::LazySpecification#choose_compatible` (`../../usr/local/lib/ruby/3.4.0/bundler/lazy_specification.rb`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------------------ |
+| removed | -9.06ms | 100.0% → 0.0% | 9.1ms → 0ms |   1 → 0 | `../../usr/local/lib/ruby/3.4.0/bundler/lazy_specification.rb:224` |
+
+##### `Gem::Version#<=>` (`../../usr/local/lib/ruby/3.4.0/rubygems/version.rb`)
+
+| Change |   Delta |      % |   Time | Samples | Location                                                 |
+| -----: | ------: | -----: | -----: | ------: | -------------------------------------------------------- |
+|  -0.6% | -0.06ms | 100.0% | 10.0ms |       1 | `../../usr/local/lib/ruby/3.4.0/rubygems/version.rb:406` |
+
 ### Total time
 
 #### Regressions

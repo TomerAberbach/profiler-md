@@ -140,6 +140,380 @@ Functions with the largest decrease in samples taken directly in the function bo
 | ------: | ----: | ----------: | ------: | ------------ | ---------------------------------------- |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `_path_stat` | `<frozen importlib._bootstrap_external>` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self samples.
+
+##### `Parser._addtoken` (`parse.py`)
+
+|  Change | Delta |            % | Samples | Location       |
+| ------: | ----: | -----------: | ------: | -------------- |
+|     new |   +45 | 0.0% → 19.1% |  0 → 45 | `parse.py:316` |
+| +760.0% |   +38 | 4.1% → 18.3% |  5 → 43 | `parse.py:299` |
+| removed |   -24 | 19.8% → 0.0% |  24 → 0 | `parse.py:328` |
+|  -94.4% |   -17 | 14.9% → 0.4% |  18 → 1 | `parse.py:311` |
+| +233.3% |   +14 |  5.0% → 8.5% |  6 → 20 | `parse.py:293` |
+
+##### `Visitor.visit` (`nodes.py`)
+
+|  Change | Delta |            % | Samples | Location       |
+| ------: | ----: | -----------: | ------: | -------------- |
+|     new |   +30 | 0.0% → 46.2% |  0 → 30 | `nodes.py:170` |
+|     new |   +13 | 0.0% → 20.0% |  0 → 13 | `nodes.py:174` |
+|     new |   +12 | 0.0% → 18.5% |  0 → 12 | `nodes.py:172` |
+| removed |    -7 | 43.8% → 0.0% |   7 → 0 | `nodes.py:183` |
+| removed |    -6 | 37.5% → 0.0% |   6 → 0 | `nodes.py:185` |
+
+##### `BracketTracker.mark` (`brackets.py`)
+
+|   Change | Delta |             % | Samples | Location          |
+| -------: | ----: | ------------: | ------: | ----------------- |
+| +3300.0% |   +33 | 25.0% → 69.4% |  1 → 34 | `brackets.py:112` |
+|  +300.0% |    +3 |  25.0% → 8.2% |   1 → 4 | `brackets.py:114` |
+|      new |    +3 |   0.0% → 6.1% |   0 → 3 | `brackets.py:88`  |
+|      new |    +2 |   0.0% → 4.1% |   0 → 2 | `brackets.py:122` |
+|  +100.0% |    +1 |  25.0% → 4.1% |   1 → 2 | `brackets.py:126` |
+
+##### `get_features_used` (`__init__.py`)
+
+|  Change | Delta |             % | Samples | Location                  |
+| ------: | ----: | ------------: | ------: | ------------------------- |
+| +105.6% |   +19 | 20.5% → 28.9% | 18 → 37 | `__init__.py:1335 → 1314` |
+| +366.7% |   +11 |  3.4% → 10.9% |  3 → 14 | `__init__.py:1386 → 1365` |
+|  -30.0% |    -6 | 22.7% → 10.9% | 20 → 14 | `__init__.py:1424 → 1403` |
+| +100.0% |    +6 |   6.8% → 9.4% |  6 → 12 | `__init__.py:1436 → 1415` |
+|     new |    +5 |   0.0% → 3.9% |   0 → 5 | `__init__.py:1393`        |
+
+##### `Base.__new__` (`pytree.py`)
+
+| Change | Delta |             % | Samples | Location       |
+| -----: | ----: | ------------: | ------: | -------------- |
+|    new |   +31 | 0.0% → 100.0% |  0 → 31 | `pytree.py:73` |
+
+##### `whitespace` (`nodes.py`)
+
+|  Change | Delta |            % | Samples | Location       |
+| ------: | ----: | -----------: | ------: | -------------- |
+|     new |   +23 | 0.0% → 71.9% |  0 → 23 | `nodes.py:215` |
+|     new |    +3 |  0.0% → 9.4% |   0 → 3 | `nodes.py:282` |
+|     new |    +2 |  0.0% → 6.3% |   0 → 2 | `nodes.py:360` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `nodes.py:194` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `nodes.py:223` |
+
+##### `Driver.parse_tokens` (`driver.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+| +100.0% |    +9 | 25.7% → 29.5% |  9 → 18 | `driver.py:128` |
+|     new |    +4 |   0.0% → 6.6% |   0 → 4 | `driver.py:172` |
+| +300.0% |    +3 |   2.9% → 6.6% |   1 → 4 | `driver.py:151` |
+|     new |    +3 |   0.0% → 4.9% |   0 → 3 | `driver.py:167` |
+|   +8.3% |    +2 | 68.6% → 42.6% | 24 → 26 | `driver.py:162` |
+
+##### `Base.changed` (`pytree.py`)
+
+| Change | Delta |            % | Samples | Location        |
+| -----: | ----: | -----------: | ------: | --------------- |
+|    new |   +15 | 0.0% → 75.0% |  0 → 15 | `pytree.py:165` |
+|    new |    +3 | 0.0% → 15.0% |   0 → 3 | `pytree.py:164` |
+|    new |    +2 | 0.0% → 10.0% |   0 → 2 | `pytree.py:161` |
+
+##### `transform_line` (`linegen.py`)
+
+|  Change | Delta |             % | Samples | Location         |
+| ------: | ----: | ------------: | ------: | ---------------- |
+|     new |    +8 |  0.0% → 33.3% |   0 → 8 | `linegen.py:716` |
+| +250.0% |    +5 | 40.0% → 29.2% |   2 → 7 | `linegen.py:714` |
+|     new |    +3 |  0.0% → 12.5% |   0 → 3 | `linegen.py:722` |
+|  +50.0% |    +1 | 40.0% → 12.5% |   2 → 3 | `linegen.py:679` |
+|     new |    +1 |   0.0% → 4.2% |   0 → 1 | `linegen.py:650` |
+
+##### `__create_fn__.<locals>.__init__` (`<string>`)
+
+| Change | Delta |            % | Samples | Location     |
+| -----: | ----: | -----------: | ------: | ------------ |
+|    new |   +11 | 0.0% → 55.0% |  0 → 11 | `<string>:4` |
+|    new |    +7 | 0.0% → 35.0% |   0 → 7 | `<string>:7` |
+|    new |    +1 |  0.0% → 5.0% |   0 → 1 | `<string>:8` |
+|    new |    +1 |  0.0% → 5.0% |   0 → 1 | `<string>:9` |
+
+##### `generate_tokens` (`tokenize.py`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+| removed |   -10 |  25.6% → 0.0% |  10 → 0 | `tokenize.py:624`       |
+|  +35.7% |    +5 | 35.9% → 33.3% | 14 → 19 | `tokenize.py:875 → 864` |
+|     new |    +5 |   0.0% → 8.8% |   0 → 5 | `tokenize.py:613`       |
+| +300.0% |    +3 |   2.6% → 7.0% |   1 → 4 | `tokenize.py:634 → 623` |
+| +200.0% |    +2 |   2.6% → 5.3% |   1 → 3 | `tokenize.py:704 → 693` |
+
+##### `convert` (`pytree.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+|     new |   +14 |  0.0% → 66.7% |  0 → 14 | `pytree.py:492` |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `pytree.py:501` |
+|     new |    +3 |  0.0% → 14.3% |   0 → 3 | `pytree.py:490` |
+|     new |    +2 |   0.0% → 9.5% |   0 → 2 | `pytree.py:484` |
+|     new |    +1 |   0.0% → 4.8% |   0 → 1 | `pytree.py:475` |
+
+##### `Parser.push` (`parse.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+| +266.7% |    +8 | 25.0% → 39.3% |  3 → 11 | `parse.py:394 → 382` |
+| +166.7% |    +5 | 25.0% → 28.6% |   3 → 8 | `parse.py:396 → 384` |
+| +200.0% |    +2 |  8.3% → 10.7% |   1 → 3 | `parse.py:393 → 381` |
+| +100.0% |    +1 |   8.3% → 7.1% |   1 → 2 | `parse.py:386 → 374` |
+
+##### `Node.update_sibling_maps` (`pytree.py`)
+
+| Change | Delta |            % | Samples | Location        |
+| -----: | ----: | -----------: | ------: | --------------- |
+|    new |   +10 | 0.0% → 66.7% |  0 → 10 | `pytree.py:366` |
+|    new |    +3 | 0.0% → 20.0% |   0 → 3 | `pytree.py:365` |
+|    new |    +2 | 0.0% → 13.3% |   0 → 2 | `pytree.py:368` |
+
+##### `Line.__str__` (`lines.py`)
+
+| Change | Delta |            % | Samples | Location       |
+| -----: | ----: | -----------: | ------: | -------------- |
+|    new |    +5 | 0.0% → 33.3% |   0 → 5 | `lines.py:489` |
+|    new |    +4 | 0.0% → 26.7% |   0 → 4 | `lines.py:487` |
+|    new |    +3 | 0.0% → 20.0% |   0 → 3 | `lines.py:493` |
+|    new |    +2 | 0.0% → 13.3% |   0 → 2 | `lines.py:481` |
+|    new |    +1 |  0.0% → 6.7% |   0 → 1 | `lines.py:490` |
+
+##### `_format_str_once` (`__init__.py`)
+
+|  Change | Delta |             % | Samples | Location                  |
+| ------: | ----: | ------------: | ------: | ------------------------- |
+|     new |    +4 |  0.0% → 23.5% |   0 → 4 | `__init__.py:1250`        |
+|     new |    +2 |  0.0% → 11.8% |   0 → 2 | `__init__.py:1249`        |
+|     new |    +2 |  0.0% → 11.8% |   0 → 2 | `__init__.py:1258`        |
+|     new |    +2 |  0.0% → 11.8% |   0 → 2 | `__init__.py:1266`        |
+| +100.0% |    +1 | 16.7% → 11.8% |   1 → 2 | `__init__.py:1269 → 1248` |
+
+##### `Parser.pop` (`parse.py`)
+
+|  Change | Delta |             % | Samples | Location             |
+| ------: | ----: | ------------: | ------: | -------------------- |
+| +166.7% |    +5 | 15.8% → 27.6% |   3 → 8 | `parse.py:408 → 396` |
+|     new |    +3 |  0.0% → 10.3% |   0 → 3 | `parse.py:393`       |
+|     new |    +2 |   0.0% → 6.9% |   0 → 2 | `parse.py:395`       |
+| removed |    -1 |   5.3% → 0.0% |   1 → 0 | `parse.py:400`       |
+|  +25.0% |    +1 | 21.1% → 17.2% |   4 → 5 | `parse.py:406 → 394` |
+
+##### `parse` (`ast.py`)
+
+| Change | Delta |      % | Samples | Location    |
+| -----: | ----: | -----: | ------: | ----------- |
+| +23.1% |    +9 | 100.0% | 39 → 48 | `ast.py:46` |
+
+##### `hug_power_op` (`trans.py`)
+
+|  Change | Delta |            % | Samples | Location       |
+| ------: | ----: | -----------: | ------: | -------------- |
+|     new |    +8 | 0.0% → 72.7% |   0 → 8 | `trans.py:88`  |
+|     new |    +3 | 0.0% → 27.3% |   0 → 3 | `trans.py:81`  |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `trans.py:151` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `trans.py:152` |
+
+##### `Leaf.__init__` (`pytree.py`)
+
+| Change | Delta |            % | Samples | Location        |
+| -----: | ----: | -----------: | ------: | --------------- |
+|    new |    +4 | 0.0% → 44.4% |   0 → 4 | `pytree.py:406` |
+|    new |    +3 | 0.0% → 33.3% |   0 → 3 | `pytree.py:413` |
+|    new |    +2 | 0.0% → 22.2% |   0 → 2 | `pytree.py:408` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |      % | Samples | Location                            |
+| -----: | ----: | -----: | ------: | ----------------------------------- |
+| +75.0% |    +6 | 100.0% |  8 → 14 | `<frozen importlib._bootstrap>:549` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |      % | Samples | Location                                     |
+| -----: | ----: | -----: | ------: | -------------------------------------------- |
+| +37.5% |    +3 | 100.0% |  8 → 11 | `<frozen importlib._bootstrap_external>:500` |
+
+##### `_write_atomic` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |            % | Samples | Location                                     |
+| -----: | ----: | -----------: | ------: | -------------------------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `<frozen importlib._bootstrap_external>:211` |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `<frozen importlib._bootstrap_external>:213` |
+
+##### `_LoaderBasics.exec_module` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |             % | Samples | Location                                     |
+| -----: | ----: | ------------: | ------: | -------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<frozen importlib._bootstrap_external>:743` |
+
+##### `_find_spec` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Location                             |
+| -----: | ----: | ------------: | ------: | ------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<frozen importlib._bootstrap>:1222` |
+
+##### `_new_module` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Location                           |
+| -----: | ----: | ------------: | ------: | ---------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<frozen importlib._bootstrap>:49` |
+
+##### `_ModuleLock.release` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Location                            |
+| -----: | ----: | ------------: | ------: | ----------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<frozen importlib._bootstrap>:374` |
+
+##### `ParserGenerator.make_label` (`pgen.py`)
+
+|  Change | Delta |             % | Samples | Location      |
+| ------: | ----: | ------------: | ------: | ------------- |
+| removed |    -3 |  75.0% → 0.0% |   3 → 0 | `pgen.py:111` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `pgen.py:110` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `pgen.py:100` |
+
+##### `LineGenerator.visit_simple_stmt` (`linegen.py`)
+
+| Change | Delta |      % | Samples | Location         |
+| -----: | ----: | -----: | ------: | ---------------- |
+| -33.3% |    -3 | 100.0% |   9 → 6 | `linegen.py:317` |
+
+##### `_stringify_ast_with_new_parent` (`parsing.py`)
+
+|  Change | Delta |             % | Samples | Location         |
+| ------: | ----: | ------------: | ------: | ---------------- |
+| removed |    -6 | 100.0% → 0.0% |   6 → 0 | `parsing.py:170` |
+|     new |    +3 | 0.0% → 100.0% |   0 → 3 | `parsing.py:178` |
+
+##### `Base.remove` (`pytree.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+| removed |    -3 |  75.0% → 0.0% |   3 → 0 | `pytree.py:188` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `pytree.py:189` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `pytree.py:177` |
+
+##### `wrap_in_parentheses` (`nodes.py`)
+
+|  Change | Delta |            % | Samples | Location       |
+| ------: | ----: | -----------: | ------: | -------------- |
+| removed |    -3 | 42.9% → 0.0% |   3 → 0 | `nodes.py:947` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `nodes.py:948` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `nodes.py:949` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `nodes.py:950` |
+|     new |    +1 | 0.0% → 25.0% |   0 → 1 | `nodes.py:938` |
+
+##### `line_to_string` (`lines.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `lines.py:1078` |
+|     new |    +3 | 0.0% → 100.0% |   0 → 3 | `lines.py:1067` |
+
+##### `_stringify_ast` (`parsing.py`)
+
+|  Change | Delta |            % | Samples | Location         |
+| ------: | ----: | -----------: | ------: | ---------------- |
+| removed |    -8 | 53.3% → 0.0% |   8 → 0 | `parsing.py:214` |
+|     new |    +8 | 0.0% → 61.5% |   0 → 8 | `parsing.py:222` |
+| removed |    -6 | 40.0% → 0.0% |   6 → 0 | `parsing.py:217` |
+|     new |    +3 | 0.0% → 23.1% |   0 → 3 | `parsing.py:225` |
+| removed |    -1 |  6.7% → 0.0% |   1 → 0 | `parsing.py:185` |
+
+##### `_parse` (`_parser.py`)
+
+|  Change | Delta |            % | Samples | Location         |
+| ------: | ----: | -----------: | ------: | ---------------- |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `_parser.py:537` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `_parser.py:865` |
+
+##### `Driver._partially_consume_prefix` (`driver.py`)
+
+|  Change | Delta |            % | Samples | Location        |
+| ------: | ----: | -----------: | ------: | --------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `driver.py:211` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `driver.py:213` |
+
+##### `format_file_in_place` (`__init__.py`)
+
+|  Change | Delta |             % | Samples | Location          |
+| ------: | ----: | ------------: | ------: | ----------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `__init__.py:957` |
+
+##### `<module>` (`mode.py`)
+
+|  Change | Delta |             % | Samples | Location     |
+| ------: | ----: | ------------: | ------: | ------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `mode.py:13` |
+
+##### `namedtuple` (`__init__.py`)
+
+|  Change | Delta |             % | Samples | Location          |
+| ------: | ----: | ------------: | ------: | ----------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `__init__.py:447` |
+
+##### `_path_stat` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |             % | Samples | Location                                     |
+| ------: | ----: | ------------: | ------: | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<frozen importlib._bootstrap_external>:152` |
+
+##### `Command.get_params` (`core.py`)
+
+|  Change | Delta |             % | Samples | Location       |
+| ------: | ----: | ------------: | ------: | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `core.py:1113` |
+
+##### `list_comments` (`comments.py`)
+
+|  Change | Delta |             % | Samples | Location         |
+| ------: | ----: | ------------: | ------: | ---------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `comments.py:92` |
+
+##### `type_repr` (`pytree.py`)
+
+|  Change | Delta |             % | Samples | Location       |
+| ------: | ----: | ------------: | ------: | -------------- |
+| removed |    -1 |  50.0% → 0.0% |   1 → 0 | `pytree.py:42` |
+| removed |    -1 |  50.0% → 0.0% |   1 → 0 | `pytree.py:50` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `pytree.py:29` |
+
+##### `lines_with_leading_tabs_expanded` (`strings.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `strings.py:54` |
+
+##### `Node.prefix` (`pytree.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `pytree.py:332` |
+
+##### `LineGenerator.visit_factor` (`linegen.py`)
+
+|  Change | Delta |             % | Samples | Location         |
+| ------: | ----: | ------------: | ------: | ---------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `linegen.py:379` |
+
+##### `BracketTracker.get_open_lsqb` (`brackets.py`)
+
+|  Change | Delta |             % | Samples | Location          |
+| ------: | ----: | ------------: | ------: | ----------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `brackets.py:215` |
+
+##### `Line.is_import` (`lines.py`)
+
+|  Change | Delta |             % | Samples | Location       |
+| ------: | ----: | ------------: | ------: | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `lines.py:137` |
+
 ### Total samples
 
 #### Regressions

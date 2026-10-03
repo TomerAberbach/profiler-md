@@ -288,6 +288,454 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -2 | <0.1% → 0.0% |   2 → 0 | `I2C/C2I adapters(0xbbaa)` | `<unknown>` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbaa)`  | `<unknown>` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self samples.
+
+##### `tryAdvance(Consumer)` (`java.util.Spliterators$ArraySpliterator`)
+
+|  Change | Delta |              % | Samples | Location                                       |
+| ------: | ----: | -------------: | ------: | ---------------------------------------------- |
+| +250.0% |    +5 | 100.0% → 77.8% |   2 → 7 | `java.util.Spliterators$ArraySpliterator:1030` |
+|     new |    +1 |   0.0% → 11.1% |   0 → 1 | `java.util.Spliterators$ArraySpliterator:1033` |
+|     new |    +1 |   0.0% → 11.1% |   0 → 1 | `java.util.Spliterators$ArraySpliterator:1034` |
+
+##### `equals(Object, Object)` (`java.util.Objects`)
+
+| Change | Delta |      % | Samples | Location               |
+| -----: | ----: | -----: | ------: | ---------------------- |
+| +87.5% |    +7 | 100.0% |  8 → 15 | `java.util.Objects:64` |
+
+##### `getAndPut(String, MemoizeCache$ValueProvider)` (`org.codehaus.groovy.vmplugin.v8.CacheableCallSite`)
+
+|  Change | Delta |             % | Samples | Location                                               |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------ |
+| +400.0% |    +4 | 16.7% → 41.7% |   1 → 5 | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite:74` |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite:76` |
+|     new |    +1 |   0.0% → 8.3% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite:65` |
+|     new |    +1 |   0.0% → 8.3% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite:71` |
+|     new |    +1 |   0.0% → 8.3% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite:82` |
+
+##### `unreflect(Method)` (`java.lang.invoke.MethodHandles$Lookup`)
+
+| Change | Delta |             % | Samples | Location                                     |
+| -----: | ----: | ------------: | ------: | -------------------------------------------- |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `java.lang.invoke.MethodHandles$Lookup:3436` |
+
+##### `join(PredictionContext, PredictionContext, PredictionContextCache)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
+
+|  Change | Delta |             % | Samples | Location                                                  |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------- |
+|     new |    +3 |  0.0% → 25.0% |   0 → 3 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:166` |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:159` |
+| +100.0% |    +1 | 14.3% → 16.7% |   1 → 2 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:165` |
+|  -50.0% |    -1 |  28.6% → 8.3% |   2 → 1 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:167` |
+| +100.0% |    +1 | 14.3% → 16.7% |   1 → 2 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:175` |
+
+##### `getInCache(LambdaFormEditor$TransformKey)` (`java.lang.invoke.LambdaFormEditor`)
+
+|  Change | Delta |             % | Samples | Location                                |
+| ------: | ----: | ------------: | ------: | --------------------------------------- |
+|     new |    +2 |  0.0% → 22.2% |   0 → 2 | `java.lang.invoke.LambdaFormEditor:403` |
+| removed |    -1 |  20.0% → 0.0% |   1 → 0 | `java.lang.invoke.LambdaFormEditor:383` |
+|  +33.3% |    +1 | 60.0% → 44.4% |   3 → 4 | `java.lang.invoke.LambdaFormEditor:396` |
+| +100.0% |    +1 | 20.0% → 22.2% |   1 → 2 | `java.lang.invoke.LambdaFormEditor:397` |
+|     new |    +1 |  0.0% → 11.1% |   0 → 1 | `java.lang.invoke.LambdaFormEditor:395` |
+
+##### `sameClasses(Class[], Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures`)
+
+|  Change | Delta |             % | Samples | Location                                                             |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------- |
+| +500.0% |    +5 | 20.0% → 66.7% |   1 → 6 | `org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures:224` |
+|  -75.0% |    -3 | 80.0% → 11.1% |   4 → 1 | `org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures:225` |
+|     new |    +2 |  0.0% → 22.2% |   0 → 2 | `org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures:226` |
+
+##### `getNoCheckStale(Object)` (`jdk.internal.util.ReferencedKeyMap`)
+
+|  Change | Delta |      % | Samples | Location                                 |
+| ------: | ----: | -----: | ------: | ---------------------------------------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `jdk.internal.util.ReferencedKeyMap:215` |
+
+##### `next()` (`java.util.ArrayList$Itr`)
+
+|  Change | Delta |              % | Samples | Location                       |
+| ------: | ----: | -------------: | ------: | ------------------------------ |
+| +200.0% |    +2 | 100.0% → 60.0% |   1 → 3 | `java.util.ArrayList$Itr:1053` |
+|     new |    +1 |   0.0% → 20.0% |   0 → 1 | `java.util.ArrayList$Itr:1049` |
+|     new |    +1 |   0.0% → 20.0% |   0 → 1 | `java.util.ArrayList$Itr:1051` |
+
+##### `getReturnState(int)` (`groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext`)
+
+|  Change | Delta |      % | Samples | Location                                                      |
+| ------: | ----: | -----: | ------: | ------------------------------------------------------------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext:50` |
+
+##### `makeReinvokerForm(MethodHandle, int, Object, boolean, LambdaForm$NamedFunction, LambdaForm$NamedFunction)` (`java.lang.invoke.DelegatingMethodHandle`)
+
+|  Change | Delta |             % | Samples | Location                                      |
+| ------: | ----: | ------------: | ------: | --------------------------------------------- |
+|     new |    +3 |  0.0% → 50.0% |   0 → 3 | `java.lang.invoke.DelegatingMethodHandle:132` |
+|     new |    +3 |  0.0% → 50.0% |   0 → 3 | `java.lang.invoke.DelegatingMethodHandle:133` |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `java.lang.invoke.DelegatingMethodHandle:129` |
+
+##### `<init>(MutableCallSite, Class, String, IndyInterface$CallType, Boolean, Boolean, Boolean, Object[])` (`org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`)
+
+| Change | Delta |            % | Samples | Location                                                      |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------------------- |
+|    new |    +2 | 0.0% → 50.0% |   0 → 2 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:515` |
+|    new |    +1 | 0.0% → 25.0% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:514` |
+|    new |    +1 | 0.0% → 25.0% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:521` |
+
+##### `boxBoolean(boolean)` (`sun.invoke.util.ValueConversions`)
+
+| Change | Delta |             % | Samples | Location                               |
+| -----: | ----: | ------------: | ------: | -------------------------------------- |
+|    new |    +4 | 0.0% → 100.0% |   0 → 4 | `sun.invoke.util.ValueConversions:292` |
+
+##### `setCallSiteTarget()` (`org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`)
+
+| Change | Delta |            % | Samples | Location                                                       |
+| -----: | ----: | -----------: | ------: | -------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:1024` |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:1026` |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector:1037` |
+
+##### `getAstVisitor()` (`org.codenarc.rule.AbstractAstVisitorRule`)
+
+| Change | Delta |            % | Samples | Location                                      |
+| -----: | ----: | -----------: | ------: | --------------------------------------------- |
+|    new |    +2 | 0.0% → 66.7% |   0 → 2 | `org.codenarc.rule.AbstractAstVisitorRule:77` |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `org.codenarc.rule.AbstractAstVisitorRule:79` |
+
+##### `<init>()` (`org.codenarc.rule.AbstractAstVisitor`)
+
+| Change | Delta |            % | Samples | Location                                  |
+| -----: | ----: | -----------: | ------: | ----------------------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `org.codenarc.rule.AbstractAstVisitor:34` |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `org.codenarc.rule.AbstractAstVisitor:39` |
+
+##### `init()` (`org.codenarc.source.AbstractSourceCode`)
+
+| Change | Delta |             % | Samples | Location                                    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.source.AbstractSourceCode:91` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
+
+| Change | Delta |             % | Samples | Location                                                                      |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1:38` |
+
+##### `doCall(Object)` (`org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3`)
+
+| Change | Delta |             % | Samples | Location                                                                                  |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3:145` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
+
+| Change | Delta |             % | Samples | Location                                                                      |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3:45` |
+
+##### `getLines()` (`org.codenarc.source.AbstractSourceCode`)
+
+| Change | Delta |             % | Samples | Location                                    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.source.AbstractSourceCode:62` |
+
+##### `visitMethodComplete(MethodNode)` (`org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor`)
+
+| Change | Delta |             % | Samples | Location                                                                       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor:64` |
+
+##### `isNotAnInterface(ClassNode)` (`org.gmetrics.metric.AbstractMetric`)
+
+| Change | Delta |             % | Samples | Location                                |
+| -----: | ----: | ------------: | ------: | --------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.gmetrics.metric.AbstractMetric:60` |
+
+##### `calculateForClass(ClassNode, SourceCode)` (`org.gmetrics.metric.AbstractMethodMetric`)
+
+| Change | Delta |             % | Samples | Location                                      |
+| -----: | ----: | ------------: | ------: | --------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.gmetrics.metric.AbstractMethodMetric:71` |
+
+##### `doCall(Object)` (`org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7`)
+
+| Change | Delta |             % | Samples | Location                                                                               |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7:260` |
+
+##### `visitMethodCallExpression(MethodCallExpression)` (`org.codenarc.rule.formatting.IndentationAstVisitor`)
+
+| Change | Delta |             % | Samples | Location                                                 |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.IndentationAstVisitor:205` |
+
+##### `processSourceLine(String, int)` (`org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor`)
+
+| Change | Delta |             % | Samples | Location                                                           |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor:66` |
+
+##### `doCall(Object, Object)` (`org.codenarc.rule.unused.UnusedVariableAstVisitor$_afterBlock_closure2`)
+
+| Change | Delta |             % | Samples | Location                                                                     |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.unused.UnusedVariableAstVisitor$_afterBlock_closure2:127` |
+
+##### `applyTo(SourceCode, List)` (`org.codenarc.rule.formatting.ConsecutiveBlankLinesRule`)
+
+| Change | Delta |             % | Samples | Location                                                    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.ConsecutiveBlankLinesRule:42` |
+
+##### `getMagnitude()` (`org.gmetrics.metric.abc.AbcVector`)
+
+| Change | Delta |             % | Samples | Location                               |
+| -----: | ----: | ------------: | ------: | -------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.gmetrics.metric.abc.AbcVector:44` |
+
+##### `doCall(Object)` (`org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_processMethodOrConstructorCall_closure3`)
+
+| Change | Delta |             % | Samples | Location                                                                                             |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_processMethodOrConstructorCall_closure3:91` |
+
+##### `visitClosureExpression(ClosureExpression)` (`org.codenarc.rule.formatting.SpaceBeforeClosingBraceAstVisitor`)
+
+| Change | Delta |             % | Samples | Location                                                            |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.SpaceBeforeClosingBraceAstVisitor:88` |
+
+##### `isValid()` (`org.codenarc.source.AbstractSourceCode`)
+
+| Change | Delta |             % | Samples | Location                                     |
+| -----: | ----: | ------------: | ------: | -------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.source.AbstractSourceCode:179` |
+
+##### `doCall(Object, Object)` (`org.codenarc.rule.formatting.TrailingWhitespaceRule$_applyTo_closure1`)
+
+| Change | Delta |             % | Samples | Location                                                                   |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.formatting.TrailingWhitespaceRule$_applyTo_closure1:36` |
+
+##### `getNode(Object)` (`java.util.HashMap`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+|  -60.0% |    -3 | 19.2% → 12.5% |   5 → 2 | `java.util.HashMap:577` |
+|  -60.0% |    -3 | 19.2% → 12.5% |   5 → 2 | `java.util.HashMap:580` |
+| +150.0% |    +3 |  7.7% → 31.3% |   2 → 5 | `java.util.HashMap:585` |
+|  -33.3% |    -2 | 23.1% → 25.0% |   6 → 4 | `java.util.HashMap:576` |
+| removed |    -2 |   7.7% → 0.0% |   2 → 0 | `java.util.HashMap:579` |
+
+##### `newInstance(Class, int)` (`java.lang.reflect.Array`)
+
+| Change | Delta |      % | Samples | Location                     |
+| -----: | ----: | -----: | ------: | ---------------------------- |
+| -13.8% |    -9 | 100.0% | 65 → 56 | `java.lang.reflect.Array:78` |
+
+##### `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` (`groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`)
+
+|  Change | Delta |            % | Samples | Location                                                    |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------------------- |
+| removed |    -4 | 36.4% → 0.0% |   4 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1759` |
+| removed |    -3 | 27.3% → 0.0% |   3 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1788` |
+| removed |    -1 |  9.1% → 0.0% |   1 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1700` |
+| removed |    -1 |  9.1% → 0.0% |   1 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1748` |
+| removed |    -1 |  9.1% → 0.0% |   1 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1754` |
+
+##### `getExactSizeIfKnown()` (`java.util.Spliterator`)
+
+| Change | Delta |      % | Samples | Location                    |
+| -----: | ----: | -----: | ------: | --------------------------- |
+| -85.7% |    -6 | 100.0% |   7 → 1 | `java.util.Spliterator:414` |
+
+##### `cast(Object)` (`java.lang.Class`)
+
+| Change | Delta |      % |   Samples | Location               |
+| -----: | ----: | -----: | --------: | ---------------------- |
+|  -4.6% |    -5 | 100.0% | 108 → 103 | `java.lang.Class:4068` |
+
+##### `checkCustomized(MethodHandle)` (`java.lang.invoke.Invokers`)
+
+| Change | Delta |             % | Samples | Location                        |
+| -----: | ----: | ------------: | ------: | ------------------------------- |
+| -66.7% |    -2 | 27.3% → 16.7% |   3 → 1 | `java.lang.invoke.Invokers:626` |
+| -66.7% |    -2 | 27.3% → 16.7% |   3 → 1 | `java.lang.invoke.Invokers:627` |
+| -50.0% |    -1 | 18.2% → 16.7% |   2 → 1 | `java.lang.invoke.Invokers:629` |
+
+##### `<init>(MethodType, LambdaForm)` (`java.lang.invoke.MethodHandle`)
+
+| Change | Delta |             % | Samples | Location                            |
+| -----: | ----: | ------------: | ------: | ----------------------------------- |
+| -50.0% |    -5 | 38.5% → 22.7% |  10 → 5 | `java.lang.invoke.MethodHandle:480` |
+|  +6.3% |    +1 | 61.5% → 77.3% | 16 → 17 | `java.lang.invoke.MethodHandle:479` |
+
+##### `visit(GroovyCodeVisitor)` (`org.codehaus.groovy.ast.expr.VariableExpression`)
+
+|  Change | Delta |             % | Samples | Location                                             |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `org.codehaus.groovy.ast.expr.VariableExpression:71` |
+
+##### `getWeakMetaClass()` (`org.codehaus.groovy.reflection.ClassInfo`)
+
+| Change | Delta |      % | Samples | Location                                       |
+| -----: | ----: | -----: | ------: | ---------------------------------------------- |
+| -57.1% |    -4 | 100.0% |   7 → 3 | `org.codehaus.groovy.reflection.ClassInfo:223` |
+
+##### `resize()` (`java.util.HashMap`)
+
+|  Change | Delta |             % | Samples | Location                |
+| ------: | ----: | ------------: | ------: | ----------------------- |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `java.util.HashMap:684` |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `java.util.HashMap:711` |
+|  -50.0% |    -1 | 28.6% → 33.3% |   2 → 1 | `java.util.HashMap:713` |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `java.util.HashMap:718` |
+
+##### `map(Function)` (`java.util.stream.ReferencePipeline`)
+
+|  Change | Delta |             % | Samples | Location                                 |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `java.util.stream.ReferencePipeline:190` |
+
+##### `getMethods(Class, String)` (`org.codehaus.groovy.runtime.metaclass.MetaMethodIndex`)
+
+|  Change | Delta |             % | Samples | Location                                                    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- |
+| removed |    -3 |  37.5% → 0.0% |   3 → 0 | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex:201` |
+|  -40.0% |    -2 | 62.5% → 75.0% |   5 → 3 | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex:202` |
+|     new |    +1 |  0.0% → 25.0% |   0 → 1 | `org.codehaus.groovy.runtime.metaclass.MetaMethodIndex:200` |
+
+##### `forEachRemaining(Consumer)` (`java.util.Spliterators$ArraySpliterator`)
+
+|  Change | Delta |             % | Samples | Location                                       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------- |
+| removed |    -3 |  75.0% → 0.0% |   3 → 0 | `java.util.Spliterators$ArraySpliterator:1024` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `java.util.Spliterators$ArraySpliterator:1020` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `java.util.Spliterators$ArraySpliterator:1022` |
+
+##### `makePairwiseConvertByEditor(MethodHandle, MethodType, boolean, boolean)` (`java.lang.invoke.MethodHandleImpl`)
+
+|  Change | Delta |             % | Samples | Location                                |
+| ------: | ----: | ------------: | ------: | --------------------------------------- |
+| removed |    -3 |  33.3% → 0.0% |   3 → 0 | `java.lang.invoke.MethodHandleImpl:321` |
+|     new |    +2 |  0.0% → 33.3% |   0 → 2 | `java.lang.invoke.MethodHandleImpl:282` |
+| removed |    -1 |  11.1% → 0.0% |   1 → 0 | `java.lang.invoke.MethodHandleImpl:289` |
+|  -50.0% |    -1 | 22.2% → 16.7% |   2 → 1 | `java.lang.invoke.MethodHandleImpl:315` |
+| removed |    -1 |  11.1% → 0.0% |   1 → 0 | `java.lang.invoke.MethodHandleImpl:318` |
+
+##### `getReachableConfigSet(CharStream, ATNConfigSet, ATNConfigSet, int)` (`groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator`)
+
+|  Change | Delta |            % | Samples | Location                                                  |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------- |
+| removed |    -2 | 66.7% → 0.0% |   2 → 0 | `groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator:327` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator:328` |
+
+##### `getSemanticContext()` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfig`)
+
+|  Change | Delta |             % | Samples | Location                                          |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig:190` |
+
+##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
+
+|  Change | Delta |            % | Samples | Location                                      |
+| ------: | ----: | -----------: | ------: | --------------------------------------------- |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `org.codenarc.rule.AbstractAstVisitorRule:90` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `org.codenarc.rule.AbstractAstVisitorRule:94` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `org.codenarc.rule.AbstractAstVisitorRule:97` |
+
+##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|  Change | Delta |            % | Samples | Location                                          |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `org.codenarc.analyzer.AbstractSourceAnalyzer:43` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `org.codenarc.analyzer.AbstractSourceAnalyzer:53` |
+
+##### `assertClassImplementsRuleInterface(Class)` (`org.codenarc.ruleset.RuleSetUtil`)
+
+|  Change | Delta |             % | Samples | Location                              |
+| ------: | ----: | ------------: | ------: | ------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.ruleset.RuleSetUtil:46` |
+
+##### `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`)
+
+|  Change | Delta |             % | Samples | Location                             |
+| ------: | ----: | ------------: | ------: | ------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.AbstractRule:139` |
+
+##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codenarc.rule.ClassReferenceAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                         |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.ClassReferenceAstVisitor:105` |
+
+##### `line(int)` (`org.codenarc.source.AbstractSourceCode`)
+
+|  Change | Delta |             % | Samples | Location                                    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.source.AbstractSourceCode:76` |
+
+##### `isMatchingUniqueCall(Expression)` (`org.codenarc.rule.groovyism.AssignCollectionUniqueAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                                          |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.groovyism.AssignCollectionUniqueAstVisitor:68` |
+
+##### `addViolationIfDuplicate(Expression, boolean)` (`org.codenarc.rule.dry.DuplicateLiteralAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                               |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------ |
+| removed |    -1 |  50.0% → 0.0% |   1 → 0 | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor:132` |
+| removed |    -1 |  50.0% → 0.0% |   1 → 0 | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor:140` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor:141` |
+
+##### `visitField(FieldNode)` (`org.codenarc.rule.design.OptionalFieldAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                              |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.design.OptionalFieldAstVisitor:38` |
+
+##### `getRule()` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                   |
+| ------: | ----: | ------------: | ------: | ------------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.AbstractAstVisitor:189` |
+
+##### `lastSourceLine(ASTNode)` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                  |
+| ------: | ----: | ------------: | ------: | ----------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.AbstractAstVisitor:81` |
+
+##### `doCall(Object)` (`org.codenarc.rule.groovyism.GroovyLangImmutableAstVisitor$_visitImports_closure2`)
+
+|  Change | Delta |             % | Samples | Location                                                                              |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.groovyism.GroovyLangImmutableAstVisitor$_visitImports_closure2:45` |
+
+##### `getMethodArguments(ASTNode)` (`org.codenarc.util.AstUtil`)
+
+|  Change | Delta |             % | Samples | Location                        |
+| ------: | ----: | ------------: | ------: | ------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.util.AstUtil:231` |
+
+##### `isMethodCallOnObject(Expression, String)` (`org.codenarc.util.AstUtil`)
+
+|  Change | Delta |             % | Samples | Location                        |
+| ------: | ----: | ------------: | ------: | ------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.util.AstUtil:271` |
+
+##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`)
+
+|  Change | Delta |             % | Samples | Location                                                    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor:49` |
+
 ### Total samples
 
 #### Regressions

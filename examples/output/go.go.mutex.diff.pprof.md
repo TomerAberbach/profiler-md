@@ -31,6 +31,28 @@ Functions with the largest decrease in time blocked directly in the function bod
 | ------: | ------: | -----------: | -----------: | ----------: | ---------------------- | ------------------------------------------------------------------------------------- |
 | removed | -0.02ms | <0.1% → 0.0% | 18.8µs → 0ms |       2 → 0 | `sync.(*Mutex).Unlock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/mutex.go:64` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `runtime.unlock` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260`)
+
+| Change |   Delta |      % |              Time |   Contentions | Location                                                                                         |
+| -----: | ------: | -----: | ----------------: | ------------: | ------------------------------------------------------------------------------------------------ |
+|  +2.6% | +3.69ms | 100.0% | 139.6ms → 143.3ms | 4,344 → 4,249 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:261` |
+
+##### `runtime._LostContendedRuntimeLock` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741`)
+
+| Change |   Delta |      % |            Time | Contentions | Location                                                                                  |
+| -----: | ------: | -----: | --------------: | ----------: | ----------------------------------------------------------------------------------------- |
+|  +2.5% | +0.41ms | 100.0% | 16.2ms → 16.6ms |   682 → 741 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741` |
+
+##### `sync.(*Mutex).Unlock` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/mutex.go:64`)
+
+|  Change |   Delta |             % |         Time | Contentions | Location                                                                              |
+| ------: | ------: | ------------: | -----------: | ----------: | ------------------------------------------------------------------------------------- |
+| removed | -0.02ms | 100.0% → 0.0% | 18.8µs → 0ms |       2 → 0 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/mutex.go:65` |
+
 ### Total time
 
 #### Regressions

@@ -28,7 +28,11 @@
  * weighted columns weight each base function by its share of its input's
  * total, so a mistake on a hot function counts for more. The `by position`
  * tables count only the functions whose match key several functions share on
- * either side, which the diff pairs by position.
+ * either side, which the diff pairs by position. The `lines` tables score how
+ * the diff pairs the executing lines of each correctly paired function, against
+ * the current lines the ground truth maps the base lines to, weighting each
+ * line by its share of its input's total. Synthetic edits move and delete
+ * executing lines as they do functions.
  *
  * Usage:
  * - `pnpm evaluate-diff-matching` scores every committed pair

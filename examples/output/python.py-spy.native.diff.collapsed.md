@@ -152,6 +152,111 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -1 | 0.3% → 0.0% |   1 → 0 | `find_spec`          | `<frozen importlib._bootstrap_external>` |
 | removed |    -1 | 0.3% → 0.0% |   1 → 0 | `<listcomp>`         | `<frozen importlib._bootstrap_external>` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self samples.
+
+##### `_create_fn` (`dataclasses.py`)
+
+| Change | Delta |             % | Samples | Location             |
+| -----: | ----: | ------------: | ------: | -------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `dataclasses.py:433` |
+
+##### `_type_check` (`typing.py`)
+
+| Change | Delta |             % | Samples | Location        |
+| -----: | ----: | ------------: | ------: | --------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `typing.py:187` |
+
+##### `<module>` (`urllib/parse.py`)
+
+| Change | Delta |             % | Samples | Location              |
+| -----: | ----: | ------------: | ------: | --------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `urllib/parse.py:336` |
+
+##### `acquire` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Location                            |
+| -----: | ----: | ------------: | ------: | ----------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<frozen importlib._bootstrap>:110` |
+
+##### `__init__` (`<string>`)
+
+|  Change | Delta |            % | Samples | Location     |
+| ------: | ----: | -----------: | ------: | ------------ |
+| removed |    -2 | 40.0% → 0.0% |   2 → 0 | `<string>:2` |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `<string>:6` |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `<string>:7` |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `<string>:9` |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `<string>:5` |
+
+##### `parse` (`ast.py`)
+
+| Change | Delta |      % | Samples | Location    |
+| -----: | ----: | -----: | ------: | ----------- |
+| -33.3% |    -3 | 100.0% |   9 → 6 | `ast.py:50` |
+
+##### `__new__` (`<frozen abc>`)
+
+|  Change | Delta |             % | Samples | Location           |
+| ------: | ----: | ------------: | ------: | ------------------ |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `<frozen abc>:106` |
+
+##### `new_func` (`click/decorators.py`)
+
+|  Change | Delta |             % | Samples | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `click/decorators.py:34` |
+
+##### `replace` (`dataclasses.py`)
+
+|  Change | Delta |             % | Samples | Location              |
+| ------: | ----: | ------------: | ------: | --------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `dataclasses.py:1480` |
+
+##### `<module>` (`tokenize.py`)
+
+|  Change | Delta |             % | Samples | Location         |
+| ------: | ----: | ------------: | ------: | ---------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `tokenize.py:35` |
+
+##### `isEnabledFor` (`logging/__init__.py`)
+
+|  Change | Delta |             % | Samples | Location                   |
+| ------: | ----: | ------------: | ------: | -------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `logging/__init__.py:1734` |
+
+##### `__getitem__` (`typing.py`)
+
+|  Change | Delta |             % | Samples | Location        |
+| ------: | ----: | ------------: | ------: | --------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `typing.py:463` |
+
+##### `__init__` (`re/_parser.py`)
+
+|  Change | Delta |             % | Samples | Location            |
+| ------: | ----: | ------------: | ------: | ------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `re/_parser.py:111` |
+
+##### `_init_module_attrs` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |            % | Samples | Location                            |
+| ------: | ----: | -----------: | ------: | ----------------------------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `<frozen importlib._bootstrap>:542` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `<frozen importlib._bootstrap>:551` |
+
+##### `find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |             % | Samples | Location                                      |
+| ------: | ----: | ------------: | ------: | --------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<frozen importlib._bootstrap_external>:1612` |
+
+##### `<listcomp>` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |             % | Samples | Location                                     |
+| ------: | ----: | ------------: | ------: | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<frozen importlib._bootstrap_external>:129` |
+
 ### Total samples
 
 #### Regressions

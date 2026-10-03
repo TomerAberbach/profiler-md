@@ -216,6 +216,222 @@ Functions with the largest decrease in time spent directly in the function body,
 |  -33.3% |  -1.00ms | 0.1% → <0.1% |   3.0ms → 2.0ms |   3 → 2 | `$sSHsE13_rawHashValue4seedS2i_tF11SwiftSyntax0F4KindO_Tgq5`                                                                                                                                                                                                                                                                       | `<compiler-generated>`                                                         |
 | removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `$sSa6appendyyxnF11SwiftSyntax017RawPatternBindingC0V_Tg5`                                                                                                                                                                                                                                                                         | `<compiler-generated>`                                                         |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `$s11SwiftParser22PrepareForKeywordMatchVyAcA5LexerO6LexemeVcfC` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                   |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------------------------------------------- |
+|  +80.0% | +32.00ms | 97.6% → 96.0% | 40.0ms → 72.0ms | 40 → 72 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:34` |
+| +100.0% |  +1.00ms |   2.4% → 2.7% |   1.0ms → 2.0ms |   1 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:36` |
+|     new |  +1.00ms |   0.0% → 1.3% |     0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:37` |
+
+##### `$s11SwiftParser0B0V49canParseNonisolatedAsSpecifierInExpressionContextSbyFSbAC9LookaheadVzXEfU_` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`)
+
+| Change |    Delta |            % |         Time | Samples | Location                                                                      |
+| -----: | -------: | -----------: | -----------: | ------: | ----------------------------------------------------------------------------- |
+|    new | +16.00ms | 0.0% → 59.3% | 0ms → 16.0ms |  0 → 16 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:387` |
+|    new | +11.00ms | 0.0% → 40.7% | 0ms → 11.0ms |  0 → 11 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:405` |
+
+##### `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift`)
+
+|  Change |   Delta |             % |            Time | Samples | Location                                                                           |
+| ------: | ------: | ------------: | --------------: | ------: | ---------------------------------------------------------------------------------- |
+|  +56.3% | +9.00ms | 48.5% → 43.9% | 16.0ms → 25.0ms | 16 → 25 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:130` |
+| +120.0% | +6.00ms | 15.2% → 19.3% |  5.0ms → 11.0ms |  5 → 11 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99`  |
+|  +60.0% | +6.00ms | 30.3% → 28.1% | 10.0ms → 16.0ms | 10 → 16 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:107` |
+|     new | +2.00ms |   0.0% → 3.5% |     0ms → 2.0ms |   0 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:115` |
+|  +50.0% | +1.00ms |   6.1% → 5.3% |   2.0ms → 3.0ms |   2 → 3 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:110` |
+
+##### `$s11SwiftSyntax0B4TextV2eeoiySbAC_ACtFZTf4nnd_n` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                     |
+| ------: | -------: | ------------: | --------------: | ------: | ---------------------------------------------------------------------------- |
+|  +28.4% | +21.00ms | 97.4% → 95.0% | 74.0ms → 95.0ms | 74 → 95 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:201` |
+| +150.0% |  +3.00ms |   2.6% → 5.0% |   2.0ms → 5.0ms |   2 → 5 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:204` |
+
+##### `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingcB5ArenaChtFZTf4nnnnnnd_n` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift`)
+
+| Change |    Delta |            % |         Time | Samples | Location                                                                        |
+| -----: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------- |
+|    new | +20.00ms | 0.0% → 87.0% | 0ms → 20.0ms |  0 → 20 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:595` |
+|    new |  +2.00ms |  0.0% → 8.7% |  0ms → 2.0ms |   0 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:591` |
+|    new |  +1.00ms |  0.0% → 4.3% |  0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:572` |
+
+##### `$s11SwiftParser5LexerO6CursorV9lexTrivia33_40499B5A26053AEB2F96A7C76320F673LL4modeAE0F6ResultVAE0F10LexingModeO_tF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+| Change |    Delta |             % |            Time | Samples | Location                                                                        |
+| -----: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------- |
+| +71.4% | +20.00ms | 18.8% → 28.1% | 28.0ms → 48.0ms | 28 → 48 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:1155` |
+|  +7.7% |  +2.00ms | 17.4% → 16.4% | 26.0ms → 28.0ms | 26 → 28 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:1175` |
+|  -5.9% |  -2.00ms | 22.8% → 18.7% | 34.0ms → 32.0ms | 34 → 32 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:1273` |
+
+##### `$s11SwiftParser0B0V9LookaheadV25canParseArgumentLabelListSbyF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                |
+| ------: | -------: | ------------: | --------------: | ------: | ----------------------------------------------------------------------- |
+|  +57.9% | +11.00ms | 57.6% → 57.7% | 19.0ms → 30.0ms | 19 → 30 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:278` |
+| +133.3% |  +4.00ms |  9.1% → 13.5% |   3.0ms → 7.0ms |   3 → 7 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:277` |
+|  +50.0% |  +2.00ms | 12.1% → 11.5% |   4.0ms → 6.0ms |   4 → 6 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:284` |
+|  +28.6% |  +2.00ms | 21.2% → 17.3% |   7.0ms → 9.0ms |   7 → 9 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:286` |
+
+##### `$s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+| Change |   Delta |             % |              Time |   Samples | Location                                                                       |
+| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------------------------------------------------------ |
+|  -3.9% | -7.00ms | 60.3% → 55.0% | 179.0ms → 172.0ms | 179 → 172 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:720` |
+|  +9.8% | +6.00ms | 20.5% → 21.4% |   61.0ms → 67.0ms |   61 → 67 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:715` |
+| +22.2% | +2.00ms |   3.0% → 3.5% |    9.0ms → 11.0ms |    9 → 11 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:719` |
+
+##### `$s11SwiftSyntax0B7VisitorC13dispatchVisit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |   Delta |            % |        Time | Samples | Location                                                                                   |
+| -----: | ------: | -----------: | ----------: | ------: | ------------------------------------------------------------------------------------------ |
+|    new | +5.00ms | 0.0% → 33.3% | 0ms → 5.0ms |   0 → 5 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:6475` |
+|    new | +2.00ms | 0.0% → 13.3% | 0ms → 2.0ms |   0 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:6820` |
+|    new | +1.00ms |  0.0% → 6.7% | 0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:6512` |
+|    new | +1.00ms |  0.0% → 6.7% | 0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:6606` |
+|    new | +1.00ms |  0.0% → 6.7% | 0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:6616` |
+
+##### `$s11SwiftParser5LexerO6CursorV5StateO23leadingTriviaLexingMode6cursorAE0ghI0OSgAE_tFTf4dn_n` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+|  Change |    Delta |      % |            Time | Samples | Location                                                                       |
+| ------: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------ |
+| +127.3% | +14.00ms | 100.0% | 11.0ms → 25.0ms | 11 → 25 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:110` |
+
+##### `$s11SwiftSyntax13compareMemory33_132B404099BC4B0D33927A976564E3D3LLySbSPys5UInt8VG_AFSitF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift`)
+
+| Change |    Delta |      % |              Time |   Samples | Location                                                                     |
+| -----: | -------: | -----: | ----------------: | --------: | ---------------------------------------------------------------------------- |
+| +10.7% | +11.00ms | 100.0% | 103.0ms → 114.0ms | 103 → 114 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:298` |
+
+##### `$s11SwiftParser0B0V28parsePostfixExpressionSuffix_6flavor7pattern0A6Syntax07RawExprI0VAI_AC0K6FlavorOAC14PatternContextOtF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                            |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------- |
+|  -66.7% | -2.00ms |  27.3% → 4.8% | 3.0ms → 1.0ms |   3 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:744 → 765` |
+| +100.0% | +1.00ms |   9.1% → 9.5% | 1.0ms → 2.0ms |   1 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:735 → 756` |
+| +100.0% | +1.00ms |   9.1% → 9.5% | 1.0ms → 2.0ms |   1 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:749 → 770` |
+|  +33.3% | +1.00ms | 27.3% → 19.0% | 3.0ms → 4.0ms |   3 → 4 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:928 → 949` |
+|     new | +1.00ms |   0.0% → 4.8% |   0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:787`       |
+
+##### `$s11SwiftParser5LexerO6CursorV9nextToken17sourceBufferStart14stateAllocatorAC6LexemeVAE_0A6Syntax07BumpPtrK0CtF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+|  Change |   Delta |           % |           Time | Samples | Location                                                                       |
+| ------: | ------: | ----------: | -------------: | ------: | ------------------------------------------------------------------------------ |
+| +125.0% | +5.00ms | 3.2% → 6.7% |  4.0ms → 9.0ms |   4 → 9 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:435` |
+| +250.0% | +5.00ms | 1.6% → 5.2% |  2.0ms → 7.0ms |   2 → 7 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:494` |
+|  +42.9% | +3.00ms | 5.6% → 7.4% | 7.0ms → 10.0ms |  7 → 10 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:436` |
+|  -50.0% | -3.00ms | 4.8% → 2.2% |  6.0ms → 3.0ms |   6 → 3 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:491` |
+|     new | +3.00ms | 0.0% → 2.2% |    0ms → 3.0ms |   0 → 3 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:480` |
+
+##### `$ss7UnicodeO6ScalarV11SwiftParserE17testCharacterInfo33_CBBF9FEF132CFB2EFF7837FA6BCFF520LLySbSJAEE0G0AGLLVF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift`)
+
+|  Change |    Delta |             % |            Time | Samples | Location                                                                       |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------ |
+| +100.0% | +10.00ms | 40.0% → 51.3% | 10.0ms → 20.0ms | 10 → 20 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift:72` |
+
+##### `$ss7UnicodeO6ScalarV11SwiftParserE22isAsciiIdentifierStartSbvg` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift`)
+
+| Change |   Delta |      % |           Time | Samples | Location                                                                       |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------------------------------------------------------ |
+| +37.5% | +3.00ms | 100.0% | 8.0ms → 11.0ms |  8 → 11 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift:38` |
+
+##### `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingB5ArenaChtFZTf4nnnnnnd_n` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                                                                        |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------- |
+| removed | -21.00ms | 77.8% → 0.0% | 21.0ms → 0ms |  21 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:591` |
+| removed |  -5.00ms | 18.5% → 0.0% |  5.0ms → 0ms |   5 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:587` |
+| removed |  -1.00ms |  3.7% → 0.0% |  1.0ms → 0ms |   1 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:568` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                   |
+| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------------------------------------------------ |
+| removed | -9.00ms | 34.6% → 0.0% | 9.0ms → 0ms |   9 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4679` |
+| removed | -4.00ms | 15.4% → 0.0% | 4.0ms → 0ms |   4 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4681` |
+| removed | -2.00ms |  7.7% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4678` |
+
+##### `$s11SwiftSyntax0B21ArenaAllocatedPointerV7pointeexvgAA03RawB4DataV_Tg5` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxArenaAllocatedBuffer.swift`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------- |
+| removed | -20.00ms | 100.0% → 0.0% | 20.0ms → 0ms |  20 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxArenaAllocatedBuffer.swift:35` |
+
+##### `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+| Change |    Delta |             % |            Time | Samples | Location                                                                       |
+| -----: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------ |
+| -22.7% | -15.00ms | 62.3% → 58.0% | 66.0ms → 51.0ms | 66 → 51 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:647` |
+| -46.2% |  -6.00ms |  12.3% → 8.0% |  13.0ms → 7.0ms |  13 → 7 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:652` |
+| +11.5% |  +3.00ms | 24.5% → 33.0% | 26.0ms → 29.0ms | 26 → 29 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:651` |
+
+##### `$s11SwiftParser5LexerO6CursorV9lexNormal33_40499B5A26053AEB2F96A7C76320F673LL17sourceBufferStart29preferRegexOverBinaryOperatorAC6ResultVAE_SbtF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+|  Change |   Delta |            % |           Time | Samples | Location                                                                        |
+| ------: | ------: | -----------: | -------------: | ------: | ------------------------------------------------------------------------------- |
+| +150.0% | +9.00ms | 6.5% → 19.0% | 6.0ms → 15.0ms |  6 → 15 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:928`  |
+| removed | -5.00ms |  5.4% → 0.0% |    5.0ms → 0ms |   5 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:968`  |
+|  +66.7% | +4.00ms | 6.5% → 12.7% | 6.0ms → 10.0ms |  6 → 10 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:932`  |
+| removed | -1.00ms |  1.1% → 0.0% |    1.0ms → 0ms |   1 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:1009` |
+
+##### `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                   |
+| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------------------------------------------------ |
+| removed | -4.00ms | 30.8% → 0.0% | 4.0ms → 0ms |   4 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:5257` |
+| removed | -2.00ms | 15.4% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:5255` |
+| removed | -2.00ms | 15.4% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:5261` |
+| removed | -1.00ms |  7.7% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:5256` |
+
+##### `$s11SwiftSyntax03RawB8ChildrenV5index_10advancedByAA0bD5IndexVAG_AA0cB0VSgtF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxChildren.swift`)
+
+|  Change |    Delta |             % |         Time | Samples | Location                                                                         |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------------------------------- |
+| removed | -12.00ms | 100.0% → 0.0% | 12.0ms → 0ms |  12 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxChildren.swift:178` |
+
+##### `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0B5ArenaChtcAA0ceB12NodeProtocolRzlufC` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift`)
+
+|  Change |   Delta |            % |        Time | Samples | Location                                                                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------------------------------------------------------- |
+| removed | -8.00ms | 80.0% → 0.0% | 8.0ms → 0ms |   8 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift:539` |
+| removed | -2.00ms | 20.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift:552` |
+
+##### `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF6$deferL_yyF` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift`)
+
+| Change |   Delta |             % |            Time | Samples | Location                                                                              |
+| -----: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------- |
+| -62.5% | -5.00ms | 25.8% → 12.5% |   8.0ms → 3.0ms |   8 → 3 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:78` |
+|  -8.7% | -2.00ms | 74.2% → 87.5% | 23.0ms → 21.0ms | 23 → 21 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:77` |
+
+##### `$s11SwiftSyntax16BumpPtrAllocatorC23allocateFromCurrentSlab33_61CB623A74FD1871D887FFA45954E6F5LLySwSgSi_SitF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift`)
+
+|  Change |   Delta |             % |          Time | Samples | Location                                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- |
+|  -66.7% | -4.00ms | 28.6% → 14.3% | 6.0ms → 2.0ms |   6 → 2 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:91` |
+| removed | -2.00ms |   9.5% → 0.0% |   2.0ms → 0ms |   2 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:93` |
+|  -12.5% | -1.00ms | 38.1% → 50.0% | 8.0ms → 7.0ms |   8 → 7 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:81` |
+
+##### `$s11SwiftParser19DeclarationModifierO6lexeme20experimentalFeaturesACSgAA5LexerO6LexemeV_AA0B0V012ExperimentalG0VtcfCTf4ndd_n` (`src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift`)
+
+|  Change |    Delta |            % |         Time | Samples | Location                                                                       |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------ |
+| removed | -17.00ms | 85.0% → 0.0% | 17.0ms → 0ms |  17 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift:386` |
+|     new | +13.00ms | 0.0% → 92.9% | 0ms → 13.0ms |  0 → 13 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift:389` |
+| removed |  -1.00ms |  5.0% → 0.0% |  1.0ms → 0ms |   1 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift:385` |
+|     new |  +1.00ms |  0.0% → 7.1% |  0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift:388` |
+
+##### `$sSv11SwiftSyntaxE9alignedUp12toMultipleOfSvSi_tF` (`src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift`)
+
+|  Change |   Delta |             % |        Time | Samples | Location                                                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------------------------------------------------------------------- |
+| removed | -3.00ms |  75.0% → 0.0% | 3.0ms → 0ms |   3 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:187` |
+| removed | -1.00ms |  25.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:193` |
+|     new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:192` |
+
 ### Total time
 
 #### Regressions
