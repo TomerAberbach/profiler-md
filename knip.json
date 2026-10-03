@@ -6,5 +6,5 @@
     "scripts/*.ts",
     "scripts/evaluate-diff-matching/*.ts"
   ],
-  "ignoreBinaries": ["vhs", "gifsicle"]
+  "ignoreBinaries": ["vhs", "gifsicle", "jj"]
 }
