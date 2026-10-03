@@ -161,6 +161,7 @@ profiler-md
 │
 ├── scripts/                      # Bash and TypeScript scripts
 │   ├── bench                     # Benchmark the CLI with the given arguments
+│   ├── check-bash                # Fail when a bash script doesn't parse (`bash -n`)
 │   ├── generate-inputs           # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
 │   ├── inputs/                   # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
 │   ├── categories.ts             # Report the categories the examples emit, or the names a candidate rule matches
@@ -223,6 +224,9 @@ pnpm check-examples
 pnpm check-demo
 pnpm check-readme
 pnpm check-diff-matching
+
+# Check every bash script parses
+pnpm check-bash
 
 # Fail any committed input (or the given ones) containing data about the generating machine
 pnpm check-input-privacy
