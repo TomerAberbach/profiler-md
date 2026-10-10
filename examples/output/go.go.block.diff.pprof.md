@@ -59,9 +59,9 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `sync.(*WaitGroup).Wait` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`)
 
-| Change |    Delta |      % |          Time | Contentions | Caller          | Location        |
-| -----: | -------: | -----: | ------------: | ----------: | --------------- | --------------- |
-|  +2.7% | +34.59ms | 100.0% | 1.26s → 1.30s |           1 | `main.workload` | `profile.go:16` |
+| Change |    Delta |      % |          Time | Contentions | Caller          | Location          |
+| -----: | -------: | -----: | ------------: | ----------: | --------------- | ----------------- |
+|  +2.7% | +34.59ms | 100.0% | 1.26s → 1.30s |           1 | `main.workload` | `./profile.go:16` |
 
 ##### `runtime.chanrecv1` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508`)
 
@@ -86,7 +86,7 @@ Functions with the largest increase in total time blocked in the function and al
 |  Change |    Delta |             % |           Time | Contentions | Function                                       | Location                                                                                                          |
 | ------: | -------: | ------------: | -------------: | ----------: | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 |   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |           1 | `sync.(*WaitGroup).Wait`                       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`                        |
-|   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |           1 | `main.workload`                                | `profile.go:16`                                                                                                   |
+|   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |           1 | `main.workload`                                | `./profile.go:16`                                                                                                 |
 |     new |  +0.01ms |  0.0% → <0.1% |   0ms → 14.4µs |      0 → 10 | `runtime.mallocgcSmallScanHeader`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1594`                       |
 |     new |  +0.01ms |  0.0% → <0.1% |   0ms → 14.4µs |      0 → 10 | `runtime.newarray`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2199`                       |
 |     new |  +0.01ms |  0.0% → <0.1% |   0ms → 14.4µs |      0 → 10 | `internal/runtime/maps.newarray`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2230`                       |
@@ -136,11 +136,11 @@ Functions with the largest decrease in total time blocked in the function and al
 | ------: | -------: | -----------: | ----------------: | ----------: | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 |  -26.5% | -38.42ms | 10.3% → 7.6% | 145.1ms → 106.7ms |           1 | `runtime/pprof.StopCPUProfile`                                                                                               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950`   |
 |  -26.5% | -38.41ms | 10.3% → 7.6% | 145.1ms → 106.7ms |          11 | `runtime.chanrecv1`                                                                                                          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508`          |
-|   -0.3% |  -3.83ms |       100.0% |     1.41s → 1.40s |           2 | `main.main`                                                                                                                  | `profile.go:61`                                                                                   |
+|   -0.3% |  -3.83ms |       100.0% |     1.41s → 1.40s |           2 | `main.main`                                                                                                                  | `./profile.go:61`                                                                                 |
 |   -0.3% |  -3.83ms |       100.0% |     1.41s → 1.40s |           2 | `runtime.main`                                                                                                               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
 | removed |  -0.03ms | <0.1% → 0.0% |      30.9µs → 0ms |       2 → 0 | `sync.(*Mutex).Lock`                                                                                                         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/mutex.go:45`             |
 | removed |  -0.03ms | <0.1% → 0.0% |      30.9µs → 0ms |       2 → 0 | `encoding/json.Marshal`                                                                                                      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205`  |
-|  -61.6% |  -0.02ms |        <0.1% |   37.5µs → 14.4µs |     12 → 10 | `main.workload.func1`                                                                                                        | `profile.go:25`                                                                                   |
+|  -61.6% |  -0.02ms |        <0.1% |   37.5µs → 14.4µs |     12 → 10 | `main.workload.func1`                                                                                                        | `./profile.go:25`                                                                                 |
 | removed |  -0.02ms | <0.1% → 0.0% |      20.2µs → 0ms |       1 → 0 | `sync.(*Once).doSlow`                                                                                                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/once.go:73`              |
 | removed |  -0.02ms | <0.1% → 0.0% |      20.2µs → 0ms |       1 → 0 | `sync.(*Once).Do`                                                                                                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/once.go:52`              |
 | removed |  -0.02ms | <0.1% → 0.0% |      20.2µs → 0ms |       1 → 0 | `encoding/json.typeEncoder.OnceValue[go.shape.func(*encoding/json.encodeState, reflect.Value, encoding/json.encOpts)].func3` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/oncefunc.go:57`          |
@@ -182,7 +182,7 @@ Functions with the largest decrease in total time blocked in the function and al
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
-##### `main.workload` (`profile.go:16`)
+##### `main.workload` (`./profile.go:16`)
 
 | Change |    Delta |      % |          Time | Contentions | Callee                   | Location                                                                                   |
 | -----: | -------: | -----: | ------------: | ----------: | ------------------------ | ------------------------------------------------------------------------------------------ |
@@ -306,18 +306,18 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | -------: | -----: | ----------------: | ----------: | ------------------- | ---------------------------------------------------------------------------------------- |
 | -26.5% | -38.42ms | 100.0% | 145.1ms → 106.7ms |           1 | `runtime.chanrecv1` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508` |
 
-##### `main.main` (`profile.go:61`)
+##### `main.main` (`./profile.go:61`)
 
 | Change |    Delta |             % |              Time | Contentions | Callee                         | Location                                                                                        |
 | -----: | -------: | ------------: | ----------------: | ----------: | ------------------------------ | ----------------------------------------------------------------------------------------------- |
 | -26.5% | -38.42ms |  10.3% → 7.6% | 145.1ms → 106.7ms |           1 | `runtime/pprof.StopCPUProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950` |
-|  +2.7% | +34.59ms | 89.7% → 92.4% |     1.26s → 1.30s |           1 | `main.workload`                | `profile.go:16`                                                                                 |
+|  +2.7% | +34.59ms | 89.7% → 92.4% |     1.26s → 1.30s |           1 | `main.workload`                | `./profile.go:16`                                                                               |
 
 ##### `runtime.main` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`)
 
-| Change |   Delta |      % |          Time | Contentions | Callee      | Location        |
-| -----: | ------: | -----: | ------------: | ----------: | ----------- | --------------- |
-|  -0.3% | -3.83ms | 100.0% | 1.41s → 1.40s |           2 | `main.main` | `profile.go:61` |
+| Change |   Delta |      % |          Time | Contentions | Callee      | Location          |
+| -----: | ------: | -----: | ------------: | ----------: | ----------- | ----------------- |
+|  -0.3% | -3.83ms | 100.0% | 1.41s → 1.40s |           2 | `main.main` | `./profile.go:61` |
 
 ##### `encoding/json.Marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205`)
 
@@ -326,7 +326,7 @@ Callees with the largest change in contribution to each function's total time. I
 | removed | -0.02ms | 65.5% → 0.0% | 20.2µs → 0ms |       1 → 0 | `encoding/json.(*encodeState).marshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:333` |
 | removed | -0.01ms | 34.5% → 0.0% | 10.7µs → 0ms |       1 → 0 | `encoding/json.newEncodeState`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:315` |
 
-##### `main.workload.func1` (`profile.go:25`)
+##### `main.workload.func1` (`./profile.go:25`)
 
 |  Change |   Delta |              % |           Time | Contentions | Callee                    | Location                                                                                         |
 | ------: | ------: | -------------: | -------------: | ----------: | ------------------------- | ------------------------------------------------------------------------------------------------ |

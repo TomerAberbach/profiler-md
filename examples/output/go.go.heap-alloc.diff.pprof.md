@@ -51,7 +51,7 @@ Functions with the largest decrease in bytes allocated directly in the function 
 |  -14.0% |  -12.708 KiB |         <0.1% | 90.5 KiB → 77.8 KiB |             250 → 153 | `runtime.mallocgc`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067`                  |
 |  -11.3% |  -11.913 KiB |         <0.1% |  105 KiB → 93.1 KiB |         2,156 → 1,514 | `encoding/json.(*scanner).pushParseState`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/scanner.go:180`            |
 |   -0.2% |   -9.516 KiB |          0.3% |            5.53 MiB |     190,700 → 186,046 | `encoding/json.(*decodeState).arrayInterface`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1052`            |
-|  -66.7% |   -8.015 KiB |         <0.1% |   12 KiB → 4.01 KiB |             769 → 256 | `main.workload.func1`                          | `profile.go:25`                                                                                              |
+|  -66.7% |   -8.015 KiB |         <0.1% |   12 KiB → 4.01 KiB |             769 → 256 | `main.workload.func1`                          | `./profile.go:25`                                                                                            |
 | removed |   -4.062 KiB |  <0.1% → 0.0% |      4.06 KiB → 0 B |                32 → 0 | `compress/flate.newHuffmanBitWriter`           | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/huffman_bit_writer.go:94` |
 |   -7.3% |   -2.826 KiB |         <0.1% |   39 KiB → 36.1 KiB |                9 → 21 | `runtime/pprof.(*profileBuilder).stringIndex`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:133`              |
 |     ~0% |         -8 B |         <0.1% |            36.3 KiB |             601 → 622 | `encoding/json.newEncodeState`                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:315`             |
@@ -239,11 +239,11 @@ Lines with the largest change in contribution to each function's self size.
 | -----: | ---------: | -----: | -------: | ----------------: | ------------------------------------------------------------------------------------------------- |
 |  -0.2% | -9.516 KiB | 100.0% | 5.53 MiB | 190,700 → 186,046 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1061` |
 
-##### `main.workload.func1` (`profile.go:25`)
+##### `main.workload.func1` (`./profile.go:25`)
 
-| Change |      Delta |      % |              Size |   Objects | Location        |
-| -----: | ---------: | -----: | ----------------: | --------: | --------------- |
-| -66.7% | -8.015 KiB | 100.0% | 12 KiB → 4.01 KiB | 769 → 256 | `profile.go:28` |
+| Change |      Delta |      % |              Size |   Objects | Location          |
+| -----: | ---------: | -----: | ----------------: | --------: | ----------------- |
+| -66.7% | -8.015 KiB | 100.0% | 12 KiB → 4.01 KiB | 769 → 256 | `./profile.go:28` |
 
 ##### `compress/flate.newHuffmanBitWriter` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/huffman_bit_writer.go:94`)
 
@@ -325,9 +325,9 @@ Callers with the largest change in contribution to each function's self size. In
 
 ##### `encoding/json.Unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102`)
 
-| Change |       Delta |      % |                Size |   Objects | Caller                | Location        |
-| -----: | ----------: | -----: | ------------------: | --------: | --------------------- | --------------- |
-| +18.8% | +12.212 KiB | 100.0% | 65.1 KiB → 77.3 KiB | 463 → 550 | `main.workload.func1` | `profile.go:25` |
+| Change |       Delta |      % |                Size |   Objects | Caller                | Location          |
+| -----: | ----------: | -----: | ------------------: | --------: | --------------------- | ----------------- |
+| +18.8% | +12.212 KiB | 100.0% | 65.1 KiB → 77.3 KiB | 463 → 550 | `main.workload.func1` | `./profile.go:25` |
 
 ##### `bytes.(*Buffer).grow` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144`)
 
@@ -487,12 +487,12 @@ Functions with the largest decrease in total bytes allocated in the function and
 |   -0.3% |    -2.06 MiB |         46.3% |   794 MiB → 792 MiB | 10,618,105 → 10,650,607 | `encoding/json.(*decodeState).valueInterface`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035` |
 |   -0.3% |   -2.019 MiB | 46.3% → 46.2% |   794 MiB → 792 MiB | 10,607,828 → 10,640,995 | `encoding/json.(*decodeState).arrayInterface`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1052` |
 | removed |   -1.901 MiB |   0.1% → 0.0% |       1.9 MiB → 0 B |              27,579 → 0 | `encoding/json.typeEncoder.func2`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:402`  |
-|   -0.1% |   -1.564 MiB |         99.8% |            1.67 GiB | 21,823,512 → 21,880,349 | `main.workload.func1`                          | `profile.go:25`                                                                                   |
+|   -0.1% |   -1.564 MiB |         99.8% |            1.67 GiB | 21,823,512 → 21,880,349 | `main.workload.func1`                          | `./profile.go:25`                                                                                 |
 |   -0.3% | -916.634 KiB |         20.3% |   349 MiB → 348 MiB |           4,660 → 4,364 | `bytes.growSlice`                              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`          |
 |   -0.3% | -916.634 KiB |         20.3% |   349 MiB → 348 MiB |           4,660 → 4,364 | `bytes.(*Buffer).Write`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193`          |
 |   -0.3% | -908.572 KiB |         20.3% |   349 MiB → 348 MiB |           4,853 → 4,686 | `bytes.(*Buffer).grow`                         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144`          |
 |   -0.4% |  -772.08 KiB |         10.6% |   182 MiB → 181 MiB |   5,641,644 → 5,625,252 | `encoding/json.unquote`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187` |
-|  -35.1% |     -624 KiB |          0.1% | 1.74 MiB → 1.13 MiB |                 54 → 53 | `main.main`                                    | `profile.go:61`                                                                                   |
+|  -35.1% |     -624 KiB |          0.1% | 1.74 MiB → 1.13 MiB |                 54 → 53 | `main.main`                                    | `./profile.go:61`                                                                                 |
 |  -35.1% |     -624 KiB |          0.1% | 1.74 MiB → 1.13 MiB |                 54 → 53 | `runtime.main`                                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
 | removed |     -624 KiB |  <0.1% → 0.0% |       624 KiB → 0 B |                   1 → 0 | `os.readFileContents`                          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:886`               |
 | removed |     -624 KiB |  <0.1% → 0.0% |       624 KiB → 0 B |                   1 → 0 | `os.ReadFile`                                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`               |
@@ -687,7 +687,7 @@ Callees with the largest change in contribution to each function's total size. I
 | ------: | ---------: | ------------: | ------------: | ---------: | --------------------------------- | ------------------------------------------------------------------------------------------------ |
 | removed | -1.901 MiB | 100.0% → 0.0% | 1.9 MiB → 0 B | 27,579 → 0 | `encoding/json.mapEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765` |
 
-##### `main.workload.func1` (`profile.go:25`)
+##### `main.workload.func1` (`./profile.go:25`)
 
 | Change |        Delta |     % |              Size |                 Objects | Callee                    | Location                                                                                         |
 | -----: | -----------: | ----: | ----------------: | ----------------------: | ------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -712,7 +712,7 @@ Callees with the largest change in contribution to each function's total size. I
 | -----: | -----------: | ------------: | ------------------: | ----------------: | ---------------------------- | ------------------------------------------------------------------------------------------------- |
 |  -1.1% | -214.197 KiB | 10.8% → 10.7% | 19.6 MiB → 19.4 MiB | 123,445 → 122,176 | `encoding/json.unquoteBytes` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1193` |
 
-##### `main.main` (`profile.go:61`)
+##### `main.main` (`./profile.go:61`)
 
 |  Change |    Delta |            % |          Size | Objects | Callee        | Location                                                                            |
 | ------: | -------: | -----------: | ------------: | ------: | ------------- | ----------------------------------------------------------------------------------- |
@@ -720,9 +720,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `runtime.main` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`)
 
-| Change |    Delta |      % |                Size | Objects | Callee      | Location        |
-| -----: | -------: | -----: | ------------------: | ------: | ----------- | --------------- |
-| -35.1% | -624 KiB | 100.0% | 1.74 MiB → 1.13 MiB | 54 → 53 | `main.main` | `profile.go:61` |
+| Change |    Delta |      % |                Size | Objects | Callee      | Location          |
+| -----: | -------: | -----: | ------------------: | ------: | ----------- | ----------------- |
+| -35.1% | -624 KiB | 100.0% | 1.74 MiB → 1.13 MiB | 54 → 53 | `main.main` | `./profile.go:61` |
 
 ##### `os.ReadFile` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`)
 
@@ -936,7 +936,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 |  -24.8% | -507.945 KiB | 95.6% → 94.7% |     2 MiB → 1.5 MiB |    4 → 40 | `encoding/json.mapEncoder.encode`           | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765` |
 |  -24.8% | -507.945 KiB | 95.6% → 94.7% |     2 MiB → 1.5 MiB |    4 → 40 | `encoding/json.arrayEncoder.encode`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:883` |
 |  -24.8% | -507.945 KiB | 95.6% → 94.7% |     2 MiB → 1.5 MiB |    4 → 40 | `encoding/json.sliceEncoder.encode`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:843` |
-|  -24.6% | -503.898 KiB | 95.8% → 95.2% |    2 MiB → 1.51 MiB |  41 → 132 | `main.workload.func1`                       | `profile.go:25`                                                                                  |
+|  -24.6% | -503.898 KiB | 95.8% → 95.2% |    2 MiB → 1.51 MiB |  41 → 132 | `main.workload.func1`                       | `./profile.go:25`                                                                                |
 |  -24.6% | -503.875 KiB | 95.6% → 95.0% |    2 MiB → 1.51 MiB |    4 → 68 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
 |  -24.6% | -503.875 KiB | 95.6% → 95.0% |    2 MiB → 1.51 MiB |    4 → 68 | `encoding/json.(*encodeState).marshal`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:333` |
 |  -24.4% | -499.843 KiB | 95.6% → 95.2% |    2 MiB → 1.51 MiB |   4 → 132 | `encoding/json.Marshal`                     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
@@ -1162,7 +1162,7 @@ Callees with the largest change in contribution to each function's total size. I
 | -----: | -----------: | -----: | --------------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
 | -24.8% | -507.945 KiB | 100.0% | 2 MiB → 1.5 MiB |  4 → 40 | `encoding/json.arrayEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:883` |
 
-##### `main.workload.func1` (`profile.go:25`)
+##### `main.workload.func1` (`./profile.go:25`)
 
 |  Change |        Delta |              % |             Size | Objects | Callee                    | Location                                                                                         |
 | ------: | -----------: | -------------: | ---------------: | ------: | ------------------------- | ------------------------------------------------------------------------------------------------ |

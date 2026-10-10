@@ -204,7 +204,7 @@ describe(`convert`, () => {
           Size: `500 B`,
           Samples: `3`,
           Function: `funcB`,
-          Location: `src/b.ts:1:1`,
+          Location: `./src/b.ts:1:1`,
         },
       ],
     ])
@@ -215,14 +215,14 @@ describe(`convert`, () => {
           Size: `400 B`,
           Samples: `2`,
           Caller: `funcA`,
-          Location: `src/a.ts:1:1`,
+          Location: `./src/a.ts:1:1`,
         },
         {
           '%': `20.0%`,
           Size: `100 B`,
           Samples: `1`,
           Caller: `funcC`,
-          Location: `src/c.ts:1:1`,
+          Location: `./src/c.ts:1:1`,
         },
       ],
     ])
@@ -287,7 +287,7 @@ describe(`convert`, () => {
           .filter(row => row.Function === `(anonymous)`)
           .map(row => row.Location),
       ),
-    ).toEqual([[`src/a.ts:21:1`, `src/a.ts:11:1`]])
+    ).toEqual([[`./src/a.ts:21:1`, `./src/a.ts:11:1`]])
     expect(
       totalSizeTables(md).map(
         table => table.filter(row => row.Function === `(anonymous)`).length,
@@ -343,7 +343,7 @@ describe(`convert`, () => {
           Size: `100 B`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1:1`,
+          Location: `./src/a.ts:1:1`,
         },
       ],
     ])
@@ -586,14 +586,14 @@ describe(`convert`, () => {
           Size: `400 B`,
           Samples: `2`,
           Function: `funcC`,
-          Location: `src/c.ts:1:1`,
+          Location: `./src/c.ts:1:1`,
         },
         {
           '%': `16.7%`,
           Size: `100 B`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1:1`,
+          Location: `./src/a.ts:1:1`,
         },
         {
           '%': `16.7%`,

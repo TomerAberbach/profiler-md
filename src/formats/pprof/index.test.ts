@@ -195,12 +195,19 @@ describe(`convert`, () => {
           Time: `0.2ms`,
           Samples: `2`,
           Function: `funcB`,
-          Location: `src/b.ts:1`,
+          Location: `./src/b.ts:1`,
         },
       ],
     ])
     expect(linesTables(md, `funcB`)).toEqual([
-      [{ '%': `100.0%`, Time: `0.2ms`, Samples: `2`, Location: `src/b.ts:10` }],
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.2ms`,
+          Samples: `2`,
+          Location: `./src/b.ts:10`,
+        },
+      ],
     ])
     expect(callersTables(md, `funcB`)).toEqual([
       [
@@ -209,7 +216,7 @@ describe(`convert`, () => {
           Time: `0.2ms`,
           Samples: `2`,
           Caller: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -280,7 +287,7 @@ describe(`convert`, () => {
           Size: `4 KiB`,
           Objects: `8`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -291,7 +298,7 @@ describe(`convert`, () => {
           Size: `512 B`,
           Objects: `2`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -329,7 +336,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Samples: `3`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -339,7 +346,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Size: `4 KiB`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -471,7 +478,7 @@ describe(`convert`, () => {
           Size: `512 B`,
           Objects: `2`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -572,7 +579,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
         {
           '%': `33.3%`,
@@ -605,10 +612,10 @@ describe(`convert`, () => {
     // samples still do.
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`src/a.ts`]])
+    ).toEqual([[`./src/a.ts`]])
     expect(
       linesTables(md, `funcA`).map(table => table.map(row => row.Location)),
-    ).toEqual([[`src/a.ts:5`]])
+    ).toEqual([[`./src/a.ts:5`]])
   })
 
   test(`omits a negative line`, () => {
@@ -630,7 +637,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`src/a.jl`]])
+    ).toEqual([[`./src/a.jl`]])
     expect(linesTables(md, `funcA`)).toEqual([])
   })
 
@@ -667,7 +674,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcB`,
-          Location: `src/b.ts:10`,
+          Location: `./src/b.ts:10`,
         },
       ],
     ])
@@ -678,7 +685,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Caller: `funcA`,
-          Location: `src/a.ts:5`,
+          Location: `./src/a.ts:5`,
         },
       ],
     ])
@@ -712,7 +719,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -749,7 +756,7 @@ describe(`convert`, () => {
           Time: `50.0ms`,
           Samples: `5`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])
@@ -800,14 +807,14 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
         {
           '%': `50.0%`,
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcB`,
-          Location: `src/b.ts:1`,
+          Location: `./src/b.ts:1`,
         },
       ],
     ])
@@ -845,7 +852,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:5`,
+          Location: `./src/a.ts:5`,
         },
       ],
     ])
@@ -963,7 +970,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1`,
+          Location: `./src/a.ts:1`,
         },
       ],
     ])

@@ -118,7 +118,7 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `hotLeaf (src/a.ts) ← hotCaller (src/b.ts)`,
+          'Call stack': `hotLeaf (./src/a.ts) ← hotCaller (./src/b.ts)`,
         },
       ],
     ])
@@ -169,7 +169,7 @@ describe(`formatCallStackProfile`, () => {
           Time: `0.3ms`,
           Samples: `5`,
           Function: `main`,
-          Location: `src/main.ts`,
+          Location: `./src/main.ts`,
         },
       ],
     ])
@@ -216,7 +216,7 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `extApi ← main (src/main.ts)`,
+          'Call stack': `extApi ← main (./src/main.ts)`,
         },
       ],
     ])
@@ -260,7 +260,7 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `funcA (src/a.ts) ← … ← funcC (src/c.ts)`,
+          'Call stack': `funcA (./src/a.ts) ← … ← funcC (./src/c.ts)`,
         },
       ],
     ])
@@ -309,20 +309,20 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
-    expect(md).toContain(`Common call stack: \`funcC\` (\`src/c.ts\`)`)
+    expect(md).toContain(`Common call stack: \`funcC\` (\`./src/c.ts\`)`)
     expect(callStackTables(md)).toEqual([
       [
         {
           '%': `66.7%`,
           Time: `0.4ms`,
           Samples: `6`,
-          'Call stack': `funcA (src/a.ts) ← …`,
+          'Call stack': `funcA (./src/a.ts) ← …`,
         },
         {
           '%': `33.3%`,
           Time: `0.2ms`,
           Samples: `3`,
-          'Call stack': `funcB (src/b.ts)`,
+          'Call stack': `funcB (./src/b.ts)`,
         },
       ],
     ])
@@ -369,7 +369,7 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `funcA (src/a.ts:10) ← … ← funcC (42)`,
+          'Call stack': `funcA (./src/a.ts:10) ← … ← funcC (42)`,
         },
       ],
     ])
@@ -419,7 +419,7 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `funcA (src/a.ts) ← funcB (src/b.ts)`,
+          'Call stack': `funcA (./src/a.ts) ← funcB (./src/b.ts)`,
         },
       ],
     ])
@@ -617,14 +617,14 @@ describe(`formatCallStackProfile`, () => {
           Time: `0.6ms`,
           Samples: `60`,
           Function: `ourFunc`,
-          Location: `src/a.ts`,
+          Location: `./src/a.ts`,
         },
         {
           '%': `39.4%`,
           Time: `0.4ms`,
           Samples: `39`,
           Function: `libFunc`,
-          Location: `node_modules/lib/index.js`,
+          Location: `./node_modules/lib/index.js`,
         },
         {
           '%': `0.1%`,
@@ -641,7 +641,7 @@ describe(`formatCallStackProfile`, () => {
             Time: `0.6ms`,
             Samples: `60`,
             Function: `ourFunc`,
-            Location: `src/a.ts`,
+            Location: `./src/a.ts`,
           },
         ],
         'Third-party': [
@@ -650,7 +650,7 @@ describe(`formatCallStackProfile`, () => {
             Time: `0.4ms`,
             Samples: `39`,
             Function: `libFunc`,
-            Location: `node_modules/lib/index.js`,
+            Location: `./node_modules/lib/index.js`,
           },
         ],
       })
@@ -687,7 +687,7 @@ describe(`formatCallStackProfile`, () => {
             Time: `0.6ms`,
             Samples: `60`,
             Function: `ourFunc`,
-            Location: `src/a.ts`,
+            Location: `./src/a.ts`,
           },
         ],
       ])
@@ -698,7 +698,7 @@ describe(`formatCallStackProfile`, () => {
             Time: `0.4ms`,
             Samples: `39`,
             Caller: `ourFunc`,
-            Location: `src/a.ts`,
+            Location: `./src/a.ts`,
           },
         ],
       ])
@@ -729,7 +729,7 @@ describe(`formatCallStackProfile`, () => {
             Time: `1.0ms`,
             Samples: `100`,
             Function: `ourFunc`,
-            Location: `src/a.ts`,
+            Location: `./src/a.ts`,
           },
         ],
       })
@@ -830,7 +830,7 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Function: `funcA`,
-          Location: `src/a.ts`,
+          Location: `./src/a.ts`,
         },
       ],
     ])
@@ -1024,7 +1024,7 @@ describe(`formatCallStackProfileDiff`, () => {
         Time: `0.1ms → 0.2ms`,
         Samples: `5 → 10`,
         Function: `funcA`,
-        Location: `src/a.ts:10`,
+        Location: `./src/a.ts:10`,
       },
       {
         Change: `new`,
@@ -1033,7 +1033,7 @@ describe(`formatCallStackProfileDiff`, () => {
         Time: `0ms → 40.0µs`,
         Samples: `0 → 2`,
         Function: `funcC`,
-        Location: `src/c.ts:30`,
+        Location: `./src/c.ts:30`,
       },
     ]
     const expectedImprovements = [
@@ -1044,7 +1044,7 @@ describe(`formatCallStackProfileDiff`, () => {
         Time: `0.1ms → 0ms`,
         Samples: `3 → 0`,
         Function: `funcB`,
-        Location: `src/b.ts:20`,
+        Location: `./src/b.ts:20`,
       },
     ]
 
@@ -1076,7 +1076,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Weight: `100 → 200`,
           Samples: `5 → 10`,
           Function: `funcA`,
-          Location: `src/a.ts:10`,
+          Location: `./src/a.ts:10`,
         },
       ],
     ])
@@ -1089,7 +1089,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Weight: `60 → 20`,
           Samples: `3 → 1`,
           Function: `funcB`,
-          Location: `src/b.ts:20`,
+          Location: `./src/b.ts:20`,
         },
       ],
     ])
@@ -1121,7 +1121,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Request: `60 → 20`,
           Samples: `3 → 1`,
           Function: `funcB`,
-          Location: `src/b.ts:20`,
+          Location: `./src/b.ts:20`,
         },
       ],
     ])
@@ -1134,7 +1134,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Request: `100 → 200`,
           Samples: `5 → 10`,
           Function: `funcA`,
-          Location: `src/a.ts:10`,
+          Location: `./src/a.ts:10`,
         },
       ],
     ])
@@ -1206,7 +1206,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Time: `0.1ms → 0.2ms`,
           Samples: `5 → 10`,
           Function: `funcA`,
-          Location: `src/a.ts:10`,
+          Location: `./src/a.ts:10`,
         },
         {
           Change: `new`,
@@ -1215,7 +1215,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Time: `0ms → 40.0µs`,
           Samples: `0 → 2`,
           Function: `funcC`,
-          Location: `src/c.ts:30`,
+          Location: `./src/c.ts:30`,
         },
       ],
     ])
@@ -1276,14 +1276,18 @@ describe(`formatCallStackProfileDiff`, () => {
   })
 
   test.each([
-    { base: { line: 10 }, current: { line: 90 }, location: `src/a.ts:10 → 90` },
+    {
+      base: { line: 10 },
+      current: { line: 90 },
+      location: `./src/a.ts:10 → 90`,
+    },
     {
       base: { line: 20, column: 5 },
       current: { line: 20, column: 9 },
-      location: `src/a.ts:20:5 → 20:9`,
+      location: `./src/a.ts:20:5 → 20:9`,
     },
-    { base: { line: 10 }, current: { line: 10 }, location: `src/a.ts:10` },
-    { base: {}, current: { line: 10 }, location: `src/a.ts:? → 10` },
+    { base: { line: 10 }, current: { line: 10 }, location: `./src/a.ts:10` },
+    { base: {}, current: { line: 10 }, location: `./src/a.ts:? → 10` },
   ])(
     `shows both locations of functions paired at $base and $current`,
     ({ base: basePosition, current: currentPosition, location }) => {
@@ -1539,7 +1543,7 @@ describe(`formatCallStackProfileDiff`, () => {
             Time: `0.4ms → 0.7ms`,
             Samples: `39 → 70`,
             Function: `libFunc`,
-            Location: `node_modules/lib/index.js`,
+            Location: `./node_modules/lib/index.js`,
           },
         ],
       })
@@ -1552,7 +1556,7 @@ describe(`formatCallStackProfileDiff`, () => {
             Time: `0.6ms → 0.3ms`,
             Samples: `60 → 30`,
             Function: `ourFunc`,
-            Location: `src/a.ts`,
+            Location: `./src/a.ts`,
           },
         ],
       })
@@ -1569,7 +1573,7 @@ describe(`formatCallStackProfileDiff`, () => {
           Time: `0.4ms → 0.7ms`,
           Samples: `39 → 70`,
           Function: `libFunc`,
-          Location: `node_modules/lib/index.js`,
+          Location: `./node_modules/lib/index.js`,
         },
         {
           '%': `1.0% → 9.1%`,
@@ -1609,7 +1613,7 @@ describe(`formatCallStackProfileDiff`, () => {
             Time: `1.0ms → 0.5ms`,
             Samples: `100 → 50`,
             Function: `ourFunc`,
-            Location: `src/a.ts`,
+            Location: `./src/a.ts`,
           },
         ],
       })

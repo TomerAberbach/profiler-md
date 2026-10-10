@@ -330,7 +330,7 @@ Functions ranked by total samples taken in the function and all its callees. Cal
 
 |     % | Samples | Function                                                           | Location                                                                                            |
 | ----: | ------: | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| 99.9% |   1,554 | `<main>`                                                           | `profile.rb`                                                                                        |
+| 99.9% |   1,554 | `<main>`                                                           | `./profile.rb`                                                                                      |
 | 94.9% |   1,475 | `Rails::Engine#call`                                               | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/engine.rb`                                       |
 | 94.7% |   1,473 | `ActionDispatch::AssumeSSL#call`                                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`            |
 | 94.7% |   1,473 | `ActionDispatch::SSL#call`                                         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`                   |
@@ -434,9 +434,9 @@ Callers ranked by the samples taken in each function and its callees during call
 
 ##### `Rails::Engine#call` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/engine.rb`)
 
-|      % | Samples | Calls | Caller   | Location     |
-| -----: | ------: | ----: | -------- | ------------ |
-| 100.0% |   1,475 |     8 | `<main>` | `profile.rb` |
+|      % | Samples | Calls | Caller   | Location       |
+| -----: | ------: | ----: | -------- | -------------- |
+| 100.0% |   1,475 |     8 | `<main>` | `./profile.rb` |
 
 ##### `ActionDispatch::AssumeSSL#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`)
 
@@ -708,7 +708,7 @@ Callers ranked by the samples taken in each function and its callees during call
 
 |      % | Samples | Calls | Caller                                    | Location                                               |
 | -----: | ------: | ----: | ----------------------------------------- | ------------------------------------------------------ |
-| 507.1% |      71 |     1 | `<main>`                                  | `profile.rb`                                           |
+| 507.1% |      71 |     1 | `<main>`                                  | `./profile.rb`                                         |
 | 178.6% |      25 |     8 | `Kernel.require [c function]`             | `<unknown>`                                            |
 |  21.4% |       3 |     2 | `Kernel#require [c function]`             | `<unknown>`                                            |
 |   7.1% |       1 |     1 | `Bundler::Source::Rubygems#normalize_uri` | `/usr/local/lib/ruby/3.4.0/bundler/source/rubygems.rb` |
@@ -792,9 +792,9 @@ Callers ranked by the samples taken in each function and its callees during call
 
 ##### `Time.now` (`<unknown>`)
 
-|      % | Samples | Calls | Caller   | Location     |
-| -----: | ------: | ----: | -------- | ------------ |
-| 100.0% |       1 |     1 | `<main>` | `profile.rb` |
+|      % | Samples | Calls | Caller   | Location       |
+| -----: | ------: | ----: | -------- | -------------- |
+| 100.0% |       1 |     1 | `<main>` | `./profile.rb` |
 
 ##### `ActionController::Base.logger` (`<unknown>`)
 
@@ -836,7 +836,7 @@ Callers ranked by the samples taken in each function and its callees during call
 
 Callees ranked by contribution to each function's total samples. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
 
-##### `<main>` (`profile.rb`)
+##### `<main>` (`./profile.rb`)
 
 |     % | Samples | Calls | Callee                                 | Location                                                      |
 | ----: | ------: | ----: | -------------------------------------- | ------------------------------------------------------------- |

@@ -368,7 +368,7 @@ Functions ranked by total time spent in the function and all its callees.
 | 16.2% | 910.0ms |      91 | `runtime.gopreempt_m`          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361`        |
 | 14.9% | 840.0ms |      84 | `runtime.setprofilebucket`     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:2717`       |
 | 14.9% | 840.0ms |      84 | `runtime.mProf_Malloc.func1`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:463`        |
-| 14.0% | 790.0ms |      79 | `main.workload.func1`          | `profile.go:25`                                                                                  |
+| 14.0% | 790.0ms |      79 | `main.workload.func1`          | `./profile.go:25`                                                                                |
 
 #### Categories
 
@@ -526,7 +526,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ------: | ------: | -------------------------- | ------------------------------------------------------------------------------------------ |
 | 100.0% | 840.0ms |      84 | `runtime.setprofilebucket` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:2717` |
 
-##### `main.workload.func1` (`profile.go:25`)
+##### `main.workload.func1` (`./profile.go:25`)
 
 |     % |    Time | Samples | Callee                    | Location                                                                                         |
 | ----: | ------: | ------: | ------------------------- | ------------------------------------------------------------------------------------------------ |

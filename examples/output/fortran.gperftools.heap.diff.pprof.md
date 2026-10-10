@@ -18,23 +18,23 @@ Functions with the largest increase in bytes allocated directly in the function 
 |   Change |        Delta |             % |                Size |         Objects | Function                                          | Location                                          |
 | -------: | -----------: | ------------: | ------------------: | --------------: | ------------------------------------------------- | ------------------------------------------------- |
 |  +359.1% |  +36.218 MiB | 25.4% → 65.7% | 10.1 MiB → 46.3 MiB | 13,656 → 17,633 | `0x1c1b3`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  +209.4% | +172.528 KiB |   0.2% → 0.4% |  82.4 KiB → 255 KiB |     796 → 2,071 | `__json_string_utilities_MOD_unescape_string`     | `json_string_utilities.F90`                       |
-|    +2.7% |      +18 KiB |   1.6% → 0.9% |   662 KiB → 680 KiB |   2,649 → 2,721 | `__json_value_module_MOD_parse_number`            | `json_value_module.F90`                           |
+|  +209.4% | +172.528 KiB |   0.2% → 0.4% |  82.4 KiB → 255 KiB |     796 → 2,071 | `__json_string_utilities_MOD_unescape_string`     | `./json_string_utilities.F90`                     |
+|    +2.7% |      +18 KiB |   1.6% → 0.9% |   662 KiB → 680 KiB |   2,649 → 2,721 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90`                         |
 |      new |  +15.029 KiB |  0.0% → <0.1% |        0 B → 15 KiB |         0 → 909 | `MAIN__`                                          | `/out/profile.f90`                                |
-|   +54.4% |  +14.141 KiB |          0.1% |   26 KiB → 40.1 KiB |  8,047 → 10,506 | `__json_string_utilities_MOD_string_to_integer`   | `json_string_utilities.F90`                       |
-|    +1.1% |   +1.632 KiB |   0.4% → 0.2% |   148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_to_integer`              | `json_value_module.F90`                           |
-| +7083.3% |       +850 B |         <0.1% |        12 B → 862 B |        12 → 862 | `__json_value_module_MOD_json_get_string_by_path` | `json_get_scalar_by_path.inc`                     |
+|   +54.4% |  +14.141 KiB |          0.1% |   26 KiB → 40.1 KiB |  8,047 → 10,506 | `__json_string_utilities_MOD_string_to_integer`   | `./json_string_utilities.F90`                     |
+|    +1.1% |   +1.632 KiB |   0.4% → 0.2% |   148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90`                         |
+| +7083.3% |       +850 B |         <0.1% |        12 B → 862 B |        12 → 862 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc`                   |
 
 ##### Ours
 
-|   Change |        Delta |            % |               Size |         Objects | Function                                          | Location                      |
-| -------: | -----------: | -----------: | -----------------: | --------------: | ------------------------------------------------- | ----------------------------- |
-|  +209.4% | +172.528 KiB |  0.2% → 0.4% | 82.4 KiB → 255 KiB |     796 → 2,071 | `__json_string_utilities_MOD_unescape_string`     | `json_string_utilities.F90`   |
-|    +2.7% |      +18 KiB |  1.6% → 0.9% |  662 KiB → 680 KiB |   2,649 → 2,721 | `__json_value_module_MOD_parse_number`            | `json_value_module.F90`       |
-|      new |  +15.029 KiB | 0.0% → <0.1% |       0 B → 15 KiB |         0 → 909 | `MAIN__`                                          | `/out/profile.f90`            |
-|   +54.4% |  +14.141 KiB |         0.1% |  26 KiB → 40.1 KiB |  8,047 → 10,506 | `__json_string_utilities_MOD_string_to_integer`   | `json_string_utilities.F90`   |
-|    +1.1% |   +1.632 KiB |  0.4% → 0.2% |  148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_to_integer`              | `json_value_module.F90`       |
-| +7083.3% |       +850 B |        <0.1% |       12 B → 862 B |        12 → 862 | `__json_value_module_MOD_json_get_string_by_path` | `json_get_scalar_by_path.inc` |
+|   Change |        Delta |            % |               Size |         Objects | Function                                          | Location                        |
+| -------: | -----------: | -----------: | -----------------: | --------------: | ------------------------------------------------- | ------------------------------- |
+|  +209.4% | +172.528 KiB |  0.2% → 0.4% | 82.4 KiB → 255 KiB |     796 → 2,071 | `__json_string_utilities_MOD_unescape_string`     | `./json_string_utilities.F90`   |
+|    +2.7% |      +18 KiB |  1.6% → 0.9% |  662 KiB → 680 KiB |   2,649 → 2,721 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90`       |
+|      new |  +15.029 KiB | 0.0% → <0.1% |       0 B → 15 KiB |         0 → 909 | `MAIN__`                                          | `/out/profile.f90`              |
+|   +54.4% |  +14.141 KiB |         0.1% |  26 KiB → 40.1 KiB |  8,047 → 10,506 | `__json_string_utilities_MOD_string_to_integer`   | `./json_string_utilities.F90`   |
+|    +1.1% |   +1.632 KiB |  0.4% → 0.2% |  148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90`       |
+| +7083.3% |       +850 B |        <0.1% |       12 B → 862 B |        12 → 862 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
 
 ##### Native
 
@@ -48,30 +48,30 @@ Functions with the largest decrease in bytes allocated directly in the function 
 
 |  Change |        Delta |             % |                Size |           Objects | Function                                    | Location                                          |
 | ------: | -----------: | ------------: | ------------------: | ----------------: | ------------------------------------------- | ------------------------------------------------- |
-|  -50.3% |   -5.294 MiB |  26.5% → 7.4% | 10.5 MiB → 5.23 MiB |   94,143 → 49,759 | `__json_value_module_MOD_parse_string`      | `json_value_module.F90`                           |
+|  -50.3% |   -5.294 MiB |  26.5% → 7.4% | 10.5 MiB → 5.23 MiB |   94,143 → 49,759 | `__json_value_module_MOD_parse_string`      | `./json_value_module.F90`                         |
 |  -45.3% | -256.312 KiB |   1.4% → 0.4% |   565 KiB → 309 KiB |     5,969 → 3,235 | `0x1c24b`                                   | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|   -0.5% |  -74.265 KiB | 36.1% → 20.2% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `__json_value_module_MOD_json_value_create` | `json_value_module.F90`                           |
+|   -0.5% |  -74.265 KiB | 36.1% → 20.2% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90`                         |
 |  -24.8% |   -6.151 KiB |  0.1% → <0.1% | 24.8 KiB → 18.6 KiB |     5,013 → 3,749 | `0x9980f`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-|   -0.4% |   -5.634 KiB |   3.6% → 2.0% |            1.44 MiB | 122,497 → 122,226 | `__json_value_module_MOD_parse_object`      | `json_value_module.F90`                           |
-|  -12.8% |       -677 B |         <0.1% |  5.16 KiB → 4.5 KiB |     5,280 → 4,603 | `__json_value_module_MOD_to_string`         | `json_value_module.F90`                           |
+|   -0.4% |   -5.634 KiB |   3.6% → 2.0% |            1.44 MiB | 122,497 → 122,226 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90`                         |
+|  -12.8% |       -677 B |         <0.1% |  5.16 KiB → 4.5 KiB |     5,280 → 4,603 | `__json_value_module_MOD_to_string`         | `./json_value_module.F90`                         |
 |  -23.6% |       -677 B |         <0.1% |  2.8 KiB → 2.14 KiB |     1,861 → 1,104 | `0x1c1f3`                                   | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|     ~0% |       -110 B |   4.4% → 2.5% |            1.76 MiB |   41,345 → 41,430 | `__json_value_module_MOD_parse_value`       | `json_value_module.F90`                           |
-|   -0.3% |         -6 B |         <0.1% | 2.03 KiB → 2.02 KiB |                10 | `__json_value_module_MOD_json_initialize`   | `json_value_module.F90`                           |
-|     ~0% |         -4 B |   0.3% → 0.1% |             102 KiB |   26,217 → 26,216 | `__json_value_module_MOD_to_logical`        | `json_value_module.F90`                           |
-| removed |         -1 B |  <0.1% → 0.0% |           1 B → 0 B |             1 → 0 | `__json_value_module_MOD_pop_char.part.0`   | `json_value_module.F90`                           |
+|     ~0% |       -110 B |   4.4% → 2.5% |            1.76 MiB |   41,345 → 41,430 | `__json_value_module_MOD_parse_value`       | `./json_value_module.F90`                         |
+|   -0.3% |         -6 B |         <0.1% | 2.03 KiB → 2.02 KiB |                10 | `__json_value_module_MOD_json_initialize`   | `./json_value_module.F90`                         |
+|     ~0% |         -4 B |   0.3% → 0.1% |             102 KiB |   26,217 → 26,216 | `__json_value_module_MOD_to_logical`        | `./json_value_module.F90`                         |
+| removed |         -1 B |  <0.1% → 0.0% |           1 B → 0 B |             1 → 0 | `__json_value_module_MOD_pop_char.part.0`   | `./json_value_module.F90`                         |
 
 ##### Ours
 
-|  Change |       Delta |             % |                Size |           Objects | Function                                    | Location                |
-| ------: | ----------: | ------------: | ------------------: | ----------------: | ------------------------------------------- | ----------------------- |
-|  -50.3% |  -5.294 MiB |  26.5% → 7.4% | 10.5 MiB → 5.23 MiB |   94,143 → 49,759 | `__json_value_module_MOD_parse_string`      | `json_value_module.F90` |
-|   -0.5% | -74.265 KiB | 36.1% → 20.2% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `__json_value_module_MOD_json_value_create` | `json_value_module.F90` |
-|   -0.4% |  -5.634 KiB |   3.6% → 2.0% |            1.44 MiB | 122,497 → 122,226 | `__json_value_module_MOD_parse_object`      | `json_value_module.F90` |
-|  -12.8% |      -677 B |         <0.1% |  5.16 KiB → 4.5 KiB |     5,280 → 4,603 | `__json_value_module_MOD_to_string`         | `json_value_module.F90` |
-|     ~0% |      -110 B |   4.4% → 2.5% |            1.76 MiB |   41,345 → 41,430 | `__json_value_module_MOD_parse_value`       | `json_value_module.F90` |
-|   -0.3% |        -6 B |         <0.1% | 2.03 KiB → 2.02 KiB |                10 | `__json_value_module_MOD_json_initialize`   | `json_value_module.F90` |
-|     ~0% |        -4 B |   0.3% → 0.1% |             102 KiB |   26,217 → 26,216 | `__json_value_module_MOD_to_logical`        | `json_value_module.F90` |
-| removed |        -1 B |  <0.1% → 0.0% |           1 B → 0 B |             1 → 0 | `__json_value_module_MOD_pop_char.part.0`   | `json_value_module.F90` |
+|  Change |       Delta |             % |                Size |           Objects | Function                                    | Location                  |
+| ------: | ----------: | ------------: | ------------------: | ----------------: | ------------------------------------------- | ------------------------- |
+|  -50.3% |  -5.294 MiB |  26.5% → 7.4% | 10.5 MiB → 5.23 MiB |   94,143 → 49,759 | `__json_value_module_MOD_parse_string`      | `./json_value_module.F90` |
+|   -0.5% | -74.265 KiB | 36.1% → 20.2% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90` |
+|   -0.4% |  -5.634 KiB |   3.6% → 2.0% |            1.44 MiB | 122,497 → 122,226 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90` |
+|  -12.8% |      -677 B |         <0.1% |  5.16 KiB → 4.5 KiB |     5,280 → 4,603 | `__json_value_module_MOD_to_string`         | `./json_value_module.F90` |
+|     ~0% |      -110 B |   4.4% → 2.5% |            1.76 MiB |   41,345 → 41,430 | `__json_value_module_MOD_parse_value`       | `./json_value_module.F90` |
+|   -0.3% |        -6 B |         <0.1% | 2.03 KiB → 2.02 KiB |                10 | `__json_value_module_MOD_json_initialize`   | `./json_value_module.F90` |
+|     ~0% |        -4 B |   0.3% → 0.1% |             102 KiB |   26,217 → 26,216 | `__json_value_module_MOD_to_logical`        | `./json_value_module.F90` |
+| removed |        -1 B |  <0.1% → 0.0% |           1 B → 0 B |             1 → 0 | `__json_value_module_MOD_pop_char.part.0`   | `./json_value_module.F90` |
 
 ##### Native
 
@@ -85,18 +85,18 @@ Functions with the largest decrease in bytes allocated directly in the function 
 
 Lines with the largest change in contribution to each function's self size.
 
-##### `__json_string_utilities_MOD_unescape_string` (`json_string_utilities.F90`)
+##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90`)
 
-|  Change |        Delta |              % |               Size |     Objects | Location                        |
-| ------: | -----------: | -------------: | -----------------: | ----------: | ------------------------------- |
-| +121.8% | +100.331 KiB | 100.0% → 71.7% | 82.4 KiB → 183 KiB | 796 → 1,316 | `json_string_utilities.F90:506` |
-|     new |  +72.197 KiB |   0.0% → 28.3% |     0 B → 72.2 KiB |     0 → 755 | `json_string_utilities.F90:611` |
+|  Change |        Delta |              % |               Size |     Objects | Location                          |
+| ------: | -----------: | -------------: | -----------------: | ----------: | --------------------------------- |
+| +121.8% | +100.331 KiB | 100.0% → 71.7% | 82.4 KiB → 183 KiB | 796 → 1,316 | `./json_string_utilities.F90:506` |
+|     new |  +72.197 KiB |   0.0% → 28.3% |     0 B → 72.2 KiB |     0 → 755 | `./json_string_utilities.F90:611` |
 
-##### `__json_value_module_MOD_parse_number` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
 
-| Change |   Delta |      % |              Size |       Objects | Location                              |
-| -----: | ------: | -----: | ----------------: | ------------: | ------------------------------------- |
-|  +2.7% | +18 KiB | 100.0% | 662 KiB → 680 KiB | 2,649 → 2,721 | `json_value_module.F90:11216 → 11244` |
+| Change |   Delta |      % |              Size |       Objects | Location                                |
+| -----: | ------: | -----: | ----------------: | ------------: | --------------------------------------- |
+|  +2.7% | +18 KiB | 100.0% | 662 KiB → 680 KiB | 2,649 → 2,721 | `./json_value_module.F90:11216 → 11244` |
 
 ##### `MAIN__` (`/out/profile.f90`)
 
@@ -104,78 +104,78 @@ Lines with the largest change in contribution to each function's self size.
 | -----: | ----------: | ------------: | -----------: | ------: | --------------------- |
 |    new | +15.029 KiB | 0.0% → 100.0% | 0 B → 15 KiB | 0 → 909 | `/out/profile.f90:32` |
 
-##### `__json_string_utilities_MOD_string_to_integer` (`json_string_utilities.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
 
-| Change |       Delta |             % |                Size |       Objects | Location                        |
-| -----: | ----------: | ------------: | ------------------: | ------------: | ------------------------------- |
-| +81.3% | +16.846 KiB | 79.7% → 93.6% | 20.7 KiB → 37.6 KiB | 5,527 → 9,131 | `json_string_utilities.F90:134` |
-| -51.2% |  -2.705 KiB |  20.3% → 6.4% | 5.28 KiB → 2.57 KiB | 2,520 → 1,375 | `json_string_utilities.F90:131` |
+| Change |       Delta |             % |                Size |       Objects | Location                          |
+| -----: | ----------: | ------------: | ------------------: | ------------: | --------------------------------- |
+| +81.3% | +16.846 KiB | 79.7% → 93.6% | 20.7 KiB → 37.6 KiB | 5,527 → 9,131 | `./json_string_utilities.F90:134` |
+| -51.2% |  -2.705 KiB |  20.3% → 6.4% | 5.28 KiB → 2.57 KiB | 2,520 → 1,375 | `./json_string_utilities.F90:131` |
 
-##### `__json_value_module_MOD_to_integer` (`json_value_module.F90`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
 
-| Change |      Delta |      % |              Size |         Objects | Location                              |
-| -----: | ---------: | -----: | ----------------: | --------------: | ------------------------------------- |
-|  +1.1% | +1.632 KiB | 100.0% | 148 KiB → 150 KiB | 18,928 → 19,137 | `json_value_module.F90:10703 → 10710` |
+| Change |      Delta |      % |              Size |         Objects | Location                                |
+| -----: | ---------: | -----: | ----------------: | --------------: | --------------------------------------- |
+|  +1.1% | +1.632 KiB | 100.0% | 148 KiB → 150 KiB | 18,928 → 19,137 | `./json_value_module.F90:10703 → 10710` |
 
-##### `__json_value_module_MOD_json_get_string_by_path` (`json_get_scalar_by_path.inc`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
 
-|   Change |  Delta |      % |         Size |  Objects | Location                        |
-| -------: | -----: | -----: | -----------: | -------: | ------------------------------- |
-| +7083.3% | +850 B | 100.0% | 12 B → 862 B | 12 → 862 | `json_get_scalar_by_path.inc:6` |
+|   Change |  Delta |      % |         Size |  Objects | Location                          |
+| -------: | -----: | -----: | -----------: | -------: | --------------------------------- |
+| +7083.3% | +850 B | 100.0% | 12 B → 862 B | 12 → 862 | `./json_get_scalar_by_path.inc:6` |
 
-##### `__json_value_module_MOD_parse_string` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
 
-| Change |        Delta |             % |                Size |         Objects | Location                              |
-| -----: | -----------: | ------------: | ------------------: | --------------: | ------------------------------------- |
-| -46.9% |   -4.112 MiB | 83.2% → 88.9% | 8.76 MiB → 4.65 MiB | 35,879 → 19,035 | `json_value_module.F90:11073 → 11101` |
-| -65.5% | -988.675 KiB |  14.0% → 9.7% |  1.47 MiB → 520 KiB | 57,672 → 30,498 | `json_value_module.F90:11122 → 11150` |
-| -75.0% |     -222 KiB |   2.7% → 1.4% |    296 KiB → 74 KiB |       592 → 148 | `json_value_module.F90:11098 → 11126` |
-|    new |        +78 B |  0.0% → <0.1% |          0 B → 78 B |          0 → 78 | `json_value_module.F90:11148`         |
+| Change |        Delta |             % |                Size |         Objects | Location                                |
+| -----: | -----------: | ------------: | ------------------: | --------------: | --------------------------------------- |
+| -46.9% |   -4.112 MiB | 83.2% → 88.9% | 8.76 MiB → 4.65 MiB | 35,879 → 19,035 | `./json_value_module.F90:11073 → 11101` |
+| -65.5% | -988.675 KiB |  14.0% → 9.7% |  1.47 MiB → 520 KiB | 57,672 → 30,498 | `./json_value_module.F90:11122 → 11150` |
+| -75.0% |     -222 KiB |   2.7% → 1.4% |    296 KiB → 74 KiB |       592 → 148 | `./json_value_module.F90:11098 → 11126` |
+|    new |        +78 B |  0.0% → <0.1% |          0 B → 78 B |          0 → 78 | `./json_value_module.F90:11148`         |
 
-##### `__json_value_module_MOD_json_value_create` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
 
-| Change |       Delta |      % |                Size |           Objects | Location                            |
-| -----: | ----------: | -----: | ------------------: | ----------------: | ----------------------------------- |
-|  -0.5% | -74.265 KiB | 100.0% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `json_value_module.F90:2211 → 2218` |
+| Change |       Delta |      % |                Size |           Objects | Location                              |
+| -----: | ----------: | -----: | ------------------: | ----------------: | ------------------------------------- |
+|  -0.5% | -74.265 KiB | 100.0% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `./json_value_module.F90:2211 → 2218` |
 
-##### `__json_value_module_MOD_parse_object` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
 
-|  Change |      Delta |             % |           Size |     Objects | Location                      |
-| ------: | ---------: | ------------: | -------------: | ----------: | ----------------------------- |
-| removed |  -1.44 MiB | 100.0% → 0.0% | 1.44 MiB → 0 B | 122,497 → 0 | `json_value_module.F90:10922` |
-|     new | +1.435 MiB | 0.0% → 100.0% | 0 B → 1.44 MiB | 0 → 122,226 | `json_value_module.F90:10937` |
+|  Change |      Delta |             % |           Size |     Objects | Location                        |
+| ------: | ---------: | ------------: | -------------: | ----------: | ------------------------------- |
+| removed |  -1.44 MiB | 100.0% → 0.0% | 1.44 MiB → 0 B | 122,497 → 0 | `./json_value_module.F90:10922` |
+|     new | +1.435 MiB | 0.0% → 100.0% | 0 B → 1.44 MiB | 0 → 122,226 | `./json_value_module.F90:10937` |
 
-##### `__json_value_module_MOD_to_string` (`json_value_module.F90`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90`)
 
-| Change |  Delta |      % |               Size |       Objects | Location                              |
-| -----: | -----: | -----: | -----------------: | ------------: | ------------------------------------- |
-| -12.8% | -677 B | 100.0% | 5.16 KiB → 4.5 KiB | 5,280 → 4,603 | `json_value_module.F90:10800 → 10807` |
+| Change |  Delta |      % |               Size |       Objects | Location                                |
+| -----: | -----: | -----: | -----------------: | ------------: | --------------------------------------- |
+| -12.8% | -677 B | 100.0% | 5.16 KiB → 4.5 KiB | 5,280 → 4,603 | `./json_value_module.F90:10800 → 10807` |
 
-##### `__json_value_module_MOD_parse_value` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
 
-| Change |  Delta |      % |     Size |         Objects | Location                              |
-| -----: | -----: | -----: | -------: | --------------: | ------------------------------------- |
-|    ~0% | -110 B | 100.0% | 1.76 MiB | 41,345 → 41,430 | `json_value_module.F90:10185 → 10192` |
+| Change |  Delta |      % |     Size |         Objects | Location                                |
+| -----: | -----: | -----: | -------: | --------------: | --------------------------------------- |
+|    ~0% | -110 B | 100.0% | 1.76 MiB | 41,345 → 41,430 | `./json_value_module.F90:10185 → 10192` |
 
-##### `__json_value_module_MOD_json_initialize` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
 
-|  Change |  Delta |            % |        Size | Objects | Location                            |
-| ------: | -----: | -----------: | ----------: | ------: | ----------------------------------- |
-| removed | -2 KiB | 98.7% → 0.0% | 2 KiB → 0 B |   8 → 0 | `json_value_module.F90:1048`        |
-|     new | +2 KiB | 0.0% → 99.0% | 0 B → 2 KiB |   0 → 8 | `json_value_module.F90:1051`        |
-|  -23.1% |   -6 B |  1.3% → 1.0% | 26 B → 20 B |       2 | `json_value_module.F90:1196 → 1203` |
+|  Change |  Delta |            % |        Size | Objects | Location                              |
+| ------: | -----: | -----------: | ----------: | ------: | ------------------------------------- |
+| removed | -2 KiB | 98.7% → 0.0% | 2 KiB → 0 B |   8 → 0 | `./json_value_module.F90:1048`        |
+|     new | +2 KiB | 0.0% → 99.0% | 0 B → 2 KiB |   0 → 8 | `./json_value_module.F90:1051`        |
+|  -23.1% |   -6 B |  1.3% → 1.0% | 26 B → 20 B |       2 | `./json_value_module.F90:1196 → 1203` |
 
-##### `__json_value_module_MOD_to_logical` (`json_value_module.F90`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
 
-| Change | Delta |      % |    Size |         Objects | Location                              |
-| -----: | ----: | -----: | ------: | --------------: | ------------------------------------- |
-|    ~0% |  -4 B | 100.0% | 102 KiB | 26,217 → 26,216 | `json_value_module.F90:10672 → 10679` |
+| Change | Delta |      % |    Size |         Objects | Location                                |
+| -----: | ----: | -----: | ------: | --------------: | --------------------------------------- |
+|    ~0% |  -4 B | 100.0% | 102 KiB | 26,217 → 26,216 | `./json_value_module.F90:10672 → 10679` |
 
-##### `__json_value_module_MOD_pop_char.part.0` (`json_value_module.F90`)
+##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
 
-|  Change | Delta |             % |      Size | Objects | Location                      |
-| ------: | ----: | ------------: | --------: | ------: | ----------------------------- |
-| removed |  -1 B | 100.0% → 0.0% | 1 B → 0 B |   1 → 0 | `json_value_module.F90:11383` |
+|  Change | Delta |             % |      Size | Objects | Location                        |
+| ------: | ----: | ------------: | --------: | ------: | ------------------------------- |
+| removed |  -1 B | 100.0% → 0.0% | 1 B → 0 B |   1 → 0 | `./json_value_module.F90:11383` |
 
 #### Callers
 
@@ -189,18 +189,18 @@ Callers with the largest change in contribution to each function's self size. In
 |  -65.2% |    -486 KiB |   7.2% → 0.5% |   745 KiB → 259 KiB |  5,962 → 2,074 | `0x112ecb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 |  -23.9% | -42.468 KiB |   1.7% → 0.3% |   178 KiB → 135 KiB |  5,692 → 4,333 | `0x112ebb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
-##### `__json_string_utilities_MOD_unescape_string` (`json_string_utilities.F90`)
+##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90`)
 
-|  Change |        Delta |      % |               Size |     Objects | Caller                                 | Location                |
-| ------: | -----------: | -----: | -----------------: | ----------: | -------------------------------------- | ----------------------- |
-| +209.4% | +172.528 KiB | 100.0% | 82.4 KiB → 255 KiB | 796 → 2,071 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
+|  Change |        Delta |      % |               Size |     Objects | Caller                                 | Location                  |
+| ------: | -----------: | -----: | -----------------: | ----------: | -------------------------------------- | ------------------------- |
+| +209.4% | +172.528 KiB | 100.0% | 82.4 KiB → 255 KiB | 796 → 2,071 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_parse_number` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
 
-| Change |   Delta |              % |              Size |       Objects | Caller                                 | Location                |
-| -----: | ------: | -------------: | ----------------: | ------------: | -------------------------------------- | ----------------------- |
-|    new | +10 KiB |    0.0% → 1.5% |      0 B → 10 KiB |        0 → 40 | `__json_value_module_MOD_parse_array`  | `json_value_module.F90` |
-|  +1.2% |  +8 KiB | 100.0% → 98.5% | 662 KiB → 670 KiB | 2,649 → 2,681 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+| Change |   Delta |              % |              Size |       Objects | Caller                                 | Location                  |
+| -----: | ------: | -------------: | ----------------: | ------------: | -------------------------------------- | ------------------------- |
+|    new | +10 KiB |    0.0% → 1.5% |      0 B → 10 KiB |        0 → 40 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+|  +1.2% |  +8 KiB | 100.0% → 98.5% | 662 KiB → 670 KiB | 2,649 → 2,681 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
 ##### `MAIN__` (`/out/profile.f90`)
 
@@ -208,30 +208,30 @@ Callers with the largest change in contribution to each function's self size. In
 | -----: | ----------: | ------------: | -----------: | ------: | ------ | ------------------ |
 |    new | +15.029 KiB | 0.0% → 100.0% | 0 B → 15 KiB | 0 → 909 | `main` | `/out/profile.f90` |
 
-##### `__json_string_utilities_MOD_string_to_integer` (`json_string_utilities.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
 
-| Change |       Delta |      % |              Size |        Objects | Caller                                  | Location                |
-| -----: | ----------: | -----: | ----------------: | -------------: | --------------------------------------- | ----------------------- |
-| +54.4% | +14.141 KiB | 100.0% | 26 KiB → 40.1 KiB | 8,047 → 10,506 | `__json_value_module_MOD_string_to_int` | `json_value_module.F90` |
+| Change |       Delta |      % |              Size |        Objects | Caller                                  | Location                  |
+| -----: | ----------: | -----: | ----------------: | -------------: | --------------------------------------- | ------------------------- |
+| +54.4% | +14.141 KiB | 100.0% | 26 KiB → 40.1 KiB | 8,047 → 10,506 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_to_integer` (`json_value_module.F90`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
 
-| Change |      Delta |      % |              Size |         Objects | Caller                                 | Location                |
-| -----: | ---------: | -----: | ----------------: | --------------: | -------------------------------------- | ----------------------- |
-|  +1.1% | +1.632 KiB | 100.0% | 148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_parse_number` | `json_value_module.F90` |
+| Change |      Delta |      % |              Size |         Objects | Caller                                 | Location                  |
+| -----: | ---------: | -----: | ----------------: | --------------: | -------------------------------------- | ------------------------- |
+|  +1.1% | +1.632 KiB | 100.0% | 148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_json_get_string_by_path` (`json_get_scalar_by_path.inc`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
 
-|   Change |  Delta |      % |         Size |  Objects | Caller                                        | Location               |
-| -------: | -----: | -----: | -----------: | -------: | --------------------------------------------- | ---------------------- |
-| +7083.3% | +850 B | 100.0% | 12 B → 862 B | 12 → 862 | `__json_file_module_MOD_json_file_get_string` | `json_file_module.F90` |
+|   Change |  Delta |      % |         Size |  Objects | Caller                                        | Location                 |
+| -------: | -----: | -----: | -----------: | -------: | --------------------------------------------- | ------------------------ |
+| +7083.3% | +850 B | 100.0% | 12 B → 862 B | 12 → 862 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
 
-##### `__json_value_module_MOD_parse_string` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
 
-| Change |        Delta |             % |                Size |         Objects | Caller                                 | Location                |
-| -----: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ----------------------- |
-| -72.4% |   -6.032 MiB | 79.2% → 43.9% |  8.33 MiB → 2.3 MiB | 79,310 → 32,619 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
-| +33.7% | +755.868 KiB | 20.8% → 56.1% | 2.19 MiB → 2.93 MiB | 14,833 → 17,140 | `__json_value_module_MOD_parse_value`  | `json_value_module.F90` |
+| Change |        Delta |             % |                Size |         Objects | Caller                                 | Location                  |
+| -----: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ------------------------- |
+| -72.4% |   -6.032 MiB | 79.2% → 43.9% |  8.33 MiB → 2.3 MiB | 79,310 → 32,619 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| +33.7% | +755.868 KiB | 20.8% → 56.1% | 2.19 MiB → 2.93 MiB | 14,833 → 17,140 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
 
 ##### `0x1c24b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
 
@@ -239,12 +239,12 @@ Callers with the largest change in contribution to each function's self size. In
 | -----: | -----------: | ------------: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
 | -45.9% | -256.312 KiB | 98.7% → 97.6% | 558 KiB → 302 KiB | 5,950 → 3,216 | `0x10c847` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
-##### `__json_value_module_MOD_json_value_create` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
 
-| Change |       Delta |             % |               Size |           Objects | Caller                                 | Location                |
-| -----: | ----------: | ------------: | -----------------: | ----------------: | -------------------------------------- | ----------------------- |
-|  -6.6% | -78.968 KiB |   8.2% → 7.7% | 1.18 MiB → 1.1 MiB |   11,021 → 10,299 | `__json_value_module_MOD_parse_array`  | `json_value_module.F90` |
-|    ~0% |  +4.703 KiB | 91.8% → 92.3% |           13.1 MiB | 123,035 → 123,078 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+| Change |       Delta |             % |               Size |           Objects | Caller                                 | Location                  |
+| -----: | ----------: | ------------: | -----------------: | ----------------: | -------------------------------------- | ------------------------- |
+|  -6.6% | -78.968 KiB |   8.2% → 7.7% | 1.18 MiB → 1.1 MiB |   11,021 → 10,299 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+|    ~0% |  +4.703 KiB | 91.8% → 92.3% |           13.1 MiB | 123,035 → 123,078 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
 ##### `0x9980f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
@@ -253,18 +253,18 @@ Callers with the largest change in contribution to each function's self size. In
 | -24.9% | -6.116 KiB | 99.1% | 24.6 KiB → 18.5 KiB | 5,001 → 3,739 | `0x1c42b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 | -16.7% |      -36 B |  0.9% |       216 B → 180 B |       12 → 10 | `0x1c3fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
-##### `__json_value_module_MOD_parse_object` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
 
-|  Change |      Delta |     % |       Size |           Objects | Caller                                    | Location                |
-| ------: | ---------: | ----: | ---------: | ----------------: | ----------------------------------------- | ----------------------- |
-|   -0.4% | -5.642 KiB | 98.8% |   1.42 MiB | 120,167 → 119,895 | `__json_value_module_MOD_parse_object`    | `json_value_module.F90` |
-| +100.0% |       +8 B | <0.1% | 8 B → 16 B |             1 → 2 | `__json_value_module_MOD_json_parse_file` | `json_value_module.F90` |
+|  Change |      Delta |     % |       Size |           Objects | Caller                                    | Location                  |
+| ------: | ---------: | ----: | ---------: | ----------------: | ----------------------------------------- | ------------------------- |
+|   -0.4% | -5.642 KiB | 98.8% |   1.42 MiB | 120,167 → 119,895 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+| +100.0% |       +8 B | <0.1% | 8 B → 16 B |             1 → 2 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_to_string` (`json_value_module.F90`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90`)
 
-| Change |  Delta |      % |               Size |       Objects | Caller                                | Location                |
-| -----: | -----: | -----: | -----------------: | ------------: | ------------------------------------- | ----------------------- |
-| -12.8% | -677 B | 100.0% | 5.16 KiB → 4.5 KiB | 5,280 → 4,603 | `__json_value_module_MOD_parse_value` | `json_value_module.F90` |
+| Change |  Delta |      % |               Size |       Objects | Caller                                | Location                  |
+| -----: | -----: | -----: | -----------------: | ------------: | ------------------------------------- | ------------------------- |
+| -12.8% | -677 B | 100.0% | 5.16 KiB → 4.5 KiB | 5,280 → 4,603 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
 
 ##### `0x1c1f3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
 
@@ -272,29 +272,29 @@ Callers with the largest change in contribution to each function's self size. In
 | -----: | -----: | -----: | -----------------: | ------------: | ---------- | ------------------------------------------------- |
 | -23.6% | -677 B | 100.0% | 2.8 KiB → 2.14 KiB | 1,861 → 1,104 | `0x118783` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
-##### `__json_value_module_MOD_parse_value` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
 
-| Change |  Delta |      % |     Size |         Objects | Caller                                 | Location                |
-| -----: | -----: | -----: | -------: | --------------: | -------------------------------------- | ----------------------- |
-|    ~0% | -110 B | 100.0% | 1.76 MiB | 41,345 → 41,430 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+| Change |  Delta |      % |     Size |         Objects | Caller                                 | Location                  |
+| -----: | -----: | -----: | -------: | --------------: | -------------------------------------- | ------------------------- |
+|    ~0% | -110 B | 100.0% | 1.76 MiB | 41,345 → 41,430 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_json_initialize` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
 
-| Change | Delta |      % |                Size | Objects | Caller                                                | Location               |
-| -----: | ----: | -----: | ------------------: | ------: | ----------------------------------------------------- | ---------------------- |
-|  -0.3% |  -6 B | 100.0% | 2.03 KiB → 2.02 KiB |      10 | `__json_file_module_MOD_initialize_json_core_in_file` | `json_file_module.F90` |
+| Change | Delta |      % |                Size | Objects | Caller                                                | Location                 |
+| -----: | ----: | -----: | ------------------: | ------: | ----------------------------------------------------- | ------------------------ |
+|  -0.3% |  -6 B | 100.0% | 2.03 KiB → 2.02 KiB |      10 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90` |
 
-##### `__json_value_module_MOD_to_logical` (`json_value_module.F90`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
 
-| Change | Delta |      % |    Size |         Objects | Caller                                 | Location                |
-| -----: | ----: | -----: | ------: | --------------: | -------------------------------------- | ----------------------- |
-|    ~0% |  -4 B | 100.0% | 102 KiB | 26,217 → 26,216 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+| Change | Delta |      % |    Size |         Objects | Caller                                 | Location                  |
+| -----: | ----: | -----: | ------: | --------------: | -------------------------------------- | ------------------------- |
+|    ~0% |  -4 B | 100.0% | 102 KiB | 26,217 → 26,216 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_pop_char.part.0` (`json_value_module.F90`)
+##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
 
-|  Change | Delta |             % |      Size | Objects | Caller                                   | Location                |
-| ------: | ----: | ------------: | --------: | ------: | ---------------------------------------- | ----------------------- |
-| removed |  -1 B | 100.0% → 0.0% | 1 B → 0 B |   1 → 0 | `__json_value_module_MOD_json_parse_end` | `json_value_module.F90` |
+|  Change | Delta |             % |      Size | Objects | Caller                                   | Location                  |
+| ------: | ----: | ------------: | --------: | ------: | ---------------------------------------- | ------------------------- |
+| removed |  -1 B | 100.0% → 0.0% | 1 B → 0 B |   1 → 0 | `__json_value_module_MOD_json_parse_end` | `./json_value_module.F90` |
 
 ### Total size
 
@@ -306,17 +306,17 @@ Functions with the largest increase in total bytes allocated in the function and
 | ------: | -----------: | ------------: | ------------------: | ----------------: | ----------------------------------------------- | ---------------------------------------------------------------------------------- |
 | +463.1% |  +36.734 MiB | 20.0% → 63.3% | 7.93 MiB → 44.7 MiB |    1,992 → 11,216 | `0xfa6bf`                                       | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                                  |
 | +461.6% |  +36.729 MiB | 20.0% → 63.4% | 7.96 MiB → 44.7 MiB |    6,993 → 14,955 | `0x109623`                                      | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                                  |
-| +392.0% |  +36.413 MiB | 23.4% → 64.8% | 9.29 MiB → 45.7 MiB |   53,556 → 56,930 | `__json_value_module_MOD_parse_number`          | `json_value_module.F90`                                                            |
-| +428.3% |  +36.394 MiB | 21.4% → 63.7% |  8.5 MiB → 44.9 MiB |   31,979 → 35,064 | `__json_value_module_MOD_string_to_int`         | `json_value_module.F90`                                                            |
+| +392.0% |  +36.413 MiB | 23.4% → 64.8% | 9.29 MiB → 45.7 MiB |   53,556 → 56,930 | `__json_value_module_MOD_parse_number`          | `./json_value_module.F90`                                                          |
+| +428.3% |  +36.394 MiB | 21.4% → 63.7% |  8.5 MiB → 44.9 MiB |   31,979 → 35,064 | `__json_value_module_MOD_string_to_int`         | `./json_value_module.F90`                                                          |
 | +359.1% |  +36.218 MiB | 25.4% → 65.7% | 10.1 MiB → 46.3 MiB |   13,656 → 17,633 | `0x1c1b3`                                       | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                                  |
-| +380.2% |  +35.864 MiB | 23.8% → 64.2% | 9.43 MiB → 45.3 MiB |   34,566 → 35,323 | `__json_string_utilities_MOD_string_to_integer` | `json_string_utilities.F90`                                                        |
-|  +83.2% |  +31.208 MiB | 94.5% → 97.5% | 37.5 MiB → 68.7 MiB | 477,898 → 436,620 | `__json_value_module_MOD_parse_object`          | `json_value_module.F90`                                                            |
-|  +59.0% |   +10.92 MiB | 46.6% → 41.7% | 18.5 MiB → 29.4 MiB | 232,052 → 220,300 | `__json_value_module_MOD_parse_array`           | `json_value_module.F90`                                                            |
-|  +13.2% |   +1.851 MiB | 35.4% → 22.5% |   14 MiB → 15.9 MiB | 186,584 → 172,869 | `__json_value_module_MOD_json_parse_file`       | `json_value_module.F90`                                                            |
-|  +13.5% |   +1.845 MiB | 34.4% → 22.0% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_file_module_MOD_json_file_load`         | `json_file_module.F90`                                                             |
+| +380.2% |  +35.864 MiB | 23.8% → 64.2% | 9.43 MiB → 45.3 MiB |   34,566 → 35,323 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90`                                                      |
+|  +83.2% |  +31.208 MiB | 94.5% → 97.5% | 37.5 MiB → 68.7 MiB | 477,898 → 436,620 | `__json_value_module_MOD_parse_object`          | `./json_value_module.F90`                                                          |
+|  +59.0% |   +10.92 MiB | 46.6% → 41.7% | 18.5 MiB → 29.4 MiB | 232,052 → 220,300 | `__json_value_module_MOD_parse_array`           | `./json_value_module.F90`                                                          |
+|  +13.2% |   +1.851 MiB | 35.4% → 22.5% |   14 MiB → 15.9 MiB | 186,584 → 172,869 | `__json_value_module_MOD_json_parse_file`       | `./json_value_module.F90`                                                          |
+|  +13.5% |   +1.845 MiB | 34.4% → 22.0% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_file_module_MOD_json_file_load`         | `./json_file_module.F90`                                                           |
 |   +9.9% |   +1.412 MiB | 35.9% → 22.2% | 14.3 MiB → 15.7 MiB | 173,325 → 160,528 | `MAIN__`                                        | `/out/profile.f90`                                                                 |
 |  +10.2% |   +1.387 MiB | 34.3% → 21.3% |   13.6 MiB → 15 MiB | 163,103 → 149,886 | `main`                                          | `/out/profile.f90`                                                                 |
-|  +21.5% | +927.627 KiB |  10.6% → 7.3% | 4.22 MiB → 5.13 MiB |   63,922 → 66,912 | `__json_value_module_MOD_parse_value`           | `json_value_module.F90`                                                            |
+|  +21.5% | +927.627 KiB |  10.6% → 7.3% | 4.22 MiB → 5.13 MiB |   63,922 → 66,912 | `__json_value_module_MOD_parse_value`           | `./json_value_module.F90`                                                          |
 |     new | +837.843 KiB |   0.0% → 1.2% |       0 B → 838 KiB |         0 → 7,614 | `0x22aaf`                                       | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
 |     new | +772.932 KiB |   0.0% → 1.1% |       0 B → 773 KiB |         0 → 3,556 | `0xffff8a179d67`                                | `<unknown>`                                                                        |
 |     new | +712.164 KiB |   0.0% → 1.0% |       0 B → 712 KiB |         0 → 6,826 | `0x1e85f`                                       | `[stack]`                                                                          |
@@ -329,16 +329,16 @@ Functions with the largest increase in total bytes allocated in the function and
 
 |  Change |        Delta |             % |                Size |           Objects | Function                                        | Location                                                                           |
 | ------: | -----------: | ------------: | ------------------: | ----------------: | ----------------------------------------------- | ---------------------------------------------------------------------------------- |
-| +392.0% |  +36.413 MiB | 23.4% → 64.8% | 9.29 MiB → 45.7 MiB |   53,556 → 56,930 | `__json_value_module_MOD_parse_number`          | `json_value_module.F90`                                                            |
-| +428.3% |  +36.394 MiB | 21.4% → 63.7% |  8.5 MiB → 44.9 MiB |   31,979 → 35,064 | `__json_value_module_MOD_string_to_int`         | `json_value_module.F90`                                                            |
-| +380.2% |  +35.864 MiB | 23.8% → 64.2% | 9.43 MiB → 45.3 MiB |   34,566 → 35,323 | `__json_string_utilities_MOD_string_to_integer` | `json_string_utilities.F90`                                                        |
-|  +83.2% |  +31.208 MiB | 94.5% → 97.5% | 37.5 MiB → 68.7 MiB | 477,898 → 436,620 | `__json_value_module_MOD_parse_object`          | `json_value_module.F90`                                                            |
-|  +59.0% |   +10.92 MiB | 46.6% → 41.7% | 18.5 MiB → 29.4 MiB | 232,052 → 220,300 | `__json_value_module_MOD_parse_array`           | `json_value_module.F90`                                                            |
-|  +13.2% |   +1.851 MiB | 35.4% → 22.5% |   14 MiB → 15.9 MiB | 186,584 → 172,869 | `__json_value_module_MOD_json_parse_file`       | `json_value_module.F90`                                                            |
-|  +13.5% |   +1.845 MiB | 34.4% → 22.0% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_file_module_MOD_json_file_load`         | `json_file_module.F90`                                                             |
+| +392.0% |  +36.413 MiB | 23.4% → 64.8% | 9.29 MiB → 45.7 MiB |   53,556 → 56,930 | `__json_value_module_MOD_parse_number`          | `./json_value_module.F90`                                                          |
+| +428.3% |  +36.394 MiB | 21.4% → 63.7% |  8.5 MiB → 44.9 MiB |   31,979 → 35,064 | `__json_value_module_MOD_string_to_int`         | `./json_value_module.F90`                                                          |
+| +380.2% |  +35.864 MiB | 23.8% → 64.2% | 9.43 MiB → 45.3 MiB |   34,566 → 35,323 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90`                                                      |
+|  +83.2% |  +31.208 MiB | 94.5% → 97.5% | 37.5 MiB → 68.7 MiB | 477,898 → 436,620 | `__json_value_module_MOD_parse_object`          | `./json_value_module.F90`                                                          |
+|  +59.0% |   +10.92 MiB | 46.6% → 41.7% | 18.5 MiB → 29.4 MiB | 232,052 → 220,300 | `__json_value_module_MOD_parse_array`           | `./json_value_module.F90`                                                          |
+|  +13.2% |   +1.851 MiB | 35.4% → 22.5% |   14 MiB → 15.9 MiB | 186,584 → 172,869 | `__json_value_module_MOD_json_parse_file`       | `./json_value_module.F90`                                                          |
+|  +13.5% |   +1.845 MiB | 34.4% → 22.0% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_file_module_MOD_json_file_load`         | `./json_file_module.F90`                                                           |
 |   +9.9% |   +1.412 MiB | 35.9% → 22.2% | 14.3 MiB → 15.7 MiB | 173,325 → 160,528 | `MAIN__`                                        | `/out/profile.f90`                                                                 |
 |  +10.2% |   +1.387 MiB | 34.3% → 21.3% |   13.6 MiB → 15 MiB | 163,103 → 149,886 | `main`                                          | `/out/profile.f90`                                                                 |
-|  +21.5% | +927.627 KiB |  10.6% → 7.3% | 4.22 MiB → 5.13 MiB |   63,922 → 66,912 | `__json_value_module_MOD_parse_value`           | `json_value_module.F90`                                                            |
+|  +21.5% | +927.627 KiB |  10.6% → 7.3% | 4.22 MiB → 5.13 MiB |   63,922 → 66,912 | `__json_value_module_MOD_parse_value`           | `./json_value_module.F90`                                                          |
 |     new | +837.843 KiB |   0.0% → 1.2% |       0 B → 838 KiB |         0 → 7,614 | `0x22aaf`                                       | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
 |     new | +712.164 KiB |   0.0% → 1.0% |       0 B → 712 KiB |         0 → 6,826 | `0x1e85f`                                       | `[stack]`                                                                          |
 |     new | +693.281 KiB |   0.0% → 1.0% |       0 B → 693 KiB |           0 → 170 | `0x1d11f`                                       | `[stack]`                                                                          |
@@ -381,17 +381,17 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 |  Change |        Delta |             % |                Size |           Objects | Function                                           | Location                                                                        |
 | ------: | -----------: | ------------: | ------------------: | ----------------: | -------------------------------------------------- | ------------------------------------------------------------------------------- |
-|  -47.3% |   -5.126 MiB |  27.3% → 8.1% |  10.8 MiB → 5.7 MiB |   99,717 → 56,608 | `__json_value_module_MOD_parse_string`             | `json_value_module.F90`                                                         |
+|  -47.3% |   -5.126 MiB |  27.3% → 8.1% |  10.8 MiB → 5.7 MiB |   99,717 → 56,608 | `__json_value_module_MOD_parse_string`             | `./json_value_module.F90`                                                       |
 |   -9.8% |   -1.252 MiB | 32.3% → 16.4% | 12.8 MiB → 11.6 MiB | 152,764 → 140,613 | `0x27743`                                          | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                          |
 | removed |    -1.15 MiB |   2.9% → 0.0% |      1.15 MiB → 0 B |         9,495 → 0 | `0x228cf`                                          | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
 | removed | -920.703 KiB |   2.3% → 0.0% |       921 KiB → 0 B |         7,343 → 0 | `0x1f22f`                                          | `[stack]`                                                                       |
 |  -52.8% | -784.781 KiB |   3.7% → 1.0% |  1.45 MiB → 703 KiB |    17,614 → 9,633 | `0x1093fb`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
 | removed | -711.382 KiB |   1.7% → 0.0% |       711 KiB → 0 B |         6,726 → 0 | `0x1f47f`                                          | `[stack]`                                                                       |
 |   -5.5% | -649.707 KiB | 28.9% → 15.4% | 11.5 MiB → 10.8 MiB | 138,759 → 129,594 | `0x27817`                                          | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                          |
-|  -56.7% | -542.454 KiB |   2.4% → 0.6% |   958 KiB → 415 KiB |       2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `json_value_module.F90`                                                         |
-|  -56.7% | -542.454 KiB |   2.4% → 0.6% |   958 KiB → 415 KiB |       2,522 → 203 | `__json_value_module_MOD_json_get_by_path`         | `json_value_module.F90`                                                         |
-|  -56.6% | -541.624 KiB |   2.4% → 0.6% |   958 KiB → 416 KiB |     2,534 → 1,065 | `__json_value_module_MOD_json_get_string_by_path`  | `json_get_scalar_by_path.inc`                                                   |
-|  -56.6% | -541.624 KiB |   2.4% → 0.6% |   958 KiB → 416 KiB |     2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string`      | `json_file_module.F90`                                                          |
+|  -56.7% | -542.454 KiB |   2.4% → 0.6% |   958 KiB → 415 KiB |       2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90`                                                       |
+|  -56.7% | -542.454 KiB |   2.4% → 0.6% |   958 KiB → 415 KiB |       2,522 → 203 | `__json_value_module_MOD_json_get_by_path`         | `./json_value_module.F90`                                                       |
+|  -56.6% | -541.624 KiB |   2.4% → 0.6% |   958 KiB → 416 KiB |     2,534 → 1,065 | `__json_value_module_MOD_json_get_string_by_path`  | `./json_get_scalar_by_path.inc`                                                 |
+|  -56.6% | -541.624 KiB |   2.4% → 0.6% |   958 KiB → 416 KiB |     2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string`      | `./json_file_module.F90`                                                        |
 |  -57.2% | -528.468 KiB |   2.3% → 0.5% |   923 KiB → 395 KiB |    11,654 → 6,407 | `0x10b28f`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
 |  -65.2% |     -486 KiB |   1.8% → 0.4% |   745 KiB → 259 KiB |     5,962 → 2,074 | `0x112ecb`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
 |  -35.2% | -481.233 KiB |   3.4% → 1.2% |  1.33 MiB → 885 KiB |         340 → 219 | `0x4`                                              | `<unknown>`                                                                     |
@@ -406,14 +406,14 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 |  Change |        Delta |            % |               Size |         Objects | Function                                           | Location                                                                        |
 | ------: | -----------: | -----------: | -----------------: | --------------: | -------------------------------------------------- | ------------------------------------------------------------------------------- |
-|  -47.3% |   -5.126 MiB | 27.3% → 8.1% | 10.8 MiB → 5.7 MiB | 99,717 → 56,608 | `__json_value_module_MOD_parse_string`             | `json_value_module.F90`                                                         |
+|  -47.3% |   -5.126 MiB | 27.3% → 8.1% | 10.8 MiB → 5.7 MiB | 99,717 → 56,608 | `__json_value_module_MOD_parse_string`             | `./json_value_module.F90`                                                       |
 | removed |    -1.15 MiB |  2.9% → 0.0% |     1.15 MiB → 0 B |       9,495 → 0 | `0x228cf`                                          | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
 | removed | -920.703 KiB |  2.3% → 0.0% |      921 KiB → 0 B |       7,343 → 0 | `0x1f22f`                                          | `[stack]`                                                                       |
 | removed | -711.382 KiB |  1.7% → 0.0% |      711 KiB → 0 B |       6,726 → 0 | `0x1f47f`                                          | `[stack]`                                                                       |
-|  -56.7% | -542.454 KiB |  2.4% → 0.6% |  958 KiB → 415 KiB |     2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `json_value_module.F90`                                                         |
-|  -56.7% | -542.454 KiB |  2.4% → 0.6% |  958 KiB → 415 KiB |     2,522 → 203 | `__json_value_module_MOD_json_get_by_path`         | `json_value_module.F90`                                                         |
-|  -56.6% | -541.624 KiB |  2.4% → 0.6% |  958 KiB → 416 KiB |   2,534 → 1,065 | `__json_value_module_MOD_json_get_string_by_path`  | `json_get_scalar_by_path.inc`                                                   |
-|  -56.6% | -541.624 KiB |  2.4% → 0.6% |  958 KiB → 416 KiB |   2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string`      | `json_file_module.F90`                                                          |
+|  -56.7% | -542.454 KiB |  2.4% → 0.6% |  958 KiB → 415 KiB |     2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90`                                                       |
+|  -56.7% | -542.454 KiB |  2.4% → 0.6% |  958 KiB → 415 KiB |     2,522 → 203 | `__json_value_module_MOD_json_get_by_path`         | `./json_value_module.F90`                                                       |
+|  -56.6% | -541.624 KiB |  2.4% → 0.6% |  958 KiB → 416 KiB |   2,534 → 1,065 | `__json_value_module_MOD_json_get_string_by_path`  | `./json_get_scalar_by_path.inc`                                                 |
+|  -56.6% | -541.624 KiB |  2.4% → 0.6% |  958 KiB → 416 KiB |   2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string`      | `./json_file_module.F90`                                                        |
 | removed |  -234.75 KiB |  0.6% → 0.0% |      235 KiB → 0 B |         939 → 0 | `0x1f237`                                          | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
 | removed |   -234.5 KiB |  0.6% → 0.0% |      235 KiB → 0 B |         938 → 0 | `0x1eaff`                                          | `[stack]`                                                                       |
 | removed |   -234.5 KiB |  0.6% → 0.0% |      235 KiB → 0 B |         938 → 0 | `0x1e9b7`                                          | `[stack]`                                                                       |
@@ -469,21 +469,21 @@ Callees with the largest change in contribution to each function's total size. I
 | +463.1% | +36.734 MiB | 99.7% → 100.0% | 7.93 MiB → 44.7 MiB | 1,992 → 11,216 | `0xfa6bf` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 |  -24.9% |  -6.116 KiB |   0.3% → <0.1% | 24.6 KiB → 18.5 KiB |  5,001 → 3,739 | `0xfa6b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
-##### `__json_value_module_MOD_parse_number` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
 
-|  Change |       Delta |             % |               Size |         Objects | Callee                                   | Location                |
-| ------: | ----------: | ------------: | -----------------: | --------------: | ---------------------------------------- | ----------------------- |
-| +428.3% | +36.394 MiB | 91.5% → 98.2% | 8.5 MiB → 44.9 MiB | 31,979 → 35,064 | `__json_value_module_MOD_string_to_int`  | `json_value_module.F90` |
-|   +1.1% |  +1.632 KiB |   1.6% → 0.3% |  148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_to_integer`     | `json_value_module.F90` |
-|     new |      +256 B |  0.0% → <0.1% |        0 B → 256 B |           0 → 8 | `__json_value_module_MOD_string_to_dble` | `json_value_module.F90` |
+|  Change |       Delta |             % |               Size |         Objects | Callee                                   | Location                  |
+| ------: | ----------: | ------------: | -----------------: | --------------: | ---------------------------------------- | ------------------------- |
+| +428.3% | +36.394 MiB | 91.5% → 98.2% | 8.5 MiB → 44.9 MiB | 31,979 → 35,064 | `__json_value_module_MOD_string_to_int`  | `./json_value_module.F90` |
+|   +1.1% |  +1.632 KiB |   1.6% → 0.3% |  148 KiB → 150 KiB | 18,928 → 19,137 | `__json_value_module_MOD_to_integer`     | `./json_value_module.F90` |
+|     new |      +256 B |  0.0% → <0.1% |        0 B → 256 B |           0 → 8 | `__json_value_module_MOD_string_to_dble` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_string_to_int` (`json_value_module.F90`)
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`)
 
-|  Change |       Delta |      % |               Size |         Objects | Callee                                          | Location                    |
-| ------: | ----------: | -----: | -----------------: | --------------: | ----------------------------------------------- | --------------------------- |
-| +428.3% | +36.394 MiB | 100.0% | 8.5 MiB → 44.9 MiB | 31,979 → 35,064 | `__json_string_utilities_MOD_string_to_integer` | `json_string_utilities.F90` |
+|  Change |       Delta |      % |               Size |         Objects | Callee                                          | Location                      |
+| ------: | ----------: | -----: | -----------------: | --------------: | ----------------------------------------------- | ----------------------------- |
+| +428.3% | +36.394 MiB | 100.0% | 8.5 MiB → 44.9 MiB | 31,979 → 35,064 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
 
-##### `__json_string_utilities_MOD_string_to_integer` (`json_string_utilities.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
 
 |  Change |        Delta |             % |                Size |        Objects | Callee     | Location                                          |
 | ------: | -----------: | ------------: | ------------------: | -------------: | ---------- | ------------------------------------------------- |
@@ -492,51 +492,51 @@ Callees with the largest change in contribution to each function's total size. I
 |  -24.8% |       -694 B |         <0.1% | 2.73 KiB → 2.05 KiB |  1,857 → 1,099 | `0x118783` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 |  -13.8% |        -72 B |         <0.1% |       520 B → 448 B |        65 → 56 | `_start`   | `<unknown>`                                       |
 
-##### `__json_value_module_MOD_parse_object` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
 
-|  Change |        Delta |             % |                Size |           Objects | Callee                                 | Location                |
-| ------: | -----------: | ------------: | ------------------: | ----------------: | -------------------------------------- | ----------------------- |
-|  +83.7% |  +31.218 MiB | 99.3% → 99.7% | 37.3 MiB → 68.5 MiB | 474,148 → 433,577 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
-| +453.4% |  +30.994 MiB | 18.2% → 55.0% | 6.84 MiB → 37.8 MiB |   47,498 → 47,652 | `__json_value_module_MOD_parse_number` | `json_value_module.F90` |
-|  +60.6% |  +11.024 MiB | 48.5% → 42.5% | 18.2 MiB → 29.2 MiB | 225,746 → 214,962 | `__json_value_module_MOD_parse_array`  | `json_value_module.F90` |
-|  -72.4% |   -6.032 MiB |  22.2% → 3.3% |  8.33 MiB → 2.3 MiB |   80,249 → 33,558 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
-|  +22.4% | +927.627 KiB |  10.8% → 7.2% | 4.04 MiB → 4.95 MiB |   62,254 → 65,244 | `__json_value_module_MOD_parse_value`  | `json_value_module.F90` |
+|  Change |        Delta |             % |                Size |           Objects | Callee                                 | Location                  |
+| ------: | -----------: | ------------: | ------------------: | ----------------: | -------------------------------------- | ------------------------- |
+|  +83.7% |  +31.218 MiB | 99.3% → 99.7% | 37.3 MiB → 68.5 MiB | 474,148 → 433,577 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| +453.4% |  +30.994 MiB | 18.2% → 55.0% | 6.84 MiB → 37.8 MiB |   47,498 → 47,652 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+|  +60.6% |  +11.024 MiB | 48.5% → 42.5% | 18.2 MiB → 29.2 MiB | 225,746 → 214,962 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+|  -72.4% |   -6.032 MiB |  22.2% → 3.3% |  8.33 MiB → 2.3 MiB |   80,249 → 33,558 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|  +22.4% | +927.627 KiB |  10.8% → 7.2% | 4.04 MiB → 4.95 MiB |   62,254 → 65,244 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_parse_array` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
 
-|  Change |       Delta |             % |                Size |           Objects | Callee                                      | Location                |
-| ------: | ----------: | ------------: | ------------------: | ----------------: | ------------------------------------------- | ----------------------- |
-|  +61.0% | +10.993 MiB | 97.4% → 98.6% |     18 MiB → 29 MiB | 227,547 → 216,481 | `__json_value_module_MOD_parse_object`      | `json_value_module.F90` |
-| +221.0% |  +5.419 MiB | 13.3% → 26.8% | 2.45 MiB → 7.87 MiB |     6,058 → 9,278 | `__json_value_module_MOD_parse_number`      | `json_value_module.F90` |
-|   -6.6% | -78.968 KiB |   6.4% → 3.7% |  1.18 MiB → 1.1 MiB |   11,021 → 10,299 | `__json_value_module_MOD_json_value_create` | `json_value_module.F90` |
-|     new | +12.216 KiB |  0.0% → <0.1% |      0 B → 12.2 KiB |         0 → 1,015 | `0xffff8a179d67`                            | `<unknown>`             |
-| removed |  -5.359 KiB |  <0.1% → 0.0% |      5.36 KiB → 0 B |           686 → 0 | `0xffffa2a19d67`                            | `<unknown>`             |
+|  Change |       Delta |             % |                Size |           Objects | Callee                                      | Location                  |
+| ------: | ----------: | ------------: | ------------------: | ----------------: | ------------------------------------------- | ------------------------- |
+|  +61.0% | +10.993 MiB | 97.4% → 98.6% |     18 MiB → 29 MiB | 227,547 → 216,481 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90` |
+| +221.0% |  +5.419 MiB | 13.3% → 26.8% | 2.45 MiB → 7.87 MiB |     6,058 → 9,278 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90` |
+|   -6.6% | -78.968 KiB |   6.4% → 3.7% |  1.18 MiB → 1.1 MiB |   11,021 → 10,299 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90` |
+|     new | +12.216 KiB |  0.0% → <0.1% |      0 B → 12.2 KiB |         0 → 1,015 | `0xffff8a179d67`                            | `<unknown>`               |
+| removed |  -5.359 KiB |  <0.1% → 0.0% |      5.36 KiB → 0 B |           686 → 0 | `0xffffa2a19d67`                            | `<unknown>`               |
 
-##### `__json_value_module_MOD_json_parse_file` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
 
 |  Change |      Delta |             % |                Size |           Objects | Callee                                   | Location                                          |
 | ------: | ---------: | ------------: | ------------------: | ----------------: | ---------------------------------------- | ------------------------------------------------- |
-|  +14.5% | +1.851 MiB | 91.1% → 92.1% | 12.8 MiB → 14.6 MiB | 186,543 → 172,831 | `__json_value_module_MOD_parse_object`   | `json_value_module.F90`                           |
+|  +14.5% | +1.851 MiB | 91.1% → 92.1% | 12.8 MiB → 14.6 MiB | 186,543 → 172,831 | `__json_value_module_MOD_parse_object`   | `./json_value_module.F90`                         |
 |   +0.1% |     +288 B |   1.5% → 1.3% |   217 KiB → 218 KiB |     1,611 → 1,614 | `_start`                                 | `<unknown>`                                       |
 |     ~0% |      -36 B |   8.9% → 7.9% |            1.25 MiB |           31 → 29 | `0x10324b`                               | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| removed |       -1 B |  <0.1% → 0.0% |           1 B → 0 B |             1 → 0 | `__json_value_module_MOD_json_parse_end` | `json_value_module.F90`                           |
+| removed |       -1 B |  <0.1% → 0.0% |           1 B → 0 B |             1 → 0 | `__json_value_module_MOD_json_parse_end` | `./json_value_module.F90`                         |
 
-##### `__json_file_module_MOD_json_file_load` (`json_file_module.F90`)
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
 
-| Change |      Delta |           % |                Size |           Objects | Callee                                    | Location                |
-| -----: | ---------: | ----------: | ------------------: | ----------------: | ----------------------------------------- | ----------------------- |
-| +13.5% | +1.845 MiB |      100.0% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_value_module_MOD_json_parse_file` | `json_value_module.F90` |
-|  +0.6% |     +672 B | 0.7% → 0.6% |             102 KiB |         929 → 936 | `_start`                                  | `<unknown>`             |
+| Change |      Delta |           % |                Size |           Objects | Callee                                    | Location                  |
+| -----: | ---------: | ----------: | ------------------: | ----------------: | ----------------------------------------- | ------------------------- |
+| +13.5% | +1.845 MiB |      100.0% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|  +0.6% |     +672 B | 0.7% → 0.6% |             102 KiB |         929 → 936 | `_start`                                  | `<unknown>`               |
 
 ##### `MAIN__` (`/out/profile.f90`)
 
 |   Change |        Delta |             % |                Size |           Objects | Callee                                                | Location                                          |
 | -------: | -----------: | ------------: | ------------------: | ----------------: | ----------------------------------------------------- | ------------------------------------------------- |
-|   +13.6% |   +1.815 MiB | 93.4% → 96.6% | 13.3 MiB → 15.1 MiB | 170,767 → 157,621 | `__json_file_module_MOD_json_file_load`               | `json_file_module.F90`                            |
-|   -56.6% | -541.624 KiB |   6.6% → 2.6% |   958 KiB → 416 KiB |     2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string`         | `json_file_module.F90`                            |
+|   +13.6% |   +1.815 MiB | 93.4% → 96.6% | 13.3 MiB → 15.1 MiB | 170,767 → 157,621 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90`                          |
+|   -56.6% | -541.624 KiB |   6.6% → 2.6% |   958 KiB → 416 KiB |     2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string`         | `./json_file_module.F90`                          |
 | +1908.7% | +113.625 KiB |  <0.1% → 0.7% |  5.95 KiB → 120 KiB |           9 → 918 | `0x1093fb`                                            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 |  +100.9% |       +872 B |         <0.1% |     864 B → 1.7 KiB |           9 → 881 | `_start`                                              | `<unknown>`                                       |
-|    -4.6% |        -99 B |         <0.1% | 2.12 KiB → 2.02 KiB |                11 | `__json_file_module_MOD_initialize_json_core_in_file` | `json_file_module.F90`                            |
+|    -4.6% |        -99 B |         <0.1% | 2.12 KiB → 2.02 KiB |                11 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90`                          |
 
 ##### `main` (`/out/profile.f90`)
 
@@ -545,14 +545,14 @@ Callees with the largest change in contribution to each function's total size. I
 | +10.2% | +1.387 MiB |      100.0% | 13.6 MiB → 15 MiB | 163,103 → 149,886 | `MAIN__` | `/out/profile.f90` |
 |    ~0% |       +1 B | 1.5% → 1.3% |           203 KiB |     1,856 → 1,857 | `_start` | `<unknown>`        |
 
-##### `__json_value_module_MOD_parse_value` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
 
-|  Change |        Delta |             % |                Size |         Objects | Callee                                 | Location                |
-| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ----------------------- |
-|  +39.9% | +928.396 KiB | 53.9% → 62.0% | 2.27 MiB → 3.18 MiB | 15,629 → 19,211 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
-| removed |  -90.125 KiB |   2.1% → 0.0% |      90.1 KiB → 0 B |         824 → 0 | `0x1e39f`                              | `[stack]`               |
-|     new |  +90.125 KiB |   0.0% → 1.7% |      0 B → 90.1 KiB |         0 → 824 | `0x1d74f`                              | `[stack]`               |
-|  -12.8% |       -677 B |          0.1% |  5.16 KiB → 4.5 KiB |   5,280 → 4,603 | `__json_value_module_MOD_to_string`    | `json_value_module.F90` |
+|  Change |        Delta |             % |                Size |         Objects | Callee                                 | Location                  |
+| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ------------------------- |
+|  +39.9% | +928.396 KiB | 53.9% → 62.0% | 2.27 MiB → 3.18 MiB | 15,629 → 19,211 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+| removed |  -90.125 KiB |   2.1% → 0.0% |      90.1 KiB → 0 B |         824 → 0 | `0x1e39f`                              | `[stack]`                 |
+|     new |  +90.125 KiB |   0.0% → 1.7% |      0 B → 90.1 KiB |         0 → 824 | `0x1d74f`                              | `[stack]`                 |
+|  -12.8% |       -677 B |          0.1% |  5.16 KiB → 4.5 KiB |   5,280 → 4,603 | `__json_value_module_MOD_to_string`    | `./json_value_module.F90` |
 
 ##### `0x22aaf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
 
@@ -574,13 +574,13 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1e85f` (`[stack]`)
 
-| Change |        Delta |            % |           Size |   Objects | Callee                                    | Location                |
-| -----: | -----------: | -----------: | -------------: | --------: | ----------------------------------------- | ----------------------- |
-|    new | +409.718 KiB | 0.0% → 57.5% |  0 B → 410 KiB | 0 → 3,746 | `_start`                                  | `<unknown>`             |
-|    new | +205.406 KiB | 0.0% → 28.8% |  0 B → 205 KiB | 0 → 1,878 | `__json_value_module_MOD_parse_object`    | `json_value_module.F90` |
-|    new |  +92.312 KiB | 0.0% → 13.0% | 0 B → 92.3 KiB |   0 → 844 | `__json_value_module_MOD_parse_value`     | `json_value_module.F90` |
-|    new |   +2.078 KiB |  0.0% → 0.3% | 0 B → 2.08 KiB |    0 → 19 | `__json_value_module_MOD_pop_char.part.0` | `json_value_module.F90` |
-|    new |   +1.867 KiB |  0.0% → 0.3% | 0 B → 1.87 KiB |   0 → 239 | `0xaaaad7a9e7ff`                          | `<unknown>`             |
+| Change |        Delta |            % |           Size |   Objects | Callee                                    | Location                  |
+| -----: | -----------: | -----------: | -------------: | --------: | ----------------------------------------- | ------------------------- |
+|    new | +409.718 KiB | 0.0% → 57.5% |  0 B → 410 KiB | 0 → 3,746 | `_start`                                  | `<unknown>`               |
+|    new | +205.406 KiB | 0.0% → 28.8% |  0 B → 205 KiB | 0 → 1,878 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+|    new |  +92.312 KiB | 0.0% → 13.0% | 0 B → 92.3 KiB |   0 → 844 | `__json_value_module_MOD_parse_value`     | `./json_value_module.F90` |
+|    new |   +2.078 KiB |  0.0% → 0.3% | 0 B → 2.08 KiB |    0 → 19 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
+|    new |   +1.867 KiB |  0.0% → 0.3% | 0 B → 1.87 KiB |   0 → 239 | `0xaaaad7a9e7ff`                          | `<unknown>`               |
 
 ##### `0x1d11f` (`[stack]`)
 
@@ -627,10 +627,10 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1dd9f` (`[stack]`)
 
-| Change |        Delta |            % |          Size |   Objects | Callee                                 | Location                |
-| -----: | -----------: | -----------: | ------------: | --------: | -------------------------------------- | ----------------------- |
-|    new | +205.187 KiB | 0.0% → 99.9% | 0 B → 205 KiB | 0 → 1,876 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
-|    new |       +112 B |  0.0% → 0.1% |   0 B → 112 B |     0 → 1 | `0x9b6e1dd8a732948d`                   | `<unknown>`             |
+| Change |        Delta |            % |          Size |   Objects | Callee                                 | Location                  |
+| -----: | -----------: | -----------: | ------------: | --------: | -------------------------------------- | ------------------------- |
+|    new | +205.187 KiB | 0.0% → 99.9% | 0 B → 205 KiB | 0 → 1,876 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|    new |       +112 B |  0.0% → 0.1% |   0 B → 112 B |     0 → 1 | `0x9b6e1dd8a732948d`                   | `<unknown>`               |
 
 ##### `0x1d46f` (`[stack]`)
 
@@ -752,11 +752,11 @@ Callees with the largest change in contribution to each function's total size. I
 | -----: | ---------: | ------------: | -------------: | ------: | -------- | ----------- |
 |    new | +8.156 KiB | 0.0% → 100.0% | 0 B → 8.16 KiB |   0 → 2 | `_start` | `<unknown>` |
 
-##### `__json_value_module_MOD_parse_string` (`json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
 
 |  Change |        Delta |            % |               Size |     Objects | Callee                                        | Location                                           |
 | ------: | -----------: | -----------: | -----------------: | ----------: | --------------------------------------------- | -------------------------------------------------- |
-| +209.4% | +172.528 KiB |  0.7% → 4.4% | 82.4 KiB → 255 KiB | 796 → 2,071 | `__json_string_utilities_MOD_unescape_string` | `json_string_utilities.F90`                        |
+| +209.4% | +172.528 KiB |  0.7% → 4.4% | 82.4 KiB → 255 KiB | 796 → 2,071 | `__json_string_utilities_MOD_unescape_string` | `./json_string_utilities.F90`                      |
 |     new |        +72 B | 0.0% → <0.1% |         0 B → 72 B |       0 → 9 | `0x39387`                                     | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
 
 ##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
@@ -794,13 +794,13 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1f47f` (`[stack]`)
 
-|  Change |        Delta |            % |           Size |   Objects | Callee                                    | Location                |
-| ------: | -----------: | -----------: | -------------: | --------: | ----------------------------------------- | ----------------------- |
-| removed | -409.718 KiB | 57.6% → 0.0% |  410 KiB → 0 B | 3,746 → 0 | `_start`                                  | `<unknown>`             |
-| removed | -205.406 KiB | 28.9% → 0.0% |  205 KiB → 0 B | 1,878 → 0 | `__json_value_module_MOD_parse_object`    | `json_value_module.F90` |
-| removed |  -92.312 KiB | 13.0% → 0.0% | 92.3 KiB → 0 B |   844 → 0 | `__json_value_module_MOD_parse_value`     | `json_value_module.F90` |
-| removed |   -2.078 KiB |  0.3% → 0.0% | 2.08 KiB → 0 B |    19 → 0 | `__json_value_module_MOD_pop_char.part.0` | `json_value_module.F90` |
-| removed |   -1.867 KiB |  0.3% → 0.0% | 1.87 KiB → 0 B |   239 → 0 | `0xaaaab87a67ff`                          | `<unknown>`             |
+|  Change |        Delta |            % |           Size |   Objects | Callee                                    | Location                  |
+| ------: | -----------: | -----------: | -------------: | --------: | ----------------------------------------- | ------------------------- |
+| removed | -409.718 KiB | 57.6% → 0.0% |  410 KiB → 0 B | 3,746 → 0 | `_start`                                  | `<unknown>`               |
+| removed | -205.406 KiB | 28.9% → 0.0% |  205 KiB → 0 B | 1,878 → 0 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+| removed |  -92.312 KiB | 13.0% → 0.0% | 92.3 KiB → 0 B |   844 → 0 | `__json_value_module_MOD_parse_value`     | `./json_value_module.F90` |
+| removed |   -2.078 KiB |  0.3% → 0.0% | 2.08 KiB → 0 B |    19 → 0 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
+| removed |   -1.867 KiB |  0.3% → 0.0% | 1.87 KiB → 0 B |   239 → 0 | `0xaaaab87a67ff`                          | `<unknown>`               |
 
 ##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
@@ -810,29 +810,29 @@ Callees with the largest change in contribution to each function's total size. I
 |   -0.3% |   -4.204 KiB | 10.9% → 11.5% |            1.25 MiB |          926 → 65 | `_start`         | `<unknown>`                            |
 | removed |         -2 B |  <0.1% → 0.0% |           2 B → 0 B |             1 → 0 | `0xffffa219001f` | `<unknown>`                            |
 
-##### `__json_value_module_MOD_json_get_by_path_default` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`)
 
-| Change |        Delta |      % |              Size |     Objects | Callee                                          | Location                    |
-| -----: | -----------: | -----: | ----------------: | ----------: | ----------------------------------------------- | --------------------------- |
-| -56.7% | -542.454 KiB | 100.0% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_string_utilities_MOD_string_to_integer` | `json_string_utilities.F90` |
+| Change |        Delta |      % |              Size |     Objects | Callee                                          | Location                      |
+| -----: | -----------: | -----: | ----------------: | ----------: | ----------------------------------------------- | ----------------------------- |
+| -56.7% | -542.454 KiB | 100.0% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
 
-##### `__json_value_module_MOD_json_get_by_path` (`json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90`)
 
-| Change |        Delta |      % |              Size |     Objects | Callee                                             | Location                |
-| -----: | -----------: | -----: | ----------------: | ----------: | -------------------------------------------------- | ----------------------- |
-| -56.7% | -542.454 KiB | 100.0% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `json_value_module.F90` |
+| Change |        Delta |      % |              Size |     Objects | Callee                                             | Location                  |
+| -----: | -----------: | -----: | ----------------: | ----------: | -------------------------------------------------- | ------------------------- |
+| -56.7% | -542.454 KiB | 100.0% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
 
-##### `__json_value_module_MOD_json_get_string_by_path` (`json_get_scalar_by_path.inc`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
 
-| Change |        Delta |              % |              Size |     Objects | Callee                                     | Location                |
-| -----: | -----------: | -------------: | ----------------: | ----------: | ------------------------------------------ | ----------------------- |
-| -56.7% | -542.454 KiB | 100.0% → 99.8% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_value_module_MOD_json_get_by_path` | `json_value_module.F90` |
+| Change |        Delta |              % |              Size |     Objects | Callee                                     | Location                  |
+| -----: | -----------: | -------------: | ----------------: | ----------: | ------------------------------------------ | ------------------------- |
+| -56.7% | -542.454 KiB | 100.0% → 99.8% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90` |
 
-##### `__json_file_module_MOD_json_file_get_string` (`json_file_module.F90`)
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`)
 
-| Change |        Delta |      % |              Size |       Objects | Callee                                            | Location                      |
-| -----: | -----------: | -----: | ----------------: | ------------: | ------------------------------------------------- | ----------------------------- |
-| -56.6% | -541.624 KiB | 100.0% | 958 KiB → 416 KiB | 2,534 → 1,065 | `__json_value_module_MOD_json_get_string_by_path` | `json_get_scalar_by_path.inc` |
+| Change |        Delta |      % |              Size |       Objects | Callee                                            | Location                        |
+| -----: | -----------: | -----: | ----------------: | ------------: | ------------------------------------------------- | ------------------------------- |
+| -56.6% | -541.624 KiB | 100.0% | 958 KiB → 416 KiB | 2,534 → 1,065 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
 
 ##### `0x10b28f` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
 
@@ -935,9 +935,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1e9ef` (`[stack]`)
 
-|  Change |        Delta |             % |          Size |   Objects | Callee                                 | Location                |
-| ------: | -----------: | ------------: | ------------: | --------: | -------------------------------------- | ----------------------- |
-| removed | -205.187 KiB | 100.0% → 0.0% | 205 KiB → 0 B | 1,876 → 0 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
+|  Change |        Delta |             % |          Size |   Objects | Callee                                 | Location                  |
+| ------: | -----------: | ------------: | ------------: | --------: | -------------------------------------- | ------------------------- |
+| removed | -205.187 KiB | 100.0% → 0.0% | 205 KiB → 0 B | 1,876 → 0 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
 
 ##### `0x1eb1f` (`[stack]`)
 
@@ -1211,13 +1211,13 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1e85f` (`[stack]`)
 
-| Change |       Delta |            % |           Size | Objects | Callee                                    | Location                |
-| -----: | ----------: | -----------: | -------------: | ------: | ----------------------------------------- | ----------------------- |
-|    new | +16.953 KiB | 0.0% → 57.2% |   0 B → 17 KiB | 0 → 155 | `_start`                                  | `<unknown>`             |
-|    new |  +8.531 KiB | 0.0% → 28.8% | 0 B → 8.53 KiB |  0 → 78 | `__json_value_module_MOD_parse_object`    | `json_value_module.F90` |
-|    new |  +3.718 KiB | 0.0% → 12.6% | 0 B → 3.72 KiB |  0 → 34 | `__json_value_module_MOD_parse_value`     | `json_value_module.F90` |
-|    new |      +312 B |  0.0% → 1.0% |    0 B → 312 B |  0 → 39 | `0xaaaad7a9e7ff`                          | `<unknown>`             |
-|    new |      +112 B |  0.0% → 0.4% |    0 B → 112 B |   0 → 1 | `__json_value_module_MOD_pop_char.part.0` | `json_value_module.F90` |
+| Change |       Delta |            % |           Size | Objects | Callee                                    | Location                  |
+| -----: | ----------: | -----------: | -------------: | ------: | ----------------------------------------- | ------------------------- |
+|    new | +16.953 KiB | 0.0% → 57.2% |   0 B → 17 KiB | 0 → 155 | `_start`                                  | `<unknown>`               |
+|    new |  +8.531 KiB | 0.0% → 28.8% | 0 B → 8.53 KiB |  0 → 78 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+|    new |  +3.718 KiB | 0.0% → 12.6% | 0 B → 3.72 KiB |  0 → 34 | `__json_value_module_MOD_parse_value`     | `./json_value_module.F90` |
+|    new |      +312 B |  0.0% → 1.0% |    0 B → 312 B |  0 → 39 | `0xaaaad7a9e7ff`                          | `<unknown>`               |
+|    new |      +112 B |  0.0% → 0.4% |    0 B → 112 B |   0 → 1 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
 
 ##### `0x1e5ef` (`[stack]`)
 
@@ -1228,9 +1228,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1dd9f` (`[stack]`)
 
-| Change |      Delta |             % |           Size | Objects | Callee                                 | Location                |
-| -----: | ---------: | ------------: | -------------: | ------: | -------------------------------------- | ----------------------- |
-|    new | +8.531 KiB | 0.0% → 100.0% | 0 B → 8.53 KiB |  0 → 78 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
+| Change |      Delta |             % |           Size | Objects | Callee                                 | Location                  |
+| -----: | ---------: | ------------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +8.531 KiB | 0.0% → 100.0% | 0 B → 8.53 KiB |  0 → 78 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
 
 ##### `0x1d36f` (`[stack]`)
 
@@ -1354,9 +1354,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1d12f` (`[stack]`)
 
-| Change |  Delta |             % |        Size | Objects | Callee                                 | Location                |
-| -----: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ----------------------- |
-|    new | +383 B | 0.0% → 100.0% | 0 B → 383 B |  0 → 39 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+| Change |  Delta |             % |        Size | Objects | Callee                                 | Location                  |
+| -----: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +383 B | 0.0% → 100.0% | 0 B → 383 B |  0 → 39 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
 ##### `0x1d4af` (`[stack]`)
 
@@ -1378,9 +1378,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1db4f` (`[stack]`)
 
-| Change |  Delta |             % |        Size | Objects | Callee                                 | Location                |
-| -----: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ----------------------- |
-|    new | +234 B | 0.0% → 100.0% | 0 B → 234 B |  0 → 39 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+| Change |  Delta |             % |        Size | Objects | Callee                                 | Location                  |
+| -----: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +234 B | 0.0% → 100.0% | 0 B → 234 B |  0 → 39 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
 ##### `0xaaaad41cfb07` (`<unknown>`)
 
@@ -1476,13 +1476,13 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1f47f` (`[stack]`)
 
-|  Change |       Delta |            % |           Size | Objects | Callee                                    | Location                |
-| ------: | ----------: | -----------: | -------------: | ------: | ----------------------------------------- | ----------------------- |
-| removed | -16.953 KiB | 57.2% → 0.0% |   17 KiB → 0 B | 155 → 0 | `_start`                                  | `<unknown>`             |
-| removed |  -8.531 KiB | 28.8% → 0.0% | 8.53 KiB → 0 B |  78 → 0 | `__json_value_module_MOD_parse_object`    | `json_value_module.F90` |
-| removed |  -3.718 KiB | 12.6% → 0.0% | 3.72 KiB → 0 B |  34 → 0 | `__json_value_module_MOD_parse_value`     | `json_value_module.F90` |
-| removed |      -312 B |  1.0% → 0.0% |    312 B → 0 B |  39 → 0 | `0xaaaab87a67ff`                          | `<unknown>`             |
-| removed |      -112 B |  0.4% → 0.0% |    112 B → 0 B |   1 → 0 | `__json_value_module_MOD_pop_char.part.0` | `json_value_module.F90` |
+|  Change |       Delta |            % |           Size | Objects | Callee                                    | Location                  |
+| ------: | ----------: | -----------: | -------------: | ------: | ----------------------------------------- | ------------------------- |
+| removed | -16.953 KiB | 57.2% → 0.0% |   17 KiB → 0 B | 155 → 0 | `_start`                                  | `<unknown>`               |
+| removed |  -8.531 KiB | 28.8% → 0.0% | 8.53 KiB → 0 B |  78 → 0 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+| removed |  -3.718 KiB | 12.6% → 0.0% | 3.72 KiB → 0 B |  34 → 0 | `__json_value_module_MOD_parse_value`     | `./json_value_module.F90` |
+| removed |      -312 B |  1.0% → 0.0% |    312 B → 0 B |  39 → 0 | `0xaaaab87a67ff`                          | `<unknown>`               |
+| removed |      -112 B |  0.4% → 0.0% |    112 B → 0 B |   1 → 0 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
 
 ##### `0x1f22f` (`[stack]`)
 
@@ -1493,9 +1493,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1e9ef` (`[stack]`)
 
-|  Change |      Delta |             % |           Size | Objects | Callee                                 | Location                |
-| ------: | ---------: | ------------: | -------------: | ------: | -------------------------------------- | ----------------------- |
-| removed | -8.531 KiB | 100.0% → 0.0% | 8.53 KiB → 0 B |  78 → 0 | `__json_value_module_MOD_parse_string` | `json_value_module.F90` |
+|  Change |      Delta |             % |           Size | Objects | Callee                                 | Location                  |
+| ------: | ---------: | ------------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -8.531 KiB | 100.0% → 0.0% | 8.53 KiB → 0 B |  78 → 0 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
 
 ##### `0x1dfbf` (`[stack]`)
 
@@ -1619,9 +1619,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1dd7f` (`[stack]`)
 
-|  Change |  Delta |             % |        Size | Objects | Callee                                 | Location                |
-| ------: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ----------------------- |
-| removed | -383 B | 100.0% → 0.0% | 383 B → 0 B |  39 → 0 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+|  Change |  Delta |             % |        Size | Objects | Callee                                 | Location                  |
+| ------: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -383 B | 100.0% → 0.0% | 383 B → 0 B |  39 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
 ##### `0x1e0ff` (`[stack]`)
 
@@ -1643,9 +1643,9 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `0x1e79f` (`[stack]`)
 
-|  Change |  Delta |             % |        Size | Objects | Callee                                 | Location                |
-| ------: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ----------------------- |
-| removed | -234 B | 100.0% → 0.0% | 234 B → 0 B |  39 → 0 | `__json_value_module_MOD_parse_object` | `json_value_module.F90` |
+|  Change |  Delta |             % |        Size | Objects | Callee                                 | Location                  |
+| ------: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -234 B | 100.0% → 0.0% | 234 B → 0 B |  39 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
 
 ##### `0xaaaab611fb07` (`<unknown>`)
 

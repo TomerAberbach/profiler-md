@@ -28,7 +28,7 @@ Functions with the largest increase in time spent directly in the function body,
 | +1595.0% | +163.92ms | 0.1% → 1.1% |  10.3ms → 174.2ms |   1 → 17 | `Hash#transform_keys [c function]`                                     | `<unknown>`                                                                                                                                                                                                                     |
 |   +89.1% | +121.18ms | 0.9% → 1.6% | 136.0ms → 257.2ms |  13 → 25 | `Kernel#dup [c function]`                                              | `<unknown>`                                                                                                                                                                                                                     |
 |      new | +105.17ms | 0.0% → 0.7% |     0ms → 105.2ms |   0 → 10 | `ActionView::Helpers::NumberHelper#number_with_delimiter`              | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-|   +42.7% | +101.40ms | 1.5% → 2.1% | 237.5ms → 339.0ms |  24 → 34 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb`                                                                                                                                                                                             |
+|   +42.7% | +101.40ms | 1.5% → 2.1% | 237.5ms → 339.0ms |  24 → 34 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb`                                                                                                                                                                                           |
 |   +92.7% |  +95.84ms | 0.7% → 1.3% | 103.3ms → 199.2ms |  10 → 19 | `Nokogiri::XML::Node#node_name [c function]`                           | `<unknown>`                                                                                                                                                                                                                     |
 |   +30.5% |  +93.78ms | 2.0% → 2.5% | 307.5ms → 401.3ms |  31 → 39 | `Nokogiri::HTML4::Document.new [c function]`                           | `<unknown>`                                                                                                                                                                                                                     |
 |  +820.7% |  +90.58ms | 0.1% → 0.6% |  11.0ms → 101.6ms |   1 → 10 | `Loofah::HTML5::Scrub.cdata_needs_escaping?`                           | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                                                                                |
@@ -92,9 +92,9 @@ Functions with the largest increase in time spent directly in the function body,
 
 ##### Ours
 
-| Change |     Delta |           % |              Time | Samples | Function                                                               | Location                            |
-| -----: | --------: | ----------: | ----------------: | ------: | ---------------------------------------------------------------------- | ----------------------------------- |
-| +42.7% | +101.40ms | 1.5% → 2.1% | 237.5ms → 339.0ms | 24 → 34 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb` |
+| Change |     Delta |           % |              Time | Samples | Function                                                               | Location                              |
+| -----: | --------: | ----------: | ----------------: | ------: | ---------------------------------------------------------------------- | ------------------------------------- |
+| +42.7% | +101.40ms | 1.5% → 2.1% | 237.5ms → 339.0ms | 24 → 34 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb` |
 
 ##### Standard library
 
@@ -190,9 +190,9 @@ Functions with the largest decrease in time spent directly in the function body,
 
 ##### Ours
 
-|  Change |    Delta |           % |         Time | Samples | Function                                                                                     | Location                                 |
-| ------: | -------: | ----------: | -----------: | ------: | -------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| removed | -19.71ms | 0.1% → 0.0% | 19.7ms → 0ms |   2 → 0 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `app/views/layouts/application.html.erb` |
+|  Change |    Delta |           % |         Time | Samples | Function                                                                                     | Location                                   |
+| ------: | -------: | ----------: | -----------: | ------: | -------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| removed | -19.71ms | 0.1% → 0.0% | 19.7ms → 0ms |   2 → 0 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `./app/views/layouts/application.html.erb` |
 
 ##### Standard library
 
@@ -226,11 +226,11 @@ Lines with the largest change in contribution to each function's self time.
 | -----: | --------: | ------------: | ------------: | ------: | ------------------------------------------------------------------------------------- |
 |    new | +105.17ms | 0.0% → 100.0% | 0ms → 105.2ms |  0 → 10 | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb:85` |
 
-##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`app/views/statuses/index.html.erb`)
+##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
 
-| Change |     Delta |      % |              Time | Samples | Location                               |
-| -----: | --------: | -----: | ----------------: | ------: | -------------------------------------- |
-| +42.7% | +101.40ms | 100.0% | 237.5ms → 339.0ms | 24 → 34 | `app/views/statuses/index.html.erb:29` |
+| Change |     Delta |      % |              Time | Samples | Location                                 |
+| -----: | --------: | -----: | ----------------: | ------: | ---------------------------------------- |
+| +42.7% | +101.40ms | 100.0% | 237.5ms → 339.0ms | 24 → 34 | `./app/views/statuses/index.html.erb:29` |
 
 ##### `Loofah::HTML5::Scrub.cdata_needs_escaping?` (`/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`)
 
@@ -526,11 +526,11 @@ Lines with the largest change in contribution to each function's self time.
 | ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------- |
 | removed | -21.20ms | 100.0% → 0.0% | 21.2ms → 0ms |   2 → 0 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/rendering.rb:187` |
 
-##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`app/views/layouts/application.html.erb`)
+##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`./app/views/layouts/application.html.erb`)
 
-|  Change |    Delta |             % |         Time | Samples | Location                                    |
-| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------- |
-| removed | -19.71ms | 100.0% → 0.0% | 19.7ms → 0ms |   2 → 0 | `app/views/layouts/application.html.erb:31` |
+|  Change |    Delta |             % |         Time | Samples | Location                                      |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------- |
+| removed | -19.71ms | 100.0% → 0.0% | 19.7ms → 0ms |   2 → 0 | `./app/views/layouts/application.html.erb:31` |
 
 ##### `String#unpack` (`<internal:pack>`)
 
@@ -647,11 +647,11 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `ActionView::Helpers::NumberHelper#number_with_delimiter` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`)
 
-| Change |     Delta |             % |          Time | Samples | Caller                                                                 | Location                            |
-| -----: | --------: | ------------: | ------------: | ------: | ---------------------------------------------------------------------- | ----------------------------------- |
-|    new | +105.17ms | 0.0% → 100.0% | 0ms → 105.2ms |  0 → 10 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb` |
+| Change |     Delta |             % |          Time | Samples | Caller                                                                 | Location                              |
+| -----: | --------: | ------------: | ------------: | ------: | ---------------------------------------------------------------------- | ------------------------------------- |
+|    new | +105.17ms | 0.0% → 100.0% | 0ms → 105.2ms |  0 → 10 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb` |
 
-##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`app/views/statuses/index.html.erb`)
+##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
 
 | Change |     Delta |      % |              Time | Samples | Caller       | Location           |
 | -----: | --------: | -----: | ----------------: | ------: | ------------ | ------------------ |
@@ -681,10 +681,10 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `ActionView::OutputBuffer#<<` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`)
 
-|  Change |    Delta |             % |             Time | Samples | Caller                                                                                       | Location                                 |
-| ------: | -------: | ------------: | ---------------: | ------: | -------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| +193.8% | +75.90ms | 42.4% → 71.8% | 39.2ms → 115.1ms |  4 → 12 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                       | `app/views/statuses/index.html.erb`      |
-|  -15.0% |  -8.01ms | 57.6% → 28.2% |  53.3ms → 45.3ms |   5 → 4 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `app/views/layouts/application.html.erb` |
+|  Change |    Delta |             % |             Time | Samples | Caller                                                                                       | Location                                   |
+| ------: | -------: | ------------: | ---------------: | ------: | -------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| +193.8% | +75.90ms | 42.4% → 71.8% | 39.2ms → 115.1ms |  4 → 12 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                       | `./app/views/statuses/index.html.erb`      |
+|  -15.0% |  -8.01ms | 57.6% → 28.2% |  53.3ms → 45.3ms |   5 → 4 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `./app/views/layouts/application.html.erb` |
 
 ##### `Array#join [c function]` (`<unknown>`)
 
@@ -899,7 +899,7 @@ Callers with the largest change in contribution to each function's self time. In
 | ------: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 |  -74.2% | -31.88ms |  45.8% → 9.8% | 42.9ms → 11.1ms |   4 → 1 | `Enumerable#detect [c function]`                                                      | `<unknown>`                                                                             |
 | +118.3% | +11.98ms | 10.8% → 19.6% | 10.1ms → 22.1ms |   1 → 2 | `Enumerable#inject [c function]`                                                      | `<unknown>`                                                                             |
-| removed | -11.35ms |  12.1% → 0.0% |    11.4ms → 0ms |   1 → 0 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb`                                                     |
+| removed | -11.35ms |  12.1% → 0.0% |    11.4ms → 0ms |   1 → 0 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb`                                                   |
 |  +55.9% | +11.15ms | 21.3% → 27.6% | 19.9ms → 31.1ms |   2 → 3 | `block in decorate`                                                                   | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
 |     new | +10.25ms |   0.0% → 9.1% |    0ms → 10.3ms |   0 → 1 | `I18n::Backend::Fallbacks#translate`                                                  | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`                      |
 
@@ -1125,9 +1125,9 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `Hash#dig [c function]` (`<unknown>`)
 
-| Change |    Delta |      % |            Time | Samples | Caller                                                                 | Location                            |
-| -----: | -------: | -----: | --------------: | ------: | ---------------------------------------------------------------------- | ----------------------------------- |
-| -43.6% | -21.56ms | 100.0% | 49.5ms → 27.9ms |   5 → 3 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb` |
+| Change |    Delta |      % |            Time | Samples | Caller                                                                 | Location                              |
+| -----: | -------: | -----: | --------------: | ------: | ---------------------------------------------------------------------- | ------------------------------------- |
+| -43.6% | -21.56ms | 100.0% | 49.5ms → 27.9ms |   5 → 3 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb` |
 
 ##### `Regexp#match? [c function]` (`<unknown>`)
 
@@ -1214,7 +1214,7 @@ Callers with the largest change in contribution to each function's self time. In
 | ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------ | ---------------------------------------------------------------------- |
 | removed | -21.20ms | 100.0% → 0.0% | 21.2ms → 0ms |   2 → 0 | `ActionView::Layouts#_process_render_template_options` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/layouts.rb` |
 
-##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`app/views/layouts/application.html.erb`)
+##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`./app/views/layouts/application.html.erb`)
 
 |  Change |    Delta |             % |         Time | Samples | Caller                            | Location    |
 | ------: | -------: | ------------: | -----------: | ------: | --------------------------------- | ----------- |
@@ -1290,9 +1290,9 @@ Functions with the largest increase in total time spent in the function and all 
 | +82.5% | +585.18ms |   4.5% → 8.2% | 709.7ms → 1.29s |      70 → 126 | `Module#extend_object [c function]`                                                   | `<unknown>`                                                                                                                                                                                   |
 | +75.9% | +584.96ms |   4.9% → 8.6% | 771.1ms → 1.35s |      75 → 131 | `block (2 levels) in decorate`                                                        | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                       |
 | +37.5% | +504.36ms |  8.5% → 11.7% |   1.34s → 1.84s |     130 → 180 | `Rails::HTML::PermitScrubber#scrub_attributes`                                        | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                               |
-|  +3.9% | +492.83ms | 79.7% → 82.7% | 12.55s → 13.04s | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                | `app/views/statuses/index.html.erb`                                                                                                                                                           |
+|  +3.9% | +492.83ms | 79.7% → 82.7% | 12.55s → 13.04s | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                | `./app/views/statuses/index.html.erb`                                                                                                                                                         |
 | +26.6% | +483.34ms | 11.5% → 14.6% |   1.81s → 2.30s |     178 → 223 | `Loofah.html5_fragment`                                                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah.rb`                                                                                                                                          |
-|  +3.8% | +479.26ms | 79.9% → 82.9% | 12.58s → 13.06s | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb`                                                                                                                                                           |
+|  +3.8% | +479.26ms | 79.9% → 82.9% | 12.58s → 13.06s | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb`                                                                                                                                                         |
 |  +3.8% | +479.26ms | 79.9% → 82.9% | 12.58s → 13.06s | 1,236 → 1,277 | `block (2 levels) in render_template`                                                 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`             |
 |  +3.8% | +479.07ms | 80.1% → 83.1% | 12.61s → 13.09s | 1,239 → 1,280 | `block in render_template`                                                            | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`             |
 | +25.9% | +473.10ms | 11.6% → 14.6% |   1.82s → 2.30s |     179 → 223 | `Rails::HTML::Concern::Parser::HTML5#parse_fragment`                                  | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                               |
@@ -1356,12 +1356,12 @@ Functions with the largest increase in total time spent in the function and all 
 
 ##### Ours
 
-| Change |     Delta |              % |            Time |       Samples | Function                                                                              | Location                            |
-| -----: | --------: | -------------: | --------------: | ------------: | ------------------------------------------------------------------------------------- | ----------------------------------- |
-|  +3.9% | +492.83ms |  79.7% → 82.7% | 12.55s → 13.04s | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                | `app/views/statuses/index.html.erb` |
-|  +3.8% | +479.26ms |  79.9% → 82.9% | 12.58s → 13.06s | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb` |
-|  +0.1% |   +9.64ms | 100.0% → 99.9% | 15.74s → 15.75s | 1,554 → 1,553 | `<main>`                                                                              | `profile.rb`                        |
-| +13.3% |   +1.25ms |           0.1% |  9.4ms → 10.7ms |             1 | `<compiled>`                                                                          | `Gemfile`                           |
+| Change |     Delta |              % |            Time |       Samples | Function                                                                              | Location                              |
+| -----: | --------: | -------------: | --------------: | ------------: | ------------------------------------------------------------------------------------- | ------------------------------------- |
+|  +3.9% | +492.83ms |  79.7% → 82.7% | 12.55s → 13.04s | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                | `./app/views/statuses/index.html.erb` |
+|  +3.8% | +479.26ms |  79.9% → 82.9% | 12.58s → 13.06s | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb` |
+|  +0.1% |   +9.64ms | 100.0% → 99.9% | 15.74s → 15.75s | 1,554 → 1,553 | `<main>`                                                                              | `profile.rb`                          |
+| +13.3% |   +1.25ms |           0.1% |  9.4ms → 10.7ms |             1 | `<compiled>`                                                                          | `./Gemfile`                           |
 
 ##### Standard library
 
@@ -1411,7 +1411,7 @@ Functions with the largest decrease in total time spent in the function and all 
 | -34.5% | -317.80ms |   5.9% → 3.8% | 922.5ms → 604.7ms |   94 → 67 | `Digest::Base#<< [c function]`                                                    | `<unknown>`                                                                                                                                                                                                                     |
 | -34.5% | -317.80ms |   5.9% → 3.8% | 922.5ms → 604.7ms |   94 → 67 | `block in digest_body`                                                            | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                                                                                            |
 | -51.4% | -300.97ms |   3.7% → 1.8% | 585.5ms → 284.6ms |   57 → 28 | `String#encode [c function]`                                                      | `<unknown>`                                                                                                                                                                                                                     |
-| -70.8% | -241.99ms |   2.2% → 0.6% |  341.6ms → 99.6ms |   33 → 10 | `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb`                                                                                                                                                                                             |
+| -70.8% | -241.99ms |   2.2% → 0.6% |  341.6ms → 99.6ms |   33 → 10 | `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb`                                                                                                                                                                                           |
 | -53.1% | -192.20ms |   2.3% → 1.1% | 362.1ms → 169.9ms |   36 → 17 | `block in evaluate`                                                               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                                                           |
 | -55.3% | -172.25ms |   2.0% → 0.9% | 311.6ms → 139.4ms |   31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                                                   |
 
@@ -1467,10 +1467,10 @@ Functions with the largest decrease in total time spent in the function and all 
 
 ##### Ours
 
-| Change |     Delta |           % |              Time | Samples | Function                                                                                     | Location                                 |
-| -----: | --------: | ----------: | ----------------: | ------: | -------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| -70.8% | -241.99ms | 2.2% → 0.6% |  341.6ms → 99.6ms | 33 → 10 | `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128`            | `app/views/statuses/index.html.erb`      |
-| -24.7% | -135.20ms | 3.5% → 2.6% | 546.9ms → 411.7ms | 52 → 39 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `app/views/layouts/application.html.erb` |
+| Change |     Delta |           % |              Time | Samples | Function                                                                                     | Location                                   |
+| -----: | --------: | ----------: | ----------------: | ------: | -------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| -70.8% | -241.99ms | 2.2% → 0.6% |  341.6ms → 99.6ms | 33 → 10 | `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128`            | `./app/views/statuses/index.html.erb`      |
+| -24.7% | -135.20ms | 3.5% → 2.6% | 546.9ms → 411.7ms | 52 → 39 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `./app/views/layouts/application.html.erb` |
 
 ##### Standard library
 
@@ -1547,7 +1547,7 @@ Callees with the largest change in contribution to each function's total time. I
 | +154.5% | +178.72ms |  8.6% → 15.9% | 115.7ms → 294.4ms |  11 → 28 | `Rails::HTML::PermitScrubber#scrub_css_attribute`  | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb` |
 |   -6.0% |  -19.93ms | 24.7% → 16.9% | 331.8ms → 311.9ms |  32 → 30 | `Nokogiri::XML::Node#attribute_nodes [c function]` | `<unknown>`                                                                     |
 
-##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`app/views/statuses/index.html.erb`)
+##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
 
 | Change |     Delta |             % |              Time |   Samples | Callee                                                    | Location                                                                                                                                                                    |
 | -----: | --------: | ------------: | ----------------: | --------: | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1563,7 +1563,7 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | --------: | -------------: | ------------: | --------: | -------------------------------------------------- | ------------------------------------------------------------- |
 | +25.5% | +463.62ms | 100.0% → 99.1% | 1.81s → 2.28s | 178 → 221 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse` | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb` |
 
-##### `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` (`app/views/statuses/index.html.erb`)
+##### `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
 
 | Change |     Delta |             % |            Time |       Samples | Callee                                      | Location                                                                                                                                                            |
 | -----: | --------: | ------------: | --------------: | ------------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1654,8 +1654,8 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |     Delta |             % |              Time |       Samples | Callee                                                                                       | Location                                                                                                                                                            |
 | -----: | --------: | ------------: | ----------------: | ------------: | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | -23.3% | -769.65ms | 25.1% → 18.8% |     3.30s → 2.53s |     323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                                            | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb` |
-|  +3.8% | +479.26ms | 95.8% → 96.9% |   12.58s → 13.06s | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128`        | `app/views/statuses/index.html.erb`                                                                                                                                 |
-| -24.7% | -135.20ms |   4.2% → 3.1% | 546.9ms → 411.7ms |       52 → 39 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `app/views/layouts/application.html.erb`                                                                                                                            |
+|  +3.8% | +479.26ms | 95.8% → 96.9% |   12.58s → 13.06s | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128`        | `./app/views/statuses/index.html.erb`                                                                                                                               |
+| -24.7% | -135.20ms |   4.2% → 3.1% | 546.9ms → 411.7ms |       52 → 39 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `./app/views/layouts/application.html.erb`                                                                                                                          |
 
 ##### `Integer#upto [c function]` (`<unknown>`)
 
@@ -1786,7 +1786,7 @@ Callees with the largest change in contribution to each function's total time. I
 | removed |  -9.59ms |   0.1% → 0.0% |       9.6ms → 0ms |         1 → 0 | `Time.now`                             | `<internal:timev>`                                                                                                        |
 |     new |  +7.71ms |  0.0% → <0.1% |       0ms → 7.7ms |         0 → 1 | `Comparable#< [c function]`            | `<unknown>`                                                                                                               |
 
-##### `<compiled>` (`Gemfile`)
+##### `<compiled>` (`./Gemfile`)
 
 | Change |   Delta |      % |           Time | Samples | Callee                | Location                                   |
 | -----: | ------: | -----: | -------------: | ------: | --------------------- | ------------------------------------------ |
@@ -1813,7 +1813,7 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |     Delta |             % |              Time |       Samples | Callee                                                                 | Location                                                                                                                                                          |
 | -----: | --------: | ------------: | ----------------: | ------------: | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | +75.9% | +584.96ms |   5.3% → 9.3% |   771.1ms → 1.35s |      75 → 131 | `block (2 levels) in decorate`                                         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                           |
-|  +3.9% | +492.83ms | 86.0% → 89.1% |   12.55s → 13.04s | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `app/views/statuses/index.html.erb`                                                                                                                               |
+|  +3.9% | +492.83ms | 86.0% → 89.1% |   12.55s → 13.04s | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb`                                                                                                                             |
 |  +2.7% | +370.07ms | 93.2% → 95.5% |   13.61s → 13.98s | 1,336 → 1,368 | `block in recognize`                                                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router.rb` |
 | +36.7% | +326.06ms |   6.1% → 8.3% |   888.7ms → 1.21s |      86 → 119 | `block in scrub_attributes`                                            | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                   |
 | -34.5% | -317.80ms |   6.3% → 4.1% | 922.5ms → 604.7ms |       94 → 67 | `block in digest_body`                                                 | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                              |
@@ -2018,7 +2018,7 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | --------: | -----: | ----------------: | ------: | ------------------------------ | ----------- |
 | -34.5% | -317.80ms | 100.0% | 922.5ms → 604.7ms | 94 → 67 | `Digest::Base#<< [c function]` | `<unknown>` |
 
-##### `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` (`app/views/statuses/index.html.erb`)
+##### `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
 
 | Change |     Delta |             % |             Time | Samples | Callee                                   | Location                                                                                                                                                                |
 | -----: | --------: | ------------: | ---------------: | ------: | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -2104,7 +2104,7 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | --------: | -----: | ----------------: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | -40.5% | -167.79ms | 100.0% | 413.9ms → 246.1ms | 40 → 25 | `ActionDispatch::Journey::Format#evaluate` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
 
-##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`app/views/layouts/application.html.erb`)
+##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`./app/views/layouts/application.html.erb`)
 
 | Change |     Delta |             % |              Time | Samples | Callee                                                    | Location                                                                                                                                                                      |
 | -----: | --------: | ------------: | ----------------: | ------: | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

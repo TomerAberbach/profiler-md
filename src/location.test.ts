@@ -27,14 +27,14 @@ const format = ({
 
 test(`file URL relative to baseURL in same directory`, () => {
   expect(format({ url: `file:///project/file.ts`, baseURL: `/project` })).toBe(
-    `file.ts`,
+    `./file.ts`,
   )
 })
 
 test(`file URL relative to baseURL in subdirectory`, () => {
   expect(
     format({ url: `file:///project/src/file.ts`, baseURL: `/project` }),
-  ).toBe(`src/file.ts`)
+  ).toBe(`./src/file.ts`)
 })
 
 test(`file URL relative to baseURL in parent directory`, () => {
@@ -141,13 +141,13 @@ test(`appends line and column`, () => {
       column: 5,
       baseURL: `/project`,
     }),
-  ).toBe(`file.ts:10:5`)
+  ).toBe(`./file.ts:10:5`)
 })
 
 test(`appends line without column`, () => {
   expect(
     format({ url: `file:///project/file.ts`, line: 10, baseURL: `/project` }),
-  ).toBe(`file.ts:10`)
+  ).toBe(`./file.ts:10`)
 })
 
 test(`baseURL: null shows absolute pathname for file URLs`, () => {
@@ -165,7 +165,7 @@ test(`decodes the percent-escapes of an absolute file path`, () => {
 test(`decodes the percent-escapes of a path relative to baseURL`, () => {
   expect(
     format({ url: `file:///project/my src/a b.ts`, baseURL: `/project` }),
-  ).toBe(`my src/a b.ts`)
+  ).toBe(`./my src/a b.ts`)
 })
 
 test(`leaves a path with an invalid percent-escape alone`, () => {
@@ -203,14 +203,14 @@ test(`file path under a baseURL containing URL syntax formats relative to it`, (
       path: `/home/C#/project?/src/a.ts`,
       baseURL: `/home/C#/project?`,
     }),
-  ).toBe(`src/a.ts`)
+  ).toBe(`./src/a.ts`)
 })
 
 test.each([
-  [`C:\\project\\src\\a.cs`, `C:\\project`, `src/a.cs`],
-  [`C:/project/src/a.cs`, `C:\\project\\`, `src/a.cs`],
+  [`C:\\project\\src\\a.cs`, `C:\\project`, `./src/a.cs`],
+  [`C:/project/src/a.cs`, `C:\\project\\`, `./src/a.cs`],
   [`C:\\Windows\\System32\\ntdll.dll`, null, `C:/Windows/System32/ntdll.dll`],
-  [`\\\\server\\share\\project\\a.cs`, `\\\\server\\share\\project`, `a.cs`],
+  [`\\\\server\\share\\project\\a.cs`, `\\\\server\\share\\project`, `./a.cs`],
   [`\\\\server\\share\\a.cs`, null, `//server/share/a.cs`],
 ])(
   `Windows path %s with baseURL %s formats as %s`,
@@ -220,9 +220,9 @@ test.each([
 )
 
 test.each([
-  [`/private/tmp/project/a.ts`, `/tmp/project`, `a.ts`],
-  [`/tmp/project/a.ts`, `/private/tmp/project`, `a.ts`],
-  [`/private/var/project/a.ts`, `/var/project`, `a.ts`],
+  [`/private/tmp/project/a.ts`, `/tmp/project`, `./a.ts`],
+  [`/tmp/project/a.ts`, `/private/tmp/project`, `./a.ts`],
+  [`/private/var/project/a.ts`, `/var/project`, `./a.ts`],
   [`/private/project/a.ts`, `/project`, `/private/project/a.ts`],
 ])(
   `macOS path %s under baseURL %s formats as %s`,
@@ -237,7 +237,7 @@ test(`file path with empty segments under baseURL formats relative to it`, () =>
       path: `/src/zstd/lib//common/bitstream.h`,
       baseURL: `/src/zstd/lib`,
     }),
-  ).toBe(`common/bitstream.h`)
+  ).toBe(`./common/bitstream.h`)
 })
 
 test(`baseURL: null shows full href for HTTP URLs`, () => {
@@ -261,7 +261,7 @@ test(`HTTP URL relative to same-origin HTTP baseURL keeps the query string`, () 
       url: `https://example.com/w/load.php?modules=startup`,
       baseURL: `https://example.com/w/`,
     }),
-  ).toBe(`load.php?modules=startup`)
+  ).toBe(`./load.php?modules=startup`)
 })
 
 test(`HTTP URL shows full href when origin differs from baseURL`, () => {
@@ -279,7 +279,7 @@ test(`webpack URL relative to same-bundle webpack baseURL`, () => {
       url: `webpack://my-app/src/file.ts`,
       baseURL: `webpack://my-app/src/`,
     }),
-  ).toBe(`file.ts`)
+  ).toBe(`./file.ts`)
 })
 
 test(`webpack URL shows full href when bundle differs from baseURL`, () => {
@@ -409,6 +409,21 @@ describe(`makeFileReference`, () => {
       expect(makeFileReference(urlOrPath)).toStrictEqual({
         type: `absolute`,
         url: new URL(expected),
+      })
+    },
+  )
+
+  test.each([
+    [`./string/../sysdeps/memcpy.S`, `sysdeps/memcpy.S`],
+    [`./elf/./elf/dl-lookup.c`, `elf/elf/dl-lookup.c`],
+    [`lib//compress/hist.c`, `lib/compress/hist.c`],
+    [`../lib/a.c`, `../lib/a.c`],
+  ])(
+    `resolves the dot and empty segments of relative path %s`,
+    (path, expected) => {
+      expect(makeFileReference(path)).toStrictEqual({
+        type: `relative`,
+        path: expected,
       })
     },
   )

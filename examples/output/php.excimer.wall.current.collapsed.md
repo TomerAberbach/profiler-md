@@ -185,7 +185,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 |      % | Samples | Function              | Location                                       |
 | -----: | ------: | --------------------- | ---------------------------------------------- |
-| 100.0% |   3,944 | `(anonymous)`         | `profile.php`                                  |
+| 100.0% |   3,944 | `(anonymous)`         | `./profile.php`                                |
 |  99.9% |   3,940 | `run`                 | `Symfony\Component\Console\Application`        |
 |  99.9% |   3,940 | `run`                 | `Composer\Console\Application`                 |
 |  99.5% |   3,923 | `doRun`               | `Composer\Console\Application`                 |
@@ -210,13 +210,13 @@ Functions ranked by total samples taken in the function and all its callees.
 
 Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
-##### `(anonymous)` (`profile.php`)
+##### `(anonymous)` (`./profile.php`)
 
 |     % | Samples | Callee        | Location                        |
 | ----: | ------: | ------------- | ------------------------------- |
 | 99.9% |   3,940 | `run`         | `Composer\Console\Application`  |
 |  0.1% |       2 | `__construct` | `Composer\Console\Application`  |
-| <0.1% |       1 | `(anonymous)` | `composer/src/bootstrap.php`    |
+| <0.1% |       1 | `(anonymous)` | `./composer/src/bootstrap.php`  |
 | <0.1% |       1 | `loadClass`   | `Composer\Autoload\ClassLoader` |
 
 ##### `run` (`Symfony\Component\Console\Application`)
@@ -366,7 +366,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 Call stacks ranked by samples taken in their leaf frame.
 
-Common call stack: `doRun` (`Composer\Console\Application`) ← `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(anonymous)` (`profile.php`)
+Common call stack: `doRun` (`Composer\Console\Application`) ← `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(anonymous)` (`./profile.php`)
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

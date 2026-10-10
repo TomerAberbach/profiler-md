@@ -383,14 +383,14 @@ describe(`profileToMd`, () => {
             Time: `0.1ms`,
             Samples: `5`,
             Function: `funcA`,
-            Location: `src/a.ts:1:1`,
+            Location: `./src/a.ts:1:1`,
           },
           {
             '%': `27.3%`,
             Time: `0.1ms`,
             Samples: `3`,
             Function: `funcB`,
-            Location: `lib/b.ts:1:1`,
+            Location: `./lib/b.ts:1:1`,
           },
           {
             '%': `18.2%`,
@@ -503,14 +503,14 @@ describe(`profileToMd`, () => {
             Time: `0.1ms`,
             Samples: `3`,
             Function: `startup`,
-            Location: `load.php?modules=startup:1:1`,
+            Location: `./load.php?modules=startup:1:1`,
           },
           {
             '%': `25.0%`,
             Time: `20.0µs`,
             Samples: `1`,
             Function: `cookie`,
-            Location: `load.php?modules=mediawiki.cookie:1:1`,
+            Location: `./load.php?modules=mediawiki.cookie:1:1`,
           },
         ],
       ])
@@ -563,14 +563,14 @@ describe(`profileToMd`, () => {
             Time: `0.1ms`,
             Samples: `5`,
             Function: `funcA`,
-            Location: `src/a.ts:1:1`,
+            Location: `./src/a.ts:1:1`,
           },
           {
             '%': `30.0%`,
             Time: `0.1ms`,
             Samples: `3`,
             Function: `funcB`,
-            Location: `lib/b.ts:1:1`,
+            Location: `./lib/b.ts:1:1`,
           },
           {
             '%': `20.0%`,
@@ -625,7 +625,7 @@ describe(`profileToMd`, () => {
             Time: `0.1ms`,
             Samples: `5`,
             Function: `funcA`,
-            Location: `foo.ts:1:1`,
+            Location: `./foo.ts:1:1`,
           },
         ],
       ])
@@ -1470,7 +1470,7 @@ describe(`diffProfiles`, () => {
         Time: `0.1ms → 0.2ms`,
         Samples: `5 → 10`,
         Function: `funcA`,
-        Location: `src/a.ts:1:1`,
+        Location: `./src/a.ts:1:1`,
       }
       const funcC = {
         Change: `new`,
@@ -1479,7 +1479,7 @@ describe(`diffProfiles`, () => {
         Time: `0ms → 40.0µs`,
         Samples: `0 → 2`,
         Function: `funcC`,
-        Location: `src/c.ts:1:1`,
+        Location: `./src/c.ts:1:1`,
       }
       const funcB = {
         Change: `removed`,
@@ -1488,7 +1488,7 @@ describe(`diffProfiles`, () => {
         Time: `0.1ms → 0ms`,
         Samples: `3 → 0`,
         Function: `funcB`,
-        Location: `src/b.ts:1:1`,
+        Location: `./src/b.ts:1:1`,
       }
       expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
         [funcA, funcC],
@@ -1535,7 +1535,7 @@ describe(`diffProfiles`, () => {
             Time: `0ms → 0.1ms`,
             Samples: `0 → 5`,
             Function: `funcA`,
-            Location: `lib/a.ts:1:1`,
+            Location: `./lib/a.ts:1:1`,
           },
         ],
       ])
@@ -1548,7 +1548,7 @@ describe(`diffProfiles`, () => {
             Time: `0.1ms → 0ms`,
             Samples: `5 → 0`,
             Function: `funcA`,
-            Location: `src/a.ts:1:1`,
+            Location: `./src/a.ts:1:1`,
           },
         ],
       ])
@@ -1682,7 +1682,7 @@ describe(`diffProfiles`, () => {
             Time: `0.1ms → 0.2ms`,
             Samples: `5 → 10`,
             Function: `funcA`,
-            Location: `src/a-111.ts:1:1 → src/a-222.ts:1:1`,
+            Location: `./src/a-111.ts:1:1 → ./src/a-222.ts:1:1`,
           },
         ],
       ])

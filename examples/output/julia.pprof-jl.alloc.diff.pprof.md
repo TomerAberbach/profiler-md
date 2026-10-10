@@ -44,10 +44,10 @@ Functions with the largest increase in total bytes allocated in the function and
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `maybe_record_alloc_to_profile` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43` |
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `#write#58`                     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:38 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38`                                               |
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `write`                         | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:37 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:37`                                               |
-| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `parse_workload`                | `profile.jl:18`                                                                                                                                                                                                                                       |
+| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `parse_workload`                | `./profile.jl:18`                                                                                                                                                                                                                                     |
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `macro expansion`               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82`                                                                                                                                      |
-| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `capture_alloc`                 | `profile.jl:61`                                                                                                                                                                                                                                       |
-| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`                          | `profile.jl:90`                                                                                                                                                                                                                                       |
+| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `capture_alloc`                 | `./profile.jl:61`                                                                                                                                                                                                                                     |
+| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`                          | `./profile.jl:90`                                                                                                                                                                                                                                     |
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_apply`                      | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318`           |
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `do_call`                       | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123`      |
 | +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `eval_stmt_value`               | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:194`      |
@@ -160,7 +160,7 @@ Callees with the largest change in contribution to each function's total size. I
 | +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `#write#58` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:38 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38` |
 | +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `write`     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:37 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:37` |
 
-##### `parse_workload` (`profile.jl:18`)
+##### `parse_workload` (`./profile.jl:18`)
 
 | Change |       Delta |      % |             Size |   Allocations | Callee  | Location                                                                                                                                                                                                |
 | -----: | ----------: | -----: | ---------------: | ------------: | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -168,28 +168,28 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82`)
 
-| Change |       Delta |      % |             Size |   Allocations | Callee           | Location        |
-| -----: | ----------: | -----: | ---------------: | ------------: | ---------------- | --------------- |
-| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `parse_workload` | `profile.jl:18` |
+| Change |       Delta |      % |             Size |   Allocations | Callee           | Location          |
+| -----: | ----------: | -----: | ---------------: | ------------: | ---------------- | ----------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `parse_workload` | `./profile.jl:18` |
 
-##### `capture_alloc` (`profile.jl:61`)
+##### `capture_alloc` (`./profile.jl:61`)
 
 | Change |       Delta |      % |             Size |   Allocations | Callee            | Location                                                                                                         |
 | -----: | ----------: | -----: | ---------------: | ------------: | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
 | +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82` |
 
-##### `main` (`profile.jl:90`)
+##### `main` (`./profile.jl:90`)
 
-| Change |       Delta |      % |             Size |   Allocations | Callee          | Location        |
-| -----: | ----------: | -----: | ---------------: | ------------: | --------------- | --------------- |
-| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `capture_alloc` | `profile.jl:61` |
-| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`          | `profile.jl:90` |
+| Change |       Delta |      % |             Size |   Allocations | Callee          | Location          |
+| -----: | ----------: | -----: | ---------------: | ------------: | --------------- | ----------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `capture_alloc` | `./profile.jl:61` |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`          | `./profile.jl:90` |
 
 ##### `jl_apply` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318`)
 
 | Change |       Delta |      % |             Size |   Allocations | Callee     | Location                                                                                      |
 | -----: | ----------: | -----: | ---------------: | ------------: | ---------- | --------------------------------------------------------------------------------------------- |
-| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`     | `profile.jl:90`                                                                               |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`     | `./profile.jl:90`                                                                             |
 | +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `_start()` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:570` |
 
 ##### `do_call` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123`)

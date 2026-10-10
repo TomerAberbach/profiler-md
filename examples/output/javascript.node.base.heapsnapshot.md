@@ -1196,7 +1196,7 @@ Strings ranked by bytes allocated for them.
 
 |     % |     Size | Value                                                    | Path                                                            |
 | ----: | -------: | -------------------------------------------------------- | --------------------------------------------------------------- |
-| <0.1% | 1.91 KiB | `import { readFileSync } from 'node:fs'\nimport { a…`    | `.source heap-snapshot.mjs ← .script (shared function info)`    |
+| <0.1% | 1.91 KiB | `import { readFileSync } from 'node:fs'\nimport { a…`    | `.source ./heap-snapshot.mjs ← .script (shared function info)`  |
 | <0.1% | 1.45 KiB | `^(?:(?:(?:[0-9a-fA-F]{1,4}):){7}(?:(?:[0-9a-fA-F]…`     | `(GC root)`                                                     |
 | <0.1% |    432 B | `TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA2…`     | `(GC root)`                                                     |
 | <0.1% |    432 B | `TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA2…`     | `.--tls-cipher-list Object ← .optionsDict system / Context`     |

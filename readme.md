@@ -67,13 +67,13 @@ Took 2.51s over 2,563 samples (982.2µs per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|    % |    Time | Samples | Function                               | Location                                             |
-| ---: | ------: | ------: | -------------------------------------- | ---------------------------------------------------- |
-| 7.5% | 187.7ms |     153 | `(garbage collector)`                  | `<unknown>`                                          |
-| 3.4% |  86.5ms |      69 | `wrapSafe`                             | `node:internal/modules/cjs/loader:1671:18`           |
-| 2.7% |  69.0ms |      65 | `recursiveTypeRelatedTo`               | `node_modules/typescript/lib/typescript.js:67063:36` |
-| 1.9% |  48.8ms |      52 | `instantiateTypeWorker`                | `node_modules/typescript/lib/typescript.js:65023:33` |
-| 1.5% |  38.9ms |      33 | `checkTypeRelatedTo`                   | `node_modules/typescript/lib/typescript.js:66185:30` |
+|    % |    Time | Samples | Function                               | Location                                               |
+| ---: | ------: | ------: | -------------------------------------- | ------------------------------------------------------ |
+| 7.5% | 187.7ms |     153 | `(garbage collector)`                  | `<unknown>`                                            |
+| 3.4% |  86.5ms |      69 | `wrapSafe`                             | `node:internal/modules/cjs/loader:1671:18`             |
+| 2.7% |  69.0ms |      65 | `recursiveTypeRelatedTo`               | `./node_modules/typescript/lib/typescript.js:67063:36` |
+| 1.9% |  48.8ms |      52 | `instantiateTypeWorker`                | `./node_modules/typescript/lib/typescript.js:65023:33` |
+| 1.5% |  38.9ms |      33 | `checkTypeRelatedTo`                   | `./node_modules/typescript/lib/typescript.js:66185:30` |
 …
 ```
 

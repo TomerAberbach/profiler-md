@@ -616,9 +616,9 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig`)
 
-|  Change |    Delta |      % |            Time | Samples | Caller         | Location      |
-| ------: | -------: | -----: | --------------: | ------: | -------------- | ------------- |
-| +112.5% | +18.00ms | 100.0% | 16.0ms → 34.0ms | 16 → 34 | `profile.main` | `profile.zig` |
+|  Change |    Delta |      % |            Time | Samples | Caller         | Location        |
+| ------: | -------: | -----: | --------------: | ------: | -------------- | --------------- |
+| +112.5% | +18.00ms | 100.0% | 16.0ms → 34.0ms | 16 → 34 | `profile.main` | `./profile.zig` |
 
 ##### `zig.Ast.Render.AutoIndentingStream.currentIndent` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
 
@@ -1035,7 +1035,7 @@ Functions with the largest increase in total time spent in the function and all 
 |      new |   +5.796s | 0.0% → 100.0% |      0ms → 5.79s |     0 → 5,796 | `start.main`                                         | `/opt/zig/lib/std/start.zig`                      |
 | +9832.1% |   +2.753s |  0.5% → 48.0% |   28.0ms → 2.78s |    28 → 2,781 | `zig.Ast.Render.renderBlock`                         | `/opt/zig/lib/std/zig/Ast/Render.zig`             |
 |      new | +760.00ms |  0.0% → 13.1% |    0ms → 760.0ms |       0 → 760 | `zig.Ast.parseTokens`                                | `/opt/zig/lib/std/zig/Ast.zig`                    |
-|   +10.7% | +559.00ms |         99.9% |    5.23s → 5.79s | 5,232 → 5,791 | `profile.main`                                       | `profile.zig`                                     |
+|   +10.7% | +559.00ms |         99.9% |    5.23s → 5.79s | 5,232 → 5,791 | `profile.main`                                       | `./profile.zig`                                   |
 |   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `start.callMain`                                     | `/opt/zig/lib/std/start.zig`                      |
 |   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `start.callMainWithArgs`                             | `/opt/zig/lib/std/start.zig`                      |
 |   +10.7% | +559.00ms |        100.0% |    5.23s → 5.79s | 5,237 → 5,796 | `0x27743`                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
@@ -1207,7 +1207,7 @@ Callees with the largest change in contribution to each function's total time. I
 |    new | +579.00ms | 0.0% → 76.2% | 0ms → 579.0ms | 0 → 579 | `zig.Parse.parseRoot`                                               | `/opt/zig/lib/std/zig/Parse.zig`        |
 |    new | +181.00ms | 0.0% → 23.8% | 0ms → 181.0ms | 0 → 181 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureTotalCapacity` | `/opt/zig/lib/std/multi_array_list.zig` |
 
-##### `profile.main` (`profile.zig`)
+##### `profile.main` (`./profile.zig`)
 
 |  Change |     Delta |             % |          Time |       Samples | Callee                                   | Location                       |
 | ------: | --------: | ------------: | ------------: | ------------: | ---------------------------------------- | ------------------------------ |
@@ -1221,7 +1221,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |       Samples | Callee                                                                                | Location                                |
 | ------: | --------: | -----------: | ------------: | ------------: | ------------------------------------------------------------------------------------- | --------------------------------------- |
-|  +10.7% | +559.00ms |        99.9% | 5.23s → 5.79s | 5,232 → 5,791 | `profile.main`                                                                        | `profile.zig`                           |
+|  +10.7% | +559.00ms |        99.9% | 5.23s → 5.79s | 5,232 → 5,791 | `profile.main`                                                                        | `./profile.zig`                         |
 | removed |   -3.00ms |  0.1% → 0.0% |   3.0ms → 0ms |         3 → 0 | `0x9d200`                                                                             | `/usr/lib/aarch64-linux-gnu/libc.so.6`  |
 |     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).ensureTotalCapacity` | `/opt/zig/lib/std/multi_array_list.zig` |
 | removed |   -1.00ms | <0.1% → 0.0% |   1.0ms → 0ms |         1 → 0 | `zig.Ast.Render.renderContainerDocComments`                                           | `/opt/zig/lib/std/zig/Ast/Render.zig`   |
