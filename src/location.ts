@@ -120,7 +120,7 @@ export const makeFileReference = (
     try {
       return {
         type: `absolute`,
-        url: withoutDotSegments(new URL(`file://${urlOrPath}`)),
+        url: filePathURL(urlOrPath),
       }
     } catch {
       return { type: `relative`, path: urlOrPath }
@@ -137,6 +137,27 @@ export const makeFileReference = (
     return { type: `relative`, path: urlOrPath }
   }
 }
+
+/** Returns the `file:` URL of an absolute file path. */
+export const filePathURL = (path: string): URL => {
+  const url = new URL(`file://${escapeFilePath(path)}`)
+  // The URL's pathname is the escaped path, so it has a dot segment only when
+  // the path does.
+  return path.includes(`/.`) ? withoutDotSegments(url) : url
+}
+
+/**
+ * Percent-escapes the characters a URL parser reads as syntax or drops from a
+ * path: `%` (an escape), `#` (a fragment), `?` (a query), a backslash (a
+ * separator in a `file:` URL), and tabs and newlines. {@link decodePathname}
+ * restores them.
+ */
+const escapeFilePath = (path: string): string =>
+  path.search(FILE_PATH_URL_SYNTAX) === -1
+    ? path
+    : path.replaceAll(FILE_PATH_URL_SYNTAX, encodeURIComponent)
+
+const FILE_PATH_URL_SYNTAX = /[%#?\\\t\n\r]/gu
 
 /**
  * Resolves the `.` and `..` segments the URL parser leaves in a path.

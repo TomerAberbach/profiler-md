@@ -174,6 +174,38 @@ test(`leaves a path with an invalid percent-escape alone`, () => {
   )
 })
 
+const formatPath = ({
+  path,
+  baseURL,
+}: {
+  path: string
+  baseURL: string | null
+}) =>
+  formatSourceLocation(
+    makeSourceLocation({ type: `file`, urlOrPath: path }),
+    resolveProfileToMdOptions({ baseURL }),
+  )
+
+test.each([
+  [`/project/src/a#b.ts`],
+  [`/project/src/a?.ts`],
+  [`/project/src/%41.ts`],
+  [`/project/src/100%.ts`],
+  [`/project/src/a\\b.ts`],
+  [`/project/src/a\tb.ts`],
+])(`file path %j with URL syntax formats verbatim`, path => {
+  expect(formatPath({ path, baseURL: null })).toBe(path)
+})
+
+test(`file path under a baseURL containing URL syntax formats relative to it`, () => {
+  expect(
+    formatPath({
+      path: `/home/C#/project?/src/a.ts`,
+      baseURL: `/home/C#/project?`,
+    }),
+  ).toBe(`src/a.ts`)
+})
+
 test(`baseURL: null shows full href for HTTP URLs`, () => {
   expect(
     format({ url: `https://example.com/src/file.ts`, baseURL: null }),
