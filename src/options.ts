@@ -2,6 +2,7 @@ import { ProfilerMdError } from './error.ts'
 import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import {
+  filePathURL,
   makeFileReference,
   sourceReferenceId,
   sourceReferenceKind,
@@ -409,7 +410,7 @@ const normalizeBaseURL = (
   let url: URL | undefined
   if (baseURL === undefined) {
     if (typeof process !== `undefined`) {
-      url = new URL(`file://${process.cwd()}/`)
+      url = filePathURL(`${process.cwd()}/`)
     }
   } else if (typeof baseURL === `string`) {
     const fileReference = makeFileReference(baseURL)
