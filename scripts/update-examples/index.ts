@@ -2,9 +2,9 @@ import { readdirSync, rmSync, statSync } from 'node:fs'
 import { availableParallelism } from 'node:os'
 import { join } from 'node:path'
 import { Worker } from 'node:worker_threads'
-import { exampleDiffPairs } from '../src/cli/examples.ts'
-import type { ExampleDiffPair } from '../src/cli/examples.ts'
-import type { ExampleResult, ExampleTask } from './update-examples-worker.ts'
+import { exampleDiffPairs } from '../../src/cli/examples.ts'
+import type { ExampleDiffPair } from '../../src/cli/examples.ts'
+import type { ExampleResult, ExampleTask } from './worker.ts'
 
 const check = process.argv.includes(`--check`)
 
@@ -113,7 +113,7 @@ const convertExamples = async (examples: Example[]): Promise<void> => {
   const workers = Array.from(
     { length: Math.min(availableParallelism(), examples.length) },
     () =>
-      new Worker(new URL(`update-examples-worker.ts`, import.meta.url), {
+      new Worker(new URL(`worker.ts`, import.meta.url), {
         workerData: { check },
       }),
   )

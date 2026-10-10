@@ -2,14 +2,14 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { enableCompileCache } from 'node:module'
 import { join } from 'node:path'
 import { parentPort, workerData } from 'node:worker_threads'
-import type { ProfileToMdOptions } from '../src/options.ts'
+import type { ProfileToMdOptions } from '../../src/options.ts'
 
 // Reuse compiled bytecode across the worker threads and runs, roughly halving
 // each thread's module loading. The dynamic import below runs after the cache
 // is enabled, so the conversion modules use it.
 enableCompileCache(join(`node_modules`, `.cache`, `node-compile-cache`))
 
-const { profileToMd, diffProfiles } = await import(`../src/index.ts`)
+const { profileToMd, diffProfiles } = await import(`../../src/index.ts`)
 
 export type ExampleTask = {
   exampleName: string
