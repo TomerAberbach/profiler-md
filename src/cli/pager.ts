@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process'
 import type { ChildProcessByStdio } from 'node:child_process'
 import type { Writable } from 'node:stream'
+import type { NormalizedLogger } from '../logger.ts'
 import { isClosedReaderError } from './error.ts'
 import type { Output } from './output.ts'
 
@@ -22,32 +23,32 @@ export const DEFAULT_LESS = `FIRSX -#6`
  * out of paging or no pager spawns.
  *
  * A pager that fails before it shows anything would lose the output, so the
- * returned output writes to `fallback` when the pager exits with a non-zero
- * status.
+ * returned output warns and writes to `fallback` when the pager exits with a
+ * non-zero status.
  */
-export const openPager = async (fallback: Output): Promise<Output | null> => {
+export const openPager = async (
+  fallback: Output,
+  logger: NormalizedLogger,
+): Promise<Output | null> => {
   const raw = process.env.PAGER
   // Explicit `PAGER=` opts out of paging entirely (matches git/systemctl).
   if (raw?.trim() === ``) {
     return null
   }
 
-  const env = {
-    LESS: DEFAULT_LESS,
-    ...process.env,
-  }
-  const child =
-    (raw === undefined ? null : await trySpawn(raw, env)) ??
-    (await trySpawn(DEFAULT_PAGER, env))
-  if (!child) {
+  const pager = await spawnPager(raw)
+  if (!pager) {
     return null
   }
+  const { command, child } = pager
 
   return {
     write: async text => {
       const exitCode = await page(child, text)
       if (exitCode !== 0 && exitCode !== null) {
-        process.stderr.write(`warning: pager exited with status ${exitCode}\n`)
+        logger.warn?.(
+          `pager ${command} exited with a non-zero status, got: ${exitCode}\n  hint: set PAGER to another pager, or pass --no-pager`,
+        )
         await fallback.write(text)
       }
     },
@@ -55,6 +56,24 @@ export const openPager = async (fallback: Output): Promise<Output | null> => {
 }
 
 type PagerProcess = ChildProcessByStdio<Writable, null, null>
+
+/** Spawns the user's pager, or `less` when it's unset or fails to spawn. */
+const spawnPager = async (
+  raw: string | undefined,
+): Promise<{ command: string; child: PagerProcess } | null> => {
+  const env = {
+    LESS: DEFAULT_LESS,
+    ...process.env,
+  }
+  const commands = raw === undefined ? [DEFAULT_PAGER] : [raw, DEFAULT_PAGER]
+  for (const command of commands) {
+    const child = await trySpawn(command, env)
+    if (child) {
+      return { command, child }
+    }
+  }
+  return null
+}
 
 /**
  * Writes the text to the pager and resolves to its exit status once it quits,

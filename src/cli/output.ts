@@ -1,6 +1,7 @@
 import { createWriteStream } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { dirname } from 'node:path'
+import type { NormalizedLogger } from '../logger.ts'
 import { CliError, isClosedReaderError } from './error.ts'
 import { openPager } from './pager.ts'
 
@@ -10,16 +11,17 @@ export type Output = {
 
 export type WriteOutputOptions = {
   pager: boolean
+  logger: NormalizedLogger
 }
 
 export const writeOutput = async (
   text: string,
   outputPath: string,
-  { pager }: WriteOutputOptions,
+  { pager, logger }: WriteOutputOptions,
 ): Promise<void> => {
   const output = await openOutput(outputPath)
   const pagerOutput =
-    pager && isTTYOutput(outputPath) ? await openPager(output) : null
+    pager && isTTYOutput(outputPath) ? await openPager(output, logger) : null
   await (pagerOutput ?? output).write(text)
 }
 
@@ -73,6 +75,7 @@ const openOutput = async (outputPath: string): Promise<Output> => {
             }
           }
           process.stdout.on(`error`, finish)
+          // eslint-disable-next-line local/no-standard-stream-write -- this writes the Markdown output
           process.stdout.write(text, finish)
         }),
     }

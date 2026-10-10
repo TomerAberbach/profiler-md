@@ -221,6 +221,8 @@ export type ProfileToMdOptions = {
    * (e.g. profile functions); displayed names and locations, categorization,
    * and source map resolution always use the entry's real name and location.
    *
+   * `profileToMd` and `profileToMdAsync` ignore it and log a warning.
+   *
    * A call stack profile or call graph diff first pairs entries whose own names
    * and locations are equal, and pairs only the rest by the normalized name and
    * location. Where normalization gives distinct entities one key, the diff

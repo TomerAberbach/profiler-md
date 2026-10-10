@@ -5,6 +5,7 @@ import {
   startsJsonDocument,
   startsJsonDocumentAsync,
 } from '../helpers/json.ts'
+import type { Logger } from '../logger.ts'
 import type { AggregatedInput } from '../modalities/registry.ts'
 import type {
   AggregationProfileToMdOptions,
@@ -58,6 +59,7 @@ export const profileToMd = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   const aggregatedInputs = aggregateInput(input, normalizedOptions)
+  warnIgnoredMatchEntry(options.matchEntry, normalizedOptions.logger)
   return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
 }
 
@@ -73,7 +75,19 @@ export const profileToMdAsync = async (
 ): Promise<string> => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   const aggregatedInputs = await aggregateInputAsync(input, normalizedOptions)
+  warnIgnoredMatchEntry(options.matchEntry, normalizedOptions.logger)
   return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
+}
+
+const warnIgnoredMatchEntry = (
+  matchEntry: ProfileToMdOptions[`matchEntry`],
+  logger: Logger,
+): void => {
+  if (matchEntry) {
+    logger.warn?.(
+      `matchEntry ignored because it pairs entries only across a diff\n  hint: call diffProfiles to compare two profiles`,
+    )
+  }
 }
 
 /**

@@ -56,6 +56,7 @@ export const reportError = (
     if (log.error) {
       const parseFailures = unclassifiedParseFailures(error)
       if (parseFailures.length > 0) {
+        // eslint-disable-next-line local/no-standard-stream-write -- the bug report follows the logged error
         process.stderr.write(
           bugReport(
             `If the input opens in its profiler, report this as a bug in ${packageJson.name}:`,
@@ -65,6 +66,7 @@ export const reportError = (
       }
       // Exit code 2 is an invocation error, which the synopsis helps correct
       if (exitCode === 2) {
+        // eslint-disable-next-line local/no-standard-stream-write -- the usage hint follows the logged error
         process.stderr.write(getUsageHint({ colors: stderrSupportsColor() }))
       }
     }
@@ -73,6 +75,7 @@ export const reportError = (
 
   log.error?.(describeError(error))
   if (log.error) {
+    // eslint-disable-next-line local/no-standard-stream-write -- the bug report follows the logged error
     process.stderr.write(
       bugReport(`This is a bug in ${packageJson.name}. Report it:`, [error]),
     )

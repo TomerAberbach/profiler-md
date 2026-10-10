@@ -24,6 +24,7 @@ profiler-md
 │   │   ├── theme-kindling.ts     # The Kindling colors as a Shiki theme, an Optique terminal theme, and an ANSI palette
 │   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
 │   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color), and a plain Ansis for uncolored output
+│   │   ├── log.ts                # The stderr logger and the $PROFILER_MD_LOG log level
 │   │   ├── help.ts               # Prints CLI help (synopsis, examples, flag sections) and per-topic docs
 │   │   ├── man.ts                # The profiler-md(1) man page, built from the help's synopsis, flag sections, and examples
 │   │   ├── languages.ts          # Language display metadata, including each language's Devicon icon
@@ -152,7 +153,8 @@ profiler-md
 │   └── profile-optimize/         # Agent skill published with the package
 │
 ├── eslint-rules/
-│   └── error-message.js          # ESLint rule enforcing the error and log message wording conventions below
+│   ├── error-message.js          # ESLint rule enforcing the error and log message wording conventions below
+│   └── no-standard-stream-write.js # ESLint rule forbidding console and process.{stdout,stderr} writes in src/
 │
 ├── .claude/
 │   ├── dimensions.md             # Where behavior belongs across format/modality/origin
@@ -378,6 +380,18 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - The library logs only through `ProfileToMdOptions.logger`, filtered to
   `logLevel`, never through `console` or another global channel. The CLI passes
   a logger writing to stderr, so stdout stays the Markdown
+- Log a condition in the library when the library can detect it from the options
+  and inputs it receives, so an API caller gets the same line as the CLI. Log in
+  the CLI only what the library never receives: a glob, an environment variable,
+  the pager, or the regex rules a flag compiles into a function option. The
+  test: a library caller passing the options the CLI built would get the line
+- Where the CLI warns that a flag was ignored and the library would warn about
+  the option the flag builds, pass the library no option, so the caller reads
+  one warning that names the flag (e.g. `--match-name` without a diff)
+- Write to stdout or stderr directly only for the logger, the Markdown output,
+  help and version output, and the error report, disabling
+  `local/no-standard-stream-write` on each write with the reason. Every other
+  module logs through the `Logger` it receives, filtered to the log level
 - Throw an error, never log one. `error` is the CLI's level for reporting the
   thrown error
 - `warn` when the run succeeded but something the caller supplied had no effect,

@@ -55,6 +55,7 @@ export const makeCliLogger = (): CliLogger => {
   const write =
     (label: keyof KindlingPalette[`log`]) =>
     (message: string): void => {
+      // eslint-disable-next-line local/no-standard-stream-write -- this is the logger
       process.stderr.write(`${log[label](`${label}:`)} ${message}\n`)
       wrote = true
     }
@@ -65,6 +66,7 @@ export const makeCliLogger = (): CliLogger => {
     debug: write(`debug`),
     separate: () => {
       if (wrote) {
+        // eslint-disable-next-line local/no-standard-stream-write -- this is the logger
         process.stderr.write(`\n`)
         wrote = false
       }
