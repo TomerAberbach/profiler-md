@@ -6,17 +6,24 @@
  * A diff pairs functions by match key, which ignores line and column, and
  * pairs the functions that share a match key by their positions. The ground
  * truth identifies which current function each base function with a position
- * is:
+ * is, and under a version change, each base function with a source reference
+ * and no position:
  * - Same code: a pair whose workload runs one version on both sides. A base
  *   function is the current function at its position. A function with no
- *   counterpart there was recorded in one run only
+ *   counterpart there was recorded in one run only. A function with no
+ *   position goes unscored, because a pair that upgrades a project missing
+ *   from `upgraded-projects.ts` is also scored as same code, and a function
+ *   with no position would match by name across the upgrade
  * - Version change: a pair whose workload runs consecutive releases of a
  *   project in `upgraded-projects.ts`. The committed `ground-truth.json`
  *   contains the file diff of each profiled file of such a project, which maps
  *   each base function to its current position. A function defined where the
- *   file diff changed has no known counterpart, so it goes unscored. A file no
- *   project matches is from a toolchain both sides share, so its positions map
- *   to themselves
+ *   file diff changed has no known counterpart, so it goes unscored. A
+ *   function with no position is the current function of its name in the same
+ *   file, comparing names without the identifiers the origin strips because
+ *   they differ per run or per build. `src/origins/index.test.ts` checks those
+ *   rules. A file no project matches is from a toolchain both sides share, so
+ *   its positions map to themselves
  * - Synthetic edits: the same-code pairs with seeded edits applied to one
  *   source reference of the current side (lines inserted or deleted between
  *   functions, or columns shifted on one line), so the edits move each base
@@ -36,7 +43,8 @@
  *   and rewrites `ground-truth.json` from their file diffs. Run it after
  *   regenerating inputs or changing a version pin
  * - `--check` fails when `ground-truth.json` is out of date, without
- *   fetching anything
+ *   fetching anything, or when a workload script pins a version per side that
+ *   no upgraded project reads and `UNSCORED_PINS` does not exempt
  * - `--filter <substring>` scores only the pairs whose base filename contains
  *   it
  * - `--edits <count>` sets the number of synthetic edits per pair
@@ -131,7 +139,13 @@ const scoreCommittedPairs = (
         addEvaluation(
           tables[`version change`],
           row,
-          evaluate(baseInput, currentInput, options, versionChange),
+          evaluate(
+            baseInput,
+            currentInput,
+            options,
+            versionChange.positionMap,
+            versionChange.sourceReferenceMap,
+          ),
         )
         continue
       }

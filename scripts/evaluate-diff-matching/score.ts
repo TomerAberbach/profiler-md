@@ -1,8 +1,9 @@
+import { sourceReferencePathOrName } from '../../src/location.ts'
 import { matchDiffedFunctions } from '../../src/modalities/diff.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import type { Func, FunctionInput } from './inputs.ts'
 import { positionKey, positionOf, sourcePositionOf } from './position.ts'
-import type { PositionMap } from './position.ts'
+import type { PositionMap, SourceReferenceMap } from './position.ts'
 
 type Score = {
   expected: number
@@ -26,36 +27,82 @@ export type Evaluation = {
 /**
  * Pairs the two inputs' functions the way a diff does, then scores the pairs
  * against the current functions at the positions {@link positionMap} maps each
- * base function to.
+ * base function to. When {@link sourceReferenceMap} is given, it also scores
+ * each base function with no position against the current functions of its
+ * name in the source reference {@link sourceReferenceMap} maps its own to.
  */
 export const evaluate = (
   base: FunctionInput,
   current: FunctionInput,
   options: FormattingProfileToMdOptions,
   positionMap: PositionMap,
+  sourceReferenceMap?: SourceReferenceMap,
 ): Evaluation => {
   const start = performance.now()
   const diffs = matchDiffedFunctions<Func>(base, current, options)
   const evaluation = emptyEvaluation(performance.now() - start)
   const currentByPosition = functionsByPosition(current)
+  const currentBySource =
+    sourceReferenceMap && functionsBySource(current, options)
   const inputTotal = totalOf(base)
 
+  /**
+   * The current functions the ground truth pairs a base function with, and
+   * whether it locates them by position, or `undefined` when it leaves the
+   * base function's counterpart unknown.
+   */
+  const counterpartsOf = (
+    baseFunc: Func,
+  ): { expected: readonly Func[]; byPosition: boolean } | undefined => {
+    const position = sourcePositionOf(baseFunc.location)
+    if (position) {
+      const mapped = positionMap(position)
+      return (
+        mapped && {
+          expected:
+            currentByPosition.get(positionKey(baseFunc.name, mapped)) ?? [],
+          byPosition: true,
+        }
+      )
+    }
+    if (!sourceReferenceMap || !currentBySource || !baseFunc.location) {
+      return undefined
+    }
+    const mapped = sourceReferenceMap(
+      sourceReferencePathOrName(baseFunc.location),
+    )
+    return mapped === undefined
+      ? undefined
+      : {
+          expected:
+            currentBySource.get(
+              sourceKey(
+                options.entryMatchKeys(baseFunc, base.context).name,
+                mapped,
+              ),
+            ) ?? [],
+          byPosition: false,
+        }
+  }
+
   for (const { base: baseFunc, current: currentFunc, byPosition } of diffs) {
-    const position = baseFunc && sourcePositionOf(baseFunc.location)
-    if (!baseFunc || !position) {
+    if (!baseFunc) {
       continue
     }
-    const mapped = positionMap(position)
-    if (!mapped) {
+    const truth = counterpartsOf(baseFunc)
+    if (!truth) {
       continue
     }
 
-    const expected =
-      currentByPosition.get(positionKey(baseFunc.name, mapped)) ?? []
+    const predicted =
+      (truth.byPosition
+        ? positionOf(currentFunc?.location)
+        : currentFunc?.location) !== undefined
     const weight = inputTotal === 0 ? 0 : totalOf(baseFunc) / inputTotal
-    scorePair(evaluation.all, currentFunc, expected, weight)
-    if (byPosition) {
-      scorePair(evaluation.byPosition, currentFunc, expected, weight)
+    for (const scores of byPosition
+      ? [evaluation.all, evaluation.byPosition]
+      : [evaluation.all]) {
+      scorePair(scores, currentFunc, truth.expected, predicted, weight)
     }
   }
   return evaluation
@@ -67,19 +114,37 @@ const functionsByPosition = (input: FunctionInput): Map<string, Func[]> =>
     func => positionKey(func.name, sourcePositionOf(func.location)!),
   )
 
+const functionsBySource = (
+  input: FunctionInput,
+  options: FormattingProfileToMdOptions,
+): Map<string, Func[]> =>
+  Map.groupBy(
+    input.functions.filter(func => func.location && !positionOf(func.location)),
+    func =>
+      sourceKey(
+        // A matched name lacks the identifiers the origin strips because they
+        // differ per run or per build, such as a Zig generic's
+        // compiler-assigned ID.
+        options.entryMatchKeys(func, input.context).name,
+        sourceReferencePathOrName(func.location!),
+      ),
+  )
+
+const sourceKey = (name: string, source: string): string => `${name}\0${source}`
+
 /**
  * Adds the diff's pairing of a base function with `currentFunc` to the scores,
- * given `expected`, the current functions the ground truth pairs it with.
+ * given `expected`, the current functions the ground truth pairs it with, and
+ * whether the pairing is a prediction the ground truth can check.
  */
 const scorePair = (
   { count, weight }: Scores,
   currentFunc: Func | undefined,
   expected: readonly Func[],
+  predicted: boolean,
   funcWeight: number,
 ): void => {
   const correct = currentFunc !== undefined && expected.includes(currentFunc)
-  const predicted =
-    currentFunc !== undefined && positionOf(currentFunc.location) !== undefined
   for (const [score, amount] of [
     [count, 1],
     [weight, funcWeight],
