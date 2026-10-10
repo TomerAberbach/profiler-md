@@ -123,28 +123,28 @@ Functions with the largest decrease in bytes allocated directly in the function 
 
 Functions with the largest increase in total bytes allocated in the function and all its callees.
 
-|   Change |        Delta |            % |                Size |           Objects | Function                                           | Location                                        |
-| -------: | -----------: | -----------: | ------------------: | ----------------: | -------------------------------------------------- | ----------------------------------------------- |
-| +4673.4% | +187.394 MiB | 0.4% → 34.9% |  4.01 MiB → 191 MiB | 9,594 → 1,391,082 | `resolveSignature`                                 | `node_modules/typescript/lib/typescript.js`     |
-| +2666.3% |  +67.374 MiB | 0.3% → 12.8% | 2.53 MiB → 69.9 MiB |  12,820 → 557,035 | `checkTypeReferenceOrImport`                       | `node_modules/typescript/lib/typescript.js`     |
-|  +213.0% |  +49.007 MiB | 2.4% → 13.1% |     23 MiB → 72 MiB | 141,172 → 371,428 | `instantiateSymbol`                                | `node_modules/typescript/lib/typescript.js`     |
-|      new |  +28.067 MiB |  0.0% → 5.1% |      0 B → 28.1 MiB |       0 → 307,980 | `parseVariableDeclarationList`                     | `node_modules/typescript/lib/typescript.js`     |
-|      new |  +23.003 MiB |  0.0% → 4.2% |        0 B → 23 MiB |       0 → 262,677 | `parseCallExpressionRest`                          | `node_modules/typescript/lib/typescript.js`     |
-|   +68.3% |  +21.566 MiB |  3.3% → 9.7% | 31.6 MiB → 53.1 MiB | 270,691 → 406,113 | `checkTypeArgumentConstraints`                     | `node_modules/typescript/lib/typescript.js`     |
-|      new |   +7.501 MiB |  0.0% → 1.4% |       0 B → 7.5 MiB |        0 → 65,547 | `parseEntityNameOfTypeReference`                   | `node_modules/typescript/lib/typescript.js`     |
-|   +52.1% |   +7.196 MiB |  1.4% → 3.8% |   13.8 MiB → 21 MiB | 101,360 → 170,679 | `parseIdentifierName`                              | `node_modules/typescript/lib/typescript.js`     |
-|   +62.0% |   +6.514 MiB |  1.1% → 3.1% |   10.5 MiB → 17 MiB |   49,801 → 85,716 | `applyToParameterTypes`                            | `node_modules/typescript/lib/typescript.js`     |
-|      new |   +6.002 MiB |  0.0% → 1.1% |         0 B → 6 MiB |        0 → 46,184 | `parseIdentifierOrPattern`                         | `node_modules/typescript/lib/typescript.js`     |
-|   +55.0% |   +5.512 MiB |  1.0% → 2.8% |   10 MiB → 15.5 MiB |   43,843 → 56,150 | `inferFromContravariantTypesIfStrictFunctionTypes` | `node_modules/typescript/lib/typescript.js`     |
-|      new |     +5.5 MiB |  0.0% → 1.0% |       0 B → 5.5 MiB |        0 → 34,333 | `createStringLiteral`                              | `node_modules/typescript/lib/typescript.js`     |
-|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1878:37`      |
-|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1490:33`      |
-|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1193:24`      |
-|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1519:36`      |
-|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `wrapModuleLoad`                                   | `node:internal/modules/cjs/loader`              |
-|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `require`                                          | `node:internal/modules/helpers`                 |
-|   +71.3% |   +3.206 MiB |  0.5% → 1.4% |  4.5 MiB → 7.71 MiB | 125,617 → 141,063 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1731:37`      |
-|  +203.3% |   +3.049 MiB |  0.2% → 0.8% |  1.5 MiB → 4.55 MiB |   40,962 → 82,453 | `(anonymous)`                                      | `node_modules/typescript/lib/typescript.js:1:1` |
+|   Change |        Delta |            % |                Size |           Objects | Function                                           | Location                                             |
+| -------: | -----------: | -----------: | ------------------: | ----------------: | -------------------------------------------------- | ---------------------------------------------------- |
+| +4673.4% | +187.394 MiB | 0.4% → 34.9% |  4.01 MiB → 191 MiB | 9,594 → 1,391,082 | `resolveSignature`                                 | `node_modules/typescript/lib/typescript.js`          |
+| +2666.3% |  +67.374 MiB | 0.3% → 12.8% | 2.53 MiB → 69.9 MiB |  12,820 → 557,035 | `checkTypeReferenceOrImport`                       | `node_modules/typescript/lib/typescript.js`          |
+|  +213.0% |  +49.007 MiB | 2.4% → 13.1% |     23 MiB → 72 MiB | 141,172 → 371,428 | `instantiateSymbol`                                | `node_modules/typescript/lib/typescript.js`          |
+|      new |  +28.067 MiB |  0.0% → 5.1% |      0 B → 28.1 MiB |       0 → 307,980 | `parseVariableDeclarationList`                     | `node_modules/typescript/lib/typescript.js`          |
+|      new |  +23.003 MiB |  0.0% → 4.2% |        0 B → 23 MiB |       0 → 262,677 | `parseCallExpressionRest`                          | `node_modules/typescript/lib/typescript.js`          |
+|   +68.3% |  +21.566 MiB |  3.3% → 9.7% | 31.6 MiB → 53.1 MiB | 270,691 → 406,113 | `checkTypeArgumentConstraints`                     | `node_modules/typescript/lib/typescript.js`          |
+|      new |   +9.001 MiB |  0.0% → 1.6% |         0 B → 9 MiB |        0 → 55,448 | `(anonymous)`                                      | `node_modules/typescript/lib/typescript.js:32748:71` |
+|      new |   +7.501 MiB |  0.0% → 1.4% |       0 B → 7.5 MiB |        0 → 65,547 | `parseEntityNameOfTypeReference`                   | `node_modules/typescript/lib/typescript.js`          |
+|   +52.1% |   +7.196 MiB |  1.4% → 3.8% |   13.8 MiB → 21 MiB | 101,360 → 170,679 | `parseIdentifierName`                              | `node_modules/typescript/lib/typescript.js`          |
+|   +62.0% |   +6.514 MiB |  1.1% → 3.1% |   10.5 MiB → 17 MiB |   49,801 → 85,716 | `applyToParameterTypes`                            | `node_modules/typescript/lib/typescript.js`          |
+|      new |   +6.002 MiB |  0.0% → 1.1% |         0 B → 6 MiB |        0 → 46,184 | `parseIdentifierOrPattern`                         | `node_modules/typescript/lib/typescript.js`          |
+|   +55.0% |   +5.512 MiB |  1.0% → 2.8% |   10 MiB → 15.5 MiB |   43,843 → 56,150 | `inferFromContravariantTypesIfStrictFunctionTypes` | `node_modules/typescript/lib/typescript.js`          |
+|      new |     +5.5 MiB |  0.0% → 1.0% |       0 B → 5.5 MiB |        0 → 34,333 | `createStringLiteral`                              | `node_modules/typescript/lib/typescript.js`          |
+|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1878:37`           |
+|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1490:33`           |
+|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1193:24`           |
+|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1519:36`           |
+|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `wrapModuleLoad`                                   | `node:internal/modules/cjs/loader`                   |
+|   +26.0% |   +3.314 MiB |  1.3% → 2.9% | 12.8 MiB → 16.1 MiB | 125,618 → 141,064 | `require`                                          | `node:internal/modules/helpers`                      |
+|   +71.3% |   +3.206 MiB |  0.5% → 1.4% |  4.5 MiB → 7.71 MiB | 125,617 → 141,063 | `(anonymous)`                                      | `node:internal/modules/cjs/loader:1731:37`           |
 
 ##### Third-party
 
@@ -156,6 +156,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |      new |  +28.067 MiB |  0.0% → 5.1% |      0 B → 28.1 MiB |       0 → 307,980 | `parseVariableDeclarationList`                     | `node_modules/typescript/lib/typescript.js`                     |
 |      new |  +23.003 MiB |  0.0% → 4.2% |        0 B → 23 MiB |       0 → 262,677 | `parseCallExpressionRest`                          | `node_modules/typescript/lib/typescript.js`                     |
 |   +68.3% |  +21.566 MiB |  3.3% → 9.7% | 31.6 MiB → 53.1 MiB | 270,691 → 406,113 | `checkTypeArgumentConstraints`                     | `node_modules/typescript/lib/typescript.js`                     |
+|      new |   +9.001 MiB |  0.0% → 1.6% |         0 B → 9 MiB |        0 → 55,448 | `(anonymous)`                                      | `node_modules/typescript/lib/typescript.js:32748:71`            |
 |      new |   +7.501 MiB |  0.0% → 1.4% |       0 B → 7.5 MiB |        0 → 65,547 | `parseEntityNameOfTypeReference`                   | `node_modules/typescript/lib/typescript.js`                     |
 |   +52.1% |   +7.196 MiB |  1.4% → 3.8% |   13.8 MiB → 21 MiB | 101,360 → 170,679 | `parseIdentifierName`                              | `node_modules/typescript/lib/typescript.js`                     |
 |   +62.0% |   +6.514 MiB |  1.1% → 3.1% |   10.5 MiB → 17 MiB |   49,801 → 85,716 | `applyToParameterTypes`                            | `node_modules/typescript/lib/typescript.js`                     |
@@ -169,7 +170,6 @@ Functions with the largest increase in total bytes allocated in the function and
 |      new |       +3 MiB |  0.0% → 0.5% |         0 B → 3 MiB |        0 → 18,727 | `createBaseCallExpression`                         | `node_modules/typescript/lib/typescript.js`                     |
 |  +518.8% |   +2.594 MiB |  0.1% → 0.6% |  512 KiB → 3.09 MiB |    3,450 → 28,337 | `(anonymous)`                                      | `node_modules/typescript/lib/typescript.js:63799:42 → 65054:42` |
 |  +172.9% |   +2.594 MiB |  0.2% → 0.7% |  1.5 MiB → 4.09 MiB |   23,285 → 66,568 | `distributeObjectOverIndexType`                    | `node_modules/typescript/lib/typescript.js`                     |
-|   +21.3% |   +2.554 MiB |  1.3% → 2.7% |   12 MiB → 14.6 MiB | 169,400 → 161,868 | `getTypeOfInstantiatedSymbol`                      | `node_modules/typescript/lib/typescript.js`                     |
 
 ##### Standard library
 

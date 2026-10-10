@@ -508,37 +508,41 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       },
     },
     {
-      name: `moved onto each other's old lines below one added above them`,
+      // Moving by exactly their spacing puts all but one function on another's
+      // old line. Pairing those equal lines costs less than the change of
+      // offset pairing every function would take, so each pairs with the
+      // function it moved onto.
+      name: `moved by their spacing onto each other's old lines by those lines`,
       currentLines: [5, 20, 30, 40],
       expected: {
         regressions: {
           Ours: [
             {
-              Change: `+10.0%`,
+              Change: `+2100.0%`,
+              Delta: `+0.10ms`,
+              '%': `4.7% → 90.2%`,
+              Time: `5.0µs → 0.1ms`,
+              Samples: `5 → 110`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:20`,
+            },
+            {
+              Change: `+600.0%`,
               Delta: `+0.01ms`,
-              '%': `94.3% → 90.2%`,
-              Time: `0.1ms`,
-              Samples: `100 → 110`,
+              '%': `0.9% → 5.7%`,
+              Time: `1.0µs → 7.0µs`,
+              Samples: `1 → 7`,
               Function: `(anonymous)`,
-              Location: `src/a.js:10 → 20`,
+              Location: `src/a.js:30`,
             },
             {
-              Change: `+40.0%`,
-              Delta: `+2.00µs`,
-              '%': `4.7% → 5.7%`,
-              Time: `5.0µs → 7.0µs`,
-              Samples: `5 → 7`,
+              Change: `new`,
+              Delta: `+3.00µs`,
+              '%': `0.0% → 2.5%`,
+              Time: `0ms → 3.0µs`,
+              Samples: `0 → 3`,
               Function: `(anonymous)`,
-              Location: `src/a.js:20 → 30`,
-            },
-            {
-              Change: `+200.0%`,
-              Delta: `+2.00µs`,
-              '%': `0.9% → 2.5%`,
-              Time: `1.0µs → 3.0µs`,
-              Samples: `1 → 3`,
-              Function: `(anonymous)`,
-              Location: `src/a.js:30 → 40`,
+              Location: `src/a.js:40`,
             },
             {
               Change: `new`,
@@ -551,7 +555,19 @@ describe(`diffAggregatedCallStackProfiles`, () => {
             },
           ],
         },
-        improvements: {},
+        improvements: {
+          Ours: [
+            {
+              Change: `removed`,
+              Delta: `-0.10ms`,
+              '%': `94.3% → 0.0%`,
+              Time: `0.1ms → 0ms`,
+              Samples: `100 → 0`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:10`,
+            },
+          ],
+        },
       },
     },
   ])(`pairs same-key functions that $name`, ({ currentLines, expected }) => {
@@ -570,6 +586,158 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         ],
       ),
     ).toEqual(expected)
+  })
+
+  const A_JS = `file:///project/src/a.js`
+  const inA = (name: string, line: number, count: number) =>
+    sampledFunc(name, A_JS, { line, count })
+
+  test.each([
+    {
+      name: `pairs a lone same-key function at the offset its file's uniquely named functions moved by`,
+      currentLine: 25,
+      expected: {
+        regressions: {
+          Ours: [
+            {
+              Change: `+66.7%`,
+              Delta: `+2.00µs`,
+              '%': `37.5% → 55.6%`,
+              Time: `3.0µs → 5.0µs`,
+              Samples: `3 → 5`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:20 → 25`,
+            },
+          ],
+        },
+        improvements: {
+          Ours: [
+            {
+              Change: `removed`,
+              Delta: `-1.00µs`,
+              '%': `12.5% → 0.0%`,
+              Time: `1.0µs → 0ms`,
+              Samples: `1 → 0`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:40`,
+            },
+          ],
+        },
+      },
+    },
+    {
+      name: `leaves unpaired a lone same-key function at an offset its file's uniquely named functions did not move by`,
+      currentLine: 21,
+      expected: {
+        regressions: {
+          Ours: [
+            {
+              Change: `new`,
+              Delta: `+0.01ms`,
+              '%': `0.0% → 55.6%`,
+              Time: `0ms → 5.0µs`,
+              Samples: `0 → 5`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:21`,
+            },
+          ],
+        },
+        improvements: {
+          Ours: [
+            {
+              Change: `removed`,
+              Delta: `-3.00µs`,
+              '%': `37.5% → 0.0%`,
+              Time: `3.0µs → 0ms`,
+              Samples: `3 → 0`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:20`,
+            },
+            {
+              Change: `removed`,
+              Delta: `-1.00µs`,
+              '%': `12.5% → 0.0%`,
+              Time: `1.0µs → 0ms`,
+              Samples: `1 → 0`,
+              Function: `(anonymous)`,
+              Location: `src/a.js:40`,
+            },
+          ],
+        },
+      },
+    },
+  ])(`$name`, ({ currentLine, expected }) => {
+    expect(
+      pairingTables(
+        [
+          inA(`a`, 10, 2),
+          inA(`(anonymous)`, 20, 3),
+          inA(`b`, 30, 2),
+          inA(`(anonymous)`, 40, 1),
+        ],
+        [inA(`a`, 15, 2), inA(`(anonymous)`, currentLine, 5), inA(`b`, 35, 2)],
+      ),
+    ).toEqual(expected)
+  })
+
+  test(`does not pair a same-key function by the offset of a logical source that shares its file's ID`, () => {
+    // A file reference resolves to `A_JS`, the ID the logical source has.
+    const inLogical = (name: string, line: number, count: number) => ({
+      ...sampledFunc(name, ``, { line, count }),
+      logicalName: A_JS,
+    })
+
+    expect(
+      pairingTables(
+        [
+          inLogical(`a`, 10, 2),
+          inA(`(anonymous)`, 20, 3),
+          inLogical(`b`, 30, 2),
+          inA(`(anonymous)`, 40, 1),
+        ],
+        [
+          inLogical(`a`, 15, 2),
+          inA(`(anonymous)`, 25, 5),
+          inLogical(`b`, 35, 2),
+        ],
+      ),
+    ).toEqual({
+      regressions: {
+        Ours: [
+          {
+            Change: `new`,
+            Delta: `+0.01ms`,
+            '%': `0.0% → 55.6%`,
+            Time: `0ms → 5.0µs`,
+            Samples: `0 → 5`,
+            Function: `(anonymous)`,
+            Location: `src/a.js:25`,
+          },
+        ],
+      },
+      improvements: {
+        Ours: [
+          {
+            Change: `removed`,
+            Delta: `-3.00µs`,
+            '%': `37.5% → 0.0%`,
+            Time: `3.0µs → 0ms`,
+            Samples: `3 → 0`,
+            Function: `(anonymous)`,
+            Location: `src/a.js:20`,
+          },
+          {
+            Change: `removed`,
+            Delta: `-1.00µs`,
+            '%': `12.5% → 0.0%`,
+            Time: `1.0µs → 0ms`,
+            Samples: `1 → 0`,
+            Function: `(anonymous)`,
+            Location: `src/a.js:40`,
+          },
+        ],
+      },
+    })
   })
 
   test(`pairs same-key functions on one line that moved along it`, () => {

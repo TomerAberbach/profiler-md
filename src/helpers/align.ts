@@ -12,6 +12,14 @@ export const UNPAIRED_COST = 2
 export const OFFSET_CHANGE_COST = 3.5
 
 /**
+ * The costs {@link alignPositions} minimizes: {@link offsetChange} per pair
+ * whose offset differs from the previous pair's, and {@link offset} per unit of
+ * each pair's absolute offset, beside {@link UNPAIRED_COST} per unpaired
+ * position.
+ */
+type Costs = { offsetChange: number; offset: number }
+
+/**
  * Pairs the positions of two strictly increasing lists, such as the lines of
  * one file's functions before and after an edit, by reconstructing the simplest
  * edit history that turns one list's positions into the other's.
@@ -25,6 +33,11 @@ export const OFFSET_CHANGE_COST = 3.5
  * because pairing it would take two edits. Among alignments with equal cost,
  * the one returned has the least sum of its pairs' absolute offsets, so a
  * position with several candidates at one cost pairs with the nearest.
+ *
+ * `offsetChangeCost` is the cost of a pair whose offset differs from the
+ * previous pair's, {@link OFFSET_CHANGE_COST} by default. A higher cost
+ * requires longer runs at a new offset. It must be a multiple of half a unit,
+ * like {@link UNPAIRED_COST}, so that ties are broken by offsets alone.
  *
  * It compares only the positions, so the pairing is a guess whenever several
  * edit histories produce the same positions.
@@ -41,11 +54,20 @@ export const OFFSET_CHANGE_COST = 3.5
 export const alignPositions = (
   base: readonly number[],
   current: readonly number[],
+  { offsetChangeCost = OFFSET_CHANGE_COST }: { offsetChangeCost?: number } = {},
 ): Int32Array => {
   assertStrictlyIncreasing(base)
   assertStrictlyIncreasing(current)
+  if ((2 * offsetChangeCost) % 1 !== 0) {
+    throw new Error(
+      `offsetChangeCost must be a multiple of 0.5, got: ${offsetChangeCost}`,
+    )
+  }
 
-  const offsetCost = tieBreakingOffsetCost(base, current)
+  const costs: Costs = {
+    offsetChange: offsetChangeCost,
+    offset: tieBreakingOffsetCost(base, current),
+  }
   const lengthDifference = current.length - base.length
 
   // The problem resembles transposition-invariant matching, the longest common
@@ -99,10 +121,10 @@ export const alignPositions = (
     if (consideredPairs > BAND_PAIRS_LIMIT) {
       return pairs ?? pairEqualPositions(base, current)
     }
-    pairs = alignInBand(base, current, band, offsetCost)
+    pairs = alignInBand(base, current, band, costs)
     if (
       slack >= slackLimit ||
-      isProvenCheapest(base, current, pairs, band, offsetCost)
+      isProvenCheapest(base, current, pairs, band, costs)
     ) {
       return pairs
     }
@@ -143,9 +165,9 @@ const pairEqualPositions = (
  * Returns the cost per unit of a pair's absolute offset, which breaks ties
  * between alignments of equal cost.
  *
- * Every cost is a sum of {@link UNPAIRED_COST}s and
- * {@link OFFSET_CHANGE_COST}s, so two unequal costs differ by at least half a
- * unit. No pair's absolute offset exceeds the span of both lists' positions,
+ * Every cost is a sum of {@link UNPAIRED_COST}s and offset change costs,
+ * each a multiple of half a unit, so two unequal costs differ by at least half
+ * a unit. No pair's absolute offset exceeds the span of both lists' positions,
  * and no alignment has more pairs than the shorter list's length, so the
  * offsets' costs sum to less than half a unit and decide only between
  * alignments that would otherwise cost the same.
@@ -174,10 +196,10 @@ const alignInBand = (
   base: ArrayLike<number>,
   current: ArrayLike<number>,
   band: Band,
-  offsetCost: number,
+  costs: Costs,
 ): Int32Array => {
   const pairs = new Int32Array(base.length).fill(-1)
-  alignRange(base, current, pairs, band, offsetCost, {
+  alignRange(base, current, pairs, band, costs, {
     baseStart: 0,
     baseEnd: base.length,
     currentStart: 0,
@@ -198,7 +220,7 @@ const isProvenCheapest = (
   current: ArrayLike<number>,
   pairs: Int32Array,
   { lowestDiagonal, highestDiagonal }: Band,
-  offsetCost: number,
+  costs: Costs,
 ): boolean => {
   if (lowestDiagonal <= -base.length && highestDiagonal >= current.length) {
     return true
@@ -206,7 +228,7 @@ const isProvenCheapest = (
   // An alignment with a pair outside the band leaves more positions unpaired
   // than the band's width allows, each costing at least UNPAIRED_COST.
   const outsideCost = UNPAIRED_COST * (highestDiagonal - lowestDiagonal + 1)
-  return alignmentCost(base, current, pairs, offsetCost) <= outsideCost
+  return alignmentCost(base, current, pairs, costs) <= outsideCost
 }
 
 /** The cost {@link alignPositions} minimizes, of the given pairs. */
@@ -214,7 +236,7 @@ const alignmentCost = (
   base: ArrayLike<number>,
   current: ArrayLike<number>,
   pairs: Int32Array,
-  offsetCost: number,
+  costs: Costs,
 ): number => {
   let paired = 0
   let offsetsCost = 0
@@ -227,7 +249,7 @@ const alignmentCost = (
     }
     paired++
     const offset = current[pair]! - base[index]!
-    offsetsCost += offsetCost * Math.abs(offset)
+    offsetsCost += costs.offset * Math.abs(offset)
     if (offset !== previousOffset) {
       offsetChanges++
     }
@@ -235,7 +257,7 @@ const alignmentCost = (
   }
   return (
     UNPAIRED_COST * (base.length + current.length - 2 * paired) +
-    OFFSET_CHANGE_COST * offsetChanges +
+    costs.offsetChange * offsetChanges +
     offsetsCost
   )
 }
@@ -281,7 +303,7 @@ const alignRange = (
   current: ArrayLike<number>,
   pairs: Int32Array,
   band: Band,
-  offsetCost: number,
+  costs: Costs,
   range: Range,
 ) => {
   if (
@@ -291,10 +313,10 @@ const alignRange = (
     return
   }
 
-  const { before, after } = splitRange(base, current, band, offsetCost, range)
+  const { before, after } = splitRange(base, current, band, costs, range)
   if (before) {
     pairs[before.base] = before.current
-    alignRange(base, current, pairs, band, offsetCost, {
+    alignRange(base, current, pairs, band, costs, {
       ...range,
       baseEnd: before.base,
       currentEnd: before.current,
@@ -303,7 +325,7 @@ const alignRange = (
   }
   if (after) {
     pairs[after.base] = after.current
-    alignRange(base, current, pairs, band, offsetCost, {
+    alignRange(base, current, pairs, band, costs, {
       ...range,
       baseStart: after.base + 1,
       currentStart: after.current + 1,
@@ -312,6 +334,7 @@ const alignRange = (
   }
 }
 
+/** Indices into a diff's base and current lists. */
 type Pair = { base: number; current: number }
 
 /**
@@ -323,25 +346,19 @@ const splitRange = (
   base: ArrayLike<number>,
   current: ArrayLike<number>,
   band: Band,
-  offsetCost: number,
+  costs: Costs,
   range: Range,
 ): { before?: Pair; after?: Pair } => {
   const { baseStart, baseEnd, currentStart, currentEnd, endOffset } = range
   const middle = baseStart + ((baseEnd - baseStart) >> 1)
-  const first = forwardFrontier(base, current, band, offsetCost, range, middle)
-  const second = backwardFrontier(
-    base,
-    current,
-    band,
-    offsetCost,
-    range,
-    middle,
-  )
+  const first = forwardFrontier(base, current, band, costs, range, middle)
+  const second = backwardFrontier(base, current, band, costs, range, middle)
   const join = cheapestJoin(
     first,
     second,
     currentEnd - currentStart,
     endOffset === undefined,
+    costs,
   )
   return {
     before:
@@ -366,7 +383,7 @@ const forwardFrontier = (
   base: ArrayLike<number>,
   current: ArrayLike<number>,
   { lowestDiagonal, highestDiagonal }: Band,
-  offsetCost: number,
+  costs: Costs,
   { baseStart, currentStart, currentEnd, startOffset }: Range,
   middle: number,
 ): Frontier => {
@@ -380,7 +397,7 @@ const forwardFrontier = (
   }
   // A pass's row and column index the range from its start, so a pair's
   // diagonal is its column minus its row plus the range's own diagonal.
-  return alignmentFrontier(rows, columns, startOffset, offsetCost, {
+  return alignmentFrontier(rows, columns, startOffset, costs, {
     lowestShift: lowestDiagonal - (currentStart - baseStart),
     highestShift: highestDiagonal - (currentStart - baseStart),
   })
@@ -394,7 +411,7 @@ const backwardFrontier = (
   base: ArrayLike<number>,
   current: ArrayLike<number>,
   { lowestDiagonal, highestDiagonal }: Band,
-  offsetCost: number,
+  costs: Costs,
   { baseEnd, currentStart, currentEnd, endOffset }: Range,
   middle: number,
 ): Frontier => {
@@ -412,7 +429,7 @@ const backwardFrontier = (
     rows,
     columns,
     endOffset === undefined ? undefined : -endOffset,
-    offsetCost,
+    costs,
     {
       lowestShift: currentEnd - baseEnd - highestDiagonal,
       highestShift: currentEnd - baseEnd - lowestDiagonal,
@@ -431,6 +448,7 @@ const cheapestJoin = (
   second: Frontier,
   width: number,
   isEndFree: boolean,
+  costs: Costs,
 ): { first: FrontierPair; second: FrontierPair } => {
   // The first pass's pair must precede the second's in the current positions,
   // so their columns, counted from opposite ends, sum to less than the width.
@@ -455,7 +473,7 @@ const cheapestJoin = (
   }
   for (let split = 0; split <= width; split++) {
     const cost =
-      first.costs[split]! + second.costs[width - split]! + OFFSET_CHANGE_COST
+      first.costs[split]! + second.costs[width - split]! + costs.offsetChange
     if (cost < bestCost) {
       bestCost = cost
       bestFirst = first.pairAt(split)
@@ -510,7 +528,7 @@ const alignmentFrontier = (
   rows: Float64Array,
   columns: Float64Array,
   startOffset: number | undefined,
-  offsetCost: number,
+  alignmentCosts: Costs,
   { lowestShift, highestShift }: ColumnShifts,
 ): Frontier => {
   const width = columns.length
@@ -534,12 +552,12 @@ const alignmentFrontier = (
       const previous = pairsByOffset.get(offset)
       const cost =
         Math.min(
-          costs[column]! + OFFSET_CHANGE_COST,
+          costs[column]! + alignmentCosts.offsetChange,
           anyOffsetCost,
           previous?.cost ?? Infinity,
         ) -
         2 * UNPAIRED_COST +
-        offsetCost * Math.abs(offset)
+        alignmentCosts.offset * Math.abs(offset)
       rowCosts[column] = cost
 
       // No other pair in the row has this offset. Extending an alignment always

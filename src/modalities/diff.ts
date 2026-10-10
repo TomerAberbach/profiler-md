@@ -1,4 +1,7 @@
 import { alignPositions } from '../helpers/align.ts'
+import type { DeepReadonly } from '../helpers/types.ts'
+import { sourceReferenceId, sourceReferenceKind } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import type {
   NormalizedProfileToMdOptions,
   ProfileEntry,
@@ -17,7 +20,7 @@ export type Diff<Value> = {
 
 /** An entry matchable across the two sides of a diff by name and location. */
 type DiffableEntry = {
-  location?: { line?: number; column?: number } | undefined
+  location?: DeepReadonly<SourceLocation> | undefined
 }
 
 /**
@@ -174,7 +177,8 @@ const spliceLeftoverDiffs = <Entry>(
  *
  * Several entries can share one key (e.g. Julia methods of one function
  * defined at different lines of the same file, whose match key ignores line
- * and column), so {@link pairGroups} pairs same-key groups member by member.
+ * and column), so {@link pairGroups} pairs same-key groups member by member,
+ * using how the keys of one entry per side moved in each file.
  */
 const matchEntryGroups = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
@@ -184,6 +188,11 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
 ): EntryDiff<Entry>[] => {
   const baseByKey = Map.groupBy(baseEntries, baseEntryKey)
   const currentByKey = Map.groupBy(currentEntries, currentEntryKey)
+  const lineWeight = Math.max(
+    positionLineWeight(baseEntries),
+    positionLineWeight(currentEntries),
+  )
+  const anchors = fileAnchors(baseByKey, currentByKey, lineWeight)
 
   const matched: EntryDiff<Entry>[] = []
   for (const [key, baseGroup] of baseByKey) {
@@ -199,7 +208,7 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
       continue
     }
     currentByKey.delete(key)
-    matched.push(...pairGroups(baseGroup, currentGroup))
+    matched.push(...pairGroups(baseGroup, currentGroup, lineWeight, anchors))
   }
   for (const currentGroup of currentByKey.values()) {
     matched.push(
@@ -230,6 +239,11 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
  *   removed. A run of pairs continues past it at no cost
  * - A member whose offset neither neighbor shares stays unpaired, because an
  *   edit that moved it would have moved its neighbors too
+ * - A member whose neighbors in its group went unsampled has none to move
+ *   with, but its file's other functions moved with it. A member the alignment
+ *   leaves unpaired pairs with the other side's unpaired member at the offset
+ *   of a key of one entry per side just before or after it in its file, which
+ *   an edit around it moved by the same amount
  *
  * Other profilers' diffs pair no functions by position. pprof, Pyroscope,
  * Parca, and async-profiler merge the functions that share a name. The Firefox
@@ -241,6 +255,8 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
 const pairGroups = <Entry extends DiffableEntry>(
   baseGroup: Entry[],
   currentGroup: Entry[],
+  lineWeight: number,
+  anchors: FileAnchors,
 ): EntryDiff<Entry>[] => {
   if (baseGroup.length === 1 && currentGroup.length === 1) {
     return [
@@ -248,21 +264,15 @@ const pairGroups = <Entry extends DiffableEntry>(
     ]
   }
 
-  const lineWeight = Math.max(
-    positionLineWeight(baseGroup),
-    positionLineWeight(currentGroup),
-  )
+  const baseLocation = baseGroup.find(entry => entry.location)?.location
+  const groupAnchors =
+    (baseLocation && anchors.get(sourceKeyOf(baseLocation))) ?? []
   const base = groupByPosition(baseGroup, lineWeight)
   const current = groupByPosition(currentGroup, lineWeight)
   const pairs = new Int32Array(baseGroup.length).fill(-1)
-  zipAlignedIndices(base, current, pairs)
+  zipAlignedIndices(base, current, pairs, groupAnchors)
   zipIndices(base.lineless, current.lineless, pairs)
-  const isPairedCurrent = new Uint8Array(currentGroup.length)
-  for (const pair of pairs) {
-    if (pair !== -1) {
-      isPairedCurrent[pair] = 1
-    }
-  }
+  const isPairedCurrent = pairedCurrentFlags(pairs, currentGroup.length)
   if (base.lineless.length > 0 || current.lineless.length > 0) {
     pairLoneLeftoversWithoutLine(base, current, pairs, isPairedCurrent)
   }
@@ -340,16 +350,11 @@ const groupByPosition = (
   const positioned: { position: number; index: number }[] = []
   const lineless: number[] = []
   for (let index = 0; index < group.length; index++) {
-    const { location } = group[index]!
-    const line = location?.line
-    const position =
-      line === undefined
-        ? undefined
-        : line * lineWeight + (location?.column ?? 0)
-    if (Number.isFinite(position)) {
-      positioned.push({ position: position!, index })
-    } else {
+    const position = packedPosition(group[index]!.location, lineWeight)
+    if (position === undefined) {
       lineless.push(index)
+    } else {
+      positioned.push({ position, index })
     }
   }
   positioned.sort((left, right) => left.position - right.position)
@@ -367,12 +372,34 @@ const groupByPosition = (
   return { positions, indices, lineless }
 }
 
+/**
+ * The cost {@link pairGroups} gives a change of offset when it aligns a group's
+ * members, against the alignment's `UNPAIRED_COST` of 2 per unpaired member.
+ *
+ * It is more than one pair saves, the cost of its two unpaired members, so the
+ * alignment never pairs a lone member at a new offset. A lone member often has
+ * no counterpart in the other run, and pairing it with another member at a
+ * new offset reads as a change in one function. The members the alignment
+ * leaves unpaired then pair by their file's anchors instead.
+ *
+ * Measured with `pnpm evaluate-diff-matching` against a cost of 3.5 without
+ * pairing by anchors, the precision on the committed version changes rises
+ * from 99.4% to 99.9%, and on the synthetic edits from 96.3% to 99.8%. Recall
+ * changes by at most 0.1% on both. A cost of 4.5 without pairing by anchors
+ * scores the same precision, but recall falls to 99.1% and 96.1%.
+ */
+const FUNCTION_OFFSET_CHANGE_COST = 4.5
+
 const zipAlignedIndices = (
   base: { positions: number[]; indices: number[][] },
   current: { positions: number[]; indices: number[][] },
   pairs: Int32Array,
+  anchors: readonly Anchor[],
 ) => {
-  const positionPairs = alignPositions(base.positions, current.positions)
+  const positionPairs = alignPositions(base.positions, current.positions, {
+    offsetChangeCost: FUNCTION_OFFSET_CHANGE_COST,
+  })
+  pairByAnchorOffsets(base.positions, current.positions, positionPairs, anchors)
   for (let index = 0; index < positionPairs.length; index++) {
     const pair = positionPairs[index]!
     if (pair !== -1) {
@@ -390,6 +417,207 @@ const zipIndices = (
   for (let index = 0; index < length; index++) {
     pairs[baseIndices[index]!] = currentIndices[index]!
   }
+}
+
+/**
+ * An entry of its file whose key has one entry per side, by its packed position
+ * on each side. Its offset states how the edits around it moved it.
+ */
+type Anchor = { base: number; current: number }
+
+/**
+ * The anchors of each base source reference, by {@link sourceKeyOf}, sorted by
+ * base position.
+ */
+type FileAnchors = Map<string, Anchor[]>
+
+/**
+ * The anchors of the files that have a key with several entries on a side,
+ * whose members pair by them.
+ */
+const fileAnchors = <Entry extends DiffableEntry>(
+  baseByKey: Map<string, Entry[]>,
+  currentByKey: Map<string, Entry[]>,
+  lineWeight: number,
+): FileAnchors => {
+  const groupFiles = filesWithGroups(baseByKey, currentByKey)
+  const anchors: FileAnchors = new Map()
+  if (groupFiles.size === 0) {
+    return anchors
+  }
+  for (const [key, baseGroup] of baseByKey) {
+    const currentGroup = currentByKey.get(key)
+    if (baseGroup.length !== 1 || currentGroup?.length !== 1) {
+      continue
+    }
+    const { location } = baseGroup[0]!
+    const file = location && sourceKeyOf(location)
+    const base = packedPosition(location, lineWeight)
+    const current = packedPosition(currentGroup[0]!.location, lineWeight)
+    if (
+      file === undefined ||
+      !groupFiles.has(file) ||
+      base === undefined ||
+      current === undefined
+    ) {
+      continue
+    }
+    const fileAnchorList = anchors.get(file)
+    if (fileAnchorList) {
+      fileAnchorList.push({ base, current })
+    } else {
+      anchors.set(file, [{ base, current }])
+    }
+  }
+  for (const fileAnchorList of anchors.values()) {
+    fileAnchorList.sort((left, right) => left.base - right.base)
+  }
+  return anchors
+}
+
+/** The files that have a key with several entries on a side. */
+const filesWithGroups = <Entry extends DiffableEntry>(
+  baseByKey: Map<string, Entry[]>,
+  currentByKey: Map<string, Entry[]>,
+): Set<string> => {
+  const files = new Set<string>()
+  for (const [key, baseGroup] of baseByKey) {
+    const currentGroup = currentByKey.get(key)
+    const location = baseGroup.find(entry => entry.location)?.location
+    if (
+      location &&
+      currentGroup &&
+      (baseGroup.length > 1 || currentGroup.length > 1)
+    ) {
+      files.add(sourceKeyOf(location))
+    }
+  }
+  return files
+}
+
+/**
+ * Pairs each base position {@link pairs} leaves unpaired with the current
+ * position at the offset of an anchor around it, where the pair keeps the pairs
+ * in order. The pairs increase on both sides, so a current position between
+ * the pairs before and after a base position is unpaired.
+ */
+const pairByAnchorOffsets = (
+  base: number[],
+  current: number[],
+  pairs: Int32Array,
+  anchors: readonly Anchor[],
+) => {
+  if (anchors.length === 0 || !pairs.includes(-1)) {
+    return
+  }
+  const currentIndexes = new Map(
+    current.map((position, index) => [position, index]),
+  )
+  const nextPaired = nextPairedCurrent(pairs, current.length)
+  let previousPaired = -1
+  for (let index = 0; index < pairs.length; index++) {
+    if (pairs[index] === -1) {
+      for (const offset of anchorOffsetsAt(anchors, base[index]!)) {
+        const pair = currentIndexes.get(base[index]! + offset)
+        if (
+          pair !== undefined &&
+          pair > previousPaired &&
+          pair < nextPaired[index + 1]!
+        ) {
+          pairs[index] = pair
+          break
+        }
+      }
+    }
+    if (pairs[index] !== -1) {
+      previousPaired = pairs[index]!
+    }
+  }
+}
+
+/**
+ * For each base index and the one past the last, the current index paired with
+ * the first base index at or after it, or {@link currentLength} when none is
+ * paired.
+ */
+const nextPairedCurrent = (
+  pairs: Int32Array,
+  currentLength: number,
+): Int32Array => {
+  const nextPaired = new Int32Array(pairs.length + 1)
+  nextPaired[pairs.length] = currentLength
+  for (let index = pairs.length - 1; index >= 0; index--) {
+    nextPaired[index] =
+      pairs[index] === -1 ? nextPaired[index + 1]! : pairs[index]!
+  }
+  return nextPaired
+}
+
+/** The distinct offsets of the anchors just before and after a base position. */
+const anchorOffsetsAt = (
+  anchors: readonly Anchor[],
+  position: number,
+): number[] => {
+  const after = anchorIndexAtOrAfter(anchors, position)
+  const offsets: number[] = []
+  for (const anchor of [anchors[after - 1], anchors[after]]) {
+    const offset = anchor && anchor.current - anchor.base
+    if (offset !== undefined && !offsets.includes(offset)) {
+      offsets.push(offset)
+    }
+  }
+  return offsets
+}
+
+/**
+ * The index of the first anchor at or after a base position, or the anchors'
+ * length when none is.
+ */
+const anchorIndexAtOrAfter = (
+  anchors: readonly Anchor[],
+  position: number,
+): number => {
+  let low = 0
+  let high = anchors.length
+  while (low < high) {
+    const middle = (low + high) >> 1
+    if (anchors[middle]!.base < position) {
+      low = middle + 1
+    } else {
+      high = middle
+    }
+  }
+  return low
+}
+
+/**
+ * Identifies a source reference by its kind as well as its ID, because a file
+ * and a logical reference with one ID are different sources.
+ */
+const sourceKeyOf = (location: DeepReadonly<SourceLocation>): string =>
+  `${sourceReferenceKind(location)}\0${sourceReferenceId(location)}`
+
+const packedPosition = (
+  location: DeepReadonly<SourceLocation> | undefined,
+  lineWeight: number,
+): number | undefined => {
+  const line = location?.line
+  const position =
+    line === undefined ? undefined : line * lineWeight + (location?.column ?? 0)
+  return Number.isFinite(position) ? position : undefined
+}
+
+const pairedCurrentFlags = (
+  pairs: Int32Array,
+  currentLength: number,
+): Uint8Array => {
+  const isPairedCurrent = new Uint8Array(currentLength)
+  for (const pair of pairs) {
+    if (pair !== -1) {
+      isPairedCurrent[pair] = 1
+    }
+  }
+  return isPairedCurrent
 }
 
 /**

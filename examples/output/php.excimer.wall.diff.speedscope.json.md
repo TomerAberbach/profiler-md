@@ -20,6 +20,7 @@ Functions with the largest increase in time spent directly in the function body,
 |  +51.9% | +28.00ms |   1.3% → 2.1% |   54.0ms → 82.0ms |   54 → 82 | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct` | `composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`        |
 |  +14.1% | +21.00ms |   3.6% → 4.3% | 149.0ms → 170.0ms | 149 → 170 | `Composer\Pcre\Preg::match`                                                 | `composer/vendor/composer/pcre/src/Preg.php`                                    |
 |  +22.6% | +19.00ms |   2.0% → 2.6% |  84.0ms → 103.0ms |  80 → 103 | `Composer\Pcre\Preg::checkOffsetCapture`                                    | `composer/vendor/composer/pcre/src/Preg.php`                                    |
+|     new | +15.00ms |   0.0% → 0.4% |      0ms → 15.0ms |    0 → 15 | `(anonymous)`                                                               | `composer/src/Composer/Console/Application.php:349`                             |
 |   +1.8% | +12.00ms | 15.8% → 17.0% | 659.0ms → 671.0ms | 655 → 671 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                     | `composer/vendor/composer/class-map-generator/src/PhpFileParser.php`            |
 |   +8.4% |  +9.00ms |   2.6% → 2.9% | 107.0ms → 116.0ms | 107 → 116 | `Composer\ClassMapGenerator\PhpFileCleaner::match`                          | `composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`           |
 |  +35.7% |  +5.00ms |   0.3% → 0.5% |   14.0ms → 19.0ms |   14 → 19 | `Composer\Autoload\ClassLoader::loadClass`                                  | `composer/vendor/composer/ClassLoader.php`                                      |
@@ -36,7 +37,6 @@ Functions with the largest increase in time spent directly in the function body,
 |  +20.0% |  +2.00ms |   0.2% → 0.3% |   10.0ms → 12.0ms |   10 → 12 | `Composer\Autoload\AutoloadGenerator::getPathCode`                          | `composer/src/Composer/Autoload/AutoloadGenerator.php`                          |
 |  +12.5% |  +2.00ms |   0.4% → 0.5% |   16.0ms → 18.0ms |   16 → 18 | `Composer\Util\Filesystem::findShortestPath`                                | `composer/src/Composer/Util/Filesystem.php`                                     |
 | +200.0% |  +2.00ms |  <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\ClassMapGenerator\PhpFileCleaner::skipToPhp`                      | `composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`           |
-|     new |  +2.00ms |   0.0% → 0.1% |       0ms → 2.0ms |     0 → 2 | `Composer\ClassMapGenerator\ClassMapGenerator::getCwd`                      | `composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`        |
 
 ##### Third-party
 
@@ -65,24 +65,24 @@ Functions with the largest increase in time spent directly in the function body,
 
 ##### Ours
 
-|  Change |   Delta |            % |            Time | Samples | Function                                                  | Location                                                  |
-| ------: | ------: | -----------: | --------------: | ------: | --------------------------------------------------------- | --------------------------------------------------------- |
-| +133.3% | +4.00ms |  0.1% → 0.2% |   3.0ms → 7.0ms |   3 → 7 | `Composer\Autoload\AutoloadGenerator::getStaticFile`      | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
-| +300.0% | +3.00ms | <0.1% → 0.1% |   1.0ms → 4.0ms |   1 → 4 | `Composer\Util\Filesystem::isAbsolutePath`                | `composer/src/Composer/Util/Filesystem.php`               |
-|     new | +2.00ms |  0.0% → 0.1% |     0ms → 2.0ms |   0 → 2 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `composer/src/Composer/Util/StreamContextFactory.php`     |
-|  +20.0% | +2.00ms |  0.2% → 0.3% | 10.0ms → 12.0ms | 10 → 12 | `Composer\Autoload\AutoloadGenerator::getPathCode`        | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
-|  +12.5% | +2.00ms |  0.4% → 0.5% | 16.0ms → 18.0ms | 16 → 18 | `Composer\Util\Filesystem::findShortestPath`              | `composer/src/Composer/Util/Filesystem.php`               |
-|   +7.1% | +1.00ms |  0.3% → 0.4% | 14.0ms → 15.0ms | 13 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:353 → 349` |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Factory::createComposer`                        | `composer/src/Composer/Factory.php`                       |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Repository\RepositoryManager::createRepository` | `composer/src/Composer/Repository/RepositoryManager.php`  |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Command\DumpAutoloadCommand::execute`           | `composer/src/Composer/Command/DumpAutoloadCommand.php`   |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Util\Filesystem::filePutContentsIfModified`     | `composer/src/Composer/Util/Filesystem.php`               |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/InstallCommand.php`        |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Package/Archiver/PharArchiver.php` |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Package\Locker::__construct`                    | `composer/src/Composer/Package/Locker.php`                |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Repository\ArrayRepository::getPackages`        | `composer/src/Composer/Repository/ArrayRepository.php`    |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Command\DependsCommand::configure`              | `composer/src/Composer/Command/DependsCommand.php`        |
-|     new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Autoload\AutoloadGenerator::getPlatformCheck`   | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
+|  Change |    Delta |            % |            Time | Samples | Function                                                  | Location                                                  |
+| ------: | -------: | -----------: | --------------: | ------: | --------------------------------------------------------- | --------------------------------------------------------- |
+|     new | +15.00ms |  0.0% → 0.4% |    0ms → 15.0ms |  0 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:349`       |
+| +133.3% |  +4.00ms |  0.1% → 0.2% |   3.0ms → 7.0ms |   3 → 7 | `Composer\Autoload\AutoloadGenerator::getStaticFile`      | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
+| +300.0% |  +3.00ms | <0.1% → 0.1% |   1.0ms → 4.0ms |   1 → 4 | `Composer\Util\Filesystem::isAbsolutePath`                | `composer/src/Composer/Util/Filesystem.php`               |
+|     new |  +2.00ms |  0.0% → 0.1% |     0ms → 2.0ms |   0 → 2 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `composer/src/Composer/Util/StreamContextFactory.php`     |
+|  +20.0% |  +2.00ms |  0.2% → 0.3% | 10.0ms → 12.0ms | 10 → 12 | `Composer\Autoload\AutoloadGenerator::getPathCode`        | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
+|  +12.5% |  +2.00ms |  0.4% → 0.5% | 16.0ms → 18.0ms | 16 → 18 | `Composer\Util\Filesystem::findShortestPath`              | `composer/src/Composer/Util/Filesystem.php`               |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Factory::createComposer`                        | `composer/src/Composer/Factory.php`                       |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Repository\RepositoryManager::createRepository` | `composer/src/Composer/Repository/RepositoryManager.php`  |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Command\DumpAutoloadCommand::execute`           | `composer/src/Composer/Command/DumpAutoloadCommand.php`   |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Util\Filesystem::filePutContentsIfModified`     | `composer/src/Composer/Util/Filesystem.php`               |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/InstallCommand.php`        |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Package/Archiver/PharArchiver.php` |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Package\Locker::__construct`                    | `composer/src/Composer/Package/Locker.php`                |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Repository\ArrayRepository::getPackages`        | `composer/src/Composer/Repository/ArrayRepository.php`    |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Command\DependsCommand::configure`              | `composer/src/Composer/Command/DependsCommand.php`        |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |   0 → 1 | `Composer\Autoload\AutoloadGenerator::getPlatformCheck`   | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
 
 #### Improvements
 
@@ -95,6 +95,7 @@ Functions with the largest decrease in time spent directly in the function body,
 |   -6.2% |  -27.00ms | 10.4% → 10.3% | 435.0ms → 408.0ms | 435 → 408 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`                   | `composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`    |
 |   -2.5% |  -16.00ms | 15.5% → 15.9% | 645.0ms → 629.0ms | 166 → 158 | `Symfony\Component\Process\Pipes\UnixPipes::readAndWrite`            | `composer/vendor/symfony/process/Pipes/UnixPipes.php`                    |
 |  -19.5% |  -15.00ms |   1.8% → 1.6% |   77.0ms → 62.0ms |   77 → 62 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths`            | `composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+| removed |  -14.00ms |   0.3% → 0.0% |      14.0ms → 0ms |    13 → 0 | `(anonymous)`                                                        | `composer/src/Composer/Console/Application.php:353`                      |
 |   -4.3% |  -12.00ms |   6.6% → 6.7% | 276.0ms → 264.0ms | 276 → 264 | `Composer\Pcre\Preg::pregMatch`                                      | `composer/vendor/composer/pcre/src/Preg.php`                             |
 |   -7.8% |  -11.00ms |   3.4% → 3.3% | 141.0ms → 130.0ms | 141 → 130 | `Composer\Pcre\Preg::enforceNonNullMatches`                          | `composer/vendor/composer/pcre/src/Preg.php`                             |
 |   -7.0% |  -10.00ms |   3.4% → 3.3% | 142.0ms → 132.0ms | 142 → 132 | `Composer\Pcre\Preg::isMatchStrictGroups`                            | `composer/vendor/composer/pcre/src/Preg.php`                             |
@@ -109,7 +110,6 @@ Functions with the largest decrease in time spent directly in the function body,
 |   -9.1% |   -3.00ms |          0.8% |   33.0ms → 30.0ms |   33 → 30 | `Composer\Util\Filesystem::normalizePath`                            | `composer/src/Composer/Util/Filesystem.php`                              |
 | removed |   -3.00ms |   0.1% → 0.0% |       3.0ms → 0ms |     3 → 0 | `Seld\Signal\SignalHandler::unregister`                              | `composer/vendor/seld/signal-handler/src/SignalHandler.php`              |
 | removed |   -3.00ms |   0.1% → 0.0% |       3.0ms → 0ms |     3 → 0 | `Composer\Pcre\Preg::checkSetOrder`                                  | `composer/vendor/composer/pcre/src/Preg.php`                             |
-| removed |   -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `Symfony\Component\Console\Application::find`                        | `composer/vendor/symfony/console/Application.php`                        |
 
 ##### Third-party
 
@@ -141,6 +141,7 @@ Functions with the largest decrease in time spent directly in the function body,
 |  Change |    Delta |            % |              Time | Samples | Function                                                               | Location                                                         |
 | ------: | -------: | -----------: | ----------------: | ------: | ---------------------------------------------------------------------- | ---------------------------------------------------------------- |
 |  -13.0% | -35.00ms |  6.5% → 5.9% | 269.0ms → 234.0ms | 26 → 24 | `Composer\Util\Silencer::call`                                         | `composer/src/Composer/Util/Silencer.php`                        |
+| removed | -14.00ms |  0.3% → 0.0% |      14.0ms → 0ms |  13 → 0 | `(anonymous)`                                                          | `composer/src/Composer/Console/Application.php:353`              |
 |  -66.7% |  -4.00ms |         0.1% |     6.0ms → 2.0ms |   6 → 2 | `Composer\Autoload\AutoloadGenerator::dump`                            | `composer/src/Composer/Autoload/AutoloadGenerator.php`           |
 |   -9.1% |  -3.00ms |         0.8% |   33.0ms → 30.0ms | 33 → 30 | `Composer\Util\Filesystem::normalizePath`                              | `composer/src/Composer/Util/Filesystem.php`                      |
 | removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |   2 → 0 | `Composer\Json\JsonFile::validateSchema`                               | `composer/src/Composer/Json/JsonFile.php`                        |
@@ -159,7 +160,6 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |   1 → 0 | `Composer\Util\Filesystem::ensureDirectoryExists`                      | `composer/src/Composer/Util/Filesystem.php`                      |
 | removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |   1 → 0 | `Composer\Util\Filesystem::safeCopy`                                   | `composer/src/Composer/Util/Filesystem.php`                      |
 | removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |   1 → 0 | `Composer\Util\Git::cleanEnv`                                          | `composer/src/Composer/Util/Git.php`                             |
-| removed |  -1.00ms | <0.1% → 0.0% |       1.0ms → 0ms |   1 → 0 | `Composer\Json\JsonFile::read`                                         | `composer/src/Composer/Json/JsonFile.php`                        |
 
 ### Total time
 
@@ -177,6 +177,7 @@ Functions with the largest increase in total time spent in the function and all 
 |  +43.6% | +24.00ms |   1.3% → 2.0% |   55.0ms → 79.0ms |     55 → 79 | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::getChildren` | `composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php`    |
 |  +22.6% | +19.00ms |   2.0% → 2.6% |  84.0ms → 103.0ms |    80 → 103 | `Composer\Pcre\Preg::checkOffsetCapture`                                        | `composer/vendor/composer/pcre/src/Preg.php`                                    |
 |   +1.9% | +17.00ms | 21.9% → 23.5% | 911.0ms → 928.0ms |   911 → 928 | `Composer\Pcre\Preg::isMatchStrictGroups`                                       | `composer/vendor/composer/pcre/src/Preg.php`                                    |
+|     new | +15.00ms |   0.0% → 0.4% |      0ms → 15.0ms |      0 → 15 | `(anonymous)`                                                                   | `composer/src/Composer/Console/Application.php:349`                             |
 |   +7.1% |  +8.00ms |   2.7% → 3.0% | 112.0ms → 120.0ms |   112 → 120 | `Composer\Autoload\AutoloadGenerator::getPathCode`                              | `composer/src/Composer/Autoload/AutoloadGenerator.php`                          |
 |  +12.1% |  +8.00ms |   1.6% → 1.9% |   66.0ms → 74.0ms |     66 → 74 | `Composer\Util\Filesystem::findShortestPath`                                    | `composer/src/Composer/Util/Filesystem.php`                                     |
 | +150.0% |  +6.00ms |   0.1% → 0.3% |    4.0ms → 10.0ms |      4 → 10 | `JsonSchema\Uri\UriRetriever::loadSchema`                                       | `composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php` |
@@ -188,7 +189,6 @@ Functions with the largest increase in total time spent in the function and all 
 |   +6.7% |  +3.00ms |   1.1% → 1.2% |   45.0ms → 48.0ms |     45 → 48 | `Symfony\Component\Process\Process::start`                                      | `composer/vendor/symfony/process/Process.php`                                   |
 |  +37.5% |  +3.00ms |   0.2% → 0.3% |    8.0ms → 11.0ms |      8 → 11 | `(anonymous)`                                                                   | `vendor/composer/autoload_classmap.php`                                         |
 |  +42.9% |  +3.00ms |   0.2% → 0.3% |    7.0ms → 10.0ms |      7 → 10 | `JsonSchema\Uri\UriRetriever::retrieve`                                         | `composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php` |
-| +300.0% |  +3.00ms |  <0.1% → 0.1% |     1.0ms → 4.0ms |       1 → 4 | `Composer\Util\Filesystem::isAbsolutePath`                                      | `composer/src/Composer/Util/Filesystem.php`                                     |
 
 ##### Third-party
 
@@ -217,28 +217,28 @@ Functions with the largest increase in total time spent in the function and all 
 
 ##### Ours
 
-|  Change |   Delta |            % |              Time |   Samples | Function                                                  | Location                                                  |
-| ------: | ------: | -----------: | ----------------: | --------: | --------------------------------------------------------- | --------------------------------------------------------- |
-|   +7.1% | +8.00ms |  2.7% → 3.0% | 112.0ms → 120.0ms | 112 → 120 | `Composer\Autoload\AutoloadGenerator::getPathCode`        | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
-|  +12.1% | +8.00ms |  1.6% → 1.9% |   66.0ms → 74.0ms |   66 → 74 | `Composer\Util\Filesystem::findShortestPath`              | `composer/src/Composer/Util/Filesystem.php`               |
-|  +36.4% | +4.00ms |  0.3% → 0.4% |   11.0ms → 15.0ms |   11 → 15 | `Composer\Console\Application::getDefaultCommands`        | `composer/src/Composer/Console/Application.php`           |
-| +300.0% | +3.00ms | <0.1% → 0.1% |     1.0ms → 4.0ms |     1 → 4 | `Composer\Util\Filesystem::isAbsolutePath`                | `composer/src/Composer/Util/Filesystem.php`               |
-| +200.0% | +2.00ms | <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `composer/src/Composer/Util/StreamContextFactory.php`     |
-| +200.0% | +2.00ms | <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\Console\Input\InputOption::__construct`         | `composer/src/Composer/Console/Input/InputOption.php`     |
-|   +7.1% | +1.00ms |  0.3% → 0.4% |   14.0ms → 15.0ms |   13 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:353 → 349` |
-|  +16.7% | +1.00ms |  0.1% → 0.2% |     6.0ms → 7.0ms |         1 | `Composer\Util\Git::getVersion`                           | `composer/src/Composer/Util/Git.php`                      |
-|  +16.7% | +1.00ms |  0.1% → 0.2% |     6.0ms → 7.0ms |         1 | `Composer\Util\Git::getNoShowSignatureFlag`               | `composer/src/Composer/Util/Git.php`                      |
-| +100.0% | +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `(anonymous)`                                             | `composer/src/Composer/Repository/ComposerRepository.php` |
-|  +50.0% | +1.00ms | <0.1% → 0.1% |     2.0ms → 3.0ms |     2 → 3 | `Composer\Repository\RepositoryManager::createRepository` | `composer/src/Composer/Repository/RepositoryManager.php`  |
-|  +50.0% | +1.00ms | <0.1% → 0.1% |     2.0ms → 3.0ms |     2 → 3 | `Composer\Repository\RepositoryFactory::createRepos`      | `composer/src/Composer/Repository/RepositoryFactory.php`  |
-|  +50.0% | +1.00ms | <0.1% → 0.1% |     2.0ms → 3.0ms |     2 → 3 | `Composer\Repository\RepositoryFactory::defaultRepos`     | `composer/src/Composer/Repository/RepositoryFactory.php`  |
-| +100.0% | +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `Composer\Plugin\PluginManager::loadRepository`           | `composer/src/Composer/Plugin/PluginManager.php`          |
-| +100.0% | +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `Composer\Plugin\PluginManager::loadInstalledPlugins`     | `composer/src/Composer/Plugin/PluginManager.php`          |
-|     new | +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/AboutCommand.php`          |
-|     new | +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/DependsCommand.php`        |
-|     new | +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/InstallCommand.php`        |
-|     new | +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `Composer\IO\BaseIO::loadConfiguration`                   | `composer/src/Composer/IO/BaseIO.php`                     |
-|     new | +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `Composer\Factory::createInstallationManager`             | `composer/src/Composer/Factory.php`                       |
+|  Change |    Delta |            % |              Time |   Samples | Function                                                  | Location                                                  |
+| ------: | -------: | -----------: | ----------------: | --------: | --------------------------------------------------------- | --------------------------------------------------------- |
+|     new | +15.00ms |  0.0% → 0.4% |      0ms → 15.0ms |    0 → 15 | `(anonymous)`                                             | `composer/src/Composer/Console/Application.php:349`       |
+|   +7.1% |  +8.00ms |  2.7% → 3.0% | 112.0ms → 120.0ms | 112 → 120 | `Composer\Autoload\AutoloadGenerator::getPathCode`        | `composer/src/Composer/Autoload/AutoloadGenerator.php`    |
+|  +12.1% |  +8.00ms |  1.6% → 1.9% |   66.0ms → 74.0ms |   66 → 74 | `Composer\Util\Filesystem::findShortestPath`              | `composer/src/Composer/Util/Filesystem.php`               |
+|  +36.4% |  +4.00ms |  0.3% → 0.4% |   11.0ms → 15.0ms |   11 → 15 | `Composer\Console\Application::getDefaultCommands`        | `composer/src/Composer/Console/Application.php`           |
+| +300.0% |  +3.00ms | <0.1% → 0.1% |     1.0ms → 4.0ms |     1 → 4 | `Composer\Util\Filesystem::isAbsolutePath`                | `composer/src/Composer/Util/Filesystem.php`               |
+| +200.0% |  +2.00ms | <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `composer/src/Composer/Util/StreamContextFactory.php`     |
+| +200.0% |  +2.00ms | <0.1% → 0.1% |     1.0ms → 3.0ms |     1 → 3 | `Composer\Console\Input\InputOption::__construct`         | `composer/src/Composer/Console/Input/InputOption.php`     |
+|  +16.7% |  +1.00ms |  0.1% → 0.2% |     6.0ms → 7.0ms |         1 | `Composer\Util\Git::getVersion`                           | `composer/src/Composer/Util/Git.php`                      |
+|  +16.7% |  +1.00ms |  0.1% → 0.2% |     6.0ms → 7.0ms |         1 | `Composer\Util\Git::getNoShowSignatureFlag`               | `composer/src/Composer/Util/Git.php`                      |
+| +100.0% |  +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `(anonymous)`                                             | `composer/src/Composer/Repository/ComposerRepository.php` |
+|  +50.0% |  +1.00ms | <0.1% → 0.1% |     2.0ms → 3.0ms |     2 → 3 | `Composer\Repository\RepositoryManager::createRepository` | `composer/src/Composer/Repository/RepositoryManager.php`  |
+|  +50.0% |  +1.00ms | <0.1% → 0.1% |     2.0ms → 3.0ms |     2 → 3 | `Composer\Repository\RepositoryFactory::createRepos`      | `composer/src/Composer/Repository/RepositoryFactory.php`  |
+|  +50.0% |  +1.00ms | <0.1% → 0.1% |     2.0ms → 3.0ms |     2 → 3 | `Composer\Repository\RepositoryFactory::defaultRepos`     | `composer/src/Composer/Repository/RepositoryFactory.php`  |
+| +100.0% |  +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `Composer\Plugin\PluginManager::loadRepository`           | `composer/src/Composer/Plugin/PluginManager.php`          |
+| +100.0% |  +1.00ms | <0.1% → 0.1% |     1.0ms → 2.0ms |     1 → 2 | `Composer\Plugin\PluginManager::loadInstalledPlugins`     | `composer/src/Composer/Plugin/PluginManager.php`          |
+|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/AboutCommand.php`          |
+|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/DependsCommand.php`        |
+|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `(anonymous)`                                             | `composer/src/Composer/Command/InstallCommand.php`        |
+|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `Composer\IO\BaseIO::loadConfiguration`                   | `composer/src/Composer/IO/BaseIO.php`                     |
+|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `Composer\Factory::createInstallationManager`             | `composer/src/Composer/Factory.php`                       |
 
 #### Improvements
 
@@ -307,6 +307,7 @@ Functions with the largest decrease in total time spent in the function and all 
 |   -2.1% |  -16.00ms | 18.0% → 18.6% | 748.0ms → 732.0ms |     269 → 261 | `Composer\Console\Application::getComposer`                   | `composer/src/Composer/Console/Application.php`              |
 |   -2.1% |  -16.00ms | 18.0% → 18.6% | 748.0ms → 732.0ms |     269 → 261 | `Composer\Command\BaseCommand::tryComposer`                   | `composer/src/Composer/Command/BaseCommand.php`              |
 |   -2.1% |  -16.00ms | 18.0% → 18.6% | 748.0ms → 732.0ms |     269 → 261 | `Composer\Command\BaseCommand::initialize`                    | `composer/src/Composer/Command/BaseCommand.php`              |
+| removed |  -14.00ms |   0.3% → 0.0% |      14.0ms → 0ms |        13 → 0 | `(anonymous)`                                                 | `composer/src/Composer/Console/Application.php:353`          |
 |   -1.8% |  -13.00ms | 17.1% → 17.7% | 710.0ms → 697.0ms |     231 → 226 | `Composer\Package\Loader\RootPackageLoader::load`             | `composer/src/Composer/Package/Loader/RootPackageLoader.php` |
 |   -1.8% |  -13.00ms | 16.9% → 17.5% | 705.0ms → 692.0ms |     226 → 221 | `Composer\Package\Version\VersionGuesser::guessVersion`       | `composer/src/Composer/Package/Version/VersionGuesser.php`   |
 |   -1.6% |  -11.00ms | 16.8% → 17.5% | 701.0ms → 690.0ms |     222 → 219 | `Composer\Util\ProcessExecutor::runProcess`                   | `composer/src/Composer/Util/ProcessExecutor.php`             |
@@ -315,4 +316,3 @@ Functions with the largest decrease in total time spent in the function and all 
 |   -5.6% |   -7.00ms |          3.0% | 125.0ms → 118.0ms |            63 | `Composer\Package\Version\VersionGuesser::guessFossilVersion` | `composer/src/Composer/Package/Version/VersionGuesser.php`   |
 |   -7.9% |   -5.00ms |          1.5% |   63.0ms → 58.0ms |       63 → 58 | `Composer\Util\Filesystem::normalizePath`                     | `composer/src/Composer/Util/Filesystem.php`                  |
 | removed |   -4.00ms |   0.1% → 0.0% |       4.0ms → 0ms |         4 → 0 | `Composer\Util\ErrorHandler::handle`                          | `composer/src/Composer/Util/ErrorHandler.php`                |
-| removed |   -4.00ms |   0.1% → 0.0% |       4.0ms → 0ms |         4 → 0 | `Composer\Util\Silencer::suppress`                            | `composer/src/Composer/Util/Silencer.php`                    |

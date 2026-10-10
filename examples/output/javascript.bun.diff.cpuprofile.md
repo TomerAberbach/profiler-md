@@ -311,11 +311,11 @@ Functions with the largest decrease in total time spent in the function and all 
 | -16.7% | -34.24ms |   3.7% → 3.0% | 204.8ms → 170.5ms | 151 → 131 | `trampoline`                     | `node_modules/typescript/lib/typescript.js:30489:22 → 31541:22` |
 | -16.7% | -33.37ms |   3.6% → 2.9% | 199.6ms → 166.2ms | 147 → 128 | `(anonymous)`                    | `node_modules/typescript/lib/typescript.js:80462:12 → 81757:12` |
 |  -4.7% | -33.11ms | 12.7% → 11.9% | 705.5ms → 672.3ms | 538 → 507 | `checkTypeArgumentConstraints`   | `node_modules/typescript/lib/typescript.js:82186:40 → 83481:40` |
-| -95.1% | -30.48ms |  0.6% → <0.1% |    32.0ms → 1.6ms |    26 → 1 | `(anonymous)`                    | `node_modules/typescript/lib/typescript.js:21208:60 → 24187:38` |
 | -15.9% | -28.46ms |   3.2% → 2.7% | 179.0ms → 150.6ms | 133 → 114 | `getObjectFlags`                 | `node_modules/typescript/lib/typescript.js:20242:24 → 21225:24` |
 | -22.1% | -27.07ms |   2.2% → 1.7% |  122.6ms → 95.5ms |   84 → 74 | `checkMappedType`                | `node_modules/typescript/lib/typescript.js:82354:27 → 83649:27` |
 | -84.3% | -26.64ms |   0.6% → 0.1% |    31.6ms → 5.0ms |    25 → 4 | `isEvolvingArrayOperationTarget` | `node_modules/typescript/lib/typescript.js:71351:42 → 72634:42` |
 |  -7.0% | -26.62ms |   6.9% → 6.3% | 380.9ms → 354.3ms | 282 → 272 | `checkModuleDeclaration`         | `node_modules/typescript/lib/typescript.js:86242:34 → 87555:34` |
+| -50.0% | -24.27ms |   0.9% → 0.4% |   48.5ms → 24.3ms |   26 → 19 | `checkUnionOrIntersectionType`   | `node_modules/typescript/lib/typescript.js:82318:40 → 83613:40` |
 
 ##### Native
 
