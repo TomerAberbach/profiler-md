@@ -316,14 +316,53 @@ and configuration callbacks.
 
 ## Skill
 
-Use the [`profiler-md` skill](./skills/profile-optimize/SKILL.md) to have an
-agent profile and optimize your code:
+Use the [`profile-optimize` skill](./skills/profile-optimize/SKILL.md) to have
+an agent profile and optimize your code. The skill runs the `profiler-md` CLI,
+so [install](#install) it first.
+
+Install the skill for any agent with [skills](https://skills.sh/docs):
 
 ```sh
 $ npx skills add TomerAberbach/profiler-md --skill profile-optimize
 ```
 
-See [skills.sh](https://skills.sh/docs) for more info.
+Or install it natively:
+
+<details>
+<summary>Claude Code</summary>
+
+```sh
+$ claude plugin marketplace add TomerAberbach/profiler-md --sparse .claude-plugin
+$ claude plugin install profiler-md@profiler-md
+```
+
+Pass `--sparse .claude-plugin` so Claude Code checks out only the marketplace
+file instead of this repository's large example inputs. The plugin installs the
+skill from the npm package. Invoke it as `/profiler-md:profile-optimize`.
+
+</details>
+
+<details>
+<summary>Codex</summary>
+
+```sh
+$ codex plugin marketplace add TomerAberbach/profiler-md --sparse .claude-plugin
+```
+
+Then open `/plugins`, select the `profiler-md` marketplace, and install the
+`profiler-md` plugin. Pass `--sparse .claude-plugin` so Codex checks out only
+the marketplace file instead of this repository's large example inputs.
+
+</details>
+
+<details>
+<summary>Pi</summary>
+
+```sh
+$ pi install npm:profiler-md
+```
+
+</details>
 
 Fun fact: the skill has profiled and optimized `profiler-md` itself!
 

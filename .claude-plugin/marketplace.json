@@ -1,0 +1,16 @@
+{
+  "name": "profiler-md",
+  "description": "Agent skills for profiling and optimizing code with profiler-md",
+  "owner": {
+    "name": "Tomer Aberbach",
+    "email": "tomer@aberba.ch",
+    "url": "https://tomeraberba.ch"
+  },
+  "plugins": [
+    {
+      "name": "profiler-md",
+      "description": "Generate a performance profile, identify hotspots, and optimize",
+      "source": { "source": "npm", "package": "profiler-md" }
+    }
+  ]
+}
