@@ -211,7 +211,7 @@ const inputFlags = object(`Input`, {
   ),
   baseURL: withDefault(
     option(`--base-url`, nonEmptyString(`STRING`, `a URL or path`), {
-      description: message`Base URL or path to show paths relative to, or auto for their common ancestor`,
+      description: message`Base URL or path to show paths relative to, or auto to infer one from the program's own code`,
     }),
     undefined,
     `cwd`,

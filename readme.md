@@ -219,8 +219,8 @@ Input:
   --source-maps GLOB                  Source maps (JSON or inline) to apply to 
                                       locations (repeatable)
   --base-url STRING                   Base URL or path to show paths relative 
-                                      to, or auto for their common ancestor 
-                                      (default: cwd)
+                                      to, or auto to infer one from the 
+                                      program's own code (default: cwd)
 
 Ranking:
   --top-n N                           Entries to show per ranking, including 
