@@ -116,15 +116,13 @@ export const makeFileReference = (
     return undefined
   }
 
-  if (urlOrPath.startsWith(`/`)) {
-    try {
-      return {
-        type: `absolute`,
-        url: filePathURL(urlOrPath),
-      }
-    } catch {
-      return { type: `relative`, path: urlOrPath }
+  try {
+    const url = absoluteFilePathURL(urlOrPath)
+    if (url) {
+      return { type: `absolute`, url }
     }
+  } catch {
+    return { type: `relative`, path: urlOrPath }
   }
 
   if (!urlOrPath.includes(`:`)) {
@@ -138,7 +136,30 @@ export const makeFileReference = (
   }
 }
 
-/** Returns the `file:` URL of an absolute file path. */
+/**
+ * Returns the `file:` URL of an absolute POSIX path, a Windows drive path
+ * (`C:\src\a.cs`), or a UNC path (`\\server\share\a.cs`), or `undefined` for
+ * any other string.
+ */
+const absoluteFilePathURL = (path: string): URL | undefined => {
+  if (path.startsWith(`/`)) {
+    return filePathURL(path)
+  }
+  if (path[1] === `:` && WINDOWS_DRIVE_PATH.test(path)) {
+    return filePathURL(`/${path.replaceAll(`\\`, `/`)}`)
+  }
+  if (path.startsWith(`\\\\`)) {
+    // The server becomes the URL's host.
+    return normalizeURLPath(
+      new URL(`file:${escapeFilePath(path.replaceAll(`\\`, `/`))}`),
+    )
+  }
+  return undefined
+}
+
+const WINDOWS_DRIVE_PATH = /^[a-z]:[\\/]/iu
+
+/** Returns the `file:` URL of an absolute POSIX file path. */
 export const filePathURL = (path: string): URL => {
   const url = new URL(`file://${escapeFilePath(path)}`)
   // The URL's pathname is the escaped path, so it has a dot or empty segment
@@ -340,10 +361,26 @@ const isRelativePathReadable = (
   (relativePath.sharedDirectoryCount > 0 || url.protocol !== `file:`)
 
 /**
- * A non-`file:` URL's protocol and host state where the source came from.
+ * Formats a `file:` URL as the path a shell on its system accepts: a Windows
+ * drive path without the URL's leading `/` (`C:/src/a.cs`), and a UNC path
+ * with its server (`//server/share/a.cs`). A non-`file:` URL's protocol and
+ * host state where the source came from.
  */
-const absoluteURLPath = (url: URL): string =>
-  url.protocol === `file:` ? decodedPathWithQuery(url.pathname, url) : url.href
+const absoluteURLPath = (url: URL): string => {
+  if (url.protocol !== `file:`) {
+    return url.href
+  }
+  if (url.host !== ``) {
+    return decodedPathWithQuery(`//${url.host}${url.pathname}`, url)
+  }
+  const { pathname } = url
+  return decodedPathWithQuery(
+    WINDOWS_DRIVE_PATHNAME.test(pathname) ? pathname.slice(1) : pathname,
+    url,
+  )
+}
+
+const WINDOWS_DRIVE_PATHNAME = /^\/[a-z]:(?:\/|$)/iu
 
 /**
  * Decodes {@link pathname} and appends {@link url}'s query, so scripts
