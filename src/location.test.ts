@@ -73,13 +73,13 @@ test(`Windows file URL sharing only the drive with baseURL formats as absolute`,
       url: `file:///C:/Windows/System32/ntdll.dll`,
       baseURL: `file:///C:/project/`,
     }),
-  ).toBe(`/C:/Windows/System32/ntdll.dll`)
+  ).toBe(`C:/Windows/System32/ntdll.dll`)
 })
 
 test(`Windows file URL on another drive than baseURL formats as absolute`, () => {
   expect(
     format({ url: `file:///D:/file.ts`, baseURL: `file:///C:/project/` }),
-  ).toBe(`/D:/file.ts`)
+  ).toBe(`D:/file.ts`)
 })
 
 test(`Windows file URL relative to baseURL on the same drive`, () => {
@@ -97,7 +97,7 @@ test(`UNC file URL sharing only the share with baseURL formats as absolute`, () 
       url: `file://server/share/b/file.ts`,
       baseURL: `file://server/share/a/`,
     }),
-  ).toBe(`/share/b/file.ts`)
+  ).toBe(`//server/share/b/file.ts`)
 })
 
 test(`file URL formatted as absolute keeps its query`, () => {
@@ -205,6 +205,19 @@ test(`file path under a baseURL containing URL syntax formats relative to it`, (
     }),
   ).toBe(`src/a.ts`)
 })
+
+test.each([
+  [`C:\\project\\src\\a.cs`, `C:\\project`, `src/a.cs`],
+  [`C:/project/src/a.cs`, `C:\\project\\`, `src/a.cs`],
+  [`C:\\Windows\\System32\\ntdll.dll`, null, `C:/Windows/System32/ntdll.dll`],
+  [`\\\\server\\share\\project\\a.cs`, `\\\\server\\share\\project`, `a.cs`],
+  [`\\\\server\\share\\a.cs`, null, `//server/share/a.cs`],
+])(
+  `Windows path %s with baseURL %s formats as %s`,
+  (path, baseURL, expected) => {
+    expect(formatPath({ path, baseURL })).toBe(expected)
+  },
+)
 
 test(`file path with empty segments under baseURL formats relative to it`, () => {
   expect(
