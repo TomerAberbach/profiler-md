@@ -19,28 +19,28 @@ Paths starting with `./` or `../` are relative to `/src/app/`.
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
-|   Change | Delta |           % |  Samples | Function                                                               | Location                                                                                                                                                                                                                        |
-| -------: | ----: | ----------: | -------: | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   +80.0% |   +56 | 4.5% → 8.1% | 70 → 126 | `Module#extend_object [c function]`                                    | `<unknown>`                                                                                                                                                                                                                     |
-|  +105.0% |   +21 | 1.3% → 2.6% |  20 → 41 | `Nokogiri::XML::Node#html_standard_serialize [c function]`             | `<unknown>`                                                                                                                                                                                                                     |
-|  +333.3% |   +20 | 0.4% → 1.7% |   6 → 26 | `String.new [c function]`                                              | `<unknown>`                                                                                                                                                                                                                     |
-|  +112.5% |   +18 | 1.0% → 2.2% |  16 → 34 | `Hash#merge [c function]`                                              | `<unknown>`                                                                                                                                                                                                                     |
-|  +850.0% |   +17 | 0.1% → 1.2% |   2 → 19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`        | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-|   +29.8% |   +17 | 3.7% → 4.8% |  57 → 74 | `Nokogiri::Gumbo.fragment [c function]`                                | `<unknown>`                                                                                                                                                                                                                     |
-| +1600.0% |   +16 | 0.1% → 1.1% |   1 → 17 | `Hash#transform_keys [c function]`                                     | `<unknown>`                                                                                                                                                                                                                     |
-|   +92.3% |   +12 | 0.8% → 1.6% |  13 → 25 | `Kernel#dup [c function]`                                              | `<unknown>`                                                                                                                                                                                                                     |
-|   +41.7% |   +10 | 1.5% → 2.2% |  24 → 34 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                                                                                                                                                     |
-|      new |   +10 | 0.0% → 0.6% |   0 → 10 | `ActionView::Helpers::NumberHelper#number_with_delimiter`              | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-|  +900.0% |    +9 | 0.1% → 0.6% |   1 → 10 | `Loofah::HTML5::Scrub.cdata_needs_escaping?`                           | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                                                                                |
-|   +90.0% |    +9 | 0.6% → 1.2% |  10 → 19 | `Nokogiri::XML::Node#node_name [c function]`                           | `<unknown>`                                                                                                                                                                                                                     |
-|   +88.9% |    +8 | 0.6% → 1.1% |   9 → 17 | `Array#join [c function]`                                              | `<unknown>`                                                                                                                                                                                                                     |
-|   +25.8% |    +8 | 2.0% → 2.5% |  31 → 39 | `Nokogiri::HTML4::Document.new [c function]`                           | `<unknown>`                                                                                                                                                                                                                     |
-|   +77.8% |    +7 | 0.6% → 1.0% |   9 → 16 | `ActionView::OutputBuffer#<<`                                          | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/buffers.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                                                                                     |
-|   +75.0% |    +6 | 0.5% → 0.9% |   8 → 14 | `Class#new [c function]`                                               | `<unknown>`                                                                                                                                                                                                                     |
-|  +120.0% |    +6 | 0.3% → 0.7% |   5 → 11 | `Nokogiri::HTML5::DocumentFragment#initialize`                         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`                                                                                                                              |
-|   +71.4% |    +5 | 0.5% → 0.8% |   7 → 12 | `Nokogiri::XML::Document#decorate`                                     | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                                                         |
-|   +45.5% |    +5 | 0.7% → 1.0% |  11 → 16 | `Loofah::Scrubber#traverse_conditionally_bottom_up`                    | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb`                                                                                                                                                                   |
-|  +100.0% |    +5 | 0.3% → 0.6% |   5 → 10 | `Nokogiri::XML::Node#attribute_nodes [c function]`                     | `<unknown>`                                                                                                                                                                                                                     |
+|   Change | Delta |           % |  Samples | Function                                                               | Location                                                                                                       |
+| -------: | ----: | ----------: | -------: | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+|   +80.0% |   +56 | 4.5% → 8.1% | 70 → 126 | `Module#extend_object [c function]`                                    | `<unknown>`                                                                                                    |
+|  +105.0% |   +21 | 1.3% → 2.6% |  20 → 41 | `Nokogiri::XML::Node#html_standard_serialize [c function]`             | `<unknown>`                                                                                                    |
+|  +333.3% |   +20 | 0.4% → 1.7% |   6 → 26 | `String.new [c function]`                                              | `<unknown>`                                                                                                    |
+|  +112.5% |   +18 | 1.0% → 2.2% |  16 → 34 | `Hash#merge [c function]`                                              | `<unknown>`                                                                                                    |
+|  +850.0% |   +17 | 0.1% → 1.2% |   2 → 19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`        | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+|   +29.8% |   +17 | 3.7% → 4.8% |  57 → 74 | `Nokogiri::Gumbo.fragment [c function]`                                | `<unknown>`                                                                                                    |
+| +1600.0% |   +16 | 0.1% → 1.1% |   1 → 17 | `Hash#transform_keys [c function]`                                     | `<unknown>`                                                                                                    |
+|   +92.3% |   +12 | 0.8% → 1.6% |  13 → 25 | `Kernel#dup [c function]`                                              | `<unknown>`                                                                                                    |
+|   +41.7% |   +10 | 1.5% → 2.2% |  24 → 34 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                                    |
+|      new |   +10 | 0.0% → 0.6% |   0 → 10 | `ActionView::Helpers::NumberHelper#number_with_delimiter`              | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+|  +900.0% |    +9 | 0.1% → 0.6% |   1 → 10 | `Loofah::HTML5::Scrub.cdata_needs_escaping?`                           | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                               |
+|   +90.0% |    +9 | 0.6% → 1.2% |  10 → 19 | `Nokogiri::XML::Node#node_name [c function]`                           | `<unknown>`                                                                                                    |
+|   +88.9% |    +8 | 0.6% → 1.1% |   9 → 17 | `Array#join [c function]`                                              | `<unknown>`                                                                                                    |
+|   +25.8% |    +8 | 2.0% → 2.5% |  31 → 39 | `Nokogiri::HTML4::Document.new [c function]`                           | `<unknown>`                                                                                                    |
+|   +77.8% |    +7 | 0.6% → 1.0% |   9 → 16 | `ActionView::OutputBuffer#<<`                                          | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                                           |
+|   +75.0% |    +6 | 0.5% → 0.9% |   8 → 14 | `Class#new [c function]`                                               | `<unknown>`                                                                                                    |
+|  +120.0% |    +6 | 0.3% → 0.7% |   5 → 11 | `Nokogiri::HTML5::DocumentFragment#initialize`                         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`             |
+|   +71.4% |    +5 | 0.5% → 0.8% |   7 → 12 | `Nokogiri::XML::Document#decorate`                                     | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                        |
+|   +45.5% |    +5 | 0.7% → 1.0% |  11 → 16 | `Loofah::Scrubber#traverse_conditionally_bottom_up`                    | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb`                                                  |
+|  +100.0% |    +5 | 0.3% → 0.6% |   5 → 10 | `Nokogiri::XML::Node#attribute_nodes [c function]`                     | `<unknown>`                                                                                                    |
 
 ##### Native
 
@@ -69,28 +69,28 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### Third-party
 
-|  Change | Delta |           % | Samples | Function                                                            | Location                                                                                                                                                                                                                        |
-| ------: | ----: | ----------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +850.0% |   +17 | 0.1% → 1.2% |  2 → 19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`     | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-|     new |   +10 | 0.0% → 0.6% |  0 → 10 | `ActionView::Helpers::NumberHelper#number_with_delimiter`           | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| +900.0% |    +9 | 0.1% → 0.6% |  1 → 10 | `Loofah::HTML5::Scrub.cdata_needs_escaping?`                        | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                                                                                |
-|  +77.8% |    +7 | 0.6% → 1.0% |  9 → 16 | `ActionView::OutputBuffer#<<`                                       | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/buffers.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                                                                                     |
-| +120.0% |    +6 | 0.3% → 0.7% |  5 → 11 | `Nokogiri::HTML5::DocumentFragment#initialize`                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`                                                                                                                              |
-|  +71.4% |    +5 | 0.5% → 0.8% |  7 → 12 | `Nokogiri::XML::Document#decorate`                                  | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                                                         |
-|  +45.5% |    +5 | 0.7% → 1.0% | 11 → 16 | `Loofah::Scrubber#traverse_conditionally_bottom_up`                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb`                                                                                                                                                                   |
-| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `Rails::HTML::Concern::Serializer::UTF8Encode#serialize`            | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                                                                 |
-| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `Nokogiri::XML::Node#attributes`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                                             |
-| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `Loofah::HTML5::Scrub.scrub_css_attribute`                          | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                                                                                |
-| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `ActionView::Helpers::UrlHelper#convert_options_to_data_attributes` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`                                                               |
-| +200.0% |    +4 | 0.1% → 0.4% |   2 → 6 | `block in to_html`                                                  | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                                                                                         |
-|  +66.7% |    +4 | 0.4% → 0.6% |  6 → 10 | `Nokogiri::XML::Document#decorators`                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                                                         |
-|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `Rails::HTML::PermitScrubber#scrub_attributes`                      | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                                                                 |
-|  +75.0% |    +3 | 0.3% → 0.5% |   4 → 7 | `Nokogiri::XML::NodeSet#to_html`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                                                                                         |
-|  +75.0% |    +3 | 0.3% → 0.5% |   4 → 7 | `I18n::Backend::Base#translate`                                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/base.rb`                                                                                                                                                                   |
-|  +60.0% |    +3 | 0.3% → 0.5% |   5 → 8 | `block in scrub_attributes`                                         | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                                                                 |
-| +150.0% |    +3 | 0.1% → 0.3% |   2 → 5 | `Nokogiri::XML::Node#xml?`                                          | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                                             |
-| +100.0% |    +3 | 0.2% → 0.4% |   3 → 6 | `Nokogiri::XML::Document#initialize`                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                                                         |
-|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `I18n::Base#normalize_key`                                          | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb`                                                                                                                                                                                |
+|  Change | Delta |           % | Samples | Function                                                            | Location                                                                                                       |
+| ------: | ----: | ----------: | ------: | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| +850.0% |   +17 | 0.1% → 1.2% |  2 → 19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`     | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+|     new |   +10 | 0.0% → 0.6% |  0 → 10 | `ActionView::Helpers::NumberHelper#number_with_delimiter`           | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| +900.0% |    +9 | 0.1% → 0.6% |  1 → 10 | `Loofah::HTML5::Scrub.cdata_needs_escaping?`                        | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                               |
+|  +77.8% |    +7 | 0.6% → 1.0% |  9 → 16 | `ActionView::OutputBuffer#<<`                                       | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                                           |
+| +120.0% |    +6 | 0.3% → 0.7% |  5 → 11 | `Nokogiri::HTML5::DocumentFragment#initialize`                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`             |
+|  +71.4% |    +5 | 0.5% → 0.8% |  7 → 12 | `Nokogiri::XML::Document#decorate`                                  | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                        |
+|  +45.5% |    +5 | 0.7% → 1.0% | 11 → 16 | `Loofah::Scrubber#traverse_conditionally_bottom_up`                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb`                                                  |
+| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `Rails::HTML::Concern::Serializer::UTF8Encode#serialize`            | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                |
+| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `Nokogiri::XML::Node#attributes`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                            |
+| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `Loofah::HTML5::Scrub.scrub_css_attribute`                          | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                               |
+| +500.0% |    +5 | 0.1% → 0.4% |   1 → 6 | `ActionView::Helpers::UrlHelper#convert_options_to_data_attributes` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`                                |
+| +200.0% |    +4 | 0.1% → 0.4% |   2 → 6 | `block in to_html`                                                  | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                        |
+|  +66.7% |    +4 | 0.4% → 0.6% |  6 → 10 | `Nokogiri::XML::Document#decorators`                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                        |
+|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `Rails::HTML::PermitScrubber#scrub_attributes`                      | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                |
+|  +75.0% |    +3 | 0.3% → 0.5% |   4 → 7 | `Nokogiri::XML::NodeSet#to_html`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                        |
+|  +75.0% |    +3 | 0.3% → 0.5% |   4 → 7 | `I18n::Backend::Base#translate`                                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/base.rb`                                                  |
+|  +60.0% |    +3 | 0.3% → 0.5% |   5 → 8 | `block in scrub_attributes`                                         | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                |
+| +150.0% |    +3 | 0.1% → 0.3% |   2 → 5 | `Nokogiri::XML::Node#xml?`                                          | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                            |
+| +100.0% |    +3 | 0.2% → 0.4% |   3 → 6 | `Nokogiri::XML::Document#initialize`                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                        |
+|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `I18n::Base#normalize_key`                                          | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb`                                                               |
 
 ##### Unknown
 
@@ -114,28 +114,28 @@ Functions with the largest increase in samples taken directly in the function bo
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |           % |  Samples | Function                                                           | Location                                                                                                                                                                                              |
-| ------: | ----: | ----------: | -------: | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -86.5% |  -128 | 9.5% → 1.3% | 148 → 20 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-|  -72.2% |   -57 | 5.1% → 1.4% |  79 → 22 | `Nokogiri::XML::NodeSet#each`                                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                                                               |
-|  -50.9% |   -29 | 3.7% → 1.8% |  57 → 28 | `String#encode [c function]`                                       | `<unknown>`                                                                                                                                                                                           |
-|  -28.7% |   -27 | 6.0% → 4.3% |  94 → 67 | `Digest::Base#<< [c function]`                                     | `<unknown>`                                                                                                                                                                                           |
-|  -54.3% |   -25 | 3.0% → 1.4% |  46 → 21 | `block in decorate`                                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                               |
-|  -62.5% |   -15 | 1.5% → 0.6% |   24 → 9 | `String#split [c function]`                                        | `<unknown>`                                                                                                                                                                                           |
-|  -40.0% |   -12 | 1.9% → 1.2% |  30 → 18 | `String#gsub! [c function]`                                        | `<unknown>`                                                                                                                                                                                           |
-|  -25.0% |   -11 | 2.8% → 2.1% |  44 → 33 | `String#gsub [c function]`                                         | `<unknown>`                                                                                                                                                                                           |
-|  -64.3% |    -9 | 0.9% → 0.3% |   14 → 5 | `Nokogiri::XML::Node#to_format`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                   |
-|  -50.0% |    -6 | 0.8% → 0.4% |   12 → 6 | `block in each`                                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                                                               |
-|  -60.0% |    -6 | 0.6% → 0.3% |   10 → 4 | `Nokogiri::XML::Node#serialize`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                   |
-|  -71.4% |    -5 | 0.5% → 0.1% |    7 → 2 | `Set#include?`                                                     | `/usr/local/lib/ruby/3.4.0/set.rb`                                                                                                                                                                    |
-|  -66.7% |    -4 | 0.4% → 0.1% |    6 → 2 | `Hash#fetch [c function]`                                          | `<unknown>`                                                                                                                                                                                           |
-|  -66.7% |    -4 | 0.4% → 0.1% |    6 → 2 | `ActiveSupport::CoreExt::ERBUtil#html_escape`                      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/erb/util.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`                           |
-|  -30.8% |    -4 | 0.8% → 0.6% |   13 → 9 | `Nokogiri::XML::DocumentFragment.new`                              | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`                                                                                                      |
-|  -80.0% |    -4 | 0.3% → 0.1% |    5 → 1 | `Random.urandom [c function]`                                      | `<unknown>`                                                                                                                                                                                           |
-|  -80.0% |    -4 | 0.3% → 0.1% |    5 → 1 | `Nokogiri::HTML5::Document#initialize`                             | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document.rb`                                                                                                             |
-|  -33.3% |    -3 | 0.6% → 0.4% |    9 → 6 | `Loofah::ScrubBehavior::Node#scrub!`                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                                                                                                                         |
-| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `Hash#[] [c function]`                                             | `<unknown>`                                                                                                                                                                                           |
-| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `I18n::Backend::Simple::Implementation#lookup`                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/simple.rb`                                                                                                                                       |
+|  Change | Delta |           % |  Samples | Function                                                           | Location                                                                                          |
+| ------: | ----: | ----------: | -------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+|  -86.5% |  -128 | 9.5% → 1.3% | 148 → 20 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+|  -72.2% |   -57 | 5.1% → 1.4% |  79 → 22 | `Nokogiri::XML::NodeSet#each`                                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`           |
+|  -50.9% |   -29 | 3.7% → 1.8% |  57 → 28 | `String#encode [c function]`                                       | `<unknown>`                                                                                       |
+|  -28.7% |   -27 | 6.0% → 4.3% |  94 → 67 | `Digest::Base#<< [c function]`                                     | `<unknown>`                                                                                       |
+|  -54.3% |   -25 | 3.0% → 1.4% |  46 → 21 | `block in decorate`                                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`           |
+|  -62.5% |   -15 | 1.5% → 0.6% |   24 → 9 | `String#split [c function]`                                        | `<unknown>`                                                                                       |
+|  -40.0% |   -12 | 1.9% → 1.2% |  30 → 18 | `String#gsub! [c function]`                                        | `<unknown>`                                                                                       |
+|  -25.0% |   -11 | 2.8% → 2.1% |  44 → 33 | `String#gsub [c function]`                                         | `<unknown>`                                                                                       |
+|  -64.3% |    -9 | 0.9% → 0.3% |   14 → 5 | `Nokogiri::XML::Node#to_format`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`               |
+|  -50.0% |    -6 | 0.8% → 0.4% |   12 → 6 | `block in each`                                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`           |
+|  -60.0% |    -6 | 0.6% → 0.3% |   10 → 4 | `Nokogiri::XML::Node#serialize`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`               |
+|  -71.4% |    -5 | 0.5% → 0.1% |    7 → 2 | `Set#include?`                                                     | `/usr/local/lib/ruby/3.4.0/set.rb`                                                                |
+|  -66.7% |    -4 | 0.4% → 0.1% |    6 → 2 | `Hash#fetch [c function]`                                          | `<unknown>`                                                                                       |
+|  -66.7% |    -4 | 0.4% → 0.1% |    6 → 2 | `ActiveSupport::CoreExt::ERBUtil#html_escape`                      | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`              |
+|  -30.8% |    -4 | 0.8% → 0.6% |   13 → 9 | `Nokogiri::XML::DocumentFragment.new`                              | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`  |
+|  -80.0% |    -4 | 0.3% → 0.1% |    5 → 1 | `Random.urandom [c function]`                                      | `<unknown>`                                                                                       |
+|  -80.0% |    -4 | 0.3% → 0.1% |    5 → 1 | `Nokogiri::HTML5::Document#initialize`                             | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document.rb`         |
+|  -33.3% |    -3 | 0.6% → 0.4% |    9 → 6 | `Loofah::ScrubBehavior::Node#scrub!`                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                     |
+| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `Hash#[] [c function]`                                             | `<unknown>`                                                                                       |
+| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `I18n::Backend::Simple::Implementation#lookup`                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/simple.rb`                                   |
 
 ##### Native
 
@@ -164,28 +164,28 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 ##### Third-party
 
-|  Change | Delta |           % |  Samples | Function                                                           | Location                                                                                                                                                                                              |
-| ------: | ----: | ----------: | -------: | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -86.5% |  -128 | 9.5% → 1.3% | 148 → 20 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-|  -72.2% |   -57 | 5.1% → 1.4% |  79 → 22 | `Nokogiri::XML::NodeSet#each`                                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                                                               |
-|  -54.3% |   -25 | 3.0% → 1.4% |  46 → 21 | `block in decorate`                                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                               |
-|  -64.3% |    -9 | 0.9% → 0.3% |   14 → 5 | `Nokogiri::XML::Node#to_format`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                   |
-|  -50.0% |    -6 | 0.8% → 0.4% |   12 → 6 | `block in each`                                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                                                               |
-|  -60.0% |    -6 | 0.6% → 0.3% |   10 → 4 | `Nokogiri::XML::Node#serialize`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                   |
-|  -66.7% |    -4 | 0.4% → 0.1% |    6 → 2 | `ActiveSupport::CoreExt::ERBUtil#html_escape`                      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/erb/util.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`                           |
-|  -30.8% |    -4 | 0.8% → 0.6% |   13 → 9 | `Nokogiri::XML::DocumentFragment.new`                              | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`                                                                                                      |
-|  -80.0% |    -4 | 0.3% → 0.1% |    5 → 1 | `Nokogiri::HTML5::Document#initialize`                             | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document.rb`                                                                                                             |
-|  -33.3% |    -3 | 0.6% → 0.4% |    9 → 6 | `Loofah::ScrubBehavior::Node#scrub!`                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                                                                                                                         |
-| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `I18n::Backend::Simple::Implementation#lookup`                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/simple.rb`                                                                                                                                       |
-|  -50.0% |    -3 | 0.4% → 0.2% |    6 → 3 | `Nokogiri::XML::Node#to_html`                                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                   |
-|  -75.0% |    -3 | 0.3% → 0.1% |    4 → 1 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse`                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                                                                                                                         |
-| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `Rack::Request::Env#get_header`                                    | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/request.rb`                                                                                                                                               |
-| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `ActionView::PathRegistry.get_view_paths`                          | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/path_registry.rb`                                                                                                                          |
-| removed |    -2 | 0.1% → 0.0% |    2 → 0 | `Rack::ETag#call`                                                  | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                                                                  |
-| removed |    -2 | 0.1% → 0.0% |    2 → 0 | `ActionView::Rendering#_process_render_template_options`           | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/rendering.rb`                                                                                                                              |
-|  -66.7% |    -2 | 0.2% → 0.1% |    3 → 1 | `block (2 levels) in generate_url_helpers`                         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`                               |
-|  -14.3% |    -2 | 0.9% → 0.8% |  14 → 12 | `Nokogiri::HTML5::Node#write_to`                                   | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/node.rb`                                                                                                                 |
-|  -33.3% |    -2 | 0.4% → 0.3% |    6 → 4 | `ActionView::Helpers::TagHelper::TagBuilder#content_tag_string`    | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/tag_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb`                                     |
+|  Change | Delta |           % |  Samples | Function                                                           | Location                                                                                          |
+| ------: | ----: | ----------: | -------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+|  -86.5% |  -128 | 9.5% → 1.3% | 148 → 20 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+|  -72.2% |   -57 | 5.1% → 1.4% |  79 → 22 | `Nokogiri::XML::NodeSet#each`                                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`           |
+|  -54.3% |   -25 | 3.0% → 1.4% |  46 → 21 | `block in decorate`                                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`           |
+|  -64.3% |    -9 | 0.9% → 0.3% |   14 → 5 | `Nokogiri::XML::Node#to_format`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`               |
+|  -50.0% |    -6 | 0.8% → 0.4% |   12 → 6 | `block in each`                                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`           |
+|  -60.0% |    -6 | 0.6% → 0.3% |   10 → 4 | `Nokogiri::XML::Node#serialize`                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`               |
+|  -66.7% |    -4 | 0.4% → 0.1% |    6 → 2 | `ActiveSupport::CoreExt::ERBUtil#html_escape`                      | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`              |
+|  -30.8% |    -4 | 0.8% → 0.6% |   13 → 9 | `Nokogiri::XML::DocumentFragment.new`                              | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`  |
+|  -80.0% |    -4 | 0.3% → 0.1% |    5 → 1 | `Nokogiri::HTML5::Document#initialize`                             | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document.rb`         |
+|  -33.3% |    -3 | 0.6% → 0.4% |    9 → 6 | `Loofah::ScrubBehavior::Node#scrub!`                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                     |
+| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `I18n::Backend::Simple::Implementation#lookup`                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/simple.rb`                                   |
+|  -50.0% |    -3 | 0.4% → 0.2% |    6 → 3 | `Nokogiri::XML::Node#to_html`                                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`               |
+|  -75.0% |    -3 | 0.3% → 0.1% |    4 → 1 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse`                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                     |
+| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `Rack::Request::Env#get_header`                                    | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/request.rb`                                           |
+| removed |    -3 | 0.2% → 0.0% |    3 → 0 | `ActionView::PathRegistry.get_view_paths`                          | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/path_registry.rb`                      |
+| removed |    -2 | 0.1% → 0.0% |    2 → 0 | `Rack::ETag#call`                                                  | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                              |
+| removed |    -2 | 0.1% → 0.0% |    2 → 0 | `ActionView::Rendering#_process_render_template_options`           | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/rendering.rb`                          |
+|  -66.7% |    -2 | 0.2% → 0.1% |    3 → 1 | `block (2 levels) in generate_url_helpers`                         | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`                |
+|  -14.3% |    -2 | 0.9% → 0.8% |  14 → 12 | `Nokogiri::HTML5::Node#write_to`                                   | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/node.rb`             |
+|  -33.3% |    -2 | 0.4% → 0.3% |    6 → 4 | `ActionView::Helpers::TagHelper::TagBuilder#content_tag_string`    | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb`                   |
 
 ##### Unknown
 
@@ -235,9 +235,9 @@ Lines with the largest change in contribution to each function's self samples.
 
 ##### `ActionView::OutputBuffer#<<` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`)
 
-| Change | Delta |      % | Samples | Location                                                                                                                                          |
-| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +77.8% |    +7 | 100.0% |  9 → 16 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/buffers.rb:52 → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb:52` |
+| Change | Delta |      % | Samples | Location                                                                |
+| -----: | ----: | -----: | ------: | ----------------------------------------------------------------------- |
+| +77.8% |    +7 | 100.0% |  9 → 16 | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb:52` |
 
 ##### `Nokogiri::HTML5::DocumentFragment#initialize` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`)
 
@@ -277,9 +277,9 @@ Lines with the largest change in contribution to each function's self samples.
 
 ##### `ActionView::Helpers::UrlHelper#convert_options_to_data_attributes` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`)
 
-|  Change | Delta |      % | Samples | Location                                                                                                                                                                  |
-| ------: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +500.0% |    +5 | 100.0% |   1 → 6 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb:720 → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb:720` |
+|  Change | Delta |      % | Samples | Location                                                                            |
+| ------: | ----: | -----: | ------: | ----------------------------------------------------------------------------------- |
+| +500.0% |    +5 | 100.0% |   1 → 6 | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb:720` |
 
 ##### `block in to_html` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
 
@@ -409,9 +409,9 @@ Lines with the largest change in contribution to each function's self samples.
 
 ##### `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
 
-| Change | Delta |      % |  Samples | Location                                                                                                                                                                                                      |
-| -----: | ----: | -----: | -------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -86.5% |  -128 | 100.0% | 148 → 20 | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb:164 → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb:167` |
+| Change | Delta |      % |  Samples | Location                                                                                                    |
+| -----: | ----: | -----: | -------: | ----------------------------------------------------------------------------------------------------------- |
+| -86.5% |  -128 | 100.0% | 148 → 20 | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb:164 → 167` |
 
 ##### `Nokogiri::XML::NodeSet#each` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
 
@@ -451,9 +451,9 @@ Lines with the largest change in contribution to each function's self samples.
 
 ##### `ActiveSupport::CoreExt::ERBUtil#html_escape` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`)
 
-| Change | Delta |      % | Samples | Location                                                                                                                                                                          |
-| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -66.7% |    -4 | 100.0% |   6 → 2 | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/erb/util.rb:17 → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb:17` |
+| Change | Delta |      % | Samples | Location                                                                                |
+| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------- |
+| -66.7% |    -4 | 100.0% |   6 → 2 | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb:17` |
 
 ##### `Nokogiri::XML::DocumentFragment.new` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`)
 
@@ -517,9 +517,9 @@ Lines with the largest change in contribution to each function's self samples.
 
 ##### `block (2 levels) in generate_url_helpers` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`)
 
-| Change | Delta |      % | Samples | Location                                                                                                                                                                        |
-| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -66.7% |    -2 | 100.0% |   3 → 1 | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb:615 → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb:615` |
+| Change | Delta |      % | Samples | Location                                                                               |
+| -----: | ----: | -----: | ------: | -------------------------------------------------------------------------------------- |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb:615` |
 
 ##### `Nokogiri::HTML5::Node#write_to` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/node.rb`)
 
@@ -529,9 +529,9 @@ Lines with the largest change in contribution to each function's self samples.
 
 ##### `ActionView::Helpers::TagHelper::TagBuilder#content_tag_string` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb`)
 
-| Change | Delta |      % | Samples | Location                                                                                                                                                                  |
-| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -33.3% |    -2 | 100.0% |   6 → 4 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/tag_helper.rb:233 → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb:233` |
+| Change | Delta |      % | Samples | Location                                                                            |
+| -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb:233` |
 
 ##### `ActionView::Helpers::ControllerHelper#response` (`<unknown>`)
 
@@ -623,24 +623,24 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `String.new [c function]` (`<unknown>`)
 
-|   Change | Delta |             % | Samples | Caller                          | Location                                                                                                                                                                                            |
-| -------: | ----: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +1500.0% |   +15 | 16.7% → 61.5% |  1 → 16 | `Nokogiri::XML::Node#serialize` | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`                                                                                                                 |
-|  +100.0% |    +5 | 83.3% → 38.5% |  5 → 10 | `String#html_safe`              | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/string/output_safety.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/string/output_safety.rb` |
+|   Change | Delta |             % | Samples | Caller                          | Location                                                                                         |
+| -------: | ----: | ------------: | ------: | ------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +1500.0% |   +15 | 16.7% → 61.5% |  1 → 16 | `Nokogiri::XML::Node#serialize` | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`              |
+|  +100.0% |    +5 | 83.3% → 38.5% |  5 → 10 | `String#html_safe`              | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/string/output_safety.rb` |
 
 ##### `Hash#merge [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller                                                                                        | Location                                                                                                                                                                                              |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +100.0% |   +11 | 68.8% → 64.7% | 11 → 22 | `I18n::Backend::Fallbacks#translate`                                                          | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`                                                                                                                                    |
-| +133.3% |    +4 | 18.8% → 20.6% |   3 → 7 | `ActiveSupport::NumberHelper::NumberConverter#options`                                        | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| +150.0% |    +3 | 12.5% → 14.7% |   2 → 5 | `ActionDispatch::Routing::RouteSet::NamedRouteCollection::UrlHelper::OptimizedUrlHelper#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`                               |
+|  Change | Delta |             % | Samples | Caller                                                                                        | Location                                                                                          |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| +100.0% |   +11 | 68.8% → 64.7% | 11 → 22 | `I18n::Backend::Fallbacks#translate`                                                          | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`                                |
+| +133.3% |    +4 | 18.8% → 20.6% |   3 → 7 | `ActiveSupport::NumberHelper::NumberConverter#options`                                        | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| +150.0% |    +3 | 12.5% → 14.7% |   2 → 5 | `ActionDispatch::Routing::RouteSet::NamedRouteCollection::UrlHelper::OptimizedUrlHelper#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`                |
 
 ##### `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb`)
 
-|  Change | Delta |      % | Samples | Caller                                                            | Location                                                                                                                                                                                                                        |
-| ------: | ----: | -----: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +850.0% |   +17 | 100.0% |  2 → 19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+|  Change | Delta |      % | Samples | Caller                                                            | Location                                                                                                       |
+| ------: | ----: | -----: | ------: | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| +850.0% |   +17 | 100.0% |  2 → 19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
 
 ##### `Nokogiri::Gumbo.fragment [c function]` (`<unknown>`)
 
@@ -650,19 +650,19 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Hash#transform_keys [c function]` (`<unknown>`)
 
-|   Change | Delta |      % | Samples | Caller                | Location                                                                                                                                                                      |
-| -------: | ----: | -----: | ------: | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +1600.0% |   +16 | 100.0% |  1 → 17 | `Hash#symbolize_keys` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/hash/keys.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/hash/keys.rb` |
+|   Change | Delta |      % | Samples | Caller                | Location                                                                              |
+| -------: | ----: | -----: | ------: | --------------------- | ------------------------------------------------------------------------------------- |
+| +1600.0% |   +16 | 100.0% |  1 → 17 | `Hash#symbolize_keys` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/hash/keys.rb` |
 
 ##### `Kernel#dup [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller                                                                | Location                                                                                                                                                                                              |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     new |    +7 |  0.0% → 28.0% |   0 → 7 | `ActionController::UrlFor#url_options`                                | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_controller/metal/url_for.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/url_for.rb`                                   |
-|  +40.0% |    +2 | 38.5% → 28.0% |   5 → 7 | `ActiveSupport::NumberHelper::NumberConverter#default_format_options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| removed |    -2 |  15.4% → 0.0% |   2 → 0 | `Rails::HTML::PermitScrubber#attributes=`                             | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                                       |
-|  +50.0% |    +2 | 30.8% → 24.0% |   4 → 6 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`    | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-|     new |    +2 |   0.0% → 8.0% |   0 → 2 | `ActionDispatch::Journey::Format#evaluate`                            | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                                                                                                                     |
+|  Change | Delta |             % | Samples | Caller                                                                | Location                                                                                          |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+|     new |    +7 |  0.0% → 28.0% |   0 → 7 | `ActionController::UrlFor#url_options`                                | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/url_for.rb`                  |
+|  +40.0% |    +2 | 38.5% → 28.0% |   5 → 7 | `ActiveSupport::NumberHelper::NumberConverter#default_format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| removed |    -2 |  15.4% → 0.0% |   2 → 0 | `Rails::HTML::PermitScrubber#attributes=`                             | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                   |
+|  +50.0% |    +2 | 30.8% → 24.0% |   4 → 6 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`    | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+|     new |    +2 |   0.0% → 8.0% |   0 → 2 | `ActionDispatch::Journey::Format#evaluate`                            | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                 |
 
 ##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`<unknown>`)
 
@@ -694,13 +694,13 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Array#join [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller                                                          | Location                                                                                                                                                              |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     new |    +5 |  0.0% → 29.4% |   0 → 5 | `Nokogiri::XML::NodeSet#to_html`                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                                                                               |
-|     new |    +4 |  0.0% → 23.5% |   0 → 4 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb`                                                        |
-|     new |    +2 |  0.0% → 11.8% |   0 → 2 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags`                | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb`                                                                                      |
-| removed |    -1 |  11.1% → 0.0% |   1 → 0 | `ActiveSupport::CachingKeyGenerator#generate_key`               | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/key_generator.rb`                                                                                    |
-|  -33.3% |    -1 | 33.3% → 11.8% |   3 → 2 | `ActionDispatch::Journey::Format#evaluate`                      | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
+|  Change | Delta |             % | Samples | Caller                                                          | Location                                                                                                       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+|     new |    +5 |  0.0% → 29.4% |   0 → 5 | `Nokogiri::XML::NodeSet#to_html`                                | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`                        |
+|     new |    +4 |  0.0% → 23.5% |   0 → 4 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+|     new |    +2 |  0.0% → 11.8% |   0 → 2 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags`                | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb`                               |
+| removed |    -1 |  11.1% → 0.0% |   1 → 0 | `ActiveSupport::CachingKeyGenerator#generate_key`               | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/key_generator.rb`                             |
+|  -33.3% |    -1 | 33.3% → 11.8% |   3 → 2 | `ActionDispatch::Journey::Format#evaluate`                      | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                              |
 
 ##### `Nokogiri::HTML4::Document.new [c function]` (`<unknown>`)
 
@@ -717,13 +717,13 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Class#new [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller                                                              | Location                                                                                                                                                                                              |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `ActiveSupport::MessageEncryptor.key_len`                           | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/message_encryptor.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/message_encryptor.rb`                           |
-| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `TZInfo::LastDayOfMonthTransitionRule#get_day`                      | `/usr/local/bundle/gems/tzinfo-2.0.6/lib/tzinfo/transition_rule.rb`                                                                                                                                   |
-| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `OpenSSL::HMAC.digest`                                              | `/usr/local/lib/ruby/3.4.0/openssl/hmac.rb`                                                                                                                                                           |
-| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `ActionDispatch::Cookies::EncryptedKeyRotatingCookieJar#initialize` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`                                                                                                                 |
-|  +50.0% |    +1 | 25.0% → 21.4% |   2 → 3 | `ActiveSupport::NumberHelper::NumberConverter.convert`              | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+|  Change | Delta |             % | Samples | Caller                                                              | Location                                                                                          |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `ActiveSupport::MessageEncryptor.key_len`                           | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/message_encryptor.rb`              |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `TZInfo::LastDayOfMonthTransitionRule#get_day`                      | `/usr/local/bundle/gems/tzinfo-2.0.6/lib/tzinfo/transition_rule.rb`                               |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `OpenSSL::HMAC.digest`                                              | `/usr/local/lib/ruby/3.4.0/openssl/hmac.rb`                                                       |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `ActionDispatch::Cookies::EncryptedKeyRotatingCookieJar#initialize` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`             |
+|  +50.0% |    +1 | 25.0% → 21.4% |   2 → 3 | `ActiveSupport::NumberHelper::NumberConverter.convert`              | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
 
 ##### `Nokogiri::HTML5::DocumentFragment#initialize` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb`)
 
@@ -783,9 +783,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `String#match? [c function]` (`<unknown>`)
 
-|  Change | Delta |      % | Samples | Caller                      | Location                                                                                                                                                                    |
-| ------: | ----: | -----: | ------: | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +400.0% |    +4 | 100.0% |   1 → 5 | `ERB::Util.xml_name_escape` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/erb/util.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb` |
+|  Change | Delta |      % | Samples | Caller                      | Location                                                                             |
+| ------: | ----: | -----: | ------: | --------------------------- | ------------------------------------------------------------------------------------ |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `ERB::Util.xml_name_escape` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb` |
 
 ##### `StringIO#initialize [c function]` (`<unknown>`)
 
@@ -826,9 +826,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `ActionView::Helpers::UrlHelper#convert_options_to_data_attributes` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`)
 
-|  Change | Delta |      % | Samples | Caller                                   | Location                                                                                                                                                          |
-| ------: | ----: | -----: | ------: | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +500.0% |    +5 | 100.0% |   1 → 6 | `ActionView::Helpers::UrlHelper#link_to` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb` |
+|  Change | Delta |      % | Samples | Caller                                   | Location                                                                        |
+| ------: | ----: | -----: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------- |
+| +500.0% |    +5 | 100.0% |   1 → 6 | `ActionView::Helpers::UrlHelper#link_to` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb` |
 
 ##### `block in to_html` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
 
@@ -909,21 +909,21 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `ActionController::Base::HelperMethods#form_authenticity_token` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Caller                                           | Location                                                                                                                                                            |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/csrf_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb` |
+| Change | Delta |             % | Samples | Caller                                           | Location                                                                         |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb` |
 
 ##### `Array#map` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Caller                                        | Location                                                                                                                                                          |
-| -----: | ----: | ------------: | ------: | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ActionDispatch::SSL#flag_cookies_as_secure!` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb` |
+| Change | Delta |             % | Samples | Caller                                        | Location                                                                        |
+| -----: | ----: | ------------: | ------: | --------------------------------------------- | ------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ActionDispatch::SSL#flag_cookies_as_secure!` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb` |
 
 ##### `ActionController::Base::HelperMethods#protect_against_forgery?` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Caller                                           | Location                                                                                                                                                            |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/csrf_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb` |
+| Change | Delta |             % | Samples | Caller                                           | Location                                                                         |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb` |
 
 ##### `ActiveSupport::NumberHelper::NumberConverter.validate_float` (`<unknown>`)
 
@@ -963,9 +963,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
 
-| Change | Delta |      % |  Samples | Caller                                                        | Location                                                                                                                                                                                              |
-| -----: | ----: | -----: | -------: | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -86.5% |  -128 | 100.0% | 148 → 20 | `ActiveSupport::NumberHelper::NumberConverter#format_options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| Change | Delta |      % |  Samples | Caller                                                        | Location                                                                                          |
+| -----: | ----: | -----: | -------: | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| -86.5% |  -128 | 100.0% | 148 → 20 | `ActiveSupport::NumberHelper::NumberConverter#format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
 
 ##### `Nokogiri::XML::NodeSet#each` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb`)
 
@@ -995,10 +995,10 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `String#split [c function]` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Caller                                                          | Location                                                                                                                                                                                                                        |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -77.8% |   -14 | 75.0% → 44.4% |  18 → 4 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -16.7% |    -1 | 25.0% → 55.6% |   6 → 5 | `Loofah::HTML5::Scrub.scrub_uri_attribute`                      | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                                                                                |
+| Change | Delta |             % | Samples | Caller                                                          | Location                                                                                                       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| -77.8% |   -14 | 75.0% → 44.4% |  18 → 4 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -16.7% |    -1 | 25.0% → 55.6% |   6 → 5 | `Loofah::HTML5::Scrub.scrub_uri_attribute`                      | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                               |
 
 ##### `String#gsub! [c function]` (`<unknown>`)
 
@@ -1012,13 +1012,13 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `String#gsub [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller                                                              | Location                                                                                                                                                                      |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -92.0% |   -23 |  56.8% → 6.1% |  25 → 2 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
-|  +80.0% |    +8 | 22.7% → 54.5% | 10 → 18 | `Loofah::HTML5::Scrub.allowed_uri?`                                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                              |
-|  +40.0% |    +2 | 11.4% → 21.2% |   5 → 7 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
-| +100.0% |    +1 |   2.3% → 6.1% |   1 → 2 | `Loofah::HTML5::Scrub.scrub_uri_attribute`                          | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                              |
-|     new |    +1 |   0.0% → 3.0% |   0 → 1 | `block in <module:Utils>`                                           | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/utils.rb`                                                                                                                         |
+|  Change | Delta |             % | Samples | Caller                                                              | Location                                                                              |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+|  -92.0% |   -23 |  56.8% → 6.1% |  25 → 2 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
+|  +80.0% |    +8 | 22.7% → 54.5% | 10 → 18 | `Loofah::HTML5::Scrub.allowed_uri?`                                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                      |
+|  +40.0% |    +2 | 11.4% → 21.2% |   5 → 7 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape`         | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
+| +100.0% |    +1 |   2.3% → 6.1% |   1 → 2 | `Loofah::HTML5::Scrub.scrub_uri_attribute`                          | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                      |
+|     new |    +1 |   0.0% → 3.0% |   0 → 1 | `block in <module:Utils>`                                           | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/utils.rb`                                 |
 
 ##### `Nokogiri::XML::Node#to_format` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb`)
 
@@ -1049,20 +1049,20 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Hash#fetch [c function]` (`<unknown>`)
 
-|  Change | Delta |              % | Samples | Caller                                                                      | Location                                                                                                                                                            |
-| ------: | ----: | -------------: | ------: | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed |    -2 |   33.3% → 0.0% |   2 → 0 | `I18n::Backend::Fallbacks#translate`                                        | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`                                                                                                  |
-| +100.0% |    +1 | 16.7% → 100.0% |   1 → 2 | `Rack::Request::Env#fetch_header`                                           | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/request.rb`                                                                                                             |
-| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `ActionDispatch::Request::Session::Options#id`                              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/request/session.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/request/session.rb` |
-| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `Concurrent::Collection::NonConcurrentMapBackend#get_or_default`            | `/usr/local/bundle/gems/concurrent-ruby-1.3.8/lib/concurrent-ruby/concurrent/collection/map/non_concurrent_map_backend.rb`                                          |
-| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb`                                                    |
+|  Change | Delta |              % | Samples | Caller                                                                      | Location                                                                                                                   |
+| ------: | ----: | -------------: | ------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| removed |    -2 |   33.3% → 0.0% |   2 → 0 | `I18n::Backend::Fallbacks#translate`                                        | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb`                                                         |
+| +100.0% |    +1 | 16.7% → 100.0% |   1 → 2 | `Rack::Request::Env#fetch_header`                                           | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/request.rb`                                                                    |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `ActionDispatch::Request::Session::Options#id`                              | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/request/session.rb`                                           |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `Concurrent::Collection::NonConcurrentMapBackend#get_or_default`            | `/usr/local/bundle/gems/concurrent-ruby-1.3.8/lib/concurrent-ruby/concurrent/collection/map/non_concurrent_map_backend.rb` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb`           |
 
 ##### `ActiveSupport::CoreExt::ERBUtil#html_escape` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb`)
 
-|  Change | Delta |             % | Samples | Caller                                                          | Location                                                                                                                                                          |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -75.0% |    -3 | 66.7% → 50.0% |   4 → 1 | `ActionView::OutputBuffer#<<`                                   | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/buffers.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                       |
-| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `ActionView::Helpers::TagHelper::TagBuilder#content_tag_string` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/tag_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb` |
+|  Change | Delta |             % | Samples | Caller                                                          | Location                                                                        |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+|  -75.0% |    -3 | 66.7% → 50.0% |   4 → 1 | `ActionView::OutputBuffer#<<`                                   | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`            |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `ActionView::Helpers::TagHelper::TagBuilder#content_tag_string` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb` |
 
 ##### `Nokogiri::XML::DocumentFragment.new` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`)
 
@@ -1119,11 +1119,11 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Kernel#respond_to? [c function]` (`<unknown>`)
 
-|  Change | Delta |            % | Samples | Caller                                               | Location                                                                                                                            |
-| ------: | ----: | -----------: | ------: | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `ActionView::Helpers::ControllerHelper#respond_to?`  | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/controller_helper.rb`                                            |
-| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `Rails::Rack::Logger#finish_request_instrumentation` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb → /usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb` |
-| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `Rack::Sendfile#call`                                | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`                                                                            |
+|  Change | Delta |            % | Samples | Caller                                               | Location                                                                                 |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `ActionView::Helpers::ControllerHelper#respond_to?`  | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/controller_helper.rb` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `Rails::Rack::Logger#finish_request_instrumentation` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb`                         |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `Rack::Sendfile#call`                                | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`                                 |
 
 ##### `Kernel#lambda [c function]` (`<unknown>`)
 
@@ -1139,9 +1139,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `ERB::Util.html_escape [c function]` (`<unknown>`)
 
-| Change | Delta |      % | Samples | Caller                                        | Location                                                                                                                                                                    |
-| -----: | ----: | -----: | ------: | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -30.0% |    -3 | 100.0% |  10 → 7 | `ActiveSupport::CoreExt::ERBUtil#html_escape` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/erb/util.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb` |
+| Change | Delta |      % | Samples | Caller                                        | Location                                                                             |
+| -----: | ----: | -----: | ------: | --------------------------------------------- | ------------------------------------------------------------------------------------ |
+| -30.0% |    -3 | 100.0% |  10 → 7 | `ActiveSupport::CoreExt::ERBUtil#html_escape` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/erb/util.rb` |
 
 ##### `JSON::Ext::Generator::State#generate [c function]` (`<unknown>`)
 
@@ -1157,13 +1157,13 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Regexp#match? [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller                                                       | Location                                                                                                                                                                            |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -15.4% |    -2 | 61.9% → 57.9% | 13 → 11 | `String#blank?`                                              | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/object/blank.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/object/blank.rb` |
-|  -16.7% |    -1 | 28.6% → 26.3% |   6 → 5 | `ActionView::Helpers::TagHelper#ensure_valid_html5_tag_name` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/tag_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb`                   |
-| removed |    -1 |   4.8% → 0.0% |   1 → 0 | `block in flag_cookies_as_secure!`                           | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`                                                                                                   |
-| +100.0% |    +1 |  4.8% → 10.5% |   1 → 2 | `Loofah::HTML5::Scrub.scrub_uri_attribute`                   | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                                                                                                                    |
-|     new |    +1 |   0.0% → 5.3% |   0 → 1 | `ActionDispatch::FileHandler#compressible?`                  | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb`                                                                                                  |
+|  Change | Delta |             % | Samples | Caller                                                       | Location                                                                                 |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+|  -15.4% |    -2 | 61.9% → 57.9% | 13 → 11 | `String#blank?`                                              | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/object/blank.rb` |
+|  -16.7% |    -1 | 28.6% → 26.3% |   6 → 5 | `ActionView::Helpers::TagHelper#ensure_valid_html5_tag_name` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb`          |
+| removed |    -1 |   4.8% → 0.0% |   1 → 0 | `block in flag_cookies_as_secure!`                           | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`        |
+| +100.0% |    +1 |  4.8% → 10.5% |   1 → 2 | `Loofah::HTML5::Scrub.scrub_uri_attribute`                   | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                         |
+|     new |    +1 |   0.0% → 5.3% |   0 → 1 | `ActionDispatch::FileHandler#compressible?`                  | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb`       |
 
 ##### `OpenSSL::Cipher#initialize [c function]` (`<unknown>`)
 
@@ -1237,9 +1237,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `ActionView::Helpers::TagHelper::TagBuilder#content_tag_string` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb`)
 
-| Change | Delta |      % | Samples | Caller                                       | Location                                                                                                                                                          |
-| -----: | ----: | -----: | ------: | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -33.3% |    -2 | 100.0% |   6 → 4 | `ActionView::Helpers::TagHelper#content_tag` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/tag_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb` |
+| Change | Delta |      % | Samples | Caller                                       | Location                                                                        |
+| -----: | ----: | -----: | ------: | -------------------------------------------- | ------------------------------------------------------------------------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `ActionView::Helpers::TagHelper#content_tag` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/tag_helper.rb` |
 
 ##### `ActionView::Helpers::ControllerHelper#response` (`<unknown>`)
 
@@ -1320,28 +1320,28 @@ Callers with the largest change in contribution to each function's self samples.
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
-| Change | Delta |             % |       Samples | Function                                                                              | Location                                                                                                                                                                          |
-| -----: | ----: | ------------: | ------------: | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +12.5% |   +93 | 47.7% → 53.7% |     742 → 835 | `ActionView::Helpers::SanitizeHelper#sanitize`                                        | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb`       |
-| +12.3% |   +91 | 47.5% → 53.4% |     739 → 830 | `Rails::HTML::Concern::ComposedSanitize#sanitize`                                     | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                   |
-| +39.4% |   +61 | 10.0% → 13.9% |     155 → 216 | `Rails::HTML::PermitScrubber#scrub`                                                   | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                   |
-| +79.5% |   +58 |   4.7% → 8.4% |      73 → 131 | `Kernel#extend [c function]`                                                          | `<unknown>`                                                                                                                                                                       |
-| +74.7% |   +56 |   4.8% → 8.4% |      75 → 131 | `block (2 levels) in decorate`                                                        | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                           |
-| +80.0% |   +56 |   4.5% → 8.1% |      70 → 126 | `Module#extend_object [c function]`                                                   | `<unknown>`                                                                                                                                                                       |
-| +38.5% |   +50 |  8.4% → 11.6% |     130 → 180 | `Rails::HTML::PermitScrubber#scrub_attributes`                                        | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                   |
-| +25.3% |   +45 | 11.4% → 14.3% |     178 → 223 | `Loofah.html5_fragment`                                                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah.rb`                                                                                                                              |
-| +24.6% |   +44 | 11.5% → 14.3% |     179 → 223 | `Rails::HTML::Concern::Parser::HTML5#parse_fragment`                                  | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                   |
-| +24.2% |   +43 | 11.4% → 14.2% |     178 → 221 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse`                                    | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                                                                                                     |
-|  +3.4% |   +42 | 79.3% → 82.0% | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                | `<unknown>`                                                                                                                                                                       |
-|  +3.3% |   +41 | 79.5% → 82.1% | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                                                                                                       |
-|  +3.3% |   +41 | 79.5% → 82.1% | 1,236 → 1,277 | `block (2 levels) in render_template`                                                 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
-|  +3.3% |   +41 | 79.7% → 82.3% | 1,239 → 1,280 | `block in render_template`                                                            | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
-| +31.1% |   +38 |  7.8% → 10.3% |     122 → 160 | `Nokogiri::XML::DocumentFragment.new`                                                 | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`                                                                                  |
-| +24.0% |   +35 |  9.4% → 11.6% |     146 → 181 | `Nokogiri::XML::Document#decorate`                                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                           |
-| +23.6% |   +34 |  9.3% → 11.4% |     144 → 178 | `Hash#each [c function]`                                                              | `<unknown>`                                                                                                                                                                       |
-| +45.8% |   +33 |   4.6% → 6.8% |      72 → 105 | `Rails::HTML::PermitScrubber#scrub_attribute`                                         | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                   |
-| +38.4% |   +33 |   5.5% → 7.7% |      86 → 119 | `block in scrub_attributes`                                                           | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                   |
-|  +2.5% |   +32 | 83.0% → 85.1% | 1,291 → 1,323 | `block in render_with_layout`                                                         | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
+| Change | Delta |             % |       Samples | Function                                                                              | Location                                                                                         |
+| -----: | ----: | ------------: | ------------: | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +12.5% |   +93 | 47.7% → 53.7% |     742 → 835 | `ActionView::Helpers::SanitizeHelper#sanitize`                                        | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb`             |
+| +12.3% |   +91 | 47.5% → 53.4% |     739 → 830 | `Rails::HTML::Concern::ComposedSanitize#sanitize`                                     | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                  |
+| +39.4% |   +61 | 10.0% → 13.9% |     155 → 216 | `Rails::HTML::PermitScrubber#scrub`                                                   | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+| +79.5% |   +58 |   4.7% → 8.4% |      73 → 131 | `Kernel#extend [c function]`                                                          | `<unknown>`                                                                                      |
+| +74.7% |   +56 |   4.8% → 8.4% |      75 → 131 | `block (2 levels) in decorate`                                                        | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`          |
+| +80.0% |   +56 |   4.5% → 8.1% |      70 → 126 | `Module#extend_object [c function]`                                                   | `<unknown>`                                                                                      |
+| +38.5% |   +50 |  8.4% → 11.6% |     130 → 180 | `Rails::HTML::PermitScrubber#scrub_attributes`                                        | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+| +25.3% |   +45 | 11.4% → 14.3% |     178 → 223 | `Loofah.html5_fragment`                                                               | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah.rb`                                             |
+| +24.6% |   +44 | 11.5% → 14.3% |     179 → 223 | `Rails::HTML::Concern::Parser::HTML5#parse_fragment`                                  | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                  |
+| +24.2% |   +43 | 11.4% → 14.2% |     178 → 221 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse`                                    | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                    |
+|  +3.4% |   +42 | 79.3% → 82.0% | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128`                | `<unknown>`                                                                                      |
+|  +3.3% |   +41 | 79.5% → 82.1% | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                      |
+|  +3.3% |   +41 | 79.5% → 82.1% | 1,236 → 1,277 | `block (2 levels) in render_template`                                                 | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`          |
+|  +3.3% |   +41 | 79.7% → 82.3% | 1,239 → 1,280 | `block in render_template`                                                            | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`          |
+| +31.1% |   +38 |  7.8% → 10.3% |     122 → 160 | `Nokogiri::XML::DocumentFragment.new`                                                 | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb` |
+| +24.0% |   +35 |  9.4% → 11.6% |     146 → 181 | `Nokogiri::XML::Document#decorate`                                                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`          |
+| +23.6% |   +34 |  9.3% → 11.4% |     144 → 178 | `Hash#each [c function]`                                                              | `<unknown>`                                                                                      |
+| +45.8% |   +33 |   4.6% → 6.8% |      72 → 105 | `Rails::HTML::PermitScrubber#scrub_attribute`                                         | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+| +38.4% |   +33 |   5.5% → 7.7% |      86 → 119 | `block in scrub_attributes`                                                           | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+|  +2.5% |   +32 | 83.0% → 85.1% | 1,291 → 1,323 | `block in render_with_layout`                                                         | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`          |
 
 ##### Native
 
@@ -1370,28 +1370,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Third-party
 
-| Change | Delta |             % |       Samples | Function                                                | Location                                                                                                                                                                                      |
-| -----: | ----: | ------------: | ------------: | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +12.5% |   +93 | 47.7% → 53.7% |     742 → 835 | `ActionView::Helpers::SanitizeHelper#sanitize`          | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb`                   |
-| +12.3% |   +91 | 47.5% → 53.4% |     739 → 830 | `Rails::HTML::Concern::ComposedSanitize#sanitize`       | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                               |
-| +39.4% |   +61 | 10.0% → 13.9% |     155 → 216 | `Rails::HTML::PermitScrubber#scrub`                     | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                               |
-| +74.7% |   +56 |   4.8% → 8.4% |      75 → 131 | `block (2 levels) in decorate`                          | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                       |
-| +38.5% |   +50 |  8.4% → 11.6% |     130 → 180 | `Rails::HTML::PermitScrubber#scrub_attributes`          | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                               |
-| +25.3% |   +45 | 11.4% → 14.3% |     178 → 223 | `Loofah.html5_fragment`                                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah.rb`                                                                                                                                          |
-| +24.6% |   +44 | 11.5% → 14.3% |     179 → 223 | `Rails::HTML::Concern::Parser::HTML5#parse_fragment`    | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                               |
-| +24.2% |   +43 | 11.4% → 14.2% |     178 → 221 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse`      | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                                                                                                                 |
-|  +3.3% |   +41 | 79.5% → 82.1% | 1,236 → 1,277 | `block (2 levels) in render_template`                   | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`             |
-|  +3.3% |   +41 | 79.7% → 82.3% | 1,239 → 1,280 | `block in render_template`                              | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`             |
-| +31.1% |   +38 |  7.8% → 10.3% |     122 → 160 | `Nokogiri::XML::DocumentFragment.new`                   | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`                                                                                              |
-| +24.0% |   +35 |  9.4% → 11.6% |     146 → 181 | `Nokogiri::XML::Document#decorate`                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                       |
-| +45.8% |   +33 |   4.6% → 6.8% |      72 → 105 | `Rails::HTML::PermitScrubber#scrub_attribute`           | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                               |
-| +38.4% |   +33 |   5.5% → 7.7% |      86 → 119 | `block in scrub_attributes`                             | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                                               |
-|  +2.5% |   +32 | 83.0% → 85.1% | 1,291 → 1,323 | `block in render_with_layout`                           | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`             |
-|  +2.5% |   +32 | 83.0% → 85.1% | 1,291 → 1,323 | `block in instrument`                                   | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb`                           |
-|  +2.5% |   +32 | 83.2% → 85.2% | 1,293 → 1,325 | `ActiveSupport::Notifications::Instrumenter#instrument` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications/instrumenter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb` |
-|  +2.4% |   +32 | 85.9% → 87.9% | 1,335 → 1,367 | `ActionDispatch::Routing::RouteSet::Dispatcher#serve`   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`                       |
-| +25.4% |   +32 |  8.1% → 10.2% |     126 → 158 | `block in decorate`                                     | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                                       |
-|  +2.4% |   +31 | 82.8% → 84.8% | 1,288 → 1,319 | `ActionView::Template#instrument_render_template`       | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/template.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb`                                                 |
+| Change | Delta |             % |       Samples | Function                                                | Location                                                                                         |
+| -----: | ----: | ------------: | ------------: | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +12.5% |   +93 | 47.7% → 53.7% |     742 → 835 | `ActionView::Helpers::SanitizeHelper#sanitize`          | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb`             |
+| +12.3% |   +91 | 47.5% → 53.4% |     739 → 830 | `Rails::HTML::Concern::ComposedSanitize#sanitize`       | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                  |
+| +39.4% |   +61 | 10.0% → 13.9% |     155 → 216 | `Rails::HTML::PermitScrubber#scrub`                     | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+| +74.7% |   +56 |   4.8% → 8.4% |      75 → 131 | `block (2 levels) in decorate`                          | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`          |
+| +38.5% |   +50 |  8.4% → 11.6% |     130 → 180 | `Rails::HTML::PermitScrubber#scrub_attributes`          | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+| +25.3% |   +45 | 11.4% → 14.3% |     178 → 223 | `Loofah.html5_fragment`                                 | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah.rb`                                             |
+| +24.6% |   +44 | 11.5% → 14.3% |     179 → 223 | `Rails::HTML::Concern::Parser::HTML5#parse_fragment`    | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                  |
+| +24.2% |   +43 | 11.4% → 14.2% |     178 → 221 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse`      | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                    |
+|  +3.3% |   +41 | 79.5% → 82.1% | 1,236 → 1,277 | `block (2 levels) in render_template`                   | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`          |
+|  +3.3% |   +41 | 79.7% → 82.3% | 1,239 → 1,280 | `block in render_template`                              | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`          |
+| +31.1% |   +38 |  7.8% → 10.3% |     122 → 160 | `Nokogiri::XML::DocumentFragment.new`                   | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb` |
+| +24.0% |   +35 |  9.4% → 11.6% |     146 → 181 | `Nokogiri::XML::Document#decorate`                      | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`          |
+| +45.8% |   +33 |   4.6% → 6.8% |      72 → 105 | `Rails::HTML::PermitScrubber#scrub_attribute`           | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+| +38.4% |   +33 |   5.5% → 7.7% |      86 → 119 | `block in scrub_attributes`                             | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                  |
+|  +2.5% |   +32 | 83.0% → 85.1% | 1,291 → 1,323 | `block in render_with_layout`                           | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`          |
+|  +2.5% |   +32 | 83.0% → 85.1% | 1,291 → 1,323 | `block in instrument`                                   | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb`                 |
+|  +2.5% |   +32 | 83.2% → 85.2% | 1,293 → 1,325 | `ActiveSupport::Notifications::Instrumenter#instrument` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb`    |
+|  +2.4% |   +32 | 85.9% → 87.9% | 1,335 → 1,367 | `ActionDispatch::Routing::RouteSet::Dispatcher#serve`   | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`               |
+| +25.4% |   +32 |  8.1% → 10.2% |     126 → 158 | `block in decorate`                                     | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`          |
+|  +2.4% |   +31 | 82.8% → 84.8% | 1,288 → 1,319 | `ActionView::Template#instrument_render_template`       | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb`                            |
 
 ##### Unknown
 
@@ -1420,28 +1420,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-| Change | Delta |             % |   Samples | Function                                                                          | Location                                                                                                                                                                                                                        |
-| -----: | ----: | ------------: | --------: | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -40.7% |  -101 |  15.9% → 9.5% | 248 → 147 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`                | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -37.0% |   -98 | 17.0% → 10.7% | 265 → 167 | `ActiveSupport::NumberHelper::NumberConverter#format_options`                     | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -35.1% |   -94 | 17.2% → 11.2% | 268 → 174 | `ActiveSupport::NumberHelper::NumberConverter#options`                            | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -34.9% |   -94 | 17.3% → 11.3% | 269 → 175 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern`       | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -30.1% |   -94 | 20.1% → 14.0% | 312 → 218 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert`                 | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -29.1% |   -93 | 20.6% → 14.6% | 320 → 227 | `ActiveSupport::NumberHelper::NumberConverter#execute`                            | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -30.3% |   -92 | 19.5% → 13.6% | 304 → 212 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`                   | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -25.2% |   -81 | 20.7% → 15.5% | 322 → 241 | `ActiveSupport::NumberHelper::NumberConverter.convert`                            | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -25.1% |   -81 | 20.8% → 15.6% | 323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                                 | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb`                                                             |
-| -24.2% |   -79 | 21.0% → 15.9% | 326 → 247 | `block in delegate_number_helper_method`                                          | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -23.8% |   -79 | 21.4% → 16.3% | 332 → 253 | `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling`              | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -21.7% |   -73 | 21.6% → 16.9% | 336 → 263 | `ActionView::Helpers::NumberHelper#delegate_number_helper_method`                 | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -18.8% |   -63 | 21.6% → 17.6% | 336 → 273 | `ActionView::Helpers::NumberHelper#number_with_delimiter`                         | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -50.9% |   -29 |   3.7% → 1.8% |   57 → 28 | `String#encode [c function]`                                                      | `<unknown>`                                                                                                                                                                                                                     |
-| -29.5% |   -28 |   6.1% → 4.3% |   95 → 67 | `Rack::ETag#digest_body`                                                          | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                                                                                            |
-| -28.7% |   -27 |   6.0% → 4.3% |   94 → 67 | `Digest::Base#<< [c function]`                                                    | `<unknown>`                                                                                                                                                                                                                     |
-| -28.7% |   -27 |   6.0% → 4.3% |   94 → 67 | `block in digest_body`                                                            | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                                                                                            |
-| -69.7% |   -23 |   2.1% → 0.6% |   33 → 10 | `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                                                                                                                                                     |
-| -52.8% |   -19 |   2.3% → 1.1% |   36 → 17 | `block in evaluate`                                                               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                                                           |
-| -54.8% |   -17 |   2.0% → 0.9% |   31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                                                   |
+| Change | Delta |             % |   Samples | Function                                                                          | Location                                                                                                       |
+| -----: | ----: | ------------: | --------: | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| -40.7% |  -101 |  15.9% → 9.5% | 248 → 147 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`                | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -37.0% |   -98 | 17.0% → 10.7% | 265 → 167 | `ActiveSupport::NumberHelper::NumberConverter#format_options`                     | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -35.1% |   -94 | 17.2% → 11.2% | 268 → 174 | `ActiveSupport::NumberHelper::NumberConverter#options`                            | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -34.9% |   -94 | 17.3% → 11.3% | 269 → 175 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern`       | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -30.1% |   -94 | 20.1% → 14.0% | 312 → 218 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert`                 | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -29.1% |   -93 | 20.6% → 14.6% | 320 → 227 | `ActiveSupport::NumberHelper::NumberConverter#execute`                            | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -30.3% |   -92 | 19.5% → 13.6% | 304 → 212 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`                   | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -25.2% |   -81 | 20.7% → 15.5% | 322 → 241 | `ActiveSupport::NumberHelper::NumberConverter.convert`                            | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -25.1% |   -81 | 20.8% → 15.6% | 323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                                 | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb`                               |
+| -24.2% |   -79 | 21.0% → 15.9% | 326 → 247 | `block in delegate_number_helper_method`                                          | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -23.8% |   -79 | 21.4% → 16.3% | 332 → 253 | `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling`              | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -21.7% |   -73 | 21.6% → 16.9% | 336 → 263 | `ActionView::Helpers::NumberHelper#delegate_number_helper_method`                 | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -18.8% |   -63 | 21.6% → 17.6% | 336 → 273 | `ActionView::Helpers::NumberHelper#number_with_delimiter`                         | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -50.9% |   -29 |   3.7% → 1.8% |   57 → 28 | `String#encode [c function]`                                                      | `<unknown>`                                                                                                    |
+| -29.5% |   -28 |   6.1% → 4.3% |   95 → 67 | `Rack::ETag#digest_body`                                                          | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                           |
+| -28.7% |   -27 |   6.0% → 4.3% |   94 → 67 | `Digest::Base#<< [c function]`                                                    | `<unknown>`                                                                                                    |
+| -28.7% |   -27 |   6.0% → 4.3% |   94 → 67 | `block in digest_body`                                                            | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                           |
+| -69.7% |   -23 |   2.1% → 0.6% |   33 → 10 | `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                                    |
+| -52.8% |   -19 |   2.3% → 1.1% |   36 → 17 | `block in evaluate`                                                               | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                              |
+| -54.8% |   -17 |   2.0% → 0.9% |   31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment`               | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                          |
 
 ##### Native
 
@@ -1470,28 +1470,28 @@ Functions with the largest decrease in total samples taken in the function and a
 
 ##### Third-party
 
-| Change | Delta |             % |   Samples | Function                                                                    | Location                                                                                                                                                                                                                        |
-| -----: | ----: | ------------: | --------: | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -40.7% |  -101 |  15.9% → 9.5% | 248 → 147 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`          | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -37.0% |   -98 | 17.0% → 10.7% | 265 → 167 | `ActiveSupport::NumberHelper::NumberConverter#format_options`               | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -35.1% |   -94 | 17.2% → 11.2% | 268 → 174 | `ActiveSupport::NumberHelper::NumberConverter#options`                      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -34.9% |   -94 | 17.3% → 11.3% | 269 → 175 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -30.1% |   -94 | 20.1% → 14.0% | 312 → 218 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert`           | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -29.1% |   -93 | 20.6% → 14.6% | 320 → 227 | `ActiveSupport::NumberHelper::NumberConverter#execute`                      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -30.3% |   -92 | 19.5% → 13.6% | 304 → 212 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`             | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| -25.2% |   -81 | 20.7% → 15.5% | 322 → 241 | `ActiveSupport::NumberHelper::NumberConverter.convert`                      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
-| -25.1% |   -81 | 20.8% → 15.6% | 323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                           | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb`                                                             |
-| -24.2% |   -79 | 21.0% → 15.9% | 326 → 247 | `block in delegate_number_helper_method`                                    | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -23.8% |   -79 | 21.4% → 16.3% | 332 → 253 | `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling`        | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -21.7% |   -73 | 21.6% → 16.9% | 336 → 263 | `ActionView::Helpers::NumberHelper#delegate_number_helper_method`           | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -18.8% |   -63 | 21.6% → 17.6% | 336 → 273 | `ActionView::Helpers::NumberHelper#number_with_delimiter`                   | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                                                         |
-| -29.5% |   -28 |   6.1% → 4.3% |   95 → 67 | `Rack::ETag#digest_body`                                                    | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                                                                                            |
-| -28.7% |   -27 |   6.0% → 4.3% |   94 → 67 | `block in digest_body`                                                      | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                                                                                            |
-| -52.8% |   -19 |   2.3% → 1.1% |   36 → 17 | `block in evaluate`                                                         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                                                           |
-| -54.8% |   -17 |   2.0% → 0.9% |   31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                                                   |
-| -54.8% |   -17 |   2.0% → 0.9% |   31 → 14 | `ActionDispatch::Journey::Router::Utils.escape_segment`                     | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                                                   |
-| -51.6% |   -16 |   2.0% → 1.0% |   31 → 15 | `block in <class:Format>`                                                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                                                           |
-| -51.6% |   -16 |   2.0% → 1.0% |   31 → 15 | `ActionDispatch::Journey::Format::Parameter#escape`                         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                                                           |
+| Change | Delta |             % |   Samples | Function                                                                    | Location                                                                                                       |
+| -----: | ----: | ------------: | --------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| -40.7% |  -101 |  15.9% → 9.5% | 248 → 147 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`          | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -37.0% |   -98 | 17.0% → 10.7% | 265 → 167 | `ActiveSupport::NumberHelper::NumberConverter#format_options`               | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -35.1% |   -94 | 17.2% → 11.2% | 268 → 174 | `ActiveSupport::NumberHelper::NumberConverter#options`                      | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -34.9% |   -94 | 17.3% → 11.3% | 269 → 175 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -30.1% |   -94 | 20.1% → 14.0% | 312 → 218 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert`           | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -29.1% |   -93 | 20.6% → 14.6% | 320 → 227 | `ActiveSupport::NumberHelper::NumberConverter#execute`                      | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -30.3% |   -92 | 19.5% → 13.6% | 304 → 212 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`             | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| -25.2% |   -81 | 20.7% → 15.5% | 322 → 241 | `ActiveSupport::NumberHelper::NumberConverter.convert`                      | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
+| -25.1% |   -81 | 20.8% → 15.6% | 323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                           | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb`                               |
+| -24.2% |   -79 | 21.0% → 15.9% | 326 → 247 | `block in delegate_number_helper_method`                                    | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -23.8% |   -79 | 21.4% → 16.3% | 332 → 253 | `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling`        | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -21.7% |   -73 | 21.6% → 16.9% | 336 → 263 | `ActionView::Helpers::NumberHelper#delegate_number_helper_method`           | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -18.8% |   -63 | 21.6% → 17.6% | 336 → 273 | `ActionView::Helpers::NumberHelper#number_with_delimiter`                   | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`                             |
+| -29.5% |   -28 |   6.1% → 4.3% |   95 → 67 | `Rack::ETag#digest_body`                                                    | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                           |
+| -28.7% |   -27 |   6.0% → 4.3% |   94 → 67 | `block in digest_body`                                                      | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                           |
+| -52.8% |   -19 |   2.3% → 1.1% |   36 → 17 | `block in evaluate`                                                         | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                              |
+| -54.8% |   -17 |   2.0% → 0.9% |   31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment`         | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                          |
+| -54.8% |   -17 |   2.0% → 0.9% |   31 → 14 | `ActionDispatch::Journey::Router::Utils.escape_segment`                     | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`                          |
+| -51.6% |   -16 |   2.0% → 1.0% |   31 → 15 | `block in <class:Format>`                                                   | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                              |
+| -51.6% |   -16 |   2.0% → 1.0% |   31 → 15 | `ActionDispatch::Journey::Format::Parameter#escape`                         | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                              |
 
 ##### Unknown
 
@@ -1523,11 +1523,11 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ActionView::Helpers::SanitizeHelper#sanitize` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                                  | Location                                                                                                                                                                                            |
-| ------: | ----: | ------------: | --------: | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +12.3% |   +91 | 99.6% → 99.4% | 739 → 830 | `Rails::HTML::Concern::ComposedSanitize#sanitize`                       | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                                                                                                                     |
-| +150.0% |    +3 |   0.3% → 0.6% |     2 → 5 | `String#html_safe`                                                      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/string/output_safety.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/string/output_safety.rb` |
-| removed |    -1 |   0.1% → 0.0% |     1 → 0 | `ActionView::Helpers::SanitizeHelper::ClassMethods#safe_list_sanitizer` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb`                                                                                                              |
+|  Change | Delta |             % |   Samples | Callee                                                                  | Location                                                                                         |
+| ------: | ----: | ------------: | --------: | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+|  +12.3% |   +91 | 99.6% → 99.4% | 739 → 830 | `Rails::HTML::Concern::ComposedSanitize#sanitize`                       | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`                  |
+| +150.0% |    +3 |   0.3% → 0.6% |     2 → 5 | `String#html_safe`                                                      | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/string/output_safety.rb` |
+| removed |    -1 |   0.1% → 0.0% |     1 → 0 | `ActionView::Helpers::SanitizeHelper::ClassMethods#safe_list_sanitizer` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb`           |
 
 ##### `Rails::HTML::Concern::ComposedSanitize#sanitize` (`/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`)
 
@@ -1589,13 +1589,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`<unknown>`)
 
-| Change | Delta |             % |   Samples | Callee                                                    | Location                                                                                                                                                                    |
-| -----: | ----: | ------------: | --------: | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +12.5% |   +93 | 60.2% → 65.5% | 742 → 835 | `ActionView::Helpers::SanitizeHelper#sanitize`            | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb` |
-| -18.8% |   -63 | 27.3% → 21.4% | 336 → 273 | `ActionView::Helpers::NumberHelper#number_with_delimiter` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`     |
-| -69.7% |   -23 |   2.7% → 0.8% |   33 → 10 | `Array#each`                                              | `<unknown>`                                                                                                                                                                 |
-| +52.8% |   +19 |   2.9% → 4.3% |   36 → 55 | `block in define_url_helper`                              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`     |
-| +17.1% |    +6 |   2.8% → 3.2% |   35 → 41 | `ActionView::Helpers::UrlHelper#link_to`                  | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`           |
+| Change | Delta |             % |   Samples | Callee                                                    | Location                                                                             |
+| -----: | ----: | ------------: | --------: | --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| +12.5% |   +93 | 60.2% → 65.5% | 742 → 835 | `ActionView::Helpers::SanitizeHelper#sanitize`            | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb` |
+| -18.8% |   -63 | 27.3% → 21.4% | 336 → 273 | `ActionView::Helpers::NumberHelper#number_with_delimiter` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`   |
+| -69.7% |   -23 |   2.7% → 0.8% |   33 → 10 | `Array#each`                                              | `<unknown>`                                                                          |
+| +52.8% |   +19 |   2.9% → 4.3% |   36 → 55 | `block in define_url_helper`                              | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`   |
+| +17.1% |    +6 |   2.8% → 3.2% |   35 → 41 | `ActionView::Helpers::UrlHelper#link_to`                  | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`      |
 
 ##### `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` (`<unknown>`)
 
@@ -1605,15 +1605,15 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `block (2 levels) in render_template` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`)
 
-| Change | Delta |      % |       Samples | Callee                        | Location                                                                                                                                      |
-| -----: | ----: | -----: | ------------: | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +3.3% |   +41 | 100.0% | 1,236 → 1,277 | `ActionView::Template#render` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/template.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb` |
+| Change | Delta |      % |       Samples | Callee                        | Location                                                              |
+| -----: | ----: | -----: | ------------: | ----------------------------- | --------------------------------------------------------------------- |
+|  +3.3% |   +41 | 100.0% | 1,236 → 1,277 | `ActionView::Template#render` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb` |
 
 ##### `block in render_template` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`)
 
-| Change | Delta |      % |       Samples | Callee                                    | Location                                                                                                                                                            |
-| -----: | ----: | -----: | ------------: | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +3.3% |   +41 | 100.0% | 1,239 → 1,280 | `ActiveSupport::Notifications.instrument` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb` |
+| Change | Delta |      % |       Samples | Callee                                    | Location                                                                         |
+| -----: | ----: | -----: | ------------: | ----------------------------------------- | -------------------------------------------------------------------------------- |
+|  +3.3% |   +41 | 100.0% | 1,239 → 1,280 | `ActiveSupport::Notifications.instrument` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb` |
 
 ##### `Nokogiri::XML::DocumentFragment.new` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb`)
 
@@ -1630,13 +1630,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `Hash#each [c function]` (`<unknown>`)
 
-|  Change | Delta |             % |   Samples | Callee                           | Location                                                                                                                                                                  |
-| ------: | ----: | ------------: | --------: | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +25.4% |   +32 | 87.5% → 88.8% | 126 → 158 | `block in decorate`              | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                                   |
-|  +50.0% |    +1 |   1.4% → 1.7% |     2 → 3 | `block in write`                 | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb` |
-|  +50.0% |    +1 |   1.4% → 1.7% |     2 → 3 | `block (2 levels) in eager_load` | `/usr/local/bundle/gems/zeitwerk-2.8.3/lib/zeitwerk/loader/eager_load.rb`                                                                                                 |
-| +100.0% |    +1 |   0.7% → 1.1% |     1 → 2 | `(unknown) [c function]`         | `<unknown>`                                                                                                                                                               |
-|     new |    +1 |   0.0% → 0.6% |     0 → 1 | `block in assign`                | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/base.rb`                                                                                                         |
+|  Change | Delta |             % |   Samples | Callee                           | Location                                                                                |
+| ------: | ----: | ------------: | --------: | -------------------------------- | --------------------------------------------------------------------------------------- |
+|  +25.4% |   +32 | 87.5% → 88.8% | 126 → 158 | `block in decorate`              | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
+|  +50.0% |    +1 |   1.4% → 1.7% |     2 → 3 | `block in write`                 | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`     |
+|  +50.0% |    +1 |   1.4% → 1.7% |     2 → 3 | `block (2 levels) in eager_load` | `/usr/local/bundle/gems/zeitwerk-2.8.3/lib/zeitwerk/loader/eager_load.rb`               |
+| +100.0% |    +1 |   0.7% → 1.1% |     1 → 2 | `(unknown) [c function]`         | `<unknown>`                                                                             |
+|     new |    +1 |   0.0% → 0.6% |     0 → 1 | `block in assign`                | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/base.rb`                       |
 
 ##### `Rails::HTML::PermitScrubber#scrub_attribute` (`/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`)
 
@@ -1658,24 +1658,24 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `block in render_with_layout` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb`)
 
-| Change | Delta |             % |       Samples | Callee                        | Location                                                                                                                                                                          |
-| -----: | ----: | ------------: | ------------: | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +3.3% |   +41 | 96.0% → 96.7% | 1,239 → 1,280 | `block in render_template`    | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
-| -19.2% |   -10 |   4.0% → 3.2% |       52 → 42 | `ActionView::Template#render` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/template.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb`                                     |
+| Change | Delta |             % |       Samples | Callee                        | Location                                                                                |
+| -----: | ----: | ------------: | ------------: | ----------------------------- | --------------------------------------------------------------------------------------- |
+|  +3.3% |   +41 | 96.0% → 96.7% | 1,239 → 1,280 | `block in render_template`    | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
+| -19.2% |   -10 |   4.0% → 3.2% |       52 → 42 | `ActionView::Template#render` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb`                   |
 
 ##### `Kernel#public_send [c function]` (`<unknown>`)
 
-| Change | Delta |             % |       Samples | Callee                                                                                       | Location                                                                                                                                                            |
-| -----: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -25.1% |   -81 | 25.1% → 18.4% |     323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                                            | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb` |
-|  +3.3% |   +41 | 96.0% → 97.0% | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128`        | `<unknown>`                                                                                                                                                         |
-| -25.0% |   -13 |   4.0% → 3.0% |       52 → 39 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `<unknown>`                                                                                                                                                         |
+| Change | Delta |             % |       Samples | Callee                                                                                       | Location                                                                         |
+| -----: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| -25.1% |   -81 | 25.1% → 18.4% |     323 → 242 | `ActiveSupport::NumberHelper#number_to_delimited`                                            | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb` |
+|  +3.3% |   +41 | 96.0% → 97.0% | 1,236 → 1,277 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128`        | `<unknown>`                                                                      |
+| -25.0% |   -13 |   4.0% → 3.0% |       52 → 39 | `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` | `<unknown>`                                                                      |
 
 ##### `String.new [c function]` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Callee                                 | Location                                                                                                                                                                                            |
-| -----: | ----: | ------------: | ------: | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +14.3% |    +1 | 53.8% → 23.5% |   7 → 8 | `ActiveSupport::SafeBuffer#initialize` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/string/output_safety.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/string/output_safety.rb` |
+| Change | Delta |             % | Samples | Callee                                 | Location                                                                                         |
+| -----: | ----: | ------------: | ------: | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +14.3% |    +1 | 53.8% → 23.5% |   7 → 8 | `ActiveSupport::SafeBuffer#initialize` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/string/output_safety.rb` |
 
 ##### `Integer#upto [c function]` (`<unknown>`)
 
@@ -1734,13 +1734,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `Class#new [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Callee                                                              | Location                                                                                                                                                                  |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     new |   +11 |  0.0% → 22.0% |  0 → 11 | `ActiveSupport::NumberHelper::NumberConverter#initialize`           | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                                                                         |
-|  -50.0% |    -5 | 26.3% → 10.0% |  10 → 5 | `ActionDispatch::Cookies::EncryptedKeyRotatingCookieJar#initialize` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb` |
-| removed |    -3 |   7.9% → 0.0% |   3 → 0 | `ActiveSupport::Messages::Rotator#initialize`                       | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/messages/rotator.rb`                                                                                     |
-|  -50.0% |    -3 |  15.8% → 6.0% |   6 → 3 | `OpenSSL::HMAC#initialize [c function]`                             | `<unknown>`                                                                                                                                                               |
-| +150.0% |    +3 |  5.3% → 10.0% |   2 → 5 | `ActionDispatch::Response#initialize`                               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/http/response.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/http/response.rb`           |
+|  Change | Delta |             % | Samples | Callee                                                              | Location                                                                                          |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+|     new |   +11 |  0.0% → 22.0% |  0 → 11 | `ActiveSupport::NumberHelper::NumberConverter#initialize`           | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+|  -50.0% |    -5 | 26.3% → 10.0% |  10 → 5 | `ActionDispatch::Cookies::EncryptedKeyRotatingCookieJar#initialize` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`               |
+| removed |    -3 |   7.9% → 0.0% |   3 → 0 | `ActiveSupport::Messages::Rotator#initialize`                       | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/messages/rotator.rb`             |
+|  -50.0% |    -3 |  15.8% → 6.0% |   6 → 3 | `OpenSSL::HMAC#initialize [c function]`                             | `<unknown>`                                                                                       |
+| +150.0% |    +3 |  5.3% → 10.0% |   2 → 5 | `ActionDispatch::Response#initialize`                               | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/http/response.rb`                    |
 
 ##### `Kernel#catch [c function]` (`<unknown>`)
 
@@ -1765,26 +1765,26 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `block in instrument` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb`)
 
-| Change | Delta |             % |       Samples | Callee                                | Location                                                                                                                                                                          |
-| -----: | ----: | ------------: | ------------: | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +3.3% |   +41 | 95.7% → 96.5% | 1,236 → 1,277 | `block (2 levels) in render_template` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
-|  +2.5% |   +32 |        100.0% | 1,291 → 1,323 | `block in render_with_layout`         | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
+| Change | Delta |             % |       Samples | Callee                                | Location                                                                                |
+| -----: | ----: | ------------: | ------------: | ------------------------------------- | --------------------------------------------------------------------------------------- |
+|  +3.3% |   +41 | 95.7% → 96.5% | 1,236 → 1,277 | `block (2 levels) in render_template` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
+|  +2.5% |   +32 |        100.0% | 1,291 → 1,323 | `block in render_with_layout`         | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb` |
 
 ##### `ActiveSupport::Notifications::Instrumenter#instrument` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb`)
 
-|  Change | Delta |           % |       Samples | Callee                                                    | Location                                                                                                                                                                                      |
-| ------: | ----: | ----------: | ------------: | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   +2.5% |   +32 |       99.8% | 1,291 → 1,323 | `block in instrument`                                     | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb`                           |
-| removed |    -4 | 0.3% → 0.0% |         4 → 0 | `ActiveSupport::Notifications::Fanout::Handle#start`      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications/fanout.rb`                                                                                                     |
-| +100.0% |    +1 | 0.1% → 0.2% |         1 → 2 | `ActiveSupport::Notifications::Instrumenter#build_handle` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications/instrumenter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb` |
-|     new |    +1 | 0.0% → 0.1% |         0 → 1 | `ActiveSupport::Notifications::Fanout::Handle#finish`     | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/fanout.rb`                                                                                                       |
+|  Change | Delta |           % |       Samples | Callee                                                    | Location                                                                                      |
+| ------: | ----: | ----------: | ------------: | --------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+|   +2.5% |   +32 |       99.8% | 1,291 → 1,323 | `block in instrument`                                     | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb`              |
+| removed |    -4 | 0.3% → 0.0% |         4 → 0 | `ActiveSupport::Notifications::Fanout::Handle#start`      | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications/fanout.rb`     |
+| +100.0% |    +1 | 0.1% → 0.2% |         1 → 2 | `ActiveSupport::Notifications::Instrumenter#build_handle` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb` |
+|     new |    +1 | 0.0% → 0.1% |         0 → 1 | `ActiveSupport::Notifications::Fanout::Handle#finish`     | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/fanout.rb`       |
 
 ##### `ActionDispatch::Routing::RouteSet::Dispatcher#serve` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`)
 
-|  Change | Delta |             % |       Samples | Callee                                                          | Location                                                                                                                                                                            |
-| ------: | ----: | ------------: | ------------: | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   +2.2% |   +29 | 99.8% → 99.6% | 1,332 → 1,361 | `ActionDispatch::Routing::RouteSet::Dispatcher#dispatch`        | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`             |
-| +100.0% |    +3 |   0.2% → 0.4% |         3 → 6 | `ActionController::DefaultHeaders::ClassMethods#make_response!` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_controller/metal/default_headers.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/default_headers.rb` |
+|  Change | Delta |             % |       Samples | Callee                                                          | Location                                                                                 |
+| ------: | ----: | ------------: | ------------: | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+|   +2.2% |   +29 | 99.8% → 99.6% | 1,332 → 1,361 | `ActionDispatch::Routing::RouteSet::Dispatcher#dispatch`        | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb`       |
+| +100.0% |    +3 |   0.2% → 0.4% |         3 → 6 | `ActionController::DefaultHeaders::ClassMethods#make_response!` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/default_headers.rb` |
 
 ##### `block in decorate` (`/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`)
 
@@ -1794,28 +1794,28 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ActionView::Template#instrument_render_template` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb`)
 
-| Change | Delta |      % |       Samples | Callee                                    | Location                                                                                                                                                            |
-| -----: | ----: | -----: | ------------: | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +2.4% |   +31 | 100.0% | 1,288 → 1,319 | `ActiveSupport::Notifications.instrument` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb` |
+| Change | Delta |      % |       Samples | Callee                                    | Location                                                                         |
+| -----: | ----: | -----: | ------------: | ----------------------------------------- | -------------------------------------------------------------------------------- |
+|  +2.4% |   +31 | 100.0% | 1,288 → 1,319 | `ActiveSupport::Notifications.instrument` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb` |
 
 ##### `Array#each` (`<unknown>`)
 
-| Change | Delta |             % |       Samples | Callee                                                                 | Location                                                                                                                                                          |
-| -----: | ----: | ------------: | ------------: | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +74.7% |   +56 |   5.2% → 9.1% |      75 → 131 | `block (2 levels) in decorate`                                         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`                                                                           |
-|  +3.4% |   +42 | 85.7% → 88.4% | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                                                                                                       |
-| +38.4% |   +33 |   6.0% → 8.3% |      86 → 119 | `block in scrub_attributes`                                            | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                                                                                   |
-|  +2.4% |   +32 | 92.9% → 94.9% | 1,336 → 1,368 | `block in recognize`                                                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router.rb` |
-| -28.7% |   -27 |   6.5% → 4.6% |       94 → 67 | `block in digest_body`                                                 | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                                                                                              |
+| Change | Delta |             % |       Samples | Callee                                                                 | Location                                                                                |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| +74.7% |   +56 |   5.2% → 9.1% |      75 → 131 | `block (2 levels) in decorate`                                         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
+|  +3.4% |   +42 | 85.7% → 88.4% | 1,233 → 1,275 | `block in _app_views_statuses_index_html_erb__328993190567029661_3128` | `<unknown>`                                                                             |
+| +38.4% |   +33 |   6.0% → 8.3% |      86 → 119 | `block in scrub_attributes`                                            | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`         |
+|  +2.4% |   +32 | 92.9% → 94.9% | 1,336 → 1,368 | `block in recognize`                                                   | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router.rb`         |
+| -28.7% |   -27 |   6.5% → 4.6% |       94 → 67 | `block in digest_body`                                                 | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                    |
 
 ##### `Array#map` (`<unknown>`)
 
-|  Change | Delta |            % | Samples | Callee                             | Location                                                                                                                                                                      |
-| ------: | ----: | -----------: | ------: | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +100.0% |    +2 |        50.0% |   2 → 4 | `block in stylesheet_link_tag`     | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/asset_tag_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/asset_tag_helper.rb` |
-| +100.0% |    +1 |        25.0% |   1 → 2 | `block in set_cookie_header`       | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/utils.rb`                                                                                                                         |
-| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `block in flag_cookies_as_secure!` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`                                                                                             |
-|     new |    +1 | 0.0% → 12.5% |   0 → 1 | `block in dispatch`                | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/broadcast_logger.rb`                                                                                           |
+|  Change | Delta |            % | Samples | Callee                             | Location                                                                              |
+| ------: | ----: | -----------: | ------: | ---------------------------------- | ------------------------------------------------------------------------------------- |
+| +100.0% |    +2 |        50.0% |   2 → 4 | `block in stylesheet_link_tag`     | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/asset_tag_helper.rb` |
+| +100.0% |    +1 |        25.0% |   1 → 2 | `block in set_cookie_header`       | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/utils.rb`                                 |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `block in flag_cookies_as_secure!` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`     |
+|     new |    +1 | 0.0% → 12.5% |   0 → 1 | `block in dispatch`                | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/broadcast_logger.rb`   |
 
 ##### `ActiveSupport::NumberHelper::NumberConverter#validate_float` (`<unknown>`)
 
@@ -1866,65 +1866,65 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ActiveSupport::NumberHelper::NumberConverter#format_options` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
 
-| Change | Delta |             % |   Samples | Callee                                                                | Location                                                                                                                                                                                              |
-| -----: | ----: | ------------: | --------: | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -40.7% |  -101 | 93.6% → 88.0% | 248 → 147 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`    | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| +30.0% |    +3 |   3.8% → 7.8% |   10 → 13 | `ActiveSupport::NumberHelper::NumberConverter#default_format_options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| +16.7% |    +1 |   2.3% → 4.2% |     6 → 7 | `Hash#merge! [c function]`                                            | `<unknown>`                                                                                                                                                                                           |
+| Change | Delta |             % |   Samples | Callee                                                                | Location                                                                                          |
+| -----: | ----: | ------------: | --------: | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| -40.7% |  -101 | 93.6% → 88.0% | 248 → 147 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`    | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| +30.0% |    +3 |   3.8% → 7.8% |   10 → 13 | `ActiveSupport::NumberHelper::NumberConverter#default_format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| +16.7% |    +1 |   2.3% → 4.2% |     6 → 7 | `Hash#merge! [c function]`                                            | `<unknown>`                                                                                       |
 
 ##### `ActiveSupport::NumberHelper::NumberConverter#options` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                        | Location                                                                                                                                                                                              |
-| ------: | ----: | ------------: | --------: | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -37.0% |   -98 | 98.9% → 96.0% | 265 → 167 | `ActiveSupport::NumberHelper::NumberConverter#format_options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| +133.3% |    +4 |   1.1% → 4.0% |     3 → 7 | `Hash#merge [c function]`                                     | `<unknown>`                                                                                                                                                                                           |
+|  Change | Delta |             % |   Samples | Callee                                                        | Location                                                                                          |
+| ------: | ----: | ------------: | --------: | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+|  -37.0% |   -98 | 98.9% → 96.0% | 265 → 167 | `ActiveSupport::NumberHelper::NumberConverter#format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| +133.3% |    +4 |   1.1% → 4.0% |     3 → 7 | `Hash#merge [c function]`                                     | `<unknown>`                                                                                       |
 
 ##### `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                 | Location                                                                                                                                                                                              |
-| ------: | ----: | ------------: | --------: | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -35.1% |   -94 | 99.6% → 99.4% | 268 → 174 | `ActiveSupport::NumberHelper::NumberConverter#options` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| removed |    -1 |   0.4% → 0.0% |     1 → 0 | `Hash#fetch [c function]`                              | `<unknown>`                                                                                                                                                                                           |
+|  Change | Delta |             % |   Samples | Callee                                                 | Location                                                                                          |
+| ------: | ----: | ------------: | --------: | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+|  -35.1% |   -94 | 99.6% → 99.4% | 268 → 174 | `ActiveSupport::NumberHelper::NumberConverter#options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| removed |    -1 |   0.4% → 0.0% |     1 → 0 | `Hash#fetch [c function]`                              | `<unknown>`                                                                                       |
 
 ##### `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                          | Location                                                                                                                                                                                                                        |
-| ------: | ----: | ------------: | --------: | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -30.3% |   -92 | 97.4% → 97.2% | 304 → 212 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-| removed |    -2 |   0.6% → 0.0% |     2 → 0 | `Array#compact [c function]`                                    | `<unknown>`                                                                                                                                                                                                                     |
-| removed |    -1 |   0.3% → 0.0% |     1 → 0 | `String#gsub! [c function]`                                     | `<unknown>`                                                                                                                                                                                                                     |
-|  -20.0% |    -1 |   1.6% → 1.8% |     5 → 4 | `Array#join [c function]`                                       | `<unknown>`                                                                                                                                                                                                                     |
+|  Change | Delta |             % |   Samples | Callee                                                          | Location                                                                                                       |
+| ------: | ----: | ------------: | --------: | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+|  -30.3% |   -92 | 97.4% → 97.2% | 304 → 212 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+| removed |    -2 |   0.6% → 0.0% |     2 → 0 | `Array#compact [c function]`                                    | `<unknown>`                                                                                                    |
+| removed |    -1 |   0.3% → 0.0% |     1 → 0 | `String#gsub! [c function]`                                     | `<unknown>`                                                                                                    |
+|  -20.0% |    -1 |   1.6% → 1.8% |     5 → 4 | `Array#join [c function]`                                       | `<unknown>`                                                                                                    |
 
 ##### `ActiveSupport::NumberHelper::NumberConverter#execute` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
 
-| Change | Delta |             % |   Samples | Callee                                                            | Location                                                                                                                                                                                                                        |
-| -----: | ----: | ------------: | --------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -30.1% |   -94 | 97.5% → 96.0% | 312 → 218 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-|    new |    +2 |   0.0% → 0.9% |     0 → 2 | `ActiveSupport::NumberHelper::NumberConverter#validate_float?`    | `<unknown>`                                                                                                                                                                                                                     |
-| -14.3% |    -1 |   2.2% → 2.6% |     7 → 6 | `ActiveSupport::NumberHelper::NumberConverter#valid_bigdecimal`   | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`                           |
+| Change | Delta |             % |   Samples | Callee                                                            | Location                                                                                                       |
+| -----: | ----: | ------------: | --------: | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| -30.1% |   -94 | 97.5% → 96.0% | 312 → 218 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+|    new |    +2 |   0.0% → 0.9% |     0 → 2 | `ActiveSupport::NumberHelper::NumberConverter#validate_float?`    | `<unknown>`                                                                                                    |
+| -14.3% |    -1 |   2.2% → 2.6% |     7 → 6 | `ActiveSupport::NumberHelper::NumberConverter#valid_bigdecimal`   | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`              |
 
 ##### `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                                      | Location                                                                                                                                                                                                                        |
-| ------: | ----: | ------------: | --------: | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -34.9% |   -94 | 88.5% → 82.5% | 269 → 175 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
-|  -77.8% |   -14 |   5.9% → 1.9% |    18 → 4 | `String#split [c function]`                                                 | `<unknown>`                                                                                                                                                                                                                     |
-| removed |   -12 |   3.9% → 0.0% |    12 → 0 | `String#gsub! [c function]`                                                 | `<unknown>`                                                                                                                                                                                                                     |
-|     new |    +4 |   0.0% → 1.9% |     0 → 4 | `Array#join [c function]`                                                   | `<unknown>`                                                                                                                                                                                                                     |
-|     new |    +4 |   0.0% → 1.9% |     0 → 4 | `Array#compact [c function]`                                                | `<unknown>`                                                                                                                                                                                                                     |
+|  Change | Delta |             % |   Samples | Callee                                                                      | Location                                                                                                       |
+| ------: | ----: | ------------: | --------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+|  -34.9% |   -94 | 88.5% → 82.5% | 269 → 175 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
+|  -77.8% |   -14 |   5.9% → 1.9% |    18 → 4 | `String#split [c function]`                                                 | `<unknown>`                                                                                                    |
+| removed |   -12 |   3.9% → 0.0% |    12 → 0 | `String#gsub! [c function]`                                                 | `<unknown>`                                                                                                    |
+|     new |    +4 |   0.0% → 1.9% |     0 → 4 | `Array#join [c function]`                                                   | `<unknown>`                                                                                                    |
+|     new |    +4 |   0.0% → 1.9% |     0 → 4 | `Array#compact [c function]`                                                | `<unknown>`                                                                                                    |
 
 ##### `ActiveSupport::NumberHelper::NumberConverter.convert` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                 | Location                                                                                                                                                                                              |
-| ------: | ----: | ------------: | --------: | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -29.1% |   -93 | 99.4% → 94.2% | 320 → 227 | `ActiveSupport::NumberHelper::NumberConverter#execute` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
-| +600.0% |   +12 |   0.6% → 5.8% |    2 → 14 | `Class#new [c function]`                               | `<unknown>`                                                                                                                                                                                           |
+|  Change | Delta |             % |   Samples | Callee                                                 | Location                                                                                          |
+| ------: | ----: | ------------: | --------: | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+|  -29.1% |   -93 | 99.4% → 94.2% | 320 → 227 | `ActiveSupport::NumberHelper::NumberConverter#execute` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| +600.0% |   +12 |   0.6% → 5.8% |    2 → 14 | `Class#new [c function]`                               | `<unknown>`                                                                                       |
 
 ##### `ActiveSupport::NumberHelper#number_to_delimited` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb`)
 
-| Change | Delta |             % |   Samples | Callee                                                 | Location                                                                                                                                                                                              |
-| -----: | ----: | ------------: | --------: | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -25.2% |   -81 | 99.7% → 99.6% | 322 → 241 | `ActiveSupport::NumberHelper::NumberConverter.convert` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| Change | Delta |             % |   Samples | Callee                                                 | Location                                                                                          |
+| -----: | ----: | ------------: | --------: | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| -25.2% |   -81 | 99.7% → 99.6% | 322 → 241 | `ActiveSupport::NumberHelper::NumberConverter.convert` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
 
 ##### `block in delegate_number_helper_method` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`)
 
@@ -1934,23 +1934,23 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                           | Location                                                                                                                                                                |
-| ------: | ----: | ------------: | --------: | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -24.2% |   -79 | 98.2% → 97.6% | 326 → 247 | `block in delegate_number_helper_method`         | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb` |
-| removed |    -1 |   0.3% → 0.0% |     1 → 0 | `ActionView::Helpers::NumberHelper#valid_float?` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb`                                                                                    |
+|  Change | Delta |             % |   Samples | Callee                                           | Location                                                                             |
+| ------: | ----: | ------------: | --------: | ------------------------------------------------ | ------------------------------------------------------------------------------------ |
+|  -24.2% |   -79 | 98.2% → 97.6% | 326 → 247 | `block in delegate_number_helper_method`         | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`   |
+| removed |    -1 |   0.3% → 0.0% |     1 → 0 | `ActionView::Helpers::NumberHelper#valid_float?` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb` |
 
 ##### `ActionView::Helpers::NumberHelper#delegate_number_helper_method` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`)
 
-|  Change | Delta |             % |   Samples | Callee                                                               | Location                                                                                                                                                                      |
-| ------: | ----: | ------------: | --------: | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -23.8% |   -79 | 98.8% → 96.2% | 332 → 253 | `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`       |
-| +600.0% |    +6 |   0.3% → 2.7% |     1 → 7 | `Hash#symbolize_keys`                                                | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/core_ext/hash/keys.rb → /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/hash/keys.rb` |
+|  Change | Delta |             % |   Samples | Callee                                                               | Location                                                                              |
+| ------: | ----: | ------------: | --------: | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+|  -23.8% |   -79 | 98.8% → 96.2% | 332 → 253 | `ActionView::Helpers::NumberHelper#wrap_with_output_safety_handling` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`    |
+| +600.0% |    +6 |   0.3% → 2.7% |     1 → 7 | `Hash#symbolize_keys`                                                | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/core_ext/hash/keys.rb` |
 
 ##### `ActionView::Helpers::NumberHelper#number_with_delimiter` (`/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb`)
 
-| Change | Delta |              % |   Samples | Callee                                                            | Location                                                                                                                                                                |
-| -----: | ----: | -------------: | --------: | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -21.7% |   -73 | 100.0% → 96.3% | 336 → 263 | `ActionView::Helpers::NumberHelper#delegate_number_helper_method` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb` |
+| Change | Delta |              % |   Samples | Callee                                                            | Location                                                                           |
+| -----: | ----: | -------------: | --------: | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| -21.7% |   -73 | 100.0% → 96.3% | 336 → 263 | `ActionView::Helpers::NumberHelper#delegate_number_helper_method` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb` |
 
 ##### `Rack::ETag#digest_body` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`)
 
@@ -1967,40 +1967,40 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Callee                                   | Location                                                                                                                                                                |
-| -----: | ----: | ------------: | ------: | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -71.0% |   -22 | 93.9% → 90.0% |  31 → 9 | `block in define_url_helper`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb` |
-| -50.0% |    -1 |  6.1% → 10.0% |   2 → 1 | `ActionView::Helpers::UrlHelper#link_to` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`       |
+| Change | Delta |             % | Samples | Callee                                   | Location                                                                           |
+| -----: | ----: | ------------: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------- |
+| -71.0% |   -22 | 93.9% → 90.0% |  31 → 9 | `block in define_url_helper`             | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb` |
+| -50.0% |    -1 |  6.1% → 10.0% |   2 → 1 | `ActionView::Helpers::UrlHelper#link_to` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb`    |
 
 ##### `block in evaluate` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`)
 
-| Change | Delta |             % | Samples | Callee                                              | Location                                                                                                                                                              |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -51.6% |   -16 | 86.1% → 88.2% | 31 → 15 | `ActionDispatch::Journey::Format::Parameter#escape` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
-| -50.0% |    -2 | 11.1% → 11.8% |   4 → 2 | `ActionDispatch::Journey::Format#evaluate`          | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
+| Change | Delta |             % | Samples | Callee                                              | Location                                                                          |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------- | --------------------------------------------------------------------------------- |
+| -51.6% |   -16 | 86.1% → 88.2% | 31 → 15 | `ActionDispatch::Journey::Format::Parameter#escape` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
+| -50.0% |    -2 | 11.1% → 11.8% |   4 → 2 | `ActionDispatch::Journey::Format#evaluate`          | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
 
 ##### `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`)
 
-| Change | Delta |             % | Samples | Callee                                                      | Location                                                                                                                                                                      |
-| -----: | ----: | ------------: | ------: | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -73.1% |   -19 | 83.9% → 50.0% |  26 → 7 | `String#gsub [c function]`                                  | `<unknown>`                                                                                                                                                                   |
-| +40.0% |    +2 | 16.1% → 50.0% |   5 → 7 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
+| Change | Delta |             % | Samples | Callee                                                      | Location                                                                              |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| -73.1% |   -19 | 83.9% → 50.0% |  26 → 7 | `String#gsub [c function]`                                  | `<unknown>`                                                                           |
+| +40.0% |    +2 | 16.1% → 50.0% |   5 → 7 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
 
 ##### `Hash#fetch [c function]` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Callee                          | Location                                                                                                                                                                                                  |
-| ------: | ----: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -40.0% |    -6 | 60.0% → 69.2% |  15 → 9 | `block in real_csrf_token`      | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_controller/metal/request_forgery_protection.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/request_forgery_protection.rb` |
-|  -36.4% |    -4 | 44.0% → 53.8% |  11 → 7 | `block in unpacked_cookie_data` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/session/cookie_store.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/cookie_store.rb`       |
-|  -36.4% |    -4 | 44.0% → 53.8% |  11 → 7 | `block in id`                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/request/session.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/request/session.rb`                                       |
-|     new |    +2 |  0.0% → 15.4% |   0 → 2 | `block in cookie_jar`           | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`                                                                                                                       |
-| removed |    -1 |   4.0% → 0.0% |   1 → 0 | `block in formats`              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/http/mime_negotiation.rb`                                                                                                                  |
+|  Change | Delta |             % | Samples | Callee                          | Location                                                                                            |
+| ------: | ----: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------------------------------------------- |
+|  -40.0% |    -6 | 60.0% → 69.2% |  15 → 9 | `block in real_csrf_token`      | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/request_forgery_protection.rb` |
+|  -36.4% |    -4 | 44.0% → 53.8% |  11 → 7 | `block in unpacked_cookie_data` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/cookie_store.rb`    |
+|  -36.4% |    -4 | 44.0% → 53.8% |  11 → 7 | `block in id`                   | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/request/session.rb`                    |
+|     new |    +2 |  0.0% → 15.4% |   0 → 2 | `block in cookie_jar`           | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`                 |
+| removed |    -1 |   4.0% → 0.0% |   1 → 0 | `block in formats`              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/http/mime_negotiation.rb`            |
 
 ##### `String#gsub [c function]` (`<unknown>`)
 
-|  Change | Delta |            % | Samples | Callee            | Location                                                                                                                                                                      |
-| ------: | ----: | -----------: | ------: | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +400.0% |    +4 | 2.2% → 13.2% |   1 → 5 | `block in escape` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
+|  Change | Delta |            % | Samples | Callee            | Location                                                                              |
+| ------: | ----: | -----------: | ------: | ----------------- | ------------------------------------------------------------------------------------- |
+| +400.0% |    +4 | 2.2% → 13.2% |   1 → 5 | `block in escape` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
 
 ##### `Hash#[] [c function]` (`<unknown>`)
 
@@ -2022,41 +2022,41 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ActionDispatch::Journey::Router::Utils.escape_segment` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb`)
 
-| Change | Delta |      % | Samples | Callee                                                              | Location                                                                                                                                                                      |
-| -----: | ----: | -----: | ------: | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -54.8% |   -17 | 100.0% | 31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
+| Change | Delta |      % | Samples | Callee                                                              | Location                                                                              |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| -54.8% |   -17 | 100.0% | 31 → 14 | `ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
 
 ##### `block in <class:Format>` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`)
 
-| Change | Delta |              % | Samples | Callee                                                  | Location                                                                                                                                                                      |
-| -----: | ----: | -------------: | ------: | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -54.8% |   -17 | 100.0% → 93.3% | 31 → 14 | `ActionDispatch::Journey::Router::Utils.escape_segment` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
+| Change | Delta |              % | Samples | Callee                                                  | Location                                                                              |
+| -----: | ----: | -------------: | ------: | ------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| -54.8% |   -17 | 100.0% → 93.3% | 31 → 14 | `ActionDispatch::Journey::Router::Utils.escape_segment` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router/utils.rb` |
 
 ##### `ActionDispatch::Journey::Format::Parameter#escape` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`)
 
-| Change | Delta |      % | Samples | Callee                    | Location                                                                                                                                                              |
-| -----: | ----: | -----: | ------: | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -51.6% |   -16 | 100.0% | 31 → 15 | `block in <class:Format>` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/visitors.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
+| Change | Delta |      % | Samples | Callee                    | Location                                                                          |
+| -----: | ----: | -----: | ------: | ------------------------- | --------------------------------------------------------------------------------- |
+| -51.6% |   -16 | 100.0% | 31 → 15 | `block in <class:Format>` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb` |
 
 ##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`<unknown>`)
 
-| Change | Delta |             % | Samples | Callee                                                    | Location                                                                                                                                                                      |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -30.0% |   -12 | 76.9% → 71.8% | 40 → 28 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags`          | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/csrf_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb`           |
-| +50.0% |    +2 |  7.7% → 15.4% |   4 → 6 | `ActionView::Helpers::AssetTagHelper#stylesheet_link_tag` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/asset_tag_helper.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/asset_tag_helper.rb` |
-| -20.0% |    -1 |  9.6% → 10.3% |   5 → 4 | `ActionView::OutputBuffer#<<`                             | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/buffers.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                                   |
+| Change | Delta |             % | Samples | Callee                                                    | Location                                                                              |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| -30.0% |   -12 | 76.9% → 71.8% | 40 → 28 | `ActionView::Helpers::CsrfHelper#csrf_meta_tags`          | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/csrf_helper.rb`      |
+| +50.0% |    +2 |  7.7% → 15.4% |   4 → 6 | `ActionView::Helpers::AssetTagHelper#stylesheet_link_tag` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/asset_tag_helper.rb` |
+| -20.0% |    -1 |  9.6% → 10.3% |   5 → 4 | `ActionView::OutputBuffer#<<`                             | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/buffers.rb`                  |
 
 ##### `ActionController::Base::HelperMethods#form_authenticity_token` (`<unknown>`)
 
-| Change | Delta |              % | Samples | Callee                                                               | Location                                                                                                                                                                                                  |
-| -----: | ----: | -------------: | ------: | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -40.0% |   -12 | 100.0% → 94.7% | 30 → 18 | `ActionController::RequestForgeryProtection#form_authenticity_token` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_controller/metal/request_forgery_protection.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/request_forgery_protection.rb` |
+| Change | Delta |              % | Samples | Callee                                                               | Location                                                                                            |
+| -----: | ----: | -------------: | ------: | -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| -40.0% |   -12 | 100.0% → 94.7% | 30 → 18 | `ActionController::RequestForgeryProtection#form_authenticity_token` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/request_forgery_protection.rb` |
 
 ##### `Rails::Railtie.config` (`<unknown>`)
 
-| Change | Delta |      % | Samples | Callee                      | Location                                                                                                                            |
-| -----: | ----: | -----: | ------: | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| -75.0% |    -3 | 100.0% |   4 → 1 | `Rails::Application#config` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/application.rb → /usr/local/bundle/gems/railties-8.1.4/lib/rails/application.rb` |
+| Change | Delta |      % | Samples | Callee                      | Location                                                         |
+| -----: | ----: | -----: | ------: | --------------------------- | ---------------------------------------------------------------- |
+| -75.0% |    -3 | 100.0% |   4 → 1 | `Rails::Application#config` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/application.rb` |
 
 ##### `I18n::Base#default_separator` (`<unknown>`)
 
@@ -2066,9 +2066,9 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ApplicationController#_layout` (`<unknown>`)
 
-| Change | Delta |              % | Samples | Callee                                          | Location                                                                                                                                                  |
-| -----: | ----: | -------------: | ------: | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -50.0% |    -1 | 66.7% → 100.0% |   2 → 1 | `ActionView::LookupContext::ViewPaths#find_all` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/lookup_context.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/lookup_context.rb` |
+| Change | Delta |              % | Samples | Callee                                          | Location                                                                    |
+| -----: | ----: | -------------: | ------: | ----------------------------------------------- | --------------------------------------------------------------------------- |
+| -50.0% |    -1 | 66.7% → 100.0% |   2 → 1 | `ActionView::LookupContext::ViewPaths#find_all` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/lookup_context.rb` |
 
 ##### `StatusesController#_layout` (`<unknown>`)
 
@@ -2084,15 +2084,15 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `ActionController::Metal#content_type=` (`<unknown>`)
 
-| Change | Delta |      % | Samples | Callee                                   | Location                                                                                                                                                        |
-| -----: | ----: | -----: | ------: | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -50.0% |    -1 | 100.0% |   2 → 1 | `ActionDispatch::Response#content_type=` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/http/response.rb → /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/http/response.rb` |
+| Change | Delta |      % | Samples | Callee                                   | Location                                                                       |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------ |
+| -50.0% |    -1 | 100.0% |   2 → 1 | `ActionDispatch::Response#content_type=` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/http/response.rb` |
 
 ##### `ActionView::ViewPaths#template_exists?` (`<unknown>`)
 
-| Change | Delta |      % | Samples | Callee                                         | Location                                                                                                                                                  |
-| -----: | ----: | -----: | ------: | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -33.3% |    -1 | 100.0% |   3 → 2 | `ActionView::LookupContext::ViewPaths#exists?` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/lookup_context.rb → /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/lookup_context.rb` |
+| Change | Delta |      % | Samples | Callee                                         | Location                                                                    |
+| -----: | ----: | -----: | ------: | ---------------------------------------------- | --------------------------------------------------------------------------- |
+| -33.3% |    -1 | 100.0% |   3 → 2 | `ActionView::LookupContext::ViewPaths#exists?` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/lookup_context.rb` |
 
 ##### `ActionController::Base#per_form_csrf_tokens` (`<unknown>`)
 

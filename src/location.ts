@@ -286,41 +286,51 @@ export const formatSourceLocation = (
   location: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
 ): string =>
-  joinFormattedSourceLocation(formatSourceLocationParts(location, options))
+  joinFormattedSourceLocation(
+    formatMappedSourceLocationParts(sourceMapped(location, options), options),
+  )
 
 /**
- * Formats the base and current locations of a diffed entity as
- * `base → current`, stating the path once when only the position differs
- * (`a.js:20:5 → 20:9`). A side without a position states it as `?`
- * (`a.js:? → 20`).
+ * Formats the base and current locations of a diffed entity. When the two
+ * sources are one source, such as two Nix store paths differing only by their
+ * hash, the result states the current source once and the position as
+ * `base → current` when it differs (`a.js:20:5 → 20:9`). A side without a
+ * position states it as `?` (`a.js:? → 20`). Otherwise, such as for a renamed
+ * file a match rule pairs, it states both locations (`a.ts:10 → b.ts:20`).
  */
 export const formatSourceLocationDiff = (
   base: SourceLocation | undefined,
   current: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
 ): string => {
-  const baseParts = formatSourceLocationParts(base, options)
-  const currentParts = formatSourceLocationParts(current, options)
+  const mappedBase = sourceMapped(base, options)
+  const mappedCurrent = sourceMapped(current, options)
+  const currentParts = formatMappedSourceLocationParts(mappedCurrent, options)
+  const isSameSource = options.isSameMatchedSource ?? isSameSourceReference
   if (
-    baseParts.path &&
-    baseParts.kind === currentParts.kind &&
-    baseParts.path === currentParts.path &&
-    (baseParts.position || currentParts.position)
+    !mappedBase ||
+    !mappedCurrent ||
+    !isSameSource(mappedBase, mappedCurrent)
   ) {
-    return `${baseParts.path}:${formatArrow(
-      baseParts.position ?? `?`,
-      currentParts.position ?? `?`,
-    )}`
+    return formatArrow(
+      joinFormattedSourceLocation(
+        formatMappedSourceLocationParts(mappedBase, options),
+      ),
+      joinFormattedSourceLocation(currentParts),
+    )
   }
 
-  return formatArrow(
-    joinFormattedSourceLocation(baseParts),
-    joinFormattedSourceLocation(currentParts),
-  )
+  const basePosition = formatPosition(mappedBase)
+  if (!currentParts.path || (!basePosition && !currentParts.position)) {
+    return joinFormattedSourceLocation(currentParts)
+  }
+  return `${currentParts.path}:${formatArrow(
+    basePosition ?? `?`,
+    currentParts.position ?? `?`,
+  )}`
 }
 
 type FormattedSourceLocation = {
-  kind?: ReturnType<typeof sourceReferenceKind>
   path: string
   position?: string
 }
@@ -331,7 +341,14 @@ const joinFormattedSourceLocation = ({
 }: FormattedSourceLocation): string =>
   (position === undefined ? path : `${path}:${position}`) || `<unknown>`
 
-const formatSourceLocationParts = (
+const sourceMapped = (
+  location: SourceLocation | undefined,
+  options: FormattingProfileToMdOptions,
+): SourceLocation | undefined =>
+  location && sourceMapSourceLocation(location, options)
+
+/** Formats a location after source map resolution. */
+const formatMappedSourceLocationParts = (
   location: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
 ): FormattedSourceLocation => {
@@ -339,26 +356,28 @@ const formatSourceLocationParts = (
     return { path: `` }
   }
 
-  location = sourceMapSourceLocation(location, options)
-
-  const path =
-    location.type === `absolute`
-      ? formatURLPath(location.url, options.baseURL)
-      : sourceReferenceId(location)
-
-  // A line or column that is not a finite number formats as absent, so a
-  // malformed input's location reads as one without that part.
-  const kind = sourceReferenceKind(location)
-  const { line, column } = location
-  if (!Number.isFinite(line)) {
-    return { kind, path }
-  }
-
   return {
-    kind,
-    path,
-    position: Number.isFinite(column) ? `${line}:${column}` : String(line),
+    path:
+      location.type === `absolute`
+        ? formatURLPath(location.url, options.baseURL)
+        : sourceReferenceId(location),
+    position: formatPosition(location),
   }
+}
+
+/**
+ * Formats a location's line and column. A line or column that is not a finite
+ * number formats as absent, so a malformed input's location reads as one
+ * without that part.
+ */
+export const formatPosition = ({
+  line,
+  column,
+}: SourceLocation): string | undefined => {
+  if (!Number.isFinite(line)) {
+    return undefined
+  }
+  return Number.isFinite(column) ? `${line}:${column}` : String(line)
 }
 
 /**

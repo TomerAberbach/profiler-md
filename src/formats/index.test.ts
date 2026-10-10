@@ -1654,6 +1654,33 @@ describe(`diffProfiles`, () => {
     // `src/modalities/call-stack-profile/diff.test.ts`, since no committed input pair
     // exhibits a differing build hash.
 
+    test(`states a source once when the origin's match normalization makes the sides one source`, () => {
+      const makeSide = (storeHash: string, count: number) => ({
+        data: `/nix/store/${storeHash}-source/lib/a.nix:10:5:f ${count}\n`,
+        format: `collapsed` as const,
+        origin: `nix` as const,
+      })
+
+      const md = diffProfiles(
+        makeSide(`a`.repeat(32), 5),
+        makeSide(`b`.repeat(32), 10),
+        { baseURL: null },
+      )
+
+      expect(rankingTables(md, `Self samples`, `Regressions`)).toEqual([
+        [
+          {
+            Change: `+100.0%`,
+            Delta: `+5`,
+            '%': `100.0%`,
+            Samples: `5 → 10`,
+            Function: `f`,
+            Location: `/nix/store/${`b`.repeat(32)}-source/lib/a.nix:10:5`,
+          },
+        ],
+      ])
+    })
+
     test(`matchEntry matches functions whose locations differ across profiles`, () => {
       // `funcA`'s file carries a per-build suffix, so by default the two sides
       // don't match. The `matchEntry` hook equates the locations; the matched
