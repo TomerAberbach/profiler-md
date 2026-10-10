@@ -15,6 +15,12 @@ export type PositionMap = (
   position: SourcePosition,
 ) => SourcePosition | undefined
 
+/**
+ * Maps a base function's source reference to its source reference on the
+ * current side, or to `undefined` when the ground truth leaves it unknown.
+ */
+export type SourceReferenceMap = (source: string) => string | undefined
+
 export const identity: PositionMap = position => position
 
 export const positionOf = (

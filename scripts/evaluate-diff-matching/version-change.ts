@@ -6,20 +6,23 @@ import {
 } from './ground-truth.ts'
 import type { GroundTruth } from './ground-truth.ts'
 import type { FunctionInput } from './inputs.ts'
-import type { PositionMap } from './position.ts'
+import type { PositionMap, SourceReferenceMap } from './position.ts'
 import { upgradedFileAt, upgradedFileOf } from './upgraded-projects.ts'
 import type { UpgradedProject } from './upgraded-projects.ts'
 
 /**
  * Maps a base position in an upgraded project's file through the file's diff,
- * and any other position to itself. Returns `undefined` when no base function
- * is in an upgraded project, so the pair profiles the same code.
+ * and any other position to itself, and maps each source reference the same
+ * way. Returns `undefined` when no base function is in an upgraded project, so
+ * the pair profiles the same code.
  */
 export const versionChangeMap = (
   base: FunctionInput,
   current: FunctionInput,
   groundTruth: GroundTruth,
-): PositionMap | undefined => {
+):
+  | { positionMap: PositionMap; sourceReferenceMap: SourceReferenceMap }
+  | undefined => {
   const upgraded = base.functions.some(
     func => upgradedFileAt(func.location) !== undefined,
   )
@@ -29,29 +32,42 @@ export const versionChangeMap = (
 
   const currentPaths = upgradedFileProfiledPaths(current)
 
-  return position => {
-    const upgradedFile = upgradedFileOf(position.source)
+  /**
+   * The current side's source reference of a base one, and the upgraded
+   * project file it is, or `undefined` when its project has no fetchable
+   * version.
+   */
+  const currentFileOf = (source: string) => {
+    const upgradedFile = upgradedFileOf(source)
     if (!upgradedFile) {
-      return position
+      return { source, upgradedFile }
     }
     const { project, path } = upgradedFile
-    if (!project.download) {
-      return undefined
-    }
-    const diff = groundTruthOf(groundTruth, project).files[path]
-    if (!diff) {
-      throw new Error(
-        `${GROUND_TRUTH_PATH} has no diff of ${project.name} file ${path}\n  hint: ${UPDATE_HINT}`,
-      )
-    }
-    const mapped = mapPosition(diff, position)
-    return (
-      mapped && {
-        source:
-          currentPaths.get(upgradedFileKey(project, path)) ?? position.source,
-        ...mapped,
+    return project.download
+      ? {
+          source: currentPaths.get(upgradedFileKey(project, path)) ?? source,
+          upgradedFile,
+        }
+      : undefined
+  }
+
+  return {
+    sourceReferenceMap: source => currentFileOf(source)?.source,
+    positionMap: position => {
+      const currentFile = currentFileOf(position.source)
+      if (!currentFile?.upgradedFile) {
+        return currentFile && position
       }
-    )
+      const { project, path } = currentFile.upgradedFile
+      const diff = groundTruthOf(groundTruth, project).files[path]
+      if (!diff) {
+        throw new Error(
+          `${GROUND_TRUTH_PATH} has no diff of ${project.name} file ${path}\n  hint: ${UPDATE_HINT}`,
+        )
+      }
+      const mapped = mapPosition(diff, position)
+      return mapped && { source: currentFile.source, ...mapped }
+    },
   }
 }
 

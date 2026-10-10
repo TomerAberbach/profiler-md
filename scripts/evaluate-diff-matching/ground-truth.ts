@@ -5,8 +5,8 @@ import { prefetch, readDownload } from './fetch.ts'
 import { diffFile } from './file-diff.ts'
 import type { FileDiff } from './file-diff.ts'
 import { committedPairs, functionInputPairs } from './inputs.ts'
-import type { Func } from './inputs.ts'
 import {
+  pinProblems,
   UPGRADED_PROJECTS,
   upgradedFileAt,
   versionsOf,
@@ -23,8 +23,8 @@ export type GroundTruth = Record<
 >
 
 /**
- * Fetches both versions of every upgraded project file a committed pair
- * profiles, and writes their file diffs to {@link GROUND_TRUTH_PATH}.
+ * Fetches both versions of every upgraded project file a committed pair's base
+ * side profiles, and writes their file diffs to {@link GROUND_TRUTH_PATH}.
  */
 export const updateGroundTruth = (
   options: FormattingProfileToMdOptions,
@@ -54,9 +54,17 @@ export const updateGroundTruth = (
     for (const path of paths) {
       console.log(`diffing ${project.name} ${path}`)
       const { base, current } = downloadsOf(project, path)
+      const baseFile = readDownload(base)
+      if (baseFile === undefined) {
+        throw new Error(
+          `${project.name} ${versions.base} has no file ${path}, though a base input profiles it`,
+        )
+      }
+      // A file the current version deleted diffs as every line deleted, so its
+      // functions have no known counterpart.
       files[path] = diffFile(
-        readDownload(base),
-        readDownload(current),
+        baseFile,
+        readDownload(current) ?? ``,
         project.minified,
       )
     }
@@ -93,7 +101,8 @@ const serializeGroundTruth = (groundTruth: GroundTruth): string => {
  * Fails when {@link GROUND_TRUTH_PATH} is stale: when a project's versions
  * differ from its pins, or its files differ from the ones the committed inputs
  * profile. A tag or revision's files never change, so matching versions and
- * files mean matching diffs without fetching anything.
+ * files mean matching diffs without fetching anything. Also fails on each of
+ * {@link pinProblems}.
  */
 export const checkGroundTruth = (
   options: FormattingProfileToMdOptions,
@@ -115,17 +124,25 @@ export const checkGroundTruth = (
     name =>
       JSON.stringify(expected.get(name)) !== JSON.stringify(actual.get(name)),
   )
-  if (stale.length > 0) {
-    process.stderr.write(
-      `${GROUND_TRUTH_PATH} is out of date for ${stale.join(`, `)}\n  hint: ${UPDATE_HINT}\n`,
-    )
+  const problems = [
+    ...pinProblems(),
+    ...(stale.length > 0
+      ? [
+          `${GROUND_TRUTH_PATH} is out of date for ${stale.join(`, `)}\n  hint: ${UPDATE_HINT}`,
+        ]
+      : []),
+  ]
+  if (problems.length > 0) {
+    process.stderr.write(`${problems.join(`\n`)}\n`)
     process.exit(1)
   }
 }
 
 /**
  * Each upgraded project with a fetchable version, and the sorted files of it
- * that committed pairs profile.
+ * that committed pairs' base sides profile. The ground truth maps only base
+ * positions, so a file only the current side profiles, which may be new in the
+ * current version, needs no diff.
  */
 const profiledUpgradedFiles = (
   options: FormattingProfileToMdOptions,
@@ -136,10 +153,8 @@ const profiledUpgradedFiles = (
     if (!scripts.has(parseExampleFilename(pair.base).language)) {
       continue
     }
-    for (const inputs of functionInputPairs(pair, options)) {
-      for (const func of inputs.flatMap(
-        (input): readonly Func[] => input.functions,
-      )) {
+    for (const [base] of functionInputPairs(pair, options)) {
+      for (const func of base.functions) {
         const upgradedFile = upgradedFileAt(func.location)
         if (upgradedFile?.project.download) {
           const paths = projectToPaths.get(upgradedFile.project) ?? new Set()

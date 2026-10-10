@@ -55,6 +55,12 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
      versions of the same code. Build and run both roles from the same paths, so
      their functions pair across the diff. A workload whose code only the
      toolchain sets profiles one version in both roles
+   - Give each such pin ground truth: add the project to `UPGRADED_PROJECTS` in
+     `scripts/evaluate-diff-matching/upgraded-projects.ts`, naming the pin, and
+     run `pnpm evaluate-diff-matching --update`. Where the profiler records no
+     path to a file in the project (class names, basenames), add the pin and the
+     reason to `UNSCORED_PINS` instead. `pnpm check-diff-matching` fails on a
+     pin in neither
    - When a profiler can export multiple supported formats, export all from a
      single recording
    - Keep every input under GitHub's 100 MB limit (`verify_generated_input`
