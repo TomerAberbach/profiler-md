@@ -21,8 +21,8 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
-import { lineMatcher } from '../diff.ts'
-import type { DiffedLine, LineMatcher } from '../diff.ts'
+import { functionIdMatcher, lineMatcher } from '../diff.ts'
+import type { DiffedLine, FunctionIdMatcher, LineMatcher } from '../diff.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
   formatDiffFunctionSections,
@@ -54,6 +54,7 @@ import {
   functionColumns,
   lineColumns,
 } from './table.ts'
+import type { ArcRow } from './table.ts'
 
 /**
  * What a call-graph section ranks, percentages, and tabulates by: a metric at
@@ -147,7 +148,7 @@ const formatCategoryTable = (graph: AggregatedCallGraph): RootContent[] => {
 
 const graphHasCallCounts = (graph: AggregatedCallGraph): boolean =>
   graph.functions.some(func =>
-    [...func.calleeIdToMetrics.values()].some(({ callCount }) => callCount > 0),
+    func.calleeIdToMetrics.values().some(({ callCount }) => callCount > 0),
   )
 
 const formatHottestFunctions = ({
@@ -342,31 +343,6 @@ const formatHottestTotalFunctions = ({
     return []
   }
 
-  const { displayedEntities } = ranking
-  const hasCallCounts = graphHasCallCounts(graph)
-  const callerSections = displayedEntities.flatMap(func =>
-    formatHottestArcs({
-      measure,
-      func,
-      entity: `Caller`,
-      hasCallCounts,
-      context: graph.context,
-      options,
-      headingLevel: headingLevel + 2,
-    }),
-  )
-  const calleeSections = displayedEntities.flatMap(func =>
-    formatHottestArcs({
-      measure,
-      func,
-      entity: `Callee`,
-      hasCallCounts,
-      context: graph.context,
-      options,
-      headingLevel: headingLevel + 2,
-    }),
-  )
-
   return [
     heading(headingLevel, `Total ${metric.phrases.columnNoun}`),
     paragraph(
@@ -384,25 +360,50 @@ const formatHottestTotalFunctions = ({
         }),
       headingLevel: headingLevel + 1,
     }),
-    ...formatSectionGroup(
-      [
-        heading(headingLevel + 1, `Callers`),
-        paragraph(
-          `Callers ranked by the ${metric.phrases.pastParticipleVerbPhrase} in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`,
-        ),
-      ],
-      callerSections,
-    ),
-    ...formatSectionGroup(
-      [
-        heading(headingLevel + 1, `Callees`),
-        paragraph(
-          `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`,
-        ),
-      ],
-      calleeSections,
-    ),
+    ...formatHottestArcSections({
+      measure,
+      graph,
+      funcs: ranking.displayedEntities,
+      options,
+      headingLevel: headingLevel + 1,
+    }),
   ]
+}
+
+/** The Callers and Callees sections of a total ranking. */
+const formatHottestArcSections = ({
+  measure,
+  graph,
+  funcs,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  graph: AggregatedCallGraph
+  funcs: AggregatedCallGraphFunction[]
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const hasCallCounts = graphHasCallCounts(graph)
+  return [CALLER_ARCS, CALLEE_ARCS].flatMap(arcs =>
+    formatSectionGroup(
+      [
+        heading(headingLevel, `${arcs.entity}s`),
+        paragraph(arcSectionDescription(arcs, measure.metric, `ranked by`)),
+      ],
+      funcs.flatMap(func =>
+        formatHottestArcs({
+          measure,
+          func,
+          arcs,
+          hasCallCounts,
+          context: graph.context,
+          options,
+          headingLevel: headingLevel + 1,
+        }),
+      ),
+    ),
+  )
 }
 
 /**
@@ -410,9 +411,9 @@ const formatHottestTotalFunctions = ({
  * arcs ranked by the arcs' recorded inclusive values.
  */
 const formatHottestArcs = ({
-  measure,
+  measure: { metric, index },
   func,
-  entity,
+  arcs,
   hasCallCounts,
   context,
   options,
@@ -420,30 +421,18 @@ const formatHottestArcs = ({
 }: {
   measure: Measure
   func: AggregatedCallGraphFunction
-  entity: `Caller` | `Callee`
+  arcs: Arcs
   hasCallCounts: boolean
   context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const { metric, index } = measure
-  const arcs =
-    entity === `Caller`
-      ? [...func.callerIdToMetrics.values()].map(arc => ({
-          func: arc.caller,
-          callCount: arc.callCount,
-          value: arc.totalValues[index]!,
-        }))
-      : [...func.calleeIdToMetrics.values()].map(arc => ({
-          func: arc.callee,
-          callCount: arc.callCount,
-          value: arc.totalValues[index]!,
-        }))
-
   const hottestArcs = selectTopN(
-    arcs.filter(
-      ({ func, value }) => options.showEntry(func, context) && value > 0,
-    ),
+    arcs
+      .rowsOf(func, index)
+      .map(([, row]) => row)
+      .filter(row => options.showEntry(row.func, context) && row.value > 0)
+      .toArray(),
     Math.ceil(options.topN / 4),
     ({ value }) => value,
   )
@@ -451,15 +440,71 @@ const formatHottestArcs = ({
     return []
   }
 
-  const total = func.totalValues[index]!
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      arcColumns(metric, entity, hasCallCounts, options),
-      hottestArcs.map(arc => ({ ...arc, total })),
+      arcColumns(metric, arcs.entity, hasCallCounts, options),
+      hottestArcs,
     ),
   ]
 }
+
+type Arcs = {
+  entity: `Caller` | `Callee`
+  measurePhraseOf: (metric: Metric) => string
+
+  /** A function's arcs as rows for one metric, keyed by the other end's ID. */
+  rowsOf: (
+    func: AggregatedCallGraphFunction,
+    index: number,
+  ) => IteratorObject<readonly [id: number, row: CallGraphArcRow]>
+}
+
+type CallGraphArcRow = ArcRow & { func: AggregatedCallGraphFunction }
+
+const CALLER_ARCS: Arcs = {
+  entity: `Caller`,
+  measurePhraseOf: metric =>
+    `the ${metric.phrases.pastParticipleVerbPhrase} in each function and its callees during calls from that caller`,
+  rowsOf: (func, index) =>
+    func.callerIdToMetrics
+      .entries()
+      .map(([id, { caller, callCount, totalValues }]) => [
+        id,
+        {
+          func: caller,
+          callCount,
+          value: totalValues[index]!,
+          total: func.totalValues[index]!,
+        },
+      ]),
+}
+
+const CALLEE_ARCS: Arcs = {
+  entity: `Callee`,
+  measurePhraseOf: metric =>
+    `contribution to each function's total ${metric.phrases.columnNoun}`,
+  rowsOf: (func, index) =>
+    func.calleeIdToMetrics
+      .entries()
+      .map(([id, { callee, callCount, totalValues }]) => [
+        id,
+        {
+          func: callee,
+          callCount,
+          value: totalValues[index]!,
+          total: func.totalValues[index]!,
+        },
+      ]),
+}
+
+/** The paragraph opening a Callers or Callees section. */
+const arcSectionDescription = (
+  { entity, measurePhraseOf }: Arcs,
+  metric: Metric,
+  ranking: `ranked by` | `with the largest change in`,
+): string =>
+  `${entity}s ${ranking} ${measurePhraseOf(metric)}. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`
 
 export const formatCallGraphDiff = (
   diff: AggregatedCallGraphDiff,
@@ -468,6 +513,7 @@ export const formatCallGraphDiff = (
   const headingLevel = 1
   const metrics = diff.metrics.map(({ metric }) => metric)
   const matchLines = lineMatcher(diff)
+  const matchFunctionIds = functionIdMatcher(diff.functions)
   return [
     heading(headingLevel, `${formatTitle(metrics)} diff`),
     paragraph(formatDiffSummaryLine(diff)),
@@ -496,6 +542,7 @@ export const formatCallGraphDiff = (
             diff,
             measure,
             matchLines,
+            matchFunctionIds,
             options: sectionOptions,
             headingLevel: sectionHeadingLevel,
           }),
@@ -566,12 +613,14 @@ const formatDiffFunctions = ({
   diff,
   measure,
   matchLines,
+  matchFunctionIds,
   options,
   headingLevel,
 }: {
   diff: AggregatedCallGraphDiff
   measure: AggregatedCallGraphDiff[`metrics`][number]
   matchLines: LineMatcher<Float64Array>
+  matchFunctionIds: FunctionIdMatcher
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -592,6 +641,7 @@ const formatDiffFunctions = ({
         diff,
         measure,
         matchLines,
+        matchFunctionIds,
         categories,
         options,
         headingLevel: headingLevel + 1,
@@ -601,6 +651,7 @@ const formatDiffFunctions = ({
         diff,
         measure,
         matchLines,
+        matchFunctionIds,
         categories,
         options,
         headingLevel: headingLevel + 1,
@@ -615,6 +666,7 @@ const formatDiffDirectionFunctions = ({
   diff,
   measure,
   matchLines,
+  matchFunctionIds,
   categories,
   options,
   headingLevel,
@@ -623,6 +675,7 @@ const formatDiffDirectionFunctions = ({
   diff: AggregatedCallGraphDiff
   measure: AggregatedCallGraphDiff[`metrics`][number]
   matchLines: LineMatcher<Float64Array>
+  matchFunctionIds: FunctionIdMatcher
   categories: EntryCategory[]
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -675,6 +728,20 @@ const formatDiffDirectionFunctions = ({
           `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
         ] as const)
 
+  const detailArgs: DiffDetailArgs = {
+    diff,
+    matchLines,
+    matchFunctionIds,
+    measure,
+    funcs: shownDiffEntities({
+      improvement: metric.improvement,
+      increases,
+      decreases,
+      categoryRankings,
+    }).map(({ entity }) => entity),
+    options,
+    headingLevel: headingLevel + 1,
+  }
   return formatDiffFunctionSections({
     headingLevel,
     title,
@@ -688,20 +755,93 @@ const formatDiffDirectionFunctions = ({
     rowOf: ({ entity }) => rowOf(entity),
     detailSections:
       direction === `self`
-        ? formatDiffLines({
-            measure,
-            matchLines,
-            funcs: shownDiffEntities({
-              improvement: metric.improvement,
-              increases,
-              decreases,
-              categoryRankings,
-            }).map(({ entity }) => entity),
-            options,
-            headingLevel: headingLevel + 1,
-          })
-        : [],
+        ? formatDiffLines(detailArgs)
+        : formatDiffArcSections(detailArgs),
   })
+}
+
+type DiffDetailArgs = {
+  diff: AggregatedCallGraphDiff
+  matchLines: LineMatcher<Float64Array>
+  matchFunctionIds: FunctionIdMatcher
+  measure: AggregatedCallGraphDiff[`metrics`][number]
+  funcs: AggregatedCallGraphFunctionDiff[]
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}
+
+/** The Callers and Callees sections of a total ranking. */
+const formatDiffArcSections = (args: DiffDetailArgs): RootContent[] => {
+  const hasCallCounts =
+    graphHasCallCounts(args.diff.base) || graphHasCallCounts(args.diff.current)
+  return [CALLER_ARCS, CALLEE_ARCS].flatMap(arcs =>
+    formatSectionGroup(
+      [
+        heading(args.headingLevel, `${arcs.entity}s`),
+        paragraph(
+          arcSectionDescription(
+            arcs,
+            args.measure.metric,
+            `with the largest change in`,
+          ),
+        ),
+      ],
+      args.funcs.flatMap(func =>
+        formatDiffFunctionArcs({
+          ...args,
+          func,
+          arcs,
+          hasCallCounts,
+          headingLevel: args.headingLevel + 1,
+        }),
+      ),
+    ),
+  )
+}
+
+/**
+ * The Callers or Callees subsection for one function: its arcs whose recorded
+ * inclusive values changed the most either way.
+ */
+const formatDiffFunctionArcs = ({
+  diff,
+  matchFunctionIds,
+  measure: { metric, baseIndex, currentIndex },
+  func,
+  arcs,
+  hasCallCounts,
+  options,
+  headingLevel,
+}: DiffDetailArgs & {
+  func: AggregatedCallGraphFunctionDiff
+  arcs: Arcs
+  hasCallCounts: boolean
+}): RootContent[] => {
+  const changedArcs = selectLargestChanges(
+    matchFunctionIds(
+      func.base && arcs.rowsOf(func.base, baseIndex),
+      func.current && arcs.rowsOf(func.current, currentIndex),
+    ).filter(({ base, current }) =>
+      showDiffEntity(
+        { base: base?.func, current: current?.func },
+        diff,
+        options,
+      ),
+    ),
+    Math.ceil(options.topN / 4),
+    ({ base, current }) => (current?.value ?? 0) - (base?.value ?? 0),
+  )
+  if (changedArcs.length === 0) {
+    return []
+  }
+
+  return [
+    formatFunctionHeading(headingLevel, func, options),
+    formatDiffTable(
+      arcColumns(metric, arcs.entity, hasCallCounts, options),
+      changedArcs,
+    ),
+  ]
 }
 
 const formatDiffLines = ({
@@ -710,13 +850,7 @@ const formatDiffLines = ({
   funcs,
   options,
   headingLevel,
-}: {
-  measure: AggregatedCallGraphDiff[`metrics`][number]
-  matchLines: LineMatcher<Float64Array>
-  funcs: AggregatedCallGraphFunctionDiff[]
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] =>
+}: DiffDetailArgs): RootContent[] =>
   formatSectionGroup(
     [
       heading(headingLevel, `Lines`),

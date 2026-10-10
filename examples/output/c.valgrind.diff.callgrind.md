@@ -527,3 +527,567 @@ Functions with the largest decrease in total instructions recorded in the functi
 | removed |   -822 | <0.1% → 0.0% |               822 → 0 | `0x0000000000008740`                              | `programs/zstd`                          |
 |   -8.4% |   -820 |        <0.1% |         9,792 → 8,972 | `HUF_simpleQuickSort`                             | `lib//compress/huf_compress.c`           |
 |  -32.0% |   -804 |        <0.1% |         2,510 → 1,706 | `__pthread_clockjoin_ex`                          | `./nptl/./nptl/pthread_join_common.c`    |
+
+#### Callers
+
+Callers with the largest change in the instructions recorded in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+
+##### `ZSTD_compress_frameChunk` (`lib//compress/zstd_compress.c`)
+
+| Change |      Delta |               % |            Instructions | Calls | Caller                         | Location                                 |
+| -----: | ---------: | --------------: | ----------------------: | ----: | ------------------------------ | ---------------------------------------- |
+|  +2.8% | +1,527,377 | 144.1% → 144.6% | 55,245,537 → 56,772,914 |     8 | `ZSTD_compressBlock_internal`  | `lib//compress/zstd_compress.c`          |
+|  +2.5% |   +925,823 |   98.0% → 98.1% | 37,593,868 → 38,519,691 |     2 | `ZSTD_compress_frameChunk`     | `lib//compress/zstd_compress.c`          |
+|  +2.8% |   +518,717 |   48.6% → 48.8% | 18,651,550 → 19,170,267 |     1 | `ZSTD_compressEnd_public`      | `lib//compress/zstd_compress_internal.h` |
+|  +2.1% |   +407,106 |   51.4% → 51.2% | 19,696,277 → 20,103,383 |     1 | `ZSTD_compressContinue_public` | `lib//compress/zstd_compress.c`          |
+
+##### `ZSTDMT_compressionJob` (`lib//compress/zstdmt_compress.c`)
+
+|  Change |       Delta |                      % |              Instructions | Calls | Caller                                 | Location                               |
+| ------: | ----------: | ---------------------: | ------------------------: | ----: | -------------------------------------- | -------------------------------------- |
+|     new | +39,274,550 |         0.0% → 5205.5% |            0 → 39,274,550 | 0 → 1 | `ZSTD_compressBegin_advanced_internal` | `lib//compress/zstd_compress.c`        |
+| removed | -38,349,498 |      5086140.3% → 0.0% |            38,349,498 → 0 | 1 → 0 | `ZSTD_XXH64_update`                    | `lib//common/xxhash.h`                 |
+|   +2.4% |  +2,840,344 | 15475420.8% → 15842.0% | 116,684,673 → 119,525,017 |     3 | `__pthread_mutex_unlock_usercnt`       | `./nptl/./nptl/pthread_mutex_unlock.c` |
+|   +2.4% |    +925,844 |   5194439.8% → 5313.8% |   39,166,076 → 40,091,920 |     1 | `ZSTDMT_getBuffer`                     | `lib//compress/zstdmt_compress.c`      |
+
+##### `ZSTD_recordFingerprint_43` (`lib//compress/zstd_preSplit.c`)
+
+| Change |    Delta |             % | Instructions | Calls | Caller                      | Location                        |
+| -----: | -------: | ------------: | -----------: | ----: | --------------------------- | ------------------------------- |
+|    new | +624,008 | 0.0% → 100.0% |  0 → 624,008 | 0 → 7 | `ZSTD_splitBlock`           | `lib//compress/zstd_preSplit.c` |
+|    new | +613,655 |  0.0% → 98.3% |  0 → 613,655 | 0 → 7 | `ZSTD_recordFingerprint_43` | `lib//compress/zstd_preSplit.c` |
+
+##### `ZSTD_compressEnd_public` (`lib//compress/zstd_compress_internal.h`)
+
+| Change |    Delta |      % |            Instructions | Calls | Caller                    | Location                        |
+| -----: | -------: | -----: | ----------------------: | ----: | ------------------------- | ------------------------------- |
+|  +2.8% | +518,717 | 100.0% | 18,651,568 → 19,170,285 |     1 | `ZSTD_compressEnd_public` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTD_compressEnd_public` (`lib//compress/zstd_compress.c`)
+
+| Change |    Delta |      % |            Instructions | Calls | Caller                           | Location                               |
+| -----: | -------: | -----: | ----------------------: | ----: | -------------------------------- | -------------------------------------- |
+|  +2.8% | +518,717 | 100.0% | 18,652,011 → 19,170,728 |     1 | `__pthread_mutex_unlock_usercnt` | `./nptl/./nptl/pthread_mutex_unlock.c` |
+
+##### `ZSTD_splitBlock` (`lib//compress/zstd_preSplit.c`)
+
+| Change |       Delta |               % |   Instructions | Calls | Caller                     | Location                        |
+| -----: | ----------: | --------------: | -------------: | ----: | -------------------------- | ------------------------------- |
+|    new | +75,565,864 | 0.0% → 16814.0% | 0 → 75,565,864 | 0 → 7 | `ZSTD_compress_frameChunk` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTD_compressContinue_public` (`lib//compress/zstd_compress.c`)
+
+| Change |    Delta |               % |            Instructions | Calls | Caller                         | Location                                 |
+| -----: | -------: | --------------: | ----------------------: | ----: | ------------------------------ | ---------------------------------------- |
+|  +2.4% | +925,823 | 194.7% → 195.4% | 38,348,721 → 39,274,544 |     1 | `ZSTDMT_compressionJob`        | `lib//compress/zstdmt_compress.c`        |
+|  +2.1% | +407,106 |          100.0% | 19,696,287 → 20,103,393 |     1 | `ZSTD_compressContinue_public` | `lib//compress/zstd_compress_internal.h` |
+
+##### `ZSTD_compressContinue_public` (`lib//compress/zstd_compress_internal.h`)
+
+| Change |    Delta |      % |            Instructions | Calls | Caller                         | Location                        |
+| -----: | -------: | -----: | ----------------------: | ----: | ------------------------------ | ------------------------------- |
+|  +2.1% | +407,106 | 100.0% | 19,696,318 → 20,103,424 |     1 | `ZSTD_compressContinue_public` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTD_compressBlock_doubleFast` (`lib//compress/zstd_compress_internal.h`)
+
+| Change |          Delta |                     % |                      Instructions |             Calls | Caller                          | Location                                 |
+| -----: | -------------: | --------------------: | --------------------------------: | ----------------: | ------------------------------- | ---------------------------------------- |
+|  +1.5% | +2,317,883,112 | 755572.1% → 755779.5% | 151,440,509,530 → 153,758,392,642 | 122,209 → 122,215 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_double_fast.c`       |
+|  +1.5% |       +301,189 |                100.0% |           20,042,901 → 20,344,090 |                 8 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_compress_internal.h` |
+
+##### `ZSTD_buildSeqStore` (`lib//compress/zstd_compress.c`)
+
+| Change |    Delta |               % |            Instructions | Calls | Caller                        | Location                        |
+| -----: | -------: | --------------: | ----------------------: | ----: | ----------------------------- | ------------------------------- |
+|  +0.8% | +296,811 | 187.5% → 186.2% | 37,593,067 → 37,889,878 |     8 | `ZSTD_compressBlock_internal` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTD_compressBlock_doubleFast` (`lib//compress/zstd_double_fast.c`)
+
+| Change |          Delta |                     % |                      Instructions |             Calls | Caller                          | Location                                 |
+| -----: | -------------: | --------------------: | --------------------------------: | ----------------: | ------------------------------- | ---------------------------------------- |
+|  +1.5% | +2,316,860,179 | 755503.0% → 755707.0% | 151,432,182,725 → 153,749,042,904 | 122,208 → 122,214 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_compress_internal.h` |
+|  +1.5% |       +301,173 |                100.0% |           20,043,888 → 20,345,061 |                 8 | `ZSTD_buildSeqStore`            | `lib//compress/zstd_compress.c`          |
+|  +1.4% |       +170,058 |         62.5% → 62.4% |           12,527,271 → 12,697,329 |                 9 | `ZSTD_compressBlock_doubleFast` | `lib//common/mem.h`                      |
+
+##### `UTIL_countLogicalCores` (`programs/util.c`)
+
+| Change |    Delta |             % | Instructions | Calls | Caller                   | Location             |
+| -----: | -------: | ------------: | -----------: | ----: | ------------------------ | -------------------- |
+|    new | +294,159 | 0.0% → 909.4% |  0 → 294,159 | 0 → 1 | `main`                   | `programs/zstdcli.c` |
+|    new |      +30 |   0.0% → 0.1% |       0 → 30 | 0 → 3 | `UTIL_countLogicalCores` | `programs/util.c`    |
+
+##### `_dl_start` (`./elf/./elf/rtld.c`)
+
+| Change |   Delta |             % |      Instructions | Calls | Caller         | Location                              |
+| -----: | ------: | ------------: | ----------------: | ----: | -------------- | ------------------------------------- |
+|  +8.6% | +31,360 |        100.0% | 364,341 → 395,701 |     1 | `(below main)` | `./elf/../sysdeps/aarch64/dl-start.S` |
+|  +0.1% |     +55 | 23.6% → 21.8% |   86,071 → 86,126 |     1 | `_dl_start`    | `./elf/./elf/do-rel.h`                |
+
+##### `_dl_init` (`./elf/./elf/dl-init.c`)
+
+| Change |   Delta |      % |      Instructions | Calls | Caller      | Location             |
+| -----: | ------: | -----: | ----------------: | ----: | ----------- | -------------------- |
+| +11.3% | +31,305 | 100.0% | 277,578 → 308,883 |     1 | `_dl_start` | `./elf/./elf/rtld.c` |
+
+##### `(below main)` (`programs/zstd`)
+
+| Change |   Delta |      % |      Instructions | Calls | Caller     | Location                |
+| -----: | ------: | -----: | ----------------: | ----: | ---------- | ----------------------- |
+| +11.3% | +31,305 | 100.0% | 276,555 → 307,860 |     1 | `_dl_init` | `./elf/./elf/dl-init.c` |
+
+##### `__libc_start_main@@GLIBC_2.34` (`./csu/../csu/libc-start.c`)
+
+| Change |   Delta |              % |      Instructions | Calls | Caller                | Location                                   |
+| -----: | ------: | -------------: | ----------------: | ----: | --------------------- | ------------------------------------------ |
+| +11.3% | +31,305 |         100.0% | 275,846 → 307,151 |     1 | `_dl_runtime_resolve` | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+| +11.4% | +31,305 | 99.9% → 100.0% | 275,701 → 307,006 |     1 | `__internal_atexit`   | `./stdlib/./stdlib/cxa_atexit.c`           |
+
+##### `main` (`programs/zstdcli.c`)
+
+| Change |    Delta |             % |      Instructions | Calls | Caller                   | Location                                       |
+| -----: | -------: | ------------: | ----------------: | ----: | ------------------------ | ---------------------------------------------- |
+|    new | +261,812 |  0.0% → 85.5% |       0 → 261,812 | 0 → 1 | `UTIL_countLogicalCores` | `programs/util.c`                              |
+| +11.9% |  +31,433 | 95.7% → 96.2% | 263,087 → 294,520 |     1 | `exeNameMatch`           | `programs/zstdcli.c`                           |
+| +11.6% |  +31,305 | 97.8% → 98.0% | 268,825 → 300,130 |     1 | `FIO_createContext`      | `programs/fileio.c`                            |
+| +11.4% |  +31,305 |        100.0% | 274,886 → 306,191 |     1 | `(below main)`           | `./csu/../sysdeps/nptl/libc_start_call_main.h` |
+|  -0.4% |   -1,006 | 95.1% → 85.0% | 261,351 → 260,345 |     1 | `UTIL_isConsole`         | `programs/util.c`                              |
+
+##### `FIO_createContext` (`programs/fileio.c`)
+
+| Change |   Delta |      % |      Instructions | Calls | Caller                  | Location            |
+| -----: | ------: | -----: | ----------------: | ----: | ----------------------- | ------------------- |
+| +11.6% | +31,305 | 100.0% | 269,731 → 301,036 |     1 | `FIO_createPreferences` | `programs/fileio.c` |
+
+##### `FIO_createPreferences` (`programs/fileio.c`)
+
+| Change |   Delta |      % |      Instructions | Calls | Caller | Location             |
+| -----: | ------: | -----: | ----------------: | ----: | ------ | -------------------- |
+| +11.5% | +31,305 | 100.0% | 272,062 → 303,367 |     1 | `main` | `programs/zstdcli.c` |
+
+##### `AIO_WritePool_closeFile` (`programs/fileio_asyncio.c`)
+
+| Change |  Delta |                 % |  Instructions | Calls | Caller                         | Location            |
+| -----: | -----: | ----------------: | ------------: | ----: | ------------------------------ | ------------------- |
+| -19.5% | -1,145 | 104.4% → 27723.5% | 5,858 → 4,713 |     1 | `FIO_compressFilename_srcFile` | `programs/fileio.c` |
+
+##### `ZSTD_compressLiterals` (`lib//compress/zstd_compress_literals.c`)
+
+| Change |  Delta |                 % |            Instructions | Calls | Caller                  | Location                                 |
+| -----: | -----: | ----------------: | ----------------------: | ----: | ----------------------- | ---------------------------------------- |
+|  -0.6% | -5,023 |             99.7% |       895,240 → 890,217 |     8 | `ZSTD_compressLiterals` | `lib//compress/zstd_compress_literals.c` |
+|    ~0% | -4,370 | 1954.3% → 1964.8% | 17,548,082 → 17,543,712 |     8 | `ZSTD_buildSeqStore`    | `lib//compress/zstd_compress.c`          |
+
+##### `HUF_compress4X_repeat` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Caller                  | Location                                 |
+| -----: | -----: | -----: | ----------------: | ----: | ----------------------- | ---------------------------------------- |
+|  -0.6% | -5,023 | 100.0% | 895,016 → 889,993 |     8 | `ZSTD_compressLiterals` | `lib//compress/zstd_compress_literals.c` |
+
+##### `HIST_count_wksp` (`lib//compress/hist.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Caller                  | Location                       |
+| -----: | -----: | -----: | ----------------: | ----: | ----------------------- | ------------------------------ |
+|  -0.6% | -5,023 | 100.0% | 894,080 → 889,057 |     8 | `HUF_compress_internal` | `lib//compress/huf_compress.c` |
+
+##### `HUF_compress_internal` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |             % |      Instructions | Calls | Caller                     | Location                       |
+| -----: | -----: | ------------: | ----------------: | ----: | -------------------------- | ------------------------------ |
+|  -0.6% | -5,023 |        100.0% | 894,608 → 889,585 |     8 | `HUF_compress4X_repeat`    | `lib//compress/huf_compress.c` |
+|  -0.6% | -2,841 | 49.4% → 49.3% | 441,661 → 438,820 |     7 | `HIST_count_parallel_wksp` | `lib//compress/hist.c`         |
+|  -0.6% | -2,062 |         40.1% | 359,101 → 357,039 |     6 | `HUF_writeCTable_wksp`     | `lib//compress/huf_compress.c` |
+
+##### `fclose@@GLIBC_2.17` (`./libio/./libio/iofclose.c`)
+
+| Change |  Delta |               % |  Instructions | Calls | Caller                    | Location                                   |
+| -----: | -----: | --------------: | ------------: | ----: | ------------------------- | ------------------------------------------ |
+|    new | +4,450 |  0.0% → 1049.5% |     0 → 4,450 | 0 → 1 | `AIO_WritePool_closeFile` | `programs/fileio_asyncio.c`                |
+| -76.9% | -3,831 | 100.0% → 272.2% | 4,985 → 1,154 |     1 | `_dl_runtime_resolve`     | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+
+##### `HIST_count_parallel_wksp` (`lib//compress/hist.c`)
+
+| Change |  Delta |               % |          Instructions | Calls | Caller                | Location               |
+| -----: | -----: | --------------: | --------------------: | ----: | --------------------- | ---------------------- |
+|  -0.6% | -5,023 |   31.6% → 31.5% |     893,896 → 888,873 |     8 | `HIST_count_wksp`     | `lib//compress/hist.c` |
+|    ~0% | +1,257 | 137.2% → 137.5% | 3,881,646 → 3,882,903 |    24 | `HIST_countFast_wksp` | `lib//compress/hist.c` |
+
+##### `pthread_cond_wait@@GLIBC_2.17` (`./nptl/./nptl/pthread_cond_wait.c`)
+
+| Change |    Delta |                      % |            Instructions | Calls | Caller                               | Location                         |
+| -----: | -------: | ---------------------: | ----------------------: | ----: | ------------------------------------ | -------------------------------- |
+|  +2.4% | +926,154 | 774415.4% → 2394258.4% | 39,177,674 → 40,103,828 | 6 → 7 | `POOL_thread`                        | `lib//common/pool.c`             |
+| -67.4% |     -778 |          22.8% → 22.5% |             1,155 → 377 | 2 → 1 | `POOL_joinJobs`                      | `lib//common/pool.c`             |
+| -11.9% |     -415 |         68.8% → 183.0% |           3,481 → 3,066 | 8 → 7 | `POOL_add`                           | `lib//common/pool.c`             |
+|    new |      +75 |            0.0% → 4.5% |                  0 → 75 | 0 → 1 | `__futex_abstimed_wait_cancelable64` | `./nptl/./nptl/futex-internal.c` |
+
+##### `HUF_compressCTable_internal.isra.0` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |             % |      Instructions | Calls | Caller                  | Location                       |
+| -----: | -----: | ------------: | ----------------: | ----: | ----------------------- | ------------------------------ |
+|  -0.6% | -2,062 | 83.4% → 83.5% | 357,705 → 355,643 |     6 | `HUF_compress_internal` | `lib//compress/huf_compress.c` |
+|  -1.5% | -1,062 | 16.6% → 16.5% |   71,335 → 70,273 |     2 | `HUF_writeCTable_wksp`  | `lib//compress/huf_compress.c` |
+
+##### `HUF_compress1X_usingCTable_internal.constprop.0` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Caller                                            | Location                       |
+| -----: | -----: | -----: | ----------------: | ----: | ------------------------------------------------- | ------------------------------ |
+|  -0.7% | -3,124 | 100.0% | 428,768 → 425,644 |     8 | `HUF_compressCTable_internal.isra.0`              | `lib//compress/huf_compress.c` |
+|  -0.7% | -2,353 |  75.0% | 321,697 → 319,344 |    16 | `HUF_compress1X_usingCTable_internal.constprop.0` | `lib//compress/huf_compress.c` |
+
+##### `UTIL_stat` (`programs/util.c`)
+
+| Change |  Delta |           % |      Instructions | Calls | Caller                         | Location            |
+| -----: | -----: | ----------: | ----------------: | ----: | ------------------------------ | ------------------- |
+|  -0.8% | -1,808 |      100.0% | 221,954 → 220,146 |     1 | `FIO_compressFilename_srcFile` | `programs/fileio.c` |
+| -66.8% | -1,342 | 0.9% → 0.3% |       2,010 → 668 |     1 | `FIO_openSrcFile`              | `programs/fileio.c` |
+
+##### `FIO_openSrcFile` (`programs/fileio.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Caller      | Location          |
+| -----: | -----: | -----: | ----------------: | ----: | ----------- | ----------------- |
+|  -0.8% | -1,808 | 100.0% | 221,881 → 220,073 |     1 | `UTIL_stat` | `programs/util.c` |
+
+##### `FIO_compressFilename_srcFile` (`programs/fileio.c`)
+
+| Change |   Delta |               % |      Instructions | Calls | Caller                                      | Location                        |
+| -----: | ------: | --------------: | ----------------: | ----: | ------------------------------------------- | ------------------------------- |
+|  -1.3% | -11,675 | 381.5% → 378.2% | 901,831 → 890,156 |     7 | `ZSTD_compressStream2`                      | `lib//compress/zstd_compress.c` |
+|  -6.6% |  -4,662 |   29.7% → 27.8% |   70,158 → 65,496 |     3 | `AIO_WritePool_enqueueAndReacquireWriteJob` | `programs/fileio_asyncio.c`     |
+| -19.5% |  -1,145 |     2.5% → 2.0% |     5,863 → 4,718 |     1 | `UTIL_setFDStat`                            | `programs/util.c`               |
+|  -0.4% |  -1,011 |          100.0% | 236,376 → 235,365 |     1 | `FIO_createCResources`                      | `programs/fileio.c`             |
+|  -0.2% |    -416 |   93.0% → 93.2% | 219,737 → 219,321 |     1 | `UTIL_getFileSizeStat`                      | `programs/util.c`               |
+
+##### `UTIL_getFileSize` (`programs/util.c`)
+
+| Change |  Delta |             % |      Instructions | Calls | Caller                 | Location            |
+| -----: | -----: | ------------: | ----------------: | ----: | ---------------------- | ------------------- |
+|  -0.4% | -1,007 |        100.0% | 260,150 → 259,143 |     1 | `FIO_compressFilename` | `programs/fileio.c` |
+|  -0.2% |   -391 | 80.0% → 80.2% | 208,215 → 207,824 |     1 | `UTIL_getTime`         | `programs/timefn.c` |
+
+##### `FIO_createCResources` (`programs/fileio.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Caller             | Location          |
+| -----: | -----: | -----: | ----------------: | ----: | ------------------ | ----------------- |
+|  -0.4% | -1,007 | 100.0% | 259,471 → 258,464 |     1 | `UTIL_getFileSize` | `programs/util.c` |
+
+##### `FIO_compressFilename` (`programs/fileio.c`)
+
+| Change |  Delta |           % |      Instructions | Calls | Caller                         | Location            |
+| -----: | -----: | ----------: | ----------------: | ----: | ------------------------------ | ------------------- |
+|  -0.4% | -1,007 |      100.3% | 261,021 → 260,014 |     1 | `FIO_determineHasStdinInput`   | `programs/fileio.c` |
+|  +6.0% |   +822 | 5.3% → 5.6% |   13,756 → 14,578 |     1 | `FIO_compressFilename_srcFile` | `programs/fileio.c` |
+
+##### `0x0000000000008740` (`programs/zstd`)
+
+|  Change | Delta |             % | Instructions | Calls | Caller          | Location                     |
+| ------: | ----: | ------------: | -----------: | ----: | --------------- | ---------------------------- |
+| removed |  -822 | 100.0% → 0.0% |      822 → 0 | 1 → 0 | `_dl_call_fini` | `./elf/./elf/dl-call_fini.c` |
+
+##### `HUF_simpleQuickSort` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |               % |    Instructions |   Calls | Caller                 | Location                       |
+| -----: | -----: | --------------: | --------------: | ------: | ---------------------- | ------------------------------ |
+| -11.7% | -6,864 | 596.6% → 574.6% | 58,418 → 51,554 |  9 → 10 | `HUF_buildCTable_wksp` | `lib//compress/huf_compress.c` |
+|  +0.1% |    +31 | 441.3% → 482.0% | 43,216 → 43,247 | 17 → 15 | `HUF_simpleQuickSort`  | `lib//compress/huf_compress.c` |
+
+##### `__pthread_clockjoin_ex` (`./nptl/./nptl/pthread_join_common.c`)
+
+| Change | Delta |               % |  Instructions | Calls | Caller                     | Location                              |
+| -----: | ----: | --------------: | ------------: | ----: | -------------------------- | ------------------------------------- |
+| +25.7% |  +834 | 129.2% → 238.9% | 3,242 → 4,076 | 3 → 4 | `pthread_join@@GLIBC_2.34` | `./nptl/./nptl/pthread_join.c`        |
+| -15.9% |  -117 |   29.3% → 36.2% |     735 → 618 |     3 | `__pthread_clockjoin_ex`   | `./nptl/./nptl/pthread_join_common.c` |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total instructions. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+
+##### `ZSTD_compress_frameChunk` (`lib//compress/zstd_compress.c`)
+
+| Change |       Delta |              % |            Instructions | Calls | Callee                         | Location                        |
+| -----: | ----------: | -------------: | ----------------------: | ----: | ------------------------------ | ------------------------------- |
+|    new | +75,565,864 |  0.0% → 192.4% |          0 → 75,565,864 | 0 → 7 | `ZSTD_splitBlock`              | `lib//compress/zstd_preSplit.c` |
+| -78.8% | -73,112,476 | 242.1% → 50.2% | 92,838,852 → 19,726,376 | 8 → 1 | `ZSTD_compressBlock_internal`  | `lib//compress/zstd_compress.c` |
+|  +2.5% |    +925,823 |  98.0% → 98.1% | 37,593,868 → 38,519,691 |     2 | `ZSTD_compress_frameChunk`     | `lib//compress/zstd_compress.c` |
+| -87.5% |         -42 |          <0.1% |                  48 → 6 | 8 → 1 | `ZSTD_overflowCorrectIfNeeded` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTDMT_compressionJob` (`lib//compress/zstdmt_compress.c`)
+
+| Change |      Delta |                      % |            Instructions | Calls | Callee                             | Location                               |
+| -----: | ---------: | ---------------------: | ----------------------: | ----: | ---------------------------------- | -------------------------------------- |
+|  +2.5% | +1,914,485 | 10280764.7% → 10527.9% | 77,516,966 → 79,431,451 |     3 | `pthread_mutex_unlock@@GLIBC_2.17` | `./nptl/./nptl/pthread_mutex_unlock.c` |
+|  +2.4% |   +925,851 |   5194640.2% → 5314.0% | 39,167,587 → 40,093,438 |     1 | `ZSTDMT_getBuffer`                 | `lib//compress/zstdmt_compress.c`      |
+|  +2.4% |   +925,823 |   5086037.3% → 5205.5% | 38,348,721 → 39,274,544 |     1 | `ZSTD_compressContinue_public`     | `lib//compress/zstd_compress.c`        |
+|    new |   +753,709 |           0.0% → 99.9% |             0 → 753,709 | 0 → 1 | `ZSTD_XXH64_update`                | `lib//common/xxhash.h`                 |
+|  +0.4% |   +171,313 |   5194437.0% → 5213.8% | 39,166,055 → 39,337,368 |     1 | `ZSTD_CCtxParams_setParameter`     | `lib//compress/zstd_compress.c`        |
+
+##### `ZSTD_recordFingerprint_43` (`lib//compress/zstd_preSplit.c`)
+
+| Change |    Delta |            % | Instructions |   Calls | Callee                      | Location                                       |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------- | ---------------------------------------------- |
+|    new | +613,655 | 0.0% → 98.3% |  0 → 613,655 |   0 → 7 | `ZSTD_recordFingerprint_43` | `lib//compress/zstd_preSplit.c`                |
+|    new |  +10,976 |  0.0% → 1.8% |   0 → 10,976 | 0 → 112 | `__GI_memset`               | `./string/../sysdeps/aarch64/nptl/../memset.S` |
+
+##### `ZSTD_compressEnd_public` (`lib//compress/zstd_compress_internal.h`)
+
+| Change |    Delta |      % |            Instructions | Calls | Callee                     | Location                        |
+| -----: | -------: | -----: | ----------------------: | ----: | -------------------------- | ------------------------------- |
+|  +2.8% | +518,717 | 100.0% | 18,651,550 → 19,170,267 |     1 | `ZSTD_compress_frameChunk` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTD_compressEnd_public` (`lib//compress/zstd_compress.c`)
+
+| Change |    Delta |      % |            Instructions | Calls | Callee                    | Location                                 |
+| -----: | -------: | -----: | ----------------------: | ----: | ------------------------- | ---------------------------------------- |
+|  +2.8% | +518,717 | 100.0% | 18,651,568 → 19,170,285 |     1 | `ZSTD_compressEnd_public` | `lib//compress/zstd_compress_internal.h` |
+
+##### `ZSTD_splitBlock` (`lib//compress/zstd_preSplit.c`)
+
+| Change |       Delta |               % |   Instructions | Calls | Callee                         | Location                                       |
+| -----: | ----------: | --------------: | -------------: | ----: | ------------------------------ | ---------------------------------------------- |
+|    new | +74,936,672 | 0.0% → 16674.0% | 0 → 74,936,672 | 0 → 7 | `ZSTD_compressBlock_internal`  | `lib//compress/zstd_compress.c`                |
+|    new |    +624,008 |   0.0% → 138.8% |    0 → 624,008 | 0 → 7 | `ZSTD_recordFingerprint_43`    | `lib//compress/zstd_preSplit.c`                |
+|    new |      +4,606 |     0.0% → 1.0% |      0 → 4,606 | 0 → 7 | `__GI_memset`                  | `./string/../sysdeps/aarch64/nptl/../memset.S` |
+|    new |         +42 |    0.0% → <0.1% |         0 → 42 | 0 → 7 | `ZSTD_overflowCorrectIfNeeded` | `lib//compress/zstd_compress.c`                |
+
+##### `ZSTD_compressContinue_public` (`lib//compress/zstd_compress.c`)
+
+| Change |    Delta |             % |            Instructions | Calls | Callee                            | Location                                 |
+| -----: | -------: | ------------: | ----------------------: | ----: | --------------------------------- | ---------------------------------------- |
+|  +2.8% | +518,717 | 94.7% → 95.4% | 18,652,248 → 19,170,965 |     1 | `pthread_cond_signal@@GLIBC_2.17` | `./nptl/./nptl/pthread_cond_signal.c`    |
+|  +2.1% | +407,106 |        100.0% | 19,696,318 → 20,103,424 |     1 | `ZSTD_compressContinue_public`    | `lib//compress/zstd_compress_internal.h` |
+|  +2.1% | +407,106 |        100.0% | 19,696,277 → 20,103,383 |     1 | `ZSTD_compress_frameChunk`        | `lib//compress/zstd_compress.c`          |
+
+##### `ZSTD_compressContinue_public` (`lib//compress/zstd_compress_internal.h`)
+
+| Change |    Delta |      % |            Instructions | Calls | Callee                         | Location                        |
+| -----: | -------: | -----: | ----------------------: | ----: | ------------------------------ | ------------------------------- |
+|  +2.1% | +407,106 | 100.0% | 19,696,287 → 20,103,393 |     1 | `ZSTD_compressContinue_public` | `lib//compress/zstd_compress.c` |
+
+##### `ZSTD_compressBlock_doubleFast` (`lib//compress/zstd_compress_internal.h`)
+
+| Change |          Delta |                     % |                      Instructions |             Calls | Callee                          | Location                                 |
+| -----: | -------------: | --------------------: | --------------------------------: | ----------------: | ------------------------------- | ---------------------------------------- |
+|  +1.5% | +2,316,860,179 | 755530.6% → 755733.5% | 151,432,182,725 → 153,749,042,904 | 122,208 → 122,214 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_double_fast.c`       |
+|  +1.5% |       +301,189 |                100.0% |           20,042,901 → 20,344,090 |                 8 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_compress_internal.h` |
+
+##### `ZSTD_buildSeqStore` (`lib//compress/zstd_compress.c`)
+
+| Change |    Delta |             % |            Instructions | Calls | Callee                          | Location                                 |
+| -----: | -------: | ------------: | ----------------------: | ----: | ------------------------------- | ---------------------------------------- |
+|  +1.5% | +301,173 |        100.0% | 20,043,888 → 20,345,061 |     8 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_double_fast.c`       |
+|    ~0% |   -4,370 | 87.5% → 86.2% | 17,548,082 → 17,543,712 |     8 | `ZSTD_compressLiterals`         | `lib//compress/zstd_compress_literals.c` |
+
+##### `ZSTD_compressBlock_doubleFast` (`lib//compress/zstd_double_fast.c`)
+
+| Change |          Delta |                     % |                      Instructions |             Calls | Callee                          | Location                                 |
+| -----: | -------------: | --------------------: | --------------------------------: | ----------------: | ------------------------------- | ---------------------------------------- |
+|  +1.5% | +2,317,883,112 | 755544.6% → 755752.9% | 151,440,509,530 → 153,758,392,642 | 122,209 → 122,215 | `ZSTD_compressBlock_doubleFast` | `lib//compress/zstd_compress_internal.h` |
+|  +1.4% |       +170,049 |         62.5% → 62.4% |           12,527,622 → 12,697,671 |                 9 | `ZSTD_compressBlock_doubleFast` | `lib//common/mem.h`                      |
+
+##### `UTIL_countLogicalCores` (`programs/util.c`)
+
+| Change |    Delta |             % | Instructions | Calls | Callee                   | Location                                   |
+| -----: | -------: | ------------: | -----------: | ----: | ------------------------ | ------------------------------------------ |
+|    new | +261,812 | 0.0% → 809.4% |  0 → 261,812 | 0 → 1 | `main`                   | `programs/zstdcli.c`                       |
+|    new |  +32,268 |  0.0% → 99.8% |   0 → 32,268 | 0 → 2 | `_dl_runtime_resolve`    | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+|    new |      +30 |   0.0% → 0.1% |       0 → 30 | 0 → 3 | `UTIL_countLogicalCores` | `programs/util.c`                          |
+
+##### `_dl_start` (`./elf/./elf/rtld.c`)
+
+| Change |   Delta |             % |      Instructions | Calls | Callee             | Location                                       |
+| -----: | ------: | ------------: | ----------------: | ----: | ------------------ | ---------------------------------------------- |
+| +11.3% | +31,305 | 76.2% → 78.1% | 277,578 → 308,883 |     1 | `_dl_init`         | `./elf/./elf/dl-init.c`                        |
+|  +0.1% |     +55 | 23.8% → 21.9% |   86,681 → 86,736 |     1 | `_dl_start`        | `./elf/./get-dynamic-info.h`                   |
+|  +0.1% |     +55 | 23.6% → 21.7% |   86,003 → 86,058 |     1 | `_dl_sysdep_start` | `./elf/../sysdeps/unix/sysv/linux/dl-sysdep.c` |
+
+##### `(below main)` (`./elf/../sysdeps/aarch64/dl-start.S`)
+
+| Change |   Delta |      % |      Instructions | Calls | Callee      | Location             |
+| -----: | ------: | -----: | ----------------: | ----: | ----------- | -------------------- |
+|  +8.6% | +31,360 | 100.0% | 364,341 → 395,701 |     1 | `_dl_start` | `./elf/./elf/rtld.c` |
+
+##### `_dl_init` (`./elf/./elf/dl-init.c`)
+
+| Change |   Delta |             % |      Instructions | Calls | Callee         | Location        |
+| -----: | ------: | ------------: | ----------------: | ----: | -------------- | --------------- |
+| +11.3% | +31,305 | 99.6% → 99.7% | 276,555 → 307,860 |     1 | `(below main)` | `programs/zstd` |
+
+##### `(below main)` (`programs/zstd`)
+
+| Change |   Delta |      % |      Instructions | Calls | Callee                | Location                                   |
+| -----: | ------: | -----: | ----------------: | ----: | --------------------- | ------------------------------------------ |
+| +11.3% | +31,305 | 100.0% | 276,534 → 307,839 |     1 | `_dl_runtime_resolve` | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+
+##### `__libc_start_main@@GLIBC_2.34` (`./csu/../csu/libc-start.c`)
+
+|  Change |   Delta |            % |      Instructions | Calls | Callee               | Location                                       |
+| ------: | ------: | -----------: | ----------------: | ----: | -------------------- | ---------------------------------------------- |
+|  +11.3% | +31,305 |       100.0% | 275,830 → 307,135 |     1 | `__cxa_atexit`       | `./stdlib/./stdlib/cxa_atexit.c`               |
+|  +11.4% | +31,305 |        99.7% | 274,949 → 306,254 |     1 | `(below main)`       | `./csu/../sysdeps/nptl/libc_start_call_main.h` |
+| removed |     -11 | <0.1% → 0.0% |            11 → 0 | 1 → 0 | `0x0000000000008790` | `programs/zstd`                                |
+|     new |     +11 | 0.0% → <0.1% |            0 → 11 | 0 → 1 | `0x0000000000008890` | `programs/zstd`                                |
+
+##### `main` (`programs/zstdcli.c`)
+
+| Change |    Delta |             % |      Instructions | Calls | Callee                        | Location            |
+| -----: | -------: | ------------: | ----------------: | ----: | ----------------------------- | ------------------- |
+|    new | +294,159 |  0.0% → 96.1% |       0 → 294,159 | 0 → 1 | `UTIL_countLogicalCores`      | `programs/util.c`   |
+| +11.6% |  +31,305 | 97.8% → 98.0% | 268,815 → 300,120 |     1 | `UTIL_allocateFileNamesTable` | `programs/util.c`   |
+| +11.5% |  +31,305 | 99.0% → 99.1% | 272,062 → 303,367 |     1 | `FIO_createPreferences`       | `programs/fileio.c` |
+|  -0.4% |   -1,006 | 95.1% → 85.0% | 261,328 → 260,322 |     1 | `FIO_determineHasStdinInput`  | `programs/fileio.c` |
+|  -0.4% |   -1,006 | 95.6% → 85.5% | 262,664 → 261,658 |     1 | `UTIL_isConsole`              | `programs/util.c`   |
+
+##### `FIO_createContext` (`programs/fileio.c`)
+
+| Change |   Delta |     % |      Instructions | Calls | Callee | Location             |
+| -----: | ------: | ----: | ----------------: | ----: | ------ | -------------------- |
+| +11.6% | +31,305 | 99.7% | 268,825 → 300,130 |     1 | `main` | `programs/zstdcli.c` |
+
+##### `FIO_createPreferences` (`programs/fileio.c`)
+
+| Change |   Delta |             % |      Instructions | Calls | Callee              | Location            |
+| -----: | ------: | ------------: | ----------------: | ----: | ------------------- | ------------------- |
+| +11.6% | +31,305 | 99.1% → 99.2% | 269,731 → 301,036 |     1 | `FIO_createContext` | `programs/fileio.c` |
+
+##### `AIO_WritePool_closeFile` (`programs/fileio_asyncio.c`)
+
+|  Change |  Delta |               % | Instructions | Calls | Callee                | Location                                   |
+| ------: | -----: | --------------: | -----------: | ----: | --------------------- | ------------------------------------------ |
+| removed | -5,590 |    99.6% → 0.0% |    5,590 → 0 | 1 → 0 | `_dl_runtime_resolve` | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+|     new | +4,450 | 0.0% → 26176.5% |    0 → 4,450 | 0 → 1 | `fclose@@GLIBC_2.17`  | `./libio/./libio/iofclose.c`               |
+
+##### `ZSTD_compressLiterals` (`lib//compress/zstd_compress_literals.c`)
+
+| Change |  Delta |                 % |            Instructions | Calls | Callee                        | Location                                 |
+| -----: | -----: | ----------------: | ----------------------: | ----: | ----------------------------- | ---------------------------------------- |
+|  -0.6% | -5,023 |             99.7% |       895,240 → 890,217 |     8 | `ZSTD_compressLiterals`       | `lib//compress/zstd_compress_literals.c` |
+|  -0.6% | -5,023 |             99.7% |       895,016 → 889,993 |     8 | `HUF_compress4X_repeat`       | `lib//compress/huf_compress.c`           |
+|    ~0% |   +653 | 1854.3% → 1864.8% | 16,650,162 → 16,650,815 |     8 | `ZSTD_compressBlock_internal` | `lib//compress/zstd_compress.c`          |
+
+##### `HUF_compress4X_repeat` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Callee                  | Location                       |
+| -----: | -----: | -----: | ----------------: | ----: | ----------------------- | ------------------------------ |
+|  -0.6% | -5,023 | 100.0% | 894,608 → 889,585 |     8 | `HUF_compress_internal` | `lib//compress/huf_compress.c` |
+
+##### `HIST_count_wksp` (`lib//compress/hist.c`)
+
+| Change |  Delta |      % |      Instructions | Calls | Callee                     | Location               |
+| -----: | -----: | -----: | ----------------: | ----: | -------------------------- | ---------------------- |
+|  -0.6% | -5,023 | 100.0% | 893,896 → 888,873 |     8 | `HIST_count_parallel_wksp` | `lib//compress/hist.c` |
+
+##### `HUF_compress_internal` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |     % |      Instructions | Calls | Callee                               | Location                       |
+| -----: | -----: | ----: | ----------------: | ----: | ------------------------------------ | ------------------------------ |
+|  -0.6% | -5,023 | 99.9% | 894,080 → 889,057 |     8 | `HIST_count_wksp`                    | `lib//compress/hist.c`         |
+|  -0.6% | -2,841 | 49.3% | 441,339 → 438,498 |     7 | `HUF_buildCTable_wksp`               | `lib//compress/huf_compress.c` |
+|  -0.6% | -2,062 | 40.0% | 357,705 → 355,643 |     6 | `HUF_compressCTable_internal.isra.0` | `lib//compress/huf_compress.c` |
+
+##### `fclose@@GLIBC_2.17` (`./libio/./libio/iofclose.c`)
+
+| Change | Delta |              % |  Instructions | Calls | Callee                          | Location                               |
+| -----: | ----: | -------------: | ------------: | ----: | ------------------------------- | -------------------------------------- |
+| +23.4% |  +406 | 34.8% → 504.5% | 1,733 → 2,139 | 2 → 3 | `_IO_file_close_it@@GLIBC_2.17` | `./libio/./libio/fileops.c`            |
+| +50.0% |  +169 |  6.8% → 119.6% |     338 → 507 | 2 → 3 | `_IO_un_link`                   | `./libio/./libio/genops.c`             |
+| +50.0% |    +6 |    0.2% → 4.2% |       12 → 18 | 2 → 3 | `__aarch64_cas4_acq`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `HIST_count_parallel_wksp` (`lib//compress/hist.c`)
+
+| Change |  Delta |             % |          Instructions | Calls | Callee                  | Location                                  |
+| -----: | -----: | ------------: | --------------------: | ----: | ----------------------- | ----------------------------------------- |
+|  -0.6% | -2,841 | 15.6% → 15.5% |     441,661 → 438,820 |     7 | `HUF_compress_internal` | `lib//compress/huf_compress.c`            |
+|  +0.1% | +1,122 | 78.0% → 78.1% | 2,205,964 → 2,207,086 |    24 | `ZSTD_buildCTable`      | `lib//compress/zstd_compress_sequences.c` |
+|    ~0% |    -65 |          5.4% |     153,989 → 153,924 |     1 | `HUF_buildCTable_wksp`  | `lib//compress/huf_compress.c`            |
+
+##### `pthread_cond_wait@@GLIBC_2.17` (`./nptl/./nptl/pthread_cond_wait.c`)
+
+| Change |    Delta |                      % |            Instructions |   Calls | Callee                             | Location                               |
+| -----: | -------: | ---------------------: | ----------------------: | ------: | ---------------------------------- | -------------------------------------- |
+|  +2.4% | +925,906 | 774579.1% → 2394738.2% | 39,185,959 → 40,111,865 |   6 → 7 | `pthread_mutex_unlock@@GLIBC_2.17` | `./nptl/./nptl/pthread_mutex_unlock.c` |
+| -97.3% |     -400 |            8.1% → 0.7% |                411 → 11 |   2 → 1 | `POOL_joinJobs`                    | `lib//common/pool.c`                   |
+| -36.3% |     -339 |          18.5% → 35.5% |               934 → 595 | 18 → 17 | `__pthread_mutex_unlock_usercnt`   | `./nptl/./nptl/pthread_mutex_unlock.c` |
+|  -2.3% |     -146 |        123.3% → 363.8% |           6,239 → 6,093 | 12 → 11 | `pthread_cond_signal@@GLIBC_2.17`  | `./nptl/./nptl/pthread_cond_signal.c`  |
+|    new |      +33 |            0.0% → 2.0% |                  0 → 33 |   0 → 1 | `__pthread_mutex_cond_lock`        | `./nptl/../nptl/pthread_mutex_lock.c`  |
+
+##### `HUF_compressCTable_internal.isra.0` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |     % |      Instructions | Calls | Callee                                            | Location                       |
+| -----: | -----: | ----: | ----------------: | ----: | ------------------------------------------------- | ------------------------------ |
+|  -0.7% | -3,124 | 99.9% | 428,768 → 425,644 |     8 | `HUF_compress1X_usingCTable_internal.constprop.0` | `lib//compress/huf_compress.c` |
+
+##### `HUF_compress1X_usingCTable_internal.constprop.0` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |     % |      Instructions | Calls | Callee                                            | Location                       |
+| -----: | -----: | ----: | ----------------: | ----: | ------------------------------------------------- | ------------------------------ |
+|  -0.7% | -2,353 | 75.0% | 321,697 → 319,344 |    16 | `HUF_compress1X_usingCTable_internal.constprop.0` | `lib//compress/huf_compress.c` |
+
+##### `UTIL_stat` (`programs/util.c`)
+
+|  Change |  Delta |           % |      Instructions | Calls | Callee                | Location                                   |
+| ------: | -----: | ----------: | ----------------: | ----: | --------------------- | ------------------------------------------ |
+| removed | -1,948 | 0.9% → 0.0% |         1,948 → 0 | 1 → 0 | `_dl_runtime_resolve` | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+|   -0.8% | -1,808 |      100.0% | 221,881 → 220,073 |     1 | `FIO_openSrcFile`     | `programs/fileio.c`                        |
+|     new |   +611 | 0.0% → 0.3% |           0 → 611 | 0 → 1 | `fopen@@GLIBC_2.17`   | `./libio/./libio/iofopen.c`                |
+
+##### `FIO_openSrcFile` (`programs/fileio.c`)
+
+| Change |  Delta |             % |      Instructions | Calls | Callee                 | Location                               |
+| -----: | -----: | ------------: | ----------------: | ----: | ---------------------- | -------------------------------------- |
+| -66.8% | -1,342 |   0.9% → 0.3% |       2,010 → 668 |     1 | `UTIL_stat`            | `programs/util.c`                      |
+|  -0.2% |   -416 | 99.0% → 99.7% | 219,743 → 219,327 |     1 | `UTIL_getFileSizeStat` | `programs/util.c`                      |
+| -54.3% |    -50 |         <0.1% |           92 → 42 |     2 | `strcmp`               | `./string/../sysdeps/aarch64/strcmp.S` |
+
+##### `FIO_compressFilename_srcFile` (`programs/fileio.c`)
+
+| Change |   Delta |               % |          Instructions | Calls | Callee                       | Location                        |
+| -----: | ------: | --------------: | --------------------: | ----: | ---------------------------- | ------------------------------- |
+|  -1.1% | -12,067 | 469.3% → 466.2% | 1,109,390 → 1,097,323 |     8 | `AIO_ReadPool_fillBuffer`    | `programs/fileio_asyncio.c`     |
+|  -5.0% |  -3,128 |   26.3% → 25.1% |       62,257 → 59,129 |     2 | `ZSTD_toFlushNow`            | `lib//compress/zstd_compress.c` |
+|  -0.8% |  -1,808 |   93.9% → 93.5% |     221,954 → 220,146 |     1 | `UTIL_stat`                  | `programs/util.c`               |
+| -19.6% |  -1,534 |     3.3% → 2.7% |         7,828 → 6,294 |     1 | `AIO_WritePool_releaseIoJob` | `programs/fileio_asyncio.c`     |
+| -19.5% |  -1,145 |     2.5% → 2.0% |         5,858 → 4,713 |     1 | `AIO_WritePool_closeFile`    | `programs/fileio_asyncio.c`     |
+
+##### `UTIL_getFileSize` (`programs/util.c`)
+
+| Change |  Delta |             % |      Instructions | Calls | Callee                     | Location                    |
+| -----: | -----: | ------------: | ----------------: | ----: | -------------------------- | --------------------------- |
+|  -0.4% | -1,007 |         99.7% | 259,471 → 258,464 |     1 | `FIO_createCResources`     | `programs/fileio.c`         |
+|  -0.2% |   -391 | 80.0% → 80.2% | 208,159 → 207,768 |     1 | `AIO_WritePool_acquireJob` | `programs/fileio_asyncio.c` |
+
+##### `FIO_createCResources` (`programs/fileio.c`)
+
+| Change |  Delta |     % |      Instructions | Calls | Callee                         | Location                        |
+| -----: | -----: | ----: | ----------------: | ----: | ------------------------------ | ------------------------------- |
+|  -0.4% | -1,011 | 91.1% | 236,376 → 235,365 |     1 | `FIO_compressFilename_srcFile` | `programs/fileio.c`             |
+|    ~0% |     +4 |  8.9% |   23,042 → 23,046 |     1 | `ZSTD_createCCtx`              | `lib//compress/zstd_compress.c` |
+
+##### `FIO_compressFilename` (`programs/fileio.c`)
+
+| Change |  Delta |           % |      Instructions | Calls | Callee               | Location                    |
+| -----: | -----: | ----------: | ----------------: | ----: | -------------------- | --------------------------- |
+|  -0.4% | -1,007 |      100.0% | 260,150 → 259,143 |     1 | `UTIL_getFileSize`   | `programs/util.c`           |
+|  +6.0% |   +822 | 5.3% → 5.6% |   13,754 → 14,576 |     1 | `AIO_WritePool_free` | `programs/fileio_asyncio.c` |
+
+##### `0x0000000000008740` (`programs/zstd`)
+
+|  Change | Delta |            % | Instructions | Calls | Callee                | Location                                   |
+| ------: | ----: | -----------: | -----------: | ----: | --------------------- | ------------------------------------------ |
+| removed |  -775 | 94.3% → 0.0% |      775 → 0 | 1 → 0 | `_dl_runtime_resolve` | `./elf/../sysdeps/aarch64/dl-trampoline.S` |
+| removed |   -12 |  1.5% → 0.0% |       12 → 0 | 1 → 0 | `0x00000000000086d0`  | `programs/zstd`                            |
+
+##### `HUF_simpleQuickSort` (`lib//compress/huf_compress.c`)
+
+| Change |  Delta |               % |    Instructions |   Calls | Callee                 | Location                       |
+| -----: | -----: | --------------: | --------------: | ------: | ---------------------- | ------------------------------ |
+| -12.4% | -6,044 | 496.6% → 474.6% | 48,626 → 42,582 |   7 → 6 | `HUF_buildCTable_wksp` | `lib//compress/huf_compress.c` |
+|  +0.1% |    +31 | 441.3% → 482.0% | 43,216 → 43,247 | 17 → 15 | `HUF_simpleQuickSort`  | `lib//compress/huf_compress.c` |
+
+##### `__pthread_clockjoin_ex` (`./nptl/./nptl/pthread_join_common.c`)
+
+| Change | Delta |             % | Instructions | Calls | Callee                              | Location                               |
+| -----: | ----: | ------------: | -----------: | ----: | ----------------------------------- | -------------------------------------- |
+|    new |  +634 |  0.0% → 37.2% |      0 → 634 | 0 → 1 | `pthread_join@@GLIBC_2.34`          | `./nptl/./nptl/pthread_join.c`         |
+| -15.9% |  -117 | 29.3% → 36.2% |    735 → 618 |     3 | `__pthread_clockjoin_ex`            | `./nptl/./nptl/pthread_join_common.c`  |
+| +33.3% |   +94 | 11.2% → 22.0% |    282 → 376 | 3 → 4 | `__nptl_free_tcb`                   | `./nptl/./nptl/nptl_free_tcb.c`        |
+| +33.3% |    +7 |   0.8% → 1.6% |      21 → 28 | 3 → 4 | `_pthread_cleanup_push@@GLIBC_2.34` | `./nptl/./nptl/cleanup_compat.c`       |
+| +33.3% |    +6 |   0.7% → 1.4% |      18 → 24 | 3 → 4 | `__aarch64_cas8_acq`                | `/usr/lib/aarch64-linux-gnu/libc.so.6` |

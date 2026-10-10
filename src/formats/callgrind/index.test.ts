@@ -1292,6 +1292,56 @@ describe(`convert`, () => {
   })
 })
 
+test(`pairs each function's callers and callees in a diff`, () => {
+  const graph = (mainSelf: number, compressSelf: number) =>
+    makeCallgrind([
+      `events: Ir`,
+      `fl=(1) /src/main.c`,
+      `fn=(1) main`,
+      `10 ${mainSelf}`,
+      `cfl=(2) /src/compress.c`,
+      `cfn=(2) compress`,
+      `calls=1 20`,
+      `12 ${compressSelf}`,
+      `fl=(2)`,
+      `fn=(2)`,
+      `20 ${compressSelf}`,
+    ])
+
+  const md = diffProfiles(
+    { data: graph(100, 200), format: `callgrind` },
+    { data: graph(80, 300), format: `callgrind` },
+    { baseURL: `/`, showEntry: () => true },
+  )
+
+  expect(callersTables(md, `compress`)).toEqual([
+    [
+      {
+        Change: `+50.0%`,
+        Delta: `+100`,
+        '%': `100.0%`,
+        Instructions: `200 → 300`,
+        Calls: `1`,
+        Caller: `main`,
+        Location: `/src/main.c`,
+      },
+    ],
+  ])
+  expect(calleesTables(md, `main`)).toEqual([
+    [
+      {
+        Change: `+50.0%`,
+        Delta: `+100`,
+        '%': `66.7% → 78.9%`,
+        Instructions: `200 → 300`,
+        Calls: `1`,
+        Callee: `compress`,
+        Location: `/src/compress.c`,
+      },
+    ],
+  ])
+})
+
 test(`pairs the lines of a function an edit moved in a diff`, () => {
   const graph = (lines: [number, number][]) =>
     makeCallgrind([
