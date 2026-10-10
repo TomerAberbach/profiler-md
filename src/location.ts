@@ -132,7 +132,7 @@ export const makeFileReference = (
   }
 
   try {
-    return { type: `absolute`, url: withoutDotSegments(new URL(urlOrPath)) }
+    return { type: `absolute`, url: normalizeURLPath(new URL(urlOrPath)) }
   } catch {
     return { type: `relative`, path: urlOrPath }
   }
@@ -141,9 +141,11 @@ export const makeFileReference = (
 /** Returns the `file:` URL of an absolute file path. */
 export const filePathURL = (path: string): URL => {
   const url = new URL(`file://${escapeFilePath(path)}`)
-  // The URL's pathname is the escaped path, so it has a dot segment only when
-  // the path does.
-  return path.includes(`/.`) ? withoutDotSegments(url) : url
+  // The URL's pathname is the escaped path, so it has a dot or empty segment
+  // only when the path does.
+  return path.includes(`/.`) || path.includes(`//`)
+    ? normalizeURLPath(url)
+    : url
 }
 
 /**
@@ -160,7 +162,9 @@ const escapeFilePath = (path: string): string =>
 const FILE_PATH_URL_SYNTAX = /[%#?\\\t\n\r]/gu
 
 /**
- * Resolves the `.` and `..` segments the URL parser leaves in a path.
+ * Resolves the `.` and `..` segments the URL parser leaves in a path, and
+ * collapses the empty segments of a `file:` URL, which name no directory
+ * (`lib//a.c` is `lib/a.c`).
  *
  * Node.js 22 bundles a URL parser that keeps a dot segment when an earlier
  * segment starts with a dot (`/a/.x/./y`), so resolving the segments here
@@ -168,30 +172,37 @@ const FILE_PATH_URL_SYNTAX = /[%#?\\\t\n\r]/gu
  * version resolves a percent-encoded dot segment, so only a literal one
  * remains.
  */
-const withoutDotSegments = (url: URL): URL => {
+const normalizeURLPath = (url: URL): URL => {
   // An opaque path (`node:fs`) has no segments to resolve.
-  const { pathname } = url
-  if (!pathname.startsWith(`/`) || !pathname.includes(`/.`)) {
+  const { pathname, protocol } = url
+  const collapsesEmptySegments = protocol === `file:` && pathname.includes(`//`)
+  if (
+    !pathname.startsWith(`/`) ||
+    (!pathname.includes(`/.`) && !collapsesEmptySegments)
+  ) {
     return url
   }
 
   const segments: string[] = []
-  let endsWithDotSegment = false
-  for (const segment of pathname.split(`/`)) {
-    endsWithDotSegment = true
+  let endsWithDirectorySegment = false
+  for (const [index, segment] of pathname.split(`/`).entries()) {
+    endsWithDirectorySegment = true
     if (segment === `..`) {
       // The root has no parent to ascend to.
       if (segments.length > 1) {
         segments.pop()
       }
-    } else if (segment !== `.`) {
+    } else if (
+      segment !== `.` &&
+      !(collapsesEmptySegments && segment === `` && index > 0)
+    ) {
       segments.push(segment)
-      endsWithDotSegment = false
+      endsWithDirectorySegment = false
     }
   }
-  // A trailing dot segment names a directory, so the path keeps its trailing
-  // slash.
-  if (endsWithDotSegment) {
+  // A trailing dot or empty segment names a directory, so the path keeps its
+  // trailing slash.
+  if (endsWithDirectorySegment) {
     segments.push(``)
   }
 
