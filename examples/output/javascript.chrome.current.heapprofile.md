@@ -11,6 +11,8 @@ Allocated 60.1 MiB over 3,770 samples (16.3 KiB per sample).
 | Compiler         |  0.2% | 96.3 KiB |       6 |
 | Unknown          |  0.1% | 48.2 KiB |       3 |
 
+Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
+
 ## Hottest functions
 
 ### Self size

@@ -7,6 +7,8 @@ Took 3.94s over 3,250 samples (1.2ms per sample).
 | Third-party | 91.2% |   3.59s |   3,113 |
 | Ours        |  8.8% | 347.0ms |     137 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-workload/`.
+
 ## Hottest functions
 
 ### Self time

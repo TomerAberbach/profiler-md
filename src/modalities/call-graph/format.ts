@@ -25,6 +25,7 @@ import { functionIdMatcher, lineMatcher } from '../diff.ts'
 import type { DiffedLine, FunctionIdMatcher, LineMatcher } from '../diff.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
+  formatBaseURLNote,
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
@@ -76,6 +77,7 @@ export const formatCallGraph = (
     heading(headingLevel, formatTitle(graph.metrics)),
     paragraph(formatSummaryLine(graph)),
     ...formatCategoryTable(graph),
+    ...formatBaseURLNote(options),
     ...formatMeasureSections(
       measuresOf(graph.metrics),
       headingLevel + 1,
@@ -518,6 +520,7 @@ export const formatCallGraphDiff = (
     heading(headingLevel, `${formatTitle(metrics)} diff`),
     paragraph(formatDiffSummaryLine(diff)),
     ...formatDiffCategoryTable(diff),
+    ...formatBaseURLNote(options),
     ...formatMeasureSections(
       diff.metrics,
       headingLevel + 1,

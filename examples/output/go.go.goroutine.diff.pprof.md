@@ -6,6 +6,8 @@ Recorded 1 goroutine.
 | ---------------- | -----: | ----: | -----: | ---------: |
 | Standard library |   0.0% |     0 | 100.0% |          1 |
 
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+
 ## Hottest functions
 
 ### Self goroutines

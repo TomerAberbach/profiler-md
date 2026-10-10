@@ -7,6 +7,8 @@ Allocated 39.7 MiB → 70.5 MiB (+30.805 MiB, +77.6%) over 480,489 objects �
 | Native   | +337.2% | +35.961 MiB | 26.9% → 66.1% | 10.7 MiB → 46.6 MiB |   26,499 → 25,721 |
 | Ours     |  -17.8% |  -5.156 MiB | 73.1% → 33.9% |   29 MiB → 23.9 MiB | 453,990 → 413,836 |
 
+Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
+
 ## Hottest functions
 
 ### Self size
@@ -1034,6 +1036,8 @@ Retained 894 KiB over 14,825 objects (61.8 B per object).
 | -------- | -----: | ----: | ----: | ------: | ------: |
 | Ours     |   0.0% |   0 B | 85.5% | 765 KiB |  14,818 |
 | Native   |   0.0% |   0 B | 14.5% | 130 KiB |       7 |
+
+Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 ## Hottest functions
 

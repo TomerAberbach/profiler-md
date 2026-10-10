@@ -20,6 +20,8 @@ Allocated 5.01 MiB across 67,019 nodes and 279,122 edges.
 | Synthetic           | <0.1% | 2.54 KiB |     33 |
 | Big number          | <0.1% |    672 B |     29 |
 
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/worktrees/profiler-md-5e4d067b35a3/scripts/inputs/assets/javascript/`.
+
 ## Largest constructors
 
 ### Self size

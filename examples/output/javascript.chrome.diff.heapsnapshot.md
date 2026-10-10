@@ -18,6 +18,8 @@ Allocated 3.15 MiB → 3.03 MiB (-122.748 KiB, -3.8%) across 67,919 → 67,88
 | Symbol              |   0.0% |          0 B |         <0.1% |                16 B |              17 |
 | Synthetic           |      — |          0 B |          0.0% |                 0 B |              31 |
 
+Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
+
 ## Largest constructors
 
 ### Self size

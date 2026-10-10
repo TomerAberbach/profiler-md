@@ -8,6 +8,8 @@ Allocated 957 MiB over 8,453,024 objects (119 B per object).
 | Standard library | 21.6% |  206 MiB | 1,210,386 |
 | Native           |  0.2% | 1.98 MiB |         1 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
+
 ## Hottest functions
 
 ### Self size

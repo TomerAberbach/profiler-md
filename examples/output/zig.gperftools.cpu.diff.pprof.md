@@ -8,6 +8,8 @@ Took 5.23s → 5.79s (+559.00ms, +10.7%) over 5,237 samples → 5,796 samples (1
 | Native           |  -71.5% | -274.00ms |   7.3% → 1.9% | 383.0ms → 109.0ms |     383 → 109 |
 | Ours             | removed |  -17.00ms |   0.3% → 0.0% |      17.0ms → 0ms |        17 → 0 |
 
+Paths starting with `./` or `../` are relative to `/out/`.
+
 ## Hottest functions
 
 ### Self time

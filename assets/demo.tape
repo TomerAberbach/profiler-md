@@ -8,9 +8,10 @@ Set Framerate 24
 Set TypingSpeed 40ms
 Set Theme "GruvboxDark"
 
-# Alias the CLI so the demo reads as the installed command.
+# Alias the CLI so the demo reads as the installed command. The auto base URL
+# makes the output independent of the directory the demo is recorded in.
 Hide
-Type "alias profiler-md='node src/cli/index.ts'"
+Type "alias profiler-md='node src/cli/index.ts --base-url auto'"
 Enter
 Type "clear"
 Enter

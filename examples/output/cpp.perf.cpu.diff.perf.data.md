@@ -8,6 +8,8 @@ Took 501.5ms → 539.5ms (+38.04ms, +7.6%) over 501 samples → 539 samples (1.0
 | Native   |   -3.2% |  -3.00ms | 19.0% → 17.1% |   95.1ms → 92.1ms |   95 → 92 |
 | Kernel   | removed |  -1.00ms |   0.2% → 0.0% |       1.0ms → 0ms |     1 → 0 |
 
+Paths starting with `./` or `../` are relative to `/tmp/`.
+
 ## Hottest functions
 
 ### Self time

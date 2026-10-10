@@ -8,6 +8,8 @@ Took 508.0ms → 537.0ms (+29.00ms, +5.7%) over 508 samples → 537 samples (1.0
 | Native           |  -5.3% |  -5.00ms | 18.7% → 16.8% |   95.0ms → 90.0ms |   95 → 90 |
 | Standard library | +50.0% |  +2.00ms |   0.8% → 1.1% |     4.0ms → 6.0ms |     4 → 6 |
 
+Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
+
 ## Hottest functions
 
 ### Self time

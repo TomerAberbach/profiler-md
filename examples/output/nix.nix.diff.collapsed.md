@@ -9,6 +9,8 @@ Collected 1,266 samples → 974 samples (-292 samples, -23.1%).
 | Unknown          | -11.1% |    -5 |   3.6% → 4.1% |     45 → 40 |
 | Standard library | +50.0% |    +2 |   0.3% → 0.6% |       4 → 6 |
 
+Paths starting with `./` or `../` are relative to `/nix/store/`.
+
 ## Hottest functions
 
 ### Self samples

@@ -7,6 +7,8 @@ Recorded 39,558,155 instructions → 40,514,776 instructions (+956,621 instructi
 | Ours     |  +2.4% | +955,229 | 100.0% | 39,550,586 → 40,505,815 |
 | Native   | +18.4% |   +1,392 |  <0.1% |           7,569 → 8,961 |
 
+Paths starting with `./` or `../` are relative to `/src/zstd/`.
+
 ## Hottest functions
 
 ### Self instructions

@@ -10,6 +10,8 @@ Collected 32,046 samples → 33,375 samples (+1,329 samples, +4.1%).
 | Native           |  +1.3% |   +16 |   4.0% → 3.9% |   1,274 → 1,290 |
 | Ours             | -30.4% |   -21 |   0.2% → 0.1% |         69 → 48 |
 
+Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
+
 ## Hottest functions
 
 ### Self samples

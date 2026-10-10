@@ -6,6 +6,8 @@ Allocated 120 MiB over 1,998,001 objects (62.9 B per object).
 | ---------------- | -----: | ------: | --------: |
 | Standard library | 100.0% | 120 MiB | 1,998,001 |
 
+Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
+
 ## Hottest functions
 
 ### Self size
@@ -227,5 +229,7 @@ Call stacks ranked by bytes allocated in their leaf frame.
 # Retained heap profile
 
 Retained 0 B over 0 objects.
+
+Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
 No bytes retained in any object.

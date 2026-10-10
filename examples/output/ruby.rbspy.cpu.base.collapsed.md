@@ -9,6 +9,8 @@ Collected 1,555 samples.
 | Unknown          |  3.2% |      50 |
 | Standard library |  0.7% |      11 |
 
+Paths starting with `./` or `../` are relative to `/src/app/`.
+
 ## Hottest functions
 
 ### Self samples

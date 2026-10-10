@@ -631,6 +631,20 @@ describe(`profileToMd`, () => {
       ])
     })
 
+    test(`states the base URL`, () => {
+      const md = profileToMd(baseCpuProfile, { baseURL: `/project` })
+
+      expect(md).toContain(
+        `Paths starting with \`./\` or \`../\` are relative to \`/project/\`.`,
+      )
+    })
+
+    test(`omits the base URL when there is none`, () => {
+      const md = profileToMd(baseCpuProfile, { baseURL: null })
+
+      expect(md).not.toContain(`are relative to`)
+    })
+
     test(`reports when there is no profiling data`, () => {
       const md = profileToMd(emptyProfile, { baseURL: null })
 
@@ -1439,6 +1453,19 @@ describe(`diffProfiles`, () => {
 
       expect(md).toMatch(/^# .*diff/iu)
       expectLogs(V8_CPU_PROFILE_DIFF_LOGS)
+    })
+
+    test(`states the base URL once per diffed profile`, () => {
+      const md = diffProfiles(
+        { data: baseCpuProfile, format: `v8-cpu-profile` },
+        { data: currentCpuProfile, format: `v8-cpu-profile` },
+        { baseURL: `/project` },
+      )
+
+      expect(md.match(/are relative to/gu)).toEqual([`are relative to`])
+      expect(md).toContain(
+        `Paths starting with \`./\` or \`../\` are relative to \`/project/\`.`,
+      )
     })
 
     test(`diffs two CPU profiles end-to-end`, () => {

@@ -7,6 +7,8 @@ Allocated 4.75 GiB → 4.71 GiB (-44.605 MiB, -0.9%) over 9,660 samples → 9
 | Third-party      |  -0.7% | -32.626 MiB | 91.6% → 91.8% | 4.35 GiB → 4.32 GiB | 8,892 → 8,825 |
 | Standard library |  -2.9% | -11.978 MiB |   8.4% → 8.2% |   408 MiB → 396 MiB |     768 → 749 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
+
 ## Hottest functions
 
 ### Self size

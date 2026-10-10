@@ -8,6 +8,8 @@ Took 1.88s over 1,887 samples (1.0ms per sample).
 | Native   |  0.2% | 3.0ms |       3 |
 | Kernel   |  0.1% | 1.0ms |       1 |
 
+Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
+
 ## Hottest functions
 
 ### Self time

@@ -8,6 +8,8 @@ Took 5.65s over 4,196 samples (1.3ms per sample).
 | Native           |  7.1% | 401.0ms |     308 |
 | Standard library |  2.0% | 114.8ms |      75 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
+
 ## Hottest functions
 
 ### Self time

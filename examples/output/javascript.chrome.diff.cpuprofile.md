@@ -11,6 +11,8 @@ Took 4.21s → 4.22s (+9.33ms, +0.2%) over 3,361 samples → 3,379 samples (1.3m
 | Idle               |   -0.9% |  -0.08ms |          0.2% |     8.9ms → 8.8ms |             7 |
 | Regular expression | removed |  -1.29ms |  <0.1% → 0.0% |       1.3ms → 0ms |         1 → 0 |
 
+Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
+
 ## Hottest functions
 
 ### Self time

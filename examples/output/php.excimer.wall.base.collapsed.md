@@ -7,6 +7,8 @@ Collected 4,164 samples.
 | Ours        | 99.6% |   4,146 |
 | Third-party |  0.4% |      18 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-workload/`.
+
 ## Hottest functions
 
 ### Self samples

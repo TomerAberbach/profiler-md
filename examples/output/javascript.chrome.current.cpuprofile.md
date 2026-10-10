@@ -10,6 +10,8 @@ Took 4.22s over 3,379 samples (1.3ms per sample).
 | Ours              |  0.8% |  32.6ms |      26 |
 | Idle              |  0.2% |   8.8ms |       7 |
 
+Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
+
 ## Hottest functions
 
 ### Self time

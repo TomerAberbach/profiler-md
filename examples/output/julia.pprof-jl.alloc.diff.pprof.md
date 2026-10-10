@@ -6,6 +6,8 @@ Allocated 78 KiB → 106 KiB (+28.513 KiB, +36.6%) over 3,408 allocations →
 | -------- | -----: | ----------: | -----: | ---------------: | ------------: |
 | Native   | +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 |
 
+Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
+
 ## Hottest functions
 
 ### Self size

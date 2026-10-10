@@ -7,6 +7,8 @@ Took 5.79s over 5,796 samples (1.0ms per sample).
 | Standard library | 98.1% |   5.68s |   5,687 |
 | Native           |  1.9% | 109.0ms |     109 |
 
+Paths starting with `./` or `../` are relative to `/out/`.
+
 ## Hottest functions
 
 ### Self time

@@ -6,6 +6,8 @@ Blocked 155.8ms over 5,028 contentions (31.0µs per contention).
 | ---------------- | -----: | ------: | ----------: |
 | Standard library | 100.0% | 155.8ms |       5,028 |
 
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+
 ## Hottest functions
 
 ### Self time

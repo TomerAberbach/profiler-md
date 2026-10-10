@@ -7,6 +7,8 @@ Allocated 1.67 GiB over 21,825,386 objects (82.4 B per object).
 | Standard library | 100.0% | 1.67 GiB | 21,824,617 |
 | Ours             |  <0.1% |   12 KiB |        769 |
 
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+
 ## Hottest functions
 
 ### Self size
@@ -526,6 +528,8 @@ Retained 2.09 MiB over 291 objects (7.36 KiB per object).
 | Category         |      % |     Size | Objects |
 | ---------------- | -----: | -------: | ------: |
 | Standard library | 100.0% | 2.09 MiB |     291 |
+
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
 ## Hottest functions
 

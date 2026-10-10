@@ -8,6 +8,8 @@ Took 193.7ms over 171 samples (1.1ms per sample).
 | Native           | 12.6% |  24.4ms |      21 |
 | Standard library |  8.8% |  17.0ms |      15 |
 
+Paths starting with `./` or `../` are relative to `https://www.google.com/`.
+
 ## Hottest functions
 
 ### Self time
