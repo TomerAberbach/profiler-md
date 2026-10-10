@@ -21,6 +21,8 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
+import { lineMatcher } from '../diff.ts'
+import type { DiffedLine, LineMatcher } from '../diff.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
   formatDiffFunctionSections,
@@ -30,7 +32,9 @@ import {
   formatZeroTotalNote,
   resolveEntryFilter,
   selectDiffEntities,
+  selectLargestChanges,
   showDiffEntity,
+  shownDiffEntities,
 } from '../format.ts'
 import { formatProseValue, formatProseValueDelta } from '../measure.ts'
 import type { Metric } from '../metric.ts'
@@ -299,8 +303,9 @@ const formatHottestLines = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      lineColumns(metric, func, options),
+      lineColumns(metric, options),
       hottestLines.map(([line, values]) => ({
+        func,
         line,
         value: values[index]!,
         total: selfValue,
@@ -462,6 +467,7 @@ export const formatCallGraphDiff = (
 ): RootContent[] => {
   const headingLevel = 1
   const metrics = diff.metrics.map(({ metric }) => metric)
+  const matchLines = lineMatcher(diff)
   return [
     heading(headingLevel, `${formatTitle(metrics)} diff`),
     paragraph(formatDiffSummaryLine(diff)),
@@ -489,6 +495,7 @@ export const formatCallGraphDiff = (
           ...formatDiffFunctions({
             diff,
             measure,
+            matchLines,
             options: sectionOptions,
             headingLevel: sectionHeadingLevel,
           }),
@@ -558,11 +565,13 @@ const formatDiffCategoryTable = (
 const formatDiffFunctions = ({
   diff,
   measure,
+  matchLines,
   options,
   headingLevel,
 }: {
   diff: AggregatedCallGraphDiff
   measure: AggregatedCallGraphDiff[`metrics`][number]
+  matchLines: LineMatcher<Float64Array>
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -582,6 +591,7 @@ const formatDiffFunctions = ({
       ...formatDiffDirectionFunctions({
         diff,
         measure,
+        matchLines,
         categories,
         options,
         headingLevel: headingLevel + 1,
@@ -590,6 +600,7 @@ const formatDiffFunctions = ({
       ...formatDiffDirectionFunctions({
         diff,
         measure,
+        matchLines,
         categories,
         options,
         headingLevel: headingLevel + 1,
@@ -603,6 +614,7 @@ const formatDiffFunctions = ({
 const formatDiffDirectionFunctions = ({
   diff,
   measure,
+  matchLines,
   categories,
   options,
   headingLevel,
@@ -610,6 +622,7 @@ const formatDiffDirectionFunctions = ({
 }: {
   diff: AggregatedCallGraphDiff
   measure: AggregatedCallGraphDiff[`metrics`][number]
+  matchLines: LineMatcher<Float64Array>
   categories: EntryCategory[]
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -673,5 +686,98 @@ const formatDiffDirectionFunctions = ({
     decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
+    detailSections:
+      direction === `self`
+        ? formatDiffLines({
+            measure,
+            matchLines,
+            funcs: shownDiffEntities({
+              improvement: metric.improvement,
+              increases,
+              decreases,
+              categoryRankings,
+            }).map(({ entity }) => entity),
+            options,
+            headingLevel: headingLevel + 1,
+          })
+        : [],
   })
+}
+
+const formatDiffLines = ({
+  measure,
+  matchLines,
+  funcs,
+  options,
+  headingLevel,
+}: {
+  measure: AggregatedCallGraphDiff[`metrics`][number]
+  matchLines: LineMatcher<Float64Array>
+  funcs: AggregatedCallGraphFunctionDiff[]
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] =>
+  formatSectionGroup(
+    [
+      heading(headingLevel, `Lines`),
+      paragraph(
+        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
+      ),
+    ],
+    funcs.flatMap(func =>
+      formatDiffFunctionLines({
+        measure,
+        matchLines,
+        func,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
+    ),
+  )
+
+const formatDiffFunctionLines = ({
+  measure: { metric, baseIndex, currentIndex },
+  matchLines,
+  func,
+  options,
+  headingLevel,
+}: {
+  measure: AggregatedCallGraphDiff[`metrics`][number]
+  matchLines: LineMatcher<Float64Array>
+  func: AggregatedCallGraphFunctionDiff
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const changedLines = selectLargestChanges(
+    matchLines(func),
+    Math.ceil(options.topN / 4),
+    ({ base, current }) =>
+      (current?.metrics[currentIndex] ?? 0) - (base?.metrics[baseIndex] ?? 0),
+  )
+  if (changedLines.length === 0) {
+    return []
+  }
+
+  const sideRowOf = (
+    sideFunc: AggregatedCallGraphFunction | undefined,
+    line: DiffedLine<Float64Array> | undefined,
+    index: number,
+  ) =>
+    sideFunc &&
+    line && {
+      func: sideFunc,
+      line: line.line,
+      value: line.metrics[index]!,
+      total: sideFunc.selfValues[index]!,
+    }
+  return [
+    formatFunctionHeading(headingLevel, func, options),
+    formatDiffTable(
+      lineColumns(metric, options),
+      changedLines.map(({ base, current }) => ({
+        base: sideRowOf(func.base, base, baseIndex),
+        current: sideRowOf(func.current, current, currentIndex),
+      })),
+    ),
+  ]
 }
