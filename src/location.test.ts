@@ -513,9 +513,23 @@ describe(`commonAncestorDirectoryURL`, () => {
       `file:///a/`,
     ],
     [
-      `the root directory when URLs diverge at the root`,
+      `the first-seen top-level directory when file: URLs tie across them`,
       [`file:///a/x.ts`, `file:///b/y.ts`],
-      `file:///`,
+      `file:///a/`,
+    ],
+    [
+      `the dominant top-level directory despite a lone outlier`,
+      [
+        `file:///src/black/src/black/linegen.py`,
+        `file:///venv/bin/black`,
+        `file:///src/black/src/blib2to3/pytree.py`,
+      ],
+      `file:///src/black/src/`,
+    ],
+    [
+      `the root when HTTP URLs diverge at the root`,
+      [`https://example.com/a/x.js`, `https://example.com/b/y.js`],
+      `https://example.com/`,
     ],
     [
       `encoded segments intact`,
@@ -569,9 +583,9 @@ describe(`commonAncestorDirectoryURL`, () => {
       `file:///private/var/project/`,
     ],
     [
-      `the drive root when Windows URLs diverge below it`,
+      `the first-seen top-level directory when Windows URLs tie below a drive`,
       [`file:///C:/a/x.ts`, `file:///C:/b/y.ts`],
-      `file:///C:/`,
+      `file:///C:/a/`,
     ],
     [
       `the dominant drive's directory across Windows drives`,
@@ -593,7 +607,7 @@ describe(`commonAncestorDirectoryURL`, () => {
     ],
   ])(`returns %s`, (_label, urls, expected) => {
     expect(
-      commonAncestorDirectoryURL(urls.map(url => new URL(url))),
+      commonAncestorDirectoryURL(urls.map(url => new URL(url)))?.url,
     ).toStrictEqual(new URL(expected))
   })
 })

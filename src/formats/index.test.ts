@@ -1322,7 +1322,7 @@ describe(`logging`, () => {
       V8_CPU_PROFILE_CANDIDATES_LOG,
       ...CHROME_ORIGIN_LOGS,
       `info: inferred base URL: file:///project/src/`,
-      `debug: the base URL is the common directory of 2 absolute locations categorized as ours`,
+      `debug: the base URL is the common directory of 2 of the 2 absolute locations categorized as ours, the most that share a top-level directory`,
     ])
   })
 
