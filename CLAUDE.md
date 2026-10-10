@@ -165,8 +165,9 @@ profiler-md
 │   ├── generate-inputs           # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
 │   ├── inputs/                   # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
 │   ├── categories.ts             # Report the categories the examples emit, or the names a candidate rule matches
-│   ├── update-examples.ts        # Update examples/output/ from examples/input/ on a worker thread pool
-│   ├── update-examples-worker.ts # Converts one example per message, then checks or writes it
+│   ├── update-examples/
+│   │   ├── index.ts              # Update examples/output/ from examples/input/ on a worker thread pool
+│   │   └── worker.ts             # Converts one example per message, then checks or writes it
 │   ├── check-input-privacy.ts    # Fails an input containing data about the generating machine (addresses, cookies, environment, process list)
 │   ├── evaluate-diff-matching/   # Score how a diff pairs functions against ground truth: same code, version changes, and synthetic edits
 │   │   ├── index.ts              # Entry point: scores every committed pair per ground truth kind, or updates or checks ground-truth.json
