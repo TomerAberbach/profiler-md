@@ -81,6 +81,102 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | -24.8% |   -6.151 KiB | 0.1% → <0.1% | 24.8 KiB → 18.6 KiB | 5,013 → 3,749 | `0x9980f` | `usr/lib/aarch64-linux-gnu/libc.so.6`            |
 | -23.6% |       -677 B |        <0.1% |  2.8 KiB → 2.14 KiB | 1,861 → 1,104 | `0x1c1f3` | `usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `__json_string_utilities_MOD_unescape_string` (`src/json-fortran/src/json_string_utilities.F90`)
+
+|  Change |        Delta |              % |               Size |     Objects | Location                                             |
+| ------: | -----------: | -------------: | -----------------: | ----------: | ---------------------------------------------------- |
+| +121.8% | +100.331 KiB | 100.0% → 71.7% | 82.4 KiB → 183 KiB | 796 → 1,316 | `src/json-fortran/src/json_string_utilities.F90:506` |
+|     new |  +72.197 KiB |   0.0% → 28.3% |     0 B → 72.2 KiB |     0 → 755 | `src/json-fortran/src/json_string_utilities.F90:611` |
+
+##### `__json_value_module_MOD_parse_number` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |   Delta |      % |              Size |       Objects | Location                                                   |
+| -----: | ------: | -----: | ----------------: | ------------: | ---------------------------------------------------------- |
+|  +2.7% | +18 KiB | 100.0% | 662 KiB → 680 KiB | 2,649 → 2,721 | `src/json-fortran/src/json_value_module.F90:11216 → 11244` |
+
+##### `MAIN__` (`out/profile.f90`)
+
+| Change |       Delta |             % |         Size | Objects | Location             |
+| -----: | ----------: | ------------: | -----------: | ------: | -------------------- |
+|    new | +15.029 KiB | 0.0% → 100.0% | 0 B → 15 KiB | 0 → 909 | `out/profile.f90:32` |
+
+##### `__json_string_utilities_MOD_string_to_integer` (`src/json-fortran/src/json_string_utilities.F90`)
+
+| Change |       Delta |             % |                Size |       Objects | Location                                             |
+| -----: | ----------: | ------------: | ------------------: | ------------: | ---------------------------------------------------- |
+| +81.3% | +16.846 KiB | 79.7% → 93.6% | 20.7 KiB → 37.6 KiB | 5,527 → 9,131 | `src/json-fortran/src/json_string_utilities.F90:134` |
+| -51.2% |  -2.705 KiB |  20.3% → 6.4% | 5.28 KiB → 2.57 KiB | 2,520 → 1,375 | `src/json-fortran/src/json_string_utilities.F90:131` |
+
+##### `__json_value_module_MOD_to_integer` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |      Delta |      % |              Size |         Objects | Location                                                   |
+| -----: | ---------: | -----: | ----------------: | --------------: | ---------------------------------------------------------- |
+|  +1.1% | +1.632 KiB | 100.0% | 148 KiB → 150 KiB | 18,928 → 19,137 | `src/json-fortran/src/json_value_module.F90:10703 → 10710` |
+
+##### `__json_value_module_MOD_json_get_string_by_path` (`src/json-fortran/src/json_get_scalar_by_path.inc`)
+
+|   Change |  Delta |      % |         Size |  Objects | Location                                             |
+| -------: | -----: | -----: | -----------: | -------: | ---------------------------------------------------- |
+| +7083.3% | +850 B | 100.0% | 12 B → 862 B | 12 → 862 | `src/json-fortran/src/json_get_scalar_by_path.inc:6` |
+
+##### `__json_value_module_MOD_parse_string` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |        Delta |             % |                Size |         Objects | Location                                                   |
+| -----: | -----------: | ------------: | ------------------: | --------------: | ---------------------------------------------------------- |
+| -46.9% |   -4.112 MiB | 83.2% → 88.9% | 8.76 MiB → 4.65 MiB | 35,879 → 19,035 | `src/json-fortran/src/json_value_module.F90:11073 → 11101` |
+| -65.5% | -988.675 KiB |  14.0% → 9.7% |  1.47 MiB → 520 KiB | 57,672 → 30,498 | `src/json-fortran/src/json_value_module.F90:11122 → 11150` |
+| -75.0% |     -222 KiB |   2.7% → 1.4% |    296 KiB → 74 KiB |       592 → 148 | `src/json-fortran/src/json_value_module.F90:11098 → 11126` |
+|    new |        +78 B |  0.0% → <0.1% |          0 B → 78 B |          0 → 78 | `src/json-fortran/src/json_value_module.F90:11148`         |
+
+##### `__json_value_module_MOD_json_value_create` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |       Delta |      % |                Size |           Objects | Location                                                 |
+| -----: | ----------: | -----: | ------------------: | ----------------: | -------------------------------------------------------- |
+|  -0.5% | -74.265 KiB | 100.0% | 14.3 MiB → 14.2 MiB | 134,059 → 133,380 | `src/json-fortran/src/json_value_module.F90:2211 → 2218` |
+
+##### `__json_value_module_MOD_parse_object` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |      Delta |             % |           Size |     Objects | Location                                           |
+| ------: | ---------: | ------------: | -------------: | ----------: | -------------------------------------------------- |
+| removed |  -1.44 MiB | 100.0% → 0.0% | 1.44 MiB → 0 B | 122,497 → 0 | `src/json-fortran/src/json_value_module.F90:10922` |
+|     new | +1.435 MiB | 0.0% → 100.0% | 0 B → 1.44 MiB | 0 → 122,226 | `src/json-fortran/src/json_value_module.F90:10937` |
+
+##### `__json_value_module_MOD_to_string` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |  Delta |      % |               Size |       Objects | Location                                                   |
+| -----: | -----: | -----: | -----------------: | ------------: | ---------------------------------------------------------- |
+| -12.8% | -677 B | 100.0% | 5.16 KiB → 4.5 KiB | 5,280 → 4,603 | `src/json-fortran/src/json_value_module.F90:10800 → 10807` |
+
+##### `__json_value_module_MOD_parse_value` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change |  Delta |      % |     Size |         Objects | Location                                                   |
+| -----: | -----: | -----: | -------: | --------------: | ---------------------------------------------------------- |
+|    ~0% | -110 B | 100.0% | 1.76 MiB | 41,345 → 41,430 | `src/json-fortran/src/json_value_module.F90:10185 → 10192` |
+
+##### `__json_value_module_MOD_json_initialize` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change |  Delta |            % |        Size | Objects | Location                                                 |
+| ------: | -----: | -----------: | ----------: | ------: | -------------------------------------------------------- |
+| removed | -2 KiB | 98.7% → 0.0% | 2 KiB → 0 B |   8 → 0 | `src/json-fortran/src/json_value_module.F90:1048`        |
+|     new | +2 KiB | 0.0% → 99.0% | 0 B → 2 KiB |   0 → 8 | `src/json-fortran/src/json_value_module.F90:1051`        |
+|  -23.1% |   -6 B |  1.3% → 1.0% | 26 B → 20 B |       2 | `src/json-fortran/src/json_value_module.F90:1196 → 1203` |
+
+##### `__json_value_module_MOD_to_logical` (`src/json-fortran/src/json_value_module.F90`)
+
+| Change | Delta |      % |    Size |         Objects | Location                                                   |
+| -----: | ----: | -----: | ------: | --------------: | ---------------------------------------------------------- |
+|    ~0% |  -4 B | 100.0% | 102 KiB | 26,217 → 26,216 | `src/json-fortran/src/json_value_module.F90:10672 → 10679` |
+
+##### `__json_value_module_MOD_pop_char.part.0` (`src/json-fortran/src/json_value_module.F90`)
+
+|  Change | Delta |             % |      Size | Objects | Location                                           |
+| ------: | ----: | ------------: | --------: | ------: | -------------------------------------------------- |
+| removed |  -1 B | 100.0% → 0.0% | 1 B → 0 B |   1 → 0 | `src/json-fortran/src/json_value_module.F90:11383` |
+
 ### Total size
 
 #### Regressions

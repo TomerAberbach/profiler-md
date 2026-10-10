@@ -136,8 +136,13 @@ const MINIMUM_SLACK_LIMIT = 32
 
 /**
  * The pairs {@link alignPositions}'s passes consider in total, past which it
- * stops widening its band. It is about 20 times the most any group of the
- * committed examples considers. A pass takes about 200 nanoseconds per pair.
+ * stops widening its band. A pass takes about 200 nanoseconds per pair.
+ *
+ * It is about 20 times the most any group of same-named functions in the
+ * committed examples considers. Aligning every sampled line of a large file
+ * can exceed it: the 3,397 and 3,443 lines of TypeScript's `typescript.js` in
+ * `javascript.node-pprof.cpu-lines` align in 348 milliseconds, pairing 1,830
+ * lines where a limit of 2^22 pairs 1,842 in 800.
  */
 export const BAND_PAIRS_LIMIT = 2 ** 20
 

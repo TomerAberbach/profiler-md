@@ -109,6 +109,216 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 |   -3.1% | -768 B |       <0.1% | 24.1 KiB → 23.3 KiB |     27 → 26 | `__new__`           | `/usr/lib/python3.11/enum.py:488`            |
 |     ~0% | -213 B |        3.2% |            2.55 MiB |   619 → 618 | `_compile_bytecode` | `<frozen importlib._bootstrap_external>:727` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `append` (`black/lines.py:52`)
+
+|     Change |  Delta |            % |             Size | Allocations | Location                 |
+| ---------: | -----: | -----------: | ---------------: | ----------: | ------------------------ |
+| +187916.8% | +1 MiB | 8.7% → 49.9% |    558 B → 1 MiB |       1 → 2 | `black/lines.py:97 → 86` |
+|        new | +1 MiB | 0.0% → 49.8% |      0 B → 1 MiB |       0 → 1 | `black/lines.py:91`      |
+|      +2.3% |  +96 B | 64.1% → 0.2% | 4 KiB → 4.09 KiB |           1 | `black/lines.py:89 → 78` |
+
+##### `visit_default` (`black/linegen.py:134`)
+
+|  Change |  Delta |             % |          Size | Allocations | Location               |
+| ------: | -----: | ------------: | ------------: | ----------: | ---------------------- |
+| +100.0% | +2 MiB | 66.7% → 80.0% | 2 MiB → 4 MiB |       2 → 4 | `black/linegen.py:158` |
+| removed | -1 MiB |  33.3% → 0.0% |   1 MiB → 0 B |       1 → 0 | `black/linegen.py:138` |
+|     new | +1 MiB |  0.0% → 20.0% |   0 B → 1 MiB |       0 → 1 | `black/linegen.py:149` |
+
+##### `update_sibling_maps` (`blib2to3/pytree.py:358`)
+
+|   Change |  Delta |             % |                Size | Allocations | Location                       |
+| -------: | -----: | ------------: | ------------------: | ----------: | ------------------------------ |
+| +4370.0% | +3 MiB |  2.2% → 59.7% | 70.3 KiB → 3.07 MiB |     93 → 96 | `blib2to3/pytree.py:377 → 366` |
+|  removed | -1 MiB |  31.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `blib2to3/pytree.py:371`       |
+|   +93.6% | +1 MiB | 34.0% → 40.2% | 1.07 MiB → 2.07 MiB |     94 → 95 | `blib2to3/pytree.py:376 → 365` |
+|   -99.5% | -1 MiB |  32.0% → 0.1% |    1 MiB → 4.99 KiB |      10 → 9 | `blib2to3/pytree.py:379 → 368` |
+
+##### `generate_tokens` (`blib2to3/pgen2/tokenize.py:554`)
+
+| Change |  Delta |            % |        Size | Allocations | Location                         |
+| -----: | -----: | -----------: | ----------: | ----------: | -------------------------------- |
+|    new | +1 MiB | 0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/tokenize.py:603` |
+|    new | +1 MiB | 0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/tokenize.py:694` |
+
+##### `_parse` (`/usr/lib/python3.11/re/_parser.py:507`)
+
+| Change |  Delta |            % |        Size | Allocations | Location                                |
+| -----: | -----: | -----------: | ----------: | ----------: | --------------------------------------- |
+|    new | +1 MiB | 0.0% → 99.5% | 0 B → 1 MiB |       0 → 1 | `/usr/lib/python3.11/re/_parser.py:548` |
+
+##### `_addtoken` (`blib2to3/pgen2/parse.py:278`)
+
+| Change |  Delta |             % |        Size | Allocations | Location                      |
+| -----: | -----: | ------------: | ----------: | ----------: | ----------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/parse.py:303` |
+
+##### `mark` (`black/brackets.py:70`)
+
+| Change |  Delta |      % |                Size |     Allocations | Location                |
+| -----: | -----: | -----: | ------------------: | --------------: | ----------------------- |
+|  +6.2% | +1 MiB | 100.0% | 16.2 MiB → 17.2 MiB | 20,787 → 20,788 | `black/brackets.py:112` |
+
+##### `__init__` (`<string>:2`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location     |
+| ------: | -----: | ------------: | ----------: | ----------: | ------------ |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `<string>:6` |
+|     new | +1 MiB |  0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `<string>:5` |
+|     new | +1 MiB |  0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `<string>:8` |
+
+##### `push` (`blib2to3/pgen2/parse.py:374`)
+
+| Change |  Delta |             % |        Size | Allocations | Location                      |
+| -----: | -----: | ------------: | ----------: | ----------: | ----------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/parse.py:382` |
+
+##### `__str__` (`blib2to3/pytree.py:429`)
+
+| Change |  Delta |             % |        Size | Allocations | Location                 |
+| -----: | -----: | ------------: | ----------: | ----------: | ------------------------ |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pytree.py:435` |
+
+##### `__setattr__` (`/usr/lib/python3.11/enum.py:831`)
+
+| Change |      Delta |      % |                Size | Allocations | Location                          |
+| -----: | ---------: | -----: | ------------------: | ----------: | --------------------------------- |
+| +22.0% | +1.484 KiB | 100.0% | 6.73 KiB → 8.22 KiB |       8 → 9 | `/usr/lib/python3.11/enum.py:842` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`)
+
+| Change |  Delta |      % |                Size | Allocations | Location                                                    |
+| -----: | -----: | -----: | ------------------: | ----------: | ----------------------------------------------------------- |
+|  +4.4% | +172 B | 100.0% | 3.79 KiB → 3.96 KiB |           3 | `/venv/lib/python3.11/site-packages/click/decorators.py:34` |
+
+##### `_format_str_once` (`black/__init__.py:1215`)
+
+| Change |  Delta |           % |          Size | Allocations | Location                        |
+| -----: | -----: | ----------: | ------------: | ----------: | ------------------------------- |
+| +13.0% | +104 B | 0.3% → 0.4% | 800 B → 904 B |           1 | `black/__init__.py:1239 → 1218` |
+
+##### `get_cache_file` (`black/cache.py:50`)
+
+| Change | Delta |      % |                Size | Allocations | Location            |
+| -----: | ----: | -----: | ------------------: | ----------: | ------------------- |
+|  +5.5% | +64 B | 100.0% | 1.13 KiB → 1.19 KiB |           1 | `black/cache.py:51` |
+
+##### `check_stability_and_equivalence` (`black/__init__.py:1042`)
+
+| Change | Delta |      % |          Size | Allocations | Location                        |
+| -----: | ----: | -----: | ------------: | ----------: | ------------------------------- |
+| +10.1% | +60 B | 100.0% | 594 B → 654 B |           1 | `black/__init__.py:1050 → 1055` |
+
+##### `changed` (`blib2to3/pytree.py:160`)
+
+| Change |  Delta |             % |          Size | Allocations | Location                       |
+| -----: | -----: | ------------: | ------------: | ----------: | ------------------------------ |
+| -75.0% | -3 MiB | 66.7% → 33.3% | 4 MiB → 1 MiB |       4 → 1 | `blib2to3/pytree.py:176 → 165` |
+
+##### `__new__` (`blib2to3/pytree.py:70`)
+
+| Change |  Delta |      % |          Size | Allocations | Location                     |
+| -----: | -----: | -----: | ------------: | ----------: | ---------------------------- |
+| -28.6% | -2 MiB | 100.0% | 7 MiB → 5 MiB |       7 → 5 | `blib2to3/pytree.py:84 → 73` |
+
+##### `__getitem__` (`/usr/lib/python3.11/re/_parser.py:162`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location                                |
+| ------: | -----: | ------------: | ----------: | ----------: | --------------------------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `/usr/lib/python3.11/re/_parser.py:164` |
+
+##### `pop` (`blib2to3/pgen2/parse.py:386`)
+
+| Change |  Delta |      % |          Size | Allocations | Location                            |
+| -----: | -----: | -----: | ------------: | ----------: | ----------------------------------- |
+| -50.0% | -1 MiB | 100.0% | 2 MiB → 1 MiB |       2 → 1 | `blib2to3/pgen2/parse.py:408 → 396` |
+
+##### `__init__` (`blib2to3/pytree.py:400`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location                 |
+| ------: | -----: | ------------: | ----------: | ----------: | ------------------------ |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `blib2to3/pytree.py:425` |
+
+##### `visit` (`black/nodes.py:152`)
+
+| Change |  Delta |             % |          Size | Allocations | Location                   |
+| -----: | -----: | ------------: | ------------: | ----------: | -------------------------- |
+| -99.9% | -1 MiB | 99.7% → 20.1% | 1 MiB → 690 B |       2 → 1 | `black/nodes.py:185 → 174` |
+
+##### `visit_default` (`black/nodes.py:176`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location             |
+| ------: | -----: | ------------: | ----------: | ----------: | -------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `black/nodes.py:191` |
+
+##### `transform_line` (`black/linegen.py:601`)
+
+| Change |  Delta |            % |          Size | Allocations | Location               |
+| -----: | -----: | -----------: | ------------: | ----------: | ---------------------- |
+| -99.9% | -1 MiB | 50.0% → 0.1% | 1 MiB → 910 B |       2 → 1 | `black/linegen.py:714` |
+
+##### `<genexpr>` (`black/lines.py:329`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location             |
+| ------: | -----: | ------------: | ----------: | ----------: | -------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `black/lines.py:329` |
+
+##### `__str__` (`black/lines.py:479`)
+
+| Change |  Delta |      % |          Size | Allocations | Location                   |
+| -----: | -----: | -----: | ------------: | ----------: | -------------------------- |
+| -50.0% | -1 MiB | 100.0% | 2 MiB → 1 MiB |       2 → 1 | `black/lines.py:500 → 489` |
+
+##### `replace` (`/usr/lib/python3.11/dataclasses.py:1443`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location                                  |
+| ------: | -----: | ------------: | ----------: | ----------: | ----------------------------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `/usr/lib/python3.11/dataclasses.py:1484` |
+
+##### `<module>` (`black/trans.py:1`)
+
+|  Change |      Delta |            % |           Size | Allocations | Location              |
+| ------: | ---------: | -----------: | -------------: | ----------: | --------------------- |
+| removed | -3.187 KiB | 31.5% → 0.0% | 3.19 KiB → 0 B |       1 → 0 | `black/trans.py:1914` |
+|     new | +1.484 KiB | 0.0% → 17.6% | 0 B → 1.48 KiB |       0 → 1 | `black/trans.py:41`   |
+
+##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
+
+| Change |  Delta |      % |                Size | Allocations | Location                          |
+| -----: | -----: | -----: | ------------------: | ----------: | --------------------------------- |
+|  -3.1% | -768 B | 100.0% | 24.1 KiB → 23.3 KiB |     27 → 26 | `/usr/lib/python3.11/enum.py:554` |
+
+##### `<module>` (`black/ranges.py:1`)
+
+|  Change |      Delta |            % |           Size | Allocations | Location              |
+| ------: | ---------: | -----------: | -------------: | ----------: | --------------------- |
+| removed | -1.484 KiB | 30.5% → 0.0% | 1.48 KiB → 0 B |       1 → 0 | `black/ranges.py:509` |
+|     new |     +768 B | 0.0% → 18.2% |    0 B → 768 B |       0 → 1 | `black/ranges.py:7`   |
+
+##### `_first_right_hand_split` (`black/linegen.py:829`)
+
+| Change |  Delta |      % |             Size | Allocations | Location               |
+| -----: | -----: | -----: | ---------------: | ----------: | ---------------------- |
+| -25.9% | -274 B | 100.0% | 1.03 KiB → 784 B |           1 | `black/linegen.py:918` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
+
+| Change |  Delta |      % |     Size | Allocations | Location                                     |
+| -----: | -----: | -----: | -------: | ----------: | -------------------------------------------- |
+|    ~0% | -213 B | 100.0% | 2.55 MiB |   619 → 618 | `<frozen importlib._bootstrap_external>:729` |
+
+##### `<module>` (`blib2to3/pgen2/tokenize.py:1`)
+
+|  Change |      Delta |            % |           Size | Allocations | Location                             |
+| ------: | ---------: | -----------: | -------------: | ----------: | ------------------------------------ |
+| removed | -3.187 KiB | 15.4% → 0.0% | 3.19 KiB → 0 B |       1 → 0 | `blib2to3/pgen2/tokenize.py:170`     |
+|     new | +3.187 KiB | 0.0% → 15.4% | 0 B → 3.19 KiB |       0 → 1 | `blib2to3/pgen2/tokenize.py:163`     |
+|   -1.3% |       -8 B |         2.8% |  600 B → 592 B |           1 | `blib2to3/pgen2/tokenize.py:76 → 65` |
+
 ### Total size
 
 #### Regressions
@@ -330,6 +540,223 @@ Functions with the largest decrease in bytes never freed directly in the functio
 | removed | -1 MiB | 1.7% → 0.0% |         1 MiB → 0 B |       1 → 0 | `replace`           | `/usr/lib/python3.11/dataclasses.py:1443`    |
 |   -3.1% | -768 B |       <0.1% | 24.1 KiB → 23.3 KiB |     27 → 26 | `__new__`           | `/usr/lib/python3.11/enum.py:488`            |
 |     ~0% | -213 B |        4.3% |            2.55 MiB |   619 → 618 | `_compile_bytecode` | `<frozen importlib._bootstrap_external>:727` |
+
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `append` (`black/lines.py:52`)
+
+|     Change |  Delta |            % |             Size | Allocations | Location                 |
+| ---------: | -----: | -----------: | ---------------: | ----------: | ------------------------ |
+| +187916.8% | +1 MiB | 8.7% → 49.9% |    558 B → 1 MiB |       1 → 2 | `black/lines.py:97 → 86` |
+|        new | +1 MiB | 0.0% → 49.8% |      0 B → 1 MiB |       0 → 1 | `black/lines.py:91`      |
+|      +2.3% |  +96 B | 64.1% → 0.2% | 4 KiB → 4.09 KiB |           1 | `black/lines.py:89 → 78` |
+
+##### `update_sibling_maps` (`blib2to3/pytree.py:358`)
+
+|   Change |  Delta |             % |                Size | Allocations | Location                       |
+| -------: | -----: | ------------: | ------------------: | ----------: | ------------------------------ |
+| +4370.0% | +3 MiB |  2.2% → 59.7% | 70.3 KiB → 3.07 MiB |     93 → 96 | `blib2to3/pytree.py:377 → 366` |
+|  removed | -1 MiB |  31.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `blib2to3/pytree.py:371`       |
+|   +93.6% | +1 MiB | 34.0% → 40.2% | 1.07 MiB → 2.07 MiB |     94 → 95 | `blib2to3/pytree.py:376 → 365` |
+|   -99.5% | -1 MiB |  32.0% → 0.1% |    1 MiB → 4.99 KiB |      10 → 9 | `blib2to3/pytree.py:379 → 368` |
+
+##### `generate_tokens` (`blib2to3/pgen2/tokenize.py:554`)
+
+| Change |  Delta |            % |        Size | Allocations | Location                         |
+| -----: | -----: | -----------: | ----------: | ----------: | -------------------------------- |
+|    new | +1 MiB | 0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/tokenize.py:603` |
+|    new | +1 MiB | 0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/tokenize.py:694` |
+
+##### `_parse` (`/usr/lib/python3.11/re/_parser.py:507`)
+
+| Change |  Delta |            % |        Size | Allocations | Location                                |
+| -----: | -----: | -----------: | ----------: | ----------: | --------------------------------------- |
+|    new | +1 MiB | 0.0% → 99.5% | 0 B → 1 MiB |       0 → 1 | `/usr/lib/python3.11/re/_parser.py:548` |
+
+##### `_addtoken` (`blib2to3/pgen2/parse.py:278`)
+
+| Change |  Delta |             % |        Size | Allocations | Location                      |
+| -----: | -----: | ------------: | ----------: | ----------: | ----------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/parse.py:303` |
+
+##### `visit_default` (`black/linegen.py:134`)
+
+|  Change |  Delta |              % |          Size | Allocations | Location               |
+| ------: | -----: | -------------: | ------------: | ----------: | ---------------------- |
+| +100.0% | +2 MiB | 66.7% → 100.0% | 2 MiB → 4 MiB |       2 → 4 | `black/linegen.py:158` |
+| removed | -1 MiB |   33.3% → 0.0% |   1 MiB → 0 B |       1 → 0 | `black/linegen.py:138` |
+
+##### `mark` (`black/brackets.py:70`)
+
+| Change |  Delta |      % |                Size |     Allocations | Location                |
+| -----: | -----: | -----: | ------------------: | --------------: | ----------------------- |
+|  +6.2% | +1 MiB | 100.0% | 16.2 MiB → 17.2 MiB | 20,787 → 20,788 | `black/brackets.py:112` |
+
+##### `__init__` (`<string>:2`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location     |
+| ------: | -----: | ------------: | ----------: | ----------: | ------------ |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `<string>:6` |
+|     new | +1 MiB |  0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `<string>:5` |
+|     new | +1 MiB |  0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `<string>:8` |
+
+##### `_stringify_ast` (`black/parsing.py:182`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location               |
+| ------: | -----: | ------------: | ----------: | ----------: | ---------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `black/parsing.py:197` |
+|     new | +1 MiB |  0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `black/parsing.py:193` |
+|     new | +1 MiB |  0.0% → 50.0% | 0 B → 1 MiB |       0 → 1 | `black/parsing.py:248` |
+
+##### `push` (`blib2to3/pgen2/parse.py:374`)
+
+| Change |  Delta |             % |        Size | Allocations | Location                      |
+| -----: | -----: | ------------: | ----------: | ----------: | ----------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pgen2/parse.py:382` |
+
+##### `__str__` (`blib2to3/pytree.py:429`)
+
+| Change |  Delta |             % |        Size | Allocations | Location                 |
+| -----: | -----: | ------------: | ----------: | ----------: | ------------------------ |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB |       0 → 1 | `blib2to3/pytree.py:435` |
+
+##### `__setattr__` (`/usr/lib/python3.11/enum.py:831`)
+
+| Change |      Delta |      % |                Size | Allocations | Location                          |
+| -----: | ---------: | -----: | ------------------: | ----------: | --------------------------------- |
+| +22.0% | +1.484 KiB | 100.0% | 6.73 KiB → 8.22 KiB |       8 → 9 | `/usr/lib/python3.11/enum.py:842` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`)
+
+| Change |  Delta |      % |                Size | Allocations | Location                                                    |
+| -----: | -----: | -----: | ------------------: | ----------: | ----------------------------------------------------------- |
+|  +5.5% | +172 B | 100.0% | 3.04 KiB → 3.21 KiB |           2 | `/venv/lib/python3.11/site-packages/click/decorators.py:34` |
+
+##### `_format_str_once` (`black/__init__.py:1215`)
+
+| Change |  Delta |             % |          Size | Allocations | Location                        |
+| -----: | -----: | ------------: | ------------: | ----------: | ------------------------------- |
+| +13.0% | +104 B | 25.2% → 27.5% | 800 B → 904 B |           1 | `black/__init__.py:1239 → 1218` |
+
+##### `get_cache_file` (`black/cache.py:50`)
+
+| Change | Delta |      % |                Size | Allocations | Location            |
+| -----: | ----: | -----: | ------------------: | ----------: | ------------------- |
+|  +5.5% | +64 B | 100.0% | 1.13 KiB → 1.19 KiB |           1 | `black/cache.py:51` |
+
+##### `check_stability_and_equivalence` (`black/__init__.py:1042`)
+
+| Change | Delta |      % |          Size | Allocations | Location                        |
+| -----: | ----: | -----: | ------------: | ----------: | ------------------------------- |
+| +10.1% | +60 B | 100.0% | 594 B → 654 B |           1 | `black/__init__.py:1050 → 1055` |
+
+##### `changed` (`blib2to3/pytree.py:160`)
+
+| Change |  Delta |             % |          Size | Allocations | Location                       |
+| -----: | -----: | ------------: | ------------: | ----------: | ------------------------------ |
+| -75.0% | -3 MiB | 66.7% → 33.3% | 4 MiB → 1 MiB |       4 → 1 | `blib2to3/pytree.py:176 → 165` |
+
+##### `__new__` (`blib2to3/pytree.py:70`)
+
+| Change |  Delta |      % |          Size | Allocations | Location                     |
+| -----: | -----: | -----: | ------------: | ----------: | ---------------------------- |
+| -28.6% | -2 MiB | 100.0% | 7 MiB → 5 MiB |       7 → 5 | `blib2to3/pytree.py:84 → 73` |
+
+##### `__getitem__` (`/usr/lib/python3.11/re/_parser.py:162`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location                                |
+| ------: | -----: | ------------: | ----------: | ----------: | --------------------------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `/usr/lib/python3.11/re/_parser.py:164` |
+
+##### `pop` (`blib2to3/pgen2/parse.py:386`)
+
+| Change |  Delta |      % |          Size | Allocations | Location                            |
+| -----: | -----: | -----: | ------------: | ----------: | ----------------------------------- |
+| -50.0% | -1 MiB | 100.0% | 2 MiB → 1 MiB |       2 → 1 | `blib2to3/pgen2/parse.py:408 → 396` |
+
+##### `__init__` (`blib2to3/pytree.py:400`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location                 |
+| ------: | -----: | ------------: | ----------: | ----------: | ------------------------ |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `blib2to3/pytree.py:425` |
+
+##### `visit` (`black/nodes.py:152`)
+
+| Change |  Delta |             % |          Size | Allocations | Location                   |
+| -----: | -----: | ------------: | ------------: | ----------: | -------------------------- |
+| -99.9% | -1 MiB | 99.7% → 20.1% | 1 MiB → 690 B |       2 → 1 | `black/nodes.py:185 → 174` |
+
+##### `visit_default` (`black/nodes.py:176`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location             |
+| ------: | -----: | ------------: | ----------: | ----------: | -------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `black/nodes.py:191` |
+
+##### `transform_line` (`black/linegen.py:601`)
+
+| Change |  Delta |            % |          Size | Allocations | Location               |
+| -----: | -----: | -----------: | ------------: | ----------: | ---------------------- |
+| -99.9% | -1 MiB | 49.1% → 0.1% | 1 MiB → 910 B |       2 → 1 | `black/linegen.py:714` |
+
+##### `<genexpr>` (`black/lines.py:329`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location             |
+| ------: | -----: | ------------: | ----------: | ----------: | -------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `black/lines.py:329` |
+
+##### `__str__` (`black/lines.py:479`)
+
+| Change |  Delta |      % |          Size | Allocations | Location                   |
+| -----: | -----: | -----: | ------------: | ----------: | -------------------------- |
+| -50.0% | -1 MiB | 100.0% | 2 MiB → 1 MiB |       2 → 1 | `black/lines.py:500 → 489` |
+
+##### `replace` (`/usr/lib/python3.11/dataclasses.py:1443`)
+
+|  Change |  Delta |             % |        Size | Allocations | Location                                  |
+| ------: | -----: | ------------: | ----------: | ----------: | ----------------------------------------- |
+| removed | -1 MiB | 100.0% → 0.0% | 1 MiB → 0 B |       1 → 0 | `/usr/lib/python3.11/dataclasses.py:1484` |
+
+##### `<module>` (`black/trans.py:1`)
+
+|  Change |      Delta |            % |           Size | Allocations | Location              |
+| ------: | ---------: | -----------: | -------------: | ----------: | --------------------- |
+| removed | -3.187 KiB | 31.5% → 0.0% | 3.19 KiB → 0 B |       1 → 0 | `black/trans.py:1914` |
+|     new | +1.484 KiB | 0.0% → 17.6% | 0 B → 1.48 KiB |       0 → 1 | `black/trans.py:41`   |
+
+##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
+
+| Change |  Delta |      % |                Size | Allocations | Location                          |
+| -----: | -----: | -----: | ------------------: | ----------: | --------------------------------- |
+|  -3.1% | -768 B | 100.0% | 24.1 KiB → 23.3 KiB |     27 → 26 | `/usr/lib/python3.11/enum.py:554` |
+
+##### `<module>` (`black/ranges.py:1`)
+
+|  Change |      Delta |            % |           Size | Allocations | Location              |
+| ------: | ---------: | -----------: | -------------: | ----------: | --------------------- |
+| removed | -1.484 KiB | 30.5% → 0.0% | 1.48 KiB → 0 B |       1 → 0 | `black/ranges.py:509` |
+|     new |     +768 B | 0.0% → 18.2% |    0 B → 768 B |       0 → 1 | `black/ranges.py:7`   |
+
+##### `_first_right_hand_split` (`black/linegen.py:829`)
+
+| Change |  Delta |      % |             Size | Allocations | Location               |
+| -----: | -----: | -----: | ---------------: | ----------: | ---------------------- |
+| -25.9% | -274 B | 100.0% | 1.03 KiB → 784 B |           1 | `black/linegen.py:918` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
+
+| Change |  Delta |      % |     Size | Allocations | Location                                     |
+| -----: | -----: | -----: | -------: | ----------: | -------------------------------------------- |
+|    ~0% | -213 B | 100.0% | 2.55 MiB |   619 → 618 | `<frozen importlib._bootstrap_external>:729` |
+
+##### `<module>` (`blib2to3/pgen2/tokenize.py:1`)
+
+|  Change |      Delta |            % |           Size | Allocations | Location                             |
+| ------: | ---------: | -----------: | -------------: | ----------: | ------------------------------------ |
+| removed | -3.187 KiB | 15.4% → 0.0% | 3.19 KiB → 0 B |       1 → 0 | `blib2to3/pgen2/tokenize.py:170`     |
+|     new | +3.187 KiB | 0.0% → 15.4% | 0 B → 3.19 KiB |       0 → 1 | `blib2to3/pgen2/tokenize.py:163`     |
+|   -1.3% |       -8 B |         2.8% |  600 B → 592 B |           1 | `blib2to3/pgen2/tokenize.py:76 → 65` |
 
 ### Total size
 

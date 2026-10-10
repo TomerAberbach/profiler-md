@@ -219,6 +219,246 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `isMarkedNullable(ConeKotlinType)`                                                        | `org.jetbrains.kotlin.fir.types.ConeTypeUtilsKt`                                          |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `toClassSymbol(ConeClassLikeLookupTag, FirSession)`                                       | `org.jetbrains.kotlin.fir.resolve.ToSymbolUtilsKt`                                        |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self samples.
+
+##### `sanitizeStackTrace(Throwable)` (`kotlin.jvm.internal.Intrinsics`)
+
+| Change | Delta |             % | Samples | Location                             |
+| -----: | ----: | ------------: | ------: | ------------------------------------ |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `kotlin.jvm.internal.Intrinsics:253` |
+
+##### `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+
+|  Change | Delta |             % | Samples | Location                                                   |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils:184` |
+|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils:133` |
+|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils:142` |
+
+##### `transformFunctionCallInternal$org_jetbrains_kotlin_resolve(FirFunctionCall, ResolutionMode, FirExpressionsResolveTransformer$CallResolutionMode)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`)
+
+| Change | Delta |             % | Samples | Location                                                                                          |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer:694` |
+
+##### `transformStatementsIndexed(FirBlock, FirTransformer, Function1)` (`org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt`)
+
+| Change | Delta |             % | Samples | Location                                                       |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt:248` |
+
+##### `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
+
+| Change | Delta |             % | Samples | Location                                                                   |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter:186` |
+
+##### `visitElement(FirElement, Void)` (`org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`)
+
+| Change | Delta |             % | Samples | Location                                                                             |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor:56` |
+
+##### `preprocessSuspendMarkers(MethodNode, boolean, boolean)` (`org.jetbrains.kotlin.codegen.inline.InlineCodegenUtilsKt`)
+
+| Change | Delta |             % | Samples | Location                                                       |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.codegen.inline.InlineCodegenUtilsKt:670` |
+
+##### `<init>(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function`)
+
+| Change | Delta |             % | Samples | Location                                                |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.metadata.ProtoBuf$Function:16542` |
+
+##### `convertTypeParameter(LighterASTNode, List, FirBasedSymbol)` (`org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder`)
+
+| Change | Delta |             % | Samples | Location                                                                              |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder:4740` |
+
+##### `constructType(FirClassifierSymbol, ConeTypeProjection[], boolean, ConeAttributes)` (`org.jetbrains.kotlin.fir.types.TypeConstructionUtilsKt`)
+
+| Change | Delta |             % | Samples | Location                                                    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.types.TypeConstructionUtilsKt:52` |
+
+##### `create(List)` (`org.jetbrains.kotlin.fir.types.ConeAttributes$Companion`)
+
+| Change | Delta |             % | Samples | Location                                                     |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.types.ConeAttributes$Companion:86` |
+
+##### `substituteOrSelf(ConeKotlinType)` (`org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor$Empty`)
+
+| Change | Delta |             % | Samples | Location                                                                 |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor$Empty:19` |
+
+##### `getSymbol()` (`org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl`)
+
+| Change | Delta |             % | Samples | Location                                                            |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl:47` |
+
+##### `enqueueResolverTask(TowerGroup, Function1)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`)
+
+| Change | Delta |             % | Samples | Location                                                              |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager:59` |
+
+##### `loadExtensionReceiverParameterAnnotations(DeserializedContainerSource, MessageLite, NameResolver, TypeTable, AnnotationDeserializer$CallableKind)` (`org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer`)
+
+| Change | Delta |             % | Samples | Location                                                                            |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer:340` |
+
+##### `rigidType(ProtoBuf$Type, ConeAttributes)` (`org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer`)
+
+| Change | Delta |             % | Samples | Location                                                           |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer:214` |
+
+##### `exitJump(FirJump)` (`org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder`)
+
+| Change | Delta |             % | Samples | Location                                                               |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder:983` |
+
+##### `<init>(TypeVariableMarker)` (`org.jetbrains.kotlin.fir.resolve.inference.model.ConeFixVariableConstraintPosition`)
+
+| Change | Delta |             % | Samples | Location                                                                                |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.fir.resolve.inference.model.ConeFixVariableConstraintPosition:26` |
+
+##### `findClass(JavaClassFinder$Request)` (`org.jetbrains.kotlin.load.java.JavaClassFinderImpl`)
+
+| Change | Delta |             % | Samples | Location                                                |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.load.java.JavaClassFinderImpl:49` |
+
+##### `parsePartialFrom(InputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.protobuf.AbstractParser`)
+
+|  Change | Delta |             % | Samples | Location                                           |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.protobuf.AbstractParser:192` |
+
+##### `mark()` (`com.intellij.lang.impl.PsiBuilderImpl`)
+
+|  Change | Delta |             % | Samples | Location                                    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `com.intellij.lang.impl.PsiBuilderImpl:883` |
+
+##### `processLegacyContractDescription(FirBlock, ConeDiagnostic)` (`org.jetbrains.kotlin.fir.builder.ConversionUtilsKt`)
+
+|  Change | Delta |             % | Samples | Location                                                 |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.builder.ConversionUtilsKt:545` |
+
+##### `parseAnnotation(KotlinParsing$AnnotationParsingMode)` (`org.jetbrains.kotlin.parsing.KotlinParsing`)
+
+|  Change | Delta |             % | Samples | Location                                         |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.parsing.KotlinParsing:948` |
+
+##### `<init>(KotlinJvmBinaryClass, byte[])` (`org.jetbrains.kotlin.load.kotlin.KotlinClassFinder$Result$KotlinClass`)
+
+|  Change | Delta |             % | Samples | Location                                                                   |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.load.kotlin.KotlinClassFinder$Result$KotlinClass:32` |
+
+##### `ensureResolvedTypeDeclaration(ConeKotlinType, FirSession, FirResolvePhase)` (`org.jetbrains.kotlin.fir.resolve.transformers.PhaseUtilsKt`)
+
+|  Change | Delta |             % | Samples | Location                                                        |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.transformers.PhaseUtilsKt:25` |
+
+##### `prepareQualifiedTransform(FirQualifiedAccessExpression, FirNamedReferenceWithCandidate)` (`org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer`)
+
+|  Change | Delta |             % | Samples | Location                                                                                      |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer:193` |
+
+##### `size()` (`org.jetbrains.kotlin.utils.SmartList`)
+
+|  Change | Delta |             % | Samples | Location                                   |
+| ------: | ----: | ------------: | ------: | ------------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.utils.SmartList:142` |
+
+##### `processNonLambdaArgument(ConeResolutionAtom, boolean)` (`org.jetbrains.kotlin.fir.resolve.calls.stages.FirCallArgumentsProcessor`)
+
+|  Change | Delta |             % | Samples | Location                                                                      |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.calls.stages.FirCallArgumentsProcessor:169` |
+
+##### `isPreRelease()` (`org.jetbrains.kotlin.load.kotlin.header.KotlinClassHeader`)
+
+|  Change | Delta |             % | Samples | Location                                                       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.load.kotlin.header.KotlinClassHeader:65` |
+
+##### `equals(Object)` (`org.jetbrains.kotlin.fir.types.ConeLookupTagBasedType`)
+
+|  Change | Delta |             % | Samples | Location                                                    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.types.ConeLookupTagBasedType:114` |
+
+##### `<init>(ControlFlowGraph, FirFunctionCall, CFGNode, int)` (`org.jetbrains.kotlin.fir.resolve.dfa.cfg.FunctionCallArgumentsExitNode`)
+
+|  Change | Delta |             % | Samples | Location                                                                     |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.FunctionCallArgumentsExitNode:795` |
+
+##### `enterCallArguments(FirStatement, List)` (`org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer`)
+
+|  Change | Delta |             % | Samples | Location                                                        |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer:1060` |
+
+##### `getMayHaveSyntheticFunctionTypes()` (`org.jetbrains.kotlin.fir.resolve.providers.FirSymbolNamesProvider`)
+
+|  Change | Delta |             % | Samples | Location                                                               |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.providers.FirSymbolNamesProvider:93` |
+
+##### `interceptTowerGroup(TowerGroup)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.InvokeReceiverResolveTask`)
+
+|  Change | Delta |             % | Samples | Location                                                                     |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.calls.tower.InvokeReceiverResolveTask:443` |
+
+##### `getLanguageVersionSettings(FirSession)` (`org.jetbrains.kotlin.fir.FirLanguageSettingsComponentKt`)
+
+|  Change | Delta |             % | Samples | Location                                                     |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.FirLanguageSettingsComponentKt:19` |
+
+##### `getSubGraphs()` (`org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraph`)
+
+|  Change | Delta |             % | Samples | Location                                                       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraph:27` |
+
+##### `asDefinitelyNotNullType(RigidTypeMarker)` (`org.jetbrains.kotlin.fir.types.ConeTypeContext`)
+
+|  Change | Delta |             % | Samples | Location                                             |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.types.ConeTypeContext:128` |
+
+##### `isMarkedNullable(ConeKotlinType)` (`org.jetbrains.kotlin.fir.types.ConeTypeUtilsKt`)
+
+|  Change | Delta |             % | Samples | Location                                            |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.types.ConeTypeUtilsKt:45` |
+
+##### `toClassSymbol(ConeClassLikeLookupTag, FirSession)` (`org.jetbrains.kotlin.fir.resolve.ToSymbolUtilsKt`)
+
+|  Change | Delta |             % | Samples | Location                                              |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `org.jetbrains.kotlin.fir.resolve.ToSymbolUtilsKt:93` |
+
 ### Total samples
 
 #### Regressions

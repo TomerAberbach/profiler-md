@@ -48,6 +48,53 @@ Functions with the largest decrease in time blocked directly in the function bod
 | removed | -0.02ms |  1.1% → 0.0% |   18.1µs → 0ms |       1 → 0 | `getDeclaredMethods0(boolean)`              | `java.lang.Class`                                   |
 |  -19.6% | -0.01ms |  3.6% → 0.6% | 0.1ms → 47.3µs |           1 | `walkFileTree(Path, Set, int, FileVisitor)` | `java.nio.file.Files`                               |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
+
+|  Change |   Delta |      % |          Time | Contentions | Location                    |
+| ------: | ------: | -----: | ------------: | ----------: | --------------------------- |
+| +622.5% | +6.53ms | 100.0% | 1.0ms → 7.6ms |           4 | `java.lang.ClassLoader:573` |
+
+##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change |   Delta |             % |        Time | Contentions | Location                                                   |
+| -----: | ------: | ------------: | ----------: | ----------: | ---------------------------------------------------------- |
+|    new | +0.09ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 1 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:332` |
+
+##### `<init>()` (`java.util.concurrent.locks.ReentrantReadWriteLock$Sync`)
+
+| Change |   Delta |             % |        Time | Contentions | Location                                                     |
+| -----: | ------: | ------------: | ----------: | ----------: | ------------------------------------------------------------ |
+|    new | +0.01ms | 0.0% → 100.0% | 0ms → 5.1µs |       0 → 1 | `java.util.concurrent.locks.ReentrantReadWriteLock$Sync:339` |
+
+##### `loadClassOrNull(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+| Change |   Delta |      % |          Time | Contentions | Location                                     |
+| -----: | ------: | -----: | ------------: | ----------: | -------------------------------------------- |
+| -43.8% | -0.17ms | 100.0% | 0.4ms → 0.2ms |       2 → 1 | `jdk.internal.loader.BuiltinClassLoader:651` |
+
+##### `<init>(boolean)` (`java.util.concurrent.locks.ReentrantReadWriteLock`)
+
+|  Change |   Delta |              % |           Time | Contentions | Location                                                |
+| ------: | ------: | -------------: | -------------: | ----------: | ------------------------------------------------------- |
+| removed | -0.02ms |   30.9% → 0.0% |   22.4µs → 0ms |       1 → 0 | `java.util.concurrent.locks.ReentrantReadWriteLock:242` |
+|  -37.4% | -0.02ms | 69.1% → 100.0% | 0.1ms → 31.3µs |           1 | `java.util.concurrent.locks.ReentrantReadWriteLock:241` |
+
+##### `iterator(DirectoryStream)` (`sun.nio.fs.UnixDirectoryStream`)
+
+|  Change |   Delta |             % |         Time | Contentions | Location                             |
+| ------: | ------: | ------------: | -----------: | ----------: | ------------------------------------ |
+| removed | -0.02ms | 100.0% → 0.0% | 23.7µs → 0ms |       1 → 0 | `sun.nio.fs.UnixDirectoryStream:119` |
+
+##### `walkFileTree(Path, Set, int, FileVisitor)` (`java.nio.file.Files`)
+
+| Change |   Delta |      % |           Time | Contentions | Location                   |
+| -----: | ------: | -----: | -------------: | ----------: | -------------------------- |
+| -19.6% | -0.01ms | 100.0% | 0.1ms → 47.3µs |           1 | `java.nio.file.Files:2791` |
+
 ### Total time
 
 #### Regressions

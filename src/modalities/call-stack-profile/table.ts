@@ -95,28 +95,23 @@ export const functionColumns = (
   },
 ]
 
-export type LineRow = MeasureRow & { line: number }
+/** A row for one of {@link func}'s lines. */
+export type LineRow = MeasureRow & { func: NamedFunction; line: number }
 
 /**
  * The {@link measureColumns} followed by a `Location` column resolving each
- * line against {@link func}'s location.
+ * line against its function's location.
  */
 export const lineColumns = (
   measure: MeasureColumns,
-  func: NamedFunction,
   options: FormattingProfileToMdOptions,
 ): Table<LineRow> => [
   ...measureColumns(measure),
   {
     header: `Location`,
-    cellOf: ({ line }) =>
+    cellOf: ({ func, line }) =>
       func.location
-        ? codeCell(
-            formatSourceLocation(
-              { ...func.location, line, column: undefined },
-              options,
-            ),
-          )
+        ? locationCell({ ...func.location, line, column: undefined }, options)
         : textCell(String(line)),
   },
 ]

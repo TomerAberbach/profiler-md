@@ -7,6 +7,7 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../options.ts'
+import { functionIdentityForContext } from '../origins/index.ts'
 
 /**
  * A pairing of base and current data for an entity matched across the two
@@ -16,6 +17,12 @@ import type {
 export type Diff<Value> = {
   base?: Value
   current?: Value
+}
+
+/** The two sides of a diff, each stating the context it was aggregated under. */
+export type DiffSides = {
+  base: { context: ProfileToMdContext }
+  current: { context: ProfileToMdContext }
 }
 
 /** An entry matchable across the two sides of a diff by name and location. */
@@ -384,7 +391,7 @@ const groupByPosition = (
  *
  * Measured with `pnpm evaluate-diff-matching` against a cost of 3.5 without
  * pairing by anchors, the precision on the committed version changes rises
- * from 99.4% to 99.9%, and on the synthetic edits from 96.3% to 99.8%. Recall
+ * from 99.4% to 99.9%, and on the synthetic edits from 96.5% to 99.8%. Recall
  * changes by at most 0.1% on both. A cost of 4.5 without pairing by anchors
  * scores the same precision, but recall falls to 99.1% and 96.1%.
  */
@@ -648,6 +655,320 @@ const inGroupOrder = <Entry>(
     }
   }
   return diffs
+}
+
+/** A function whose executing lines a diff pairs. */
+type LineDiffableFunction<Metrics> = {
+  location?: SourceLocation
+  lineToMetrics: ReadonlyMap<number, Metrics>
+}
+
+/** An executing line and its metrics on one side of a diff. */
+export type DiffedLine<Metrics> = { line: number; metrics: Metrics }
+
+/** A diff's two sides, with the functions whose executing lines it pairs. */
+export type LineDiffSides<Metrics> = {
+  [Side in keyof DiffSides]: DiffSides[Side] & {
+    functions: readonly LineDiffableFunction<Metrics>[]
+  }
+}
+
+/** Pairs the executing lines of a function matched across a diff's two sides. */
+export type LineMatcher<Metrics> = (
+  func: Diff<LineDiffableFunction<Metrics>>,
+) => Diff<DiffedLine<Metrics>>[]
+
+/**
+ * Returns a function that pairs the executing lines of a function matched
+ * across the diff's two sides.
+ *
+ * When both sides identify the function by its definition line, each line's
+ * position is its distance from that line, so an edit above the function that
+ * moved it as a whole moves none of its lines, and the function's lines are
+ * paired by {@link pairLines}.
+ *
+ * When either side has no definition line, an edit anywhere above a line moves
+ * it, and one function has too few sampled lines to tell an edit's offset from
+ * a coincidence. Every sampled line of the function's file on each side is
+ * then paired by {@link pairLines}, and the function's lines pair where those
+ * file lines do. A line before the definition line that its distance from the
+ * definition line leaves unpaired pairs the same way, because it is outside the
+ * function's body and moves with its own part of the file. V8 records such a
+ * line under a caller's frame when it inlines a callee. The line's distance
+ * pairs it first, because a profiler can report a different definition line
+ * for one function in each run, as PProf.jl does for macro-expanded code, and
+ * then the function's lines move together by the difference.
+ *
+ * A function with no source reference has its own lines paired by
+ * {@link pairLines}.
+ *
+ * A line that is not a finite number stays unpaired. The returned diffs list
+ * the base lines in order, then the unpaired current lines in order.
+ */
+export const lineMatcher = <Metrics>(
+  sides: LineDiffSides<Metrics>,
+): LineMatcher<Metrics> => {
+  const fileLinePairsOf = fileLineAligner(sides)
+  return ({ base, current }) => {
+    const baseLines = sortedLines(base)
+    const currentLines = sortedLines(current)
+    const anchors = definitionLinesOf(base, current, sides)
+    const files =
+      base?.location &&
+      current?.location &&
+      baseLines.finite.length > 0 &&
+      currentLines.finite.length > 0
+        ? { base: base.location, current: current.location }
+        : undefined
+    const pairs =
+      !anchors && files
+        ? new Int32Array(baseLines.finite.length).fill(-1)
+        : pairByDistance(
+            { lines: baseLines, from: anchors?.base ?? 0 },
+            { lines: currentLines, from: anchors?.current ?? 0 },
+          )
+    const isPairedCurrent = pairedCurrentFlags(
+      pairs,
+      currentLines.finite.length,
+    )
+    if (files) {
+      pairByFile(
+        { base: baseLines, current: currentLines },
+        () => fileLinePairsOf(files.base, files.current),
+        { pairs, isPairedCurrent },
+        anchors?.base,
+      )
+    }
+    return lineDiffs(baseLines, currentLines, pairs, isPairedCurrent)
+  }
+}
+
+/**
+ * Pairs two sides' finite lines by their distance from a line on each side,
+ * returning the index of the current line paired with each base line, or `-1`.
+ */
+const pairByDistance = (
+  base: { lines: SortedLines<unknown>; from: number },
+  current: { lines: SortedLines<unknown>; from: number },
+): Int32Array =>
+  pairLines(
+    base.lines.finite.map(({ line }) => line - base.from),
+    current.lines.finite.map(({ line }) => line - current.from),
+  )
+
+/**
+ * Returns a function that pairs each sampled line of a base file with the
+ * current file's line it aligns with, aligning every sampled line of each pair
+ * of files once.
+ */
+const fileLineAligner = <Metrics>(
+  sides: LineDiffSides<Metrics>,
+): ((
+  baseLocation: SourceLocation,
+  currentLocation: SourceLocation,
+) => Map<number, number>) => {
+  let fileLines:
+    { base: Map<string, number[]>; current: Map<string, number[]> } | undefined
+  const fileLinePairs = new Map<string, Map<number, number>>()
+  return (baseLocation, currentLocation) => {
+    const baseFile = sourceKeyOf(baseLocation)
+    const currentFile = sourceKeyOf(currentLocation)
+    const key = `${baseFile}\0${currentFile}`
+    let linePairs = fileLinePairs.get(key)
+    if (!linePairs) {
+      fileLines ??= {
+        base: sortedFileLines(sides.base.functions),
+        current: sortedFileLines(sides.current.functions),
+      }
+      const base = fileLines.base.get(baseFile)!
+      const current = fileLines.current.get(currentFile)!
+      const pairs = pairLines(base, current)
+      linePairs = new Map()
+      for (let index = 0; index < pairs.length; index++) {
+        if (pairs[index] !== -1) {
+          linePairs.set(base[index]!, current[pairs[index]!]!)
+        }
+      }
+      fileLinePairs.set(key, linePairs)
+    }
+    return linePairs
+  }
+}
+
+/**
+ * Pairs each finite base line left unpaired before {@link endLine} with the
+ * current line its file's alignment pairs it with, where that line is unpaired
+ * too, and updates the pairs and the current lines' flags. It aligns the file
+ * only when such a line exists.
+ */
+const pairByFile = (
+  lines: { base: SortedLines<unknown>; current: SortedLines<unknown> },
+  fileLinePairsOf: () => Map<number, number>,
+  {
+    pairs,
+    isPairedCurrent,
+  }: { pairs: Int32Array; isPairedCurrent: Uint8Array },
+  endLine = Infinity,
+) => {
+  if (!isPairedCurrent.includes(0)) {
+    return
+  }
+  let linePairs: Map<number, number> | undefined
+  let currentIndexes: Map<number, number> | undefined
+  for (let index = 0; index < pairs.length; index++) {
+    const { line } = lines.base.finite[index]!
+    if (pairs[index] !== -1 || line >= endLine) {
+      continue
+    }
+    linePairs ??= fileLinePairsOf()
+    currentIndexes ??= new Map(
+      lines.current.finite.map((currentLine, currentIndex) => [
+        currentLine.line,
+        currentIndex,
+      ]),
+    )
+    const pairedLine = linePairs.get(line)
+    const pair =
+      pairedLine === undefined ? undefined : currentIndexes.get(pairedLine)
+    if (pair !== undefined && !isPairedCurrent[pair]) {
+      pairs[index] = pair
+      isPairedCurrent[pair] = 1
+    }
+  }
+}
+
+/** The sorted distinct finite executing lines of each source reference's functions. */
+const sortedFileLines = (
+  functions: readonly LineDiffableFunction<unknown>[],
+): Map<string, number[]> => {
+  const fileLines = new Map<string, Set<number>>()
+  for (const func of functions) {
+    if (!func.location) {
+      continue
+    }
+    const file = sourceKeyOf(func.location)
+    let lines = fileLines.get(file)
+    if (!lines) {
+      lines = new Set()
+      fileLines.set(file, lines)
+    }
+    for (const line of func.lineToMetrics.keys()) {
+      if (Number.isFinite(line)) {
+        lines.add(line)
+      }
+    }
+  }
+  return new Map(
+    [...fileLines].map(([file, lines]) => [
+      file,
+      [...lines].sort((left, right) => left - right),
+    ]),
+  )
+}
+
+/**
+ * The diffs of a function's lines given {@link pairs}, the index of the current
+ * line paired with each finite base line or `-1`, and {@link isPairedCurrent},
+ * the flags of the current lines they pair.
+ */
+const lineDiffs = <Metrics>(
+  baseLines: SortedLines<Metrics>,
+  currentLines: SortedLines<Metrics>,
+  pairs: Int32Array,
+  isPairedCurrent: Uint8Array,
+): Diff<DiffedLine<Metrics>>[] => {
+  const diffs: Diff<DiffedLine<Metrics>>[] = []
+  for (let index = 0; index < pairs.length; index++) {
+    const pair = pairs[index]!
+    diffs.push({
+      base: baseLines.finite[index]!,
+      current: pair === -1 ? undefined : currentLines.finite[pair],
+    })
+  }
+  for (const line of baseLines.nonFinite) {
+    diffs.push({ base: line })
+  }
+  for (let index = 0; index < currentLines.finite.length; index++) {
+    if (!isPairedCurrent[index]) {
+      diffs.push({ current: currentLines.finite[index]! })
+    }
+  }
+  for (const line of currentLines.nonFinite) {
+    diffs.push({ current: line })
+  }
+  return diffs
+}
+
+/**
+ * The cost {@link pairLines} gives a change of offset, against the alignment's
+ * `UNPAIRED_COST` of 2 per unpaired line.
+ *
+ * A line is often sampled in one run only, so a few lines at a new offset are
+ * more often different lines than lines an edit moved. A run of lines at a new
+ * offset inside a function or file costs two changes, so it pairs only when it
+ * pairs at least 5 lines on each side, and a run that ends the lines at least
+ * 3. Lines at equal positions pair without a change, so a run must also
+ * outweigh the equal positions it crosses.
+ *
+ * Measured with `pnpm evaluate-diff-matching` on the committed version
+ * changes, this pairs 97.6% of the lines with their counterparts at 99.6%
+ * precision, and 11.5 scores the same. A cost of 3.5 pairs 98.0% at 93.9%, and
+ * 83.9% precision on the pairs that profile the same code twice. 7.5 pairs
+ * 98.4% at 99.3%, but 99.0% precision on the same code, and 15.5 pairs 96.3%
+ * at 99.4%.
+ */
+const LINE_OFFSET_CHANGE_COST = 9.5
+
+/** Pairs two strictly increasing lists of line positions. */
+const pairLines = (base: number[], current: number[]): Int32Array =>
+  alignPositions(base, current, { offsetChangeCost: LINE_OFFSET_CHANGE_COST })
+
+type SortedLines<Metrics> = {
+  finite: DiffedLine<Metrics>[]
+  nonFinite: DiffedLine<Metrics>[]
+}
+
+const sortedLines = <Metrics>(
+  func: LineDiffableFunction<Metrics> | undefined,
+): SortedLines<Metrics> => {
+  const finite: DiffedLine<Metrics>[] = []
+  const nonFinite: DiffedLine<Metrics>[] = []
+  for (const [line, metrics] of func?.lineToMetrics ?? []) {
+    ;(Number.isFinite(line) ? finite : nonFinite).push({ line, metrics })
+  }
+  finite.sort((left, right) => left.line - right.line)
+  return { finite, nonFinite }
+}
+
+/**
+ * The lines a function matched across a diff's two sides is defined at, or
+ * `undefined` when either side's isn't known.
+ */
+const definitionLinesOf = (
+  base: LineDiffableFunction<unknown> | undefined,
+  current: LineDiffableFunction<unknown> | undefined,
+  sides: DiffSides,
+): { base: number; current: number } | undefined => {
+  const baseLine = definitionLineOf(base, sides.base.context)
+  const currentLine = definitionLineOf(current, sides.current.context)
+  return baseLine === undefined || currentLine === undefined
+    ? undefined
+    : { base: baseLine, current: currentLine }
+}
+
+/**
+ * The line a function is defined at, or `undefined` when its location is its
+ * call site or has no finite line.
+ */
+const definitionLineOf = (
+  func: LineDiffableFunction<unknown> | undefined,
+  context: ProfileToMdContext,
+): number | undefined => {
+  const line = func?.location?.line
+  return Number.isFinite(line) &&
+    functionIdentityForContext(context) === `definition`
+    ? line
+    : undefined
 }
 
 /**

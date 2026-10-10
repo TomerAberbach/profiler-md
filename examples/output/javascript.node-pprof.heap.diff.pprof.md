@@ -117,6 +117,275 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | removed |       -1 MiB | 0.1% → 0.0% |        1 MiB → 0 B |         5,901 → 0 | `replace`  | `<unknown>`   |
 |  -50.0% | -512.015 KiB |        0.1% |    1 MiB → 512 KiB |   43,692 → 21,846 | `toString` | `<unknown>`   |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self size.
+
+##### `instantiateSymbol` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |       Delta |      % |                Size |           Objects | Location                                                  |
+| ------: | ----------: | -----: | ------------------: | ----------------: | --------------------------------------------------------- |
+| +232.6% | +50.008 MiB | 100.0% | 21.5 MiB → 71.5 MiB | 108,403 → 360,505 | `node_modules/typescript/lib/typescript.js:64758 → 66013` |
+
+##### `readFile` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |       Delta |             % |           Size | Objects | Location                                           |
+| -----: | ----------: | ------------: | -------------: | ------: | -------------------------------------------------- |
+|    new | +12.677 MiB | 0.0% → 100.0% | 0 B → 12.7 MiB | 0 → 718 | `node_modules/typescript/lib/typescript.js:123140` |
+
+##### `parseIdentifierName` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |      % |                Size |           Objects | Location                                                  |
+| -----: | ---------: | -----: | ------------------: | ----------------: | --------------------------------------------------------- |
+| +69.6% | +8.001 MiB | 100.0% | 11.5 MiB → 19.5 MiB | 100,506 → 170,424 | `node_modules/typescript/lib/typescript.js:32324 → 33379` |
+
+##### `createPropertyAccessExpression` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |    Delta |             % |          Size |    Objects | Location                                          |
+| -----: | -------: | ------------: | ------------: | ---------: | ------------------------------------------------- |
+|    new | +4.5 MiB | 0.0% → 100.0% | 0 B → 4.5 MiB | 0 → 28,089 | `node_modules/typescript/lib/typescript.js:25873` |
+
+##### `checkTypeRelatedTo` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |      % |                Size |       Objects | Location                                                  |
+| -----: | ---------: | -----: | ------------------: | ------------: | --------------------------------------------------------- |
+| +87.2% | +3.502 MiB | 100.0% | 4.01 MiB → 7.52 MiB | 2,086 → 6,231 | `node_modules/typescript/lib/typescript.js:66185 → 67445` |
+
+##### `createBaseCallExpression` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |    Objects | Location                                          |
+| -----: | -----: | ------------: | ----------: | ---------: | ------------------------------------------------- |
+|    new | +3 MiB | 0.0% → 100.0% | 0 B → 3 MiB | 0 → 18,727 | `node_modules/typescript/lib/typescript.js:25963` |
+
+##### `getConditionalTypeInstantiation` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |    Delta |      % |            Size |         Objects | Location                                                  |
+| ------: | -------: | -----: | --------------: | --------------: | --------------------------------------------------------- |
+| +125.0% | +2.5 MiB | 100.0% | 2 MiB → 4.5 MiB | 45,131 → 64,393 | `node_modules/typescript/lib/typescript.js:64979 → 66239` |
+
+##### `parseDeclarationWorker` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |    Objects | Location                                          |
+| -----: | -----: | ------------: | ----------: | ---------: | ------------------------------------------------- |
+|    new | +2 MiB | 0.0% → 100.0% | 0 B → 2 MiB | 0 → 12,485 | `node_modules/typescript/lib/typescript.js:37124` |
+
+##### `getResolvedMembersOrExportsOfSymbol` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |      Delta |      % |               Size |         Objects | Location                                                  |
+| ------: | ---------: | -----: | -----------------: | --------------: | --------------------------------------------------------- |
+| +323.6% | +1.618 MiB | 100.0% | 512 KiB → 2.12 MiB | 13,108 → 16,624 | `node_modules/typescript/lib/typescript.js:59124 → 60379` |
+
+##### `(anonymous)` (`node_modules/typescript/lib/typescript.js:16:15`)
+
+|  Change |      Delta |      % |            Size |        Objects | Location                                       |
+| ------: | ---------: | -----: | --------------: | -------------: | ---------------------------------------------- |
+| +300.5% | +1.502 MiB | 100.0% | 512 KiB → 2 MiB | 8,193 → 31,469 | `node_modules/typescript/lib/typescript.js:16` |
+
+##### `createJSDocComment` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |    Delta |             % |          Size |   Objects | Location                                          |
+| -----: | -------: | ------------: | ------------: | --------: | ------------------------------------------------- |
+|    new | +1.5 MiB | 0.0% → 100.0% | 0 B → 1.5 MiB | 0 → 9,363 | `node_modules/typescript/lib/typescript.js:27341` |
+
+##### `bindWorker` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |             % |        Size | Objects | Location                                          |
+| -----: | ---------: | ------------: | ----------: | ------: | ------------------------------------------------- |
+|    new | +1.004 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 395 | `node_modules/typescript/lib/typescript.js:47856` |
+
+##### `resolveStructuredTypeMembers` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |             % |        Size | Objects | Location                                          |
+| -----: | ---------: | ------------: | ----------: | ------: | ------------------------------------------------- |
+|    new | +1.003 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 301 | `node_modules/typescript/lib/typescript.js:61345` |
+
+##### `getTypeFactsWorker` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |    Objects | Location                                          |
+| -----: | -----: | ------------: | ----------: | ---------: | ------------------------------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 15,157 | `node_modules/typescript/lib/typescript.js:72224` |
+
+##### `createMethodDeclaration` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |   Objects | Location                                          |
+| -----: | -----: | ------------: | ----------: | --------: | ------------------------------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 6,243 | `node_modules/typescript/lib/typescript.js:25327` |
+
+##### `map` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |   Objects | Location                                         |
+| -----: | -----: | ------------: | ----------: | --------: | ------------------------------------------------ |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 6,900 | `node_modules/typescript/lib/typescript.js:2580` |
+
+##### `createIndexedAccessType` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |  Delta |      % |              Size |        Objects | Location                                                  |
+| ------: | -----: | -----: | ----------------: | -------------: | --------------------------------------------------------- |
+| +200.0% | +1 MiB | 100.0% | 512 KiB → 1.5 MiB | 4,682 → 14,046 | `node_modules/typescript/lib/typescript.js:63504 → 64759` |
+
+##### `createNumericLiteral` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |      % |              Size |        Objects | Location                                                  |
+| -----: | -----: | -----: | ----------------: | -------------: | --------------------------------------------------------- |
+| +66.7% | +1 MiB | 100.0% | 1.5 MiB → 2.5 MiB | 9,364 → 15,606 | `node_modules/typescript/lib/typescript.js:23838 → 24888` |
+
+##### `createTupleTargetType` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |    Objects | Location                                          |
+| -----: | -----: | ------------: | ----------: | ---------: | ------------------------------------------------- |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 20,390 | `node_modules/typescript/lib/typescript.js:63741` |
+
+##### `multiMapAdd` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |             % |        Size |    Objects | Location                                         |
+| -----: | -----: | ------------: | ----------: | ---------: | ------------------------------------------------ |
+|    new | +1 MiB | 0.0% → 100.0% | 0 B → 1 MiB | 0 → 21,846 | `node_modules/typescript/lib/typescript.js:3303` |
+
+##### `wrapSafe` (`node:internal/modules/cjs/loader`)
+
+| Change |       Delta |      % |             Size |         Objects | Location                                |
+| -----: | ----------: | -----: | ---------------: | --------------: | --------------------------------------- |
+|  +5.2% | +160.71 KiB | 100.0% | 3 MiB → 3.16 MiB | 84,655 → 58,610 | `node:internal/modules/cjs/loader:1671` |
+
+##### `readFileSync` (`node:fs`)
+
+| Change |        Delta |      % |                Size | Objects | Location      |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------- |
+|  +1.3% | +110.078 KiB | 100.0% | 8.27 MiB → 8.37 MiB |       1 | `node:fs:433` |
+
+##### `createInstantiatedSymbolTable` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |        Delta |             % |          Size |     Objects | Location                                          |
+| ------: | -----------: | ------------: | ------------: | ----------: | ------------------------------------------------- |
+| removed | -116.019 MiB | 100.0% → 0.0% | 116 MiB → 0 B | 584,879 → 0 | `node_modules/typescript/lib/typescript.js:59020` |
+
+##### `parseTypeReference` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |       Delta |             % |           Size |     Objects | Location                                          |
+| ------: | ----------: | ------------: | -------------: | ----------: | ------------------------------------------------- |
+| removed | -25.503 MiB | 100.0% → 0.0% | 25.5 MiB → 0 B | 159,182 → 0 | `node_modules/typescript/lib/typescript.js:33132` |
+
+##### `declareSymbol` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |       Delta |      % |              Size |           Objects | Location                                                  |
+| -----: | ----------: | -----: | ----------------: | ----------------: | --------------------------------------------------------- |
+| -54.8% | -25.503 MiB | 100.0% | 46.5 MiB → 21 MiB | 485,246 → 206,000 | `node_modules/typescript/lib/typescript.js:44997 → 46190` |
+
+##### `createBaseNode` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |       Delta |      % |                Size |           Objects | Location                                                  |
+| -----: | ----------: | -----: | ------------------: | ----------------: | --------------------------------------------------------- |
+| -45.7% | -24.003 MiB | 100.0% | 52.5 MiB → 28.5 MiB | 327,722 → 177,904 | `node_modules/typescript/lib/typescript.js:31416 → 32468` |
+
+##### `createIdentifier` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |       Delta |      % |              Size |           Objects | Location                                                  |
+| -----: | ----------: | -----: | ----------------: | ----------------: | --------------------------------------------------------- |
+| -54.0% | -13.502 MiB | 100.0% | 25 MiB → 11.5 MiB | 218,493 → 100,508 | `node_modules/typescript/lib/typescript.js:32283 → 33338` |
+
+##### `createBaseIdentifierNode` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |       Delta |      % |             Size |         Objects | Location                                                  |
+| -----: | ----------: | -----: | ---------------: | --------------: | --------------------------------------------------------- |
+| -96.4% | -13.502 MiB | 100.0% | 14 MiB → 512 KiB | 122,355 → 4,370 | `node_modules/typescript/lib/typescript.js:31395 → 32447` |
+
+##### `(anonymous)` (`node_modules/typescript/lib/typescript.js:53728:21`)
+
+| Change |       Delta |      % |             Size |          Objects | Location                                                  |
+| -----: | ----------: | -----: | ---------------: | ---------------: | --------------------------------------------------------- |
+| -59.5% | -12.504 MiB | 100.0% | 21 MiB → 8.5 MiB | 146,423 → 69,217 | `node_modules/typescript/lib/typescript.js:52487 → 53728` |
+
+##### `slice` (`node:buffer`)
+
+| Change |       Delta |      % |               Size | Objects | Location          |
+| -----: | ----------: | -----: | -----------------: | ------: | ----------------- |
+| -95.3% | -11.892 MiB | 100.0% | 12.5 MiB → 601 KiB | 326 → 2 | `node:buffer:640` |
+
+##### `parseNonArrayType` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |       Delta |      % |             Size |          Objects | Location                                                  |
+| -----: | ----------: | -----: | ---------------: | ---------------: | --------------------------------------------------------- |
+| -60.0% | -10.501 MiB | 100.0% | 17.5 MiB → 7 MiB | 109,242 → 43,697 | `node_modules/typescript/lib/typescript.js:33781 → 34836` |
+
+##### `instantiateAnonymousType` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |   Delta |      % |                Size |           Objects | Location                                                  |
+| -----: | ------: | -----: | ------------------: | ----------------: | --------------------------------------------------------- |
+| -36.4% | -10 MiB | 100.0% | 27.5 MiB → 17.5 MiB | 220,254 → 137,037 | `node_modules/typescript/lib/typescript.js:64955 → 66215` |
+
+##### `instantiateTypes` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |      % |                Size |          Objects | Location                                                  |
+| -----: | ---------: | -----: | ------------------: | ---------------: | --------------------------------------------------------- |
+| -54.0% | -9.996 MiB | 100.0% | 18.5 MiB → 8.51 MiB | 163,869 → 67,532 | `node_modules/typescript/lib/typescript.js:64640 → 65895` |
+
+##### `toString` (`node:buffer`)
+
+|  Change |     Delta |             % |           Size | Objects | Location          |
+| ------: | --------: | ------------: | -------------: | ------: | ----------------- |
+| removed | -9.91 MiB | 100.0% → 0.0% | 9.91 MiB → 0 B | 309 → 0 | `node:buffer:839` |
+
+##### `createBaseTokenNode` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |    Delta |      % |             Size |          Objects | Location                                                  |
+| -----: | -------: | -----: | ---------------: | ---------------: | --------------------------------------------------------- |
+| -55.9% | -9.5 MiB | 100.0% | 17 MiB → 7.5 MiB | 202,577 → 89,371 | `node_modules/typescript/lib/typescript.js:31409 → 32461` |
+
+##### `createNormalizedTypeReference` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |      % |               Size |          Objects | Location                                                  |
+| -----: | -----: | -----: | -----------------: | ---------------: | --------------------------------------------------------- |
+| -56.0% | -7 MiB | 100.0% | 12.5 MiB → 5.5 MiB | 120,157 → 86,394 | `node_modules/typescript/lib/typescript.js:62541 → 63796` |
+
+##### `createCallExpression` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |  Delta |             % |        Size |    Objects | Location                                          |
+| ------: | -----: | ------------: | ----------: | ---------: | ------------------------------------------------- |
+| removed | -6 MiB | 100.0% → 0.0% | 6 MiB → 0 B | 37,454 → 0 | `node_modules/typescript/lib/typescript.js:24928` |
+
+##### `getObjectTypeInstantiation` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |      % |               Size |           Objects | Location                                                  |
+| -----: | ---------: | -----: | -----------------: | ----------------: | --------------------------------------------------------- |
+| -44.4% | -5.999 MiB | 100.0% | 13.5 MiB → 7.5 MiB | 196,801 → 118,500 | `node_modules/typescript/lib/typescript.js:64785 → 66040` |
+
+##### `createNodeArray` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |    Delta |      % |             Size |           Objects | Location                                                  |
+| -----: | -------: | -----: | ---------------: | ----------------: | --------------------------------------------------------- |
+| -50.0% | -5.5 MiB | 100.0% | 11 MiB → 5.5 MiB | 286,194 → 141,459 | `node_modules/typescript/lib/typescript.js:32232 → 33287` |
+
+##### `resolveTypeReferenceMembers` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |    Delta |      % |            Size |          Objects | Location                                                  |
+| -----: | -------: | -----: | --------------: | ---------------: | --------------------------------------------------------- |
+| -68.8% | -5.5 MiB | 100.0% | 8 MiB → 2.5 MiB | 100,510 → 14,683 | `node_modules/typescript/lib/typescript.js:59264 → 60519` |
+
+##### `recursiveTypeRelatedTo` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |  Delta |      % |          Size |          Objects | Location                                                  |
+| -----: | -----: | -----: | ------------: | ---------------: | --------------------------------------------------------- |
+| -71.4% | -5 MiB | 100.0% | 7 MiB → 2 MiB | 243,042 → 71,001 | `node_modules/typescript/lib/typescript.js:67063 → 68323` |
+
+##### `scan` (`node_modules/typescript/lib/typescript.js`)
+
+|  Change |        Delta |             % |          Size |     Objects | Location                                          |
+| ------: | -----------: | ------------: | ------------: | ----------: | ------------------------------------------------- |
+| removed |     -5.5 MiB | 100.0% → 0.0% | 5.5 MiB → 0 B | 196,618 → 0 | `node_modules/typescript/lib/typescript.js:12765` |
+|     new | +512.031 KiB | 0.0% → 100.0% | 0 B → 512 KiB |  0 → 16,385 | `node_modules/typescript/lib/typescript.js:12895` |
+
+##### `getResolvedSymbol` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |      Delta |      % |                Size | Objects | Location                                                  |
+| -----: | ---------: | -----: | ------------------: | ------: | --------------------------------------------------------- |
+| -27.4% | -4.703 MiB | 100.0% | 17.2 MiB → 12.5 MiB |  32,776 | `node_modules/typescript/lib/typescript.js:70627 → 71910` |
+
+##### `mapDefined` (`node_modules/typescript/lib/typescript.js`)
+
+| Change |    Delta |      % |            Size |         Objects | Location                                                |
+| -----: | -------: | -----: | --------------: | --------------: | ------------------------------------------------------- |
+| -75.0% | -4.5 MiB | 100.0% | 6 MiB → 1.5 MiB | 67,269 → 10,350 | `node_modules/typescript/lib/typescript.js:2683 → 2696` |
+
 ### Total size
 
 #### Regressions

@@ -30,6 +30,22 @@ Functions with the largest decrease in time blocked directly in the function bod
 | -----: | ------: | ------------: | ------------: | ----------: | -------- | ------------------------------------ |
 | -37.6% | -0.21ms | 18.8% → 10.9% | 0.6ms → 0.4ms |     22 → 26 | `poll()` | `java.lang.ref.NativeReferenceQueue` |
 
+#### Lines
+
+Lines with the largest change in contribution to each function's self time.
+
+##### `enqueue(Reference)` (`java.lang.ref.NativeReferenceQueue`)
+
+| Change |   Delta |      % |          Time | Contentions | Location                                |
+| -----: | ------: | -----: | ------------: | ----------: | --------------------------------------- |
+| +18.0% | +0.44ms | 100.0% | 2.5ms → 2.9ms |          22 | `java.lang.ref.NativeReferenceQueue:58` |
+
+##### `poll()` (`java.lang.ref.NativeReferenceQueue`)
+
+| Change |   Delta |      % |          Time | Contentions | Location                                |
+| -----: | ------: | -----: | ------------: | ----------: | --------------------------------------- |
+| -37.6% | -0.21ms | 100.0% | 0.6ms → 0.4ms |     22 → 26 | `java.lang.ref.NativeReferenceQueue:68` |
+
 ### Total time
 
 #### Regressions
