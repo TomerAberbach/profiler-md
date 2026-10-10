@@ -8,6 +8,53 @@ Took 5.95s over 5,954 samples (1.0ms per sample).
 | Kernel   |  1.8% | 108.1ms |     108 |
 | Native   |  0.6% |  33.0ms |      33 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 5.95s (100.0%) [[3 frames hidden in 2 sources]]
+    └── 5.95s (100.0%) 0x16900  binary
+        ├── 4.17s (70.0%) 0x15964
+        │   ├── 1.70s (28.6%) 0x6503c
+        │   │   ├── 1.64s (27.6%) 0x78ff4
+        │   │   │   ├── 1.25s (21.1%) 0x61a90
+        │   │   │   │   ├── 953.0ms (16.0%) 0x71d44
+        │   │   │   │   │   ├── 464.5ms (7.8%) 0x6503c
+        │   │   │   │   │   │   └── 445.4ms (7.5%) 0x78ff4
+        │   │   │   │   │   │       ├── 138.1ms (2.3%) [[4 frames hidden in 1 source]]
+        │   │   │   │   │   │       │   └── 106.1ms (1.8%) 0x60bf8  binary
+        │   │   │   │   │   │       │       ├── 30.0ms (0.5%) [[3 frames hidden in 1 source]]
+        │   │   │   │   │   │       │       │   └── 2.0ms (<0.1%) 0x6f6c4  binary  (1.1% self across 66 call paths)
+        │   │   │   │   │   │       │       └── 76.1ms (1.3%) 18 more branches, hottest 0x7401c
+        │   │   │   │   │   │       └── 307.3ms (5.2%) 14 more branches, hottest 0x61a90
+        │   │   │   │   │   └── 488.5ms (8.2%) 12 more branches, hottest 0x6639c
+        │   │   │   │   └── 304.3ms (5.1%) 20 more branches, hottest 0x71cf8
+        │   │   │   └── 389.4ms (6.5%) 26 more branches, hottest 0x5eff4
+        │   │   └── 57.1ms (1.0%) 12 more branches, hottest 0x782ec
+        │   ├── 1.63s (27.5%) 0x6639c
+        │   │   └── 1.62s (27.3%) 0x5eff4
+        │   │       ├── 1.28s (21.6%) 0x672f0
+        │   │       │   ├── 126.1ms (2.1%) 0x61f50
+        │   │       │   │   ├── 11.0ms (0.2%) 0x6a110
+        │   │       │   │   │   └── 5.0ms (0.1%) 0x7b36c  (0.9% self across 46 call paths)
+        │   │       │   │   └── 115.1ms (1.9%) 18 more branches, hottest 0x6a0c8
+        │   │       │   └── 1.15s (19.4%) 37 more branches, hottest 0x61a90
+        │   │       └── 339.3ms (5.7%) 11 more branches, hottest 0x672d4
+        │   └── 830.8ms (13.9%) 26 more branches, hottest 0x5eff4
+        ├── 573.6ms (9.6%) 0x14f10
+        │   ├── 48.0ms (0.8%) 0x6f844
+        │   ├── 45.0ms (0.8%) 0x70014  (3.1% self across 122 call paths)
+        │   ├── 33.0ms (0.6%) 0x70050  (2.0% self across 75 call paths)
+        │   ├── 19.0ms (0.3%) 0x70034  (1.4% self across 60 call paths)
+        │   ├── 18.0ms (0.3%) 0x70040  (0.9% self across 34 call paths)
+        │   ├── 13.0ms (0.2%) 0x700cc  (1.0% self across 47 call paths)
+        │   └── 389.4ms (6.5%) 91 more branches, hottest 0x6f850
+        ├── 195.2ms (3.3%) [[2 frames hidden in 1 source]]
+        │   └── 179.2ms (3.0%) 0x9a704  binary  (6.2% self across 62 call paths)
+        └── 1.01s (17.1%) 30 more branches, hottest 0x150ac
+```
+
 ## Hottest functions
 
 ### Self time

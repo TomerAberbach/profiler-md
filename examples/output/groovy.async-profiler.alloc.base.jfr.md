@@ -7,6 +7,53 @@ Allocated 12.1 GiB over 24,822 samples (512 KiB per sample).
 | Standard library | 99.2% |   12 GiB |  24,635 |
 | Ours             |  0.8% | 93.5 MiB |     187 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 12.1 GiB (99.9%) [[4 frames hidden in 4 sources]]
+    └── 12.1 GiB (99.9%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface  (5.3% self across 1,098 call paths)
+        └── 12.1 GiB (99.9%) [[10 frames hidden in 7 sources]]
+            └── 12.1 GiB (99.7%) execute(String[])  org.codenarc.CodeNarc
+                ├── 12 GiB (98.6%) [[14 frames hidden in 10 sources]]
+                │   └── 12 GiB (98.6%) execute()  org.codenarc.CodeNarcRunner
+                │       ├── 11.4 GiB (94.0%) [[11 frames hidden in 7 sources]]
+                │       │   └── 11.4 GiB (94.0%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000003010aa000
+                │       │       ├── 11.1 GiB (91.8%) [[40 frames hidden in 27 sources]]
+                │       │       │   └── 11.1 GiB (91.8%) invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       ├── 9.74 GiB (80.3%) [[7 frames hidden in 7 sources]]
+                │       │       │       │   └── 9.74 GiB (80.3%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       │       ├── 8.44 GiB (69.6%) [[318 frames hidden in 32 sources]]
+                │       │       │       │       │   └── 8.4 GiB (69.3%) doCall(Object)  org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1
+                │       │       │       │       │       ├── 8.21 GiB (67.7%) [[53 frames hidden in 31 sources]]
+                │       │       │       │       │       │   └── 8.21 GiB (67.7%) doCall(Object)  org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1
+                │       │       │       │       │       │       ├── 2.99 GiB (24.6%) [[30 frames hidden in 22 sources]]
+                │       │       │       │       │       │       │   └── 2.99 GiB (24.6%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       │       │       │       │       ├── 2.72 GiB (22.5%) [[8 frames hidden in 5 sources]]
+                │       │       │       │       │       │       │       │   └── 2.72 GiB (22.5%) collectViolations(SourceCode, RuleSet)  org.codenarc.analyzer.AbstractSourceAnalyzer
+                │       │       │       │       │       │       │       │       ├── 554 MiB (4.5%) [[17 frames hidden in 13 sources]]
+                │       │       │       │       │       │       │       │       │   └── 552 MiB (4.4%) invoke(Object, Object[])  org.codehaus.groovy.runtime.callsite.BooleanReturningMethodInvoker
+                │       │       │       │       │       │       │       │       │       ├── 427 MiB (3.4%) [[82 frames hidden in 41 sources]]
+                │       │       │       │       │       │       │       │       │       │   └── 258 MiB (2.1%) statement()  org.apache.groovy.parser.antlr4.GroovyParser
+                │       │       │       │       │       │       │       │       │       │       ├── 188 MiB (1.5%) [[17 frames hidden in 3 sources]]
+                │       │       │       │       │       │       │       │       │       │       │   └── 5.5 MiB (<0.1%) transform(ATNState, PredictionContext, SemanticContext, boolean, LexerActionExecutor)  groovyjarjarantlr4.v4.runtime.atn.ATNConfig  (2.0% self across 447 call paths)
+                │       │       │       │       │       │       │       │       │       │       └── 69.5 MiB (0.6%) 7 more branches, hottest statementExpression()
+                │       │       │       │       │       │       │       │       │       └── 125 MiB (1.0%) 1 more branch, hottest call(Object, Object[])  org.codehaus.groovy.runtime.callsite.PogoMetaClassSite
+                │       │       │       │       │       │       │       │       └── 2.18 GiB (18.0%) 2 more branches, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       │       │       │       │       └── 268 MiB (2.2%) 2 more branches, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000003012bcc00
+                │       │       │       │       │       │       └── 5.22 GiB (43.1%) 2 more branches, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       │       │       └── 190 MiB (1.5%) 1 more branch, hottest linkToCallSite(Object, Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       │       └── 1.3 GiB (10.7%) 1 more branch, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000003012bcc00
+                │       │       │       └── 1.4 GiB (11.5%) invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000003010c7c00
+                │       │       │           └── 1.4 GiB (11.5%) 1 more branch, hottest invokeSpecial(Object, Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+                │       │       ├── 131 MiB (1.1%) [[715 frames hidden in 65 sources]]
+                │       │       │   └── 2 MiB (<0.1%) newArray(Class, int)  java.lang.reflect.Array  (2.8% self across 671 call paths)
+                │       │       └── 132 MiB (1.1%) 1 more branch, hottest invokeSpecial(Object, Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+                │       └── 575 MiB (4.6%) 2 more branches, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                └── 136 MiB (1.1%) 4 more branches, hottest linkToCallSite(Object, Object, int, int, Object)  java.lang.invoke.LambdaForm$MH.0x000000030194b800
+```
+
 ## Hottest functions
 
 ### Self size

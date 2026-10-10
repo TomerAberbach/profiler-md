@@ -6,6 +6,21 @@ Blocked 1.41s over 14 contentions (101.0ms per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 1.41s |          14 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states.
+
+```
+├── 1.41s (100.0%) runtime.main  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
+│   └── 1.41s (100.0%) main.main  profile.go:61
+│       ├── 1.26s (89.7%) main.workload  :16
+│       │   └── 1.26s (89.7%) sync.(*WaitGroup).Wait  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160
+│       └── 145.1ms (10.3%) runtime/pprof.StopCPUProfile  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950
+│           └── 145.1ms (10.3%) runtime.chanrecv1  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508
+└── 37.5µs (<0.1%) [[8 frames hidden in 4 sources]]
+    └── 20.2µs (<0.1%) sync.(*Mutex).Lock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/mutex.go:45
+```
+
 ## Hottest functions
 
 ### Self time

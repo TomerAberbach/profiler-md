@@ -7,6 +7,53 @@ Collected 311 samples.
 | Standard library | 99.0% |     308 |
 | Ours             |  1.0% |       3 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 13 samples (4.2%) reinvoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801118000
+│   ├── 7 samples (2.3%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801117800
+│   │   ├── 2 samples (0.6%) [[60 frames hidden in 38 sources]]
+│   │   │   └── 1 sample (0.3%) newInstance(Class, int)  java.lang.reflect.Array  (1.6% self across 5 call paths)
+│   │   │       └── 1 sample (0.3%) newArray(Class, int)  (7.4% self across 23 call paths)
+│   │   └── 5 samples (1.6%) 1 more branch, hottest invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c8012c5c00
+│   └── 6 samples (1.9%) 2 more branches, hottest guard(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801118400
+├── 10 samples (3.2%) closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)  groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator  (3.5% self across 10 call paths)
+│   └── 10 samples (3.2%) [[59 frames hidden in 1 source]]
+│       └── 8 samples (2.6%) closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)  groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│           ├── 3 samples (1.0%) add(ATNConfig, PredictionContextCache)  groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet  (0.6% self across 2 call paths)
+│           │   └── 3 samples (1.0%) join(PredictionContext, PredictionContext, PredictionContextCache)  groovyjarjarantlr4.v4.runtime.atn.PredictionContext  (1.3% self across 4 call paths)
+│           │       └── 3 samples (1.0%) getReturnState(int)  groovyjarjarantlr4.v4.runtime.atn.ArrayPredictionContext
+│           └── 5 samples (1.6%) 2 more branches, hottest closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)
+├── 9 samples (2.9%) [[39 frames hidden in 26 sources]]
+│   └── 7 samples (2.3%) doCall(Object)  org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3
+│       ├── 4 samples (1.3%) [[12 frames hidden in 8 sources]]
+│       │   └── 4 samples (1.3%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │       ├── 2 samples (0.6%) [[10 frames hidden in 6 sources]]
+│       │       │   └── 2 samples (0.6%) equals(Object, Object)  java.util.Objects  (1.6% self across 4 call paths)
+│       │       └── 2 samples (0.6%) [[10 frames hidden in 6 sources]]
+│       │           └── 1 sample (0.3%) <init>(Sink)  java.util.stream.Sink$ChainedReference
+│       └── 3 samples (1.0%) 1 more branch, hottest linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+├── 8 samples (2.6%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   └── 8 samples (2.6%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│       ├── 2 samples (0.6%) [[61 frames hidden in 33 sources]]
+│       │   └── 1 sample (0.3%) putVal(int, Object, Object, boolean, boolean)  java.util.HashMap  (4.8% self across 15 call paths)
+│       └── 6 samples (1.9%) 5 more branches, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801608400
+├── 4 samples (1.3%) [[29 frames hidden in 18 sources]]
+│   └── 3 samples (1.0%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│       ├── 1 sample (0.3%) [[33 frames hidden in 19 sources]]
+│       │   └── 1 sample (0.3%) getReachableTarget(Transition, int)  groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator  (2.6% self across 8 call paths)
+│       └── 2 samples (0.6%) 1 more branch, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c80182ec00
+├── 2 samples (0.6%) [[63 frames hidden in 36 sources]]
+│   └── 2 samples (0.6%) getNode(Object)  java.util.HashMap  (5.8% self across 17 call paths)
+├── 2 samples (0.6%) [[63 frames hidden in 16 sources]]
+│   └── 1 sample (0.3%) getEpsilonTarget(ATNConfig, Transition, boolean, boolean, PredictionContextCache, boolean)  groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator  (2.3% self across 7 call paths)
+├── 1 sample (0.3%) [[55 frames hidden in 32 sources]]
+│   └── 1 sample (0.3%) prepare()  java.lang.invoke.LambdaForm  (2.6% self across 8 call paths)
+└── 262 samples (84.2%) 91 more branches, hottest invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -531,6 +578,53 @@ Allocated 12 GiB over 6,359 samples (1.94 MiB per sample).
 | Ours             |  0.8% |  102 MiB |      51 |
 | Unknown          | <0.1% | 35.9 KiB |      52 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 638 MiB (5.2%) [[3 frames hidden in 3 sources]]
+│   └── 638 MiB (5.2%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface  (5.1% self across 273 call paths)
+│       └── 638 MiB (5.2%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│           ├── 434 MiB (3.5%) [[58 frames hidden in 30 sources]]
+│           │   └── 412 MiB (3.3%) fillInStackTrace(int)  java.lang.Throwable  (4.9% self across 40 call paths)
+│           └── 205 MiB (1.7%) 4 more branches, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c8012c5400
+├── 551 MiB (4.5%) invoke(Object, Object[])  jdk.internal.reflect.DirectMethodHandleAccessor
+│   └── 551 MiB (4.5%) invokeImpl(Object, Object[])
+│       ├── 42 MiB (0.3%) [[61 frames hidden in 39 sources]]
+│       │   └── 22 MiB (0.2%) newInstance(Class, int)  java.lang.reflect.Array  (2.6% self across 132 call paths)
+│       └── 509 MiB (4.1%) 2 more branches, hottest invokeExact_MT(Object, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801004000
+├── 509 MiB (4.1%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│   ├── 260 MiB (2.1%) [[41 frames hidden in 27 sources]]
+│   │   └── 228 MiB (1.9%) doCall(Object)  org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3
+│   │       ├── 138 MiB (1.1%) linkToCallSite(Object, Object)  java.lang.invoke.Invokers$Holder
+│   │       │   ├── 78 MiB (0.6%) [[18 frames hidden in 10 sources]]
+│   │       │   │   └── 12 MiB (0.1%) insertParameterTypes(int, Class[])  java.lang.invoke.MethodType  (2.0% self across 89 call paths)
+│   │       │   └── 60 MiB (0.5%) [[19 frames hidden in 12 sources]]
+│   │       │       └── 20 MiB (0.2%) make(MethodType, LambdaForm, Object)  java.lang.invoke.BoundMethodHandle$Species_L  (2.4% self across 87 call paths)
+│   │       └── 90.5 MiB (0.7%) 1 more branch, hottest linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│   └── 249 MiB (2.0%) 23 more branches, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801119400
+├── 354 MiB (2.9%) reinvoke(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c80118d000
+│   ├── 226 MiB (1.8%) guard(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c80118d400
+│   │   └── 226 MiB (1.8%) reinvoke(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c80118d000
+│   │       ├── 143 MiB (1.2%) [[60 frames hidden in 38 sources]]
+│   │       │   └── 19 MiB (0.2%) make(MethodType, LambdaForm, Object, Object)  java.lang.invoke.BoundMethodHandle$Species_LL  (3.0% self across 104 call paths)
+│   │       └── 83.2 MiB (0.7%) 1 more branch, hottest guardWithCatch(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801140400
+│   └── 128 MiB (1.0%) 3 more branches, hottest invoke(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c8013db000
+├── 290 MiB (2.4%) [[43 frames hidden in 27 sources]]
+│   └── 236 MiB (1.9%) doCall(Object)  org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3
+│       ├── 154 MiB (1.3%) linkToCallSite(Object, Object)  java.lang.invoke.Invokers$Holder
+│       │   ├── 81.8 MiB (0.7%) [[18 frames hidden in 11 sources]]
+│       │   │   └── 35.3 MiB (0.3%) makeBlockInliningWrapper(MethodHandle)  java.lang.invoke.MethodHandleImpl  (3.1% self across 90 call paths)
+│       │   └── 72.7 MiB (0.6%) 1 more branch, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c8010bc000
+│       └── 82 MiB (0.7%) 1 more branch, hottest linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+├── 150 MiB (1.2%) [[63 frames hidden in 38 sources]]
+│   └── 20 MiB (0.2%) makeImpl(Class, Class[], boolean)  java.lang.invoke.MethodType  (5.8% self across 223 call paths)
+├── 37.9 MiB (0.3%) [[63 frames hidden in 37 sources]]
+│   └── 6 MiB (<0.1%) newArray(Class, int)  java.lang.reflect.Array  (2.8% self across 162 call paths)
+└── 9.55 GiB (79.5%) 289 more branches, hottest invoke(Object, Object[])  org.codehaus.groovy.reflection.CachedMethod
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1050,6 +1144,53 @@ Retained 96.6 KiB over 110 objects (900 B per object).
 | ---------------- | -----: | -------: | ------: |
 | Standard library | 100.0% | 96.6 KiB |     109 |
 | Ours             |  <0.1% |     32 B |       1 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes retained in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 82.9 KiB (85.8%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   └── 82.9 KiB (85.8%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│       ├── 74.9 KiB (77.5%) [[6 frames hidden in 3 sources]]
+│       │   └── 74.9 KiB (77.5%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000c801117800
+│       │       ├── 64 KiB (66.2%) [[54 frames hidden in 28 sources]]
+│       │       │   └── 64 KiB (66.2%) <clinit>()  com.sun.org.apache.xerces.internal.util.XMLChar
+│       │       └── 10.9 KiB (11.2%) [[53 frames hidden in 26 sources]]
+│       │           └── 10.9 KiB (11.2%) grow(int)  java.util.ArrayList
+│       │               └── 10.9 KiB (11.2%) copyOf(Object[], int)  java.util.Arrays  (18.6% self across 3 call paths)
+│       └── 8.07 KiB (8.4%) [[61 frames hidden in 38 sources]]
+│           └── 8.02 KiB (8.3%) newTable(int)  com.sun.beans.util.Cache
+├── 912 B (0.9%) [[6 frames hidden in 4 sources]]
+│   └── 912 B (0.9%) getDefaultMetaClass()  groovy.lang.GroovyObjectSupport
+│       ├── 632 B (0.6%) [[55 frames hidden in 27 sources]]
+│       │   └── 528 B (0.5%) resize()  java.util.HashMap
+│       └── 280 B (0.3%) [[35 frames hidden in 22 sources]]
+│           └── 280 B (0.3%) <init>(MethodType)  java.lang.invoke.Invokers
+├── 624 B (0.6%) [[4 frames hidden in 4 sources]]
+│   └── 568 B (0.6%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       ├── 352 B (0.4%) [[36 frames hidden in 25 sources]]
+│       │   └── 144 B (0.1%) getDeclaredMethods0(boolean)  java.lang.Class
+│       └── 216 B (0.2%) [[16 frames hidden in 9 sources]]
+│           └── 216 B (0.2%) reinitialize()  groovy.lang.MetaClassImpl
+│               ├── 128 B (0.1%) [[5 frames hidden in 3 sources]]
+│               │   └── 40 B (<0.1%) newNode(int, Object, Object, HashMap$Node)  java.util.LinkedHashMap
+│               └── 88 B (0.1%) [[15 frames hidden in 9 sources]]
+│                   └── 88 B (0.1%) copy()  java.lang.reflect.Method
+├── 424 B (0.4%) [[63 frames hidden in 33 sources]]
+│   └── 112 B (0.1%) getOrPutMethods(String, MetaMethodIndex$Header)  org.codehaus.groovy.runtime.metaclass.MetaMethodIndex  (0.8% self across 12 call paths)
+├── 328 B (0.3%) [[63 frames hidden in 35 sources]]
+│   └── 120 B (0.1%) defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object)  java.lang.ClassLoader
+├── 296 B (0.3%) [[63 frames hidden in 32 sources]]
+│   └── 80 B (0.1%) compress(char[], int, int)  java.lang.StringUTF16
+├── 200 B (0.2%) [[63 frames hidden in 39 sources]]
+│   └── 160 B (0.2%) copyOfRangeByte(byte[], int, int)  java.util.Arrays  (0.7% self across 7 call paths)
+├── 152 B (0.2%) [[63 frames hidden in 35 sources]]
+│   └── 152 B (0.2%) getPlainNodeReference(boolean)  org.codehaus.groovy.ast.ClassNode
+├── 96 B (0.1%) [[63 frames hidden in 26 sources]]
+│   └── 72 B (0.1%) join(PredictionContext, PredictionContext, PredictionContextCache)  groovyjarjarantlr4.v4.runtime.atn.PredictionContext
+└── 10.7 KiB (11.1%) 47 more branches, hottest selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+```
 
 ## Hottest functions
 

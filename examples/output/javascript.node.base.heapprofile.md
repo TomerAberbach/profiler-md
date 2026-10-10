@@ -7,6 +7,53 @@ Allocated 21.8 MiB over 28 samples (798 KiB per sample).
 | Standard library | 51.8% | 11.3 MiB |       7 |
 | Third-party      | 48.2% | 10.5 MiB |      21 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 21.8 MiB (100.0%) [[4 frames hidden, 2 in 2 sources]]
+    └── 21.8 MiB (100.0%) typeCheckProject  tsc-workload.mjs:3:33
+        ├── 12.3 MiB (56.4%) [[5 frames hidden in 2 sources]]
+        │   └── 12.3 MiB (56.4%) (anonymous)  node:internal/modules/cjs/loader:1878:37
+        │       ├── 8.27 MiB (37.9%) [[2 frames hidden in 1 source]]
+        │       │   └── 8.27 MiB (37.9%) readFileSync  node:fs:433:22
+        │       └── 4.03 MiB (18.5%) (anonymous)  :1731:37
+        │           ├── 2.03 MiB (9.3%) wrapSafe  :1671:18
+        │           └── 2 MiB (9.2%) (anonymous)  node_modules/typescript/lib/typescript.js:1:1
+        │               └── 1.5 MiB (6.9%) (anonymous)  :16:15
+        │                   ├── 1 MiB (4.6%) diag  :9336:14
+        │                   └── 512 KiB (2.3%) createNodeFactory  :23135:27
+        ├── 4.51 MiB (20.7%) [[9 frames hidden in 1 source]]
+        │   └── 4.51 MiB (20.7%) (anonymous)  node_modules/typescript/lib/typescript.js:123385:37
+        │       ├── 3.51 MiB (16.1%) [[4 frames hidden in 1 source]]
+        │       │   └── 3.51 MiB (16.1%) checkSourceFileWorker  node_modules/typescript/lib/typescript.js:87270:33
+        │       │       ├── 2.51 MiB (11.5%) [[2 frames hidden in 1 source]]
+        │       │       │   └── 2.51 MiB (11.5%) checkSourceElementWorker  node_modules/typescript/lib/typescript.js:86895:36
+        │       │       │       ├── 2.01 MiB (9.2%) checkClassDeclaration  :85417:33
+        │       │       │       │   ├── 1.51 MiB (6.9%) [[27 frames hidden in 1 source]]
+        │       │       │       │   │   └── 1.51 MiB (6.9%) isRelatedTo  node_modules/typescript/lib/typescript.js:66493:25
+        │       │       │       │   │       ├── 518 KiB (2.3%) [[18 frames hidden in 1 source]]
+        │       │       │       │   │       │   └── 518 KiB (2.3%) typeToTypeNodeWorker  node_modules/typescript/lib/typescript.js:53183:34  (2.3% self across 1 call path)
+        │       │       │       │   │       │       └── 518 KiB (2.3%) 1 more branch, hottest mapToTypeNodes  :54064:28
+        │       │       │       │   │       └── 1 MiB (4.6%) 1 more branch, hottest reportErrorResults  :66600:32
+        │       │       │       │   └── 513 KiB (2.3%) [[3 frames hidden in 1 source]]
+        │       │       │       │       └── 513 KiB (2.3%) checkMemberForOverrideModifier  node_modules/typescript/lib/typescript.js:85606:42
+        │       │       │       └── 513 KiB (2.3%) 1 more branch, hottest checkModuleDeclaration  :86242:34
+        │       │       └── 1 MiB (4.6%) 1 more branch, hottest checkDeferredNodes  :87179:30
+        │       └── 1 MiB (4.6%) [[18 frames hidden in 1 source]]
+        │           └── 513 KiB (2.3%) bindParentToChildIgnoringJSDoc  node_modules/typescript/lib/typescript.js:21713:42
+        ├── 4.51 MiB (20.7%) createProgram  node_modules/typescript/lib/typescript.js:122262:23
+        │   └── 4.51 MiB (20.7%) forEach  :2365:17
+        │       ├── 4.01 MiB (18.4%) [[6 frames hidden in 1 source]]
+        │       │   └── 4.01 MiB (18.4%) findSourceFileWorker  node_modules/typescript/lib/typescript.js:123984:32
+        │       │       ├── 513 KiB (2.3%) [[8 frames hidden in 1 source]]
+        │       │       │   └── 513 KiB (2.3%) parseDeclarationWorker  node_modules/typescript/lib/typescript.js:36069:34
+        │       │       └── 3.51 MiB (16.1%) 1 more branch, hottest processImportedModules  :124378:34
+        │       └── 512 KiB (2.3%) 1 more branch, hottest (anonymous)  :122498:30
+        └── 512 KiB (2.3%) 1 more branch, hottest getParsedCommandLineOfConfigFile  node_modules/typescript/lib/typescript.js:40536:42
+```
+
 ## Hottest functions
 
 ### Self size

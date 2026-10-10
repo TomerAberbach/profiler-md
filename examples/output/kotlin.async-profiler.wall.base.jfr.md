@@ -11,6 +11,53 @@ Collected 2,725 samples.
 | Unknown          |  0.3% |       8 |
 | JIT              |  0.1% |       3 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 2,251 samples (82.6%) thread_start  libsystem_pthread.dylib
+│   └── 2,251 samples (82.6%) _pthread_start
+│       ├── 2,156 samples (79.1%) thread_native_entry  libjvm.dylib
+│       │   └── 2,156 samples (79.1%) Thread::call_run
+│       │       ├── 887 samples (32.6%) WorkerThread::run
+│       │       │   └── 881 samples (32.3%) semaphore_wait_trap  libsystem_kernel.dylib  (35.9% self across 5 call paths)
+│       │       ├── 799 samples (29.3%) JavaThread::thread_main_inner
+│       │       │   ├── 330 samples (12.1%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── 177 samples (6.5%) [[2 frames hidden in 1 source]]
+│       │       │   │   │   └── 177 samples (6.5%) PlatformMonitor::wait  libjvm.dylib
+│       │       │   │   │       ├── 176 samples (6.5%) __psynch_cvwait  libsystem_kernel.dylib  (47.7% self across 14 call paths)
+│       │       │   │   │       └── 1 sample (<0.1%) [[2 frames hidden in 1 source]]
+│       │       │   │   │           └── 1 sample (<0.1%) __psynch_mutexwait  libsystem_kernel.dylib
+│       │       │   │   └── 153 samples (5.6%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 99 samples (3.6%) C2Compiler::compile_method
+│       │       │   │       │   └── 99 samples (3.6%) Compile::Compile
+│       │       │   │       │       ├── 4 samples (0.1%) [[17 frames hidden in 1 source]]
+│       │       │   │       │       │   └── 1 sample (<0.1%) InstanceKlass::find_method_index  libjvm.dylib
+│       │       │   │       │       └── 95 samples (3.5%) 3 more branches, hottest Compile::Code_Gen
+│       │       │   │       └── 53 samples (1.9%) [[3 frames hidden in 1 source]]
+│       │       │   │           └── 47 samples (1.7%) Compilation::compile_java_method  libjvm.dylib
+│       │       │   │               ├── 9 samples (0.3%) [[11 frames hidden in 1 source]]
+│       │       │   │               │   └── 2 samples (0.1%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>  libjvm.dylib
+│       │       │   │               └── 38 samples (1.4%) 3 more branches, hottest Compilation::emit_lir
+│       │       │   └── 469 samples (17.2%) 5 more branches, hottest JvmtiAgentThread::start_function_wrapper
+│       │       └── 470 samples (17.2%) 3 more branches, hottest ConcurrentGCThread::run
+│       └── 94 samples (3.4%) [[5 frames hidden in 2 sources]]
+│           └── 94 samples (3.4%) __ulock_wait  libsystem_kernel.dylib
+├── 94 samples (3.4%) [[9 frames hidden, 8 in 4 sources]]
+│   └── 94 samples (3.4%) mach_msg2_trap  libsystem_kernel.dylib
+├── 91 samples (3.3%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 91 samples (3.3%) run(String[])
+│       ├── 16 samples (0.6%) [[7 frames hidden in 5 sources]]
+│       │   └── 11 samples (0.4%) Java_java_util_zip_Inflater_inflateBytesBytes  libzip.dylib
+│       │       ├── 7 samples (0.3%) inflate_fast
+│       │       └── 1 sample (<0.1%) jni_GetPrimitiveArrayCritical  libjvm.dylib
+│       │           └── 1 sample (<0.1%) pthread_jit_write_protect_np  libsystem_pthread.dylib
+│       └── 75 samples (2.8%) 1 more branch, hottest invoke(Object, Object[])  java.lang.reflect.Method
+├── 8 samples (0.3%) (anonymous)
+└── 281 samples (10.3%) 3 more branches, hottest run()  java.lang.ref.Finalizer$FinalizerThread
+```
+
 ## Hottest functions
 
 ### Self samples

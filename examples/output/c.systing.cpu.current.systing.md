@@ -8,6 +8,53 @@ Took 20.05s over 20,056 samples (1.0ms per sample).
 | Native   |  0.1% | 14.0ms |      14 |
 | Kernel   |  0.1% | 14.0ms |      14 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 20.04s (99.9%) unknown (libc.so.6)
+    └── 20.04s (99.9%) unknown (libc.so.6)
+        └── 20.04s (99.9%) POOL_thread  pool.c
+            ├── 20.03s (99.9%) ZSTDMT_compressionJob  zstdmt_compress.c
+            │   ├── 16.83s (84.0%) ZSTD_compressContinue_internal  zstd_compress.c
+            │   │   ├── 16.75s (83.5%) ZSTD_buildSeqStore
+            │   │   │   ├── 16.53s (82.4%) ZSTD_compressBlock_opt2  zstd_opt.c
+            │   │   │   │   ├── 14.35s (71.6%) ZSTD_btGetAllMatches_noDict_3  (72.5% self across 4 call paths)
+            │   │   │   │   └── 28.0ms (0.1%) ZSTD_insertAndFindFirstIndexHash3
+            │   │   │   ├── 136.0ms (0.7%) ZSTD_litLengthPrice  zstd_opt.c
+            │   │   │   ├── 50.0ms (0.2%) ZSTD_rawLiteralsCost  zstd_opt.c
+            │   │   │   ├── 13.0ms (0.1%) ZSTD_optLdm_processMatchCandidate  zstd_opt.c
+            │   │   │   └── 6.0ms (<0.1%) ZSTD_updateStats  zstd_opt.c
+            │   │   ├── 41.0ms (0.2%) ZSTD_deriveBlockSplitsHelper
+            │   │   │   ├── 39.0ms (0.2%) ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize
+            │   │   │   │   ├── 32.0ms (0.2%) ZSTD_buildBlockEntropyStats
+            │   │   │   │   │   ├── 15.0ms (0.1%) ZSTD_buildSequencesStatistics
+            │   │   │   │   │   │   └── 12.0ms (0.1%) HIST_count_parallel_wksp  hist.c
+            │   │   │   │   │   ├── 8.0ms (<0.1%) ZSTD_seqToCodes
+            │   │   │   │   │   ├── 5.0ms (<0.1%) HUF_optimalTableLog  huf_compress.c
+            │   │   │   │   │   │   └── 3.0ms (<0.1%) HUF_buildCTable_wksp
+            │   │   │   │   │   └── 2.0ms (<0.1%) HIST_count_wksp  hist.c
+            │   │   │   │   │       └── 2.0ms (<0.1%) HIST_count_simple
+            │   │   │   │   └── 6.0ms (<0.1%) ZSTD_estimateBlockSize_symbolType
+            │   │   │   └── 2.0ms (<0.1%) [[7 frames hidden in 2 sources]]
+            │   │   │       └── 1.0ms (<0.1%) FSE_writeNCount_generic  fse_compress.c
+            │   │   ├── 22.0ms (0.1%) ZSTD_splitBlock  zstd_preSplit.c
+            │   │   │   └── 17.0ms (0.1%) ZSTD_recordFingerprint_1
+            │   │   └── 22.0ms (0.1%) [[3 frames hidden in 1 source]]
+            │   │       └── 10.0ms (<0.1%) ZSTD_encodeSequences  zstd_compress_sequences.c
+            │   ├── 2.92s (14.6%) ZSTD_compressBegin_advanced_internal  zstd_compress.c
+            │   │   └── 2.92s (14.6%) ZSTD_compressBegin_internal
+            │   │       ├── 2.92s (14.6%) [[2 frames hidden in 2 sources]]
+            │   │       │   └── 2.92s (14.6%) ZSTD_insertBt1  zstd_opt.c
+            │   │       └── 7.0ms (<0.1%) [[12 frames hidden, 1 in 1 source]]
+            │   │           └── 2.0ms (<0.1%) clear_page ([kernel])
+            │   ├── 4.0ms (<0.1%) ZSTD_XXH64_update  xxhash.h
+            │   └── 266.0ms (1.3%) 2 more branches, hottest ZSTD_compressEnd_public  zstd_compress.c
+            └── 7.0ms (<0.1%) [[20 frames hidden, 1 in 1 source]]
+                └── 7.0ms (<0.1%) __arch_copy_to_user ([kernel])
+```
+
 ## Hottest functions
 
 ### Self time
@@ -592,6 +639,19 @@ Slept 5 times.
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |      5 |
 
+## Call tree
+
+The call paths to the hottest functions by self sleeps, merged into a tree of callers. Each frame shows the uninterruptible sleeps entered in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `(n% self across m call paths)` states the self sleeps of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 5 times (100.0%) [[2 frames hidden]]
+    └── 5 times (100.0%) POOL_thread  pool.c
+        ├── 4 times (80.0%) [[34 frames hidden, 1 in 1 source]]
+        │   └── 4 times (80.0%) bpf_trace_run4 ([kernel])  (100.0% self across 2 call paths)
+        └── 1 time (20.0%) [[26 frames hidden, 4 in 2 sources]]
+            └── 1 time (20.0%) bpf_trace_run4 ([kernel])
+```
+
 ## Hottest functions
 
 ### Self sleeps
@@ -823,6 +883,22 @@ Slept 214 times.
 | Category |      % | Sleeps |
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |    214 |
+
+## Call tree
+
+The call paths to the hottest functions by self sleeps, merged into a tree of callers. Each frame shows the interruptible sleeps entered in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self sleeps of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 168 times (78.5%) [[4 frames hidden, 1 in 1 source]]
+│   └── 167 times (78.0%) unknown (libc.so.6)
+│       ├── 164 times (76.6%) [[13 frames hidden]]
+│       │   └── 164 times (76.6%) bpf_trace_run4 ([kernel])  (100.0% self across 6 call paths)
+│       └── 3 times (1.4%) [[14 frames hidden]]
+│           └── 3 times (1.4%) bpf_trace_run4 ([kernel])
+└── 46 times (21.5%) [[5 frames hidden, 2 in 2 sources]]
+    └── 46 times (21.5%) FIO_compressFilename_srcFile  fileio.c
+        └── 46 times (21.5%) 3 more branches, hottest ZSTD_compressStream2  zstd_compress.c
+```
 
 ## Hottest functions
 

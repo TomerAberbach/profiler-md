@@ -6,6 +6,18 @@ Allocated 301 MiB over 51,311 objects (6.01 KiB per object).
 | ---------------- | -----: | ------: | ------: |
 | Standard library | 100.0% | 301 MiB |  51,311 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 222 MiB (73.6%) [[17 frames hidden, 15 in 7 sources]]
+│   └── 221 MiB (73.5%) heap.c_allocator_impl.alloc  ../opt/zig/lib/std/heap.zig  (74.5% self across 2,262 call paths)
+├── 4.74 MiB (1.6%) [[29 frames hidden, 27 in 8 sources]]
+│   └── 4.01 MiB (1.3%) heap.c_allocator_impl.remap  ../opt/zig/lib/std/heap.zig  (25.5% self across 1,312 call paths)
+└── 74.8 MiB (24.8%) 2,028 more branches, hottest zig.Ast.Render.renderExpression  ../opt/zig/lib/std/zig/Ast/Render.zig
+```
+
 ## Hottest functions
 
 ### Self size

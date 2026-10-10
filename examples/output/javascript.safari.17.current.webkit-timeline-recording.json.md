@@ -8,6 +8,53 @@ Took 102.2ms over 91 samples (1.1ms per sample).
 | Ours             | 30.3% | 31.0ms |      31 |
 | Native           | 26.4% | 27.0ms |      27 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 28.0ms (27.4%) (anonymous)  load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558
+│   ├── 12.0ms (11.7%) [[3 frames hidden in 1 source]]
+│   │   └── 12.0ms (11.7%) eval
+│   │       └── 2.0ms (2.0%) 2 more branches, hottest (program)  load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:1
+│   └── 16.0ms (15.7%) 1 more branch, hottest doPropagation  :5:254
+├── 23.2ms (22.7%) unformattedArticleTextContentIncludingMetadata  __InjectedScript_ReaderArticleFinder.js:13:67861
+│   ├── 12.9ms (12.7%) articleTitle  :13:39565
+│   │   └── 12.9ms (12.7%) articleTitleInformation  :13:39662
+│   │       ├── 6.5ms (6.3%) extraArticleNode  :13:8749
+│   │       │   └── 6.5ms (6.3%) findExtraArticle  :13:55651
+│   │       │       ├── 3.2ms (3.2%) [[2 frames hidden in 1 source]]
+│   │       │       │   └── 3.2ms (3.2%) elementLooksLikePartOfACarousel  __InjectedScript_ReaderArticleFinder.js:12:8505
+│   │       │       └── 3.2ms (3.2%) [[4 frames hidden, 1 in 1 source]]
+│   │       │           └── 3.2ms (3.2%) t  __InjectedScript_ReaderArticleFinder.js:13:56642
+│   │       ├── 3.2ms (3.2%) normalizedElementTagName  :12:19601  (4.1% self across 2 call paths)
+│   │       └── 3.2ms (3.2%) domDistance  :12:2553
+│   ├── 7.0ms (6.9%) articleNode  :13:8074
+│   │   ├── 3.0ms (2.9%) [[2 frames hidden in 1 source]]
+│   │   │   └── 3.0ms (2.9%) (anonymous)  __InjectedScript_ReaderArticleFinder.js:12:26177
+│   │   │       ├── 1.0ms (1.0%) [[3 frames hidden in 1 source]]
+│   │   │       │   └── 1.0ms (1.0%) evaluate  (2.0% self across 2 call paths)
+│   │   │       └── 2.0ms (2.0%) 2 more branches, hottest (anonymous)  :12:26535
+│   │   └── 4.0ms (3.9%) 2 more branches, hottest adjustArticleNodeUpwardIfNecessary  :13:4514
+│   └── 3.2ms (3.2%) [[5 frames hidden in 1 source]]
+│       └── 3.2ms (3.2%) trimmedInnerTextIgnoringTextTransform  __InjectedScript_ReaderArticleFinder.js:12:6561
+├── 16.0ms (15.7%) flushCssBuffer  load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217
+│   ├── 12.0ms (11.7%) (anonymous)  :12:421
+│   │   └── 12.0ms (11.7%) runScript  :11:59
+│   │       ├── 8.0ms (7.8%) resources/skins.vector.js/skin.js  load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155
+│   │       │   ├── 7.0ms (6.9%) main  :1:965
+│   │       │   │   ├── 5.0ms (4.9%) [[3 frames hidden in 1 source]]
+│   │       │   │   │   └── 5.0ms (4.9%) getPropertyValue
+│   │       │   │   └── 2.0ms (2.0%) 2 more branches, hottest init  :42:160
+│   │       │   └── 1.0ms (1.0%) 1 more branch, hottest require  load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:8:344
+│   │       └── 4.0ms (3.9%) 4 more branches, hottest (anonymous)  load.php?lang=en&modules=ext.gadget.ReferenceTooltips&skin=vector-2022&version=1kgeg:1:79
+│   └── 4.0ms (3.9%) [[2 frames hidden in 1 source]]
+│       └── 4.0ms (3.9%) insertBefore  (5.9% self across 2 call paths)
+├── 1.0ms (1.0%) [[3 frames hidden in 1 source]]
+│   └── 1.0ms (1.0%) collectMatchingElementsInFlatTree  (2.0% self across 2 call paths)
+└── 34.0ms (33.3%) 7 more branches, hottest (anonymous)  load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636
+```
+
 ## Hottest functions
 
 ### Self time

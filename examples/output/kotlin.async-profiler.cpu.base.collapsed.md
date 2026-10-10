@@ -10,6 +10,53 @@ Collected 1,672 samples.
 | Standard library |  4.9% |      82 |
 | JIT              |  0.9% |      15 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1,108 samples (66.3%) [[3 frames hidden]]
+│   └── 1,106 samples (66.1%) Thread::call_run
+│       ├── 966 samples (57.8%) JavaThread::thread_main_inner
+│       │   └── 959 samples (57.4%) CompileBroker::compiler_thread_loop
+│       │       ├── 916 samples (54.8%) CompileBroker::invoke_compiler_on_method
+│       │       │   ├── 624 samples (37.3%) C2Compiler::compile_method
+│       │       │   │   └── 620 samples (37.1%) Compile::Compile
+│       │       │   │       ├── 312 samples (18.7%) Compile::Code_Gen
+│       │       │   │       │   ├── 164 samples (9.8%) PhaseChaitin::Register_Allocate
+│       │       │   │       │   │   ├── 28 samples (1.7%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │   │   │   └── 4 samples (0.2%) IndexSetIterator::advance_and_next  (1.1% self across 9 call paths)
+│       │       │   │       │   │   ├── 27 samples (1.6%) PhaseLive::compute
+│       │       │   │       │   │   │   ├── 2 samples (0.1%) tlv_get_addr  (1.1% self across 18 call paths)
+│       │       │   │       │   │   │   └── 14 samples (0.8%) 3 more branches, hottest PhaseLive::add_liveout
+│       │       │   │       │   │   ├── 26 samples (1.6%) PhaseChaitin::Split
+│       │       │   │       │   │   │   └── 10 samples (0.6%) 6 more branches, hottest MachNode::rematerialize
+│       │       │   │       │   │   └── 83 samples (5.0%) 19 more branches, hottest PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │   └── 148 samples (8.9%) 7 more branches, hottest PhaseCFG::do_global_code_motion
+│       │       │   │       └── 307 samples (18.4%) 8 more branches, hottest Compile::Optimize
+│       │       │   └── 290 samples (17.3%) 6 more branches, hottest Compiler::compile_method
+│       │       └── 41 samples (2.5%) [[2 frames hidden]]
+│       │           └── 40 samples (2.4%) PlatformMonitor::wait
+│       │               ├── 33 samples (2.0%) __psynch_cvwait  (3.7% self across 10 call paths)
+│       │               └── 6 samples (0.4%) [[2 frames hidden]]
+│       │                   └── 6 samples (0.4%) __psynch_mutexwait  (4.6% self across 57 call paths)
+│       └── 140 samples (8.4%) 4 more branches, hottest WorkerThread::run
+├── 548 samples (32.8%) main  org.jetbrains.kotlin.preloading.Preloader
+│   └── 548 samples (32.8%) run
+│       ├── 130 samples (7.8%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│       │   ├── 116 samples (6.9%) loadAllClassesFromJars
+│       │   │   ├── 86 samples (5.1%) [[5 frames hidden in 4 sources]]
+│       │   │   │   └── 75 samples (4.5%) Java_java_util_zip_Inflater_inflateBytesBytes
+│       │   │   │       ├── 61 samples (3.6%) inflate_fast  (4.2% self across 4 call paths)
+│       │   │   │       └── 11 samples (0.7%) inflate
+│       │   │   ├── 8 samples (0.5%) [[6 frames hidden, 3 in 3 sources]]
+│       │   │   │   └── 5 samples (0.3%) _platform_memset  (1.3% self across 15 call paths)
+│       │   │   └── 20 samples (1.2%) 6 more branches, hottest <init>  java.io.ByteArrayOutputStream
+│       │   └── 14 samples (0.8%) 1 more branch, hottest preloadClasses
+│       └── 418 samples (25.0%) 3 more branches, hottest invoke  java.lang.reflect.Method
+└── 16 samples (1.0%) 6 more branches, hottest [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

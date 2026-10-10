@@ -6,6 +6,19 @@ Blocked 1.40s over 12 contentions (117.5ms per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 1.40s |          12 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value.
+
+```
+└── 1.40s (100.0%) runtime.main  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
+    └── 1.40s (100.0%) main.main  profile.go:61
+        ├── 1.30s (92.4%) main.workload  :16
+        │   └── 1.30s (92.4%) sync.(*WaitGroup).Wait  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160
+        └── 106.7ms (7.6%) runtime/pprof.StopCPUProfile  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950
+            └── 106.7ms (7.6%) runtime.chanrecv1  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508
+```
+
 ## Hottest functions
 
 ### Self time

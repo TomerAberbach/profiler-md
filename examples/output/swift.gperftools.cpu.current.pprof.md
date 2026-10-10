@@ -8,6 +8,53 @@ Took 5.22s over 5,228 samples (1.0ms per sample).
 | Native           | 37.1% |   1.94s |   1,940 |
 | Standard library |  6.8% | 356.0ms |     356 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4.81s (92.2%) [[2 frames hidden, 1 in 1 source]]
+│   └── 4.81s (92.2%) 0x284c3  usr/lib/aarch64-linux-gnu/libc.so.6
+│       ├── 4.73s (90.5%) profile_main  src/Sources/profile/main.swift
+│       │   ├── 3.77s (72.2%) [[8 frames hidden in 4 sources]]
+│       │   │   └── 3.74s (71.7%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift
+│       │   │       ├── 3.70s (70.9%) $s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift
+│       │   │       │   ├── 2.25s (43.1%) [[4 frames hidden in 2 sources]]
+│       │   │       │   │   └── 2.22s (42.6%) $s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift
+│       │   │       │   │       ├── 828.0ms (15.8%) $s11SwiftParser0B0V23parseBindingDeclaration__2in0A6Syntax015RawVariableDeclG0VAC0J10AttributesV_AA25RecoveryConsumptionHandleVAC0E12ParseContextOtF
+│       │   │       │   │       │   ├── 690.0ms (13.2%) $s11SwiftParser0B0V18parseAccessorBlock0A6Syntax03RawdeF0VyF
+│       │   │       │   │       │   │   ├── 467.0ms (8.9%) [[6 frames hidden in 2 sources]]
+│       │   │       │   │       │   │   │   └── 396.0ms (7.6%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift
+│       │   │       │   │       │   │   │       ├── 145.0ms (2.8%) [[6 frames hidden in 3 sources]]
+│       │   │       │   │       │   │   │       │   └── 121.0ms (2.3%) $s11SwiftParser0B0V28parsePostfixExpressionSuffix_6flavor7pattern0A6Syntax07RawExprI0VAI_AC0K6FlavorOAC14PatternContextOtF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift
+│       │   │       │   │       │   │   │       │       ├── 10.0ms (0.2%) [[10 frames hidden in 5 sources]]
+│       │   │       │   │       │   │   │       │       │   └── 4.0ms (0.1%) $s11SwiftParser5LexerO6CursorV9lexTrivia33_40499B5A26053AEB2F96A7C76320F673LL4modeAE0F6ResultVAE0F10LexingModeO_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift  (3.3% self across 142 call paths)
+│       │   │       │   │       │   │   │       │       └── 111.0ms (2.1%) 5 more branches, hottest $s11SwiftParser0B0V25parseArgumentListElements7pattern6flavor18allowTrailingCommaSay0A6Syntax014RawLabeledExprL0VGAC14PatternContextO_AC0O6FlavorOSbtF
+│       │   │       │   │       │   │   │       └── 251.0ms (4.8%) 6 more branches, hottest $s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift
+│       │   │       │   │       │   │   └── 223.0ms (4.3%) 3 more branches, hottest $s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift
+│       │   │       │   │       │   └── 138.0ms (2.6%) 11 more branches, hottest $s11SwiftParser0B0V17parseTypedPattern29allowRecoveryFromMissingColon0A6Syntax03RaweK0V_AF0l14TypeAnnotationK0VSgtSb_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Patterns.swift
+│       │   │       │   │       ├── 451.0ms (8.6%) $s11SwiftParser0B0V20parseFuncDeclarationy0A6Syntax015RawFunctionDeclF0VAC0I10AttributesV_AA25RecoveryConsumptionHandleVtF
+│       │   │       │   │       │   ├── 107.0ms (2.0%) $s11SwiftParser0B0V22parseFunctionSignature0A6Syntax03RawdeF0VyF
+│       │   │       │   │       │   │   ├── 77.0ms (1.5%) $s11SwiftParser0B0V20parseParameterClause_0cD0xxm_10Parameters_0D6SyntaxQZACzXEtAA03RawdE5TraitRzlF0aG00h7ClosuredeG0V_Tt0g504$s11a17Parser0B0V30parsej47SignatureIfPresent0A6Syntax03RawdeH0VSgyFAE0id9dU10VACzXEfU0_Tf1cn_nTm  Attributes.swift.o
+│       │   │       │   │       │   │   │   ├── 55.0ms (1.1%) $s11SwiftParser0B0V22parseFunctionParameter0A6Syntax03RawdeF0VyF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Parameters.swift
+│       │   │       │   │       │   │   │   │   ├── 23.0ms (0.4%) [[3 frames hidden in 2 sources]]
+│       │   │       │   │       │   │   │   │   │   └── 2.0ms (<0.1%) 0x3e62dc  usr/lib/swift/linux/libswiftCore.so  (2.7% self across 137 call paths)
+│       │   │       │   │       │   │   │   │   └── 32.0ms (0.6%) 9 more branches, hottest $s11SwiftParser0B0V15parseTypeScalar19misplacedSpecifiers0A6Syntax03RawdH0VSayAF0i5TokenH0VG_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift
+│       │   │       │   │       │   │   │   └── 2.0ms (<0.1%) [[10 frames hidden in 6 sources]]
+│       │   │       │   │       │   │   │       └── 2.0ms (<0.1%) 0x95968  usr/lib/aarch64-linux-gnu/libc.so.6  (3.2% self across 160 call paths)
+│       │   │       │   │       │   │   └── 30.0ms (0.6%) 4 more branches, hottest $s11SwiftParser0B0V25parseFunctionReturnClause16effectSpecifiers26allowNamedOpaqueResultType0A6Syntax03RawefN0VxSgz_SbtAA0o15MisplacedEffectH5TraitRzlFAG0omqhN0V_Tg5Tm  Attributes.swift.o
+│       │   │       │   │       │   └── 343.0ms (6.6%) 6 more branches, hottest $s11SwiftParser0B0V22parseOptionalCodeBlock13allowInitDecl0A6Syntax03RawefJ0VSgSb_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift
+│       │   │       │   │       ├── 57.0ms (1.1%) [[18 frames hidden in 7 sources]]
+│       │   │       │   │       │   └── 20.0ms (0.4%) $s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift  (6.0% self across 190 call paths)
+│       │   │       │   │       └── 890.0ms (17.0%) 9 more branches, hottest $s11SwiftParser0B0V27parseInitializerDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF
+│       │   │       │   └── 1.44s (27.7%) 7 more branches, hottest $s11SwiftParser0B0V25parseExtensionDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF
+│       │   │       └── 42.0ms (0.8%) 4 more branches, hottest $s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l13CodeBlockItemK0V_Tg5  crtstuff.c
+│       │   └── 954.0ms (18.2%) 5 more branches, hottest $s11SwiftSyntax0B7VisitorC4walkyyxAA0B8ProtocolRzlF  src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift
+│       └── 87.0ms (1.7%) 1 more branch, hottest profile_main  <compiler-generated>
+├── 93.0ms (1.8%) _init  crtstuff.c
+└── 316.0ms (6.0%) 27 more branches, hottest 0x3084c0  usr/lib/swift/linux/libswiftCore.so
+```
+
 ## Hottest functions
 
 ### Self time

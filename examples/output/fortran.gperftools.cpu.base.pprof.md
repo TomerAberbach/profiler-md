@@ -7,6 +7,53 @@ Took 3.84s over 3,849 samples (1.0ms per sample).
 | Ours     | 59.1% | 2.27s |   2,275 |
 | Native   | 40.9% | 1.57s |   1,574 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 3.84s (100.0%) [[4 frames hidden, 3 in 2 sources]]
+    └── 3.84s (100.0%) MAIN__  out/profile.f90
+        ├── 3.74s (97.3%) __json_file_module_MOD_json_file_load  src/json-fortran/src/json_file_module.F90
+        │   └── 3.74s (97.3%) __json_value_module_MOD_json_parse_file  src/json-fortran/src/json_value_module.F90
+        │       ├── 3.64s (94.8%) __json_value_module_MOD_parse_object
+        │       │   └── 3.64s (94.6%) [[2 frames hidden in 1 source]]
+        │       │       └── 3.62s (94.2%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+        │       │           ├── 3.57s (92.9%) __json_value_module_MOD_parse_object
+        │       │           │   ├── 3.49s (90.8%) __json_value_module_MOD_parse_object
+        │       │           │   │   ├── 3.47s (90.2%) __json_value_module_MOD_parse_object
+        │       │           │   │   │   ├── 119.0ms (3.1%) __json_value_module_MOD_parse_value  (0.8% self across 25 call paths)
+        │       │           │   │   │   │   └── 111.0ms (2.9%) __json_value_module_MOD_parse_string  (4.3% self across 86 call paths)
+        │       │           │   │   │   │       ├── 86.0ms (2.2%) __json_value_module_MOD_pop_char.part.0  (51.3% self across 376 call paths)
+        │       │           │   │   │   │       └── 4.0ms (0.1%) 0x118994  usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0  (1.5% self across 51 call paths)
+        │       │           │   │   │   └── 3.35s (87.1%) 7 more branches, hottest __json_value_module_MOD_parse_object
+        │       │           │   │   └── 25.0ms (0.6%) 6 more branches, hottest __json_value_module_MOD_parse_value
+        │       │           │   └── 80.0ms (2.1%) 8 more branches, hottest __json_value_module_MOD_parse_number
+        │       │           └── 51.0ms (1.3%) 10 more branches, hottest __json_value_module_MOD_parse_value
+        │       ├── 64.0ms (1.7%) 0x10324b  usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0
+        │       │   └── 64.0ms (1.7%) 0x1029eb
+        │       │       ├── 52.0ms (1.4%) [[3 frames hidden in 2 sources]]
+        │       │       │   └── 52.0ms (1.4%) 0x9102b  usr/lib/aarch64-linux-gnu/libc.so.6
+        │       │       │       ├── 10.0ms (0.3%) 0x8eb04
+        │       │       │       └── 42.0ms (1.1%) 14 more branches, hottest 0x8eb7f
+        │       │       └── 12.0ms (0.3%) 0x10c997
+        │       │           └── 12.0ms (0.3%) 0xdd884  usr/lib/aarch64-linux-gnu/libc.so.6
+        │       ├── 21.0ms (0.5%) [[5 frames hidden in 2 sources]]
+        │       │   └── 20.0ms (0.5%) 0xddb88  usr/lib/aarch64-linux-gnu/libc.so.6  (1.1% self across 5 call paths)
+        │       └── 10.0ms (0.3%) [[2 frames hidden in 1 source]]
+        │           └── 9.0ms (0.2%) 0xde3c8  usr/lib/aarch64-linux-gnu/libc.so.6
+        ├── 70.0ms (1.8%) __json_file_module_MOD_json_file_destroy  src/json-fortran/src/json_file_module.F90
+        │   └── 70.0ms (1.8%) __json_value_module_MOD_json_value_destroy  src/json-fortran/src/json_value_module.F90
+        │       └── 70.0ms (1.8%) [[3 frames hidden in 1 source]]
+        │           └── 54.0ms (1.4%) __json_value_module_MOD_json_value_destroy  src/json-fortran/src/json_value_module.F90
+        │               ├── 11.0ms (0.3%) __json_value_module_MOD_destroy_json_data
+        │               ├── 7.0ms (0.2%) 0x92a9b  usr/lib/aarch64-linux-gnu/libc.so.6
+        │               │   └── 4.0ms (0.1%) 0x8faf4  (1.2% self across 37 call paths)
+        │               ├── 6.0ms (0.2%) 0x929e0  usr/lib/aarch64-linux-gnu/libc.so.6  (1.1% self across 32 call paths)
+        │               └── 25.0ms (0.6%) 4 more branches, hottest __json_value_module_MOD_json_value_destroy
+        └── 34.0ms (0.9%) 10 more branches, hottest __json_file_module_MOD_json_file_get_string  src/json-fortran/src/json_file_module.F90
+```
+
 ## Hottest functions
 
 ### Self time

@@ -8,6 +8,53 @@ Allocated 548 MiB over 4,490,738 objects (128 B per object).
 | Standard library | 18.8% |  103 MiB |   584,121 |
 | Native           |  0.4% | 2.01 MiB |         1 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 382 MiB (69.7%) [[4 frames hidden, 2 in 2 sources]]
+│   └── 381 MiB (69.5%) typeCheckProject  tsc-workload.mjs
+│       ├── 218 MiB (39.8%) [[9 frames hidden in 1 source]]
+│       │   └── 218 MiB (39.8%) (anonymous)  node_modules/typescript/lib/typescript.js:124967:37
+│       │       ├── 162 MiB (29.6%) [[4 frames hidden in 1 source]]
+│       │       │   └── 162 MiB (29.5%) checkSourceFileWorker  node_modules/typescript/lib/typescript.js
+│       │       │       ├── 113 MiB (20.7%) [[2 frames hidden, 1 in 1 source]]
+│       │       │       │   └── 113 MiB (20.7%) checkDeferredNode  node_modules/typescript/lib/typescript.js
+│       │       │       │       ├── 98.9 MiB (18.1%) [[3 frames hidden in 1 source]]
+│       │       │       │       │   └── 98.9 MiB (18.1%) checkSourceElementWorker  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       ├── 39.9 MiB (7.3%) [[4 frames hidden in 1 source]]
+│       │       │       │       │       │   └── 38.4 MiB (7.0%) resolveCallExpression  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │       ├── 21 MiB (3.8%) checkExpression
+│       │       │       │       │       │       │   └── 21 MiB (3.8%) checkExpressionWorker
+│       │       │       │       │       │       │       ├── 17.5 MiB (3.2%) [[2 frames hidden in 1 source]]
+│       │       │       │       │       │       │       │   └── 15.5 MiB (2.8%) getPropertiesOfUnionOrIntersectionType  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │       │       │       ├── 7.5 MiB (1.4%) [[3 frames hidden in 1 source]]
+│       │       │       │       │       │       │       │       │   └── 4.5 MiB (0.8%) instantiateSymbol  node_modules/typescript/lib/typescript.js  (13.1% self across 97 call paths)
+│       │       │       │       │       │       │       │       ├── 5.01 MiB (0.9%) set  (9.8% self across 80 call paths)
+│       │       │       │       │       │       │       │       └── 3 MiB (0.5%) 2 more branches, hottest createUnionOrIntersectionProperty
+│       │       │       │       │       │       │       └── 3.52 MiB (0.6%) 1 more branch, hottest checkExpressionWorker
+│       │       │       │       │       │       └── 17.4 MiB (3.2%) 1 more branch, hottest resolveCall
+│       │       │       │       │       ├── 17 MiB (3.1%) [[5 frames hidden in 1 source]]
+│       │       │       │       │       │   └── 13.5 MiB (2.5%) checkTypeRelatedTo  node_modules/typescript/lib/typescript.js  (1.4% self across 2 call paths)
+│       │       │       │       │       │       └── 13.5 MiB (2.5%) [[10 frames hidden in 1 source]]
+│       │       │       │       │       │           └── 12.5 MiB (2.3%) signaturesRelatedTo  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │               ├── 8.52 MiB (1.6%) signatureRelatedTo
+│       │       │       │       │       │               │   └── 7.52 MiB (1.4%) compareSignaturesRelated
+│       │       │       │       │       │               │       ├── 4.02 MiB (0.7%) [[3 frames hidden in 1 source]]
+│       │       │       │       │       │               │       │   └── 1.52 MiB (0.3%) createNormalizedTypeReference  node_modules/typescript/lib/typescript.js  (1.0% self across 8 call paths)
+│       │       │       │       │       │               │       └── 3 MiB (0.5%) [[6 frames hidden in 1 source]]
+│       │       │       │       │       │               │           └── 2.5 MiB (0.5%) instantiateSignature  node_modules/typescript/lib/typescript.js  (3.7% self across 30 call paths)
+│       │       │       │       │       │               └── 4 MiB (0.7%) [[2 frames hidden in 1 source]]
+│       │       │       │       │       │                   └── 3.5 MiB (0.6%) instantiateList  node_modules/typescript/lib/typescript.js  (1.1% self across 11 call paths)
+│       │       │       │       │       └── 42 MiB (7.7%) 5 more branches, hottest checkVariableStatement
+│       │       │       │       └── 14.5 MiB (2.6%) 2 more branches, hottest getReturnTypeOfSignature
+│       │       │       └── 48.2 MiB (8.8%) 1 more branch, hottest forEach
+│       │       └── 56.1 MiB (10.2%) 1 more branch, hottest getTypeChecker
+│       └── 162 MiB (29.6%) 3 more branches, hottest createProgram  node_modules/typescript/lib/typescript.js
+└── 166 MiB (30.3%) 66 more branches, hottest run  node:internal/modules/esm/module_job
+```
+
 ## Hottest functions
 
 ### Self size

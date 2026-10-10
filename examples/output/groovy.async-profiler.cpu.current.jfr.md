@@ -11,6 +11,53 @@ Collected 6,132 samples.
 | JIT               |  0.8% |      49 |
 | Garbage collector |  0.1% |       4 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 3,849 samples (62.8%) [[3 frames hidden in 2 sources]]
+│   └── 3,848 samples (62.8%) Thread::call_run  libjvm.dylib
+│       ├── 3,480 samples (56.8%) [[2 frames hidden in 1 source]]
+│       │   └── 3,445 samples (56.2%) CompileBroker::invoke_compiler_on_method  libjvm.dylib
+│       │       ├── 2,799 samples (45.6%) C2Compiler::compile_method
+│       │       │   └── 2,795 samples (45.6%) Compile::Compile
+│       │       │       ├── 1,380 samples (22.5%) Compile::Code_Gen
+│       │       │       │   ├── 802 samples (13.1%) PhaseChaitin::Register_Allocate
+│       │       │       │   │   ├── 204 samples (3.3%) PhaseChaitin::Split
+│       │       │       │   │   │   └── 71 samples (1.2%) 17 more branches, hottest MachNode::rematerialize
+│       │       │       │   │   ├── 110 samples (1.8%) PhaseChaitin::build_ifg_physical
+│       │       │       │   │   │   └── 53 samples (0.9%) 14 more branches, hottest PhaseChaitin::compute_initial_block_pressure
+│       │       │       │   │   ├── 90 samples (1.5%) [[2 frames hidden in 1 source]]
+│       │       │       │   │   │   └── 3 samples (<0.1%) tlv_get_addr  libdyld.dylib  (1.6% self across 95 call paths)
+│       │       │       │   │   └── 397 samples (6.5%) 43 more branches, hottest PhaseChaitin::gather_lrg_masks
+│       │       │       │   └── 578 samples (9.4%) 9 more branches, hottest Matcher::match
+│       │       │       └── 1,413 samples (23.0%) 8 more branches, hottest Compile::Optimize
+│       │       └── 646 samples (10.5%) 8 more branches, hottest Compiler::compile_method
+│       └── 368 samples (6.0%) 5 more branches, hottest WorkerThread::run
+├── 2,237 samples (36.5%) [[30 frames hidden in 17 sources]]
+│   └── 2,207 samples (36.0%) execute()  org.codenarc.CodeNarcRunner
+│       ├── 2,109 samples (34.4%) [[11 frames hidden in 7 sources]]
+│       │   └── 2,108 samples (34.4%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+│       │       ├── 2,068 samples (33.7%) [[40 frames hidden in 27 sources]]
+│       │       │   └── 2,067 samples (33.7%) invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│       │       │       ├── 348 samples (5.7%) [[8 frames hidden in 7 sources]]
+│       │       │       │   └── 347 samples (5.7%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x0000007001290000
+│       │       │       │       ├── 237 samples (3.9%) [[25 frames hidden in 20 sources]]
+│       │       │       │       │   └── 237 samples (3.9%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010c7000
+│       │       │       │       │       ├── 194 samples (3.2%) [[472 frames hidden in 50 sources]]
+│       │       │       │       │       │   └── 93 samples (1.5%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010abc00
+│       │       │       │       │       │       ├── 1 sample (<0.1%) [[2 frames hidden in 2 sources]]
+│       │       │       │       │       │       │   └── 1 sample (<0.1%) cast(Object)  java.lang.Class  (1.7% self across 103 call paths)
+│       │       │       │       │       │       └── 92 samples (1.5%) 1 more branch, hottest reinvoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010aa800
+│       │       │       │       │       └── 43 samples (0.7%) 1 more branch, hottest delegate(Object, Object, Object)  java.lang.invoke.DelegatingMethodHandle$Holder
+│       │       │       │       └── 110 samples (1.8%) 1 more branch, hottest delegate(Object, Object, Object, Object)  java.lang.invoke.DelegatingMethodHandle$Holder
+│       │       │       └── 1,719 samples (28.0%) 1 more branch, hottest invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000700159fc00
+│       │       └── 40 samples (0.7%) 2 more branches, hottest invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010c7400
+│       └── 98 samples (1.6%) 2 more branches, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+└── 46 samples (0.8%) 8 more branches, hottest unknown
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -9,6 +9,53 @@ Collected 1,555 samples.
 | Unknown          |  3.9% |      61 |
 | Standard library |  0.7% |      11 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 1,553 samples (99.9%) <main>  profile.rb
+    ├── 1,477 samples (95.0%) [[4 frames hidden in 4 sources]]
+    │   └── 1,471 samples (94.6%) ActionDispatch::Static#call  ../../usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb
+    │       ├── 1,460 samples (93.9%) [[15 frames hidden in 13 sources]]
+    │       │   └── 1,452 samples (93.4%) Rack::Session::Abstract::Persisted#context  ../../usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │       │       ├── 1,440 samples (92.6%) [[3 frames hidden in 3 sources]]
+    │       │       │   └── 1,438 samples (92.5%) Rack::ETag#call  ../../usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │       │       │       ├── 1,369 samples (88.0%) [[47 frames hidden, 46 in 23 sources]]
+    │       │       │       │   └── 1,323 samples (85.1%) block in render_with_layout  ../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb
+    │       │       │       │       ├── 1,280 samples (82.3%) [[13 frames hidden, 10 in 5 sources]]
+    │       │       │       │       │   └── 1,275 samples (82.0%) block in _app_views_statuses_index_html_erb__328993190567029661_3128
+    │       │       │       │       │       ├── 835 samples (53.7%) ActionView::Helpers::SanitizeHelper#sanitize  ../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb
+    │       │       │       │       │       │   └── 830 samples (53.4%) Rails::HTML::Concern::ComposedSanitize#sanitize  ../../usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │       │       │       │       │       │       ├── 383 samples (24.6%) Rails::HTML::Concern::Scrubber::SafeList#scrub
+    │       │       │       │       │       │       │   └── 375 samples (24.1%) Loofah::ScrubBehavior::Node#scrub!  ../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │       │       │       │       │       │       │       ├── 325 samples (20.9%) Loofah::ScrubBehavior::NodeSet#scrub!
+    │       │       │       │       │       │       │       │   └── 321 samples (20.6%) Nokogiri::XML::NodeSet#each  ../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb  (1.4% self across 4 call paths)
+    │       │       │       │       │       │       │       │       └── 312 samples (20.1%) 1 more branch, hottest Integer#upto [c function]
+    │       │       │       │       │       │       │       └── 43 samples (2.8%) Nokogiri::XML::Node#children [c function]  (1.4% self across 4 call paths)
+    │       │       │       │       │       │       │           └── 38 samples (2.4%) [[6 frames hidden, 3 in 1 source]]
+    │       │       │       │       │       │       │               └── 29 samples (1.9%) Module#extend_object [c function]  (8.1% self across 8 call paths)
+    │       │       │       │       │       │       ├── 223 samples (14.3%) [[2 frames hidden in 2 sources]]
+    │       │       │       │       │       │       │   └── 221 samples (14.2%) Loofah::HtmlFragmentBehavior::ClassMethods#parse  ../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │       │       │       │       │       │       │       ├── 160 samples (10.3%) Nokogiri::XML::DocumentFragment.new  ../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb
+    │       │       │       │       │       │       │       │   ├── 112 samples (7.2%) Nokogiri::HTML5::DocumentFragment#initialize  ../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb
+    │       │       │       │       │       │       │       │   │   └── 100 samples (6.4%) Nokogiri::Gumbo.fragment [c function]
+    │       │       │       │       │       │       │       │   │       └── 26 samples (1.7%) 1 more branch, hottest Nokogiri::XML::Node#internal_subset [c function]
+    │       │       │       │       │       │       │       │   └── 39 samples (2.5%) [[3 frames hidden, 1 in 1 source]]
+    │       │       │       │       │       │       │       │       └── 32 samples (2.1%) block in decorate  ../../usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb  (1.4% self across 5 call paths)
+    │       │       │       │       │       │       │       │           └── 25 samples (1.6%) 1 more branch, hottest Array#each
+    │       │       │       │       │       │       │       └── 58 samples (3.7%) Nokogiri::HTML4::Document.new [c function]
+    │       │       │       │       │       │       │           └── 19 samples (1.2%) 1 more branch, hottest Loofah::DocumentDecorator#initialize  ../../usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │       │       │       │       │       │       └── 223 samples (14.3%) 1 more branch, hottest Rails::HTML::Concern::Serializer::UTF8Encode#serialize
+    │       │       │       │       │       └── 406 samples (26.1%) 7 more branches, hottest ActionView::Helpers::NumberHelper#number_with_delimiter  ../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb
+    │       │       │       │       └── 42 samples (2.7%) 1 more branch, hottest ActionView::Template#render  ../../usr/local/bundle/gems/actionview-8.1.4/lib/action_view/template.rb
+    │       │       │       └── 67 samples (4.3%) [[3 frames hidden, 2 in 1 source]]
+    │       │       │           └── 67 samples (4.3%) Digest::Base#<< [c function]
+    │       │       └── 12 samples (0.8%) 1 more branch, hottest ActionDispatch::Session::SessionObject#commit_session  ../../usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/abstract_store.rb
+    │       └── 10 samples (0.6%) 1 more branch, hottest ActionDispatch::FileHandler#attempt
+    └── 76 samples (4.9%) 3 more branches, hottest Kernel#require_relative [c function]
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -7,6 +7,53 @@ Collected 75,888 samples.
 | Standard library | 92.9% |  70,486 |
 | Ours             |  7.1% |   5,402 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 75,444 samples (99.4%) [[4 frames hidden in 3 sources]]
+│   └── 75,444 samples (99.4%) doExec  java.util.concurrent.ForkJoinTask
+│       ├── 61,131 samples (80.6%) exec  java.util.concurrent.RecursiveTask
+│       │   └── 61,131 samples (80.6%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       ├── 50,182 samples (66.1%) join  java.util.concurrent.ForkJoinTask
+│       │       │   └── 50,182 samples (66.1%) awaitDone
+│       │       │       ├── 46,822 samples (61.7%) [[3 frames hidden in 3 sources]]
+│       │       │       │   └── 46,822 samples (61.7%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       ├── 346 samples (0.5%) [[43 frames hidden in 5 sources]]
+│       │       │       │       │   └── 136 samples (0.2%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       ├── 83 samples (0.1%) [[8 frames hidden in 5 sources]]
+│       │       │       │       │       │   └── 29 samples (<0.1%) vectorSum  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       │       │       │       └── 17 samples (<0.1%) [[2 frames hidden in 1 source]]
+│       │       │       │       │           └── 17 samples (<0.1%) add  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       │       │       └── 46,476 samples (61.2%) 6 more branches, hottest join  java.util.concurrent.ForkJoinTask
+│       │       │       └── 3,357 samples (4.4%) 1 more branch, hottest helpJoin  java.util.concurrent.ForkJoinPool
+│       │       ├── 10,476 samples (13.8%) [[2 frames hidden in 1 source]]
+│       │       │   └── 10,476 samples (13.8%) merge  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       └── 10,435 samples (13.8%) [[5 frames hidden in 4 sources]]
+│       │       │           └── 10,435 samples (13.8%) lambda$merge$6  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │               ├── 7,764 samples (10.2%) addAll  java.util.ArrayList
+│       │       │               │   ├── 4,826 samples (6.4%) grow  (0.6% self across 79 call paths)
+│       │       │               │   │   └── 4,826 samples (6.4%) copyOf  java.util.Arrays  (90.7% self across 1,873 call paths)
+│       │       │               │   └── 2,938 samples (3.9%) 1 more branch, hottest toArray
+│       │       │               └── 2,655 samples (3.5%) 1 more branch, hottest <init>  java.util.ArrayList
+│       │       ├── 106 samples (0.1%) createSubtask  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │       ├── 69 samples (0.1%) createSubtask  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       └── 21 samples (<0.1%) createSubtask  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       └── 14,313 samples (18.9%) 1 more branch, hottest exec  java.util.concurrent.ForkJoinTask$AdaptedCallable
+└── 443 samples (0.6%) [[29 frames hidden in 21 sources]]
+    └── 368 samples (0.5%) lambda$generateData$5  org.renaissance.jdk.concurrent.JavaKMeans
+        ├── 216 samples (0.3%) [[2 frames hidden in 2 sources]]
+        │   └── 216 samples (0.3%) evaluate  java.util.stream.AbstractPipeline
+        │       ├── 158 samples (0.2%) [[7 frames hidden in 6 sources]]
+        │       │   └── 138 samples (0.2%) valueOf  java.lang.Double
+        │       └── 58 samples (0.1%) [[5 frames hidden in 5 sources]]
+        │           └── 33 samples (<0.1%) lambda$generateData$4  org.renaissance.jdk.concurrent.JavaKMeans
+        ├── 75 samples (0.1%) range  java.util.stream.IntStream
+        │   └── 58 samples (0.1%) intStream  java.util.stream.StreamSupport
+        └── 55 samples (0.1%) mapToObj  java.util.stream.IntPipeline
+```
+
 ## Hottest functions
 
 ### Self samples

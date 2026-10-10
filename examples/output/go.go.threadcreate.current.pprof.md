@@ -6,6 +6,16 @@ Recorded 13 thread creations.
 | -------- | -----: | ---------------: |
 | Unknown  | 100.0% |               13 |
 
+## Call tree
+
+The call paths to the hottest functions by self thread creations, merged into a tree of callers. Each frame shows the thread creations recorded in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `(n% self across m call paths)` states the self thread creations of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 13 thread creations (100.0%) (anonymous)  (100.0% self across 1 call path)
+    └── 13 thread creations (100.0%) [[30 frames hidden]]
+        └── 13 thread creations (100.0%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self thread creations

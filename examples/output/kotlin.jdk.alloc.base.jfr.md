@@ -7,6 +7,53 @@ Collected 234 samples.
 | Ours             | 58.1% |     136 |
 | Standard library | 41.9% |      98 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 112 samples (47.9%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 112 samples (47.9%) run(String[])
+│       ├── 83 samples (35.5%) [[9 frames hidden in 8 sources]]
+│       │   └── 83 samples (35.5%) doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)  org.jetbrains.kotlin.cli.common.CLICompiler$Companion
+│       │       ├── 74 samples (31.6%) [[15 frames hidden in 8 sources]]
+│       │       │   └── 74 samples (31.6%) phaseBody(PipelineContext, PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       │       ├── 45 samples (19.2%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       │       │   └── 45 samples (19.2%) executePhase(ConfigurationPipelineArtifact)
+│       │       │       │       ├── 4 samples (1.7%) createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+│       │       │       │       │   └── 4 samples (1.7%) createProjectEnvironment(CompilerConfiguration, Disposable, EnvironmentConfigFiles)  org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │       │       │       │       ├── 1 sample (0.4%) [[12 frames hidden in 6 sources]]
+│       │       │       │       │       │   └── 1 sample (0.4%) defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)  java.lang.ClassLoader  (1.3% self across 3 call paths)
+│       │       │       │       │       └── 3 samples (1.3%) 2 more branches, hottest configureProjectEnvironment(KotlinCoreEnvironment$ProjectEnvironment, CompilerConfiguration, EnvironmentConfigFiles)  org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$Companion
+│       │       │       │       └── 41 samples (17.5%) 4 more branches, hottest resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector)  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │       │       └── 29 samples (12.4%) 3 more branches, hottest executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│       │       └── 9 samples (3.8%) [[14 frames hidden in 10 sources]]
+│       │           └── 8 samples (3.4%) load(NativeLibraries$NativeLibraryImpl, String, boolean, boolean)  jdk.internal.loader.NativeLibraries
+│       └── 29 samples (12.4%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 26 samples (11.1%) [[5 frames hidden in 5 sources]]
+│           │   └── 26 samples (11.1%) inflateBytesBytes(long, byte[], int, int, byte[], int, int)  java.util.zip.Inflater  (12.8% self across 4 call paths)
+│           └── 3 samples (1.3%) 1 more branch, hottest preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)
+├── 3 samples (1.3%) [[63 frames hidden in 23 sources]]
+│   └── 1 sample (0.4%) getNode(Object)  java.util.HashMap
+├── 2 samples (0.9%) [[63 frames hidden in 32 sources]]
+│   └── 1 sample (0.4%) allocateInstance(Class)  jdk.internal.misc.Unsafe
+├── 1 sample (0.4%) [[63 frames hidden in 29 sources]]
+│   └── 1 sample (0.4%) throwParameterIsNullNPE(String)  kotlin.jvm.internal.Intrinsics  (7.3% self across 17 call paths)
+├── 1 sample (0.4%) [[63 frames hidden in 32 sources]]
+│   └── 1 sample (0.4%) copyOf(Object[], int)  java.util.Arrays  (1.3% self across 3 call paths)
+├── 1 sample (0.4%) [[39 frames hidden in 14 sources]]
+│   └── 1 sample (0.4%) runTasks()  org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager  (0.9% self across 2 call paths)
+├── 1 sample (0.4%) [[62 frames hidden in 28 sources]]
+│   └── 1 sample (0.4%) unwrapStubTypeVariableConstructor(TypeConstructorMarker)  org.jetbrains.kotlin.fir.types.ConeTypeContext  (0.9% self across 2 call paths)
+├── 1 sample (0.4%) [[63 frames hidden in 30 sources]]
+│   └── 1 sample (0.4%) sanitizeStackTrace(Throwable)  kotlin.jvm.internal.Intrinsics
+├── 1 sample (0.4%) [[63 frames hidden in 22 sources]]
+│   └── 1 sample (0.4%) extractUpperTypesToCheckIntersectionEmptiness(List)  org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintSystemCompletionContext
+├── 1 sample (0.4%) [[62 frames hidden in 25 sources]]
+│   └── 1 sample (0.4%) extractValue(AbstractArrayMapOwner)  org.jetbrains.kotlin.util.AbstractArrayMapOwner$AbstractArrayMapAccessor  (0.9% self across 2 call paths)
+└── 110 samples (47.0%) 73 more branches, hottest doExecutePhased(CommonCompilerArguments, Services, MessageCollector)  org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -874,6 +921,53 @@ Allocated 684 MiB over 862 samples (812 KiB per sample).
 | Standard library | 76.9% |  526 MiB |     545 |
 | Ours             | 23.1% |  158 MiB |     305 |
 | Unknown          | <0.1% | 37.6 KiB |      12 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 452 MiB (66.1%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 452 MiB (66.1%) run(String[])
+│       ├── 290 MiB (42.4%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│       │   └── 290 MiB (42.4%) loadAllClassesFromJars(Collection, int, ClassHandler)
+│       │       ├── 162 MiB (23.7%) toByteArray()  java.io.ByteArrayOutputStream
+│       │       │   └── 162 MiB (23.7%) copyOf(byte[], int)  java.util.Arrays  (24.0% self across 16 call paths)
+│       │       │       └── 5.86 MiB (0.9%) clone()  java.lang.Object
+│       │       ├── 121 MiB (17.6%) <init>(int)  java.io.ByteArrayOutputStream
+│       │       └── 4.56 MiB (0.7%) [[7 frames hidden in 6 sources]]
+│       │           └── 1.62 MiB (0.2%) copyOfRangeByte(byte[], int, int)  java.util.Arrays  (2.0% self across 22 call paths)
+│       └── 162 MiB (23.7%) [[7 frames hidden in 6 sources]]
+│           └── 162 MiB (23.7%) main(String[])  org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion
+│               ├── 98 MiB (14.3%) [[17 frames hidden in 8 sources]]
+│               │   └── 92.5 MiB (13.5%) phaseBody(PipelineContext, PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│               │       ├── 42.5 MiB (6.2%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│               │       │   └── 42.5 MiB (6.2%) executePhase(ConfigurationPipelineArtifact)
+│               │       │       ├── 11 MiB (1.6%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector)  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│               │       │       │   ├── 7.49 MiB (1.1%) [[18 frames hidden in 10 sources]]
+│               │       │       │   │   └── 1,022 KiB (0.1%) <init>(int, float, boolean)  java.util.HashSet  (1.1% self across 14 call paths)
+│               │       │       │   └── 3.53 MiB (0.5%) [[29 frames hidden in 18 sources]]
+│               │       │       │       └── 1,021 KiB (0.1%) <init>(ClassWriter)  jdk.internal.org.objectweb.asm.SymbolTable
+│               │       │       └── 31.5 MiB (4.6%) 5 more branches, hottest createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+│               │       └── 50 MiB (7.3%) 3 more branches, hottest executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│               └── 64 MiB (9.4%) [[29 frames hidden in 15 sources]]
+│                   └── 64 MiB (9.4%) initCEN(int, ZipCoder)  java.util.zip.ZipFile$Source
+├── 21.2 MiB (3.1%) [[12 frames hidden in 9 sources]]
+│   └── 21.2 MiB (3.1%) initTable()  java.util.concurrent.ConcurrentHashMap
+├── 4.88 MiB (0.7%) [[63 frames hidden in 31 sources]]
+│   └── 1.94 MiB (0.3%) <init>(int)  org.jetbrains.kotlin.protobuf.ByteString$Output  (2.3% self across 20 call paths)
+├── 4.7 MiB (0.7%) [[63 frames hidden in 32 sources]]
+│   └── 1,022 KiB (0.1%) grow(int)  java.util.ArrayList  (1.5% self across 18 call paths)
+├── 2.99 MiB (0.4%) [[63 frames hidden in 36 sources]]
+│   └── 1,022 KiB (0.1%) newNode(int, Object, Object, HashMap$Node)  java.util.LinkedHashMap  (0.9% self across 10 call paths)
+├── 1,022 KiB (0.1%) [[63 frames hidden in 21 sources]]
+│   └── 1,022 KiB (0.1%) <init>(int)  java.lang.AbstractStringBuilder  (0.7% self across 9 call paths)
+├── 1,022 KiB (0.1%) [[63 frames hidden in 24 sources]]
+│   └── 511 KiB (0.1%) allocateInstance(Class)  jdk.internal.misc.Unsafe  (0.7% self across 11 call paths)
+├── 836 KiB (0.1%) [[63 frames hidden in 17 sources]]
+│   └── 511 KiB (0.1%) iterator()  java.util.ArrayList  (0.9% self across 15 call paths)
+└── 195 MiB (28.5%) 177 more branches, hottest transformElement(FirElement, Object)  org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher
+```
 
 ## Hottest functions
 
@@ -1839,6 +1933,53 @@ Retained 16.5 MiB over 207 objects (81.6 KiB per object).
 | Standard library | 91.9% | 15.2 MiB |     161 |
 | Ours             |  8.1% | 1.33 MiB |      46 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes retained in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 14.8 MiB (89.7%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 14.8 MiB (89.7%) run(String[])
+│       ├── 10.8 MiB (65.6%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│       │   ├── 10.3 MiB (62.7%) [[2 frames hidden in 2 sources]]
+│       │   │   └── 10.3 MiB (62.7%) copyOf(byte[], int)  java.util.Arrays  (63.9% self across 4 call paths)
+│       │   │       └── 288 KiB (1.7%) clone()  java.lang.Object
+│       │   └── 481 KiB (2.8%) 1 more branch, hottest preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)
+│       └── 3.99 MiB (24.2%) [[7 frames hidden in 6 sources]]
+│           └── 3.99 MiB (24.2%) main(String[])  org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion
+│               ├── 3.95 MiB (24.0%) [[29 frames hidden in 15 sources]]
+│               │   └── 3.95 MiB (24.0%) initCEN(int, ZipCoder)  java.util.zip.ZipFile$Source
+│               └── 33.8 KiB (0.2%) [[19 frames hidden in 9 sources]]
+│                   └── 11.5 KiB (0.1%) executePhase(JvmFir2IrPipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│                       ├── 11.4 KiB (0.1%) [[5 frames hidden in 3 sources]]
+│                       │   └── 2.06 KiB (<0.1%) accept(MethodVisitor)  org.jetbrains.org.objectweb.asm.tree.MethodNode
+│                       │       ├── 1.73 KiB (<0.1%) [[3 frames hidden in 3 sources]]
+│                       │       │   └── 1.62 KiB (<0.1%) transform(String, MethodNode)  org.jetbrains.kotlin.codegen.optimization.transformer.CompositeMethodTransformer
+│                       │       │       ├── 640 B (<0.1%) [[3 frames hidden in 2 sources]]
+│                       │       │       │   └── 576 B (<0.1%) <init>(String, MethodNode, Interpreter, boolean, boolean, boolean, Function2)  org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer
+│                       │       │       └── 264 B (<0.1%) [[15 frames hidden in 6 sources]]
+│                       │       │           └── 200 B (<0.1%) <init>(int, int)  org.jetbrains.org.objectweb.asm.tree.analysis.Frame
+│                       │       └── 312 B (<0.1%) [[11 frames hidden in 6 sources]]
+│                       │           └── 272 B (<0.1%) init(int)  java.util.IdentityHashMap
+│                       └── 104 B (<0.1%) [[29 frames hidden in 16 sources]]
+│                           └── 104 B (<0.1%) initClassName()  java.lang.Class
+├── 1.13 MiB (6.8%) [[63 frames hidden in 38 sources]]
+│   └── 1.13 MiB (6.8%) contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)  org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt  (7.6% self across 2 call paths)
+├── 256 KiB (1.5%) [[12 frames hidden in 9 sources]]
+│   └── 256 KiB (1.5%) initTable()  java.util.concurrent.ConcurrentHashMap
+├── 128 KiB (0.8%) [[63 frames hidden in 33 sources]]
+│   └── 128 KiB (0.8%) compress(char[], int, int)  java.lang.StringUTF16
+├── 57.7 KiB (0.3%) [[63 frames hidden in 22 sources]]
+│   └── 57.7 KiB (0.3%) forceCapacity(int[], int, int)  it.unimi.dsi.fastutil.ints.IntArrays
+├── 1.02 KiB (<0.1%) [[63 frames hidden in 17 sources]]
+│   └── 1.02 KiB (<0.1%) resize(int)  java.util.IdentityHashMap
+├── 112 B (<0.1%) [[63 frames hidden in 35 sources]]
+│   └── 112 B (<0.1%) defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object)  java.lang.ClassLoader
+├── 112 B (<0.1%) [[63 frames hidden in 34 sources]]
+│   └── 112 B (<0.1%) copyOfRangeByte(byte[], int, int)  java.util.Arrays
+└── 140 KiB (0.8%) 15 more branches, hottest executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)  org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline
+```
+
 ## Hottest functions
 
 ### Self size
@@ -2712,6 +2853,15 @@ Blocked 679.4ms over 3 contentions (226.5ms per contention).
 | Category         |      % |    Time | Contentions |
 | ---------------- | -----: | ------: | ----------: |
 | Standard library | 100.0% | 679.4ms |           3 |
+
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states.
+
+```
+└── 679.4ms (100.0%) [[9 frames hidden in 6 sources]]
+    └── 679.4ms (100.0%) park(boolean, long)  jdk.internal.misc.Unsafe
+```
 
 ## Hottest functions
 

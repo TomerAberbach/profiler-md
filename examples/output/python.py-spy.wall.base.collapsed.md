@@ -8,6 +8,53 @@ Collected 215 samples.
 | Unknown          |  4.2% |       9 |
 | Standard library |  0.9% |       2 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 206 samples (95.8%) _run_module_as_main  <frozen runpy>
+│   ├── 200 samples (93.0%) [[11 frames hidden in 5 sources]]
+│   │   └── 199 samples (92.6%) format_file_contents  black/__init__.py
+│   │       ├── 118 samples (54.9%) format_str
+│   │       │   └── 118 samples (54.9%) _format_str_once
+│   │       │       ├── 52 samples (24.2%) [[2 frames hidden in 2 sources]]
+│   │       │       │   └── 52 samples (24.2%) parse_tokens  blib2to3/pgen2/driver.py
+│   │       │       │       ├── 32 samples (14.9%) addtoken  blib2to3/pgen2/parse.py
+│   │       │       │       │   └── 31 samples (14.4%) _addtoken  (7.0% self across 2 call paths)
+│   │       │       │       │       ├── 12 samples (5.6%) pop
+│   │       │       │       │       │   └── 10 samples (4.7%) convert  blib2to3/pytree.py  (5.1% self across 4 call paths)
+│   │       │       │       │       │       └── 6 samples (2.8%) __new__  (3.7% self across 3 call paths)
+│   │       │       │       │       └── 11 samples (5.1%) 2 more branches, hottest shift
+│   │       │       │       └── 15 samples (7.0%) __next__
+│   │       │       │           └── 15 samples (7.0%) generate_tokens  blib2to3/pgen2/tokenize.py  (9.8% self across 2 call paths)
+│   │       │       │               └── 1 sample (0.5%) current
+│   │       │       ├── 51 samples (23.7%) [[3 frames hidden in 2 sources]]
+│   │       │       │   └── 51 samples (23.7%) visit  black/nodes.py
+│   │       │       │       ├── 44 samples (20.5%) [[7 frames hidden in 2 sources]]
+│   │       │       │       │   └── 43 samples (20.0%) visit  black/nodes.py
+│   │       │       │       │       ├── 40 samples (18.6%) [[3 frames hidden in 2 sources]]
+│   │       │       │       │       │   └── 40 samples (18.6%) visit  black/nodes.py
+│   │       │       │       │       │       ├── 17 samples (7.9%) [[15 frames hidden in 2 sources]]
+│   │       │       │       │       │       │   └── 15 samples (7.0%) visit  black/nodes.py
+│   │       │       │       │       │       │       ├── 11 samples (5.1%) [[8 frames hidden in 2 sources]]
+│   │       │       │       │       │       │       │   └── 11 samples (5.1%) generate_comments  black/comments.py  (8.4% self across 4 call paths)
+│   │       │       │       │       │       │       └── 4 samples (1.9%) visit_default  black/linegen.py
+│   │       │       │       │       │       └── 23 samples (10.7%) 3 more branches, hottest visit_stmt  black/linegen.py
+│   │       │       │       │       └── 3 samples (1.4%) 1 more branch, hottest visit_default  black/linegen.py
+│   │       │       │       └── 7 samples (3.3%) 2 more branches, hottest visit_funcdef  black/linegen.py
+│   │       │       └── 14 samples (6.5%) 4 more branches, hottest transform_line  black/linegen.py
+│   │       └── 81 samples (37.7%) check_stability_and_equivalence
+│   │           ├── 25 samples (11.6%) assert_equivalent
+│   │           │   ├── 15 samples (7.0%) [[2 frames hidden in 1 source]]
+│   │           │   │   └── 15 samples (7.0%) parse  ast.py
+│   │           │   └── 8 samples (3.7%) _stringify_ast  black/parsing.py  (3.7% self across 6 call paths)
+│   │           │       └── 7 samples (3.3%) 1 more branch, hottest _stringify_ast_with_new_parent
+│   │           └── 56 samples (26.0%) 1 more branch, hottest assert_stable
+│   └── 6 samples (2.8%) 1 more branch, hottest _get_module_details
+└── 9 samples (4.2%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

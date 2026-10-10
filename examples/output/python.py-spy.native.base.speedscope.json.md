@@ -9,6 +9,53 @@ Took 24.50s over 245 samples (100.0ms per sample).
 | Native           |  2.9% | 700.0ms |       7 |
 | Ours             |  1.2% | 300.0ms |       3 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 24.50s (100.0%) 0x7ff2a7b2e24a  /usr/lib/x86_64-linux-gnu/libc.so.6
+    ├── 24.10s (98.4%) _run_module_as_main  <frozen runpy>
+    │   ├── 23.30s (95.1%) [[14 frames hidden in 5 sources]]
+    │   │   └── 23.30s (95.1%) CPyDef_black___format_file_contents  /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │       ├── 13.70s (55.9%) CPyDef_black___format_str
+    │   │       │   └── 13.70s (55.9%) CPyDef_black____format_str_once
+    │   │       │       ├── 5.60s (22.9%) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__  (7.3% self across 17 call paths)
+    │   │       │       │   └── 5.50s (22.4%) 1 more branch, hottest CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__
+    │   │       │       ├── 5.40s (22.0%) [[2 frames hidden in 1 source]]
+    │   │       │       │   └── 5.40s (22.0%) CPyDef_driver___Driver___parse_tokens  /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so  (5.3% self across 2 call paths)
+    │   │       │       │       ├── 2.50s (10.2%) CPyDef_parse___Parser___addtoken
+    │   │       │       │       │   └── 2.40s (9.8%) CPyDef_parse___Parser____addtoken  (7.3% self across 2 call paths)
+    │   │       │       │       │       ├── 600.0ms (2.4%) CPyDef_parse___Parser___pop  (4.1% self across 2 call paths)
+    │   │       │       │       │       └── 500.0ms (2.0%) 2 more branches, hottest CPyDef_parse___Parser___push
+    │   │       │       │       ├── 1.60s (6.5%) CPyDef_driver___TokenProxy_____next__
+    │   │       │       │       │   └── 1.50s (6.1%) CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__  (6.9% self across 2 call paths)
+    │   │       │       │       │       └── 500.0ms (2.0%) 5 more branches, hottest 0x7ff2a708eff0
+    │   │       │       │       └── 400.0ms (1.6%) 3 more branches, hottest pytree___Node_clear
+    │   │       │       ├── 800.0ms (3.3%) CPyDef_black___detect_target_versions
+    │   │       │       │   └── 800.0ms (3.3%) CPyDef_black___get_features_used
+    │   │       │       │       └── 400.0ms (1.6%) 1 more branch, hottest CPyDef_pytree___pre_order_Node_gen_____mypyc_generator_helper__
+    │   │       │       └── 1.80s (7.3%) 4 more branches, hottest CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
+    │   │       └── 9.60s (39.2%) CPyDef_black___check_stability_and_equivalence
+    │   │           ├── 7.60s (31.0%) CPyDef_black___assert_stable
+    │   │           │   └── 7.60s (31.0%) CPyDef_black____format_str_once
+    │   │           │       ├── 3.10s (12.7%) [[2 frames hidden in 1 source]]
+    │   │           │       │   └── 3.10s (12.7%) CPyDef_driver___Driver___parse_tokens  /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │           │       │       ├── 1.80s (7.3%) CPyDef_parse___Parser___addtoken
+    │   │           │       │       │   └── 1.80s (7.3%) CPyDef_parse___Parser____addtoken
+    │   │           │       │       │       ├── 600.0ms (2.4%) CPyDef_parse___Parser___push  (2.9% self across 2 call paths)
+    │   │           │       │       │       │   └── 200.0ms (0.8%) 0x7ff2a708f4a0
+    │   │           │       │       │       └── 700.0ms (2.9%) 3 more branches, hottest CPyDef_parse___Parser___pop
+    │   │           │       │       └── 900.0ms (3.7%) 2 more branches, hottest CPyDef_driver___TokenProxy_____next__
+    │   │           │       └── 4.50s (18.4%) 8 more branches, hottest CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+    │   │           └── 2s (8.2%) CPyDef_black___assert_equivalent
+    │   │               ├── 1.40s (5.7%) CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__  (4.1% self across 4 call paths)
+    │   │               │   └── 1.40s (5.7%) 1 more branch, hottest CPyDef_parsing____stringify_ast_with_new_parent_gen_____mypyc_generator_helper__
+    │   │               └── 500.0ms (2.0%) 1 more branch, hottest CPyDef_parsing___parse_ast
+    │   └── 800.0ms (3.3%) 1 more branch, hottest _get_module_details
+    └── 300.0ms (1.2%) 1 more branch, hottest pytree___Node_clear  /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+```
+
 ## Hottest functions
 
 ### Self time

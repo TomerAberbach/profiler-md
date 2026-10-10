@@ -8,6 +8,53 @@ Collected 1,434 samples.
 | Garbage collector | 10.9% |     156 |
 | Standard library  |  2.9% |      42 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 1,434 samples (100.0%) [[34 frames hidden in 9 sources]]
+    └── 1,433 samples (99.9%) pytest_pyfunc_call  python.py
+        ├── 182 samples (12.7%) [[14 frames hidden in 6 sources]]
+        │   └── 181 samples (12.6%) Shrinker.step.<locals>.<lambda>  shrinker.py
+        │       ├── 143 samples (10.0%) [[5 frames hidden in 2 sources]]
+        │       │   └── 136 samples (9.5%) StateForActualGivenExecution._execute_once_for_engine  core.py  (0.9% self across 12 call paths)
+        │       │       ├── 35 samples (2.4%) extract_tb  traceback.py  (1.2% self across 16 call paths)
+        │       │       │   └── 34 samples (2.4%) StackSummary._extract_from_extended_frame_gen  (5.6% self across 64 call paths)
+        │       │       │       └── 32 samples (2.2%) _walk_tb_with_full_positions  (0.8% self across 11 call paths)
+        │       │       │           └── 32 samples (2.2%) _get_code_position  (58.3% self across 312 call paths)
+        │       │       └── 100 samples (7.0%) 6 more branches, hottest InterestingOrigin.from_exception  escalation.py
+        │       └── 38 samples (2.6%) 4 more branches, hottest Shrinker.minimize_individual_choices
+        ├── 106 samples (7.4%) [[3 frames hidden in 2 sources]]
+        │   └── 106 samples (7.4%) given.<locals>.run_test_as_given.<locals>.wrapped_test  core.py
+        │       ├── 84 samples (5.9%) StateForActualGivenExecution.run_engine
+        │       │   ├── 55 samples (3.8%) ConjectureRunner.run  engine.py
+        │       │   │   └── 55 samples (3.8%) ConjectureRunner._run
+        │       │   │       ├── 26 samples (1.8%) [[3 frames hidden in 1 source]]
+        │       │   │       │   └── 24 samples (1.7%) StateForActualGivenExecution._execute_once_for_engine  core.py
+        │       │   │       │       ├── 8 samples (0.6%) [[2 frames hidden in 1 source]]
+        │       │   │       │       │   └── 2 samples (0.1%) checkcache  <frozen linecache>  (2.4% self across 32 call paths)
+        │       │   │       │       └── 16 samples (1.1%) 3 more branches, hottest get_trimmed_traceback  escalation.py
+        │       │   │       └── 29 samples (2.0%) 1 more branch, hottest ConjectureRunner.generate_new_test_cases
+        │       │   └── 29 samples (2.0%) 3 more branches, hottest get_trimmed_traceback  escalation.py
+        │       └── 22 samples (1.5%) 1 more branch, hottest get_trimmed_traceback  escalation.py
+        ├── 104 samples (7.3%) [[18 frames hidden in 7 sources]]
+        │   └── 97 samples (6.8%) Shrinker.run  common.py
+        │       ├── 76 samples (5.3%) [[11 frames hidden in 5 sources]]
+        │       │   └── 75 samples (5.2%) StateForActualGivenExecution._execute_once_for_engine  core.py
+        │       │       ├── 38 samples (2.6%) [[10 frames hidden in 5 sources]]
+        │       │       │   └── 38 samples (2.6%) (garbage collector)  (10.9% self across 78 call paths)
+        │       │       └── 36 samples (2.5%) 3 more branches, hottest InterestingOrigin.from_exception  escalation.py
+        │       └── 21 samples (1.5%) 1 more branch, hottest Integer.run_step  integer.py
+        ├── 61 samples (4.3%) [[20 frames hidden in 6 sources]]
+        │   └── 61 samples (4.3%) StateForActualGivenExecution._execute_once_for_engine  core.py
+        │       ├── 12 samples (0.8%) format_exception  escalation.py
+        │       │   └── 11 samples (0.8%) format_exception  traceback.py  (1.5% self across 19 call paths)
+        │       │       └── 8 samples (0.6%) 2 more branches, hottest TracebackException.format
+        │       └── 49 samples (3.4%) 5 more branches, hottest get_trimmed_traceback  escalation.py
+        └── 980 samples (68.3%) 52 more branches, hottest test_minimize_sets_of_sets  test_shrink_quality.py
+```
+
 ## Hottest functions
 
 ### Self samples

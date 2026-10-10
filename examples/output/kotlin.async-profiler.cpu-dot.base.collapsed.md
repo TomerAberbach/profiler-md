@@ -10,6 +10,53 @@ Collected 1,283 samples.
 | Standard library |  4.4% |      57 |
 | JIT              |  1.2% |      16 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 855 samples (66.6%) [[3 frames hidden]]
+│   └── 854 samples (66.6%) Thread::call_run
+│       ├── 808 samples (63.0%) JavaThread::thread_main_inner
+│       │   └── 808 samples (63.0%) CompileBroker::compiler_thread_loop
+│       │       ├── 793 samples (61.8%) CompileBroker::invoke_compiler_on_method
+│       │       │   ├── 555 samples (43.3%) C2Compiler::compile_method
+│       │       │   │   └── 554 samples (43.2%) Compile::Compile
+│       │       │   │       ├── 268 samples (20.9%) Compile::Code_Gen
+│       │       │   │       │   ├── 155 samples (12.1%) PhaseChaitin::Register_Allocate
+│       │       │   │       │   │   ├── 30 samples (2.3%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │   │   │   └── 16 samples (1.2%) 8 more branches, hottest PhaseChaitin::remove_bound_register_from_interfering_live_ranges
+│       │       │   │       │   │   ├── 22 samples (1.7%) PhaseChaitin::Split
+│       │       │   │       │   │   │   └── 7 samples (0.5%) 5 more branches, hottest PhaseChaitin::split_DEF
+│       │       │   │       │   │   ├── 21 samples (1.6%) [[2 frames hidden]]
+│       │       │   │       │   │   │   └── 3 samples (0.2%) IndexSetIterator::advance_and_next  (1.1% self across 9 call paths)
+│       │       │   │       │   │   └── 82 samples (6.4%) 21 more branches, hottest PhaseChaitin::gather_lrg_masks
+│       │       │   │       │   └── 113 samples (8.8%) 5 more branches, hottest Matcher::match
+│       │       │   │       ├── 62 samples (4.8%) [[3 frames hidden]]
+│       │       │   │       │   └── 62 samples (4.8%) Parse::do_one_block
+│       │       │   │       │       ├── 54 samples (4.2%) Parse::do_call
+│       │       │   │       │       │   ├── 26 samples (2.0%) PredictedCallGenerator::generate
+│       │       │   │       │       │   │   ├── 11 samples (0.9%) [[9 frames hidden]]
+│       │       │   │       │       │   │   │   └── 1 sample (0.1%) tlv_get_addr  (1.9% self across 24 call paths)
+│       │       │   │       │       │   │   └── 15 samples (1.2%) 3 more branches, hottest PredictedCallGenerator::generate
+│       │       │   │       │       │   └── 28 samples (2.2%) 7 more branches, hottest ParseGenerator::generate
+│       │       │   │       │       └── 8 samples (0.6%) 7 more branches, hottest Parse::do_instanceof
+│       │       │   │       └── 224 samples (17.5%) 8 more branches, hottest Compile::Optimize
+│       │       │   └── 237 samples (18.5%) 6 more branches, hottest Compiler::compile_method
+│       │       └── 14 samples (1.1%) [[3 frames hidden]]
+│       │           └── 9 samples (0.7%) __psynch_cvwait
+│       └── 46 samples (3.6%) 3 more branches, hottest WorkerThread::run
+└── 422 samples (32.9%) main  org.jetbrains.kotlin.preloading.Preloader
+    └── 422 samples (32.9%) run
+        ├── 74 samples (5.8%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 66 samples (5.1%) [[6 frames hidden in 5 sources]]
+        │   │   └── 59 samples (4.6%) Java_java_util_zip_Inflater_inflateBytesBytes
+        │   │       ├── 45 samples (3.5%) inflate_fast
+        │   │       └── 14 samples (1.1%) 2 more branches, hottest inflate
+        │   └── 8 samples (0.6%) 1 more branch, hottest preloadClasses
+        └── 348 samples (27.1%) 1 more branch, hottest invoke  java.lang.reflect.Method
+```
+
 ## Hottest functions
 
 ### Self samples

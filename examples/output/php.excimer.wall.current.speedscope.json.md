@@ -7,6 +7,53 @@ Took 3.94s over 3,250 samples (1.2ms per sample).
 | Third-party | 91.2% |   3.59s |   3,113 |
 | Ours        |  8.8% | 347.0ms |     137 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 3.94s (100.0%) [[3 frames hidden in 3 sources]]
+    └── 3.92s (99.5%) Composer\Console\Application::doRun  composer/src/Composer/Console/Application.php
+        ├── 3.65s (92.7%) [[2 frames hidden in 1 source]]
+        │   └── 3.65s (92.6%) Symfony\Component\Console\Command\Command::run  composer/vendor/symfony/console/Command/Command.php
+        │       ├── 2.92s (74.1%) Composer\Command\DumpAutoloadCommand::execute  composer/src/Composer/Command/DumpAutoloadCommand.php
+        │       │   └── 2.92s (74.0%) Composer\Autoload\AutoloadGenerator::dump  composer/src/Composer/Autoload/AutoloadGenerator.php
+        │       │       ├── 2.76s (70.1%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths  composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
+        │       │       │   ├── 2.50s (63.4%) Composer\ClassMapGenerator\PhpFileParser::findClasses  composer/vendor/composer/class-map-generator/src/PhpFileParser.php
+        │       │       │   │   ├── 1.64s (41.8%) Composer\ClassMapGenerator\PhpFileCleaner::clean  composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php
+        │       │       │   │   │   ├── 1.01s (25.8%) Composer\ClassMapGenerator\PhpFileCleaner::match
+        │       │       │   │   │   │   └── 902.0ms (22.9%) Composer\Pcre\Preg::isMatchStrictGroups  composer/vendor/composer/pcre/src/Preg.php
+        │       │       │   │   │   │       └── 776.0ms (19.7%) Composer\Pcre\Preg::matchStrictGroups
+        │       │       │   │   │   │           ├── 509.0ms (12.9%) Composer\Pcre\Preg::match
+        │       │       │   │   │   │           │   ├── 248.0ms (6.3%) Composer\Pcre\Preg::pregMatch
+        │       │       │   │   │   │           │   └── 98.0ms (2.5%) Composer\Pcre\Preg::checkOffsetCapture
+        │       │       │   │   │   │           └── 127.0ms (3.2%) Composer\Pcre\Preg::enforceNonNullMatches
+        │       │       │   │   │   ├── 195.0ms (4.9%) Composer\ClassMapGenerator\PhpFileCleaner::skipString
+        │       │       │   │   │   └── 21.0ms (0.5%) Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc
+        │       │       │   │   ├── 144.0ms (3.7%) Composer\Pcre\Preg::matchAllStrictGroups  composer/vendor/composer/pcre/src/Preg.php
+        │       │       │   │   │   └── 141.0ms (3.6%) Composer\Pcre\Preg::matchAll  (4.5% self across 2 call paths)
+        │       │       │   │   └── 38.0ms (1.0%) Composer\Pcre\Preg::matchAll  composer/vendor/composer/pcre/src/Preg.php
+        │       │       │   ├── 79.0ms (2.0%) [[2 frames hidden in 2 sources]]
+        │       │       │   │   └── 77.0ms (2.0%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct  composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+        │       │       │   ├── 55.0ms (1.4%) Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::hasChildren  composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php
+        │       │       │   │   └── 55.0ms (1.4%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::hasChildren  composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+        │       │       │   └── 69.0ms (1.7%) 13 more branches, hottest Composer\ClassMapGenerator\ClassMapGenerator::normalizePath
+        │       │       └── 152.0ms (3.9%) 8 more branches, hottest Composer\Autoload\AutoloadGenerator::getPathCode
+        │       └── 732.0ms (18.6%) [[4 frames hidden in 3 sources]]
+        │           └── 732.0ms (18.6%) Composer\Factory::createComposer  composer/src/Composer/Factory.php
+        │               ├── 697.0ms (17.7%) Composer\Package\Loader\RootPackageLoader::load  composer/src/Composer/Package/Loader/RootPackageLoader.php
+        │               │   └── 692.0ms (17.5%) Composer\Package\Version\VersionGuesser::guessVersion  composer/src/Composer/Package/Version/VersionGuesser.php
+        │               │       ├── 458.0ms (11.6%) Composer\Package\Version\VersionGuesser::guessGitVersion
+        │               │       │   ├── 306.0ms (7.8%) [[6 frames hidden in 2 sources]]
+        │               │       │   │   └── 280.0ms (7.1%) Symfony\Component\Process\Pipes\UnixPipes::readAndWrite  composer/vendor/symfony/process/Pipes/UnixPipes.php  (15.9% self across 7 call paths)
+        │               │       │   └── 152.0ms (3.9%) 2 more branches, hottest Composer\Package\Version\VersionGuesser::versionFromGitTags
+        │               │       └── 234.0ms (5.9%) 3 more branches, hottest Composer\Package\Version\VersionGuesser::guessFossilVersion
+        │               └── 34.0ms (0.9%) 11 more branches, hottest Composer\Json\JsonFile::validateSchema  composer/src/Composer/Json/JsonFile.php
+        ├── 246.0ms (6.2%) Composer\Util\Silencer::call  composer/src/Composer/Util/Silencer.php
+        └── 16.0ms (0.4%) [[3 frames hidden in 2 sources]]
+            └── 6.0ms (0.2%) Composer\Autoload\ClassLoader::loadClass  composer/vendor/composer/ClassLoader.php
+```
+
 ## Hottest functions
 
 ### Self time

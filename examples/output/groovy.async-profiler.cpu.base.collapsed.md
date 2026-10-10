@@ -12,6 +12,53 @@ Collected 6,010 samples.
 | Unknown           | <0.1% |       3 |
 | Garbage collector | <0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 3,707 samples (61.7%) [[3 frames hidden]]
+│   └── 3,706 samples (61.7%) Thread::call_run
+│       ├── 3,447 samples (57.4%) [[2 frames hidden]]
+│       │   └── 3,421 samples (56.9%) CompileBroker::invoke_compiler_on_method
+│       │       ├── 2,811 samples (46.8%) C2Compiler::compile_method
+│       │       │   └── 2,807 samples (46.7%) Compile::Compile
+│       │       │       ├── 1,304 samples (21.7%) Compile::Code_Gen
+│       │       │       │   ├── 752 samples (12.5%) PhaseChaitin::Register_Allocate
+│       │       │       │   │   ├── 170 samples (2.8%) PhaseChaitin::Split
+│       │       │       │   │   │   └── 64 samples (1.1%) 14 more branches, hottest MachNode::rematerialize
+│       │       │       │   │   ├── 115 samples (1.9%) PhaseChaitin::build_ifg_physical
+│       │       │       │   │   │   ├── 17 samples (0.3%) IndexSetIterator::advance_and_next  (0.8% self across 10 call paths)
+│       │       │       │   │   │   └── 39 samples (0.6%) 15 more branches, hottest PhaseChaitin::compute_initial_block_pressure
+│       │       │       │   │   ├── 67 samples (1.1%) [[2 frames hidden]]
+│       │       │       │   │   │   └── 4 samples (0.1%) tlv_get_addr  (1.3% self across 72 call paths)
+│       │       │       │   │   ├── 54 samples (0.9%) PhaseAggressiveCoalesce::insert_copies
+│       │       │       │   │   └── 343 samples (5.7%) 44 more branches, hottest PhaseChaitin::post_allocate_copy_removal
+│       │       │       │   ├── 231 samples (3.8%) Matcher::match
+│       │       │       │   │   ├── 187 samples (3.1%) Matcher::xform
+│       │       │       │   │   │   ├── 82 samples (1.4%) Arena::contains
+│       │       │       │   │   │   └── 75 samples (1.2%) 6 more branches, hottest Matcher::match_tree
+│       │       │       │   │   └── 44 samples (0.7%) 13 more branches, hottest Matcher::find_shared
+│       │       │       │   ├── 147 samples (2.4%) PhaseOutput::Output
+│       │       │       │   │   ├── 56 samples (0.9%) [[4 frames hidden]]
+│       │       │       │   │   │   └── 14 samples (0.2%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>  (0.8% self across 22 call paths)
+│       │       │       │   │   └── 91 samples (1.5%) 14 more branches, hottest Scheduling::DoScheduling
+│       │       │       │   └── 174 samples (2.9%) 9 more branches, hottest PhaseCFG::do_global_code_motion
+│       │       │       ├── 1,132 samples (18.8%) Compile::Optimize
+│       │       │       │   ├── 317 samples (5.3%) PhaseIdealLoop::optimize
+│       │       │       │   │   ├── 68 samples (1.1%) PhaseIterGVN::optimize
+│       │       │       │   │   │   └── 68 samples (1.1%) PhaseIterGVN::transform_old
+│       │       │       │   │   │       ├── 31 samples (0.5%) [[4 frames hidden]]
+│       │       │       │   │   │       │   └── 31 samples (0.5%) Node::dominates  (2.1% self across 23 call paths)
+│       │       │       │   │   │       └── 36 samples (0.6%) 17 more branches, hottest RegionNode::Ideal
+│       │       │       │   │   └── 249 samples (4.1%) 2 more branches, hottest PhaseIdealLoop::PhaseIdealLoop
+│       │       │       │   └── 815 samples (13.6%) 19 more branches, hottest Compile::optimize_loops
+│       │       │       └── 371 samples (6.2%) 10 more branches, hottest ParseGenerator::generate
+│       │       └── 610 samples (10.1%) 5 more branches, hottest Compiler::compile_method
+│       └── 259 samples (4.3%) 5 more branches, hottest WorkerThread::run
+└── 2,303 samples (38.3%) 12 more branches, hottest main  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

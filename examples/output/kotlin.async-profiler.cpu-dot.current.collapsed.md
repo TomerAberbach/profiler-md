@@ -11,6 +11,53 @@ Collected 1,319 samples.
 | JIT              |  1.1% |      15 |
 | Unknown          |  0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 892 samples (67.6%) [[3 frames hidden]]
+│   └── 891 samples (67.6%) Thread::call_run
+│       ├── 809 samples (61.3%) JavaThread::thread_main_inner
+│       │   └── 809 samples (61.3%) CompileBroker::compiler_thread_loop
+│       │       ├── 799 samples (60.6%) CompileBroker::invoke_compiler_on_method
+│       │       │   ├── 232 samples (17.6%) [[2 frames hidden]]
+│       │       │   │   └── 232 samples (17.6%) Compilation::compile_method
+│       │       │   │       ├── 214 samples (16.2%) Compilation::compile_java_method
+│       │       │   │       │   ├── 72 samples (5.5%) Compilation::build_hir
+│       │       │   │       │   │   ├── 52 samples (3.9%) [[5 frames hidden]]
+│       │       │   │       │   │   │   └── 40 samples (3.0%) GraphBuilder::invoke
+│       │       │   │       │   │   │       ├── 32 samples (2.4%) GraphBuilder::try_inline
+│       │       │   │       │   │   │       │   └── 31 samples (2.4%) GraphBuilder::try_inline_full
+│       │       │   │       │   │   │       │       ├── 23 samples (1.7%) [[2 frames hidden]]
+│       │       │   │       │   │   │       │       │   └── 19 samples (1.4%) GraphBuilder::invoke
+│       │       │   │       │   │   │       │       │       ├── 4 samples (0.3%) [[7 frames hidden]]
+│       │       │   │       │   │   │       │       │       │   └── 2 samples (0.2%) SymbolTable::do_lookup  (1.9% self across 23 call paths)
+│       │       │   │       │   │   │       │       │       └── 15 samples (1.1%) 1 more branch, hottest GraphBuilder::try_inline
+│       │       │   │       │   │   │       │       └── 8 samples (0.6%) 3 more branches, hottest ciMethod::ensure_method_data
+│       │       │   │       │   │   │       └── 8 samples (0.6%) 2 more branches, hottest ciBytecodeStream::get_method
+│       │       │   │       │   │   └── 20 samples (1.5%) 7 more branches, hottest GlobalValueNumbering::GlobalValueNumbering
+│       │       │   │       │   ├── 48 samples (3.6%) Compilation::emit_code_body
+│       │       │   │       │   │   ├── 13 samples (1.0%) [[8 frames hidden]]
+│       │       │   │       │   │   │   └── 3 samples (0.2%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>  (1.1% self across 9 call paths)
+│       │       │   │       │   │   └── 35 samples (2.7%) 1 more branch, hottest LIR_Assembler::emit_code
+│       │       │   │       │   └── 94 samples (7.1%) 2 more branches, hottest Compilation::emit_lir
+│       │       │   │       └── 18 samples (1.4%) 2 more branches, hottest ciEnv::register_method
+│       │       │   └── 567 samples (43.0%) 3 more branches, hottest C2Compiler::compile_method
+│       │       └── 10 samples (0.8%) 1 more branch, hottest CompileQueue::get
+│       └── 82 samples (6.2%) 4 more branches, hottest WorkerThread::run
+├── 420 samples (31.8%) main  org.jetbrains.kotlin.preloading.Preloader
+│   └── 420 samples (31.8%) run
+│       ├── 71 samples (5.4%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│       │   ├── 63 samples (4.8%) [[6 frames hidden in 5 sources]]
+│       │   │   └── 53 samples (4.0%) Java_java_util_zip_Inflater_inflateBytesBytes
+│       │   │       ├── 42 samples (3.2%) inflate_fast
+│       │   │       └── 9 samples (0.7%) inflate
+│       │   └── 8 samples (0.6%) 1 more branch, hottest preloadClasses
+│       └── 349 samples (26.5%) 2 more branches, hottest invoke  java.lang.reflect.Method
+└── 7 samples (0.5%) 4 more branches, hottest [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

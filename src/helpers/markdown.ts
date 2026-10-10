@@ -1,4 +1,5 @@
 import type {
+  Code,
   Heading,
   InlineCode,
   Node,
@@ -32,9 +33,22 @@ export const text = (value: string): Text => ({
 export const inlineCode = (value: string): InlineCode => ({
   type: `inlineCode`,
   value: toControlPictures(
-    value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
+    lineEndingsToSpaces(value).replaceAll(`\\|`, `\\ |`),
   ),
 })
+
+/**
+ * A fenced code block of {@link lines}, for content whose alignment the reader
+ * depends on. A table cell collapses runs of spaces and wraps, so it cannot
+ * hold one. A line ending within a line would split it, so it becomes a space.
+ */
+export const code = (lines: string[]): Code => ({
+  type: `code`,
+  value: toControlPictures(lines.map(lineEndingsToSpaces).join(`\n`)),
+})
+
+const lineEndingsToSpaces = (value: string): string =>
+  value.replaceAll(/\r\n|[\r\n]/gu, ` `)
 
 // A raw control character makes text tools treat the Markdown as binary, and
 // an escape character written to a terminal starts an escape sequence, so

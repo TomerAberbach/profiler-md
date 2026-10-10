@@ -6,6 +6,15 @@ Recorded 1 goroutine.
 | ---------------- | -----: | ---------: |
 | Standard library | 100.0% |          1 |
 
+## Call tree
+
+The call paths to the hottest functions by self goroutines, merged into a tree of callers. Each frame shows the goroutines recorded in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states.
+
+```
+└── 1 goroutine (100.0%) [[7 frames hidden in 4 sources]]
+    └── 1 goroutine (100.0%) runtime.goroutineProfileWithLabels  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1254
+```
+
 ## Hottest functions
 
 ### Self goroutines

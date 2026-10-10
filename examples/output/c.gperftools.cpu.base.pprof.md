@@ -7,6 +7,53 @@ Took 1.69s over 1,691 samples (1.0ms per sample).
 | Ours     | 99.0% |  1.67s |   1,674 |
 | Native   |  1.0% | 17.0ms |      17 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.68s (99.8%) [[3 frames hidden in 2 sources]]
+│   └── 1.68s (99.8%) ZSTDMT_compressionJob  zstdmt_compress.c
+│       ├── 1.40s (83.1%) ZSTD_compressContinue_public
+│       │   ├── 1.40s (83.1%) ZSTD_compress_frameChunk  zstd_compress.c
+│       │   │   ├── 1.38s (82.1%) ZSTD_buildSeqStore
+│       │   │   │   ├── 1.35s (79.8%) ZSTD_compressBlock_opt2  zstd_opt.c  (16.7% self across 3 call paths)
+│       │   │   │   │   └── 1.11s (66.0%) ZSTD_btGetAllMatches_noDict_3  (80.1% self across 4 call paths)
+│       │   │   │   │       └── 2.0ms (0.1%) ZSTD_insertBt1.constprop.3
+│       │   │   │   ├── 16.0ms (0.9%) ZSTD_compressBlock_btultra2
+│       │   │   │   │   ├── 15.0ms (0.9%) ZSTD_compressBlock_opt2  zstd_opt.c
+│       │   │   │   │   └── 1.0ms (0.1%) ZSTD_updateStats  zstd_opt.c
+│       │   │   │   ├── 14.0ms (0.8%) ZSTD_litLengthPrice.constprop.1.isra.0  zstd_opt.c
+│       │   │   │   └── 6.0ms (0.4%) ZSTD_litLengthPrice.constprop.0.isra.0  zstd_opt.c
+│       │   │   ├── 8.0ms (0.5%) [[2 frames hidden in 1 source]]
+│       │   │   │   └── 6.0ms (0.4%) ZSTD_buildBlockEntropyStats
+│       │   │   │       ├── 2.0ms (0.1%) ZSTD_buildSequencesStatistics  zstd_compress.c
+│       │   │   │       │   └── 2.0ms (0.1%) HIST_count_parallel_wksp  hist.c
+│       │   │   │       ├── 2.0ms (0.1%) ZSTD_seqToCodes
+│       │   │   │       └── 2.0ms (0.1%) HUF_optimalTableLog
+│       │   │   │           └── 1.0ms (0.1%) HUF_writeCTable_wksp
+│       │   │   ├── 7.0ms (0.4%) ZSTD_compressSeqStore_singleBlock
+│       │   │   │   ├── 4.0ms (0.2%) ZSTD_encodeSequences
+│       │   │   │   └── 2.0ms (0.1%) [[3 frames hidden, 1 in 1 source]]
+│       │   │   │       └── 2.0ms (0.1%) HUF_optimalTableLog
+│       │   │   │           ├── 1.0ms (0.1%) HUF_buildCTable_wksp
+│       │   │   │           └── 1.0ms (0.1%) HUF_writeCTable_wksp
+│       │   │   │               └── 1.0ms (0.1%) FSE_compress_usingCTable_generic  fse_compress.c
+│       │   │   └── 2.0ms (0.1%) ZSTD_XXH64_update
+│       │   └── 1.0ms (0.1%) ZSTD_deriveSeqStoreChunk  zstd_compress.c
+│       ├── 280.0ms (16.6%) ZSTD_compressEnd_public
+│       │   └── 280.0ms (16.6%) ZSTD_compress_frameChunk  zstd_compress.c
+│       │       ├── 1.0ms (0.1%) [[4 frames hidden, 2 in 2 sources]]
+│       │       │   └── 1.0ms (0.1%) HIST_count_wksp
+│       │       └── 279.0ms (16.5%) 2 more branches, hottest ZSTD_buildSeqStore
+│       └── 2.0ms (0.1%) ZSTD_compressBegin_advanced_internal
+│           └── 2.0ms (0.1%) ZSTD_compressBegin_internal  zstd_compress.c
+│               ├── 1.0ms (0.1%) 0x9e658  /usr/lib/aarch64-linux-gnu/libc.so.6
+│               └── 1.0ms (0.1%) 0x9e654  /usr/lib/aarch64-linux-gnu/libc.so.6
+└── 3.0ms (0.2%) [[9 frames hidden, 3 in 2 sources]]
+    └── 1.0ms (0.1%) 0xe7e0c  /usr/lib/aarch64-linux-gnu/libc.so.6
+```
+
 ## Hottest functions
 
 ### Self time

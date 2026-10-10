@@ -6,6 +6,15 @@ Recorded 3 leaked goroutines.
 | ---------------- | -----: | ----------------: |
 | Standard library | 100.0% |                 3 |
 
+## Call tree
+
+The call paths to the hottest functions by self leaked goroutines, merged into a tree of callers. Each frame shows the leaked goroutines recorded in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states.
+
+```
+└── 3 leaked goroutines (100.0%) [[3 frames hidden in 2 sources]]
+    └── 3 leaked goroutines (100.0%) runtime.gopark  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445
+```
+
 ## Hottest functions
 
 ### Self leaked goroutines

@@ -11,6 +11,53 @@ Collected 13,896 samples.
 | JIT               |  0.1% |      10 |
 | Garbage collector | <0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 11,603 samples (83.5%) thread_start  libsystem_pthread.dylib
+│   └── 11,603 samples (83.5%) _pthread_start
+│       ├── 11,143 samples (80.2%) thread_native_entry  libjvm.dylib
+│       │   └── 11,143 samples (80.2%) Thread::call_run
+│       │       ├── 4,990 samples (35.9%) WorkerThread::run
+│       │       │   └── 4,952 samples (35.6%) semaphore_wait_trap  libsystem_kernel.dylib  (39.2% self across 17 call paths)
+│       │       ├── 3,858 samples (27.8%) JavaThread::thread_main_inner
+│       │       │   ├── 1,564 samples (11.3%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── 910 samples (6.5%) [[3 frames hidden in 1 source]]
+│       │       │   │   │   └── 908 samples (6.5%) __psynch_cvwait  libsystem_kernel.dylib  (46.0% self across 22 call paths)
+│       │       │   │   └── 654 samples (4.7%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 532 samples (3.8%) C2Compiler::compile_method
+│       │       │   │       │   └── 532 samples (3.8%) Compile::Compile
+│       │       │   │       │       ├── 197 samples (1.4%) Compile::Optimize
+│       │       │   │       │       │   ├── 60 samples (0.4%) [[2 frames hidden in 1 source]]
+│       │       │   │       │       │   │   └── 19 samples (0.1%) PhaseIterGVN::transform_old  libjvm.dylib
+│       │       │   │       │       │   │       ├── 8 samples (0.1%) [[4 frames hidden in 1 source]]
+│       │       │   │       │       │   │       │   └── 8 samples (0.1%) Node::dominates  libjvm.dylib
+│       │       │   │       │       │   │       └── 4 samples (<0.1%) PhaseIterGVN::subsume_node
+│       │       │   │       │       │   │           └── 1 sample (<0.1%) tlv_get_addr  libdyld.dylib
+│       │       │   │       │       │   └── 137 samples (1.0%) 14 more branches, hottest Compile::optimize_loops
+│       │       │   │       │       └── 335 samples (2.4%) 7 more branches, hottest Compile::Code_Gen
+│       │       │   │       └── 122 samples (0.9%) 3 more branches, hottest Compiler::compile_method
+│       │       │   └── 2,294 samples (16.5%) 5 more branches, hottest MonitorDeflationThread::monitor_deflation_thread_entry
+│       │       └── 2,295 samples (16.5%) 3 more branches, hottest ConcurrentGCThread::run
+│       └── 459 samples (3.3%) [[5 frames hidden in 2 sources]]
+│           └── 459 samples (3.3%) __ulock_wait  libsystem_kernel.dylib
+├── 461 samples (3.3%) [[9 frames hidden, 8 in 4 sources]]
+│   └── 459 samples (3.3%) mach_msg2_trap  libsystem_kernel.dylib
+├── 454 samples (3.3%) [[83 frames hidden in 37 sources]]
+│   └── 419 samples (3.0%) invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│       ├── 348 samples (2.5%) invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000080159fc00
+│       │   └── 348 samples (2.5%) 1 more branch, hottest invokeSpecial(Object, Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+│       └── 71 samples (0.5%) [[8 frames hidden in 7 sources]]
+│           └── 70 samples (0.5%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x0000000801290000
+│               ├── 47 samples (0.3%) [[564 frames hidden in 69 sources]]
+│               │   └── 1 sample (<0.1%) pthread_jit_write_protect_np  libsystem_pthread.dylib
+│               └── 23 samples (0.2%) [[604 frames hidden in 73 sources]]
+│                   └── 1 sample (<0.1%) cast(Object)  java.lang.Class
+└── 1,378 samples (9.9%) 4 more branches, hottest run()  java.lang.ref.Finalizer$FinalizerThread
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -12,6 +12,53 @@ Collected 5,955 samples.
 | Unknown           |  0.1% |       6 |
 | Garbage collector | <0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 2,238 samples (37.6%) [[14 frames hidden in 10 sources]]
+│   └── 2,225 samples (37.4%) invokeVirtual  java.lang.invoke.DirectMethodHandle$Holder  (0.5% self across 32 call paths)
+│       └── 2,225 samples (37.4%) [[16 frames hidden in 12 sources]]
+│           └── 2,208 samples (37.1%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│               ├── 2,100 samples (35.3%) [[10 frames hidden in 7 sources]]
+│               │   └── 2,100 samples (35.3%) guardWithCatch  java.lang.invoke.LambdaForm$MH.0x00000088010aa000
+│               │       ├── 2,062 samples (34.6%) [[40 frames hidden in 27 sources]]
+│               │       │   └── 2,061 samples (34.6%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│               │       │       ├── 1,707 samples (28.7%) [[7 frames hidden in 7 sources]]
+│               │       │       │   └── 1,706 samples (28.6%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│               │       │       │       ├── 1,487 samples (25.0%) [[373 frames hidden in 32 sources]]
+│               │       │       │       │   └── 1,450 samples (24.3%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│               │       │       │       │       ├── 504 samples (8.5%) [[29 frames hidden in 22 sources]]
+│               │       │       │       │       │   └── 501 samples (8.4%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│               │       │       │       │       │       ├── 453 samples (7.6%) [[9 frames hidden in 6 sources]]
+│               │       │       │       │       │       │   └── 453 samples (7.6%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│               │       │       │       │       │       │       ├── 387 samples (6.5%) [[19 frames hidden in 11 sources]]
+│               │       │       │       │       │       │       │   └── 375 samples (6.3%) measureRuleProcessingTime  org.codenarc.analyzer.AbstractSourceAnalyzer
+│               │       │       │       │       │       │       │       ├── 306 samples (5.1%) [[45 frames hidden in 23 sources]]
+│               │       │       │       │       │       │       │       │   └── 260 samples (4.4%) applyTo  org.codenarc.rule.AbstractRule
+│               │       │       │       │       │       │       │       │       ├── 1 sample (<0.1%) [[23 frames hidden, 12 in 12 sources]]
+│               │       │       │       │       │       │       │       │       │   └── 1 sample (<0.1%) vmSymbols::find_sid
+│               │       │       │       │       │       │       │       │       └── 259 samples (4.3%) 16 more branches, hottest applyTo  org.codenarc.rule.AbstractAstVisitorRule
+│               │       │       │       │       │       │       │       └── 66 samples (1.1%) [[22 frames hidden in 13 sources]]
+│               │       │       │       │       │       │       │           └── 45 samples (0.8%) resolve  java.lang.invoke.MethodHandleNatives
+│               │       │       │       │       │       │       │               ├── 5 samples (0.1%) MHN_resolve_Mem
+│               │       │       │       │       │       │       │               │   └── 2 samples (<0.1%) pthread_jit_write_protect_np  (1.9% self across 112 call paths)
+│               │       │       │       │       │       │       │               └── 40 samples (0.7%) 1 more branch, hottest <init>  java.lang.IncompatibleClassChangeError
+│               │       │       │       │       │       │       └── 66 samples (1.1%) 3 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000088010a1800
+│               │       │       │       │       │       └── 48 samples (0.8%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x0000008801290000
+│               │       │       │       │       └── 946 samples (15.9%) 3 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000088010d8c00
+│               │       │       │       └── 219 samples (3.7%) invoke  java.lang.invoke.LambdaForm$MH.0x0000008801290000
+│               │       │       │           └── 219 samples (3.7%) 1 more branch, hottest delegate  java.lang.invoke.DelegatingMethodHandle$Holder
+│               │       │       └── 354 samples (5.9%) invoke  java.lang.invoke.LambdaForm$MH.0x00000088010c8400
+│               │       │           └── 354 samples (5.9%) 1 more branch, hottest invokeSpecial  java.lang.invoke.DirectMethodHandle$Holder
+│               │       └── 38 samples (0.6%) 2 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000088010c7800
+│               ├── 53 samples (0.9%) [[83 frames hidden in 30 sources]]
+│               │   └── 27 samples (0.5%) invokeStatic  java.lang.invoke.DirectMethodHandle$Holder  (0.8% self across 45 call paths)
+│               └── 55 samples (0.9%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000088010d8c00
+└── 3,717 samples (62.4%) 10 more branches, hottest thread_start
+```
+
 ## Hottest functions
 
 ### Self samples

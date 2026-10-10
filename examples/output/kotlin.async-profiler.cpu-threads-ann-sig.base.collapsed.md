@@ -12,6 +12,53 @@ Collected 1,366 samples.
 | Garbage collector |  0.1% |       1 |
 | Unknown           |  0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 919 samples (67.3%) [[3 frames hidden]]
+│   └── 918 samples (67.2%) Thread::call_run()
+│       ├── 836 samples (61.2%) JavaThread::thread_main_inner()
+│       │   └── 835 samples (61.1%) CompileBroker::compiler_thread_loop()
+│       │       ├── 822 samples (60.2%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│       │       │   ├── 236 samples (17.3%) [[2 frames hidden]]
+│       │       │   │   └── 235 samples (17.2%) Compilation::compile_method()
+│       │       │   │       ├── 217 samples (15.9%) Compilation::compile_java_method()
+│       │       │   │       │   ├── 71 samples (5.2%) Compilation::build_hir()
+│       │       │   │       │   │   ├── 56 samples (4.1%) [[7 frames hidden]]
+│       │       │   │       │   │   │   └── 41 samples (3.0%) GraphBuilder::try_inline_full(ciMethod*, bool, bool, Bytecodes::Code, Instruction*)
+│       │       │   │       │   │   │       ├── 31 samples (2.3%) [[9 frames hidden]]
+│       │       │   │       │   │   │       │   └── 17 samples (1.2%) GraphBuilder::try_inline_full(ciMethod*, bool, bool, Bytecodes::Code, Instruction*)
+│       │       │   │       │   │   │       │       ├── 2 samples (0.1%) tlv_get_addr  (1.9% self across 25 call paths)
+│       │       │   │       │   │   │       │       └── 15 samples (1.1%) 2 more branches, hottest GraphBuilder::iterate_all_blocks(bool)
+│       │       │   │       │   │   │       └── 3 samples (0.2%) [[3 frames hidden]]
+│       │       │   │       │   │   │           └── 1 sample (0.1%) _platform_memset  (1.0% self across 14 call paths)
+│       │       │   │       │   │   └── 15 samples (1.1%) 6 more branches, hottest GlobalValueNumbering::GlobalValueNumbering(IR*)
+│       │       │   │       │   └── 145 samples (10.6%) 5 more branches, hottest Compilation::emit_lir()
+│       │       │   │       └── 18 samples (1.3%) 2 more branches, hottest ciEnv::register_method(ciMethod*, int, CodeOffsets*, int, CodeBuffer*, int, OopMapSet*, ExceptionHandlerTable*, ImplicitExceptionTable*, AbstractCompiler*, bool, bool, bool, int, RTMState)
+│       │       │   └── 586 samples (42.9%) 6 more branches, hottest C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│       │       └── 11 samples (0.8%) [[2 frames hidden]]
+│       │           └── 11 samples (0.8%) PlatformMonitor::wait(unsigned long long)
+│       │               ├── 6 samples (0.4%) __psynch_cvwait
+│       │               └── 4 samples (0.3%) [[2 frames hidden]]
+│       │                   └── 3 samples (0.2%) __psynch_mutexwait  (1.0% self across 10 call paths)
+│       └── 82 samples (6.0%) 4 more branches, hottest WorkerThread::run()
+├── 439 samples (32.1%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 439 samples (32.1%) run(String[])
+│       ├── 78 samples (5.7%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│       │   ├── 71 samples (5.2%) loadAllClassesFromJars(Collection, int, ClassHandler)
+│       │   │   ├── 63 samples (4.6%) [[5 frames hidden in 4 sources]]
+│       │   │   │   └── 59 samples (4.3%) Java_java_util_zip_Inflater_inflateBytesBytes
+│       │   │   │       ├── 47 samples (3.4%) inflate_fast  (4.0% self across 3 call paths)
+│       │   │   │       └── 11 samples (0.8%) inflate
+│       │   │   │           └── 6 samples (0.4%) inflate_table
+│       │   │   └── 7 samples (0.5%) 5 more branches, hottest put(Object, Object)  java.util.HashMap
+│       │   └── 7 samples (0.5%) 1 more branch, hottest preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)
+│       └── 361 samples (26.4%) 2 more branches, hottest invoke(Object, Object[])  java.lang.reflect.Method
+└── 8 samples (0.6%) 3 more branches, hottest [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

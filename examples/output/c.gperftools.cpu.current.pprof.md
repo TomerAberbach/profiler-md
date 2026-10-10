@@ -7,6 +7,53 @@ Took 1.17s over 1,178 samples (1.0ms per sample).
 | Ours     | 99.2% |  1.16s |   1,168 |
 | Native   |  0.8% | 10.0ms |      10 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.17s (99.8%) [[2 frames hidden in 1 source]]
+│   └── 1.17s (99.8%) POOL_thread  pool.c
+│       ├── 1.17s (99.7%) ZSTDMT_compressionJob  zstdmt_compress.c
+│       │   ├── 948.0ms (80.5%) ZSTD_compressContinue_public
+│       │   │   └── 948.0ms (80.5%) ZSTD_compress_frameChunk  zstd_compress.c
+│       │   │       ├── 939.0ms (79.7%) ZSTD_buildSeqStore
+│       │   │       │   ├── 908.0ms (77.1%) ZSTD_compressBlock_opt2  zstd_opt.c  (24.4% self across 3 call paths)
+│       │   │       │   │   └── 667.0ms (56.6%) ZSTD_btGetAllMatches_noDict_3  (72.5% self across 3 call paths)
+│       │   │       │   ├── 7.0ms (0.6%) ZSTD_litLengthPrice.constprop.1.isra.0  zstd_opt.c
+│       │   │       │   ├── 4.0ms (0.3%) ZSTD_litLengthPrice.constprop.0.isra.0  zstd_opt.c
+│       │   │       │   ├── 4.0ms (0.3%) ZSTD_updateStats  zstd_opt.c
+│       │   │       │   └── 16.0ms (1.4%) 1 more branch, hottest ZSTD_compressBlock_btultra2
+│       │   │       ├── 4.0ms (0.3%) ZSTD_compressSeqStore_singleBlock
+│       │   │       │   ├── 2.0ms (0.2%) ZSTD_encodeSequences
+│       │   │       │   ├── 1.0ms (0.1%) [[4 frames hidden, 1 in 1 source]]
+│       │   │       │   │   └── 1.0ms (0.1%) HUF_buildCTable_wksp
+│       │   │       │   └── 1.0ms (0.1%) ZSTD_seqToCodes
+│       │   │       ├── 2.0ms (0.2%) [[2 frames hidden in 1 source]]
+│       │   │       │   └── 2.0ms (0.2%) HIST_count_parallel_wksp  hist.c
+│       │   │       ├── 2.0ms (0.2%) ZSTD_splitBlock
+│       │   │       │   └── 1.0ms (0.1%) ZSTD_recordFingerprint_1  zstd_preSplit.c
+│       │   │       └── 1.0ms (0.1%) ZSTD_deriveSeqStoreChunk
+│       │   ├── 225.0ms (19.1%) ZSTD_compressEnd_public
+│       │   │   └── 225.0ms (19.1%) ZSTD_compress_frameChunk  zstd_compress.c
+│       │   │       ├── 223.0ms (18.9%) [[3 frames hidden in 2 sources]]
+│       │   │       │   └── 3.0ms (0.3%) ZSTD_insertBt1.constprop.3  zstd_opt.c
+│       │   │       └── 2.0ms (0.2%) ZSTD_deriveBlockSplitsHelper
+│       │   │           └── 2.0ms (0.2%) ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize
+│       │   └── 2.0ms (0.2%) ZSTD_compressBegin_advanced_internal
+│       │       └── 2.0ms (0.2%) ZSTD_compressBegin_internal  zstd_compress.c
+│       │           ├── 1.0ms (0.1%) 0x9e640  /usr/lib/aarch64-linux-gnu/libc.so.6
+│       │           └── 1.0ms (0.1%) 0x9e658  /usr/lib/aarch64-linux-gnu/libc.so.6
+│       └── 1.0ms (0.1%) [[3 frames hidden in 2 sources]]
+│           └── 1.0ms (0.1%) 0xddbcc  /usr/lib/aarch64-linux-gnu/libc.so.6
+└── 2.0ms (0.2%) [[5 frames hidden, 2 in 1 source]]
+    └── 2.0ms (0.2%) FIO_compressFilename_srcFile  fileio.c
+        ├── 1.0ms (0.1%) ZSTD_compressStream2
+        │   └── 1.0ms (0.1%) 0x9d200  /usr/lib/aarch64-linux-gnu/libc.so.6
+        └── 1.0ms (0.1%) 0x6d3e3  /usr/lib/aarch64-linux-gnu/libc.so.6
+            └── 1.0ms (0.1%) 0xe29bc
+```
+
 ## Hottest functions
 
 ### Self time
