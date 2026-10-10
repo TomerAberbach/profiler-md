@@ -1,11 +1,7 @@
-import { formatPercent } from '../../src/helpers/format.ts'
+import { formatTable, ratio } from '../helpers/table.ts'
+import type { Column } from '../helpers/table.ts'
 import { emptyEvaluation, mergeEvaluation } from './score.ts'
 import type { Evaluation, Scores } from './score.ts'
-
-type Column = {
-  header: string
-  cell: (evaluation: Evaluation) => string
-}
 
 /**
  * Prints a row per scored evaluation, and a total of the printed rows, as one
@@ -47,7 +43,7 @@ export const printTable = (
 
 const scoreColumns = (
   scoresOf: (evaluation: Evaluation) => Scores,
-): Column[] => [
+): Column<Evaluation>[] => [
   {
     header: `recall`,
     cell: evaluation => {
@@ -77,36 +73,3 @@ const scoreColumns = (
     },
   },
 ]
-
-/** Left-aligns the row names and right-aligns the cells, two spaces apart. */
-const formatTable = (
-  rows: (readonly [string, Evaluation])[],
-  columns: Column[],
-): string => {
-  const lines = [
-    [``, ...columns.map(({ header }) => header)],
-    ...rows.map(([row, evaluation]) => [
-      row,
-      ...columns.map(({ cell }) => cell(evaluation)),
-    ]),
-  ]
-  const widths = lines[0]!.map((_, index) =>
-    Math.max(...lines.map(line => line[index]!.length)),
-  )
-  const formatLine = (line: string[]): string =>
-    line
-      .map((cell, index) =>
-        index === 0
-          ? cell.padEnd(widths[index]!)
-          : cell.padStart(widths[index]!),
-      )
-      .join(`  `)
-  return [
-    formatLine(lines[0]!),
-    formatLine(widths.map(width => `-`.repeat(width))),
-    ...lines.slice(1).map(formatLine),
-  ].join(`\n`)
-}
-
-const ratio = (numerator: number, denominator: number): string =>
-  denominator === 0 ? `-` : formatPercent(numerator / denominator)

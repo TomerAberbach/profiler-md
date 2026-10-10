@@ -4,6 +4,7 @@
   "project": [
     "src/**/*.ts",
     "scripts/*.ts",
+    "scripts/helpers/*.ts",
     "scripts/evaluate-diff-matching/*.ts",
     "scripts/update-examples/*.ts"
   ],

@@ -183,6 +183,8 @@ profiler-md
 │   │   ├── synthetic-edits.ts    # Seeded edits to one source reference of the current side, and the position map they produce
 │   │   ├── score.ts              # Pairs two inputs' functions as a diff does and scores the pairs against a position map
 │   │   └── table.ts              # Prints a table of scores per pair or origin
+│   ├── helpers/
+│   │   └── table.ts              # Prints an evaluation script's scores as an aligned text table
 │   ├── build-man.ts              # Write the man page to dist/man/ (run by `pnpm build`)
 │   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
 │   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
