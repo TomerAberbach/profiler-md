@@ -695,6 +695,591 @@ Lines with the largest change in contribution to each function's self samples.
 | -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------- |
 | -25.0% |    -3 | 100.0% |  12 → 9 | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base_compiler.jl:50` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's self samples. Inlining can make caller attribution imprecise.
+
+##### `#write#79` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157`)
+
+| Change | Delta |            % |       Samples | Caller               | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----------: | ------------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +7.8% |  +508 |        99.9% | 6,523 → 7,031 | `[unknown function]` | `<unknown>`                                                                                                                                                                                               |
+| +66.7% |    +2 | <0.1% → 0.1% |         3 → 5 | `write`              | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:147 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:147` |
+| -50.0% |    -1 |        <0.1% |         2 → 1 | `#write#79`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1`)
+
+| Change | Delta |      % |       Samples | Caller     | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +1.4% |   +93 | 100.0% | 6,857 → 6,950 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:187 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187` |
+
+##### `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`)
+
+| Change | Delta |      % |       Samples | Caller      | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +2.7% |   +56 | 100.0% | 2,067 → 2,123 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `BottomRF` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:84`)
+
+| Change | Delta |             % |   Samples | Caller               | Location                                                                                     |
+| -----: | ----: | ------------: | --------: | -------------------- | -------------------------------------------------------------------------------------------- |
+| +20.3% |   +46 | 97.8% → 97.2% | 227 → 273 | `[unknown function]` | `<unknown>`                                                                                  |
+| +60.0% |    +3 |   2.2% → 2.8% |     5 → 8 | `MappingRF`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+
+##### `ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:267`)
+
+| Change | Delta |             % |   Samples | Caller                                                                                                                             | Location                                                                                                                                                                                                |
+| -----: | ----: | ------------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +7.3% |   +35 | 89.2% → 89.7% | 477 → 512 | `setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)`                                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356`                                                                                                             |
+|  +1.7% |    +1 | 10.8% → 10.3% |   58 → 59 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+
+##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60`)
+
+| Change | Delta |             % |   Samples | Caller       | Location                                                                                     |
+| -----: | ----: | ------------: | --------: | ------------ | -------------------------------------------------------------------------------------------- |
+| +12.1% |   +31 | 99.6% → 99.7% | 256 → 287 | `foldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:215`)
+
+| Change | Delta |      % |  Samples | Caller    | Location                                                                                                                                                                                                |
+| -----: | ----: | -----: | -------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +39.5% |   +30 | 100.0% | 76 → 106 | `iterate` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:81 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81` |
+
+##### `unsafe_string` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:130`)
+
+| Change | Delta |      % |   Samples | Caller   | Location                                                                                              |
+| -----: | ----: | -----: | --------: | -------- | ----------------------------------------------------------------------------------------------------- |
+| +19.5% |   +30 | 100.0% | 154 → 184 | `String` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:145` |
+
+##### `checkbounds` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/basic.jl:212`)
+
+| Change | Delta |      % |   Samples | Caller     | Location                                                                                              |
+| -----: | ----: | -----: | --------: | ---------- | ----------------------------------------------------------------------------------------------------- |
+| +17.3% |   +22 | 100.0% | 127 → 149 | `codeunit` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:166` |
+
+##### `GenericMemory` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:588`)
+
+| Change | Delta |             % |   Samples | Caller                                    | Location                                                                                      |
+| -----: | ----: | ------------: | --------: | ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+|  +8.8% |   +38 | 33.5% → 35.9% | 431 → 469 | `rehash!(::Dict{Symbol, Int64}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:138`   |
+|  -1.9% |   -16 | 66.2% → 63.9% | 851 → 835 | `Array`                                   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:648`   |
+| -25.0% |    -1 |   0.3% → 0.2% |     4 → 3 | `array_new_memory`                        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1101` |
+
+##### `iterate` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/range.jl`)
+
+|  Change | Delta |              % | Samples | Caller      | Location                                                                                                                                                                                                 |
+| ------: | ----: | -------------: | ------: | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +342.9% |   +24 | 70.0% → 100.0% |  7 → 31 | `#write#81` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:200 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:60` |
+| removed |    -3 |   30.0% → 0.0% |   3 → 0 | `#write#81` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`                                                                                                      |
+
+##### `write(::StructTypes.BoolType, ::Vector{UInt8}, ::Int64, ::Int64, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:209`)
+
+|  Change | Delta |      % | Samples | Caller      | Location                                                                                                                                                                                                  |
+| ------: | ----: | -----: | ------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +105.9% |   +18 | 100.0% | 17 → 35 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
+
+| Change | Delta |             % |   Samples | Caller               | Location                                                                                     |
+| -----: | ----: | ------------: | --------: | -------------------- | -------------------------------------------------------------------------------------------- |
+|  +4.2% |   +36 | 82.7% → 85.2% | 848 → 884 | `[unknown function]` | `<unknown>`                                                                                  |
+| -17.4% |   -28 | 15.7% → 12.8% | 161 → 133 | `MappingRF`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+| +26.7% |    +4 |   1.5% → 1.8% |   15 → 19 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60` |
+
+##### `unsafe_string` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:126`)
+
+| Change | Delta |      % | Samples | Caller     | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +14.3% |   +12 | 100.0% | 84 → 96 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:195 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:195` |
+
+##### `unsafe_load` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pointer.jl:151`)
+
+| Change | Delta |      % |   Samples | Caller        | Location                                                                                       |
+| -----: | ----: | -----: | --------: | ------------- | ---------------------------------------------------------------------------------------------- |
+|  +1.9% |   +10 | 100.0% | 522 → 532 | `unsafe_load` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pointer.jl:151` |
+
+##### `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                                                                                           | Location                                                                                                                                                                                                |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +150.0% |    +9 | 46.2% → 65.2% |  6 → 15 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+|     new |    +1 |   0.0% → 4.3% |   0 → 1 | `var\"#read!#9\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)`  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:312 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:312` |
+| removed |    -1 |   7.7% → 0.0% |   1 → 0 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)`                                              | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:312`                                                                                                     |
+|  +16.7% |    +1 | 46.2% → 30.4% |   6 → 7 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)`                                             | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+
+##### `length_continued` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pointer.jl`)
+
+| Change | Delta |      % |  Samples | Caller             | Location                                                                                              |
+| -----: | ----: | -----: | -------: | ------------------ | ----------------------------------------------------------------------------------------------------- |
+| +10.3% |   +10 | 100.0% | 97 → 107 | `length(::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:540` |
+
+##### `getindex` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:975`)
+
+|  Change | Delta |             % |  Samples | Caller                                                                                                                                                                                                                          | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | -------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +12.4% |   +12 | 55.7% → 59.2% | 97 → 109 | `macro expansion`                                                                                                                                                                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:332 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:332` |
+|  -34.8% |    -8 |  13.2% → 8.2% |  23 → 15 | `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)`                                                         | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+|  +13.0% |    +6 | 26.4% → 28.3% |  46 → 52 | `getindex`                                                                                                                                                                                                                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/subarray.jl:334`                                                                                                           |
+| removed |    -2 |   1.1% → 0.0% |    2 → 0 | `var\"#read!#9\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:312`                                                                                                       |
+|     new |    +2 |   0.0% → 1.1% |    0 → 2 | `getindex`                                                                                                                                                                                                                      | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:161`                                                                                                      |
+
+##### `_setindex!` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1025`)
+
+| Change | Delta |             % |   Samples | Caller               | Location                                                                                      |
+| -----: | ----: | ------------: | --------: | -------------------- | --------------------------------------------------------------------------------------------- |
+|  +7.6% |   +17 | 92.1% → 95.6% | 223 → 240 | `setindex!`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1020` |
+| -42.1% |    -8 |   7.9% → 4.4% |   19 → 11 | `[unknown function]` | `<unknown>`                                                                                   |
+
+##### `macro expansion` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:14`)
+
+|  Change | Delta |              % | Samples | Caller                                                                                                                                                                                                                           | Location                                                                                                                                                                                                |
+| ------: | ----: | -------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +68.8% |   +11 | 84.2% → 100.0% | 16 → 27 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+| removed |    -3 |   15.8% → 0.0% |   3 → 0 | `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{String})`                                                                                                                   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:142`                                                                                                     |
+
+##### `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40`)
+
+|  Change | Delta |             % | Samples | Caller               | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +400.0% |    +4 |  4.3% → 16.7% |   1 → 5 | `[unknown function]` | `<unknown>`                                                                                                                                                                                               |
+|   +4.5% |    +1 | 95.7% → 76.7% | 22 → 23 | `getvalue`           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:127 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:127` |
+|     new |    +1 |   0.0% → 3.3% |   0 → 1 | `foldl_impl`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46`                                                                                                              |
+|     new |    +1 |   0.0% → 3.3% |   0 → 1 | `defaultminimum`     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:12`                                                                                                       |
+
+##### `write(::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224`)
+
+|  Change | Delta |      % | Samples | Caller      | Location                                                                                                                                                                                                  |
+| ------: | ----: | -----: | ------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +233.3% |    +7 | 100.0% |  3 → 10 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `unescape(::JSON3.PointerString)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/strings.jl:48`)
+
+|  Change | Delta |              % | Samples | Caller               | Location                                                                                                                                                                                                  |
+| ------: | ----: | -------------: | ------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +53.3% |    +8 | 93.8% → 100.0% | 15 → 23 | `getvalue`           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:193 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:193` |
+| removed |    -1 |    6.3% → 0.0% |   1 → 0 | `[unknown function]` | `<unknown>`                                                                                                                                                                                               |
+
+##### `parsedigits` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl`)
+
+| Change | Delta |      % | Samples | Caller        | Location                                                                                                |
+| -----: | ----: | -----: | ------: | ------------- | ------------------------------------------------------------------------------------------------------- |
+| +55.6% |    +5 | 100.0% |  9 → 14 | `parsedigits` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:302` |
+
+##### `var\"#write#84\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.BoolType, ::Vector{UInt8}, ::Int64, ::Int64, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:209`)
+
+|  Change | Delta |             % | Samples | Caller                                                                     | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +111.1% |   +10 | 47.4% → 79.2% |  9 → 19 | `write(::StructTypes.BoolType, ::Vector{UInt8}, ::Int64, ::Int64, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:209 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:209` |
+|  -50.0% |    -5 | 52.6% → 20.8% |  10 → 5 | `#write#79`                                                                | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `defaultminimum` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:6`)
+
+| Change | Delta |      % | Samples | Caller                                                                       | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------------------------------------------------- | ----------- |
+| +66.7% |    +4 | 100.0% |  6 → 10 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
+
+##### `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                                                                                           | Location                                                                                                                                                                                                |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +25.9% |   +14 | 69.2% → 82.9% | 54 → 68 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                                                      | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87`   |
+|  -39.1% |    -9 | 29.5% → 17.1% | 23 → 14 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+| removed |    -1 |   1.3% → 0.0% |   1 → 0 | `var\"#read!#9\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)`  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:312`                                                                                                     |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:184`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                                                             | Location                                                                                                                                                                                                |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+
+##### `var\"#write#86\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224`)
+
+|  Change | Delta |             % | Samples | Caller                                                                        | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +18.8% |    +3 | 72.7% → 76.0% | 16 → 19 | `write(::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:224 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224` |
+| +100.0% |    +1 |   4.5% → 8.0% |   1 → 2 | `write`                                                                       | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:224 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224` |
+|  -25.0% |    -1 | 18.2% → 12.0% |   4 → 3 | `#write#79`                                                                   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `parsedigits` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:348`)
+
+|  Change | Delta |      % | Samples | Caller        | Location                                                                                                |
+| ------: | ----: | -----: | ------: | ------------- | ------------------------------------------------------------------------------------------------------- |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `parsedigits` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:302` |
+
+##### `promoteeltype` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:100`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                                                                                                                                                           | Location                                                                                                                                                                                                |
+| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+
+##### `promoteeltype` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:98`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                                                                                                                                                           | Location                                                                                                                                                                                                |
+| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+
+##### `var\"#write#81\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.ArrayType, ::Vector{UInt8}, ::Int64, ::Int64, ::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:181`)
+
+| Change | Delta |            % | Samples | Caller                                                                                                                                                                                       | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    new |    +2 | 0.0% → 66.7% |   0 → 2 | `write(::StructTypes.ArrayType, ::Vector{UInt8}, ::Int64, ::Int64, ::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:181 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:181` |
+|    new |    +1 | 0.0% → 33.3% |   0 → 1 | `#write#79`                                                                                                                                                                                  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157`                                                                                                      |
+
+##### `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:312`)
+
+|  Change | Delta |              % | Samples | Caller                                                                                                                                                                      | Location                                                                                                                                                                                              |
+| ------: | ----: | -------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     new |    +1 |   0.0% → 33.3% |   0 → 1 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+| +100.0% |    +1 | 100.0% → 66.7% |   1 → 2 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+
+##### `|` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:418`)
+
+| Change | Delta |             % | Samples | Caller          | Location                                                                                                                                                                                                |
+| -----: | ----: | ------------: | ------: | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +17.1% |   +12 | 86.4% → 92.1% | 70 → 82 | `string`        | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:88 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:88` |
+| -50.0% |    -4 |   9.9% → 4.5% |   8 → 4 | `promoteeltype` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:96 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:96` |
+
+##### `<=` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:560`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                             | Location                                                                                                                                                                                                |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +100.0% |    +5 | 71.4% → 66.7% |  5 → 10 | `populateinds!`                                                                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:66 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:66` |
+| +100.0% |    +2 | 28.6% → 26.7% |   2 → 4 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+|     new |    +1 |   0.0% → 6.7% |   0 → 1 | `>=`                                                                                                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/operators.jl:481`                                                                                                        |
+
+##### `isassigned` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1642`)
+
+| Change | Delta |            % | Samples | Caller                                                                                                                                                                                                                                                                                | Location                                                                                             |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+|    new |    +4 | 0.0% → 57.1% |   0 → 4 | `var\"#write#81\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.ArrayType, ::Vector{UInt8}, ::Int64, ::Int64, ::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:181` |
+|    new |    +2 | 0.0% → 28.6% |   0 → 2 | `#write#81`                                                                                                                                                                                                                                                                           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`  |
+|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `#defaultminimum##0`                                                                                                                                                                                                                                                                  | `<unknown>`                                                                                          |
+
+##### `_string_n` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:136`)
+
+| Change | Delta |             % | Samples | Caller         | Location                                                                                        |
+| -----: | ----: | ------------: | ------: | -------------- | ----------------------------------------------------------------------------------------------- |
+|    new |    +7 | 0.0% → 100.0% |   0 → 7 | `StringMemory` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:167` |
+
+##### `&` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:393`)
+
+| Change | Delta |             % | Samples | Caller                                                     | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +17.4% |    +8 | 73.0% → 78.3% | 46 → 54 | `getnontypemask`                                           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:114 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:114` |
+| -23.5% |    -4 | 27.0% → 18.8% | 17 → 13 | `ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:267`                                                                                                               |
+|    new |    +2 |   0.0% → 2.9% |   0 → 2 | `getproperty`                                              | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/utils.jl:467`                                                                                                    |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                                  | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +100.0% |    +7 | 58.3% → 82.4% |  7 → 14 | `escapelength`                                                                                                                                                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:331 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:331` |
+|  -40.0% |    -2 | 41.7% → 17.6% |   5 → 3 | `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+
+##### `-(::Int64, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:86`)
+
+|  Change | Delta |      % | Samples | Caller      | Location                                                                                                                                                                                                  |
+| ------: | ----: | -----: | ------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +125.0% |    +5 | 100.0% |   4 → 9 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `[unknown function]` (`<unknown>`)
+
+|  Change | Delta |             % |   Samples | Caller                                                                       | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | --------: | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +20.7% |   +23 | 45.9% → 54.3% | 111 → 134 | `#write#79`                                                                  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+|  -19.5% |   -16 | 33.9% → 26.7% |   82 → 66 | `_foldl_impl`                                                                | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60`                                                                                                              |
+|  -66.7% |    -6 |   3.7% → 1.2% |     9 → 3 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>`                                                                                                                                                                                               |
+| +400.0% |    +4 |   0.4% → 2.0% |     1 → 5 | `parse_workload`                                                             | `profile.jl:18`                                                                                                                                                                                           |
+
+##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller      | Location                                                                                     |
+| -----: | ----: | ------------: | ------: | ----------- | -------------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `MappingRF` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+
+##### `Array` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:649`)
+
+| Change | Delta |      % | Samples | Caller     | Location                                                                                     |
+| -----: | ----: | -----: | ------: | ---------- | -------------------------------------------------------------------------------------------- |
+| -70.7% |   -29 | 100.0% | 41 → 12 | `getindex` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:436` |
+
+##### `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218`)
+
+| Change | Delta |             % |   Samples | Caller                                                                                                                                                                               | Location                                                                                                                                                                                                |
+| -----: | ----: | ------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -11.6% |   -25 | 99.1% → 99.0% | 215 → 190 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+
+##### `parse_workload` (`profile.jl:18`)
+
+| Change | Delta |      % | Samples | Caller            | Location                                                                                                          |
+| -----: | ----: | -----: | ------: | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+| -30.4% |   -21 | 100.0% | 69 → 48 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:82` |
+
+##### `getindex` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:401`)
+
+|  Change | Delta |             % | Samples | Caller                                    | Location                                                                                    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------- | ------------------------------------------------------------------------------------------- |
+|  -34.1% |   -14 | 67.2% → 67.5% | 41 → 27 | `isslotempty`                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:134` |
+|  -52.9% |    -9 | 27.9% → 20.0% |  17 → 8 | `rehash!(::Dict{Symbol, Int64}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:138` |
+| +300.0% |    +3 |  1.6% → 10.0% |   1 → 4 | `isslotfilled`                            | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:135` |
+|  -50.0% |    -1 |   3.3% → 2.5% |   2 → 1 | `isslotmissing`                           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:136` |
+
+##### `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{String})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:142`)
+
+|  Change | Delta |             % |   Samples | Caller                                                                                                                                                                      | Location                                                                                                                                                                                              |
+| ------: | ----: | ------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -15.3% |   -21 | 98.6% → 96.7% | 137 → 116 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+| +100.0% |    +2 |   1.4% → 3.3% |     2 → 4 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+
+##### `iterate` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                       | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -26.7% |   -16 | 46.9% → 40.0% | 60 → 44 | `#write#79`                                                                                                                  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+|  +19.1% |    +9 | 36.7% → 50.9% | 47 → 56 | `iterate`                                                                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:75 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75`   |
+|  -41.2% |    -7 |  13.3% → 9.1% | 17 → 10 | `iterate`                                                                                                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697`                                                                                                          |
+| removed |    -4 |   3.1% → 0.0% |   4 → 0 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127`                                                                                                        |
+
+##### `Dict` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:80`)
+
+| Change | Delta |      % | Samples | Caller     | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -35.3% |   -18 | 100.0% | 51 → 33 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:126 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:126` |
+
+##### `iterate` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl`)
+
+| Change | Delta |             % | Samples | Caller      | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -36.0% |    -9 | 49.0% → 47.1% | 25 → 16 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+| -35.3% |    -6 | 33.3% → 32.4% | 17 → 11 | `iterate`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:75 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75`   |
+| -22.2% |    -2 | 17.6% → 20.6% |   9 → 7 | `iterate`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697`                                                                                                          |
+
+##### `getproperty` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base_compiler.jl:57`)
+
+|  Change | Delta |             % | Samples | Caller                                                     | Location                                                                                      |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| +116.7% |    +7 |  6.3% → 15.5% |  6 → 13 | `_setindex!`                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:327`   |
+|  -12.8% |    -6 | 49.0% → 48.8% | 47 → 41 | `_setindex!`                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:331`   |
+|  -38.5% |    -5 |  13.5% → 9.5% |  13 → 8 | `ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:267`   |
+|  -62.5% |    -5 |   8.3% → 3.6% |   8 → 3 | `_setindex!`                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:325`   |
+|  -66.7% |    -4 |   6.3% → 2.4% |   6 → 2 | `_setindex!`                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1025` |
+
+##### `#write#81` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -14.1% |   -11 | 100.0% | 78 → 67 | `[unknown function]` | `<unknown>` |
+
+##### `size` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:10`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                                                                         |
+| -----: | ----: | -----: | ------: | -------- | ------------------------------------------------------------------------------------------------ |
+| -29.7% |   -11 | 100.0% | 37 → 26 | `length` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:11` |
+
+##### `memoryref` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:594`)
+
+| Change | Delta |      % | Samples | Caller       | Location                                                                                             |
+| -----: | ----: | -----: | ------: | ------------ | ---------------------------------------------------------------------------------------------------- |
+| -44.0% |   -11 | 100.0% | 25 → 14 | `_setindex!` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/genericmemory.jl:262` |
+
+##### `indexed_iterate` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`)
+
+|  Change | Delta |             % |   Samples | Caller                                                           | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | --------: | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -11.5% |   -52 | 31.2% → 27.8% | 451 → 399 | `#write#79`                                                      | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+|   +3.8% |   +35 | 63.5% → 66.3% | 917 → 952 | `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`                                                                                                              |
+|   +5.6% |    +4 |   5.0% → 5.3% |   72 → 76 | `indexed_iterate`                                                | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`                                                                                                              |
+| +100.0% |    +4 |   0.3% → 0.6% |     4 → 8 | `#write#81`                                                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`                                                                                                       |
+
+##### `*` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:88`)
+
+|  Change | Delta |             % | Samples | Caller       | Location                                                                                               |
+| ------: | ----: | ------------: | ------: | ------------ | ------------------------------------------------------------------------------------------------------ |
+|  -27.9% |   -12 | 97.7% → 88.6% | 43 → 31 | `_setindex!` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:337`            |
+| +200.0% |    +2 |   2.3% → 8.6% |   1 → 3 | `_muladd`    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:27` |
+|     new |    +1 |   0.0% → 2.9% |   0 → 1 | `typeparser` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/ints.jl:32`   |
+
+##### `+(::Int64, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87`)
+
+|  Change | Delta |             % | Samples | Caller      | Location                                                                                             |
+| ------: | ----: | ------------: | ------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| removed |    -9 | 100.0% → 0.0% |   9 → 0 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl`)
+
+| Change | Delta |             % | Samples | Caller    | Location                                                                                                                                                                                                |
+| -----: | ----: | ------------: | ------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -39.4% |   -13 | 84.6% → 64.5% | 33 → 20 | `iterate` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:81 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81` |
+| +83.3% |    +5 | 15.4% → 35.5% |  6 → 11 | `iterate` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:78 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:78` |
+
+##### `rehash!(::Dict{Symbol, Int64}, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:138`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                                             | Location                                                                                                                                                                                                |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -35.7% |    -5 | 60.9% → 56.3% |  14 → 9 | `setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)`                                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356`                                                                                                             |
+| -50.0% |    -2 | 17.4% → 12.5% |   4 → 2 | `ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)`                                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:267`                                                                                                             |
+| +50.0% |    +1 |  8.7% → 18.8% |   2 → 3 | `_setindex!`                                                                                                                       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:339`                                                                                                             |
+| -33.3% |    -1 | 13.0% → 12.5% |   3 → 2 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+
+##### `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340`)
+
+| Change | Delta |             % | Samples | Caller                                                                         | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -12.2% |    -5 | 47.1% → 45.0% | 41 → 36 | `#write#79`                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+|  -4.3% |    -2 | 52.9% → 55.0% | 46 → 44 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+
+##### `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340`)
+
+| Change | Delta |      % | Samples | Caller      | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -16.3% |    -7 | 100.0% | 43 → 36 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:213`)
+
+| Change | Delta |      % | Samples | Caller    | Location                                                                                                                                                                                                |
+| -----: | ----: | -----: | ------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -24.0% |    -6 | 100.0% | 25 → 19 | `iterate` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:81 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81` |
+
+##### `Object` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:8`)
+
+| Change | Delta |      % | Samples | Caller     | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -71.4% |    -5 | 100.0% |   7 → 2 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:126 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:126` |
+
+##### `var\"#read!#9\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:312`)
+
+| Change | Delta |              % | Samples | Caller                                                                                                                                                                              | Location                                                                                                                                                                                                |
+| -----: | ----: | -------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -66.7% |    -6 | 100.0% → 60.0% |   9 → 3 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Array}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:312 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:312` |
+|    new |    +2 |   0.0% → 40.0% |   0 → 2 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                        | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87`                                                                                                      |
+
+##### `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}, ::Int64, ::UInt64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131`)
+
+|  Change | Delta |             % | Samples | Caller       | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -31.3% |    -5 | 84.2% → 68.8% | 16 → 11 | `getvalue`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:216 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:216` |
+| +200.0% |    +2 |  5.3% → 18.8% |   1 → 3 | `foldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46`                                                                                                              |
+
+##### `promoteeltype` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:94`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                                                                                           | Location                                                                                                                                                                                                |
+| -----: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -50.0% |    -3 | 100.0% |   6 → 3 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+
+##### `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.False})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:189`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                                                                                      | Location                                                                                                                                                                                              |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -60.0% |    -3 | 71.4% → 50.0% |   5 → 2 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+
+##### `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.True})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:174`)
+
+|  Change | Delta |            % | Samples | Caller                                                                                                                                                                      | Location                                                                                           |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| removed |    -2 | 66.7% → 0.0% |   2 → 0 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87` |
+
+##### `#write#81` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:60`)
+
+|  Change | Delta |              % |   Samples | Caller               | Location                                                                                             |
+| ------: | ----: | -------------: | --------: | -------------------- | ---------------------------------------------------------------------------------------------------- |
+| removed |    -3 |    2.2% → 0.0% |     3 → 0 | `#write#79`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+|   +1.5% |    +2 | 97.0% → 100.0% | 130 → 132 | `[unknown function]` | `<unknown>`                                                                                          |
+| removed |    -1 |    0.7% → 0.0% |     1 → 0 | `#write#81`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:200` |
+
+##### `populateinds!` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:64`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                    | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}, ::Int64, ::UInt64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:131 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131` |
+
+##### `gettape` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:25`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                                                                                                                                                                                |
+| -----: | ----: | -----: | ------: | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -50.0% |    -2 | 100.0% |   4 → 2 | `length` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:38 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:38` |
+
+##### `getinds` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:26`)
+
+|  Change | Delta |             % | Samples | Caller | Location                                                                                             |
+| ------: | ----: | ------------: | ------: | ------ | ---------------------------------------------------------------------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `size` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:146` |
+
+##### `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -33.3% |    -1 | 100.0% |   3 → 2 | `[unknown function]` | `<unknown>` |
+
+##### `var\"#read#6\"(::Bool, ::Nothing, ::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.read), ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30`)
+
+|  Change | Delta |             % | Samples | Caller | Location                                                                                                                                                                                              |
+| ------: | ----: | ------------: | ------: | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `read` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:30 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
+
+##### `setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                                             | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -35.3% |    -6 | 25.4% → 17.7% | 17 → 11 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40`   |
+|  +2.0% |    +1 | 74.6% → 82.3% | 50 → 51 | `getvalue`                                                                                                                         | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:127 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:127` |
+
+##### `indexed_iterate` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pair.jl:42`)
+
+| Change | Delta |      % | Samples | Caller            | Location                                                                                   |
+| -----: | ----: | -----: | ------: | ----------------- | ------------------------------------------------------------------------------------------ |
+| -71.4% |    -5 | 100.0% |   7 → 2 | `indexed_iterate` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pair.jl:42` |
+
+##### `checkbounds` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/basic.jl:204`)
+
+| Change | Delta |      % | Samples | Caller        | Location                                                                                             |
+| -----: | ----: | -----: | ------: | ------------- | ---------------------------------------------------------------------------------------------------- |
+| -50.0% |    -4 | 100.0% |   8 → 4 | `checkbounds` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/basic.jl:212` |
+
+##### `unsafe_wrap` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:147`)
+
+| Change | Delta |      % | Samples | Caller         | Location                                                                                        |
+| -----: | ----: | -----: | ------: | -------------- | ----------------------------------------------------------------------------------------------- |
+| -57.1% |    -4 | 100.0% |   7 → 3 | `StringMemory` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:167` |
+
+##### `>>` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:573`)
+
+| Change | Delta |      % | Samples | Caller | Location                                                                                   |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------------------------------------------------------ |
+| -80.0% |    -4 | 100.0% |   5 → 1 | `>>`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:580` |
+
+##### `<` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:83`)
+
+| Change | Delta |              % | Samples | Caller                | Location                                                                                         |
+| -----: | ----: | -------------: | ------: | --------------------- | ------------------------------------------------------------------------------------------------ |
+| -15.4% |    -4 | 100.0% → 95.7% | 26 → 22 | `>`                   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/operators.jl:425` |
+|    new |    +1 |    0.0% → 4.3% |   0 → 1 | `>(::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/operators.jl:425` |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl:75`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                                                                                  | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -8.9% |    -4 | 76.3% → 73.2% | 45 → 41 | `escapelength`                                                                                                                                                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:331 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:331` |
+|  +7.1% |    +1 | 23.7% → 26.8% | 14 → 15 | `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl:72`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                                  | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -37.5% |    -3 | 100.0% |   8 → 5 | `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+
+##### `getproperty` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base_compiler.jl:50`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                       | Location                                                                                                                                                                                              |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -25.0% |    -3 | 100.0% |  12 → 9 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+
+##### `#defaultminimum##0` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -28.6% |    -2 | 100.0% |   7 → 5 | `[unknown function]` | `<unknown>` |
+
 ### Total samples
 
 #### Regressions
@@ -870,3 +1455,543 @@ Functions with the largest decrease in total samples taken in the function and a
 | Change | Delta |     % | Samples | Function                                                                                                                                                                                | Location    |
 | -----: | ----: | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | -20.0% |    -1 | <0.1% |   5 → 4 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `parse_workload` (`profile.jl:18`)
+
+| Change | Delta |             % |         Samples | Callee               | Location                                                                                                                                                                                              |
+| -----: | ----: | ------------: | --------------: | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +3.0% |  +680 | 92.7% → 92.4% | 22,931 → 23,611 | `[unknown function]` | `<unknown>`                                                                                                                                                                                           |
+|  +9.2% |  +126 |   5.5% → 5.9% |   1,373 → 1,499 | `read`               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:30 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
+|  +2.7% |   +10 |          1.5% |       377 → 387 | `length(::String)`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:540`                                                                                                 |
+|    new |    +1 |  0.0% → <0.1% |           0 → 1 | `iterate`            | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/range.jl:924`                                                                                                          |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:82`)
+
+| Change | Delta |      % |         Samples | Callee           | Location        |
+| -----: | ----: | -----: | --------------: | ---------------- | --------------- |
+|  +3.2% |  +796 | 100.0% | 24,750 → 25,546 | `parse_workload` | `profile.jl:18` |
+
+##### `capture_wall` (`profile.jl:43`)
+
+| Change | Delta |      % |         Samples | Callee            | Location                                                                                                          |
+| -----: | ----: | -----: | --------------: | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:82` |
+
+##### `[unknown function]` (`<unknown>`)
+
+| Change | Delta |             % |         Samples | Callee         | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | --------------: | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 |        100.0% | 24,751 → 25,547 | `capture_wall` | `profile.jl:43`                                                                                                                                                                                           |
+|  +2.9% |  +676 | 92.6% → 92.4% | 22,930 → 23,606 | `#write#58`    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40`   |
+|  +3.1% |  +511 | 65.7% → 65.6% | 16,258 → 16,769 | `#write#79`    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+|  +2.9% |  +495 | 68.7% → 68.5% | 17,015 → 17,510 | `#write#81`    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`                                                                                                       |
+|  +2.8% |  +165 | 23.7% → 23.6% |   5,869 → 6,034 | `sum`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`                                                                                                             |
+
+##### `eval(::Module, ::Any)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`)
+
+| Change | Delta |      % |         Samples | Callee               | Location    |
+| -----: | ----: | -----: | --------------: | -------------------- | ----------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `[unknown function]` | `<unknown>` |
+
+##### `include_string(::typeof(identity), ::Module, ::String, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989`)
+
+| Change | Delta |      % |         Samples | Callee                  | Location                                                                                    |
+| -----: | ----: | -----: | --------------: | ----------------------- | ------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `eval(::Module, ::Any)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489` |
+
+##### `_include(::Function, ::Module, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:3083`)
+
+| Change | Delta |      % |         Samples | Callee                                                             | Location                                                                                        |
+| -----: | ----: | -----: | --------------: | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `include_string(::typeof(identity), ::Module, ::String, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989` |
+
+##### `include(::Module, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309`)
+
+| Change | Delta |      % |         Samples | Callee                                     | Location                                                                                        |
+| -----: | ----: | -----: | --------------: | ------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `_include(::Function, ::Module, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:3083` |
+
+##### `exec_options(::Base.JLOptions)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234`)
+
+| Change | Delta |      % |         Samples | Callee                        | Location                                                                                    |
+| -----: | ----: | -----: | --------------: | ----------------------------- | ------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `include(::Module, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309` |
+
+##### `_start()` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:570`)
+
+| Change | Delta |      % |         Samples | Callee                           | Location                                                                                      |
+| -----: | ----: | -----: | --------------: | -------------------------------- | --------------------------------------------------------------------------------------------- |
+|  +3.2% |  +796 | 100.0% | 24,751 → 25,547 | `exec_options(::Base.JLOptions)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234` |
+
+##### `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40`)
+
+| Change | Delta |             % |         Samples | Callee                    | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | --------------: | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +3.0% |  +510 | 74.3% → 74.4% | 17,042 → 17,552 | `write`                   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:147 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:147` |
+|  +2.8% |  +167 | 25.7% → 25.6% |   5,882 → 6,049 | `defaultminimum`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:12 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:12`   |
+| -33.3% |    -1 |         <0.1% |           3 → 2 | `String(::Vector{UInt8})` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:66`                                                                                                      |
+|    new |    +1 |  0.0% → <0.1% |           0 → 1 | `StringVector`            | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:168`                                                                                                           |
+
+##### `#write#79` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157`)
+
+| Change | Delta |             % |         Samples | Callee                                                                         | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | --------------: | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +2.9% |  +496 | 99.9% → 99.8% | 17,029 → 17,525 | `[unknown function]`                                                           | `<unknown>`                                                                                                                                                                                               |
+|  -9.5% |  -123 |   7.6% → 6.7% |   1,296 → 1,173 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+|  +3.4% |   +59 |         10.1% |   1,714 → 1,773 | `iterate`                                                                      | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:78 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:78`   |
+|  +2.7% |   +56 |         12.1% |   2,067 → 2,123 | `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)`      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`                                                                                                              |
+|  -8.9% |   -46 |   3.0% → 2.7% |       519 → 473 | `indexed_iterate`                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`                                                                                                              |
+
+##### `write` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:147`)
+
+| Change | Delta |      % |         Samples | Callee      | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | --------------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +3.0% |  +510 | 100.0% | 17,041 → 17,551 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `#write#81` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`)
+
+|  Change | Delta |             % |         Samples | Callee               | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | --------------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   +3.2% |  +516 | 95.6% → 95.9% | 16,270 → 16,786 | `[unknown function]` | `<unknown>`                                                                                                                                                                                               |
+|  -16.7% |   -70 |   2.5% → 2.0% |       420 → 350 | `getindex`           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:163 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163` |
+|  +10.6% |   +59 |   3.3% → 3.5% |       559 → 618 | `isassigned`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641`                                                                                                  |
+| removed |    -3 |  <0.1% → 0.0% |           3 → 0 | `iterate`            | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/range.jl`                                                                                                                  |
+|  +25.0% |    +2 |  <0.1% → 0.1% |          8 → 10 | `indexed_iterate`    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`                                                                                                              |
+
+##### `defaultminimum` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:12`)
+
+| Change | Delta |            % |       Samples | Callee                                                                                                                             | Location                                                                                            |
+| -----: | ----: | -----------: | ------------: | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 |       100.0% | 5,882 → 6,046 | `sum`                                                                                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`       |
+| +38.0% |   +19 |  0.9% → 1.1% |       50 → 69 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})`       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127`  |
+|    new |    +3 | 0.0% → <0.1% |         0 → 3 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, Vector{UInt64}})`                                                           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127`  |
+|    new |    +1 | 0.0% → <0.1% |         0 → 1 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+
+##### `MappingRF` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98`)
+
+| Change | Delta |           % |       Samples | Callee                                                                                                                                                                                  | Location                                                                                     |
+| -----: | ----: | ----------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+|  +2.8% |  +166 |      100.0% | 5,873 → 6,039 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})`                                                                                                            | `<unknown>`                                                                                  |
+| +60.0% |    +3 |        0.1% |         5 → 8 | `BottomRF`                                                                                                                                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:84` |
+|  -4.8% |    -1 | 0.4% → 0.3% |       21 → 20 | `BottomRF`                                                                                                                                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:83` |
+| -20.0% |    -1 |        0.1% |         5 → 4 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>`                                                                                  |
+
+##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60`)
+
+| Change | Delta |             % |       Samples | Callee                                                                       | Location                                                                                                                                                                                                |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +2.8% |  +165 |         99.9% | 5,867 → 6,032 | `[unknown function]`                                                         | `<unknown>`                                                                                                                                                                                             |
+|  +2.1% |   +63 | 50.4% → 50.0% | 2,959 → 3,022 | `iterate`                                                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697`                                                                                                        |
+|  -8.6% |   -34 |   6.7% → 6.0% |     396 → 362 | `MappingRF`                                                                  | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98`                                                                                                            |
+| +26.7% |    +4 |          0.3% |       15 → 19 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>`                                                                                                                                                                                             |
+|  +1.0% |    +2 |   3.4% → 3.3% |     198 → 200 | `iterate`                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:75 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75` |
+
+##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:56`)
+
+| Change | Delta |             % |       Samples | Callee               | Location                                                                                         |
+| -----: | ----: | ------------: | ------------: | -------------------- | ------------------------------------------------------------------------------------------------ |
+|  +2.8% |  +166 | 99.8% → 99.9% | 5,872 → 6,038 | `MappingRF`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98`     |
+| -20.0% |    -1 |          0.1% |         5 → 4 | `[unknown function]` | `<unknown>`                                                                                      |
+| -25.0% |    -1 |  0.1% → <0.1% |         4 → 3 | `iterate`            | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697` |
+
+##### `foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46`)
+
+|  Change | Delta |            % |       Samples | Callee                                                                                                                                                    | Location                                                                                                                                                                                                  |
+| ------: | ----: | -----------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   +2.8% |  +164 |        99.9% | 5,874 → 6,038 | `_foldl_impl`                                                                                                                                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60`                                                                                                              |
+|   +2.8% |  +164 |       100.0% | 5,882 → 6,046 | `_foldl_impl`                                                                                                                                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:56`                                                                                                              |
+| +200.0% |    +2 |        <0.1% |         1 → 3 | `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}, ::Int64, ::UInt64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:131 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131` |
+|     new |    +1 | 0.0% → <0.1% |         0 → 1 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})`                        | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40`                                                                                                       |
+
+##### `var\"#read#6\"(::Bool, ::Nothing, ::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.read), ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30`)
+
+|  Change | Delta |             % |       Samples | Callee  | Location                                                                                                                                                                                              |
+| ------: | ----: | ------------: | ------------: | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +180.0% |  +117 |  4.7% → 12.1% |      65 → 182 | `Array` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:648`                                                                                                           |
+|   +0.8% |   +10 | 95.0% → 87.7% | 1,304 → 1,314 | `read!` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:87 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+
+##### `read` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30`)
+
+| Change | Delta |      % |       Samples | Callee                                                                                                                     | Location                                                                                                                                                                                              |
+| -----: | ----: | -----: | ------------: | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +9.2% |  +126 | 100.0% | 1,373 → 1,499 | `var\"#read#6\"(::Bool, ::Nothing, ::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.read), ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:30 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
+
+##### `iterate` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:78`)
+
+| Change | Delta |     % |       Samples | Callee     | Location                                                                                                                                                                                                  |
+| -----: | ----: | ----: | ------------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +2.9% |   +94 | 99.2% | 3,261 → 3,355 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:187 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187` |
+
+##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1`)
+
+|  Change | Delta |            % | Samples | Callee                                                                                                                             | Location                                                                                            |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:40` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187`)
+
+| Change | Delta |      % |       Samples | Callee    | Location                                                                                                                                                                                              |
+| -----: | ----: | -----: | ------------: | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +1.4% |   +93 | 100.0% | 6,857 → 6,950 | `_symbol` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:1 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218`)
+
+|  Change | Delta |             % |  Samples | Callee     | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | -------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +26.5% |   +26 | 50.0% → 52.3% | 98 → 124 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:193 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:193` |
+|  +12.5% |   +11 | 44.9% → 41.8% |  88 → 99 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:195 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:195` |
+| +100.0% |    +4 |   2.0% → 3.4% |    4 → 8 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl`         |
+|  +50.0% |    +1 |   1.0% → 1.3% |    2 → 3 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:191 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:191` |
+|  -25.0% |    -1 |   2.0% → 1.3% |    4 → 3 | `getvalue` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl`                                                                                                         |
+
+##### `write(::StructTypes.BoolType, ::Vector{UInt8}, ::Int64, ::Int64, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:209`)
+
+| Change | Delta |             % | Samples | Callee                                                                                                                                                              | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +54.5% |   +12 | 56.4% → 49.3% | 22 → 34 | `var\"#write#84\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.BoolType, ::Vector{UInt8}, ::Int64, ::Int64, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:209 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:209` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:193`)
+
+|  Change | Delta |             % |  Samples | Callee                              | Location                                                                                                                                                                                                    |
+| ------: | ----: | ------------: | -------: | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +22.1% |   +21 | 96.9% → 93.5% | 95 → 116 | `unescape(::JSON3.PointerString)`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/strings.jl:48 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/strings.jl:48` |
+| +200.0% |    +4 |   2.0% → 4.8% |    2 → 6 | `getnontypemask`                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:114 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:114`   |
+| +100.0% |    +1 |   1.0% → 1.6% |    1 → 2 | `resize!(::Vector{UInt8}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1533`                                                                                                               |
+
+##### `iterate` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81`)
+
+| Change | Delta |           % |   Samples | Callee     | Location                                                                                                                                                                                                  |
+| -----: | ----: | ----------: | --------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +20.9% |   +41 | 5.1% → 6.1% | 196 → 237 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:218 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218` |
+| +39.5% |   +30 | 2.0% → 2.7% |  76 → 106 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:215 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:215` |
+| -33.3% |   -29 | 2.3% → 1.5% |   87 → 58 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:216 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:216` |
+| -39.4% |   -13 | 0.9% → 0.5% |   33 → 20 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl`         |
+| -24.0% |    -6 | 0.6% → 0.5% |   25 → 19 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:213 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:213` |
+
+##### `getbyte` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:8`)
+
+| Change | Delta |      % |   Samples | Callee     | Location                                                                                             |
+| -----: | ----: | -----: | --------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+|  +6.2% |   +23 | 100.0% | 371 → 394 | `getindex` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/basic.jl:793` |
+
+##### `#write#81` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:60`)
+
+|  Change | Delta |            % | Samples | Callee      | Location                                                                                             |
+| ------: | ----: | -----------: | ------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| +342.9% |   +24 | 5.0% → 18.9% |  7 → 31 | `iterate`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/range.jl`             |
+| removed |    -1 |  0.7% → 0.0% |   1 → 0 | `#write#81` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:200` |
+|     new |    +1 |  0.0% → 0.6% |   0 → 1 | `eachindex` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/abstractarray.jl:325` |
+
+##### `escapelength` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:331`)
+
+|   Change | Delta |             % |   Samples | Callee            | Location                                                                                       |
+| -------: | ----: | ------------: | --------: | ----------------- | ---------------------------------------------------------------------------------------------- |
+| +1100.0% |   +11 |   0.6% → 6.2% |    1 → 12 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl:76` |
+|    +5.8% |    +7 | 69.5% → 65.6% | 121 → 128 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl:77` |
+|  +100.0% |    +7 |   4.0% → 7.2% |    7 → 14 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl`    |
+|    -8.9% |    -4 | 25.9% → 21.0% |   45 → 41 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/simdloop.jl:75` |
+
+##### `unescape(::JSON3.PointerString)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/strings.jl:48`)
+
+|  Change | Delta |             % | Samples | Callee                              | Location                                                                                                                                                                                                    |
+| ------: | ----: | ------------: | ------: | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +19.0% |    +8 | 43.8% → 43.1% | 42 → 50 | `setindex!`                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1020`                                                                                                               |
+| +100.0% |    +5 |   5.2% → 8.6% |  5 → 10 | `+`                                 | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87`                                                                                                                   |
+|   -9.1% |    -2 | 22.9% → 17.2% | 22 → 20 | `codeunit`                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/strings.jl:21 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/strings.jl:21` |
+|  +10.0% |    +1 |  10.4% → 9.5% | 10 → 11 | `StringVector`                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:168`                                                                                                             |
+|     new |    +1 |   0.0% → 0.9% |   0 → 1 | `resize!(::Vector{UInt8}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1533`                                                                                                               |
+
+##### `typeparser(::Type{Float64}, ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Int16, ::Parsers.Options)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/components.jl:392`)
+
+|  Change | Delta |             % | Samples | Callee       | Location                                                                                                |
+| ------: | ----: | ------------: | ------: | ------------ | ------------------------------------------------------------------------------------------------------- |
+|  +60.9% |   +14 | 67.6% → 71.2% | 23 → 37 | `typeparser` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:270` |
+|     new |    +3 |   0.0% → 5.8% |   0 → 3 | `typeparser` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:276` |
+| +100.0% |    +1 |   2.9% → 3.8% |   1 → 2 | `typeparser` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl:152` |
+|     new |    +1 |   0.0% → 1.9% |   0 → 1 | `typeparser` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/Parsers/05lwR/src/floats.jl`     |
+
+##### `write(::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224`)
+
+| Change | Delta |             % | Samples | Callee                                                                                                                                                                 | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +20.0% |    +8 | 93.0% → 81.4% | 40 → 48 | `var\"#write#86\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:224 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224` |
+|    new |    +1 |   0.0% → 1.7% |   0 → 1 | `ndigits0zpb(::UInt64, ::Int64)`                                                                                                                                       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/intfuncs.jl:759`                                                                                                           |
+
+##### `mapfoldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:42`)
+
+| Change | Delta |            % |       Samples | Callee       | Location                                                                                     |
+| -----: | ----: | -----------: | ------------: | ------------ | -------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 |       100.0% | 5,882 → 6,046 | `foldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+|    new |    +3 | 0.0% → <0.1% |         0 → 3 | `foldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:47` |
+
+##### `#mapfoldl#271` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173`)
+
+| Change | Delta |      % |       Samples | Callee          | Location                                                                                     |
+| -----: | ----: | -----: | ------------: | --------------- | -------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `mapfoldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:42` |
+
+##### `mapfoldl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173`)
+
+| Change | Delta |      % |       Samples | Callee          | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | --------------- | --------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `#mapfoldl#271` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173` |
+
+##### `#mapreduce#275` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306`)
+
+| Change | Delta |      % |       Samples | Callee     | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ---------- | --------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `mapfoldl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173` |
+
+##### `mapreduce` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306`)
+
+| Change | Delta |      % |       Samples | Callee           | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ---------------- | --------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `#mapreduce#275` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306` |
+
+##### `#sum#278` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`)
+
+| Change | Delta |      % |       Samples | Callee      | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ----------- | --------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `mapreduce` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306` |
+
+##### `sum` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`)
+
+| Change | Delta |      % |       Samples | Callee     | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ---------- | --------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `#sum#278` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535` |
+
+##### `sum` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`)
+
+| Change | Delta |      % |       Samples | Callee     | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ---------- | --------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 100.0% | 5,882 → 6,046 | `#sum#279` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564` |
+
+##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
+
+| Change | Delta |              % |       Samples | Callee                                                                                                                                    | Location                                                                                                                                                                                                |
+| -----: | ----: | -------------: | ------------: | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +2.8% |  +164 | 99.9% → 100.0% | 5,874 → 6,038 | `[unknown function]`                                                                                                                      | `<unknown>`                                                                                                                                                                                             |
+| -71.4% |    -5 |   0.1% → <0.1% |         7 → 2 | `indexed_iterate`                                                                                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pair.jl:42`                                                                                                              |
+| -75.0% |    -3 |   0.1% → <0.1% |         4 → 1 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})`              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127`                                                                                                      |
+| +42.9% |    +3 |    0.1% → 0.2% |        7 → 10 | `defaultminimum`                                                                                                                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:6 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:6`   |
+| +40.0% |    +2 |           0.1% |         5 → 7 | `defaultminimum(::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:11 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:11` |
+
+##### `#defaultminimum##0` (`<unknown>`)
+
+|  Change | Delta |             % |       Samples | Callee           | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------------: | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   +2.8% |  +144 | 89.3% → 89.2% | 5,228 → 5,372 | `defaultminimum` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:12 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:12`   |
+|   -4.0% |   -14 |   6.0% → 5.6% |     350 → 336 | `getindex`       | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:163 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163` |
+|   +1.5% |    +7 |   8.0% → 7.9% |     470 → 477 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641`                                                                                                  |
+|  -60.0% |    -3 |  0.1% → <0.1% |         5 → 2 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1640`                                                                                                  |
+| removed |    -1 |  <0.1% → 0.0% |         1 → 0 | `getindex`       | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:158`                                                                                                      |
+
+##### `Array` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:661`)
+
+| Change | Delta |      % |   Samples | Callee  | Location                                                                                    |
+| -----: | ----: | -----: | --------: | ------- | ------------------------------------------------------------------------------------------- |
+| -16.9% |  -133 | 100.0% | 786 → 653 | `Array` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:648` |
+
+##### `zeros` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:626`)
+
+| Change | Delta |      % |   Samples | Callee  | Location                                                                                    |
+| -----: | ----: | -----: | --------: | ------- | ------------------------------------------------------------------------------------------- |
+| -16.9% |  -133 | 100.0% | 786 → 653 | `Array` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:661` |
+
+##### `zeros` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:622`)
+
+| Change | Delta |      % |   Samples | Callee  | Location                                                                                     |
+| -----: | ----: | -----: | --------: | ------- | -------------------------------------------------------------------------------------------- |
+| -16.9% |  -133 | 100.0% | 786 → 653 | `zeros` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:626` |
+
+##### `realloc!(::Vector{UInt8}, ::Int64, ::Int64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:51`)
+
+| Change | Delta |      % |   Samples | Callee  | Location                                                                                     |
+| -----: | ----: | -----: | --------: | ------- | -------------------------------------------------------------------------------------------- |
+| -16.9% |  -133 | 100.0% | 786 → 653 | `zeros` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:622` |
+
+##### `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340`)
+
+| Change | Delta |             % |       Samples | Callee                                                                                                                                                                  | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -9.3% |  -116 | 96.7% → 96.9% | 1,253 → 1,137 | `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:340 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+
+##### `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340`)
+
+| Change | Delta |             % |   Samples | Callee                                        | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | --------: | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -17.0% |  -134 | 60.7% → 55.6% | 786 → 652 | `realloc!(::Vector{UInt8}, ::Int64, ::Int64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:51 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:51`   |
+| +12.1% |   +21 | 13.4% → 16.6% | 174 → 195 | `escapelength`                                | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:331 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:331` |
+| -34.8% |    -8 |   1.8% → 1.3% |   23 → 15 | `getindex`                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:975`                                                                                                         |
+| +24.2% |    +8 |   2.6% → 3.5% |   33 → 41 | `setindex!`                                   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1020`                                                                                                             |
+| -53.3% |    -8 |   1.2% → 0.6% |    15 → 7 | `length`                                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:11`                                                                                                          |
+
+##### `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}, ::Int64, ::UInt64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                                                                                                                                                                                |
+| ------: | ----: | ------------: | ------: | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -70.7% |   -29 | 48.2% → 25.0% | 41 → 12 | `getindex`      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:436`                                                                                                            |
+|  -35.3% |    -6 | 20.0% → 22.9% | 17 → 11 | `populateinds!` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:64 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:64` |
+| +300.0% |    +3 |   1.2% → 8.3% |   1 → 4 | `unsafe_view`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/subarray.jl:260`                                                                                                         |
+| removed |    -1 |   1.2% → 0.0% |   1 → 0 | `populateinds!` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:68`                                                                                                     |
+|  -50.0% |    -1 |   2.4% → 2.1% |   2 → 1 | `Array`         | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:17 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:17` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:216`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                                                    | Location                                                                                                                                                                                                  |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -47.6% |   -39 | 94.3% → 74.1% | 82 → 43 | `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}, ::Int64, ::UInt64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:131 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131` |
+| +233.3% |    +7 |  3.4% → 17.2% |  3 → 10 | `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::Vector{UInt64}, ::Int64, ::UInt64)`                                                     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:131 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131` |
+| +100.0% |    +2 |   2.3% → 6.9% |   2 → 4 | `resize!(::Vector{Int64}, ::Int64)`                                                                                                                       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1533`                                                                                                             |
+
+##### `getindex` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:436`)
+
+| Change | Delta |      % | Samples | Callee  | Location                                                                                    |
+| -----: | ----: | -----: | ------: | ------- | ------------------------------------------------------------------------------------------- |
+| -70.7% |   -29 | 100.0% | 41 → 12 | `Array` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:649` |
+
+##### `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{String})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:142`)
+
+|  Change | Delta |             % | Samples | Callee            | Location                                                                                                                                                                                                |
+| ------: | ----: | ------------: | ------: | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -52.6% |   -10 |   6.0% → 3.1% |  19 → 9 | `setindex!`       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1020`                                                                                                           |
+|  +15.6% |    +7 | 14.3% → 18.1% | 45 → 52 | `==`              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/promotion.jl:641`                                                                                                        |
+|  +20.0% |    +5 |  7.9% → 10.4% | 25 → 30 | `string`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:88 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:88` |
+|   -6.8% |    -5 | 23.2% → 23.6% | 73 → 68 | `getbyte`         | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:8 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:8`   |
+| removed |    -3 |   1.0% → 0.0% |   3 → 0 | `macro expansion` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:14`                                                                                                     |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:126`)
+
+| Change | Delta |             % | Samples | Callee   | Location                                                                                                                                                                                              |
+| -----: | ----: | ------------: | ------: | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -35.3% |   -18 | 73.9% → 71.7% | 51 → 33 | `Dict`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:80`                                                                                                            |
+| -71.4% |    -5 |  10.1% → 4.3% |   7 → 2 | `Object` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:8 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:8` |
+
+##### `getindex` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163`)
+
+| Change | Delta |             % |       Samples | Callee     | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------------: | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -0.8% |   -14 | 99.0% → 99.3% | 1,781 → 1,767 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:127 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:127` |
+| -33.3% |    -6 |   1.0% → 0.7% |       18 → 12 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:126 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:126` |
+
+##### `ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:267`)
+
+| Change | Delta |             % |   Samples | Callee                                    | Location                                                                                            |
+| -----: | ----: | ------------: | --------: | ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
+|  -9.8% |   -21 | 25.2% → 23.2% | 215 → 194 | `rehash!(::Dict{Symbol, Int64}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:138`         |
+| -34.1% |   -14 |   4.8% → 3.2% |   41 → 27 | `isslotempty`                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:134`         |
+| -34.8% |    -8 |   2.7% → 1.8% |   23 → 15 | `==`                                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/promotion.jl:641`    |
+| -38.5% |    -5 |   1.5% → 1.0% |    13 → 8 | `getproperty`                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base_compiler.jl:57` |
+| -23.5% |    -4 |   2.0% → 1.6% |   17 → 13 | `&`                                       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:393`          |
+
+##### `Array` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:648`)
+
+| Change | Delta |      % |   Samples | Callee          | Location                                                                                    |
+| -----: | ----: | -----: | --------: | --------------- | ------------------------------------------------------------------------------------------- |
+|  -1.9% |   -16 | 100.0% | 851 → 835 | `GenericMemory` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:588` |
+
+##### `isslotempty` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:134`)
+
+| Change | Delta |      % | Samples | Callee     | Location                                                                                          |
+| -----: | ----: | -----: | ------: | ---------- | ------------------------------------------------------------------------------------------------- |
+| -34.1% |   -14 | 100.0% | 41 → 27 | `getindex` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:401` |
+
+##### `macro expansion` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:333`)
+
+| Change | Delta |      % | Samples | Callee | Location                                                                                  |
+| -----: | ----: | -----: | ------: | ------ | ----------------------------------------------------------------------------------------- |
+| -42.1% |    -8 | 100.0% | 19 → 11 | `+`    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl`)
+
+| Change | Delta |             % | Samples | Callee           | Location                                                                                                                                                                                                  |
+| -----: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +4.0% |    +1 | 37.9% → 44.1% | 25 → 26 | `getnontypemask` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:114 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:114` |
+
+##### `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.False})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:189`)
+
+|  Change | Delta |             % | Samples | Callee     | Location                                                                                             |
+| ------: | ----: | ------------: | ------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+| removed |    -3 |  12.0% → 0.0% |   3 → 0 | `length`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:11`     |
+|  -20.0% |    -2 | 40.0% → 44.4% |  10 → 8 | `getindex` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/basic.jl:793` |
+|  +50.0% |    +1 |  8.0% → 16.7% |   2 → 3 | `+`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87`            |
+
+##### `populateinds!` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:64`)
+
+| Change | Delta |             % | Samples | Callee                              | Location                                                                                      |
+| -----: | ----: | ------------: | ------: | ----------------------------------- | --------------------------------------------------------------------------------------------- |
+| -28.6% |    -4 | 82.4% → 90.9% | 14 → 10 | `resize!(::Vector{Int64}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1533` |
+
+##### `write` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224`)
+
+| Change | Delta |      % | Samples | Callee                                                                                                                                                                 | Location                                                                                                                                                                                                  |
+| -----: | ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -71.4% |    -5 | 100.0% |   7 → 2 | `var\"#write#86\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:224 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:224` |
+
+##### `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.True})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:174`)
+
+|  Change | Delta |            % | Samples | Callee     | Location                                                                                             |
+| ------: | ----: | -----------: | ------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `getindex` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/basic.jl:793` |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `+`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87`            |
+
+##### `promoteeltype` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:96`)
+
+| Change | Delta |      % | Samples | Callee | Location                                                                                   |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------------------------------------------------------ |
+| -50.0% |    -4 | 100.0% |   8 → 4 | `\|`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:418` |
+
+##### `macro expansion` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:24`)
+
+| Change | Delta |      % | Samples | Callee | Location                                                                                  |
+| -----: | ----: | -----: | ------: | ------ | ----------------------------------------------------------------------------------------- |
+|  -3.1% |    -2 | 100.0% | 65 → 63 | `+`    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87` |
+
+##### `length` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:11`)
+
+| Change | Delta |      % | Samples | Callee | Location                                                                                         |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------------------------------------------------------------ |
+| -29.7% |   -11 | 100.0% | 37 → 26 | `size` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:10` |
+
+##### `_setindex!` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/genericmemory.jl:262`)
+
+| Change | Delta |      % | Samples | Callee      | Location                                                                                    |
+| -----: | ----: | -----: | ------: | ----------- | ------------------------------------------------------------------------------------------- |
+| -44.0% |   -11 | 100.0% | 25 → 14 | `memoryref` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:594` |
+
+##### `setindex!` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/genericmemory.jl:270`)
+
+| Change | Delta |             % | Samples | Callee       | Location                                                                                             |
+| -----: | ----: | ------------: | ------: | ------------ | ---------------------------------------------------------------------------------------------------- |
+| -44.0% |   -11 | 58.1% → 43.8% | 25 → 14 | `_setindex!` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/genericmemory.jl:262` |
+
+##### `_setindex!` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:337`)
+
+| Change | Delta |             % | Samples | Callee        | Location                                                                                            |
+| -----: | ----: | ------------: | ------: | ------------- | --------------------------------------------------------------------------------------------------- |
+| -27.9% |   -12 | 97.7% → 91.2% | 43 → 31 | `*`           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:88`           |
+|    new |    +2 |   0.0% → 5.9% |   0 → 2 | `getproperty` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base_compiler.jl:57` |
+
+##### `length_continued` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:559`)
+
+| Change | Delta |      % | Samples | Callee | Location                                                                                  |
+| -----: | ----: | -----: | ------: | ------ | ----------------------------------------------------------------------------------------- |
+| -18.8% |    -9 | 100.0% | 48 → 39 | `+`    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87` |
+
+##### `indexed_iterate` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`)
+
+| Change | Delta |           % | Samples | Callee            | Location                                                                                     |
+| -----: | ----: | ----------: | ------: | ----------------- | -------------------------------------------------------------------------------------------- |
+|  +5.6% |    +4 | 5.0% → 5.3% | 72 → 76 | `indexed_iterate` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163` |
+
+##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee       | Location                                                                                                 |
+| ------: | ----: | ------------: | ------: | ------------ | -------------------------------------------------------------------------------------------------------- |
+| removed |    -2 |  40.0% → 0.0% |   2 → 0 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1632` |
+|  -33.3% |    -1 | 60.0% → 50.0% |   3 → 2 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1640` |
+|     new |    +1 |  0.0% → 25.0% |   0 → 1 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`      |

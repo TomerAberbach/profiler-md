@@ -139,6 +139,341 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -66.7% |    -2 |        <0.1% |         3 → 1 | `lambda$boxed$0`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | removed |    -1 | <0.1% → 0.0% |         1 → 0 | `average`                  | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's self samples. Inlining can make caller attribution imprecise.
+
+##### `copyOf` (`java.util.Arrays`)
+
+|  Change | Delta |     % |         Samples | Caller                   | Location                          |
+| ------: | ----: | ----: | --------------: | ------------------------ | --------------------------------- |
+|   +0.4% |  +154 | 56.9% | 39,128 → 39,282 | `grow`                   | `java.util.ArrayList`             |
+|   +0.5% |  +147 | 43.0% | 29,535 → 29,682 | `toArray`                | `java.util.ArrayList`             |
+|  +34.8% |    +8 | <0.1% |         23 → 31 | `getBytes`               | `jdk.internal.loader.Resource`    |
+| +500.0% |    +5 | <0.1% |           1 → 6 | `ensureCapacityInternal` | `java.lang.AbstractStringBuilder` |
+|   -7.1% |    -2 | <0.1% |         28 → 26 | `copyOf`                 | `java.util.Arrays`                |
+
+##### `collectClusters` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                                   |
+| -----: | ----: | -----: | --------: | ----------------- | ---------------------------------------------------------- |
+| +12.6% |   +24 | 100.0% | 190 → 214 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `vectorSum` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                                  |
+| -----: | ----: | -----: | --------: | ----------------- | --------------------------------------------------------- |
+| +11.6% |   +17 | 100.0% | 146 → 163 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `add` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                                                  |
+| -----: | ----: | -----: | --------: | ---------------- | --------------------------------------------------------- |
+|  +9.2% |   +14 | 100.0% | 152 → 166 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `newNode` (`java.util.HashMap`)
+
+| Change | Delta |             % |   Samples | Caller            | Location            |
+| -----: | ----: | ------------: | --------: | ----------------- | ------------------- |
+|  +4.8% |   +13 | 50.4% → 52.0% | 269 → 282 | `computeIfAbsent` | `java.util.HashMap` |
+|  -1.9% |    -5 | 49.1% → 47.4% | 262 → 257 | `putVal`          | `java.util.HashMap` |
+
+##### `builder` (`java.util.stream.Nodes`)
+
+| Change | Delta |      % | Samples | Caller            | Location                             |
+| -----: | ----: | -----: | ------: | ----------------- | ------------------------------------ |
+| +22.7% |    +5 | 100.0% | 22 → 27 | `makeNodeBuilder` | `java.util.stream.ReferencePipeline` |
+
+##### `grow` (`java.util.ArrayList`)
+
+| Change | Delta |      % |   Samples | Caller | Location              |
+| -----: | ----: | -----: | --------: | ------ | --------------------- |
+|  +0.8% |    +4 | 100.0% | 490 → 494 | `grow` | `java.util.ArrayList` |
+
+##### `entrySet` (`java.util.HashMap`)
+
+| Change | Delta |      % | Samples | Caller          | Location            |
+| -----: | ----: | -----: | ------: | --------------- | ------------------- |
+| +18.2% |    +4 | 100.0% | 22 → 26 | `putMapEntries` | `java.util.HashMap` |
+
+##### `lambda$run$0` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|  Change | Delta |      % | Samples | Caller | Location                                                                                                                                      |
+| ------: | ----: | -----: | ------: | ------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| +100.0% |    +3 | 100.0% |   3 → 6 | `call` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801183d68 → org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2bd0` |
+
+##### `div` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|  Change | Delta |      % | Samples | Caller    | Location                                               |
+| ------: | ----: | -----: | ------: | --------- | ------------------------------------------------------ |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `average` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `allocateInstance` (`jdk.internal.misc.Unsafe`)
+
+| Change | Delta |      % | Samples | Caller             | Location                              |
+| -----: | ----: | -----: | ------: | ------------------ | ------------------------------------- |
+| +28.6% |    +2 | 100.0% |   7 → 9 | `allocateInstance` | `java.lang.invoke.DirectMethodHandle` |
+
+##### `opWrapSink` (`java.util.stream.DoublePipeline$1`)
+
+| Change | Delta |             % | Samples | Caller     | Location                            |
+| -----: | ----: | ------------: | ------: | ---------- | ----------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `wrapSink` | `java.util.stream.AbstractPipeline` |
+
+##### `toArray` (`java.util.HashMap$KeySet`)
+
+| Change | Delta |             % | Samples | Caller   | Location              |
+| -----: | ----: | ------------: | ------: | -------- | --------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `<init>` | `java.util.ArrayList` |
+
+##### `result` (`scala.collection.immutable.VectorBuilder`)
+
+| Change | Delta |             % | Samples | Caller   | Location                                   |
+| -----: | ----: | ------------: | ------: | -------- | ------------------------------------------ |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `result` | `scala.collection.immutable.VectorBuilder` |
+
+##### `allocateUninitializedArray` (`jdk.internal.misc.Unsafe`)
+
+| Change | Delta |             % | Samples | Caller     | Location                       |
+| -----: | ----: | ------------: | ------: | ---------- | ------------------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `newArray` | `java.lang.StringConcatHelper` |
+
+##### `<init>` (`java.util.zip.InflaterInputStream`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                           |
+| -----: | ----: | -----: | ------: | -------- | -------------------------------------------------- |
+|  +8.3% |    +1 | 100.0% | 12 → 13 | `<init>` | `java.util.zip.ZipFile$ZipFileInflaterInputStream` |
+
+##### `newString` (`java.lang.StringLatin1`)
+
+| Change | Delta |             % | Samples | Caller      | Location           |
+| -----: | ----: | ------------: | ------: | ----------- | ------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `substring` | `java.lang.String` |
+
+##### `classFilePrologue` (`java.lang.invoke.InvokerBytecodeGenerator`)
+
+| Change | Delta |             % | Samples | Caller                        | Location                                    |
+| -----: | ----: | ------------: | ------: | ----------------------------- | ------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `generateCustomizedCodeBytes` | `java.lang.invoke.InvokerBytecodeGenerator` |
+
+##### `loadConvert` (`java.util.Properties`)
+
+| Change | Delta |             % | Samples | Caller  | Location               |
+| -----: | ----: | ------------: | ------: | ------- | ---------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `load0` | `java.util.Properties` |
+
+##### `compress` (`java.lang.StringUTF16`)
+
+| Change | Delta |             % | Samples | Caller   | Location           |
+| -----: | ----: | ------------: | ------: | -------- | ------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<init>` | `java.lang.String` |
+
+##### `entryFor` (`java.util.jar.JarFile`)
+
+| Change | Delta |             % | Samples | Caller     | Location                              |
+| -----: | ----: | ------------: | ------: | ---------- | ------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `entryFor` | `java.util.jar.JavaUtilJarAccessImpl` |
+
+##### `readNBytes` (`java.io.InputStream`)
+
+| Change | Delta |             % | Samples | Caller         | Location              |
+| -----: | ----: | ------------: | ------: | -------------- | --------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `readAllBytes` | `java.io.InputStream` |
+
+##### `getName` (`sun.nio.fs.UnixPath`)
+
+| Change | Delta |             % | Samples | Caller           | Location              |
+| -----: | ----: | ------------: | ------: | ---------------- | --------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `hasDotOrDotDot` | `sun.nio.fs.UnixPath` |
+
+##### `<init>` (`java.io.ByteArrayOutputStream`)
+
+| Change | Delta |             % | Samples | Caller   | Location                        |
+| -----: | ----: | ------------: | ------: | -------- | ------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<init>` | `java.io.ByteArrayOutputStream` |
+
+##### `viewAsType` (`java.lang.invoke.DirectMethodHandle$Constructor`)
+
+| Change | Delta |             % | Samples | Caller                        | Location                            |
+| -----: | ----: | ------------: | ------: | ----------------------------- | ----------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `makePairwiseConvertByEditor` | `java.lang.invoke.MethodHandleImpl` |
+
+##### `findNearestCentroid` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |       Samples | Caller            | Location                                                   |
+| -----: | ----: | -----: | ------------: | ----------------- | ---------------------------------------------------------- |
+|  -2.2% |   -74 | 100.0% | 3,391 → 3,317 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `createSubtask` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |   Samples | Caller    | Location                                               |
+| -----: | ----: | -----: | --------: | --------- | ------------------------------------------------------ |
+| -19.6% |   -72 | 100.0% | 368 → 296 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `resize` (`java.util.HashMap`)
+
+| Change | Delta |             % |   Samples | Caller            | Location            |
+| -----: | ----: | ------------: | --------: | ----------------- | ------------------- |
+| -18.9% |   -31 | 64.1% → 57.8% | 164 → 133 | `computeIfAbsent` | `java.util.HashMap` |
+|  +5.5% |    +5 | 35.5% → 41.7% |   91 → 96 | `putVal`          | `java.util.HashMap` |
+
+##### `mapToObj` (`java.util.stream.IntPipeline`)
+
+| Change | Delta |      % | Samples | Caller     | Location                       |
+| -----: | ----: | -----: | ------: | ---------- | ------------------------------ |
+| -30.3% |   -20 | 100.0% | 66 → 46 | `mapToObj` | `java.util.stream.IntPipeline` |
+
+##### `merge` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |             % |   Samples | Caller           | Location                                                   |
+| -----: | ----: | ------------: | --------: | ---------------- | ---------------------------------------------------------- |
+| -10.9% |   -17 | 98.1% → 99.3% | 156 → 139 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| -66.7% |    -2 |   1.9% → 0.7% |     3 → 1 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+
+##### `opWrapSink` (`java.util.stream.IntPipeline$1`)
+
+| Change | Delta |      % | Samples | Caller     | Location                            |
+| -----: | ----: | -----: | ------: | ---------- | ----------------------------------- |
+| -31.3% |   -10 | 100.0% | 32 → 22 | `wrapSink` | `java.util.stream.AbstractPipeline` |
+
+##### `createSubtask` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |   Samples | Caller    | Location                                               |
+| -----: | ----: | -----: | --------: | --------- | ------------------------------------------------------ |
+|  -2.7% |    -8 | 100.0% | 301 → 293 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `intStream` (`java.util.stream.StreamSupport`)
+
+| Change | Delta |      % | Samples | Caller  | Location                     |
+| -----: | ----: | -----: | ------: | ------- | ---------------------------- |
+| -13.6% |    -8 | 100.0% | 59 → 51 | `range` | `java.util.stream.IntStream` |
+
+##### `computeClusterAverages` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % | Samples | Caller            | Location                                               |
+| -----: | ----: | -----: | ------: | ----------------- | ------------------------------------------------------ |
+| -36.8% |    -7 | 100.0% | 19 → 12 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `valueOf` (`java.lang.Double`)
+
+| Change | Delta |           % | Samples | Caller  | Location                                                                                                                  |
+| -----: | ----: | ----------: | ------: | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| -57.1% |    -4 | 5.7% → 2.5% |   7 → 3 | `apply` | `java.util.stream.DoublePipeline$$Lambda.0x00000078011c0c08 → java.util.stream.DoublePipeline$$Lambda.0x00000070011c17c0` |
+
+##### `mapToObj` (`java.util.stream.DoublePipeline`)
+
+| Change | Delta |      % | Samples | Caller  | Location                          |
+| -----: | ----: | -----: | ------: | ------- | --------------------------------- |
+| -80.0% |    -4 | 100.0% |   5 → 1 | `boxed` | `java.util.stream.DoublePipeline` |
+
+##### `createSubtask` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % | Samples | Caller    | Location                                               |
+| -----: | ----: | -----: | ------: | --------- | ------------------------------------------------------ |
+| -19.0% |    -4 | 100.0% | 21 → 17 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `range` (`java.util.stream.IntStream`)
+
+| Change | Delta |      % | Samples | Caller                  | Location                                    |
+| -----: | ----: | -----: | ------: | ----------------------- | ------------------------------------------- |
+| -15.4% |    -4 | 100.0% | 26 → 22 | `lambda$generateData$5` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `allocateInstance` (`java.lang.invoke.DirectMethodHandle`)
+
+| Change | Delta |      % | Samples | Caller             | Location                                                                                                  |
+| -----: | ----: | -----: | ------: | ------------------ | --------------------------------------------------------------------------------------------------------- |
+| -20.0% |    -4 | 100.0% | 20 → 16 | `newInvokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x0000007801126400 → java.lang.invoke.LambdaForm$DMH.0x00000070011a4400` |
+
+##### `lambda$collectClusters$0` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |   Samples | Caller  | Location                                                                                                                                                                    |
+| -----: | ----: | -----: | --------: | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -1.4% |    -3 | 100.0% | 212 → 209 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007801186b38 → org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x00000070011a3940` |
+
+##### `spliterator` (`java.util.Spliterators`)
+
+| Change | Delta |      % | Samples | Caller        | Location           |
+| -----: | ----: | -----: | ------: | ------------- | ------------------ |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `spliterator` | `java.util.Arrays` |
+
+##### `<clinit>` (`sun.security.util.KnownOIDs`)
+
+|  Change | Delta |             % | Samples | Caller     | Location                                      |
+| ------: | ----: | ------------: | ------: | ---------- | --------------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `<clinit>` | `sun.security.util.SecurityProviderConstants` |
+
+##### `lambda$boxed$0` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % | Samples | Caller  | Location                                                                                                                                                            |
+| -----: | ----: | -----: | ------: | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda.0x0000007801188548 → org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda.0x00000070011a79d8` |
+
+##### `average` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|  Change | Delta |             % | Samples | Caller                   | Location                                               |
+| ------: | ----: | ------------: | ------: | ------------------------ | ------------------------------------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `computeClusterAverages` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `allocateUninitializedArray0` (`jdk.internal.misc.Unsafe`)
+
+|  Change | Delta |             % | Samples | Caller                       | Location                   |
+| ------: | ----: | ------------: | ------: | ---------------------------- | -------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `allocateUninitializedArray` | `jdk.internal.misc.Unsafe` |
+
+##### `<init>` (`java.lang.AbstractStringBuilder`)
+
+|  Change | Delta |             % | Samples | Caller   | Location                  |
+| ------: | ----: | ------------: | ------: | -------- | ------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<init>` | `java.lang.StringBuilder` |
+
+##### `generateCustomizedCode` (`java.lang.invoke.InvokerBytecodeGenerator`)
+
+|  Change | Delta |             % | Samples | Caller              | Location                      |
+| ------: | ----: | ------------: | ------: | ------------------- | ----------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `compileToBytecode` | `java.lang.invoke.LambdaForm` |
+
+##### `enlarge` (`jdk.internal.org.objectweb.asm.ByteVector`)
+
+| Change | Delta |      % | Samples | Caller    | Location                                    |
+| -----: | ----: | -----: | ------: | --------- | ------------------------------------------- |
+| -50.0% |    -1 | 100.0% |   2 → 1 | `putUTF8` | `jdk.internal.org.objectweb.asm.ByteVector` |
+
+##### `addConstantUtf8` (`jdk.internal.org.objectweb.asm.SymbolTable`)
+
+|  Change | Delta |             % | Samples | Caller        | Location                                     |
+| ------: | ----: | ------------: | ------: | ------------- | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `toByteArray` | `jdk.internal.org.objectweb.asm.ClassWriter` |
+
+##### `addConstantUtf8Reference` (`jdk.internal.org.objectweb.asm.SymbolTable`)
+
+|  Change | Delta |             % | Samples | Caller             | Location                                     |
+| ------: | ----: | ------------: | ------: | ------------------ | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `addConstantClass` | `jdk.internal.org.objectweb.asm.SymbolTable` |
+
+##### `doubleStream` (`java.util.stream.StreamSupport`)
+
+| Change | Delta |      % | Samples | Caller   | Location           |
+| -----: | ----: | -----: | ------: | -------- | ------------------ |
+| -50.0% |    -1 | 100.0% |   2 → 1 | `stream` | `java.util.Arrays` |
+
+##### `read` (`java.util.jar.Manifest`)
+
+|  Change | Delta |             % | Samples | Caller   | Location                 |
+| ------: | ----: | ------------: | ------: | -------- | ------------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<init>` | `java.util.jar.Manifest` |
+
+##### `checkResource` (`jdk.internal.loader.URLClassPath$JarLoader`)
+
+|  Change | Delta |             % | Samples | Caller        | Location                                     |
+| ------: | ----: | ------------: | ------: | ------------- | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `getResource` | `jdk.internal.loader.URLClassPath$JarLoader` |
+
+##### `<init>` (`jdk.internal.org.objectweb.asm.ByteVector`)
+
+|  Change | Delta |             % | Samples | Caller        | Location                                     |
+| ------: | ----: | ------------: | ------: | ------------- | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `toByteArray` | `jdk.internal.org.objectweb.asm.ClassWriter` |
+
 ### Total samples
 
 #### Regressions
@@ -294,3 +629,513 @@ Functions with the largest decrease in total samples taken in the function and a
 |  -3.5% |   -15 |   0.6% → 0.5% |       427 → 412 | `computeClusterAverages`    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                                                                                        |
 |  -3.5% |   -15 |   0.6% → 0.5% |       427 → 412 | `computeDirectly`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                                                                                        |
 | -50.0% |   -10 |         <0.1% |         20 → 10 | `boxed`                     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                                                                                        |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `tryRemoveAndExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+| Change | Delta |      % |         Samples | Callee   | Location                            |
+| -----: | ----: | -----: | --------------: | -------- | ----------------------------------- |
+|  +0.8% |  +450 | 100.0% | 59,593 → 60,043 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `awaitDone` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |             % |         Samples | Callee             | Location                                      |
+| -----: | ----: | ------------: | --------------: | ------------------ | --------------------------------------------- |
+|  +0.8% |  +450 |         99.0% | 59,593 → 60,043 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  +1.7% |  +181 | 18.1% → 18.2% | 10,879 → 11,060 | `helpJoin`         | `java.util.concurrent.ForkJoinPool`           |
+
+##### `join` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |      % |         Samples | Callee      | Location                            |
+| -----: | ----: | -----: | --------------: | ----------- | ----------------------------------- |
+|  +0.7% |  +434 | 100.0% | 60,187 → 60,621 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+
+##### `copyOf` (`java.util.Arrays`)
+
+| Change | Delta |     % | Samples | Callee   | Location           |
+| -----: | ----: | ----: | ------: | -------- | ------------------ |
+|  -7.1% |    -2 | <0.1% | 28 → 26 | `copyOf` | `java.util.Arrays` |
+
+##### `helpJoin` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |         Samples | Callee   | Location                            |
+| -----: | ----: | -----: | --------------: | -------- | ----------------------------------- |
+|  +1.7% |  +181 | 100.0% | 10,879 → 11,060 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `lambda$merge$6` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |             % |         Samples | Callee   | Location              |
+| -----: | ----: | ------------: | --------------: | -------- | --------------------- |
+|  +0.7% |  +101 | 25.4% → 25.5% | 14,451 → 14,552 | `<init>` | `java.util.ArrayList` |
+|  +0.2% |   +72 | 74.3% → 74.2% | 42,310 → 42,382 | `addAll` | `java.util.ArrayList` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a7498`)
+
+| Change | Delta |      % |         Samples | Callee           | Location                                    |
+| -----: | ----: | -----: | --------------: | ---------------- | ------------------------------------------- |
+|  +0.3% |  +173 | 100.0% | 56,976 → 57,149 | `lambda$merge$6` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `merge` (`java.util.HashMap`)
+
+| Change | Delta |      % |         Samples | Callee  | Location                                                                                                                                      |
+| -----: | ----: | -----: | --------------: | ------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +0.3% |  +173 | 100.0% | 56,976 → 57,149 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801187468 → org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a7498` |
+
+##### `lambda$merge$7` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |      % |         Samples | Callee  | Location            |
+| -----: | ----: | -----: | --------------: | ------- | ------------------- |
+|  +0.3% |  +173 | 100.0% | 56,980 → 57,153 | `merge` | `java.util.HashMap` |
+
+##### `accept` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a7000`)
+
+| Change | Delta |      % |         Samples | Callee           | Location                                    |
+| -----: | ----: | -----: | --------------: | ---------------- | ------------------------------------------- |
+|  +0.3% |  +173 | 100.0% | 56,980 → 57,153 | `lambda$merge$7` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `forEach` (`java.util.HashMap`)
+
+| Change | Delta |      % |         Samples | Callee   | Location                                                                                                                                      |
+| -----: | ----: | -----: | --------------: | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +0.3% |  +173 | 100.0% | 56,980 → 57,153 | `accept` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801186fd8 → org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a7000` |
+
+##### `grow` (`java.util.ArrayList`)
+
+| Change | Delta |             % |         Samples | Callee   | Location              |
+| -----: | ----: | ------------: | --------------: | -------- | --------------------- |
+|  +0.4% |  +153 |         98.8% | 39,141 → 39,294 | `copyOf` | `java.util.Arrays`    |
+|  +1.0% |  +130 | 31.3% → 31.5% | 12,420 → 12,550 | `grow`   | `java.util.ArrayList` |
+
+##### `doExec` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |             % |         Samples | Callee | Location                                            |
+| -----: | ----: | ------------: | --------------: | ------ | --------------------------------------------------- |
+|  -1.9% |  -287 | 20.3% → 19.8% | 15,241 → 14,954 | `exec` | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+|  +0.2% |  +146 |        100.0% | 75,192 → 75,338 | `exec` | `java.util.concurrent.RecursiveTask`                |
+
+##### `topLevelExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+| Change | Delta |      % |         Samples | Callee   | Location                            |
+| -----: | ----: | -----: | --------------: | -------- | ----------------------------------- |
+|  +0.2% |  +151 | 100.0% | 75,195 → 75,346 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `scan` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |         Samples | Callee         | Location                                      |
+| -----: | ----: | -----: | --------------: | -------------- | --------------------------------------------- |
+|  +0.2% |  +151 | 100.0% | 75,195 → 75,346 | `topLevelExec` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+
+##### `runWorker` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |         Samples | Callee | Location                            |
+| -----: | ----: | -----: | --------------: | ------ | ----------------------------------- |
+|  +0.2% |  +151 | 100.0% | 75,195 → 75,346 | `scan` | `java.util.concurrent.ForkJoinPool` |
+
+##### `run` (`java.util.concurrent.ForkJoinWorkerThread`)
+
+| Change | Delta |      % |         Samples | Callee      | Location                            |
+| -----: | ----: | -----: | --------------: | ----------- | ----------------------------------- |
+|  +0.2% |  +151 | 100.0% | 75,195 → 75,346 | `runWorker` | `java.util.concurrent.ForkJoinPool` |
+
+##### `combineResults` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |         Samples | Callee           | Location                                                   |
+| -----: | ----: | -----: | --------------: | ---------------- | ---------------------------------------------------------- |
+|  +0.3% |  +151 | 100.0% | 57,499 → 57,650 | `merge`          | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+|  +0.3% |  +151 | 100.0% | 57,499 → 57,650 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `merge` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |     % |         Samples | Callee    | Location            |
+| -----: | ----: | ----: | --------------: | --------- | ------------------- |
+|  +0.3% |  +173 | 99.1% | 56,980 → 57,153 | `forEach` | `java.util.HashMap` |
+|  -1.1% |    -4 |  0.6% |       369 → 365 | `<init>`  | `java.util.HashMap` |
+
+##### `compute` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+| Change | Delta |             % |         Samples | Callee            | Location                                                   |
+| -----: | ----: | ------------: | --------------: | ----------------- | ---------------------------------------------------------- |
+|  +0.7% |  +434 | 80.0% → 80.5% | 60,187 → 60,621 | `join`            | `java.util.concurrent.ForkJoinTask`                        |
+|  +0.3% |  +151 |         76.5% | 57,499 → 57,650 | `combineResults`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| -19.6% |   -72 |   0.5% → 0.4% |       368 → 296 | `createSubtask`   | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  +0.3% |   +58 | 22.1% → 22.2% | 16,642 → 16,700 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| +11.6% |   +17 |          0.2% |       146 → 163 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+
+##### `exec` (`java.util.concurrent.RecursiveTask`)
+
+| Change | Delta |      % |         Samples | Callee    | Location                                               |
+| -----: | ----: | -----: | --------------: | --------- | ------------------------------------------------------ |
+|  +0.2% |  +146 | 100.0% | 75,192 → 75,338 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `toArray` (`java.util.ArrayList`)
+
+| Change | Delta |      % |         Samples | Callee   | Location           |
+| -----: | ----: | -----: | --------------: | -------- | ------------------ |
+|  +0.5% |  +146 | 100.0% | 29,550 → 29,696 | `copyOf` | `java.util.Arrays` |
+
+##### `add` (`java.util.ArrayList`)
+
+| Change | Delta |      % |         Samples | Callee | Location              |
+| -----: | ----: | -----: | --------------: | ------ | --------------------- |
+|  +1.0% |  +130 | 100.0% | 12,420 → 12,550 | `grow` | `java.util.ArrayList` |
+|  +1.0% |  +130 | 100.0% | 12,420 → 12,550 | `add`  | `java.util.ArrayList` |
+
+##### `<init>` (`java.util.ArrayList`)
+
+| Change | Delta |            % |         Samples | Callee    | Location                   |
+| -----: | ----: | -----------: | --------------: | --------- | -------------------------- |
+|  +0.7% |  +101 |       100.0% | 14,451 → 14,552 | `toArray` | `java.util.ArrayList`      |
+|    new |    +2 | 0.0% → <0.1% |           0 → 2 | `toArray` | `java.util.HashMap$KeySet` |
+
+##### `addAll` (`java.util.ArrayList`)
+
+| Change | Delta |     % |         Samples | Callee    | Location              |
+| -----: | ----: | ----: | --------------: | --------- | --------------------- |
+|  +0.3% |   +45 | 35.7% | 15,099 → 15,144 | `toArray` | `java.util.ArrayList` |
+|  +0.1% |   +27 | 64.3% | 27,211 → 27,238 | `grow`    | `java.util.ArrayList` |
+
+##### `executePrivileged` (`java.security.AccessController`)
+
+| Change | Delta |              % | Samples | Callee | Location                             |
+| -----: | ----: | -------------: | ------: | ------ | ------------------------------------ |
+| +35.7% |   +15 | 100.0% → 96.6% | 42 → 57 | `run`  | `java.net.URLClassLoader$1`          |
+|    new |    +2 |    0.0% → 3.4% |   0 → 2 | `run`  | `java.time.zone.ZoneRulesProvider$1` |
+
+##### `doPrivileged` (`java.security.AccessController`)
+
+| Change | Delta |      % | Samples | Callee              | Location                         |
+| -----: | ----: | -----: | ------: | ------------------- | -------------------------------- |
+| +40.5% |   +17 | 100.0% | 42 → 59 | `executePrivileged` | `java.security.AccessController` |
+
+##### `collectClusters` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|  Change | Delta |            % |         Samples | Callee            | Location                               |
+| ------: | ----: | -----------: | --------------: | ----------------- | -------------------------------------- |
+|   +1.0% |  +130 |        93.7% | 12,415 → 12,545 | `add`             | `java.util.ArrayList`                  |
+|   -3.3% |   -21 |  4.9% → 4.7% |       645 → 624 | `computeIfAbsent` | `java.util.HashMap`                    |
+| removed |    -1 | <0.1% → 0.0% |           1 → 0 | `linkCallSite`    | `java.lang.invoke.MethodHandleNatives` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |             % |         Samples | Callee                | Location                                                   |
+| -----: | ----: | ------------: | --------------: | --------------------- | ---------------------------------------------------------- |
+|  +1.0% |  +132 | 79.6% → 80.1% | 13,251 → 13,383 | `collectClusters`     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  -2.2% |   -74 | 20.4% → 19.9% |   3,391 → 3,317 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  +0.3% |   +58 |        100.0% | 16,642 → 16,700 | `computeDirectly`     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |   Samples | Callee            | Location                                                  |
+| -----: | ----: | -----: | --------: | ----------------- | --------------------------------------------------------- |
+| +11.6% |   +17 | 100.0% | 146 → 163 | `vectorSum`       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| +11.6% |   +17 | 100.0% | 146 → 163 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `combineResults` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |   Samples | Callee           | Location                                                  |
+| -----: | ----: | -----: | --------: | ---------------- | --------------------------------------------------------- |
+|  +9.2% |   +14 | 100.0% | 152 → 166 | `add`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+|  +9.2% |   +14 | 100.0% | 152 → 166 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `rowToArray$1` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |            % | Samples | Callee      | Location                            |
+| -----: | ----: | -----------: | ------: | ----------- | ----------------------------------- |
+|    new |    +4 | 0.0% → 40.0% |   0 → 4 | `<clinit>`  | `scala.Predef$`                     |
+|    new |    +3 | 0.0% → 30.0% |   0 → 3 | `toArray`   | `scala.collection.AbstractIterable` |
+|    new |    +2 | 0.0% → 20.0% |   0 → 2 | `loadClass` | `java.lang.ClassLoader`             |
+|    new |    +1 | 0.0% → 10.0% |   0 → 1 | `map`       | `scala.collection.immutable.Range`  |
+
+##### `setUpBeforeAll$$anonfun$1` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |             % | Samples | Callee         | Location                                  |
+| -----: | ----: | ------------: | ------: | -------------- | ----------------------------------------- |
+|    new |   +10 | 0.0% → 100.0% |  0 → 10 | `rowToArray$1` | `org.renaissance.jdk.concurrent.FjKmeans` |
+
+##### `lambda$toCsvRows$2` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter`)
+
+| Change | Delta |             % | Samples | Callee  | Location                                                             |
+| -----: | ----: | ------------: | ------: | ------- | -------------------------------------------------------------------- |
+|    new |   +10 | 0.0% → 100.0% |  0 → 10 | `apply` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x0000007001126908` |
+
+##### `apply` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter$$Lambda.0x0000007001123bf8`)
+
+| Change | Delta |             % | Samples | Callee               | Location                                                           |
+| -----: | ----: | ------------: | ------: | -------------------- | ------------------------------------------------------------------ |
+|    new |   +10 | 0.0% → 100.0% |  0 → 10 | `lambda$toCsvRows$2` | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter` |
+
+##### `toCsvRows` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter`)
+
+| Change | Delta |             % | Samples | Callee    | Location                             |
+| -----: | ----: | ------------: | ------: | --------- | ------------------------------------ |
+|    new |   +10 | 0.0% → 100.0% |  0 → 10 | `collect` | `java.util.stream.ReferencePipeline` |
+
+##### `$anonfun$2` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |             % | Samples | Callee | Location                                    |
+| -----: | ----: | ------------: | ------: | ------ | ------------------------------------------- |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `run`  | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011a27f0`)
+
+| Change | Delta |             % | Samples | Callee               | Location                                  |
+| -----: | ----: | ------------: | ------: | -------------------- | ----------------------------------------- |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `$anonfun$adapted$1` | `org.renaissance.jdk.concurrent.FjKmeans` |
+
+##### `invoke` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |      % |         Samples | Callee   | Location                            |
+| -----: | ----: | -----: | --------------: | -------- | ----------------------------------- |
+|  -1.9% |  -298 | 100.0% | 15,581 → 15,283 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `lambda$run$0` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |              % |         Samples | Callee   | Location                            |
+| -----: | ----: | -------------: | --------------: | -------- | ----------------------------------- |
+|  -1.9% |  -292 | 100.0% → 99.9% | 15,238 → 14,946 | `invoke` | `java.util.concurrent.ForkJoinTask` |
+|    new |    +2 |   0.0% → <0.1% |           0 → 2 | `<init>` | `java.util.ArrayList`               |
+
+##### `call` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2bd0`)
+
+| Change | Delta |      % |         Samples | Callee         | Location                                    |
+| -----: | ----: | -----: | --------------: | -------------- | ------------------------------------------- |
+|  -1.9% |  -287 | 100.0% | 15,241 → 14,954 | `lambda$run$0` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `exec` (`java.util.concurrent.ForkJoinTask$AdaptedCallable`)
+
+| Change | Delta |      % |         Samples | Callee | Location                                                                                                                                      |
+| -----: | ----: | -----: | --------------: | ------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -1.9% |  -287 | 100.0% | 15,241 → 14,954 | `call` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801183d68 → org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2bd0` |
+
+##### `accept` (`java.util.stream.IntPipeline$1$1`)
+
+| Change | Delta |             % |   Samples | Callee  | Location                                                                                                                                      |
+| -----: | ----: | ------------: | --------: | ------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| -10.9% |   -41 | 98.7% → 98.5% | 377 → 336 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000078011258d8 → org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2150` |
+
+##### `forEachRemaining` (`java.util.stream.Streams$RangeIntSpliterator`)
+
+| Change | Delta |      % |   Samples | Callee   | Location                           |
+| -----: | ----: | -----: | --------: | -------- | ---------------------------------- |
+| -10.7% |   -41 | 100.0% | 382 → 341 | `accept` | `java.util.stream.IntPipeline$1$1` |
+
+##### `forEachRemaining` (`java.util.Spliterator$OfInt`)
+
+| Change | Delta |      % |   Samples | Callee             | Location                                       |
+| -----: | ----: | -----: | --------: | ------------------ | ---------------------------------------------- |
+| -10.7% |   -41 | 100.0% | 382 → 341 | `forEachRemaining` | `java.util.stream.Streams$RangeIntSpliterator` |
+
+##### `generateData` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |      % |   Samples | Callee    | Location                             |
+| -----: | ----: | -----: | --------: | --------- | ------------------------------------ |
+| -10.7% |   -41 | 100.0% | 382 → 341 | `collect` | `java.util.stream.ReferencePipeline` |
+
+##### `lambda$generateData$5` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |             % |   Samples | Callee               | Location                                                                                                |
+| -----: | ----: | ------------: | --------: | -------------------- | ------------------------------------------------------------------------------------------------------- |
+| -30.3% |   -20 | 17.5% → 13.7% |   66 → 46 | `mapToObj`           | `java.util.stream.IntPipeline`                                                                          |
+| -14.1% |   -12 | 22.5% → 21.7% |   85 → 73 | `range`              | `java.util.stream.IntStream`                                                                            |
+|  -2.9% |    -6 | 54.1% → 58.9% | 204 → 198 | `toArray`            | `java.util.stream.ReferencePipeline`                                                                    |
+| -13.6% |    -3 |   5.8% → 5.7% |   22 → 19 | `linkToTargetMethod` | `java.lang.invoke.LambdaForm$MH.0x0000007801126c00 → java.lang.invoke.LambdaForm$MH.0x00000070011a4c00` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2150`)
+
+| Change | Delta |      % |   Samples | Callee                  | Location                                    |
+| -----: | ----: | -----: | --------: | ----------------------- | ------------------------------------------- |
+| -10.9% |   -41 | 100.0% | 377 → 336 | `lambda$generateData$5` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `executeBenchmark` (`org.renaissance.harness.ExecutionDriver`)
+
+| Change | Delta |             % |   Samples | Callee             | Location                                  |
+| -----: | ----: | ------------: | --------: | ------------------ | ----------------------------------------- |
+|  -7.9% |   -30 | 95.3% → 96.4% | 382 → 352 | `setUpBeforeAll`   | `org.renaissance.jdk.concurrent.FjKmeans` |
+| -31.6% |    -6 |   4.7% → 3.6% |   19 → 13 | `executeOperation` | `org.renaissance.harness.ExecutionDriver` |
+
+##### `runBenchmarks$$anonfun$1` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|  Change | Delta |             % |   Samples | Callee             | Location                                  |
+| ------: | ----: | ------------: | --------: | ------------------ | ----------------------------------------- |
+|   -9.0% |   -36 | 99.8% → 99.5% | 401 → 365 | `executeBenchmark` | `org.renaissance.harness.ExecutionDriver` |
+| +100.0% |    +1 |   0.2% → 0.5% |     1 → 2 | `create`           | `org.renaissance.harness.ExecutionDriver` |
+
+##### `applyVoid` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700111f1b8`)
+
+| Change | Delta |      % |   Samples | Callee                     | Location                                    |
+| -----: | ----: | -----: | --------: | -------------------------- | ------------------------------------------- |
+|  -8.7% |   -35 | 100.0% | 402 → 367 | `runBenchmarks$$anonfun$1` | `org.renaissance.harness.RenaissanceSuite$` |
+
+##### `apply` (`scala.runtime.function.JProcedure1`)
+
+| Change | Delta |           % |   Samples | Callee      | Location                                                                                                                                      |
+| -----: | ----: | ----------: | --------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -8.7% |   -35 |      100.0% | 402 → 367 | `applyVoid` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780111f208 → org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700111f1b8` |
+|  -8.7% |   -35 |      100.0% | 402 → 367 | `apply`     | `scala.runtime.function.JProcedure1`                                                                                                          |
+|    new |    +3 | 0.0% → 0.8% |     0 → 3 | `applyVoid` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011acc40`                                                                          |
+|    new |    +1 | 0.0% → 0.3% |     0 → 1 | `applyVoid` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011b7738`                                                                          |
+
+##### `foreach` (`scala.collection.immutable.List`)
+
+| Change | Delta |      % |   Samples | Callee  | Location                             |
+| -----: | ----: | -----: | --------: | ------- | ------------------------------------ |
+|  -8.7% |   -35 | 100.0% | 402 → 367 | `apply` | `scala.runtime.function.JProcedure1` |
+
+##### `runBenchmarks` (`org.renaissance.harness.RenaissanceSuite$`)
+
+| Change | Delta |      % |   Samples | Callee    | Location                          |
+| -----: | ----: | -----: | --------: | --------- | --------------------------------- |
+|  -8.7% |   -35 | 100.0% | 402 → 367 | `foreach` | `scala.collection.immutable.List` |
+
+##### `copyInto` (`java.util.stream.AbstractPipeline`)
+
+| Change | Delta |             % |   Samples | Callee             | Location                                  |
+| -----: | ----: | ------------: | --------: | ------------------ | ----------------------------------------- |
+| -10.7% |   -41 | 98.2% → 96.1% | 382 → 341 | `forEachRemaining` | `java.util.Spliterator$OfInt`             |
+|    new |   +10 |   0.0% → 2.8% |    0 → 10 | `forEachRemaining` | `java.util.Spliterators$ArraySpliterator` |
+| -57.1% |    -4 |   1.8% → 0.8% |     7 → 3 | `forEachRemaining` | `java.util.Spliterator$OfDouble`          |
+|    new |    +1 |   0.0% → 0.3% |     0 → 1 | `forEachRemaining` | `java.util.HashMap$EntrySpliterator`      |
+
+##### `evaluate` (`java.util.stream.AbstractPipeline`)
+
+| Change | Delta |             % |   Samples | Callee               | Location                              |
+| -----: | ----: | ------------: | --------: | -------------------- | ------------------------------------- |
+|  -7.9% |   -30 | 97.4% → 98.1% | 382 → 352 | `evaluateSequential` | `java.util.stream.ReduceOps$ReduceOp` |
+|  -7.7% |   -12 | 39.5% → 39.8% | 155 → 143 | `wrapAndCopyInto`    | `java.util.stream.AbstractPipeline`   |
+|  +5.1% |    +3 | 15.1% → 17.3% |   59 → 62 | `makeNodeBuilder`    | `java.util.stream.ReferencePipeline`  |
+
+##### `wrapAndCopyInto` (`java.util.stream.AbstractPipeline`)
+
+| Change | Delta |              % |   Samples | Callee     | Location                            |
+| -----: | ----: | -------------: | --------: | ---------- | ----------------------------------- |
+|  -8.7% |   -34 | 100.0% → 99.4% | 389 → 355 | `copyInto` | `java.util.stream.AbstractPipeline` |
+| -25.0% |    -8 |    8.2% → 6.7% |   32 → 24 | `wrapSink` | `java.util.stream.AbstractPipeline` |
+
+##### `evaluateSequential` (`java.util.stream.ReduceOps$ReduceOp`)
+
+| Change | Delta |      % |   Samples | Callee            | Location                            |
+| -----: | ----: | -----: | --------: | ----------------- | ----------------------------------- |
+|  -7.9% |   -30 | 100.0% | 382 → 352 | `wrapAndCopyInto` | `java.util.stream.AbstractPipeline` |
+
+##### `collect` (`java.util.stream.ReferencePipeline`)
+
+| Change | Delta |      % |   Samples | Callee     | Location                            |
+| -----: | ----: | -----: | --------: | ---------- | ----------------------------------- |
+|  -7.9% |   -30 | 100.0% | 382 → 352 | `evaluate` | `java.util.stream.AbstractPipeline` |
+
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000007001004800`)
+
+| Change | Delta |      % |   Samples | Callee | Location                                   |
+| -----: | ----: | -----: | --------: | ------ | ------------------------------------------ |
+|  -5.7% |   -25 | 100.0% | 439 → 414 | `main` | `org.renaissance.harness.RenaissanceSuite` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001009800`)
+
+| Change | Delta |      % |   Samples | Callee         | Location                                                                                                  |
+| -----: | ----: | -----: | --------: | -------------- | --------------------------------------------------------------------------------------------------------- |
+|  -5.7% |   -25 | 100.0% | 439 → 414 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x0000007801004800 → java.lang.invoke.LambdaForm$DMH.0x0000007001004800` |
+
+##### `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`)
+
+|  Change | Delta |           % |   Samples | Callee         | Location                                                                                                |
+| ------: | ----: | ----------: | --------: | -------------- | ------------------------------------------------------------------------------------------------------- |
+|   -5.7% |   -25 |       99.8% | 439 → 414 | `invoke`       | `java.lang.invoke.LambdaForm$MH.0x0000007801009800 → java.lang.invoke.LambdaForm$MH.0x0000007001009800` |
+| +100.0% |    +1 | 0.2% → 0.5% |     1 → 2 | `invokeStatic` | `java.lang.invoke.DirectMethodHandle$Holder`                                                            |
+|     new |    +1 | 0.0% → 0.2% |     0 → 1 | `delegate`     | `java.lang.invoke.DelegatingMethodHandle$Holder`                                                        |
+
+##### `invokeImpl` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |      % |   Samples | Callee           | Location                           |
+| -----: | ----: | -----: | --------: | ---------------- | ---------------------------------- |
+|  -5.7% |   -25 | 100.0% | 439 → 414 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |      % |   Samples | Callee       | Location                                          |
+| -----: | ----: | -----: | --------: | ------------ | ------------------------------------------------- |
+|  -5.7% |   -25 | 100.0% | 439 → 414 | `invokeImpl` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke` (`java.lang.reflect.Method`)
+
+| Change | Delta |      % |   Samples | Callee   | Location                                          |
+| -----: | ----: | -----: | --------: | -------- | ------------------------------------------------- |
+|  -5.7% |   -25 | 100.0% | 439 → 414 | `invoke` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `computeIfAbsent` (`java.util.HashMap`)
+
+| Change | Delta |             % |   Samples | Callee    | Location                                                                                                                                                                    |
+| -----: | ----: | ------------: | --------: | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -18.9% |   -31 | 25.4% → 21.3% | 164 → 133 | `resize`  | `java.util.HashMap`                                                                                                                                                         |
+|  +4.8% |   +13 | 41.7% → 45.2% | 269 → 282 | `newNode` | `java.util.HashMap`                                                                                                                                                         |
+|  -1.4% |    -3 | 32.9% → 33.5% | 212 → 209 | `apply`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007801186b38 → org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x00000070011a3940` |
+
+##### `main` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|  Change | Delta |             % |   Samples | Callee          | Location                                    |
+| ------: | ----: | ------------: | --------: | --------------- | ------------------------------------------- |
+|   -8.7% |   -35 | 92.0% → 90.6% | 402 → 367 | `runBenchmarks` | `org.renaissance.harness.RenaissanceSuite$` |
+|  -36.4% |    -4 |   2.5% → 1.7% |    11 → 7 | `<clinit>`      | `scala.Predef$`                             |
+| +300.0% |    +3 |   0.2% → 1.0% |     1 → 4 | `apply`         | `scala.util.Try$`                           |
+|  +33.3% |    +2 |   1.4% → 2.0% |     6 → 8 | `<init>`        | `org.renaissance.harness.ConfigParser`      |
+|  +20.0% |    +1 |   1.1% → 1.5% |     5 → 6 | `loadClass`     | `java.lang.ClassLoader`                     |
+
+##### `setUpBeforeAll` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |              % |   Samples | Callee         | Location                                                           |
+| -----: | ----: | -------------: | --------: | -------------- | ------------------------------------------------------------------ |
+| -10.7% |   -41 | 100.0% → 96.9% | 382 → 341 | `generateData` | `org.renaissance.jdk.concurrent.JavaKMeans`                        |
+|    new |   +10 |    0.0% → 2.8% |    0 → 10 | `toCsvRows`    | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter` |
+|    new |    +1 |    0.0% → 0.3% |     0 → 1 | `asScala`      | `scala.collection.convert.AsScalaExtensions$ListHasAsScala`        |
+
+##### `main` (`org.renaissance.harness.RenaissanceSuite`)
+
+|  Change | Delta |             % |   Samples | Callee      | Location                                    |
+| ------: | ----: | ------------: | --------: | ----------- | ------------------------------------------- |
+|   -7.3% |   -32 | 99.5% → 97.8% | 437 → 405 | `main`      | `org.renaissance.harness.RenaissanceSuite$` |
+| +350.0% |    +7 |   0.5% → 2.2% |     2 → 9 | `loadClass` | `java.lang.ClassLoader`                     |
+
+##### `launchHarnessClass` (`org.renaissance.core.Launcher`)
+
+|  Change | Delta |              % |   Samples | Callee                      | Location                        |
+| ------: | ----: | -------------: | --------: | --------------------------- | ------------------------------- |
+|   -5.0% |   -22 | 99.3% → 100.0% | 439 → 417 | `loadAndInvokeHarnessClass` | `org.renaissance.core.Launcher` |
+| removed |    -3 |    0.7% → 0.0% |     3 → 0 | `createScratchRoot`         | `org.renaissance.core.Launcher` |
+
+##### `main` (`org.renaissance.core.Launcher`)
+
+| Change | Delta |      % |   Samples | Callee               | Location                        |
+| -----: | ----: | -----: | --------: | -------------------- | ------------------------------- |
+|  -5.7% |   -25 | 100.0% | 442 → 417 | `launchHarnessClass` | `org.renaissance.core.Launcher` |
+
+##### `loadAndInvokeHarnessClass` (`org.renaissance.core.Launcher`)
+
+| Change | Delta |              % |   Samples | Callee                       | Location                            |
+| -----: | ----: | -------------: | --------: | ---------------------------- | ----------------------------------- |
+|  -5.7% |   -25 | 100.0% → 99.3% | 439 → 414 | `invoke`                     | `java.lang.reflect.Method`          |
+|    new |    +3 |    0.0% → 0.7% |     0 → 3 | `createClassLoaderForModule` | `org.renaissance.core.ModuleLoader` |
+
+##### `computeClusterAverages` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |             % |   Samples | Callee    | Location                                               |
+| -----: | ----: | ------------: | --------: | --------- | ------------------------------------------------------ |
+| -50.0% |   -10 |   4.7% → 2.4% |   20 → 10 | `boxed`   | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| +83.3% |    +5 |   1.4% → 2.7% |    6 → 11 | `put`     | `java.util.HashMap`                                    |
+|  -0.8% |    -3 | 89.7% → 92.2% | 383 → 380 | `average` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % |   Samples | Callee                   | Location                                               |
+| -----: | ----: | -----: | --------: | ------------------------ | ------------------------------------------------------ |
+|  -3.5% |   -15 | 100.0% | 427 → 412 | `computeClusterAverages` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|  -3.5% |   -15 | 100.0% | 427 → 412 | `computeDirectly`        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `boxed` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |             % | Samples | Callee    | Location                             |
+| -----: | ----: | ------------: | ------: | --------- | ------------------------------------ |
+| -80.0% |    -4 | 25.0% → 10.0% |   5 → 1 | `boxed`   | `java.util.stream.DoublePipeline`    |
+| -30.0% |    -3 | 50.0% → 70.0% |  10 → 7 | `toArray` | `java.util.stream.ReferencePipeline` |
+| -60.0% |    -3 | 25.0% → 20.0% |   5 → 2 | `stream`  | `java.util.Arrays`                   |

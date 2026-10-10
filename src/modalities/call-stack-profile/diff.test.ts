@@ -1,7 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
-import { categoryRankingTables, linesTables } from '../../testing.ts'
+import {
+  calleesTables,
+  callersTables,
+  categoryRankingTables,
+  linesTables,
+} from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'
 import {
   BYTES_METRIC,
@@ -791,7 +796,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     })
   })
 
-  test(`leaves unpaired a same-key function that moved while its neighbors did not`, () => {
+  test(`leaves unpaired a same-key function that moved while the functions beside it did not`, () => {
     const closure = (line: number, column: number, count: number) =>
       sampledFunc(`(anonymous)`, `file:///project/src/a.js`, {
         line,
@@ -1495,6 +1500,154 @@ describe(`formatCallStackProfileDiff lines`, () => {
           Time: `0ms → 2.0µs`,
           Samples: `0 → 2`,
           Location: `src/a.ts:19`,
+        },
+      ],
+    ])
+  })
+})
+
+describe(`formatCallStackProfileDiff callers and callees`, () => {
+  const func = (name: string, count: number, stack?: number[]) => ({
+    name,
+    url: `file:///project/src/${name}.ts`,
+    line: 1,
+    selfValues: [count],
+    selfCount: count,
+    stack,
+  })
+
+  const formatDiff = (options = defaultOptions) =>
+    mdastToMarkdown(
+      formatCallStackProfileDiff(
+        diffAggregatedCallStackProfiles(
+          makeAggregatedCallStackProfile(
+            [MICROSECONDS_METRIC],
+            [
+              func(`leaf`, 4, [0, 1]),
+              func(`parent`, 0),
+              func(`leaf`, 1, [2, 3]),
+              func(`gone`, 0),
+            ],
+          ),
+          makeAggregatedCallStackProfile(
+            [MICROSECONDS_METRIC],
+            [
+              func(`leaf`, 6, [0, 1]),
+              func(`parent`, 0),
+              func(`leaf`, 2, [2, 3]),
+              func(`other`, 0),
+            ],
+          ),
+          options,
+        ),
+        options,
+      ),
+    )
+  const md = formatDiff()
+
+  test(`pairs each function's callers across the sides`, () => {
+    expect(callersTables(md, `leaf`)).toEqual([
+      [
+        {
+          Change: `+50.0%`,
+          Delta: `+2.00µs`,
+          '%': `80.0% → 75.0%`,
+          Time: `4.0µs → 6.0µs`,
+          Samples: `4 → 6`,
+          Caller: `parent`,
+          Location: `src/parent.ts:1`,
+        },
+        {
+          Change: `new`,
+          Delta: `+2.00µs`,
+          '%': `0.0% → 25.0%`,
+          Time: `0ms → 2.0µs`,
+          Samples: `0 → 2`,
+          Caller: `other`,
+          Location: `src/other.ts:1`,
+        },
+        {
+          Change: `removed`,
+          Delta: `-1.00µs`,
+          '%': `20.0% → 0.0%`,
+          Time: `1.0µs → 0ms`,
+          Samples: `1 → 0`,
+          Caller: `gone`,
+          Location: `src/gone.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs each function's callees across the sides`, () => {
+    expect(calleesTables(md, `parent`)).toEqual([
+      [
+        {
+          Change: `+50.0%`,
+          Delta: `+2.00µs`,
+          '%': `100.0%`,
+          Time: `4.0µs → 6.0µs`,
+          Samples: `4 → 6`,
+          Callee: `leaf`,
+          Location: `src/leaf.ts:1`,
+        },
+      ],
+    ])
+    expect(calleesTables(md, `other`)).toEqual([
+      [
+        {
+          Change: `new`,
+          Delta: `+2.00µs`,
+          '%': `0.0% → 100.0%`,
+          Time: `0ms → 2.0µs`,
+          Samples: `0 → 2`,
+          Callee: `leaf`,
+          Location: `src/leaf.ts:1`,
+        },
+      ],
+    ])
+    expect(calleesTables(md, `gone`)).toEqual([
+      [
+        {
+          Change: `removed`,
+          Delta: `-1.00µs`,
+          '%': `100.0% → 0.0%`,
+          Time: `1.0µs → 0ms`,
+          Samples: `1 → 0`,
+          Callee: `leaf`,
+          Location: `src/leaf.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`omits the callers the entry filter hides on both sides`, () => {
+    const md = formatDiff(
+      resolveProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: entry => entry.name !== `other`,
+      }),
+    )
+
+    expect(callersTables(md, `leaf`)).toEqual([
+      [
+        {
+          Change: `+50.0%`,
+          Delta: `+2.00µs`,
+          '%': `80.0% → 75.0%`,
+          Time: `4.0µs → 6.0µs`,
+          Samples: `4 → 6`,
+          Caller: `parent`,
+          Location: `src/parent.ts:1`,
+        },
+        {
+          Change: `removed`,
+          Delta: `-1.00µs`,
+          '%': `20.0% → 0.0%`,
+          Time: `1.0µs → 0ms`,
+          Samples: `1 → 0`,
+          Caller: `gone`,
+          Location: `src/gone.ts:1`,
         },
       ],
     ])

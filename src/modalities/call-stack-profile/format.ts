@@ -28,8 +28,13 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
-import { lineMatcher } from '../diff.ts'
-import type { DiffedLine, LineMatcher } from '../diff.ts'
+import { functionIdMatcher, lineMatcher } from '../diff.ts'
+import type {
+  Diff,
+  DiffedLine,
+  FunctionIdMatcher,
+  LineMatcher,
+} from '../diff.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
   formatDiffFunctionSections,
@@ -75,7 +80,7 @@ import {
   lineColumns,
   sameShownFrame,
 } from './table.ts'
-import type { ShownFrame } from './table.ts'
+import type { FunctionMeasureRow, ShownFrame } from './table.ts'
 
 export const formatCallStackProfile = (
   profile: AggregatedCallStackProfile,
@@ -160,6 +165,7 @@ export const formatCallStackProfileDiff = (
   const headingLevel = 1
   const measures = diffMeasuresOf(diff)
   const matchLines = lineMatcher(diff)
+  const matchFunctionIds = functionIdMatcher(diff.functions)
   return [
     heading(
       headingLevel,
@@ -186,6 +192,7 @@ export const formatCallStackProfileDiff = (
           ...formatDiffFunctions({
             diff,
             matchLines,
+            matchFunctionIds,
             measure,
             options: sectionOptions,
             headingLevel: sectionHeadingLevel,
@@ -362,15 +369,6 @@ const formatHottestSelfFunctions = ({
         headingLevel: headingLevel + 2,
       }),
     )
-  const hottestCallersSections = displayedEntities.flatMap(func =>
-    formatHottestCallers({
-      measure,
-      func,
-      context: profile.context,
-      options,
-      headingLevel: headingLevel + 2,
-    }),
-  )
 
   return [
     heading(headingLevel, `Self ${metric.phrases.columnNoun}`),
@@ -392,15 +390,14 @@ const formatHottestSelfFunctions = ({
       ],
       hottestLinesSections,
     ),
-    ...formatSectionGroup(
-      [
-        heading(headingLevel + 1, `Callers`),
-        paragraph(
-          `Callers ranked by contribution to each function's self ${metric.phrases.columnNoun}. Inlining can make caller attribution imprecise.`,
-        ),
-      ],
-      hottestCallersSections,
-    ),
+    ...formatHottestNeighbors({
+      measure,
+      funcs: displayedEntities,
+      context: profile.context,
+      direction: SELF_DIRECTION,
+      options,
+      headingLevel: headingLevel + 1,
+    }),
   ]
 }
 
@@ -468,47 +465,6 @@ const lineValueOf = (
   metrics: AggregatedCallStackProfileLineMetrics,
 ): number => measure.valueOf(metrics.values, metrics.count)
 
-const formatHottestCallers = ({
-  measure,
-  func,
-  context,
-  options,
-  headingLevel,
-}: {
-  measure: Measure
-  func: AggregatedCallStackProfileFunction
-  context: ProfileToMdContext
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] => {
-  const selfValue = selfValueOf(measure, func)
-  const hottestCallers = selectTopN(
-    [...func.callerIdToMetrics.values()].filter(
-      entry =>
-        options.showEntry(entry.caller, context) &&
-        selfValueOf(measure, entry) > 0,
-    ),
-    Math.ceil(options.topN / 4),
-    entry => selfValueOf(measure, entry),
-  )
-  if (hottestCallers.length === 0) {
-    return []
-  }
-
-  return [
-    formatFunctionHeading(headingLevel, func, options),
-    formatTable(
-      functionColumns(measure, `Caller`, options),
-      hottestCallers.map(entry => ({
-        func: entry.caller,
-        value: selfValueOf(measure, entry),
-        count: entry.selfCount,
-        total: selfValue,
-      })),
-    ),
-  ]
-}
-
 const formatHottestTotalFunctions = ({
   measure,
   profile,
@@ -538,16 +494,6 @@ const formatHottestTotalFunctions = ({
   }
 
   const { metric } = measure
-  const calleeSections = ranking.displayedEntities.flatMap(func =>
-    formatHottestCallees({
-      measure,
-      func,
-      context: profile.context,
-      options,
-      headingLevel: headingLevel + 2,
-    }),
-  )
-
   return [
     heading(headingLevel, `Total ${metric.phrases.columnNoun}`),
     paragraph(
@@ -559,55 +505,199 @@ const formatHottestTotalFunctions = ({
         formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
     }),
-    ...formatSectionGroup(
-      [
-        heading(headingLevel + 1, `Callees`),
-        paragraph(
-          `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
-        ),
-      ],
-      calleeSections,
-    ),
+    ...formatHottestNeighbors({
+      measure,
+      funcs: ranking.displayedEntities,
+      context: profile.context,
+      direction: TOTAL_DIRECTION,
+      options,
+      headingLevel: headingLevel + 1,
+    }),
   ]
 }
 
-const formatHottestCallees = ({
+/**
+ * A function's callers or callees, each measured over the stacks it shares with
+ * the function.
+ */
+type Neighbors = {
+  entity: `Caller` | `Callee`
+  contributionOf: (metric: Metric) => string
+
+  /** What can make the attribution to neighbors imprecise. */
+  caveat: string
+  metricsOf: (
+    func: AggregatedCallStackProfileFunction,
+  ) => Iterable<readonly [id: number, metrics: NeighborMetrics]>
+}
+
+/** A caller or callee, measured over the stacks it shares with the function. */
+type NeighborMetrics = {
+  func: AggregatedCallStackProfileFunction
+  values: Float64Array
+  count: number
+}
+
+const CALLERS: Neighbors = {
+  entity: `Caller`,
+  contributionOf: metric =>
+    `contribution to each function's self ${metric.phrases.columnNoun}`,
+  caveat: `Inlining can make caller attribution imprecise.`,
+  metricsOf: func =>
+    func.callerIdToMetrics
+      .entries()
+      .map(([id, { caller, selfValues, selfCount }]) => [
+        id,
+        { func: caller, values: selfValues, count: selfCount },
+      ]),
+}
+
+const CALLEES: Neighbors = {
+  entity: `Callee`,
+  contributionOf: metric =>
+    `contribution to each function's total ${metric.phrases.columnNoun}`,
+  caveat: `Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
+  metricsOf: func =>
+    func.calleeIdToMetrics
+      .entries()
+      .map(([id, { callee, totalValues, totalCount }]) => [
+        id,
+        { func: callee, values: totalValues, count: totalCount },
+      ]),
+}
+
+/**
+ * The value accessors, phrasing, and neighbors of one function ranking
+ * direction (self or total).
+ */
+type FunctionDirection = {
+  valueOf: (side: Measure, func: AggregatedCallStackProfileFunction) => number
+  countOf: (func: AggregatedCallStackProfileFunction) => number
+  titleOf: (metric: Metric) => string
+  descriptionOf: (metric: Metric) => string
+
+  /** The neighbors each function's value is attributed to. */
+  neighbors: Neighbors
+
+  /** The sections breaking down the functions a diff's rankings show. */
+  formatDiffDetailSections: (args: DiffDetailArgs) => RootContent[]
+}
+
+const SELF_DIRECTION: FunctionDirection = {
+  valueOf: selfValueOf,
+  countOf: func => func.selfCount,
+  titleOf: metric => `Self ${metric.phrases.columnNoun}`,
+  descriptionOf: metric =>
+    `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
+  neighbors: CALLERS,
+  formatDiffDetailSections: args => [
+    ...formatDiffLines(args),
+    ...formatDiffNeighbors(args, SELF_DIRECTION),
+  ],
+}
+
+const TOTAL_DIRECTION: FunctionDirection = {
+  valueOf: totalValueOf,
+  countOf: func => func.totalCount,
+  titleOf: metric => `Total ${metric.phrases.columnNoun}`,
+  descriptionOf: metric =>
+    `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
+  neighbors: CALLEES,
+  formatDiffDetailSections: args => formatDiffNeighbors(args, TOTAL_DIRECTION),
+}
+
+/** A caller's or callee's row in a function's table. */
+type NeighborRow = FunctionMeasureRow & {
+  func: AggregatedCallStackProfileFunction
+}
+
+/**
+ * The function's caller or callee rows keyed by each neighbor's ID, each a
+ * share of the function's value in the direction.
+ */
+const neighborRowsOf = (
+  measure: Measure,
+  func: AggregatedCallStackProfileFunction,
+  { valueOf, neighbors }: FunctionDirection,
+): Iterable<readonly [id: number, row: NeighborRow]> => {
+  const total = valueOf(measure, func)
+  return Iterator.from(neighbors.metricsOf(func)).map(
+    ([id, { func, values, count }]) =>
+      [
+        id,
+        { func, value: measure.valueOf(values, count), count, total },
+      ] as const,
+  )
+}
+
+const formatHottestNeighbors = ({
+  measure,
+  funcs,
+  context,
+  direction,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  funcs: AggregatedCallStackProfileFunction[]
+  context: ProfileToMdContext
+  direction: FunctionDirection
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const { entity, contributionOf, caveat } = direction.neighbors
+  return formatSectionGroup(
+    [
+      heading(headingLevel, `${entity}s`),
+      paragraph(
+        `${entity}s ranked by ${contributionOf(measure.metric)}. ${caveat}`,
+      ),
+    ],
+    funcs.flatMap(func =>
+      formatFunctionHottestNeighbors({
+        measure,
+        func,
+        context,
+        direction,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
+    ),
+  )
+}
+
+const formatFunctionHottestNeighbors = ({
   measure,
   func,
   context,
+  direction,
   options,
   headingLevel,
 }: {
   measure: Measure
   func: AggregatedCallStackProfileFunction
   context: ProfileToMdContext
+  direction: FunctionDirection
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const total = totalValueOf(measure, func)
-  const hottestCallees = selectTopN(
-    [...func.calleeIdToMetrics.values()].filter(
-      entry =>
-        options.showEntry(entry.callee, context) &&
-        totalValueOf(measure, entry) > 0,
-    ),
+  const hottestRows = selectTopN(
+    Array.from(
+      neighborRowsOf(measure, func, direction),
+      ([, row]) => row,
+    ).filter(row => options.showEntry(row.func, context) && row.value > 0),
     Math.ceil(options.topN / 4),
-    entry => totalValueOf(measure, entry),
+    row => row.value,
   )
-  if (hottestCallees.length === 0) {
+  if (hottestRows.length === 0) {
     return []
   }
 
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      functionColumns(measure, `Callee`, options),
-      hottestCallees.map(entry => ({
-        func: entry.callee,
-        value: totalValueOf(measure, entry),
-        count: entry.totalCount,
-        total,
-      })),
+      functionColumns(measure, direction.neighbors.entity, options),
+      hottestRows,
     ),
   ]
 }
@@ -948,12 +1038,14 @@ const formatDiffCategoryTable = (
 const formatDiffFunctions = ({
   diff,
   matchLines,
+  matchFunctionIds,
   measure,
   options,
   headingLevel,
 }: {
   diff: AggregatedCallStackProfileDiff
   matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
+  matchFunctionIds: FunctionIdMatcher
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -977,6 +1069,7 @@ const formatDiffFunctions = ({
       ...formatDiffDirectionFunctions({
         diff,
         matchLines,
+        matchFunctionIds,
         measure,
         categories,
         options,
@@ -986,6 +1079,7 @@ const formatDiffFunctions = ({
       ...formatDiffDirectionFunctions({
         diff,
         matchLines,
+        matchFunctionIds,
         measure,
         categories,
         options,
@@ -996,62 +1090,40 @@ const formatDiffFunctions = ({
   )
 }
 
-/**
- * The value accessors and phrasing for one function diff direction (self or
- * total).
- */
-type DiffFunctionDirection = {
-  valueOf: (side: Measure, func: AggregatedCallStackProfileFunction) => number
-  countOf: (func: AggregatedCallStackProfileFunction) => number
-  titleOf: (metric: Metric) => string
-  descriptionOf: (metric: Metric) => string
-
-  /** The sections breaking down the functions the rankings show. */
-  formatDetailSections: (args: DiffDetailArgs) => RootContent[]
-}
-
 type DiffDetailArgs = {
+  diff: AggregatedCallStackProfileDiff
   matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
+  matchFunctionIds: FunctionIdMatcher
   measure: DiffMeasure
   funcs: AggregatedCallStackProfileFunctionDiff[]
   options: FormattingProfileToMdOptions
   headingLevel: number
 }
 
-const SELF_DIRECTION: DiffFunctionDirection = {
-  valueOf: selfValueOf,
-  countOf: func => func.selfCount,
-  titleOf: metric => `Self ${metric.phrases.columnNoun}`,
-  descriptionOf: metric =>
-    `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
-  formatDetailSections: args => formatDiffLines(args),
-}
-
-const TOTAL_DIRECTION: DiffFunctionDirection = {
-  valueOf: totalValueOf,
-  countOf: func => func.totalCount,
-  titleOf: metric => `Total ${metric.phrases.columnNoun}`,
-  descriptionOf: metric =>
-    `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
-  formatDetailSections: () => [],
-}
-
 const formatDiffDirectionFunctions = ({
   diff,
   matchLines,
+  matchFunctionIds,
   measure,
   categories,
   options,
   headingLevel,
-  direction: { valueOf, countOf, titleOf, descriptionOf, formatDetailSections },
+  direction: {
+    valueOf,
+    countOf,
+    titleOf,
+    descriptionOf,
+    formatDiffDetailSections,
+  },
 }: {
   diff: AggregatedCallStackProfileDiff
   matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
+  matchFunctionIds: FunctionIdMatcher
   measure: DiffMeasure
   categories: EntryCategory[]
   options: FormattingProfileToMdOptions
   headingLevel: number
-  direction: DiffFunctionDirection
+  direction: FunctionDirection
 }): RootContent[] => {
   const { metric, base: baseMeasure, current: currentMeasure } = measure
 
@@ -1100,8 +1172,10 @@ const formatDiffDirectionFunctions = ({
     decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
-    detailSections: formatDetailSections({
+    detailSections: formatDiffDetailSections({
+      diff,
       matchLines,
+      matchFunctionIds,
       measure,
       funcs: shownDiffEntities({
         improvement: metric.improvement,
@@ -1114,6 +1188,97 @@ const formatDiffDirectionFunctions = ({
     }),
   })
 }
+
+const formatDiffNeighbors = (
+  args: DiffDetailArgs,
+  direction: FunctionDirection,
+): RootContent[] => {
+  const { measure, funcs, headingLevel } = args
+  const { entity, contributionOf, caveat } = direction.neighbors
+  return formatSectionGroup(
+    [
+      heading(headingLevel, `${entity}s`),
+      paragraph(
+        `${entity}s with the largest change in ${contributionOf(measure.metric)}. ${caveat}`,
+      ),
+    ],
+    funcs.flatMap(func =>
+      formatDiffFunctionNeighbors({
+        ...args,
+        func,
+        direction,
+        headingLevel: headingLevel + 1,
+      }),
+    ),
+  )
+}
+
+const formatDiffFunctionNeighbors = ({
+  diff,
+  matchFunctionIds,
+  measure,
+  func,
+  direction,
+  options,
+  headingLevel,
+}: DiffDetailArgs & {
+  func: AggregatedCallStackProfileFunctionDiff
+  direction: FunctionDirection
+}): RootContent[] => {
+  const changedRows = selectChangedNeighborRows({
+    diff,
+    matchFunctionIds,
+    measure,
+    func,
+    direction,
+    options,
+  })
+  if (changedRows.length === 0) {
+    return []
+  }
+
+  return [
+    formatFunctionHeading(headingLevel, func, options),
+    formatDiffTable(
+      functionColumns(measure, direction.neighbors.entity, options),
+      changedRows,
+    ),
+  ]
+}
+
+/**
+ * The function's caller or callee rows whose value changed the most either
+ * way, among those the entry filter shows on either side.
+ */
+const selectChangedNeighborRows = ({
+  diff,
+  matchFunctionIds,
+  measure,
+  func,
+  direction,
+  options,
+}: {
+  diff: AggregatedCallStackProfileDiff
+  matchFunctionIds: FunctionIdMatcher
+  measure: DiffMeasure
+  func: AggregatedCallStackProfileFunctionDiff
+  direction: FunctionDirection
+  options: FormattingProfileToMdOptions
+}): Diff<NeighborRow>[] =>
+  selectLargestChanges(
+    matchFunctionIds(
+      func.base && neighborRowsOf(measure.base, func.base, direction),
+      func.current && neighborRowsOf(measure.current, func.current, direction),
+    ).filter(({ base, current }) =>
+      showDiffEntity(
+        { base: base?.func, current: current?.func },
+        diff,
+        options,
+      ),
+    ),
+    Math.ceil(options.topN / 4),
+    ({ base, current }) => (current?.value ?? 0) - (base?.value ?? 0),
+  )
 
 const formatDiffLines = ({
   matchLines,

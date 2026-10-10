@@ -159,6 +159,358 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | removed | -16.007 KiB | <0.1% → 0.0% |        16 KiB → 0 B |   1 → 0 | `(anonymous)`     | `workload.mjs:134:23` |
 |   -0.1% |       -32 B |         0.1% |              32 KiB |       2 | `chartLayouts`    | `workload.mjs:116:24` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's self size. Inlining can make caller attribution imprecise.
+
+##### `p` (`node_modules/d3/dist/d3.min.js:2:77576`)
+
+| Change |       Delta |             % |                Size |       Samples | Caller        | Location                                 |
+| -----: | ----------: | ------------: | ------------------: | ------------: | ------------- | ---------------------------------------- |
+|  +6.6% |  +2.372 MiB | 99.7% → 99.9% | 35.9 MiB → 38.3 MiB | 2,282 → 2,433 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:77113` |
+| -66.7% | -64.031 KiB |   0.3% → 0.1% |     96 KiB → 32 KiB |         6 → 2 | `forEach`     | `<unknown>`                              |
+
+##### `t` (`node_modules/d3/dist/d3.min.js:2:4909`)
+
+|  Change |       Delta |      % |               Size | Samples | Caller | Location                                |
+| ------: | ----------: | -----: | -----------------: | ------: | ------ | --------------------------------------- |
+| +239.2% | +193.32 KiB | 100.0% | 80.8 KiB → 274 KiB |  5 → 17 | `F`    | `node_modules/d3/dist/d3.min.js:2:4882` |
+
+##### `o` (`node_modules/d3/dist/d3.min.js:2:77004`)
+
+| Change |       Delta |      % |              Size | Samples | Caller        | Location                                 |
+| -----: | ----------: | -----: | ----------------: | ------: | ------------- | ---------------------------------------- |
+| +40.7% | +176.25 KiB | 100.0% | 433 KiB → 609 KiB | 27 → 38 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:76982` |
+
+##### `d` (`node_modules/d3/dist/d3.min.js:2:235885`)
+
+| Change |        Delta |      % |                Size | Samples | Caller              | Location                                             |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------- | ---------------------------------------------------- |
+| +16.4% | +176.234 KiB | 100.0% | 1.05 MiB → 1.22 MiB | 67 → 78 | `t.forceSimulation` | `node_modules/d3/dist/d3.min.js:2:235388 → 2:235437` |
+
+##### `I_` (`node_modules/d3/dist/d3.min.js:2:173066`)
+
+| Change |       Delta |      % |              Size | Samples | Caller      | Location                                             |
+| -----: | ----------: | -----: | ----------------: | ------: | ----------- | ---------------------------------------------------- |
+| +46.6% | +112.14 KiB | 100.0% | 240 KiB → 353 KiB | 15 → 22 | `I_.s.copy` | `node_modules/d3/dist/d3.min.js:2:173715 → 2:173694` |
+
+##### `Gd` (`node_modules/d3/dist/d3.min.js:2:139995`)
+
+| Change |       Delta |      % |                Size | Samples | Caller         | Location              |
+| -----: | ----------: | -----: | ------------------: | ------: | -------------- | --------------------- |
+|  +7.0% | +80.179 KiB | 100.0% | 1.11 MiB → 1.19 MiB | 71 → 76 | `chartLayouts` | `workload.mjs:116:24` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:16259`)
+
+|  Change |       Delta |             % |                Size |   Samples | Caller        | Location                                 |
+| ------: | ----------: | ------------: | ------------------: | --------: | ------------- | ---------------------------------------- |
+|   +1.1% | +48.109 KiB | 99.6% → 99.3% | 4.24 MiB → 4.29 MiB | 271 → 274 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:26793` |
+| +100.0% | +16.015 KiB |   0.4% → 0.7% |     16 KiB → 32 KiB |     1 → 2 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:26975` |
+
+##### `g` (`node_modules/d3/dist/d3.min.js:2:231215`)
+
+|  Change |       Delta |             % |                Size | Samples | Caller     | Location                                             |
+| ------: | ----------: | ------------: | ------------------: | ------: | ---------- | ---------------------------------------------------- |
+|  +34.4% | +35.972 KiB | 86.4% → 79.6% |   105 KiB → 141 KiB |   5 → 7 | `a`        | `node_modules/d3/dist/d3.min.js:2:231005 → 2:231054` |
+| +120.0% | +19.695 KiB | 13.6% → 20.4% | 16.4 KiB → 36.1 KiB |   1 → 2 | `Fc.visit` | `node_modules/d3/dist/d3.min.js:2:105700 → 2:105681` |
+
+##### `Ap` (`node_modules/d3/dist/d3.min.js:2:146394`)
+
+|  Change |       Delta |      % |              Size | Samples | Caller | Location                                             |
+| ------: | ----------: | -----: | ----------------: | ------: | ------ | ---------------------------------------------------- |
+| +150.2% | +48.093 KiB | 100.0% | 32 KiB → 80.1 KiB |   2 → 5 | `Bp`   | `node_modules/d3/dist/d3.min.js:2:147464 → 2:147443` |
+
+##### `map` (`<unknown>`)
+
+|  Change |       Delta |      % |              Size | Samples | Caller         | Location              |
+| ------: | ----------: | -----: | ----------------: | ------: | -------------- | --------------------- |
+| +300.0% | +48.062 KiB | 100.0% | 16 KiB → 64.1 KiB |   1 → 4 | `chartLayouts` | `workload.mjs:116:24` |
+
+##### `wg` (`node_modules/d3/dist/d3.min.js:2:154259`)
+
+|  Change |       Delta |             % |              Size | Samples | Caller        | Location                                             |
+| ------: | ----------: | ------------: | ----------------: | ------: | ------------- | ---------------------------------------------------- |
+| +100.0% | +32.039 KiB | 50.0% → 57.1% | 32 KiB → 64.1 KiB |   2 → 4 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:11875`             |
+|  +50.0% | +16.007 KiB | 50.0% → 42.9% |   32 KiB → 48 KiB |   2 → 3 | `l`           | `node_modules/d3/dist/d3.min.js:2:155044 → 2:155023` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:18176`)
+
+|  Change |       Delta |              % |                Size | Samples | Caller | Location                                 |
+| ------: | ----------: | -------------: | ------------------: | ------: | ------ | ---------------------------------------- |
+| +144.8% | +25.957 KiB | 100.0% → 73.3% | 17.9 KiB → 43.9 KiB |   1 → 2 | `attr` | `node_modules/d3/dist/d3.min.js:2:25709` |
+|     new | +16.015 KiB |   0.0% → 26.7% |        0 B → 16 KiB |   0 → 1 | `each` | `node_modules/d3/dist/d3.min.js:2:25558` |
+
+##### `forEach` (`<unknown>`)
+
+| Change |       Delta |             % |           Size | Samples | Caller | Location                                 |
+| -----: | ----------: | ------------: | -------------: | ------: | ------ | ---------------------------------------- |
+|    new | +36.156 KiB | 0.0% → 100.0% | 0 B → 36.2 KiB |   0 → 2 | `o`    | `node_modules/d3/dist/d3.min.js:2:77004` |
+
+##### `exec` (`<unknown>`)
+
+| Change |      Delta |            % |           Size | Samples | Caller | Location                                  |
+| -----: | ---------: | -----------: | -------------: | ------: | ------ | ----------------------------------------- |
+|    new | +18.75 KiB | 0.0% → 53.6% | 0 B → 18.8 KiB |   0 → 1 | `Jc`   | `node_modules/d3/dist/d3.min.js:2:107030` |
+|    new | +16.25 KiB | 0.0% → 46.4% | 0 B → 16.3 KiB |   0 → 1 | `Dv`   | `node_modules/d3/dist/d3.min.js:2:169110` |
+
+##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
+
+| Change |       Delta |      % |                Size | Samples | Caller        | Location    |
+| -----: | ----------: | -----: | ------------------: | ------: | ------------- | ----------- |
+| +66.6% | +32.144 KiB | 100.0% | 48.3 KiB → 80.4 KiB |   3 → 5 | `(anonymous)` | `<unknown>` |
+
+##### `t` (`node_modules/d3/dist/d3.min.js:2:257411`)
+
+| Change |       Delta |      % |                Size | Samples | Caller   | Location                                             |
+| -----: | ----------: | -----: | ------------------: | ------: | -------- | ---------------------------------------------------- |
+| +50.0% | +32.054 KiB | 100.0% | 64.1 KiB → 96.2 KiB |   4 → 6 | `n.copy` | `node_modules/d3/dist/d3.min.js:2:257398 → 2:257447` |
+
+##### `append` (`node_modules/d3/dist/d3.min.js:2:26726`)
+
+|  Change |        Delta |             % |               Size | Samples | Caller        | Location                                 |
+| ------: | -----------: | ------------: | -----------------: | ------: | ------------- | ---------------------------------------- |
+| +116.7% | +112.109 KiB | 25.0% → 50.0% | 96.1 KiB → 208 KiB |  6 → 13 | `(anonymous)` | `workload.mjs:185:13`                    |
+|  -27.8% |  -80.078 KiB | 75.0% → 50.0% |  288 KiB → 208 KiB | 18 → 13 | `join`        | `node_modules/d3/dist/d3.min.js:2:24162` |
+
+##### `max` (`<unknown>`)
+
+| Change |     Delta |             % |           Size | Samples | Caller | Location                                  |
+| -----: | --------: | ------------: | -------------: | ------: | ------ | ----------------------------------------- |
+|    new | +16.5 KiB | 0.0% → 100.0% | 0 B → 16.5 KiB |   0 → 1 | `Bp`   | `node_modules/d3/dist/d3.min.js:2:147443` |
+
+##### `i.domain` (`node_modules/d3/dist/d3.min.js:2:152528`)
+
+| Change |       Delta |             % |           Size | Samples | Caller     | Location                                  |
+| -----: | ----------: | ------------: | -------------: | ------: | ---------- | ----------------------------------------- |
+|    new | +16.171 KiB | 0.0% → 100.0% | 0 B → 16.2 KiB |   0 → 1 | `e.domain` | `node_modules/d3/dist/d3.min.js:2:153221` |
+
+##### `u` (`node_modules/d3/dist/d3.min.js:2:231519`)
+
+| Change |       Delta |             % |           Size | Samples | Caller          | Location                                  |
+| -----: | ----------: | ------------: | -------------: | ------: | --------------- | ----------------------------------------- |
+|    new | +16.105 KiB | 0.0% → 100.0% | 0 B → 16.1 KiB |   0 → 1 | `Fc.visitAfter` | `node_modules/d3/dist/d3.min.js:2:106049` |
+
+##### `node` (`node_modules/d3/dist/d3.min.js:2:25324`)
+
+| Change |       Delta |             % |           Size | Samples | Caller                         | Location            |
+| -----: | ----------: | ------------: | -------------: | ------: | ------------------------------ | ------------------- |
+|    new | +16.082 KiB | 0.0% → 100.0% | 0 B → 16.1 KiB |   0 → 1 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
+##### `a` (`node_modules/d3/dist/d3.min.js:2:252683`)
+
+| Change |       Delta |      % |              Size | Samples | Caller            | Location             |
+| -----: | ----------: | -----: | ----------------: | ------: | ----------------- | -------------------- |
+| +14.3% | +16.054 KiB | 100.0% | 112 KiB → 128 KiB |   7 → 8 | `chartBreakdowns` | `workload.mjs:39:27` |
+
+##### `f.innerRadius` (`node_modules/d3/dist/d3.min.js:2:220276`)
+
+| Change |       Delta |             % |           Size | Samples | Caller            | Location             |
+| -----: | ----------: | ------------: | -------------: | ------: | ----------------- | -------------------- |
+|    new | +16.054 KiB | 0.0% → 100.0% | 0 B → 16.1 KiB |   0 → 1 | `chartBreakdowns` | `workload.mjs:39:27` |
+
+##### `i` (`node_modules/d3/dist/d3.min.js:2:152407`)
+
+| Change |       Delta |             % |         Size | Samples | Caller        | Location              |
+| -----: | ----------: | ------------: | -----------: | ------: | ------------- | --------------------- |
+|    new | +16.046 KiB | 0.0% → 100.0% | 0 B → 16 KiB |   0 → 1 | `(anonymous)` | `workload.mjs:199:25` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:142656`)
+
+| Change |       Delta |             % |         Size | Samples | Caller       | Location                                  |
+| -----: | ----------: | ------------: | -----------: | ------: | ------------ | ----------------------------------------- |
+|    new | +16.031 KiB | 0.0% → 100.0% | 0 B → 16 KiB |   0 → 1 | `eachBefore` | `node_modules/d3/dist/d3.min.js:2:141754` |
+
+##### `(anonymous)` (`workload.mjs:136:28`)
+
+| Change | Delta |      % |    Size | Samples | Caller | Location    |
+| -----: | ----: | -----: | ------: | ------: | ------ | ----------- |
+|    ~0% | +48 B | 100.0% | 737 KiB |      46 | `map`  | `<unknown>` |
+
+##### `Bp` (`node_modules/d3/dist/d3.min.js:2:147443`)
+
+| Change |        Delta |      % |                Size |   Samples | Caller | Location                                             |
+| -----: | -----------: | -----: | ------------------: | --------: | ------ | ---------------------------------------------------- |
+| -12.1% | -448.605 KiB | 100.0% | 3.61 MiB → 3.18 MiB | 231 → 203 | `e`    | `node_modules/d3/dist/d3.min.js:2:147925 → 2:147904` |
+
+##### `format` (`node_modules/d3/dist/d3.min.js:2:167310`)
+
+| Change |        Delta |      % |              Size | Samples | Caller | Location                                             |
+| -----: | -----------: | -----: | ----------------: | ------: | ------ | ---------------------------------------------------- |
+| -40.9% | -144.218 KiB | 100.0% | 352 KiB → 208 KiB | 22 → 13 | `I_`   | `node_modules/d3/dist/d3.min.js:2:173087 → 2:173066` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:78140`)
+
+| Change |        Delta |      % |              Size | Samples | Caller | Location                                           |
+| -----: | -----------: | -----: | ----------------: | ------: | ------ | -------------------------------------------------- |
+| -36.0% | -144.093 KiB | 100.0% | 400 KiB → 256 KiB | 25 → 16 | `p`    | `node_modules/d3/dist/d3.min.js:2:77577 → 2:77576` |
+
+##### `h` (`node_modules/d3/dist/d3.min.js:2:233884`)
+
+|  Change |       Delta |            % |           Size | Samples | Caller     | Location                                  |
+| ------: | ----------: | -----------: | -------------: | ------: | ---------- | ----------------------------------------- |
+| removed | -75.757 KiB | 81.0% → 0.0% | 75.8 KiB → 0 B |   4 → 0 | `f`        | `node_modules/d3/dist/d3.min.js:2:233452` |
+| removed | -17.765 KiB | 19.0% → 0.0% | 17.8 KiB → 0 B |   1 → 0 | `Fc.visit` | `node_modules/d3/dist/d3.min.js:2:105700` |
+
+##### `Ag` (`node_modules/d3/dist/d3.min.js:2:154779`)
+
+|  Change |        Delta |             % |                Size | Samples | Caller | Location                                             |
+| ------: | -----------: | ------------: | ------------------: | ------: | ------ | ---------------------------------------------------- |
+|  -63.6% | -112.218 KiB | 44.0% → 20.0% |  176 KiB → 64.2 KiB |  11 → 4 | `Sg`   | `node_modules/d3/dist/d3.min.js:2:155632 → 2:155611` |
+| +300.2% |  +48.125 KiB |  4.0% → 20.0% |   16 KiB → 64.2 KiB |   1 → 4 | `I_`   | `node_modules/d3/dist/d3.min.js:2:173087 → 2:173066` |
+|  -40.0% |  -32.062 KiB | 20.0% → 15.0% | 80.2 KiB → 48.1 KiB |   5 → 3 | `t`    | `node_modules/d3/dist/d3.min.js:2:257362 → 2:257411` |
+|  +12.5% |  +16.031 KiB | 32.0% → 45.0% |   128 KiB → 144 KiB |   8 → 9 | `t`    | `node_modules/d3/dist/d3.min.js:2:257469 → 2:257518` |
+
+##### `from` (`<unknown>`)
+
+| Change |       Delta |             % |              Size | Samples | Caller        | Location                                             |
+| -----: | ----------: | ------------: | ----------------: | ------: | ------------- | ---------------------------------------------------- |
+| -60.0% | -48.046 KiB | 24.8% → 13.2% | 80.1 KiB → 32 KiB |   5 → 2 | `Ag.l.domain` | `node_modules/d3/dist/d3.min.js:2:155200 → 2:155179` |
+| -66.7% | -32.031 KiB |  14.9% → 6.6% |   48 KiB → 16 KiB |   3 → 1 | `Ag.l.range`  | `node_modules/d3/dist/d3.min.js:2:155280 → 2:155259` |
+|  +0.3% |      +560 B | 60.2% → 80.2% | 194 KiB → 195 KiB |      12 | `Gd`          | `node_modules/d3/dist/d3.min.js:2:140014 → 2:139995` |
+
+##### `next` (`<unknown>`)
+
+| Change |       Delta |      % |               Size | Samples | Caller | Location    |
+| -----: | ----------: | -----: | -----------------: | ------: | ------ | ----------- |
+| -40.0% | -64.187 KiB | 100.0% | 160 KiB → 96.3 KiB |  10 → 6 | `from` | `<unknown>` |
+
+##### `select` (`node_modules/d3/dist/d3.min.js:2:22328`)
+
+| Change |       Delta |             % |                Size |   Samples | Caller   | Location                                 |
+| -----: | ----------: | ------------: | ------------------: | --------: | -------- | ---------------------------------------- |
+| -13.9% | -80.078 KiB | 12.5% → 10.9% |   577 KiB → 496 KiB |   36 → 31 | `h`      | `node_modules/d3/dist/d3.min.js:2:12208` |
+|    new | +32.031 KiB |   0.0% → 0.7% |        0 B → 32 KiB |     0 → 2 | `insert` | `node_modules/d3/dist/d3.min.js:2:26864` |
+|  -0.4% | -15.312 KiB | 87.5% → 88.4% | 3.96 MiB → 3.94 MiB | 253 → 252 | `append` | `node_modules/d3/dist/d3.min.js:2:26726` |
+
+##### `Gr` (`node_modules/d3/dist/d3.min.js:2:43251`)
+
+| Change |      Delta |      % |              Size | Samples | Caller | Location                                             |
+| -----: | ---------: | -----: | ----------------: | ------: | ------ | ---------------------------------------------------- |
+| -60.1% | -48.14 KiB | 100.0% | 80.2 KiB → 32 KiB |   5 → 2 | `wg`   | `node_modules/d3/dist/d3.min.js:2:154280 → 2:154259` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:26793`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller   | Location                                 |
+| ------: | ----------: | ------------: | -------------: | ------: | -------- | ---------------------------------------- |
+| removed | -33.515 KiB | 100.0% → 0.0% | 33.5 KiB → 0 B |   2 → 0 | `select` | `node_modules/d3/dist/d3.min.js:2:22328` |
+
+##### `update` (`node_modules/d3/dist/d3.min.js:2:82523`)
+
+| Change |       Delta |      % |                Size | Samples | Caller | Location                                           |
+| -----: | ----------: | -----: | ------------------: | ------: | ------ | -------------------------------------------------- |
+| -67.0% | -33.363 KiB | 100.0% | 49.8 KiB → 16.5 KiB |   3 → 1 | `Su`   | `node_modules/d3/dist/d3.min.js:2:82035 → 2:82034` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:154198`)
+
+| Change |       Delta |      % |              Size | Samples | Caller | Location                                             |
+| -----: | ----------: | -----: | ----------------: | ------: | ------ | ---------------------------------------------------- |
+| -66.7% | -32.062 KiB | 100.0% | 48.1 KiB → 16 KiB |   3 → 1 | `wg`   | `node_modules/d3/dist/d3.min.js:2:154280 → 2:154259` |
+
+##### `t` (`node_modules/d3/dist/d3.min.js:2:257518`)
+
+| Change |   Delta |      % |            Size | Samples | Caller   | Location                                             |
+| -----: | ------: | -----: | --------------: | ------: | -------- | ---------------------------------------------------- |
+| -66.6% | -32 KiB | 100.0% | 48 KiB → 16 KiB |   3 → 1 | `n.copy` | `node_modules/d3/dist/d3.min.js:2:257518 → 2:257567` |
+
+##### `r` (`node_modules/d3/dist/d3.min.js:2:7022`)
+
+| Change |       Delta |      % |              Size | Samples | Caller            | Location             |
+| -----: | ----------: | -----: | ----------------: | ------: | ----------------- | -------------------- |
+| -17.8% | -31.375 KiB | 100.0% | 176 KiB → 145 KiB |  11 → 9 | `chartBreakdowns` | `workload.mjs:39:27` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:2114`)
+
+|  Change |   Delta |            % |         Size | Samples | Caller | Location                                |
+| ------: | ------: | -----------: | -----------: | ------: | ------ | --------------------------------------- |
+| removed | -21 KiB | 56.7% → 0.0% | 21 KiB → 0 B |   1 → 0 | `p`    | `node_modules/d3/dist/d3.min.js:2:1697` |
+
+##### `moveTo` (`node_modules/d3/dist/d3.min.js:2:72387`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller | Location                                  |
+| ------: | ----------: | ------------: | -------------: | ------: | ------ | ----------------------------------------- |
+| removed | -16.875 KiB | 100.0% → 0.0% | 16.9 KiB → 0 B |   1 → 0 | `f`    | `node_modules/d3/dist/d3.min.js:2:218177` |
+
+##### `chartBreakdowns` (`workload.mjs:39:27`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller                         | Location            |
+| ------: | ----------: | ------------: | -------------: | ------: | ------------------------------ | ------------------- |
+| removed | -16.242 KiB | 100.0% → 0.0% | 16.2 KiB → 0 B |   1 → 0 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
+##### `merge` (`node_modules/d3/dist/d3.min.js:2:24384`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller | Location                                 |
+| ------: | ----------: | ------------: | -------------: | ------: | ------ | ---------------------------------------- |
+| removed | -16.226 KiB | 100.0% → 0.0% | 16.2 KiB → 0 B |   1 → 0 | `join` | `node_modules/d3/dist/d3.min.js:2:24162` |
+
+##### `h` (`node_modules/d3/dist/d3.min.js:2:223199`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller | Location                                             |
+| ------: | ----------: | ------------: | -------------: | ------: | ------ | ---------------------------------------------------- |
+| removed | -16.187 KiB | 100.0% → 0.0% | 16.2 KiB → 0 B |   1 → 0 | `d`    | `node_modules/d3/dist/d3.min.js:2:223501 → 2:223550` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:166117`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller        | Location             |
+| ------: | ----------: | ------------: | -------------: | ------: | ------------- | -------------------- |
+| removed | -16.179 KiB | 100.0% → 0.0% | 16.2 KiB → 0 B |   1 → 0 | `(anonymous)` | `workload.mjs:11:29` |
+
+##### `X` (`node_modules/d3/dist/d3.min.js:2:5919`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller | Location                                |
+| ------: | ----------: | ------------: | -------------: | ------: | ------ | --------------------------------------- |
+| removed | -16.113 KiB | 100.0% → 0.0% | 16.1 KiB → 0 B |   1 → 0 | `V`    | `node_modules/d3/dist/d3.min.js:2:6595` |
+
+##### `insert` (`node_modules/d3/dist/d3.min.js:2:26864`)
+
+|  Change |       Delta |             % |           Size | Samples | Caller | Location                                 |
+| ------: | ----------: | ------------: | -------------: | ------: | ------ | ---------------------------------------- |
+| removed | -16.054 KiB | 100.0% → 0.0% | 16.1 KiB → 0 B |   1 → 0 | `h`    | `node_modules/d3/dist/d3.min.js:2:12208` |
+
+##### `d.size` (`node_modules/d3/dist/d3.min.js:2:224350`)
+
+|  Change |       Delta |             % |         Size | Samples | Caller         | Location              |
+| ------: | ----------: | ------------: | -----------: | ------: | -------------- | --------------------- |
+| removed | -16.046 KiB | 100.0% → 0.0% | 16 KiB → 0 B |   1 → 0 | `chartLayouts` | `workload.mjs:116:24` |
+
+##### `push` (`<unknown>`)
+
+| Change |       Delta |             % |              Size | Samples | Caller        | Location                                           |
+| -----: | ----------: | ------------: | ----------------: | ------: | ------------- | -------------------------------------------------- |
+| -11.6% | -80.156 KiB | 54.9% → 49.1% | 689 KiB → 609 KiB | 43 → 38 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:78141 → 2:78140` |
+| +57.2% | +66.226 KiB |  9.2% → 14.7% | 116 KiB → 182 KiB |  7 → 11 | `p`           | `node_modules/d3/dist/d3.min.js:2:77577 → 2:77576` |
+| -12.6% | -16.296 KiB |  10.3% → 9.1% | 129 KiB → 113 KiB |   8 → 7 | `t`           | `node_modules/d3/dist/d3.min.js:2:4909`            |
+|  +4.9% | +15.886 KiB | 25.6% → 27.1% | 321 KiB → 337 KiB | 20 → 21 | `r`           | `node_modules/d3/dist/d3.min.js:2:7022`            |
+
+##### `(anonymous)` (`workload.mjs:77:21`)
+
+|  Change |       Delta |             % |         Size | Samples | Caller        | Location                                 |
+| ------: | ----------: | ------------: | -----------: | ------: | ------------- | ---------------------------------------- |
+| removed | -16.046 KiB | 100.0% → 0.0% | 16 KiB → 0 B |   1 → 0 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `(anonymous)` (`workload.mjs:11:29`)
+
+|  Change |       Delta |             % |         Size | Samples | Caller | Location    |
+| ------: | ----------: | ------------: | -----------: | ------: | ------ | ----------- |
+| removed | -16.015 KiB | 100.0% → 0.0% | 16 KiB → 0 B |   1 → 0 | `map`  | `<unknown>` |
+
+##### `(anonymous)` (`workload.mjs:121:16`)
+
+| Change |       Delta |      % |                Size | Samples | Caller | Location    |
+| -----: | ----------: | -----: | ------------------: | ------: | ------ | ----------- |
+| -25.0% | -16.015 KiB | 100.0% | 64.1 KiB → 48.1 KiB |   4 → 3 | `map`  | `<unknown>` |
+
+##### `(anonymous)` (`workload.mjs:134:23`)
+
+|  Change |       Delta |             % |         Size | Samples | Caller        | Location                                 |
+| ------: | ----------: | ------------: | -----------: | ------: | ------------- | ---------------------------------------- |
+| removed | -16.007 KiB | 100.0% → 0.0% | 16 KiB → 0 B |   1 → 0 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `chartLayouts` (`workload.mjs:116:24`)
+
+| Change | Delta |      % |   Size | Samples | Caller                         | Location            |
+| -----: | ----: | -----: | -----: | ------: | ------------------------------ | ------------------- |
+|  -0.1% | -32 B | 100.0% | 32 KiB |       2 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
 ### Total size
 
 #### Regressions
@@ -307,3 +659,316 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -25.0% |  -16.015 KiB |         0.1% | 64.1 KiB → 48.1 KiB |     4 → 3 | `(anonymous)`     | `workload.mjs:121:16` |
 | removed |  -16.007 KiB | <0.1% → 0.0% |        16 KiB → 0 B |     1 → 0 | `(anonymous)`     | `workload.mjs:134:23` |
 |  -49.5% |  -15.945 KiB | 0.1% → <0.1% | 32.2 KiB → 16.3 KiB |     2 → 1 | `(anonymous)`     | `workload.mjs:11:29`  |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `map` (`<unknown>`)
+
+| Change |       Delta |             % |                Size |       Samples | Callee        | Location                                 |
+| -----: | ----------: | ------------: | ------------------: | ------------: | ------------- | ---------------------------------------- |
+|  +6.2% |  +2.348 MiB | 97.8% → 97.9% |   37.7 MiB → 40 MiB | 2,392 → 2,541 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:76982` |
+| -25.0% | -16.015 KiB |   0.2% → 0.1% | 64.1 KiB → 48.1 KiB |         4 → 3 | `(anonymous)` | `workload.mjs:121:16`                    |
+| -49.5% | -15.945 KiB |  0.1% → <0.1% | 32.2 KiB → 16.3 KiB |         2 → 1 | `(anonymous)` | `workload.mjs:11:29`                     |
+|    ~0% |       +48 B |   1.9% → 1.8% |             737 KiB |            46 | `(anonymous)` | `workload.mjs:136:28`                    |
+
+##### `o` (`node_modules/d3/dist/d3.min.js:2:77004`)
+
+| Change |       Delta |             % |                Size |       Samples | Callee        | Location                                 |
+| -----: | ----------: | ------------: | ------------------: | ------------: | ------------- | ---------------------------------------- |
+|  +5.8% |  +2.156 MiB | 98.9% → 98.4% | 37.2 MiB → 39.4 MiB | 2,363 → 2,500 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:77113` |
+|    new | +36.156 KiB |   0.0% → 0.1% |      0 B → 36.2 KiB |         0 → 2 | `forEach`     | `<unknown>`                              |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:76982`)
+
+| Change |      Delta |              % |              Size |       Samples | Callee | Location                                 |
+| -----: | ---------: | -------------: | ----------------: | ------------: | ------ | ---------------------------------------- |
+|  +6.3% | +2.363 MiB | 99.9% → 100.0% | 37.6 MiB → 40 MiB | 2,390 → 2,540 | `o`    | `node_modules/d3/dist/d3.min.js:2:77004` |
+
+##### `i` (`node_modules/d3/dist/d3.min.js:2:76807`)
+
+| Change |      Delta |      % |              Size |       Samples | Callee | Location    |
+| -----: | ---------: | -----: | ----------------: | ------------: | ------ | ----------- |
+|  +6.2% | +2.348 MiB | 100.0% | 37.7 MiB → 40 MiB | 2,392 → 2,541 | `map`  | `<unknown>` |
+
+##### `d` (`node_modules/d3/dist/d3.min.js:2:223550`)
+
+| Change |       Delta |              % |              Size |       Samples | Callee | Location                                             |
+| -----: | ----------: | -------------: | ----------------: | ------------: | ------ | ---------------------------------------------------- |
+|  +6.2% |  +2.348 MiB | 99.9% → 100.0% | 37.7 MiB → 40 MiB | 2,392 → 2,541 | `i`    | `node_modules/d3/dist/d3.min.js:2:76807`             |
+| -69.9% | -37.187 KiB |   0.1% → <0.1% | 53.2 KiB → 16 KiB |         3 → 1 | `h`    | `node_modules/d3/dist/d3.min.js:2:223150 → 2:223199` |
+
+##### `p` (`node_modules/d3/dist/d3.min.js:2:77576`)
+
+| Change |       Delta |           % |               Size | Samples | Callee        | Location                                           |
+| -----: | ----------: | ----------: | -----------------: | ------: | ------------- | -------------------------------------------------- |
+| -20.6% | -224.25 KiB | 2.9% → 2.1% | 1.06 MiB → 865 KiB | 68 → 54 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:78141 → 2:78140` |
+| +57.2% | +66.226 KiB | 0.3% → 0.5% |  116 KiB → 182 KiB |  7 → 11 | `push`        | `<unknown>`                                        |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:77113`)
+
+| Change |       Delta |             % |                Size |       Samples | Callee    | Location                                           |
+| -----: | ----------: | ------------: | ------------------: | ------------: | --------- | -------------------------------------------------- |
+|  +6.0% |  +2.218 MiB | 99.7% → 99.9% | 37.1 MiB → 39.3 MiB | 2,357 → 2,498 | `p`       | `node_modules/d3/dist/d3.min.js:2:77577 → 2:77576` |
+| -66.7% | -64.031 KiB |   0.3% → 0.1% |     96 KiB → 32 KiB |         6 → 2 | `forEach` | `<unknown>`                                        |
+
+##### `chartLayouts` (`workload.mjs:116:24`)
+
+| Change |        Delta |             % |                Size |       Samples | Callee              | Location                                             |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ------------------- | ---------------------------------------------------- |
+|  +6.1% |   +2.312 MiB | 78.0% → 79.2% |   37.7 MiB → 40 MiB | 2,395 → 2,542 | `d`                 | `node_modules/d3/dist/d3.min.js:2:223501 → 2:223550` |
+| -10.2% | -384.011 KiB |   7.6% → 6.6% | 3.69 MiB → 3.32 MiB |     236 → 212 | `s`                 | `node_modules/d3/dist/d3.min.js:2:269724 → 2:269797` |
+| +71.2% |     +161 KiB |   0.5% → 0.7% |   226 KiB → 387 KiB |       14 → 24 | `P`                 | `node_modules/d3/dist/d3.min.js:2:4565`              |
+| +14.7% | +160.218 KiB |   2.2% → 2.4% | 1.06 MiB → 1.22 MiB |       68 → 78 | `t.forceSimulation` | `node_modules/d3/dist/d3.min.js:2:235388 → 2:235437` |
+|  -4.0% | -129.609 KiB |   6.6% → 6.0% | 3.18 MiB → 3.05 MiB |     203 → 195 | `join`              | `node_modules/d3/dist/d3.min.js:2:24162`             |
+
+##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
+
+| Change |        Delta |             % |                Size |       Samples | Callee            | Location                                 |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ----------------- | ---------------------------------------- |
+|  +4.4% |   +2.147 MiB | 84.7% → 85.3% | 48.4 MiB → 50.5 MiB | 3,073 → 3,210 | `chartLayouts`    | `workload.mjs:116:24`                    |
+| -17.5% | -417.234 KiB |   4.1% → 3.3% | 2.33 MiB → 1.93 MiB |     146 → 120 | `chartBreakdowns` | `workload.mjs:39:27`                     |
+|  +8.1% | +304.085 KiB |   6.4% → 6.7% | 3.68 MiB → 3.97 MiB |     235 → 254 | `join`            | `node_modules/d3/dist/d3.min.js:2:24162` |
+|    new |  +16.082 KiB |  0.0% → <0.1% |      0 B → 16.1 KiB |         0 → 1 | `node`            | `node_modules/d3/dist/d3.min.js:2:25324` |
+| +33.4% |  +16.015 KiB |          0.1% |     48 KiB → 64 KiB |         1 → 2 | `attr`            | `node_modules/d3/dist/d3.min.js:2:25709` |
+
+##### `(anonymous)` (`<unknown>`)
+
+| Change |      Delta |             % |                Size |       Samples | Callee                         | Location            |
+| -----: | ---------: | ------------: | ------------------: | ------------: | ------------------------------ | ------------------- |
+|  +3.6% | +2.082 MiB | 99.8% → 99.9% | 57.1 MiB → 59.2 MiB | 3,628 → 3,760 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
+##### `(anonymous)` (`workload.mjs:185:13`)
+
+| Change |        Delta |      % |                Size |   Samples | Callee   | Location                                 |
+| -----: | -----------: | -----: | ------------------: | --------: | -------- | ---------------------------------------- |
+|  +9.2% | +336.328 KiB | 100.0% | 3.57 MiB → 3.89 MiB | 228 → 249 | `append` | `node_modules/d3/dist/d3.min.js:2:26726` |
+
+##### `P` (`node_modules/d3/dist/d3.min.js:2:4565`)
+
+| Change |    Delta |      % |              Size | Samples | Callee | Location                                |
+| -----: | -------: | -----: | ----------------: | ------: | ------ | --------------------------------------- |
+| +71.2% | +161 KiB | 100.0% | 226 KiB → 387 KiB | 14 → 24 | `F`    | `node_modules/d3/dist/d3.min.js:2:4882` |
+
+##### `t.forceSimulation` (`node_modules/d3/dist/d3.min.js:2:235437`)
+
+| Change |        Delta |              % |                Size | Samples | Callee | Location                                             |
+| -----: | -----------: | -------------: | ------------------: | ------: | ------ | ---------------------------------------------------- |
+| +16.4% | +176.234 KiB | 98.5% → 100.0% | 1.05 MiB → 1.22 MiB | 67 → 78 | `d`    | `node_modules/d3/dist/d3.min.js:2:235836 → 2:235885` |
+
+##### `F` (`node_modules/d3/dist/d3.min.js:2:4882`)
+
+| Change |        Delta |      % |              Size | Samples | Callee | Location                                |
+| -----: | -----------: | -----: | ----------------: | ------: | ------ | --------------------------------------- |
+| +33.3% | +112.859 KiB | 100.0% | 339 KiB → 451 KiB | 21 → 28 | `t`    | `node_modules/d3/dist/d3.min.js:2:4909` |
+
+##### `t` (`node_modules/d3/dist/d3.min.js:2:4909`)
+
+|  Change |       Delta |             % |               Size | Samples | Callee | Location                                |
+| ------: | ----------: | ------------: | -----------------: | ------: | ------ | --------------------------------------- |
+|  -40.0% | -64.187 KiB | 41.5% → 19.9% | 160 KiB → 96.3 KiB |  10 → 6 | `from` | `<unknown>`                             |
+|  -12.6% | -16.296 KiB | 33.5% → 23.4% |  129 KiB → 113 KiB |   8 → 7 | `push` | `<unknown>`                             |
+| removed | -16.023 KiB |   4.1% → 0.0% |       16 KiB → 0 B |   1 → 0 | `get`  | `node_modules/d3/dist/d3.min.js:2:3756` |
+
+##### `Gd` (`node_modules/d3/dist/d3.min.js:2:139995`)
+
+| Change |  Delta |             % |              Size | Samples | Callee | Location    |
+| -----: | -----: | ------------: | ----------------: | ------: | ------ | ----------- |
+|  +0.3% | +560 B | 14.6% → 13.8% | 194 KiB → 195 KiB |      12 | `from` | `<unknown>` |
+
+##### `a` (`node_modules/d3/dist/d3.min.js:2:231054`)
+
+|  Change |       Delta |             % |                Size | Samples | Callee          | Location                                             |
+| ------: | ----------: | ------------: | ------------------: | ------: | --------------- | ---------------------------------------------------- |
+|  +34.4% | +35.972 KiB | 86.4% → 72.9% |   105 KiB → 141 KiB |   5 → 7 | `g`             | `node_modules/d3/dist/d3.min.js:2:231166 → 2:231215` |
+| +120.0% | +19.695 KiB | 13.6% → 18.7% | 16.4 KiB → 36.1 KiB |   1 → 2 | `Fc.visit`      | `node_modules/d3/dist/d3.min.js:2:105700 → 2:105681` |
+|     new | +16.105 KiB |   0.0% → 8.4% |      0 B → 16.1 KiB |   0 → 1 | `Fc.visitAfter` | `node_modules/d3/dist/d3.min.js:2:106049`            |
+
+##### `insert` (`node_modules/d3/dist/d3.min.js:2:26864`)
+
+| Change |       Delta |             % |         Size | Samples | Callee   | Location                                 |
+| -----: | ----------: | ------------: | -----------: | ------: | -------- | ---------------------------------------- |
+|    new | +48.046 KiB | 0.0% → 100.0% | 0 B → 48 KiB |   0 → 3 | `select` | `node_modules/d3/dist/d3.min.js:2:22328` |
+
+##### `append` (`node_modules/d3/dist/d3.min.js:2:26726`)
+
+| Change |       Delta |             % |                Size |   Samples | Callee        | Location                                 |
+| -----: | ----------: | ------------: | ------------------: | --------: | ------------- | ---------------------------------------- |
+|  -0.2% | -17.195 KiB | 91.6% → 91.0% | 7.49 MiB → 7.48 MiB | 479 → 478 | `select`      | `node_modules/d3/dist/d3.min.js:2:22328` |
+|  +5.0% | +16.015 KiB |   3.8% → 4.0% |   320 KiB → 336 KiB |   20 → 21 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:26793` |
+
+##### `join` (`node_modules/d3/dist/d3.min.js:2:24162`)
+
+|  Change |        Delta |             % |                Size |   Samples | Callee        | Location                                 |
+| ------: | -----------: | ------------: | ------------------: | --------: | ------------- | ---------------------------------------- |
+|   +9.2% | +336.328 KiB | 49.0% → 53.3% | 3.57 MiB → 3.89 MiB | 228 → 249 | `(anonymous)` | `workload.mjs:185:13`                    |
+|   -7.7% | -289.765 KiB | 50.8% → 46.7% | 3.69 MiB → 3.41 MiB | 236 → 218 | `append`      | `node_modules/d3/dist/d3.min.js:2:26726` |
+| removed |  -16.226 KiB |   0.2% → 0.0% |      16.2 KiB → 0 B |     1 → 0 | `merge`       | `node_modules/d3/dist/d3.min.js:2:24384` |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:26793`)
+
+| Change |       Delta |             % |                Size |   Samples | Callee        | Location                                 |
+| -----: | ----------: | ------------: | ------------------: | --------: | ------------- | ---------------------------------------- |
+|  +1.1% | +48.109 KiB | 98.9% → 99.3% | 4.24 MiB → 4.29 MiB | 271 → 274 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:16259` |
+| +94.1% | +15.554 KiB |   0.4% → 0.7% | 16.5 KiB → 32.1 KiB |     1 → 2 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:16431` |
+
+##### `(anonymous)` (`workload.mjs:199:25`)
+
+| Change |       Delta |             % |         Size | Samples | Callee | Location                                  |
+| -----: | ----------: | ------------: | -----------: | ------: | ------ | ----------------------------------------- |
+|    new | +16.046 KiB | 0.0% → 100.0% | 0 B → 16 KiB |   0 → 1 | `i`    | `node_modules/d3/dist/d3.min.js:2:152407` |
+
+##### `(anonymous)` (`workload.mjs:195:13`)
+
+| Change |       Delta |             % |         Size | Samples | Callee | Location                                 |
+| -----: | ----------: | ------------: | -----------: | ------: | ------ | ---------------------------------------- |
+|    new | +16.046 KiB | 0.0% → 100.0% | 0 B → 16 KiB |   0 → 1 | `attr` | `node_modules/d3/dist/d3.min.js:2:25709` |
+
+##### `chartBreakdowns` (`workload.mjs:39:27`)
+
+| Change |        Delta |             % |               Size | Samples | Callee   | Location                                 |
+| -----: | -----------: | ------------: | -----------------: | ------: | -------- | ---------------------------------------- |
+| -14.5% | -144.398 KiB | 41.6% → 43.1% |  994 KiB → 849 KiB | 62 → 53 | `call`   | `node_modules/d3/dist/d3.min.js:2:25192` |
+| -33.3% |  -144.14 KiB | 18.1% → 14.6% |  432 KiB → 288 KiB | 27 → 18 | `join`   | `node_modules/d3/dist/d3.min.js:2:24162` |
+| -40.0% |  -64.187 KiB |   6.7% → 4.9% | 160 KiB → 96.3 KiB |  10 → 6 | `D`      | `node_modules/d3/dist/d3.min.js:2:4759`  |
+| -29.1% |  -32.914 KiB |   4.7% → 4.1% |   113 KiB → 80 KiB |   4 → 2 | `attr`   | `node_modules/d3/dist/d3.min.js:2:25709` |
+| -66.7% |  -32.031 KiB |   2.0% → 0.8% |    48 KiB → 16 KiB |   3 → 1 | `append` | `node_modules/d3/dist/d3.min.js:2:26726` |
+
+##### `Bp` (`node_modules/d3/dist/d3.min.js:2:147443`)
+
+|  Change |       Delta |           % |              Size | Samples | Callee | Location                                             |
+| ------: | ----------: | ----------: | ----------------: | ------: | ------ | ---------------------------------------------------- |
+| +150.2% | +48.093 KiB | 0.8% → 2.4% | 32 KiB → 80.1 KiB |   2 → 5 | `Ap`   | `node_modules/d3/dist/d3.min.js:2:146413 → 2:146394` |
+|     new |   +16.5 KiB | 0.0% → 0.5% |    0 B → 16.5 KiB |   0 → 1 | `max`  | `<unknown>`                                          |
+
+##### `e` (`node_modules/d3/dist/d3.min.js:2:147904`)
+
+| Change |        Delta |      % |                Size |   Samples | Callee | Location                                             |
+| -----: | -----------: | -----: | ------------------: | --------: | ------ | ---------------------------------------------------- |
+| -10.2% | -384.011 KiB | 100.0% | 3.69 MiB → 3.32 MiB | 236 → 212 | `Bp`   | `node_modules/d3/dist/d3.min.js:2:147464 → 2:147443` |
+
+##### `l` (`node_modules/d3/dist/d3.min.js:2:269888`)
+
+| Change |        Delta |      % |                Size |   Samples | Callee | Location                                             |
+| -----: | -----------: | -----: | ------------------: | --------: | ------ | ---------------------------------------------------- |
+| -10.2% | -384.011 KiB | 100.0% | 3.69 MiB → 3.32 MiB | 236 → 212 | `e`    | `node_modules/d3/dist/d3.min.js:2:147925 → 2:147904` |
+
+##### `s` (`node_modules/d3/dist/d3.min.js:2:269797`)
+
+| Change |        Delta |      % |                Size |   Samples | Callee       | Location                                             |
+| -----: | -----------: | -----: | ------------------: | --------: | ------------ | ---------------------------------------------------- |
+| -10.2% | -384.011 KiB | 100.0% | 3.69 MiB → 3.32 MiB | 236 → 212 | `eachBefore` | `node_modules/d3/dist/d3.min.js:2:141773 → 2:141754` |
+
+##### `eachBefore` (`node_modules/d3/dist/d3.min.js:2:141754`)
+
+| Change |        Delta |              % |                Size |   Samples | Callee        | Location                                             |
+| -----: | -----------: | -------------: | ------------------: | --------: | ------------- | ---------------------------------------------------- |
+| -10.2% | -384.011 KiB | 100.0% → 99.5% | 3.69 MiB → 3.32 MiB | 236 → 212 | `l`           | `node_modules/d3/dist/d3.min.js:2:269815 → 2:269888` |
+|    new |  +16.031 KiB |    0.0% → 0.5% |        0 B → 16 KiB |     0 → 1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:142656`            |
+
+##### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:78140`)
+
+| Change |       Delta |             % |              Size | Samples | Callee | Location    |
+| -----: | ----------: | ------------: | ----------------: | ------: | ------ | ----------- |
+| -11.6% | -80.156 KiB | 63.3% → 70.4% | 689 KiB → 609 KiB | 43 → 38 | `push` | `<unknown>` |
+
+##### `h` (`node_modules/d3/dist/d3.min.js:2:12208`)
+
+|  Change |       Delta |             % |               Size | Samples | Callee      | Location                                             |
+| ------: | ----------: | ------------: | -----------------: | ------: | ----------- | ---------------------------------------------------- |
+|  -10.6% | -80.156 KiB | 20.9% → 19.5% |  753 KiB → 673 KiB | 47 → 42 | `I_.s.copy` | `node_modules/d3/dist/d3.min.js:2:173715 → 2:173694` |
+|   -6.2% | -64.062 KiB | 28.9% → 28.4% | 1.02 MiB → 977 KiB | 65 → 61 | `select`    | `node_modules/d3/dist/d3.min.js:2:22328`             |
+|  -13.6% | -48.011 KiB |   9.8% → 8.8% |  353 KiB → 305 KiB | 22 → 19 | `n.copy`    | `node_modules/d3/dist/d3.min.js:2:257518 → 2:257567` |
+|  -12.5% | -32.023 KiB |   7.1% → 6.5% |  256 KiB → 224 KiB | 16 → 14 | `n.copy`    | `node_modules/d3/dist/d3.min.js:2:257398 → 2:257447` |
+| +199.3% | +31.992 KiB |   0.4% → 1.4% |  16.1 KiB → 48 KiB |   1 → 3 | `insert`    | `node_modules/d3/dist/d3.min.js:2:26864`             |
+
+##### `call` (`node_modules/d3/dist/d3.min.js:2:25192`)
+
+| Change |        Delta |              % |                Size |   Samples | Callee        | Location                                 |
+| -----: | -----------: | -------------: | ------------------: | --------: | ------------- | ---------------------------------------- |
+|  -4.5% | -161.742 KiB | 100.0% → 99.5% | 3.52 MiB → 3.36 MiB | 225 → 214 | `h`           | `node_modules/d3/dist/d3.min.js:2:12208` |
+|    new |  +16.046 KiB |    0.0% → 0.5% |        0 B → 16 KiB |     0 → 1 | `(anonymous)` | `workload.mjs:195:13`                    |
+
+##### `from` (`<unknown>`)
+
+| Change |       Delta |             % |               Size | Samples | Callee | Location    |
+| -----: | ----------: | ------------: | -----------------: | ------: | ------ | ----------- |
+| -40.0% | -64.187 KiB | 33.2% → 28.4% | 160 KiB → 96.3 KiB |  10 → 6 | `next` | `<unknown>` |
+
+##### `Sg` (`node_modules/d3/dist/d3.min.js:2:155611`)
+
+| Change |        Delta |      % |               Size | Samples | Callee | Location                                             |
+| -----: | -----------: | -----: | -----------------: | ------: | ------ | ---------------------------------------------------- |
+| -63.6% | -112.218 KiB | 100.0% | 176 KiB → 64.2 KiB |  11 → 4 | `Ag`   | `node_modules/d3/dist/d3.min.js:2:154800 → 2:154779` |
+
+##### `f` (`node_modules/d3/dist/d3.min.js:2:233452`)
+
+|  Change |       Delta |            % |           Size | Samples | Callee     | Location                                  |
+| ------: | ----------: | -----------: | -------------: | ------: | ---------- | ----------------------------------------- |
+| removed | -75.757 KiB | 69.2% → 0.0% | 75.8 KiB → 0 B |   4 → 0 | `h`        | `node_modules/d3/dist/d3.min.js:2:233884` |
+| removed | -17.765 KiB | 16.2% → 0.0% | 17.8 KiB → 0 B |   1 → 0 | `Fc.visit` | `node_modules/d3/dist/d3.min.js:2:105700` |
+| removed | -16.015 KiB | 14.6% → 0.0% |   16 KiB → 0 B |   1 → 0 | `$c`       | `node_modules/d3/dist/d3.min.js:2:102069` |
+
+##### `I_.s.copy` (`node_modules/d3/dist/d3.min.js:2:173694`)
+
+| Change |       Delta |             % |              Size | Samples | Callee | Location                                             |
+| -----: | ----------: | ------------: | ----------------: | ------: | ------ | ---------------------------------------------------- |
+|  -9.1% |  -64.14 KiB | 93.6% → 95.2% | 705 KiB → 641 KiB | 44 → 40 | `I_`   | `node_modules/d3/dist/d3.min.js:2:173087 → 2:173066` |
+| -33.3% | -16.015 KiB |   6.4% → 4.8% |   48 KiB → 32 KiB |   3 → 2 | `Tg`   | `node_modules/d3/dist/d3.min.js:2:154671 → 2:154650` |
+
+##### `Tg` (`node_modules/d3/dist/d3.min.js:2:154650`)
+
+|  Change |       Delta |             % |            Size | Samples | Callee        | Location                                             |
+| ------: | ----------: | ------------: | --------------: | ------: | ------------- | ---------------------------------------------------- |
+| removed | -48.046 KiB |  37.5% → 0.0% |    48 KiB → 0 B |   3 → 0 | `Fg.e.domain` | `node_modules/d3/dist/d3.min.js:2:157350`            |
+|  -66.7% | -32.031 KiB | 37.5% → 33.3% | 48 KiB → 16 KiB |   3 → 1 | `Ag.l.range`  | `node_modules/d3/dist/d3.min.js:2:155280 → 2:155259` |
+|  -50.0% | -16.015 KiB | 25.0% → 33.3% | 32 KiB → 16 KiB |   2 → 1 | `I_.s.domain` | `node_modules/d3/dist/d3.min.js:2:173394 → 2:173373` |
+|     new | +16.015 KiB |  0.0% → 33.3% |    0 B → 16 KiB |   0 → 1 | `Ag.l.domain` | `node_modules/d3/dist/d3.min.js:2:155179`            |
+
+##### `D` (`node_modules/d3/dist/d3.min.js:2:4759`)
+
+| Change |       Delta |             % |                Size | Samples | Callee | Location                                |
+| -----: | ----------: | ------------: | ------------------: | ------: | ------ | --------------------------------------- |
+| -42.9% |  -48.14 KiB | 70.0% → 66.7% |  112 KiB → 64.2 KiB |   7 → 4 | `F`    | `node_modules/d3/dist/d3.min.js:2:4882` |
+| -33.3% | -16.046 KiB | 30.0% → 33.3% | 48.1 KiB → 32.1 KiB |   3 → 2 | `t`    | `node_modules/d3/dist/d3.min.js:2:4909` |
+
+##### `I_` (`node_modules/d3/dist/d3.min.js:2:173066`)
+
+|  Change |        Delta |             % |              Size | Samples | Callee   | Location                                             |
+| ------: | -----------: | ------------: | ----------------: | ------: | -------- | ---------------------------------------------------- |
+|  -40.9% | -144.218 KiB | 50.0% → 32.5% | 352 KiB → 208 KiB | 22 → 13 | `format` | `node_modules/d3/dist/d3.min.js:2:167331 → 2:167310` |
+|  -83.3% |  -80.187 KiB |  13.6% → 2.5% | 96.2 KiB → 16 KiB |   6 → 1 | `Sg`     | `node_modules/d3/dist/d3.min.js:2:155632 → 2:155611` |
+| +300.2% |  +48.125 KiB |  2.3% → 10.0% | 16 KiB → 64.2 KiB |   1 → 4 | `Ag`     | `node_modules/d3/dist/d3.min.js:2:154800 → 2:154779` |
+
+##### `Lu` (`node_modules/d3/dist/d3.min.js:2:94618`)
+
+|  Change |       Delta |              % |                Size | Samples | Callee  | Location                                           |
+| ------: | ----------: | -------------: | ------------------: | ------: | ------- | -------------------------------------------------- |
+|  -50.4% | -33.433 KiB | 80.5% → 100.0% | 66.4 KiB → 32.9 KiB |   4 → 2 | `Su`    | `node_modules/d3/dist/d3.min.js:2:82035 → 2:82034` |
+| removed | -16.027 KiB |   19.5% → 0.0% |        16 KiB → 0 B |   1 → 0 | `_init` | `node_modules/d3/dist/d3.min.js:2:94865`           |
+
+##### `Ag.l.domain` (`node_modules/d3/dist/d3.min.js:2:155179`)
+
+| Change |       Delta |      % |              Size | Samples | Callee | Location    |
+| -----: | ----------: | -----: | ----------------: | ------: | ------ | ----------- |
+| -60.0% | -48.046 KiB | 100.0% | 80.1 KiB → 32 KiB |   5 → 2 | `from` | `<unknown>` |
+
+##### `Fg.e.domain` (`node_modules/d3/dist/d3.min.js:2:157350`)
+
+|  Change |       Delta |             % |         Size | Samples | Callee        | Location                                  |
+| ------: | ----------: | ------------: | -----------: | ------: | ------------- | ----------------------------------------- |
+| removed | -48.046 KiB | 100.0% → 0.0% | 48 KiB → 0 B |   3 → 0 | `Ag.l.domain` | `node_modules/d3/dist/d3.min.js:2:155200` |
+
+##### `forEach` (`<unknown>`)
+
+| Change |       Delta |             % |              Size | Samples | Callee        | Location                                             |
+| -----: | ----------: | ------------: | ----------------: | ------: | ------------- | ---------------------------------------------------- |
+| -66.7% | -64.031 KiB | 29.4% → 11.6% |   96 KiB → 32 KiB |   6 → 2 | `p`           | `node_modules/d3/dist/d3.min.js:2:77577 → 2:77576`   |
+|  -9.4% | -21.734 KiB | 70.6% → 75.4% | 231 KiB → 209 KiB | 12 → 11 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
+
+##### `(anonymous)` (`workload.mjs:11:29`)
+
+| Change | Delta |              % |                Size | Samples | Callee        | Location                                             |
+| -----: | ----: | -------------: | ------------------: | ------: | ------------- | ---------------------------------------------------- |
+|  +0.4% | +72 B | 50.3% → 100.0% | 16.2 KiB → 16.3 KiB |       1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:166138 → 2:166117` |

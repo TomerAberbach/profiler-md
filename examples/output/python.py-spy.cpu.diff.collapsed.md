@@ -406,6 +406,263 @@ Lines with the largest change in contribution to each function's self samples.
 |  -50.0% |    -1 |        50.0% |   2 → 1 | `blib2to3/pytree.py:480 → 469` |
 | removed |    -1 | 25.0% → 0.0% |   1 → 0 | `blib2to3/pytree.py:482`       |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's self samples. Inlining can make caller attribution imprecise.
+
+##### `_stringify_ast` (`black/parsing.py`)
+
+|  Change | Delta |             % | Samples | Caller                           | Location           |
+| ------: | ----: | ------------: | ------: | -------------------------------- | ------------------ |
+| +116.7% |    +7 | 85.7% → 92.9% |  6 → 13 | `_stringify_ast_with_new_parent` | `black/parsing.py` |
+
+##### `visit` (`black/nodes.py`)
+
+|  Change | Delta |             % | Samples | Caller          | Location           |
+| ------: | ----: | ------------: | ------: | --------------- | ------------------ |
+| +200.0% |    +6 | 75.0% → 90.0% |   3 → 9 | `visit_default` | `black/nodes.py`   |
+|     new |    +1 |  0.0% → 10.0% |   0 → 1 | `visit_stmt`    | `black/linegen.py` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `visit_funcdef` | `black/linegen.py` |
+
+##### `_hugging_power_ops_line_to_string` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Caller           | Location           |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------ |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `transform_line` | `black/linegen.py` |
+
+##### `<genexpr>` (`black/lines.py`)
+
+| Change | Delta |      % | Samples | Caller                 | Location         |
+| -----: | ----: | -----: | ------: | ---------------------- | ---------------- |
+| +60.0% |    +3 | 100.0% |   5 → 8 | `is_complex_subscript` | `black/lines.py` |
+
+##### `get_features_used` (`black/__init__.py`)
+
+| Change | Delta |      % | Samples | Caller                   | Location            |
+| -----: | ----: | -----: | ------: | ------------------------ | ------------------- |
+| +33.3% |    +2 | 100.0% |   6 → 8 | `detect_target_versions` | `black/__init__.py` |
+
+##### `maybe_empty_lines` (`black/lines.py`)
+
+|  Change | Delta |      % | Samples | Caller             | Location            |
+| ------: | ----: | -----: | ------: | ------------------ | ------------------- |
+| +100.0% |    +2 | 100.0% |   2 → 4 | `_format_str_once` | `black/__init__.py` |
+
+##### `check_stability_and_equivalence` (`black/__init__.py`)
+
+| Change | Delta |             % | Samples | Caller                 | Location            |
+| -----: | ----: | ------------: | ------: | ---------------------- | ------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `format_file_contents` | `black/__init__.py` |
+
+##### `cast` (`typing.py`)
+
+| Change | Delta |             % | Samples | Caller         | Location                   |
+| -----: | ----: | ------------: | ------: | -------------- | -------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `parse_tokens` | `blib2to3/pgen2/driver.py` |
+
+##### `is_class` (`black/lines.py`)
+
+| Change | Delta |             % | Samples | Caller               | Location         |
+| -----: | ----: | ------------: | ------: | -------------------- | ---------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `_maybe_empty_lines` | `black/lines.py` |
+
+##### `contains_implicit_multiline_string_with_comments` (`black/lines.py`)
+
+| Change | Delta |             % | Samples | Caller           | Location           |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------ |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `transform_line` | `black/linegen.py` |
+
+##### `_compile` (`re/__init__.py`)
+
+| Change | Delta |             % | Samples | Caller  | Location         |
+| -----: | ----: | ------------: | ------: | ------- | ---------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `match` | `re/__init__.py` |
+
+##### `append_comment` (`black/lines.py`)
+
+| Change | Delta |             % | Samples | Caller   | Location         |
+| -----: | ----: | ------------: | ------: | -------- | ---------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `append` | `black/lines.py` |
+
+##### `assert_equivalent` (`black/__init__.py`)
+
+|  Change | Delta |      % | Samples | Caller                            | Location            |
+| ------: | ----: | -----: | ------: | --------------------------------- | ------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `check_stability_and_equivalence` | `black/__init__.py` |
+
+##### `prev_sibling` (`blib2to3/pytree.py`)
+
+| Change | Delta |            % | Samples | Caller           | Location         |
+| -----: | ----: | -----------: | ------: | ---------------- | ---------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `preceding_leaf` | `black/nodes.py` |
+
+##### `visit_default` (`black/nodes.py`)
+
+| Change | Delta |      % | Samples | Caller          | Location           |
+| -----: | ----: | -----: | ------: | --------------- | ------------------ |
+| +50.0% |    +1 | 100.0% |   2 → 3 | `visit_default` | `black/linegen.py` |
+
+##### `pop` (`blib2to3/pgen2/parse.py`)
+
+| Change | Delta |      % | Samples | Caller      | Location                  |
+| -----: | ----: | -----: | ------: | ----------- | ------------------------- |
+| +50.0% |    +1 | 100.0% |   2 → 3 | `_addtoken` | `blib2to3/pgen2/parse.py` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Caller           | Location                        |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `__init__` (`blib2to3/pytree.py`)
+
+|  Change | Delta |              % | Samples | Caller                | Location             |
+| ------: | ----: | -------------: | ------: | --------------------- | -------------------- |
+|  +33.3% |    +4 | 80.0% → 100.0% | 12 → 16 | `convert`             | `blib2to3/pytree.py` |
+| removed |    -3 |   20.0% → 0.0% |   3 → 0 | `wrap_in_parentheses` | `black/nodes.py`     |
+
+##### `normalize_invisible_parens` (`black/linegen.py`)
+
+| Change | Delta |      % | Samples | Caller       | Location           |
+| -----: | ----: | -----: | ------: | ------------ | ------------------ |
+| +50.0% |    +1 | 100.0% |   2 → 3 | `visit_stmt` | `black/linegen.py` |
+
+##### `delimiter_split` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Caller          | Location           |
+| -----: | ----: | ------------: | ------: | --------------- | ------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `split_wrapper` | `black/linegen.py` |
+
+##### `line_to_string` (`black/lines.py`)
+
+| Change | Delta |             % | Samples | Caller           | Location           |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------ |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `transform_line` | `black/linegen.py` |
+
+##### `_addtoken` (`blib2to3/pgen2/parse.py`)
+
+| Change | Delta |      % | Samples | Caller     | Location                  |
+| -----: | ----: | -----: | ------: | ---------- | ------------------------- |
+| -42.1% |    -8 | 100.0% | 19 → 11 | `addtoken` | `blib2to3/pgen2/parse.py` |
+
+##### `__str__` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Caller             | Location            |
+| ------: | ----: | ------------: | ------: | ------------------ | ------------------- |
+|  -66.7% |    -8 | 80.0% → 57.1% |  12 → 4 | `_format_str_once` | `black/__init__.py` |
+| removed |    -1 |   6.7% → 0.0% |   1 → 0 | `run_transformer`  | `black/linegen.py`  |
+|  +50.0% |    +1 | 13.3% → 42.9% |   2 → 3 | `line_to_string`   | `black/lines.py`    |
+
+##### `parse_tokens` (`blib2to3/pgen2/driver.py`)
+
+| Change | Delta |      % | Samples | Caller         | Location                   |
+| -----: | ----: | -----: | ------: | -------------- | -------------------------- |
+| -77.8% |    -7 | 100.0% |   9 → 2 | `parse_string` | `blib2to3/pgen2/driver.py` |
+
+##### `append` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Caller          | Location           |
+| ------: | ----: | ------------: | ------: | --------------- | ------------------ |
+| removed |    -6 | 100.0% → 0.0% |   6 → 0 | `visit_default` | `black/linegen.py` |
+
+##### `generate_comments` (`black/comments.py`)
+
+| Change | Delta |      % | Samples | Caller          | Location           |
+| -----: | ----: | -----: | ------: | --------------- | ------------------ |
+| -66.7% |    -6 | 100.0% |   9 → 3 | `visit_default` | `black/linegen.py` |
+
+##### `generate_tokens` (`blib2to3/pgen2/tokenize.py`)
+
+| Change | Delta |      % | Samples | Caller     | Location                   |
+| -----: | ----: | -----: | ------: | ---------- | -------------------------- |
+| -26.3% |    -5 | 100.0% | 19 → 14 | `__next__` | `blib2to3/pgen2/driver.py` |
+
+##### `transform_line` (`black/linegen.py`)
+
+|  Change | Delta |              % | Samples | Caller             | Location            |
+| ------: | ----: | -------------: | ------: | ------------------ | ------------------- |
+|  -50.0% |    -3 | 85.7% → 100.0% |   6 → 3 | `_format_str_once` | `black/__init__.py` |
+| removed |    -1 |   14.3% → 0.0% |   1 → 0 | `run_transformer`  | `black/linegen.py`  |
+
+##### `_maybe_empty_lines` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Caller              | Location         |
+| ------: | ----: | ------------: | ------: | ------------------- | ---------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `maybe_empty_lines` | `black/lines.py` |
+
+##### `whitespace` (`black/nodes.py`)
+
+| Change | Delta |      % | Samples | Caller   | Location         |
+| -----: | ----: | -----: | ------: | -------- | ---------------- |
+| -60.0% |    -3 | 100.0% |   5 → 2 | `append` | `black/lines.py` |
+
+##### `convert` (`blib2to3/pytree.py`)
+
+| Change | Delta |             % | Samples | Caller | Location                  |
+| -----: | ----: | ------------: | ------: | ------ | ------------------------- |
+| -75.0% |    -3 | 66.7% → 33.3% |   4 → 1 | `pop`  | `blib2to3/pgen2/parse.py` |
+
+##### `visit_power` (`black/linegen.py`)
+
+|  Change | Delta |             % | Samples | Caller  | Location         |
+| ------: | ----: | ------------: | ------: | ------- | ---------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `visit` | `black/nodes.py` |
+
+##### `dump` (`blib2to3/pgen2/grammar.py`)
+
+|  Change | Delta |             % | Samples | Caller         | Location                   |
+| ------: | ----: | ------------: | ------: | -------------- | -------------------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `load_grammar` | `blib2to3/pgen2/driver.py` |
+
+##### `_format_str_once` (`black/__init__.py`)
+
+|  Change | Delta |             % | Samples | Caller          | Location            |
+| ------: | ----: | ------------: | ------: | --------------- | ------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `assert_stable` | `black/__init__.py` |
+
+##### `format_str` (`black/__init__.py`)
+
+|  Change | Delta |             % | Samples | Caller                 | Location            |
+| ------: | ----: | ------------: | ------: | ---------------------- | ------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `format_file_contents` | `black/__init__.py` |
+
+##### `is_docstring` (`black/lines.py`)
+
+|  Change | Delta |             % | Samples | Caller               | Location         |
+| ------: | ----: | ------------: | ------: | -------------------- | ---------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `_maybe_empty_lines` | `black/lines.py` |
+
+##### `convert_one_fmt_off_pair` (`black/comments.py`)
+
+|  Change | Delta |             % | Samples | Caller              | Location            |
+| ------: | ----: | ------------: | ------: | ------------------- | ------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `normalize_fmt_off` | `black/comments.py` |
+
+##### `__next__` (`blib2to3/pgen2/driver.py`)
+
+|  Change | Delta |             % | Samples | Caller         | Location                   |
+| ------: | ----: | ------------: | ------: | -------------- | -------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `parse_tokens` | `blib2to3/pgen2/driver.py` |
+
+##### `shift` (`blib2to3/pgen2/parse.py`)
+
+|  Change | Delta |             % | Samples | Caller      | Location                  |
+| ------: | ----: | ------------: | ------: | ----------- | ------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `_addtoken` | `blib2to3/pgen2/parse.py` |
+
+##### `parse` (`ast.py`)
+
+| Change | Delta |      % | Samples | Caller                  | Location           |
+| -----: | ----: | -----: | ------: | ----------------------- | ------------------ |
+| -13.3% |    -2 | 100.0% | 15 → 13 | `_parse_single_version` | `black/parsing.py` |
+
+##### `prefix` (`blib2to3/pytree.py`)
+
+|  Change | Delta |            % | Samples | Caller          | Location             |
+| ------: | ----: | -----------: | ------: | --------------- | -------------------- |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `prefix`        | `blib2to3/pytree.py` |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `visit_default` | `black/linegen.py`   |
+
 ### Total samples
 
 #### Regressions
@@ -494,3 +751,238 @@ Functions with the largest decrease in total samples taken in the function and a
 | -18.1% |   -13 | 28.2% → 27.6% |   72 → 59 | `visit_funcdef`                   | `black/linegen.py`         |
 | -15.1% |   -11 | 28.6% → 29.0% |   73 → 62 | `visit_default`                   | `black/linegen.py`         |
 | -15.1% |   -11 | 28.6% → 29.0% |   73 → 62 | `visit`                           | `black/nodes.py`           |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `visit_power` (`black/linegen.py`)
+
+| Change | Delta |              % | Samples | Callee          | Location           |
+| -----: | ----: | -------------: | ------: | --------------- | ------------------ |
+| +50.0% |   +10 | 87.0% → 100.0% | 20 → 30 | `visit_default` | `black/linegen.py` |
+
+##### `_stringify_ast` (`black/parsing.py`)
+
+| Change | Delta |             % | Samples | Callee                           | Location           |
+| -----: | ----: | ------------: | ------: | -------------------------------- | ------------------ |
+| +85.7% |    +6 | 87.5% → 92.9% |  7 → 13 | `_stringify_ast_with_new_parent` | `black/parsing.py` |
+
+##### `_stringify_ast_with_new_parent` (`black/parsing.py`)
+
+| Change | Delta |      % | Samples | Callee           | Location           |
+| -----: | ----: | -----: | ------: | ---------------- | ------------------ |
+| +85.7% |    +6 | 100.0% |  7 → 13 | `_stringify_ast` | `black/parsing.py` |
+
+##### `assert_equivalent` (`black/__init__.py`)
+
+| Change | Delta |             % | Samples | Callee           | Location           |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------ |
+| +75.0% |    +6 | 33.3% → 48.3% |  8 → 14 | `_stringify_ast` | `black/parsing.py` |
+| -13.3% |    -2 | 62.5% → 44.8% | 15 → 13 | `parse_ast`      | `black/parsing.py` |
+
+##### `maybe_empty_lines` (`black/lines.py`)
+
+| Change | Delta |            % | Samples | Callee     | Location   |
+| -----: | ----: | -----------: | ------: | ---------- | ---------- |
+|    new |    +2 | 0.0% → 18.2% |   0 → 2 | `__init__` | `<string>` |
+
+##### `visit_NUMBER` (`black/linegen.py`)
+
+|  Change | Delta |              % | Samples | Callee                      | Location            |
+| ------: | ----: | -------------: | ------: | --------------------------- | ------------------- |
+|  +57.1% |    +4 | 87.5% → 100.0% |  7 → 11 | `visit_default`             | `black/linegen.py`  |
+| removed |    -1 |   12.5% → 0.0% |   1 → 0 | `normalize_numeric_literal` | `black/numerics.py` |
+
+##### `is_complex_subscript` (`black/lines.py`)
+
+| Change | Delta |      % | Samples | Callee      | Location         |
+| -----: | ----: | -----: | ------: | ----------- | ---------------- |
+| +60.0% |    +3 | 100.0% |   5 → 8 | `<genexpr>` | `black/lines.py` |
+
+##### `detect_target_versions` (`black/__init__.py`)
+
+| Change | Delta |      % | Samples | Callee              | Location            |
+| -----: | ----: | -----: | ------: | ------------------- | ------------------- |
+| +25.0% |    +2 | 100.0% |  8 → 10 | `get_features_used` | `black/__init__.py` |
+
+##### `pop` (`blib2to3/pgen2/parse.py`)
+
+| Change | Delta |             % | Samples | Callee    | Location             |
+| -----: | ----: | ------------: | ------: | --------- | -------------------- |
+|  +5.9% |    +1 | 89.5% → 85.7% | 17 → 18 | `convert` | `blib2to3/pytree.py` |
+
+##### `mark` (`black/brackets.py`)
+
+|  Change | Delta |             % | Samples | Callee                             | Location            |
+| ------: | ----: | ------------: | ------: | ---------------------------------- | ------------------- |
+| +100.0% |    +1 | 20.0% → 28.6% |   1 → 2 | `is_split_before_delimiter`        | `black/brackets.py` |
+|     new |    +1 |  0.0% → 14.3% |   0 → 1 | `maybe_increment_lambda_arguments` | `black/brackets.py` |
+
+##### `line_to_string` (`black/lines.py`)
+
+| Change | Delta |              % | Samples | Callee    | Location         |
+| -----: | ----: | -------------: | ------: | --------- | ---------------- |
+| +50.0% |    +1 | 100.0% → 75.0% |   2 → 3 | `__str__` | `black/lines.py` |
+
+##### `preceding_leaf` (`black/nodes.py`)
+
+| Change | Delta |             % | Samples | Callee         | Location             |
+| -----: | ----: | ------------: | ------: | -------------- | -------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `prev_sibling` | `blib2to3/pytree.py` |
+
+##### `match` (`re/__init__.py`)
+
+| Change | Delta |             % | Samples | Callee     | Location         |
+| -----: | ----: | ------------: | ------: | ---------- | ---------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `_compile` | `re/__init__.py` |
+
+##### `_format_str_once` (`black/__init__.py`)
+
+| Change | Delta |             % | Samples | Callee                   | Location            |
+| -----: | ----: | ------------: | ------: | ------------------------ | ------------------- |
+| -28.6% |   -24 | 39.4% → 35.5% | 84 → 60 | `lib2to3_parse`          | `black/parsing.py`  |
+| -15.1% |   -11 | 34.3% → 36.7% | 73 → 62 | `visit`                  | `black/nodes.py`    |
+| -69.2% |    -9 |   6.1% → 2.4% |  13 → 4 | `__str__`                | `black/lines.py`    |
+| +57.1% |    +4 |   3.3% → 6.5% |  7 → 11 | `maybe_empty_lines`      | `black/lines.py`    |
+| +25.0% |    +2 |   3.8% → 5.9% |  8 → 10 | `detect_target_versions` | `black/__init__.py` |
+
+##### `_run_module_as_main` (`<frozen runpy>`)
+
+| Change | Delta |             % |   Samples | Callee                | Location         |
+| -----: | ----: | ------------: | --------: | --------------------- | ---------------- |
+| -16.3% |   -39 | 98.0% → 99.0% | 239 → 200 | `_run_code`           | `<frozen runpy>` |
+| -60.0% |    -3 |   2.0% → 1.0% |     5 → 2 | `_get_module_details` | `<frozen runpy>` |
+
+##### `format_file_contents` (`black/__init__.py`)
+
+| Change | Delta |             % |   Samples | Callee                            | Location            |
+| -----: | ----: | ------------: | --------: | --------------------------------- | ------------------- |
+| -14.3% |   -20 | 58.6% → 60.0% | 140 → 120 | `format_str`                      | `black/__init__.py` |
+| -19.2% |   -19 | 41.4% → 40.0% |   99 → 80 | `check_stability_and_equivalence` | `black/__init__.py` |
+
+##### `format_file_in_place` (`black/__init__.py`)
+
+| Change | Delta |      % |   Samples | Callee                 | Location            |
+| -----: | ----: | -----: | --------: | ---------------------- | ------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `format_file_contents` | `black/__init__.py` |
+
+##### `reformat_one` (`black/__init__.py`)
+
+| Change | Delta |      % |   Samples | Callee                 | Location            |
+| -----: | ----: | -----: | --------: | ---------------------- | ------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `format_file_in_place` | `black/__init__.py` |
+
+##### `main` (`black/__init__.py`)
+
+| Change | Delta |      % |   Samples | Callee         | Location            |
+| -----: | ----: | -----: | --------: | -------------- | ------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `reformat_one` | `black/__init__.py` |
+
+##### `new_func` (`click/decorators.py`)
+
+| Change | Delta |      % |   Samples | Callee | Location            |
+| -----: | ----: | -----: | --------: | ------ | ------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `main` | `black/__init__.py` |
+
+##### `invoke` (`click/core.py`)
+
+| Change | Delta |      % |   Samples | Callee     | Location              |
+| -----: | ----: | -----: | --------: | ---------- | --------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `new_func` | `click/decorators.py` |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `invoke`   | `click/core.py`       |
+
+##### `main` (`click/core.py`)
+
+| Change | Delta |      % |   Samples | Callee   | Location        |
+| -----: | ----: | -----: | --------: | -------- | --------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `invoke` | `click/core.py` |
+
+##### `__call__` (`click/core.py`)
+
+| Change | Delta |      % |   Samples | Callee | Location        |
+| -----: | ----: | -----: | --------: | ------ | --------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `main` | `click/core.py` |
+
+##### `patched_main` (`black/__init__.py`)
+
+| Change | Delta |      % |   Samples | Callee     | Location        |
+| -----: | ----: | -----: | --------: | ---------- | --------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `__call__` | `click/core.py` |
+
+##### `<module>` (`black/__main__.py`)
+
+| Change | Delta |      % |   Samples | Callee         | Location            |
+| -----: | ----: | -----: | --------: | -------------- | ------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `patched_main` | `black/__init__.py` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+| Change | Delta |      % |   Samples | Callee     | Location            |
+| -----: | ----: | -----: | --------: | ---------- | ------------------- |
+| -16.3% |   -39 | 100.0% | 239 → 200 | `<module>` | `black/__main__.py` |
+
+##### `assert_stable` (`black/__init__.py`)
+
+| Change | Delta |      % | Samples | Callee             | Location            |
+| -----: | ----: | -----: | ------: | ------------------ | ------------------- |
+| -34.7% |   -26 | 100.0% | 75 → 49 | `_format_str_once` | `black/__init__.py` |
+
+##### `parse_tokens` (`blib2to3/pgen2/driver.py`)
+
+|  Change | Delta |             % | Samples | Callee     | Location                   |
+| ------: | ----: | ------------: | ------: | ---------- | -------------------------- |
+|  -19.6% |   -10 | 60.7% → 68.3% | 51 → 41 | `addtoken` | `blib2to3/pgen2/parse.py`  |
+|  -34.8% |    -8 | 27.4% → 25.0% | 23 → 15 | `__next__` | `blib2to3/pgen2/driver.py` |
+|     new |    +2 |   0.0% → 3.3% |   0 → 2 | `cast`     | `typing.py`                |
+| removed |    -1 |   1.2% → 0.0% |   1 → 0 | `debug`    | `logging/__init__.py`      |
+
+##### `parse_string` (`blib2to3/pgen2/driver.py`)
+
+| Change | Delta |      % | Samples | Callee         | Location                   |
+| -----: | ----: | -----: | ------: | -------------- | -------------------------- |
+| -28.6% |   -24 | 100.0% | 84 → 60 | `parse_tokens` | `blib2to3/pgen2/driver.py` |
+
+##### `lib2to3_parse` (`black/parsing.py`)
+
+| Change | Delta |      % | Samples | Callee         | Location                   |
+| -----: | ----: | -----: | ------: | -------------- | -------------------------- |
+| -28.6% |   -24 | 100.0% | 84 → 60 | `parse_string` | `blib2to3/pgen2/driver.py` |
+
+##### `format_str` (`black/__init__.py`)
+
+| Change | Delta |              % |   Samples | Callee             | Location            |
+| -----: | ----: | -------------: | --------: | ------------------ | ------------------- |
+| -13.0% |   -18 | 98.6% → 100.0% | 138 → 120 | `_format_str_once` | `black/__init__.py` |
+
+##### `check_stability_and_equivalence` (`black/__init__.py`)
+
+| Change | Delta |             % | Samples | Callee              | Location            |
+| -----: | ----: | ------------: | ------: | ------------------- | ------------------- |
+| -34.7% |   -26 | 75.8% → 61.3% | 75 → 49 | `assert_stable`     | `black/__init__.py` |
+| +20.8% |    +5 | 24.2% → 36.3% | 24 → 29 | `assert_equivalent` | `black/__init__.py` |
+
+##### `visit_funcdef` (`black/linegen.py`)
+
+| Change | Delta |             % | Samples | Callee  | Location         |
+| -----: | ----: | ------------: | ------: | ------- | ---------------- |
+| -18.3% |   -13 | 98.6% → 98.3% | 71 → 58 | `visit` | `black/nodes.py` |
+
+##### `visit_default` (`black/linegen.py`)
+
+|  Change | Delta |             % | Samples | Callee              | Location             |
+| ------: | ----: | ------------: | ------: | ------------------- | -------------------- |
+|  -15.1% |   -11 |        100.0% | 73 → 62 | `visit_default`     | `black/nodes.py`     |
+|  -33.3% |    -4 | 16.4% → 12.9% |  12 → 8 | `generate_comments` | `black/comments.py`  |
+|   -4.0% |    -1 | 34.2% → 38.7% | 25 → 24 | `append`            | `black/lines.py`     |
+| removed |    -1 |   1.4% → 0.0% |   1 → 0 | `prefix`            | `blib2to3/pytree.py` |
+
+##### `visit` (`black/nodes.py`)
+
+| Change | Delta |              % | Samples | Callee              | Location           |
+| -----: | ----: | -------------: | ------: | ------------------- | ------------------ |
+| -18.1% |   -13 |  98.6% → 95.2% | 72 → 59 | `visit_funcdef`     | `black/linegen.py` |
+| -15.1% |   -11 |         100.0% | 73 → 62 | `visit_default`     | `black/linegen.py` |
+| -14.1% |   -10 |  97.3% → 98.4% | 71 → 61 | `visit_suite`       | `black/linegen.py` |
+| -12.7% |    -9 | 97.3% → 100.0% | 71 → 62 | `visit_stmt`        | `black/linegen.py` |
+| -19.1% |    -9 |  64.4% → 61.3% | 47 → 38 | `visit_simple_stmt` | `black/linegen.py` |

@@ -69,6 +69,276 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -2 | 0.3% → 0.0% |   2 → 0 | `<init>`               | `org.codehaus.groovy.reflection.CachedClass`          |
 |  -22.2% |    -2 | 1.1% → 0.9% |   9 → 7 | `copy`                 | `java.lang.reflect.Method`                            |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's self samples. Inlining can make caller attribution imprecise.
+
+##### `copyOf` (`java.util.Arrays`)
+
+|  Change | Delta |             % | Samples | Caller                   | Location                          |
+| ------: | ----: | ------------: | ------: | ------------------------ | --------------------------------- |
+|  +52.9% |    +9 | 39.5% → 45.6% | 17 → 26 | `getBytes`               | `jdk.internal.loader.Resource`    |
+| +200.0% |    +4 |  4.7% → 10.5% |   2 → 6 | `copyOf`                 | `java.util.Arrays`                |
+|  -20.0% |    -2 | 23.3% → 14.0% |  10 → 8 | `grow`                   | `java.util.ArrayList`             |
+| +200.0% |    +2 |   2.3% → 5.3% |   1 → 3 | `<init>`                 | `java.util.ArrayList`             |
+|   +9.1% |    +1 | 25.6% → 21.1% | 11 → 12 | `ensureCapacityInternal` | `java.lang.AbstractStringBuilder` |
+
+##### `transform` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfig`)
+
+| Change | Delta |      % | Samples | Caller      | Location                                      |
+| -----: | ----: | -----: | ------: | ----------- | --------------------------------------------- |
+| +23.3% |   +14 | 100.0% | 60 → 74 | `transform` | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig` |
+
+##### `newArray` (`java.lang.reflect.Array`)
+
+|  Change | Delta |      % | Samples | Caller        | Location                  |
+| ------: | ----: | -----: | ------: | ------------- | ------------------------- |
+| +600.0% |    +6 | 100.0% |   1 → 7 | `newInstance` | `java.lang.reflect.Array` |
+
+##### `newNode` (`java.util.HashMap`)
+
+| Change | Delta |      % | Samples | Caller   | Location            |
+| -----: | ----: | -----: | ------: | -------- | ------------------- |
+| +10.6% |    +5 | 100.0% | 47 → 52 | `putVal` | `java.util.HashMap` |
+
+##### `resize` (`java.util.HashMap`)
+
+| Change | Delta |      % | Samples | Caller   | Location            |
+| -----: | ----: | -----: | ------: | -------- | ------------------- |
+| +20.8% |    +5 | 100.0% | 24 → 29 | `putVal` | `java.util.HashMap` |
+
+##### `grow` (`java.util.ArrayList`)
+
+|  Change | Delta |      % | Samples | Caller | Location              |
+| ------: | ----: | -----: | ------: | ------ | --------------------- |
+| +133.3% |    +4 | 100.0% |   3 → 7 | `grow` | `java.util.ArrayList` |
+
+##### `<init>` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`)
+
+| Change | Delta |              % | Samples | Caller               | Location                                               |
+| -----: | ----: | -------------: | ------: | -------------------- | ------------------------------------------------------ |
+| +60.0% |    +3 | 100.0% → 88.9% |   5 → 8 | `closure`            | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+|    new |    +1 |   0.0% → 11.1% |   0 → 1 | `computeTargetState` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `fromCache` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+| Change | Delta |      % | Samples | Caller         | Location                                                                                                  |
+| -----: | ----: | -----: | ------: | -------------- | --------------------------------------------------------------------------------------------------------- |
+| +33.3% |    +3 | 100.0% |  9 → 12 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800 → java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+
+##### `copyOfRange` (`java.util.Arrays`)
+
+|  Change | Delta |             % | Samples | Caller                 | Location                         |
+| ------: | ----: | ------------: | ------: | ---------------------- | -------------------------------- |
+| +133.3% |    +4 | 60.0% → 87.5% |   3 → 7 | `<init>`               | `java.lang.String`               |
+| removed |    -1 |  20.0% → 0.0% |   1 → 0 | `dropArgumentsToMatch` | `java.lang.invoke.MethodHandles` |
+
+##### `closure` (`groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`)
+
+|  Change | Delta |      % | Samples | Caller               | Location                                               |
+| ------: | ----: | -----: | ------: | -------------------- | ------------------------------------------------------ |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `computeTargetState` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `optimize` (`java.util.regex.Pattern$BnM`)
+
+| Change | Delta |      % | Samples | Caller    | Location                  |
+| -----: | ----: | -----: | ------: | --------- | ------------------------- |
+| +27.3% |    +3 | 100.0% | 11 → 14 | `compile` | `java.util.regex.Pattern` |
+
+##### `getChild` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContextCache`)
+
+| Change | Delta |      % | Samples | Caller           | Location                                               |
+| -----: | ----: | -----: | ------: | ---------------- | ------------------------------------------------------ |
+| +30.0% |    +3 | 100.0% | 10 → 13 | `ruleTransition` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `make` (`java.lang.invoke.BoundMethodHandle$Species_LLLLL`)
+
+| Change | Delta |             % | Samples | Caller         | Location                                     |
+| -----: | ----: | ------------: | ------: | -------------- | -------------------------------------------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `invokeStatic` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `matcher` (`java.util.regex.Pattern`)
+
+|  Change | Delta |      % | Samples | Caller    | Location                  |
+| ------: | ----: | -----: | ------: | --------- | ------------------------- |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `matches` | `java.util.regex.Pattern` |
+
+##### `merge` (`java.lang.PublicMethods`)
+
+| Change | Delta |             % | Samples | Caller                    | Location          |
+| -----: | ----: | ------------: | ------: | ------------------------- | ----------------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `privateGetPublicMethods` | `java.lang.Class` |
+
+##### `addAnyChild` (`groovyjarjarantlr4.v4.runtime.ParserRuleContext`)
+
+|  Change | Delta |      % | Samples | Caller     | Location                                          |
+| ------: | ----: | -----: | ------: | ---------- | ------------------------------------------------- |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `addChild` | `groovyjarjarantlr4.v4.runtime.ParserRuleContext` |
+
+##### `create` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfig`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                      |
+| -----: | ----: | -----: | ------: | -------- | --------------------------------------------- |
+| +75.0% |    +3 | 100.0% |   4 → 7 | `create` | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig` |
+
+##### `<init>` (`java.io.BufferedReader`)
+
+| Change | Delta |             % | Samples | Caller   | Location                 |
+| -----: | ----: | ------------: | ------: | -------- | ------------------------ |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `<init>` | `java.io.BufferedReader` |
+
+##### `spliterator` (`java.util.Spliterators`)
+
+| Change | Delta |             % | Samples | Caller        | Location           |
+| -----: | ----: | ------------: | ------: | ------------- | ------------------ |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `spliterator` | `java.util.Arrays` |
+
+##### `getFullName` (`jdk.internal.jimage.ImageLocation`)
+
+| Change | Delta |             % | Samples | Caller                          | Location                                            |
+| -----: | ----: | ------------: | ------: | ------------------------------- | --------------------------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `lambda$handleModulesSubTree$1` | `jdk.internal.jimage.ImageReader$SharedImageReader` |
+
+##### `join` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
+
+| Change | Delta |      % | Samples | Caller | Location                                         |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------------ |
+| -25.0% |   -13 | 100.0% | 52 → 39 | `add`  | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet` |
+
+##### `listIterator` (`java.util.LinkedList`)
+
+| Change | Delta |      % | Samples | Caller         | Location                 |
+| -----: | ----: | -----: | ------: | -------------- | ------------------------ |
+| -61.1% |   -11 | 100.0% |  18 → 7 | `listIterator` | `java.util.AbstractList` |
+
+##### `valueOf` (`java.lang.Long`)
+
+| Change | Delta |      % | Samples | Caller | Location                                         |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------------ |
+| -18.4% |    -9 | 100.0% | 49 → 40 | `add`  | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet` |
+
+##### `enlarge` (`jdk.internal.org.objectweb.asm.ByteVector`)
+
+|  Change | Delta |              % | Samples | Caller    | Location                                    |
+| ------: | ----: | -------------: | ------: | --------- | ------------------------------------------- |
+| removed |    -3 |   25.0% → 0.0% |   3 → 0 | `putByte` | `jdk.internal.org.objectweb.asm.ByteVector` |
+|  -33.3% |    -2 | 50.0% → 100.0% |   6 → 4 | `putUTF8` | `jdk.internal.org.objectweb.asm.ByteVector` |
+| removed |    -2 |   16.7% → 0.0% |   2 → 0 | `put122`  | `jdk.internal.org.objectweb.asm.ByteVector` |
+| removed |    -1 |    8.3% → 0.0% |   1 → 0 | `put12`   | `jdk.internal.org.objectweb.asm.ByteVector` |
+
+##### `iterator` (`java.util.ArrayList`)
+
+|  Change | Delta |            % | Samples | Caller                | Location                                               |
+| ------: | ----: | -----------: | ------: | --------------------- | ------------------------------------------------------ |
+| removed |    -2 | 20.0% → 0.0% |   2 → 0 | `visitAnnotations`    | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`      |
+| removed |    -2 | 20.0% → 0.0% |   2 → 0 | `visitBlockStatement` | `org.codehaus.groovy.ast.CodeVisitorSupport`           |
+|     new |    +2 | 0.0% → 50.0% |   0 → 2 | `getChild`            | `groovyjarjarantlr4.v4.runtime.ParserRuleContext`      |
+| removed |    -1 | 10.0% → 0.0% |   1 → 0 | `find`                | `org.codehaus.groovy.runtime.DefaultGroovyMethods`     |
+| removed |    -1 | 10.0% → 0.0% |   1 → 0 | `isConflicted`        | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `newInstance` (`java.lang.reflect.Array`)
+
+|  Change | Delta |            % | Samples | Caller         | Location                                             |
+| ------: | ----: | -----------: | ------: | -------------- | ---------------------------------------------------- |
+| removed |   -10 | 66.7% → 0.0% |  10 → 0 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000d00102b400` |
+|     new |    +5 | 0.0% → 50.0% |   0 → 5 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000700102b400` |
+| +200.0% |    +2 | 6.7% → 30.0% |   1 → 3 | `copyOfRange`  | `java.util.Arrays`                                   |
+|  -33.3% |    -1 |        20.0% |   3 → 2 | `copyOf`       | `java.util.Arrays`                                   |
+| removed |    -1 |  6.7% → 0.0% |   1 → 0 | `<init>`       | `java.util.TimSort`                                  |
+
+##### `fillInStackTrace` (`java.lang.Throwable`)
+
+| Change | Delta |      % | Samples | Caller             | Location              |
+| -----: | ----: | -----: | ------: | ------------------ | --------------------- |
+| -19.2% |    -5 | 100.0% | 26 → 21 | `fillInStackTrace` | `java.lang.Throwable` |
+
+##### `compile` (`java.util.regex.Pattern`)
+
+|  Change | Delta |             % | Samples | Caller    | Location                  |
+| ------: | ----: | ------------: | ------: | --------- | ------------------------- |
+|  -30.0% |    -3 | 76.9% → 87.5% |  10 → 7 | `<init>`  | `java.util.regex.Pattern` |
+|  -50.0% |    -1 | 15.4% → 12.5% |   2 → 1 | `matches` | `java.util.regex.Pattern` |
+| removed |    -1 |   7.7% → 0.0% |   1 → 0 | `split`   | `java.lang.String`        |
+
+##### `toString` (`java.lang.StringBuilder`)
+
+|  Change | Delta |            % | Samples | Caller                  | Location                                    |
+| ------: | ----: | -----------: | ------: | ----------------------- | ------------------------------------------- |
+| removed |    -2 | 50.0% → 0.0% |   2 → 0 | `sharedToGenericString` | `java.lang.reflect.Executable`              |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `clinit`                | `java.lang.invoke.InvokerBytecodeGenerator` |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `buildName`             | `jdk.internal.jimage.ImageLocation`         |
+
+##### `insertParameterTypes` (`java.lang.invoke.MethodType`)
+
+|  Change | Delta |            % | Samples | Caller                  | Location                      |
+| ------: | ----: | -----------: | ------: | ----------------------- | ----------------------------- |
+| removed |    -2 | 40.0% → 0.0% |   2 → 0 | `invokerType`           | `java.lang.invoke.MethodType` |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `getInvocationType`     | `java.lang.invoke.MemberName` |
+| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `replaceParameterTypes` | `java.lang.invoke.MethodType` |
+
+##### `<init>` (`java.lang.AbstractStringBuilder`)
+
+|  Change | Delta |             % | Samples | Caller   | Location                  |
+| ------: | ----: | ------------: | ------: | -------- | ------------------------- |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `<init>` | `java.lang.StringBuilder` |
+
+##### `<init>` (`java.util.ArrayList`)
+
+|  Change | Delta |            % | Samples | Caller                    | Location                                               |
+| ------: | ----: | -----------: | ------: | ------------------------- | ------------------------------------------------------ |
+| removed |    -2 | 50.0% → 0.0% |   2 → 0 | `compile`                 | `java.util.regex.Pattern`                              |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `parseClassTypeSignature` | `sun.reflect.generics.parser.SignatureParser`          |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `computeTargetState`      | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `createEntryListArray` (`groovyjarjarantlr4.v4.runtime.misc.FlexibleHashMap`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                             |
+| -----: | ----: | -----: | ------: | -------- | ---------------------------------------------------- |
+| -15.8% |    -3 | 100.0% | 19 → 16 | `<init>` | `groovyjarjarantlr4.v4.runtime.misc.FlexibleHashMap` |
+
+##### `getCachedContext` (`groovyjarjarantlr4.v4.runtime.atn.ATN`)
+
+| Change | Delta |      % | Samples | Caller            | Location                                         |
+| -----: | ----: | -----: | ------: | ----------------- | ------------------------------------------------ |
+| -23.1% |    -3 | 100.0% | 13 → 10 | `optimizeConfigs` | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet` |
+
+##### `copyOfRangeByte` (`java.util.Arrays`)
+
+| Change | Delta |      % | Samples | Caller        | Location           |
+| -----: | ----: | -----: | ------: | ------------- | ------------------ |
+| -18.8% |    -3 | 100.0% | 16 → 13 | `copyOfRange` | `java.util.Arrays` |
+
+##### `<init>` (`jdk.internal.org.objectweb.asm.SymbolTable`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                     |
+| -----: | ----: | -----: | ------: | -------- | -------------------------------------------- |
+| -60.0% |    -3 | 100.0% |   5 → 2 | `<init>` | `jdk.internal.org.objectweb.asm.ClassWriter` |
+
+##### `makeImpl` (`java.lang.invoke.MethodType`)
+
+| Change | Delta |             % | Samples | Caller                 | Location                      |
+| -----: | ----: | ------------: | ------: | ---------------------- | ----------------------------- |
+| -57.1% |    -4 | 58.3% → 33.3% |   7 → 3 | `insertParameterTypes` | `java.lang.invoke.MethodType` |
+| +20.0% |    +1 | 41.7% → 66.7% |   5 → 6 | `methodType`           | `java.lang.invoke.MethodType` |
+
+##### `make` (`java.lang.invoke.BoundMethodHandle$Species_L`)
+
+|  Change | Delta |             % | Samples | Caller          | Location                             |
+| ------: | ----: | ------------: | ------: | --------------- | ------------------------------------ |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `makeReinvoker` | `java.lang.invoke.BoundMethodHandle` |
+
+##### `<init>` (`org.codehaus.groovy.reflection.CachedClass`)
+
+|  Change | Delta |             % | Samples | Caller              | Location                                   |
+| ------: | ----: | ------------: | ------: | ------------------- | ------------------------------------------ |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `createCachedClass` | `org.codehaus.groovy.reflection.ClassInfo` |
+
+##### `copy` (`java.lang.reflect.Method`)
+
+| Change | Delta |      % | Samples | Caller       | Location                          |
+| -----: | ----: | -----: | ------: | ------------ | --------------------------------- |
+| -22.2% |    -2 | 100.0% |   9 → 7 | `copyMethod` | `java.lang.reflect.ReflectAccess` |
+
 ### Total samples
 
 #### Regressions
@@ -151,3 +421,330 @@ Functions with the largest decrease in total samples taken in the function and a
 |  -5.2% |   -37 | 90.2% → 88.3% | 716 → 679 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`                                                            |
 |  -5.0% |   -35 | 87.9% → 86.2% | 698 → 663 | `invokeImpl`    | `jdk.internal.reflect.DirectMethodHandleAccessor`                                                       |
 |  -5.0% |   -35 | 87.9% → 86.2% | 698 → 663 | `invoke`        | `jdk.internal.reflect.DirectMethodHandleAccessor`                                                       |
+
+#### Callees
+
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010a9800`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+|     new |  +710 | 0.0% → 100.0% | 0 → 710 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000007001094400` |
+| removed |  -349 | 100.0% → 0.0% | 349 → 0 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012da000`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+|     new |  +313 | 0.0% → 100.0% | 0 → 313 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| removed |   -11 | 100.0% → 0.0% |  11 → 0 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x000000d00102b400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c8000`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+|     new |  +640 | 0.0% → 100.0% | 0 → 640 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| removed |  -348 | 100.0% → 0.0% | 348 → 0 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800` |
+|     new |    +1 |   0.0% → 0.2% |   0 → 1 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000007001095800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010abc00`)
+
+| Change | Delta |             % | Samples | Callee     | Location                                            |
+| -----: | ----: | ------------: | ------: | ---------- | --------------------------------------------------- |
+|    new |  +160 |  0.0% → 97.0% | 0 → 160 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa800` |
+| -58.3% |    -7 | 100.0% → 3.0% |  12 → 5 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012acc00`)
+
+|  Change | Delta |             % | Samples | Callee             | Location                                             |
+| ------: | ----: | ------------: | ------: | ------------------ | ---------------------------------------------------- |
+|     new |  +109 | 0.0% → 100.0% | 0 → 109 | `reinvoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001188c00`  |
+| removed |    -3 |  75.0% → 0.0% |   3 → 0 | `invokeStaticInit` | `java.lang.invoke.LambdaForm$DMH.0x000000d001086800` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x000000d001086400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070011b0400`)
+
+|  Change | Delta |             % | Samples | Callee            | Location                                             |
+| ------: | ----: | ------------: | ------: | ----------------- | ---------------------------------------------------- |
+|     new |  +102 |  0.0% → 91.9% | 0 → 102 | `invokeVirtual`   | `java.lang.invoke.LambdaForm$DMH.0x00000070012ac000` |
+| removed |   -12 | 100.0% → 0.0% |  12 → 0 | `delegate`        | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+|     new |    +9 |   0.0% → 8.1% |   0 → 9 | `invokeSpecial`   | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|     new |    +9 |   0.0% → 8.1% |   0 → 9 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x00000070011b0000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010d3400`)
+
+|  Change | Delta |             % | Samples | Callee         | Location                                             |
+| ------: | ----: | ------------: | ------: | -------------- | ---------------------------------------------------- |
+|     new |  +101 | 0.0% → 100.0% | 0 → 101 | `invoke`       | `java.lang.invoke.LambdaForm$MH.0x00000070010d2400`  |
+| removed |    -9 | 100.0% → 0.0% |   9 → 0 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700109bc00`)
+
+|  Change | Delta |             % | Samples | Callee     | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------- | --------------------------------------------------- |
+|     new |  +675 | 0.0% → 100.0% | 0 → 675 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
+| removed |  -636 | 100.0% → 0.0% | 636 → 0 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x000000d001189000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012e5800`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                            |
+| ------: | ----: | ------------: | ------: | --------------- | --------------------------------------------------- |
+|     new |   +30 | 0.0% → 100.0% |  0 → 30 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `invoke`        | `java.lang.invoke.LambdaForm$MH.0x000000d0010d0800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001130000`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+|     new |   +31 |  0.0% → 93.9% |  0 → 31 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000007001097c00` |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x000000d001086400` |
+|     new |    +2 |   0.0% → 6.1% |   0 → 2 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x0000007001030400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c7400`)
+
+|  Change | Delta |             % | Samples | Callee            | Location                                             |
+| ------: | ----: | ------------: | ------: | ----------------- | ---------------------------------------------------- |
+|     new |   +21 |  0.0% → 77.8% |  0 → 21 | `invokeSpecial`   | `java.lang.invoke.LambdaForm$DMH.0x0000007001084000` |
+|     new |   +11 |  0.0% → 40.7% |  0 → 11 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000007001124800` |
+|     new |    +6 |  0.0% → 22.2% |   0 → 6 | `invokeVirtual`   | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `invokeSpecial`   | `java.lang.invoke.LambdaForm$DMH.0x000000d00118a800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012e8000`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+|     new |   +33 | 0.0% → 100.0% |  0 → 33 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+| removed |   -12 | 100.0% → 0.0% |  12 → 0 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001216000`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+|     new |   +24 | 0.0% → 100.0% |  0 → 24 | `delegate`      | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x000000d0012fdc00` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012fb400`)
+
+|  Change | Delta |             % | Samples | Callee         | Location                                             |
+| ------: | ----: | ------------: | ------: | -------------- | ---------------------------------------------------- |
+|     new |   +22 | 0.0% → 100.0% |  0 → 22 | `delegate`     | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800` |
+
+##### `apply` (`org.apache.groovy.parser.antlr4.AstBuilder$$Lambda.0x000000700129e830`)
+
+|  Change | Delta |             % | Samples | Callee                           | Location                                     |
+| ------: | ----: | ------------: | ------: | -------------------------------- | -------------------------------------------- |
+|     new |   +24 | 0.0% → 100.0% |  0 → 24 | `lambda$visitScriptStatements$0` | `org.apache.groovy.parser.antlr4.AstBuilder` |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `visitFormalParameter`           | `org.apache.groovy.parser.antlr4.AstBuilder` |
+
+##### `getEpsilonTarget` (`groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`)
+
+|  Change | Delta |             % | Samples | Callee                 | Location                                               |
+| ------: | ----: | ------------: | ------: | ---------------------- | ------------------------------------------------------ |
+|  +31.4% |   +11 | 42.2% → 46.0% | 35 → 46 | `ruleTransition`       | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+| +100.0% |    +2 |   2.4% → 4.0% |   2 → 4 | `precedenceTransition` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+|     new |    +2 |   0.0% → 2.0% |   0 → 2 | `predTransition`       | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+|   +2.2% |    +1 | 55.4% → 47.0% | 46 → 47 | `transform`            | `groovyjarjarantlr4.v4.runtime.atn.ATNConfig`          |
+|     new |    +1 |   0.0% → 1.0% |   0 → 1 | `actionTransition`     | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700120e400`)
+
+|  Change | Delta |             % | Samples | Callee     | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------- | --------------------------------------------------- |
+|     new |   +18 |  0.0% → 94.7% |  0 → 18 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x000000d001189000` |
+|     new |    +1 |   0.0% → 5.3% |   0 → 1 | `invoke`   | `java.lang.invoke.LambdaForm$MH.0x00000070010ab000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010d2400`)
+
+|  Change | Delta |             % | Samples | Callee            | Location                                             |
+| ------: | ----: | ------------: | ------: | ----------------- | ---------------------------------------------------- |
+|     new |  +633 | 0.0% → 100.0% | 0 → 633 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000007001095000` |
+| removed |  -618 | 100.0% → 0.0% | 618 → 0 | `invokeSpecial`   | `java.lang.invoke.LambdaForm$DMH.0x000000d00118a800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001018400`)
+
+|  Change | Delta |             % | Samples | Callee             | Location                                             |
+| ------: | ----: | ------------: | ------: | ------------------ | ---------------------------------------------------- |
+|     new |   +15 |  0.0% → 88.2% |  0 → 15 | `newInvokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `invokeVirtual`    | `java.lang.invoke.LambdaForm$DMH.0x000000d001093c00` |
+|     new |    +2 |  0.0% → 11.8% |   0 → 2 | `invokeStaticInit` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `invokeVirtual` (`java.lang.invoke.LambdaForm$DMH.0x0000007001105000`)
+
+| Change | Delta |            % | Samples | Callee                            | Location                                            |
+| -----: | ----: | -----------: | ------: | --------------------------------- | --------------------------------------------------- |
+|    new |   +11 | 0.0% → 73.3% |  0 → 11 | `initializeRuleRegistry`          | `org.codenarc.ruleregistry.RuleRegistryInitializer` |
+|    new |    +2 | 0.0% → 13.3% |   0 → 2 | `initializeWildcardPatterns`      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`    |
+|    new |    +1 |  0.0% → 6.7% |   0 → 1 | `initializeDefaultResourceBundle` | `org.codenarc.report.AbstractReportWriter`          |
+|    new |    +1 |  0.0% → 6.7% |   0 → 1 | `setDefaultsIfNecessary`          | `org.codenarc.CodeNarc`                             |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012da800`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+| removed |  -718 | 100.0% → 0.0% | 718 → 0 | `invokeVirtual` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|     new |  +313 | 0.0% → 100.0% | 0 → 313 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012e4000`)
+
+|  Change | Delta |             % | Samples | Callee     | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------- | --------------------------------------------------- |
+| removed |  -708 | 100.0% → 0.0% | 708 → 0 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x000000d001098000` |
+|     new |  +312 | 0.0% → 100.0% | 0 → 312 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001181400`)
+
+|  Change | Delta |             % | Samples | Callee            | Location                                             |
+| ------: | ----: | ------------: | ------: | ----------------- | ---------------------------------------------------- |
+| removed |  -124 |  64.6% → 0.0% | 124 → 0 | `reinvoke`        | `java.lang.invoke.LambdaForm$MH.0x000000d001098000`  |
+| removed |   -68 |  35.4% → 0.0% |  68 → 0 | `delegate`        | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+|     new |   +16 | 0.0% → 100.0% |  0 → 16 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000007001095000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001121000`)
+
+|  Change | Delta |            % | Samples | Callee          | Location                                             |
+| ------: | ----: | -----------: | ------: | --------------- | ---------------------------------------------------- |
+| removed |  -189 | 98.4% → 0.0% | 189 → 0 | `reinvoke`      | `java.lang.invoke.LambdaForm$MH.0x000000d0010ac400`  |
+|     new |   +33 | 0.0% → 89.2% |  0 → 33 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x0000007001084000` |
+| removed |    -4 |  2.1% → 0.0% |   4 → 0 | `delegate`      | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+|     new |    +4 | 0.0% → 10.8% |   0 → 4 | `invokeVirtual` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700109ac00`)
+
+| Change | Delta |              % |  Samples | Callee     | Location                                            |
+| -----: | ----: | -------------: | -------: | ---------- | --------------------------------------------------- |
+| -75.0% |  -258 | 100.0% → 42.4% | 344 → 86 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|    new |  +118 |   0.0% → 58.1% |  0 → 118 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001205c00`)
+
+|  Change | Delta |             % |   Samples | Callee     | Location                                            |
+| ------: | ----: | ------------: | --------: | ---------- | --------------------------------------------------- |
+| removed |  -718 | 100.0% → 0.0% |   718 → 0 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x000000d0010ac400` |
+|     new |  +573 |  0.0% → 95.5% |   0 → 573 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001188c00` |
+|   -4.0% |   -25 | 86.4% → 99.2% | 620 → 595 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001104000`)
+
+|  Change | Delta |             % | Samples | Callee             | Location                                             |
+| ------: | ----: | ------------: | ------: | ------------------ | ---------------------------------------------------- |
+| removed |  -128 |  93.4% → 0.0% | 128 → 0 | `invokeVirtual`    | `java.lang.invoke.LambdaForm$DMH.0x000000d0012a0400` |
+|     new |   +27 | 0.0% → 100.0% |  0 → 27 | `newInvokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| removed |   -11 |   8.0% → 0.0% |  11 → 0 | `invokeSpecial`    | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| removed |    -9 |   6.6% → 0.0% |   9 → 0 | `invokeInterface`  | `java.lang.invoke.LambdaForm$DMH.0x000000d0011b0000` |
+|     new |    +1 |   0.0% → 3.7% |   0 → 1 | `invokeStaticInit` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700112d800`)
+
+|  Change | Delta |             % | Samples | Callee             | Location                                            |
+| ------: | ----: | ------------: | ------: | ------------------ | --------------------------------------------------- |
+| removed |  -124 | 100.0% → 0.0% | 124 → 0 | `invoke`           | `java.lang.invoke.LambdaForm$MH.0x000000d0010d2800` |
+|     new |   +31 |  0.0% → 91.2% |  0 → 31 | `newInvokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|     new |   +20 |  0.0% → 58.8% |  0 → 20 | `invokeStaticInit` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|     new |    +3 |   0.0% → 8.8% |   0 → 3 | `invokeStatic`     | `java.lang.invoke.DirectMethodHandle$Holder`        |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c7c00`)
+
+|  Change | Delta |             % | Samples | Callee     | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------- | --------------------------------------------------- |
+| removed |  -129 | 100.0% → 0.0% | 129 → 0 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x000000d001189000` |
+|     new |   +41 | 0.0% → 100.0% |  0 → 41 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c7000`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+| removed |  -741 | 100.0% → 0.0% | 741 → 0 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x000000d001092800` |
+|     new |  +683 | 0.0% → 100.0% | 0 → 683 | `reinvoke`      | `java.lang.invoke.LambdaForm$MH.0x00000070010aa800`  |
+|     new |  +596 |  0.0% → 87.3% | 0 → 596 | `delegate`      | `java.lang.invoke.DelegatingMethodHandle$Holder`     |
+| removed |    -1 |   0.1% → 0.0% |   1 → 0 | `collector`     | `java.lang.invoke.LambdaForm$MH.0x000000d001031800`  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001311c00`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+| removed |   -57 | 100.0% → 0.0% |  57 → 0 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x00000070012ac000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001200800`)
+
+|  Change | Delta |             % | Samples | Callee            | Location                                             |
+| ------: | ----: | ------------: | ------: | ----------------- | ---------------------------------------------------- |
+| removed |  -660 | 100.0% → 0.0% | 660 → 0 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x000000d001093400` |
+|     new |  +605 | 0.0% → 100.0% | 0 → 605 | `invoke`          | `java.lang.invoke.LambdaForm$MH.0x00000070010d2400`  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700112c000`)
+
+|  Change | Delta |             % | Samples | Callee         | Location                                             |
+| ------: | ----: | ------------: | ------: | -------------- | ---------------------------------------------------- |
+| removed |   -64 | 100.0% → 0.0% |  64 → 0 | `reinvoke`     | `java.lang.invoke.LambdaForm$MH.0x000000d0010ac400`  |
+|     new |   +12 | 0.0% → 100.0% |  0 → 12 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000700102a000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001312400`)
+
+|  Change | Delta |             % | Samples | Callee         | Location                                             |
+| ------: | ----: | ------------: | ------: | -------------- | ---------------------------------------------------- |
+| removed |   -49 | 100.0% → 0.0% |  49 → 0 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `reinvoke`     | `java.lang.invoke.LambdaForm$MH.0x0000007001201c00`  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001212800`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+| removed |  -646 | 100.0% → 0.0% | 646 → 0 | `invokeStatic`  | `java.lang.invoke.LambdaForm$DMH.0x000000d001088800` |
+|     new |  +601 | 0.0% → 100.0% | 0 → 601 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x000000700118a400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001313400`)
+
+|  Change | Delta |             % | Samples | Callee          | Location                                             |
+| ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------- |
+| removed |   -46 | 100.0% → 0.0% |  46 → 0 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x000000700130e400` |
+
+##### `selectMethod` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+| Change | Delta |             % |   Samples | Callee           | Location                                        |
+| -----: | ----: | ------------: | --------: | ---------------- | ----------------------------------------------- |
+|  -7.9% |   -44 | 96.7% → 96.0% | 554 → 510 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`              |
+|  -4.8% |    -2 |   7.3% → 7.5% |   42 → 40 | `fallback`       | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+
+##### `invokeSpecial` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+| Change | Delta |             % |   Samples | Callee             | Location                                                                    |
+| -----: | ----: | ------------: | --------: | ------------------ | --------------------------------------------------------------------------- |
+|  -3.6% |   -23 | 88.8% → 90.3% | 636 → 613 | `doCall`           | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+| -21.7% |   -23 | 14.8% → 12.2% |  106 → 83 | `doCall`           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
+|  -3.5% |   -22 | 88.8% → 90.4% | 636 → 614 | `processDirectory` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  -3.6% |   -17 | 66.1% → 67.2% | 473 → 456 | `doCall`           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`  |
+|  -2.6% |   -12 | 65.2% → 67.0% | 467 → 455 | `init`             | `org.codenarc.source.AbstractSourceCode`                                    |
+
+##### `collectViolations` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|  Change | Delta |              % |   Samples | Callee           | Location                                                                   |
+| ------: | ----: | -------------: | --------: | ---------------- | -------------------------------------------------------------------------- |
+|   -6.0% |   -36 | 99.8% → 100.0% | 604 → 568 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                                         |
+| removed |    -1 |    0.2% → 0.0% |     1 → 0 | `<init>`         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure4` |
+
+##### `main` (`org.codenarc.CodeNarc`)
+
+|  Change | Delta |             % |   Samples | Callee           | Location                               |
+| ------: | ----: | ------------: | --------: | ---------------- | -------------------------------------- |
+|   -4.4% |   -34 | 99.6% → 99.9% | 771 → 737 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`     |
+| removed |    -3 |   0.4% → 0.0% |     3 → 0 | `linkCallSite`   | `java.lang.invoke.MethodHandleNatives` |
+|     new |    +1 |   0.0% → 0.1% |     0 → 1 | `loadClass`      | `java.lang.ClassLoader`                |
+
+##### `invokeImpl` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |             % |   Samples | Callee           | Location                                                                                                |
+| -----: | ----: | ------------: | --------: | ---------------- | ------------------------------------------------------------------------------------------------------- |
+|  -5.0% |   -35 |        100.0% | 698 → 663 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                                                                      |
+|  -3.6% |   -23 | 92.7% → 94.1% | 647 → 624 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000d001120c00 → java.lang.invoke.LambdaForm$MH.0x0000007001120c00` |
+|  -2.9% |   -18 | 89.3% → 91.3% | 623 → 605 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000d00103c000 → java.lang.invoke.LambdaForm$MH.0x000000700103c000` |
+
+##### `invoke` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |      % |   Samples | Callee       | Location                                          |
+| -----: | ----: | -----: | --------: | ------------ | ------------------------------------------------- |
+|  -5.0% |   -35 | 100.0% | 698 → 663 | `invokeImpl` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
