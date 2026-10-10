@@ -206,6 +206,15 @@ test(`file path under a baseURL containing URL syntax formats relative to it`, (
   ).toBe(`src/a.ts`)
 })
 
+test(`file path with empty segments under baseURL formats relative to it`, () => {
+  expect(
+    formatPath({
+      path: `/src/zstd/lib//common/bitstream.h`,
+      baseURL: `/src/zstd/lib`,
+    }),
+  ).toBe(`common/bitstream.h`)
+})
+
 test(`baseURL: null shows full href for HTTP URLs`, () => {
   expect(
     format({ url: `https://example.com/src/file.ts`, baseURL: null }),
@@ -363,6 +372,21 @@ describe(`makeFileReference`, () => {
       url: new URL(expected),
     })
   })
+
+  test.each([
+    [`/project//src//file.ts`, `file:///project/src/file.ts`],
+    [`/project//src//`, `file:///project/src/`],
+    [`file:///project//src/file.ts`, `file:///project/src/file.ts`],
+    [`https://example.com/a//file.ts`, `https://example.com/a//file.ts`],
+  ])(
+    `collapses the empty segments of %s only in a file URL`,
+    (urlOrPath, expected) => {
+      expect(makeFileReference(urlOrPath)).toStrictEqual({
+        type: `absolute`,
+        url: new URL(expected),
+      })
+    },
+  )
 
   test(`returns undefined for an empty string`, () => {
     expect(makeFileReference(``)).toBeUndefined()
