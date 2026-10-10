@@ -2,6 +2,8 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, afterEach, beforeAll, expect, test, vi } from 'vitest'
+import { normalizeLogger } from '../logger.ts'
+import { expectLogs } from '../testing.ts'
 import type { Output } from './output.ts'
 import { openPager } from './pager.ts'
 
@@ -38,32 +40,25 @@ const recordingOutput = (): Output & { texts: string[] } => {
   }
 }
 
-const page = async (
-  text: string,
-): Promise<{ fallback: string[]; stderr: string }> => {
+const page = async (text: string): Promise<string[]> => {
   const fallback = recordingOutput()
-  let stderr = ``
-  vi.spyOn(process.stderr, `write`).mockImplementation(chunk => {
-    stderr += String(chunk)
-    return true
-  })
 
-  const output = await openPager(fallback)
+  const output = await openPager(fallback, normalizeLogger({}, `none`))
   expect(output).not.toBeNull()
   await output!.write(text)
 
-  return { fallback: fallback.texts, stderr }
+  return fallback.texts
 }
 
 test(`passes the output to the pager and writes nothing else`, async () => {
   const received = join(dir, `received.txt`)
   vi.stubEnv(`PAGER`, await pagerScript(`cat-pager`, `cat > "${received}"`))
 
-  const { fallback, stderr } = await page(`# Hello\n`)
+  const fallback = await page(`# Hello\n`)
 
   expect(await readFile(received, `utf8`)).toBe(`# Hello\n`)
   expect(fallback).toEqual([])
-  expect(stderr).toBe(``)
+  expectLogs([])
 })
 
 test(`defaults LESS to case-insensitive search and keeps the user's LESS`, async () => {
@@ -88,20 +83,22 @@ test(`defaults LESS to case-insensitive search and keeps the user's LESS`, async
 test(`falls back to the output and warns when the pager exits non-zero`, async () => {
   vi.stubEnv(`PAGER`, `false`)
 
-  const { fallback, stderr } = await page(`# Hello\n`)
+  const fallback = await page(`# Hello\n`)
 
   expect(fallback).toEqual([`# Hello\n`])
-  expect(stderr).toBe(`warning: pager exited with status 1\n`)
+  expectLogs([
+    `warn: pager false exited with a non-zero status, got: 1\n  hint: set PAGER to another pager, or pass --no-pager`,
+  ])
 })
 
 test(`keeps the output in the pager when the user quits it early`, async () => {
   // Quitting `less` closes its stdin before the write finishes, and exits 0.
   vi.stubEnv(`PAGER`, await pagerScript(`quit-pager`, `exit 0`))
 
-  const { fallback, stderr } = await page(`# Hello\n`.repeat(100_000))
+  const fallback = await page(`# Hello\n`.repeat(100_000))
 
   expect(fallback).toEqual([])
-  expect(stderr).toBe(``)
+  expectLogs([])
 })
 
 test(`ignores SIGINT while the pager runs and restores it after`, async () => {
@@ -114,7 +111,7 @@ test(`ignores SIGINT while the pager runs and restores it after`, async () => {
       `cat > /dev/null; while [ ! -e "${gate}" ]; do sleep 0.05; done`,
     ),
   )
-  const output = await openPager(recordingOutput())
+  const output = await openPager(recordingOutput(), normalizeLogger({}, `none`))
 
   const writePromise = output!.write(`# Hello\n`)
   await vi.waitFor(() =>

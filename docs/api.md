@@ -123,14 +123,6 @@ const options = {
   // to receive any message.
   logger: console,
   logLevel: `info`,
-  matchEntry: (entry, context) => {
-    if (entry.location?.url?.pathname.includes(`/bundle.`)) {
-      // Match bundled entries when diffing by name only, ignoring
-      // content-hashed filenames.
-      return { name: entry.name }
-    }
-    return defaultMatchEntry(entry, context)
-  },
   categorizeFunctions: (entries, context) => {
     const categories = defaultCategorizeFunctions(entries, context)
     return entries.map((entry, index) =>
@@ -148,12 +140,23 @@ const options = {
 console.log(await profileToMdAsync(await openAsBlob(`example.pprof`), options))
 
 // The same options apply to diffs. `matchEntry` takes effect only here, where
-// it controls which entries count as the same across the two sides.
+// it controls which entries count as the same across the two sides, and a
+// conversion of one profile warns that it was ignored.
 console.log(
   await diffProfilesAsync(
     await openAsBlob(`base.pprof`),
     await openAsBlob(`current.pprof`),
-    options,
+    {
+      ...options,
+      matchEntry: (entry, context) => {
+        if (entry.location?.url?.pathname.includes(`/bundle.`)) {
+          // Match bundled entries when diffing by name only, ignoring
+          // content-hashed filenames.
+          return { name: entry.name }
+        }
+        return defaultMatchEntry(entry, context)
+      },
+    },
   ),
 )
 ```

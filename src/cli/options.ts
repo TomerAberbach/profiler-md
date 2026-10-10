@@ -207,7 +207,8 @@ type RuleOption<Option> = {
 
 /**
  * Builds `matchEntry`, whose `warnUnmatched` warns that the match flags were
- * ignored when there is no diff.
+ * ignored when there is no diff. Builds no option without a diff, so the
+ * library doesn't warn about the ignored flags a second time.
  */
 const buildMatchEntry = (
   nameRules: readonly RegexReplacement[],
@@ -236,7 +237,7 @@ const buildMatchEntry = (
       }
     }
   }
-  if (nameRules.length === 0 && locationRules.length === 0) {
+  if (!diff || (nameRules.length === 0 && locationRules.length === 0)) {
     return { option: undefined, warnUnmatched }
   }
 

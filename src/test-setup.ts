@@ -11,7 +11,7 @@ vi.mock(import(`./logger.ts`), async importOriginal => {
     ...actual,
     normalizeLogger: (logger, logLevel) => {
       const normalized = actual.normalizeLogger(logger, logLevel)
-      const recording: typeof normalized = {}
+      const recording = {} as typeof normalized
       for (const level of actual.LOG_LEVELS) {
         if (level === `none`) {
           continue

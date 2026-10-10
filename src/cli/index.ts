@@ -1,5 +1,6 @@
 import { diffProfilesAsync, profileToMdAsync } from '../index.ts'
 import type { ProfileInput } from '../index.ts'
+import { normalizeLogger } from '../logger.ts'
 import { CliError, reportError } from './error.ts'
 import { printBriefHelp, printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
@@ -38,13 +39,17 @@ try {
   } = parseArgs()
   logLevel = logLevelFlag
   warnInvalidLogLevelEnv(logger, logLevel)
+  const outputOptions = { pager, logger: normalizeLogger(logger, logLevel) }
   const [basePath, currentPath] =
     typeof input === `string` || input === undefined
       ? [input, undefined]
       : input
 
   if (help !== undefined) {
-    await printHelpTopic(typeof help === `string` ? help : undefined, { pager })
+    await printHelpTopic(
+      typeof help === `string` ? help : undefined,
+      outputOptions,
+    )
   }
 
   // A redirected stdout or an output file means a conversion was intended, so
@@ -109,7 +114,7 @@ try {
   if (isTTYOutput(outputPath)) {
     logger.separate()
   }
-  await writeOutput(highlightedMarkdown, outputPath, { pager })
+  await writeOutput(highlightedMarkdown, outputPath, outputOptions)
 } catch (error) {
   reportError(error, { logger, logLevel })
 }

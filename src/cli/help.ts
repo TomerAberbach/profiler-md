@@ -25,21 +25,20 @@ import {
 } from './languages.ts'
 import type { Language } from './languages.ts'
 import { writeOutput } from './output.ts'
+import type { WriteOutputOptions } from './output.ts'
 import { kindlingTerminalTheme, makeKindlingPalette } from './theme-kindling.ts'
 import type { KindlingPalette } from './theme-kindling.ts'
 
-export type PrintHelpTopicOptions = {
-  pager: boolean
-}
-
 export const printHelpTopic = async (
   topic: string | undefined,
-  { pager }: PrintHelpTopicOptions,
+  options: WriteOutputOptions,
 ): Promise<never> => {
   if (topic === undefined) {
-    await writeOutput(getHelpText({ colors: stdoutSupportsColor() }), `-`, {
-      pager,
-    })
+    await writeOutput(
+      getHelpText({ colors: stdoutSupportsColor() }),
+      `-`,
+      options,
+    )
     process.exit(0)
   }
 
@@ -53,7 +52,7 @@ export const printHelpTopic = async (
   const markdown = await highlightMarkdown(`${doc}${seeAlsoSuffix}`, {
     outputPath,
   })
-  await writeOutput(markdown, outputPath, { pager })
+  await writeOutput(markdown, outputPath, options)
   process.exit(0)
 }
 
@@ -100,6 +99,7 @@ const seeAlsoTopics = (helpTopic: HelpTopic): string[] => {
 }
 
 export const printBriefHelp = (): never => {
+  // eslint-disable-next-line local/no-standard-stream-write -- help is program output
   process.stdout.write(getBriefHelpText({ colors: stdoutSupportsColor() }))
   process.exit(0)
 }

@@ -13,6 +13,7 @@ import {
 } from '../modalities/call-stack-profile/testing.ts'
 import { SAMPLES } from '../modalities/metrics.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
+import type { ProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
   expectLogs,
@@ -1219,6 +1220,40 @@ describe(`logging`, () => {
       V8_CPU_PROFILE_CANDIDATES_LOG,
       ...CHROME_ORIGIN_LOGS,
     ])
+  })
+
+  test.each([
+    {
+      name: `profileToMd`,
+      convert: (options: ProfileToMdOptions) =>
+        profileToMd(
+          { data: baseCpuProfile, format: `v8-cpu-profile`, origin: `chrome` },
+          options,
+        ),
+    },
+    {
+      name: `profileToMdAsync`,
+      convert: (options: ProfileToMdOptions) =>
+        profileToMdAsync(
+          {
+            data: new Blob([baseCpuProfile]),
+            format: `v8-cpu-profile`,
+            origin: `chrome`,
+          },
+          options,
+        ),
+    },
+  ])(`$name warns that matchEntry is ignored`, async ({ convert }) => {
+    const matchEntry = vi.fn()
+
+    await convert({ baseURL: null, matchEntry })
+
+    expectLogs([
+      `info: specified format: v8-cpu-profile`,
+      `info: specified origin: chrome`,
+      `warn: matchEntry ignored because it pairs entries only across a diff\n  hint: call diffProfiles to compare two profiles`,
+    ])
+    expect(matchEntry).not.toHaveBeenCalled()
   })
 
   test(`logs the specified format and origin`, () => {

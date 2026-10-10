@@ -32,7 +32,8 @@ export const parseArgs = (): CLIArgs =>
       option: true,
       onShow: () => {
         if (process.stderr.isTTY) {
-          console.error(logo)
+          // eslint-disable-next-line local/no-standard-stream-write -- the logo is program output
+          process.stderr.write(`${logo}\n`)
         }
         return process.exit(0)
       },

@@ -17,6 +17,11 @@ export type Logger = Partial<
   Record<Exclude<LogLevel, `none`>, (message: string) => void>
 >
 
+declare const normalizedBrand: unique symbol
+
+/** A {@link Logger} that {@link normalizeLogger} filtered to a {@link LogLevel}. */
+export type NormalizedLogger = Logger & { readonly [normalizedBrand]: true }
+
 /**
  * Filters a {@link Logger} to a {@link LogLevel}: a method is defined only if
  * the logger defines it and the level enables it. Test for the method before
@@ -25,9 +30,9 @@ export type Logger = Partial<
 export const normalizeLogger = (
   logger: Logger | undefined,
   logLevel: LogLevel,
-): Logger => {
+): NormalizedLogger => {
   if (!logger) {
-    return {}
+    return {} as NormalizedLogger
   }
 
   const threshold = LOG_LEVELS.indexOf(logLevel)
@@ -41,5 +46,5 @@ export const normalizeLogger = (
       normalized[level] = message => log.call(logger, message)
     }
   }
-  return normalized
+  return normalized as NormalizedLogger
 }
