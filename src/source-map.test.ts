@@ -4,12 +4,12 @@ import {
   makeV8CpuProfileRoot,
 } from './formats/v8/cpu-profile/testing.ts'
 import { profileToMd } from './index.ts'
+import type { SourceLocation } from './location.ts'
 import type {
   FormattingProfileToMdOptions,
   ProfileToMdOptions,
 } from './options.ts'
 import { resolveProfileToMdOptions } from './options.ts'
-import { sourceMapSourceLocation } from './source-map.ts'
 import type { SourceMap } from './source-map.ts'
 import { expectLogs } from './testing.ts'
 
@@ -31,6 +31,11 @@ const makeNormalizedOptions = ({
   `sourceMaps` | `baseURL`
 >): FormattingProfileToMdOptions =>
   resolveProfileToMdOptions({ baseURL, sourceMaps })
+
+const resolveLocation = (
+  location: SourceLocation,
+  { baseURL, sourceMaps }: FormattingProfileToMdOptions,
+): SourceLocation => sourceMaps.resolve(location, baseURL)
 
 const LOCATION = {
   type: `absolute`,
@@ -54,7 +59,7 @@ const mapping = (sourceMap: Partial<SourceMap> = {}): SourceMap =>
   })
 
 test(`sourceMaps drops and warns about a list entry with no file field`, () => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     resolveProfileToMdOptions({ sourceMaps: [mapping()] }),
   )
@@ -66,7 +71,7 @@ test(`sourceMaps drops and warns about a list entry with no file field`, () => {
 })
 
 test(`sourceMaps drops and warns about a record entry with the placeholder unknown key`, () => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     resolveProfileToMdOptions({ sourceMaps: { unknown: mapping() } }),
   )
@@ -78,7 +83,7 @@ test(`sourceMaps drops and warns about a record entry with the placeholder unkno
 })
 
 test(`sourceMaps drops and warns about a list entry with the placeholder unknown file field`, () => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     resolveProfileToMdOptions({ sourceMaps: [mapping({ file: `unknown` })] }),
   )
@@ -90,7 +95,7 @@ test(`sourceMaps drops and warns about a list entry with the placeholder unknown
 })
 
 test(`sourceMaps drops and warns about a list entry whose file field names the same generated file as an earlier entry`, () => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     makeNormalizedOptions({
       sourceMaps: [
@@ -110,7 +115,7 @@ test(`sourceMaps drops and warns about a list entry whose file field names the s
 })
 
 test(`sourceMaps drops and warns about a record entry whose key names the same generated file as an earlier entry`, () => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     makeNormalizedOptions({
       sourceMaps: {
@@ -141,7 +146,7 @@ test.each([
   [`file URL`, `file:///project/dist/app.js`],
   [`relative file`, `dist/app.js`],
 ])(`sourceMaps matches a list entry's %s file field`, (_, file) => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     makeNormalizedOptions({ sourceMaps: [mapping({ file })] }),
   )
@@ -151,7 +156,7 @@ test.each([
 
 test(`sourceMaps ignores sourceRoot when resolving the file field`, () => {
   // `sourceRoot` applies to `sources` (original), not to `file` (generated).
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     makeNormalizedOptions({
       sourceMaps: [
@@ -172,7 +177,7 @@ test.each([
   [`URL`, `file:///project/dist/app.js`],
   [`relative path`, `dist/app.js`],
 ])(`sourceMaps matches a record entry's %s key`, (_, key) => {
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     LOCATION,
     makeNormalizedOptions({ sourceMaps: { [key]: mapping() } }),
   )
@@ -180,7 +185,7 @@ test.each([
   expect(mappedLocation).toStrictEqual(MAPPED_LOCATION)
 })
 
-test(`sourceMapSourceLocation matches by absolute location`, () => {
+test(`resolving matches by absolute location`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -189,7 +194,7 @@ test(`sourceMapSourceLocation matches by absolute location`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(url),
@@ -207,7 +212,7 @@ test(`sourceMapSourceLocation matches by absolute location`, () => {
   })
 })
 
-test(`sourceMapSourceLocation matches by relative location`, () => {
+test(`resolving matches by relative location`, () => {
   const sourceMaps = [
     makeSourceMap({
       sources: [`/project/src/original.ts`],
@@ -216,7 +221,7 @@ test(`sourceMapSourceLocation matches by relative location`, () => {
     }),
   ]
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(`file:///project/dist/app.js`),
@@ -234,7 +239,7 @@ test(`sourceMapSourceLocation matches by relative location`, () => {
   })
 })
 
-test(`sourceMapSourceLocation returns input when mapped source is the placeholder unknown`, () => {
+test(`resolving returns input when mapped source is the placeholder unknown`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
     type: `absolute` as const,
@@ -249,7 +254,7 @@ test(`sourceMapSourceLocation returns input when mapped source is the placeholde
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     location,
     makeNormalizedOptions({ sourceMaps }),
   )
@@ -257,7 +262,7 @@ test(`sourceMapSourceLocation returns input when mapped source is the placeholde
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapSourceLocation returns original location when no entry matches`, () => {
+test(`resolving returns original location when no entry matches`, () => {
   const location = {
     type: `absolute` as const,
     url: new URL(`file:///project/dist/app.js`),
@@ -268,7 +273,7 @@ test(`sourceMapSourceLocation returns original location when no entry matches`, 
     'file:///project/dist/other.js': makeSourceMap(),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     location,
     makeNormalizedOptions({ sourceMaps }),
   )
@@ -276,7 +281,7 @@ test(`sourceMapSourceLocation returns original location when no entry matches`, 
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapSourceLocation returns input when location has no mapping`, () => {
+test(`resolving returns input when location has no mapping`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
     type: `absolute` as const,
@@ -291,7 +296,7 @@ test(`sourceMapSourceLocation returns input when location has no mapping`, () =>
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     location,
     makeNormalizedOptions({ sourceMaps }),
   )
@@ -299,7 +304,7 @@ test(`sourceMapSourceLocation returns input when location has no mapping`, () =>
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapSourceLocation uses absolute path source directly`, () => {
+test(`resolving uses absolute path source directly`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -308,7 +313,7 @@ test(`sourceMapSourceLocation uses absolute path source directly`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(url),
@@ -326,7 +331,7 @@ test(`sourceMapSourceLocation uses absolute path source directly`, () => {
   })
 })
 
-test(`sourceMapSourceLocation uses absolute URL source directly`, () => {
+test(`resolving uses absolute URL source directly`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -335,7 +340,7 @@ test(`sourceMapSourceLocation uses absolute URL source directly`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(url),
@@ -353,7 +358,7 @@ test(`sourceMapSourceLocation uses absolute URL source directly`, () => {
   })
 })
 
-test(`sourceMapSourceLocation resolves relative source against baseURL`, () => {
+test(`resolving resolves relative source against baseURL`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -362,7 +367,7 @@ test(`sourceMapSourceLocation resolves relative source against baseURL`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(url),
@@ -380,7 +385,7 @@ test(`sourceMapSourceLocation resolves relative source against baseURL`, () => {
   })
 })
 
-test(`sourceMapSourceLocation returns input when source is relative and baseURL is absent`, () => {
+test(`resolving returns input when source is relative and baseURL is absent`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
     type: `absolute` as const,
@@ -390,7 +395,7 @@ test(`sourceMapSourceLocation returns input when source is relative and baseURL 
   }
   const sourceMaps = { [url]: makeSourceMap() }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     location,
     makeNormalizedOptions({ sourceMaps, baseURL: null }),
   )
@@ -398,7 +403,7 @@ test(`sourceMapSourceLocation returns input when source is relative and baseURL 
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapSourceLocation resolves relative source via absolute sourceRoot`, () => {
+test(`resolving resolves relative source via absolute sourceRoot`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -408,7 +413,7 @@ test(`sourceMapSourceLocation resolves relative source via absolute sourceRoot`,
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(url),
@@ -426,7 +431,7 @@ test(`sourceMapSourceLocation resolves relative source via absolute sourceRoot`,
   })
 })
 
-test(`sourceMapSourceLocation converts result column from 0-based to 1-based`, () => {
+test(`resolving converts result column from 0-based to 1-based`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -437,7 +442,7 @@ test(`sourceMapSourceLocation converts result column from 0-based to 1-based`, (
     }),
   }
 
-  const mappedLocation = sourceMapSourceLocation(
+  const mappedLocation = resolveLocation(
     {
       type: `absolute`,
       url: new URL(url),

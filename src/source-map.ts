@@ -5,7 +5,6 @@ import { formatCount } from './helpers/format.ts'
 import { makeFileReference, sourceReferenceId } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
 import type { Logger } from './logger.ts'
-import type { FormattingProfileToMdOptions } from './options.ts'
 
 type NormalizedSourceMap = {
   consumer: SourceMapConsumer
@@ -353,16 +352,6 @@ const describeGeneratedFile = (
 }
 
 const MAX_LISTED_POSITIONS = 3
-
-/**
- * Applies the matching source map, if any, to {@link location}.
- *
- * @see {@link SourceMapResolver.resolve}
- */
-export const sourceMapSourceLocation = (
-  location: SourceLocation,
-  { baseURL, sourceMaps }: FormattingProfileToMdOptions,
-): SourceLocation => sourceMaps.resolve(location, baseURL)
 
 const makeSourceMapFileReference = (
   urlOrPath: string,

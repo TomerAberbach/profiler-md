@@ -1581,6 +1581,58 @@ describe(`diffProfiles`, () => {
       ])
     })
 
+    test(`baseURL: 'auto' infers a base URL per side when they differ only by what matching removes`, () => {
+      const makeSide = (url: string, hitCount: number) =>
+        JSON.stringify({
+          nodes: [
+            makeV8CpuProfileRoot([2]),
+            { id: 2, hitCount, callFrame: makeV8CallFrame(`funcA`, url) },
+          ],
+          samples: Array.from({ length: hitCount }, () => 2),
+          timeDeltas: Array.from({ length: hitCount }, () => 20),
+        })
+
+      const md = diffProfiles(
+        {
+          data: makeSide(`file:///build/run-111/src/a.ts`, 5),
+          format: `v8-cpu-profile`,
+        },
+        {
+          data: makeSide(`file:///build/run-222/src/a.ts`, 10),
+          format: `v8-cpu-profile`,
+        },
+        {
+          baseURL: `auto`,
+          matchEntry: entry =>
+            entry.location
+              ? {
+                  location: sourceReferenceId(entry.location).replace(
+                    /run-\d+/u,
+                    `run`,
+                  ),
+                }
+              : undefined,
+        },
+      )
+
+      expect(md).toContain(
+        `Paths starting with \`./\` or \`../\` are relative to \`/build/run-111/src/\` in the base and to \`/build/run-222/src/\` in the current.`,
+      )
+      expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
+        [
+          {
+            Change: `+100.0%`,
+            Delta: `+0.10ms`,
+            '%': `100.0%`,
+            Time: `0.1ms → 0.2ms`,
+            Samples: `5 → 10`,
+            Function: `funcA`,
+            Location: `./a.ts:1:1`,
+          },
+        ],
+      ])
+    })
+
     test(`diffs two heap snapshots end-to-end`, () => {
       const md = diffProfiles(
         { data: baseHeapSnapshot, format: `v8-heap-snapshot` },

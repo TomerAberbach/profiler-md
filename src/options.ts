@@ -309,6 +309,14 @@ export type AggregationProfileToMdOptions = Omit<
  */
 export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
   baseURL: URL | undefined
+
+  /**
+   * A diff's base side's own base URL, for the locations below it, when the
+   * sides' base URLs differ only by what match normalization removes.
+   * {@link baseURL} applies to every other location.
+   */
+  baseSideBaseURL?: URL
+
   sourceMaps: SourceMapResolver
 
   /**
