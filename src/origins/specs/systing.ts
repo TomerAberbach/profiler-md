@@ -1,8 +1,9 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
-import { nativeMatchEntry } from '../native.ts'
+import { nativeMatchEntry, nativeNormalizeStackFrame } from '../native.ts'
 import type { OriginSpec } from '../spec.ts'
 import { zigStdlibCategory } from '../zig.ts'
 
@@ -28,53 +29,56 @@ export const systingOriginSpec = {
     locationlessCategory(entry) ??
     `ours`,
   matchEntry: nativeMatchEntry,
-  normalizeStackFrame: input => {
-    // A sourced frame can't be packed (systing always packs); guard anyway
-    // per the normalizeStackFrame contract.
-    if (input.definition) {
-      return input
-    }
+  normalizeStackFrame: input =>
+    nativeNormalizeStackFrame(unpackStackFrame(input)),
+} as const satisfies OriginSpec
 
-    const native = NATIVE_FRAME.exec(input.name ?? ``)
-    if (native) {
-      const { func, inner } = native.groups!
-      // The packed line is where the frame was executing, because it comes from
-      // the sampled address. Drop the module, because the source location
-      // names the code better, except a bracketed label module, which selects
-      // the category. Kernel code symbolized with kernel debuginfo has both a
-      // `[kernel]` label and a source location.
-      const location =
-        MODULE_LOCATION_LINE.exec(inner!) ?? MODULE_LOCATION.exec(inner!)
-      if (location) {
-        const { module, file, line } = location.groups!
-        return {
-          name: LABEL.test(module!) ? `${func!} (${module!})` : func!,
-          definition: { type: `file`, urlOrPath: file! },
-          executing: line === undefined ? undefined : { line: Number(line) },
-        }
-      }
-      // No source info: keep systing's own `name (module)` form, minus
-      // the address (which would fragment one function into an entry per
-      // sampled address). The module distinguishes same-named symbols across
-      // binaries and determines the category for label modules.
-      return { name: `${func!} (${inner!})` }
-    }
+const unpackStackFrame = (input: StackFrame): StackFrame => {
+  // A sourced frame can't be packed (systing always packs); guard anyway
+  // per the normalizeStackFrame contract.
+  if (input.definition) {
+    return input
+  }
 
-    const python =
-      PYTHON_FRAME_LINE.exec(input.name ?? ``) ??
-      PYTHON_FRAME.exec(input.name ?? ``)
-    if (python) {
-      const { func, file, line } = python.groups!
+  const native = NATIVE_FRAME.exec(input.name ?? ``)
+  if (native) {
+    const { func, inner } = native.groups!
+    // The packed line is where the frame was executing, because it comes from
+    // the sampled address. Drop the module, because the source location
+    // names the code better, except a bracketed label module, which selects
+    // the category. Kernel code symbolized with kernel debuginfo has both a
+    // `[kernel]` label and a source location.
+    const location =
+      MODULE_LOCATION_LINE.exec(inner!) ?? MODULE_LOCATION.exec(inner!)
+    if (location) {
+      const { module, file, line } = location.groups!
       return {
-        name: func!,
+        name: LABEL.test(module!) ? `${func!} (${module!})` : func!,
         definition: { type: `file`, urlOrPath: file! },
         executing: line === undefined ? undefined : { line: Number(line) },
       }
     }
+    // No source info: keep systing's own `name (module)` form, minus
+    // the address (which would fragment one function into an entry per
+    // sampled address). The module distinguishes same-named symbols across
+    // binaries and determines the category for label modules.
+    return { name: `${func!} (${inner!})` }
+  }
 
-    return input
-  },
-} as const satisfies OriginSpec
+  const python =
+    PYTHON_FRAME_LINE.exec(input.name ?? ``) ??
+    PYTHON_FRAME.exec(input.name ?? ``)
+  if (python) {
+    const { func, file, line } = python.groups!
+    return {
+      name: func!,
+      definition: { type: `file`, urlOrPath: file! },
+      executing: line === undefined ? undefined : { line: Number(line) },
+    }
+  }
+
+  return input
+}
 
 /**
  * Systing's native frame packing: `name (module [file:line]) <0xaddr>`, where

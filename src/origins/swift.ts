@@ -1,5 +1,6 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import { placeholderPathNormalizer } from './spec.ts'
 
 export const swiftStdlibCategory = ({
   name,
@@ -31,3 +32,13 @@ export const swiftStdlibCategory = ({
  * declared elsewhere, which mangles the extended type first.
  */
 const SWIFT_STDLIB_MANGLED_NAME = /^\$s(?:s|S(?!o|C)[A-Za-z])/u
+
+/**
+ * Drops the file the Swift compiler records in debug info for code it generated
+ * without a source line, such as a thunk or a specialization. gperftools
+ * reports it as `/<compiler-generated>`, which reads as a file at the
+ * filesystem root.
+ */
+export const swiftPlaceholderPathNormalizer = placeholderPathNormalizer(
+  new Set([`/<compiler-generated>`]),
+)
