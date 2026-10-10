@@ -1,3 +1,4 @@
+import type { AggregatedHeapSnapshot } from '../../src/modalities/heap-snapshot/aggregate.ts'
 import { mapPosition } from './file-diff.ts'
 import {
   GROUND_TRUTH_PATH,
@@ -5,6 +6,7 @@ import {
   UPDATE_HINT,
 } from './ground-truth.ts'
 import type { GroundTruth } from './ground-truth.ts'
+import { locatedEntitiesOf } from './inputs.ts'
 import type { FunctionInput } from './inputs.ts'
 import type { PositionMap, SourceReferenceMap } from './position.ts'
 import { upgradedFileAt, upgradedFileOf } from './upgraded-projects.ts'
@@ -13,18 +15,18 @@ import type { UpgradedProject } from './upgraded-projects.ts'
 /**
  * Maps a base position in an upgraded project's file through the file's diff,
  * and any other position to itself, and maps each source reference the same
- * way. Returns `undefined` when no base function is in an upgraded project, so
- * the pair profiles the same code.
+ * way. Returns `undefined` when no located base entity is in an upgraded
+ * project, so the pair profiles the same code.
  */
 export const versionChangeMap = (
-  base: FunctionInput,
-  current: FunctionInput,
+  base: FunctionInput | AggregatedHeapSnapshot,
+  current: FunctionInput | AggregatedHeapSnapshot,
   groundTruth: GroundTruth,
 ):
   | { positionMap: PositionMap; sourceReferenceMap: SourceReferenceMap }
   | undefined => {
-  const upgraded = base.functions.some(
-    func => upgradedFileAt(func.location) !== undefined,
+  const upgraded = locatedEntitiesOf(base).some(
+    ({ location }) => upgradedFileAt(location) !== undefined,
   )
   if (!upgraded) {
     return undefined
@@ -76,10 +78,10 @@ export const versionChangeMap = (
  * project's name and the file's path within the project.
  */
 const upgradedFileProfiledPaths = (
-  input: FunctionInput,
+  input: FunctionInput | AggregatedHeapSnapshot,
 ): Map<string, string> => {
   const profiledPaths = new Map<string, string>()
-  for (const { location } of input.functions) {
+  for (const { location } of locatedEntitiesOf(input)) {
     const upgradedFile = upgradedFileAt(location)
     if (upgradedFile) {
       profiledPaths.set(

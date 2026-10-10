@@ -5,12 +5,14 @@ import type { Evaluation, Scores } from './score.ts'
 
 /**
  * Prints a row per scored evaluation, and a total of the printed rows, as one
- * table of every function's scores, one of the scores by position, and one of
- * the executing lines' scores.
+ * table of every entity's scores, one of the scores by position, and one of
+ * the executing lines' scores when any line was scored. {@link entities}
+ * names what the rows count.
  */
 export const printTable = (
   name: string,
   rows: Map<string, Evaluation>,
+  entities: string,
 ): void => {
   // A pair whose functions have no positions scores nothing.
   const scored = [...rows]
@@ -32,9 +34,13 @@ export const printTable = (
     ])}`,
   )
   for (const [title, header, scoresOf] of [
-    [`by position`, `functions`, ({ byPosition }) => byPosition],
+    [`by position`, entities, ({ byPosition }) => byPosition],
     [`lines`, `lines`, ({ lines }) => lines],
   ] as const satisfies [string, string, (evaluation: Evaluation) => Scores][]) {
+    const { count } = scoresOf(total)
+    if (count.expected === 0 && count.predicted === 0) {
+      continue
+    }
     console.log(
       `\n${name}, ${title}\n\n${formatTable(printed, [
         {

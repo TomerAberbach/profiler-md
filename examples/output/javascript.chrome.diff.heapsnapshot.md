@@ -79,6 +79,69 @@ Constructors with the largest decrease in self size.
 | removed | -60 B | <0.1% → 0.0% | 60 B → 0 B |         1 → 0 | `Float32Array` | `<unknown>` |
 |     ~0% | -16 B |  1.8% → 1.9% |     58 KiB | 3,706 → 3,705 | `Array`        | `<unknown>` |
 
+#### Instances
+
+Instances with the largest change in contribution to each constructor's self size.
+
+##### `system / ExternalStringData` (`<unknown>`)
+
+|  Change |        Delta |            % |          Size | Instances | Path                                                                    |
+| ------: | -----------: | -----------: | ------------: | --------: | ----------------------------------------------------------------------- |
+|     new | +546.312 KiB | 0.0% → 98.5% | 0 B → 546 KiB |     0 → 1 | `.2 / backing_store // https://d3js.org v7.9.0 Copyright 2010-2023 Mi…` |
+| removed | -546.169 KiB | 98.5% → 0.0% | 546 KiB → 0 B |     1 → 0 | `.2 / backing_store // https://d3js.org v7.8.5 Copyright 2010-2023 Mi…` |
+| removed |        -24 B | <0.1% → 0.0% |    24 B → 0 B |     1 → 0 | `.1 / backing_store // https://d3js.org v7.8.5 Copyright 2010-2023 Mi…` |
+|     new |        +24 B | 0.0% → <0.1% |    0 B → 24 B |     0 → 1 | `.1 / backing_store // https://d3js.org v7.9.0 Copyright 2010-2023 Mi…` |
+
+##### `ww` (`node_modules/d3/dist/d3.min.js:2:216042`)
+
+| Change | Delta |             % |       Size | Instances | Path        |
+| -----: | ----: | ------------: | ---------: | --------: | ----------- |
+|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |     0 → 1 | `(GC root)` |
+
+##### `system / JSArrayBufferData` (`<unknown>`)
+
+|  Change |        Delta |            % |          Size | Instances | Path                                                                      |
+| ------: | -----------: | -----------: | ------------: | --------: | ------------------------------------------------------------------------- |
+| removed | -102.621 KiB | 96.7% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context` |
+
+##### `system / Context` (`<unknown>`)
+
+|  Change |  Delta |             % |                Size | Instances | Path                                                                                      |
+| ------: | -----: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------- |
+|   -9.8% | -608 B | 41.0% → 37.3% | 6.08 KiB → 5.49 KiB |   61 → 40 | `(GC root)`                                                                               |
+|     new | +576 B |   0.0% → 3.8% |         0 B → 576 B |    0 → 20 | `.d3 Window / http://127.0.0.1:52789`                                                     |
+| removed |  -48 B |   0.3% → 0.0% |          48 B → 0 B |     1 → 0 | `.previous system / Context`                                                              |
+| removed |  -36 B |   0.2% → 0.0% |          36 B → 0 B |     1 → 0 | `.context center (node_modules/d3/dist/d3.min.js:2:637) ← .bisectCenter Object`           |
+| removed |  -36 B |   0.2% → 0.0% |          36 B → 0 B |     1 → 0 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateCool Object` |
+
+##### `Float32Array` (`<unknown>`)
+
+|  Change | Delta |             % |       Size | Instances | Path                  |
+| ------: | ----: | ------------: | ---------: | --------: | --------------------- |
+| removed | -60 B | 100.0% → 0.0% | 60 B → 0 B |     1 → 0 | `.e system / Context` |
+
+##### `xw` (`node_modules/d3/dist/d3.min.js:2:215993`)
+
+|  Change | Delta |             % |       Size | Instances | Path        |
+| ------: | ----: | ------------: | ---------: | --------: | ----------- |
+| removed | -56 B | 100.0% → 0.0% | 56 B → 0 B |     1 → 0 | `(GC root)` |
+
+##### `ArrayBuffer` (`<unknown>`)
+
+|  Change | Delta |           % |       Size | Instances | Path                                         |
+| ------: | ----: | ----------: | ---------: | --------: | -------------------------------------------- |
+| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float32Array ← .e system / Context` |
+
+##### `Array` (`<unknown>`)
+
+| Change | Delta |    % |          Size | Instances | Path                                                                                                                                                                                    |
+| -----: | ----: | ---: | ------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -6.2% | -16 B | 0.4% | 260 B → 244 B |   11 → 10 | `(GC root)`                                                                                                                                                                             |
+|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[39] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[40] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[41] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[42] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
@@ -154,6 +217,115 @@ Constructors with the largest decrease in retained size.
 |  Change |       Delta |           % |          Size | Instances | Constructor    | Location    |
 | ------: | ----------: | ----------: | ------------: | --------: | -------------- | ----------- |
 | removed | -102.73 KiB | 3.2% → 0.0% | 103 KiB → 0 B |     1 → 0 | `Float32Array` | `<unknown>` |
+
+#### Instances
+
+Instances with the largest change in contribution to each constructor's retained size.
+
+##### `Window / http://127.0.0.1:52789` (`<unknown>`)
+
+|  Change |       Delta |      % |              Size | Instances | Path        |
+| ------: | ----------: | -----: | ----------------: | --------: | ----------- |
+| +136.7% | +885.71 KiB | 100.0% | 648 KiB → 1.5 MiB |         1 | `(GC root)` |
+
+##### `Object` (`<unknown>`)
+
+|  Change |        Delta |             % |              Size | Instances | Path                                                                                                              |
+| ------: | -----------: | ------------: | ----------------: | --------: | ----------------------------------------------------------------------------------------------------------------- |
+|     new | +260.562 KiB |  0.0% → 23.9% |     0 B → 261 KiB |     0 → 1 | `.d3 Window / http://127.0.0.1:52789`                                                                             |
+|  -69.5% | -260.253 KiB | 34.4% → 10.5% | 375 KiB → 114 KiB |   51 → 50 | `(GC root)`                                                                                                       |
+| removed |  -10.179 KiB |   0.9% → 0.0% |    10.2 KiB → 0 B |     1 → 0 | `.prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                       |
+|     new |  +10.179 KiB |   0.0% → 0.9% |    0 B → 10.2 KiB |     0 → 1 | `.prototype Lu (node_modules/d3/dist/d3.min.js:2:94618) ← .Delaunay Object ← .d3 Window / http://127.0.0.1:52789` |
+|   +0.3% |   +2.308 KiB |         64.4% | 701 KiB → 703 KiB |       201 | `.__retained Window / http://127.0.0.1:52789`                                                                     |
+
+##### `SVGGElement` (`<unknown>`)
+
+|  Change |      Delta |             % |             Size | Instances | Path                                                                                              |
+| ------: | ---------: | ------------: | ---------------: | --------: | ------------------------------------------------------------------------------------------------- |
+|   +2.3% | +2.308 KiB | 20.9% → 21.3% | 99 KiB → 101 KiB |         1 | `[11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+| removed |      -16 B |  <0.1% → 0.0% |       16 B → 0 B |     1 → 0 | `[1] InternalNode ← [1] InternalNode ← [1] InternalNode`                                          |
+|     new |      +16 B |  0.0% → <0.1% |       0 B → 16 B |     0 → 1 | `[9] InternalNode ← [1] InternalNode ← [1] InternalNode`                                          |
+
+##### `SVGPathElement` (`<unknown>`)
+
+|  Change |      Delta |             % |                Size | Instances | Path                                                                                              |
+| ------: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------- |
+|   +2.7% | +2.308 KiB | 82.6% → 82.9% | 85.1 KiB → 87.5 KiB |        21 | `[11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+| removed |      -16 B |  <0.1% → 0.0% |          16 B → 0 B |     1 → 0 | `[12] InternalNode ← [1] InternalNode ← [1] InternalNode`                                         |
+|     new |      +16 B |  0.0% → <0.1% |          0 B → 16 B |     0 → 1 | `[10] InternalNode ← [1] InternalNode ← [1] InternalNode`                                         |
+
+##### `SVGSVGElement` (`<unknown>`)
+
+|  Change |      Delta |            % |              Size | Instances | Path                                                                         |
+| ------: | ---------: | -----------: | ----------------: | --------: | ---------------------------------------------------------------------------- |
+|   +0.5% | +2.308 KiB |        99.8% | 480 KiB → 482 KiB |         1 | `[0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+| removed |      -16 B | <0.1% → 0.0% |        16 B → 0 B |     1 → 0 | `[5] InternalNode ← [1] InternalNode ← [1] InternalNode`                     |
+|     new |      +16 B | 0.0% → <0.1% |        0 B → 16 B |     0 → 1 | `[4] InternalNode ← [1] InternalNode ← [1] InternalNode`                     |
+
+##### `Array` (`<unknown>`)
+
+|  Change |      Delta |           % |           Size | Instances | Path                                                                                                                                                      |
+| ------: | ---------: | ----------: | -------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `.t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object`                                       |
+| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `.t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`                                        |
+| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `.t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`                                         |
+| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `.t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object`                                       |
+|     new | +6.023 KiB | 0.0% → 1.0% | 0 B → 6.02 KiB |     0 → 1 | `.t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186206) ← .interpolateViridis Object ← .d3 Window / http://127.0.0.1:52789` |
+
+##### `ww` (`node_modules/d3/dist/d3.min.js:2:216042`)
+
+| Change |  Delta |             % |        Size | Instances | Path        |
+| -----: | -----: | ------------: | ----------: | --------: | ----------- |
+|    new | +232 B | 0.0% → 100.0% | 0 B → 232 B |     0 → 1 | `(GC root)` |
+
+##### `system / ExternalStringData` (`<unknown>`)
+
+|  Change |        Delta |            % |          Size | Instances | Path                                                                    |
+| ------: | -----------: | -----------: | ------------: | --------: | ----------------------------------------------------------------------- |
+|     new | +546.312 KiB | 0.0% → 98.5% | 0 B → 546 KiB |     0 → 1 | `.2 / backing_store // https://d3js.org v7.9.0 Copyright 2010-2023 Mi…` |
+| removed | -546.169 KiB | 98.5% → 0.0% | 546 KiB → 0 B |     1 → 0 | `.2 / backing_store // https://d3js.org v7.8.5 Copyright 2010-2023 Mi…` |
+| removed |        -24 B | <0.1% → 0.0% |    24 B → 0 B |     1 → 0 | `.1 / backing_store // https://d3js.org v7.8.5 Copyright 2010-2023 Mi…` |
+|     new |        +24 B | 0.0% → <0.1% |    0 B → 24 B |     0 → 1 | `.1 / backing_store // https://d3js.org v7.9.0 Copyright 2010-2023 Mi…` |
+
+##### `Window` (`<unknown>`)
+
+| Change | Delta |     % |     Size | Instances | Path        |
+| -----: | ----: | ----: | -------: | --------: | ----------- |
+|  +0.1% | +40 B | 73.5% | 54.5 KiB |         6 | `(GC root)` |
+
+##### `system / Context` (`<unknown>`)
+
+|  Change |        Delta |             % |              Size | Instances | Path                                                                                          |
+| ------: | -----------: | ------------: | ----------------: | --------: | --------------------------------------------------------------------------------------------- |
+|  -26.5% | -104.886 KiB | 87.9% → 83.9% | 396 KiB → 291 KiB |   61 → 40 | `(GC root)`                                                                                   |
+| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
+| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
+| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
+| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object` |
+
+##### `Float32Array` (`<unknown>`)
+
+|  Change |       Delta |             % |          Size | Instances | Path                  |
+| ------: | ----------: | ------------: | ------------: | --------: | --------------------- |
+| removed | -102.73 KiB | 100.0% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.e system / Context` |
+
+##### `ArrayBuffer` (`<unknown>`)
+
+|  Change |        Delta |            % |          Size | Instances | Path                                         |
+| ------: | -----------: | -----------: | ------------: | --------: | -------------------------------------------- |
+| removed | -102.671 KiB | 94.8% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.buffer Float32Array ← .e system / Context` |
+
+##### `system / JSArrayBufferData` (`<unknown>`)
+
+|  Change |        Delta |            % |          Size | Instances | Path                                                                      |
+| ------: | -----------: | -----------: | ------------: | --------: | ------------------------------------------------------------------------- |
+| removed | -102.621 KiB | 96.7% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context` |
+
+##### `xw` (`node_modules/d3/dist/d3.min.js:2:215993`)
+
+|  Change |  Delta |             % |        Size | Instances | Path        |
+| ------: | -----: | ------------: | ----------: | --------: | ----------- |
+| removed | -232 B | 100.0% → 0.0% | 232 B → 0 B |     1 → 0 | `(GC root)` |
 
 ## Largest functions
 

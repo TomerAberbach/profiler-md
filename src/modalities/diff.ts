@@ -38,7 +38,7 @@ type DiffableEntry = {
 export type EntryDiff<Entry> = Diff<Entry> & { byPosition: boolean }
 
 /** The keys pairing an entry across a diff's two sides. */
-type DiffedEntryKeys = {
+export type DiffedEntryKeys = {
   /** The key built from the entry's own name and location. */
   ownNameAndLocation: string
 
@@ -76,7 +76,7 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
  * The result keeps the first pass's order, with a leftover pair in its base
  * entry's position, so the second pass reorders nothing it does not pair.
  */
-const matchDiffedEntries = <Entry extends DiffableEntry>(
+export const matchDiffedEntries = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
   currentEntries: Entry[],
   baseEntryKeys: (entry: Entry) => DiffedEntryKeys,

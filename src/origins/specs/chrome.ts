@@ -1,6 +1,7 @@
 import { protocolCategory } from '../categorize.ts'
 import {
   javaScriptConstructorCategory,
+  javaScriptMatchHeapSnapshotEdgeName,
   v8JavaScriptCategory,
 } from '../javascript.ts'
 import { hasProtocol } from '../spec.ts'
@@ -33,6 +34,7 @@ export const chromeOriginSpec = {
     protocolCategory(entry, `third-party`, [EXTENSION_PROTOCOL]) ??
     `ours`,
   categorizeHeapSnapshotConstructor: javaScriptConstructorCategory,
+  matchHeapSnapshotEdgeName: javaScriptMatchHeapSnapshotEdgeName,
 } as const satisfies OriginSpec
 
 /** The protocol a browser extension's injected scripts load from. */

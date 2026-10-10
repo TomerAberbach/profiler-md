@@ -138,6 +138,13 @@ export type OriginSpec = {
   matchEntry?: (entry: DeepReadonly<ProfileEntry>) => EntryMatch | undefined
 
   /**
+   * Returns the name to match a heap snapshot property edge by across diffed
+   * snapshots, with a run-varying identifier the program writes into the
+   * property's name stripped, or `undefined` for a name with none.
+   */
+  matchHeapSnapshotEdgeName?: (name: string) => string | undefined
+
+  /**
    * Normalizes a raw stack frame to a canonical form.
    *
    * Most commonly it splits the frame's display name, source, and optional

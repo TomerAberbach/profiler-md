@@ -70,6 +70,15 @@ export const matchEntryForOrigin = (
   return spec.matchEntry?.(entry)
 }
 
+/** @see {@link OriginSpec.matchHeapSnapshotEdgeName} */
+export const matchHeapSnapshotEdgeNameForOrigin = (
+  name: string,
+  origin: Origin,
+): string => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.matchHeapSnapshotEdgeName?.(name) ?? name
+}
+
 export const functionIdentityForContext = ({
   origin,
 }: ProfileToMdContext): FunctionIdentity => {

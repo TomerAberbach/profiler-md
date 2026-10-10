@@ -333,6 +333,48 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`labels a field or static field after a null one by its own name`, () => {
+    const md = convert(
+      makeHprof({
+        classes: [
+          {
+            id: HOLDER_CLASS,
+            name: `com/example/Registry`,
+            staticFields: { EMPTY: 0, INSTANCES: ELEMENTS },
+          },
+          { id: OBJECT_ARRAY_CLASS, name: `[Ljava/lang/Object;` },
+          {
+            id: ENTRY_CLASS,
+            name: `com/example/Entry`,
+            fields: [
+              { name: `empty`, type: HPROF_OBJECT },
+              { name: `held`, type: HPROF_OBJECT },
+            ],
+          },
+          { id: STRING_CLASS, name: `com/example/Held` },
+        ],
+        instances: [
+          {
+            id: ENTRY,
+            classId: ENTRY_CLASS,
+            fields: { empty: 0, held: STRING },
+          },
+          { id: STRING, classId: STRING_CLASS },
+        ],
+        objectArrays: [
+          { id: ELEMENTS, classId: OBJECT_ARRAY_CLASS, elements: [ENTRY] },
+        ],
+        roots: [{ id: HOLDER_CLASS, tag: HPROF_ROOT_STICKY_CLASS }],
+      }),
+    )
+
+    expect(retainerPaths(md, `com.example.Held`)).toEqual([
+      [
+        `.held com.example.Entry ← [0] java.lang.Object[] ← .INSTANCES class com.example.Registry`,
+      ],
+    ])
+  })
+
   test(`reads a dump written with 32-bit identifiers`, () => {
     const md = convert(
       makeHprof({

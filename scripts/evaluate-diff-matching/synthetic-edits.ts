@@ -6,7 +6,7 @@ import { positionOf, sourcePositionOf } from './position.ts'
 import type { Position, PositionMap } from './position.ts'
 
 /** Returns where an edit moved a position, or `undefined` if it deleted it. */
-type Edit = (position: Position) => Position | undefined
+export type Edit = (position: Position) => Position | undefined
 
 /**
  * Applies seeded edits to one source reference of the current side, picked
@@ -90,13 +90,28 @@ const pickEditedSource = (
       sources.add(source)
     }
   }
-  const sorted = [...sources].sort()
+  return pickRandom(sources, random)
+}
+
+/** Picks one of {@link values} by {@link random}, in sorted order. */
+export const pickRandom = (
+  values: Set<string>,
+  random: () => number,
+): string | undefined => {
+  const sorted = [...values].sort()
   return sorted.length === 0
     ? undefined
     : sorted[Math.floor(random() * sorted.length)]
 }
 
-const randomEdits = (positions: Position[], random: () => number): Edit => {
+/**
+ * Composes a few seeded edits between or within the lines of {@link positions}:
+ * lines inserted, lines deleted between two of them, or columns shifted on one.
+ */
+export const randomEdits = (
+  positions: Position[],
+  random: () => number,
+): Edit => {
   const edits: Edit[] = []
   const move: Edit = position =>
     edits.reduce<Position | undefined>(

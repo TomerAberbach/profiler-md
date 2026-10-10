@@ -4,6 +4,7 @@ import type {
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
   NodeAdjacencyGraph,
+  RetainerEdge,
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../modalities/heap-snapshot/index.ts'
 import { FormatParseError } from '../error.ts'
@@ -39,7 +40,7 @@ export type JSCHeapSnapshot = {
    *
    * Each consecutive 4 integers represent a single edge record:
    * `[fromNodeId, toNodeId, edgeType, edgeData]`, where `edgeData` depends on
-   * the edge type (see `formatEdgeLabel`).
+   * the edge type (see `retainerEdge`).
    */
   edges: number[]
 
@@ -83,14 +84,18 @@ export const parseJSCHeapSnapshot = (
       selfSizeOf: nodeOrdinal =>
         nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_SIZE_OFFSET]!,
       nodes: jscSnapshotNodes(snapshot, recordTally),
-      formatEdgeLabel: (retainerOrdinal, edgeIndex) =>
-        formatRetainerEdgeLabel(
-          retainerOrdinal,
+      retainerStepOf: (retainerOrdinal, edgeIndex) => ({
+        edge: retainerEdge(
           edgeIndex,
           snapshot,
           indexEdgeType,
           internalEdgeType,
         ),
+        retainer: {
+          id: retainerOrdinal,
+          name: formatNodeLabel(retainerOrdinal, snapshot),
+        },
+      }),
       formatNodeLabel: nodeOrdinal => formatNodeLabel(nodeOrdinal, snapshot),
       isInternalNode: nodeOrdinal => isInternalNode(nodeOrdinal, snapshot),
       unresolvedCategoryOf: nodeOrdinal =>
@@ -355,44 +360,23 @@ const computeAdjacencyLists = (
 }
 
 /**
- * Formats one step of a retainer path: the edge's label, when it has one,
- * followed by the retaining node's label.
- */
-const formatRetainerEdgeLabel = (
-  retainerOrdinal: number,
-  edgeIndex: number,
-  snapshot: JSCHeapSnapshot,
-  indexEdgeType: number,
-  internalEdgeType: number,
-): string => {
-  const edgeLabel = formatEdgeLabel(
-    edgeIndex,
-    snapshot,
-    indexEdgeType,
-    internalEdgeType,
-  )
-  const retainerLabel = formatNodeLabel(retainerOrdinal, snapshot)
-  return edgeLabel ? `${edgeLabel} ${retainerLabel}` : retainerLabel
-}
-
-/**
  * The edge's fourth field is type-dependent data: an `edgeNames` index for
  * `Property`/`Variable` edges, the array index for `Index` edges, and unused
- * for `Internal` edges, which carry no name and format as the empty string.
+ * for `Internal` edges, which carry no name.
  */
-const formatEdgeLabel = (
+const retainerEdge = (
   edgeIndex: number,
   { edges, edgeNames }: JSCHeapSnapshot,
   indexEdgeType: number,
   internalEdgeType: number,
-): string => {
+): RetainerEdge => {
   const edgeType = edges[edgeIndex + EDGE_TYPE_OFFSET]!
   const edgeData = edges[edgeIndex + EDGE_DATA_OFFSET]!
   return edgeType === internalEdgeType
-    ? ``
+    ? { type: `unlabeled` }
     : edgeType === indexEdgeType
-      ? `[${edgeData}]`
-      : `.${edgeNames[edgeData]!}`
+      ? { type: `element`, index: edgeData }
+      : { type: `property`, name: edgeNames[edgeData]! }
 }
 
 const formatNodeLabel = (

@@ -216,7 +216,7 @@ const scorePair = (
  * counterpart, whether the diff predicted one, and whether the prediction is
  * the expected counterpart.
  */
-const addOutcome = (
+export const addOutcome = (
   { count, weight }: Scores,
   {
     hasExpected,

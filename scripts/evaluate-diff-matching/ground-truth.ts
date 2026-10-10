@@ -4,7 +4,11 @@ import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import { prefetch, readDownload } from './fetch.ts'
 import { diffFile } from './file-diff.ts'
 import type { FileDiff } from './file-diff.ts'
-import { committedPairs, functionInputPairs } from './inputs.ts'
+import {
+  committedPairs,
+  locatedEntitiesOf,
+  scoredInputPairs,
+} from './inputs.ts'
 import {
   pinProblems,
   UPGRADED_PROJECTS,
@@ -153,9 +157,9 @@ const profiledUpgradedFiles = (
     if (!scripts.has(parseExampleFilename(pair.base).language)) {
       continue
     }
-    for (const [base] of functionInputPairs(pair, options)) {
-      for (const func of base.functions) {
-        const upgradedFile = upgradedFileAt(func.location)
+    for (const { base } of scoredInputPairs(pair, options)) {
+      for (const { location } of locatedEntitiesOf(base)) {
+        const upgradedFile = upgradedFileAt(location)
         if (upgradedFile?.project.download) {
           const paths = projectToPaths.get(upgradedFile.project) ?? new Set()
           paths.add(upgradedFile.path)

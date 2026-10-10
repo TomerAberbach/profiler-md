@@ -171,9 +171,9 @@ profiler-md
 │   │   ├── index.ts              # Update examples/output/ from examples/input/ on a worker thread pool
 │   │   └── worker.ts             # Converts one example per message, then checks or writes it
 │   ├── check-input-privacy.ts    # Fails an input containing data about the generating machine (addresses, cookies, environment, process list)
-│   ├── evaluate-diff-matching/   # Score how a diff pairs functions against ground truth: same code, version changes, and synthetic edits
+│   ├── evaluate-diff-matching/   # Score how a diff pairs functions and instance groups against ground truth: same code, version changes, and synthetic edits
 │   │   ├── index.ts              # Entry point: scores every committed pair per ground truth kind, or updates or checks ground-truth.json
-│   │   ├── inputs.ts             # Committed base/current pairs and their aggregated inputs with functions
+│   │   ├── inputs.ts             # Committed base/current pairs and their aggregated inputs with functions or heap snapshots
 │   │   ├── position.ts           # Function positions and the base-to-current position map type
 │   │   ├── upgraded-projects.ts  # Projects a pair profiles at two versions, their version pins, and how to fetch their files
 │   │   ├── fetch.ts              # Downloads cached in node_modules/.cache/evaluate-diff-matching/
@@ -184,6 +184,7 @@ profiler-md
 │   │   ├── version-change.ts     # The position map of a pair that profiles two versions of an upgraded project
 │   │   ├── synthetic-edits.ts    # Seeded edits to one source reference of the current side, and the position map they produce
 │   │   ├── score.ts              # Pairs two inputs' functions as a diff does and scores the pairs against a position map
+│   │   ├── instance-groups.ts    # Pairs two heap snapshots' instance groups as a diff does, scores the pairs, and applies synthetic edits to their retainer paths
 │   │   └── table.ts              # Prints a table of scores per pair or origin
 │   ├── helpers/
 │   │   └── table.ts              # Prints an evaluation script's scores as an aligned text table
@@ -248,7 +249,7 @@ pnpm categories
 # Report the function names a candidate rule matches, by their category today
 pnpm categories --rule '^LinearScan'
 
-# Score how a diff pairs functions against ground truth
+# Score how a diff pairs functions and instance groups against ground truth
 pnpm evaluate-diff-matching
 # Rewrite the version-change ground truth after regenerating inputs or changing a pin
 pnpm evaluate-diff-matching --update

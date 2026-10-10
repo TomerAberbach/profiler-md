@@ -15,10 +15,11 @@ import type {
   AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotString,
   NodeCategoryStats,
+  RetainerHop,
 } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
-import type { HeapSnapshotNodeCategory } from './type.ts'
+import type { HeapSnapshotNodeCategory, RetainerStep } from './type.ts'
 
 /**
  * Builds a node adjacency graph from `[fromOrdinal, toOrdinal]` edges. A node's
@@ -76,12 +77,19 @@ export const makeNodeAdjacencyGraph = (
 
 export const makeAggregatedHeapSnapshot = ({
   context = { format: `v8-heap-snapshot`, origin: `node` },
-  nodeCount = 0,
   edgeCount = 0,
   nodeCategoryToStats = new Map<HeapSnapshotNodeCategory, NodeCategoryStats>(),
   constructors = [],
   functions = [],
   strings = [],
+  nodeCount = Math.max(
+    0,
+    ...[...constructors, ...functions, ...strings].map(({ id }) => id + 1),
+    ...constructors.flatMap(({ instances }) =>
+      instances.map(({ id }) => id + 1),
+    ),
+    ...functions.flatMap(({ instanceIds }) => instanceIds.map(id => id + 1)),
+  ),
   totalSize = [...constructors, ...functions, ...strings].reduce(
     (totalSize, node) => totalSize + node.selfSize,
     0,
@@ -105,9 +113,30 @@ export const makeAggregatedHeapSnapshot = ({
   constructors,
   functions,
   strings,
+  retainerHopOf: () => undefined,
   retainerPathOf: () => `(GC root)`,
   retainedNodesOf: () => [],
 })
+
+/**
+ * The retainer hops of nodes at the given retainer paths, by node ordinal. Each
+ * step's retainer is a node of its own, numbered after the paths' nodes.
+ */
+export const makeRetainerHops = (
+  paths: readonly (readonly RetainerStep[])[],
+): Pick<AggregatedHeapSnapshot, `nodeCount` | `retainerHopOf`> => {
+  const hops: RetainerHop[] = []
+  let nodeCount = paths.length
+  for (const [nodeOrdinal, steps] of paths.entries()) {
+    let retainedOrdinal = nodeOrdinal
+    for (const step of steps) {
+      const dominatorOrdinal = nodeCount++
+      hops[retainedOrdinal] = { dominatorOrdinal, step, internal: false }
+      retainedOrdinal = dominatorOrdinal
+    }
+  }
+  return { nodeCount, retainerHopOf: nodeOrdinal => hops[nodeOrdinal] }
+}
 
 export const makeSourceLocation = (
   url: string,
