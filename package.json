@@ -85,6 +85,7 @@
     "categories": "node scripts/categories.ts",
     "evaluate-diff-matching": "node scripts/evaluate-diff-matching/index.ts",
     "check-diff-matching": "node scripts/evaluate-diff-matching/index.ts --check",
+    "evaluate-call-tree": "node scripts/evaluate-call-tree/index.ts",
     "build": "tsdown && node scripts/build-man.ts",
     "generate-inputs": "./scripts/generate-inputs",
     "update-readme": "node scripts/update-readme.ts",
