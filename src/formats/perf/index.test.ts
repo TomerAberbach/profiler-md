@@ -146,7 +146,7 @@ describe(`parse`, () => {
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x1234`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
       ],
     ])
@@ -278,7 +278,7 @@ describe(`convert`, () => {
           Time: `2.0ms`,
           Samples: `2`,
           Function: `0x1234`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
       ],
     ])
@@ -289,14 +289,14 @@ describe(`convert`, () => {
           Time: `2.0ms`,
           Samples: `2`,
           Function: `0x1234`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
         {
           '%': `100.0%`,
           Time: `2.0ms`,
           Samples: `2`,
           Function: `0x5678`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
       ],
     ])
@@ -323,7 +323,7 @@ describe(`convert`, () => {
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x1234`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
       ],
     ])
@@ -479,7 +479,7 @@ describe(`convert`, () => {
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x2000`,
-          Location: `usr/lib/libnew.so`,
+          Location: `/usr/lib/libnew.so`,
         },
       ],
     ])
@@ -528,21 +528,21 @@ describe(`convert`, () => {
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x1234`,
-          Location: `bin/first`,
+          Location: `/bin/first`,
         },
         {
           '%': `33.3%`,
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x1234`,
-          Location: `bin/second`,
+          Location: `/bin/second`,
         },
         {
           '%': `33.3%`,
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x1234`,
-          Location: `bin/third`,
+          Location: `/bin/third`,
         },
       ],
     ])
@@ -600,7 +600,7 @@ describe(`convert`, () => {
           Time: `2.0ms`,
           Samples: `2`,
           Function: `0x1234`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
         {
           '%': `25.0%`,
@@ -712,7 +712,7 @@ describe(`convert`, () => {
           Time: `2.0ms`,
           Samples: `2`,
           Function: `0x1234`,
-          Location: `src/workload`,
+          Location: `/src/workload`,
         },
       ],
     ])
@@ -755,7 +755,7 @@ describe(`convert`, () => {
           Time: `1.0ms`,
           Samples: `1`,
           Function: `0x1000`,
-          Location: `lib/modules/6.8.0/kernel/fs/ext4/ext4.ko.zst`,
+          Location: `/lib/modules/6.8.0/kernel/fs/ext4/ext4.ko.zst`,
         },
         {
           '%': `50.0%`,

@@ -272,7 +272,7 @@ describe(`convert`, () => {
           Time: `10.0ms`,
           Samples: `1`,
           Function: `loads`,
-          Location: `../usr/lib/python3.11/json/decoder.py`,
+          Location: `/usr/lib/python3.11/json/decoder.py`,
         },
       ],
     ])

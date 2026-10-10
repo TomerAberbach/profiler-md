@@ -55,10 +55,70 @@ test(`file URL multiple levels up from baseURL`, () => {
   )
 })
 
-test(`file URL with no common prefix beyond root`, () => {
+test(`file URL sharing only the root with baseURL formats as absolute`, () => {
   expect(format({ url: `file:///other/file.ts`, baseURL: `/project` })).toBe(
-    `../other/file.ts`,
+    `/other/file.ts`,
   )
+})
+
+test(`file URL under the root baseURL formats as absolute`, () => {
+  expect(format({ url: `file:///project/file.ts`, baseURL: `/` })).toBe(
+    `/project/file.ts`,
+  )
+})
+
+test(`Windows file URL sharing only the drive with baseURL formats as absolute`, () => {
+  expect(
+    format({
+      url: `file:///C:/Windows/System32/ntdll.dll`,
+      baseURL: `file:///C:/project/`,
+    }),
+  ).toBe(`/C:/Windows/System32/ntdll.dll`)
+})
+
+test(`Windows file URL on another drive than baseURL formats as absolute`, () => {
+  expect(
+    format({ url: `file:///D:/file.ts`, baseURL: `file:///C:/project/` }),
+  ).toBe(`/D:/file.ts`)
+})
+
+test(`Windows file URL relative to baseURL on the same drive`, () => {
+  expect(
+    format({
+      url: `file:///C:/project/lib/file.ts`,
+      baseURL: `file:///C:/project/src/`,
+    }),
+  ).toBe(`../lib/file.ts`)
+})
+
+test(`UNC file URL sharing only the share with baseURL formats as absolute`, () => {
+  expect(
+    format({
+      url: `file://server/share/b/file.ts`,
+      baseURL: `file://server/share/a/`,
+    }),
+  ).toBe(`/share/b/file.ts`)
+})
+
+test(`file URL formatted as absolute keeps its query`, () => {
+  expect(
+    format({ url: `file:///srv/load.php?modules=a`, baseURL: `/project` }),
+  ).toBe(`/srv/load.php?modules=a`)
+})
+
+test(`http URL going up more than two levels formats as absolute`, () => {
+  expect(
+    format({
+      url: `http://localhost/x.js`,
+      baseURL: `http://localhost/a/b/c/`,
+    }),
+  ).toBe(`http://localhost/x.js`)
+})
+
+test(`http URL sharing only the root with baseURL stays relative`, () => {
+  expect(
+    format({ url: `http://localhost/x/y.js`, baseURL: `http://localhost/a/` }),
+  ).toBe(`../x/y.js`)
 })
 
 test(`file URL going up at most two levels stays relative`, () => {
@@ -67,7 +127,7 @@ test(`file URL going up at most two levels stays relative`, () => {
   )
 })
 
-test(`file URL going up more than two levels renders absolute`, () => {
+test(`file URL going up more than two levels formats as absolute`, () => {
   expect(format({ url: `file:///a/file.ts`, baseURL: `/a/b/c/d` })).toBe(
     `/a/file.ts`,
   )
@@ -413,6 +473,29 @@ describe(`commonAncestorDirectoryURL`, () => {
         `file:///project/lib/b.ts`,
       ],
       `file:///project/`,
+    ],
+    [
+      `the drive root when Windows URLs diverge below it`,
+      [`file:///C:/a/x.ts`, `file:///C:/b/y.ts`],
+      `file:///C:/`,
+    ],
+    [
+      `the dominant drive's directory across Windows drives`,
+      [
+        `file:///D:/tools/x.ts`,
+        `file:///C:/project/src/a.ts`,
+        `file:///C:/project/lib/b.ts`,
+      ],
+      `file:///C:/project/`,
+    ],
+    [
+      `the dominant share's directory across UNC shares`,
+      [
+        `file://server/other/x.ts`,
+        `file://server/share/project/a.ts`,
+        `file://server/share/project/b.ts`,
+      ],
+      `file://server/share/project/`,
     ],
   ])(`returns %s`, (_label, urls, expected) => {
     expect(

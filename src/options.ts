@@ -173,6 +173,10 @@ export type ProfileToMdOptions = {
    * of the input's entries with absolute locations (`file:`, `http(s):`, etc.),
    * across all profiles of an input and across both sides of a diff.
    *
+   * A path stays absolute when it goes up more than two directories from the
+   * base URL. A `file:` path also stays absolute when it shares no directory
+   * with the base URL, including when it is on another Windows drive.
+   *
    * A value of `null` leaves URLs absolute.
    *
    * Defaults to `process.cwd()` when available. Otherwise leaves paths
