@@ -219,6 +219,18 @@ test.each([
   },
 )
 
+test.each([
+  [`/private/tmp/project/a.ts`, `/tmp/project`, `a.ts`],
+  [`/tmp/project/a.ts`, `/private/tmp/project`, `a.ts`],
+  [`/private/var/project/a.ts`, `/var/project`, `a.ts`],
+  [`/private/project/a.ts`, `/project`, `/private/project/a.ts`],
+])(
+  `macOS path %s under baseURL %s formats as %s`,
+  (path, baseURL, expected) => {
+    expect(formatPath({ path, baseURL })).toBe(expected)
+  },
+)
+
 test(`file path with empty segments under baseURL formats relative to it`, () => {
   expect(
     formatPath({
@@ -542,6 +554,19 @@ describe(`commonAncestorDirectoryURL`, () => {
         `file:///project/lib/b.ts`,
       ],
       `file:///project/`,
+    ],
+    [
+      `the shared directory of a macOS directory and its /private path`,
+      [`file:///tmp/project/src/a.ts`, `file:///private/tmp/project/lib/b.ts`],
+      `file:///tmp/project/`,
+    ],
+    [
+      `a /private directory spelled as its URLs spell it`,
+      [
+        `file:///private/var/project/src/a.ts`,
+        `file:///private/var/project/lib/b.ts`,
+      ],
+      `file:///private/var/project/`,
     ],
     [
       `the drive root when Windows URLs diverge below it`,
