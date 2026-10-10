@@ -6,6 +6,10 @@ built into the JDK since JDK 11, or
 [async-profiler](https://github.com/async-profiler/async-profiler), which also
 resolves native frames and works on older JDKs.
 
+JFR keeps only the innermost 64 frames of each stack trace by default, so a
+deeper stack loses its outermost callers. The JFR commands below raise the depth
+with `-XX:FlightRecorderOptions:stackdepth=2048`, which keeps the stacks whole.
+
 ## CPU profiling
 
 Periodically samples the call stack while on CPU. Useful for finding CPU hot
@@ -15,7 +19,7 @@ events for threads running native methods.
 ### Java Flight Recorder
 
 ```sh
-java -XX:StartFlightRecording=filename=cpu.jfr,settings=none,+jdk.ExecutionSample#enabled=true,+jdk.ExecutionSample#period=10ms,+jdk.NativeMethodSample#enabled=true,+jdk.NativeMethodSample#period=10ms -jar app.jar
+java -XX:FlightRecorderOptions:stackdepth=2048 -XX:StartFlightRecording=filename=cpu.jfr,settings=none,+jdk.ExecutionSample#enabled=true,+jdk.ExecutionSample#period=10ms,+jdk.NativeMethodSample#enabled=true,+jdk.NativeMethodSample#period=10ms -jar app.jar
 jfr summary cpu.jfr
 ```
 
@@ -89,10 +93,10 @@ variants; JFR offers two:
 
 ```sh
 # Heap allocation hot spots (jdk.ObjectAllocationSample, JDK 16+)
-java -XX:StartFlightRecording=filename=alloc.jfr,settings=none,+jdk.ObjectAllocationSample#enabled=true,+jdk.ObjectAllocationSample#throttle=150/s -jar app.jar
+java -XX:FlightRecorderOptions:stackdepth=2048 -XX:StartFlightRecording=filename=alloc.jfr,settings=none,+jdk.ObjectAllocationSample#enabled=true,+jdk.ObjectAllocationSample#throttle=150/s -jar app.jar
 
 # Live objects, for leak finding (jdk.OldObjectSample)
-java -XX:StartFlightRecording=filename=live.jfr,settings=none,+jdk.OldObjectSample#enabled=true,+jdk.OldObjectSample#stackTrace=true -jar app.jar
+java -XX:FlightRecorderOptions:stackdepth=2048 -XX:StartFlightRecording=filename=live.jfr,settings=none,+jdk.OldObjectSample#enabled=true,+jdk.OldObjectSample#stackTrace=true -jar app.jar
 ```
 
 JFR's native memory tracking (`-XX:NativeMemoryTracking`) reports usage by
@@ -168,7 +172,7 @@ Recorded as `jdk.JavaMonitorEnter` and `jdk.ThreadPark` events.
 ### Java Flight Recorder
 
 ```sh
-java -XX:StartFlightRecording=filename=lock.jfr,settings=none,+jdk.JavaMonitorEnter#enabled=true,+jdk.JavaMonitorEnter#threshold=10ms,+jdk.ThreadPark#enabled=true,+jdk.ThreadPark#threshold=10ms -jar app.jar
+java -XX:FlightRecorderOptions:stackdepth=2048 -XX:StartFlightRecording=filename=lock.jfr,settings=none,+jdk.JavaMonitorEnter#enabled=true,+jdk.JavaMonitorEnter#threshold=10ms,+jdk.ThreadPark#enabled=true,+jdk.ThreadPark#threshold=10ms -jar app.jar
 ```
 
 ### async-profiler
@@ -188,7 +192,7 @@ many other JVM events at once. JFR rotates the recording into chunks as it
 grows. `-XX:FlightRecorderOptions=maxchunksize=…` controls the threshold.
 
 ```sh
-java -XX:StartFlightRecording=filename=all.jfr,settings=profile,+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false -jar app.jar
+java -XX:FlightRecorderOptions:stackdepth=2048 -XX:StartFlightRecording=filename=all.jfr,settings=profile,+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false -jar app.jar
 jfr summary all.jfr
 ```
 

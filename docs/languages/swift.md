@@ -73,7 +73,7 @@ swiftc -O -g program.swift -o program -Xlinker --no-as-needed -Xlinker -ltcmallo
 
 ```sh
 # Generate heap profiles (written as <prefix>.0001.heap, .0002.heap, …)
-HEAPPROFILE=heap.prof ./program
+TCMALLOC_STACKTRACE_METHOD=libgcc HEAPPROFILE=heap.prof ./program
 
 # Convert a heap profile to pprof protobuf format
 pprof --proto ./program heap.prof.0001.heap > heap.pprof
@@ -81,14 +81,15 @@ pprof --proto ./program heap.prof.0001.heap > heap.pprof
 
 #### Environment variables
 
-| Variable                           | Default      | Description                                                                                   |
-| ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------- |
-| `HEAPPROFILE`                      | —            | Output filename prefix that enables heap profiling when set                                   |
-| `HEAP_PROFILE_ALLOCATION_INTERVAL` | `1073741824` | Dump a profile after every this many bytes allocated (default 1 GB)                           |
-| `HEAP_PROFILE_INUSE_INTERVAL`      | `104857600`  | Dump a profile each time the in-use high-water mark grows by this many bytes (default 100 MB) |
-| `HEAP_PROFILE_TIME_INTERVAL`       | `0`          | Dump a profile every this many seconds (disabled by default)                                  |
-| `HEAPPROFILESIGNAL`                | —            | Signal number to dump a profile on demand                                                     |
-| `HEAP_PROFILE_MMAP`                | `false`      | Also profile `mmap`/`mremap`/`sbrk` calls                                                     |
+| Variable                           | Default      | Description                                                                                                                                                                 |
+| ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `HEAPPROFILE`                      | —            | Output filename prefix that enables heap profiling when set                                                                                                                 |
+| `TCMALLOC_STACKTRACE_METHOD`       | —            | Stack unwinder. `libgcc` reads unwind tables, so it walks through libraries built without frame pointers, such as libc, where the frame-pointer walk ends in invalid frames |
+| `HEAP_PROFILE_ALLOCATION_INTERVAL` | `1073741824` | Dump a profile after every this many bytes allocated (default 1 GB)                                                                                                         |
+| `HEAP_PROFILE_INUSE_INTERVAL`      | `104857600`  | Dump a profile each time the in-use high-water mark grows by this many bytes (default 100 MB)                                                                               |
+| `HEAP_PROFILE_TIME_INTERVAL`       | `0`          | Dump a profile every this many seconds (disabled by default)                                                                                                                |
+| `HEAPPROFILESIGNAL`                | —            | Signal number to dump a profile on demand                                                                                                                                   |
+| `HEAP_PROFILE_MMAP`                | `false`      | Also profile `mmap`/`mremap`/`sbrk` calls                                                                                                                                   |
 
 ## Tips
 
@@ -112,7 +113,7 @@ above into `Lexer.Cursor.advance(if:)`.
 
 ```sh
 CPUPROFILE=cpu.prof LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libprofiler.so ./program
-HEAPPROFILE=heap.prof LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc.so ./program
+TCMALLOC_STACKTRACE_METHOD=libgcc HEAPPROFILE=heap.prof LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc.so ./program
 ```
 
 ### Symbols

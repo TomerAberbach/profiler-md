@@ -15,8 +15,9 @@ const require = createRequire(`${projectDir}/`)
 const pprof = require(`@datadog/pprof`)
 
 // The arguments are the sampling interval in bytes and the maximum stack
-// depth.
-pprof.heap.start(512 * 1024, 64)
+// depth. A stack deeper than the maximum loses its outermost callers, and the
+// type checker's stacks run to hundreds of frames.
+pprof.heap.start(512 * 1024, 1024)
 // Type-check the real project several times so the sampler accumulates enough
 // allocation samples for a non-empty profile while staying small and
 // deterministic.

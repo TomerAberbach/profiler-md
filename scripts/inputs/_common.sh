@@ -77,6 +77,22 @@ fetch_twitter_json() {
 DOCKER_IMAGE="debian:bookworm-slim"
 DOCKER_PLATFORM="linux/arm64"
 
+PPROF_MODULE_VERSION="v0.0.0-20261008003335-7bae8d8c4c9e"
+
+# stage_container_pprof <dir>
+#   Copies a pprof built for DOCKER_PLATFORM to <dir>/pprof.
+stage_container_pprof() {
+  local dir=$1 arch=${DOCKER_PLATFORM#linux/}
+  local bin="$WORKDIR/pprof-linux-$arch"
+  if [[ ! -x "$bin" ]]; then
+    GOOS=linux GOARCH="$arch" CGO_ENABLED=0 GOPATH="$WORKDIR/gopath" \
+      GOFLAGS=-modcacherw go install "github.com/google/pprof@$PPROF_MODULE_VERSION" \
+      || return 1
+    cp "$WORKDIR/gopath/bin/linux_$arch/pprof" "$bin" || return 1
+  fi
+  cp "$bin" "$dir/pprof"
+}
+
 # docker_capture <out_dir> <container_script> [extra `docker run` args...]
 #   Runs <container_script> under `bash -euo pipefail` in DOCKER_IMAGE with
 #   <out_dir> bind-mounted at /out.

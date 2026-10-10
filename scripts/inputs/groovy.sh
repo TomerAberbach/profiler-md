@@ -55,7 +55,8 @@ ensure_spock() {
 # and appends method signatures, multiplying CodeNarc's distinct call stacks. A
 # full collapsed alloc capture writes ~585 MB.
 run_jvm_workload() {
-  local jvm_arg=$1 cfg=$2 ext=$3 side=$4 includes rulesets
+  local cfg=$1 ext=$2 side=$3 includes rulesets
+  local jvm_args=("${@:4}")
   local version=${CODENARC_VERSION[$side]}
   local jar="$REPO/scripts/inputs/assets/groovy/CodeNarc-$version-all.jar"
   fetch_asset "CodeNarc $version all jar" \
@@ -74,7 +75,7 @@ run_jvm_workload() {
     includes='**/*.groovy'
     rulesets="$(IFS=,; echo "${RULESETS[*]}")"
   fi
-  java "$jvm_arg" -jar "$jar" \
+  java "${jvm_args[@]}" -jar "$jar" \
     -basedir="$spock_source" \
     -includes="$includes" \
     -rulesetfiles="$rulesets" \

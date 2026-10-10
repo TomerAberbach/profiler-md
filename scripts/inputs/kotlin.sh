@@ -43,13 +43,15 @@ FREE_COMPILER_ARGS=(
 )
 
 run_jvm_workload() {
-  local jvm_arg=$1 dir
+  local dir jvm_arg
+  local java_flags=()
+  for jvm_arg in "${@:4}"; do java_flags+=("-J$jvm_arg"); done
   ensure_source || return 1
   dir="$(mktemp -d "$WORKDIR/kotlinc.XXXXXX")" || return 1
   local opt_in_flags=()
   local fqn
   for fqn in "${OPT_INS[@]}"; do opt_in_flags+=("-opt-in=$fqn"); done
-  kotlinc "${opt_in_flags[@]}" "${FREE_COMPILER_ARGS[@]}" "-J$jvm_arg" -d "$dir" "$source"
+  kotlinc "${opt_in_flags[@]}" "${FREE_COMPILER_ARGS[@]}" "${java_flags[@]}" -d "$dir" "$source"
 }
 
 emit_jvm_captures
