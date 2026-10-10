@@ -14,28 +14,28 @@ Took 5.24s over 5,239 samples (1.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|    % |    Time | Samples | Function  | Location                                 |
-| ---: | ------: | ------: | --------- | ---------------------------------------- |
-| 3.9% | 203.2ms |     203 | `0x138f0` | `binary`                                 |
-| 2.8% | 148.1ms |     148 | `0x1392c` | `binary`                                 |
-| 2.4% | 125.1ms |     125 | `0x13910` | `binary`                                 |
-| 2.3% | 118.1ms |     118 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 1.4% |  75.1ms |      75 | `0x1396c` | `binary`                                 |
-| 1.4% |  74.1ms |      74 | `0x1391c` | `binary`                                 |
-| 1.3% |  67.1ms |      67 | `0x138fc` | `binary`                                 |
-| 1.3% |  66.1ms |      66 | `0x433d0` | `binary`                                 |
-| 1.2% |  64.1ms |      64 | `0x13904` | `binary`                                 |
-| 1.2% |  62.1ms |      62 | `0x139b0` | `binary`                                 |
-| 1.1% |  60.1ms |      60 | `0x139a8` | `binary`                                 |
-| 1.1% |  56.1ms |      56 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 1.0% |  52.1ms |      52 | `0x13978` | `binary`                                 |
-| 0.9% |  46.0ms |      46 | `0x53b84` | `binary`                                 |
-| 0.8% |  42.0ms |      42 | `0x53c64` | `binary`                                 |
-| 0.8% |  41.0ms |      41 | `0x131a4` | `binary`                                 |
-| 0.8% |  40.0ms |      40 | `0x13990` | `binary`                                 |
-| 0.7% |  35.0ms |      35 | `0x53bb4` | `binary`                                 |
-| 0.6% |  31.0ms |      31 | `0x53c80` | `binary`                                 |
-| 0.6% |  31.0ms |      31 | `0x140b0` | `binary`                                 |
+|    % |    Time | Samples | Function  | Location                               |
+| ---: | ------: | ------: | --------- | -------------------------------------- |
+| 3.9% | 203.2ms |     203 | `0x138f0` | `binary`                               |
+| 2.8% | 148.1ms |     148 | `0x1392c` | `binary`                               |
+| 2.4% | 125.1ms |     125 | `0x13910` | `binary`                               |
+| 2.3% | 118.1ms |     118 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 1.4% |  75.1ms |      75 | `0x1396c` | `binary`                               |
+| 1.4% |  74.1ms |      74 | `0x1391c` | `binary`                               |
+| 1.3% |  67.1ms |      67 | `0x138fc` | `binary`                               |
+| 1.3% |  66.1ms |      66 | `0x433d0` | `binary`                               |
+| 1.2% |  64.1ms |      64 | `0x13904` | `binary`                               |
+| 1.2% |  62.1ms |      62 | `0x139b0` | `binary`                               |
+| 1.1% |  60.1ms |      60 | `0x139a8` | `binary`                               |
+| 1.1% |  56.1ms |      56 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 1.0% |  52.1ms |      52 | `0x13978` | `binary`                               |
+| 0.9% |  46.0ms |      46 | `0x53b84` | `binary`                               |
+| 0.8% |  42.0ms |      42 | `0x53c64` | `binary`                               |
+| 0.8% |  41.0ms |      41 | `0x131a4` | `binary`                               |
+| 0.8% |  40.0ms |      40 | `0x13990` | `binary`                               |
+| 0.7% |  35.0ms |      35 | `0x53bb4` | `binary`                               |
+| 0.6% |  31.0ms |      31 | `0x53c80` | `binary`                               |
+| 0.6% |  31.0ms |      31 | `0x140b0` | `binary`                               |
 
 #### Categories
 
@@ -66,28 +66,28 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 ##### Native
 
-|     % |    Time | Samples | Function  | Location                                 |
-| ----: | ------: | ------: | --------- | ---------------------------------------- |
-|  2.3% | 118.1ms |     118 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  1.1% |  56.1ms |      56 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.2% |  13.0ms |      13 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.2% |  12.0ms |      12 | `0x9d184` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.2% |  10.0ms |      10 | `0x9d11c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.1% |   6.0ms |       6 | `0x9d138` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.1% |   5.0ms |       5 | `0x9d150` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.1% |   4.0ms |       4 | `0x9d210` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.1% |   4.0ms |       4 | `0x9d168` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.1% |   4.0ms |       4 | `0x9e580` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.1% |   4.0ms |       4 | `0x9d114` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   2.0ms |       2 | `0x9e674` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   2.0ms |       2 | `0x9e5c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   2.0ms |       2 | `0x9e590` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   2.0ms |       2 | `0x9e5e0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   2.0ms |       2 | `0x9e678` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   2.0ms |       2 | `0x9d148` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   1.0ms |       1 | `0xddb88` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   1.0ms |       1 | `0x9e680` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   1.0ms |       1 | `0x8e9cc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     % |    Time | Samples | Function  | Location                               |
+| ----: | ------: | ------: | --------- | -------------------------------------- |
+|  2.3% | 118.1ms |     118 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  1.1% |  56.1ms |      56 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  13.0ms |      13 | `0x9d100` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  12.0ms |      12 | `0x9d184` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  10.0ms |      10 | `0x9d11c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   6.0ms |       6 | `0x9d138` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   5.0ms |       5 | `0x9d150` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   4.0ms |       4 | `0x9d210` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   4.0ms |       4 | `0x9d168` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   4.0ms |       4 | `0x9e580` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   4.0ms |       4 | `0x9d114` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e674` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e5c0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e590` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e5e0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e678` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9d148` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   1.0ms |       1 | `0xddb88` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   1.0ms |       1 | `0x9e680` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   1.0ms |       1 | `0x8e9cc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
@@ -139,7 +139,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | 84.0% | 105.1ms |     105 | `0x53c28` | `binary` |
 | 16.0% |  20.0ms |      20 | `0xf660`  | `binary` |
 
-##### `0x9d200` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |   Time | Samples | Caller    | Location |
 | ----: | -----: | ------: | --------- | -------- |
@@ -199,7 +199,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | 73.3% | 44.0ms |      44 | `0x53c28` | `binary` |
 | 26.7% | 16.0ms |      16 | `0xf660`  | `binary` |
 
-##### `0x9e670` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e670` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |   Time | Samples | Caller    | Location |
 | ----: | -----: | ------: | --------- | -------- |
@@ -285,7 +285,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 |  6.9% | 2.0ms |       2 | `0x4aa00` | `binary` |
 |  3.4% | 1.0ms |       1 | `0x49ea0` | `binary` |
 
-##### `0x9d100` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |   Time | Samples | Caller    | Location |
 | ----: | -----: | ------: | --------- | -------- |
@@ -293,13 +293,13 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 |  7.7% |  1.0ms |       1 | `0x3dbbc` | `binary` |
 |  7.7% |  1.0ms |       1 | `0x6aa34` | `binary` |
 
-##### `0x9d184` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d184` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |   Time | Samples | Caller    | Location |
 | -----: | -----: | ------: | --------- | -------- |
 | 100.0% | 12.0ms |      12 | `0x43eb8` | `binary` |
 
-##### `0x9d11c` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d11c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |   Time | Samples | Caller    | Location |
 | -----: | -----: | ------: | --------- | -------- |
@@ -311,7 +311,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ---------- | ------------------- |
 | 100.0% | 9.0ms |       9 | `0xb54524` | `[kernel.kallsyms]` |
 
-##### `0x9d138` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d138` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |  Time | Samples | Caller    | Location |
 | ----: | ----: | ------: | --------- | -------- |
@@ -324,7 +324,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ----------- | ------------------- |
 | 100.0% | 6.0ms |       6 | `0x14b33a0` | `[kernel.kallsyms]` |
 
-##### `0x9d150` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d150` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
@@ -348,20 +348,20 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ---------- | ------------------- |
 | 100.0% | 5.0ms |       5 | `0xb54524` | `[kernel.kallsyms]` |
 
-##### `0x9d210` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d210` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |  Time | Samples | Caller    | Location |
 | ----: | ----: | ------: | --------- | -------- |
 | 75.0% | 3.0ms |       3 | `0x6aa34` | `binary` |
 | 25.0% | 1.0ms |       1 | `0xf68c`  | `binary` |
 
-##### `0x9d168` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d168` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 4.0ms |       4 | `0x43eb8` | `binary` |
 
-##### `0x9e580` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e580` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |  Time | Samples | Caller    | Location |
 | ----: | ----: | ------: | --------- | -------- |
@@ -369,7 +369,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | 25.0% | 1.0ms |       1 | `0x122fc` | `binary` |
 | 25.0% | 1.0ms |       1 | `0x43e78` | `binary` |
 
-##### `0x9d114` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d114` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
@@ -406,38 +406,38 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ---------- | ------------------- |
 | 100.0% | 3.0ms |       3 | `0x3a4af0` | `[kernel.kallsyms]` |
 
-##### `0x9e674` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e674` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 2.0ms |       2 | `0x6aa34` | `binary` |
 
-##### `0x9e5c0` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e5c0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |  Time | Samples | Caller    | Location |
 | ----: | ----: | ------: | --------- | -------- |
 | 50.0% | 1.0ms |       1 | `0x43e78` | `binary` |
 | 50.0% | 1.0ms |       1 | `0x366a8` | `binary` |
 
-##### `0x9e590` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e590` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 2.0ms |       2 | `0x43e78` | `binary` |
 
-##### `0x9e5e0` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e5e0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 2.0ms |       2 | `0x43e78` | `binary` |
 
-##### `0x9e678` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e678` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 2.0ms |       2 | `0x6aa34` | `binary` |
 
-##### `0x9d148` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9d148` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
@@ -462,23 +462,23 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ---------- | ------------------- |
 | 100.0% | 2.0ms |       2 | `0x3a4b04` | `[kernel.kallsyms]` |
 
-##### `0xddb88` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0xddb88` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 1.0ms |       1 | `0x11b0c` | `binary` |
 
-##### `0x9e680` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e680` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 1.0ms |       1 | `0x6aa34` | `binary` |
 
-##### `0x8e9cc` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x8e9cc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller    | Location                                 |
-| -----: | ----: | ------: | --------- | ---------------------------------------- |
-| 100.0% | 1.0ms |       1 | `0x900c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x900c0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x315ccc` (`[kernel.kallsyms]`)
 
@@ -526,28 +526,28 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 Functions ranked by total time spent in the function and all its callees.
 
-|      % |    Time | Samples | Function  | Location                                 |
-| -----: | ------: | ------: | --------- | ---------------------------------------- |
-| 100.0% |   5.24s |   5,239 | `0x1130c` | `binary`                                 |
-| 100.0% |   5.24s |   5,239 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 100.0% |   5.24s |   5,239 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 100.0% |   5.24s |   5,239 | `0xdf70`  | `binary`                                 |
-|  74.4% |   3.90s |   3,900 | `0x10144` | `binary`                                 |
-|  50.7% |   2.65s |   2,657 | `0x368f8` | `binary`                                 |
-|  40.7% |   2.13s |   2,131 | `0x4aa18` | `binary`                                 |
-|  38.4% |   2.01s |   2,010 | `0x45be0` | `binary`                                 |
-|  32.5% |   1.70s |   1,703 | `0x44b48` | `binary`                                 |
-|  31.7% |   1.66s |   1,661 | `0x6449c` | `binary`                                 |
-|  30.9% |   1.62s |   1,621 | `0x383d0` | `binary`                                 |
-|  24.9% |   1.30s |   1,303 | `0x62fd4` | `binary`                                 |
-|  23.0% |   1.20s |   1,205 | `0x36b64` | `binary`                                 |
-|  22.1% |   1.15s |   1,158 | `0x537bc` | `binary`                                 |
-|  20.7% |   1.08s |   1,084 | `0x53c28` | `binary`                                 |
-|  14.8% | 775.8ms |     775 | `0x642d8` | `binary`                                 |
-|  13.4% | 703.7ms |     703 | `0x66174` | `binary`                                 |
-|  12.9% | 678.7ms |     678 | `0x36d98` | `binary`                                 |
-|  12.5% | 653.7ms |     653 | `0x58e54` | `binary`                                 |
-|  12.4% | 650.7ms |     650 | `0x3695c` | `binary`                                 |
+|      % |    Time | Samples | Function  | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% |   5.24s |   5,239 | `0x1130c` | `binary`                               |
+| 100.0% |   5.24s |   5,239 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |   5.24s |   5,239 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |   5.24s |   5,239 | `0xdf70`  | `binary`                               |
+|  74.4% |   3.90s |   3,900 | `0x10144` | `binary`                               |
+|  50.7% |   2.65s |   2,657 | `0x368f8` | `binary`                               |
+|  40.7% |   2.13s |   2,131 | `0x4aa18` | `binary`                               |
+|  38.4% |   2.01s |   2,010 | `0x45be0` | `binary`                               |
+|  32.5% |   1.70s |   1,703 | `0x44b48` | `binary`                               |
+|  31.7% |   1.66s |   1,661 | `0x6449c` | `binary`                               |
+|  30.9% |   1.62s |   1,621 | `0x383d0` | `binary`                               |
+|  24.9% |   1.30s |   1,303 | `0x62fd4` | `binary`                               |
+|  23.0% |   1.20s |   1,205 | `0x36b64` | `binary`                               |
+|  22.1% |   1.15s |   1,158 | `0x537bc` | `binary`                               |
+|  20.7% |   1.08s |   1,084 | `0x53c28` | `binary`                               |
+|  14.8% | 775.8ms |     775 | `0x642d8` | `binary`                               |
+|  13.4% | 703.7ms |     703 | `0x66174` | `binary`                               |
+|  12.9% | 678.7ms |     678 | `0x36d98` | `binary`                               |
+|  12.5% | 653.7ms |     653 | `0x58e54` | `binary`                               |
+|  12.4% | 650.7ms |     650 | `0x3695c` | `binary`                               |
 
 #### Categories
 
@@ -578,28 +578,28 @@ Functions ranked by total time spent in the function and all its callees.
 
 ##### Native
 
-|      % |    Time | Samples | Function  | Location                                 |
-| -----: | ------: | ------: | --------- | ---------------------------------------- |
-| 100.0% |   5.24s |   5,239 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 100.0% |   5.24s |   5,239 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   2.3% | 118.1ms |     118 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   1.6% |  86.1ms |      86 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.6% |  29.0ms |      29 | `0xddb88` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.4% |  21.0ms |      21 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.3% |  17.0ms |      17 | `0x92a9c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  13.0ms |      13 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  13.0ms |      13 | `0xe3acc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  13.0ms |      13 | `0x8f988` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  12.0ms |      12 | `0x9e674` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  12.0ms |      12 | `0x8fa48` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  12.0ms |      12 | `0x90240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  12.0ms |      12 | `0x9d184` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |  10.0ms |      10 | `0x9d11c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |   9.0ms |       9 | `0x9405c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% |   8.0ms |       8 | `0x9245c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.1% |   6.0ms |       6 | `0xde3c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.1% |   6.0ms |       6 | `0x9d138` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.1% |   5.0ms |       5 | `0x9d150` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |    Time | Samples | Function  | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% |   5.24s |   5,239 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |   5.24s |   5,239 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   2.3% | 118.1ms |     118 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   1.6% |  86.1ms |      86 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.6% |  29.0ms |      29 | `0xddb88` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.4% |  21.0ms |      21 | `0xdda44` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.3% |  17.0ms |      17 | `0x92a9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  13.0ms |      13 | `0x9d100` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  13.0ms |      13 | `0xe3acc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  13.0ms |      13 | `0x8f988` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x9e674` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x8fa48` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x90240` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x9d184` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  10.0ms |      10 | `0x9d11c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |   9.0ms |       9 | `0x9405c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |   8.0ms |       8 | `0x9245c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.1% |   6.0ms |       6 | `0xde3c8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.1% |   6.0ms |       6 | `0x9d138` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.1% |   5.0ms |       5 | `0x9d150` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
@@ -640,23 +640,23 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |  1.4% |  74.1ms |      74 | `0x100f0` | `binary` |
 |  1.3% |  67.1ms |      67 | `0xf68c`  | `binary` |
 
-##### `0x27744` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee    | Location |
 | -----: | ----: | ------: | --------- | -------- |
 | 100.0% | 5.24s |   5,239 | `0x1130c` | `binary` |
 
-##### `0x27818` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x27818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Callee    | Location                                 |
-| -----: | ----: | ------: | --------- | ---------------------------------------- |
-| 100.0% | 5.24s |   5,239 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.24s |   5,239 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0xdf70` (`binary`)
 
-|      % |  Time | Samples | Callee    | Location                                 |
-| -----: | ----: | ------: | --------- | ---------------------------------------- |
-| 100.0% | 5.24s |   5,239 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.24s |   5,239 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x10144` (`binary`)
 
@@ -842,7 +842,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 64.3% | 74.1ms |      74 | `0x14b33a0` | `[kernel.kallsyms]` |
 | 35.7% | 41.0ms |      41 | `0x14b33d0` | `[kernel.kallsyms]` |
 
-##### `0x9e670` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e670` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |   Time | Samples | Callee   | Location            |
 | ----: | -----: | ------: | -------- | ------------------- |
@@ -923,7 +923,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |  9.1% |  3.0ms |       3 | `0x3158d0` | `[kernel.kallsyms]` |
 |  6.1% |  2.0ms |       2 | `0x3157e4` | `[kernel.kallsyms]` |
 
-##### `0xddb88` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0xddb88` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |   Time | Samples | Callee   | Location            |
 | ----: | -----: | ------: | -------- | ------------------- |
@@ -989,70 +989,70 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |  4.3% |  1.0ms |       1 | `0x1486000` | `[kernel.kallsyms]` |
 |  4.3% |  1.0ms |       1 | `0x2ab618`  | `[kernel.kallsyms]` |
 
-##### `0xdda44` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0xdda44` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |   Time | Samples | Callee   | Location            |
 | -----: | -----: | ------: | -------- | ------------------- |
 | 100.0% | 21.0ms |      21 | `0x15a0` | `[kernel.kallsyms]` |
 
-##### `0x92a9c` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x92a9c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|     % |   Time | Samples | Callee    | Location                                 |
-| ----: | -----: | ------: | --------- | ---------------------------------------- |
-| 70.6% | 12.0ms |      12 | `0x90240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  5.9% |  1.0ms |       1 | `0x900c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  5.9% |  1.0ms |       1 | `0x8fcb4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  5.9% |  1.0ms |       1 | `0x8fc74` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  5.9% |  1.0ms |       1 | `0x8fccc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     % |   Time | Samples | Callee    | Location                               |
+| ----: | -----: | ------: | --------- | -------------------------------------- |
+| 70.6% | 12.0ms |      12 | `0x90240` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.9% |  1.0ms |       1 | `0x900c0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.9% |  1.0ms |       1 | `0x8fcb4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.9% |  1.0ms |       1 | `0x8fc74` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.9% |  1.0ms |       1 | `0x8fccc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `0xe3acc` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0xe3acc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |   Time | Samples | Callee   | Location            |
 | -----: | -----: | ------: | -------- | ------------------- |
 | 100.0% | 13.0ms |      13 | `0x15a0` | `[kernel.kallsyms]` |
 
-##### `0x8f988` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x8f988` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |   Time | Samples | Callee    | Location                                 |
-| -----: | -----: | ------: | --------- | ---------------------------------------- |
-| 100.0% | 13.0ms |      13 | `0xe3acc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |   Time | Samples | Callee    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 13.0ms |      13 | `0xe3acc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `0x9e674` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9e674` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |   Time | Samples | Callee   | Location            |
 | ----: | -----: | ------: | -------- | ------------------- |
 | 83.3% | 10.0ms |      10 | `0x15a0` | `[kernel.kallsyms]` |
 
-##### `0x8fa48` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x8fa48` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |   Time | Samples | Callee    | Location                                 |
-| -----: | -----: | ------: | --------- | ---------------------------------------- |
-| 100.0% | 12.0ms |      12 | `0x8f988` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |   Time | Samples | Callee    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 12.0ms |      12 | `0x8f988` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `0x90240` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x90240` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |   Time | Samples | Callee    | Location                                 |
-| -----: | -----: | ------: | --------- | ---------------------------------------- |
-| 100.0% | 12.0ms |      12 | `0x8fa48` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |   Time | Samples | Callee    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 12.0ms |      12 | `0x8fa48` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `0x9405c` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9405c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|     % |  Time | Samples | Callee    | Location                                 |
-| ----: | ----: | ------: | --------- | ---------------------------------------- |
-| 88.9% | 8.0ms |       8 | `0x9245c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 11.1% | 1.0ms |       1 | `0x9240c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 88.9% | 8.0ms |       8 | `0x9245c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 11.1% | 1.0ms |       1 | `0x9240c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `0x9245c` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0x9245c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|     % |  Time | Samples | Callee    | Location                                 |
-| ----: | ----: | ------: | --------- | ---------------------------------------- |
-| 25.0% | 2.0ms |       2 | `0x9189c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 12.5% | 1.0ms |       1 | `0x914e8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 12.5% | 1.0ms |       1 | `0x91234` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 12.5% | 1.0ms |       1 | `0x90d9c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 12.5% | 1.0ms |       1 | `0x90ba0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 25.0% | 2.0ms |       2 | `0x9189c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 12.5% | 1.0ms |       1 | `0x914e8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 12.5% | 1.0ms |       1 | `0x91234` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 12.5% | 1.0ms |       1 | `0x90d9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 12.5% | 1.0ms |       1 | `0x90ba0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `0xde3c8` (`../usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `0xde3c8` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee   | Location            |
 | -----: | ----: | ------: | -------- | ------------------- |
@@ -1062,27 +1062,27 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `0x1130c` (`binary`) ← `0x27744` (`../usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27818` ← `0xdf70` (`binary`)
+Common call stack: `0x1130c` (`binary`) ← `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27818` ← `0xdf70` (`binary`)
 
-|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                               |
-| ---: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.6% | 33.0ms |      33 | `0x131a4` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.6% | 33.0ms |      33 | `0x1392c` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.6% | 32.0ms |      32 | `0x138f0` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.5% | 27.0ms |      27 | `0x9d200` (`../usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xf68c` (`binary`)                                                                                                                                                                                                                                                               |
-| 0.5% | 25.0ms |      25 | `0x131b0` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.4% | 23.0ms |      23 | `0x138c8` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.4% | 22.0ms |      22 | `0x13194` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.4% | 20.0ms |      20 | `0x13910` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.3% | 17.0ms |      17 | `0x138fc` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.3% | 16.0ms |      16 | `0x139a8` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.3% | 15.0ms |      15 | `0x1391c` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.3% | 15.0ms |      15 | `0x13904` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.3% | 14.0ms |      14 | `0x140b0` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.2% | 11.0ms |      11 | `0x1396c` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.2% | 11.0ms |      11 | `0x11f14` (`binary`) ← `0xf68c`                                                                                                                                                                                                                                                                                                          |
-| 0.2% | 11.0ms |      11 | `0x13978` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.2% | 10.0ms |      10 | `0x13f34` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.2% | 10.0ms |      10 | `0x9e670` (`../usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xf75c` (`binary`)                                                                                                                                                                                                                                                               |
-| 0.2% |  9.0ms |       9 | `0x13818` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                          |
-| 0.2% |  9.0ms |       9 | `0x14837cc` (`[kernel.kallsyms]`) ← `0xb54524` ← `0x2ab6f8` ← `0x2ab954` ← `0x4cb8b8` ← `0x3b15e4` ← `0x3b1aa0` ← `0x44a7e0` ← `0x7768d0` ← `0x3b3c5c` ← `0x3b47b4` ← `0x3b4878` ← `0x2ecb8` ← `0x2ed74` ← `0x14b23c0` ← `0x14b33a0` ← `0x15a0` ← `0xddb88` (`../usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x11b0c` (`binary`) ← `0xf1e0` |
+|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                             |
+| ---: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.6% | 33.0ms |      33 | `0x131a4` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.6% | 33.0ms |      33 | `0x1392c` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.6% | 32.0ms |      32 | `0x138f0` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.5% | 27.0ms |      27 | `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xf68c` (`binary`)                                                                                                                                                                                                                                                               |
+| 0.5% | 25.0ms |      25 | `0x131b0` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.4% | 23.0ms |      23 | `0x138c8` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.4% | 22.0ms |      22 | `0x13194` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.4% | 20.0ms |      20 | `0x13910` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.3% | 17.0ms |      17 | `0x138fc` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.3% | 16.0ms |      16 | `0x139a8` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.3% | 15.0ms |      15 | `0x1391c` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.3% | 15.0ms |      15 | `0x13904` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.3% | 14.0ms |      14 | `0x140b0` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.2% | 11.0ms |      11 | `0x1396c` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.2% | 11.0ms |      11 | `0x11f14` (`binary`) ← `0xf68c`                                                                                                                                                                                                                                                                                                        |
+| 0.2% | 11.0ms |      11 | `0x13978` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.2% | 10.0ms |      10 | `0x13f34` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.2% | 10.0ms |      10 | `0x9e670` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xf75c` (`binary`)                                                                                                                                                                                                                                                               |
+| 0.2% |  9.0ms |       9 | `0x13818` (`binary`) ← `0xf660`                                                                                                                                                                                                                                                                                                        |
+| 0.2% |  9.0ms |       9 | `0x14837cc` (`[kernel.kallsyms]`) ← `0xb54524` ← `0x2ab6f8` ← `0x2ab954` ← `0x4cb8b8` ← `0x3b15e4` ← `0x3b1aa0` ← `0x44a7e0` ← `0x7768d0` ← `0x3b3c5c` ← `0x3b47b4` ← `0x3b4878` ← `0x2ecb8` ← `0x2ed74` ← `0x14b23c0` ← `0x14b33a0` ← `0x15a0` ← `0xddb88` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x11b0c` (`binary`) ← `0xf1e0` |

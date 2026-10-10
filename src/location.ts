@@ -253,27 +253,10 @@ const formatSourceLocationParts = (
 
   location = sourceMapSourceLocation(location, options)
 
-  let path: string
-  if (location.type === `absolute`) {
-    const { baseURL } = options
-    if (baseURL === undefined) {
-      path = absoluteURLPath(location.url)
-    } else if (isSameOrigin(baseURL, location.url)) {
-      // Keep the query so scripts distinguished only by it (e.g.
-      // `load.php?modules=...`) stay distinct.
-      path =
-        decodePathname(
-          relativeURLPath(baseURL.pathname, location.url.pathname),
-        ) + location.url.search
-      if (TOO_MANY_UPS.test(path)) {
-        path = absoluteURLPath(location.url)
-      }
-    } else {
-      path = location.url.href
-    }
-  } else {
-    path = sourceReferenceId(location)
-  }
+  const path =
+    location.type === `absolute`
+      ? formatURLPath(location.url, options.baseURL)
+      : sourceReferenceId(location)
 
   // A line or column that is not a finite number formats as absent, so a
   // malformed input's location reads as one without that part.
@@ -291,10 +274,51 @@ const formatSourceLocationParts = (
 }
 
 /**
+ * Formats {@link url} relative to {@link baseURL} when it is near the base URL,
+ * and otherwise as absolute.
+ */
+const formatURLPath = (url: URL, baseURL: URL | undefined): string => {
+  if (baseURL === undefined) {
+    return absoluteURLPath(url)
+  }
+  if (!isSameOrigin(baseURL, url)) {
+    return url.href
+  }
+
+  const relativePath = relativeURLPath(baseURL, url)
+  return relativePath && isRelativePathReadable(relativePath, url)
+    ? decodedPathWithQuery(joinRelativeURLPath(relativePath), url)
+    : absoluteURLPath(url)
+}
+
+/**
+ * Whether {@link relativePath} formats a location more readably than its
+ * absolute path does. Up to two levels up keep sibling projects readable
+ * (`../../lib/src/util.ts` in a monorepo). Beyond that, the path goes to a
+ * system or toolchain file (`/nix/store/...`) rather than code near the
+ * project, and the prefix only states how deep the base URL is. A `file:` URL
+ * that shares no directory with the base URL is unrelated to it, but the
+ * origin of a URL of another protocol relates it to the base URL.
+ */
+const isRelativePathReadable = (
+  relativePath: RelativeURLPath,
+  url: URL,
+): boolean =>
+  relativePath.levelsUp <= 2 &&
+  (relativePath.sharedDirectoryCount > 0 || url.protocol !== `file:`)
+
+/**
  * A non-`file:` URL's protocol and host state where the source came from.
  */
 const absoluteURLPath = (url: URL): string =>
-  url.protocol === `file:` ? decodePathname(url.pathname) : url.href
+  url.protocol === `file:` ? decodedPathWithQuery(url.pathname, url) : url.href
+
+/**
+ * Decodes {@link pathname} and appends {@link url}'s query, so scripts
+ * distinguished only by it (e.g. `load.php?modules=...`) stay distinct.
+ */
+const decodedPathWithQuery = (pathname: string, url: URL): string =>
+  decodePathname(pathname) + url.search
 
 const isSameOrigin = (url1: URL, url2: URL): boolean => {
   if (url1.protocol !== url2.protocol) {
@@ -331,26 +355,71 @@ const decodePathname = (pathname: string): string => {
   }
 }
 
-const relativeURLPath = (from: string, to: string): string => {
-  // Drop the last segment of `from` (the filename or trailing empty string
-  // after a `/`) so the result is relative to the directory.
-  const fromParts = from.split(`/`).slice(0, -1)
-  const toParts = to.split(`/`)
+/** A path from a directory to a URL that shares its root. */
+type RelativeURLPath = {
+  /** The number of directories below the root the URL shares with the directory. */
+  sharedDirectoryCount: number
 
-  const common = commonSegmentPrefixLength(fromParts, toParts)
-  const ups = fromParts.length - common
-  const remaining = toParts.slice(common)
-  return [...Array.from({ length: ups }, () => `..`), ...remaining].join(`/`)
+  /** The levels from the directory up to its last shared directory. */
+  levelsUp: number
+
+  /** The URL's segments below its root. */
+  segments: string[]
 }
 
 /**
- * A relative path that goes up more than two levels, to a system or toolchain
- * file rather than code near the project. Up to two keep sibling projects
- * readable (`../../lib/src/util.ts` in a monorepo). Beyond that the prefix only
- * states how deep the base URL is, so the absolute path (`/nix/store/...`)
- * replaces it.
+ * Returns the path from {@link from}'s directory to {@link to}, or `undefined`
+ * when their roots differ (e.g. another origin, or Windows drives `C:` and
+ * `D:`).
  */
-const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
+const relativeURLPath = (from: URL, to: URL): RelativeURLPath | undefined => {
+  const fromPath = splitURLPath(from)
+  const toPath = splitURLPath(to)
+  if (fromPath.root !== toPath.root) {
+    return undefined
+  }
+
+  // Drop the last segment of `from` (the filename or trailing empty string
+  // after a `/`) so the result is relative to the directory.
+  const fromDirectories = fromPath.segments.slice(0, -1)
+  const sharedDirectoryCount = commonSegmentPrefixLength(
+    fromDirectories,
+    toPath.segments,
+  )
+  return {
+    sharedDirectoryCount,
+    levelsUp: fromDirectories.length - sharedDirectoryCount,
+    segments: toPath.segments,
+  }
+}
+
+const joinRelativeURLPath = ({
+  sharedDirectoryCount,
+  levelsUp,
+  segments,
+}: RelativeURLPath): string =>
+  `../`.repeat(levelsUp) + segments.slice(sharedDirectoryCount).join(`/`)
+
+/**
+ * Splits a URL into its root and the pathname segments below it. The root is
+ * the protocol and host, followed by a `file:` URL's Windows drive letter
+ * (`file:///C:`) or UNC share (`file://server/share`), so URLs with equal roots
+ * share an origin.
+ */
+const splitURLPath = (url: URL): { root: string; segments: string[] } => {
+  const segments = url.pathname.split(`/`)
+  const rootLength =
+    url.protocol === `file:` &&
+    (url.host !== `` || WINDOWS_DRIVE.test(segments[1] ?? ``))
+      ? 2
+      : 1
+  return {
+    root: `${url.protocol}//${url.host}${segments.slice(0, rootLength).join(`/`)}`,
+    segments: segments.slice(rootLength),
+  }
+}
+
+const WINDOWS_DRIVE = /^[a-z]:$/iu
 
 export const sourceReferenceId = (
   sourceReference: DeepReadonly<SourceReference>,
@@ -367,8 +436,9 @@ export const sourceReferenceId = (
 
 /**
  * Returns the deepest directory URL containing every URL in {@link urls} that
- * shares the dominant protocol and host (the pair with the most URLs,
- * first-seen winning ties), or `undefined` when there are no URLs.
+ * shares the dominant root (the root with the most URLs, first-seen winning
+ * ties), or `undefined` when there are no URLs. A root is the protocol and host,
+ * and a Windows drive or a UNC share, as {@link splitURLPath} splits it.
  *
  * Excludes each URL's last path segment (the filename), so a single URL
  * yields its containing directory. The result always ends with a `/` and
@@ -380,15 +450,15 @@ export const commonAncestorDirectoryURL = (
   const groups = new Map<string, { count: number; commonSegments: string[] }>()
 
   for (const url of urls) {
-    const origin = `${url.protocol}//${url.host}`
+    const { root, segments: pathSegments } = splitURLPath(url)
     // The filename slot never counts towards the common prefix, so a path
     // that is a directory prefix of another truncates to that directory's
     // parent.
-    const segments = url.pathname.split(`/`).slice(0, -1)
+    const segments = pathSegments.slice(0, -1)
 
-    const group = groups.get(origin)
+    const group = groups.get(root)
     if (!group) {
-      groups.set(origin, { count: 1, commonSegments: segments })
+      groups.set(root, { count: 1, commonSegments: segments })
       continue
     }
 
@@ -399,11 +469,11 @@ export const commonAncestorDirectoryURL = (
     )
   }
 
-  let dominant: { origin: string; commonSegments: string[] } | undefined
+  let dominant: { root: string; commonSegments: string[] } | undefined
   let dominantCount = 0
-  for (const [origin, { count, commonSegments }] of groups) {
+  for (const [root, { count, commonSegments }] of groups) {
     if (count > dominantCount) {
-      dominant = { origin, commonSegments }
+      dominant = { root, commonSegments }
       dominantCount = count
     }
   }
@@ -412,7 +482,7 @@ export const commonAncestorDirectoryURL = (
     return undefined
   }
 
-  return new URL(`${dominant.origin}${dominant.commonSegments.join(`/`)}/`)
+  return new URL([dominant.root, ...dominant.commonSegments, ``].join(`/`))
 }
 
 const commonSegmentPrefixLength = (

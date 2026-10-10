@@ -234,13 +234,13 @@ describe(`convert`, () => {
           '%': `60.0%`,
           Samples: `6`,
           Function: `run`,
-          Location: `var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb`,
+          Location: `/var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb`,
         },
         {
           '%': `40.0%`,
           Samples: `4`,
           Function: `parse`,
-          Location: `usr/lib/ruby/3.1.0/json.rb`,
+          Location: `/usr/lib/ruby/3.1.0/json.rb`,
         },
       ],
     ])

@@ -27,8 +27,8 @@ Functions with the largest increase in instructions recorded directly in the fun
 |    +0.9% |     +1,672 |          0.5% |       183,023 → 184,695 | `__GI_memcpy`                    | `./string/../sysdeps/aarch64/multiarch/../memcpy.S` |
 | +3446.2% |     +1,344 |         <0.1% |              39 → 1,383 | `feof`                           | `./libio/./libio/feof.c`                            |
 |    +1.1% |     +1,039 |          0.2% |         98,005 → 99,044 | `HUF_buildCTable_wksp`           | `lib//compress/huf_compress.c`                      |
-|   +37.7% |       +732 |         <0.1% |           1,944 → 2,676 | `__aarch64_swp4_rel`             | `../../usr/lib/aarch64-linux-gnu/libc.so.6`         |
-|   +25.3% |       +726 |         <0.1% |           2,868 → 3,594 | `__aarch64_cas4_acq`             | `../../usr/lib/aarch64-linux-gnu/libc.so.6`         |
+|   +37.7% |       +732 |         <0.1% |           1,944 → 2,676 | `__aarch64_swp4_rel`             | `/usr/lib/aarch64-linux-gnu/libc.so.6`              |
+|   +25.3% |       +726 |         <0.1% |           2,868 → 3,594 | `__aarch64_cas4_acq`             | `/usr/lib/aarch64-linux-gnu/libc.so.6`              |
 |      new |       +536 |  0.0% → <0.1% |                 0 → 536 | `ZSTD_splitBlock`                | `lib//compress/zstd_preSplit.c`                     |
 |    +1.5% |       +426 |          0.1% |         28,664 → 29,090 | `do_lookup_x`                    | `./elf/./elf/dl-lookup.c`                           |
 |      ~0% |       +396 | 30.6% → 29.9% | 12,117,184 → 12,117,580 | `ZSTD_encodeSequences`           | `lib//common/bitstream.h`                           |
@@ -67,28 +67,28 @@ Functions with the largest increase in instructions recorded directly in the fun
 
 Functions with the largest decrease in instructions recorded directly in the function body, excluding callees.
 
-|  Change |    Delta |             % |            Instructions | Function                                          | Location                                                |
-| ------: | -------: | ------------: | ----------------------: | ------------------------------------------------- | ------------------------------------------------------- |
-|   -6.2% | -721,751 | 29.6% → 27.1% | 11,716,441 → 10,994,690 | `ZSTD_compressBlock_doubleFast`                   | `lib//compress/zstd_double_fast.c`                      |
-|   -0.7% |   -3,124 |          1.1% |       428,664 → 425,540 | `HUF_compress1X_usingCTable_internal.constprop.0` | `lib//compress/huf_compress.c`                          |
-|   -0.1% |   -1,982 |   5.0% → 4.8% |   1,959,721 → 1,957,739 | `HIST_count_parallel_wksp`                        | `lib//compress/hist.c`                                  |
-|   -8.4% |     -820 |         <0.1% |           9,792 → 8,972 | `HUF_simpleQuickSort`                             | `lib//compress/huf_compress.c`                          |
-|     ~0% |     -279 |   3.5% → 3.4% |   1,370,282 → 1,370,003 | `ZSTD_seqToCodes`                                 | `lib//compress/zstd_compress_internal.h`                |
-|  -23.8% |     -146 |         <0.1% |               613 → 467 | `ZSTD_compress_frameChunk`                        | `lib//compress/zstd_compress.c`                         |
-|   -6.7% |     -129 |         <0.1% |           1,920 → 1,791 | `__futex_abstimed_wait_cancelable64`              | `./nptl/./nptl/futex-internal.c`                        |
-|   -2.0% |      -80 |         <0.1% |           3,948 → 3,868 | `pthread_cond_signal@@GLIBC_2.17`                 | `./nptl/./nptl/pthread_cond_signal.c`                   |
-|  -62.2% |      -79 |         <0.1% |                127 → 48 | `ZSTD_compressBegin_advanced_internal`            | `lib//compress/zstd_compress.c`                         |
-|  -13.3% |      -72 |         <0.1% |               540 → 468 | `pthread_cond_signal@@GLIBC_2.17`                 | `./nptl/./nptl/pthread_cond_common.c`                   |
-|  -33.3% |      -62 |         <0.1% |               186 → 124 | `pthread_cond_broadcast@@GLIBC_2.17`              | `./nptl/./nptl/pthread_cond_common.c`                   |
-|  -20.0% |      -36 |         <0.1% |               180 → 144 | `__aarch64_swp4_rel`                              | `../../usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
-| removed |      -35 |  <0.1% → 0.0% |                  35 → 0 | `0x0000000000008740`                              | `programs/zstd`                                         |
-|   -1.8% |      -29 |         <0.1% |           1,607 → 1,578 | `pthread_cond_wait@@GLIBC_2.17`                   | `./nptl/./nptl/pthread_cond_wait.c`                     |
-|   -5.6% |      -27 |         <0.1% |               486 → 459 | `__pthread_mutex_cond_lock`                       | `./nptl/../nptl/pthread_mutex_lock.c`                   |
-|   -2.6% |      -24 |         <0.1% |               912 → 888 | `__pthread_enable_asynccancel`                    | `./nptl/./nptl/cancellation.c`                          |
-|   -2.6% |      -22 |         <0.1% |               836 → 814 | `__pthread_disable_asynccancel`                   | `./nptl/./nptl/cancellation.c`                          |
-|   -5.6% |      -14 |         <0.1% |               252 → 238 | `__condvar_confirm_wakeup`                        | `./nptl/./nptl/pthread_cond_wait.c`                     |
-|  -10.1% |      -13 |         <0.1% |               129 → 116 | `UTIL_allocateFileNamesTable`                     | `programs/util.c`                                       |
-|  -11.1% |      -12 |         <0.1% |                108 → 96 | `__aarch64_ldeor8_rel`                            | `../../usr/lib/aarch64-linux-gnu/libc.so.6`             |
+|  Change |    Delta |             % |            Instructions | Function                                          | Location                                           |
+| ------: | -------: | ------------: | ----------------------: | ------------------------------------------------- | -------------------------------------------------- |
+|   -6.2% | -721,751 | 29.6% → 27.1% | 11,716,441 → 10,994,690 | `ZSTD_compressBlock_doubleFast`                   | `lib//compress/zstd_double_fast.c`                 |
+|   -0.7% |   -3,124 |          1.1% |       428,664 → 425,540 | `HUF_compress1X_usingCTable_internal.constprop.0` | `lib//compress/huf_compress.c`                     |
+|   -0.1% |   -1,982 |   5.0% → 4.8% |   1,959,721 → 1,957,739 | `HIST_count_parallel_wksp`                        | `lib//compress/hist.c`                             |
+|   -8.4% |     -820 |         <0.1% |           9,792 → 8,972 | `HUF_simpleQuickSort`                             | `lib//compress/huf_compress.c`                     |
+|     ~0% |     -279 |   3.5% → 3.4% |   1,370,282 → 1,370,003 | `ZSTD_seqToCodes`                                 | `lib//compress/zstd_compress_internal.h`           |
+|  -23.8% |     -146 |         <0.1% |               613 → 467 | `ZSTD_compress_frameChunk`                        | `lib//compress/zstd_compress.c`                    |
+|   -6.7% |     -129 |         <0.1% |           1,920 → 1,791 | `__futex_abstimed_wait_cancelable64`              | `./nptl/./nptl/futex-internal.c`                   |
+|   -2.0% |      -80 |         <0.1% |           3,948 → 3,868 | `pthread_cond_signal@@GLIBC_2.17`                 | `./nptl/./nptl/pthread_cond_signal.c`              |
+|  -62.2% |      -79 |         <0.1% |                127 → 48 | `ZSTD_compressBegin_advanced_internal`            | `lib//compress/zstd_compress.c`                    |
+|  -13.3% |      -72 |         <0.1% |               540 → 468 | `pthread_cond_signal@@GLIBC_2.17`                 | `./nptl/./nptl/pthread_cond_common.c`              |
+|  -33.3% |      -62 |         <0.1% |               186 → 124 | `pthread_cond_broadcast@@GLIBC_2.17`              | `./nptl/./nptl/pthread_cond_common.c`              |
+|  -20.0% |      -36 |         <0.1% |               180 → 144 | `__aarch64_swp4_rel`                              | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
+| removed |      -35 |  <0.1% → 0.0% |                  35 → 0 | `0x0000000000008740`                              | `programs/zstd`                                    |
+|   -1.8% |      -29 |         <0.1% |           1,607 → 1,578 | `pthread_cond_wait@@GLIBC_2.17`                   | `./nptl/./nptl/pthread_cond_wait.c`                |
+|   -5.6% |      -27 |         <0.1% |               486 → 459 | `__pthread_mutex_cond_lock`                       | `./nptl/../nptl/pthread_mutex_lock.c`              |
+|   -2.6% |      -24 |         <0.1% |               912 → 888 | `__pthread_enable_asynccancel`                    | `./nptl/./nptl/cancellation.c`                     |
+|   -2.6% |      -22 |         <0.1% |               836 → 814 | `__pthread_disable_asynccancel`                   | `./nptl/./nptl/cancellation.c`                     |
+|   -5.6% |      -14 |         <0.1% |               252 → 238 | `__condvar_confirm_wakeup`                        | `./nptl/./nptl/pthread_cond_wait.c`                |
+|  -10.1% |      -13 |         <0.1% |               129 → 116 | `UTIL_allocateFileNamesTable`                     | `programs/util.c`                                  |
+|  -11.1% |      -12 |         <0.1% |                108 → 96 | `__aarch64_ldeor8_rel`                            | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
 
 ##### Ours
 

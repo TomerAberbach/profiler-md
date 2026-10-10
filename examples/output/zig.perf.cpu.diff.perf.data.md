@@ -43,26 +43,26 @@ Functions with the largest increase in time spent directly in the function body,
 
 ##### Native
 
-|  Change |   Delta |            % |          Time | Samples | Function  | Location                                 |
-| ------: | ------: | -----------: | ------------: | ------: | --------- | ---------------------------------------- |
-|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0xe3e00` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0x8faf4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% | +1.00ms |        <0.1% | 1.0ms → 2.0ms |   1 → 2 | `0x8e9cc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xde3c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdd2b4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92284` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91b64` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8faa0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8fc14` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x901c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x9d20c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdd9f8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92dcc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91b68` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92c70` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x90b58` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |   Delta |            % |          Time | Samples | Function  | Location                               |
+| ------: | ------: | -----------: | ------------: | ------: | --------- | -------------------------------------- |
+|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0xe3e00` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0x8faf4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% | +1.00ms |        <0.1% | 1.0ms → 2.0ms |   1 → 2 | `0x8e9cc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdda44` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xde3c8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdd2b4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92284` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91b64` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8faa0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x8fc14` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x901c8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x9d20c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92240` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0xdd9f8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92dcc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x91b68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x92c70` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x90b58` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
@@ -93,28 +93,28 @@ Functions with the largest increase in time spent directly in the function body,
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-|  Change |     Delta |           % |            Time | Samples | Function  | Location                                 |
-| ------: | --------: | ----------: | --------------: | ------: | --------- | ---------------------------------------- |
-| removed | -203.20ms | 3.9% → 0.0% |   203.2ms → 0ms | 203 → 0 | `0x138f0` | `binary`                                 |
-| removed | -148.15ms | 2.8% → 0.0% |   148.1ms → 0ms | 148 → 0 | `0x1392c` | `binary`                                 |
-| removed | -125.13ms | 2.4% → 0.0% |   125.1ms → 0ms | 125 → 0 | `0x13910` | `binary`                                 |
-|  -92.4% | -109.11ms | 2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -75.08ms | 1.4% → 0.0% |    75.1ms → 0ms |  75 → 0 | `0x1396c` | `binary`                                 |
-| removed |  -74.07ms | 1.4% → 0.0% |    74.1ms → 0ms |  74 → 0 | `0x1391c` | `binary`                                 |
-| removed |  -67.07ms | 1.3% → 0.0% |    67.1ms → 0ms |  67 → 0 | `0x138fc` | `binary`                                 |
-| removed |  -66.07ms | 1.3% → 0.0% |    66.1ms → 0ms |  66 → 0 | `0x433d0` | `binary`                                 |
-| removed |  -64.06ms | 1.2% → 0.0% |    64.1ms → 0ms |  64 → 0 | `0x13904` | `binary`                                 |
-| removed |  -62.06ms | 1.2% → 0.0% |    62.1ms → 0ms |  62 → 0 | `0x139b0` | `binary`                                 |
-| removed |  -60.06ms | 1.1% → 0.0% |    60.1ms → 0ms |  60 → 0 | `0x139a8` | `binary`                                 |
-| removed |  -56.06ms | 1.1% → 0.0% |    56.1ms → 0ms |  56 → 0 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -52.05ms | 1.0% → 0.0% |    52.1ms → 0ms |  52 → 0 | `0x13978` | `binary`                                 |
-| removed |  -46.05ms | 0.9% → 0.0% |    46.0ms → 0ms |  46 → 0 | `0x53b84` | `binary`                                 |
-| removed |  -42.04ms | 0.8% → 0.0% |    42.0ms → 0ms |  42 → 0 | `0x53c64` | `binary`                                 |
-| removed |  -41.04ms | 0.8% → 0.0% |    41.0ms → 0ms |  41 → 0 | `0x131a4` | `binary`                                 |
-| removed |  -40.04ms | 0.8% → 0.0% |    40.0ms → 0ms |  40 → 0 | `0x13990` | `binary`                                 |
-| removed |  -35.04ms | 0.7% → 0.0% |    35.0ms → 0ms |  35 → 0 | `0x53bb4` | `binary`                                 |
-| removed |  -31.03ms | 0.6% → 0.0% |    31.0ms → 0ms |  31 → 0 | `0x53c80` | `binary`                                 |
-| removed |  -31.03ms | 0.6% → 0.0% |    31.0ms → 0ms |  31 → 0 | `0x140b0` | `binary`                                 |
+|  Change |     Delta |           % |            Time | Samples | Function  | Location                               |
+| ------: | --------: | ----------: | --------------: | ------: | --------- | -------------------------------------- |
+| removed | -203.20ms | 3.9% → 0.0% |   203.2ms → 0ms | 203 → 0 | `0x138f0` | `binary`                               |
+| removed | -148.15ms | 2.8% → 0.0% |   148.1ms → 0ms | 148 → 0 | `0x1392c` | `binary`                               |
+| removed | -125.13ms | 2.4% → 0.0% |   125.1ms → 0ms | 125 → 0 | `0x13910` | `binary`                               |
+|  -92.4% | -109.11ms | 2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -75.08ms | 1.4% → 0.0% |    75.1ms → 0ms |  75 → 0 | `0x1396c` | `binary`                               |
+| removed |  -74.07ms | 1.4% → 0.0% |    74.1ms → 0ms |  74 → 0 | `0x1391c` | `binary`                               |
+| removed |  -67.07ms | 1.3% → 0.0% |    67.1ms → 0ms |  67 → 0 | `0x138fc` | `binary`                               |
+| removed |  -66.07ms | 1.3% → 0.0% |    66.1ms → 0ms |  66 → 0 | `0x433d0` | `binary`                               |
+| removed |  -64.06ms | 1.2% → 0.0% |    64.1ms → 0ms |  64 → 0 | `0x13904` | `binary`                               |
+| removed |  -62.06ms | 1.2% → 0.0% |    62.1ms → 0ms |  62 → 0 | `0x139b0` | `binary`                               |
+| removed |  -60.06ms | 1.1% → 0.0% |    60.1ms → 0ms |  60 → 0 | `0x139a8` | `binary`                               |
+| removed |  -56.06ms | 1.1% → 0.0% |    56.1ms → 0ms |  56 → 0 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -52.05ms | 1.0% → 0.0% |    52.1ms → 0ms |  52 → 0 | `0x13978` | `binary`                               |
+| removed |  -46.05ms | 0.9% → 0.0% |    46.0ms → 0ms |  46 → 0 | `0x53b84` | `binary`                               |
+| removed |  -42.04ms | 0.8% → 0.0% |    42.0ms → 0ms |  42 → 0 | `0x53c64` | `binary`                               |
+| removed |  -41.04ms | 0.8% → 0.0% |    41.0ms → 0ms |  41 → 0 | `0x131a4` | `binary`                               |
+| removed |  -40.04ms | 0.8% → 0.0% |    40.0ms → 0ms |  40 → 0 | `0x13990` | `binary`                               |
+| removed |  -35.04ms | 0.7% → 0.0% |    35.0ms → 0ms |  35 → 0 | `0x53bb4` | `binary`                               |
+| removed |  -31.03ms | 0.6% → 0.0% |    31.0ms → 0ms |  31 → 0 | `0x53c80` | `binary`                               |
+| removed |  -31.03ms | 0.6% → 0.0% |    31.0ms → 0ms |  31 → 0 | `0x140b0` | `binary`                               |
 
 ##### Ours
 
@@ -143,28 +143,28 @@ Functions with the largest decrease in time spent directly in the function body,
 
 ##### Native
 
-|  Change |     Delta |            % |            Time | Samples | Function  | Location                                 |
-| ------: | --------: | -----------: | --------------: | ------: | --------- | ---------------------------------------- |
-|  -92.4% | -109.11ms |  2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -56.06ms |  1.1% → 0.0% |    56.1ms → 0ms |  56 → 0 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -13.01ms |  0.2% → 0.0% |    13.0ms → 0ms |  13 → 0 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -12.01ms |  0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9d184` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -10.01ms |  0.2% → 0.0% |    10.0ms → 0ms |  10 → 0 | `0x9d11c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -6.01ms |  0.1% → 0.0% |     6.0ms → 0ms |   6 → 0 | `0x9d138` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -5.01ms |  0.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x9d150` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d168` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9e580` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d114` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e674` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -50.0% |   -2.00ms | 0.1% → <0.1% |   4.0ms → 2.0ms |   4 → 2 | `0x9d210` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e5c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e590` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e5e0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e678` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9d148` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0xddb88` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9e680` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x914e8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |     Delta |            % |            Time | Samples | Function  | Location                               |
+| ------: | --------: | -----------: | --------------: | ------: | --------- | -------------------------------------- |
+|  -92.4% | -109.11ms |  2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -56.06ms |  1.1% → 0.0% |    56.1ms → 0ms |  56 → 0 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -13.01ms |  0.2% → 0.0% |    13.0ms → 0ms |  13 → 0 | `0x9d100` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -12.01ms |  0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9d184` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -10.01ms |  0.2% → 0.0% |    10.0ms → 0ms |  10 → 0 | `0x9d11c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -6.01ms |  0.1% → 0.0% |     6.0ms → 0ms |   6 → 0 | `0x9d138` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -5.01ms |  0.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x9d150` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d168` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9e580` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms |  0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d114` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e674` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -50.0% |   -2.00ms | 0.1% → <0.1% |   4.0ms → 2.0ms |   4 → 2 | `0x9d210` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e5c0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e590` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e5e0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9e678` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `0x9d148` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0xddb88` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x9e680` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x914e8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
@@ -197,28 +197,28 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-|    Change |     Delta |             % |            Time |       Samples | Function  | Location                                 |
-| --------: | --------: | ------------: | --------------: | ------------: | --------- | ---------------------------------------- |
-|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x16900` | `binary`                                 |
-|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x13e30` | `binary`                                 |
-|       new |   +4.174s |  0.0% → 70.0% |     0ms → 4.17s |     0 → 4,170 | `0x15964` | `binary`                                 |
-|       new |   +2.810s |  0.0% → 47.2% |     0ms → 2.81s |     0 → 2,808 | `0x5eff4` | `binary`                                 |
-|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.33s |     0 → 2,335 | `0x78ff4` | `binary`                                 |
-|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.18s |     0 → 2,187 | `0x672f0` | `binary`                                 |
-|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.13s |     0 → 2,136 | `0x6639c` | `binary`                                 |
-|       new |   +1.793s |  0.0% → 30.1% |     0ms → 1.79s |     0 → 1,792 | `0x6503c` | `binary`                                 |
-|       new |   +1.696s |  0.0% → 28.5% |     0ms → 1.69s |     0 → 1,695 | `0x61a90` | `binary`                                 |
-|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.22s |     0 → 1,226 | `0x71d44` | `binary`                                 |
-|       new |   +1.201s |  0.0% → 20.2% |     0ms → 1.20s |     0 → 1,200 | `0x61f50` | `binary`                                 |
-|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.14s |     0 → 1,147 | `0x674d4` | `binary`                                 |
-|       new | +967.97ms |  0.0% → 16.2% |   0ms → 968.0ms |       0 → 967 | `0x6f75c` | `binary`                                 |
-|       new | +921.92ms |  0.0% → 15.5% |   0ms → 921.9ms |       0 → 921 | `0x6a0c8` | `binary`                                 |
-|       new | +912.91ms |  0.0% → 15.3% |   0ms → 912.9ms |       0 → 912 | `0x672d4` | `binary`                                 |
-|       new | +755.76ms |  0.0% → 12.7% |   0ms → 755.8ms |       0 → 755 | `0x6aea0` | `binary`                                 |
-|       new | +728.73ms |  0.0% → 12.2% |   0ms → 728.7ms |       0 → 728 | `0x5ebe0` | `binary`                                 |
-| +72500.0% | +725.73ms | <0.1% → 12.2% | 1.0ms → 726.7ms |       1 → 726 | `0x6944c` | `binary`                                 |
-|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    Change |     Delta |             % |            Time |       Samples | Function  | Location                               |
+| --------: | --------: | ------------: | --------------: | ------------: | --------- | -------------------------------------- |
+|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x16900` | `binary`                               |
+|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x13e30` | `binary`                               |
+|       new |   +4.174s |  0.0% → 70.0% |     0ms → 4.17s |     0 → 4,170 | `0x15964` | `binary`                               |
+|       new |   +2.810s |  0.0% → 47.2% |     0ms → 2.81s |     0 → 2,808 | `0x5eff4` | `binary`                               |
+|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.33s |     0 → 2,335 | `0x78ff4` | `binary`                               |
+|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.18s |     0 → 2,187 | `0x672f0` | `binary`                               |
+|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.13s |     0 → 2,136 | `0x6639c` | `binary`                               |
+|       new |   +1.793s |  0.0% → 30.1% |     0ms → 1.79s |     0 → 1,792 | `0x6503c` | `binary`                               |
+|       new |   +1.696s |  0.0% → 28.5% |     0ms → 1.69s |     0 → 1,695 | `0x61a90` | `binary`                               |
+|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.22s |     0 → 1,226 | `0x71d44` | `binary`                               |
+|       new |   +1.201s |  0.0% → 20.2% |     0ms → 1.20s |     0 → 1,200 | `0x61f50` | `binary`                               |
+|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.14s |     0 → 1,147 | `0x674d4` | `binary`                               |
+|       new | +967.97ms |  0.0% → 16.2% |   0ms → 968.0ms |       0 → 967 | `0x6f75c` | `binary`                               |
+|       new | +921.92ms |  0.0% → 15.5% |   0ms → 921.9ms |       0 → 921 | `0x6a0c8` | `binary`                               |
+|       new | +912.91ms |  0.0% → 15.3% |   0ms → 912.9ms |       0 → 912 | `0x672d4` | `binary`                               |
+|       new | +755.76ms |  0.0% → 12.7% |   0ms → 755.8ms |       0 → 755 | `0x6aea0` | `binary`                               |
+|       new | +728.73ms |  0.0% → 12.2% |   0ms → 728.7ms |       0 → 728 | `0x5ebe0` | `binary`                               |
+| +72500.0% | +725.73ms | <0.1% → 12.2% | 1.0ms → 726.7ms |       1 → 726 | `0x6944c` | `binary`                               |
+|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Ours
 
@@ -247,28 +247,28 @@ Functions with the largest increase in total time spent in the function and all 
 
 ##### Native
 
-|  Change |     Delta |            % |          Time |       Samples | Function  | Location                                 |
-| ------: | --------: | -----------: | ------------: | ------------: | --------- | ---------------------------------------- |
-|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +39.04ms |  0.0% → 0.7% |  0ms → 39.0ms |        0 → 39 | `0xe3e00` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |  +24.02ms |  0.0% → 0.4% |  0ms → 24.0ms |        0 → 24 | `0x92f68` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0xdd2b4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0x91d0c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `0x91bfc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +200.0% |   +2.00ms | <0.1% → 0.1% | 1.0ms → 3.0ms |         1 → 3 | `0x90818` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |   +2.00ms | <0.1% → 0.1% | 2.0ms → 4.0ms |         2 → 4 | `0x9189c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x8faf4` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x91b94` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x8e9cc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x900c0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92284` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x91b64` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8faa0` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8fc14` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x901c8` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x9d20c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |     Delta |            % |          Time |       Samples | Function  | Location                               |
+| ------: | --------: | -----------: | ------------: | ------------: | --------- | -------------------------------------- |
+|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |  +39.04ms |  0.0% → 0.7% |  0ms → 39.0ms |        0 → 39 | `0xe3e00` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |  +24.02ms |  0.0% → 0.4% |  0ms → 24.0ms |        0 → 24 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0xdd2b4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0x91d0c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +3.00ms |  0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `0x91bfc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +200.0% |   +2.00ms | <0.1% → 0.1% | 1.0ms → 3.0ms |         1 → 3 | `0x90818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +2.00ms | <0.1% → 0.1% | 2.0ms → 4.0ms |         2 → 4 | `0x9189c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x8faf4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |         0 → 2 | `0x91b94` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x8e9cc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +100.0% |   +1.00ms |        <0.1% | 1.0ms → 2.0ms |         1 → 2 | `0x900c0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92284` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x91b64` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8faa0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x8fc14` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x901c8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x9d20c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new |   +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `0x92240` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 
@@ -326,28 +326,28 @@ Functions with the largest decrease in total time spent in the function and all 
 
 ##### Native
 
-|  Change |     Delta |           % |            Time | Samples | Function  | Location                                 |
-| ------: | --------: | ----------: | --------------: | ------: | --------- | ---------------------------------------- |
-|  -92.4% | -109.11ms | 2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -86.09ms | 1.6% → 0.0% |    86.1ms → 0ms |  86 → 0 | `0x9e670` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -29.03ms | 0.6% → 0.0% |    29.0ms → 0ms |  29 → 0 | `0xddb88` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -13.01ms | 0.2% → 0.0% |    13.0ms → 0ms |  13 → 0 | `0x9d100` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -12.01ms | 0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9e674` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -12.01ms | 0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9d184` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |  -10.01ms | 0.2% → 0.0% |    10.0ms → 0ms |  10 → 0 | `0x9d11c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -52.9% |   -9.01ms | 0.3% → 0.1% |  17.0ms → 8.0ms |  17 → 8 | `0x92a9c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -9.01ms | 0.2% → 0.0% |     9.0ms → 0ms |   9 → 0 | `0x9405c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -58.3% |   -7.01ms | 0.2% → 0.1% |  12.0ms → 5.0ms |  12 → 5 | `0x8fa48` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -58.3% |   -7.01ms | 0.2% → 0.1% |  12.0ms → 5.0ms |  12 → 5 | `0x90240` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -6.01ms | 0.1% → 0.0% |     6.0ms → 0ms |   6 → 0 | `0x9d138` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -38.5% |   -5.01ms | 0.2% → 0.1% |  13.0ms → 8.0ms |  13 → 8 | `0xe3acc` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -38.5% |   -5.01ms | 0.2% → 0.1% |  13.0ms → 8.0ms |  13 → 8 | `0x8f988` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -5.01ms | 0.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x9d150` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -62.5% |   -5.01ms | 0.2% → 0.1% |   8.0ms → 3.0ms |   8 → 3 | `0x9245c` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  -19.0% |   -4.00ms | 0.4% → 0.3% | 21.0ms → 17.0ms | 21 → 17 | `0xdda44` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d168` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9e580` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
-| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d114` | `../usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  Change |     Delta |           % |            Time | Samples | Function  | Location                               |
+| ------: | --------: | ----------: | --------------: | ------: | --------- | -------------------------------------- |
+|  -92.4% | -109.11ms | 2.3% → 0.2% | 118.1ms → 9.0ms | 118 → 9 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -86.09ms | 1.6% → 0.0% |    86.1ms → 0ms |  86 → 0 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -29.03ms | 0.6% → 0.0% |    29.0ms → 0ms |  29 → 0 | `0xddb88` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -13.01ms | 0.2% → 0.0% |    13.0ms → 0ms |  13 → 0 | `0x9d100` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -12.01ms | 0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9e674` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -12.01ms | 0.2% → 0.0% |    12.0ms → 0ms |  12 → 0 | `0x9d184` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -10.01ms | 0.2% → 0.0% |    10.0ms → 0ms |  10 → 0 | `0x9d11c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -52.9% |   -9.01ms | 0.3% → 0.1% |  17.0ms → 8.0ms |  17 → 8 | `0x92a9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -9.01ms | 0.2% → 0.0% |     9.0ms → 0ms |   9 → 0 | `0x9405c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -58.3% |   -7.01ms | 0.2% → 0.1% |  12.0ms → 5.0ms |  12 → 5 | `0x8fa48` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -58.3% |   -7.01ms | 0.2% → 0.1% |  12.0ms → 5.0ms |  12 → 5 | `0x90240` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -6.01ms | 0.1% → 0.0% |     6.0ms → 0ms |   6 → 0 | `0x9d138` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -38.5% |   -5.01ms | 0.2% → 0.1% |  13.0ms → 8.0ms |  13 → 8 | `0xe3acc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -38.5% |   -5.01ms | 0.2% → 0.1% |  13.0ms → 8.0ms |  13 → 8 | `0x8f988` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -5.01ms | 0.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x9d150` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -62.5% |   -5.01ms | 0.2% → 0.1% |   8.0ms → 3.0ms |   8 → 3 | `0x9245c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -19.0% |   -4.00ms | 0.4% → 0.3% | 21.0ms → 17.0ms | 21 → 17 | `0xdda44` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d168` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9e580` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |   -4.00ms | 0.1% → 0.0% |     4.0ms → 0ms |   4 → 0 | `0x9d114` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Kernel
 

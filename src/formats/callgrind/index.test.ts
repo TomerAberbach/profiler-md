@@ -383,7 +383,7 @@ describe(`calls without a cost line`, () => {
           Instructions: `20`,
           Calls: `1`,
           Callee: `work`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -507,19 +507,19 @@ describe(`convert`, () => {
           '%': `64.7%`,
           Instructions: `550`,
           Function: `compress`,
-          Location: `src/compress.c`,
+          Location: `/src/compress.c`,
         },
         {
           '%': `17.6%`,
           Instructions: `150`,
           Function: `main`,
-          Location: `src/main.c`,
+          Location: `/src/main.c`,
         },
         {
           '%': `17.6%`,
           Instructions: `150`,
           Function: `memcpy`,
-          Location: `usr/lib/libc.so.6`,
+          Location: `/usr/lib/libc.so.6`,
         },
       ],
     ])
@@ -530,19 +530,19 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `850`,
           Function: `main`,
-          Location: `src/main.c`,
+          Location: `/src/main.c`,
         },
         {
           '%': `82.4%`,
           Instructions: `700`,
           Function: `compress`,
-          Location: `src/compress.c`,
+          Location: `/src/compress.c`,
         },
         {
           '%': `17.6%`,
           Instructions: `150`,
           Function: `memcpy`,
-          Location: `usr/lib/libc.so.6`,
+          Location: `/usr/lib/libc.so.6`,
         },
       ],
     ])
@@ -554,12 +554,12 @@ describe(`convert`, () => {
         {
           '%': `66.7%`,
           Instructions: `100`,
-          Location: `src/main.c:10`,
+          Location: `/src/main.c:10`,
         },
         {
           '%': `33.3%`,
           Instructions: `50`,
-          Location: `src/main.c:11`,
+          Location: `/src/main.c:11`,
         },
       ],
     ])
@@ -568,12 +568,12 @@ describe(`convert`, () => {
         {
           '%': `54.5%`,
           Instructions: `300`,
-          Location: `src/compress.c:20`,
+          Location: `/src/compress.c:20`,
         },
         {
           '%': `45.5%`,
           Instructions: `250`,
-          Location: `src/compress.c:22`,
+          Location: `/src/compress.c:22`,
         },
       ],
     ])
@@ -587,7 +587,7 @@ describe(`convert`, () => {
           Instructions: `700`,
           Calls: `2`,
           Caller: `main`,
-          Location: `src/main.c`,
+          Location: `/src/main.c`,
         },
       ],
     ])
@@ -598,7 +598,7 @@ describe(`convert`, () => {
           Instructions: `700`,
           Calls: `2`,
           Callee: `compress`,
-          Location: `src/compress.c`,
+          Location: `/src/compress.c`,
         },
       ],
     ])
@@ -609,7 +609,7 @@ describe(`convert`, () => {
           Instructions: `150`,
           Calls: `10`,
           Callee: `memcpy`,
-          Location: `usr/lib/libc.so.6`,
+          Location: `/usr/lib/libc.so.6`,
         },
       ],
     ])
@@ -665,19 +665,19 @@ describe(`convert`, () => {
           '%': `75.0%`,
           Instructions: `90`,
           Function: `shared`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `66.7%`,
           Instructions: `80`,
           Function: `rootB`,
-          Location: `app/b.c`,
+          Location: `/app/b.c`,
         },
         {
           '%': `33.3%`,
           Instructions: `40`,
           Function: `rootA`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -688,14 +688,14 @@ describe(`convert`, () => {
           Instructions: `60`,
           Calls: `2`,
           Caller: `rootB`,
-          Location: `app/b.c`,
+          Location: `/app/b.c`,
         },
         {
           '%': `33.3%`,
           Instructions: `30`,
           Calls: `1`,
           Caller: `rootA`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -725,7 +725,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `100`,
           Function: `recur`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -735,7 +735,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `100`,
           Function: `recur`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -778,19 +778,19 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `100`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `60.0%`,
           Instructions: `60`,
           Function: `pong`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `30.0%`,
           Instructions: `30`,
           Function: `ping`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -801,14 +801,14 @@ describe(`convert`, () => {
           Instructions: `90`,
           Calls: `1`,
           Caller: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `83.3%`,
           Instructions: `25`,
           Calls: `2`,
           Caller: `pong`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -855,25 +855,25 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `100`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `70.0%`,
           Instructions: `70`,
           Function: `parseExpr`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `50.0%`,
           Instructions: `50`,
           Function: `lex`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `20.0%`,
           Instructions: `20`,
           Function: `parse`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -923,25 +923,25 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `400`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `97.5%`,
           Instructions: `390`,
           Function: `_dl_runtime_resolve_xsavec`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `72.5%`,
           Instructions: `290`,
           Function: `work`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `20.0%`,
           Instructions: `80`,
           Function: `helper`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -953,14 +953,14 @@ describe(`convert`, () => {
           Instructions: `290`,
           Calls: `1`,
           Callee: `work`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `20.5%`,
           Instructions: `80`,
           Calls: `1`,
           Callee: `helper`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -971,7 +971,7 @@ describe(`convert`, () => {
           Instructions: `80`,
           Calls: `1`,
           Caller: `_dl_runtime_resolve_xsavec`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1029,13 +1029,13 @@ describe(`convert`, () => {
           '%': `90.0%`,
           Instructions: `90`,
           Function: `work`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `10.0%`,
           Instructions: `10`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1045,13 +1045,13 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `100`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
         {
           '%': `90.0%`,
           Instructions: `90`,
           Function: `work`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1081,7 +1081,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `150`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1091,7 +1091,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           'Data reads': `40`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1118,12 +1118,12 @@ describe(`convert`, () => {
         {
           '%': `85.7%`,
           Instructions: `150`,
-          Location: `app/a.c:7`,
+          Location: `/app/a.c:7`,
         },
         {
           '%': `14.3%`,
           Instructions: `25`,
-          Location: `app/a.c:8`,
+          Location: `/app/a.c:8`,
         },
       ],
     ])
@@ -1161,7 +1161,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Samples: `12`,
           Function: `work`,
-          Location: `app/foo.rb`,
+          Location: `/app/foo.rb`,
         },
       ],
     ])
@@ -1190,7 +1190,7 @@ describe(`convert`, () => {
           '%': `75.0%`,
           Instructions: `30`,
           Callee: `helper`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1220,7 +1220,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Instructions: `175`,
           Function: `main`,
-          Location: `app/a.c`,
+          Location: `/app/a.c`,
         },
       ],
     ])
@@ -1229,12 +1229,12 @@ describe(`convert`, () => {
         {
           '%': `57.1%`,
           Instructions: `100`,
-          Location: `app/a.c:1`,
+          Location: `/app/a.c:1`,
         },
         {
           '%': `14.3%`,
           Instructions: `25`,
-          Location: `app/a.c:2`,
+          Location: `/app/a.c:2`,
         },
       ],
     ])
@@ -1273,7 +1273,7 @@ describe(`convert`, () => {
           '%': `66.7% → 78.9%`,
           Instructions: `200 → 300`,
           Function: `compress`,
-          Location: `src/compress.c`,
+          Location: `/src/compress.c`,
         },
       ],
     ])
@@ -1285,7 +1285,7 @@ describe(`convert`, () => {
           '%': `33.3% → 21.1%`,
           Instructions: `100 → 80`,
           Function: `main`,
-          Location: `src/main.c`,
+          Location: `/src/main.c`,
         },
       ],
     ])
@@ -1328,7 +1328,7 @@ test(`pairs the lines of a function an edit moved in a diff`, () => {
         Delta: `+30`,
         '%': `29.4% → 40.0%`,
         Instructions: `50 → 80`,
-        Location: `src/main.c:11 → 16`,
+        Location: `/src/main.c:11 → 16`,
       },
     ],
   ])
@@ -1372,7 +1372,7 @@ describe(`category subsections`, () => {
       '%': `39.0%`,
       Instructions: `390`,
       Function: `malloc`,
-      Location: `../usr/lib/libc.so`,
+      Location: `/usr/lib/libc.so`,
     },
   ]
   const STDLIB_ROWS = [
@@ -1380,7 +1380,7 @@ describe(`category subsections`, () => {
       '%': `1.0%`,
       Instructions: `10`,
       Function: `reserve`,
-      Location: `../usr/include/c++/12/vector`,
+      Location: `/usr/include/c++/12/vector`,
     },
   ]
 
@@ -1469,7 +1469,7 @@ describe(`category subsections`, () => {
             '%': `39.0% → 69.3%`,
             Instructions: `390 → 700`,
             Function: `malloc`,
-            Location: `../usr/lib/libc.so`,
+            Location: `/usr/lib/libc.so`,
           },
         ],
       })
