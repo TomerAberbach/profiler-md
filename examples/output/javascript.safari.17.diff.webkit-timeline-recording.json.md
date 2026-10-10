@@ -16,28 +16,28 @@ Took 101.6ms → 102.2ms (+0.55ms, +0.5%) over 89 samples → 91 samples (1.1ms 
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|  Change |   Delta |           % |          Time | Samples | Function                             | Location                                                                                                    |
-| ------: | ------: | ----------: | ------------: | ------: | ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| +323.4% | +3.23ms | 1.0% → 4.1% | 1.0ms → 4.2ms |   1 → 2 | `normalizedElementTagName`           | `__InjectedScript_ReaderArticleFinder.js:12:19601`                                                          |
-|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `elementLooksLikePartOfACarousel`    | `__InjectedScript_ReaderArticleFinder.js:12:8505`                                                           |
-|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `t`                                  | `__InjectedScript_ReaderArticleFinder.js:13:56642`                                                          |
-|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `domDistance`                        | `__InjectedScript_ReaderArticleFinder.js:12:2553`                                                           |
-|  +50.0% | +2.00ms | 3.9% → 5.9% | 4.0ms → 6.0ms |   4 → 6 | `insertBefore`                       | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `register`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249`                             |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:106:794`                                  |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `execute`                            | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`                             |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `each`                               | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`                                    |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`                      |
-|  +25.0% | +1.00ms | 3.9% → 4.9% | 4.0ms → 5.0ms |   4 → 5 | `getPropertyValue`                   | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:24`                              |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `add`                                | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368`                            |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=ext.popups.main&skin=vector-2022&version=18lyf:1:5743`                          |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91`                     |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:24` |
-| +100.0% | +1.00ms | 1.0% → 2.0% | 1.0ms → 2.0ms |   1 → 2 | `collectMatchingElementsInFlatTree`  | `<unknown>`                                                                                                 |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getVisibleNonWhitespaceTextNodes`   | `__InjectedScript_ReaderArticleFinder.js:12:13801`                                                          |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                        | `__InjectedScript_ReaderArticleFinder.js:12:26535`                                                          |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `adjustArticleNodeUpwardIfNecessary` | `__InjectedScript_ReaderArticleFinder.js:13:4514`                                                           |
+|  Change |   Delta |           % |          Time | Samples | Function                            | Location                                                                                                    |
+| ------: | ------: | ----------: | ------------: | ------: | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| +323.4% | +3.23ms | 1.0% → 4.1% | 1.0ms → 4.2ms |   1 → 2 | `normalizedElementTagName`          | `__InjectedScript_ReaderArticleFinder.js:12:19601`                                                          |
+|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `elementLooksLikePartOfACarousel`   | `__InjectedScript_ReaderArticleFinder.js:12:8505`                                                           |
+|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `t`                                 | `__InjectedScript_ReaderArticleFinder.js:13:56642`                                                          |
+|     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `domDistance`                       | `__InjectedScript_ReaderArticleFinder.js:12:2553`                                                           |
+|  +50.0% | +2.00ms | 3.9% → 5.9% | 4.0ms → 6.0ms |   4 → 6 | `insertBefore`                      | `<unknown>`                                                                                                 |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `register`                          | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249`                             |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:106:794`                                  |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `execute`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`                             |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `each`                              | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`                                    |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`                      |
+|  +25.0% | +1.00ms | 3.9% → 4.9% | 4.0ms → 5.0ms |   4 → 5 | `getPropertyValue`                  | `<unknown>`                                                                                                 |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:24`                              |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `add`                               | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368`                            |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `w/load.php?lang=en&modules=ext.popups.main&skin=vector-2022&version=18lyf:1:5743`                          |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91`                     |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:24` |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `FormMetadata.js:3:77436`                                                                                   |
+| +100.0% | +1.00ms | 1.0% → 2.0% | 1.0ms → 2.0ms |   1 → 2 | `collectMatchingElementsInFlatTree` | `<unknown>`                                                                                                 |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getVisibleNonWhitespaceTextNodes`  | `__InjectedScript_ReaderArticleFinder.js:12:13801`                                                          |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | `__InjectedScript_ReaderArticleFinder.js:12:26535`                                                          |
 
 ##### Standard library
 
@@ -47,6 +47,7 @@ Functions with the largest increase in time spent directly in the function body,
 |     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `elementLooksLikePartOfACarousel`               | `__InjectedScript_ReaderArticleFinder.js:12:8505`  |
 |     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `t`                                             | `__InjectedScript_ReaderArticleFinder.js:13:56642` |
 |     new | +3.23ms | 0.0% → 3.2% |   0ms → 3.2ms |   0 → 1 | `domDistance`                                   | `__InjectedScript_ReaderArticleFinder.js:12:2553`  |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                                   | `FormMetadata.js:3:77436`                          |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getVisibleNonWhitespaceTextNodes`              | `__InjectedScript_ReaderArticleFinder.js:12:13801` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                                   | `__InjectedScript_ReaderArticleFinder.js:12:26535` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `adjustArticleNodeUpwardIfNecessary`            | `__InjectedScript_ReaderArticleFinder.js:13:4514`  |
@@ -137,6 +138,7 @@ Functions with the largest decrease in time spent directly in the function body,
 |  -37.9% | -1.97ms | 5.1% → 3.2% | 5.2ms → 3.2ms |       1 | `trimmedInnerTextIgnoringTextTransform`            | `__InjectedScript_ReaderArticleFinder.js:12:6561`  |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `forEach`                                          | `<unknown>`                                        |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `exec`                                             | `<unknown>`                                        |
+| removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                      | `FormMetadata.js:3:16812`                          |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `(anonymous)`                                      | `FormMetadata.js:3:11837`                          |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `_createLogicalFormsForControls`                   | `FormMetadata.js:3:23832`                          |
 | removed | -1.00ms | 1.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `_findHiddenUsernameElement`                       | `FormMetadata.js:3:75498`                          |
@@ -238,7 +240,7 @@ Functions with the largest increase in total time spent in the function and all 
 | +200.0% | +2.00ms |  1.0% → 2.9% |  1.0ms → 3.0ms |   1 → 3 | `CandidateElement`                                             | `__InjectedScript_ReaderArticleFinder.js:12:25119` |
 |     new | +2.00ms |  0.0% → 2.0% |    0ms → 2.0ms |   0 → 2 | `i`                                                            | `__InjectedScript_ReaderArticleFinder.js:12:29250` |
 |  +12.5% | +1.00ms |  7.9% → 8.8% |  8.0ms → 9.0ms |   8 → 9 | `_collectFormMetadata`                                         | `FormMetadata.js:3:62833`                          |
-| +100.0% | +1.00ms |  1.0% → 2.0% |  1.0ms → 2.0ms |   1 → 2 | `_collectControlMetadata`                                      | `FormMetadata.js:3:46804`                          |
+|     new | +1.00ms |  0.0% → 1.0% |    0ms → 1.0ms |   0 → 1 | `(anonymous)`                                                  | `FormMetadata.js:3:77436`                          |
 
 ##### Ours
 
@@ -327,6 +329,7 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -37.9% | -1.97ms |   5.1% → 3.2% |   5.2ms → 3.2ms |       1 | `updateArticleBylineAndDateElements`             | `__InjectedScript_ReaderArticleFinder.js:13:53902` |
 |   -5.9% | -1.45ms | 24.2% → 22.7% | 24.6ms → 23.2ms |      12 | `unformattedArticleTextContentIncludingMetadata` | `__InjectedScript_ReaderArticleFinder.js:13:67861` |
 | removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `exec`                                           | `<unknown>`                                        |
+| removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `(anonymous)`                                    | `FormMetadata.js:3:16812`                          |
 | removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `reduce`                                         | `<unknown>`                                        |
 | removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `_createLogicalFormsForControls`                 | `FormMetadata.js:3:23832`                          |
 | removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `_looksLikeOneTimeCodeField`                     | `FormMetadata.js:3:42732`                          |
@@ -334,7 +337,6 @@ Functions with the largest decrease in total time spent in the function and all 
 | removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `Set`                                            | `<unknown>`                                        |
 |  -33.3% | -1.00ms |   3.0% → 2.0% |   3.0ms → 2.0ms |   3 → 2 | `cachedElementBoundingRect`                      | `__InjectedScript_ReaderArticleFinder.js:12:5336`  |
 | removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `shouldDisqualifyDueToHeaderDensity`             | `__InjectedScript_ReaderArticleFinder.js:12:30932` |
-| removed | -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `elementAtPoint`                                 | `__InjectedScript_ReaderArticleFinder.js:12:10176` |
 
 ##### Ours
 

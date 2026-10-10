@@ -54,6 +54,7 @@ Functions with the largest increase in time spent directly in the function body,
 |    new | +1.25ms |  0.0% → 0.1% |     0ms → 1.3ms |   0 → 1 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:539:8`     |
 |    new | +1.25ms |  0.0% → 0.1% |     0ms → 1.3ms |   0 → 1 | `(anonymous)`          | `ext:deno_node/crypto.ts:1:32`                  |
 |    new | +1.24ms |  0.0% → 0.1% |     0ms → 1.2ms |   0 → 1 | `readFileSync`         | `ext:deno_node/fs.ts:399:24`                    |
+|    new | +1.24ms |  0.0% → 0.1% |     0ms → 1.2ms |   0 → 1 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:569:8`     |
 |    new | +1.23ms |  0.0% → 0.1% |     0ms → 1.2ms |   0 → 1 | `getOptions`           | `ext:deno_node/internal/fs/utils.mjs:363:27`    |
 |  +1.7% | +1.23ms |  3.3% → 3.4% | 71.4ms → 72.6ms | 57 → 58 | `compileFunction`      | `ext:core/01_core.js:1100:22`                   |
 |    new | +0.54ms | 0.0% → <0.1% |     0ms → 0.5ms |   0 → 1 | `statSync`             | `ext:deno_fs/30_fs.js:473:18`                   |
@@ -129,17 +130,17 @@ Functions with the largest decrease in time spent directly in the function body,
 
 ##### Standard library
 
-|  Change |    Delta |            % |           Time | Samples | Function               | Location                                            |
-| ------: | -------: | -----------: | -------------: | ------: | ---------------------- | --------------------------------------------------- |
-|  -72.0% | -12.88ms |  0.8% → 0.2% | 17.9ms → 5.0ms |  15 → 5 | `buildCustomError`     | `ext:core/00_infra.js:94:28`                        |
-|  -23.7% |  -2.15ms |  0.4% → 0.3% |  9.1ms → 6.9ms |   9 → 6 | `NotFound`             | `ext:runtime/01_errors.js:7:14`                     |
-| removed |  -1.83ms |  0.1% → 0.0% |    1.8ms → 0ms |   2 → 0 | `encodeRealpathResult` | `ext:deno_node/fs.ts:116:32`                        |
-|  -34.0% |  -1.28ms |  0.2% → 0.1% |  3.8ms → 2.5ms |   3 → 2 | `readFileMaybeDecode`  | `ext:deno_node/fs.ts:268:31`                        |
-|  -13.2% |  -0.50ms |         0.2% |  3.8ms → 3.3ms |       3 | `SafeIterator`         | `ext:core/00_primordials.js:316:18`                 |
-| removed |  -0.46ms | <0.1% → 0.0% |    0.5ms → 0ms |   1 → 0 | `value`                | `ext:deno_node/internal/fs/stat_utils.ts:30:14`     |
-| removed |  -0.23ms | <0.1% → 0.0% |    0.2ms → 0ms |   1 → 0 | `FastBuffer`           | `ext:deno_node/internal/buffer.mjs:192:14`          |
-|   -1.8% |  -0.02ms |         0.1% |  1.3ms → 1.2ms |       1 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:554:8 → 569:8` |
-|   -0.8% |  -0.01ms |         0.1% |          1.3ms |       1 | `dateFromMs`           | `ext:deno_node/internal/fs/utils.mjs:526:20`        |
+|  Change |    Delta |            % |           Time | Samples | Function               | Location                                        |
+| ------: | -------: | -----------: | -------------: | ------: | ---------------------- | ----------------------------------------------- |
+|  -72.0% | -12.88ms |  0.8% → 0.2% | 17.9ms → 5.0ms |  15 → 5 | `buildCustomError`     | `ext:core/00_infra.js:94:28`                    |
+|  -23.7% |  -2.15ms |  0.4% → 0.3% |  9.1ms → 6.9ms |   9 → 6 | `NotFound`             | `ext:runtime/01_errors.js:7:14`                 |
+| removed |  -1.83ms |  0.1% → 0.0% |    1.8ms → 0ms |   2 → 0 | `encodeRealpathResult` | `ext:deno_node/fs.ts:116:32`                    |
+|  -34.0% |  -1.28ms |  0.2% → 0.1% |  3.8ms → 2.5ms |   3 → 2 | `readFileMaybeDecode`  | `ext:deno_node/fs.ts:268:31`                    |
+| removed |  -1.26ms |  0.1% → 0.0% |    1.3ms → 0ms |   1 → 0 | `set`                  | `ext:deno_node/internal/fs/utils.mjs:554:8`     |
+|  -13.2% |  -0.50ms |         0.2% |  3.8ms → 3.3ms |       3 | `SafeIterator`         | `ext:core/00_primordials.js:316:18`             |
+| removed |  -0.46ms | <0.1% → 0.0% |    0.5ms → 0ms |   1 → 0 | `value`                | `ext:deno_node/internal/fs/stat_utils.ts:30:14` |
+| removed |  -0.23ms | <0.1% → 0.0% |    0.2ms → 0ms |   1 → 0 | `FastBuffer`           | `ext:deno_node/internal/buffer.mjs:192:14`      |
+|   -0.8% |  -0.01ms |         0.1% |          1.3ms |       1 | `dateFromMs`           | `ext:deno_node/internal/fs/utils.mjs:526:20`    |
 
 ##### Native
 
@@ -205,10 +206,10 @@ Functions with the largest increase in total time spent in the function and all 
 |     new | +1.25ms |   0.0% → 0.1% |     0ms → 1.3ms |         0 → 1 | `crypto`                       | `node:module:161:13`                            |
 |     new | +1.25ms |   0.0% → 0.1% |     0ms → 1.3ms |         0 → 1 | `get`                          | `node:module:212:9`                             |
 |     new | +1.25ms |   0.0% → 0.1% |     0ms → 1.3ms |         0 → 1 | `loadNativeModule`             | `node:module:2019:26`                           |
+|     new | +1.24ms |   0.0% → 0.1% |     0ms → 1.2ms |         0 → 1 | `set`                          | `ext:deno_node/internal/fs/utils.mjs:569:8`     |
 |     new | +1.23ms |   0.0% → 0.1% |     0ms → 1.2ms |         0 → 1 | `getOptions`                   | `ext:deno_node/internal/fs/utils.mjs:363:27`    |
 |  +48.1% | +1.22ms |   0.1% → 0.2% |   2.5ms → 3.8ms |         2 → 3 | `Stats`                        | `ext:deno_node/internal/fs/utils.mjs:650:22`    |
 |   +9.6% | +0.99ms |          0.5% | 10.3ms → 11.3ms |             9 | `readFileSync`                 | `ext:deno_node/fs.ts:399:24`                    |
-|   +3.7% | +0.97ms |   1.2% → 1.3% | 26.3ms → 27.3ms |         1 → 2 | `post`                         | `ext:deno_node/inspector.js:179:7`              |
 
 ##### Garbage collector
 

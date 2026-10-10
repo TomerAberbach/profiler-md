@@ -32,8 +32,8 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new | +512.187 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `createTypeMapper`                         | `node_modules/typescript/lib/typescript.js:65904:28`              |
 |     new | +512.187 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `getTransformFlagsSubtreeExclusions`       | `node_modules/typescript/lib/typescript.js:28511:44`              |
 |     new | +512.109 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `checkBinaryLikeExpressionWorker`          | `node_modules/typescript/lib/typescript.js:81904:43`              |
-|     new | +512.062 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:21101:25 → 3963:2`     |
 |     new | +512.062 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:83934:23`              |
+|     new | +512.062 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:3963:2`                |
 |     new | +512.039 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `parseTokenNode`                           | `node_modules/typescript/lib/typescript.js:33257:26`              |
 |     new | +512.031 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `sameMap`                                  | `node_modules/typescript/lib/typescript.js:2595:17`               |
 |     new | +512.031 KiB |  0.0% → 1.9% |       0 B → 512 KiB |   0 → 1 | `checkUnusedClassMembers`                  | `node_modules/typescript/lib/typescript.js:84802:35`              |
@@ -56,8 +56,8 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new | +512.187 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `createTypeMapper`                         | `node_modules/typescript/lib/typescript.js:65904:28`              |
 |     new | +512.187 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `getTransformFlagsSubtreeExclusions`       | `node_modules/typescript/lib/typescript.js:28511:44`              |
 |     new | +512.109 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `checkBinaryLikeExpressionWorker`          | `node_modules/typescript/lib/typescript.js:81904:43`              |
-|     new | +512.062 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:21101:25 → 3963:2`     |
 |     new | +512.062 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:83934:23`              |
+|     new | +512.062 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:3963:2`                |
 |     new | +512.039 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `parseTokenNode`                           | `node_modules/typescript/lib/typescript.js:33257:26`              |
 |     new | +512.031 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `sameMap`                                  | `node_modules/typescript/lib/typescript.js:2595:17`               |
 |     new | +512.031 KiB | 0.0% → 1.9% |      0 B → 512 KiB |   0 → 1 | `checkUnusedClassMembers`                  | `node_modules/typescript/lib/typescript.js:84802:35`              |
@@ -170,7 +170,6 @@ Functions with the largest increase in total bytes allocated in the function and
 |  +33.6% | +1.513 MiB | 20.7% → 23.0% | 4.51 MiB → 6.02 MiB |  9 → 12 | `getSemanticDiagnosticsForFile`            | `node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
 |  +33.6% | +1.513 MiB | 20.7% → 23.0% | 4.51 MiB → 6.02 MiB |  9 → 12 | `getDiagnosticsHelper`                     | `node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
 |  +33.6% | +1.513 MiB | 20.7% → 23.0% | 4.51 MiB → 6.02 MiB |  9 → 12 | `getSemanticDiagnostics`                   | `node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
-| +301.8% | +1.509 MiB |   2.3% → 7.7% |  512 KiB → 2.01 MiB |   1 → 4 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:122498:30 → 124028:24` |
 | +300.9% | +1.508 MiB |   2.3% → 7.7% |  513 KiB → 2.01 MiB |   1 → 4 | `parseDeclarationWorker`                   | `node_modules/typescript/lib/typescript.js:36069:34 → 37124:34`   |
 | +150.2% | +1.502 MiB |   4.6% → 9.5% |     1 MiB → 2.5 MiB |   2 → 5 | `checkExpressionWorker`                    | `node_modules/typescript/lib/typescript.js:81516:33 → 82811:33`   |
 |     new | +1.501 MiB |   0.0% → 5.7% |       0 B → 1.5 MiB |   0 → 3 | `getConditionalType`                       | `node_modules/typescript/lib/typescript.js:65229:30`              |
@@ -178,6 +177,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |     new | +1.501 MiB |   0.0% → 5.7% |       0 B → 1.5 MiB |   0 → 3 | `signatureRelatedTo`                       | `node_modules/typescript/lib/typescript.js:69635:32`              |
 |     new | +1.501 MiB |   0.0% → 5.7% |       0 B → 1.5 MiB |   0 → 3 | `signaturesRelatedTo`                      | `node_modules/typescript/lib/typescript.js:69505:33`              |
 | +101.7% | +1.018 MiB |   4.6% → 7.7% |    1 MiB → 2.02 MiB |   2 → 4 | `getTypeChecker`                           | `node_modules/typescript/lib/typescript.js:123266:26 → 124848:26` |
+|  +20.2% | +1.013 MiB |         23.0% | 5.01 MiB → 6.02 MiB | 10 → 12 | `flatMap`                                  | `node_modules/typescript/lib/typescript.js:2612:17 → 2625:17`     |
 
 ##### Standard library
 
@@ -207,7 +207,6 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 |  Change |      Delta |             % |                Size | Samples | Function                           | Location                                                          |
 | ------: | ---------: | ------------: | ------------------: | ------: | ---------------------------------- | ----------------------------------------------------------------- |
-| removed | -4.006 MiB |  18.4% → 0.0% |      4.01 MiB → 0 B |   8 → 0 | `(anonymous)`                      | `node_modules/typescript/lib/typescript.js:122449:24`             |
 |  -33.3% | -2.502 MiB | 34.5% → 19.1% | 7.51 MiB → 5.01 MiB | 15 → 10 | `forEach`                          | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
 |  -55.4% | -2.497 MiB |  20.7% → 7.7% | 4.51 MiB → 2.01 MiB |   9 → 4 | `(anonymous)`                      | `node_modules/typescript/lib/typescript.js:123923:7 → 125505:7`   |
 |  -55.4% | -2.497 MiB |  20.7% → 7.7% | 4.51 MiB → 2.01 MiB |   9 → 4 | `findSourceFileWorker`             | `node_modules/typescript/lib/typescript.js:123984:32 → 125566:32` |
@@ -215,6 +214,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -55.4% | -2.497 MiB |  20.7% → 7.7% | 4.51 MiB → 2.01 MiB |   9 → 4 | `getSourceFileFromReferenceWorker` | `node_modules/typescript/lib/typescript.js:123879:44 → 125461:44` |
 |  -55.4% | -2.497 MiB |  20.7% → 7.7% | 4.51 MiB → 2.01 MiB |   9 → 4 | `processSourceFile`                | `node_modules/typescript/lib/typescript.js:123920:29 → 125502:29` |
 |  -55.4% | -2.497 MiB |  20.7% → 7.7% | 4.51 MiB → 2.01 MiB |   9 → 4 | `processRootFile`                  | `node_modules/typescript/lib/typescript.js:123708:27 → 125290:27` |
+|  -49.9% | -1.997 MiB |  18.4% → 7.7% | 4.01 MiB → 2.01 MiB |   8 → 4 | `(anonymous)`                      | `node_modules/typescript/lib/typescript.js:122449:24 → 124028:24` |
 |  -75.1% | -1.505 MiB |   9.2% → 1.9% |  2.01 MiB → 512 KiB |   4 → 1 | `typeToString`                     | `node_modules/typescript/lib/typescript.js:53002:24 → 54239:24`   |
 |  -75.1% | -1.505 MiB |   9.2% → 1.9% |  2.01 MiB → 512 KiB |   4 → 1 | `getTypeNamesForErrorDisplay`      | `node_modules/typescript/lib/typescript.js:53023:39 → 54260:39`   |
 |  -75.1% | -1.505 MiB |   9.2% → 1.9% |  2.01 MiB → 512 KiB |   4 → 1 | `reportRelationError`              | `node_modules/typescript/lib/typescript.js:66409:33 → 67669:33`   |
@@ -226,7 +226,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -66.8% | -1.005 MiB |   6.9% → 1.9% |  1.51 MiB → 512 KiB |   3 → 1 | `checkTypeAssignableTo`            | `node_modules/typescript/lib/typescript.js:65233:33 → 66493:33`   |
 |  -66.8% | -1.005 MiB |   6.9% → 1.9% |  1.51 MiB → 512 KiB |   3 → 1 | `checkFunctionOrMethodDeclaration` | `node_modules/typescript/lib/typescript.js:83398:44 → 84693:44`   |
 |  -66.8% | -1.005 MiB |   6.9% → 1.9% |  1.51 MiB → 512 KiB |   3 → 1 | `checkMethodDeclaration`           | `node_modules/typescript/lib/typescript.js:82023:34 → 83318:34`   |
-|  -66.8% | -1.005 MiB |   6.9% → 1.9% |  1.51 MiB → 512 KiB |   3 → 1 | `(anonymous)`                      | `node_modules/typescript/lib/typescript.js:82238:27 → 81757:12`   |
+|  -50.1% | -1.004 MiB |   9.2% → 3.8% |    2.01 MiB → 1 MiB |   4 → 2 | `checkClassDeclaration`            | `node_modules/typescript/lib/typescript.js:85417:33 → 86712:33`   |
 
 ##### Standard library
 
