@@ -474,19 +474,61 @@ const joinRelativeURLPath = ({
  * the protocol and host, followed by a `file:` URL's Windows drive letter
  * (`file:///C:`) or UNC share (`file://server/share`), so URLs with equal roots
  * share an origin.
+ *
+ * A profiler may report a directory both through a symbolic link in
+ * {@link SYMLINKS} and by its target, so the segments spell a path under a
+ * target through its link, and `symlink` states which link replaced it.
  */
-const splitURLPath = (url: URL): { root: string; segments: string[] } => {
+const splitURLPath = (
+  url: URL,
+): { root: string; segments: string[]; symlink?: Symlink } => {
   const segments = url.pathname.split(`/`)
-  const rootLength =
-    url.protocol === `file:` &&
-    (url.host !== `` || WINDOWS_DRIVE.test(segments[1] ?? ``))
-      ? 2
-      : 1
+  if (url.protocol !== `file:`) {
+    return { root: `${url.protocol}//${url.host}`, segments: segments.slice(1) }
+  }
+
+  if (url.host !== `` || WINDOWS_DRIVE.test(segments[1] ?? ``)) {
+    return {
+      root: `file://${url.host}${segments.slice(0, 2).join(`/`)}`,
+      segments: segments.slice(2),
+    }
+  }
+
+  const pathSegments = segments.slice(1)
+  const symlink = SYMLINK_SEGMENTS.find(({ target }) =>
+    hasSegmentPrefix(pathSegments, target),
+  )
   return {
-    root: `${url.protocol}//${url.host}${segments.slice(0, rootLength).join(`/`)}`,
-    segments: segments.slice(rootLength),
+    root: `file://`,
+    segments: symlink
+      ? [...symlink.link, ...pathSegments.slice(symlink.target.length)]
+      : pathSegments,
+    symlink,
   }
 }
+
+/**
+ * Symbolic links to directories a profiler may report by either path, keyed by
+ * the link's path. On another system, a target unrelated to its link compares
+ * as the link too.
+ */
+const SYMLINKS: ReadonlyMap<string, string> = new Map([
+  // Links macOS creates
+  [`/tmp`, `/private/tmp`],
+  [`/var`, `/private/var`],
+  [`/etc`, `/private/etc`],
+])
+
+type Symlink = { link: string[]; target: string[] }
+
+const SYMLINK_SEGMENTS: Symlink[] = Array.from(SYMLINKS, ([link, target]) => ({
+  link: link.split(`/`).slice(1),
+  target: target.split(`/`).slice(1),
+}))
+
+const hasSegmentPrefix = (segments: string[], prefix: string[]): boolean =>
+  prefix.length <= segments.length &&
+  commonSegmentPrefixLength(segments, prefix) === prefix.length
 
 const WINDOWS_DRIVE = /^[a-z]:$/iu
 
@@ -516,10 +558,13 @@ export const sourceReferenceId = (
 export const commonAncestorDirectoryURL = (
   urls: Iterable<URL>,
 ): URL | undefined => {
-  const groups = new Map<string, { count: number; commonSegments: string[] }>()
+  const groups = new Map<
+    string,
+    { count: number; commonSegments: string[]; symlink?: Symlink }
+  >()
 
   for (const url of urls) {
-    const { root, segments: pathSegments } = splitURLPath(url)
+    const { root, segments: pathSegments, symlink } = splitURLPath(url)
     // The filename slot never counts towards the common prefix, so a path
     // that is a directory prefix of another truncates to that directory's
     // parent.
@@ -527,7 +572,7 @@ export const commonAncestorDirectoryURL = (
 
     const group = groups.get(root)
     if (!group) {
-      groups.set(root, { count: 1, commonSegments: segments })
+      groups.set(root, { count: 1, commonSegments: segments, symlink })
       continue
     }
 
@@ -538,11 +583,12 @@ export const commonAncestorDirectoryURL = (
     )
   }
 
-  let dominant: { root: string; commonSegments: string[] } | undefined
+  let dominant:
+    { root: string; commonSegments: string[]; symlink?: Symlink } | undefined
   let dominantCount = 0
-  for (const [root, { count, commonSegments }] of groups) {
+  for (const [root, { count, commonSegments, symlink }] of groups) {
     if (count > dominantCount) {
-      dominant = { root, commonSegments }
+      dominant = { root, commonSegments, symlink }
       dominantCount = count
     }
   }
@@ -551,7 +597,13 @@ export const commonAncestorDirectoryURL = (
     return undefined
   }
 
-  return new URL([dominant.root, ...dominant.commonSegments, ``].join(`/`))
+  // The result keeps the first URL's spelling of a symlink's target.
+  const { root, commonSegments, symlink } = dominant
+  const segments =
+    symlink && hasSegmentPrefix(commonSegments, symlink.link)
+      ? [...symlink.target, ...commonSegments.slice(symlink.link.length)]
+      : commonSegments
+  return new URL([root, ...segments, ``].join(`/`))
 }
 
 const commonSegmentPrefixLength = (
