@@ -1,5 +1,5 @@
 import { categorizeGenericEntry } from '../categorize.ts'
-import { nativeMatchEntry } from '../native.ts'
+import { nativeMatchEntry, nativeNormalizeStackFrame } from '../native.ts'
 import type { OriginSpec } from '../spec.ts'
 import { swiftStdlibCategory } from '../swift.ts'
 import { zigStdlibCategory } from '../zig.ts'
@@ -25,4 +25,5 @@ export const gperftoolsOriginSpec = {
     swiftStdlibCategory(entry) ??
     categorizeGenericEntry(entry),
   matchEntry: nativeMatchEntry,
+  normalizeStackFrame: nativeNormalizeStackFrame,
 } as const satisfies OriginSpec

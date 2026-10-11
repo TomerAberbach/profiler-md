@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { nativeMatchEntry } from './native.ts'
+import type { StackFrame } from '../modalities/stack-frame.ts'
+import { nativeMatchEntry, nativeNormalizeStackFrame } from './native.ts'
 import { absoluteEntry } from './testing.ts'
 
 describe(`nativeMatchEntry`, () => {
@@ -52,5 +53,25 @@ describe(`nativeMatchEntry`, () => {
     [`a C library's source`, `file:///usr/src/zstd-1.5.6/lib/zstd.c`],
   ])(`leaves %s unchanged`, (_description, url) => {
     expect(nativeMatchEntry(absoluteEntry(`f`, url))).toBeUndefined()
+  })
+})
+
+describe(`nativeNormalizeStackFrame`, () => {
+  test(`drops the Swift compiler's placeholder path`, () => {
+    expect(
+      nativeNormalizeStackFrame({
+        name: `$s7profile4mainyyFTf4n_g`,
+        definition: { type: `file`, urlOrPath: `/<compiler-generated>` },
+      }),
+    ).toEqual({ name: `$s7profile4mainyyFTf4n_g` })
+  })
+
+  test(`leaves a located frame unchanged`, () => {
+    const input: StackFrame = {
+      name: `main`,
+      definition: { type: `file`, urlOrPath: `/app/main.cc` },
+    }
+
+    expect(nativeNormalizeStackFrame(input)).toBe(input)
   })
 })
