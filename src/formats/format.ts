@@ -91,8 +91,10 @@ const makeFormattingProfileToMdOptions = (
   // locations formatting will show. A relative source cannot contribute,
   // because it resolves only against the base being inferred.
   const urls: URL[] = []
+  let hasDirectoryURL = false
   for (const { location, inferable } of locations(inputs)) {
     sourceMaps.addGeneratedFile(location)
+    hasDirectoryURL ||= isBaseURLInferableLocation(location)
     if (inferable) {
       const mappedLocation = sourceMaps.resolve(location, undefined)
       if (isBaseURLInferableLocation(mappedLocation)) {
@@ -101,7 +103,7 @@ const makeFormattingProfileToMdOptions = (
     }
   }
   const inferred = commonAncestorDirectoryURL(urls)
-  logInferredBaseURL(inferred, urls, options)
+  logInferredBaseURL(inferred, urls, hasDirectoryURL, options)
   return { ...options, baseURL: inferred?.url, sourceMaps }
 }
 
@@ -114,6 +116,7 @@ function* locations(inputs: AggregatedInput[]): Iterable<EntityLocation> {
 const logInferredBaseURL = (
   inferred: { url: URL; urlCount: number } | undefined,
   urls: readonly URL[],
+  hasDirectoryURL: boolean,
   { logger }: NormalizedProfileToMdOptions,
 ): void => {
   if (inferred) {
@@ -121,9 +124,13 @@ const logInferredBaseURL = (
     logger.debug?.(
       `the base URL is the common directory of ${inferred.urlCount} of the ${urls.length} absolute locations categorized as ours, the most that share a top-level directory`,
     )
-  } else {
+  } else if (hasDirectoryURL) {
     logger.warn?.(
       `baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
+    )
+  } else {
+    logger.warn?.(
+      `baseURL "auto" inferred no directory because no location is an absolute path or a URL in a directory`,
     )
   }
 }

@@ -460,7 +460,7 @@ describe(`profileToMd`, () => {
         V8_CPU_PROFILE_CANDIDATES_LOG,
         `info: detected origin: node`,
         `debug: node is marked by the entry readFileSync in node:fs`,
-        `warn: baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
+        `warn: baseURL "auto" inferred no directory because no location is an absolute path or a URL in a directory`,
       ])
     })
 
@@ -1326,12 +1326,40 @@ describe(`logging`, () => {
     ])
   })
 
-  test(`warns when no base URL is inferable`, () => {
+  test(`warns when no function categorized as ours has an absolute location`, () => {
+    const cpuProfile = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 1,
+          callFrame: makeV8CallFrame(
+            `depFn`,
+            `file:///project/node_modules/dep/index.js`,
+          ),
+        },
+      ],
+      samples: [2],
+      timeDeltas: [20],
+    })
+
+    profileToMd(cpuProfile, { baseURL: `auto` })
+
+    expectLogs([
+      `info: detected format: v8-cpu-profile`,
+      V8_CPU_PROFILE_CANDIDATES_LOG,
+      `info: detected origin: node`,
+      `debug: node is marked by the entry depFn in file:///project/node_modules/dep/index.js`,
+      `warn: baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
+    ])
+  })
+
+  test(`warns when no location is an absolute path or a URL in a directory`, () => {
     profileToMd(emptyProfile, { baseURL: `auto` })
 
     expectLogs([
       `info: detected format: speedscope`,
-      `warn: baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
+      `warn: baseURL "auto" inferred no directory because no location is an absolute path or a URL in a directory`,
     ])
   })
 
