@@ -15,6 +15,8 @@ import type {
   AggregatedHeapSnapshotString,
   NodeCategoryStats,
   RetainerHop,
+  RetainerPathEdge,
+  RetainerPathStep,
 } from './aggregate.ts'
 import {
   formatRetainerEdge,
@@ -22,12 +24,10 @@ import {
   formatRetainerLabel,
   formatRetainerPath,
   keepsRetainerStep,
+  nodeKey,
+  shownRetainedNodes,
 } from './aggregate.ts'
-import type {
-  HeapSnapshotNodeCategory,
-  RetainerEdge,
-  RetainerStep,
-} from './type.ts'
+import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 /**
  * One side's data for an entity matched across the base and current snapshots,
@@ -255,13 +255,23 @@ const entityDiffsFromMatches = <Entity extends DiffedHeapSnapshotEntity>(
     return { name: name!, nameLocation, location, category, base, current }
   })
 
-/** One side's instances of a constructor that share a retainer path. */
-export type DiffedInstanceGroup = {
-  /** The {@link RetainerPaths} ID of the path, which identifies the group. */
+/** One side's nodes of an entity that share a retainer path. */
+export type RetainerGroup = {
+  /** The {@link RetainerPaths} ID of the path. */
   path: number
 
-  instanceCount: number
   selfSize: number
+
+  /**
+   * The group's first node, for a group whose nodes also share its name,
+   * category, and location.
+   */
+  node?: AggregatedHeapSnapshotNode
+}
+
+/** One side's instances of a constructor that share a retainer path. */
+export type DiffedInstanceGroup = RetainerGroup & {
+  instanceCount: number
 
   /**
    * The summed retained sizes of the instances. Instances with one path can't
@@ -270,21 +280,33 @@ export type DiffedInstanceGroup = {
   retainedSize: number
 }
 
-/** A diff's retainer paths, and each side's function interning a node's path. */
-export type DiffRetainerPaths = Record<
-  `base` | `current`,
-  (nodeOrdinal: number) => number
-> & { paths: RetainerPaths }
+/** Interned paths, and each side's function interning a node's path. */
+type SidePaths<Intern> = Record<`base` | `current`, Intern> & {
+  paths: RetainerPaths
+}
+
+/**
+ * A diff's retainer paths, and its retainer paths within a node's dominator.
+ */
+export type DiffRetainerPaths = SidePaths<(nodeOrdinal: number) => number> & {
+  within: SidePaths<(nodeOrdinal: number, dominatorOrdinal: number) => number>
+}
 
 export const diffRetainerPaths = (
   diff: AggregatedHeapSnapshotDiff,
   options: FormattingProfileToMdOptions,
 ): DiffRetainerPaths => {
   const paths = new RetainerPaths(options)
+  const withinPaths = new RetainerPaths(options, { isWithinDominator: true })
   return {
     paths,
     base: paths.pathOfNodeIn(diff.base),
     current: paths.pathOfNodeIn(diff.current),
+    within: {
+      paths: withinPaths,
+      base: withinPaths.pathWithinNodeIn(diff.base),
+      current: withinPaths.pathWithinNodeIn(diff.current),
+    },
   }
 }
 
@@ -323,28 +345,106 @@ export const matchConstructorInstanceGroups = (
   retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
 ): EntryDiff<DiffedInstanceGroup>[] =>
-  matchInstanceGroups(
+  matchRetainerGroups(
     {
-      groups: groupConstructorInstances(
+      base: groupConstructorInstances(
         diff,
         constructor,
         `base`,
         retainerPaths,
         options,
       ),
-      context: diff.base.context,
-    },
-    {
-      groups: groupConstructorInstances(
+      current: groupConstructorInstances(
         diff,
         constructor,
         `current`,
         retainerPaths,
         options,
       ),
-      context: diff.current.context,
     },
+    diff,
     retainerPaths.paths,
+    options,
+  )
+
+/**
+ * One side's retained nodes of a function that share a name, a category, a
+ * location, and a retainer path within the instance retaining them.
+ */
+export type DiffedRetainedNodeGroup = RetainerGroup & {
+  node: AggregatedHeapSnapshotNode
+}
+
+/**
+ * Groups one side's shown retained nodes of a function by their names,
+ * categories, locations, and retainer paths within the instances retaining
+ * them. The elements of one array share a path, so they share a group.
+ */
+export const groupFunctionRetainedNodes = (
+  diff: AggregatedHeapSnapshotDiff,
+  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>,
+  side: `base` | `current`,
+  retainerPaths: DiffRetainerPaths,
+  options: FormattingProfileToMdOptions,
+): DiffedRetainedNodeGroup[] => {
+  const pathWithin = retainerPaths.within[side]
+  const keyToGroup = new Map<number | string, DiffedRetainedNodeGroup>()
+  for (const { node, instanceId } of shownRetainedNodes(
+    fn[side]?.instanceIds ?? [],
+    diff[side],
+    options,
+  )) {
+    const path = pathWithin(node.id, instanceId)
+    const key = retainerGroupKey(path, node)
+    const group = keyToGroup.get(key)
+    if (group) {
+      group.selfSize += node.selfSize
+    } else {
+      keyToGroup.set(key, { path, node, selfSize: node.selfSize })
+    }
+  }
+  return [...keyToGroup.values()]
+}
+
+/**
+ * Identifies a retainer group among one side's groups by its path and, when it
+ * has one, its node's name, category, and location.
+ */
+const retainerGroupKey = (
+  path: number,
+  node: AggregatedHeapSnapshotNode | undefined,
+): number | string =>
+  node
+    ? `${path}\0${node.category}\0${nodeKey(node.name ?? ``, node.location)}`
+    : path
+
+/** Pairs a function's shown retained node groups across a diff's sides. */
+export const matchFunctionRetainedNodeGroups = (
+  diff: AggregatedHeapSnapshotDiff,
+  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>,
+  retainerPaths: DiffRetainerPaths,
+  options: FormattingProfileToMdOptions,
+): EntryDiff<DiffedRetainedNodeGroup>[] =>
+  matchRetainerGroups(
+    {
+      base: groupFunctionRetainedNodes(
+        diff,
+        fn,
+        `base`,
+        retainerPaths,
+        options,
+      ),
+      current: groupFunctionRetainedNodes(
+        diff,
+        fn,
+        `current`,
+        retainerPaths,
+        options,
+      ),
+    },
+    diff,
+    retainerPaths.within.paths,
+    options,
   )
 
 /**
@@ -361,9 +461,10 @@ export class RetainerPaths {
   public static readonly ROOT = 0
 
   readonly #options: FormattingProfileToMdOptions
+  readonly #isWithinDominator: boolean
 
   /** By path ID, each path's first step and the ID of the rest. */
-  readonly #steps: (RetainerStep | undefined)[] = [undefined]
+  readonly #steps: (RetainerPathStep | undefined)[] = [undefined]
   readonly #rests: number[] = [-1]
   readonly #stepKeyToPath = new Map<string, number>()
 
@@ -378,8 +479,16 @@ export class RetainerPaths {
   /** IDs of the keys of paths' steps, from `1` because `0` keys the root path. */
   readonly #keyToId = new Map<string, number>()
 
-  public constructor(options: FormattingProfileToMdOptions) {
+  /**
+   * Paths within a dominator end at the dominator, and record each element
+   * edge as any element, so the elements of one array share a path.
+   */
+  public constructor(
+    options: FormattingProfileToMdOptions,
+    { isWithinDominator = false }: { isWithinDominator?: boolean } = {},
+  ) {
     this.#options = options
+    this.#isWithinDominator = isWithinDominator
   }
 
   /**
@@ -387,70 +496,137 @@ export class RetainerPaths {
    * {@link snapshot}, memoized per node.
    */
   public pathOfNodeIn(
-    snapshot: Pick<AggregatedHeapSnapshot, `nodeCount` | `retainerHopOf`>,
+    snapshot: Pick<
+      AggregatedHeapSnapshot,
+      `nodeCount` | `retainerHopOf` | `retainerOf`
+    >,
   ): (nodeOrdinal: number) => number {
     let ordinalToPath: Int32Array | undefined
+    const walk = this.#pathWalker(
+      snapshot,
+      ordinal => ordinalToPath![ordinal]!,
+      (ordinal, path) => {
+        ordinalToPath![ordinal] = path
+      },
+    )
+    return nodeOrdinal => {
+      ordinalToPath ??= new Int32Array(snapshot.nodeCount).fill(-1)
+      return walk(nodeOrdinal)
+    }
+  }
+
+  /**
+   * Returns a function that interns the retainer path of a node of
+   * {@link snapshot} up to one of its dominators, memoized per node while the
+   * dominator stays the same.
+   */
+  public pathWithinNodeIn(
+    snapshot: Pick<AggregatedHeapSnapshot, `retainerHopOf` | `retainerOf`>,
+  ): (nodeOrdinal: number, dominatorOrdinal: number) => number {
+    // Sparse, since it holds the paths within one dominator.
+    const ordinalToPath = new Map<number, number>()
+    let dominatorOrdinal = -1
+    const walk = this.#pathWalker(
+      snapshot,
+      ordinal =>
+        ordinal === dominatorOrdinal
+          ? RetainerPaths.ROOT
+          : (ordinalToPath.get(ordinal) ?? -1),
+      (ordinal, path) => {
+        ordinalToPath.set(ordinal, path)
+      },
+    )
+    return (nodeOrdinal, withinOrdinal) => {
+      if (withinOrdinal !== dominatorOrdinal) {
+        ordinalToPath.clear()
+        dominatorOrdinal = withinOrdinal
+      }
+      return walk(nodeOrdinal)
+    }
+  }
+
+  /**
+   * Returns a function that interns a node's path from the memoized path of
+   * its nearest dominator that has one, or from the empty path at a node
+   * without a retainer hop. {@link memoizedPathOf} returns `-1` for a node
+   * without a memoized path.
+   */
+  #pathWalker(
+    snapshot: Pick<AggregatedHeapSnapshot, `retainerHopOf` | `retainerOf`>,
+    memoizedPathOf: (nodeOrdinal: number) => number,
+    memoizePath: (nodeOrdinal: number, path: number) => void,
+  ): (nodeOrdinal: number) => number {
     // Sparse, since a path reaches few of the nodes.
+    const ordinalToRetainer: RetainerNode[] = []
     const ordinalToRetainerLabel: string[] = []
     const ordinals: number[] = []
     const hops: RetainerHop[] = []
     return nodeOrdinal => {
-      ordinalToPath ??= new Int32Array(snapshot.nodeCount).fill(-1)
       let ordinal = nodeOrdinal
-      let path = ordinalToPath[ordinal]!
+      let path = memoizedPathOf(ordinal)
       while (path === -1) {
         const hop = snapshot.retainerHopOf(ordinal)
         if (!hop) {
           path = RetainerPaths.ROOT
-          ordinalToPath[ordinal] = path
+          memoizePath(ordinal, path)
           break
         }
         ordinals.push(ordinal)
         hops.push(hop)
         ordinal = hop.dominatorOrdinal
-        path = ordinalToPath[ordinal]!
+        path = memoizedPathOf(ordinal)
       }
 
       while (hops.length > 0) {
-        const hop = hops.pop()!
-        if (keepsRetainerStep(hop, path === RetainerPaths.ROOT)) {
-          const { step, dominatorOrdinal } = hop
-          // A dominator retains many nodes, so its label is formatted once.
+        const { dominatorOrdinal, edge, internal } = hops.pop()!
+        // A path within a dominator ends before the internal nodes near the GC
+        // root, so it keeps every step.
+        const isRestEmpty =
+          path === RetainerPaths.ROOT && !this.#isWithinDominator
+        if (keepsRetainerStep(internal, isRestEmpty)) {
+          // A dominator retains many nodes, so it's read and its label
+          // formatted once.
+          ordinalToRetainer[dominatorOrdinal] ??=
+            snapshot.retainerOf(dominatorOrdinal)
+          const retainer = ordinalToRetainer[dominatorOrdinal]
           ordinalToRetainerLabel[dominatorOrdinal] ??= formatRetainerLabel(
-            step!.retainer,
+            retainer,
             this.#options,
           )
           path = this.#intern(
-            step!,
+            edge,
+            retainer,
             path,
             ordinalToRetainerLabel[dominatorOrdinal],
           )
         }
-        ordinalToPath[ordinals.pop()!] = path
+        memoizePath(ordinals.pop()!, path)
       }
       return path
     }
   }
 
   /** Interns the path of {@link steps}, from the node outward. */
-  public pathOfSteps(steps: readonly RetainerStep[]): number {
+  public pathOfSteps(steps: readonly RetainerPathStep[]): number {
     let path = RetainerPaths.ROOT
     for (let index = steps.length - 1; index >= 0; index--) {
-      const step = steps[index]!
+      const { edge, retainer } = steps[index]!
       path = this.#intern(
-        step,
+        edge,
+        retainer,
         path,
-        formatRetainerLabel(step.retainer, this.#options),
+        formatRetainerLabel(retainer, this.#options),
       )
     }
     return path
   }
 
   /** The steps of a path, from the node outward. */
-  public stepsOf(path: number): RetainerStep[] {
-    const steps: RetainerStep[] = []
-    for (; path !== RetainerPaths.ROOT; path = this.#rests[path]!) {
-      steps.push(this.#steps[path]!)
+  public stepsOf(path: number): RetainerPathStep[] {
+    const steps: RetainerPathStep[] = []
+    for (let step = this.#steps[path]; step; step = this.#steps[path]) {
+      steps.push(step)
+      path = this.#rests[path]!
     }
     return steps
   }
@@ -535,12 +711,25 @@ export class RetainerPaths {
     }
   }
 
-  #intern(step: RetainerStep, rest: number, retainerLabel: string): number {
-    const key = `${rest}\0${formatRetainerEdgeLabel(step.edge, this.#options)}\0${retainerLabel}`
+  /**
+   * Interns the path of the step through {@link edge}, held by
+   * {@link retainer}, then {@link rest}.
+   */
+  #intern(
+    edge: RetainerPathEdge,
+    retainer: RetainerNode,
+    rest: number,
+    retainerLabel: string,
+  ): number {
+    const pathEdge =
+      this.#isWithinDominator && edge.type === `element`
+        ? ANY_ELEMENT_EDGE
+        : edge
+    const key = `${rest}\0${formatRetainerEdgeLabel(pathEdge, this.#options)}\0${retainerLabel}`
     let path = this.#stepKeyToPath.get(key)
     if (path === undefined) {
       path = this.#steps.length
-      this.#steps.push(step)
+      this.#steps.push({ edge: pathEdge, retainer })
       this.#rests.push(rest)
       this.#stepKeyToPath.set(key, path)
     }
@@ -548,7 +737,7 @@ export class RetainerPaths {
   }
 
   #stepKeysOf(
-    { edge, retainer }: RetainerStep,
+    { edge, retainer }: RetainerPathStep,
     context: ProfileToMdContext,
   ): { own: string; normalized: string } {
     const retainerKeys = this.#options.entryMatchKeys(retainer, context)
@@ -587,6 +776,8 @@ export class RetainerPaths {
   }
 }
 
+const ANY_ELEMENT_EDGE: RetainerPathEdge = { type: `any-element` }
+
 /** Whether two locations are at one position, or both have no line. */
 const isSamePosition = (
   left: SourceLocation | undefined,
@@ -600,27 +791,34 @@ const isSamePosition = (
       sourceReferenceId(left) === sourceReferenceId(right)
 
 /**
- * Pairs a constructor's instance groups across a diff's sides by their
- * retainer paths.
+ * Pairs an entity's retainer groups across a diff's sides by their retainer
+ * paths, and by what their nodes share besides their paths.
  *
- * Groups with the same path pair first. The rest pair the way functions do: by
- * keys built from each step's edge and its retainer's match key, which ignore
- * positions, and among several groups of one key, by the position of the
- * first step whose position differs among them. A run of groups whose paths
- * reach into one file then pairs across an edit that moved them. A property
- * edge matches by its name without the run-varying identifier the origin
- * strips from it.
+ * Groups with the same path and exact node key pair first. The rest pair the
+ * way functions do: by keys built from each step's edge and its retainer's
+ * match key, which ignore positions, and from their nodes' match keys. Among
+ * several groups of one key, they pair by the position of the first step whose
+ * position differs among them. When none does, they pair by their nodes'
+ * positions if every node has a line. A
+ * run of groups whose paths reach into one file then pairs across an edit that
+ * moved them. A property edge matches by its name without the run-varying
+ * identifier the origin strips from it.
  */
-export const matchInstanceGroups = (
-  base: { groups: DiffedInstanceGroup[]; context: ProfileToMdContext },
-  current: { groups: DiffedInstanceGroup[]; context: ProfileToMdContext },
+export const matchRetainerGroups = <Group extends RetainerGroup>(
+  groups: Record<`base` | `current`, Group[]>,
+  {
+    base,
+    current,
+  }: Record<`base` | `current`, { context: ProfileToMdContext }>,
   paths: RetainerPaths,
-): EntryDiff<DiffedInstanceGroup>[] => {
-  const { paired, leftovers } = pairGroupsByPath(base.groups, current.groups)
-  const entries = locatedInstanceGroupEntries(
+  options: FormattingProfileToMdOptions,
+): EntryDiff<Group>[] => {
+  const { paired, leftovers } = pairGroupsByKey(groups.base, groups.current)
+  const entries = locatedRetainerGroupEntries(
     { groups: leftovers.base, context: base.context },
     { groups: leftovers.current, context: current.context },
     paths,
+    options,
   )
   for (const {
     base: baseEntry,
@@ -641,33 +839,47 @@ export const matchInstanceGroups = (
   return paired
 }
 
-const pairGroupsByPath = (
-  baseGroups: DiffedInstanceGroup[],
-  currentGroups: DiffedInstanceGroup[],
+/** One side's groups of nodes sharing a retainer path. */
+type RetainerGroupSide<Group extends RetainerGroup> = {
+  groups: Group[]
+  context: ProfileToMdContext
+}
+
+/**
+ * Pairs the groups with the same key, keeping each side's leftovers in order.
+ * A side has one group per key.
+ */
+const pairGroupsByKey = <Group extends RetainerGroup>(
+  baseGroups: Group[],
+  currentGroups: Group[],
 ): {
-  paired: EntryDiff<DiffedInstanceGroup>[]
-  leftovers: Record<`base` | `current`, DiffedInstanceGroup[]>
+  paired: EntryDiff<Group>[]
+  leftovers: Record<`base` | `current`, Group[]>
 } => {
-  const paired: EntryDiff<DiffedInstanceGroup>[] = []
-  const currentByPath = new Map(currentGroups.map(group => [group.path, group]))
-  const leftoverBase: DiffedInstanceGroup[] = []
+  const paired: EntryDiff<Group>[] = []
+  const keyOf = ({ path, node }: Group) => retainerGroupKey(path, node)
+  const currentByKey = new Map(
+    currentGroups.map(group => [keyOf(group), group]),
+  )
+  const leftoverBase: Group[] = []
   for (const group of baseGroups) {
-    const counterpart = currentByPath.get(group.path)
+    const key = keyOf(group)
+    const counterpart = currentByKey.get(key)
     if (counterpart) {
       paired.push({ base: group, current: counterpart, byPosition: false })
-      currentByPath.delete(group.path)
+      currentByKey.delete(key)
     } else {
       leftoverBase.push(group)
     }
   }
   return {
     paired,
-    leftovers: { base: leftoverBase, current: [...currentByPath.values()] },
+    leftovers: { base: leftoverBase, current: [...currentByKey.values()] },
   }
 }
 
-type InstanceGroupEntry = {
-  group: DiffedInstanceGroup
+type RetainerGroupEntry<Group> = {
+  group: Group
   keys: DiffedEntryKeys
   location?: SourceLocation
 }
@@ -676,21 +888,39 @@ type InstanceGroupEntry = {
  * Each side's groups with their keys, located at the first step whose position
  * differs among the groups of their key on both sides. Groups whose key no
  * other group shares, or whose steps share every position, are located at
- * their first step with a line.
+ * their nodes' positions when every node of the key has a line, and at their
+ * first step with a line otherwise.
  */
-const locatedInstanceGroupEntries = (
-  base: { groups: DiffedInstanceGroup[]; context: ProfileToMdContext },
-  current: { groups: DiffedInstanceGroup[]; context: ProfileToMdContext },
+const locatedRetainerGroupEntries = <Group extends RetainerGroup>(
+  base: RetainerGroupSide<Group>,
+  current: RetainerGroupSide<Group>,
   paths: RetainerPaths,
-): { base: InstanceGroupEntry[]; current: InstanceGroupEntry[] } => {
+  options: FormattingProfileToMdOptions,
+): {
+  base: RetainerGroupEntry<Group>[]
+  current: RetainerGroupEntry<Group>[]
+} => {
   const entriesOf = ({
     groups,
     context,
-  }: {
-    groups: DiffedInstanceGroup[]
-    context: ProfileToMdContext
-  }): InstanceGroupEntry[] =>
-    groups.map(group => ({ group, keys: paths.keysOf(group.path, context) }))
+  }: RetainerGroupSide<Group>): RetainerGroupEntry<Group>[] =>
+    groups.map(group => {
+      const pathKeys = paths.keysOf(group.path, context)
+      const { node } = group
+      if (!node) {
+        return { group, keys: pathKeys }
+      }
+      // Nodes match by their category, and by their name and location's own
+      // values first, then by the match key the origin normalizes them to.
+      const nodeKeys = options.entryMatchKeys(node, context)
+      return {
+        group,
+        keys: {
+          ownNameAndLocation: `${pathKeys.ownNameAndLocation}\0${node.category}\0${nodeKeys.ownNameAndLocation}`,
+          nameAndLocation: `${pathKeys.nameAndLocation}\0${node.category}\0${nodeKeys.nameAndLocation}`,
+        },
+      }
+    })
   const entries = { base: entriesOf(base), current: entriesOf(current) }
 
   const keyToEntries = Map.groupBy(
@@ -704,8 +934,15 @@ const locatedInstanceGroupEntries = (
             keyEntries.map(({ group }) => group.path),
           )
         : undefined
+    // Positions of different sources would pair arbitrarily, so the groups
+    // of a key are located at their nodes only when every node has a line.
+    const isNodeLocated =
+      differingStepIndex === undefined &&
+      keyEntries.every(({ group }) => group.node?.location?.line !== undefined)
     for (const entry of keyEntries) {
-      entry.location = paths.locationAt(entry.group.path, differingStepIndex)
+      entry.location = isNodeLocated
+        ? entry.group.node!.location
+        : paths.locationAt(entry.group.path, differingStepIndex)
     }
   }
   return entries
@@ -716,7 +953,7 @@ const locatedInstanceGroupEntries = (
  * origin strips from a property's name stripped.
  */
 export const retainerEdgeMatchKey = (
-  edge: RetainerEdge,
+  edge: RetainerPathEdge,
   { origin }: ProfileToMdContext,
 ): string =>
   formatRetainerEdge(edge, ({ name }) =>

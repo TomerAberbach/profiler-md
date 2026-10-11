@@ -85,13 +85,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Object`
 
-|    % |     Size | Instances | Path                                                                              |
-| ---: | -------: | --------: | --------------------------------------------------------------------------------- |
-| 1.9% | 1.79 KiB |         5 | `(GC root)`                                                                       |
-| 1.2% |  1.2 KiB |         5 | `. InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                 |
-| 0.2% |    225 B |         1 | `.versions url  ← .process GlobalObject`                                          |
-| 0.2% |    181 B |         1 | `. GlobalObject`                                                                  |
-| 0.2% |    160 B |         1 | `.win32 Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+|    % |     Size | Instances | Path                                                              |
+| ---: | -------: | --------: | ----------------------------------------------------------------- |
+| 1.1% | 1.06 KiB |         2 | `(several retainers) GlobalObject`                                |
+| 0.9% |    912 B |         3 | `. InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+| 0.4% |    432 B |         1 | `(GC root)`                                                       |
+| 0.2% |    225 B |         1 | `.versions url  ← .process GlobalObject`                          |
+| 0.2% |    181 B |         1 | `. GlobalObject`                                                  |
 
 ##### `ModuleRecord`
 
@@ -113,10 +113,10 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `NodeJSFS`
 
-|     % |     Size | Instances | Path                           |
-| ----: | -------: | --------: | ------------------------------ |
-| 90.9% | 1.04 KiB |         1 | `(GC root)`                    |
-|  9.1% |    106 B |         1 | `. Structure ← . GlobalObject` |
+|     % |     Size | Instances | Path                               |
+| ----: | -------: | --------: | ---------------------------------- |
+| 90.9% | 1.04 KiB |         1 | `(several retainers) GlobalObject` |
+|  9.1% |    106 B |         1 | `. Structure ← . GlobalObject`     |
 
 ##### `FileSink`
 
@@ -135,20 +135,20 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Blob`
 
-|     % |  Size | Instances | Path             |
-| ----: | ----: | --------: | ---------------- |
-| 90.4% | 328 B |         1 | `. GlobalObject` |
-|  9.6% |  35 B |         1 | `(GC root)`      |
+|     % |  Size | Instances | Path                               |
+| ----: | ----: | --------: | ---------------------------------- |
+| 90.4% | 328 B |         1 | `. GlobalObject`                   |
+|  9.6% |  35 B |         1 | `(several retainers) GlobalObject` |
 
 ##### `Map`
 
-|     % |  Size | Instances | Path                                                                                                                                    |
-| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 31.9% | 105 B |         3 | `(GC root)`                                                                                                                             |
-|  9.7% |  32 B |         1 | `.requireMap GlobalObject`                                                                                                              |
-|  9.7% |  32 B |         1 | `.registry ModuleLoader ← .Loader GlobalObject`                                                                                         |
-|  9.7% |  32 B |         1 | `.dummy JSLexicalEnvironment ← .homeObject SafeMap ← .SafeMap Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
-|  9.7% |  32 B |         1 | `.byId Object ← .__retained GlobalObject`                                                                                               |
+|     % | Size | Instances | Path                                                                                                                                                                 |
+| ----: | ---: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 19.5% | 64 B |         2 | `(GC root)`                                                                                                                                                          |
+| 12.5% | 41 B |         1 | `(several retainers) GlobalObject`                                                                                                                                   |
+|  9.7% | 32 B |         1 | `.requireMap GlobalObject`                                                                                                                                           |
+|  9.7% | 32 B |         1 | `.registry ModuleLoader ← .Loader GlobalObject`                                                                                                                      |
+|  9.7% | 32 B |         1 | `.dummy JSLexicalEnvironment ← (several retainers) Object ← .homeObject SafeMap ← .SafeMap Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
 
 ##### `Promise (fulfilled: Object)`
 
@@ -177,11 +177,11 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Set`
 
-|     % | Size | Instances | Path                                                        |
-| ----: | ---: | --------: | ----------------------------------------------------------- |
-| 40.7% | 44 B |         1 | `(GC root)`                                                 |
-| 29.6% | 32 B |         1 | `.allowedNodeEnvironmentFlags url  ← .process GlobalObject` |
-| 29.6% | 32 B |         1 | `.dummy JSLexicalEnvironment ← .homeObject SafeSet`         |
+|     % | Size | Instances | Path                                                                                                                |
+| ----: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------- |
+| 40.7% | 44 B |         1 | `(several retainers) GlobalObject`                                                                                  |
+| 29.6% | 32 B |         1 | `.allowedNodeEnvironmentFlags url  ← .process GlobalObject`                                                         |
+| 29.6% | 32 B |         1 | `.dummy JSLexicalEnvironment ← (several retainers) Object ← .homeObject SafeSet ← (several retainers) GlobalObject` |
 
 ##### `Callee`
 
@@ -314,7 +314,7 @@ Instances ranked by contribution to each constructor's retained size.
 | ----: | -------: | --------: | ----------------------------------------------------------------- |
 | 73.6% |  458 KiB |         1 | `.__retained GlobalObject`                                        |
 | 71.0% |  442 KiB |         1 | `.data Object ← .__retained GlobalObject`                         |
-|  4.1% | 25.4 KiB |         1 | `(GC root)`                                                       |
+|  4.1% | 25.4 KiB |         1 | `(several retainers) GlobalObject`                                |
 |  2.9% | 17.7 KiB |         1 | `. InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
 |  2.2% | 13.8 KiB |         1 | `. GlobalObject`                                                  |
 
@@ -338,13 +338,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Map`
 
-|     % |     Size | Instances | Path                                                                                                                                    |
-| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 95.5% | 16.1 KiB |         1 | `.byId Object ← .__retained GlobalObject`                                                                                               |
-|  2.3% |    393 B |         3 | `(GC root)`                                                                                                                             |
-|  2.0% |    352 B |         1 | `.registry ModuleLoader ← .Loader GlobalObject`                                                                                         |
-|  0.2% |     32 B |         1 | `.requireMap GlobalObject`                                                                                                              |
-|  0.2% |     32 B |         1 | `.dummy JSLexicalEnvironment ← .homeObject SafeMap ← .SafeMap Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+|     % |     Size | Instances | Path                                            |
+| ----: | -------: | --------: | ----------------------------------------------- |
+| 95.5% | 16.1 KiB |         1 | `.byId Object ← .__retained GlobalObject`       |
+|  2.0% |    352 B |         1 | `.registry ModuleLoader ← .Loader GlobalObject` |
+|  1.9% |    329 B |         1 | `(several retainers) GlobalObject`              |
+|  0.2% |     32 B |         1 | `.requireMap GlobalObject`                      |
+|  0.2% |     32 B |         1 | `(GC root)`                                     |
 
 ##### `ReadStream`
 
@@ -398,29 +398,29 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `NodeJSFS`
 
-|     % |     Size | Instances | Path                           |
-| ----: | -------: | --------: | ------------------------------ |
-| 64.8% | 1.92 KiB |         1 | `. Structure ← . GlobalObject` |
-| 35.2% | 1.04 KiB |         1 | `(GC root)`                    |
+|     % |     Size | Instances | Path                               |
+| ----: | -------: | --------: | ---------------------------------- |
+| 64.8% | 1.92 KiB |         1 | `. Structure ← . GlobalObject`     |
+| 35.2% | 1.04 KiB |         1 | `(several retainers) GlobalObject` |
 
 ##### `Blob`
 
-|     % |     Size | Instances | Path             |
-| ----: | -------: | --------: | ---------------- |
-| 86.6% | 2.07 KiB |         1 | `(GC root)`      |
-| 13.4% |    328 B |         1 | `. GlobalObject` |
+|     % |     Size | Instances | Path                               |
+| ----: | -------: | --------: | ---------------------------------- |
+| 86.6% | 2.07 KiB |         1 | `(several retainers) GlobalObject` |
+| 13.4% |    328 B |         1 | `. GlobalObject`                   |
 
 ##### `ArrayBuffer`
 
-|      % |     Size | Instances | Path        |
-| -----: | -------: | --------: | ----------- |
-| 100.0% | 2.35 KiB |         2 | `(GC root)` |
+|      % |     Size | Instances | Path                               |
+| -----: | -------: | --------: | ---------------------------------- |
+| 100.0% | 2.35 KiB |         2 | `(several retainers) GlobalObject` |
 
 ##### `EventEmitter`
 
-|      % |     Size | Instances | Path        |
-| -----: | -------: | --------: | ----------- |
-| 100.0% | 2.17 KiB |         1 | `(GC root)` |
+|      % |     Size | Instances | Path                               |
+| -----: | -------: | --------: | ---------------------------------- |
+| 100.0% | 2.17 KiB |         1 | `(several retainers) GlobalObject` |
 
 ##### `FileSink`
 
@@ -439,15 +439,15 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Stats`
 
-|      % |     Size | Instances | Path        |
-| -----: | -------: | --------: | ----------- |
-| 100.0% | 1.23 KiB |         1 | `(GC root)` |
+|      % |     Size | Instances | Path                               |
+| -----: | -------: | --------: | ---------------------------------- |
+| 100.0% | 1.23 KiB |         1 | `(several retainers) GlobalObject` |
 
 ##### `AsyncDisposableStack`
 
-|      % |     Size | Instances | Path        |
-| -----: | -------: | --------: | ----------- |
-| 100.0% | 1.16 KiB |         1 | `(GC root)` |
+|      % |     Size | Instances | Path                               |
+| -----: | -------: | --------: | ---------------------------------- |
+| 100.0% | 1.16 KiB |         1 | `(several retainers) GlobalObject` |
 
 ##### `ModuleRecord`
 
@@ -459,28 +459,28 @@ Instances ranked by contribution to each constructor's retained size.
 
 Functions ranked by bytes that would be freed if the function were garbage collected.
 
-|    % | Retained | Instances | Paths | Name                 | Example path                                                                        |
-| ---: | -------: | --------: | ----: | -------------------- | ----------------------------------------------------------------------------------- |
-| 4.5% | 68.2 KiB |       374 |   344 | `Function`           | `.createNativeReadableStream GlobalObject`                                          |
-| 0.6% | 8.59 KiB |         3 |     3 | `matchesGlob`        | `. InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                   |
-| 0.4% | 6.21 KiB |         1 |     1 | `duplexPair`         | `(GC root)`                                                                         |
-| 0.4% | 5.95 KiB |        41 |    28 | `AsyncFunction`      | `.Symbol.asyncDispose Object`                                                       |
-| 0.4% | 5.87 KiB |        10 |    10 | `SafeIterator`       | `(GC root)`                                                                         |
-| 0.3% | 5.12 KiB |         1 |     1 | `SafeMap`            | `.SafeMap Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
-| 0.3% |  4.9 KiB |         1 |     1 | `SafeSet`            | `(GC root)`                                                                         |
-| 0.3% | 4.49 KiB |         1 |     1 | `requestInstantiate` | `.requestInstantiate ModuleLoader ← .Loader GlobalObject`                           |
-| 0.3% | 3.91 KiB |         1 |     1 | `requestSatisfyUtil` | `.requestSatisfyUtil ModuleLoader ← .Loader GlobalObject`                           |
-| 0.2% |  3.8 KiB |         2 |     1 | `compose`            | `(GC root)`                                                                         |
-| 0.2% | 3.72 KiB |         1 |     1 | `Object`             | `(GC root)`                                                                         |
-| 0.2% | 3.12 KiB |         1 |     1 | `PassThrough`        | `(GC root)`                                                                         |
-| 0.2% | 3.06 KiB |        25 |    24 | `anonymous`          | `.charCodeAt String ← . GlobalObject`                                               |
-| 0.2% | 3.04 KiB |         2 |     2 | `pipeline`           | `.pipeline Object`                                                                  |
-| 0.2% | 2.95 KiB |        85 |    54 | `get`                | `. GetterSetter ← .self GlobalObject`                                               |
-| 0.2% | 2.49 KiB |         1 |     1 | `Stream`             | `(GC root)`                                                                         |
-| 0.2% | 2.39 KiB |         6 |     3 | `forEach`            | `(GC root)`                                                                         |
-| 0.2% | 2.36 KiB |        63 |    44 | `set`                | `. GetterSetter ← .self GlobalObject`                                               |
-| 0.2% | 2.33 KiB |        20 |    20 | `call`               | `(GC root)`                                                                         |
-| 0.1% | 2.29 KiB |         1 |     1 | `newRegistryEntry`   | `. GlobalObject`                                                                    |
+|    % | Retained | Instances | Paths | Name                 | Example path                                                                                   |
+| ---: | -------: | --------: | ----: | -------------------- | ---------------------------------------------------------------------------------------------- |
+| 4.5% | 68.2 KiB |       374 |   345 | `Function`           | `.createNativeReadableStream GlobalObject`                                                     |
+| 0.6% | 8.59 KiB |         3 |     3 | `matchesGlob`        | `(several retainers) Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+| 0.4% | 6.21 KiB |         1 |     1 | `duplexPair`         | `(several retainers) GlobalObject`                                                             |
+| 0.4% | 5.95 KiB |        41 |    28 | `AsyncFunction`      | `.Symbol.asyncDispose Object ← (several retainers) GlobalObject`                               |
+| 0.4% | 5.87 KiB |        10 |    10 | `SafeIterator`       | `(several retainers) GlobalObject`                                                             |
+| 0.3% | 5.12 KiB |         1 |     1 | `SafeMap`            | `.SafeMap Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`            |
+| 0.3% |  4.9 KiB |         1 |     1 | `SafeSet`            | `(several retainers) GlobalObject`                                                             |
+| 0.3% | 4.49 KiB |         1 |     1 | `requestInstantiate` | `.requestInstantiate ModuleLoader ← .Loader GlobalObject`                                      |
+| 0.3% | 3.91 KiB |         1 |     1 | `requestSatisfyUtil` | `.requestSatisfyUtil ModuleLoader ← .Loader GlobalObject`                                      |
+| 0.2% |  3.8 KiB |         2 |     1 | `compose`            | `(several retainers) GlobalObject`                                                             |
+| 0.2% | 3.72 KiB |         1 |     1 | `Object`             | `(GC root)`                                                                                    |
+| 0.2% | 3.12 KiB |         1 |     1 | `PassThrough`        | `(several retainers) GlobalObject`                                                             |
+| 0.2% | 3.06 KiB |        25 |    24 | `anonymous`          | `.charCodeAt String ← . GlobalObject`                                                          |
+| 0.2% | 3.04 KiB |         2 |     2 | `pipeline`           | `.pipeline Object ← (several retainers) GlobalObject`                                          |
+| 0.2% | 2.95 KiB |        85 |    54 | `get`                | `. GetterSetter ← .self GlobalObject`                                                          |
+| 0.2% | 2.49 KiB |         1 |     1 | `Stream`             | `(several retainers) GlobalObject`                                                             |
+| 0.2% | 2.39 KiB |         6 |     4 | `forEach`            | `(several retainers) GlobalObject`                                                             |
+| 0.2% | 2.36 KiB |        63 |    44 | `set`                | `. GetterSetter ← .self GlobalObject`                                                          |
+| 0.2% | 2.33 KiB |        20 |    20 | `call`               | `(GC root)`                                                                                    |
+| 0.1% | 2.29 KiB |         1 |     1 | `newRegistryEntry`   | `. GlobalObject`                                                                               |
 
 ### Retained
 
@@ -488,53 +488,53 @@ Nodes ranked by contribution to each function's retained size.
 
 #### `Function`
 
-|    % |  Self | Name                        | Path                                                                           |
-| ---: | ----: | --------------------------- | ------------------------------------------------------------------------------ |
-| 0.7% | 484 B | `FunctionCodeBlock`         | `. FunctionExecutable ← . Function ← .createNativeReadableStream GlobalObject` |
-| 0.5% | 375 B | `UnlinkedFunctionCodeBlock` | `. Function ← .createNativeReadableStream GlobalObject`                        |
-| 0.2% | 128 B | `FunctionExecutable`        | `. Function ← .isReadableByteStreamController GlobalObject`                    |
-| 0.2% | 128 B | `FunctionExecutable`        | `. Function ← .isReadableStreamBYOBReader GlobalObject`                        |
-| 0.2% | 128 B | `FunctionExecutable`        | `. Function ← .isReadableStreamBYOBRequest GlobalObject`                       |
+|    % |  Self | Name                        | Path                                                                                             |
+| ---: | ----: | --------------------------- | ------------------------------------------------------------------------------------------------ |
+| 0.7% | 484 B | `FunctionCodeBlock`         | `. FunctionExecutable ← . Function ← .createNativeReadableStream GlobalObject`                   |
+| 0.5% | 375 B | `UnlinkedFunctionCodeBlock` | `(several retainers) FunctionExecutable ← . Function ← .createNativeReadableStream GlobalObject` |
+| 0.2% | 128 B | `FunctionExecutable`        | `. Function ← .isReadableByteStreamController GlobalObject`                                      |
+| 0.2% | 128 B | `FunctionExecutable`        | `. Function ← .isReadableStreamBYOBReader GlobalObject`                                          |
+| 0.2% | 128 B | `FunctionExecutable`        | `. Function ← .isReadableStreamBYOBRequest GlobalObject`                                         |
 
 #### `matchesGlob`
 
-|     % |     Self | Name                         | Path                                                                                                                            |
-| ----: | -------: | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 73.9% | 6.35 KiB | `FunctionCodeBlock`          | `. FunctionExecutable ← . FunctionExecutable ← . matchesGlob ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
-| 15.0% | 1.29 KiB | `UnlinkedFunctionCodeBlock`  | `. FunctionExecutable ← . matchesGlob ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                        |
-|  1.5% |    128 B | `FunctionExecutable`         | `. matchesGlob ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                                               |
-|  1.5% |    128 B | `FunctionExecutable`         | `. FunctionExecutable ← . matchesGlob ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                        |
-|  1.1% |     96 B | `UnlinkedFunctionExecutable` | `. FunctionExecutable ← . matchesGlob ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                        |
+|     % |     Self | Name                         | Path                                                                                                                                                                           |
+| ----: | -------: | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 73.9% | 6.35 KiB | `FunctionCodeBlock`          | `. FunctionExecutable ← . FunctionExecutable ← . matchesGlob ← (several retainers) Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                   |
+| 15.0% | 1.29 KiB | `UnlinkedFunctionCodeBlock`  | `(several retainers) FunctionExecutable ← . FunctionExecutable ← . matchesGlob ← (several retainers) Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+|  1.5% |    128 B | `FunctionExecutable`         | `. matchesGlob ← (several retainers) Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                                                                 |
+|  1.5% |    128 B | `FunctionExecutable`         | `. FunctionExecutable ← . matchesGlob ← (several retainers) Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                                          |
+|  1.1% |     96 B | `UnlinkedFunctionExecutable` | `. FunctionExecutable ← . matchesGlob ← (several retainers) Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject`                                          |
 
 #### `duplexPair`
 
-|     % |     Self | Name                        | Path                   |
-| ----: | -------: | --------------------------- | ---------------------- |
-| 22.7% | 1.41 KiB | `FunctionCodeBlock`         | `. FunctionExecutable` |
-| 10.7% |    678 B | `UnlinkedFunctionCodeBlock` | `(GC root)`            |
-|  2.0% |    128 B | `FunctionExecutable`        | `(GC root)`            |
-|  2.0% |    128 B | `FunctionExecutable`        | `(GC root)`            |
-|  2.0% |    128 B | `FunctionExecutable`        | `(GC root)`            |
+|     % |     Self | Name                        | Path                                                                                                         |
+| ----: | -------: | --------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 22.7% | 1.41 KiB | `FunctionCodeBlock`         | `. FunctionExecutable ← (several retainers) duplexPair ← (several retainers) GlobalObject`                   |
+| 10.7% |    678 B | `UnlinkedFunctionCodeBlock` | `(several retainers) FunctionExecutable ← (several retainers) duplexPair ← (several retainers) GlobalObject` |
+|  2.0% |    128 B | `FunctionExecutable`        | `(several retainers) duplexPair ← (several retainers) GlobalObject`                                          |
+|  2.0% |    128 B | `FunctionExecutable`        | `(several retainers) duplexPair ← (several retainers) GlobalObject`                                          |
+|  2.0% |    128 B | `FunctionExecutable`        | `(several retainers) duplexPair ← (several retainers) GlobalObject`                                          |
 
 #### `AsyncFunction`
 
-|    % |  Self | Name                   | Path                                                            |
-| ---: | ----: | ---------------------- | --------------------------------------------------------------- |
-| 1.8% | 112 B | `Structure`            | `. AsyncFunction ← .Symbol.asyncDispose Object`                 |
-| 1.8% | 112 B | `Structure`            | `. AsyncFunction ← .constructor AsyncFunction ← . GlobalObject` |
-| 0.8% |  48 B | `JSLexicalEnvironment` | `. AsyncFunction ← .rmdir Object`                               |
-| 0.8% |  48 B | `JSLexicalEnvironment` | `. AsyncFunction ← .rm Object`                                  |
-| 0.8% |  48 B | `JSLexicalEnvironment` | `. AsyncFunction ← .lutimes Object`                             |
+|    % |  Self | Name                   | Path                                                                               |
+| ---: | ----: | ---------------------- | ---------------------------------------------------------------------------------- |
+| 1.8% | 112 B | `Structure`            | `. AsyncFunction ← .Symbol.asyncDispose Object ← (several retainers) GlobalObject` |
+| 1.8% | 112 B | `Structure`            | `. AsyncFunction ← .constructor AsyncFunction ← . GlobalObject`                    |
+| 0.8% |  48 B | `JSLexicalEnvironment` | `. AsyncFunction ← .rmdir Object ← (several retainers) GlobalObject`               |
+| 0.8% |  48 B | `JSLexicalEnvironment` | `. AsyncFunction ← .rm Object ← (several retainers) GlobalObject`                  |
+| 0.8% |  48 B | `JSLexicalEnvironment` | `. AsyncFunction ← .lutimes Object ← (several retainers) GlobalObject`             |
 
 #### `SafeIterator`
 
-|    % | Self | Name   | Path                                                                                                                                       |
-| ---: | ---: | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator`                                                                                           |
-| 1.6% | 96 B | `call` | `.next_ JSLexicalEnvironment ← . SafeIterator`                                                                                             |
-| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← .SafeIterator JSLexicalEnvironment ← . Function ← .entries Object ← .homeObject SafeSet` |
-| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← .SafeIterator JSLexicalEnvironment ← . Function ← .keys Object ← .homeObject SafeSet`    |
-| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← .SafeIterator JSLexicalEnvironment ← . Function ← .values Object ← .homeObject SafeSet`  |
+|    % | Self | Name   | Path                                                                                                                                                                          |
+| ---: | ---: | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← (several retainers) GlobalObject`                                                                                           |
+| 1.6% | 96 B | `call` | `.next_ JSLexicalEnvironment ← . SafeIterator ← (several retainers) GlobalObject`                                                                                             |
+| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← .SafeIterator JSLexicalEnvironment ← . Function ← .entries Object ← .homeObject SafeSet ← (several retainers) GlobalObject` |
+| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← .SafeIterator JSLexicalEnvironment ← . Function ← .keys Object ← .homeObject SafeSet ← (several retainers) GlobalObject`    |
+| 1.6% | 96 B | `call` | `.factory JSLexicalEnvironment ← . SafeIterator ← .SafeIterator JSLexicalEnvironment ← . Function ← .values Object ← .homeObject SafeSet ← (several retainers) GlobalObject`  |
 
 #### `SafeMap`
 
@@ -548,13 +548,13 @@ Nodes ranked by contribution to each function's retained size.
 
 #### `SafeSet`
 
-|    % |  Self | Name        | Path                                                         |
-| ---: | ----: | ----------- | ------------------------------------------------------------ |
-| 2.2% | 112 B | `Structure` | `. Object ← .homeObject SafeSet`                             |
-| 2.2% | 112 B | `Structure` | `. Structure ← . Object ← .homeObject SafeSet`               |
-| 2.2% | 112 B | `Structure` | `. Structure ← . Structure ← . Object ← .homeObject SafeSet` |
-| 2.2% | 112 B | `Structure` | `. SafeSet`                                                  |
-| 2.2% | 112 B | `Structure` | `. Structure ← . SafeSet`                                    |
+|    % |  Self | Name        | Path                                                                                            |
+| ---: | ----: | ----------- | ----------------------------------------------------------------------------------------------- |
+| 2.2% | 112 B | `Structure` | `. Object ← .homeObject SafeSet ← (several retainers) GlobalObject`                             |
+| 2.2% | 112 B | `Structure` | `. Structure ← . Object ← .homeObject SafeSet ← (several retainers) GlobalObject`               |
+| 2.2% | 112 B | `Structure` | `. Structure ← . Structure ← . Object ← .homeObject SafeSet ← (several retainers) GlobalObject` |
+| 2.2% | 112 B | `Structure` | `. SafeSet ← (several retainers) GlobalObject`                                                  |
+| 2.2% | 112 B | `Structure` | `. Structure ← . SafeSet ← (several retainers) GlobalObject`                                    |
 
 #### `requestInstantiate`
 
@@ -578,13 +578,13 @@ Nodes ranked by contribution to each function's retained size.
 
 #### `compose`
 
-|     % |     Self | Name                        | Path                                                      |
-| ----: | -------: | --------------------------- | --------------------------------------------------------- |
-| 53.6% | 2.04 KiB | `FunctionCodeBlock`         | `. FunctionExecutable ← . FunctionExecutable ← . compose` |
-| 19.8% |    772 B | `UnlinkedFunctionCodeBlock` | `. FunctionExecutable ← . compose`                        |
-|  4.1% |    160 B | `JSLexicalEnvironment`      | `. compose`                                               |
-|  3.3% |    128 B | `FunctionExecutable`        | `. compose`                                               |
-|  3.3% |    128 B | `FunctionExecutable`        | `. FunctionExecutable ← . compose`                        |
+|     % |     Self | Name                        | Path                                                                                                           |
+| ----: | -------: | --------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| 53.6% | 2.04 KiB | `FunctionCodeBlock`         | `. FunctionExecutable ← . FunctionExecutable ← . compose ← (several retainers) GlobalObject`                   |
+| 19.8% |    772 B | `UnlinkedFunctionCodeBlock` | `(several retainers) FunctionExecutable ← . FunctionExecutable ← . compose ← (several retainers) GlobalObject` |
+|  4.1% |    160 B | `JSLexicalEnvironment`      | `. compose ← (several retainers) GlobalObject`                                                                 |
+|  3.3% |    128 B | `FunctionExecutable`        | `. compose ← (several retainers) GlobalObject`                                                                 |
+|  3.3% |    128 B | `FunctionExecutable`        | `. FunctionExecutable ← . compose ← (several retainers) GlobalObject`                                          |
 
 #### `Object`
 
@@ -598,13 +598,13 @@ Nodes ranked by contribution to each function's retained size.
 
 #### `PassThrough`
 
-|     % |  Self | Name                        | Path                   |
-| ----: | ----: | --------------------------- | ---------------------- |
-| 28.2% | 900 B | `FunctionCodeBlock`         | `. FunctionExecutable` |
-| 15.1% | 484 B | `UnlinkedFunctionCodeBlock` | `(GC root)`            |
-|  4.0% | 128 B | `FunctionExecutable`        | `(GC root)`            |
-|  4.0% | 128 B | `FunctionExecutable`        | `(GC root)`            |
-|  4.0% | 128 B | `FunctionExecutable`        | `. PassThrough`        |
+|     % |  Self | Name                        | Path                                                                                                          |
+| ----: | ----: | --------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| 28.2% | 900 B | `FunctionCodeBlock`         | `. FunctionExecutable ← (several retainers) PassThrough ← (several retainers) GlobalObject`                   |
+| 15.1% | 484 B | `UnlinkedFunctionCodeBlock` | `(several retainers) FunctionExecutable ← (several retainers) PassThrough ← (several retainers) GlobalObject` |
+|  4.0% | 128 B | `FunctionExecutable`        | `(several retainers) PassThrough ← (several retainers) GlobalObject`                                          |
+|  4.0% | 128 B | `FunctionExecutable`        | `(several retainers) PassThrough ← (several retainers) GlobalObject`                                          |
+|  4.0% | 128 B | `FunctionExecutable`        | `. PassThrough ← (several retainers) GlobalObject`                                                            |
 
 #### `anonymous`
 
@@ -618,51 +618,51 @@ Nodes ranked by contribution to each function's retained size.
 
 #### `pipeline`
 
-|     % |     Self | Name                        | Path                                                                          |
-| ----: | -------: | --------------------------- | ----------------------------------------------------------------------------- |
-| 44.0% | 1.34 KiB | `FunctionCodeBlock`         | `. FunctionExecutable ← . FunctionExecutable ← . pipeline ← .pipeline Object` |
-| 19.6% |    611 B | `UnlinkedFunctionCodeBlock` | `. FunctionExecutable ← . pipeline ← .pipeline Object`                        |
-|  4.1% |    128 B | `FunctionExecutable`        | `. pipeline ← .pipeline Object`                                               |
-|  4.1% |    128 B | `FunctionExecutable`        | `. FunctionExecutable ← . pipeline ← .pipeline Object`                        |
-|  3.6% |    112 B | `Structure`                 | `. pipeline`                                                                  |
+|     % |     Self | Name                        | Path                                                                                                                               |
+| ----: | -------: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| 44.0% | 1.34 KiB | `FunctionCodeBlock`         | `. FunctionExecutable ← . FunctionExecutable ← . pipeline ← .pipeline Object ← (several retainers) GlobalObject`                   |
+| 19.6% |    611 B | `UnlinkedFunctionCodeBlock` | `(several retainers) FunctionExecutable ← . FunctionExecutable ← . pipeline ← .pipeline Object ← (several retainers) GlobalObject` |
+|  4.1% |    128 B | `FunctionExecutable`        | `. pipeline ← .pipeline Object ← (several retainers) GlobalObject`                                                                 |
+|  4.1% |    128 B | `FunctionExecutable`        | `. FunctionExecutable ← . pipeline ← .pipeline Object ← (several retainers) GlobalObject`                                          |
+|  3.6% |    112 B | `Structure`                 | `. pipeline ← (several retainers) GlobalObject`                                                                                    |
 
 #### `get`
 
 |    % | Self | Name               | Path                                              |
 | ---: | ---: | ------------------ | ------------------------------------------------- |
-| 2.7% | 80 B | `NativeExecutable` | `. get`                                           |
-| 2.7% | 80 B | `NativeExecutable` | `. get`                                           |
+| 2.7% | 80 B | `NativeExecutable` | `. get ← (several retainers) GlobalObject`        |
+| 2.7% | 80 B | `NativeExecutable` | `. get ← (several retainers) GlobalObject`        |
 | 2.7% | 80 B | `NativeExecutable` | `. get ← . GetterSetter ← .self GlobalObject`     |
 | 0.6% | 18 B | `get`              | `.name get ← . GetterSetter ← .self GlobalObject` |
-| 0.6% | 17 B | `get`              | `.name get`                                       |
+| 0.6% | 17 B | `get`              | `.name get ← (several retainers) GlobalObject`    |
 
 #### `Stream`
 
-|    % |  Self | Name        | Path                                                               |
-| ---: | ----: | ----------- | ------------------------------------------------------------------ |
-| 4.4% | 112 B | `Structure` | `. Stream`                                                         |
-| 4.4% | 112 B | `Structure` | `. Structure ← . Stream`                                           |
-| 4.4% | 112 B | `Structure` | `. Structure ← . Structure ← . Stream`                             |
-| 4.4% | 112 B | `Structure` | `. Structure ← . Structure ← . Structure ← . Stream`               |
-| 4.4% | 112 B | `Structure` | `. Structure ← . Structure ← . Structure ← . Structure ← . Stream` |
+|    % |  Self | Name        | Path                                                                                                  |
+| ---: | ----: | ----------- | ----------------------------------------------------------------------------------------------------- |
+| 4.4% | 112 B | `Structure` | `. Stream ← (several retainers) GlobalObject`                                                         |
+| 4.4% | 112 B | `Structure` | `. Structure ← . Stream ← (several retainers) GlobalObject`                                           |
+| 4.4% | 112 B | `Structure` | `. Structure ← . Structure ← . Stream ← (several retainers) GlobalObject`                             |
+| 4.4% | 112 B | `Structure` | `. Structure ← . Structure ← . Structure ← . Stream ← (several retainers) GlobalObject`               |
+| 4.4% | 112 B | `Structure` | `. Structure ← . Structure ← . Structure ← . Structure ← . Stream ← (several retainers) GlobalObject` |
 
 #### `forEach`
 
-|     % |  Self | Name                 | Path                                                    |
-| ----: | ----: | -------------------- | ------------------------------------------------------- |
-| 33.8% | 828 B | `FunctionCodeBlock`  | `. FunctionExecutable ← . FunctionRareData ← . forEach` |
-| 24.7% | 604 B | `FunctionCodeBlock`  | `. FunctionExecutable ← . forEach`                      |
-|  5.2% | 128 B | `FunctionExecutable` | `. FunctionRareData ← . forEach`                        |
-|  5.2% | 128 B | `FunctionExecutable` | `. FunctionRareData ← . forEach`                        |
-|  5.2% | 128 B | `FunctionExecutable` | `. forEach`                                             |
+|     % |  Self | Name                 | Path                                                                                       |
+| ----: | ----: | -------------------- | ------------------------------------------------------------------------------------------ |
+| 33.8% | 828 B | `FunctionCodeBlock`  | `. FunctionExecutable ← . FunctionRareData ← . forEach ← (several retainers) GlobalObject` |
+| 24.7% | 604 B | `FunctionCodeBlock`  | `. FunctionExecutable ← . forEach`                                                         |
+|  5.2% | 128 B | `FunctionExecutable` | `. FunctionRareData ← . forEach ← (several retainers) GlobalObject`                        |
+|  5.2% | 128 B | `FunctionExecutable` | `. FunctionRareData ← . forEach ← (several retainers) GlobalObject`                        |
+|  5.2% | 128 B | `FunctionExecutable` | `. forEach`                                                                                |
 
 #### `set`
 
 |    % | Self | Name               | Path                                              |
 | ---: | ---: | ------------------ | ------------------------------------------------- |
-| 3.3% | 80 B | `NativeExecutable` | `. set`                                           |
-| 3.3% | 80 B | `NativeExecutable` | `. set`                                           |
-| 3.3% | 80 B | `NativeExecutable` | `. set`                                           |
+| 3.3% | 80 B | `NativeExecutable` | `. set ← (several retainers) GlobalObject`        |
+| 3.3% | 80 B | `NativeExecutable` | `. set ← (several retainers) GlobalObject`        |
+| 3.3% | 80 B | `NativeExecutable` | `. set ← (several retainers) GlobalObject`        |
 | 3.3% | 80 B | `NativeExecutable` | `. set ← . GetterSetter ← .self GlobalObject`     |
 | 0.7% | 18 B | `set`              | `.name set ← . GetterSetter ← .self GlobalObject` |
 

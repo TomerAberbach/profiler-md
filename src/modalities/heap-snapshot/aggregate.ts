@@ -30,7 +30,7 @@ import type {
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
   RetainerEdge,
-  RetainerStep,
+  RetainerNode,
   UnresolvedHeapSnapshotNodeCategory,
 } from './type.ts'
 
@@ -46,10 +46,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   readonly #edgeCount: number
   readonly #nodeAdjacencyGraph: NodeAdjacencyGraph
   readonly #selfSizeOf: (nodeOrdinal: number) => number
-  readonly #retainerStepOf: (
-    retainerOrdinal: number,
-    edgeIndex: number,
-  ) => RetainerStep
+  readonly #retainerEdgeOf: HeapSnapshot[`retainerEdgeOf`]
+  readonly #retainerOf: HeapSnapshot[`retainerOf`]
 
   readonly #formatNodeLabel: (
     nodeOrdinal: number,
@@ -87,9 +85,23 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       nodeOrdinal,
       this.#nodeAdjacencyGraph,
       this.#immediateDominatorGraph,
-      this.#retainerStepOf,
+      this.#retainerEdgeOf,
       this.#isInternalNode,
     )
+
+  /** The location of the function or constructor the node is an instance of. */
+  readonly #entityLocationOf = (
+    nodeOrdinal: number,
+  ): SourceLocation | undefined => {
+    const functionIndex = this.#nodeOrdinalToFunctionIndex[nodeOrdinal]!
+    if (functionIndex !== -1) {
+      return this.#functions[functionIndex]!.location
+    }
+    const constructorIndex = this.#nodeOrdinalToConstructorIndex[nodeOrdinal]!
+    return constructorIndex === -1
+      ? undefined
+      : this.#constructors[constructorIndex]!.location
+  }
 
   public constructor(snapshot: HeapSnapshot) {
     const {
@@ -98,7 +110,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       nodeAdjacencyGraph,
       selfSizeOf,
       nodes,
-      retainerStepOf,
+      retainerEdgeOf,
+      retainerOf,
       formatNodeLabel,
       isInternalNode,
       unresolvedCategoryOf,
@@ -107,7 +120,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     this.#edgeCount = edgeCount
     this.#nodeAdjacencyGraph = nodeAdjacencyGraph
     this.#selfSizeOf = selfSizeOf
-    this.#retainerStepOf = retainerStepOf
+    this.#retainerEdgeOf = retainerEdgeOf
+    this.#retainerOf = retainerOf
     this.#formatNodeLabel = formatNodeLabel
     this.#isInternalNode = isInternalNode
     this.#unresolvedCategoryOf = unresolvedCategoryOf
@@ -297,9 +311,14 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         this.#immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
       ),
       retainerHopOf: this.#retainerHopOf,
+      retainerOf: this.#retainerOf,
       retainerPathOf: (nodeOrdinal, options) =>
         formatRetainerPath(
-          computeRetainerSteps(nodeOrdinal, this.#retainerHopOf),
+          computeRetainerSteps(
+            nodeOrdinal,
+            this.#retainerHopOf,
+            this.#retainerOf,
+          ),
           options,
         ),
       retainedNodesOf: (nodeOrdinal, options) =>
@@ -310,6 +329,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
           this.#selfSizeOf,
           ordinal => this.#formatNodeLabel(ordinal, options),
           this.#isInternalNode,
+          this.#entityLocationOf,
           categoryOf,
         ),
     }
@@ -355,8 +375,11 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   }
 }
 
-/** Identifies a constructor or function by its name and location. */
-const nodeKey = (name: string, location: SourceLocation | undefined): string =>
+/** Identifies a node by its name and location. */
+export const nodeKey = (
+  name: string,
+  location: SourceLocation | undefined,
+): string =>
   location
     ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
     : name
@@ -379,7 +402,7 @@ const computeRetainerHop = (
     offsetToPredecessorEdgeIndex,
   }: NodeAdjacencyGraph,
   { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
-  retainerStepOf: (retainerOrdinal: number, edgeIndex: number) => RetainerStep,
+  retainerEdgeOf: HeapSnapshot[`retainerEdgeOf`],
   isInternalNode: (nodeOrdinal: number) => boolean,
 ): RetainerHop | undefined => {
   const predecessorStartOffset = ordinalToPredecessorStartOffset[nodeOrdinal]!
@@ -393,29 +416,30 @@ const computeRetainerHop = (
   if (dominatorOrdinal === -1 || dominatorOrdinal === nodeOrdinal) {
     return undefined
   }
+  let edge: RetainerPathEdge = SEVERAL_RETAINERS_EDGE
   for (
     let offset = predecessorStartOffset;
     offset < predecessorEndOffset;
     offset++
   ) {
     if (offsetToPredecessorOrdinal[offset] === dominatorOrdinal) {
-      return {
+      edge = retainerEdgeOf(
         dominatorOrdinal,
-        step: retainerStepOf(
-          dominatorOrdinal,
-          offsetToPredecessorEdgeIndex[offset]!,
-        ),
-        internal: isInternalNode(dominatorOrdinal),
-      }
+        offsetToPredecessorEdgeIndex[offset]!,
+      )
+      break
     }
   }
-  return { dominatorOrdinal, step: undefined, internal: false }
+  return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
 }
+
+const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = { type: `several-retainers` }
 
 const computeRetainerSteps = (
   nodeOrdinal: number,
   retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined,
-): RetainerStep[] => {
+  retainerOf: HeapSnapshot[`retainerOf`],
+): RetainerPathStep[] => {
   const hops: RetainerHop[] = []
   for (
     let hop = retainerHopOf(nodeOrdinal);
@@ -425,33 +449,33 @@ const computeRetainerSteps = (
     hops.push(hop)
   }
 
-  const steps: RetainerStep[] = []
+  const steps: RetainerPathStep[] = []
   for (let index = hops.length - 1; index >= 0; index--) {
     const hop = hops[index]!
-    if (keepsRetainerStep(hop, steps.length === 0)) {
-      steps.push(hop.step!)
+    if (keepsRetainerStep(hop.internal, steps.length === 0)) {
+      steps.push({ edge: hop.edge, retainer: retainerOf(hop.dominatorOrdinal) })
     }
   }
   return steps.reverse()
 }
 
 /**
- * Whether a retainer path keeps a hop's step, given whether the path from the
- * hop's dominator outward is empty. A path skips a hop without a step, and
+ * Whether a retainer path keeps a hop's step, given whether the hop's
+ * dominator is internal and whether the path from it outward is empty. A path
  * drops its trailing steps through internal nodes, which are VM bookkeeping
  * that never points to user code.
  */
 export const keepsRetainerStep = (
-  { step, internal }: RetainerHop,
+  internal: boolean,
   isRestEmpty: boolean,
-): boolean => step !== undefined && !(isRestEmpty && internal)
+): boolean => !(isRestEmpty && internal)
 
 /**
  * Formats a retainer path from the node outward, or `(GC root)` for a node the
  * GC root holds directly.
  */
 export const formatRetainerPath = (
-  steps: readonly RetainerStep[],
+  steps: readonly RetainerPathStep[],
   options: FormattingProfileToMdOptions,
 ): string =>
   steps.length === 0
@@ -471,7 +495,7 @@ const joinRetainerStepLabels = (
 ): string => (edgeLabel ? `${edgeLabel} ${retainerLabel}` : retainerLabel)
 
 export const formatRetainerLabel = (
-  { name, nameLocation, location }: RetainerStep[`retainer`],
+  { name, nameLocation, location }: RetainerNode,
   options: FormattingProfileToMdOptions,
 ): string =>
   `${nameLocation ? formatSourceLocation(nameLocation, options) : name}${
@@ -479,15 +503,33 @@ export const formatRetainerLabel = (
   }`
 
 export const formatRetainerEdgeLabel = (
-  edge: RetainerEdge,
+  edge: RetainerPathEdge,
   options: FormattingProfileToMdOptions,
 ): string =>
   formatRetainerEdge(edge, ({ name, nameLocation }) =>
     nameLocation ? formatSourceLocation(nameLocation, options) : name,
   )
 
+/**
+ * A retainer path step's edge. A path that groups the elements of an array
+ * records an element edge as any element. A step whose retainer holds no edge
+ * to the node, which it retains through the node's several retainers, records
+ * several retainers.
+ */
+export type RetainerPathEdge =
+  RetainerEdge | { type: `any-element` } | { type: `several-retainers` }
+
+/**
+ * One step of a retainer path: the edge a retainer holds to the node the path
+ * reached so far, and the retainer.
+ */
+export type RetainerPathStep = {
+  edge: RetainerPathEdge
+  retainer: RetainerNode
+}
+
 export const formatRetainerEdge = (
-  edge: RetainerEdge,
+  edge: RetainerPathEdge,
   propertyName: (edge: Extract<RetainerEdge, { type: `property` }>) => string,
 ): string => {
   switch (edge.type) {
@@ -495,6 +537,10 @@ export const formatRetainerEdge = (
       return `.${propertyName(edge)}`
     case `element`:
       return `[${edge.index ?? `<unknown>`}]`
+    case `any-element`:
+      return `[]`
+    case `several-retainers`:
+      return `(several retainers)`
     case `labeled`:
       return edge.label
     case `unlabeled`:
@@ -543,6 +589,7 @@ const computeRetainedNodes = (
   selfSizeOf: (nodeOrdinal: number) => number,
   formatNodeLabel: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
+  locationOf: (nodeOrdinal: number) => SourceLocation | undefined,
   categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
 ): AggregatedHeapSnapshotNode[] => {
   const retainedNodes: AggregatedHeapSnapshotNode[] = []
@@ -565,6 +612,7 @@ const computeRetainedNodes = (
         category: categoryOf(current),
         selfSize: selfSizeOf(current),
         retainedSize: nodeOrdinalToRetainedSize[current]!,
+        location: locationOf(current),
       })
     }
 
@@ -683,6 +731,9 @@ export type AggregatedHeapSnapshot = {
    */
   retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined
 
+  /** The node as a retainer path step shows it. */
+  retainerOf: (nodeOrdinal: number) => RetainerNode
+
   retainerPathOf: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
@@ -693,12 +744,10 @@ export type AggregatedHeapSnapshot = {
   ) => AggregatedHeapSnapshotNode[]
 }
 
-/** A node's immediate dominator, and the step through its edge to the node. */
+/** A node's immediate dominator, and the dominator's edge to the node. */
 export type RetainerHop = {
   dominatorOrdinal: number
-
-  /** Undefined when the dominator holds no edge to the node. */
-  step: RetainerStep | undefined
+  edge: RetainerPathEdge
 
   /** Whether the dominator is an internal node. */
   internal: boolean

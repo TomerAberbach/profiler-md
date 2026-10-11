@@ -27,10 +27,13 @@ export type HeapSnapshot = {
   nodes: Iterable<HeapSnapshotNode>
 
   /**
-   * The retainer path step of the edge at {@link edgeIndex}, whose meaning is
-   * the format's own, held by the node at {@link retainerOrdinal}.
+   * How the node at {@link retainerOrdinal} refers to another through the edge
+   * at {@link edgeIndex}, whose meaning is the format's own.
    */
-  retainerStepOf: (retainerOrdinal: number, edgeIndex: number) => RetainerStep
+  retainerEdgeOf: (retainerOrdinal: number, edgeIndex: number) => RetainerEdge
+
+  /** The node as a retainer path step shows it. */
+  retainerOf: (nodeOrdinal: number) => RetainerNode
 
   /**
    * Computed lazily at formatting time, so it receives the resolved formatting
@@ -140,15 +143,6 @@ export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
       }
   )
 
-/**
- * One step of a retainer path: the edge a retainer holds to the node the path
- * reached so far, and the retainer.
- */
-export type RetainerStep = {
-  edge: RetainerEdge
-  retainer: RetainerNode
-}
-
 /** How a retainer refers to the node it retains. */
 export type RetainerEdge =
   | {
@@ -171,7 +165,7 @@ export type RetainerEdge =
     }
   | { type: `unlabeled` }
 
-type RetainerNode = {
+export type RetainerNode = {
   /** The retainer's node ordinal. */
   id: number
 

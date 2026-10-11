@@ -143,148 +143,149 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Structure`
 
-|     % |  Size | Instances | Path                                                                |
-| ----: | ----: | --------: | ------------------------------------------------------------------- |
-| <0.1% | 448 B |         4 | `(GC root)`                                                         |
-| <0.1% | 128 B |         1 | `FormMetadataClassification ← .FormMetadataClassificationJS Window` |
-| <0.1% | 112 B |         1 | `Function ← .Deferred Function`                                     |
-| <0.1% | 112 B |         1 | `Function`                                                          |
-| <0.1% | 112 B |         1 | `Function ← .updateTooltipAccessKeys Object`                        |
+|     % |  Size | Instances | Path                                                                                             |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------ |
+| <0.1% | 448 B |         4 | `(several retainers) <root>`                                                                     |
+| <0.1% | 128 B |         1 | `FormMetadataClassification ← .FormMetadataClassificationJS Window ← (several retainers) <root>` |
+| <0.1% | 112 B |         1 | `Function ← .Deferred Function ← (several retainers) <root>`                                     |
+| <0.1% | 112 B |         1 | `Function ← (several retainers) <root>`                                                          |
+| <0.1% | 112 B |         1 | `Function ← .updateTooltipAccessKeys Object ← (several retainers) <root>`                        |
 
 ##### `UnlinkedFunctionCodeBlock`
 
-|     % |    Size | Instances | Path                                                                                                                      |
-| ----: | ------: | --------: | ------------------------------------------------------------------------------------------------------------------------- |
-| 96.5% | 929 KiB |     1,647 | `(GC root)`                                                                                                               |
-|  3.3% |  32 KiB |        10 | `UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                                                          |
-|  0.1% |   911 B |         2 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>` |
-| <0.1% |   416 B |         1 | `UnlinkedFunctionExecutable ← <root>`                                                                                     |
+|    % |     Size | Instances | Path                                                                                                                                                                        |
+| ---: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.3% | 41.1 KiB |         4 | `UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                                                   |
+| 3.9% | 37.9 KiB |         1 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>` |
+| 2.7% |   26 KiB |         1 | `UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                                                                                                            |
+| 1.4% | 13.9 KiB |         1 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                          |
+| 0.5% | 5.24 KiB |         1 | `(several retainers) <root>`                                                                                                                                                |
 
 ##### `FunctionExecutable`
 
-|     % |  Size | Instances | Path                                                                                   |
-| ----: | ----: | --------: | -------------------------------------------------------------------------------------- |
-| <0.1% | 128 B |         1 | `(GC root)`                                                                            |
-| <0.1% | 128 B |         1 | `Function ← Window ← <root>`                                                           |
-| <0.1% | 128 B |         1 | `Function ← <root>`                                                                    |
-| <0.1% | 128 B |         1 | `Function ← .toString JSLexicalEnvironment ← JSLexicalEnvironment ← <root>`            |
-| <0.1% | 128 B |         1 | `Function ← .toStringDescription JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
+|     % |  Size | Instances | Path                                                                                                                        |
+| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 128 B |         1 | `(several retainers) <root>`                                                                                                |
+| <0.1% | 128 B |         1 | `Function ← Window ← <root>`                                                                                                |
+| <0.1% | 128 B |         1 | `Function ← (several retainers) InjectedScript ← <root>`                                                                    |
+| <0.1% | 128 B |         1 | `Function ← .toString JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`            |
+| <0.1% | 128 B |         1 | `Function ← .toStringDescription JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
 
 ##### `Object`
 
-|    % |     Size | Instances | Path                                                 |
-| ---: | -------: | --------: | ---------------------------------------------------- |
-| 0.9% | 6.16 KiB |         8 | `(GC root)`                                          |
-| 0.4% | 3.06 KiB |         4 | `.mediawiki.base Object`                             |
-| 0.4% | 2.76 KiB |         2 | `.languages Object ← .data Object ← .uls Function`   |
-| 0.2% | 1.56 KiB |         2 | `.territories Object ← .data Object ← .uls Function` |
-| 0.1% |    608 B |         1 | `.RLCONF Window ← <root>`                            |
+|    % |     Size | Instances | Path                                                                               |
+| ---: | -------: | --------: | ---------------------------------------------------------------------------------- |
+| 0.5% | 3.59 KiB |         4 | `(several retainers) <root>`                                                       |
+| 0.4% | 2.76 KiB |         2 | `.languages Object ← .data Object ← .uls Function ← (several retainers) <root>`    |
+| 0.3% | 1.86 KiB |         2 | `(several retainers) Object ← .mediawiki.base Object ← (several retainers) <root>` |
+| 0.2% | 1.56 KiB |         2 | `.territories Object ← .data Object ← .uls Function ← (several retainers) <root>`  |
+| 0.1% |    715 B |         1 | `(several retainers) Window ← (several retainers) <root>`                          |
 
 ##### `UnlinkedFunctionExecutable`
 
-|     % |     Size | Instances | Path                                                                                         |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------- |
-| 62.1% |  352 KiB |     3,754 | `(GC root)`                                                                                  |
-|  0.2% | 1.13 KiB |        12 | `UnlinkedProgramCodeBlock ← <root>`                                                          |
-| <0.1% |    288 B |         3 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>` |
-| <0.1% |    288 B |         3 | `<root>`                                                                                     |
-| <0.1% |     96 B |         1 | `FunctionExecutable ← Function ← .isCompatible Window ← <root>`                              |
+|     % |     Size | Instances | Path                                                                                                                                                                                                                                                             |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  7.1% | 40.3 KiB |       430 | `(several retainers) <root>`                                                                                                                                                                                                                                     |
+|  1.0% | 5.91 KiB |        63 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                                                                                                            |
+|  0.2% |    960 B |        10 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                                                   |
+| <0.1% |     96 B |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                          |
+| <0.1% |     96 B |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>` |
 
 ##### `FunctionCodeBlock`
 
-|     % |     Size | Instances | Path                                                                                           |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------- |
-| 16.5% | 88.1 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .articleTitleInformation Object`           |
-| 10.4% | 55.6 KiB |         6 | `(GC root)`                                                                                    |
-|  1.8% | 9.68 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findCandidateElements Object`             |
-|  1.7% | 9.07 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findExtraArticleCandidateElements Object` |
-|  1.4% | 7.63 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .stringsMatchAnyRegularExpressions Window` |
+|     % |     Size | Instances | Path                                                                                                                        |
+| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------- |
+| 16.5% | 88.1 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .articleTitleInformation Object ← (several retainers) <root>`           |
+| 10.4% | 55.6 KiB |         6 | `(several retainers) <root>`                                                                                                |
+|  1.8% | 9.68 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findCandidateElements Object ← (several retainers) <root>`             |
+|  1.7% | 9.07 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findExtraArticleCandidateElements Object ← (several retainers) <root>` |
+|  1.4% | 7.63 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .stringsMatchAnyRegularExpressions Window ← (several retainers) <root>` |
 
 ##### `DOMAttributeGetterSetter`
 
-|     % | Size | Instances | Path                 |
-| ----: | ---: | --------: | -------------------- |
-| <0.1% | 48 B |         1 | `(GC root)`          |
-| <0.1% | 48 B |         1 | `.prefix Element`    |
-| <0.1% | 48 B |         1 | `.localName Element` |
-| <0.1% | 48 B |         1 | `.tagName Element`   |
-| <0.1% | 48 B |         1 | `.id Element`        |
+|     % | Size | Instances | Path                                              |
+| ----: | ---: | --------: | ------------------------------------------------- |
+| <0.1% | 48 B |         1 | `(several retainers) <root>`                      |
+| <0.1% | 48 B |         1 | `.prefix Element ← (several retainers) <root>`    |
+| <0.1% | 48 B |         1 | `.localName Element ← (several retainers) <root>` |
+| <0.1% | 48 B |         1 | `.tagName Element ← (several retainers) <root>`   |
+| <0.1% | 48 B |         1 | `.id Element ← (several retainers) <root>`        |
 
 ##### `Function`
 
-|     % |  Size | Instances | Path                                                                                                                     |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------ |
-|  0.1% | 267 B |         2 | `(GC root)`                                                                                                              |
-| <0.1% |  97 B |         1 | `[11] Array ← .fns JSLexicalEnvironment ← .wikipage.content Object ← .hooks JSLexicalEnvironment`                        |
-| <0.1% |  97 B |         1 | `.handler Object ← [0] Array ← .click Object ← .events Object ← .jQuery371070616879042118561 HTMLAnchorElement ← <root>` |
-| <0.1% |  97 B |         1 | `.handler Object ← [0] Array ← .click Object ← .events Object ← .jQuery371050900383851217591 HTMLAnchorElement ← <root>` |
-| <0.1% |  96 B |         1 | `.warn Function ← .log Object`                                                                                           |
+|     % |  Size | Instances | Path                                                                                                                                                        |
+| ----: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.1% | 267 B |         2 | `(several retainers) <root>`                                                                                                                                |
+| <0.1% |  97 B |         1 | `[11] Array ← .fns JSLexicalEnvironment ← (several retainers) Object ← .wikipage.content Object ← .hooks JSLexicalEnvironment ← (several retainers) <root>` |
+| <0.1% |  97 B |         1 | `.handler Object ← [0] Array ← .click Object ← .events Object ← .jQuery371070616879042118561 HTMLAnchorElement ← <root>`                                    |
+| <0.1% |  97 B |         1 | `.handler Object ← [0] Array ← .click Object ← .events Object ← .jQuery371050900383851217591 HTMLAnchorElement ← <root>`                                    |
+| <0.1% |  96 B |         1 | `.warn Function ← .log Object ← (several retainers) <root>`                                                                                                 |
 
 ##### `Immutable Butterfly`
 
-|    % |     Size | Instances | Path                                                                      |
-| ---: | -------: | --------: | ------------------------------------------------------------------------- |
-| 1.4% | 2.11 KiB |         5 | `(GC root)`                                                               |
-| 0.3% |    432 B |         1 | `Array ← .allowedHtmlElements Object ← .mediawiki.jqueryMsg Object`       |
-| 0.3% |    432 B |         1 | `Array ← .block Object ← .elementTypes Object ← .ve Window ← <root>`      |
-| 0.3% |    432 B |         1 | `Array ← .CA Object ← .territories Object ← .data Object ← .uls Function` |
-| 0.3% |    432 B |         1 | `Array ← .IN Object ← .territories Object ← .data Object ← .uls Function` |
+|    % |     Size | Instances | Path                                                                                                                          |
+| ---: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------- |
+| 1.4% | 2.11 KiB |         5 | `(several retainers) <root>`                                                                                                  |
+| 0.3% |    432 B |         1 | `Array ← .allowedHtmlElements Object ← (several retainers) Object ← .mediawiki.jqueryMsg Object ← (several retainers) <root>` |
+| 0.3% |    432 B |         1 | `Array ← .block Object ← .elementTypes Object ← .ve Window ← <root>`                                                          |
+| 0.3% |    432 B |         1 | `Array ← .CA Object ← .territories Object ← .data Object ← .uls Function ← (several retainers) <root>`                        |
+| 0.3% |    432 B |         1 | `Array ← .IN Object ← .territories Object ← .data Object ← .uls Function ← (several retainers) <root>`                        |
 
 ##### `JSLexicalEnvironment`
 
-|    % |     Size | Instances | Path                                                                                                |
-| ---: | -------: | --------: | --------------------------------------------------------------------------------------------------- |
-| 5.8% | 7.16 KiB |        13 | `(GC root)`                                                                                         |
-| 4.0% | 4.97 KiB |        16 | `JSLexicalEnvironment`                                                                              |
-| 0.4% |    448 B |         2 | `Function ← [0] Array ← .fns JSLexicalEnvironment ← .postEdit Object ← .hooks JSLexicalEnvironment` |
-| 0.1% |    160 B |         1 | `JSLexicalEnvironment ← <root>`                                                                     |
-| 0.1% |    160 B |         1 | `.tk Object`                                                                                        |
+|    % |     Size | Instances | Path                                                                                                                                                          |
+| ---: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5.6% |    7 KiB |        12 | `(several retainers) <root>`                                                                                                                                  |
+| 3.2% | 3.94 KiB |        11 | `JSLexicalEnvironment ← (several retainers) <root>`                                                                                                           |
+| 0.7% |    896 B |         4 | `JSLexicalEnvironment ← (several retainers) Object ← (several retainers) <root>`                                                                              |
+| 0.4% |    448 B |         2 | `Function ← [0] Array ← .fns JSLexicalEnvironment ← (several retainers) Object ← .postEdit Object ← .hooks JSLexicalEnvironment ← (several retainers) <root>` |
+| 0.1% |    160 B |         1 | `JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                                                                                          |
 
 ##### `Array`
 
-|     % |  Size | Instances | Path                                                                                                                                                          |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  0.2% | 265 B |         4 | `(GC root)`                                                                                                                                                   |
-|  0.2% | 198 B |         3 | `Window`                                                                                                                                                      |
-| <0.1% |  36 B |         1 | `._controlUniqueIDToControlMap Object ← .FormMetadataJS Window`                                                                                               |
-| <0.1% |  19 B |         1 | `.matches Object ← [0] Array ← [0] Array ← .label  Function ← .tokenCache JSLexicalEnvironment`                                                               |
-| <0.1% |  19 B |         1 | `.matches Object ← [0] Array ← [0] Array ← .figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element  Function ← .tokenCache JSLexicalEnvironment` |
+|     % |  Size | Instances | Path                                                                                                                                                                                       |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|  0.2% | 265 B |         4 | `(several retainers) <root>`                                                                                                                                                               |
+|  0.2% | 198 B |         3 | `Window ← (several retainers) <root>`                                                                                                                                                      |
+| <0.1% |  36 B |         1 | `._controlUniqueIDToControlMap Object ← .FormMetadataJS Window ← (several retainers) <root>`                                                                                               |
+| <0.1% |  19 B |         1 | `.matches Object ← [0] Array ← [0] Array ← .label  Function ← .tokenCache JSLexicalEnvironment ← (several retainers) <root>`                                                               |
+| <0.1% |  19 B |         1 | `.matches Object ← [0] Array ← [0] Array ← .figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element  Function ← .tokenCache JSLexicalEnvironment ← (several retainers) <root>` |
 
 ##### `RegExp`
 
-|     % |     Size | Instances | Path                                                                                         |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------- |
-| 40.8% | 43.9 KiB |        24 | `(GC root)`                                                                                  |
-|  7.8% | 8.38 KiB |         4 | `<root>`                                                                                     |
-|  1.3% | 1.39 KiB |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>` |
-|  1.2% | 1.28 KiB |         1 | `RegExp ← [0] Array ← ._forgotUserNameRegularExpressions Object ← .FormMetadataJS Window`    |
-|  0.8% |    896 B |         1 | `RegExp ← [0] Array ← ._forgotEmailRegularExpressions Object ← .FormMetadataJS Window`       |
+|     % |     Size | Instances | Path                                                                                                                   |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------- |
+| 26.5% | 28.5 KiB |        12 | `(several retainers) <root>`                                                                                           |
+|  5.7% | 6.13 KiB |         2 | `<root>`                                                                                                               |
+|  3.9% |  4.2 KiB |         2 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                  |
+|  1.3% | 1.39 KiB |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                           |
+|  1.2% | 1.28 KiB |         1 | `RegExp ← [0] Array ← ._forgotUserNameRegularExpressions Object ← .FormMetadataJS Window ← (several retainers) <root>` |
 
 ##### `PropertyTable`
 
-|     % |  Size | Instances | Path                                                                                                                     |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------ |
-|  0.5% | 576 B |        12 | `(GC root)`                                                                                                              |
-|  0.1% |  96 B |         2 | `Structure ← Function`                                                                                                   |
-| <0.1% |  48 B |         1 | `Structure ← Function ← [11] Array ← .fns JSLexicalEnvironment ← .wikipage.content Object ← .hooks JSLexicalEnvironment` |
-| <0.1% |  48 B |         1 | `Structure ← Function ← .reduce Array`                                                                                   |
-| <0.1% |  48 B |         1 | `Structure ← Structure ← InjectedScriptHost ← Structure ← InjectedScriptHost ← <root>`                                   |
+|     % |  Size | Instances | Path                                                                                                                                                                               |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.3% | 336 B |         7 | `Structure ← (several retainers) <root>`                                                                                                                                           |
+|  0.1% |  96 B |         2 | `Structure ← Function ← (several retainers) <root>`                                                                                                                                |
+| <0.1% |  48 B |         1 | `Structure ← Function ← [11] Array ← .fns JSLexicalEnvironment ← (several retainers) Object ← .wikipage.content Object ← .hooks JSLexicalEnvironment ← (several retainers) <root>` |
+| <0.1% |  48 B |         1 | `Structure ← Function ← .reduce Array ← (several retainers) <root>`                                                                                                                |
+| <0.1% |  48 B |         1 | `Structure ← (several retainers) Object ← (several retainers) <root>`                                                                                                              |
 
 ##### `SymbolTable`
 
-|    % |  Size | Instances | Path                                                                                                              |
-| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------- |
-| 0.7% | 576 B |         9 | `(GC root)`                                                                                                       |
-| 0.2% | 192 B |         3 | `JSLexicalEnvironment ← <root>`                                                                                   |
-| 0.1% | 128 B |         2 | `JSLexicalEnvironment ← JSLexicalEnvironment ← <root>`                                                            |
-| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← Function ← <root>`                                                                        |
-| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
+|    % |  Size | Instances | Path                                                                                                                                                                                |
+| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.7% | 576 B |         9 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                               |
+| 0.2% | 192 B |         3 | `JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                                                                                                                |
+| 0.1% | 128 B |         2 | `JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                                                                                         |
+| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← Function ← (several retainers) InjectedScript ← <root>`                                                                                                     |
+| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← (several retainers) Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
 
 ##### `StructureRareData`
 
 |    % | Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1% | 96 B |         1 | `Structure ← <root>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 0.1% | 96 B |         1 | `Structure ← (several retainers) InjectedScript ← <root>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 0.1% | 96 B |         1 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← InjectedScript ← <root>` |
 | 0.1% | 96 B |         1 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← InjectedScript ← <root>`                                 |
 | 0.1% | 96 B |         1 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← InjectedScript ← <root>`                                                                 |
@@ -292,33 +293,33 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `CustomGetterSetter`
 
-|     % | Size | Instances | Path                           |
-| ----: | ---: | --------: | ------------------------------ |
-| <0.1% | 32 B |         1 | `.constructor Element`         |
-| <0.1% | 32 B |         1 | `.constructor HTMLElement`     |
-| <0.1% | 32 B |         1 | `.onmouseenter HTMLElement`    |
-| <0.1% | 32 B |         1 | `.onmouseleave HTMLElement`    |
-| <0.1% | 32 B |         1 | `.constructor HTMLHtmlElement` |
+|     % | Size | Instances | Path                                                        |
+| ----: | ---: | --------: | ----------------------------------------------------------- |
+| <0.1% | 32 B |         1 | `.constructor Element ← (several retainers) <root>`         |
+| <0.1% | 32 B |         1 | `.constructor HTMLElement ← (several retainers) <root>`     |
+| <0.1% | 32 B |         1 | `.onmouseenter HTMLElement ← (several retainers) <root>`    |
+| <0.1% | 32 B |         1 | `.onmouseleave HTMLElement ← (several retainers) <root>`    |
+| <0.1% | 32 B |         1 | `.constructor HTMLHtmlElement ← (several retainers) <root>` |
 
 ##### `NativeExecutable`
 
 |     % |     Size | Instances | Path                                                                      |
 | ----: | -------: | --------: | ------------------------------------------------------------------------- |
-| 39.2% | 23.5 KiB |       301 | `(GC root)`                                                               |
+| 39.2% | 23.5 KiB |       301 | `(several retainers) <root>`                                              |
 |  0.1% |     80 B |         1 | `<root>`                                                                  |
 |  0.1% |     80 B |         1 | `Function ← .next URLSearchParams Iterator ← Structure ← Window ← <root>` |
-|  0.1% |     80 B |         1 | `Function ← .item DOMRectList`                                            |
-|  0.1% |     80 B |         1 | `Function ← .abort AbortController`                                       |
+|  0.1% |     80 B |         1 | `Function ← .item DOMRectList ← (several retainers) <root>`               |
+|  0.1% |     80 B |         1 | `Function ← .abort AbortController ← (several retainers) <root>`          |
 
 ##### `DOMRect`
 
-|    % | Size | Instances | Path                                                         |
-| ---: | ---: | --------: | ------------------------------------------------------------ |
-| 0.1% | 52 B |         1 | `Window`                                                     |
-| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLSpanElement ← [1120] Array` |
-| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLElement ← [1121] Array`     |
-| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLLIElement ← [1122] Array`   |
-| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLSpanElement ← [1123] Array` |
+|    % | Size | Instances | Path                                                                                      |
+| ---: | ---: | --------: | ----------------------------------------------------------------------------------------- |
+| 0.1% | 52 B |         1 | `Window ← (several retainers) <root>`                                                     |
+| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLSpanElement ← [1120] Array ← (several retainers) <root>` |
+| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLElement ← [1121] Array ← (several retainers) <root>`     |
+| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLLIElement ← [1122] Array ← (several retainers) <root>`   |
+| 0.1% | 32 B |         1 | `._cachedElementBoundingRect HTMLSpanElement ← [1123] Array ← (several retainers) <root>` |
 
 ##### `UnlinkedEvalCodeBlock`
 
@@ -330,49 +331,49 @@ Instances ranked by contribution to each constructor's self size.
 
 |     % |     Size | Instances | Path                          |
 | ----: | -------: | --------: | ----------------------------- |
-| 71.2% | 17.7 KiB |        11 | `(GC root)`                   |
+| 71.2% | 17.7 KiB |        11 | `(several retainers) <root>`  |
 | 28.7% | 7.14 KiB |         2 | `<root>`                      |
 |  0.1% |     17 B |         1 | `Structure ← Window ← <root>` |
 
 ##### `HTMLSpanElement`
 
-|    % | Size | Instances | Path          |
-| ---: | ---: | --------: | ------------- |
-| 0.2% | 49 B |         1 | `[22] Array`  |
-| 0.2% | 49 B |         1 | `[863] Array` |
-| 0.2% | 49 B |         1 | `[865] Array` |
-| 0.2% | 49 B |         1 | `[32] Array`  |
-| 0.2% | 49 B |         1 | `[866] Array` |
+|    % | Size | Instances | Path                                       |
+| ---: | ---: | --------: | ------------------------------------------ |
+| 0.2% | 49 B |         1 | `[22] Array ← (several retainers) <root>`  |
+| 0.2% | 49 B |         1 | `[863] Array ← (several retainers) <root>` |
+| 0.2% | 49 B |         1 | `[865] Array ← (several retainers) <root>` |
+| 0.2% | 49 B |         1 | `[32] Array ← (several retainers) <root>`  |
+| 0.2% | 49 B |         1 | `[866] Array ← (several retainers) <root>` |
 
 ##### `HTMLDivElement`
 
-|    % |  Size | Instances | Path                                                                            |
-| ---: | ----: | --------: | ------------------------------------------------------------------------------- |
-| 2.5% | 500 B |        10 | `(GC root)`                                                                     |
-| 0.2% |  50 B |         1 | `._formElement Object ← .FormMetadataJS Window`                                 |
-| 0.2% |  50 B |         1 | `._backingElement Object ← .FormMetadataJS Window`                              |
-| 0.2% |  50 B |         1 | `._backingElement Object ← [9] Array ← ._forms Object ← .FormMetadataJS Window` |
-| 0.2% |  50 B |         1 | `[672] Array`                                                                   |
+|    % |  Size | Instances | Path                                                                                                         |
+| ---: | ----: | --------: | ------------------------------------------------------------------------------------------------------------ |
+| 2.5% | 500 B |        10 | `(several retainers) <root>`                                                                                 |
+| 0.2% |  50 B |         1 | `._formElement Object ← (several retainers) Object ← .FormMetadataJS Window ← (several retainers) <root>`    |
+| 0.2% |  50 B |         1 | `._backingElement Object ← (several retainers) Object ← .FormMetadataJS Window ← (several retainers) <root>` |
+| 0.2% |  50 B |         1 | `._backingElement Object ← [9] Array ← ._forms Object ← .FormMetadataJS Window ← (several retainers) <root>` |
+| 0.2% |  50 B |         1 | `[672] Array ← (several retainers) <root>`                                                                   |
 
 ##### `FunctionRareData`
 
-|    % |  Size | Instances | Path                                                                                    |
-| ---: | ----: | --------: | --------------------------------------------------------------------------------------- |
-| 0.9% | 160 B |         2 | `Function`                                                                              |
-| 0.4% |  80 B |         1 | `Function ← .resources/skins.vector.js/skin.js Object ← .files Object ← .script Object` |
-| 0.4% |  80 B |         1 | `Function ← .toggleDocClasses Object`                                                   |
-| 0.4% |  80 B |         1 | `Function ← .updatePinnableClasses JSLexicalEnvironment ← JSLexicalEnvironment`         |
-| 0.4% |  80 B |         1 | `Function ← .register Object`                                                           |
+|    % |  Size | Instances | Path                                                                                                                 |
+| ---: | ----: | --------: | -------------------------------------------------------------------------------------------------------------------- |
+| 0.9% | 160 B |         2 | `Function ← (several retainers) <root>`                                                                              |
+| 0.4% |  80 B |         1 | `Function ← .resources/skins.vector.js/skin.js Object ← .files Object ← .script Object ← (several retainers) <root>` |
+| 0.4% |  80 B |         1 | `Function ← .toggleDocClasses Object ← (several retainers) <root>`                                                   |
+| 0.4% |  80 B |         1 | `Function ← .updatePinnableClasses JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) <root>`         |
+| 0.4% |  80 B |         1 | `Function ← .register Object ← (several retainers) <root>`                                                           |
 
 ##### `EvalExecutable`
 
-|    % |  Size | Instances | Path                                                                                 |
-| ---: | ----: | --------: | ------------------------------------------------------------------------------------ |
-| 1.9% | 336 B |         3 | `(GC root)`                                                                          |
-| 0.6% | 112 B |         1 | `.ext.quicksurveys.init Object`                                                      |
-| 0.6% | 112 B |         1 | `FunctionExecutable ← Function ← .declarator Object ← .jquery.spinner.styles Object` |
-| 0.6% | 112 B |         1 | `.ext.checkUser.clientHints Object`                                                  |
-| 0.6% | 112 B |         1 | `.wikibase.client.vector-2022 Object`                                                |
+|    % |  Size | Instances | Path                                                                                                              |
+| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------- |
+| 1.9% | 336 B |         3 | `(several retainers) <root>`                                                                                      |
+| 0.6% | 112 B |         1 | `(several retainers) Object ← .ext.quicksurveys.init Object ← (several retainers) <root>`                         |
+| 0.6% | 112 B |         1 | `FunctionExecutable ← Function ← .declarator Object ← .jquery.spinner.styles Object ← (several retainers) <root>` |
+| 0.6% | 112 B |         1 | `(several retainers) Object ← .ext.checkUser.clientHints Object ← (several retainers) <root>`                     |
+| 0.6% | 112 B |         1 | `(several retainers) Object ← .wikibase.client.vector-2022 Object ← (several retainers) <root>`                   |
 
 ##### `UnlinkedProgramCodeBlock`
 
@@ -382,32 +383,33 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `HTMLLIElement`
 
-|    % | Size | Instances | Path          |
-| ---: | ---: | --------: | ------------- |
-| 0.4% | 49 B |         1 | `[48] Array`  |
-| 0.4% | 49 B |         1 | `[55] Array`  |
-| 0.4% | 49 B |         1 | `[61] Array`  |
-| 0.4% | 49 B |         1 | `[709] Array` |
-| 0.4% | 49 B |         1 | `[726] Array` |
+|    % | Size | Instances | Path                                       |
+| ---: | ---: | --------: | ------------------------------------------ |
+| 0.4% | 49 B |         1 | `[48] Array ← (several retainers) <root>`  |
+| 0.4% | 49 B |         1 | `[55] Array ← (several retainers) <root>`  |
+| 0.4% | 49 B |         1 | `[61] Array ← (several retainers) <root>`  |
+| 0.4% | 49 B |         1 | `[709] Array ← (several retainers) <root>` |
+| 0.4% | 49 B |         1 | `[726] Array ← (several retainers) <root>` |
 
 ##### `HTMLElement`
 
-|     % |     Size | Instances | Path                                             |
-| ----: | -------: | --------: | ------------------------------------------------ |
-| 10.1% | 1.07 KiB |         7 | `(GC root)`                                      |
-|  0.5% |     51 B |         1 | `Window`                                         |
-|  0.5% |     51 B |         1 | `Window ← <root>`                                |
-|  0.5% |     50 B |         1 | `[442] Array`                                    |
-|  0.5% |     49 B |         1 | `.elem JSLexicalEnvironment ← Function ← <root>` |
+|    % |  Size | Instances | Path                                                      |
+| ---: | ----: | --------: | --------------------------------------------------------- |
+| 5.8% | 626 B |         4 | `(several retainers) <root>`                              |
+| 4.3% | 468 B |         3 | `(several retainers) Window ← (several retainers) <root>` |
+| 0.5% |  51 B |         1 | `Window ← (several retainers) <root>`                     |
+| 0.5% |  51 B |         1 | `Window ← <root>`                                         |
+| 0.5% |  50 B |         1 | `[442] Array ← (several retainers) <root>`                |
 
 ##### `HTMLCollection`
 
-|     % |     Size | Instances | Path                 |
-| ----: | -------: | --------: | -------------------- |
-| 98.8% | 9.18 KiB |       103 | `<root>`             |
-|  0.5% |     44 B |         2 | `Structure ← Window` |
-|  0.5% |     44 B |         2 | `(GC root)`          |
-|  0.2% |     22 B |         1 | `Structure ← <root>` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 98.8% | 9.18 KiB |       103 | `<root>`                                                  |
+|  0.5% |     44 B |         2 | `Structure ← Window ← (several retainers) <root>`         |
+|  0.2% |     22 B |         1 | `Structure ← <root>`                                      |
+|  0.2% |     22 B |         1 | `(several retainers) Window ← (several retainers) <root>` |
+|  0.2% |     22 B |         1 | `Structure ← (several retainers) <root>`                  |
 
 ##### `GetterSetter`
 
@@ -415,9 +417,9 @@ Instances ranked by contribution to each constructor's self size.
 | ---: | ---: | --------: | -------------------------------------------------------------------------------- |
 | 0.3% | 32 B |         1 | `.evaluate InjectedScriptHost ← Structure ← InjectedScriptHost ← <root>`         |
 | 0.3% | 32 B |         1 | `.savedResultAlias InjectedScriptHost ← Structure ← InjectedScriptHost ← <root>` |
-| 0.3% | 32 B |         1 | `.size Set`                                                                      |
-| 0.3% | 32 B |         1 | `.altKey Object`                                                                 |
-| 0.3% | 32 B |         1 | `.bubbles Object`                                                                |
+| 0.3% | 32 B |         1 | `.size Set ← (several retainers) <root>`                                         |
+| 0.3% | 32 B |         1 | `.altKey Object ← (several retainers) <root>`                                    |
+| 0.3% | 32 B |         1 | `.bubbles Object ← (several retainers) <root>`                                   |
 
 ##### `HTMLAnchorElement`
 
@@ -426,197 +428,201 @@ Instances ranked by contribution to each constructor's self size.
 | 13.1% | 1.05 KiB |        22 | `<root>`                                         |
 |  5.3% |    441 B |         9 | `.elem JSLexicalEnvironment ← Function ← <root>` |
 |  0.6% |     51 B |         1 | `Window ← <root>`                                |
-|  0.6% |     49 B |         1 | `(GC root)`                                      |
-|  0.6% |     49 B |         1 | `[6] Array`                                      |
+|  0.6% |     49 B |         1 | `(several retainers) <root>`                     |
+|  0.6% |     49 B |         1 | `[6] Array ← (several retainers) <root>`         |
 
 ##### `CSSStyleDeclaration`
 
-|     % |     Size | Instances | Path                               |
-| ----: | -------: | --------: | ---------------------------------- |
-| 69.1% | 4.35 KiB |         3 | `(GC root)`                        |
-| 23.0% | 1.45 KiB |         1 | `Structure ← Window`               |
-|  5.5% |    352 B |        11 | `<root>`                           |
-|  0.5% |     32 B |         1 | `.emptyStyle JSLexicalEnvironment` |
-|  0.5% |     32 B |         1 | `._cachedContentTextStyle Object`  |
+|     % |     Size | Instances | Path                                                            |
+| ----: | -------: | --------: | --------------------------------------------------------------- |
+| 69.1% | 4.35 KiB |         3 | `Structure ← (several retainers) <root>`                        |
+| 23.0% | 1.45 KiB |         1 | `Structure ← Window ← (several retainers) <root>`               |
+|  5.5% |    352 B |        11 | `<root>`                                                        |
+|  0.5% |     32 B |         1 | `.emptyStyle JSLexicalEnvironment ← (several retainers) <root>` |
+|  0.5% |     32 B |         1 | `._cachedContentTextStyle Object ← (several retainers) <root>`  |
 
 ##### `Text`
 
-|    % | Size | Instances | Path                                              |
-| ---: | ---: | --------: | ------------------------------------------------- |
-| 0.6% | 33 B |         1 | `[1] Array ← .textNodes Object ← .article Object` |
-| 0.6% | 33 B |         1 | `[2] Array ← .textNodes Object ← .article Object` |
-| 0.6% | 33 B |         1 | `[3] Array ← .textNodes Object ← .article Object` |
-| 0.6% | 33 B |         1 | `[4] Array ← .textNodes Object ← .article Object` |
-| 0.6% | 33 B |         1 | `[5] Array ← .textNodes Object ← .article Object` |
+|    % | Size | Instances | Path                                                                           |
+| ---: | ---: | --------: | ------------------------------------------------------------------------------ |
+| 0.6% | 33 B |         1 | `[1] Array ← .textNodes Object ← .article Object ← (several retainers) <root>` |
+| 0.6% | 33 B |         1 | `[2] Array ← .textNodes Object ← .article Object ← (several retainers) <root>` |
+| 0.6% | 33 B |         1 | `[3] Array ← .textNodes Object ← .article Object ← (several retainers) <root>` |
+| 0.6% | 33 B |         1 | `[4] Array ← .textNodes Object ← .article Object ← (several retainers) <root>` |
+| 0.6% | 33 B |         1 | `[5] Array ← .textNodes Object ← .article Object ← (several retainers) <root>` |
 
 ##### `JSPropertyNameEnumerator`
 
-|    % | Size | Instances | Path                                                                                                                                                                                                                                        |
-| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← StructureRareData ← Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
-| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>`                                                                                                         |
-| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Object ← .RLCONF Window ← <root>`                                                                                                                                                                          |
-| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Object ← .RLSTATE Window ← <root>`                                                                                                                                                                         |
-| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Structure ← Object ← .sources JSLexicalEnvironment`                                                                                                                                                        |
+|    % | Size | Instances | Path                                                                                                                                                                                                                                                                             |
+| ---: | ---: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← StructureRareData ← Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
+| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                                                                                                         |
+| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Object ← .RLCONF Window ← <root>`                                                                                                                                                                                                               |
+| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Object ← .RLSTATE Window ← <root>`                                                                                                                                                                                                              |
+| 1.0% | 48 B |         1 | `StructureRareData ← Structure ← Structure ← Object ← .sources JSLexicalEnvironment ← (several retainers) <root>`                                                                                                                                                                |
 
 ##### `jQuery`
 
 |    % | Size | Instances | Path                                                                                                                                                                        |
 | ---: | ---: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.1% | 48 B |         1 | `(GC root)`                                                                                                                                                                 |
+| 1.1% | 48 B |         1 | `(several retainers) <root>`                                                                                                                                                |
 | 1.1% | 48 B |         1 | `.$shortenUrlLink JSLexicalEnvironment ← Function ← .handler Object ← [0] Array ← .click Object ← .events Object ← .jQuery371070616879042118561 HTMLAnchorElement ← <root>` |
 | 1.1% | 48 B |         1 | `.$qrCodeLink JSLexicalEnvironment ← Function ← .handler Object ← [0] Array ← .click Object ← .events Object ← .jQuery371070616879042118561 HTMLAnchorElement ← <root>`     |
-| 1.1% | 48 B |         1 | `.$body JSLexicalEnvironment`                                                                                                                                               |
-| 1.1% | 48 B |         1 | `.$window JSLexicalEnvironment`                                                                                                                                             |
+| 1.1% | 48 B |         1 | `.$body JSLexicalEnvironment ← (several retainers) <root>`                                                                                                                  |
+| 1.1% | 48 B |         1 | `.$window JSLexicalEnvironment ← (several retainers) <root>`                                                                                                                |
 
 ##### `StructureChain`
 
-|    % | Size | Instances | Path                                                                                                            |
-| ---: | ---: | --------: | --------------------------------------------------------------------------------------------------------------- |
-| 0.4% | 16 B |         1 | `Structure ← Function ← <root>`                                                                                 |
-| 0.4% | 16 B |         1 | `Structure ← InjectedScript ← <root>`                                                                           |
-| 0.4% | 16 B |         1 | `Structure ← Function ← .CallFrameProxy Function ← <root>`                                                      |
-| 0.4% | 16 B |         1 | `Structure ← Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>`                   |
-| 0.4% | 16 B |         1 | `Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
+|    % | Size | Instances | Path                                                                                                                                                 |
+| ---: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.4% | 16 B |         1 | `Structure ← Function ← (several retainers) InjectedScript ← <root>`                                                                                 |
+| 0.4% | 16 B |         1 | `Structure ← InjectedScript ← <root>`                                                                                                                |
+| 0.4% | 16 B |         1 | `Structure ← Function ← .CallFrameProxy Function ← (several retainers) InjectedScript ← <root>`                                                      |
+| 0.4% | 16 B |         1 | `Structure ← Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                   |
+| 0.4% | 16 B |         1 | `Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
 
 ##### `DOMTokenList`
 
-|     % |     Size | Instances | Path        |
-| ----: | -------: | --------: | ----------- |
-| 97.8% | 4.28 KiB |       137 | `<root>`    |
-|  2.2% |     99 B |         3 | `(GC root)` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 97.8% | 4.28 KiB |       137 | `<root>`                                                  |
+|  1.5% |     66 B |         2 | `Structure ← (several retainers) <root>`                  |
+|  0.7% |     33 B |         1 | `(several retainers) Window ← (several retainers) <root>` |
 
 ##### `HTMLInputElement`
 
-|    % |  Size | Instances | Path                                                                                  |
-| ---: | ----: | --------: | ------------------------------------------------------------------------------------- |
-| 8.2% | 320 B |         6 | `.FormMetadataJS Window`                                                              |
-| 8.1% | 316 B |         4 | `(GC root)`                                                                           |
-| 1.3% |  52 B |         1 | `[1] Array ← ._controls Object ← [0] Array ← ._forms Object ← .FormMetadataJS Window` |
-| 1.3% |  52 B |         1 | `[1] Array ← ._controls Object ← [1] Array ← ._forms Object ← .FormMetadataJS Window` |
-| 1.3% |  52 B |         1 | `[1] Array ← ._controls Object ← [3] Array ← ._forms Object ← .FormMetadataJS Window` |
+|    % |  Size | Instances | Path                                                                                                               |
+| ---: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------ |
+| 8.2% | 320 B |         6 | `(several retainers) Object ← .FormMetadataJS Window ← (several retainers) <root>`                                 |
+| 4.0% | 158 B |         2 | `Structure ← (several retainers) <root>`                                                                           |
+| 2.0% |  79 B |         1 | `(several retainers) Window ← (several retainers) <root>`                                                          |
+| 2.0% |  79 B |         1 | `(several retainers) <root>`                                                                                       |
+| 1.3% |  52 B |         1 | `[1] Array ← ._controls Object ← [0] Array ← ._forms Object ← .FormMetadataJS Window ← (several retainers) <root>` |
 
 ##### `HTMLButtonElement`
 
-|     % |     Size | Instances | Path                                                                                  |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------- |
-| 28.2% | 1.03 KiB |        20 | `.FormMetadataJS Window`                                                              |
-|  1.4% |     51 B |         1 | `Window`                                                                              |
-|  1.4% |     51 B |         1 | `[2] Array ← ._controls Object ← [0] Array ← ._forms Object ← .FormMetadataJS Window` |
-|  1.4% |     51 B |         1 | `[2] Array ← ._controls Object ← [4] Array ← ._forms Object ← .FormMetadataJS Window` |
-|  1.4% |     51 B |         1 | `[1] Array ← ._controls Object ← [9] Array ← ._forms Object ← .FormMetadataJS Window` |
+|     % |     Size | Instances | Path                                                                                                               |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------ |
+| 28.2% | 1.03 KiB |        20 | `(several retainers) Object ← .FormMetadataJS Window ← (several retainers) <root>`                                 |
+|  1.4% |     51 B |         1 | `Window ← (several retainers) <root>`                                                                              |
+|  1.4% |     51 B |         1 | `[2] Array ← ._controls Object ← [0] Array ← ._forms Object ← .FormMetadataJS Window ← (several retainers) <root>` |
+|  1.4% |     51 B |         1 | `[2] Array ← ._controls Object ← [4] Array ← ._forms Object ← .FormMetadataJS Window ← (several retainers) <root>` |
+|  1.4% |     51 B |         1 | `[1] Array ← ._controls Object ← [9] Array ← ._forms Object ← .FormMetadataJS Window ← (several retainers) <root>` |
 
 ##### `HTMLUListElement`
 
-|    % | Size | Instances | Path          |
-| ---: | ---: | --------: | ------------- |
-| 1.3% | 49 B |         1 | `[47] Array`  |
-| 1.3% | 49 B |         1 | `[54] Array`  |
-| 1.3% | 49 B |         1 | `[60] Array`  |
-| 1.3% | 49 B |         1 | `[125] Array` |
-| 1.3% | 49 B |         1 | `[134] Array` |
+|    % | Size | Instances | Path                                       |
+| ---: | ---: | --------: | ------------------------------------------ |
+| 1.3% | 49 B |         1 | `[47] Array ← (several retainers) <root>`  |
+| 1.3% | 49 B |         1 | `[54] Array ← (several retainers) <root>`  |
+| 1.3% | 49 B |         1 | `[60] Array ← (several retainers) <root>`  |
+| 1.3% | 49 B |         1 | `[125] Array ← (several retainers) <root>` |
+| 1.3% | 49 B |         1 | `[134] Array ← (several retainers) <root>` |
 
 ##### `HTMLLabelElement`
 
-|    % | Size | Instances | Path          |
-| ---: | ---: | --------: | ------------- |
-| 2.2% | 51 B |         1 | `Window`      |
-| 2.1% | 49 B |         1 | `[253] Array` |
-| 2.1% | 49 B |         1 | `[330] Array` |
-| 2.1% | 49 B |         1 | `[348] Array` |
-| 2.1% | 49 B |         1 | `[353] Array` |
+|    % | Size | Instances | Path                                       |
+| ---: | ---: | --------: | ------------------------------------------ |
+| 2.2% | 51 B |         1 | `Window ← (several retainers) <root>`      |
+| 2.1% | 49 B |         1 | `[253] Array ← (several retainers) <root>` |
+| 2.1% | 49 B |         1 | `[330] Array ← (several retainers) <root>` |
+| 2.1% | 49 B |         1 | `[348] Array ← (several retainers) <root>` |
+| 2.1% | 49 B |         1 | `[353] Array ← (several retainers) <root>` |
 
 ##### `TooltippedElement`
 
-|      % |     Size | Instances | Path                                                                                                                                    |
-| -----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03 KiB |        26 | `.te JSLexicalEnvironment ← .events Object ← .jQuery371070616879042118561 HTMLElement ← .elem JSLexicalEnvironment ← Function ← <root>` |
+|      % |     Size | Instances | Path                                                                                                                                                                 |
+| -----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 2.03 KiB |        26 | `.te JSLexicalEnvironment ← (several retainers) Object ← .events Object ← .jQuery371070616879042118561 HTMLElement ← .elem JSLexicalEnvironment ← Function ← <root>` |
 
 ##### `Set`
 
-|     % |  Size | Instances | Path                                                                                                                                          |
-| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 41.4% | 824 B |         1 | `.SetOfCandidateTagNamesToIgnore JSGlobalLexicalEnvironment`                                                                                  |
-| 31.3% | 624 B |         2 | `.stacks JSLexicalEnvironment ← Function ← .isFirst JSLexicalEnvironment ← Function ← .maybeLog JSLexicalEnvironment ← .eventInSample Object` |
-| 18.5% | 368 B |         2 | `.exposuresThisPage ExposureLogTracker ← .exposureLogTracker JSLexicalEnvironment ← .tk Object`                                               |
-|  8.8% | 176 B |         4 | `(GC root)`                                                                                                                                   |
+|     % |  Size | Instances | Path                                                                                                                                                                                                          |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 41.4% | 824 B |         1 | `.SetOfCandidateTagNamesToIgnore JSGlobalLexicalEnvironment ← (several retainers) <root>`                                                                                                                     |
+| 31.3% | 624 B |         2 | `.stacks JSLexicalEnvironment ← Function ← .isFirst JSLexicalEnvironment ← Function ← .maybeLog JSLexicalEnvironment ← (several retainers) GetterSetter ← .eventInSample Object ← (several retainers) <root>` |
+| 18.5% | 368 B |         2 | `.exposuresThisPage ExposureLogTracker ← .exposureLogTracker JSLexicalEnvironment ← (several retainers) Object ← .tk Object ← (several retainers) <root>`                                                     |
+|  2.2% |  44 B |         1 | `(several retainers) <root>`                                                                                                                                                                                  |
+|  2.2% |  44 B |         1 | `(several retainers) Window ← (several retainers) <root>`                                                                                                                                                     |
 
 ##### `Document`
 
-|     % |     Size | Instances | Path              |
-| ----: | -------: | --------: | ----------------- |
-| 94.3% | 1.67 KiB |         7 | `(GC root)`       |
-|  5.7% |    104 B |         2 | `Window ← <root>` |
+|     % |  Size | Instances | Path                                                      |
+| ----: | ----: | --------: | --------------------------------------------------------- |
+| 53.9% | 980 B |         4 | `(several retainers) Window ← (several retainers) <root>` |
+| 40.4% | 735 B |         3 | `(several retainers) <root>`                              |
+|  5.7% | 104 B |         2 | `Window ← <root>`                                         |
 
 ##### `ProgramExecutable`
 
-|     % |     Size | Instances | Path                                                                      |
-| ----: | -------: | --------: | ------------------------------------------------------------------------- |
-| 66.7% | 1.09 KiB |        10 | `(GC root)`                                                               |
-| 13.3% |    224 B |         2 | `.user.options Object`                                                    |
-| 13.3% |    224 B |         2 | `.hooks JSLexicalEnvironment`                                             |
-|  6.7% |    112 B |         1 | `FunctionExecutable ← Function ← .extractMediaServiceSubscription Window` |
+|     % |  Size | Instances | Path                                                                                                   |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------ |
+| 13.3% | 224 B |         2 | `(several retainers) <root>`                                                                           |
+|  6.7% | 112 B |         1 | `(several retainers) Object ← .user.options Object ← (several retainers) <root>`                       |
+|  6.7% | 112 B |         1 | `(several retainers) Object ← .hooks JSLexicalEnvironment ← (several retainers) <root>`                |
+|  6.7% | 112 B |         1 | `(several retainers) Window ← (several retainers) <root>`                                              |
+|  6.7% | 112 B |         1 | `FunctionExecutable ← Function ← .extractMediaServiceSubscription Window ← (several retainers) <root>` |
 
 ##### `HashMapBucket`
 
-|    % | Size | Instances | Path                                                                                                  |
-| ---: | ---: | --------: | ----------------------------------------------------------------------------------------------------- |
-| 9.2% | 96 B |         2 | `Map ← .state Object`                                                                                 |
-| 9.2% | 96 B |         2 | `Map ← ._mapOfUniqueIDToOriginalElement Object`                                                       |
-| 9.2% | 96 B |         2 | `Map ← .queues JSLexicalEnvironment`                                                                  |
-| 4.6% | 48 B |         1 | `<root>`                                                                                              |
-| 3.1% | 32 B |         1 | `Set ← .exposuresThisPage ExposureLogTracker ← .exposureLogTracker JSLexicalEnvironment ← .tk Object` |
+|    % | Size | Instances | Path                                                                                                                                                            |
+| ---: | ---: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 9.2% | 96 B |         2 | `Map ← .state Object ← (several retainers) <root>`                                                                                                              |
+| 9.2% | 96 B |         2 | `Map ← ._mapOfUniqueIDToOriginalElement Object ← (several retainers) <root>`                                                                                    |
+| 9.2% | 96 B |         2 | `Map ← .queues JSLexicalEnvironment ← (several retainers) <root>`                                                                                               |
+| 4.6% | 48 B |         1 | `<root>`                                                                                                                                                        |
+| 3.1% | 32 B |         1 | `Set ← .exposuresThisPage ExposureLogTracker ← .exposureLogTracker JSLexicalEnvironment ← (several retainers) Object ← .tk Object ← (several retainers) <root>` |
 
 ##### `GeneratorFunction`
 
-|     % |  Size | Instances | Path                                               |
-| ----: | ----: | --------: | -------------------------------------------------- |
-| 52.0% | 255 B |         5 | `.constructor GeneratorFunction ← Window`          |
-| 20.8% | 102 B |         2 | `.constructor GeneratorFunction ← Window ← <root>` |
-| 19.4% |  95 B |         5 | `Window`                                           |
-|  7.8% |  38 B |         2 | `Window ← <root>`                                  |
+|     % |  Size | Instances | Path                                                                   |
+| ----: | ----: | --------: | ---------------------------------------------------------------------- |
+| 52.0% | 255 B |         5 | `.constructor GeneratorFunction ← Window ← (several retainers) <root>` |
+| 20.8% | 102 B |         2 | `.constructor GeneratorFunction ← Window ← <root>`                     |
+| 19.4% |  95 B |         5 | `Window ← (several retainers) <root>`                                  |
+|  7.8% |  38 B |         2 | `Window ← <root>`                                                      |
 
 ##### `AsyncGeneratorFunction`
 
-|     % |  Size | Instances | Path                                                    |
-| ----: | ----: | --------: | ------------------------------------------------------- |
-| 52.0% | 255 B |         5 | `.constructor AsyncGeneratorFunction ← Window`          |
-| 20.8% | 102 B |         2 | `.constructor AsyncGeneratorFunction ← Window ← <root>` |
-| 19.4% |  95 B |         5 | `Window`                                                |
-|  7.8% |  38 B |         2 | `Window ← <root>`                                       |
+|     % |  Size | Instances | Path                                                                        |
+| ----: | ----: | --------: | --------------------------------------------------------------------------- |
+| 52.0% | 255 B |         5 | `.constructor AsyncGeneratorFunction ← Window ← (several retainers) <root>` |
+| 20.8% | 102 B |         2 | `.constructor AsyncGeneratorFunction ← Window ← <root>`                     |
+| 19.4% |  95 B |         5 | `Window ← (several retainers) <root>`                                       |
+|  7.8% |  38 B |         2 | `Window ← <root>`                                                           |
 
 ##### `AsyncFunction`
 
-|     % |  Size | Instances | Path                                           |
-| ----: | ----: | --------: | ---------------------------------------------- |
-| 52.8% | 255 B |         5 | `.constructor AsyncFunction ← Window`          |
-| 21.1% | 102 B |         2 | `.constructor AsyncFunction ← Window ← <root>` |
-| 18.6% |  90 B |         5 | `Window`                                       |
-|  7.5% |  36 B |         2 | `Window ← <root>`                              |
+|     % |  Size | Instances | Path                                                               |
+| ----: | ----: | --------: | ------------------------------------------------------------------ |
+| 52.8% | 255 B |         5 | `.constructor AsyncFunction ← Window ← (several retainers) <root>` |
+| 21.1% | 102 B |         2 | `.constructor AsyncFunction ← Window ← <root>`                     |
+| 18.6% |  90 B |         5 | `Window ← (several retainers) <root>`                              |
+|  7.5% |  36 B |         2 | `Window ← <root>`                                                  |
 
 ##### `CallbackObject`
 
-|    % | Size | Instances | Path                                                                                                              |
-| ---: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------- |
-| 7.3% | 33 B |         1 | `Structure ← CallbackObject ← [0] Array ← ._oneTimeCodeFieldLabelPatternMatchers Object ← .FormMetadataJS Window` |
-| 7.3% | 33 B |         1 | `Structure ← CallbackObject ← .ReaderArticleFinderJSController Window`                                            |
-| 7.1% | 32 B |         1 | `.browser Window ← <root>`                                                                                        |
-| 7.1% | 32 B |         1 | `Structure ← CallbackObject ← .browser Window ← <root>`                                                           |
-| 7.1% | 32 B |         1 | `.pushNotification Object ← .safari Window ← <root>`                                                              |
+|    % | Size | Instances | Path                                                                                                                                           |
+| ---: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.3% | 33 B |         1 | `Structure ← CallbackObject ← [0] Array ← ._oneTimeCodeFieldLabelPatternMatchers Object ← .FormMetadataJS Window ← (several retainers) <root>` |
+| 7.3% | 33 B |         1 | `Structure ← CallbackObject ← .ReaderArticleFinderJSController Window ← (several retainers) <root>`                                            |
+| 7.1% | 32 B |         1 | `.browser Window ← <root>`                                                                                                                     |
+| 7.1% | 32 B |         1 | `Structure ← CallbackObject ← .browser Window ← <root>`                                                                                        |
+| 7.1% | 32 B |         1 | `.pushNotification Object ← .safari Window ← <root>`                                                                                           |
 
 ##### `JSGlobalLexicalEnvironment`
 
-|     % |  Size | Instances | Path        |
-| ----: | ----: | --------: | ----------- |
-| 57.1% | 256 B |         4 | `(GC root)` |
-| 42.9% | 192 B |         3 | `Window`    |
+|     % |  Size | Instances | Path                                  |
+| ----: | ----: | --------: | ------------------------------------- |
+| 57.1% | 256 B |         4 | `(several retainers) <root>`          |
+| 42.9% | 192 B |         3 | `Window ← (several retainers) <root>` |
 
 ##### `Callee`
 
-|     % |  Size | Instances | Path              |
-| ----: | ----: | --------: | ----------------- |
-| 71.4% | 320 B |        10 | `Window`          |
-| 28.6% | 128 B |         4 | `Window ← <root>` |
+|     % |  Size | Instances | Path                                  |
+| ----: | ----: | --------: | ------------------------------------- |
+| 71.4% | 320 B |        10 | `Window ← (several retainers) <root>` |
+| 28.6% | 128 B |         4 | `Window ← <root>`                     |
 
 ##### `InjectedScriptHost`
 
@@ -634,26 +640,26 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `SparseArrayValueMap`
 
-|     % | Size | Instances | Path                                                                                                        |
-| ----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------- |
-| 25.0% | 64 B |         2 | `Object`                                                                                                    |
-| 25.0% | 64 B |         2 | `Object ← .xhrSuccessStatus JSLexicalEnvironment`                                                           |
-| 25.0% | 64 B |         2 | `Object ← .ENTRYPOINT_TYPE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object` |
-| 25.0% | 64 B |         2 | `Object ← .ULS_MODE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object`        |
+|     % | Size | Instances | Path                                                                                                                                     |
+| ----: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 25.0% | 64 B |         2 | `Object ← (several retainers) <root>`                                                                                                    |
+| 25.0% | 64 B |         2 | `Object ← .xhrSuccessStatus JSLexicalEnvironment ← (several retainers) <root>`                                                           |
+| 25.0% | 64 B |         2 | `Object ← .ENTRYPOINT_TYPE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object ← (several retainers) <root>` |
+| 25.0% | 64 B |         2 | `Object ← .ULS_MODE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object ← (several retainers) <root>`        |
 
 ##### `JSWindowProxy`
 
-|     % |  Size | Instances | Path        |
-| ----: | ----: | --------: | ----------- |
-| 83.3% | 160 B |         5 | `(GC root)` |
-| 16.7% |  32 B |         1 | `<root>`    |
+|     % |  Size | Instances | Path                         |
+| ----: | ----: | --------: | ---------------------------- |
+| 83.3% | 160 B |         5 | `(several retainers) <root>` |
+| 16.7% |  32 B |         1 | `<root>`                     |
 
 ##### `Array Iterator`
 
-|     % | Size | Instances | Path              |
-| ----: | ---: | --------: | ----------------- |
-| 71.4% | 90 B |         5 | `Window`          |
-| 28.6% | 36 B |         2 | `Window ← <root>` |
+|     % | Size | Instances | Path                                  |
+| ----: | ---: | --------: | ------------------------------------- |
+| 71.4% | 90 B |         5 | `Window ← (several retainers) <root>` |
+| 28.6% | 36 B |         2 | `Window ← <root>`                     |
 
 ### Retained size
 
@@ -781,130 +787,131 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Object`
 
-|     % |     Size | Instances | Path                           |
-| ----: | -------: | --------: | ------------------------------ |
-| 61.9% | 3.56 MiB |         4 | `(GC root)`                    |
-| 37.5% | 2.16 MiB |         2 | `.items Object`                |
-|  4.7% |  276 KiB |         1 | `.jquery Object`               |
-|  2.4% |  141 KiB |         1 | `.uls Function`                |
-|  2.4% |  141 KiB |         1 | `.data Object ← .uls Function` |
+|     % |     Size | Instances | Path                                                        |
+| ----: | -------: | --------: | ----------------------------------------------------------- |
+| 61.9% | 3.56 MiB |         4 | `(several retainers) <root>`                                |
+| 37.5% | 2.16 MiB |         2 | `.items Object ← (several retainers) <root>`                |
+|  4.7% |  276 KiB |         1 | `.jquery Object ← (several retainers) <root>`               |
+|  2.4% |  141 KiB |         1 | `.uls Function ← (several retainers) <root>`                |
+|  2.4% |  141 KiB |         1 | `.data Object ← .uls Function ← (several retainers) <root>` |
 
 ##### `Function`
 
-|     % |     Size | Instances | Path                                           |
-| ----: | -------: | --------: | ---------------------------------------------- |
-| 13.9% |  413 KiB |         2 | `.declarator Object ← .jquery Object`          |
-| 10.3% |  308 KiB |         2 | `(GC root)`                                    |
-|  3.1% | 91.1 KiB |         1 | `.articleTitleInformation Object`              |
-|  2.9% | 85.8 KiB |         1 | `.declarator Object ← .jquery.uls.data Object` |
-|  1.7% | 50.3 KiB |         1 | `.declarator Object`                           |
+|     % |     Size | Instances | Path                                                                        |
+| ----: | -------: | --------: | --------------------------------------------------------------------------- |
+| 13.9% |  413 KiB |         2 | `.declarator Object ← .jquery Object ← (several retainers) <root>`          |
+| 10.3% |  308 KiB |         2 | `(several retainers) <root>`                                                |
+|  3.1% | 91.1 KiB |         1 | `.articleTitleInformation Object ← (several retainers) <root>`              |
+|  2.9% | 85.8 KiB |         1 | `.declarator Object ← .jquery.uls.data Object ← (several retainers) <root>` |
+|  1.7% | 50.3 KiB |         1 | `.declarator Object ← (several retainers) <root>`                           |
 
 ##### `FunctionExecutable`
 
-|     % |     Size | Instances | Path                                                                      |
-| ----: | -------: | --------: | ------------------------------------------------------------------------- |
-| 20.4% |  413 KiB |         2 | `Function ← .declarator Object ← .jquery Object`                          |
-|  4.5% |   91 KiB |         1 | `FunctionRareData ← Function ← .articleTitleInformation Object`           |
-|  4.2% | 85.7 KiB |         1 | `Function ← .declarator Object ← .jquery.uls.data Object`                 |
-|  2.5% | 50.3 KiB |         1 | `Function ← .declarator Object`                                           |
-|  0.6% | 12.1 KiB |         1 | `FunctionRareData ← Function ← .stringsMatchAnyRegularExpressions Window` |
+|     % |     Size | Instances | Path                                                                                                   |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------ |
+| 20.4% |  413 KiB |         2 | `Function ← .declarator Object ← .jquery Object ← (several retainers) <root>`                          |
+|  4.5% |   91 KiB |         1 | `FunctionRareData ← Function ← .articleTitleInformation Object ← (several retainers) <root>`           |
+|  4.2% | 85.7 KiB |         1 | `Function ← .declarator Object ← .jquery.uls.data Object ← (several retainers) <root>`                 |
+|  2.5% | 50.3 KiB |         1 | `Function ← .declarator Object ← (several retainers) <root>`                                           |
+|  0.6% | 12.1 KiB |         1 | `FunctionRareData ← Function ← .stringsMatchAnyRegularExpressions Window ← (several retainers) <root>` |
 
 ##### `Structure`
 
-|     % |     Size | Instances | Path                                                                          |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------- |
-| 10.8% |  204 KiB |         3 | `(GC root)`                                                                   |
-|  5.5% |  104 KiB |         2 | `Object ← .mediawiki.base Object`                                             |
-|  4.7% | 88.6 KiB |         2 | `StructureRareData ← Structure ← Object ← .mediawiki.base Object`             |
-|  3.6% |   68 KiB |         1 | `Window`                                                                      |
-|  2.3% | 44.2 KiB |         1 | `Structure ← StructureRareData ← Structure ← Object ← .mediawiki.base Object` |
+|     % |     Size | Instances | Path                                                                                                                                    |
+| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 10.8% |  204 KiB |         3 | `(several retainers) <root>`                                                                                                            |
+|  5.5% |  104 KiB |         2 | `Object ← (several retainers) Object ← .mediawiki.base Object ← (several retainers) <root>`                                             |
+|  4.7% | 88.6 KiB |         2 | `StructureRareData ← Structure ← Object ← (several retainers) Object ← .mediawiki.base Object ← (several retainers) <root>`             |
+|  3.6% |   68 KiB |         1 | `Window ← (several retainers) <root>`                                                                                                   |
+|  2.3% | 44.2 KiB |         1 | `Structure ← StructureRareData ← Structure ← Object ← (several retainers) Object ← .mediawiki.base Object ← (several retainers) <root>` |
 
 ##### `UnlinkedFunctionExecutable`
 
-|      % |     Size | Instances | Path                                                                                         |
-| -----: | -------: | --------: | -------------------------------------------------------------------------------------------- |
-| 110.5% | 1.79 MiB |     3,773 | `(GC root)`                                                                                  |
-|   5.3% | 87.7 KiB |        12 | `UnlinkedProgramCodeBlock ← <root>`                                                          |
-|   0.1% | 1.25 KiB |         3 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>` |
-|  <0.1% |    721 B |         3 | `<root>`                                                                                     |
-|  <0.1% |     96 B |         1 | `FunctionExecutable ← Function ← .isCompatible Window ← <root>`                              |
+|    % |     Size | Instances | Path                                                                                                                                                                                                    |
+| ---: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.9% |  131 KiB |         5 | `(several retainers) <root>`                                                                                                                                                                            |
+| 5.6% | 93.8 KiB |         3 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                                                   |
+| 4.6% | 77.1 KiB |         1 | `UnlinkedProgramCodeBlock ← <root>`                                                                                                                                                                     |
+| 3.1% | 51.3 KiB |         2 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                          |
+| 0.6% | 9.78 KiB |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>` |
 
 ##### `UnlinkedFunctionCodeBlock`
 
-|      % |     Size | Instances | Path                                                                                                                      |
-| -----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------- |
-| 127.7% | 1.49 MiB |     1,647 | `(GC root)`                                                                                                               |
-|   7.2% | 86.6 KiB |        10 | `UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                                                          |
-|   0.1% |    992 B |         2 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>` |
-|  <0.1% |    433 B |         1 | `UnlinkedFunctionExecutable ← <root>`                                                                                     |
+|     % |     Size | Instances | Path                                                                                                                                                                                                                                 |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 10.9% |  131 KiB |         5 | `UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                                                                                                            |
+|  7.8% | 93.6 KiB |         3 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                                                   |
+|  6.4% |   77 KiB |         1 | `UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                                                                                                                                                                     |
+|  4.3% | 51.1 KiB |         2 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                          |
+|  0.8% | 9.69 KiB |         1 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>` |
 
 ##### `Window`
 
 |     % |    Size | Instances | Path                          |
 | ----: | ------: | --------: | ----------------------------- |
-| 73.5% | 762 KiB |        11 | `(GC root)`                   |
+| 73.5% | 762 KiB |        11 | `(several retainers) <root>`  |
 | 26.5% | 275 KiB |         2 | `<root>`                      |
 |  0.1% |   536 B |         1 | `Structure ← Window ← <root>` |
 
 ##### `JSLexicalEnvironment`
 
-|     % |     Size | Instances | Path                               |
-| ----: | -------: | --------: | ---------------------------------- |
-| 42.8% |  347 KiB |        22 | `(GC root)`                        |
-| 13.5% |  110 KiB |         6 | `<root>`                           |
-| 13.5% |  109 KiB |         6 | `JSLexicalEnvironment ← <root>`    |
-|  7.2% | 58.7 KiB |         5 | `JSLexicalEnvironment`             |
-|  0.8% |  6.5 KiB |         1 | `.state Object ← .internal Object` |
+|     % |     Size | Instances | Path                                                                                         |
+| ----: | -------: | --------: | -------------------------------------------------------------------------------------------- |
+| 42.8% |  347 KiB |        22 | `(several retainers) <root>`                                                                 |
+| 13.5% |  110 KiB |         6 | `(several retainers) InjectedScript ← <root>`                                                |
+| 13.5% |  109 KiB |         6 | `JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                         |
+|  7.2% | 58.7 KiB |         5 | `JSLexicalEnvironment ← (several retainers) <root>`                                          |
+|  0.8% |  6.5 KiB |         1 | `(several retainers) Object ← .state Object ← .internal Object ← (several retainers) <root>` |
 
 ##### `Array`
 
-|     % |     Size | Instances | Path                                                    |
-| ----: | -------: | --------: | ------------------------------------------------------- |
-| 21.4% |  139 KiB |         3 | `(GC root)`                                             |
-|  7.9% | 51.1 KiB |         2 | `.choiceData Object`                                    |
-|  5.3% | 34.3 KiB |         1 | `.css Object ← .style Object ← .mmv.codex Object`       |
-|  3.9% | 25.2 KiB |         1 | `.css Object ← .style Object ← .ext.popups.main Object` |
-|  1.6% | 10.5 KiB |         1 | `.css Object ← .style Object`                           |
+|     % |     Size | Instances | Path                                                                                 |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------ |
+| 16.7% |  108 KiB |         1 | `(several retainers) <root>`                                                         |
+|  7.9% | 51.1 KiB |         2 | `.choiceData Object ← (several retainers) <root>`                                    |
+|  5.3% | 34.3 KiB |         1 | `.css Object ← .style Object ← .mmv.codex Object ← (several retainers) <root>`       |
+|  3.9% | 25.2 KiB |         1 | `.css Object ← .style Object ← .ext.popups.main Object ← (several retainers) <root>` |
+|  2.8% | 17.9 KiB |         1 | `(several retainers) Object ← (several retainers) <root>`                            |
 
 ##### `FunctionCodeBlock`
 
-|     % |     Size | Instances | Path                                                                                           |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------- |
-| 17.0% | 90.8 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .articleTitleInformation Object`           |
-| 10.4% | 55.6 KiB |         6 | `(GC root)`                                                                                    |
-|  1.8% | 9.68 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findCandidateElements Object`             |
-|  1.7% | 9.07 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findExtraArticleCandidateElements Object` |
-|  1.4% | 7.63 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .stringsMatchAnyRegularExpressions Window` |
+|     % |     Size | Instances | Path                                                                                                                        |
+| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------- |
+| 17.0% | 90.8 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .articleTitleInformation Object ← (several retainers) <root>`           |
+| 10.4% | 55.6 KiB |         6 | `(several retainers) <root>`                                                                                                |
+|  1.8% | 9.68 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findCandidateElements Object ← (several retainers) <root>`             |
+|  1.7% | 9.07 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .findExtraArticleCandidateElements Object ← (several retainers) <root>` |
+|  1.4% | 7.63 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ← .stringsMatchAnyRegularExpressions Window ← (several retainers) <root>` |
 
 ##### `DOMAttributeGetterSetter`
 
-|     % | Size | Instances | Path                 |
-| ----: | ---: | --------: | -------------------- |
-| <0.1% | 48 B |         1 | `(GC root)`          |
-| <0.1% | 48 B |         1 | `.prefix Element`    |
-| <0.1% | 48 B |         1 | `.localName Element` |
-| <0.1% | 48 B |         1 | `.tagName Element`   |
-| <0.1% | 48 B |         1 | `.id Element`        |
+|     % | Size | Instances | Path                                              |
+| ----: | ---: | --------: | ------------------------------------------------- |
+| <0.1% | 48 B |         1 | `(several retainers) <root>`                      |
+| <0.1% | 48 B |         1 | `.prefix Element ← (several retainers) <root>`    |
+| <0.1% | 48 B |         1 | `.localName Element ← (several retainers) <root>` |
+| <0.1% | 48 B |         1 | `.tagName Element ← (several retainers) <root>`   |
+| <0.1% | 48 B |         1 | `.id Element ← (several retainers) <root>`        |
 
 ##### `StructureRareData`
 
-|     % |     Size | Instances | Path                                                                                 |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------ |
-| 26.9% |  122 KiB |         4 | `Structure ← Object ← .mediawiki.base Object`                                        |
-|  2.6% | 11.9 KiB |         1 | `(GC root)`                                                                          |
-|  1.7% | 7.77 KiB |         1 | `Structure ← Object`                                                                 |
-|  1.7% | 7.56 KiB |         1 | `Structure ← StructureRareData ← Structure ← Object`                                 |
-|  1.6% | 7.36 KiB |         1 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← Object` |
+|     % |     Size | Instances | Path                                                                                                              |
+| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------- |
+| 26.9% |  122 KiB |         4 | `Structure ← Object ← (several retainers) Object ← .mediawiki.base Object ← (several retainers) <root>`           |
+|  2.6% | 11.9 KiB |         1 | `Structure ← (several retainers) <root>`                                                                          |
+|  1.7% | 7.77 KiB |         1 | `Structure ← Object ← (several retainers) <root>`                                                                 |
+|  1.7% | 7.56 KiB |         1 | `Structure ← StructureRareData ← Structure ← Object ← (several retainers) <root>`                                 |
+|  1.6% | 7.36 KiB |         1 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← Object ← (several retainers) <root>` |
 
 ##### `CSSStyleDeclaration`
 
-|     % |     Size | Instances | Path                               |
-| ----: | -------: | --------: | ---------------------------------- |
-| 74.9% |  204 KiB |         3 | `(GC root)`                        |
-| 25.0% | 67.9 KiB |         1 | `Structure ← Window`               |
-|  0.1% |    352 B |        11 | `<root>`                           |
-| <0.1% |     32 B |         1 | `.emptyStyle JSLexicalEnvironment` |
-| <0.1% |     32 B |         1 | `._cachedContentTextStyle Object`  |
+|     % |     Size | Instances | Path                                                            |
+| ----: | -------: | --------: | --------------------------------------------------------------- |
+| 74.9% |  204 KiB |         3 | `Structure ← (several retainers) <root>`                        |
+| 25.0% | 67.9 KiB |         1 | `Structure ← Window ← (several retainers) <root>`               |
+|  0.1% |    352 B |        11 | `<root>`                                                        |
+| <0.1% |     32 B |         1 | `.emptyStyle JSLexicalEnvironment ← (several retainers) <root>` |
+| <0.1% |     32 B |         1 | `._cachedContentTextStyle Object ← (several retainers) <root>`  |
 
 ##### `InjectedScript`
 
@@ -914,33 +921,33 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `FunctionRareData`
 
-|     % |     Size | Instances | Path                                                                                     |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------- |
-| 46.2% |   91 KiB |         1 | `Function ← .articleTitleInformation Object`                                             |
-|  6.2% | 12.2 KiB |         1 | `Function ← .stringsMatchAnyRegularExpressions Window`                                   |
-|  5.0% | 9.88 KiB |         1 | `Function ← .findCandidateElements Object`                                               |
-|  4.7% | 9.27 KiB |         1 | `Function ← .findExtraArticleCandidateElements Object`                                   |
-|  3.7% | 7.36 KiB |         1 | `Function ← .extraArticleCandidateIfElementIsViable Function ← .CandidateElement Window` |
+|     % |     Size | Instances | Path                                                                                                                  |
+| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------- |
+| 46.2% |   91 KiB |         1 | `Function ← .articleTitleInformation Object ← (several retainers) <root>`                                             |
+|  6.2% | 12.2 KiB |         1 | `Function ← .stringsMatchAnyRegularExpressions Window ← (several retainers) <root>`                                   |
+|  5.0% | 9.88 KiB |         1 | `Function ← .findCandidateElements Object ← (several retainers) <root>`                                               |
+|  4.7% | 9.27 KiB |         1 | `Function ← .findExtraArticleCandidateElements Object ← (several retainers) <root>`                                   |
+|  3.7% | 7.36 KiB |         1 | `Function ← .extraArticleCandidateIfElementIsViable Function ← .CandidateElement Window ← (several retainers) <root>` |
 
 ##### `Immutable Butterfly`
 
-|    % |     Size | Instances | Path                                                                      |
-| ---: | -------: | --------: | ------------------------------------------------------------------------- |
-| 1.4% | 2.11 KiB |         5 | `(GC root)`                                                               |
-| 0.3% |    432 B |         1 | `Array ← .allowedHtmlElements Object ← .mediawiki.jqueryMsg Object`       |
-| 0.3% |    432 B |         1 | `Array ← .block Object ← .elementTypes Object ← .ve Window ← <root>`      |
-| 0.3% |    432 B |         1 | `Array ← .CA Object ← .territories Object ← .data Object ← .uls Function` |
-| 0.3% |    432 B |         1 | `Array ← .IN Object ← .territories Object ← .data Object ← .uls Function` |
+|    % |     Size | Instances | Path                                                                                                                          |
+| ---: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------- |
+| 1.4% | 2.11 KiB |         5 | `(several retainers) <root>`                                                                                                  |
+| 0.3% |    432 B |         1 | `Array ← .allowedHtmlElements Object ← (several retainers) Object ← .mediawiki.jqueryMsg Object ← (several retainers) <root>` |
+| 0.3% |    432 B |         1 | `Array ← .block Object ← .elementTypes Object ← .ve Window ← <root>`                                                          |
+| 0.3% |    432 B |         1 | `Array ← .CA Object ← .territories Object ← .data Object ← .uls Function ← (several retainers) <root>`                        |
+| 0.3% |    432 B |         1 | `Array ← .IN Object ← .territories Object ← .data Object ← .uls Function ← (several retainers) <root>`                        |
 
 ##### `RegExp`
 
-|     % |     Size | Instances | Path                                                                                         |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------- |
-| 30.4% | 32.7 KiB |        14 | `(GC root)`                                                                                  |
-|  5.7% | 6.13 KiB |         2 | `<root>`                                                                                     |
-|  1.3% | 1.39 KiB |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>` |
-|  1.2% | 1.31 KiB |         1 | `[0] Array ← ._forgotUserNameRegularExpressions Object ← .FormMetadataJS Window`             |
-|  1.2% | 1.28 KiB |         1 | `RegExp ← [0] Array ← ._forgotUserNameRegularExpressions Object ← .FormMetadataJS Window`    |
+|     % |     Size | Instances | Path                                                                                                          |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------- |
+| 26.5% | 28.5 KiB |        12 | `(several retainers) <root>`                                                                                  |
+|  5.7% | 6.13 KiB |         2 | `<root>`                                                                                                      |
+|  3.9% |  4.2 KiB |         2 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                         |
+|  1.3% | 1.39 KiB |         1 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                  |
+|  1.2% | 1.31 KiB |         1 | `[0] Array ← ._forgotUserNameRegularExpressions Object ← .FormMetadataJS Window ← (several retainers) <root>` |
 
 ##### `UnlinkedProgramCodeBlock`
 
@@ -950,118 +957,120 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `PropertyTable`
 
-|     % |  Size | Instances | Path                                                                                                                     |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------ |
-|  0.6% | 576 B |        12 | `(GC root)`                                                                                                              |
-|  0.1% |  96 B |         2 | `Structure ← Function`                                                                                                   |
-| <0.1% |  48 B |         1 | `Structure ← Function ← [11] Array ← .fns JSLexicalEnvironment ← .wikipage.content Object ← .hooks JSLexicalEnvironment` |
-| <0.1% |  48 B |         1 | `Structure ← Function ← .reduce Array`                                                                                   |
-| <0.1% |  48 B |         1 | `Structure ← Structure ← InjectedScriptHost ← Structure ← InjectedScriptHost ← <root>`                                   |
+|     % |  Size | Instances | Path                                                                                                                                                                               |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.3% | 336 B |         7 | `Structure ← (several retainers) <root>`                                                                                                                                           |
+|  0.1% |  96 B |         2 | `Structure ← Function ← (several retainers) <root>`                                                                                                                                |
+| <0.1% |  48 B |         1 | `Structure ← Function ← [11] Array ← .fns JSLexicalEnvironment ← (several retainers) Object ← .wikipage.content Object ← .hooks JSLexicalEnvironment ← (several retainers) <root>` |
+| <0.1% |  48 B |         1 | `Structure ← Function ← .reduce Array ← (several retainers) <root>`                                                                                                                |
+| <0.1% |  48 B |         1 | `Structure ← (several retainers) Object ← (several retainers) <root>`                                                                                                              |
 
 ##### `SymbolTable`
 
-|    % |  Size | Instances | Path                                                                                                              |
-| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------- |
-| 0.7% | 576 B |         9 | `(GC root)`                                                                                                       |
-| 0.2% | 192 B |         3 | `JSLexicalEnvironment ← <root>`                                                                                   |
-| 0.1% | 128 B |         2 | `JSLexicalEnvironment ← JSLexicalEnvironment ← <root>`                                                            |
-| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← Function ← <root>`                                                                        |
-| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
+|    % |  Size | Instances | Path                                                                                                                                                                                |
+| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.7% | 576 B |         9 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← (several retainers) <root>`                                                                                               |
+| 0.2% | 192 B |         3 | `JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                                                                                                                |
+| 0.1% | 128 B |         2 | `JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                                                                                         |
+| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← Function ← (several retainers) InjectedScript ← <root>`                                                                                                     |
+| 0.1% |  64 B |         1 | `JSLexicalEnvironment ← (several retainers) Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
 
 ##### `HTMLElement`
 
-|     % |     Size | Instances | Path                                             |
-| ----: | -------: | --------: | ------------------------------------------------ |
-| 57.3% | 47.7 KiB |         7 | `(GC root)`                                      |
-| 25.6% | 21.3 KiB |        27 | `.elem JSLexicalEnvironment ← Function ← <root>` |
-|  0.7% |    574 B |         1 | `Window`                                         |
-|  0.6% |    526 B |         1 | `Window ← <root>`                                |
-|  0.1% |     82 B |         1 | `[442] Array`                                    |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 32.7% | 27.3 KiB |         4 | `(several retainers) <root>`                              |
+| 25.6% | 21.3 KiB |        27 | `.elem JSLexicalEnvironment ← Function ← <root>`          |
+| 24.6% | 20.5 KiB |         3 | `(several retainers) Window ← (several retainers) <root>` |
+|  0.7% |    574 B |         1 | `Window ← (several retainers) <root>`                     |
+|  0.6% |    526 B |         1 | `Window ← <root>`                                         |
 
 ##### `Document`
 
-|     % |     Size | Instances | Path              |
-| ----: | -------: | --------: | ----------------- |
-| 99.3% | 81.2 KiB |         7 | `(GC root)`       |
-|  0.7% |    578 B |         2 | `Window ← <root>` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 57.1% | 46.7 KiB |         4 | `(several retainers) Window ← (several retainers) <root>` |
+| 42.2% | 34.5 KiB |         3 | `(several retainers) <root>`                              |
+|  0.7% |    578 B |         2 | `Window ← <root>`                                         |
 
 ##### `CustomGetterSetter`
 
-|     % | Size | Instances | Path                           |
-| ----: | ---: | --------: | ------------------------------ |
-| <0.1% | 32 B |         1 | `.constructor Element`         |
-| <0.1% | 32 B |         1 | `.constructor HTMLElement`     |
-| <0.1% | 32 B |         1 | `.onmouseenter HTMLElement`    |
-| <0.1% | 32 B |         1 | `.onmouseleave HTMLElement`    |
-| <0.1% | 32 B |         1 | `.constructor HTMLHtmlElement` |
+|     % | Size | Instances | Path                                                        |
+| ----: | ---: | --------: | ----------------------------------------------------------- |
+| <0.1% | 32 B |         1 | `.constructor Element ← (several retainers) <root>`         |
+| <0.1% | 32 B |         1 | `.constructor HTMLElement ← (several retainers) <root>`     |
+| <0.1% | 32 B |         1 | `.onmouseenter HTMLElement ← (several retainers) <root>`    |
+| <0.1% | 32 B |         1 | `.onmouseleave HTMLElement ← (several retainers) <root>`    |
+| <0.1% | 32 B |         1 | `.constructor HTMLHtmlElement ← (several retainers) <root>` |
 
 ##### `NativeExecutable`
 
 |     % |     Size | Instances | Path                                                                      |
 | ----: | -------: | --------: | ------------------------------------------------------------------------- |
-| 39.2% | 23.5 KiB |       301 | `(GC root)`                                                               |
+| 39.2% | 23.5 KiB |       301 | `(several retainers) <root>`                                              |
 |  0.1% |     80 B |         1 | `<root>`                                                                  |
 |  0.1% |     80 B |         1 | `Function ← .next URLSearchParams Iterator ← Structure ← Window ← <root>` |
-|  0.1% |     80 B |         1 | `Function ← .item DOMRectList`                                            |
-|  0.1% |     80 B |         1 | `Function ← .abort AbortController`                                       |
+|  0.1% |     80 B |         1 | `Function ← .item DOMRectList ← (several retainers) <root>`               |
+|  0.1% |     80 B |         1 | `Function ← .abort AbortController ← (several retainers) <root>`          |
 
 ##### `Element`
 
-|     % |     Size | Instances | Path              |
-| ----: | -------: | --------: | ----------------- |
-| 97.1% | 54.9 KiB |         7 | `(GC root)`       |
-|  2.0% | 1.11 KiB |         2 | `Window`          |
-|  0.9% |    522 B |         1 | `Window ← <root>` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 53.9% | 30.4 KiB |         4 | `(several retainers) <root>`                              |
+| 43.2% | 24.4 KiB |         3 | `(several retainers) Window ← (several retainers) <root>` |
+|  2.0% | 1.11 KiB |         2 | `Window ← (several retainers) <root>`                     |
+|  0.9% |    522 B |         1 | `Window ← <root>`                                         |
 
 ##### `GetterSetter`
 
-|    % |     Size | Instances | Path                                    |
-| ---: | -------: | --------: | --------------------------------------- |
-| 4.9% | 2.55 KiB |         2 | `.eventInSample Object`                 |
-| 2.8% | 1.43 KiB |         2 | `.getCrossSite Object ← .cookie Object` |
-| 2.6% | 1.35 KiB |         2 | `.jqueryMsg Object`                     |
-| 2.4% | 1.22 KiB |         2 | `.newInstrument Object`                 |
-| 1.1% |    577 B |         1 | `.write HTMLDocument`                   |
+|    % |     Size | Instances | Path                                                                 |
+| ---: | -------: | --------: | -------------------------------------------------------------------- |
+| 4.9% | 2.55 KiB |         2 | `.eventInSample Object ← (several retainers) <root>`                 |
+| 2.8% | 1.43 KiB |         2 | `.getCrossSite Object ← .cookie Object ← (several retainers) <root>` |
+| 2.6% | 1.35 KiB |         2 | `.jqueryMsg Object ← (several retainers) <root>`                     |
+| 2.4% | 1.22 KiB |         2 | `.newInstrument Object ← (several retainers) <root>`                 |
+| 1.1% |    577 B |         1 | `.write HTMLDocument ← (several retainers) <root>`                   |
 
 ##### `DOMRect`
 
-|    % |     Size | Instances | Path                                                         |
-| ---: | -------: | --------: | ------------------------------------------------------------ |
-| 2.9% | 1.25 KiB |         2 | `(GC root)`                                                  |
-| 1.0% |    429 B |         1 | `Structure ← Window ← <root>`                                |
-| 0.8% |    367 B |         1 | `Window`                                                     |
-| 0.1% |     32 B |         1 | `._cachedElementBoundingRect HTMLSpanElement ← [1120] Array` |
-| 0.1% |     32 B |         1 | `._cachedElementBoundingRect HTMLElement ← [1121] Array`     |
+|    % |  Size | Instances | Path                                                                                      |
+| ---: | ----: | --------: | ----------------------------------------------------------------------------------------- |
+| 1.7% | 751 B |         1 | `(several retainers) Window ← (several retainers) <root>`                                 |
+| 1.2% | 525 B |         1 | `Structure ← (several retainers) <root>`                                                  |
+| 1.0% | 429 B |         1 | `Structure ← Window ← <root>`                                                             |
+| 0.8% | 367 B |         1 | `Window ← (several retainers) <root>`                                                     |
+| 0.1% |  32 B |         1 | `._cachedElementBoundingRect HTMLSpanElement ← [1120] Array ← (several retainers) <root>` |
 
 ##### `JSPropertyNameEnumerator`
 
-|     % |     Size | Instances | Path                                                                                                                                                                                                                                        |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 47.2% | 17.9 KiB |         4 | `StructureRareData ← Structure ← Object ← .mediawiki.base Object`                                                                                                                                                                           |
-|  9.2% | 3.47 KiB |         6 | `StructureRareData ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← StructureRareData ← Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
-|  5.4% | 2.04 KiB |         2 | `StructureRareData ← Structure ← Object ← .RLCONF Window ← <root>`                                                                                                                                                                          |
-|  2.5% |    958 B |         2 | `StructureRareData ← Structure ← Object ← .messages Object ← .skins.vector.clientPreferences Object`                                                                                                                                        |
-|  1.1% |    438 B |         1 | `StructureRareData ← Structure ← Object`                                                                                                                                                                                                    |
+|     % |     Size | Instances | Path                                                                                                                                                                                                                                                                             |
+| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 47.2% | 17.9 KiB |         4 | `StructureRareData ← Structure ← Object ← (several retainers) Object ← .mediawiki.base Object ← (several retainers) <root>`                                                                                                                                                      |
+|  9.2% | 3.47 KiB |         6 | `StructureRareData ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← Structure ← StructureRareData ← Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
+|  5.4% | 2.04 KiB |         2 | `StructureRareData ← Structure ← Object ← .RLCONF Window ← <root>`                                                                                                                                                                                                               |
+|  2.5% |    958 B |         2 | `StructureRareData ← Structure ← Object ← .messages Object ← .skins.vector.clientPreferences Object ← (several retainers) <root>`                                                                                                                                                |
+|  1.1% |    438 B |         1 | `StructureRareData ← Structure ← Object ← (several retainers) <root>`                                                                                                                                                                                                            |
 
 ##### `HTMLDivElement`
 
-|     % |     Size | Instances | Path          |
-| ----: | -------: | --------: | ------------- |
-| 21.1% | 7.55 KiB |        15 | `(GC root)`   |
-|  6.0% | 2.16 KiB |         1 | `<root>`      |
-|  0.2% |     82 B |         1 | `[672] Array` |
-|  0.2% |     82 B |         1 | `[666] Array` |
-|  0.2% |     82 B |         1 | `[441] Array` |
+|     % |     Size | Instances | Path                                       |
+| ----: | -------: | --------: | ------------------------------------------ |
+| 21.1% | 7.55 KiB |        15 | `(several retainers) <root>`               |
+|  6.0% | 2.16 KiB |         1 | `<root>`                                   |
+|  0.2% |     82 B |         1 | `[672] Array ← (several retainers) <root>` |
+|  0.2% |     82 B |         1 | `[666] Array ← (several retainers) <root>` |
+|  0.2% |     82 B |         1 | `[441] Array ← (several retainers) <root>` |
 
 ##### `HTMLSpanElement`
 
-|    % |  Size | Instances | Path          |
-| ---: | ----: | --------: | ------------- |
-| 2.7% | 964 B |         4 | `(GC root)`   |
-| 0.2% |  81 B |         1 | `[22] Array`  |
-| 0.2% |  81 B |         1 | `[863] Array` |
-| 0.2% |  81 B |         1 | `[865] Array` |
-| 0.2% |  81 B |         1 | `[32] Array`  |
+|    % |  Size | Instances | Path                                       |
+| ---: | ----: | --------: | ------------------------------------------ |
+| 2.0% | 723 B |         3 | `(several retainers) <root>`               |
+| 0.7% | 241 B |         1 | `Structure ← (several retainers) <root>`   |
+| 0.2% |  81 B |         1 | `[22] Array ← (several retainers) <root>`  |
+| 0.2% |  81 B |         1 | `[863] Array ← (several retainers) <root>` |
+| 0.2% |  81 B |         1 | `[865] Array ← (several retainers) <root>` |
 
 ##### `UnlinkedEvalCodeBlock`
 
@@ -1071,103 +1080,105 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Map`
 
-|     % |     Size | Instances | Path                                      |
-| ----: | -------: | --------: | ----------------------------------------- |
-| 53.9% | 17.4 KiB |         7 | `(GC root)`                               |
-| 33.4% | 10.8 KiB |         2 | `.en Object ← .data Object`               |
-|  4.0% |  1.3 KiB |         2 | `.tokens Object ← .user Object`           |
-|  4.0% | 1.28 KiB |         2 | `.options Object ← .user Object`          |
-|  1.1% |    368 B |         1 | `._mapOfUniqueIDToOriginalElement Object` |
+|     % |     Size | Instances | Path                                                                   |
+| ----: | -------: | --------: | ---------------------------------------------------------------------- |
+| 53.9% | 17.4 KiB |         7 | `(several retainers) <root>`                                           |
+| 33.4% | 10.8 KiB |         2 | `.en Object ← .data Object ← (several retainers) <root>`               |
+|  4.0% |  1.3 KiB |         2 | `.tokens Object ← .user Object ← (several retainers) <root>`           |
+|  4.0% | 1.28 KiB |         2 | `.options Object ← .user Object ← (several retainers) <root>`          |
+|  1.1% |    368 B |         1 | `._mapOfUniqueIDToOriginalElement Object ← (several retainers) <root>` |
 
 ##### `HTMLAnchorElement`
 
-|     % |     Size | Instances | Path                                             |
-| ----: | -------: | --------: | ------------------------------------------------ |
-| 31.1% | 8.65 KiB |        26 | `<root>`                                         |
-| 30.0% | 8.35 KiB |         6 | `(GC root)`                                      |
-| 10.0% | 2.78 KiB |         9 | `.elem JSLexicalEnvironment ← Function ← <root>` |
-|  1.9% |    532 B |         1 | `Window ← <root>`                                |
-|  0.3% |     81 B |         1 | `[6] Array`                                      |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 24.0% | 6.67 KiB |         5 | `(several retainers) <root>`                              |
+|  9.9% | 2.77 KiB |         4 | `<root>`                                                  |
+|  6.0% | 1.67 KiB |         1 | `(several retainers) Window ← (several retainers) <root>` |
+|  2.3% |    659 B |         1 | `.elem JSLexicalEnvironment ← Function ← <root>`          |
+|  1.9% |    532 B |         1 | `Window ← <root>`                                         |
 
 ##### `String`
 
-|     % |     Size | Instances | Path        |
-| ----: | -------: | --------: | ----------- |
-| 51.5% |   12 KiB |         4 | `Window`    |
-| 48.5% | 11.3 KiB |         3 | `(GC root)` |
+|     % |     Size | Instances | Path                                  |
+| ----: | -------: | --------: | ------------------------------------- |
+| 51.5% |   12 KiB |         4 | `Window ← (several retainers) <root>` |
+| 48.5% | 11.3 KiB |         3 | `(several retainers) <root>`          |
 
 ##### `HTMLLIElement`
 
-|    % |  Size | Instances | Path                 |
-| ---: | ----: | --------: | -------------------- |
-| 2.9% | 674 B |         2 | `(GC root)`          |
-| 1.5% | 337 B |         1 | `Structure ← <root>` |
-| 1.5% | 337 B |         1 | `Structure ← Window` |
-| 0.4% |  81 B |         1 | `[48] Array`         |
-| 0.4% |  81 B |         1 | `[55] Array`         |
+|    % |  Size | Instances | Path                                              |
+| ---: | ----: | --------: | ------------------------------------------------- |
+| 1.5% | 337 B |         1 | `Structure ← <root>`                              |
+| 1.5% | 337 B |         1 | `Structure ← Window ← (several retainers) <root>` |
+| 1.5% | 337 B |         1 | `(several retainers) <root>`                      |
+| 1.5% | 337 B |         1 | `Structure ← (several retainers) <root>`          |
+| 0.4% |  81 B |         1 | `[48] Array ← (several retainers) <root>`         |
 
 ##### `EvalExecutable`
 
-|    % |  Size | Instances | Path                                                                                 |
-| ---: | ----: | --------: | ------------------------------------------------------------------------------------ |
-| 1.9% | 336 B |         3 | `(GC root)`                                                                          |
-| 0.6% | 112 B |         1 | `.ext.quicksurveys.init Object`                                                      |
-| 0.6% | 112 B |         1 | `FunctionExecutable ← Function ← .declarator Object ← .jquery.spinner.styles Object` |
-| 0.6% | 112 B |         1 | `.ext.checkUser.clientHints Object`                                                  |
-| 0.6% | 112 B |         1 | `.wikibase.client.vector-2022 Object`                                                |
+|    % |  Size | Instances | Path                                                                                                              |
+| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------- |
+| 1.9% | 336 B |         3 | `(several retainers) <root>`                                                                                      |
+| 0.6% | 112 B |         1 | `(several retainers) Object ← .ext.quicksurveys.init Object ← (several retainers) <root>`                         |
+| 0.6% | 112 B |         1 | `FunctionExecutable ← Function ← .declarator Object ← .jquery.spinner.styles Object ← (several retainers) <root>` |
+| 0.6% | 112 B |         1 | `(several retainers) Object ← .ext.checkUser.clientHints Object ← (several retainers) <root>`                     |
+| 0.6% | 112 B |         1 | `(several retainers) Object ← .wikibase.client.vector-2022 Object ← (several retainers) <root>`                   |
 
 ##### `HTMLInputElement`
 
-|     % |     Size | Instances | Path                     |
-| ----: | -------: | --------: | ------------------------ |
-| 70.9% | 12.2 KiB |         4 | `(GC root)`              |
-|  3.8% |    675 B |         1 | `Window`                 |
-|  1.8% |    325 B |         1 | `.FormMetadataJS Window` |
-|  0.5% |     81 B |         1 | `[252] Array`            |
-|  0.5% |     81 B |         1 | `[317] Array`            |
+|     % |     Size | Instances | Path                                                                               |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------- |
+| 35.9% | 6.18 KiB |         2 | `Structure ← (several retainers) <root>`                                           |
+| 17.9% | 3.09 KiB |         1 | `(several retainers) <root>`                                                       |
+| 17.0% | 2.93 KiB |         1 | `(several retainers) Window ← (several retainers) <root>`                          |
+|  3.8% |    675 B |         1 | `Window ← (several retainers) <root>`                                              |
+|  1.8% |    325 B |         1 | `(several retainers) Object ← .FormMetadataJS Window ← (several retainers) <root>` |
 
 ##### `MultimediaViewerBootstrap`
 
-|      % |     Size | Instances | Path        |
-| -----: | -------: | --------: | ----------- |
-| 100.0% | 14.5 KiB |         2 | `(GC root)` |
+|      % |     Size | Instances | Path                         |
+| -----: | -------: | --------: | ---------------------------- |
+| 100.0% | 14.5 KiB |         2 | `(several retainers) <root>` |
 
 ##### `HTMLButtonElement`
 
-|     % |     Size | Instances | Path                     |
-| ----: | -------: | --------: | ------------------------ |
-| 63.4% | 9.02 KiB |        13 | `(GC root)`              |
-| 10.0% | 1.42 KiB |        10 | `.FormMetadataJS Window` |
-|  4.0% |    580 B |         1 | `Window`                 |
-|  0.6% |     81 B |         1 | `[261] Array`            |
-|  0.6% |     81 B |         1 | `[262] Array`            |
+|     % |     Size | Instances | Path                                                                               |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------- |
+| 48.2% | 6.86 KiB |        11 | `(several retainers) <root>`                                                       |
+|  8.1% | 1.16 KiB |         1 | `Structure ← (several retainers) <root>`                                           |
+|  7.0% |    1 KiB |         1 | `(several retainers) Window ← (several retainers) <root>`                          |
+|  4.0% |    580 B |         1 | `Window ← (several retainers) <root>`                                              |
+|  2.5% |    363 B |         1 | `(several retainers) Object ← .FormMetadataJS Window ← (several retainers) <root>` |
 
 ##### `Node`
 
-|     % |     Size | Instances | Path              |
-| ----: | -------: | --------: | ----------------- |
-| 88.0% |   12 KiB |         7 | `(GC root)`       |
-|  8.4% | 1.15 KiB |         5 | `Window`          |
-|  3.6% |    498 B |         2 | `Window ← <root>` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 51.2% | 7.01 KiB |         4 | `(several retainers) <root>`                              |
+| 36.8% | 5.03 KiB |         3 | `(several retainers) Window ← (several retainers) <root>` |
+|  8.4% | 1.15 KiB |         5 | `Window ← (several retainers) <root>`                     |
+|  3.6% |    498 B |         2 | `Window ← <root>`                                         |
 
 ##### `Promise`
 
 |     % |     Size | Instances | Path                                                                                                                                                                   |
 | ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 50.7% | 6.61 KiB |         1 | `.promise Object ← .preview Object ← .u JSLexicalEnvironment`                                                                                                          |
-| 46.4% | 6.05 KiB |         1 | `.i JSLexicalEnvironment ← Function ← .abort Promise ← .promise Object ← .preview Object ← .u JSLexicalEnvironment`                                                    |
+| 50.7% | 6.61 KiB |         1 | `.promise Object ← .preview Object ← .u JSLexicalEnvironment ← (several retainers) <root>`                                                                             |
+| 46.4% | 6.05 KiB |         1 | `.i JSLexicalEnvironment ← Function ← .abort Promise ← .promise Object ← .preview Object ← .u JSLexicalEnvironment ← (several retainers) <root>`                       |
 | 22.0% | 2.88 KiB |         1 | `.capturedPromise JSLexicalEnvironment ← Function ← .t JSLexicalEnvironment ← Function ← <root>`                                                                       |
 |  9.7% | 1.27 KiB |         1 | `.promise Object ← .globalContext Object ← .context Object ← Promise ← .capturedPromise JSLexicalEnvironment ← Function ← .t JSLexicalEnvironment ← Function ← <root>` |
-|  7.8% | 1.01 KiB |         1 | `(GC root)`                                                                                                                                                            |
+|  7.8% | 1.01 KiB |         1 | `(several retainers) <root>`                                                                                                                                           |
 
 ##### `HTMLDocument`
 
-|     % |     Size | Instances | Path                 |
-| ----: | -------: | --------: | -------------------- |
-| 83.1% | 10.8 KiB |         6 | `(GC root)`          |
-|  8.3% | 1.08 KiB |         2 | `Window ← <root>`    |
-|  7.1% |    952 B |         4 | `Structure ← Window` |
-|  1.4% |    192 B |         4 | `.document Window`   |
+|     % |     Size | Instances | Path                                              |
+| ----: | -------: | --------: | ------------------------------------------------- |
+| 81.0% | 10.5 KiB |         4 | `(several retainers) <root>`                      |
+|  8.3% | 1.08 KiB |         2 | `Window ← <root>`                                 |
+|  7.1% |    952 B |         4 | `Structure ← Window ← (several retainers) <root>` |
+|  1.8% |    238 B |         1 | `Structure ← (several retainers) <root>`          |
+|  0.4% |     48 B |         1 | `.document Window ← (several retainers) <root>`   |
 
 ##### `InjectedScriptHost`
 
@@ -1178,27 +1189,27 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Array Iterator`
 
-|     % |     Size | Instances | Path              |
-| ----: | -------: | --------: | ----------------- |
-| 84.4% | 6.33 KiB |         5 | `Window`          |
-| 15.6% | 1.17 KiB |         2 | `Window ← <root>` |
+|     % |     Size | Instances | Path                                  |
+| ----: | -------: | --------: | ------------------------------------- |
+| 84.4% | 6.33 KiB |         5 | `Window ← (several retainers) <root>` |
+| 15.6% | 1.17 KiB |         2 | `Window ← <root>`                     |
 
 ##### `JSGlobalLexicalEnvironment`
 
-|     % |     Size | Instances | Path        |
-| ----: | -------: | --------: | ----------- |
-| 89.5% | 6.02 KiB |         4 | `(GC root)` |
-| 10.5% |    720 B |         3 | `Window`    |
+|     % |     Size | Instances | Path                                  |
+| ----: | -------: | --------: | ------------------------------------- |
+| 89.5% | 6.02 KiB |         4 | `(several retainers) <root>`          |
+| 10.5% |    720 B |         3 | `Window ← (several retainers) <root>` |
 
 ##### `StructureChain`
 
-|    % | Size | Instances | Path                                                                                                            |
-| ---: | ---: | --------: | --------------------------------------------------------------------------------------------------------------- |
-| 0.4% | 16 B |         1 | `Structure ← Function ← <root>`                                                                                 |
-| 0.4% | 16 B |         1 | `Structure ← InjectedScript ← <root>`                                                                           |
-| 0.4% | 16 B |         1 | `Structure ← Function ← .CallFrameProxy Function ← <root>`                                                      |
-| 0.4% | 16 B |         1 | `Structure ← Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>`                   |
-| 0.4% | 16 B |         1 | `Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← <root>` |
+|    % | Size | Instances | Path                                                                                                                                                 |
+| ---: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.4% | 16 B |         1 | `Structure ← Function ← (several retainers) InjectedScript ← <root>`                                                                                 |
+| 0.4% | 16 B |         1 | `Structure ← InjectedScript ← <root>`                                                                                                                |
+| 0.4% | 16 B |         1 | `Structure ← Function ← .CallFrameProxy Function ← (several retainers) InjectedScript ← <root>`                                                      |
+| 0.4% | 16 B |         1 | `Structure ← Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>`                   |
+| 0.4% | 16 B |         1 | `Structure ← Object ← .methods Function ← .CommandLineAPI JSLexicalEnvironment ← JSLexicalEnvironment ← (several retainers) InjectedScript ← <root>` |
 
 ##### `CommandLineAPIHost`
 
@@ -1209,82 +1220,83 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `AsyncFunction`
 
-|     % |     Size | Instances | Path                                           |
-| ----: | -------: | --------: | ---------------------------------------------- |
-| 72.2% | 2.96 KiB |         5 | `Window`                                       |
-| 28.6% | 1.17 KiB |         5 | `.constructor AsyncFunction ← Window`          |
-| 27.8% | 1.14 KiB |         2 | `Window ← <root>`                              |
-| 11.4% |    480 B |         2 | `.constructor AsyncFunction ← Window ← <root>` |
+|     % |     Size | Instances | Path                                                               |
+| ----: | -------: | --------: | ------------------------------------------------------------------ |
+| 72.2% | 2.96 KiB |         5 | `Window ← (several retainers) <root>`                              |
+| 28.6% | 1.17 KiB |         5 | `.constructor AsyncFunction ← Window ← (several retainers) <root>` |
+| 27.8% | 1.14 KiB |         2 | `Window ← <root>`                                                  |
+| 11.4% |    480 B |         2 | `.constructor AsyncFunction ← Window ← <root>`                     |
 
 ##### `AsyncGeneratorFunction`
 
-|     % |     Size | Instances | Path                                                    |
-| ----: | -------: | --------: | ------------------------------------------------------- |
-| 71.4% | 2.28 KiB |         5 | `Window`                                                |
-| 38.2% | 1.22 KiB |         5 | `.constructor AsyncGeneratorFunction ← Window`          |
-| 28.6% |    932 B |         2 | `Window ← <root>`                                       |
-| 15.3% |    498 B |         2 | `.constructor AsyncGeneratorFunction ← Window ← <root>` |
+|     % |     Size | Instances | Path                                                                        |
+| ----: | -------: | --------: | --------------------------------------------------------------------------- |
+| 71.4% | 2.28 KiB |         5 | `Window ← (several retainers) <root>`                                       |
+| 38.2% | 1.22 KiB |         5 | `.constructor AsyncGeneratorFunction ← Window ← (several retainers) <root>` |
+| 28.6% |    932 B |         2 | `Window ← <root>`                                                           |
+| 15.3% |    498 B |         2 | `.constructor AsyncGeneratorFunction ← Window ← <root>`                     |
 
 ##### `GeneratorFunction`
 
-|     % |     Size | Instances | Path                                               |
-| ----: | -------: | --------: | -------------------------------------------------- |
-| 71.4% | 2.23 KiB |         5 | `Window`                                           |
-| 38.2% | 1.19 KiB |         5 | `.constructor GeneratorFunction ← Window`          |
-| 28.6% |    912 B |         2 | `Window ← <root>`                                  |
-| 15.3% |    488 B |         2 | `.constructor GeneratorFunction ← Window ← <root>` |
+|     % |     Size | Instances | Path                                                                   |
+| ----: | -------: | --------: | ---------------------------------------------------------------------- |
+| 71.4% | 2.23 KiB |         5 | `Window ← (several retainers) <root>`                                  |
+| 38.2% | 1.19 KiB |         5 | `.constructor GeneratorFunction ← Window ← (several retainers) <root>` |
+| 28.6% |    912 B |         2 | `Window ← <root>`                                                      |
+| 15.3% |    488 B |         2 | `.constructor GeneratorFunction ← Window ← <root>`                     |
 
 ##### `CallbackObject`
 
-|     % |  Size | Instances | Path                                                                                                              |
-| ----: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------- |
-| 31.4% | 854 B |         1 | `.ReaderArticleFinderJSController Window`                                                                         |
-| 27.3% | 742 B |         1 | `[0] Array ← ._oneTimeCodeFieldLabelPatternMatchers Object ← .FormMetadataJS Window`                              |
-| 24.4% | 662 B |         1 | `Structure ← CallbackObject ← .ReaderArticleFinderJSController Window`                                            |
-| 20.3% | 550 B |         1 | `Structure ← CallbackObject ← [0] Array ← ._oneTimeCodeFieldLabelPatternMatchers Object ← .FormMetadataJS Window` |
-|  8.2% | 224 B |         1 | `.browser Window ← <root>`                                                                                        |
+|     % |  Size | Instances | Path                                                                                                                                           |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 31.4% | 854 B |         1 | `.ReaderArticleFinderJSController Window ← (several retainers) <root>`                                                                         |
+| 27.3% | 742 B |         1 | `[0] Array ← ._oneTimeCodeFieldLabelPatternMatchers Object ← .FormMetadataJS Window ← (several retainers) <root>`                              |
+| 24.4% | 662 B |         1 | `Structure ← CallbackObject ← .ReaderArticleFinderJSController Window ← (several retainers) <root>`                                            |
+| 20.3% | 550 B |         1 | `Structure ← CallbackObject ← [0] Array ← ._oneTimeCodeFieldLabelPatternMatchers Object ← .FormMetadataJS Window ← (several retainers) <root>` |
+|  8.2% | 224 B |         1 | `.browser Window ← <root>`                                                                                                                     |
 
 ##### `ProgramExecutable`
 
-|     % |     Size | Instances | Path                                                                      |
-| ----: | -------: | --------: | ------------------------------------------------------------------------- |
-| 66.7% | 1.09 KiB |        10 | `(GC root)`                                                               |
-| 13.3% |    224 B |         2 | `.user.options Object`                                                    |
-| 13.3% |    224 B |         2 | `.hooks JSLexicalEnvironment`                                             |
-|  6.7% |    112 B |         1 | `FunctionExecutable ← Function ← .extractMediaServiceSubscription Window` |
+|     % |  Size | Instances | Path                                                                                                   |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------ |
+| 13.3% | 224 B |         2 | `(several retainers) <root>`                                                                           |
+|  6.7% | 112 B |         1 | `(several retainers) Object ← .user.options Object ← (several retainers) <root>`                       |
+|  6.7% | 112 B |         1 | `(several retainers) Object ← .hooks JSLexicalEnvironment ← (several retainers) <root>`                |
+|  6.7% | 112 B |         1 | `(several retainers) Window ← (several retainers) <root>`                                              |
+|  6.7% | 112 B |         1 | `FunctionExecutable ← Function ← .extractMediaServiceSubscription Window ← (several retainers) <root>` |
 
 ##### `HashMapBucket`
 
-|     % |  Size | Instances | Path                                                                                                                                                |
-| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 23.0% | 342 B |         2 | `Set ← .stacks JSLexicalEnvironment ← Function ← .isFirst JSLexicalEnvironment ← Function ← .maybeLog JSLexicalEnvironment ← .eventInSample Object` |
-| 15.7% | 234 B |         2 | `.stacks JSLexicalEnvironment ← Function ← .isFirst JSLexicalEnvironment ← Function ← .maybeLog JSLexicalEnvironment ← .eventInSample Object`       |
-|  3.2% |  48 B |         1 | `Map ← .state Object`                                                                                                                               |
-|  3.2% |  48 B |         1 | `Map ← ._mapOfUniqueIDToOriginalElement Object`                                                                                                     |
-|  3.2% |  48 B |         1 | `Map ← .queues JSLexicalEnvironment`                                                                                                                |
+|     % |  Size | Instances | Path                                                                                                                                                                                                                                    |
+| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 23.0% | 342 B |         2 | `Set ← .stacks JSLexicalEnvironment ← Function ← .isFirst JSLexicalEnvironment ← Function ← .maybeLog JSLexicalEnvironment ← (several retainers) GetterSetter ← .eventInSample Object ← (several retainers) <root>`                     |
+| 15.7% | 234 B |         2 | `(several retainers) Set ← .stacks JSLexicalEnvironment ← Function ← .isFirst JSLexicalEnvironment ← Function ← .maybeLog JSLexicalEnvironment ← (several retainers) GetterSetter ← .eventInSample Object ← (several retainers) <root>` |
+|  3.2% |  48 B |         1 | `Map ← .state Object ← (several retainers) <root>`                                                                                                                                                                                      |
+|  3.2% |  48 B |         1 | `Map ← ._mapOfUniqueIDToOriginalElement Object ← (several retainers) <root>`                                                                                                                                                            |
+|  3.2% |  48 B |         1 | `Map ← .queues JSLexicalEnvironment ← (several retainers) <root>`                                                                                                                                                                       |
 
 ##### `JSWindowProxy`
 
-|     % |  Size | Instances | Path        |
-| ----: | ----: | --------: | ----------- |
-| 76.9% | 960 B |         5 | `(GC root)` |
-| 23.1% | 288 B |         1 | `<root>`    |
+|     % |  Size | Instances | Path                         |
+| ----: | ----: | --------: | ---------------------------- |
+| 76.9% | 960 B |         5 | `(several retainers) <root>` |
+| 23.1% | 288 B |         1 | `<root>`                     |
 
 ##### `Callee`
 
-|     % |  Size | Instances | Path              |
-| ----: | ----: | --------: | ----------------- |
-| 71.4% | 320 B |        10 | `Window`          |
-| 28.6% | 128 B |         4 | `Window ← <root>` |
+|     % |  Size | Instances | Path                                  |
+| ----: | ----: | --------: | ------------------------------------- |
+| 71.4% | 320 B |        10 | `Window ← (several retainers) <root>` |
+| 28.6% | 128 B |         4 | `Window ← <root>`                     |
 
 ##### `SparseArrayValueMap`
 
-|     % |  Size | Instances | Path                                                                                                        |
-| ----: | ----: | --------: | ----------------------------------------------------------------------------------------------------------- |
-| 34.7% | 102 B |         2 | `Object`                                                                                                    |
-| 21.8% |  64 B |         2 | `Object ← .xhrSuccessStatus JSLexicalEnvironment`                                                           |
-| 21.8% |  64 B |         2 | `Object ← .ENTRYPOINT_TYPE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object` |
-| 21.8% |  64 B |         2 | `Object ← .ULS_MODE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object`        |
+|     % |  Size | Instances | Path                                                                                                                                     |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 34.7% | 102 B |         2 | `Object ← (several retainers) <root>`                                                                                                    |
+| 21.8% |  64 B |         2 | `Object ← .xhrSuccessStatus JSLexicalEnvironment ← (several retainers) <root>`                                                           |
+| 21.8% |  64 B |         2 | `Object ← .ENTRYPOINT_TYPE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object ← (several retainers) <root>` |
+| 21.8% |  64 B |         2 | `Object ← .ULS_MODE Object ← .exports Object ← .module Object ← .ext.uls.rewrite.entrypoints Object ← (several retainers) <root>`        |
 
 ## Largest strings
 
@@ -1294,25 +1306,25 @@ Strings ranked by bytes allocated for them.
 
 #### String
 
-|    % |     Size | Path                                                                           |
-| ---: | -------: | ------------------------------------------------------------------------------ |
-| 2.6% |  275 KiB | `FunctionExecutable ← Function ← .declarator Object ← .jquery Object`          |
-| 1.3% |  137 KiB | `FunctionExecutable ← Function ← .declarator Object ← .jquery Object`          |
-| 0.9% |   93 KiB | `.ext.popups.main@4i3g7 Object ← .items Object`                                |
-| 0.9% |   93 KiB | `.ext.popups.main@4i3g7 Object ← .items Object`                                |
-| 0.8% | 86.1 KiB | `.jquery.uls.data@1150b Object ← .items Object`                                |
-| 0.8% | 85.5 KiB | `FunctionExecutable ← Function ← .declarator Object ← .jquery.uls.data Object` |
-| 0.8% | 84.7 KiB | `.ext.wikimediaEvents@1o9qe Object ← .items Object`                            |
-| 0.8% | 84.7 KiB | `.ext.wikimediaEvents@1o9qe Object ← .items Object`                            |
-| 0.7% | 70.1 KiB | `.mmv.codex@1inu8 Object ← .items Object`                                      |
-| 0.7% | 70.1 KiB | `.mmv.codex@1inu8 Object ← .items Object`                                      |
-| 0.6% | 61.7 KiB | `.skins.vector.js@1s6hs Object ← .items Object`                                |
-| 0.6% | 61.7 KiB | `.skins.vector.js@1s6hs Object ← .items Object`                                |
-| 0.5% | 50.7 KiB | `.ext.quicksurveys.lib@1to1x Object ← .items Object`                           |
-| 0.5% | 50.1 KiB | `FunctionExecutable ← Function ← .declarator Object`                           |
-| 0.4% | 47.5 KiB | `.ext.uls.interface@1u7jd Object ← .items Object`                              |
-| 0.4% | 47.5 KiB | `.ext.uls.interface@1u7jd Object ← .items Object`                              |
-| 0.4% | 43.1 KiB | `.jquery.uls.data@1150b Object ← .items Object`                                |
-| 0.3% | 34.3 KiB | `(GC root)`                                                                    |
-| 0.3% | 34.3 KiB | `[0] Array ← .css Object ← .style Object ← .mmv.codex Object`                  |
-| 0.3% | 33.9 KiB | `<root>`                                                                       |
+|    % |     Size | Path                                                                                                        |
+| ---: | -------: | ----------------------------------------------------------------------------------------------------------- |
+| 2.6% |  275 KiB | `FunctionExecutable ← Function ← .declarator Object ← .jquery Object ← (several retainers) <root>`          |
+| 1.3% |  137 KiB | `FunctionExecutable ← Function ← .declarator Object ← .jquery Object ← (several retainers) <root>`          |
+| 0.9% |   93 KiB | `.ext.popups.main@4i3g7 Object ← .items Object ← (several retainers) <root>`                                |
+| 0.9% |   93 KiB | `.ext.popups.main@4i3g7 Object ← .items Object ← (several retainers) <root>`                                |
+| 0.8% | 86.1 KiB | `.jquery.uls.data@1150b Object ← .items Object ← (several retainers) <root>`                                |
+| 0.8% | 85.5 KiB | `FunctionExecutable ← Function ← .declarator Object ← .jquery.uls.data Object ← (several retainers) <root>` |
+| 0.8% | 84.7 KiB | `.ext.wikimediaEvents@1o9qe Object ← .items Object ← (several retainers) <root>`                            |
+| 0.8% | 84.7 KiB | `.ext.wikimediaEvents@1o9qe Object ← .items Object ← (several retainers) <root>`                            |
+| 0.7% | 70.1 KiB | `.mmv.codex@1inu8 Object ← .items Object ← (several retainers) <root>`                                      |
+| 0.7% | 70.1 KiB | `.mmv.codex@1inu8 Object ← .items Object ← (several retainers) <root>`                                      |
+| 0.6% | 61.7 KiB | `.skins.vector.js@1s6hs Object ← .items Object ← (several retainers) <root>`                                |
+| 0.6% | 61.7 KiB | `.skins.vector.js@1s6hs Object ← .items Object ← (several retainers) <root>`                                |
+| 0.5% | 50.7 KiB | `.ext.quicksurveys.lib@1to1x Object ← .items Object ← (several retainers) <root>`                           |
+| 0.5% | 50.1 KiB | `FunctionExecutable ← Function ← .declarator Object ← (several retainers) <root>`                           |
+| 0.4% | 47.5 KiB | `.ext.uls.interface@1u7jd Object ← .items Object ← (several retainers) <root>`                              |
+| 0.4% | 47.5 KiB | `.ext.uls.interface@1u7jd Object ← .items Object ← (several retainers) <root>`                              |
+| 0.4% | 43.1 KiB | `.jquery.uls.data@1150b Object ← .items Object ← (several retainers) <root>`                                |
+| 0.3% | 34.3 KiB | `(several retainers) <root>`                                                                                |
+| 0.3% | 34.3 KiB | `[0] Array ← .css Object ← .style Object ← .mmv.codex Object ← (several retainers) <root>`                  |
+| 0.3% | 33.9 KiB | `<root>`                                                                                                    |

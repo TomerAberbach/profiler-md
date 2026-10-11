@@ -154,22 +154,30 @@ export const functionColumns = (
   { header: `Example path`, cellOf: row => codeCell(row.examplePath) },
 ]
 
-/** A node's row within a retained or strings table. */
+/** A node's row within a strings table. */
 export type NodeRow = SizeRow & {
   name?: string
   path: string
 }
 
-/** The columns of a function's largest retained nodes table. */
-export const retainedColumns: Table<NodeRow> = [
+/** A retained node's row, located at its function or constructor. */
+export type RetainedRow = SizeRow & {
+  entity: LabeledEntity
+  path: string
+}
+
+/**
+ * The columns of a function's largest retained nodes table, whose path column
+ * is headed {@link pathHeader}.
+ */
+export const retainedColumns = (
+  pathHeader: string,
+  hasLocation: boolean,
+  options: FormattingProfileToMdOptions,
+): Table<RetainedRow> => [
   ...sizeColumns(`Self`),
-  {
-    header: `Name`,
-    cellOf: row =>
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      codeCell(row.name || `(unknown)`),
-  },
-  { header: `Path`, cellOf: row => codeCell(row.path) },
+  ...entityColumns(`Name`, hasLocation, options),
+  { header: pathHeader, cellOf: row => codeCell(row.path) },
 ]
 
 /** The columns of the largest strings table. */

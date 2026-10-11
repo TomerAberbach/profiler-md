@@ -145,10 +145,11 @@ export const evaluate = (
         ? positionOf(currentFunc?.location)
         : currentFunc?.location) !== undefined
     const weight = inputTotal === 0 ? 0 : totalOf(baseFunc) / inputTotal
+    const outcome = pairOutcome(currentFunc, truth.expected, predicted)
     for (const scores of byPosition
       ? [evaluation.all, evaluation.byPosition]
       : [evaluation.all]) {
-      scorePair(scores, currentFunc, truth.expected, predicted, weight)
+      addOutcome(scores, outcome, weight)
     }
     if (currentFunc && truth.expected.includes(currentFunc)) {
       scoreLines(baseFunc, currentFunc, truth.source)
@@ -187,29 +188,26 @@ const functionsBySource = (
       ),
   )
 
-const sourceKey = (name: string, source: string): string => `${name}\0${source}`
+/** Identifies an entity by its matched name and its source reference. */
+export const sourceKey = (name: string, source: string): string =>
+  `${name}\0${source}`
 
 /**
- * Adds the diff's pairing of a base function with `currentFunc` to the scores,
- * given `expected`, the current functions the ground truth pairs it with, and
+ * The outcome of the diff pairing a base entity with {@link current}, given
+ * {@link expected}, the current entities the ground truth pairs it with, and
  * whether the pairing is a prediction the ground truth can check.
  */
-const scorePair = (
-  scores: Scores,
-  currentFunc: Func | undefined,
-  expected: readonly Func[],
+export const pairOutcome = <Entity>(
+  current: Entity | undefined,
+  expected: readonly Entity[],
   predicted: boolean,
-  funcWeight: number,
-): void =>
-  addOutcome(
-    scores,
-    {
-      hasExpected: expected.length > 0,
-      predicted,
-      correct: currentFunc !== undefined && expected.includes(currentFunc),
-    },
-    funcWeight,
-  )
+): Outcome => ({
+  hasExpected: expected.length > 0,
+  predicted,
+  correct: current !== undefined && expected.includes(current),
+})
+
+type Outcome = { hasExpected: boolean; predicted: boolean; correct: boolean }
 
 /**
  * Adds one pairing to the scores: whether the ground truth expects a
@@ -218,11 +216,7 @@ const scorePair = (
  */
 export const addOutcome = (
   { count, weight }: Scores,
-  {
-    hasExpected,
-    predicted,
-    correct,
-  }: { hasExpected: boolean; predicted: boolean; correct: boolean },
+  { hasExpected, predicted, correct }: Outcome,
   outcomeWeight: number,
 ): void => {
   for (const [score, amount] of [
