@@ -528,7 +528,7 @@ test(`sourceMaps resolves relative sources against an inferred base URL without 
   expectLogs([
     ...DETECTION_LOGS,
     `info: inferred base URL: file:///project/dist/`,
-    `debug: the base URL is the common directory of 2 absolute locations categorized as ours`,
+    `debug: the base URL is the common directory of 2 of the 2 absolute locations categorized as ours, the most that share a top-level directory`,
     `info: source maps matched 1 of 2 generated files`,
     `debug: file:///project/dist/a.js is mapped by the source map for file:///project/dist/a.js`,
     `debug: file:///project/dist/b.js has no source map`,

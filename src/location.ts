@@ -547,9 +547,14 @@ export const sourceReferenceId = (
 
 /**
  * Returns the deepest directory URL containing every URL in {@link urls} that
- * shares the dominant root (the root with the most URLs, first-seen winning
- * ties), or `undefined` when there are no URLs. A root is the protocol and host,
- * and a Windows drive or a UNC share, as {@link splitURLPath} splits it.
+ * shares the dominant group (the group with the most URLs, first-seen winning
+ * ties), and the number of URLs in that group, or `undefined` when there are no
+ * URLs. A group is a root, the protocol and host, and a Windows drive or a UNC
+ * share, as {@link splitURLPath} splits it. A `file:` URL's group is also its
+ * first directory below the root, because a `file:` base URL at the root
+ * formats no path relative to it, so a file outside the dominant directory
+ * (`/venv/bin/black` next to `/src/black/...`) can't move the result up to the
+ * root.
  *
  * Excludes each URL's last path segment (the filename), so a single URL
  * yields its containing directory. The result always ends with a `/` and
@@ -557,11 +562,14 @@ export const sourceReferenceId = (
  */
 export const commonAncestorDirectoryURL = (
   urls: Iterable<URL>,
-): URL | undefined => {
-  const groups = new Map<
-    string,
-    { count: number; commonSegments: string[]; symlink?: Symlink }
-  >()
+): { url: URL; urlCount: number } | undefined => {
+  type Group = {
+    root: string
+    count: number
+    commonSegments: string[]
+    symlink?: Symlink
+  }
+  const groups = new Map<string, Group>()
 
   for (const url of urls) {
     const { root, segments: pathSegments, symlink } = splitURLPath(url)
@@ -570,9 +578,13 @@ export const commonAncestorDirectoryURL = (
     // parent.
     const segments = pathSegments.slice(0, -1)
 
-    const group = groups.get(root)
+    const key =
+      url.protocol === `file:` && segments.length > 0
+        ? `${root}/${segments[0]}`
+        : root
+    const group = groups.get(key)
     if (!group) {
-      groups.set(root, { count: 1, commonSegments: segments, symlink })
+      groups.set(key, { root, count: 1, commonSegments: segments, symlink })
       continue
     }
 
@@ -583,13 +595,10 @@ export const commonAncestorDirectoryURL = (
     )
   }
 
-  let dominant:
-    { root: string; commonSegments: string[]; symlink?: Symlink } | undefined
-  let dominantCount = 0
-  for (const [root, { count, commonSegments, symlink }] of groups) {
-    if (count > dominantCount) {
-      dominant = { root, commonSegments, symlink }
-      dominantCount = count
+  let dominant: Group | undefined
+  for (const group of groups.values()) {
+    if (group.count > (dominant?.count ?? 0)) {
+      dominant = group
     }
   }
 
@@ -598,12 +607,15 @@ export const commonAncestorDirectoryURL = (
   }
 
   // The result keeps the first URL's spelling of a symlink's target.
-  const { root, commonSegments, symlink } = dominant
+  const { root, count, commonSegments, symlink } = dominant
   const segments =
     symlink && hasSegmentPrefix(commonSegments, symlink.link)
       ? [...symlink.target, ...commonSegments.slice(symlink.link.length)]
       : commonSegments
-  return new URL([root, ...segments, ``].join(`/`))
+  return {
+    url: new URL([root, ...segments, ``].join(`/`)),
+    urlCount: count,
+  }
 }
 
 const commonSegmentPrefixLength = (

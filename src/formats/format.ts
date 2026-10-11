@@ -100,9 +100,9 @@ const makeFormattingProfileToMdOptions = (
       }
     }
   }
-  const inferredBaseURL = commonAncestorDirectoryURL(urls)
-  logInferredBaseURL(inferredBaseURL, urls, options)
-  return { ...options, baseURL: inferredBaseURL, sourceMaps }
+  const inferred = commonAncestorDirectoryURL(urls)
+  logInferredBaseURL(inferred, urls, options)
+  return { ...options, baseURL: inferred?.url, sourceMaps }
 }
 
 function* locations(inputs: AggregatedInput[]): Iterable<EntityLocation> {
@@ -112,14 +112,14 @@ function* locations(inputs: AggregatedInput[]): Iterable<EntityLocation> {
 }
 
 const logInferredBaseURL = (
-  inferredBaseURL: URL | undefined,
+  inferred: { url: URL; urlCount: number } | undefined,
   urls: readonly URL[],
   { logger }: NormalizedProfileToMdOptions,
 ): void => {
-  if (inferredBaseURL) {
-    logger.info?.(`inferred base URL: ${inferredBaseURL.href}`)
+  if (inferred) {
+    logger.info?.(`inferred base URL: ${inferred.url.href}`)
     logger.debug?.(
-      `the base URL is the common directory of ${urls.length} absolute locations categorized as ours`,
+      `the base URL is the common directory of ${inferred.urlCount} of the ${urls.length} absolute locations categorized as ours, the most that share a top-level directory`,
     )
   } else {
     logger.warn?.(
