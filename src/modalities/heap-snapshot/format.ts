@@ -48,7 +48,11 @@ import type {
   AggregatedHeapSnapshotString,
 } from './aggregate.ts'
 import { shownRetainedNodes } from './aggregate.ts'
-import { diffRetainerPaths, matchConstructorInstanceGroups } from './diff.ts'
+import {
+  diffRetainerPaths,
+  matchConstructorInstanceGroups,
+  matchFunctionRetainedNodeGroups,
+} from './diff.ts'
 import type {
   AggregatedHeapSnapshotDiff,
   AggregatedHeapSnapshotEntityDiff,
@@ -56,6 +60,8 @@ import type {
   DiffedHeapSnapshotEntity,
   DiffedHeapSnapshotFunction,
   DiffedInstanceGroup,
+  DiffRetainerPaths,
+  RetainerGroup,
   RetainerPaths,
 } from './diff.ts'
 import {
@@ -458,9 +464,9 @@ const formatFunctionRetainedNodes = ({
   return [
     formatEntityHeading(4, fn, hasLocation, options),
     formatTable(
-      retainedColumns,
+      retainedColumns(`Path`, hasLocation, options),
       retainedNodes.map(node => ({
-        name: node.name,
+        entity: node,
         size: node.selfSize,
         total: fn.retainedSize,
         path: snapshot.retainerPathOf(node.id, options),
@@ -531,13 +537,24 @@ export const formatHeapSnapshotDiff = (
       diff.strings.some(entity => showDiffEntity(entity, diff, options)),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
+  const retainerPaths = diffRetainerPaths(diff, sectionOptions)
   return [
     heading(1, `Heap snapshot diff`),
     ...formatDiffSummary(diff),
     ...formatBaseURLNote(options),
     ...notes,
-    ...formatDiffConstructors({ diff, hasLocation, options: sectionOptions }),
-    ...formatDiffFunctions({ diff, hasLocation, options: sectionOptions }),
+    ...formatDiffConstructors({
+      diff,
+      hasLocation,
+      retainerPaths,
+      options: sectionOptions,
+    }),
+    ...formatDiffFunctions({
+      diff,
+      hasLocation,
+      retainerPaths,
+      options: sectionOptions,
+    }),
     ...formatDiffStrings({ diff, options: sectionOptions }),
   ]
 }
@@ -604,10 +621,12 @@ const formatDiffCategoryTable = (
 const formatDiffConstructors = ({
   diff,
   hasLocation,
+  retainerPaths,
   options,
 }: {
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
+  retainerPaths: DiffRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   // Resolved once for both rankings: a category qualifies for a subsection by
@@ -623,7 +642,11 @@ const formatDiffConstructors = ({
     minCategoryShare: options.minCategoryShare,
   })
 
-  const instanceGroupDiffs = memoizeInstanceGroupDiffs(diff, options)
+  const instanceGroupDiffs = memoizeInstanceGroupDiffs(
+    diff,
+    retainerPaths,
+    options,
+  )
 
   return formatSectionGroup(
     [heading(2, `Largest constructors`)],
@@ -633,6 +656,7 @@ const formatDiffConstructors = ({
         hasLocation,
         categories,
         instanceGroupDiffs,
+        paths: retainerPaths.paths,
         options,
         size: SELF_SIZE,
       }),
@@ -641,6 +665,7 @@ const formatDiffConstructors = ({
         hasLocation,
         categories,
         instanceGroupDiffs,
+        paths: retainerPaths.paths,
         options,
         size: RETAINED_SIZE,
       }),
@@ -648,12 +673,9 @@ const formatDiffConstructors = ({
   )
 }
 
-type InstanceGroupDiffs = {
-  paths: RetainerPaths
-  instanceGroupDiffsOf: (
-    constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
-  ) => EntryDiff<DiffedInstanceGroup>[]
-}
+type InstanceGroupDiffs = (
+  constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
+) => EntryDiff<DiffedInstanceGroup>[]
 
 /**
  * Pairs each constructor's instance groups once, because both rankings break
@@ -661,28 +683,25 @@ type InstanceGroupDiffs = {
  */
 const memoizeInstanceGroupDiffs = (
   diff: AggregatedHeapSnapshotDiff,
+  retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
 ): InstanceGroupDiffs => {
-  const retainerPaths = diffRetainerPaths(diff, options)
   const constructorToInstanceGroupDiffs = new Map<
     AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
     EntryDiff<DiffedInstanceGroup>[]
   >()
-  return {
-    paths: retainerPaths.paths,
-    instanceGroupDiffsOf: constructor => {
-      let groupDiffs = constructorToInstanceGroupDiffs.get(constructor)
-      if (!groupDiffs) {
-        groupDiffs = matchConstructorInstanceGroups(
-          diff,
-          constructor,
-          retainerPaths,
-          options,
-        )
-        constructorToInstanceGroupDiffs.set(constructor, groupDiffs)
-      }
-      return groupDiffs
-    },
+  return constructor => {
+    let groupDiffs = constructorToInstanceGroupDiffs.get(constructor)
+    if (!groupDiffs) {
+      groupDiffs = matchConstructorInstanceGroups(
+        diff,
+        constructor,
+        retainerPaths,
+        options,
+      )
+      constructorToInstanceGroupDiffs.set(constructor, groupDiffs)
+    }
+    return groupDiffs
   }
 }
 
@@ -691,6 +710,7 @@ const formatDiffSizeConstructors = ({
   hasLocation,
   categories,
   instanceGroupDiffs,
+  paths,
   options,
   size: { sizeOf, formatHeader, description },
 }: {
@@ -698,6 +718,7 @@ const formatDiffSizeConstructors = ({
   hasLocation: boolean
   categories: HeapSnapshotNodeCategory[]
   instanceGroupDiffs: InstanceGroupDiffs
+  paths: RetainerPaths
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
@@ -733,8 +754,9 @@ const formatDiffSizeConstructors = ({
   }).flatMap(({ entity }) =>
     formatDiffConstructorInstances({
       constructor: entity,
+      groupDiffs: instanceGroupDiffs(entity),
+      paths,
       sizeOf,
-      instanceGroupDiffs,
       hasLocation,
       options,
     }),
@@ -763,29 +785,75 @@ const formatDiffSizeConstructors = ({
   })
 }
 
-/**
- * A constructor's instance groups whose size changed the most either way,
- * paired across the sides by retainer path.
- *
- * Unlike the non-diff breakdown, which stops at the largest groups, it groups
- * every shown instance, because a group's change needs its whole size on both
- * sides. It formats only the paths of the groups it shows.
- */
 const formatDiffConstructorInstances = ({
   constructor,
+  groupDiffs,
+  paths,
   sizeOf,
-  instanceGroupDiffs: { paths, instanceGroupDiffsOf },
   hasLocation,
   options,
 }: {
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>
+  groupDiffs: EntryDiff<DiffedInstanceGroup>[]
+  paths: RetainerPaths
   sizeOf: ConstructorSize[`sizeOf`]
-  instanceGroupDiffs: InstanceGroupDiffs
+  hasLocation: boolean
+  options: FormattingProfileToMdOptions
+}): RootContent[] =>
+  formatDiffEntityGroups({
+    entity: constructor,
+    groupDiffs,
+    sizeOf,
+    totalOf: sizeOf,
+    headingLevel: 5,
+    columns: instanceColumns,
+    rowOf: (group, size, total) => ({
+      size,
+      total,
+      instanceCount: group.instanceCount,
+      retainerPath: paths.format(group.path, constructor),
+    }),
+    hasLocation,
+    options,
+  })
+
+/**
+ * An entity's groups whose size changed the most either way, paired across the
+ * sides.
+ *
+ * Unlike the non-diff breakdowns, which stop at the largest nodes, a diff
+ * groups every shown node, because a group's change needs its whole size on
+ * both sides. It formats only the paths of the groups it shows.
+ */
+const formatDiffEntityGroups = <
+  Entity extends DiffedHeapSnapshotEntity,
+  Group extends RetainerGroup,
+  Row,
+>({
+  entity,
+  groupDiffs,
+  sizeOf,
+  totalOf,
+  headingLevel,
+  columns,
+  rowOf,
+  hasLocation,
+  options,
+}: {
+  entity: AggregatedHeapSnapshotEntityDiff<Entity>
+  groupDiffs: EntryDiff<Group>[]
+  sizeOf: (group: Group) => number
+
+  /** The size a group's share is of. */
+  totalOf: (entity: Entity) => number
+  headingLevel: Heading[`depth`]
+  columns: Table<Row>
+  rowOf: (group: Group, size: number, total: number) => Row
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const changedGroups = selectLargestChanges(
-    instanceGroupDiffsOf(constructor),
+    groupDiffs,
     Math.ceil(options.topN / 4),
     ({ base, current }) =>
       (current ? sizeOf(current) : 0) - (base ? sizeOf(base) : 0),
@@ -794,24 +862,15 @@ const formatDiffConstructorInstances = ({
     return []
   }
 
-  const sideRowOf = (
-    entity: DiffedHeapSnapshotEntity | undefined,
-    group: DiffedInstanceGroup | undefined,
-  ) =>
-    entity &&
-    group && {
-      size: sizeOf(group),
-      total: sizeOf(entity),
-      instanceCount: group.instanceCount,
-      retainerPath: paths.format(group.path, constructor),
-    }
+  const sideRowOf = (side: Entity | undefined, group: Group | undefined) =>
+    side && group && rowOf(group, sizeOf(group), totalOf(side))
   return [
-    formatEntityHeading(5, constructor, hasLocation, options),
+    formatEntityHeading(headingLevel, entity, hasLocation, options),
     formatDiffTable(
-      instanceColumns,
+      columns,
       changedGroups.map(({ base, current }) => ({
-        base: sideRowOf(constructor.base, base),
-        current: sideRowOf(constructor.current, current),
+        base: sideRowOf(entity.base, base),
+        current: sideRowOf(entity.current, current),
       })),
     ),
   ]
@@ -820,10 +879,12 @@ const formatDiffConstructorInstances = ({
 const formatDiffFunctions = ({
   diff,
   hasLocation,
+  retainerPaths,
   options,
 }: {
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
+  retainerPaths: DiffRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const { increases, decreases, hasActive } = selectDiffEntities(
@@ -844,6 +905,20 @@ const formatDiffFunctions = ({
     current: current && functionRowOf(current, diff.current, options),
   })
 
+  const retainedSections = shownDiffEntities({
+    improvement: BYTES_METRIC.improvement,
+    increases,
+    decreases,
+  }).flatMap(({ entity }) =>
+    formatDiffFunctionRetainedNodes({
+      diff,
+      fn: entity,
+      retainerPaths,
+      hasLocation,
+      options,
+    }),
+  )
+
   return formatDiffEntitySections({
     formatHeader: formatLargestFunctionsHeading,
     headingLevel: 3,
@@ -854,8 +929,52 @@ const formatDiffFunctions = ({
     increases,
     decreases,
     rowOf: ({ entity }) => rowOf(entity),
+    detailSections: formatSectionGroup(
+      [
+        heading(3, `Retained`),
+        paragraph(
+          phrasing`Nodes with the largest change in contribution to each function's retained size.${SEVERAL_PATHS_NOTE} ${inlineCode(`[]`)} stands for any element of an array.`,
+        ),
+      ],
+      retainedSections,
+    ),
   })
 }
+
+const formatDiffFunctionRetainedNodes = ({
+  diff,
+  fn,
+  retainerPaths,
+  hasLocation,
+  options,
+}: {
+  diff: AggregatedHeapSnapshotDiff
+  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>
+  retainerPaths: DiffRetainerPaths
+  hasLocation: boolean
+  options: FormattingProfileToMdOptions
+}): RootContent[] =>
+  formatDiffEntityGroups({
+    entity: fn,
+    groupDiffs: matchFunctionRetainedNodeGroups(
+      diff,
+      fn,
+      retainerPaths,
+      options,
+    ),
+    sizeOf: group => group.selfSize,
+    totalOf: side => side.retainedSize,
+    headingLevel: 4,
+    columns: retainedColumns(`Path within instance`, hasLocation, options),
+    rowOf: (group, size, total) => ({
+      entity: group.node,
+      path: retainerPaths.within.paths.format(group.path, group.node),
+      size,
+      total,
+    }),
+    hasLocation,
+    options,
+  })
 
 const functionRowOf = (
   entity: DiffedHeapSnapshotFunction,

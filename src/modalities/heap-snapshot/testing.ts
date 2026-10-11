@@ -20,6 +20,7 @@ import type {
 } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
+import { newOutermostInstanceIdsOf } from './retained.ts'
 import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 /**
@@ -124,21 +125,27 @@ export const makeAggregatedHeapSnapshot = ({
 /**
  * The retainer hops of nodes at the given retainer paths, by node ordinal, and
  * their retainers. Each step's retainer is a node of its own, numbered after
- * the paths' nodes.
+ * the paths' nodes, except that a path's last hop ends at its node in
+ * {@link endOrdinals} when given.
  */
 export const makeRetainerHops = (
   paths: readonly (readonly RetainerPathStep[])[],
+  endOrdinals: readonly (number | undefined)[] = [],
 ): Pick<
   AggregatedHeapSnapshot,
-  `nodeCount` | `retainerHopOf` | `retainerOf`
+  `nodeCount` | `outermostInstanceIdsOf` | `retainerHopOf` | `retainerOf`
 > => {
   const hops: RetainerHop[] = []
   const retainers: RetainerNode[] = []
   let nodeCount = paths.length
   for (const [nodeOrdinal, steps] of paths.entries()) {
+    const endOrdinal = endOrdinals[nodeOrdinal]
     let retainedOrdinal = nodeOrdinal
-    for (const step of steps) {
-      const dominatorOrdinal = nodeCount++
+    for (const [index, step] of steps.entries()) {
+      const dominatorOrdinal =
+        index === steps.length - 1 && endOrdinal !== undefined
+          ? endOrdinal
+          : nodeCount++
       hops[retainedOrdinal] = {
         dominatorOrdinal,
         edge: step.edge,
@@ -148,8 +155,16 @@ export const makeRetainerHops = (
       retainedOrdinal = dominatorOrdinal
     }
   }
+  // A node without a hop dominates itself, like the GC root.
+  const ordinalToImmediateDominatorOrdinal = Int32Array.from(
+    { length: nodeCount },
+    (_, nodeOrdinal) => hops[nodeOrdinal]?.dominatorOrdinal ?? nodeOrdinal,
+  )
   return {
     nodeCount,
+    outermostInstanceIdsOf: newOutermostInstanceIdsOf(
+      ordinalToImmediateDominatorOrdinal,
+    ),
     retainerHopOf: nodeOrdinal => hops[nodeOrdinal],
     retainerOf: nodeOrdinal => retainers[nodeOrdinal]!,
   }
