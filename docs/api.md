@@ -114,7 +114,7 @@ const options = {
   // break down every category.
   minCategoryShare: 0.05,
   // Make paths relative to a custom base URL or directory, or pass `auto` to
-  // infer the profiled files' common ancestor directory.
+  // infer one from the locations of the program's own code.
   baseURL: `/path/to/project`,
   // Receive the conversion's diagnostics: at `warn`, an option or input that
   // had no effect; at `info`, each decision made on your behalf; and at

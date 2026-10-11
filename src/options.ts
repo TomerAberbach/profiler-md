@@ -170,9 +170,8 @@ export type ProfileToMdOptions = {
    *
    * Accepts an absolute file path string or URL.
    *
-   * A value of `'auto'` infers the base URL as the common ancestor directory
-   * of the input's entries with absolute locations (`file:`, `http(s):`, etc.),
-   * across all profiles of an input and across both sides of a diff.
+   * A value of `'auto'` infers a base URL from the locations of the program's
+   * own code.
    *
    * A path stays absolute when it goes up more than two directories from the
    * base URL. A `file:` path also stays absolute when it shares no directory
