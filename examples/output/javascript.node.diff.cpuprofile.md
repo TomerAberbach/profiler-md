@@ -21,28 +21,28 @@ Functions with the largest increase in time spent directly in the function body,
 
 ##### Third-party
 
-|   Change |    Delta |            % |            Time | Samples | Function                     | Location                                                        |
-| -------: | -------: | -----------: | --------------: | ------: | ---------------------------- | --------------------------------------------------------------- |
-|   +47.2% | +13.04ms |  1.1% → 1.7% | 27.6ms → 40.7ms | 25 → 31 | `scan`                       | `node_modules/typescript/lib/typescript.js:12765:16 → 12895:16` |
-|   +32.2% | +12.55ms |  1.5% → 2.2% | 38.9ms → 51.5ms | 33 → 46 | `checkTypeRelatedTo`         | `node_modules/typescript/lib/typescript.js:66185:30 → 67445:30` |
-|  +151.6% |  +8.59ms |  0.2% → 0.6% |  5.7ms → 14.3ms |  5 → 15 | `checkIdentifier`            | `node_modules/typescript/lib/typescript.js:72959:27 → 74242:27` |
-|  +590.2% |  +7.63ms |  0.1% → 0.4% |   1.3ms → 8.9ms |   1 → 7 | `parseExpected`              | `node_modules/typescript/lib/typescript.js:32036:25 → 33091:25` |
-|   +20.2% |  +6.92ms |  1.4% → 1.7% | 34.3ms → 41.2ms | 43 → 48 | `isRelatedTo`                | `node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
-|      new |  +6.88ms |  0.0% → 0.3% |     0ms → 6.9ms |   0 → 6 | `nextToken`                  | `node_modules/typescript/lib/typescript.js:31960:21 → 33015:21` |
-|   +30.8% |  +6.38ms |  0.8% → 1.1% | 20.7ms → 27.0ms | 29 → 33 | `bind`                       | `node_modules/typescript/lib/typescript.js:46600:16 → 47793:16` |
-|  +159.2% |  +6.17ms |  0.2% → 0.4% |  3.9ms → 10.0ms |   4 → 9 | `addInheritedMembers`        | `node_modules/typescript/lib/typescript.js:59027:31 → 60282:31` |
-|   +19.8% |  +5.87ms |  1.2% → 1.5% | 29.6ms → 35.5ms | 27 → 33 | `getObjectTypeInstantiation` | `node_modules/typescript/lib/typescript.js:64785:38 → 66040:38` |
-|  +116.8% |  +5.79ms |  0.2% → 0.4% |  5.0ms → 10.7ms |   4 → 9 | `getResolvedSymbol`          | `node_modules/typescript/lib/typescript.js:70627:29 → 71910:29` |
-|   +34.7% |  +5.42ms |  0.6% → 0.9% | 15.6ms → 21.0ms | 13 → 18 | `createTypeReference`        | `node_modules/typescript/lib/typescript.js:61539:31 → 62794:31` |
-|      new |  +5.25ms |  0.0% → 0.2% |     0ms → 5.3ms |   0 → 4 | `parseLiteralTypeNode`       | `node_modules/typescript/lib/typescript.js:33724:32 → 34779:32` |
-|  +206.7% |  +5.17ms |  0.1% → 0.3% |   2.5ms → 7.7ms |   3 → 7 | `iterateCommentRanges`       | `node_modules/typescript/lib/typescript.js:11916:30 → 12043:30` |
-|  +187.9% |  +5.17ms |  0.1% → 0.3% |   2.8ms → 7.9ms |   3 → 7 | `createTypeMapper`           | `node_modules/typescript/lib/typescript.js:64649:28 → 65904:28` |
-|  +128.0% |  +4.96ms |  0.2% → 0.4% |   3.9ms → 8.8ms |   4 → 7 | `getRelationKey`             | `node_modules/typescript/lib/typescript.js:68729:26 → 69989:26` |
-| +1883.6% |  +4.71ms | <0.1% → 0.2% |   0.3ms → 5.0ms |   2 → 4 | `checkExpression`            | `node_modules/typescript/lib/typescript.js:81476:27 → 82771:27` |
-|  +114.7% |  +4.54ms |  0.2% → 0.4% |   4.0ms → 8.5ms |   5 → 8 | `getTypeAtFlowAssignment`    | `node_modules/typescript/lib/typescript.js:71742:37 → 73025:37` |
-|   +69.6% |  +4.29ms |  0.2% → 0.4% |  6.2ms → 10.5ms | 12 → 16 | `checkExpressionWorker`      | `node_modules/typescript/lib/typescript.js:81516:33 → 82811:33` |
-| +1018.9% |  +4.25ms | <0.1% → 0.2% |   0.4ms → 4.7ms |   1 → 4 | `createNodeArray`            | `node_modules/typescript/lib/typescript.js:32232:27 → 33287:27` |
-|   +49.8% |  +4.08ms |  0.3% → 0.5% |  8.2ms → 12.3ms |  8 → 10 | `nextTokenWithoutCheck`      | `node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
+|   Change |    Delta |            % |            Time | Samples | Function                     | Location                                                          |
+| -------: | -------: | -----------: | --------------: | ------: | ---------------------------- | ----------------------------------------------------------------- |
+|   +47.2% | +13.04ms |  1.1% → 1.7% | 27.6ms → 40.7ms | 25 → 31 | `scan`                       | `./node_modules/typescript/lib/typescript.js:12765:16 → 12895:16` |
+|   +32.2% | +12.55ms |  1.5% → 2.2% | 38.9ms → 51.5ms | 33 → 46 | `checkTypeRelatedTo`         | `./node_modules/typescript/lib/typescript.js:66185:30 → 67445:30` |
+|  +151.6% |  +8.59ms |  0.2% → 0.6% |  5.7ms → 14.3ms |  5 → 15 | `checkIdentifier`            | `./node_modules/typescript/lib/typescript.js:72959:27 → 74242:27` |
+|  +590.2% |  +7.63ms |  0.1% → 0.4% |   1.3ms → 8.9ms |   1 → 7 | `parseExpected`              | `./node_modules/typescript/lib/typescript.js:32036:25 → 33091:25` |
+|   +20.2% |  +6.92ms |  1.4% → 1.7% | 34.3ms → 41.2ms | 43 → 48 | `isRelatedTo`                | `./node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
+|      new |  +6.88ms |  0.0% → 0.3% |     0ms → 6.9ms |   0 → 6 | `nextToken`                  | `./node_modules/typescript/lib/typescript.js:31960:21 → 33015:21` |
+|   +30.8% |  +6.38ms |  0.8% → 1.1% | 20.7ms → 27.0ms | 29 → 33 | `bind`                       | `./node_modules/typescript/lib/typescript.js:46600:16 → 47793:16` |
+|  +159.2% |  +6.17ms |  0.2% → 0.4% |  3.9ms → 10.0ms |   4 → 9 | `addInheritedMembers`        | `./node_modules/typescript/lib/typescript.js:59027:31 → 60282:31` |
+|   +19.8% |  +5.87ms |  1.2% → 1.5% | 29.6ms → 35.5ms | 27 → 33 | `getObjectTypeInstantiation` | `./node_modules/typescript/lib/typescript.js:64785:38 → 66040:38` |
+|  +116.8% |  +5.79ms |  0.2% → 0.4% |  5.0ms → 10.7ms |   4 → 9 | `getResolvedSymbol`          | `./node_modules/typescript/lib/typescript.js:70627:29 → 71910:29` |
+|   +34.7% |  +5.42ms |  0.6% → 0.9% | 15.6ms → 21.0ms | 13 → 18 | `createTypeReference`        | `./node_modules/typescript/lib/typescript.js:61539:31 → 62794:31` |
+|      new |  +5.25ms |  0.0% → 0.2% |     0ms → 5.3ms |   0 → 4 | `parseLiteralTypeNode`       | `./node_modules/typescript/lib/typescript.js:33724:32 → 34779:32` |
+|  +206.7% |  +5.17ms |  0.1% → 0.3% |   2.5ms → 7.7ms |   3 → 7 | `iterateCommentRanges`       | `./node_modules/typescript/lib/typescript.js:11916:30 → 12043:30` |
+|  +187.9% |  +5.17ms |  0.1% → 0.3% |   2.8ms → 7.9ms |   3 → 7 | `createTypeMapper`           | `./node_modules/typescript/lib/typescript.js:64649:28 → 65904:28` |
+|  +128.0% |  +4.96ms |  0.2% → 0.4% |   3.9ms → 8.8ms |   4 → 7 | `getRelationKey`             | `./node_modules/typescript/lib/typescript.js:68729:26 → 69989:26` |
+| +1883.6% |  +4.71ms | <0.1% → 0.2% |   0.3ms → 5.0ms |   2 → 4 | `checkExpression`            | `./node_modules/typescript/lib/typescript.js:81476:27 → 82771:27` |
+|  +114.7% |  +4.54ms |  0.2% → 0.4% |   4.0ms → 8.5ms |   5 → 8 | `getTypeAtFlowAssignment`    | `./node_modules/typescript/lib/typescript.js:71742:37 → 73025:37` |
+|   +69.6% |  +4.29ms |  0.2% → 0.4% |  6.2ms → 10.5ms | 12 → 16 | `checkExpressionWorker`      | `./node_modules/typescript/lib/typescript.js:81516:33 → 82811:33` |
+| +1018.9% |  +4.25ms | <0.1% → 0.2% |   0.4ms → 4.7ms |   1 → 4 | `createNodeArray`            | `./node_modules/typescript/lib/typescript.js:32232:27 → 33287:27` |
+|   +49.8% |  +4.08ms |  0.3% → 0.5% |  8.2ms → 12.3ms |  8 → 10 | `nextTokenWithoutCheck`      | `./node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
 
 ##### Standard library
 
@@ -66,53 +66,53 @@ Functions with the largest increase in time spent directly in the function body,
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-|  Change |    Delta |            % |              Time |   Samples | Function                            | Location                                                        |
-| ------: | -------: | -----------: | ----------------: | --------: | ----------------------------------- | --------------------------------------------------------------- |
-|  -75.3% | -13.12ms |  0.7% → 0.2% |    17.4ms → 4.3ms |     8 → 6 | `createUnionOrIntersectionProperty` | `node_modules/typescript/lib/typescript.js:60498:45 → 61753:45` |
-|  -17.9% | -12.38ms |  2.7% → 2.4% |   69.0ms → 56.7ms |   65 → 55 | `recursiveTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:67063:36 → 68323:36` |
-|  -33.5% |  -7.79ms |  0.9% → 0.6% |   23.2ms → 15.5ms |   21 → 16 | `getNormalizedType`                 | `node_modules/typescript/lib/typescript.js:66148:29 → 67408:29` |
-|  -71.3% |  -7.75ms |  0.4% → 0.1% |    10.9ms → 3.1ms |     9 → 4 | `getTypeArguments`                  | `node_modules/typescript/lib/typescript.js:61572:28 → 62827:28` |
-|  -57.5% |  -7.71ms |  0.5% → 0.2% |    13.4ms → 5.7ms |    12 → 6 | `instantiateTypeWithAlias`          | `node_modules/typescript/lib/typescript.js:65006:36 → 66266:36` |
-|   -3.4% |  -6.45ms |  7.5% → 7.6% | 187.7ms → 181.2ms | 153 → 148 | `(garbage collector)`               | `<unknown>`                                                     |
-| removed |  -6.25ms |  0.2% → 0.0% |       6.3ms → 0ms |     5 → 0 | `getTokenValue`                     | `node_modules/typescript/lib/typescript.js:12135:20`            |
-|  -73.2% |  -6.25ms |  0.3% → 0.1% |     8.5ms → 2.3ms |     4 → 2 | `isEmptyObjectType`                 | `node_modules/typescript/lib/typescript.js:65964:29 → 67224:29` |
-|  -53.3% |  -6.08ms |  0.5% → 0.2% |    11.4ms → 5.3ms |    14 → 9 | `isSimpleTypeRelatedTo`             | `node_modules/typescript/lib/typescript.js:66052:33 → 67312:33` |
-|  -12.3% |  -6.00ms |  1.9% → 1.8% |   48.8ms → 42.8ms |   52 → 45 | `instantiateTypeWorker`             | `node_modules/typescript/lib/typescript.js:65023:33 → 66283:33` |
-|  -48.5% |  -5.92ms |  0.5% → 0.3% |    12.2ms → 6.3ms |    11 → 7 | `some`                              | `node_modules/typescript/lib/typescript.js:2781:14 → 2794:14`   |
-|  -28.7% |  -5.67ms |  0.8% → 0.6% |   19.8ms → 14.1ms |   19 → 13 | `getPropertyOfType`                 | `node_modules/typescript/lib/typescript.js:60739:29 → 61994:29` |
-|  -84.1% |  -5.50ms | 0.3% → <0.1% |     6.5ms → 1.0ms |     9 → 5 | `getTypePredicateOfSignature`       | `node_modules/typescript/lib/typescript.js:61162:39 → 62417:39` |
-|  -29.4% |  -5.29ms |  0.7% → 0.5% |   18.0ms → 12.7ms |   15 → 11 | `resolveStructuredTypeMembers`      | `node_modules/typescript/lib/typescript.js:60090:40 → 61345:40` |
-|  -77.0% |  -5.29ms |  0.3% → 0.1% |     6.9ms → 1.6ms |     8 → 4 | `getTypeFromTypeNode`               | `node_modules/typescript/lib/typescript.js:64524:31 → 65779:31` |
-|  -33.9% |  -5.17ms |  0.6% → 0.4% |   15.3ms → 10.1ms |    12 → 8 | `stat`                              | `<unknown>`                                                     |
-|   -5.9% |  -5.13ms |         3.4% |   86.5ms → 81.4ms |   69 → 65 | `wrapSafe`                          | `node:internal/modules/cjs/loader:1671:18`                      |
-|  -40.2% |  -5.04ms |  0.5% → 0.3% |    12.5ms → 7.5ms |    10 → 6 | `internIdentifier`                  | `node_modules/typescript/lib/typescript.js:32276:28 → 33331:28` |
-|  -79.9% |  -4.96ms |  0.2% → 0.1% |     6.2ms → 1.3ms |     5 → 1 | `checkSourceElement`                | `node_modules/typescript/lib/typescript.js:86886:30 → 88199:30` |
-| removed |  -4.88ms |  0.2% → 0.0% |       4.9ms → 0ms |     4 → 0 | `getTypeOfMappedSymbol`             | `node_modules/typescript/lib/typescript.js:59989:33 → 61244:33` |
+|  Change |    Delta |            % |              Time |   Samples | Function                            | Location                                                          |
+| ------: | -------: | -----------: | ----------------: | --------: | ----------------------------------- | ----------------------------------------------------------------- |
+|  -75.3% | -13.12ms |  0.7% → 0.2% |    17.4ms → 4.3ms |     8 → 6 | `createUnionOrIntersectionProperty` | `./node_modules/typescript/lib/typescript.js:60498:45 → 61753:45` |
+|  -17.9% | -12.38ms |  2.7% → 2.4% |   69.0ms → 56.7ms |   65 → 55 | `recursiveTypeRelatedTo`            | `./node_modules/typescript/lib/typescript.js:67063:36 → 68323:36` |
+|  -33.5% |  -7.79ms |  0.9% → 0.6% |   23.2ms → 15.5ms |   21 → 16 | `getNormalizedType`                 | `./node_modules/typescript/lib/typescript.js:66148:29 → 67408:29` |
+|  -71.3% |  -7.75ms |  0.4% → 0.1% |    10.9ms → 3.1ms |     9 → 4 | `getTypeArguments`                  | `./node_modules/typescript/lib/typescript.js:61572:28 → 62827:28` |
+|  -57.5% |  -7.71ms |  0.5% → 0.2% |    13.4ms → 5.7ms |    12 → 6 | `instantiateTypeWithAlias`          | `./node_modules/typescript/lib/typescript.js:65006:36 → 66266:36` |
+|   -3.4% |  -6.45ms |  7.5% → 7.6% | 187.7ms → 181.2ms | 153 → 148 | `(garbage collector)`               | `<unknown>`                                                       |
+| removed |  -6.25ms |  0.2% → 0.0% |       6.3ms → 0ms |     5 → 0 | `getTokenValue`                     | `./node_modules/typescript/lib/typescript.js:12135:20`            |
+|  -73.2% |  -6.25ms |  0.3% → 0.1% |     8.5ms → 2.3ms |     4 → 2 | `isEmptyObjectType`                 | `./node_modules/typescript/lib/typescript.js:65964:29 → 67224:29` |
+|  -53.3% |  -6.08ms |  0.5% → 0.2% |    11.4ms → 5.3ms |    14 → 9 | `isSimpleTypeRelatedTo`             | `./node_modules/typescript/lib/typescript.js:66052:33 → 67312:33` |
+|  -12.3% |  -6.00ms |  1.9% → 1.8% |   48.8ms → 42.8ms |   52 → 45 | `instantiateTypeWorker`             | `./node_modules/typescript/lib/typescript.js:65023:33 → 66283:33` |
+|  -48.5% |  -5.92ms |  0.5% → 0.3% |    12.2ms → 6.3ms |    11 → 7 | `some`                              | `./node_modules/typescript/lib/typescript.js:2781:14 → 2794:14`   |
+|  -28.7% |  -5.67ms |  0.8% → 0.6% |   19.8ms → 14.1ms |   19 → 13 | `getPropertyOfType`                 | `./node_modules/typescript/lib/typescript.js:60739:29 → 61994:29` |
+|  -84.1% |  -5.50ms | 0.3% → <0.1% |     6.5ms → 1.0ms |     9 → 5 | `getTypePredicateOfSignature`       | `./node_modules/typescript/lib/typescript.js:61162:39 → 62417:39` |
+|  -29.4% |  -5.29ms |  0.7% → 0.5% |   18.0ms → 12.7ms |   15 → 11 | `resolveStructuredTypeMembers`      | `./node_modules/typescript/lib/typescript.js:60090:40 → 61345:40` |
+|  -77.0% |  -5.29ms |  0.3% → 0.1% |     6.9ms → 1.6ms |     8 → 4 | `getTypeFromTypeNode`               | `./node_modules/typescript/lib/typescript.js:64524:31 → 65779:31` |
+|  -33.9% |  -5.17ms |  0.6% → 0.4% |   15.3ms → 10.1ms |    12 → 8 | `stat`                              | `<unknown>`                                                       |
+|   -5.9% |  -5.13ms |         3.4% |   86.5ms → 81.4ms |   69 → 65 | `wrapSafe`                          | `node:internal/modules/cjs/loader:1671:18`                        |
+|  -40.2% |  -5.04ms |  0.5% → 0.3% |    12.5ms → 7.5ms |    10 → 6 | `internIdentifier`                  | `./node_modules/typescript/lib/typescript.js:32276:28 → 33331:28` |
+|  -79.9% |  -4.96ms |  0.2% → 0.1% |     6.2ms → 1.3ms |     5 → 1 | `checkSourceElement`                | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30` |
+| removed |  -4.88ms |  0.2% → 0.0% |       4.9ms → 0ms |     4 → 0 | `getTypeOfMappedSymbol`             | `./node_modules/typescript/lib/typescript.js:59989:33 → 61244:33` |
 
 ##### Third-party
 
-|  Change |    Delta |            % |            Time | Samples | Function                            | Location                                                        |
-| ------: | -------: | -----------: | --------------: | ------: | ----------------------------------- | --------------------------------------------------------------- |
-|  -75.3% | -13.12ms |  0.7% → 0.2% |  17.4ms → 4.3ms |   8 → 6 | `createUnionOrIntersectionProperty` | `node_modules/typescript/lib/typescript.js:60498:45 → 61753:45` |
-|  -17.9% | -12.38ms |  2.7% → 2.4% | 69.0ms → 56.7ms | 65 → 55 | `recursiveTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:67063:36 → 68323:36` |
-|  -33.5% |  -7.79ms |  0.9% → 0.6% | 23.2ms → 15.5ms | 21 → 16 | `getNormalizedType`                 | `node_modules/typescript/lib/typescript.js:66148:29 → 67408:29` |
-|  -71.3% |  -7.75ms |  0.4% → 0.1% |  10.9ms → 3.1ms |   9 → 4 | `getTypeArguments`                  | `node_modules/typescript/lib/typescript.js:61572:28 → 62827:28` |
-|  -57.5% |  -7.71ms |  0.5% → 0.2% |  13.4ms → 5.7ms |  12 → 6 | `instantiateTypeWithAlias`          | `node_modules/typescript/lib/typescript.js:65006:36 → 66266:36` |
-| removed |  -6.25ms |  0.2% → 0.0% |     6.3ms → 0ms |   5 → 0 | `getTokenValue`                     | `node_modules/typescript/lib/typescript.js:12135:20`            |
-|  -73.2% |  -6.25ms |  0.3% → 0.1% |   8.5ms → 2.3ms |   4 → 2 | `isEmptyObjectType`                 | `node_modules/typescript/lib/typescript.js:65964:29 → 67224:29` |
-|  -53.3% |  -6.08ms |  0.5% → 0.2% |  11.4ms → 5.3ms |  14 → 9 | `isSimpleTypeRelatedTo`             | `node_modules/typescript/lib/typescript.js:66052:33 → 67312:33` |
-|  -12.3% |  -6.00ms |  1.9% → 1.8% | 48.8ms → 42.8ms | 52 → 45 | `instantiateTypeWorker`             | `node_modules/typescript/lib/typescript.js:65023:33 → 66283:33` |
-|  -48.5% |  -5.92ms |  0.5% → 0.3% |  12.2ms → 6.3ms |  11 → 7 | `some`                              | `node_modules/typescript/lib/typescript.js:2781:14 → 2794:14`   |
-|  -28.7% |  -5.67ms |  0.8% → 0.6% | 19.8ms → 14.1ms | 19 → 13 | `getPropertyOfType`                 | `node_modules/typescript/lib/typescript.js:60739:29 → 61994:29` |
-|  -84.1% |  -5.50ms | 0.3% → <0.1% |   6.5ms → 1.0ms |   9 → 5 | `getTypePredicateOfSignature`       | `node_modules/typescript/lib/typescript.js:61162:39 → 62417:39` |
-|  -29.4% |  -5.29ms |  0.7% → 0.5% | 18.0ms → 12.7ms | 15 → 11 | `resolveStructuredTypeMembers`      | `node_modules/typescript/lib/typescript.js:60090:40 → 61345:40` |
-|  -77.0% |  -5.29ms |  0.3% → 0.1% |   6.9ms → 1.6ms |   8 → 4 | `getTypeFromTypeNode`               | `node_modules/typescript/lib/typescript.js:64524:31 → 65779:31` |
-|  -40.2% |  -5.04ms |  0.5% → 0.3% |  12.5ms → 7.5ms |  10 → 6 | `internIdentifier`                  | `node_modules/typescript/lib/typescript.js:32276:28 → 33331:28` |
-|  -79.9% |  -4.96ms |  0.2% → 0.1% |   6.2ms → 1.3ms |   5 → 1 | `checkSourceElement`                | `node_modules/typescript/lib/typescript.js:86886:30 → 88199:30` |
-| removed |  -4.88ms |  0.2% → 0.0% |     4.9ms → 0ms |   4 → 0 | `getTypeOfMappedSymbol`             | `node_modules/typescript/lib/typescript.js:59989:33 → 61244:33` |
-| removed |  -4.83ms |  0.2% → 0.0% |     4.8ms → 0ms |   4 → 0 | `getNonNullableType`                | `node_modules/typescript/lib/typescript.js:69170:30 → 70430:30` |
-|  -64.9% |  -4.71ms |  0.3% → 0.1% |   7.2ms → 2.5ms |   6 → 2 | `resolveCall`                       | `node_modules/typescript/lib/typescript.js:77299:23 → 78594:23` |
-| removed |  -4.67ms |  0.2% → 0.0% |     4.7ms → 0ms |   4 → 0 | `reducePathComponents`              | `node_modules/typescript/lib/typescript.js:9088:30`             |
+|  Change |    Delta |            % |            Time | Samples | Function                            | Location                                                          |
+| ------: | -------: | -----------: | --------------: | ------: | ----------------------------------- | ----------------------------------------------------------------- |
+|  -75.3% | -13.12ms |  0.7% → 0.2% |  17.4ms → 4.3ms |   8 → 6 | `createUnionOrIntersectionProperty` | `./node_modules/typescript/lib/typescript.js:60498:45 → 61753:45` |
+|  -17.9% | -12.38ms |  2.7% → 2.4% | 69.0ms → 56.7ms | 65 → 55 | `recursiveTypeRelatedTo`            | `./node_modules/typescript/lib/typescript.js:67063:36 → 68323:36` |
+|  -33.5% |  -7.79ms |  0.9% → 0.6% | 23.2ms → 15.5ms | 21 → 16 | `getNormalizedType`                 | `./node_modules/typescript/lib/typescript.js:66148:29 → 67408:29` |
+|  -71.3% |  -7.75ms |  0.4% → 0.1% |  10.9ms → 3.1ms |   9 → 4 | `getTypeArguments`                  | `./node_modules/typescript/lib/typescript.js:61572:28 → 62827:28` |
+|  -57.5% |  -7.71ms |  0.5% → 0.2% |  13.4ms → 5.7ms |  12 → 6 | `instantiateTypeWithAlias`          | `./node_modules/typescript/lib/typescript.js:65006:36 → 66266:36` |
+| removed |  -6.25ms |  0.2% → 0.0% |     6.3ms → 0ms |   5 → 0 | `getTokenValue`                     | `./node_modules/typescript/lib/typescript.js:12135:20`            |
+|  -73.2% |  -6.25ms |  0.3% → 0.1% |   8.5ms → 2.3ms |   4 → 2 | `isEmptyObjectType`                 | `./node_modules/typescript/lib/typescript.js:65964:29 → 67224:29` |
+|  -53.3% |  -6.08ms |  0.5% → 0.2% |  11.4ms → 5.3ms |  14 → 9 | `isSimpleTypeRelatedTo`             | `./node_modules/typescript/lib/typescript.js:66052:33 → 67312:33` |
+|  -12.3% |  -6.00ms |  1.9% → 1.8% | 48.8ms → 42.8ms | 52 → 45 | `instantiateTypeWorker`             | `./node_modules/typescript/lib/typescript.js:65023:33 → 66283:33` |
+|  -48.5% |  -5.92ms |  0.5% → 0.3% |  12.2ms → 6.3ms |  11 → 7 | `some`                              | `./node_modules/typescript/lib/typescript.js:2781:14 → 2794:14`   |
+|  -28.7% |  -5.67ms |  0.8% → 0.6% | 19.8ms → 14.1ms | 19 → 13 | `getPropertyOfType`                 | `./node_modules/typescript/lib/typescript.js:60739:29 → 61994:29` |
+|  -84.1% |  -5.50ms | 0.3% → <0.1% |   6.5ms → 1.0ms |   9 → 5 | `getTypePredicateOfSignature`       | `./node_modules/typescript/lib/typescript.js:61162:39 → 62417:39` |
+|  -29.4% |  -5.29ms |  0.7% → 0.5% | 18.0ms → 12.7ms | 15 → 11 | `resolveStructuredTypeMembers`      | `./node_modules/typescript/lib/typescript.js:60090:40 → 61345:40` |
+|  -77.0% |  -5.29ms |  0.3% → 0.1% |   6.9ms → 1.6ms |   8 → 4 | `getTypeFromTypeNode`               | `./node_modules/typescript/lib/typescript.js:64524:31 → 65779:31` |
+|  -40.2% |  -5.04ms |  0.5% → 0.3% |  12.5ms → 7.5ms |  10 → 6 | `internIdentifier`                  | `./node_modules/typescript/lib/typescript.js:32276:28 → 33331:28` |
+|  -79.9% |  -4.96ms |  0.2% → 0.1% |   6.2ms → 1.3ms |   5 → 1 | `checkSourceElement`                | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30` |
+| removed |  -4.88ms |  0.2% → 0.0% |     4.9ms → 0ms |   4 → 0 | `getTypeOfMappedSymbol`             | `./node_modules/typescript/lib/typescript.js:59989:33 → 61244:33` |
+| removed |  -4.83ms |  0.2% → 0.0% |     4.8ms → 0ms |   4 → 0 | `getNonNullableType`                | `./node_modules/typescript/lib/typescript.js:69170:30 → 70430:30` |
+|  -64.9% |  -4.71ms |  0.3% → 0.1% |   7.2ms → 2.5ms |   6 → 2 | `resolveCall`                       | `./node_modules/typescript/lib/typescript.js:77299:23 → 78594:23` |
+| removed |  -4.67ms |  0.2% → 0.0% |     4.7ms → 0ms |   4 → 0 | `reducePathComponents`              | `./node_modules/typescript/lib/typescript.js:9088:30`             |
 
 ##### Garbage collector
 
@@ -149,178 +149,178 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Lines with the largest change in contribution to each function's self time.
 
-##### `scan` (`node_modules/typescript/lib/typescript.js:12895:16`)
+##### `scan` (`./node_modules/typescript/lib/typescript.js:12895:16`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-|     new | +9.71ms | 0.0% → 23.9% | 0ms → 9.7ms |   0 → 3 | `node_modules/typescript/lib/typescript.js:14635` |
-|     new | +2.54ms |  0.0% → 6.2% | 0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:13045` |
-| removed | -2.50ms |  9.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:12765` |
-| removed | -2.50ms |  9.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:12936` |
-| removed | -2.50ms |  9.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:13133` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+|     new | +9.71ms | 0.0% → 23.9% | 0ms → 9.7ms |   0 → 3 | `./node_modules/typescript/lib/typescript.js:14635` |
+|     new | +2.54ms |  0.0% → 6.2% | 0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:13045` |
+| removed | -2.50ms |  9.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:12765` |
+| removed | -2.50ms |  9.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:12936` |
+| removed | -2.50ms |  9.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:13133` |
 
-##### `checkTypeRelatedTo` (`node_modules/typescript/lib/typescript.js:67445:30`)
+##### `checkTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js:67445:30`)
 
-|  Change |    Delta |             % |            Time | Samples | Location                                                  |
-| ------: | -------: | ------------: | --------------: | ------: | --------------------------------------------------------- |
-|  +74.3% | +14.07ms | 48.7% → 64.1% | 18.9ms → 33.0ms | 15 → 28 | `node_modules/typescript/lib/typescript.js:66185 → 67445` |
-|  -22.7% |  -2.85ms | 32.2% → 18.8% |  12.5ms → 9.7ms |  10 → 8 | `node_modules/typescript/lib/typescript.js:66204 → 67464` |
-|     new |  +2.55ms |   0.0% → 5.0% |     0ms → 2.6ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:67462`         |
-| removed |  -1.28ms |   3.3% → 0.0% |     1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:66212`         |
-| removed |  -1.25ms |   3.2% → 0.0% |     1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:66203`         |
+|  Change |    Delta |             % |            Time | Samples | Location                                                    |
+| ------: | -------: | ------------: | --------------: | ------: | ----------------------------------------------------------- |
+|  +74.3% | +14.07ms | 48.7% → 64.1% | 18.9ms → 33.0ms | 15 → 28 | `./node_modules/typescript/lib/typescript.js:66185 → 67445` |
+|  -22.7% |  -2.85ms | 32.2% → 18.8% |  12.5ms → 9.7ms |  10 → 8 | `./node_modules/typescript/lib/typescript.js:66204 → 67464` |
+|     new |  +2.55ms |   0.0% → 5.0% |     0ms → 2.6ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:67462`         |
+| removed |  -1.28ms |   3.3% → 0.0% |     1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:66212`         |
+| removed |  -1.25ms |   3.2% → 0.0% |     1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:66203`         |
 
-##### `checkIdentifier` (`node_modules/typescript/lib/typescript.js:74242:27`)
+##### `checkIdentifier` (`./node_modules/typescript/lib/typescript.js:74242:27`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-|     new | +2.63ms | 0.0% → 18.4% | 0ms → 2.6ms |   0 → 3 | `node_modules/typescript/lib/typescript.js:74342` |
-|     new | +2.52ms | 0.0% → 17.7% | 0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:74344` |
-|     new | +1.33ms |  0.0% → 9.4% | 0ms → 1.3ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:74353` |
-| removed | -1.29ms | 22.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:72996` |
-|     new | +1.27ms |  0.0% → 8.9% | 0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:74310` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+|     new | +2.63ms | 0.0% → 18.4% | 0ms → 2.6ms |   0 → 3 | `./node_modules/typescript/lib/typescript.js:74342` |
+|     new | +2.52ms | 0.0% → 17.7% | 0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:74344` |
+|     new | +1.33ms |  0.0% → 9.4% | 0ms → 1.3ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:74353` |
+| removed | -1.29ms | 22.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:72996` |
+|     new | +1.27ms |  0.0% → 8.9% | 0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:74310` |
 
-##### `parseExpected` (`node_modules/typescript/lib/typescript.js:33091:25`)
+##### `parseExpected` (`./node_modules/typescript/lib/typescript.js:33091:25`)
 
-|  Change |   Delta |             % |        Time | Samples | Location                                          |
-| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------- |
-|     new | +8.92ms | 0.0% → 100.0% | 0ms → 8.9ms |   0 → 7 | `node_modules/typescript/lib/typescript.js:33091` |
-| removed | -1.29ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:31961` |
+|  Change |   Delta |             % |        Time | Samples | Location                                            |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- |
+|     new | +8.92ms | 0.0% → 100.0% | 0ms → 8.9ms |   0 → 7 | `./node_modules/typescript/lib/typescript.js:33091` |
+| removed | -1.29ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:31961` |
 
-##### `isRelatedTo` (`node_modules/typescript/lib/typescript.js:67753:25`)
+##### `isRelatedTo` (`./node_modules/typescript/lib/typescript.js:67753:25`)
 
-|  Change |   Delta |            % |          Time | Samples | Location                                                  |
-| ------: | ------: | -----------: | ------------: | ------: | --------------------------------------------------------- |
-|  -50.0% | -3.75ms | 21.9% → 9.1% | 7.5ms → 3.8ms |   7 → 3 | `node_modules/typescript/lib/typescript.js:66590 → 67850` |
-| +168.3% | +3.61ms | 6.3% → 14.0% | 2.1ms → 5.8ms |   2 → 5 | `node_modules/typescript/lib/typescript.js:66523 → 67783` |
-| +154.4% | +2.96ms | 5.6% → 11.8% | 1.9ms → 4.9ms |   2 → 4 | `node_modules/typescript/lib/typescript.js:66493 → 67753` |
-| +176.7% | +2.21ms |  3.6% → 8.4% | 1.3ms → 3.5ms |   1 → 3 | `node_modules/typescript/lib/typescript.js:66548 → 67808` |
-|     new | +1.26ms |  0.0% → 3.1% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:67782`         |
+|  Change |   Delta |            % |          Time | Samples | Location                                                    |
+| ------: | ------: | -----------: | ------------: | ------: | ----------------------------------------------------------- |
+|  -50.0% | -3.75ms | 21.9% → 9.1% | 7.5ms → 3.8ms |   7 → 3 | `./node_modules/typescript/lib/typescript.js:66590 → 67850` |
+| +168.3% | +3.61ms | 6.3% → 14.0% | 2.1ms → 5.8ms |   2 → 5 | `./node_modules/typescript/lib/typescript.js:66523 → 67783` |
+| +154.4% | +2.96ms | 5.6% → 11.8% | 1.9ms → 4.9ms |   2 → 4 | `./node_modules/typescript/lib/typescript.js:66493 → 67753` |
+| +176.7% | +2.21ms |  3.6% → 8.4% | 1.3ms → 3.5ms |   1 → 3 | `./node_modules/typescript/lib/typescript.js:66548 → 67808` |
+|     new | +1.26ms |  0.0% → 3.1% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:67782`         |
 
-##### `nextToken` (`node_modules/typescript/lib/typescript.js:33015:21`)
+##### `nextToken` (`./node_modules/typescript/lib/typescript.js:33015:21`)
 
-| Change |   Delta |            % |        Time | Samples | Location                                          |
-| -----: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-|    new | +5.04ms | 0.0% → 73.3% | 0ms → 5.0ms |   0 → 4 | `node_modules/typescript/lib/typescript.js:33015` |
-|    new | +1.29ms | 0.0% → 18.8% | 0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:33009` |
-|    new | +0.54ms |  0.0% → 7.9% | 0ms → 0.5ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:33016` |
+| Change |   Delta |            % |        Time | Samples | Location                                            |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+|    new | +5.04ms | 0.0% → 73.3% | 0ms → 5.0ms |   0 → 4 | `./node_modules/typescript/lib/typescript.js:33015` |
+|    new | +1.29ms | 0.0% → 18.8% | 0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:33009` |
+|    new | +0.54ms |  0.0% → 7.9% | 0ms → 0.5ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:33016` |
 
-##### `bind` (`node_modules/typescript/lib/typescript.js:47793:16`)
+##### `bind` (`./node_modules/typescript/lib/typescript.js:47793:16`)
 
-|  Change |   Delta |             % |            Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | --------------: | ------: | --------------------------------------------------------- |
-|  +22.1% | +2.78ms | 60.9% → 56.8% | 12.6ms → 15.4ms | 13 → 15 | `node_modules/typescript/lib/typescript.js:46608 → 47801` |
-|     new | +2.24ms |   0.0% → 8.3% |     0ms → 2.2ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:47802`         |
-|     new | +1.29ms |   0.0% → 4.8% |     0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:47798`         |
-|     new | +1.29ms |   0.0% → 4.8% |     0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:48751`         |
-| removed | -1.25ms |   6.0% → 0.0% |     1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:46600`         |
+|  Change |   Delta |             % |            Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | --------------: | ------: | ----------------------------------------------------------- |
+|  +22.1% | +2.78ms | 60.9% → 56.8% | 12.6ms → 15.4ms | 13 → 15 | `./node_modules/typescript/lib/typescript.js:46608 → 47801` |
+|     new | +2.24ms |   0.0% → 8.3% |     0ms → 2.2ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:47802`         |
+|     new | +1.29ms |   0.0% → 4.8% |     0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:47798`         |
+|     new | +1.29ms |   0.0% → 4.8% |     0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:48751`         |
+| removed | -1.25ms |   6.0% → 0.0% |     1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:46600`         |
 
-##### `addInheritedMembers` (`node_modules/typescript/lib/typescript.js:60282:31`)
+##### `addInheritedMembers` (`./node_modules/typescript/lib/typescript.js:60282:31`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-|     new | +3.79ms |  0.0% → 37.8% |   0ms → 3.8ms |   0 → 3 | `node_modules/typescript/lib/typescript.js:60290`         |
-| +146.7% | +3.67ms | 64.5% → 61.4% | 2.5ms → 6.2ms |   2 → 5 | `node_modules/typescript/lib/typescript.js:59034 → 60289` |
-| removed | -1.29ms |  33.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:59032`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+|     new | +3.79ms |  0.0% → 37.8% |   0ms → 3.8ms |   0 → 3 | `./node_modules/typescript/lib/typescript.js:60290`         |
+| +146.7% | +3.67ms | 64.5% → 61.4% | 2.5ms → 6.2ms |   2 → 5 | `./node_modules/typescript/lib/typescript.js:59034 → 60289` |
+| removed | -1.29ms |  33.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:59032`         |
 
-##### `getObjectTypeInstantiation` (`node_modules/typescript/lib/typescript.js:66040:38`)
+##### `getObjectTypeInstantiation` (`./node_modules/typescript/lib/typescript.js:66040:38`)
 
-|  Change |   Delta |             % |            Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | --------------: | ------: | --------------------------------------------------------- |
-|  +55.6% | +7.69ms | 46.7% → 60.6% | 13.8ms → 21.5ms | 11 → 18 | `node_modules/typescript/lib/typescript.js:64815 → 66070` |
-| removed | -6.21ms |  21.0% → 0.0% |     6.2ms → 0ms |   5 → 0 | `node_modules/typescript/lib/typescript.js:64818`         |
-| removed | -3.79ms |  12.8% → 0.0% |     3.8ms → 0ms |   3 → 0 | `node_modules/typescript/lib/typescript.js:64819`         |
-|     new | +3.71ms |  0.0% → 10.4% |     0ms → 3.7ms |   0 → 3 | `node_modules/typescript/lib/typescript.js:62759`         |
-|     new | +2.46ms |   0.0% → 6.9% |     0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:66079`         |
+|  Change |   Delta |             % |            Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | --------------: | ------: | ----------------------------------------------------------- |
+|  +55.6% | +7.69ms | 46.7% → 60.6% | 13.8ms → 21.5ms | 11 → 18 | `./node_modules/typescript/lib/typescript.js:64815 → 66070` |
+| removed | -6.21ms |  21.0% → 0.0% |     6.2ms → 0ms |   5 → 0 | `./node_modules/typescript/lib/typescript.js:64818`         |
+| removed | -3.79ms |  12.8% → 0.0% |     3.8ms → 0ms |   3 → 0 | `./node_modules/typescript/lib/typescript.js:64819`         |
+|     new | +3.71ms |  0.0% → 10.4% |     0ms → 3.7ms |   0 → 3 | `./node_modules/typescript/lib/typescript.js:62759`         |
+|     new | +2.46ms |   0.0% → 6.9% |     0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:66079`         |
 
-##### `getResolvedSymbol` (`node_modules/typescript/lib/typescript.js:71910:29`)
+##### `getResolvedSymbol` (`./node_modules/typescript/lib/typescript.js:71910:29`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +136.0% | +5.04ms | 74.8% → 81.4% | 3.7ms → 8.8ms |   3 → 7 | `node_modules/typescript/lib/typescript.js:70630 → 71913` |
-|     new | +1.33ms |  0.0% → 12.4% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:71910`         |
-| removed | -1.25ms |  25.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:70629`         |
-|     new | +0.67ms |   0.0% → 6.2% |   0ms → 0.7ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:71917`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +136.0% | +5.04ms | 74.8% → 81.4% | 3.7ms → 8.8ms |   3 → 7 | `./node_modules/typescript/lib/typescript.js:70630 → 71913` |
+|     new | +1.33ms |  0.0% → 12.4% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:71910`         |
+| removed | -1.25ms |  25.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:70629`         |
+|     new | +0.67ms |   0.0% → 6.2% |   0ms → 0.7ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:71917`         |
 
-##### `createTypeReference` (`node_modules/typescript/lib/typescript.js:62794:31`)
+##### `createTypeReference` (`./node_modules/typescript/lib/typescript.js:62794:31`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +103.2% | +4.99ms | 31.0% → 46.8% | 4.8ms → 9.8ms |   4 → 8 | `node_modules/typescript/lib/typescript.js:61544 → 62799` |
-|  +18.0% | +1.51ms | 54.0% → 47.3% | 8.4ms → 9.9ms |   7 → 9 | `node_modules/typescript/lib/typescript.js:61541 → 62796` |
-| removed | -1.29ms |   8.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61526`         |
-|     new | +1.25ms |   0.0% → 6.0% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:62800`         |
-| removed | -1.04ms |   6.7% → 0.0% |   1.0ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61539`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +103.2% | +4.99ms | 31.0% → 46.8% | 4.8ms → 9.8ms |   4 → 8 | `./node_modules/typescript/lib/typescript.js:61544 → 62799` |
+|  +18.0% | +1.51ms | 54.0% → 47.3% | 8.4ms → 9.9ms |   7 → 9 | `./node_modules/typescript/lib/typescript.js:61541 → 62796` |
+| removed | -1.29ms |   8.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61526`         |
+|     new | +1.25ms |   0.0% → 6.0% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:62800`         |
+| removed | -1.04ms |   6.7% → 0.0% |   1.0ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61539`         |
 
-##### `parseLiteralTypeNode` (`node_modules/typescript/lib/typescript.js:34779:32`)
+##### `parseLiteralTypeNode` (`./node_modules/typescript/lib/typescript.js:34779:32`)
 
-| Change |   Delta |             % |        Time | Samples | Location                                          |
-| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------------------- |
-|    new | +5.25ms | 0.0% → 100.0% | 0ms → 5.3ms |   0 → 4 | `node_modules/typescript/lib/typescript.js:34779` |
+| Change |   Delta |             % |        Time | Samples | Location                                            |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- |
+|    new | +5.25ms | 0.0% → 100.0% | 0ms → 5.3ms |   0 → 4 | `./node_modules/typescript/lib/typescript.js:34779` |
 
-##### `iterateCommentRanges` (`node_modules/typescript/lib/typescript.js:12043:30`)
+##### `iterateCommentRanges` (`./node_modules/typescript/lib/typescript.js:12043:30`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +106.0% | +2.60ms | 98.3% → 66.0% | 2.5ms → 5.1ms |   2 → 4 | `node_modules/typescript/lib/typescript.js:11972 → 12099` |
-|     new | +1.29ms |  0.0% → 16.8% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:12189`         |
-|     new | +1.27ms |  0.0% → 16.6% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:12083`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +106.0% | +2.60ms | 98.3% → 66.0% | 2.5ms → 5.1ms |   2 → 4 | `./node_modules/typescript/lib/typescript.js:11972 → 12099` |
+|     new | +1.29ms |  0.0% → 16.8% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:12189`         |
+|     new | +1.27ms |  0.0% → 16.6% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:12083`         |
 
-##### `createTypeMapper` (`node_modules/typescript/lib/typescript.js:65904:28`)
+##### `createTypeMapper` (`./node_modules/typescript/lib/typescript.js:65904:28`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +403.4% | +5.04ms | 45.5% → 79.5% | 1.3ms → 6.3ms |   1 → 5 | `node_modules/typescript/lib/typescript.js:64649 → 65904` |
-|  -22.6% | -0.29ms | 47.0% → 12.6% | 1.3ms → 1.0ms |       1 | `node_modules/typescript/lib/typescript.js:64650 → 65905` |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +403.4% | +5.04ms | 45.5% → 79.5% | 1.3ms → 6.3ms |   1 → 5 | `./node_modules/typescript/lib/typescript.js:64649 → 65904` |
+|  -22.6% | -0.29ms | 47.0% → 12.6% | 1.3ms → 1.0ms |       1 | `./node_modules/typescript/lib/typescript.js:64650 → 65905` |
 
-##### `getRelationKey` (`node_modules/typescript/lib/typescript.js:69989:26`)
+##### `getRelationKey` (`./node_modules/typescript/lib/typescript.js:69989:26`)
 
-| Change |   Delta |             % |          Time | Samples | Location                                                  |
-| -----: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +86.2% | +2.33ms | 69.9% → 57.1% | 2.7ms → 5.0ms |   3 → 4 | `node_modules/typescript/lib/typescript.js:68736 → 69996` |
-|    new | +1.29ms |  0.0% → 14.6% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:62836`         |
-|    new | +1.25ms |  0.0% → 14.1% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:2797`          |
+| Change |   Delta |             % |          Time | Samples | Location                                                    |
+| -----: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +86.2% | +2.33ms | 69.9% → 57.1% | 2.7ms → 5.0ms |   3 → 4 | `./node_modules/typescript/lib/typescript.js:68736 → 69996` |
+|    new | +1.29ms |  0.0% → 14.6% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:62836`         |
+|    new | +1.25ms |  0.0% → 14.1% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:2797`          |
 
-##### `checkExpression` (`node_modules/typescript/lib/typescript.js:82771:27`)
+##### `checkExpression` (`./node_modules/typescript/lib/typescript.js:82771:27`)
 
-|  Change |   Delta |              % |          Time | Samples | Location                                                  |
-| ------: | ------: | -------------: | ------------: | ------: | --------------------------------------------------------- |
-| +900.0% | +2.25ms | 100.0% → 50.4% | 0.3ms → 2.5ms |       2 | `node_modules/typescript/lib/typescript.js:81482 → 82777` |
-|     new | +1.25ms |   0.0% → 25.2% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:82771`         |
-|     new | +1.21ms |   0.0% → 24.4% |   0ms → 1.2ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:21225`         |
+|  Change |   Delta |              % |          Time | Samples | Location                                                    |
+| ------: | ------: | -------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +900.0% | +2.25ms | 100.0% → 50.4% | 0.3ms → 2.5ms |       2 | `./node_modules/typescript/lib/typescript.js:81482 → 82777` |
+|     new | +1.25ms |   0.0% → 25.2% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:82771`         |
+|     new | +1.21ms |   0.0% → 24.4% |   0ms → 1.2ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:21225`         |
 
-##### `getTypeAtFlowAssignment` (`node_modules/typescript/lib/typescript.js:73025:37`)
+##### `getTypeAtFlowAssignment` (`./node_modules/typescript/lib/typescript.js:73025:37`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-|     new | +2.54ms | 0.0% → 29.9% | 0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:73027` |
-|     new | +2.50ms | 0.0% → 29.4% | 0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:73048` |
-|     new | +1.25ms | 0.0% → 14.7% | 0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:73025` |
-| removed | -1.21ms | 30.5% → 0.0% | 1.2ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:71761` |
-| removed | -0.29ms |  7.4% → 0.0% | 0.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:71759` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+|     new | +2.54ms | 0.0% → 29.9% | 0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:73027` |
+|     new | +2.50ms | 0.0% → 29.4% | 0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:73048` |
+|     new | +1.25ms | 0.0% → 14.7% | 0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:73025` |
+| removed | -1.21ms | 30.5% → 0.0% | 1.2ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:71761` |
+| removed | -0.29ms |  7.4% → 0.0% | 0.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:71759` |
 
-##### `checkExpressionWorker` (`node_modules/typescript/lib/typescript.js:82811:33`)
+##### `checkExpressionWorker` (`./node_modules/typescript/lib/typescript.js:82811:33`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +558.1% | +3.96ms | 11.5% → 44.6% | 0.7ms → 4.7ms |   1 → 4 | `node_modules/typescript/lib/typescript.js:81572 → 82867` |
-| removed | -1.25ms |  20.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:48825`         |
-| removed | -1.25ms |  20.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:81560`         |
-|     new | +1.25ms |  0.0% → 12.0% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:82821`         |
-|     new | +1.25ms |  0.0% → 12.0% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:82857`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +558.1% | +3.96ms | 11.5% → 44.6% | 0.7ms → 4.7ms |   1 → 4 | `./node_modules/typescript/lib/typescript.js:81572 → 82867` |
+| removed | -1.25ms |  20.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:48825`         |
+| removed | -1.25ms |  20.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:81560`         |
+|     new | +1.25ms |  0.0% → 12.0% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:82821`         |
+|     new | +1.25ms |  0.0% → 12.0% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:82857`         |
 
-##### `createNodeArray` (`node_modules/typescript/lib/typescript.js:33287:27`)
+##### `createNodeArray` (`./node_modules/typescript/lib/typescript.js:33287:27`)
 
-|  Change |   Delta |             % |        Time | Samples | Location                                          |
-| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------- |
-|     new | +3.42ms |  0.0% → 73.2% | 0ms → 3.4ms |   0 → 3 | `node_modules/typescript/lib/typescript.js:33287` |
-|     new | +1.25ms |  0.0% → 26.8% | 0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:28506` |
-| removed | -0.42ms | 100.0% → 0.0% | 0.4ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:32233` |
+|  Change |   Delta |             % |        Time | Samples | Location                                            |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- |
+|     new | +3.42ms |  0.0% → 73.2% | 0ms → 3.4ms |   0 → 3 | `./node_modules/typescript/lib/typescript.js:33287` |
+|     new | +1.25ms |  0.0% → 26.8% | 0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:28506` |
+| removed | -0.42ms | 100.0% → 0.0% | 0.4ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:32233` |
 
-##### `nextTokenWithoutCheck` (`node_modules/typescript/lib/typescript.js:33008:33`)
+##### `nextTokenWithoutCheck` (`./node_modules/typescript/lib/typescript.js:33008:33`)
 
-| Change |   Delta |      % |           Time | Samples | Location                                                  |
-| -----: | ------: | -----: | -------------: | ------: | --------------------------------------------------------- |
-| +49.8% | +4.08ms | 100.0% | 8.2ms → 12.3ms |  8 → 10 | `node_modules/typescript/lib/typescript.js:31954 → 33009` |
+| Change |   Delta |      % |           Time | Samples | Location                                                    |
+| -----: | ------: | -----: | -------------: | ------: | ----------------------------------------------------------- |
+| +49.8% | +4.08ms | 100.0% | 8.2ms → 12.3ms |  8 → 10 | `./node_modules/typescript/lib/typescript.js:31954 → 33009` |
 
 ##### `getStatsFromBinding` (`node:internal/fs/utils:552:29`)
 
@@ -370,125 +370,125 @@ Lines with the largest change in contribution to each function's self time.
 | -----: | ------: | ------------: | ----------: | ------: | -------- |
 |    new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | 2853     |
 
-##### `createUnionOrIntersectionProperty` (`node_modules/typescript/lib/typescript.js:61753:45`)
+##### `createUnionOrIntersectionProperty` (`./node_modules/typescript/lib/typescript.js:61753:45`)
 
-|  Change |    Delta |            % |         Time | Samples | Location                                          |
-| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------- |
-| removed | -10.96ms | 62.9% → 0.0% | 11.0ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60568` |
-| removed |  -1.25ms |  7.2% → 0.0% |  1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60500` |
-| removed |  -1.25ms |  7.2% → 0.0% |  1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60592` |
-|     new |  +1.25ms | 0.0% → 29.1% |  0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:61812` |
-|     new |  +1.25ms | 0.0% → 29.1% |  0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:61870` |
+|  Change |    Delta |            % |         Time | Samples | Location                                            |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------------------------- |
+| removed | -10.96ms | 62.9% → 0.0% | 11.0ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60568` |
+| removed |  -1.25ms |  7.2% → 0.0% |  1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60500` |
+| removed |  -1.25ms |  7.2% → 0.0% |  1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60592` |
+|     new |  +1.25ms | 0.0% → 29.1% |  0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:61812` |
+|     new |  +1.25ms | 0.0% → 29.1% |  0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:61870` |
 
-##### `recursiveTypeRelatedTo` (`node_modules/typescript/lib/typescript.js:68323:36`)
+##### `recursiveTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js:68323:36`)
 
-|  Change |    Delta |             % |            Time | Samples | Location                                                  |
-| ------: | -------: | ------------: | --------------: | ------: | --------------------------------------------------------- |
-|  -37.6% | -13.52ms | 52.0% → 39.5% | 35.9ms → 22.4ms | 31 → 19 | `node_modules/typescript/lib/typescript.js:67076 → 68336` |
-|  -63.6% |  -4.45ms |  10.1% → 4.5% |   7.0ms → 2.5ms |   6 → 2 | `node_modules/typescript/lib/typescript.js:67123 → 68383` |
-| +172.4% |  +4.17ms |  3.5% → 11.6% |   2.4ms → 6.6ms |   2 → 6 | `node_modules/typescript/lib/typescript.js:67063 → 68323` |
-|  -73.6% |  -3.49ms |   6.9% → 2.2% |   4.7ms → 1.3ms |   4 → 1 | `node_modules/typescript/lib/typescript.js:67129 → 68389` |
-|     new |  +2.54ms |   0.0% → 4.5% |     0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:68358`         |
+|  Change |    Delta |             % |            Time | Samples | Location                                                    |
+| ------: | -------: | ------------: | --------------: | ------: | ----------------------------------------------------------- |
+|  -37.6% | -13.52ms | 52.0% → 39.5% | 35.9ms → 22.4ms | 31 → 19 | `./node_modules/typescript/lib/typescript.js:67076 → 68336` |
+|  -63.6% |  -4.45ms |  10.1% → 4.5% |   7.0ms → 2.5ms |   6 → 2 | `./node_modules/typescript/lib/typescript.js:67123 → 68383` |
+| +172.4% |  +4.17ms |  3.5% → 11.6% |   2.4ms → 6.6ms |   2 → 6 | `./node_modules/typescript/lib/typescript.js:67063 → 68323` |
+|  -73.6% |  -3.49ms |   6.9% → 2.2% |   4.7ms → 1.3ms |   4 → 1 | `./node_modules/typescript/lib/typescript.js:67129 → 68389` |
+|     new |  +2.54ms |   0.0% → 4.5% |     0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:68358`         |
 
-##### `getNormalizedType` (`node_modules/typescript/lib/typescript.js:67408:29`)
+##### `getNormalizedType` (`./node_modules/typescript/lib/typescript.js:67408:29`)
 
-|  Change |   Delta |             % |            Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | --------------: | ------: | --------------------------------------------------------- |
-|  -26.2% | -5.29ms | 86.9% → 96.5% | 20.2ms → 14.9ms | 16 → 12 | `node_modules/typescript/lib/typescript.js:66150 → 67410` |
-| removed | -1.21ms |   5.2% → 0.0% |     1.2ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:64409`         |
+|  Change |   Delta |             % |            Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | --------------: | ------: | ----------------------------------------------------------- |
+|  -26.2% | -5.29ms | 86.9% → 96.5% | 20.2ms → 14.9ms | 16 → 12 | `./node_modules/typescript/lib/typescript.js:66150 → 67410` |
+| removed | -1.21ms |   5.2% → 0.0% |     1.2ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:64409`         |
 
-##### `getTypeArguments` (`node_modules/typescript/lib/typescript.js:62827:28`)
+##### `getTypeArguments` (`./node_modules/typescript/lib/typescript.js:62827:28`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-| removed | -6.58ms | 60.5% → 0.0% | 6.6ms → 0ms |   5 → 0 | `node_modules/typescript/lib/typescript.js:61572` |
-| removed | -1.25ms | 11.5% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61578` |
-|     new | +0.50ms | 0.0% → 16.0% | 0ms → 0.5ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:62829` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+| removed | -6.58ms | 60.5% → 0.0% | 6.6ms → 0ms |   5 → 0 | `./node_modules/typescript/lib/typescript.js:61572` |
+| removed | -1.25ms | 11.5% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61578` |
+|     new | +0.50ms | 0.0% → 16.0% | 0ms → 0.5ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:62829` |
 
-##### `instantiateTypeWithAlias` (`node_modules/typescript/lib/typescript.js:66266:36`)
+##### `instantiateTypeWithAlias` (`./node_modules/typescript/lib/typescript.js:66266:36`)
 
-|  Change |   Delta |              % |           Time | Samples | Location                                                  |
-| ------: | ------: | -------------: | -------------: | ------: | --------------------------------------------------------- |
-|  -53.1% | -6.46ms | 90.7% → 100.0% | 12.2ms → 5.7ms |  11 → 6 | `node_modules/typescript/lib/typescript.js:65019 → 66279` |
-| removed | -1.25ms |    9.3% → 0.0% |    1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:65006`         |
+|  Change |   Delta |              % |           Time | Samples | Location                                                    |
+| ------: | ------: | -------------: | -------------: | ------: | ----------------------------------------------------------- |
+|  -53.1% | -6.46ms | 90.7% → 100.0% | 12.2ms → 5.7ms |  11 → 6 | `./node_modules/typescript/lib/typescript.js:65019 → 66279` |
+| removed | -1.25ms |    9.3% → 0.0% |    1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:65006`         |
 
-##### `getTokenValue` (`node_modules/typescript/lib/typescript.js:12135:20`)
+##### `getTokenValue` (`./node_modules/typescript/lib/typescript.js:12135:20`)
 
-|  Change |   Delta |             % |        Time | Samples | Location                                          |
-| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------- |
-| removed | -6.25ms | 100.0% → 0.0% | 6.3ms → 0ms |   5 → 0 | `node_modules/typescript/lib/typescript.js:12135` |
+|  Change |   Delta |             % |        Time | Samples | Location                                            |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- |
+| removed | -6.25ms | 100.0% → 0.0% | 6.3ms → 0ms |   5 → 0 | `./node_modules/typescript/lib/typescript.js:12135` |
 
-##### `isEmptyObjectType` (`node_modules/typescript/lib/typescript.js:67224:29`)
+##### `isEmptyObjectType` (`./node_modules/typescript/lib/typescript.js:67224:29`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-|  -77.7% | -4.50ms | 67.8% → 56.4% | 5.8ms → 1.3ms |       1 | `node_modules/typescript/lib/typescript.js:65965 → 67225` |
-| removed | -1.29ms |  15.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60093`         |
-| removed | -1.29ms |  15.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:65964`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+|  -77.7% | -4.50ms | 67.8% → 56.4% | 5.8ms → 1.3ms |       1 | `./node_modules/typescript/lib/typescript.js:65965 → 67225` |
+| removed | -1.29ms |  15.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60093`         |
+| removed | -1.29ms |  15.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:65964`         |
 
-##### `isSimpleTypeRelatedTo` (`node_modules/typescript/lib/typescript.js:67312:33`)
+##### `isSimpleTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js:67312:33`)
 
-|  Change |   Delta |             % |          Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-|  -78.9% | -4.83ms | 53.6% → 24.2% | 6.1ms → 1.3ms |   5 → 1 | `node_modules/typescript/lib/typescript.js:66052 → 67312` |
-| removed | -1.25ms |  10.9% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:66054`         |
-|     new | +1.25ms |  0.0% → 23.4% |   0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:67313`         |
-| removed | -1.21ms |  10.6% → 0.0% |   1.2ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:66096`         |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+|  -78.9% | -4.83ms | 53.6% → 24.2% | 6.1ms → 1.3ms |   5 → 1 | `./node_modules/typescript/lib/typescript.js:66052 → 67312` |
+| removed | -1.25ms |  10.9% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:66054`         |
+|     new | +1.25ms |  0.0% → 23.4% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:67313`         |
+| removed | -1.21ms |  10.6% → 0.0% |   1.2ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:66096`         |
 
-##### `instantiateTypeWorker` (`node_modules/typescript/lib/typescript.js:66283:33`)
+##### `instantiateTypeWorker` (`./node_modules/typescript/lib/typescript.js:66283:33`)
 
-|  Change |   Delta |             % |            Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | --------------: | ------: | --------------------------------------------------------- |
-|  -18.3% | -4.54ms | 50.9% → 47.4% | 24.8ms → 20.3ms | 22 → 17 | `node_modules/typescript/lib/typescript.js:65039 → 66299` |
-| removed | -1.54ms |   3.2% → 0.0% |     1.5ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:65068`         |
-|  -59.0% | -1.50ms |   5.2% → 2.4% |   2.5ms → 1.0ms |   2 → 1 | `node_modules/typescript/lib/typescript.js:65077 → 66337` |
-| removed | -1.33ms |   2.7% → 0.0% |     1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:65031`         |
-|  -25.4% | -1.29ms |  10.4% → 8.9% |   5.1ms → 3.8ms |   4 → 3 | `node_modules/typescript/lib/typescript.js:65052 → 66312` |
+|  Change |   Delta |             % |            Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | --------------: | ------: | ----------------------------------------------------------- |
+|  -18.3% | -4.54ms | 50.9% → 47.4% | 24.8ms → 20.3ms | 22 → 17 | `./node_modules/typescript/lib/typescript.js:65039 → 66299` |
+| removed | -1.54ms |   3.2% → 0.0% |     1.5ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:65068`         |
+|  -59.0% | -1.50ms |   5.2% → 2.4% |   2.5ms → 1.0ms |   2 → 1 | `./node_modules/typescript/lib/typescript.js:65077 → 66337` |
+| removed | -1.33ms |   2.7% → 0.0% |     1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:65031`         |
+|  -25.4% | -1.29ms |  10.4% → 8.9% |   5.1ms → 3.8ms |   4 → 3 | `./node_modules/typescript/lib/typescript.js:65052 → 66312` |
 
-##### `some` (`node_modules/typescript/lib/typescript.js:2794:14`)
-
-|  Change |   Delta |             % |          Time | Samples | Location                                                |
-| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------- |
-| removed | -5.04ms |  41.3% → 0.0% |   5.0ms → 0ms |   4 → 0 | `node_modules/typescript/lib/typescript.js:2784`        |
-|  -73.0% | -3.38ms | 37.9% → 19.9% | 4.6ms → 1.3ms |   4 → 1 | `node_modules/typescript/lib/typescript.js:2785 → 2798` |
-| +113.7% | +1.38ms |  9.9% → 41.1% | 1.2ms → 2.6ms |   1 → 2 | `node_modules/typescript/lib/typescript.js:2781 → 2794` |
-|     new | +1.13ms |  0.0% → 17.9% |   0ms → 1.1ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:2795`        |
-|     new | +0.04ms |   0.0% → 0.7% |  0ms → 42.0µs |   0 → 1 | `node_modules/typescript/lib/typescript.js:2796`        |
-
-##### `getPropertyOfType` (`node_modules/typescript/lib/typescript.js:61994:29`)
+##### `some` (`./node_modules/typescript/lib/typescript.js:2794:14`)
 
 |  Change |   Delta |             % |          Time | Samples | Location                                                  |
 | ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| +240.9% | +4.42ms |  9.3% → 44.4% | 1.8ms → 6.2ms |   2 → 5 | `node_modules/typescript/lib/typescript.js:60744 → 61999` |
-|  -51.9% | -4.04ms | 39.4% → 26.6% | 7.8ms → 3.8ms |   7 → 3 | `node_modules/typescript/lib/typescript.js:60741 → 61996` |
-| removed | -1.29ms |   6.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60493`         |
-| removed | -1.29ms |   6.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60739`         |
-| removed | -1.25ms |   6.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:60679`         |
+| removed | -5.04ms |  41.3% → 0.0% |   5.0ms → 0ms |   4 → 0 | `./node_modules/typescript/lib/typescript.js:2784`        |
+|  -73.0% | -3.38ms | 37.9% → 19.9% | 4.6ms → 1.3ms |   4 → 1 | `./node_modules/typescript/lib/typescript.js:2785 → 2798` |
+| +113.7% | +1.38ms |  9.9% → 41.1% | 1.2ms → 2.6ms |   1 → 2 | `./node_modules/typescript/lib/typescript.js:2781 → 2794` |
+|     new | +1.13ms |  0.0% → 17.9% |   0ms → 1.1ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:2795`        |
+|     new | +0.04ms |   0.0% → 0.7% |  0ms → 42.0µs |   0 → 1 | `./node_modules/typescript/lib/typescript.js:2796`        |
 
-##### `getTypePredicateOfSignature` (`node_modules/typescript/lib/typescript.js:62417:39`)
+##### `getPropertyOfType` (`./node_modules/typescript/lib/typescript.js:61994:29`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-| removed | -1.25ms | 19.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61162` |
-| removed | -1.25ms | 19.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61163` |
-| removed | -1.25ms | 19.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61166` |
-| removed | -1.13ms | 17.2% → 0.0% | 1.1ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:61165` |
+|  Change |   Delta |             % |          Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| +240.9% | +4.42ms |  9.3% → 44.4% | 1.8ms → 6.2ms |   2 → 5 | `./node_modules/typescript/lib/typescript.js:60744 → 61999` |
+|  -51.9% | -4.04ms | 39.4% → 26.6% | 7.8ms → 3.8ms |   7 → 3 | `./node_modules/typescript/lib/typescript.js:60741 → 61996` |
+| removed | -1.29ms |   6.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60493`         |
+| removed | -1.29ms |   6.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60739`         |
+| removed | -1.25ms |   6.3% → 0.0% |   1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:60679`         |
 
-##### `resolveStructuredTypeMembers` (`node_modules/typescript/lib/typescript.js:61345:40`)
+##### `getTypePredicateOfSignature` (`./node_modules/typescript/lib/typescript.js:62417:39`)
 
-|  Change |   Delta |             % |           Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | -------------: | ------: | --------------------------------------------------------- |
-|  -41.7% | -5.38ms | 71.5% → 59.0% | 12.9ms → 7.5ms |  10 → 6 | `node_modules/typescript/lib/typescript.js:60090 → 61345` |
-| removed | -2.50ms |  13.9% → 0.0% |    2.5ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:60099`         |
-|     new | +2.50ms |  0.0% → 19.7% |    0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:61349`         |
-|     new | +2.50ms |  0.0% → 19.7% |    0ms → 2.5ms |   0 → 2 | `node_modules/typescript/lib/typescript.js:61355`         |
-| removed | -1.75ms |   9.7% → 0.0% |    1.8ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:60091`         |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+| removed | -1.25ms | 19.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61162` |
+| removed | -1.25ms | 19.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61163` |
+| removed | -1.25ms | 19.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61166` |
+| removed | -1.13ms | 17.2% → 0.0% | 1.1ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:61165` |
 
-##### `getTypeFromTypeNode` (`node_modules/typescript/lib/typescript.js:65779:31`)
+##### `resolveStructuredTypeMembers` (`./node_modules/typescript/lib/typescript.js:61345:40`)
 
-| Change |   Delta |             % |          Time | Samples | Location                                                  |
-| -----: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------- |
-| -79.6% | -5.04ms | 92.1% → 81.6% | 6.3ms → 1.3ms |   5 → 1 | `node_modules/typescript/lib/typescript.js:64525 → 65780` |
+|  Change |   Delta |             % |           Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | -------------: | ------: | ----------------------------------------------------------- |
+|  -41.7% | -5.38ms | 71.5% → 59.0% | 12.9ms → 7.5ms |  10 → 6 | `./node_modules/typescript/lib/typescript.js:60090 → 61345` |
+| removed | -2.50ms |  13.9% → 0.0% |    2.5ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:60099`         |
+|     new | +2.50ms |  0.0% → 19.7% |    0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:61349`         |
+|     new | +2.50ms |  0.0% → 19.7% |    0ms → 2.5ms |   0 → 2 | `./node_modules/typescript/lib/typescript.js:61355`         |
+| removed | -1.75ms |   9.7% → 0.0% |    1.8ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:60091`         |
+
+##### `getTypeFromTypeNode` (`./node_modules/typescript/lib/typescript.js:65779:31`)
+
+| Change |   Delta |             % |          Time | Samples | Location                                                    |
+| -----: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
+| -79.6% | -5.04ms | 92.1% → 81.6% | 6.3ms → 1.3ms |   5 → 1 | `./node_modules/typescript/lib/typescript.js:64525 → 65780` |
 
 ##### `stat` (`<unknown>`)
 
@@ -502,52 +502,52 @@ Lines with the largest change in contribution to each function's self time.
 | -----: | ------: | -----: | --------------: | ------: | --------------------------------------- |
 |  -5.9% | -5.13ms | 100.0% | 86.5ms → 81.4ms | 69 → 65 | `node:internal/modules/cjs/loader:1713` |
 
-##### `internIdentifier` (`node_modules/typescript/lib/typescript.js:33331:28`)
+##### `internIdentifier` (`./node_modules/typescript/lib/typescript.js:33331:28`)
 
-|  Change |   Delta |              % |          Time | Samples | Location                                                  |
-| ------: | ------: | -------------: | ------------: | ------: | --------------------------------------------------------- |
-| removed | -3.79ms |   30.2% → 0.0% |   3.8ms → 0ms |   3 → 0 | `node_modules/typescript/lib/typescript.js:32279`         |
-|  -14.3% | -1.25ms | 69.8% → 100.0% | 8.8ms → 7.5ms |   7 → 6 | `node_modules/typescript/lib/typescript.js:32277 → 33332` |
+|  Change |   Delta |              % |          Time | Samples | Location                                                    |
+| ------: | ------: | -------------: | ------------: | ------: | ----------------------------------------------------------- |
+| removed | -3.79ms |   30.2% → 0.0% |   3.8ms → 0ms |   3 → 0 | `./node_modules/typescript/lib/typescript.js:32279`         |
+|  -14.3% | -1.25ms | 69.8% → 100.0% | 8.8ms → 7.5ms |   7 → 6 | `./node_modules/typescript/lib/typescript.js:32277 → 33332` |
 
-##### `checkSourceElement` (`node_modules/typescript/lib/typescript.js:88199:30`)
+##### `checkSourceElement` (`./node_modules/typescript/lib/typescript.js:88199:30`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-| removed | -2.54ms | 40.9% → 0.0% | 2.5ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:86887` |
-| removed | -2.42ms | 38.9% → 0.0% | 2.4ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:86891` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+| removed | -2.54ms | 40.9% → 0.0% | 2.5ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:86887` |
+| removed | -2.42ms | 38.9% → 0.0% | 2.4ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:86891` |
 
-##### `getTypeOfMappedSymbol` (`node_modules/typescript/lib/typescript.js:61244:33`)
+##### `getTypeOfMappedSymbol` (`./node_modules/typescript/lib/typescript.js:61244:33`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-| removed | -2.42ms | 49.6% → 0.0% | 2.4ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:59989` |
-| removed | -1.29ms | 26.5% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:59999` |
-| removed | -1.17ms | 23.9% → 0.0% | 1.2ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:59997` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+| removed | -2.42ms | 49.6% → 0.0% | 2.4ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:59989` |
+| removed | -1.29ms | 26.5% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:59999` |
+| removed | -1.17ms | 23.9% → 0.0% | 1.2ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:59997` |
 
-##### `getNonNullableType` (`node_modules/typescript/lib/typescript.js:70430:30`)
+##### `getNonNullableType` (`./node_modules/typescript/lib/typescript.js:70430:30`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                          |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------- |
-| removed | -2.29ms | 47.4% → 0.0% | 2.3ms → 0ms |   2 → 0 | `node_modules/typescript/lib/typescript.js:69171` |
-| removed | -1.29ms | 26.7% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:71023` |
-| removed | -1.25ms | 25.9% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:69170` |
+|  Change |   Delta |            % |        Time | Samples | Location                                            |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------- |
+| removed | -2.29ms | 47.4% → 0.0% | 2.3ms → 0ms |   2 → 0 | `./node_modules/typescript/lib/typescript.js:69171` |
+| removed | -1.29ms | 26.7% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:71023` |
+| removed | -1.25ms | 25.9% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:69170` |
 
-##### `resolveCall` (`node_modules/typescript/lib/typescript.js:78594:23`)
+##### `resolveCall` (`./node_modules/typescript/lib/typescript.js:78594:23`)
 
-|  Change |   Delta |             % |        Time | Samples | Location                                                  |
-| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------------------------- |
-| removed | -3.54ms |  48.8% → 0.0% | 3.5ms → 0ms |   3 → 0 | `node_modules/typescript/lib/typescript.js:77327`         |
-| removed | -1.25ms |  17.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:77313`         |
-|     new | +1.25ms |  0.0% → 49.2% | 0ms → 1.3ms |   0 → 1 | `node_modules/typescript/lib/typescript.js:78594`         |
-| removed | -1.21ms |  16.7% → 0.0% | 1.2ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:77300`         |
-|   +3.4% | +0.04ms | 17.2% → 50.8% |       1.3ms |       1 | `node_modules/typescript/lib/typescript.js:77324 → 78619` |
+|  Change |   Delta |             % |        Time | Samples | Location                                                    |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------------------------------------------------- |
+| removed | -3.54ms |  48.8% → 0.0% | 3.5ms → 0ms |   3 → 0 | `./node_modules/typescript/lib/typescript.js:77327`         |
+| removed | -1.25ms |  17.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:77313`         |
+|     new | +1.25ms |  0.0% → 49.2% | 0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:78594`         |
+| removed | -1.21ms |  16.7% → 0.0% | 1.2ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:77300`         |
+|   +3.4% | +0.04ms | 17.2% → 50.8% |       1.3ms |       1 | `./node_modules/typescript/lib/typescript.js:77324 → 78619` |
 
-##### `reducePathComponents` (`node_modules/typescript/lib/typescript.js:9088:30`)
+##### `reducePathComponents` (`./node_modules/typescript/lib/typescript.js:9088:30`)
 
-|  Change |   Delta |            % |        Time | Samples | Location                                         |
-| ------: | ------: | -----------: | ----------: | ------: | ------------------------------------------------ |
-| removed | -3.79ms | 81.3% → 0.0% | 3.8ms → 0ms |   3 → 0 | `node_modules/typescript/lib/typescript.js:9088` |
-| removed | -0.88ms | 18.7% → 0.0% | 0.9ms → 0ms |   1 → 0 | `node_modules/typescript/lib/typescript.js:2784` |
+|  Change |   Delta |            % |        Time | Samples | Location                                           |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------------------------- |
+| removed | -3.79ms | 81.3% → 0.0% | 3.8ms → 0ms |   3 → 0 | `./node_modules/typescript/lib/typescript.js:9088` |
+| removed | -0.88ms | 18.7% → 0.0% | 0.9ms → 0ms |   1 → 0 | `./node_modules/typescript/lib/typescript.js:2784` |
 
 ##### `tryStatSync` (`node:fs:389:21`)
 
@@ -628,157 +628,157 @@ Lines with the largest change in contribution to each function's self time.
 
 Callers with the largest change in contribution to each function's self time. Inlining can make caller attribution imprecise.
 
-##### `scan` (`node_modules/typescript/lib/typescript.js:12895:16`)
+##### `scan` (`./node_modules/typescript/lib/typescript.js:12895:16`)
 
-|  Change |    Delta |              % |            Time | Samples | Caller                    | Location                                                        |
-| ------: | -------: | -------------: | --------------: | ------: | ------------------------- | --------------------------------------------------------------- |
-|  +54.2% | +14.29ms | 95.5% → 100.0% | 26.4ms → 40.7ms | 24 → 31 | `nextTokenWithoutCheck`   | `node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
-| removed |  -1.25ms |    4.5% → 0.0% |     1.3ms → 0ms |   1 → 0 | `parsePropertyNameWorker` | `node_modules/typescript/lib/typescript.js:32339:35`            |
+|  Change |    Delta |              % |            Time | Samples | Caller                    | Location                                                          |
+| ------: | -------: | -------------: | --------------: | ------: | ------------------------- | ----------------------------------------------------------------- |
+|  +54.2% | +14.29ms | 95.5% → 100.0% | 26.4ms → 40.7ms | 24 → 31 | `nextTokenWithoutCheck`   | `./node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
+| removed |  -1.25ms |    4.5% → 0.0% |     1.3ms → 0ms |   1 → 0 | `parsePropertyNameWorker` | `./node_modules/typescript/lib/typescript.js:32339:35`            |
 
-##### `checkTypeRelatedTo` (`node_modules/typescript/lib/typescript.js:67445:30`)
+##### `checkTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js:67445:30`)
 
-|   Change |   Delta |             % |            Time | Samples | Caller                                     | Location                                                        |
-| -------: | ------: | ------------: | --------------: | ------: | ------------------------------------------ | --------------------------------------------------------------- |
-|   +24.7% | +9.34ms | 97.1% → 91.6% | 37.8ms → 47.1ms | 30 → 39 | `isTypeRelatedTo`                          | `node_modules/typescript/lib/typescript.js:66101:27 → 67361:27` |
-| +2233.6% | +2.79ms |   0.3% → 5.7% |   0.1ms → 2.9ms |   1 → 4 | `checkTypeAssignableTo`                    | `node_modules/typescript/lib/typescript.js:65233:33 → 66493:33` |
-|   +41.7% | +0.42ms |   2.6% → 2.8% |   1.0ms → 1.4ms |   2 → 3 | `checkTypeRelatedToAndOptionallyElaborate` | `node_modules/typescript/lib/typescript.js:65249:52 → 66509:52` |
+|   Change |   Delta |             % |            Time | Samples | Caller                                     | Location                                                          |
+| -------: | ------: | ------------: | --------------: | ------: | ------------------------------------------ | ----------------------------------------------------------------- |
+|   +24.7% | +9.34ms | 97.1% → 91.6% | 37.8ms → 47.1ms | 30 → 39 | `isTypeRelatedTo`                          | `./node_modules/typescript/lib/typescript.js:66101:27 → 67361:27` |
+| +2233.6% | +2.79ms |   0.3% → 5.7% |   0.1ms → 2.9ms |   1 → 4 | `checkTypeAssignableTo`                    | `./node_modules/typescript/lib/typescript.js:65233:33 → 66493:33` |
+|   +41.7% | +0.42ms |   2.6% → 2.8% |   1.0ms → 1.4ms |   2 → 3 | `checkTypeRelatedToAndOptionallyElaborate` | `./node_modules/typescript/lib/typescript.js:65249:52 → 66509:52` |
 
-##### `checkIdentifier` (`node_modules/typescript/lib/typescript.js:74242:27`)
+##### `checkIdentifier` (`./node_modules/typescript/lib/typescript.js:74242:27`)
 
-|  Change |   Delta |              % |           Time | Samples | Caller                  | Location                                                        |
-| ------: | ------: | -------------: | -------------: | ------: | ----------------------- | --------------------------------------------------------------- |
-| +129.5% | +7.34ms | 100.0% → 91.2% | 5.7ms → 13.0ms |  5 → 14 | `checkExpressionWorker` | `node_modules/typescript/lib/typescript.js:81516:33 → 82811:33` |
-|     new | +1.25ms |    0.0% → 8.8% |    0ms → 1.3ms |   0 → 1 | `checkExpression`       | `node_modules/typescript/lib/typescript.js:82771:27`            |
+|  Change |   Delta |              % |           Time | Samples | Caller                  | Location                                                          |
+| ------: | ------: | -------------: | -------------: | ------: | ----------------------- | ----------------------------------------------------------------- |
+| +129.5% | +7.34ms | 100.0% → 91.2% | 5.7ms → 13.0ms |  5 → 14 | `checkExpressionWorker` | `./node_modules/typescript/lib/typescript.js:81516:33 → 82811:33` |
+|     new | +1.25ms |    0.0% → 8.8% |    0ms → 1.3ms |   0 → 1 | `checkExpression`       | `./node_modules/typescript/lib/typescript.js:82771:27`            |
 
-##### `parseExpected` (`node_modules/typescript/lib/typescript.js:33091:25`)
+##### `parseExpected` (`./node_modules/typescript/lib/typescript.js:33091:25`)
 
-|  Change |   Delta |             % |        Time | Samples | Caller                         | Location                                                        |
-| ------: | ------: | ------------: | ----------: | ------: | ------------------------------ | --------------------------------------------------------------- |
-|     new | +5.04ms |  0.0% → 56.5% | 0ms → 5.0ms |   0 → 4 | `parseObjectLiteralExpression` | `node_modules/typescript/lib/typescript.js:36477:40`            |
-|     new | +2.63ms |  0.0% → 29.4% | 0ms → 2.6ms |   0 → 2 | `parseInterfaceDeclaration`    | `node_modules/typescript/lib/typescript.js:36692:37 → 37747:37` |
-| removed | -1.29ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | `parseBracketedList`           | `node_modules/typescript/lib/typescript.js:32938:30`            |
-|     new | +1.25ms |  0.0% → 14.0% | 0ms → 1.3ms |   0 → 1 | `parseObjectTypeMembers`       | `node_modules/typescript/lib/typescript.js:33580:34 → 34635:34` |
+|  Change |   Delta |             % |        Time | Samples | Caller                         | Location                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------ | ----------------------------------------------------------------- |
+|     new | +5.04ms |  0.0% → 56.5% | 0ms → 5.0ms |   0 → 4 | `parseObjectLiteralExpression` | `./node_modules/typescript/lib/typescript.js:36477:40`            |
+|     new | +2.63ms |  0.0% → 29.4% | 0ms → 2.6ms |   0 → 2 | `parseInterfaceDeclaration`    | `./node_modules/typescript/lib/typescript.js:36692:37 → 37747:37` |
+| removed | -1.29ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | `parseBracketedList`           | `./node_modules/typescript/lib/typescript.js:32938:30`            |
+|     new | +1.25ms |  0.0% → 14.0% | 0ms → 1.3ms |   0 → 1 | `parseObjectTypeMembers`       | `./node_modules/typescript/lib/typescript.js:33580:34 → 34635:34` |
 
-##### `isRelatedTo` (`node_modules/typescript/lib/typescript.js:67753:25`)
+##### `isRelatedTo` (`./node_modules/typescript/lib/typescript.js:67753:25`)
 
-|  Change |   Delta |             % |            Time | Samples | Caller                  | Location                                                        |
-| ------: | ------: | ------------: | --------------: | ------: | ----------------------- | --------------------------------------------------------------- |
-|  +46.3% | +7.33ms | 46.2% → 56.2% | 15.8ms → 23.2ms | 19 → 25 | `checkTypeRelatedTo`    | `node_modules/typescript/lib/typescript.js:66185:30 → 67445:30` |
-|  +93.1% | +1.67ms |   5.2% → 8.4% |   1.8ms → 3.5ms |   2 → 3 | `eachTypeRelatedToType` | `node_modules/typescript/lib/typescript.js:66935:35 → 68195:35` |
-|  +52.5% | +1.38ms |   7.7% → 9.7% |   2.6ms → 4.0ms |   4 → 6 | `isRelatedToWorker2`    | `node_modules/typescript/lib/typescript.js:68378:34 → 69638:34` |
-| +411.7% | +1.38ms |   1.0% → 4.1% |   0.3ms → 1.7ms |   1 → 2 | `typeRelatedToSomeType` | `node_modules/typescript/lib/typescript.js:66827:35 → 68087:35` |
-| removed | -1.25ms |   3.6% → 0.0% |     1.3ms → 0ms |   1 → 0 | `propertiesRelatedTo`   | `node_modules/typescript/lib/typescript.js:68073:33 → 69333:33` |
+|  Change |   Delta |             % |            Time | Samples | Caller                  | Location                                                          |
+| ------: | ------: | ------------: | --------------: | ------: | ----------------------- | ----------------------------------------------------------------- |
+|  +46.3% | +7.33ms | 46.2% → 56.2% | 15.8ms → 23.2ms | 19 → 25 | `checkTypeRelatedTo`    | `./node_modules/typescript/lib/typescript.js:66185:30 → 67445:30` |
+|  +93.1% | +1.67ms |   5.2% → 8.4% |   1.8ms → 3.5ms |   2 → 3 | `eachTypeRelatedToType` | `./node_modules/typescript/lib/typescript.js:66935:35 → 68195:35` |
+|  +52.5% | +1.38ms |   7.7% → 9.7% |   2.6ms → 4.0ms |   4 → 6 | `isRelatedToWorker2`    | `./node_modules/typescript/lib/typescript.js:68378:34 → 69638:34` |
+| +411.7% | +1.38ms |   1.0% → 4.1% |   0.3ms → 1.7ms |   1 → 2 | `typeRelatedToSomeType` | `./node_modules/typescript/lib/typescript.js:66827:35 → 68087:35` |
+| removed | -1.25ms |   3.6% → 0.0% |     1.3ms → 0ms |   1 → 0 | `propertiesRelatedTo`   | `./node_modules/typescript/lib/typescript.js:68073:33 → 69333:33` |
 
-##### `nextToken` (`node_modules/typescript/lib/typescript.js:33015:21`)
+##### `nextToken` (`./node_modules/typescript/lib/typescript.js:33015:21`)
 
-| Change |   Delta |            % |        Time | Samples | Caller                                           | Location                                                        |
-| -----: | ------: | -----------: | ----------: | ------: | ------------------------------------------------ | --------------------------------------------------------------- |
-|    new | +5.04ms | 0.0% → 73.3% | 0ms → 5.0ms |   0 → 4 | `nextTokenIsIdentifierOrStringLiteralOnSameLine` | `node_modules/typescript/lib/typescript.js:36126:58 → 37181:58` |
-|    new | +1.29ms | 0.0% → 18.8% | 0ms → 1.3ms |   0 → 1 | `parseExpected`                                  | `node_modules/typescript/lib/typescript.js:32036:25 → 33091:25` |
-|    new | +0.54ms |  0.0% → 7.9% | 0ms → 0.5ms |   0 → 1 | `nextTokenAnd`                                   | `node_modules/typescript/lib/typescript.js:31956:24 → 33011:24` |
+| Change |   Delta |            % |        Time | Samples | Caller                                           | Location                                                          |
+| -----: | ------: | -----------: | ----------: | ------: | ------------------------------------------------ | ----------------------------------------------------------------- |
+|    new | +5.04ms | 0.0% → 73.3% | 0ms → 5.0ms |   0 → 4 | `nextTokenIsIdentifierOrStringLiteralOnSameLine` | `./node_modules/typescript/lib/typescript.js:36126:58 → 37181:58` |
+|    new | +1.29ms | 0.0% → 18.8% | 0ms → 1.3ms |   0 → 1 | `parseExpected`                                  | `./node_modules/typescript/lib/typescript.js:32036:25 → 33091:25` |
+|    new | +0.54ms |  0.0% → 7.9% | 0ms → 0.5ms |   0 → 1 | `nextTokenAnd`                                   | `./node_modules/typescript/lib/typescript.js:31956:24 → 33011:24` |
 
-##### `bind` (`node_modules/typescript/lib/typescript.js:47793:16`)
+##### `bind` (`./node_modules/typescript/lib/typescript.js:47793:16`)
 
-|  Change |   Delta |             % |            Time | Samples | Caller                      | Location                                                        |
-| ------: | ------: | ------------: | --------------: | ------: | --------------------------- | --------------------------------------------------------------- |
-| +250.0% | +5.42ms | 10.5% → 28.0% |   2.2ms → 7.6ms |   4 → 9 | `forEach`                   | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
-|  +23.4% | +2.75ms | 56.9% → 53.6% | 11.8ms → 14.5ms | 13 → 14 | `visitNode2`                | `node_modules/typescript/lib/typescript.js:30720:20 → 31772:20` |
-|  -77.2% | -2.54ms |  15.9% → 2.8% |   3.3ms → 0.8ms |   5 → 2 | `(anonymous)`               | `node_modules/typescript/lib/typescript.js:45224:21 → 46417:21` |
-|     new | +0.63ms |   0.0% → 2.3% |     0ms → 0.6ms |   0 → 1 | `bindLogicalLikeExpression` | `node_modules/typescript/lib/typescript.js:47050:37`            |
-|   +7.6% | +0.17ms |  10.7% → 8.8% |   2.2ms → 2.4ms |       4 | `bindParameterFlow`         | `node_modules/typescript/lib/typescript.js:46059:29 → 47252:29` |
+|  Change |   Delta |             % |            Time | Samples | Caller                      | Location                                                          |
+| ------: | ------: | ------------: | --------------: | ------: | --------------------------- | ----------------------------------------------------------------- |
+| +250.0% | +5.42ms | 10.5% → 28.0% |   2.2ms → 7.6ms |   4 → 9 | `forEach`                   | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
+|  +23.4% | +2.75ms | 56.9% → 53.6% | 11.8ms → 14.5ms | 13 → 14 | `visitNode2`                | `./node_modules/typescript/lib/typescript.js:30720:20 → 31772:20` |
+|  -77.2% | -2.54ms |  15.9% → 2.8% |   3.3ms → 0.8ms |   5 → 2 | `(anonymous)`               | `./node_modules/typescript/lib/typescript.js:45224:21 → 46417:21` |
+|     new | +0.63ms |   0.0% → 2.3% |     0ms → 0.6ms |   0 → 1 | `bindLogicalLikeExpression` | `./node_modules/typescript/lib/typescript.js:47050:37`            |
+|   +7.6% | +0.17ms |  10.7% → 8.8% |   2.2ms → 2.4ms |       4 | `bindParameterFlow`         | `./node_modules/typescript/lib/typescript.js:46059:29 → 47252:29` |
 
-##### `addInheritedMembers` (`node_modules/typescript/lib/typescript.js:60282:31`)
+##### `addInheritedMembers` (`./node_modules/typescript/lib/typescript.js:60282:31`)
 
-|  Change |   Delta |      % |           Time | Samples | Caller                     | Location                                                        |
-| ------: | ------: | -----: | -------------: | ------: | -------------------------- | --------------------------------------------------------------- |
-| +159.2% | +6.17ms | 100.0% | 3.9ms → 10.0ms |   4 → 9 | `resolveObjectTypeMembers` | `node_modules/typescript/lib/typescript.js:59210:36 → 60465:36` |
+|  Change |   Delta |      % |           Time | Samples | Caller                     | Location                                                          |
+| ------: | ------: | -----: | -------------: | ------: | -------------------------- | ----------------------------------------------------------------- |
+| +159.2% | +6.17ms | 100.0% | 3.9ms → 10.0ms |   4 → 9 | `resolveObjectTypeMembers` | `./node_modules/typescript/lib/typescript.js:59210:36 → 60465:36` |
 
-##### `getObjectTypeInstantiation` (`node_modules/typescript/lib/typescript.js:66040:38`)
+##### `getObjectTypeInstantiation` (`./node_modules/typescript/lib/typescript.js:66040:38`)
 
-|  Change |   Delta |              % |            Time | Samples | Caller                  | Location                                                        |
-| ------: | ------: | -------------: | --------------: | ------: | ----------------------- | --------------------------------------------------------------- |
-|  +22.1% | +6.42ms | 98.2% → 100.0% | 29.1ms → 35.5ms | 26 → 33 | `instantiateTypeWorker` | `node_modules/typescript/lib/typescript.js:65023:33 → 66283:33` |
-| removed | -0.54ms |    1.8% → 0.0% |     0.5ms → 0ms |   1 → 0 | `getMappedType`         | `node_modules/typescript/lib/typescript.js:64652:25 → 65907:25` |
+|  Change |   Delta |              % |            Time | Samples | Caller                  | Location                                                          |
+| ------: | ------: | -------------: | --------------: | ------: | ----------------------- | ----------------------------------------------------------------- |
+|  +22.1% | +6.42ms | 98.2% → 100.0% | 29.1ms → 35.5ms | 26 → 33 | `instantiateTypeWorker` | `./node_modules/typescript/lib/typescript.js:65023:33 → 66283:33` |
+| removed | -0.54ms |    1.8% → 0.0% |     0.5ms → 0ms |   1 → 0 | `getMappedType`         | `./node_modules/typescript/lib/typescript.js:64652:25 → 65907:25` |
 
-##### `getResolvedSymbol` (`node_modules/typescript/lib/typescript.js:71910:29`)
+##### `getResolvedSymbol` (`./node_modules/typescript/lib/typescript.js:71910:29`)
 
-|  Change |   Delta |             % |          Time | Samples | Caller                | Location                                                        |
-| ------: | ------: | ------------: | ------------: | ------: | --------------------- | --------------------------------------------------------------- |
-| +120.2% | +4.46ms | 74.8% → 76.0% | 3.7ms → 8.2ms |   3 → 7 | `checkIdentifier`     | `node_modules/typescript/lib/typescript.js:72959:27 → 74242:27` |
-|     new | +1.25ms |  0.0% → 11.6% |   0ms → 1.3ms |   0 → 1 | `getTypeOfDottedName` | `node_modules/typescript/lib/typescript.js:71402:31 → 72685:31` |
-|   +6.6% | +0.08ms | 25.2% → 12.4% |         1.3ms |       1 | `isMatchingReference` | `node_modules/typescript/lib/typescript.js:70685:31 → 71968:31` |
+|  Change |   Delta |             % |          Time | Samples | Caller                | Location                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | --------------------- | ----------------------------------------------------------------- |
+| +120.2% | +4.46ms | 74.8% → 76.0% | 3.7ms → 8.2ms |   3 → 7 | `checkIdentifier`     | `./node_modules/typescript/lib/typescript.js:72959:27 → 74242:27` |
+|     new | +1.25ms |  0.0% → 11.6% |   0ms → 1.3ms |   0 → 1 | `getTypeOfDottedName` | `./node_modules/typescript/lib/typescript.js:71402:31 → 72685:31` |
+|   +6.6% | +0.08ms | 25.2% → 12.4% |         1.3ms |       1 | `isMatchingReference` | `./node_modules/typescript/lib/typescript.js:70685:31 → 71968:31` |
 
-##### `createTypeReference` (`node_modules/typescript/lib/typescript.js:62794:31`)
+##### `createTypeReference` (`./node_modules/typescript/lib/typescript.js:62794:31`)
 
-|  Change |   Delta |             % |           Time | Samples | Caller                                 | Location                                                        |
-| ------: | ------: | ------------: | -------------: | ------: | -------------------------------------- | --------------------------------------------------------------- |
-| +124.8% | +9.00ms | 46.3% → 77.2% | 7.2ms → 16.2ms |  6 → 14 | `createNormalizedTypeReference`        | `node_modules/typescript/lib/typescript.js:62541:41 → 63796:41` |
-| removed | -2.54ms |  16.3% → 0.0% |    2.5ms → 0ms |   2 → 0 | `createNormalizedTupleType`            | `node_modules/typescript/lib/typescript.js:62544:37`            |
-|  +95.0% | +2.33ms | 15.8% → 22.8% |  2.5ms → 4.8ms |   2 → 4 | `getTypeWithThisArgument`              | `node_modules/typescript/lib/typescript.js:59199:35 → 60454:35` |
-| removed | -1.29ms |   8.3% → 0.0% |    1.3ms → 0ms |   1 → 0 | `getNormalizedType`                    | `node_modules/typescript/lib/typescript.js:66148:29`            |
-| removed | -1.04ms |   6.7% → 0.0% |    1.0ms → 0ms |   1 → 0 | `getTypeFromClassOrInterfaceReference` | `node_modules/typescript/lib/typescript.js:61596:48`            |
+|  Change |   Delta |             % |           Time | Samples | Caller                                 | Location                                                          |
+| ------: | ------: | ------------: | -------------: | ------: | -------------------------------------- | ----------------------------------------------------------------- |
+| +124.8% | +9.00ms | 46.3% → 77.2% | 7.2ms → 16.2ms |  6 → 14 | `createNormalizedTypeReference`        | `./node_modules/typescript/lib/typescript.js:62541:41 → 63796:41` |
+| removed | -2.54ms |  16.3% → 0.0% |    2.5ms → 0ms |   2 → 0 | `createNormalizedTupleType`            | `./node_modules/typescript/lib/typescript.js:62544:37`            |
+|  +95.0% | +2.33ms | 15.8% → 22.8% |  2.5ms → 4.8ms |   2 → 4 | `getTypeWithThisArgument`              | `./node_modules/typescript/lib/typescript.js:59199:35 → 60454:35` |
+| removed | -1.29ms |   8.3% → 0.0% |    1.3ms → 0ms |   1 → 0 | `getNormalizedType`                    | `./node_modules/typescript/lib/typescript.js:66148:29`            |
+| removed | -1.04ms |   6.7% → 0.0% |    1.0ms → 0ms |   1 → 0 | `getTypeFromClassOrInterfaceReference` | `./node_modules/typescript/lib/typescript.js:61596:48`            |
 
-##### `parseLiteralTypeNode` (`node_modules/typescript/lib/typescript.js:34779:32`)
+##### `parseLiteralTypeNode` (`./node_modules/typescript/lib/typescript.js:34779:32`)
 
-| Change |   Delta |             % |        Time | Samples | Caller              | Location                                                        |
-| -----: | ------: | ------------: | ----------: | ------: | ------------------- | --------------------------------------------------------------- |
-|    new | +5.25ms | 0.0% → 100.0% | 0ms → 5.3ms |   0 → 4 | `parseNonArrayType` | `node_modules/typescript/lib/typescript.js:33781:29 → 34836:29` |
+| Change |   Delta |             % |        Time | Samples | Caller              | Location                                                          |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------- | ----------------------------------------------------------------- |
+|    new | +5.25ms | 0.0% → 100.0% | 0ms → 5.3ms |   0 → 4 | `parseNonArrayType` | `./node_modules/typescript/lib/typescript.js:33781:29 → 34836:29` |
 
-##### `iterateCommentRanges` (`node_modules/typescript/lib/typescript.js:12043:30`)
+##### `iterateCommentRanges` (`./node_modules/typescript/lib/typescript.js:12043:30`)
 
-|  Change |   Delta |      % |          Time | Samples | Caller                          | Location                                                        |
-| ------: | ------: | -----: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------- |
-| +206.7% | +5.17ms | 100.0% | 2.5ms → 7.7ms |   3 → 7 | `reduceEachLeadingCommentRange` | `node_modules/typescript/lib/typescript.js:12035:39 → 12162:39` |
+|  Change |   Delta |      % |          Time | Samples | Caller                          | Location                                                          |
+| ------: | ------: | -----: | ------------: | ------: | ------------------------------- | ----------------------------------------------------------------- |
+| +206.7% | +5.17ms | 100.0% | 2.5ms → 7.7ms |   3 → 7 | `reduceEachLeadingCommentRange` | `./node_modules/typescript/lib/typescript.js:12035:39 → 12162:39` |
 
-##### `createTypeMapper` (`node_modules/typescript/lib/typescript.js:65904:28`)
+##### `createTypeMapper` (`./node_modules/typescript/lib/typescript.js:65904:28`)
 
-|  Change |   Delta |             % |          Time | Samples | Caller                          | Location                                                        |
-| ------: | ------: | ------------: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------- |
-| +186.9% | +4.75ms | 92.4% → 92.1% | 2.5ms → 7.3ms |   2 → 6 | `getObjectTypeInstantiation`    | `node_modules/typescript/lib/typescript.js:64785:38 → 66040:38` |
-| +200.5% | +0.42ms |   7.6% → 7.9% | 0.2ms → 0.6ms |       1 | `createImplementationSignature` | `node_modules/typescript/lib/typescript.js:61341:41 → 62596:41` |
+|  Change |   Delta |             % |          Time | Samples | Caller                          | Location                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------- | ----------------------------------------------------------------- |
+| +186.9% | +4.75ms | 92.4% → 92.1% | 2.5ms → 7.3ms |   2 → 6 | `getObjectTypeInstantiation`    | `./node_modules/typescript/lib/typescript.js:64785:38 → 66040:38` |
+| +200.5% | +0.42ms |   7.6% → 7.9% | 0.2ms → 0.6ms |       1 | `createImplementationSignature` | `./node_modules/typescript/lib/typescript.js:61341:41 → 62596:41` |
 
-##### `getRelationKey` (`node_modules/typescript/lib/typescript.js:69989:26`)
+##### `getRelationKey` (`./node_modules/typescript/lib/typescript.js:69989:26`)
 
-| Change |   Delta |              % |          Time | Samples | Caller                   | Location                                                        |
-| -----: | ------: | -------------: | ------------: | ------: | ------------------------ | --------------------------------------------------------------- |
-|    new | +2.54ms |   0.0% → 28.8% |   0ms → 2.5ms |   0 → 2 | `isTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:67361:27`            |
-| +62.4% | +2.42ms | 100.0% → 71.2% | 3.9ms → 6.3ms |   4 → 5 | `recursiveTypeRelatedTo` | `node_modules/typescript/lib/typescript.js:67063:36 → 68323:36` |
+| Change |   Delta |              % |          Time | Samples | Caller                   | Location                                                          |
+| -----: | ------: | -------------: | ------------: | ------: | ------------------------ | ----------------------------------------------------------------- |
+|    new | +2.54ms |   0.0% → 28.8% |   0ms → 2.5ms |   0 → 2 | `isTypeRelatedTo`        | `./node_modules/typescript/lib/typescript.js:67361:27`            |
+| +62.4% | +2.42ms | 100.0% → 71.2% | 3.9ms → 6.3ms |   4 → 5 | `recursiveTypeRelatedTo` | `./node_modules/typescript/lib/typescript.js:67063:36 → 68323:36` |
 
-##### `checkExpression` (`node_modules/typescript/lib/typescript.js:82771:27`)
+##### `checkExpression` (`./node_modules/typescript/lib/typescript.js:82771:27`)
 
-|  Change |   Delta |            % |        Time | Samples | Caller                              | Location                                                        |
-| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- | --------------------------------------------------------------- |
-|     new | +2.50ms | 0.0% → 50.4% | 0ms → 2.5ms |   0 → 2 | `resolveCallExpression`             | `node_modules/typescript/lib/typescript.js:77689:33 → 78984:33` |
-|     new | +1.25ms | 0.0% → 25.2% | 0ms → 1.3ms |   0 → 1 | `checkExpressionWithContextualType` | `node_modules/typescript/lib/typescript.js:81122:45 → 82417:45` |
-|     new | +1.21ms | 0.0% → 24.4% | 0ms → 1.2ms |   0 → 1 | `checkNonNullExpression`            | `node_modules/typescript/lib/typescript.js:75707:34 → 76990:34` |
-| removed | -0.17ms | 66.8% → 0.0% | 0.2ms → 0ms |   1 → 0 | `checkExpressionCached`             | `node_modules/typescript/lib/typescript.js:81145:33 → 82440:33` |
-| removed | -0.08ms | 33.2% → 0.0% | 0.1ms → 0ms |   1 → 0 | `checkExpressionStatement`          | `node_modules/typescript/lib/typescript.js:84124:36 → 85419:36` |
+|  Change |   Delta |            % |        Time | Samples | Caller                              | Location                                                          |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------- | ----------------------------------------------------------------- |
+|     new | +2.50ms | 0.0% → 50.4% | 0ms → 2.5ms |   0 → 2 | `resolveCallExpression`             | `./node_modules/typescript/lib/typescript.js:77689:33 → 78984:33` |
+|     new | +1.25ms | 0.0% → 25.2% | 0ms → 1.3ms |   0 → 1 | `checkExpressionWithContextualType` | `./node_modules/typescript/lib/typescript.js:81122:45 → 82417:45` |
+|     new | +1.21ms | 0.0% → 24.4% | 0ms → 1.2ms |   0 → 1 | `checkNonNullExpression`            | `./node_modules/typescript/lib/typescript.js:75707:34 → 76990:34` |
+| removed | -0.17ms | 66.8% → 0.0% | 0.2ms → 0ms |   1 → 0 | `checkExpressionCached`             | `./node_modules/typescript/lib/typescript.js:81145:33 → 82440:33` |
+| removed | -0.08ms | 33.2% → 0.0% | 0.1ms → 0ms |   1 → 0 | `checkExpressionStatement`          | `./node_modules/typescript/lib/typescript.js:84124:36 → 85419:36` |
 
-##### `getTypeAtFlowAssignment` (`node_modules/typescript/lib/typescript.js:73025:37`)
+##### `getTypeAtFlowAssignment` (`./node_modules/typescript/lib/typescript.js:73025:37`)
 
-|  Change |   Delta |      % |          Time | Samples | Caller              | Location                                                        |
-| ------: | ------: | -----: | ------------: | ------: | ------------------- | --------------------------------------------------------------- |
-| +114.7% | +4.54ms | 100.0% | 4.0ms → 8.5ms |   5 → 8 | `getTypeAtFlowNode` | `node_modules/typescript/lib/typescript.js:71660:31 → 72943:31` |
+|  Change |   Delta |      % |          Time | Samples | Caller              | Location                                                          |
+| ------: | ------: | -----: | ------------: | ------: | ------------------- | ----------------------------------------------------------------- |
+| +114.7% | +4.54ms | 100.0% | 4.0ms → 8.5ms |   5 → 8 | `getTypeAtFlowNode` | `./node_modules/typescript/lib/typescript.js:71660:31 → 72943:31` |
 
-##### `checkExpressionWorker` (`node_modules/typescript/lib/typescript.js:82811:33`)
+##### `checkExpressionWorker` (`./node_modules/typescript/lib/typescript.js:82811:33`)
 
-| Change |   Delta |             % |           Time | Samples | Caller                      | Location                                                        |
-| -----: | ------: | ------------: | -------------: | ------: | --------------------------- | --------------------------------------------------------------- |
-| +69.8% | +4.25ms | 98.6% → 98.8% | 6.1ms → 10.3ms | 11 → 15 | `checkExpression`           | `node_modules/typescript/lib/typescript.js:81476:27 → 82771:27` |
-| +48.8% | +0.04ms |   1.4% → 1.2% |          0.1ms |       1 | `getFreshTypeOfLiteralType` | `node_modules/typescript/lib/typescript.js:64394:37 → 65649:37` |
+| Change |   Delta |             % |           Time | Samples | Caller                      | Location                                                          |
+| -----: | ------: | ------------: | -------------: | ------: | --------------------------- | ----------------------------------------------------------------- |
+| +69.8% | +4.25ms | 98.6% → 98.8% | 6.1ms → 10.3ms | 11 → 15 | `checkExpression`           | `./node_modules/typescript/lib/typescript.js:81476:27 → 82771:27` |
+| +48.8% | +0.04ms |   1.4% → 1.2% |          0.1ms |       1 | `getFreshTypeOfLiteralType` | `./node_modules/typescript/lib/typescript.js:64394:37 → 65649:37` |
 
-##### `createNodeArray` (`node_modules/typescript/lib/typescript.js:33287:27`)
+##### `createNodeArray` (`./node_modules/typescript/lib/typescript.js:33287:27`)
 
-|  Change |   Delta |              % |          Time | Samples | Caller                             | Location                                                        |
-| ------: | ------: | -------------: | ------------: | ------: | ---------------------------------- | --------------------------------------------------------------- |
-|     new | +3.42ms |   0.0% → 73.2% |   0ms → 3.4ms |   0 → 3 | `parseModifiersForConstructorType` | `node_modules/typescript/lib/typescript.js:34749:44`            |
-| +199.8% | +0.83ms | 100.0% → 26.8% | 0.4ms → 1.3ms |       1 | `parseDelimitedList`               | `node_modules/typescript/lib/typescript.js:32875:30 → 33930:30` |
+|  Change |   Delta |              % |          Time | Samples | Caller                             | Location                                                          |
+| ------: | ------: | -------------: | ------------: | ------: | ---------------------------------- | ----------------------------------------------------------------- |
+|     new | +3.42ms |   0.0% → 73.2% |   0ms → 3.4ms |   0 → 3 | `parseModifiersForConstructorType` | `./node_modules/typescript/lib/typescript.js:34749:44`            |
+| +199.8% | +0.83ms | 100.0% → 26.8% | 0.4ms → 1.3ms |       1 | `parseDelimitedList`               | `./node_modules/typescript/lib/typescript.js:32875:30 → 33930:30` |
 
-##### `nextTokenWithoutCheck` (`node_modules/typescript/lib/typescript.js:33008:33`)
+##### `nextTokenWithoutCheck` (`./node_modules/typescript/lib/typescript.js:33008:33`)
 
-| Change |   Delta |      % |           Time | Samples | Caller      | Location                                                        |
-| -----: | ------: | -----: | -------------: | ------: | ----------- | --------------------------------------------------------------- |
-| +49.8% | +4.08ms | 100.0% | 8.2ms → 12.3ms |  8 → 10 | `nextToken` | `node_modules/typescript/lib/typescript.js:31960:21 → 33015:21` |
+| Change |   Delta |      % |           Time | Samples | Caller      | Location                                                          |
+| -----: | ------: | -----: | -------------: | ------: | ----------- | ----------------------------------------------------------------- |
+| +49.8% | +4.08ms | 100.0% | 8.2ms → 12.3ms |  8 → 10 | `nextToken` | `./node_modules/typescript/lib/typescript.js:31960:21 → 33015:21` |
 
 ##### `getStatsFromBinding` (`node:internal/fs/utils:552:29`)
 
@@ -828,115 +828,115 @@ Callers with the largest change in contribution to each function's self time. In
 | -----: | ------: | ------------: | ----------: | ------: | ------------- | ----------------- |
 |    new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `(anonymous)` | `node:fs:2851:23` |
 
-##### `createUnionOrIntersectionProperty` (`node_modules/typescript/lib/typescript.js:61753:45`)
+##### `createUnionOrIntersectionProperty` (`./node_modules/typescript/lib/typescript.js:61753:45`)
 
-| Change |    Delta |      % |           Time | Samples | Caller                           | Location                                                        |
-| -----: | -------: | -----: | -------------: | ------: | -------------------------------- | --------------------------------------------------------------- |
-| -75.3% | -13.12ms | 100.0% | 17.4ms → 4.3ms |   8 → 6 | `getUnionOrIntersectionProperty` | `node_modules/typescript/lib/typescript.js:60637:42 → 61892:42` |
+| Change |    Delta |      % |           Time | Samples | Caller                           | Location                                                          |
+| -----: | -------: | -----: | -------------: | ------: | -------------------------------- | ----------------------------------------------------------------- |
+| -75.3% | -13.12ms | 100.0% | 17.4ms → 4.3ms |   8 → 6 | `getUnionOrIntersectionProperty` | `./node_modules/typescript/lib/typescript.js:60637:42 → 61892:42` |
 
-##### `recursiveTypeRelatedTo` (`node_modules/typescript/lib/typescript.js:68323:36`)
+##### `recursiveTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js:68323:36`)
 
-| Change |    Delta |             % |            Time | Samples | Caller               | Location                                                        |
-| -----: | -------: | ------------: | --------------: | ------: | -------------------- | --------------------------------------------------------------- |
-| -18.3% | -12.42ms | 98.3% → 97.8% | 67.8ms → 55.4ms | 64 → 54 | `isRelatedTo`        | `node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
-|  +3.5% |  +0.04ms |   1.7% → 2.2% |   1.2ms → 1.3ms |       1 | `checkTypeRelatedTo` | `node_modules/typescript/lib/typescript.js:66185:30 → 67445:30` |
+| Change |    Delta |             % |            Time | Samples | Caller               | Location                                                          |
+| -----: | -------: | ------------: | --------------: | ------: | -------------------- | ----------------------------------------------------------------- |
+| -18.3% | -12.42ms | 98.3% → 97.8% | 67.8ms → 55.4ms | 64 → 54 | `isRelatedTo`        | `./node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
+|  +3.5% |  +0.04ms |   1.7% → 2.2% |   1.2ms → 1.3ms |       1 | `checkTypeRelatedTo` | `./node_modules/typescript/lib/typescript.js:66185:30 → 67445:30` |
 
-##### `getNormalizedType` (`node_modules/typescript/lib/typescript.js:67408:29`)
+##### `getNormalizedType` (`./node_modules/typescript/lib/typescript.js:67408:29`)
 
-| Change |   Delta |      % |            Time | Samples | Caller        | Location                                                        |
-| -----: | ------: | -----: | --------------: | ------: | ------------- | --------------------------------------------------------------- |
-| -33.5% | -7.79ms | 100.0% | 23.2ms → 15.5ms | 21 → 16 | `isRelatedTo` | `node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
+| Change |   Delta |      % |            Time | Samples | Caller        | Location                                                          |
+| -----: | ------: | -----: | --------------: | ------: | ------------- | ----------------------------------------------------------------- |
+| -33.5% | -7.79ms | 100.0% | 23.2ms → 15.5ms | 21 → 16 | `isRelatedTo` | `./node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
 
-##### `getTypeArguments` (`node_modules/typescript/lib/typescript.js:62827:28`)
+##### `getTypeArguments` (`./node_modules/typescript/lib/typescript.js:62827:28`)
 
-|  Change |   Delta |             % |          Time | Samples | Caller                                | Location                                                        |
-| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------- | --------------------------------------------------------------- |
-| removed | -5.33ms |  49.0% → 0.0% |   5.3ms → 0ms |   4 → 0 | `isTypeReferenceWithGenericArguments` | `node_modules/typescript/lib/typescript.js:68697:47`            |
-| removed | -1.25ms |  11.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `getTypeWithThisArgument`             | `node_modules/typescript/lib/typescript.js:59199:35`            |
-|  -60.0% | -0.75ms | 11.5% → 16.0% | 1.3ms → 0.5ms |       1 | `inferFromTypes`                      | `node_modules/typescript/lib/typescript.js:69901:28 → 71184:28` |
-|  -42.3% | -0.46ms | 10.0% → 20.0% | 1.1ms → 0.6ms |       1 | `typeReferenceToTypeNode`             | `node_modules/typescript/lib/typescript.js:53749:39 → 54996:39` |
-|  +27.4% | +0.25ms |  8.4% → 37.3% | 0.9ms → 1.2ms |       1 | `resolveTypeReferenceMembers`         | `node_modules/typescript/lib/typescript.js:59264:39 → 60519:39` |
+|  Change |   Delta |             % |          Time | Samples | Caller                                | Location                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------- | ----------------------------------------------------------------- |
+| removed | -5.33ms |  49.0% → 0.0% |   5.3ms → 0ms |   4 → 0 | `isTypeReferenceWithGenericArguments` | `./node_modules/typescript/lib/typescript.js:68697:47`            |
+| removed | -1.25ms |  11.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `getTypeWithThisArgument`             | `./node_modules/typescript/lib/typescript.js:59199:35`            |
+|  -60.0% | -0.75ms | 11.5% → 16.0% | 1.3ms → 0.5ms |       1 | `inferFromTypes`                      | `./node_modules/typescript/lib/typescript.js:69901:28 → 71184:28` |
+|  -42.3% | -0.46ms | 10.0% → 20.0% | 1.1ms → 0.6ms |       1 | `typeReferenceToTypeNode`             | `./node_modules/typescript/lib/typescript.js:53749:39 → 54996:39` |
+|  +27.4% | +0.25ms |  8.4% → 37.3% | 0.9ms → 1.2ms |       1 | `resolveTypeReferenceMembers`         | `./node_modules/typescript/lib/typescript.js:59264:39 → 60519:39` |
 
-##### `instantiateTypeWithAlias` (`node_modules/typescript/lib/typescript.js:66266:36`)
+##### `instantiateTypeWithAlias` (`./node_modules/typescript/lib/typescript.js:66266:36`)
 
-| Change |   Delta |      % |           Time | Samples | Caller            | Location                                                        |
-| -----: | ------: | -----: | -------------: | ------: | ----------------- | --------------------------------------------------------------- |
-| -57.5% | -7.71ms | 100.0% | 13.4ms → 5.7ms |  12 → 6 | `instantiateType` | `node_modules/typescript/lib/typescript.js:64996:27 → 66256:27` |
+| Change |   Delta |      % |           Time | Samples | Caller            | Location                                                          |
+| -----: | ------: | -----: | -------------: | ------: | ----------------- | ----------------------------------------------------------------- |
+| -57.5% | -7.71ms | 100.0% | 13.4ms → 5.7ms |  12 → 6 | `instantiateType` | `./node_modules/typescript/lib/typescript.js:64996:27 → 66256:27` |
 
-##### `getTokenValue` (`node_modules/typescript/lib/typescript.js:12135:20`)
+##### `getTokenValue` (`./node_modules/typescript/lib/typescript.js:12135:20`)
 
-|  Change |   Delta |            % |        Time | Samples | Caller            | Location                                             |
-| ------: | ------: | -----------: | ----------: | ------: | ----------------- | ---------------------------------------------------- |
-| removed | -5.08ms | 81.3% → 0.0% | 5.1ms → 0ms |   4 → 0 | `doJSDocScan`     | `node_modules/typescript/lib/typescript.js:37253:27` |
-| removed | -1.17ms | 18.7% → 0.0% | 1.2ms → 0ms |   1 → 0 | `parseIdentifier` | `node_modules/typescript/lib/typescript.js:32321:27` |
+|  Change |   Delta |            % |        Time | Samples | Caller            | Location                                               |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------- | ------------------------------------------------------ |
+| removed | -5.08ms | 81.3% → 0.0% | 5.1ms → 0ms |   4 → 0 | `doJSDocScan`     | `./node_modules/typescript/lib/typescript.js:37253:27` |
+| removed | -1.17ms | 18.7% → 0.0% | 1.2ms → 0ms |   1 → 0 | `parseIdentifier` | `./node_modules/typescript/lib/typescript.js:32321:27` |
 
-##### `isEmptyObjectType` (`node_modules/typescript/lib/typescript.js:67224:29`)
+##### `isEmptyObjectType` (`./node_modules/typescript/lib/typescript.js:67224:29`)
 
-| Change |   Delta |      % |          Time | Samples | Caller               | Location                                                        |
-| -----: | ------: | -----: | ------------: | ------: | -------------------- | --------------------------------------------------------------- |
-| -73.2% | -6.25ms | 100.0% | 8.5ms → 2.3ms |   4 → 2 | `getTypeFactsWorker` | `node_modules/typescript/lib/typescript.js:70941:30 → 72224:30` |
+| Change |   Delta |      % |          Time | Samples | Caller               | Location                                                          |
+| -----: | ------: | -----: | ------------: | ------: | -------------------- | ----------------------------------------------------------------- |
+| -73.2% | -6.25ms | 100.0% | 8.5ms → 2.3ms |   4 → 2 | `getTypeFactsWorker` | `./node_modules/typescript/lib/typescript.js:70941:30 → 72224:30` |
 
-##### `isSimpleTypeRelatedTo` (`node_modules/typescript/lib/typescript.js:67312:33`)
+##### `isSimpleTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js:67312:33`)
 
-| Change |   Delta |             % |           Time | Samples | Caller            | Location                                                        |
-| -----: | ------: | ------------: | -------------: | ------: | ----------------- | --------------------------------------------------------------- |
-| -58.8% | -6.37ms | 94.9% → 83.6% | 10.8ms → 4.5ms |  13 → 8 | `isRelatedTo`     | `node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
-| +49.8% | +0.29ms |  5.1% → 16.4% |  0.6ms → 0.9ms |       1 | `isTypeRelatedTo` | `node_modules/typescript/lib/typescript.js:66101:27 → 67361:27` |
+| Change |   Delta |             % |           Time | Samples | Caller            | Location                                                          |
+| -----: | ------: | ------------: | -------------: | ------: | ----------------- | ----------------------------------------------------------------- |
+| -58.8% | -6.37ms | 94.9% → 83.6% | 10.8ms → 4.5ms |  13 → 8 | `isRelatedTo`     | `./node_modules/typescript/lib/typescript.js:66493:25 → 67753:25` |
+| +49.8% | +0.29ms |  5.1% → 16.4% |  0.6ms → 0.9ms |       1 | `isTypeRelatedTo` | `./node_modules/typescript/lib/typescript.js:66101:27 → 67361:27` |
 
-##### `instantiateTypeWorker` (`node_modules/typescript/lib/typescript.js:66283:33`)
+##### `instantiateTypeWorker` (`./node_modules/typescript/lib/typescript.js:66283:33`)
 
-| Change |   Delta |      % |            Time | Samples | Caller                     | Location                                                        |
-| -----: | ------: | -----: | --------------: | ------: | -------------------------- | --------------------------------------------------------------- |
-| -12.3% | -6.00ms | 100.0% | 48.8ms → 42.8ms | 52 → 45 | `instantiateTypeWithAlias` | `node_modules/typescript/lib/typescript.js:65006:36 → 66266:36` |
+| Change |   Delta |      % |            Time | Samples | Caller                     | Location                                                          |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------- | ----------------------------------------------------------------- |
+| -12.3% | -6.00ms | 100.0% | 48.8ms → 42.8ms | 52 → 45 | `instantiateTypeWithAlias` | `./node_modules/typescript/lib/typescript.js:65006:36 → 66266:36` |
 
-##### `some` (`node_modules/typescript/lib/typescript.js:2794:14`)
+##### `some` (`./node_modules/typescript/lib/typescript.js:2794:14`)
 
-|  Change |   Delta |             % |          Time | Samples | Caller                          | Location                                                        |
-| ------: | ------: | ------------: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------- |
-| removed | -2.54ms |  20.8% → 0.0% |   2.5ms → 0ms |   2 → 0 | `hasContextSensitiveParameters` | `node_modules/typescript/lib/typescript.js:21831:39`            |
-| removed | -2.54ms |  20.8% → 0.0% |   2.5ms → 0ms |   2 → 0 | `isConstTypeVariable`           | `node_modules/typescript/lib/typescript.js:60206:31 → 61461:31` |
-| +106.7% | +1.33ms | 10.2% → 41.1% | 1.3ms → 2.6ms |   1 → 2 | `getObjectTypeInstantiation`    | `node_modules/typescript/lib/typescript.js:64785:38 → 66040:38` |
-| removed | -1.25ms |  10.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `hasModifierOfKind`             | `node_modules/typescript/lib/typescript.js:30751:27`            |
-|     new | +1.25ms |  0.0% → 19.9% |   0ms → 1.3ms |   0 → 1 | `inferFromProperties`           | `node_modules/typescript/lib/typescript.js:71715:33`            |
+|  Change |   Delta |             % |          Time | Samples | Caller                          | Location                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------- | ----------------------------------------------------------------- |
+| removed | -2.54ms |  20.8% → 0.0% |   2.5ms → 0ms |   2 → 0 | `hasContextSensitiveParameters` | `./node_modules/typescript/lib/typescript.js:21831:39`            |
+| removed | -2.54ms |  20.8% → 0.0% |   2.5ms → 0ms |   2 → 0 | `isConstTypeVariable`           | `./node_modules/typescript/lib/typescript.js:60206:31 → 61461:31` |
+| +106.7% | +1.33ms | 10.2% → 41.1% | 1.3ms → 2.6ms |   1 → 2 | `getObjectTypeInstantiation`    | `./node_modules/typescript/lib/typescript.js:64785:38 → 66040:38` |
+| removed | -1.25ms |  10.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `hasModifierOfKind`             | `./node_modules/typescript/lib/typescript.js:30751:27`            |
+|     new | +1.25ms |  0.0% → 19.9% |   0ms → 1.3ms |   0 → 1 | `inferFromProperties`           | `./node_modules/typescript/lib/typescript.js:71715:33`            |
 
-##### `getPropertyOfType` (`node_modules/typescript/lib/typescript.js:61994:29`)
+##### `getPropertyOfType` (`./node_modules/typescript/lib/typescript.js:61994:29`)
 
-|  Change |   Delta |             % |          Time | Samples | Caller                                         | Location                                                        |
-| ------: | ------: | ------------: | ------------: | ------: | ---------------------------------------------- | --------------------------------------------------------------- |
-|  -94.8% | -3.04ms |  16.2% → 1.2% | 3.2ms → 0.2ms |   3 → 1 | `checkPropertyAccessExpressionOrQualifiedName` | `node_modules/typescript/lib/typescript.js:75918:56 → 77201:56` |
-| +190.2% | +2.46ms |  6.5% → 26.6% | 1.3ms → 3.8ms |   2 → 3 | `inferFromProperties`                          | `node_modules/typescript/lib/typescript.js:70432:33 → 71715:33` |
-|  -39.6% | -2.46ms | 31.4% → 26.6% | 6.2ms → 3.8ms |   5 → 3 | `createUnionOrIntersectionProperty`            | `node_modules/typescript/lib/typescript.js:60498:45 → 61753:45` |
-| removed | -1.58ms |   8.0% → 0.0% |   1.6ms → 0ms |   2 → 0 | `getTypeOfPropertyOfType`                      | `node_modules/typescript/lib/typescript.js:57261:35 → 58516:35` |
-| removed | -1.29ms |   6.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `(anonymous)`                                  | `node_modules/typescript/lib/typescript.js:73958:7 → 75241:7`   |
+|  Change |   Delta |             % |          Time | Samples | Caller                                         | Location                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ---------------------------------------------- | ----------------------------------------------------------------- |
+|  -94.8% | -3.04ms |  16.2% → 1.2% | 3.2ms → 0.2ms |   3 → 1 | `checkPropertyAccessExpressionOrQualifiedName` | `./node_modules/typescript/lib/typescript.js:75918:56 → 77201:56` |
+| +190.2% | +2.46ms |  6.5% → 26.6% | 1.3ms → 3.8ms |   2 → 3 | `inferFromProperties`                          | `./node_modules/typescript/lib/typescript.js:70432:33 → 71715:33` |
+|  -39.6% | -2.46ms | 31.4% → 26.6% | 6.2ms → 3.8ms |   5 → 3 | `createUnionOrIntersectionProperty`            | `./node_modules/typescript/lib/typescript.js:60498:45 → 61753:45` |
+| removed | -1.58ms |   8.0% → 0.0% |   1.6ms → 0ms |   2 → 0 | `getTypeOfPropertyOfType`                      | `./node_modules/typescript/lib/typescript.js:57261:35 → 58516:35` |
+| removed | -1.29ms |   6.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `(anonymous)`                                  | `./node_modules/typescript/lib/typescript.js:73958:7 → 75241:7`   |
 
-##### `getTypePredicateOfSignature` (`node_modules/typescript/lib/typescript.js:62417:39`)
+##### `getTypePredicateOfSignature` (`./node_modules/typescript/lib/typescript.js:62417:39`)
 
-|  Change |   Delta |              % |          Time | Samples | Caller                                  | Location                                                        |
-| ------: | ------: | -------------: | ------------: | ------: | --------------------------------------- | --------------------------------------------------------------- |
-|  -62.1% | -1.71ms | 42.0% → 100.0% | 2.7ms → 1.0ms |   4 → 3 | `getTypePredicateOfSignature`           | `node_modules/typescript/lib/typescript.js:61162:39 → 62417:39` |
-| removed | -1.29ms |   19.8% → 0.0% |   1.3ms → 0ms |   2 → 1 | `applyToReturnTypes`                    | `node_modules/typescript/lib/typescript.js:69498:30 → 70758:30` |
-| removed | -1.25ms |   19.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `inferFromObjectTypes`                  | `node_modules/typescript/lib/typescript.js:70332:34`            |
-| removed | -1.25ms |   19.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `isTypeParameterAtTopLevelInReturnType` | `node_modules/typescript/lib/typescript.js:69621:49`            |
+|  Change |   Delta |              % |          Time | Samples | Caller                                  | Location                                                          |
+| ------: | ------: | -------------: | ------------: | ------: | --------------------------------------- | ----------------------------------------------------------------- |
+|  -62.1% | -1.71ms | 42.0% → 100.0% | 2.7ms → 1.0ms |   4 → 3 | `getTypePredicateOfSignature`           | `./node_modules/typescript/lib/typescript.js:61162:39 → 62417:39` |
+| removed | -1.29ms |   19.8% → 0.0% |   1.3ms → 0ms |   2 → 1 | `applyToReturnTypes`                    | `./node_modules/typescript/lib/typescript.js:69498:30 → 70758:30` |
+| removed | -1.25ms |   19.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `inferFromObjectTypes`                  | `./node_modules/typescript/lib/typescript.js:70332:34`            |
+| removed | -1.25ms |   19.1% → 0.0% |   1.3ms → 0ms |   1 → 0 | `isTypeParameterAtTopLevelInReturnType` | `./node_modules/typescript/lib/typescript.js:69621:49`            |
 
-##### `resolveStructuredTypeMembers` (`node_modules/typescript/lib/typescript.js:61345:40`)
+##### `resolveStructuredTypeMembers` (`./node_modules/typescript/lib/typescript.js:61345:40`)
 
-|  Change |   Delta |             % |          Time | Samples | Caller                          | Location                                                        |
-| ------: | ------: | ------------: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------- |
-|  -54.1% | -4.42ms | 45.4% → 29.5% | 8.2ms → 3.8ms |   7 → 3 | `getPropertyOfType`             | `node_modules/typescript/lib/typescript.js:60739:29 → 61994:29` |
-|     new | +3.75ms |  0.0% → 29.5% |   0ms → 3.8ms |   0 → 3 | `isWeakType`                    | `node_modules/typescript/lib/typescript.js:68592:22 → 69852:22` |
-|  -21.6% | -1.38ms | 35.4% → 39.3% | 6.4ms → 5.0ms |   5 → 4 | `getSignaturesOfStructuredType` | `node_modules/typescript/lib/typescript.js:60782:41 → 62037:41` |
-| removed | -1.29ms |   7.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `isFunctionObjectType`          | `node_modules/typescript/lib/typescript.js:70931:32 → 72214:32` |
-| removed | -1.29ms |   7.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `getTypeOfPropertyOfType`       | `node_modules/typescript/lib/typescript.js:57261:35`            |
+|  Change |   Delta |             % |          Time | Samples | Caller                          | Location                                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------- | ----------------------------------------------------------------- |
+|  -54.1% | -4.42ms | 45.4% → 29.5% | 8.2ms → 3.8ms |   7 → 3 | `getPropertyOfType`             | `./node_modules/typescript/lib/typescript.js:60739:29 → 61994:29` |
+|     new | +3.75ms |  0.0% → 29.5% |   0ms → 3.8ms |   0 → 3 | `isWeakType`                    | `./node_modules/typescript/lib/typescript.js:68592:22 → 69852:22` |
+|  -21.6% | -1.38ms | 35.4% → 39.3% | 6.4ms → 5.0ms |   5 → 4 | `getSignaturesOfStructuredType` | `./node_modules/typescript/lib/typescript.js:60782:41 → 62037:41` |
+| removed | -1.29ms |   7.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `isFunctionObjectType`          | `./node_modules/typescript/lib/typescript.js:70931:32 → 72214:32` |
+| removed | -1.29ms |   7.2% → 0.0% |   1.3ms → 0ms |   1 → 0 | `getTypeOfPropertyOfType`       | `./node_modules/typescript/lib/typescript.js:57261:35`            |
 
-##### `getTypeFromTypeNode` (`node_modules/typescript/lib/typescript.js:65779:31`)
+##### `getTypeFromTypeNode` (`./node_modules/typescript/lib/typescript.js:65779:31`)
 
-|  Change |   Delta |            % |        Time | Samples | Caller                           | Location                                                        |
-| ------: | ------: | -----------: | ----------: | ------: | -------------------------------- | --------------------------------------------------------------- |
-| removed | -2.54ms | 37.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `checkTypeReferenceOrImport`     | `node_modules/typescript/lib/typescript.js:82234:38 → 83529:38` |
-|     new | +1.29ms | 0.0% → 81.6% | 0ms → 1.3ms |   0 → 1 | `getConditionalType`             | `node_modules/typescript/lib/typescript.js:63974:30 → 65229:30` |
-| removed | -1.29ms | 18.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `getImpliedConstraint`           | `node_modules/typescript/lib/typescript.js:61821:32`            |
-| removed | -1.25ms | 18.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `checkUnionOrIntersectionType`   | `node_modules/typescript/lib/typescript.js:82318:40 → 83613:40` |
-| removed | -1.25ms | 18.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `getModifiersTypeFromMappedType` | `node_modules/typescript/lib/typescript.js:60036:42 → 61291:42` |
+|  Change |   Delta |            % |        Time | Samples | Caller                           | Location                                                          |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------- | ----------------------------------------------------------------- |
+| removed | -2.54ms | 37.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `checkTypeReferenceOrImport`     | `./node_modules/typescript/lib/typescript.js:82234:38 → 83529:38` |
+|     new | +1.29ms | 0.0% → 81.6% | 0ms → 1.3ms |   0 → 1 | `getConditionalType`             | `./node_modules/typescript/lib/typescript.js:63974:30 → 65229:30` |
+| removed | -1.29ms | 18.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `getImpliedConstraint`           | `./node_modules/typescript/lib/typescript.js:61821:32`            |
+| removed | -1.25ms | 18.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `checkUnionOrIntersectionType`   | `./node_modules/typescript/lib/typescript.js:82318:40 → 83613:40` |
+| removed | -1.25ms | 18.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `getModifiersTypeFromMappedType` | `./node_modules/typescript/lib/typescript.js:60036:42 → 61291:42` |
 
 ##### `stat` (`<unknown>`)
 
@@ -950,46 +950,46 @@ Callers with the largest change in contribution to each function's self time. In
 | -----: | ------: | -----: | --------------: | ------: | ------------- | ------------------------------------------ |
 |  -5.9% | -5.13ms | 100.0% | 86.5ms → 81.4ms | 69 → 65 | `(anonymous)` | `node:internal/modules/cjs/loader:1731:37` |
 
-##### `internIdentifier` (`node_modules/typescript/lib/typescript.js:33331:28`)
+##### `internIdentifier` (`./node_modules/typescript/lib/typescript.js:33331:28`)
 
-|  Change |   Delta |              % |           Time | Samples | Caller                    | Location                                                        |
-| ------: | ------: | -------------: | -------------: | ------: | ------------------------- | --------------------------------------------------------------- |
-|  -25.9% | -2.63ms | 80.7% → 100.0% | 10.1ms → 7.5ms |   8 → 6 | `createIdentifier`        | `node_modules/typescript/lib/typescript.js:32283:28 → 33338:28` |
-| removed | -2.42ms |   19.3% → 0.0% |    2.4ms → 0ms |   2 → 0 | `parsePropertyNameWorker` | `node_modules/typescript/lib/typescript.js:32339:35`            |
+|  Change |   Delta |              % |           Time | Samples | Caller                    | Location                                                          |
+| ------: | ------: | -------------: | -------------: | ------: | ------------------------- | ----------------------------------------------------------------- |
+|  -25.9% | -2.63ms | 80.7% → 100.0% | 10.1ms → 7.5ms |   8 → 6 | `createIdentifier`        | `./node_modules/typescript/lib/typescript.js:32283:28 → 33338:28` |
+| removed | -2.42ms |   19.3% → 0.0% |    2.4ms → 0ms |   2 → 0 | `parsePropertyNameWorker` | `./node_modules/typescript/lib/typescript.js:32339:35`            |
 
-##### `checkSourceElement` (`node_modules/typescript/lib/typescript.js:88199:30`)
+##### `checkSourceElement` (`./node_modules/typescript/lib/typescript.js:88199:30`)
 
-|  Change |   Delta |             % |        Time | Samples | Caller                                                 | Location                                                        |
-| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------ | --------------------------------------------------------------- |
-| removed | -4.96ms |  79.9% → 0.0% | 5.0ms → 0ms |   4 → 0 | `forEach`                                              | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
-| removed | -1.25ms |  20.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `checkFunctionExpressionOrObjectLiteralMethodDeferred` | `node_modules/typescript/lib/typescript.js:79840:64 → 81135:64` |
-|     new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `checkBlock`                                           | `node_modules/typescript/lib/typescript.js:85011:22`            |
+|  Change |   Delta |             % |        Time | Samples | Caller                                                 | Location                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------ | ----------------------------------------------------------------- |
+| removed | -4.96ms |  79.9% → 0.0% | 5.0ms → 0ms |   4 → 0 | `forEach`                                              | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
+| removed | -1.25ms |  20.1% → 0.0% | 1.3ms → 0ms |   1 → 0 | `checkFunctionExpressionOrObjectLiteralMethodDeferred` | `./node_modules/typescript/lib/typescript.js:79840:64 → 81135:64` |
+|     new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `checkBlock`                                           | `./node_modules/typescript/lib/typescript.js:85011:22`            |
 
-##### `getTypeOfMappedSymbol` (`node_modules/typescript/lib/typescript.js:61244:33`)
+##### `getTypeOfMappedSymbol` (`./node_modules/typescript/lib/typescript.js:61244:33`)
 
-|  Change |   Delta |             % |        Time | Samples | Caller            | Location                                                        |
-| ------: | ------: | ------------: | ----------: | ------: | ----------------- | --------------------------------------------------------------- |
-| removed | -4.88ms | 100.0% → 0.0% | 4.9ms → 0ms |   4 → 0 | `getTypeOfSymbol` | `node_modules/typescript/lib/typescript.js:58408:27 → 59663:27` |
+|  Change |   Delta |             % |        Time | Samples | Caller            | Location                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------- | ----------------------------------------------------------------- |
+| removed | -4.88ms | 100.0% → 0.0% | 4.9ms → 0ms |   4 → 0 | `getTypeOfSymbol` | `./node_modules/typescript/lib/typescript.js:58408:27 → 59663:27` |
 
-##### `getNonNullableType` (`node_modules/typescript/lib/typescript.js:70430:30`)
+##### `getNonNullableType` (`./node_modules/typescript/lib/typescript.js:70430:30`)
 
-|  Change |   Delta |             % |        Time | Samples | Caller                     | Location                                                        |
-| ------: | ------: | ------------: | ----------: | ------: | -------------------------- | --------------------------------------------------------------- |
-| removed | -4.83ms | 100.0% → 0.0% | 4.8ms → 0ms |   4 → 0 | `compareSignaturesRelated` | `node_modules/typescript/lib/typescript.js:65804:36 → 67064:36` |
+|  Change |   Delta |             % |        Time | Samples | Caller                     | Location                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------- | ----------------------------------------------------------------- |
+| removed | -4.83ms | 100.0% → 0.0% | 4.8ms → 0ms |   4 → 0 | `compareSignaturesRelated` | `./node_modules/typescript/lib/typescript.js:65804:36 → 67064:36` |
 
-##### `resolveCall` (`node_modules/typescript/lib/typescript.js:78594:23`)
+##### `resolveCall` (`./node_modules/typescript/lib/typescript.js:78594:23`)
 
-|  Change |   Delta |              % |          Time | Samples | Caller                  | Location                                                        |
-| ------: | ------: | -------------: | ------------: | ------: | ----------------------- | --------------------------------------------------------------- |
-| removed | -2.50ms |   34.5% → 0.0% |   2.5ms → 0ms |   2 → 0 | `resolveNewExpression`  | `node_modules/typescript/lib/typescript.js:77772:32 → 79067:32` |
-|  -46.5% | -2.21ms | 65.5% → 100.0% | 4.7ms → 2.5ms |   4 → 2 | `resolveCallExpression` | `node_modules/typescript/lib/typescript.js:77689:33 → 78984:33` |
+|  Change |   Delta |              % |          Time | Samples | Caller                  | Location                                                          |
+| ------: | ------: | -------------: | ------------: | ------: | ----------------------- | ----------------------------------------------------------------- |
+| removed | -2.50ms |   34.5% → 0.0% |   2.5ms → 0ms |   2 → 0 | `resolveNewExpression`  | `./node_modules/typescript/lib/typescript.js:77772:32 → 79067:32` |
+|  -46.5% | -2.21ms | 65.5% → 100.0% | 4.7ms → 2.5ms |   4 → 2 | `resolveCallExpression` | `./node_modules/typescript/lib/typescript.js:77689:33 → 78984:33` |
 
-##### `reducePathComponents` (`node_modules/typescript/lib/typescript.js:9088:30`)
+##### `reducePathComponents` (`./node_modules/typescript/lib/typescript.js:9088:30`)
 
-|  Change |   Delta |            % |        Time | Samples | Caller                        | Location                                            |
-| ------: | ------: | -----------: | ----------: | ------: | ----------------------------- | --------------------------------------------------- |
-| removed | -3.79ms | 81.3% → 0.0% | 3.8ms → 0ms |   3 → 0 | `containsPath`                | `node_modules/typescript/lib/typescript.js:9233:22` |
-| removed | -0.88ms | 18.7% → 0.0% | 0.9ms → 0ms |   1 → 0 | `getNormalizedPathComponents` | `node_modules/typescript/lib/typescript.js:9129:37` |
+|  Change |   Delta |            % |        Time | Samples | Caller                        | Location                                              |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------- | ----------------------------------------------------- |
+| removed | -3.79ms | 81.3% → 0.0% | 3.8ms → 0ms |   3 → 0 | `containsPath`                | `./node_modules/typescript/lib/typescript.js:9233:22` |
+| removed | -0.88ms | 18.7% → 0.0% | 0.9ms → 0ms |   1 → 0 | `getNormalizedPathComponents` | `./node_modules/typescript/lib/typescript.js:9129:37` |
 
 ##### `tryStatSync` (`node:fs:389:21`)
 
@@ -999,10 +999,10 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `statSync` (`node:fs:1745:18`)
 
-|  Change |   Delta |            % |        Time | Samples | Caller                  | Location                                                      |
-| ------: | ------: | -----------: | ----------: | ------: | ----------------------- | ------------------------------------------------------------- |
-| removed | -1.29ms | 50.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `fileSystemEntryExists` | `node_modules/typescript/lib/typescript.js:8818:35`           |
-| removed | -1.25ms | 49.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `statSync`              | `node_modules/typescript/lib/typescript.js:8602:22 → 8631:22` |
+|  Change |   Delta |            % |        Time | Samples | Caller                  | Location                                                        |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------- | --------------------------------------------------------------- |
+| removed | -1.29ms | 50.8% → 0.0% | 1.3ms → 0ms |   1 → 0 | `fileSystemEntryExists` | `./node_modules/typescript/lib/typescript.js:8818:35`           |
+| removed | -1.25ms | 49.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `statSync`              | `./node_modules/typescript/lib/typescript.js:8602:22 → 8631:22` |
 
 ##### `isInt32` (`node:internal/validators:45:17`)
 
@@ -1030,10 +1030,10 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `readFileSync` (`node:fs:433:22`)
 
-|  Change |   Delta |              % |        Time | Samples | Caller            | Location                                                      |
-| ------: | ------: | -------------: | ----------: | ------: | ----------------- | ------------------------------------------------------------- |
-| removed | -1.25ms |   49.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `readFileWorker`  | `node_modules/typescript/lib/typescript.js:8722:28 → 8751:28` |
-|   +0.1% | +1.00µs | 50.8% → 100.0% |       1.3ms |       1 | `defaultLoadImpl` | `node:internal/modules/cjs/loader:1112:25`                    |
+|  Change |   Delta |              % |        Time | Samples | Caller            | Location                                                        |
+| ------: | ------: | -------------: | ----------: | ------: | ----------------- | --------------------------------------------------------------- |
+| removed | -1.25ms |   49.2% → 0.0% | 1.3ms → 0ms |   1 → 0 | `readFileWorker`  | `./node_modules/typescript/lib/typescript.js:8722:28 → 8751:28` |
+|   +0.1% | +1.00µs | 50.8% → 100.0% |       1.3ms |       1 | `defaultLoadImpl` | `node:internal/modules/cjs/loader:1112:25`                      |
 
 ##### `slice` (`node:buffer:640:12`)
 
@@ -1043,9 +1043,9 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `post` (`node:inspector:118:7`)
 
-| Change |   Delta |      % |          Time | Samples | Caller        | Location                   |
-| -----: | ------: | -----: | ------------: | ------: | ------------- | -------------------------- |
-|  -2.2% | -0.21ms | 100.0% | 9.5ms → 9.3ms |       1 | `(anonymous)` | `cpuprofile-run.mjs:15:15` |
+| Change |   Delta |      % |          Time | Samples | Caller        | Location                     |
+| -----: | ------: | -----: | ------------: | ------: | ------------- | ---------------------------- |
+|  -2.2% | -0.21ms | 100.0% | 9.5ms → 9.3ms |       1 | `(anonymous)` | `./cpuprofile-run.mjs:15:15` |
 
 ##### `open` (`<unknown>`)
 
@@ -1079,28 +1079,28 @@ Functions with the largest increase in total time spent in the function and all 
 
 ##### Third-party
 
-| Change |    Delta |             % |              Time |   Samples | Function                        | Location                                                        |
-| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------- | --------------------------------------------------------------- |
-| +35.1% | +33.84ms |   3.8% → 5.4% |  96.3ms → 130.2ms | 110 → 130 | `doOutsideOfContext`            | `node_modules/typescript/lib/typescript.js:31838:30 → 32890:30` |
-| +79.6% | +26.71ms |   1.3% → 2.5% |   33.5ms → 60.2ms |   37 → 48 | `parseNonArrayType`             | `node_modules/typescript/lib/typescript.js:33781:29 → 34836:29` |
-| +65.2% | +26.67ms |   1.6% → 2.8% |   40.9ms → 67.6ms |   41 → 53 | `allowConditionalTypesAnd`      | `node_modules/typescript/lib/typescript.js:31880:36 → 32932:36` |
-| +68.8% | +25.50ms |   1.5% → 2.6% |   37.1ms → 62.6ms |   38 → 49 | `parsePostfixTypeOrHigher`      | `node_modules/typescript/lib/typescript.js:33903:36 → 34958:36` |
-| +49.1% | +24.04ms |   1.9% → 3.1% |   48.9ms → 73.0ms |   44 → 60 | `nextToken`                     | `node_modules/typescript/lib/typescript.js:31960:21 → 33015:21` |
-| +57.8% | +22.92ms |   1.6% → 2.6% |   39.7ms → 62.6ms |   41 → 49 | `parseTypeOperatorOrHigher`     | `node_modules/typescript/lib/typescript.js:33974:37 → 35029:37` |
-| +20.4% | +22.88ms |   4.5% → 5.7% | 112.3ms → 135.2ms | 115 → 124 | `doInsideOfContext`             | `node_modules/typescript/lib/typescript.js:31856:29 → 32908:29` |
-| +51.6% | +21.79ms |   1.7% → 2.7% |   42.2ms → 64.0ms |   44 → 52 | `parseIntersectionTypeOrHigher` | `node_modules/typescript/lib/typescript.js:34014:41 → 35069:41` |
-| +36.1% | +20.16ms |   2.2% → 3.2% |   55.8ms → 76.0ms |   51 → 67 | `getTypeOfParameter`            | `node_modules/typescript/lib/typescript.js:78772:30 → 80067:30` |
-|  +7.2% | +19.58ms | 10.8% → 12.2% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFileWorker`         | `node_modules/typescript/lib/typescript.js:31659:33 → 32711:33` |
-|  +7.2% | +19.58ms | 10.8% → 12.2% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFile`               | `node_modules/typescript/lib/typescript.js:31471:27 → 32523:27` |
-|  +7.2% | +19.58ms | 10.8% → 12.2% | 272.3ms → 291.9ms | 282 → 289 | `createSourceFile`              | `node_modules/typescript/lib/typescript.js:31293:26 → 32345:26` |
-|  +7.3% | +19.42ms | 10.5% → 11.9% | 265.3ms → 284.7ms | 276 → 283 | `parseList`                     | `node_modules/typescript/lib/typescript.js:32618:21 → 33673:21` |
-| +37.0% | +19.16ms |   2.1% → 3.0% |   51.8ms → 71.0ms |   48 → 59 | `nextTokenWithoutCheck`         | `node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
-| +36.0% | +17.63ms |   1.9% → 2.8% |   48.9ms → 66.5ms |   52 → 54 | `parseUnionOrIntersectionType`  | `node_modules/typescript/lib/typescript.js:34000:40 → 35055:40` |
-| +29.0% | +17.33ms |   2.4% → 3.2% |   59.8ms → 77.2ms |   56 → 69 | `tryGetTypeAtPosition`          | `node_modules/typescript/lib/typescript.js:78864:32 → 80159:32` |
-|  +6.4% | +16.92ms | 10.5% → 11.8% | 265.3ms → 282.2ms | 276 → 281 | `parseStatement`                | `node_modules/typescript/lib/typescript.js:35924:26 → 36979:26` |
-| +17.7% | +16.54ms |   3.7% → 4.6% |  93.4ms → 109.9ms |   94 → 98 | `(anonymous)`                   | `node_modules/typescript/lib/typescript.js:36056:56 → 37111:56` |
-|  +6.0% | +16.42ms | 10.8% → 12.0% | 271.5ms → 287.9ms | 281 → 285 | `parseListElement`              | `node_modules/typescript/lib/typescript.js:32639:28 → 33694:28` |
-| +32.6% | +16.38ms |   2.0% → 2.8% |   50.2ms → 66.5ms |        54 | `parseUnionTypeOrHigher`        | `node_modules/typescript/lib/typescript.js:34017:34 → 35072:34` |
+| Change |    Delta |             % |              Time |   Samples | Function                        | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------- | ----------------------------------------------------------------- |
+| +35.1% | +33.84ms |   3.8% → 5.4% |  96.3ms → 130.2ms | 110 → 130 | `doOutsideOfContext`            | `./node_modules/typescript/lib/typescript.js:31838:30 → 32890:30` |
+| +79.6% | +26.71ms |   1.3% → 2.5% |   33.5ms → 60.2ms |   37 → 48 | `parseNonArrayType`             | `./node_modules/typescript/lib/typescript.js:33781:29 → 34836:29` |
+| +65.2% | +26.67ms |   1.6% → 2.8% |   40.9ms → 67.6ms |   41 → 53 | `allowConditionalTypesAnd`      | `./node_modules/typescript/lib/typescript.js:31880:36 → 32932:36` |
+| +68.8% | +25.50ms |   1.5% → 2.6% |   37.1ms → 62.6ms |   38 → 49 | `parsePostfixTypeOrHigher`      | `./node_modules/typescript/lib/typescript.js:33903:36 → 34958:36` |
+| +49.1% | +24.04ms |   1.9% → 3.1% |   48.9ms → 73.0ms |   44 → 60 | `nextToken`                     | `./node_modules/typescript/lib/typescript.js:31960:21 → 33015:21` |
+| +57.8% | +22.92ms |   1.6% → 2.6% |   39.7ms → 62.6ms |   41 → 49 | `parseTypeOperatorOrHigher`     | `./node_modules/typescript/lib/typescript.js:33974:37 → 35029:37` |
+| +20.4% | +22.88ms |   4.5% → 5.7% | 112.3ms → 135.2ms | 115 → 124 | `doInsideOfContext`             | `./node_modules/typescript/lib/typescript.js:31856:29 → 32908:29` |
+| +51.6% | +21.79ms |   1.7% → 2.7% |   42.2ms → 64.0ms |   44 → 52 | `parseIntersectionTypeOrHigher` | `./node_modules/typescript/lib/typescript.js:34014:41 → 35069:41` |
+| +36.1% | +20.16ms |   2.2% → 3.2% |   55.8ms → 76.0ms |   51 → 67 | `getTypeOfParameter`            | `./node_modules/typescript/lib/typescript.js:78772:30 → 80067:30` |
+|  +7.2% | +19.58ms | 10.8% → 12.2% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFileWorker`         | `./node_modules/typescript/lib/typescript.js:31659:33 → 32711:33` |
+|  +7.2% | +19.58ms | 10.8% → 12.2% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFile`               | `./node_modules/typescript/lib/typescript.js:31471:27 → 32523:27` |
+|  +7.2% | +19.58ms | 10.8% → 12.2% | 272.3ms → 291.9ms | 282 → 289 | `createSourceFile`              | `./node_modules/typescript/lib/typescript.js:31293:26 → 32345:26` |
+|  +7.3% | +19.42ms | 10.5% → 11.9% | 265.3ms → 284.7ms | 276 → 283 | `parseList`                     | `./node_modules/typescript/lib/typescript.js:32618:21 → 33673:21` |
+| +37.0% | +19.16ms |   2.1% → 3.0% |   51.8ms → 71.0ms |   48 → 59 | `nextTokenWithoutCheck`         | `./node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
+| +36.0% | +17.63ms |   1.9% → 2.8% |   48.9ms → 66.5ms |   52 → 54 | `parseUnionOrIntersectionType`  | `./node_modules/typescript/lib/typescript.js:34000:40 → 35055:40` |
+| +29.0% | +17.33ms |   2.4% → 3.2% |   59.8ms → 77.2ms |   56 → 69 | `tryGetTypeAtPosition`          | `./node_modules/typescript/lib/typescript.js:78864:32 → 80159:32` |
+|  +6.4% | +16.92ms | 10.5% → 11.8% | 265.3ms → 282.2ms | 276 → 281 | `parseStatement`                | `./node_modules/typescript/lib/typescript.js:35924:26 → 36979:26` |
+| +17.7% | +16.54ms |   3.7% → 4.6% |  93.4ms → 109.9ms |   94 → 98 | `(anonymous)`                   | `./node_modules/typescript/lib/typescript.js:36056:56 → 37111:56` |
+|  +6.0% | +16.42ms | 10.8% → 12.0% | 271.5ms → 287.9ms | 281 → 285 | `parseListElement`              | `./node_modules/typescript/lib/typescript.js:32639:28 → 33694:28` |
+| +32.6% | +16.38ms |   2.0% → 2.8% |   50.2ms → 66.5ms |        54 | `parseUnionTypeOrHigher`        | `./node_modules/typescript/lib/typescript.js:34017:34 → 35072:34` |
 
 ##### Standard library
 
@@ -1134,53 +1134,53 @@ Functions with the largest increase in total time spent in the function and all 
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
-| Change |     Delta |             % |          Time |       Samples | Function                                   | Location                                                          |
-| -----: | --------: | ------------: | ------------: | ------------: | ------------------------------------------ | ----------------------------------------------------------------- |
-|  -6.2% | -128.43ms | 82.0% → 81.0% | 2.06s → 1.93s | 2,159 → 2,079 | `forEach`                                  | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
-|  -5.3% | -121.22ms | 91.2% → 90.9% | 2.29s → 2.17s | 2,367 → 2,283 | `(anonymous)`                              | `cpuprofile-run.mjs`                                              |
-|  -5.2% | -118.76ms | 90.8% → 90.6% | 2.28s → 2.16s | 2,366 → 2,284 | `typeCheckProject`                         | `tsc-workload.mjs:3:33`                                           |
-|  -6.5% | -114.84ms | 70.6% → 69.5% | 1.77s → 1.66s | 1,892 → 1,821 | `getDiagnosticsHelper`                     | `node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
-|  -6.5% | -114.84ms | 70.6% → 69.5% | 1.77s → 1.66s | 1,892 → 1,821 | `getSemanticDiagnostics`                   | `node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
-|  -6.4% | -113.96ms | 70.6% → 69.6% | 1.77s → 1.66s | 1,893 → 1,822 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:123317:76 → 124899:76` |
-|  -6.4% | -113.96ms | 70.6% → 69.6% | 1.77s → 1.66s | 1,893 → 1,822 | `getSemanticDiagnosticsForFile`            | `node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:123385:37 → 124967:37` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `runWithCancellationToken`                 | `node_modules/typescript/lib/typescript.js:123365:36 → 124947:36` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFileNoCache` | `node_modules/typescript/lib/typescript.js:123384:52 → 124966:52` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `getAndCacheDiagnostics`                   | `node_modules/typescript/lib/typescript.js:123670:34 → 125252:34` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFile`        | `node_modules/typescript/lib/typescript.js:123381:45 → 124963:45` |
-|  -6.3% | -112.67ms | 70.6% → 69.7% | 1.77s → 1.66s | 1,893 → 1,823 | `flatMap`                                  | `node_modules/typescript/lib/typescript.js:2612:17 → 2625:17`     |
-|  -7.0% | -112.25ms | 63.6% → 62.3% | 1.60s → 1.48s | 1,641 → 1,572 | `checkSourceElement`                       | `node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
-|  -6.9% | -111.00ms | 63.6% → 62.3% | 1.60s → 1.48s | 1,640 → 1,572 | `checkSourceElementWorker`                 | `node_modules/typescript/lib/typescript.js:86895:36 → 88208:36`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFile`                          | `node_modules/typescript/lib/typescript.js:87239:27 → 88552:27`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFileWithEagerDiagnostics`      | `node_modules/typescript/lib/typescript.js:87336:47 → 88649:47`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `getDiagnosticsWorker`                     | `node_modules/typescript/lib/typescript.js:87343:32 → 88656:32`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `getDiagnostics2`                          | `node_modules/typescript/lib/typescript.js:87322:27 → 88635:27`   |
-|  -6.2% | -100.96ms | 64.2% → 63.4% | 1.61s → 1.51s | 1,656 → 1,596 | `checkSourceFileWorker`                    | `node_modules/typescript/lib/typescript.js:87270:33 → 88583:33`   |
+| Change |     Delta |             % |          Time |       Samples | Function                                   | Location                                                            |
+| -----: | --------: | ------------: | ------------: | ------------: | ------------------------------------------ | ------------------------------------------------------------------- |
+|  -6.2% | -128.43ms | 82.0% → 81.0% | 2.06s → 1.93s | 2,159 → 2,079 | `forEach`                                  | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
+|  -5.3% | -121.22ms | 91.2% → 90.9% | 2.29s → 2.17s | 2,367 → 2,283 | `(anonymous)`                              | `./cpuprofile-run.mjs`                                              |
+|  -5.2% | -118.76ms | 90.8% → 90.6% | 2.28s → 2.16s | 2,366 → 2,284 | `typeCheckProject`                         | `./tsc-workload.mjs:3:33`                                           |
+|  -6.5% | -114.84ms | 70.6% → 69.5% | 1.77s → 1.66s | 1,892 → 1,821 | `getDiagnosticsHelper`                     | `./node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
+|  -6.5% | -114.84ms | 70.6% → 69.5% | 1.77s → 1.66s | 1,892 → 1,821 | `getSemanticDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
+|  -6.4% | -113.96ms | 70.6% → 69.6% | 1.77s → 1.66s | 1,893 → 1,822 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:123317:76 → 124899:76` |
+|  -6.4% | -113.96ms | 70.6% → 69.6% | 1.77s → 1.66s | 1,893 → 1,822 | `getSemanticDiagnosticsForFile`            | `./node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `runWithCancellationToken`                 | `./node_modules/typescript/lib/typescript.js:123365:36 → 124947:36` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFileNoCache` | `./node_modules/typescript/lib/typescript.js:123384:52 → 124966:52` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `getAndCacheDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:123670:34 → 125252:34` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFile`        | `./node_modules/typescript/lib/typescript.js:123381:45 → 124963:45` |
+|  -6.3% | -112.67ms | 70.6% → 69.7% | 1.77s → 1.66s | 1,893 → 1,823 | `flatMap`                                  | `./node_modules/typescript/lib/typescript.js:2612:17 → 2625:17`     |
+|  -7.0% | -112.25ms | 63.6% → 62.3% | 1.60s → 1.48s | 1,641 → 1,572 | `checkSourceElement`                       | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
+|  -6.9% | -111.00ms | 63.6% → 62.3% | 1.60s → 1.48s | 1,640 → 1,572 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFile`                          | `./node_modules/typescript/lib/typescript.js:87239:27 → 88552:27`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFileWithEagerDiagnostics`      | `./node_modules/typescript/lib/typescript.js:87336:47 → 88649:47`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `getDiagnosticsWorker`                     | `./node_modules/typescript/lib/typescript.js:87343:32 → 88656:32`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% | 1.61s → 1.51s | 1,657 → 1,596 | `getDiagnostics2`                          | `./node_modules/typescript/lib/typescript.js:87322:27 → 88635:27`   |
+|  -6.2% | -100.96ms | 64.2% → 63.4% | 1.61s → 1.51s | 1,656 → 1,596 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:87270:33 → 88583:33`   |
 
 ##### Third-party
 
-| Change |     Delta |             % |            Time |       Samples | Function                                   | Location                                                          |
-| -----: | --------: | ------------: | --------------: | ------------: | ------------------------------------------ | ----------------------------------------------------------------- |
-|  -6.2% | -128.43ms | 82.0% → 81.0% |   2.06s → 1.93s | 2,159 → 2,079 | `forEach`                                  | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
-|  -6.5% | -114.84ms | 70.6% → 69.5% |   1.77s → 1.66s | 1,892 → 1,821 | `getDiagnosticsHelper`                     | `node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
-|  -6.5% | -114.84ms | 70.6% → 69.5% |   1.77s → 1.66s | 1,892 → 1,821 | `getSemanticDiagnostics`                   | `node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
-|  -6.4% | -113.96ms | 70.6% → 69.6% |   1.77s → 1.66s | 1,893 → 1,822 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:123317:76 → 124899:76` |
-|  -6.4% | -113.96ms | 70.6% → 69.6% |   1.77s → 1.66s | 1,893 → 1,822 | `getSemanticDiagnosticsForFile`            | `node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:123385:37 → 124967:37` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `runWithCancellationToken`                 | `node_modules/typescript/lib/typescript.js:123365:36 → 124947:36` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFileNoCache` | `node_modules/typescript/lib/typescript.js:123384:52 → 124966:52` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `getAndCacheDiagnostics`                   | `node_modules/typescript/lib/typescript.js:123670:34 → 125252:34` |
-|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFile`        | `node_modules/typescript/lib/typescript.js:123381:45 → 124963:45` |
-|  -6.3% | -112.67ms | 70.6% → 69.7% |   1.77s → 1.66s | 1,893 → 1,823 | `flatMap`                                  | `node_modules/typescript/lib/typescript.js:2612:17 → 2625:17`     |
-|  -7.0% | -112.25ms | 63.6% → 62.3% |   1.60s → 1.48s | 1,641 → 1,572 | `checkSourceElement`                       | `node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
-|  -6.9% | -111.00ms | 63.6% → 62.3% |   1.60s → 1.48s | 1,640 → 1,572 | `checkSourceElementWorker`                 | `node_modules/typescript/lib/typescript.js:86895:36 → 88208:36`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFile`                          | `node_modules/typescript/lib/typescript.js:87239:27 → 88552:27`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFileWithEagerDiagnostics`      | `node_modules/typescript/lib/typescript.js:87336:47 → 88649:47`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `getDiagnosticsWorker`                     | `node_modules/typescript/lib/typescript.js:87343:32 → 88656:32`   |
-|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `getDiagnostics2`                          | `node_modules/typescript/lib/typescript.js:87322:27 → 88635:27`   |
-|  -6.2% | -100.96ms | 64.2% → 63.4% |   1.61s → 1.51s | 1,656 → 1,596 | `checkSourceFileWorker`                    | `node_modules/typescript/lib/typescript.js:87270:33 → 88583:33`   |
-|  -6.3% |  -76.43ms | 48.3% → 47.7% |   1.21s → 1.13s | 1,227 → 1,188 | `checkBlock`                               | `node_modules/typescript/lib/typescript.js:83716:22 → 85011:22`   |
-|  -6.6% |  -67.21ms | 40.2% → 39.5% | 1.01s → 943.9ms |     996 → 943 | `checkCallExpression`                      | `node_modules/typescript/lib/typescript.js:78289:31 → 79584:31`   |
+| Change |     Delta |             % |            Time |       Samples | Function                                   | Location                                                            |
+| -----: | --------: | ------------: | --------------: | ------------: | ------------------------------------------ | ------------------------------------------------------------------- |
+|  -6.2% | -128.43ms | 82.0% → 81.0% |   2.06s → 1.93s | 2,159 → 2,079 | `forEach`                                  | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
+|  -6.5% | -114.84ms | 70.6% → 69.5% |   1.77s → 1.66s | 1,892 → 1,821 | `getDiagnosticsHelper`                     | `./node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
+|  -6.5% | -114.84ms | 70.6% → 69.5% |   1.77s → 1.66s | 1,892 → 1,821 | `getSemanticDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
+|  -6.4% | -113.96ms | 70.6% → 69.6% |   1.77s → 1.66s | 1,893 → 1,822 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:123317:76 → 124899:76` |
+|  -6.4% | -113.96ms | 70.6% → 69.6% |   1.77s → 1.66s | 1,893 → 1,822 | `getSemanticDiagnosticsForFile`            | `./node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `runWithCancellationToken`                 | `./node_modules/typescript/lib/typescript.js:123365:36 → 124947:36` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFileNoCache` | `./node_modules/typescript/lib/typescript.js:123384:52 → 124966:52` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `getAndCacheDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:123670:34 → 125252:34` |
+|  -6.3% | -112.76ms | 70.5% → 69.6% |   1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFile`        | `./node_modules/typescript/lib/typescript.js:123381:45 → 124963:45` |
+|  -6.3% | -112.67ms | 70.6% → 69.7% |   1.77s → 1.66s | 1,893 → 1,823 | `flatMap`                                  | `./node_modules/typescript/lib/typescript.js:2612:17 → 2625:17`     |
+|  -7.0% | -112.25ms | 63.6% → 62.3% |   1.60s → 1.48s | 1,641 → 1,572 | `checkSourceElement`                       | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
+|  -6.9% | -111.00ms | 63.6% → 62.3% |   1.60s → 1.48s | 1,640 → 1,572 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFile`                          | `./node_modules/typescript/lib/typescript.js:87239:27 → 88552:27`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFileWithEagerDiagnostics`      | `./node_modules/typescript/lib/typescript.js:87336:47 → 88649:47`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `getDiagnosticsWorker`                     | `./node_modules/typescript/lib/typescript.js:87343:32 → 88656:32`   |
+|  -6.3% | -102.21ms | 64.3% → 63.4% |   1.61s → 1.51s | 1,657 → 1,596 | `getDiagnostics2`                          | `./node_modules/typescript/lib/typescript.js:87322:27 → 88635:27`   |
+|  -6.2% | -100.96ms | 64.2% → 63.4% |   1.61s → 1.51s | 1,656 → 1,596 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:87270:33 → 88583:33`   |
+|  -6.3% |  -76.43ms | 48.3% → 47.7% |   1.21s → 1.13s | 1,227 → 1,188 | `checkBlock`                               | `./node_modules/typescript/lib/typescript.js:83716:22 → 85011:22`   |
+|  -6.6% |  -67.21ms | 40.2% → 39.5% | 1.01s → 943.9ms |     996 → 943 | `checkCallExpression`                      | `./node_modules/typescript/lib/typescript.js:78289:31 → 79584:31`   |
 
 ##### Garbage collector
 
@@ -1227,159 +1227,159 @@ Functions with the largest decrease in total time spent in the function and all 
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
-##### `doOutsideOfContext` (`node_modules/typescript/lib/typescript.js:32890:30`)
+##### `doOutsideOfContext` (`./node_modules/typescript/lib/typescript.js:32890:30`)
 
-|  Change |    Delta |             % |            Time | Samples | Callee                               | Location                                                        |
-| ------: | -------: | ------------: | --------------: | ------: | ------------------------------------ | --------------------------------------------------------------- |
-|  +68.8% | +25.50ms | 38.5% → 48.1% | 37.1ms → 62.6ms | 38 → 49 | `parsePostfixTypeOrHigher`           | `node_modules/typescript/lib/typescript.js:33903:36 → 34958:36` |
-|  +19.9% |  +8.50ms | 44.4% → 39.4% | 42.8ms → 51.3ms | 56 → 67 | `parseExpression`                    | `node_modules/typescript/lib/typescript.js:34178:27 → 35233:27` |
-| +439.9% |  +4.58ms |   1.1% → 4.3% |   1.0ms → 5.6ms |   3 → 5 | `parseType`                          | `node_modules/typescript/lib/typescript.js:34098:21 → 35153:21` |
-|  +11.3% |  +4.04ms | 37.1% → 30.6% | 35.8ms → 39.8ms | 45 → 50 | `parseArgumentOrArrayLiteralElement` | `node_modules/typescript/lib/typescript.js:35353:46 → 36408:46` |
-|  +36.5% |  +2.54ms |   7.2% → 7.3% |   7.0ms → 9.5ms |   7 → 8 | `parseTypeOrTypePredicate`           | `node_modules/typescript/lib/typescript.js:34069:36 → 35124:36` |
+|  Change |    Delta |             % |            Time | Samples | Callee                               | Location                                                          |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------------ | ----------------------------------------------------------------- |
+|  +68.8% | +25.50ms | 38.5% → 48.1% | 37.1ms → 62.6ms | 38 → 49 | `parsePostfixTypeOrHigher`           | `./node_modules/typescript/lib/typescript.js:33903:36 → 34958:36` |
+|  +19.9% |  +8.50ms | 44.4% → 39.4% | 42.8ms → 51.3ms | 56 → 67 | `parseExpression`                    | `./node_modules/typescript/lib/typescript.js:34178:27 → 35233:27` |
+| +439.9% |  +4.58ms |   1.1% → 4.3% |   1.0ms → 5.6ms |   3 → 5 | `parseType`                          | `./node_modules/typescript/lib/typescript.js:34098:21 → 35153:21` |
+|  +11.3% |  +4.04ms | 37.1% → 30.6% | 35.8ms → 39.8ms | 45 → 50 | `parseArgumentOrArrayLiteralElement` | `./node_modules/typescript/lib/typescript.js:35353:46 → 36408:46` |
+|  +36.5% |  +2.54ms |   7.2% → 7.3% |   7.0ms → 9.5ms |   7 → 8 | `parseTypeOrTypePredicate`           | `./node_modules/typescript/lib/typescript.js:34069:36 → 35124:36` |
 
-##### `parseNonArrayType` (`node_modules/typescript/lib/typescript.js:34836:29`)
+##### `parseNonArrayType` (`./node_modules/typescript/lib/typescript.js:34836:29`)
 
-|  Change |    Delta |             % |            Time | Samples | Callee                   | Location                                                        |
-| ------: | -------: | ------------: | --------------: | ------: | ------------------------ | --------------------------------------------------------------- |
-| +214.6% | +13.50ms | 18.8% → 32.9% |  6.3ms → 19.8ms |   5 → 9 | `parseParenthesizedType` | `node_modules/typescript/lib/typescript.js:33687:34 → 34742:34` |
-| +429.1% | +11.08ms |  7.7% → 22.7% |  2.6ms → 13.7ms |   2 → 6 | `parseLiteralTypeNode`   | `node_modules/typescript/lib/typescript.js:33724:32 → 34779:32` |
-| +117.5% |  +7.83ms | 19.9% → 24.1% |  6.7ms → 14.5ms |  7 → 13 | `parseTypeLiteral`       | `node_modules/typescript/lib/typescript.js:33576:28 → 34631:28` |
-|  +29.2% |  +3.79ms | 38.6% → 27.8% | 13.0ms → 16.7ms | 15 → 17 | `parseTypeReference`     | `node_modules/typescript/lib/typescript.js:33132:30 → 34187:30` |
-| +190.2% |  +2.46ms |   3.9% → 6.2% |   1.3ms → 3.8ms |   1 → 3 | `tryParse`               | `node_modules/typescript/lib/typescript.js:32015:20 → 33070:20` |
+|  Change |    Delta |             % |            Time | Samples | Callee                   | Location                                                          |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------ | ----------------------------------------------------------------- |
+| +214.6% | +13.50ms | 18.8% → 32.9% |  6.3ms → 19.8ms |   5 → 9 | `parseParenthesizedType` | `./node_modules/typescript/lib/typescript.js:33687:34 → 34742:34` |
+| +429.1% | +11.08ms |  7.7% → 22.7% |  2.6ms → 13.7ms |   2 → 6 | `parseLiteralTypeNode`   | `./node_modules/typescript/lib/typescript.js:33724:32 → 34779:32` |
+| +117.5% |  +7.83ms | 19.9% → 24.1% |  6.7ms → 14.5ms |  7 → 13 | `parseTypeLiteral`       | `./node_modules/typescript/lib/typescript.js:33576:28 → 34631:28` |
+|  +29.2% |  +3.79ms | 38.6% → 27.8% | 13.0ms → 16.7ms | 15 → 17 | `parseTypeReference`     | `./node_modules/typescript/lib/typescript.js:33132:30 → 34187:30` |
+| +190.2% |  +2.46ms |   3.9% → 6.2% |   1.3ms → 3.8ms |   1 → 3 | `tryParse`               | `./node_modules/typescript/lib/typescript.js:32015:20 → 33070:20` |
 
-##### `allowConditionalTypesAnd` (`node_modules/typescript/lib/typescript.js:32932:36`)
+##### `allowConditionalTypesAnd` (`./node_modules/typescript/lib/typescript.js:32932:36`)
 
-| Change |    Delta |      % |            Time | Samples | Callee               | Location                                                        |
-| -----: | -------: | -----: | --------------: | ------: | -------------------- | --------------------------------------------------------------- |
-| +65.2% | +26.67ms | 100.0% | 40.9ms → 67.6ms | 41 → 53 | `doOutsideOfContext` | `node_modules/typescript/lib/typescript.js:31838:30 → 32890:30` |
+| Change |    Delta |      % |            Time | Samples | Callee               | Location                                                          |
+| -----: | -------: | -----: | --------------: | ------: | -------------------- | ----------------------------------------------------------------- |
+| +65.2% | +26.67ms | 100.0% | 40.9ms → 67.6ms | 41 → 53 | `doOutsideOfContext` | `./node_modules/typescript/lib/typescript.js:31838:30 → 32890:30` |
 
-##### `parsePostfixTypeOrHigher` (`node_modules/typescript/lib/typescript.js:34958:36`)
+##### `parsePostfixTypeOrHigher` (`./node_modules/typescript/lib/typescript.js:34958:36`)
 
-| Change |    Delta |             % |            Time | Samples | Callee              | Location                                                        |
-| -----: | -------: | ------------: | --------------: | ------: | ------------------- | --------------------------------------------------------------- |
-| +80.3% | +26.75ms | 89.9% → 96.0% | 33.3ms → 60.1ms | 35 → 47 | `parseNonArrayType` | `node_modules/typescript/lib/typescript.js:33781:29 → 34836:29` |
-|    new |  +3.79ms |   0.0% → 6.1% |     0ms → 3.8ms |   0 → 3 | `parseExpected`     | `node_modules/typescript/lib/typescript.js:33091:25`            |
-|    new |  +1.21ms |   0.0% → 1.9% |     0ms → 1.2ms |   0 → 1 | `parseType`         | `node_modules/typescript/lib/typescript.js:35153:21`            |
+| Change |    Delta |             % |            Time | Samples | Callee              | Location                                                          |
+| -----: | -------: | ------------: | --------------: | ------: | ------------------- | ----------------------------------------------------------------- |
+| +80.3% | +26.75ms | 89.9% → 96.0% | 33.3ms → 60.1ms | 35 → 47 | `parseNonArrayType` | `./node_modules/typescript/lib/typescript.js:33781:29 → 34836:29` |
+|    new |  +3.79ms |   0.0% → 6.1% |     0ms → 3.8ms |   0 → 3 | `parseExpected`     | `./node_modules/typescript/lib/typescript.js:33091:25`            |
+|    new |  +1.21ms |   0.0% → 1.9% |     0ms → 1.2ms |   0 → 1 | `parseType`         | `./node_modules/typescript/lib/typescript.js:35153:21`            |
 
-##### `nextToken` (`node_modules/typescript/lib/typescript.js:33015:21`)
+##### `nextToken` (`./node_modules/typescript/lib/typescript.js:33015:21`)
 
-| Change |    Delta |              % |            Time | Samples | Callee                  | Location                                                        |
-| -----: | -------: | -------------: | --------------: | ------: | ----------------------- | --------------------------------------------------------------- |
-| +35.1% | +17.16ms | 100.0% → 90.6% | 48.9ms → 66.1ms | 44 → 54 | `nextTokenWithoutCheck` | `node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
+| Change |    Delta |              % |            Time | Samples | Callee                  | Location                                                          |
+| -----: | -------: | -------------: | --------------: | ------: | ----------------------- | ----------------------------------------------------------------- |
+| +35.1% | +17.16ms | 100.0% → 90.6% | 48.9ms → 66.1ms | 44 → 54 | `nextTokenWithoutCheck` | `./node_modules/typescript/lib/typescript.js:31953:33 → 33008:33` |
 
-##### `parseTypeOperatorOrHigher` (`node_modules/typescript/lib/typescript.js:35029:37`)
+##### `parseTypeOperatorOrHigher` (`./node_modules/typescript/lib/typescript.js:35029:37`)
 
-|  Change |    Delta |              % |            Time | Samples | Callee                     | Location                                                        |
-| ------: | -------: | -------------: | --------------: | ------: | -------------------------- | --------------------------------------------------------------- |
-|  +63.1% | +24.21ms | 96.7% → 100.0% | 38.4ms → 62.6ms | 39 → 49 | `allowConditionalTypesAnd` | `node_modules/typescript/lib/typescript.js:31880:36 → 32932:36` |
-|     new |  +1.29ms |    0.0% → 2.1% |     0ms → 1.3ms |   0 → 1 | `parseInferType`           | `node_modules/typescript/lib/typescript.js:35024:26`            |
-| removed |  -1.25ms |    3.2% → 0.0% |     1.3ms → 0ms |   1 → 0 | `parseTypeOperator`        | `node_modules/typescript/lib/typescript.js:33944:29`            |
+|  Change |    Delta |              % |            Time | Samples | Callee                     | Location                                                          |
+| ------: | -------: | -------------: | --------------: | ------: | -------------------------- | ----------------------------------------------------------------- |
+|  +63.1% | +24.21ms | 96.7% → 100.0% | 38.4ms → 62.6ms | 39 → 49 | `allowConditionalTypesAnd` | `./node_modules/typescript/lib/typescript.js:31880:36 → 32932:36` |
+|     new |  +1.29ms |    0.0% → 2.1% |     0ms → 1.3ms |   0 → 1 | `parseInferType`           | `./node_modules/typescript/lib/typescript.js:35024:26`            |
+| removed |  -1.25ms |    3.2% → 0.0% |     1.3ms → 0ms |   1 → 0 | `parseTypeOperator`        | `./node_modules/typescript/lib/typescript.js:33944:29`            |
 
-##### `doInsideOfContext` (`node_modules/typescript/lib/typescript.js:32908:29`)
+##### `doInsideOfContext` (`./node_modules/typescript/lib/typescript.js:32908:29`)
 
-|   Change |    Delta |             % |             Time | Samples | Callee        | Location                                                        |
-| -------: | -------: | ------------: | ---------------: | ------: | ------------- | --------------------------------------------------------------- |
-|   +17.7% | +16.54ms | 83.1% → 81.3% | 93.4ms → 109.9ms | 94 → 98 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:36056:56 → 37111:56` |
-|   -14.1% |  -6.13ms | 38.7% → 27.6% |  43.4ms → 37.3ms | 48 → 43 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:37204:63 → 38259:63` |
-| +1606.0% |  +1.33ms |   0.1% → 1.0% |    0.1ms → 1.4ms |   1 → 2 | `parseType`   | `node_modules/typescript/lib/typescript.js:34098:21 → 35153:21` |
+|   Change |    Delta |             % |             Time | Samples | Callee        | Location                                                          |
+| -------: | -------: | ------------: | ---------------: | ------: | ------------- | ----------------------------------------------------------------- |
+|   +17.7% | +16.54ms | 83.1% → 81.3% | 93.4ms → 109.9ms | 94 → 98 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:36056:56 → 37111:56` |
+|   -14.1% |  -6.13ms | 38.7% → 27.6% |  43.4ms → 37.3ms | 48 → 43 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:37204:63 → 38259:63` |
+| +1606.0% |  +1.33ms |   0.1% → 1.0% |    0.1ms → 1.4ms |   1 → 2 | `parseType`   | `./node_modules/typescript/lib/typescript.js:34098:21 → 35153:21` |
 
-##### `parseIntersectionTypeOrHigher` (`node_modules/typescript/lib/typescript.js:35069:41`)
+##### `parseIntersectionTypeOrHigher` (`./node_modules/typescript/lib/typescript.js:35069:41`)
 
-| Change |    Delta |              % |            Time | Samples | Callee                         | Location                                                        |
-| -----: | -------: | -------------: | --------------: | ------: | ------------------------------ | --------------------------------------------------------------- |
-| +56.4% | +23.08ms | 96.9% → 100.0% | 40.9ms → 64.0ms | 42 → 51 | `parseUnionOrIntersectionType` | `node_modules/typescript/lib/typescript.js:34000:40 → 35055:40` |
+| Change |    Delta |              % |            Time | Samples | Callee                         | Location                                                          |
+| -----: | -------: | -------------: | --------------: | ------: | ------------------------------ | ----------------------------------------------------------------- |
+| +56.4% | +23.08ms | 96.9% → 100.0% | 40.9ms → 64.0ms | 42 → 51 | `parseUnionOrIntersectionType` | `./node_modules/typescript/lib/typescript.js:34000:40 → 35055:40` |
 
-##### `getTypeOfParameter` (`node_modules/typescript/lib/typescript.js:80067:30`)
+##### `getTypeOfParameter` (`./node_modules/typescript/lib/typescript.js:80067:30`)
 
-| Change |    Delta |      % |            Time | Samples | Callee            | Location                                                        |
-| -----: | -------: | -----: | --------------: | ------: | ----------------- | --------------------------------------------------------------- |
-| +36.1% | +20.16ms | 100.0% | 55.8ms → 76.0ms | 51 → 67 | `getTypeOfSymbol` | `node_modules/typescript/lib/typescript.js:58408:27 → 59663:27` |
+| Change |    Delta |      % |            Time | Samples | Callee            | Location                                                          |
+| -----: | -------: | -----: | --------------: | ------: | ----------------- | ----------------------------------------------------------------- |
+| +36.1% | +20.16ms | 100.0% | 55.8ms → 76.0ms | 51 → 67 | `getTypeOfSymbol` | `./node_modules/typescript/lib/typescript.js:58408:27 → 59663:27` |
 
-##### `parseSourceFileWorker` (`node_modules/typescript/lib/typescript.js:32711:33`)
+##### `parseSourceFileWorker` (`./node_modules/typescript/lib/typescript.js:32711:33`)
 
-| Change |    Delta |             % |              Time |   Samples | Callee                     | Location                                                        |
-| -----: | -------: | ------------: | ----------------: | --------: | -------------------------- | --------------------------------------------------------------- |
-|  +7.3% | +19.42ms | 97.4% → 97.6% | 265.3ms → 284.7ms | 276 → 283 | `parseList`                | `node_modules/typescript/lib/typescript.js:32618:21 → 33673:21` |
-| -49.6% |  -2.50ms |   1.9% → 0.9% |     5.0ms → 2.5ms |     4 → 2 | `processCommentPragmas`    | `node_modules/typescript/lib/typescript.js:38564:31 → 39632:31` |
-| +73.9% |  +1.42ms |   0.7% → 1.1% |     1.9ms → 3.3ms |     2 → 3 | `createSourceFile2`        | `node_modules/typescript/lib/typescript.js:31795:29 → 32847:29` |
-|    new |  +1.25ms |   0.0% → 0.4% |       0ms → 1.3ms |     0 → 1 | `processPragmasIntoFields` | `node_modules/typescript/lib/typescript.js:39652:34`            |
+| Change |    Delta |             % |              Time |   Samples | Callee                     | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | --------: | -------------------------- | ----------------------------------------------------------------- |
+|  +7.3% | +19.42ms | 97.4% → 97.6% | 265.3ms → 284.7ms | 276 → 283 | `parseList`                | `./node_modules/typescript/lib/typescript.js:32618:21 → 33673:21` |
+| -49.6% |  -2.50ms |   1.9% → 0.9% |     5.0ms → 2.5ms |     4 → 2 | `processCommentPragmas`    | `./node_modules/typescript/lib/typescript.js:38564:31 → 39632:31` |
+| +73.9% |  +1.42ms |   0.7% → 1.1% |     1.9ms → 3.3ms |     2 → 3 | `createSourceFile2`        | `./node_modules/typescript/lib/typescript.js:31795:29 → 32847:29` |
+|    new |  +1.25ms |   0.0% → 0.4% |       0ms → 1.3ms |     0 → 1 | `processPragmasIntoFields` | `./node_modules/typescript/lib/typescript.js:39652:34`            |
 
-##### `parseSourceFile` (`node_modules/typescript/lib/typescript.js:32523:27`)
+##### `parseSourceFile` (`./node_modules/typescript/lib/typescript.js:32523:27`)
 
-| Change |    Delta |      % |              Time |   Samples | Callee                  | Location                                                        |
-| -----: | -------: | -----: | ----------------: | --------: | ----------------------- | --------------------------------------------------------------- |
-|  +7.2% | +19.58ms | 100.0% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFileWorker` | `node_modules/typescript/lib/typescript.js:31659:33 → 32711:33` |
+| Change |    Delta |      % |              Time |   Samples | Callee                  | Location                                                          |
+| -----: | -------: | -----: | ----------------: | --------: | ----------------------- | ----------------------------------------------------------------- |
+|  +7.2% | +19.58ms | 100.0% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFileWorker` | `./node_modules/typescript/lib/typescript.js:31659:33 → 32711:33` |
 
-##### `createSourceFile` (`node_modules/typescript/lib/typescript.js:32345:26`)
+##### `createSourceFile` (`./node_modules/typescript/lib/typescript.js:32345:26`)
 
-| Change |    Delta |      % |              Time |   Samples | Callee            | Location                                                        |
-| -----: | -------: | -----: | ----------------: | --------: | ----------------- | --------------------------------------------------------------- |
-|  +7.2% | +19.58ms | 100.0% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFile` | `node_modules/typescript/lib/typescript.js:31471:27 → 32523:27` |
+| Change |    Delta |      % |              Time |   Samples | Callee            | Location                                                          |
+| -----: | -------: | -----: | ----------------: | --------: | ----------------- | ----------------------------------------------------------------- |
+|  +7.2% | +19.58ms | 100.0% | 272.3ms → 291.9ms | 282 → 289 | `parseSourceFile` | `./node_modules/typescript/lib/typescript.js:31471:27 → 32523:27` |
 
-##### `parseList` (`node_modules/typescript/lib/typescript.js:33673:21`)
+##### `parseList` (`./node_modules/typescript/lib/typescript.js:33673:21`)
 
-|  Change |    Delta |              % |              Time |   Samples | Callee              | Location                                                        |
-| ------: | -------: | -------------: | ----------------: | --------: | ------------------- | --------------------------------------------------------------- |
-|   +6.4% | +16.92ms | 100.0% → 99.1% | 265.3ms → 282.2ms | 276 → 281 | `parseListElement`  | `node_modules/typescript/lib/typescript.js:32639:28 → 33694:28` |
-|  +34.1% |  +2.58ms |    2.9% → 3.6% |    7.6ms → 10.2ms |     6 → 8 | `isListElement2`    | `node_modules/typescript/lib/typescript.js:32423:26 → 33478:26` |
-| removed |  -1.21ms |    0.5% → 0.0% |       1.2ms → 0ms |     1 → 0 | `isListTerminator`  | `node_modules/typescript/lib/typescript.js:32546:28`            |
-|     new |  +1.00ms |    0.0% → 0.4% |       0ms → 1.0ms |     0 → 1 | `parseClassElement` | `node_modules/typescript/lib/typescript.js:37593:29`            |
-|  +40.1% |  +0.58ms |    0.5% → 0.7% |     1.5ms → 2.0ms |     3 → 2 | `createNodeArray`   | `node_modules/typescript/lib/typescript.js:32232:27 → 33287:27` |
+|  Change |    Delta |              % |              Time |   Samples | Callee              | Location                                                          |
+| ------: | -------: | -------------: | ----------------: | --------: | ------------------- | ----------------------------------------------------------------- |
+|   +6.4% | +16.92ms | 100.0% → 99.1% | 265.3ms → 282.2ms | 276 → 281 | `parseListElement`  | `./node_modules/typescript/lib/typescript.js:32639:28 → 33694:28` |
+|  +34.1% |  +2.58ms |    2.9% → 3.6% |    7.6ms → 10.2ms |     6 → 8 | `isListElement2`    | `./node_modules/typescript/lib/typescript.js:32423:26 → 33478:26` |
+| removed |  -1.21ms |    0.5% → 0.0% |       1.2ms → 0ms |     1 → 0 | `isListTerminator`  | `./node_modules/typescript/lib/typescript.js:32546:28`            |
+|     new |  +1.00ms |    0.0% → 0.4% |       0ms → 1.0ms |     0 → 1 | `parseClassElement` | `./node_modules/typescript/lib/typescript.js:37593:29`            |
+|  +40.1% |  +0.58ms |    0.5% → 0.7% |     1.5ms → 2.0ms |     3 → 2 | `createNodeArray`   | `./node_modules/typescript/lib/typescript.js:32232:27 → 33287:27` |
 
-##### `nextTokenWithoutCheck` (`node_modules/typescript/lib/typescript.js:33008:33`)
+##### `nextTokenWithoutCheck` (`./node_modules/typescript/lib/typescript.js:33008:33`)
 
-| Change |    Delta |             % |            Time | Samples | Callee | Location                                                        |
-| -----: | -------: | ------------: | --------------: | ------: | ------ | --------------------------------------------------------------- |
-| +34.6% | +15.08ms | 84.2% → 82.7% | 43.6ms → 58.7ms | 40 → 49 | `scan` | `node_modules/typescript/lib/typescript.js:12765:16 → 12895:16` |
+| Change |    Delta |             % |            Time | Samples | Callee | Location                                                          |
+| -----: | -------: | ------------: | --------------: | ------: | ------ | ----------------------------------------------------------------- |
+| +34.6% | +15.08ms | 84.2% → 82.7% | 43.6ms → 58.7ms | 40 → 49 | `scan` | `./node_modules/typescript/lib/typescript.js:12765:16 → 12895:16` |
 
-##### `parseUnionOrIntersectionType` (`node_modules/typescript/lib/typescript.js:35055:40`)
+##### `parseUnionOrIntersectionType` (`./node_modules/typescript/lib/typescript.js:35055:40`)
 
-|  Change |    Delta |             % |            Time | Samples | Callee                                  | Location                                                        |
-| ------: | -------: | ------------: | --------------: | ------: | --------------------------------------- | --------------------------------------------------------------- |
-|  +57.8% | +22.92ms | 81.1% → 94.1% | 39.7ms → 62.6ms | 41 → 49 | `parseTypeOperatorOrHigher`             | `node_modules/typescript/lib/typescript.js:33974:37 → 35029:37` |
-|  +51.6% | +21.79ms | 86.3% → 96.2% | 42.2ms → 64.0ms | 44 → 52 | `parseIntersectionTypeOrHigher`         | `node_modules/typescript/lib/typescript.js:34014:41 → 35069:41` |
-|     new |  +4.04ms |   0.0% → 6.1% |     0ms → 4.0ms |   0 → 1 | `parseFunctionOrConstructorTypeToError` | `node_modules/typescript/lib/typescript.js:35041:49`            |
-|  -51.6% |  -1.33ms |   5.3% → 1.9% |   2.6ms → 1.3ms |   2 → 1 | `createUnionTypeNode`                   | `node_modules/typescript/lib/typescript.js:24636:31 → 25686:31` |
-| removed |  -1.25ms |   2.6% → 0.0% |     1.3ms → 0ms |   1 → 0 | `createIntersectionTypeNode`            | `node_modules/typescript/lib/typescript.js:24642:38`            |
+|  Change |    Delta |             % |            Time | Samples | Callee                                  | Location                                                          |
+| ------: | -------: | ------------: | --------------: | ------: | --------------------------------------- | ----------------------------------------------------------------- |
+|  +57.8% | +22.92ms | 81.1% → 94.1% | 39.7ms → 62.6ms | 41 → 49 | `parseTypeOperatorOrHigher`             | `./node_modules/typescript/lib/typescript.js:33974:37 → 35029:37` |
+|  +51.6% | +21.79ms | 86.3% → 96.2% | 42.2ms → 64.0ms | 44 → 52 | `parseIntersectionTypeOrHigher`         | `./node_modules/typescript/lib/typescript.js:34014:41 → 35069:41` |
+|     new |  +4.04ms |   0.0% → 6.1% |     0ms → 4.0ms |   0 → 1 | `parseFunctionOrConstructorTypeToError` | `./node_modules/typescript/lib/typescript.js:35041:49`            |
+|  -51.6% |  -1.33ms |   5.3% → 1.9% |   2.6ms → 1.3ms |   2 → 1 | `createUnionTypeNode`                   | `./node_modules/typescript/lib/typescript.js:24636:31 → 25686:31` |
+| removed |  -1.25ms |   2.6% → 0.0% |     1.3ms → 0ms |   1 → 0 | `createIntersectionTypeNode`            | `./node_modules/typescript/lib/typescript.js:24642:38`            |
 
-##### `tryGetTypeAtPosition` (`node_modules/typescript/lib/typescript.js:80159:32`)
+##### `tryGetTypeAtPosition` (`./node_modules/typescript/lib/typescript.js:80159:32`)
 
-| Change |    Delta |             % |            Time | Samples | Callee                 | Location                                                        |
-| -----: | -------: | ------------: | --------------: | ------: | ---------------------- | --------------------------------------------------------------- |
-| +36.1% | +20.16ms | 93.2% → 98.4% | 55.8ms → 76.0ms | 51 → 67 | `getTypeOfParameter`   | `node_modules/typescript/lib/typescript.js:78772:30 → 80067:30` |
-|  +3.5% |  +0.04ms |   2.0% → 1.6% |   1.2ms → 1.3ms |       1 | `getIndexedAccessType` | `node_modules/typescript/lib/typescript.js:63879:32 → 65134:32` |
+| Change |    Delta |             % |            Time | Samples | Callee                 | Location                                                          |
+| -----: | -------: | ------------: | --------------: | ------: | ---------------------- | ----------------------------------------------------------------- |
+| +36.1% | +20.16ms | 93.2% → 98.4% | 55.8ms → 76.0ms | 51 → 67 | `getTypeOfParameter`   | `./node_modules/typescript/lib/typescript.js:78772:30 → 80067:30` |
+|  +3.5% |  +0.04ms |   2.0% → 1.6% |   1.2ms → 1.3ms |       1 | `getIndexedAccessType` | `./node_modules/typescript/lib/typescript.js:63879:32 → 65134:32` |
 
-##### `parseStatement` (`node_modules/typescript/lib/typescript.js:36979:26`)
+##### `parseStatement` (`./node_modules/typescript/lib/typescript.js:36979:26`)
 
-| Change |    Delta |             % |              Time |   Samples | Callee                              | Location                                                        |
-| -----: | -------: | ------------: | ----------------: | --------: | ----------------------------------- | --------------------------------------------------------------- |
-|  +5.8% | +14.13ms | 91.8% → 91.3% | 243.6ms → 257.8ms | 249 → 252 | `parseDeclaration`                  | `node_modules/typescript/lib/typescript.js:36040:28 → 37095:28` |
-| +73.2% |  +8.54ms |   4.4% → 7.2% |   11.7ms → 20.2ms |   15 → 26 | `parseReturnStatement`              | `node_modules/typescript/lib/typescript.js:35634:32 → 36689:32` |
-| +28.2% |  +7.29ms |  9.8% → 11.8% |   25.9ms → 33.2ms |   34 → 42 | `parseExpressionOrLabeledStatement` | `node_modules/typescript/lib/typescript.js:35745:45 → 36800:45` |
-| +59.9% |  +4.79ms |   3.0% → 4.5% |    8.0ms → 12.8ms |    8 → 14 | `parseClassDeclaration`             | `node_modules/typescript/lib/typescript.js:36629:33 → 37684:33` |
-| +33.1% |  +4.50ms |   5.1% → 6.4% |   13.6ms → 18.1ms |   13 → 17 | `parseFunctionDeclaration`          | `node_modules/typescript/lib/typescript.js:36270:36 → 37325:36` |
+| Change |    Delta |             % |              Time |   Samples | Callee                              | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | --------: | ----------------------------------- | ----------------------------------------------------------------- |
+|  +5.8% | +14.13ms | 91.8% → 91.3% | 243.6ms → 257.8ms | 249 → 252 | `parseDeclaration`                  | `./node_modules/typescript/lib/typescript.js:36040:28 → 37095:28` |
+| +73.2% |  +8.54ms |   4.4% → 7.2% |   11.7ms → 20.2ms |   15 → 26 | `parseReturnStatement`              | `./node_modules/typescript/lib/typescript.js:35634:32 → 36689:32` |
+| +28.2% |  +7.29ms |  9.8% → 11.8% |   25.9ms → 33.2ms |   34 → 42 | `parseExpressionOrLabeledStatement` | `./node_modules/typescript/lib/typescript.js:35745:45 → 36800:45` |
+| +59.9% |  +4.79ms |   3.0% → 4.5% |    8.0ms → 12.8ms |    8 → 14 | `parseClassDeclaration`             | `./node_modules/typescript/lib/typescript.js:36629:33 → 37684:33` |
+| +33.1% |  +4.50ms |   5.1% → 6.4% |   13.6ms → 18.1ms |   13 → 17 | `parseFunctionDeclaration`          | `./node_modules/typescript/lib/typescript.js:36270:36 → 37325:36` |
 
-##### `(anonymous)` (`node_modules/typescript/lib/typescript.js:37111:56`)
+##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:37111:56`)
 
-| Change |    Delta |      % |             Time | Samples | Callee                   | Location                                                        |
-| -----: | -------: | -----: | ---------------: | ------: | ------------------------ | --------------------------------------------------------------- |
-| +17.7% | +16.54ms | 100.0% | 93.4ms → 109.9ms | 94 → 98 | `parseDeclarationWorker` | `node_modules/typescript/lib/typescript.js:36069:34 → 37124:34` |
+| Change |    Delta |      % |             Time | Samples | Callee                   | Location                                                          |
+| -----: | -------: | -----: | ---------------: | ------: | ------------------------ | ----------------------------------------------------------------- |
+| +17.7% | +16.54ms | 100.0% | 93.4ms → 109.9ms | 94 → 98 | `parseDeclarationWorker` | `./node_modules/typescript/lib/typescript.js:36069:34 → 37124:34` |
 
-##### `parseListElement` (`node_modules/typescript/lib/typescript.js:33694:28`)
+##### `parseListElement` (`./node_modules/typescript/lib/typescript.js:33694:28`)
 
-|   Change |    Delta |             % |              Time |   Samples | Callee                                     | Location                                                          |
-| -------: | -------: | ------------: | ----------------: | --------: | ------------------------------------------ | ----------------------------------------------------------------- |
-|   -44.5% | -22.54ms |  18.6% → 9.8% |   50.6ms → 28.1ms |   46 → 27 | `(anonymous)`                              | `node_modules/typescript/lib/typescript.js:33416:157 → 34471:157` |
-|    +6.4% | +16.92ms | 97.7% → 98.0% | 265.3ms → 282.2ms | 276 → 281 | `parseStatement`                           | `node_modules/typescript/lib/typescript.js:35924:26 → 36979:26`   |
-|   +17.9% |  +7.67ms | 15.8% → 17.5% |   42.8ms → 50.5ms |   43 → 42 | `parseVariableDeclarationAllowExclamation` | `node_modules/typescript/lib/typescript.js:36201:52 → 37256:52`   |
-| +1141.6% |  +5.71ms |   0.2% → 2.2% |     0.5ms → 6.2ms |     1 → 6 | `parseTypeParameter`                       | `node_modules/typescript/lib/typescript.js:33285:30 → 34340:30`   |
-|   +11.3% |  +4.04ms | 13.2% → 13.8% |   35.8ms → 39.8ms |   45 → 50 | `parseArgumentExpression`                  | `node_modules/typescript/lib/typescript.js:35359:35 → 36414:35`   |
+|   Change |    Delta |             % |              Time |   Samples | Callee                                     | Location                                                            |
+| -------: | -------: | ------------: | ----------------: | --------: | ------------------------------------------ | ------------------------------------------------------------------- |
+|   -44.5% | -22.54ms |  18.6% → 9.8% |   50.6ms → 28.1ms |   46 → 27 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:33416:157 → 34471:157` |
+|    +6.4% | +16.92ms | 97.7% → 98.0% | 265.3ms → 282.2ms | 276 → 281 | `parseStatement`                           | `./node_modules/typescript/lib/typescript.js:35924:26 → 36979:26`   |
+|   +17.9% |  +7.67ms | 15.8% → 17.5% |   42.8ms → 50.5ms |   43 → 42 | `parseVariableDeclarationAllowExclamation` | `./node_modules/typescript/lib/typescript.js:36201:52 → 37256:52`   |
+| +1141.6% |  +5.71ms |   0.2% → 2.2% |     0.5ms → 6.2ms |     1 → 6 | `parseTypeParameter`                       | `./node_modules/typescript/lib/typescript.js:33285:30 → 34340:30`   |
+|   +11.3% |  +4.04ms | 13.2% → 13.8% |   35.8ms → 39.8ms |   45 → 50 | `parseArgumentExpression`                  | `./node_modules/typescript/lib/typescript.js:35359:35 → 36414:35`   |
 
-##### `parseUnionTypeOrHigher` (`node_modules/typescript/lib/typescript.js:35072:34`)
+##### `parseUnionTypeOrHigher` (`./node_modules/typescript/lib/typescript.js:35072:34`)
 
-| Change |    Delta |              % |            Time | Samples | Callee                         | Location                                                        |
-| -----: | -------: | -------------: | --------------: | ------: | ------------------------------ | --------------------------------------------------------------- |
-| +36.0% | +17.63ms | 97.5% → 100.0% | 48.9ms → 66.5ms | 52 → 54 | `parseUnionOrIntersectionType` | `node_modules/typescript/lib/typescript.js:34000:40 → 35055:40` |
+| Change |    Delta |              % |            Time | Samples | Callee                         | Location                                                          |
+| -----: | -------: | -------------: | --------------: | ------: | ------------------------------ | ----------------------------------------------------------------- |
+| +36.0% | +17.63ms | 97.5% → 100.0% | 48.9ms → 66.5ms | 52 → 54 | `parseUnionOrIntersectionType` | `./node_modules/typescript/lib/typescript.js:34000:40 → 35055:40` |
 
 ##### `wrappedFn` (`node:internal/errors:535:21`)
 
@@ -1450,169 +1450,169 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | ------: | -----: | ----: | ------: | ----------------- | ------------------------------------------ |
 |    ~0% | +1.00µs | 100.0% | 5.2ms |       4 | `defaultLoadImpl` | `node:internal/modules/cjs/loader:1112:25` |
 
-##### `forEach` (`node_modules/typescript/lib/typescript.js:2378:17`)
+##### `forEach` (`./node_modules/typescript/lib/typescript.js:2378:17`)
 
-| Change |     Delta |             % |              Time |       Samples | Callee               | Location                                                          |
-| -----: | --------: | ------------: | ----------------: | ------------: | -------------------- | ----------------------------------------------------------------- |
-|  -7.1% | -113.63ms | 77.4% → 76.7% |     1.59s → 1.48s | 1,635 → 1,565 | `checkSourceElement` | `node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
-| +15.3% |  +14.29ms |   4.5% → 5.6% |  93.3ms → 107.6ms |     143 → 157 | `bind`               | `node_modules/typescript/lib/typescript.js:46600:16 → 47793:16`   |
-|  -6.0% |   -8.04ms |          6.5% | 134.0ms → 126.0ms |     204 → 197 | `(anonymous)`        | `node_modules/typescript/lib/typescript.js:45224:21 → 46417:21`   |
-|  -3.0% |   -8.00ms | 12.8% → 13.3% | 264.9ms → 256.9ms |     262 → 257 | `(anonymous)`        | `node_modules/typescript/lib/typescript.js:122449:24 → 124028:24` |
-| +23.5% |   +4.46ms |   0.9% → 1.2% |   19.0ms → 23.4ms |       19 → 23 | `checkParameter`     | `node_modules/typescript/lib/typescript.js:81674:26 → 82969:26`   |
+| Change |     Delta |             % |              Time |       Samples | Callee               | Location                                                            |
+| -----: | --------: | ------------: | ----------------: | ------------: | -------------------- | ------------------------------------------------------------------- |
+|  -7.1% | -113.63ms | 77.4% → 76.7% |     1.59s → 1.48s | 1,635 → 1,565 | `checkSourceElement` | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
+| +15.3% |  +14.29ms |   4.5% → 5.6% |  93.3ms → 107.6ms |     143 → 157 | `bind`               | `./node_modules/typescript/lib/typescript.js:46600:16 → 47793:16`   |
+|  -6.0% |   -8.04ms |          6.5% | 134.0ms → 126.0ms |     204 → 197 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:45224:21 → 46417:21`   |
+|  -3.0% |   -8.00ms | 12.8% → 13.3% | 264.9ms → 256.9ms |     262 → 257 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:122449:24 → 124028:24` |
+| +23.5% |   +4.46ms |   0.9% → 1.2% |   19.0ms → 23.4ms |       19 → 23 | `checkParameter`     | `./node_modules/typescript/lib/typescript.js:81674:26 → 82969:26`   |
 
-##### `(anonymous)` (`cpuprofile-run.mjs`)
+##### `(anonymous)` (`./cpuprofile-run.mjs`)
 
-| Change |     Delta |     % |          Time |       Samples | Callee             | Location                   |
-| -----: | --------: | ----: | ------------: | ------------: | ------------------ | -------------------------- |
-|  -5.3% | -121.01ms | 99.6% | 2.28s → 2.16s | 2,366 → 2,282 | `typeCheckProject` | `tsc-workload.mjs:3:33`    |
-|  -2.2% |   -0.21ms |  0.4% | 9.5ms → 9.3ms |             1 | `post`             | `cpuprofile-run.mjs:14:14` |
+| Change |     Delta |     % |          Time |       Samples | Callee             | Location                     |
+| -----: | --------: | ----: | ------------: | ------------: | ------------------ | ---------------------------- |
+|  -5.3% | -121.01ms | 99.6% | 2.28s → 2.16s | 2,366 → 2,282 | `typeCheckProject` | `./tsc-workload.mjs:3:33`    |
+|  -2.2% |   -0.21ms |  0.4% | 9.5ms → 9.3ms |             1 | `post`             | `./cpuprofile-run.mjs:14:14` |
 
-##### `typeCheckProject` (`tsc-workload.mjs:3:33`)
+##### `typeCheckProject` (`./tsc-workload.mjs:3:33`)
 
-| Change |     Delta |             % |              Time |       Samples | Callee                             | Location                                                          |
-| -----: | --------: | ------------: | ----------------: | ------------: | ---------------------------------- | ----------------------------------------------------------------- |
-|  -6.4% | -113.59ms | 77.7% → 76.7% |     1.77s → 1.66s | 1,891 → 1,821 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
-|  -7.1% |   -7.67ms |   4.7% → 4.6% | 108.1ms → 100.4ms |       86 → 80 | `require`                          | `node:internal/modules/helpers:146:19`                            |
-| +26.3% |   +2.88ms |   0.5% → 0.6% |   10.9ms → 13.8ms |        9 → 11 | `getParsedCommandLineOfConfigFile` | `node_modules/typescript/lib/typescript.js:40536:42 → 41625:42`   |
-|  +0.2% |   +0.87ms | 17.0% → 18.0% | 389.5ms → 390.3ms |     379 → 372 | `createProgram`                    | `node_modules/typescript/lib/typescript.js:122262:23 → 123840:23` |
+| Change |     Delta |             % |              Time |       Samples | Callee                             | Location                                                            |
+| -----: | --------: | ------------: | ----------------: | ------------: | ---------------------------------- | ------------------------------------------------------------------- |
+|  -6.4% | -113.59ms | 77.7% → 76.7% |     1.77s → 1.66s | 1,891 → 1,821 | `getSemanticDiagnostics`           | `./node_modules/typescript/lib/typescript.js:123327:34 → 124909:34` |
+|  -7.1% |   -7.67ms |   4.7% → 4.6% | 108.1ms → 100.4ms |       86 → 80 | `require`                          | `node:internal/modules/helpers:146:19`                              |
+| +26.3% |   +2.88ms |   0.5% → 0.6% |   10.9ms → 13.8ms |        9 → 11 | `getParsedCommandLineOfConfigFile` | `./node_modules/typescript/lib/typescript.js:40536:42 → 41625:42`   |
+|  +0.2% |   +0.87ms | 17.0% → 18.0% | 389.5ms → 390.3ms |     379 → 372 | `createProgram`                    | `./node_modules/typescript/lib/typescript.js:122262:23 → 123840:23` |
 
-##### `getDiagnosticsHelper` (`node_modules/typescript/lib/typescript.js:124895:32`)
+##### `getDiagnosticsHelper` (`./node_modules/typescript/lib/typescript.js:124895:32`)
 
-| Change |     Delta |      % |          Time |       Samples | Callee    | Location                                                      |
-| -----: | --------: | -----: | ------------: | ------------: | --------- | ------------------------------------------------------------- |
-|  -6.5% | -115.26ms | 100.0% | 1.77s → 1.66s | 1,892 → 1,820 | `flatMap` | `node_modules/typescript/lib/typescript.js:2612:17 → 2625:17` |
+| Change |     Delta |      % |          Time |       Samples | Callee    | Location                                                        |
+| -----: | --------: | -----: | ------------: | ------------: | --------- | --------------------------------------------------------------- |
+|  -6.5% | -115.26ms | 100.0% | 1.77s → 1.66s | 1,892 → 1,820 | `flatMap` | `./node_modules/typescript/lib/typescript.js:2612:17 → 2625:17` |
 
-##### `getSemanticDiagnostics` (`node_modules/typescript/lib/typescript.js:124909:34`)
+##### `getSemanticDiagnostics` (`./node_modules/typescript/lib/typescript.js:124909:34`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee                 | Location                                                            |
+| -----: | --------: | -----: | ------------: | ------------: | ---------------------- | ------------------------------------------------------------------- |
+|  -6.5% | -114.84ms | 100.0% | 1.77s → 1.66s | 1,892 → 1,821 | `getDiagnosticsHelper` | `./node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
+
+##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:124899:76`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee                          | Location                                                            |
+| -----: | --------: | -----: | ------------: | ------------: | ------------------------------- | ------------------------------------------------------------------- |
+|  -6.4% | -113.96ms | 100.0% | 1.77s → 1.66s | 1,893 → 1,822 | `getSemanticDiagnosticsForFile` | `./node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
+
+##### `getSemanticDiagnosticsForFile` (`./node_modules/typescript/lib/typescript.js:124957:41`)
+
+| Change |     Delta |              % |          Time |       Samples | Callee                              | Location                                                            |
+| -----: | --------: | -------------: | ------------: | ------------: | ----------------------------------- | ------------------------------------------------------------------- |
+|  -6.3% | -112.76ms | 99.9% → 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFile` | `./node_modules/typescript/lib/typescript.js:123381:45 → 124963:45` |
+|  +7.2% |   +0.04ms |          <0.1% |         0.6ms |             1 | `concatenate`                       | `./node_modules/typescript/lib/typescript.js:2810:21 → 2823:21`     |
+
+##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:124967:37`)
+
+| Change |     Delta |            % |              Time |       Samples | Callee                             | Location                                                            |
+| -----: | --------: | -----------: | ----------------: | ------------: | ---------------------------------- | ------------------------------------------------------------------- |
+|  -6.3% | -102.21ms |        91.1% |     1.61s → 1.51s | 1,657 → 1,596 | `getDiagnostics2`                  | `./node_modules/typescript/lib/typescript.js:87322:27 → 88635:27`   |
+|  -5.7% |   -8.79ms |  8.7% → 8.8% | 155.3ms → 146.5ms |     230 → 223 | `getTypeChecker`                   | `./node_modules/typescript/lib/typescript.js:123266:26 → 124848:26` |
+| -34.4% |   -0.46ms |         0.1% |     1.3ms → 0.9ms |         2 → 1 | `getMergedBindAndCheckDiagnostics` | `./node_modules/typescript/lib/typescript.js:123405:44 → 124987:44` |
+|    new |   +0.08ms | 0.0% → <0.1% |       0ms → 0.1ms |         0 → 1 | `skipTypeChecking`                 | `./node_modules/typescript/lib/typescript.js:22519:26`              |
+
+##### `runWithCancellationToken` (`./node_modules/typescript/lib/typescript.js:124947:36`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee        | Location                                                            |
+| -----: | --------: | -----: | ------------: | ------------: | ------------- | ------------------------------------------------------------------- |
+|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37` |
+
+##### `getBindAndCheckDiagnosticsForFileNoCache` (`./node_modules/typescript/lib/typescript.js:124966:52`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee                     | Location                                                            |
+| -----: | --------: | -----: | ------------: | ------------: | -------------------------- | ------------------------------------------------------------------- |
+|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `runWithCancellationToken` | `./node_modules/typescript/lib/typescript.js:123365:36 → 124947:36` |
+
+##### `getAndCacheDiagnostics` (`./node_modules/typescript/lib/typescript.js:125252:34`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee                                     | Location                                                            |
+| -----: | --------: | -----: | ------------: | ------------: | ------------------------------------------ | ------------------------------------------------------------------- |
+|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFileNoCache` | `./node_modules/typescript/lib/typescript.js:123384:52 → 124966:52` |
+
+##### `getBindAndCheckDiagnosticsForFile` (`./node_modules/typescript/lib/typescript.js:124963:45`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee                   | Location                                                            |
+| -----: | --------: | -----: | ------------: | ------------: | ------------------------ | ------------------------------------------------------------------- |
+|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `getAndCacheDiagnostics` | `./node_modules/typescript/lib/typescript.js:123670:34 → 125252:34` |
+
+##### `flatMap` (`./node_modules/typescript/lib/typescript.js:2625:17`)
+
+| Change |     Delta |              % |           Time |       Samples | Callee        | Location                                                            |
+| -----: | --------: | -------------: | -------------: | ------------: | ------------- | ------------------------------------------------------------------- |
+|  -6.4% | -113.96ms | 100.0% → 99.9% |  1.77s → 1.66s | 1,893 → 1,822 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123317:76 → 124899:76` |
+|    new |   +1.29ms |    0.0% → 0.1% |    0ms → 1.3ms |         0 → 1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:22094:25`              |
+|    new |   +1.25ms |    0.0% → 0.1% |    0ms → 1.3ms |         0 → 1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:18932:28`              |
+| -95.8% |   -0.96ms |   0.1% → <0.1% | 1.0ms → 42.0µs |             1 | `addRange`    | `./node_modules/typescript/lib/typescript.js:2979:18 → 2992:18`     |
+
+##### `checkSourceElement` (`./node_modules/typescript/lib/typescript.js:88199:30`)
+
+|  Change |     Delta |              % |          Time |       Samples | Callee                         | Location                                                          |
+| ------: | --------: | -------------: | ------------: | ------------: | ------------------------------ | ----------------------------------------------------------------- |
+|   -6.9% | -111.00ms | 99.9% → 100.0% | 1.60s → 1.48s | 1,640 → 1,572 | `checkSourceElementWorker`     | `./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36` |
+| removed |   -1.29ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `canHaveFlowNode`              | `./node_modules/typescript/lib/typescript.js:17829:25`            |
+| removed |   -1.29ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `checkTypeLiteral`             | `./node_modules/typescript/lib/typescript.js:82270:28`            |
+| removed |   -1.25ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `checkUnionOrIntersectionType` | `./node_modules/typescript/lib/typescript.js:82318:40`            |
+
+##### `checkSourceElementWorker` (`./node_modules/typescript/lib/typescript.js:88208:36`)
+
+| Change |    Delta |             % |              Time |       Samples | Callee                     | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | ------------: | -------------------------- | ----------------------------------------------------------------- |
+|  -6.4% | -77.56ms | 76.0% → 76.4% |     1.21s → 1.13s | 1,225 → 1,185 | `checkBlock`               | `./node_modules/typescript/lib/typescript.js:83716:22 → 85011:22` |
+| -12.1% | -43.59ms | 22.6% → 21.3% | 361.5ms → 318.0ms |     368 → 357 | `checkTypeReferenceNode`   | `./node_modules/typescript/lib/typescript.js:82223:34 → 83518:34` |
+|  -5.4% | -33.26ms | 38.6% → 39.2% | 617.0ms → 583.8ms |     585 → 554 | `checkVariableDeclaration` | `./node_modules/typescript/lib/typescript.js:84101:36 → 85396:36` |
+|  -9.3% | -31.21ms | 21.1% → 20.5% | 337.2ms → 306.0ms |     392 → 367 | `checkClassDeclaration`    | `./node_modules/typescript/lib/typescript.js:85417:33 → 86712:33` |
+|  -4.9% | -30.30ms | 38.4% → 39.2% | 614.5ms → 584.2ms |     583 → 555 | `checkVariableStatement`   | `./node_modules/typescript/lib/typescript.js:84119:34 → 85414:34` |
+
+##### `checkSourceFile` (`./node_modules/typescript/lib/typescript.js:88552:27`)
+
+|  Change |     Delta |              % |          Time |       Samples | Callee                              | Location                                                          |
+| ------: | --------: | -------------: | ------------: | ------------: | ----------------------------------- | ----------------------------------------------------------------- |
+|   -6.2% | -100.96ms | 99.9% → 100.0% | 1.61s → 1.51s | 1,656 → 1,596 | `checkSourceFileWorker`             | `./node_modules/typescript/lib/typescript.js:87270:33 → 88583:33` |
+| removed |   -1.25ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `registerForUnusedIdentifiersCheck` | `./node_modules/typescript/lib/typescript.js:83441:45`            |
+
+##### `checkSourceFileWithEagerDiagnostics` (`./node_modules/typescript/lib/typescript.js:88649:47`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee            | Location                                                          |
+| -----: | --------: | -----: | ------------: | ------------: | ----------------- | ----------------------------------------------------------------- |
+|  -6.3% | -102.21ms | 100.0% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFile` | `./node_modules/typescript/lib/typescript.js:87239:27 → 88552:27` |
+
+##### `getDiagnosticsWorker` (`./node_modules/typescript/lib/typescript.js:88656:32`)
+
+| Change |     Delta |      % |          Time |       Samples | Callee                                | Location                                                          |
+| -----: | --------: | -----: | ------------: | ------------: | ------------------------------------- | ----------------------------------------------------------------- |
+|  -6.3% | -102.21ms | 100.0% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFileWithEagerDiagnostics` | `./node_modules/typescript/lib/typescript.js:87336:47 → 88649:47` |
+
+##### `getDiagnostics2` (`./node_modules/typescript/lib/typescript.js:88635:27`)
 
 | Change |     Delta |      % |          Time |       Samples | Callee                 | Location                                                          |
 | -----: | --------: | -----: | ------------: | ------------: | ---------------------- | ----------------------------------------------------------------- |
-|  -6.5% | -114.84ms | 100.0% | 1.77s → 1.66s | 1,892 → 1,821 | `getDiagnosticsHelper` | `node_modules/typescript/lib/typescript.js:123313:32 → 124895:32` |
+|  -6.3% | -102.21ms | 100.0% | 1.61s → 1.51s | 1,657 → 1,596 | `getDiagnosticsWorker` | `./node_modules/typescript/lib/typescript.js:87343:32 → 88656:32` |
 
-##### `(anonymous)` (`node_modules/typescript/lib/typescript.js:124899:76`)
+##### `checkSourceFileWorker` (`./node_modules/typescript/lib/typescript.js:88583:33`)
 
-| Change |     Delta |      % |          Time |       Samples | Callee                          | Location                                                          |
-| -----: | --------: | -----: | ------------: | ------------: | ------------------------------- | ----------------------------------------------------------------- |
-|  -6.4% | -113.96ms | 100.0% | 1.77s → 1.66s | 1,893 → 1,822 | `getSemanticDiagnosticsForFile` | `node_modules/typescript/lib/typescript.js:123375:41 → 124957:41` |
+| Change |    Delta |             % |              Time |   Samples | Callee               | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | --------: | -------------------- | ----------------------------------------------------------------- |
+|  -8.9% | -70.87ms | 49.2% → 47.8% | 795.3ms → 724.5ms | 861 → 824 | `forEach`            | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
+|  -3.7% | -30.46ms | 50.7% → 52.0% | 818.9ms → 788.4ms | 792 → 769 | `checkDeferredNodes` | `./node_modules/typescript/lib/typescript.js:87179:30 → 88492:30` |
+| +15.2% |  +0.37ms |          0.2% |     2.5ms → 2.8ms |         3 | `addLazyDiagnostic`  | `./node_modules/typescript/lib/typescript.js:87339:25 → 88652:25` |
 
-##### `getSemanticDiagnosticsForFile` (`node_modules/typescript/lib/typescript.js:124957:41`)
+##### `checkBlock` (`./node_modules/typescript/lib/typescript.js:85011:22`)
 
-| Change |     Delta |              % |          Time |       Samples | Callee                              | Location                                                          |
-| -----: | --------: | -------------: | ------------: | ------------: | ----------------------------------- | ----------------------------------------------------------------- |
-|  -6.3% | -112.76ms | 99.9% → 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFile` | `node_modules/typescript/lib/typescript.js:123381:45 → 124963:45` |
-|  +7.2% |   +0.04ms |          <0.1% |         0.6ms |             1 | `concatenate`                       | `node_modules/typescript/lib/typescript.js:2810:21 → 2823:21`     |
+|  Change |    Delta |             % |          Time |       Samples | Callee                    | Location                                                        |
+| ------: | -------: | ------------: | ------------: | ------------: | ------------------------- | --------------------------------------------------------------- |
+|   -6.4% | -77.68ms | 99.9% → 99.8% | 1.21s → 1.13s | 1,226 → 1,186 | `forEach`                 | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17` |
+|     new |  +1.29ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `isFunctionOrModuleBlock` | `./node_modules/typescript/lib/typescript.js:15584:33`          |
+| removed |  -1.29ms |   0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `isModuleBlock`           | `./node_modules/typescript/lib/typescript.js:29324:23`          |
+|     new |  +1.29ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `isSourceFile`            | `./node_modules/typescript/lib/typescript.js:30503:22`          |
+|     new |  +1.25ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `checkSourceElement`      | `./node_modules/typescript/lib/typescript.js:88199:30`          |
 
-##### `(anonymous)` (`node_modules/typescript/lib/typescript.js:124967:37`)
+##### `checkCallExpression` (`./node_modules/typescript/lib/typescript.js:79584:31`)
 
-| Change |     Delta |            % |              Time |       Samples | Callee                             | Location                                                          |
-| -----: | --------: | -----------: | ----------------: | ------------: | ---------------------------------- | ----------------------------------------------------------------- |
-|  -6.3% | -102.21ms |        91.1% |     1.61s → 1.51s | 1,657 → 1,596 | `getDiagnostics2`                  | `node_modules/typescript/lib/typescript.js:87322:27 → 88635:27`   |
-|  -5.7% |   -8.79ms |  8.7% → 8.8% | 155.3ms → 146.5ms |     230 → 223 | `getTypeChecker`                   | `node_modules/typescript/lib/typescript.js:123266:26 → 124848:26` |
-| -34.4% |   -0.46ms |         0.1% |     1.3ms → 0.9ms |         2 → 1 | `getMergedBindAndCheckDiagnostics` | `node_modules/typescript/lib/typescript.js:123405:44 → 124987:44` |
-|    new |   +0.08ms | 0.0% → <0.1% |       0ms → 0.1ms |         0 → 1 | `skipTypeChecking`                 | `node_modules/typescript/lib/typescript.js:22519:26`              |
-
-##### `runWithCancellationToken` (`node_modules/typescript/lib/typescript.js:124947:36`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee        | Location                                                          |
-| -----: | --------: | -----: | ------------: | ------------: | ------------- | ----------------------------------------------------------------- |
-|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:123385:37 → 124967:37` |
-
-##### `getBindAndCheckDiagnosticsForFileNoCache` (`node_modules/typescript/lib/typescript.js:124966:52`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee                     | Location                                                          |
-| -----: | --------: | -----: | ------------: | ------------: | -------------------------- | ----------------------------------------------------------------- |
-|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `runWithCancellationToken` | `node_modules/typescript/lib/typescript.js:123365:36 → 124947:36` |
-
-##### `getAndCacheDiagnostics` (`node_modules/typescript/lib/typescript.js:125252:34`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee                                     | Location                                                          |
-| -----: | --------: | -----: | ------------: | ------------: | ------------------------------------------ | ----------------------------------------------------------------- |
-|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `getBindAndCheckDiagnosticsForFileNoCache` | `node_modules/typescript/lib/typescript.js:123384:52 → 124966:52` |
-
-##### `getBindAndCheckDiagnosticsForFile` (`node_modules/typescript/lib/typescript.js:124963:45`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee                   | Location                                                          |
-| -----: | --------: | -----: | ------------: | ------------: | ------------------------ | ----------------------------------------------------------------- |
-|  -6.3% | -112.76ms | 100.0% | 1.77s → 1.66s | 1,891 → 1,821 | `getAndCacheDiagnostics` | `node_modules/typescript/lib/typescript.js:123670:34 → 125252:34` |
-
-##### `flatMap` (`node_modules/typescript/lib/typescript.js:2625:17`)
-
-| Change |     Delta |              % |           Time |       Samples | Callee        | Location                                                          |
-| -----: | --------: | -------------: | -------------: | ------------: | ------------- | ----------------------------------------------------------------- |
-|  -6.4% | -113.96ms | 100.0% → 99.9% |  1.77s → 1.66s | 1,893 → 1,822 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:123317:76 → 124899:76` |
-|    new |   +1.29ms |    0.0% → 0.1% |    0ms → 1.3ms |         0 → 1 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:22094:25`              |
-|    new |   +1.25ms |    0.0% → 0.1% |    0ms → 1.3ms |         0 → 1 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:18932:28`              |
-| -95.8% |   -0.96ms |   0.1% → <0.1% | 1.0ms → 42.0µs |             1 | `addRange`    | `node_modules/typescript/lib/typescript.js:2979:18 → 2992:18`     |
-
-##### `checkSourceElement` (`node_modules/typescript/lib/typescript.js:88199:30`)
-
-|  Change |     Delta |              % |          Time |       Samples | Callee                         | Location                                                        |
-| ------: | --------: | -------------: | ------------: | ------------: | ------------------------------ | --------------------------------------------------------------- |
-|   -6.9% | -111.00ms | 99.9% → 100.0% | 1.60s → 1.48s | 1,640 → 1,572 | `checkSourceElementWorker`     | `node_modules/typescript/lib/typescript.js:86895:36 → 88208:36` |
-| removed |   -1.29ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `canHaveFlowNode`              | `node_modules/typescript/lib/typescript.js:17829:25`            |
-| removed |   -1.29ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `checkTypeLiteral`             | `node_modules/typescript/lib/typescript.js:82270:28`            |
-| removed |   -1.25ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `checkUnionOrIntersectionType` | `node_modules/typescript/lib/typescript.js:82318:40`            |
-
-##### `checkSourceElementWorker` (`node_modules/typescript/lib/typescript.js:88208:36`)
-
-| Change |    Delta |             % |              Time |       Samples | Callee                     | Location                                                        |
-| -----: | -------: | ------------: | ----------------: | ------------: | -------------------------- | --------------------------------------------------------------- |
-|  -6.4% | -77.56ms | 76.0% → 76.4% |     1.21s → 1.13s | 1,225 → 1,185 | `checkBlock`               | `node_modules/typescript/lib/typescript.js:83716:22 → 85011:22` |
-| -12.1% | -43.59ms | 22.6% → 21.3% | 361.5ms → 318.0ms |     368 → 357 | `checkTypeReferenceNode`   | `node_modules/typescript/lib/typescript.js:82223:34 → 83518:34` |
-|  -5.4% | -33.26ms | 38.6% → 39.2% | 617.0ms → 583.8ms |     585 → 554 | `checkVariableDeclaration` | `node_modules/typescript/lib/typescript.js:84101:36 → 85396:36` |
-|  -9.3% | -31.21ms | 21.1% → 20.5% | 337.2ms → 306.0ms |     392 → 367 | `checkClassDeclaration`    | `node_modules/typescript/lib/typescript.js:85417:33 → 86712:33` |
-|  -4.9% | -30.30ms | 38.4% → 39.2% | 614.5ms → 584.2ms |     583 → 555 | `checkVariableStatement`   | `node_modules/typescript/lib/typescript.js:84119:34 → 85414:34` |
-
-##### `checkSourceFile` (`node_modules/typescript/lib/typescript.js:88552:27`)
-
-|  Change |     Delta |              % |          Time |       Samples | Callee                              | Location                                                        |
-| ------: | --------: | -------------: | ------------: | ------------: | ----------------------------------- | --------------------------------------------------------------- |
-|   -6.2% | -100.96ms | 99.9% → 100.0% | 1.61s → 1.51s | 1,656 → 1,596 | `checkSourceFileWorker`             | `node_modules/typescript/lib/typescript.js:87270:33 → 88583:33` |
-| removed |   -1.25ms |    0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `registerForUnusedIdentifiersCheck` | `node_modules/typescript/lib/typescript.js:83441:45`            |
-
-##### `checkSourceFileWithEagerDiagnostics` (`node_modules/typescript/lib/typescript.js:88649:47`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee            | Location                                                        |
-| -----: | --------: | -----: | ------------: | ------------: | ----------------- | --------------------------------------------------------------- |
-|  -6.3% | -102.21ms | 100.0% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFile` | `node_modules/typescript/lib/typescript.js:87239:27 → 88552:27` |
-
-##### `getDiagnosticsWorker` (`node_modules/typescript/lib/typescript.js:88656:32`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee                                | Location                                                        |
-| -----: | --------: | -----: | ------------: | ------------: | ------------------------------------- | --------------------------------------------------------------- |
-|  -6.3% | -102.21ms | 100.0% | 1.61s → 1.51s | 1,657 → 1,596 | `checkSourceFileWithEagerDiagnostics` | `node_modules/typescript/lib/typescript.js:87336:47 → 88649:47` |
-
-##### `getDiagnostics2` (`node_modules/typescript/lib/typescript.js:88635:27`)
-
-| Change |     Delta |      % |          Time |       Samples | Callee                 | Location                                                        |
-| -----: | --------: | -----: | ------------: | ------------: | ---------------------- | --------------------------------------------------------------- |
-|  -6.3% | -102.21ms | 100.0% | 1.61s → 1.51s | 1,657 → 1,596 | `getDiagnosticsWorker` | `node_modules/typescript/lib/typescript.js:87343:32 → 88656:32` |
-
-##### `checkSourceFileWorker` (`node_modules/typescript/lib/typescript.js:88583:33`)
-
-| Change |    Delta |             % |              Time |   Samples | Callee               | Location                                                        |
-| -----: | -------: | ------------: | ----------------: | --------: | -------------------- | --------------------------------------------------------------- |
-|  -8.9% | -70.87ms | 49.2% → 47.8% | 795.3ms → 724.5ms | 861 → 824 | `forEach`            | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
-|  -3.7% | -30.46ms | 50.7% → 52.0% | 818.9ms → 788.4ms | 792 → 769 | `checkDeferredNodes` | `node_modules/typescript/lib/typescript.js:87179:30 → 88492:30` |
-| +15.2% |  +0.37ms |          0.2% |     2.5ms → 2.8ms |         3 | `addLazyDiagnostic`  | `node_modules/typescript/lib/typescript.js:87339:25 → 88652:25` |
-
-##### `checkBlock` (`node_modules/typescript/lib/typescript.js:85011:22`)
-
-|  Change |    Delta |             % |          Time |       Samples | Callee                    | Location                                                      |
-| ------: | -------: | ------------: | ------------: | ------------: | ------------------------- | ------------------------------------------------------------- |
-|   -6.4% | -77.68ms | 99.9% → 99.8% | 1.21s → 1.13s | 1,226 → 1,186 | `forEach`                 | `node_modules/typescript/lib/typescript.js:2365:17 → 2378:17` |
-|     new |  +1.29ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `isFunctionOrModuleBlock` | `node_modules/typescript/lib/typescript.js:15584:33`          |
-| removed |  -1.29ms |   0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `isModuleBlock`           | `node_modules/typescript/lib/typescript.js:29324:23`          |
-|     new |  +1.29ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `isSourceFile`            | `node_modules/typescript/lib/typescript.js:30503:22`          |
-|     new |  +1.25ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `checkSourceElement`      | `node_modules/typescript/lib/typescript.js:88199:30`          |
-
-##### `checkCallExpression` (`node_modules/typescript/lib/typescript.js:79584:31`)
-
-| Change |    Delta |             % |              Time |   Samples | Callee                     | Location                                                        |
-| -----: | -------: | ------------: | ----------------: | --------: | -------------------------- | --------------------------------------------------------------- |
-|  -6.8% | -64.63ms | 94.4% → 94.3% | 954.6ms → 890.0ms | 934 → 884 | `getResolvedSignature`     | `node_modules/typescript/lib/typescript.js:78173:32 → 79468:32` |
-| -15.8% | -14.00ms |   8.7% → 7.9% |   88.4ms → 74.4ms |   80 → 69 | `getReturnTypeOfSignature` | `node_modules/typescript/lib/typescript.js:61207:36 → 62462:36` |
-| -12.6% |  -1.88ms |   1.5% → 1.4% |   14.9ms → 13.0ms |   22 → 19 | `checkDeprecatedSignature` | `node_modules/typescript/lib/typescript.js:78343:36 → 79638:36` |
-|    new |  +1.29ms |   0.0% → 0.1% |       0ms → 1.3ms |     0 → 1 | `isInJSFile`               | `node_modules/typescript/lib/typescript.js:18346:20`            |
+| Change |    Delta |             % |              Time |   Samples | Callee                     | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | --------: | -------------------------- | ----------------------------------------------------------------- |
+|  -6.8% | -64.63ms | 94.4% → 94.3% | 954.6ms → 890.0ms | 934 → 884 | `getResolvedSignature`     | `./node_modules/typescript/lib/typescript.js:78173:32 → 79468:32` |
+| -15.8% | -14.00ms |   8.7% → 7.9% |   88.4ms → 74.4ms |   80 → 69 | `getReturnTypeOfSignature` | `./node_modules/typescript/lib/typescript.js:61207:36 → 62462:36` |
+| -12.6% |  -1.88ms |   1.5% → 1.4% |   14.9ms → 13.0ms |   22 → 19 | `checkDeprecatedSignature` | `./node_modules/typescript/lib/typescript.js:78343:36 → 79638:36` |
+|    new |  +1.29ms |   0.0% → 0.1% |       0ms → 1.3ms |     0 → 1 | `isInJSFile`               | `./node_modules/typescript/lib/typescript.js:18346:20`            |
 
 ##### `readFileSync` (`node:fs:433:22`)
 
@@ -1626,10 +1626,10 @@ Callees with the largest change in contribution to each function's total time. I
 
 ##### `(anonymous)` (`node:internal/modules/cjs/loader:1731:37`)
 
-| Change |   Delta |             % |            Time | Samples | Callee        | Location                                        |
-| -----: | ------: | ------------: | --------------: | ------: | ------------- | ----------------------------------------------- |
-|  -5.9% | -5.13ms | 84.0% → 85.4% | 86.5ms → 81.4ms | 69 → 65 | `wrapSafe`    | `node:internal/modules/cjs/loader:1671:18`      |
-| -15.5% | -2.54ms | 16.0% → 14.6% | 16.4ms → 13.9ms | 13 → 11 | `(anonymous)` | `node_modules/typescript/lib/typescript.js:1:1` |
+| Change |   Delta |             % |            Time | Samples | Callee        | Location                                          |
+| -----: | ------: | ------------: | --------------: | ------: | ------------- | ------------------------------------------------- |
+|  -5.9% | -5.13ms | 84.0% → 85.4% | 86.5ms → 81.4ms | 69 → 65 | `wrapSafe`    | `node:internal/modules/cjs/loader:1671:18`        |
+| -15.5% | -2.54ms | 16.0% → 14.6% | 16.4ms → 13.9ms | 13 → 11 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:1:1` |
 
 ##### `(anonymous)` (`node:internal/modules/cjs/loader:1878:37`)
 

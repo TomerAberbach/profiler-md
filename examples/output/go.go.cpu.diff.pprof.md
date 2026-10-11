@@ -672,7 +672,7 @@ Functions with the largest decrease in total time spent in the function and all 
 
 |  Change |    Delta |             % |              Time | Samples | Function                                | Location                                                                                                          |
 | ------: | -------: | ------------: | ----------------: | ------: | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-|   -8.1% | -70.00ms | 16.0% → 14.0% | 860.0ms → 790.0ms | 86 → 79 | `main.workload.func1`                   | `profile.go:25`                                                                                                   |
+|   -8.1% | -70.00ms | 16.0% → 14.0% | 860.0ms → 790.0ms | 86 → 79 | `main.workload.func1`                   | `./profile.go:25`                                                                                                 |
 |  -10.4% | -70.00ms | 12.4% → 10.7% | 670.0ms → 600.0ms | 67 → 60 | `runtime.park_m`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4253`                         |
 |  -10.4% | -70.00ms | 12.4% → 10.7% | 670.0ms → 600.0ms | 67 → 60 | `runtime.mcall`                         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:302`                      |
 |  -26.1% | -60.00ms |   4.3% → 3.0% | 230.0ms → 170.0ms | 23 → 17 | `internal/runtime/maps.newTable`        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/maps/table.go:73`            |
@@ -874,7 +874,7 @@ Callees with the largest change in contribution to each function's total time. I
 |    new | +30.00ms |   0.0% → 6.7% |      0ms → 30.0ms |   0 → 3 | `runtime.unlock`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
 | +16.7% | +10.00ms | 15.4% → 15.6% |   60.0ms → 70.0ms |   6 → 7 | `runtime.callers` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/traceback.go:1093`   |
 
-##### `main.workload.func1` (`profile.go:25`)
+##### `main.workload.func1` (`./profile.go:25`)
 
 | Change |    Delta |             % |              Time | Samples | Callee                    | Location                                                                                         |
 | -----: | -------: | ------------: | ----------------: | ------: | ------------------------- | ------------------------------------------------------------------------------------------------ |

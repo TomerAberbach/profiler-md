@@ -323,7 +323,7 @@ Functions ranked by total samples taken in the function and all its callees. Cal
 
 |     % | Samples | Function                               | Location                                                                                     |
 | ----: | ------: | -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| 99.9% |   1,553 | `<main>`                               | `profile.rb`                                                                                 |
+| 99.9% |   1,553 | `<main>`                               | `./profile.rb`                                                                               |
 | 95.0% |   1,477 | `Rails::Engine#call`                   | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb`                                  |
 | 94.8% |   1,474 | `ActionDispatch::AssumeSSL#call`       | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/assume_ssl.rb`       |
 | 94.8% |   1,474 | `ActionDispatch::SSL#call`             | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb`              |
@@ -427,9 +427,9 @@ Callers ranked by the samples taken in each function and its callees during call
 
 ##### `Rails::Engine#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb`)
 
-|      % | Samples | Calls | Caller   | Location     |
-| -----: | ------: | ----: | -------- | ------------ |
-| 100.0% |   1,477 |     4 | `<main>` | `profile.rb` |
+|      % | Samples | Calls | Caller   | Location       |
+| -----: | ------: | ----: | -------- | -------------- |
+| 100.0% |   1,477 |     4 | `<main>` | `./profile.rb` |
 
 ##### `ActionDispatch::AssumeSSL#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/assume_ssl.rb`)
 
@@ -830,7 +830,7 @@ Callers ranked by the samples taken in each function and its callees during call
 
 Callees ranked by contribution to each function's total samples. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
 
-##### `<main>` (`profile.rb`)
+##### `<main>` (`./profile.rb`)
 
 |     % | Samples | Calls | Callee                                 | Location                                                    |
 | ----: | ------: | ----: | -------------------------------------- | ----------------------------------------------------------- |

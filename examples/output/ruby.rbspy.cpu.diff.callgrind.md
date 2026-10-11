@@ -1445,9 +1445,9 @@ Callers with the largest change in the samples taken in each function and its ca
 
 ##### `Rack::BodyProxy#close` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/body_proxy.rb`)
 
-| Change | Delta |      % | Samples | Calls | Caller   | Location     |
-| -----: | ----: | -----: | ------: | ----: | -------- | ------------ |
-| -71.4% |    -5 | 100.0% |   7 → 2 | 6 → 2 | `<main>` | `profile.rb` |
+| Change | Delta |      % | Samples | Calls | Caller   | Location       |
+| -----: | ----: | -----: | ------: | ----: | -------- | -------------- |
+| -71.4% |    -5 | 100.0% |   7 → 2 | 6 → 2 | `<main>` | `./profile.rb` |
 
 ##### `Rails::HTML::Concern::Scrubber::SafeList#scrub` (`/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb`)
 
@@ -1500,9 +1500,9 @@ Callers with the largest change in the samples taken in each function and its ca
 
 ##### `Time.now` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Calls | Caller   | Location     |
-| ------: | ----: | ------------: | ------: | ----: | -------- | ------------ |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | 1 → 0 | `<main>` | `profile.rb` |
+|  Change | Delta |             % | Samples | Calls | Caller   | Location       |
+| ------: | ----: | ------------: | ------: | ----: | -------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | 1 → 0 | `<main>` | `./profile.rb` |
 
 ##### `ActionController::Base.logger` (`<unknown>`)
 

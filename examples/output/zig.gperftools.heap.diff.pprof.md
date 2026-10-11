@@ -97,7 +97,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |    +39.6% |  +84.836 MiB | 95.5% → 99.4% |  214 MiB → 299 MiB | 55,132 → 50,531 | `start.callMain`                                                                      | `/opt/zig/lib/std/start.zig`                      |
 |    +39.6% |  +84.836 MiB | 95.5% → 99.4% |  214 MiB → 299 MiB | 55,132 → 50,531 | `start.callMainWithArgs`                                                              | `/opt/zig/lib/std/start.zig`                      |
 |    +39.5% |  +84.786 MiB | 95.5% → 99.4% |  214 MiB → 299 MiB | 54,980 → 50,321 | `0x27743`                                                                             | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-|    +39.3% |  +84.482 MiB | 95.8% → 99.5% |  215 MiB → 300 MiB | 55,342 → 50,651 | `profile.main`                                                                        | `profile.zig`                                     |
+|    +39.3% |  +84.482 MiB | 95.8% → 99.5% |  215 MiB → 300 MiB | 55,342 → 50,651 | `profile.main`                                                                        | `./profile.zig`                                   |
 |       new |  +76.877 MiB |  0.0% → 25.5% |     0 B → 76.9 MiB |       0 → 9,282 | `heap.c_allocator_impl.remap`                                                         | `/opt/zig/lib/std/heap.zig`                       |
 |       new |  +76.877 MiB |  0.0% → 25.5% |     0 B → 76.9 MiB |       0 → 9,282 | `mem.Allocator.rawRemap`                                                              | `/opt/zig/lib/std/mem/Allocator.zig`              |
 |       new |  +70.122 MiB |  0.0% → 23.3% |     0 B → 70.1 MiB |      0 → 15,888 | `Io.Writer.Allocating.ensureTotalCapacity`                                            | `/opt/zig/lib/std/Io/Writer.zig`                  |
@@ -266,7 +266,7 @@ Callees with the largest change in contribution to each function's total size. I
 
 |  Change |       Delta |            % |              Size |         Objects | Callee           | Location                                          |
 | ------: | ----------: | -----------: | ----------------: | --------------: | ---------------- | ------------------------------------------------- |
-|  +39.6% | +84.836 MiB |       100.0% | 214 MiB → 299 MiB | 55,132 → 50,531 | `profile.main`   | `profile.zig`                                     |
+|  +39.6% | +84.836 MiB |       100.0% | 214 MiB → 299 MiB | 55,132 → 50,531 | `profile.main`   | `./profile.zig`                                   |
 | removed | -47.148 KiB | <0.1% → 0.0% |    47.1 KiB → 0 B |           2 → 0 | `0xffffa2190027` | `<unknown>`                                       |
 |     new |  +2.337 KiB | 0.0% → <0.1% |    0 B → 2.34 KiB |          0 → 14 | `_start`         | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
 
@@ -285,7 +285,7 @@ Callees with the largest change in contribution to each function's total size. I
 | +28470.8% | +100.092 KiB |         <0.1% | 360 B → 100 KiB |         15 | `_start`     | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`  |
 |   removed |   -4.687 KiB |  <0.1% → 0.0% |  4.69 KiB → 0 B |     15 → 0 | `0x2be03`    | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
 
-##### `profile.main` (`profile.zig`)
+##### `profile.main` (`./profile.zig`)
 
 |  Change |        Delta |             % |               Size |         Objects | Callee                                   | Location                       |
 | ------: | -----------: | ------------: | -----------------: | --------------: | ---------------------------------------- | ------------------------------ |

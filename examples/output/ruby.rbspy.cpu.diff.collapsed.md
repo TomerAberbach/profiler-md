@@ -1260,9 +1260,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `Time.now` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Caller   | Location     |
-| ------: | ----: | ------------: | ------: | -------- | ------------ |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<main>` | `profile.rb` |
+|  Change | Delta |             % | Samples | Caller   | Location       |
+| ------: | ----: | ------------: | ------: | -------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<main>` | `./profile.rb` |
 
 ##### `ActionController::Base::HelperMethods#content_security_policy?` (`<unknown>`)
 

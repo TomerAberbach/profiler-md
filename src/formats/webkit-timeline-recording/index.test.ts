@@ -154,14 +154,14 @@ describe(`convert`, () => {
           Time: `30.0ms`,
           Samples: `2`,
           Function: `work`,
-          Location: `src/index.ts:10:1`,
+          Location: `./src/index.ts:10:1`,
         },
         {
           '%': `14.3%`,
           Time: `5.0ms`,
           Samples: `1`,
           Function: `main`,
-          Location: `src/index.ts:1:1`,
+          Location: `./src/index.ts:1:1`,
         },
       ],
     ])
@@ -172,14 +172,14 @@ describe(`convert`, () => {
           Time: `35.0ms`,
           Samples: `3`,
           Function: `main`,
-          Location: `src/index.ts:1:1`,
+          Location: `./src/index.ts:1:1`,
         },
         {
           '%': `85.7%`,
           Time: `30.0ms`,
           Samples: `2`,
           Function: `work`,
-          Location: `src/index.ts:10:1`,
+          Location: `./src/index.ts:10:1`,
         },
       ],
     ])
@@ -221,7 +221,7 @@ describe(`convert`, () => {
           Time: `40.0ms`,
           Samples: `2`,
           Function: `work`,
-          Location: `src/index.ts:10:1`,
+          Location: `./src/index.ts:10:1`,
         },
       ],
     ])
@@ -269,7 +269,7 @@ describe(`convert`, () => {
           Time: `50.0ms`,
           Samples: `1`,
           Function: `main`,
-          Location: `src/index.ts:1:1`,
+          Location: `./src/index.ts:1:1`,
         },
       ],
     ])
@@ -409,7 +409,7 @@ describe(`convert`, () => {
           Time: `15.0ms`,
           Samples: `2`,
           Function: `factorial`,
-          Location: `src/index.ts:1:1`,
+          Location: `./src/index.ts:1:1`,
         },
       ],
     ])
@@ -514,13 +514,13 @@ describe(`convert`, () => {
           '%': `66.7%`,
           Time: `20.0ms`,
           Samples: `1`,
-          Location: `src/index.ts:15`,
+          Location: `./src/index.ts:15`,
         },
         {
           '%': `33.3%`,
           Time: `10.0ms`,
           Samples: `1`,
-          Location: `src/index.ts:12`,
+          Location: `./src/index.ts:12`,
         },
       ],
     ])

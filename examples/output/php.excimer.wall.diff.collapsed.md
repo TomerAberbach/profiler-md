@@ -20,7 +20,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +51.9% |   +28 |   1.3% → 2.1% |   54 → 82 | `__construct`        | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
 |  +14.1% |   +21 |   3.6% → 4.3% | 149 → 170 | `match`              | `Composer\Pcre\Preg`                                           |
 |  +22.6% |   +19 |   2.0% → 2.6% |  84 → 103 | `checkOffsetCapture` | `Composer\Pcre\Preg`                                           |
-|     new |   +15 |   0.0% → 0.4% |    0 → 15 | `(anonymous)`        | `composer/src/Composer/Console/Application.php:349`            |
+|     new |   +15 |   0.0% → 0.4% |    0 → 15 | `(anonymous)`        | `./composer/src/Composer/Console/Application.php:349`          |
 |   +1.8% |   +12 | 15.8% → 17.0% | 659 → 671 | `findClasses`        | `Composer\ClassMapGenerator\PhpFileParser`                     |
 |   +8.4% |    +9 |   2.6% → 2.9% | 107 → 116 | `match`              | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
 |  +35.7% |    +5 |   0.3% → 0.5% |   14 → 19 | `loadClass`          | `Composer\Autoload\ClassLoader`                                |
@@ -29,7 +29,7 @@ Functions with the largest increase in samples taken directly in the function bo
 | +200.0% |    +4 |  <0.1% → 0.2% |     2 → 6 | `current`            | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
 | +133.3% |    +4 |   0.1% → 0.2% |     3 → 7 | `getStaticFile`      | `Composer\Autoload\AutoloadGenerator`                          |
 |   +7.7% |    +3 |   0.9% → 1.1% |   39 → 42 | `start`              | `Symfony\Component\Process\Process`                            |
-|  +37.5% |    +3 |   0.2% → 0.3% |    8 → 11 | `(anonymous)`        | `vendor/composer/autoload_classmap.php`                        |
+|  +37.5% |    +3 |   0.2% → 0.3% |    8 → 11 | `(anonymous)`        | `./vendor/composer/autoload_classmap.php`                      |
 | +300.0% |    +3 |  <0.1% → 0.1% |     1 → 4 | `isAbsolutePath`     | `Composer\Util\Filesystem`                                     |
 |     new |    +2 |   0.0% → 0.1% |     0 → 2 | `getTlsDefaults`     | `Composer\Util\StreamContextFactory`                           |
 | +100.0% |    +2 |  <0.1% → 0.1% |     2 → 4 | `wait`               | `Symfony\Component\Process\Process`                            |
@@ -45,7 +45,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +51.9% |   +28 |   1.3% → 2.1% |   54 → 82 | `__construct`        | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator` |
 |  +14.1% |   +21 |   3.6% → 4.3% | 149 → 170 | `match`              | `Composer\Pcre\Preg`                                           |
 |  +22.6% |   +19 |   2.0% → 2.6% |  84 → 103 | `checkOffsetCapture` | `Composer\Pcre\Preg`                                           |
-|     new |   +15 |   0.0% → 0.4% |    0 → 15 | `(anonymous)`        | `composer/src/Composer/Console/Application.php:349`            |
+|     new |   +15 |   0.0% → 0.4% |    0 → 15 | `(anonymous)`        | `./composer/src/Composer/Console/Application.php:349`          |
 |   +1.8% |   +12 | 15.8% → 17.0% | 659 → 671 | `findClasses`        | `Composer\ClassMapGenerator\PhpFileParser`                     |
 |   +8.4% |    +9 |   2.6% → 2.9% | 107 → 116 | `match`              | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
 |  +35.7% |    +5 |   0.3% → 0.5% |   14 → 19 | `loadClass`          | `Composer\Autoload\ClassLoader`                                |
@@ -76,7 +76,7 @@ Functions with the largest decrease in samples taken directly in the function bo
 |   -6.2% |   -27 | 10.4% → 10.3% | 435 → 408 | `clean`                 | `Composer\ClassMapGenerator\PhpFileCleaner`                    |
 |   -2.5% |   -16 | 15.5% → 15.9% | 645 → 629 | `readAndWrite`          | `Symfony\Component\Process\Pipes\UnixPipes`                    |
 |  -19.5% |   -15 |   1.8% → 1.6% |   77 → 62 | `scanPaths`             | `Composer\ClassMapGenerator\ClassMapGenerator`                 |
-| removed |   -14 |   0.3% → 0.0% |    14 → 0 | `(anonymous)`           | `composer/src/Composer/Console/Application.php:353`            |
+| removed |   -14 |   0.3% → 0.0% |    14 → 0 | `(anonymous)`           | `./composer/src/Composer/Console/Application.php:353`          |
 |   -4.3% |   -12 |   6.6% → 6.7% | 276 → 264 | `pregMatch`             | `Composer\Pcre\Preg`                                           |
 |   -7.8% |   -11 |   3.4% → 3.3% | 141 → 130 | `enforceNonNullMatches` | `Composer\Pcre\Preg`                                           |
 |   -7.0% |   -10 |   3.4% → 3.3% | 142 → 132 | `isMatchStrictGroups`   | `Composer\Pcre\Preg`                                           |
@@ -116,7 +116,7 @@ Callers with the largest change in contribution to each function's self samples.
 |  +33.8% |   +26 | 91.7% → 100.0% | 77 → 103 | `match`    | `Composer\Pcre\Preg` |
 | removed |    -7 |    8.3% → 0.0% |    7 → 0 | `matchAll` | `Composer\Pcre\Preg` |
 
-##### `(anonymous)` (`composer/src/Composer/Console/Application.php:349`)
+##### `(anonymous)` (`./composer/src/Composer/Console/Application.php:349`)
 
 | Change | Delta |             % | Samples | Caller | Location                 |
 | -----: | ----: | ------------: | ------: | ------ | ------------------------ |
@@ -136,13 +136,13 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `loadClass` (`Composer\Autoload\ClassLoader`)
 
-|  Change | Delta |             % | Samples | Caller               | Location                                            |
-| ------: | ----: | ------------: | ------: | -------------------- | --------------------------------------------------- |
-|     new |    +2 |  0.0% → 10.5% |   0 → 2 | `createInstanceFor`  | `JsonSchema\Constraints\Factory`                    |
-| +100.0% |    +2 | 14.3% → 21.1% |   2 → 4 | `createComposer`     | `Composer\Factory`                                  |
-| removed |    -1 |   7.1% → 0.0% |   1 → 0 | `(anonymous)`        | `composer/vendor/symfony/console/Output/Output.php` |
-|  -25.0% |    -1 | 28.6% → 15.8% |   4 → 3 | `getDefaultCommands` | `Composer\Console\Application`                      |
-| removed |    -1 |   7.1% → 0.0% |   1 → 0 | `configure`          | `Composer\Command\InstallCommand`                   |
+|  Change | Delta |             % | Samples | Caller               | Location                                              |
+| ------: | ----: | ------------: | ------: | -------------------- | ----------------------------------------------------- |
+|     new |    +2 |  0.0% → 10.5% |   0 → 2 | `createInstanceFor`  | `JsonSchema\Constraints\Factory`                      |
+| +100.0% |    +2 | 14.3% → 21.1% |   2 → 4 | `createComposer`     | `Composer\Factory`                                    |
+| removed |    -1 |   7.1% → 0.0% |   1 → 0 | `(anonymous)`        | `./composer/vendor/symfony/console/Output/Output.php` |
+|  -25.0% |    -1 | 28.6% → 15.8% |   4 → 3 | `getDefaultCommands` | `Composer\Console\Application`                        |
+| removed |    -1 |   7.1% → 0.0% |   1 → 0 | `configure`          | `Composer\Command\InstallCommand`                     |
 
 ##### `loadSchema` (`JsonSchema\Uri\UriRetriever`)
 
@@ -174,7 +174,7 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | -----: | ------: | ------ | ----------------------------------- |
 |  +7.7% |    +3 | 100.0% | 39 → 42 | `run`  | `Symfony\Component\Process\Process` |
 
-##### `(anonymous)` (`vendor/composer/autoload_classmap.php`)
+##### `(anonymous)` (`./vendor/composer/autoload_classmap.php`)
 
 | Change | Delta |      % | Samples | Caller          | Location                              |
 | -----: | ----: | -----: | ------: | --------------- | ------------------------------------- |
@@ -262,7 +262,7 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | -----: | ------: | ------ | ------------------------------------- |
 | -19.5% |   -15 | 100.0% | 77 → 62 | `dump` | `Composer\Autoload\AutoloadGenerator` |
 
-##### `(anonymous)` (`composer/src/Composer/Console/Application.php:353`)
+##### `(anonymous)` (`./composer/src/Composer/Console/Application.php:353`)
 
 |  Change | Delta |             % | Samples | Caller | Location                 |
 | ------: | ----: | ------------: | ------: | ------ | ------------------------ |
@@ -375,7 +375,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +43.6% |   +24 |   1.3% → 2.0% |     55 → 79 | `getChildren`         | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
 |  +22.6% |   +19 |   2.0% → 2.6% |    84 → 103 | `checkOffsetCapture`  | `Composer\Pcre\Preg`                                               |
 |   +1.9% |   +17 | 21.9% → 23.5% |   911 → 928 | `isMatchStrictGroups` | `Composer\Pcre\Preg`                                               |
-|     new |   +15 |   0.0% → 0.4% |      0 → 15 | `(anonymous)`         | `composer/src/Composer/Console/Application.php:349`                |
+|     new |   +15 |   0.0% → 0.4% |      0 → 15 | `(anonymous)`         | `./composer/src/Composer/Console/Application.php:349`              |
 |   +7.1% |    +8 |   2.7% → 3.0% |   112 → 120 | `getPathCode`         | `Composer\Autoload\AutoloadGenerator`                              |
 |  +12.1% |    +8 |   1.6% → 1.9% |     66 → 74 | `findShortestPath`    | `Composer\Util\Filesystem`                                         |
 | +150.0% |    +6 |   0.1% → 0.3% |      4 → 10 | `loadSchema`          | `JsonSchema\Uri\UriRetriever`                                      |
@@ -385,7 +385,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +60.0% |    +3 |   0.1% → 0.2% |       5 → 8 | `__construct`         | `Symfony\Component\Console\Command\Command`                        |
 |  +23.1% |    +3 |   0.3% → 0.4% |     13 → 16 | `find`                | `Symfony\Component\Console\Application`                            |
 |   +6.7% |    +3 |   1.1% → 1.2% |     45 → 48 | `start`               | `Symfony\Component\Process\Process`                                |
-|  +37.5% |    +3 |   0.2% → 0.3% |      8 → 11 | `(anonymous)`         | `vendor/composer/autoload_classmap.php`                            |
+|  +37.5% |    +3 |   0.2% → 0.3% |      8 → 11 | `(anonymous)`         | `./vendor/composer/autoload_classmap.php`                          |
 |  +42.9% |    +3 |   0.2% → 0.3% |      7 → 10 | `retrieve`            | `JsonSchema\Uri\UriRetriever`                                      |
 
 ##### Ours
@@ -400,7 +400,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +43.6% |   +24 |   1.3% → 2.0% |     55 → 79 | `getChildren`         | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator` |
 |  +22.6% |   +19 |   2.0% → 2.6% |    84 → 103 | `checkOffsetCapture`  | `Composer\Pcre\Preg`                                               |
 |   +1.9% |   +17 | 21.9% → 23.5% |   911 → 928 | `isMatchStrictGroups` | `Composer\Pcre\Preg`                                               |
-|     new |   +15 |   0.0% → 0.4% |      0 → 15 | `(anonymous)`         | `composer/src/Composer/Console/Application.php:349`                |
+|     new |   +15 |   0.0% → 0.4% |      0 → 15 | `(anonymous)`         | `./composer/src/Composer/Console/Application.php:349`              |
 |   +7.1% |    +8 |   2.7% → 3.0% |   112 → 120 | `getPathCode`         | `Composer\Autoload\AutoloadGenerator`                              |
 |  +12.1% |    +8 |   1.6% → 1.9% |     66 → 74 | `findShortestPath`    | `Composer\Util\Filesystem`                                         |
 | +150.0% |    +6 |   0.1% → 0.3% |      4 → 10 | `loadSchema`          | `JsonSchema\Uri\UriRetriever`                                      |
@@ -421,7 +421,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 | Change | Delta |             % |       Samples | Function                  | Location                                       |
 | -----: | ----: | ------------: | ------------: | ------------------------- | ---------------------------------------------- |
-|  -5.3% |  -220 |        100.0% | 4,164 → 3,944 | `(anonymous)`             | `profile.php`                                  |
+|  -5.3% |  -220 |        100.0% | 4,164 → 3,944 | `(anonymous)`             | `./profile.php`                                |
 |  -5.2% |  -217 | 99.8% → 99.9% | 4,157 → 3,940 | `run`                     | `Symfony\Component\Console\Application`        |
 |  -5.2% |  -217 | 99.8% → 99.9% | 4,157 → 3,940 | `run`                     | `Composer\Console\Application`                 |
 | -94.4% |  -152 |   3.9% → 0.2% |       161 → 9 | `getHeight`               | `Symfony\Component\Console\Terminal`           |
@@ -551,7 +551,7 @@ Callees with the largest change in contribution to each function's total samples
 | removed |    -2 |   28.6% → 0.0% |   2 → 0 | `translate`      | `JsonSchema\Uri\UriRetriever` |
 | removed |    -1 |   14.3% → 0.0% |   1 → 0 | `resolvePointer` | `JsonSchema\Uri\UriRetriever` |
 
-##### `(anonymous)` (`profile.php`)
+##### `(anonymous)` (`./profile.php`)
 
 |  Change | Delta |             % |       Samples | Callee        | Location                                  |
 | ------: | ----: | ------------: | ------------: | ------------- | ----------------------------------------- |
@@ -611,11 +611,11 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `call` (`Composer\Util\Silencer`)
 
-|  Change | Delta |           % | Samples | Callee        | Location                                            |
-| ------: | ----: | ----------: | ------: | ------------- | --------------------------------------------------- |
-|     new |   +15 | 0.0% → 6.0% |  0 → 15 | `(anonymous)` | `composer/src/Composer/Console/Application.php:349` |
-| removed |   -14 | 4.9% → 0.0% |  14 → 0 | `(anonymous)` | `composer/src/Composer/Console/Application.php:353` |
-| removed |    -4 | 1.4% → 0.0% |   4 → 0 | `suppress`    | `Composer\Util\Silencer`                            |
+|  Change | Delta |           % | Samples | Callee        | Location                                              |
+| ------: | ----: | ----------: | ------: | ------------- | ----------------------------------------------------- |
+|     new |   +15 | 0.0% → 6.0% |  0 → 15 | `(anonymous)` | `./composer/src/Composer/Console/Application.php:349` |
+| removed |   -14 | 4.9% → 0.0% |  14 → 0 | `(anonymous)` | `./composer/src/Composer/Console/Application.php:353` |
+| removed |    -4 | 1.4% → 0.0% |   4 → 0 | `suppress`    | `Composer\Util\Silencer`                              |
 
 ##### `doRun` (`Symfony\Component\Console\Application`)
 

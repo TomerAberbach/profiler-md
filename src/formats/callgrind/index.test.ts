@@ -1414,7 +1414,7 @@ describe(`category subsections`, () => {
       '%': `60.0%`,
       Instructions: `600`,
       Function: `main`,
-      Location: `a.c`,
+      Location: `./a.c`,
     },
   ]
   const NATIVE_ROWS = [
@@ -1476,7 +1476,7 @@ describe(`category subsections`, () => {
           '%': `100.0%`,
           Instructions: `600`,
           Function: `main`,
-          Location: `a.c`,
+          Location: `./a.c`,
         },
       ],
     })
@@ -1533,7 +1533,7 @@ describe(`category subsections`, () => {
             '%': `60.0% → 29.7%`,
             Instructions: `600 → 300`,
             Function: `main`,
-            Location: `a.c`,
+            Location: `./a.c`,
           },
         ],
       })
@@ -1579,7 +1579,7 @@ describe(`category subsections`, () => {
             '%': `100.0%`,
             Instructions: `600 → 300`,
             Function: `main`,
-            Location: `a.c`,
+            Location: `./a.c`,
           },
         ],
       })

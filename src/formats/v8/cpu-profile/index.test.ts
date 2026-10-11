@@ -116,7 +116,7 @@ describe(`convert`, () => {
           Time: `0.3ms`,
           Samples: `3`,
           Function: `funcB`,
-          Location: `src/b.ts:1:1`,
+          Location: `./src/b.ts:1:1`,
         },
       ],
     ])
@@ -127,14 +127,14 @@ describe(`convert`, () => {
           Time: `0.2ms`,
           Samples: `2`,
           Caller: `funcA`,
-          Location: `src/a.ts:1:1`,
+          Location: `./src/a.ts:1:1`,
         },
         {
           '%': `33.3%`,
           Time: `0.1ms`,
           Samples: `1`,
           Caller: `funcC`,
-          Location: `src/c.ts:1:1`,
+          Location: `./src/c.ts:1:1`,
         },
       ],
     ])
@@ -208,8 +208,8 @@ describe(`convert`, () => {
 
     expect(linesTables(md, `funcB`)).toEqual([
       [
-        { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `src/b.ts:8` },
-        { '%': `33.3%`, Time: `0.1ms`, Samples: `1`, Location: `src/b.ts:5` },
+        { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `./src/b.ts:8` },
+        { '%': `33.3%`, Time: `0.1ms`, Samples: `1`, Location: `./src/b.ts:5` },
       ],
     ])
   })
@@ -285,8 +285,8 @@ describe(`convert`, () => {
 
     expect(linesTables(md, `funcB`)).toEqual([
       [
-        { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `src/b.ts:5` },
-        { '%': `33.3%`, Time: `0.1ms`, Samples: `1`, Location: `src/b.ts:8` },
+        { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `./src/b.ts:5` },
+        { '%': `33.3%`, Time: `0.1ms`, Samples: `1`, Location: `./src/b.ts:8` },
       ],
     ])
   })
@@ -339,7 +339,7 @@ describe(`convert`, () => {
           Time: `0.1ms`,
           Samples: `1`,
           Function: `funcA`,
-          Location: `src/a.ts:1:1`,
+          Location: `./src/a.ts:1:1`,
         },
       ],
     ])
@@ -403,7 +403,7 @@ describe(`convert`, () => {
           .filter(row => row.Function === `(anonymous)`)
           .map(row => row.Location),
       ),
-    ).toEqual([[`src/a.ts:21:1`, `src/a.ts:11:1`]])
+    ).toEqual([[`./src/a.ts:21:1`, `./src/a.ts:11:1`]])
     expect(
       totalTimeTables(md).map(
         table => table.filter(row => row.Function === `(anonymous)`).length,
@@ -441,7 +441,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`src/a.ts`]])
+    ).toEqual([[`./src/a.ts`]])
   })
 
   test(`categorizes ours, third-party, and stdlib code`, () => {

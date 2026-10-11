@@ -108,7 +108,7 @@ Functions with the largest decrease in samples taken directly in the function bo
 |  -51.3% |  -140 |   0.8% → 0.4% |     273 → 133 | `iterate`                                                                                                                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:75 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75` |
 | removed |  -137 |   0.4% → 0.0% |       137 → 0 | `#write#81`                                                                                                                        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`                                                                                                     |
 |  -25.4% |   -74 |   0.9% → 0.7% |     291 → 217 | `[unknown function]`                                                                                                               | `<unknown>`                                                                                                                                                                                             |
-|  -47.7% |   -41 |   0.3% → 0.1% |       86 → 45 | `parse_workload`                                                                                                                   | `profile.jl:18`                                                                                                                                                                                         |
+|  -47.7% |   -41 |   0.3% → 0.1% |       86 → 45 | `parse_workload`                                                                                                                   | `./profile.jl:18`                                                                                                                                                                                       |
 |   -0.5% |   -38 | 20.8% → 20.9% | 7,015 → 6,977 | `_symbol`                                                                                                                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:1 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1`   |
 |  -22.0% |   -33 |          0.4% |     150 → 117 | `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{String})`                     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:142 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:142` |
 |  -31.7% |   -33 |   0.3% → 0.2% |      104 → 71 | `unsafe_string`                                                                                                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:126`                                                                                                   |
@@ -492,11 +492,11 @@ Lines with the largest change in contribution to each function's self samples.
 |    new |    +2 |   0.0% → 0.9% |     0 → 2 | 12       |
 | -16.7% |    -1 |   2.1% → 2.3% |     6 → 5 | 11       |
 
-##### `parse_workload` (`profile.jl:18`)
+##### `parse_workload` (`./profile.jl:18`)
 
-| Change | Delta |      % | Samples | Location        |
-| -----: | ----: | -----: | ------: | --------------- |
-| -47.7% |   -41 | 100.0% | 86 → 45 | `profile.jl:18` |
+| Change | Delta |      % | Samples | Location          |
+| -----: | ----: | -----: | ------: | ----------------- |
+| -47.7% |   -41 | 100.0% | 86 → 45 | `./profile.jl:18` |
 
 ##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1`)
 
@@ -1036,12 +1036,12 @@ Callers with the largest change in contribution to each function's self samples.
 |     new |   +29 |  0.0% → 13.4% |    0 → 29 | `#write#81`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:185`                                                                                                      |
 |  -19.0% |   -26 | 47.1% → 51.2% | 137 → 111 | `#write#79`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
 
-##### `parse_workload` (`profile.jl:18`)
+##### `parse_workload` (`./profile.jl:18`)
 
 |  Change | Delta |              % | Samples | Caller            | Location                                                                                                          |
 | ------: | ----: | -------------: | ------: | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
 |  -47.1% |   -40 | 98.8% → 100.0% | 85 → 45 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:60` |
-| removed |    -1 |    1.2% → 0.0% |   1 → 0 | `parse_workload`  | `profile.jl:18`                                                                                                   |
+| removed |    -1 |    1.2% → 0.0% |   1 → 0 | `parse_workload`  | `./profile.jl:18`                                                                                                 |
 
 ##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1`)
 
@@ -1325,14 +1325,14 @@ Functions with the largest increase in total samples taken in the function and a
 |   +0.9% |    +217 | 70.9% → 72.2% | 23,882 → 24,099 | `#write#58`                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40`   |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `[unknown function]`                                                      | `<unknown>`                                                                                                                                                                                               |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `macro expansion`                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:60`                                                                                         |
-|   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `capture_cpu`                                                             | `profile.jl:29`                                                                                                                                                                                           |
+|   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `capture_cpu`                                                             | `./profile.jl:29`                                                                                                                                                                                         |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `eval(::Module, ::Any)`                                                   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`                                                                                                               |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `include_string(::typeof(identity), ::Module, ::String, ::String)`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989`                                                                                                           |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `_include(::Function, ::Module, ::String)`                                | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:3083`                                                                                                           |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `include(::Module, ::String)`                                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309`                                                                                                               |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `exec_options(::Base.JLOptions)`                                          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234`                                                                                                             |
 |   +0.7% |    +192 | 76.4% → 77.7% | 25,752 → 25,944 | `_start()`                                                                | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:570`                                                                                                             |
-|   +0.7% |    +191 | 76.4% → 77.7% | 25,753 → 25,944 | `parse_workload`                                                          | `profile.jl:18`                                                                                                                                                                                           |
+|   +0.7% |    +191 | 76.4% → 77.7% | 25,753 → 25,944 | `parse_workload`                                                          | `./profile.jl:18`                                                                                                                                                                                         |
 |   +7.9% |    +167 |   6.3% → 6.9% |   2,127 → 2,294 | `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`                                                                                                              |
 
 ##### Third-party
@@ -1569,15 +1569,15 @@ Callees with the largest change in contribution to each function's total samples
 | removed | -17,687 |  68.7% → 0.0% |      17,687 → 0 | `#write#81`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`                                                                                                       |
 |   +1.8% |    +300 | 65.5% → 66.2% | 16,880 → 17,180 | `#write#79`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
 |   +0.9% |    +217 | 92.7% → 92.9% | 23,882 → 24,099 | `#write#58`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:40 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40`   |
-|   +0.7% |    +192 |        100.0% | 25,752 → 25,944 | `capture_cpu` | `profile.jl:29`                                                                                                                                                                                           |
+|   +0.7% |    +192 |        100.0% | 25,752 → 25,944 | `capture_cpu` | `./profile.jl:29`                                                                                                                                                                                         |
 
 ##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:60`)
 
-| Change | Delta |      % |         Samples | Callee           | Location        |
-| -----: | ----: | -----: | --------------: | ---------------- | --------------- |
-|  +0.7% |  +192 | 100.0% | 25,752 → 25,944 | `parse_workload` | `profile.jl:18` |
+| Change | Delta |      % |         Samples | Callee           | Location          |
+| -----: | ----: | -----: | --------------: | ---------------- | ----------------- |
+|  +0.7% |  +192 | 100.0% | 25,752 → 25,944 | `parse_workload` | `./profile.jl:18` |
 
-##### `capture_cpu` (`profile.jl:29`)
+##### `capture_cpu` (`./profile.jl:29`)
 
 | Change | Delta |      % |         Samples | Callee            | Location                                                                                                          |
 | -----: | ----: | -----: | --------------: | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -1619,14 +1619,14 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | --------------: | -------------------------------- | --------------------------------------------------------------------------------------------- |
 |  +0.7% |  +192 | 100.0% | 25,752 → 25,944 | `exec_options(::Base.JLOptions)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234` |
 
-##### `parse_workload` (`profile.jl:18`)
+##### `parse_workload` (`./profile.jl:18`)
 
 |  Change | Delta |             % |         Samples | Callee               | Location                                                                                                                                                                                              |
 | ------: | ----: | ------------: | --------------: | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |   +0.9% |  +218 | 92.7% → 92.9% | 23,882 → 24,100 | `[unknown function]` | `<unknown>`                                                                                                                                                                                           |
 |   +4.3% |   +58 |   5.2% → 5.4% |   1,347 → 1,405 | `read`               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/read.jl:30 → /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
 |  -10.0% |   -44 |   1.7% → 1.5% |       438 → 394 | `length(::String)`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:540`                                                                                                 |
-| removed |    -1 |  <0.1% → 0.0% |           1 → 0 | `parse_workload`     | `profile.jl:18`                                                                                                                                                                                       |
+| removed |    -1 |  <0.1% → 0.0% |           1 → 0 | `parse_workload`     | `./profile.jl:18`                                                                                                                                                                                     |
 
 ##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:214`)
 

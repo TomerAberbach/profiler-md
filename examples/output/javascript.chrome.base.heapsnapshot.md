@@ -76,28 +76,28 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 ##### Object
 
-|     % |     Size | Instances | Constructor            | Location                                  |
-| ----: | -------: | --------: | ---------------------- | ----------------------------------------- |
-|  2.4% | 78.5 KiB |     1,723 | `Object`               | `<unknown>`                               |
-|  0.5% | 14.8 KiB |       429 | `system / Context`     | `<unknown>`                               |
-|  0.2% | 5.23 KiB |       103 | `Date`                 | `<unknown>`                               |
-|  0.1% | 3.34 KiB |       107 | `Qd`                   | `node_modules/d3/dist/d3.min.js:2:140541` |
-| <0.1% |  1,020 B |        37 | `Error`                | `<unknown>`                               |
-| <0.1% |  1,008 B |        36 | `TypedArray`           | `<unknown>`                               |
-| <0.1% |    784 B |        28 | `qe`                   | `node_modules/d3/dist/d3.min.js:2:34624`  |
-| <0.1% |    708 B |        15 | `ArrayBuffer`          | `<unknown>`                               |
-| <0.1% |    260 B |         5 | `T`                    | `node_modules/d3/dist/d3.min.js:2:3159`   |
-| <0.1% |    224 B |        12 | `Map`                  | `<unknown>`                               |
-| <0.1% |    144 B |         4 | `Ar`                   | `node_modules/d3/dist/d3.min.js:2:40001`  |
-| <0.1% |    140 B |         5 | `ye`                   | `node_modules/d3/dist/d3.min.js:2:30261`  |
-| <0.1% |    128 B |         6 | `Set`                  | `<unknown>`                               |
-| <0.1% |    104 B |         4 | `Promise`              | `<unknown>`                               |
-| <0.1% |    100 B |         4 | `WeakSet`              | `<unknown>`                               |
-| <0.1% |    100 B |         4 | `WeakMap`              | `<unknown>`                               |
-| <0.1% |     96 B |         4 | `Generator`            | `<unknown>`                               |
-| <0.1% |     84 B |         3 | `Tag`                  | `<unknown>`                               |
-| <0.1% |     84 B |         3 | `DisposableStack`      | `<unknown>`                               |
-| <0.1% |     84 B |         3 | `AsyncDisposableStack` | `<unknown>`                               |
+|     % |     Size | Instances | Constructor            | Location                                    |
+| ----: | -------: | --------: | ---------------------- | ------------------------------------------- |
+|  2.4% | 78.5 KiB |     1,723 | `Object`               | `<unknown>`                                 |
+|  0.5% | 14.8 KiB |       429 | `system / Context`     | `<unknown>`                                 |
+|  0.2% | 5.23 KiB |       103 | `Date`                 | `<unknown>`                                 |
+|  0.1% | 3.34 KiB |       107 | `Qd`                   | `./node_modules/d3/dist/d3.min.js:2:140541` |
+| <0.1% |  1,020 B |        37 | `Error`                | `<unknown>`                                 |
+| <0.1% |  1,008 B |        36 | `TypedArray`           | `<unknown>`                                 |
+| <0.1% |    784 B |        28 | `qe`                   | `./node_modules/d3/dist/d3.min.js:2:34624`  |
+| <0.1% |    708 B |        15 | `ArrayBuffer`          | `<unknown>`                                 |
+| <0.1% |    260 B |         5 | `T`                    | `./node_modules/d3/dist/d3.min.js:2:3159`   |
+| <0.1% |    224 B |        12 | `Map`                  | `<unknown>`                                 |
+| <0.1% |    144 B |         4 | `Ar`                   | `./node_modules/d3/dist/d3.min.js:2:40001`  |
+| <0.1% |    140 B |         5 | `ye`                   | `./node_modules/d3/dist/d3.min.js:2:30261`  |
+| <0.1% |    128 B |         6 | `Set`                  | `<unknown>`                                 |
+| <0.1% |    104 B |         4 | `Promise`              | `<unknown>`                                 |
+| <0.1% |    100 B |         4 | `WeakSet`              | `<unknown>`                                 |
+| <0.1% |    100 B |         4 | `WeakMap`              | `<unknown>`                                 |
+| <0.1% |     96 B |         4 | `Generator`            | `<unknown>`                                 |
+| <0.1% |     84 B |         3 | `Tag`                  | `<unknown>`                                 |
+| <0.1% |     84 B |         3 | `DisposableStack`      | `<unknown>`                                 |
+| <0.1% |     84 B |         3 | `AsyncDisposableStack` | `<unknown>`                                 |
 
 ##### Array
 
@@ -125,13 +125,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                                                                              |
-| ----: | ------: | --------: | --------------------------------------------------------------------------------------------------------------------------------- |
-| 96.7% | 103 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context`                                                         |
-|  1.9% |   2 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context`                                                         |
-|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
-|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
-|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
+|     % |    Size | Instances | Path                                                                                                                                |
+| ----: | ------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 96.7% | 103 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context`                                                           |
+|  1.9% |   2 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context`                                                           |
+|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
+|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
 
 ##### `SVGAnimatedLength` (`<unknown>`)
 
@@ -155,13 +155,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                        |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  0.4% | 212 B |         8 | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                 |
-| <0.1% |  16 B |         1 | `.raw Array`                                                                                                                                                                                                                                                                                                                                                                                |
-| <0.1% |  16 B |         1 | `.transition_info system / AllocationSite ← .(Bootstrapper) system / FeedbackVector ← .value system / FeedbackCell ← .feedback_cell eachBefore (node_modules/d3/dist/d3.min.js:2:141773) ← .eachBefore Object`                                                                                                                                                                              |
-| <0.1% |  16 B |         1 | `.transition_info system / AllocationSite ← .(Bootstrapper) system / FeedbackVector ← .value system / FeedbackCell ← .feedback_cell st (node_modules/d3/dist/d3.min.js:2:10707) ← .st system / Context`                                                                                                                                                                                     |
-| <0.1% |  16 B |         1 | `.transition_info system / AllocationSite ← .(Bootstrapper) system / FeedbackVector ← .value system / FeedbackCell ← .<dummy> system / ClosureFeedbackCellArray ← . system / FeedbackVector ← .value system / FeedbackCell ← . system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell (anonymous) (node_modules/d3/dist/d3.min.js:2:231984) ← .forceLink Object` |
+|     % |  Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.4% | 212 B |         8 | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                   |
+| <0.1% |  16 B |         1 | `.raw Array`                                                                                                                                                                                                                                                                                                                                                                                  |
+| <0.1% |  16 B |         1 | `.transition_info system / AllocationSite ← .(Bootstrapper) system / FeedbackVector ← .value system / FeedbackCell ← .feedback_cell eachBefore (./node_modules/d3/dist/d3.min.js:2:141773) ← .eachBefore Object`                                                                                                                                                                              |
+| <0.1% |  16 B |         1 | `.transition_info system / AllocationSite ← .(Bootstrapper) system / FeedbackVector ← .value system / FeedbackCell ← .feedback_cell st (./node_modules/d3/dist/d3.min.js:2:10707) ← .st system / Context`                                                                                                                                                                                     |
+| <0.1% |  16 B |         1 | `.transition_info system / AllocationSite ← .(Bootstrapper) system / FeedbackVector ← .value system / FeedbackCell ← .<dummy> system / ClosureFeedbackCellArray ← . system / FeedbackVector ← .value system / FeedbackCell ← . system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ← .forceLink Object` |
 
 ##### `SVGAnimatedString` (`<unknown>`)
 
@@ -225,13 +225,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                                                                                                                                                            |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 29.7% | 4.41 KiB |         4 | `(GC root)`                                                                                                                                                                                                                                     |
-|  1.3% |    192 B |         3 | `.context l (node_modules/d3/dist/d3.min.js:2:155044) ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:11875) ← .__axis SVGGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
-|  0.7% |    104 B |         1 | `.t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:11875) ← .__axis SVGGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`                                                        |
-|  0.4% |     60 B |         1 | `.context t ← .Deferred Object`                                                                                                                                                                                                                 |
-|  0.3% |     48 B |         1 | `.previous system / Context`                                                                                                                                                                                                                    |
+|     % |     Size | Instances | Path                                                                                                                                                                                                                                                |
+| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 29.7% | 4.41 KiB |         4 | `(GC root)`                                                                                                                                                                                                                                         |
+|  1.3% |    192 B |         3 | `.context l (./node_modules/d3/dist/d3.min.js:2:155044) ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:11875) ← .__axis SVGGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+|  0.7% |    104 B |         1 | `.t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:11875) ← .__axis SVGGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`                                                          |
+|  0.4% |     60 B |         1 | `.context t ← .Deferred Object`                                                                                                                                                                                                                     |
+|  0.3% |     48 B |         1 | `.previous system / Context`                                                                                                                                                                                                                        |
 
 ##### `SVGAnimatedLengthList` (`<unknown>`)
 
@@ -312,12 +312,12 @@ Instances ranked by contribution to each constructor's self size.
 |  1.7% |     64 B |         1 | `[9] SVGTextElement ← [4] SVGGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`                   |
 |  1.7% |     64 B |         1 | `[9] SVGTextElement ← [5] SVGGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`                   |
 
-##### `Qd` (`node_modules/d3/dist/d3.min.js:2:140541`)
+##### `Qd` (`./node_modules/d3/dist/d3.min.js:2:140541`)
 
-|     % |     Size | Instances | Path                                                                             |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------- |
-| 99.2% | 3.31 KiB |       106 | `[0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`     |
-|  0.8% |     28 B |         1 | `.prototype Up (node_modules/d3/dist/d3.min.js:2:147114) ← .Up system / Context` |
+|     % |     Size | Instances | Path                                                                               |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------- |
+| 99.2% | 3.31 KiB |       106 | `[0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`       |
+|  0.8% |     28 B |         1 | `.prototype Up (./node_modules/d3/dist/d3.min.js:2:147114) ← .Up system / Context` |
 
 ##### `HTMLDocument` (`<unknown>`)
 
@@ -370,37 +370,37 @@ Instances ranked by contribution to each constructor's self size.
 | -----: | ------: | --------: | ----------- |
 | 100.0% | 1,008 B |        36 | `(GC root)` |
 
-##### `qe` (`node_modules/d3/dist/d3.min.js:2:34624`)
+##### `qe` (`./node_modules/d3/dist/d3.min.js:2:34624`)
 
-|    % | Size | Instances | Path                                                                                                              |
-| ---: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------- |
-| 3.6% | 28 B |         1 | `.um system / Context`                                                                                            |
-| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlOrRd Object` |
-| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlOrBr Object` |
-| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlGnBu Object` |
-| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlGn Object`   |
+|    % | Size | Instances | Path                                                                                                                |
+| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------- |
+| 3.6% | 28 B |         1 | `.um system / Context`                                                                                              |
+| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlOrRd Object` |
+| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlOrBr Object` |
+| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlGnBu Object` |
+| 3.6% | 28 B |         1 | `.r system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateYlGn Object`   |
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|    % | Size | Instances | Path                                                                                                 |
-| ---: | ---: | --------: | ---------------------------------------------------------------------------------------------------- |
-| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
-| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
-| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
-| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
-| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+|    % | Size | Instances | Path                                                                                                   |
+| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------ |
+| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
+| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
+| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
+| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
+| 7.3% | 52 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
 
 ##### `Float64Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                          |
-| ----: | ---: | --------: | ----------------------------------------------------------------------------- |
-| 10.0% | 60 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
-| 10.0% | 60 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
-| 10.0% | 60 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
-| 10.0% | 60 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
-| 10.0% | 60 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+|     % | Size | Instances | Path                                                                            |
+| ----: | ---: | --------: | ------------------------------------------------------------------------------- |
+| 10.0% | 60 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
+| 10.0% | 60 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
+| 10.0% | 60 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
+| 10.0% | 60 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
+| 10.0% | 60 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
 
-##### `T` (`node_modules/d3/dist/d3.min.js:2:3159`)
+##### `T` (`./node_modules/d3/dist/d3.min.js:2:3159`)
 
 |     % | Size | Instances | Path                   |
 | ----: | ---: | --------: | ---------------------- |
@@ -412,24 +412,24 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Map` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                                                                               |
-| ----: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------- |
-| 37.5% | 84 B |         3 | `(GC root)`                                                                                                                        |
-|  7.1% | 16 B |         1 | `._intern InternMap (node_modules/d3/dist/d3.min.js:2:3622) ← .hashtagCounts Object ← .__retained Window / http://127.0.0.1:52789` |
-|  7.1% | 16 B |         1 | `.s system / Context`                                                                                                              |
-|  7.1% | 16 B |         1 | `.h system / Context`                                                                                                              |
-|  7.1% | 16 B |         1 | `.p system / Context`                                                                                                              |
+|     % | Size | Instances | Path                                                                                                                                 |
+| ----: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 37.5% | 84 B |         3 | `(GC root)`                                                                                                                          |
+|  7.1% | 16 B |         1 | `._intern InternMap (./node_modules/d3/dist/d3.min.js:2:3622) ← .hashtagCounts Object ← .__retained Window / http://127.0.0.1:52789` |
+|  7.1% | 16 B |         1 | `.s system / Context`                                                                                                                |
+|  7.1% | 16 B |         1 | `.h system / Context`                                                                                                                |
+|  7.1% | 16 B |         1 | `.p system / Context`                                                                                                                |
 
-##### `Ar` (`node_modules/d3/dist/d3.min.js:2:40001`)
+##### `Ar` (`./node_modules/d3/dist/d3.min.js:2:40001`)
 
-|     % | Size | Instances | Path                                                                                                                        |
-| ----: | ---: | --------: | --------------------------------------------------------------------------------------------------------------------------- |
-| 41.7% | 60 B |         1 | `.n system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateCubehelixDefault Object` |
-| 19.4% | 28 B |         1 | `.am system / Context`                                                                                                      |
-| 19.4% | 28 B |         1 | `.n system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateWarm Object`             |
-| 19.4% | 28 B |         1 | `.n system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateCool Object`             |
+|     % | Size | Instances | Path                                                                                                                          |
+| ----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------------------- |
+| 41.7% | 60 B |         1 | `.n system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateCubehelixDefault Object` |
+| 19.4% | 28 B |         1 | `.am system / Context`                                                                                                        |
+| 19.4% | 28 B |         1 | `.n system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateWarm Object`             |
+| 19.4% | 28 B |         1 | `.n system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateCool Object`             |
 
-##### `ye` (`node_modules/d3/dist/d3.min.js:2:30261`)
+##### `ye` (`./node_modules/d3/dist/d3.min.js:2:30261`)
 
 |      % |  Size | Instances | Path        |
 | -----: | ----: | --------: | ----------- |
@@ -437,12 +437,12 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Set` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                           |
-| ----: | ---: | --------: | -------------------------------------------------------------- |
-| 65.6% | 84 B |         3 | `(GC root)`                                                    |
-| 12.5% | 16 B |         1 | `.re system / Context`                                         |
-| 12.5% | 16 B |         1 | `.ne system / Context`                                         |
-|  9.4% | 12 B |         1 | `.prototype InternSet (node_modules/d3/dist/d3.min.js:2:3943)` |
+|     % | Size | Instances | Path                                                             |
+| ----: | ---: | --------: | ---------------------------------------------------------------- |
+| 65.6% | 84 B |         3 | `(GC root)`                                                      |
+| 12.5% | 16 B |         1 | `.re system / Context`                                           |
+| 12.5% | 16 B |         1 | `.ne system / Context`                                           |
+|  9.4% | 12 B |         1 | `.prototype InternSet (./node_modules/d3/dist/d3.min.js:2:3943)` |
 
 ##### `Promise` (`<unknown>`)
 
@@ -468,10 +468,10 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Generator` (`<unknown>`)
 
-|     % | Size | Instances | Path                                      |
-| ----: | ---: | --------: | ----------------------------------------- |
-| 87.5% | 84 B |         3 | `(GC root)`                               |
-| 12.5% | 12 B |         1 | `.__proto__ Generator (workload.mjs:1:1)` |
+|     % | Size | Instances | Path                                        |
+| ----: | ---: | --------: | ------------------------------------------- |
+| 87.5% | 84 B |         3 | `(GC root)`                                 |
+| 12.5% | 12 B |         1 | `.__proto__ Generator (./workload.mjs:1:1)` |
 
 ##### `Tag` (`<unknown>`)
 
@@ -565,28 +565,28 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 ##### Object
 
-|     % |     Size | Instances | Constructor                       | Location                                  |
-| ----: | -------: | --------: | --------------------------------- | ----------------------------------------- |
-| 33.7% | 1.06 MiB |     1,723 | `Object`                          | `<unknown>`                               |
-| 20.1% |  648 KiB |         1 | `Window / http://127.0.0.1:52789` | `<unknown>`                               |
-| 13.9% |  450 KiB |       429 | `system / Context`                | `<unknown>`                               |
-|  3.4% |  108 KiB |        15 | `ArrayBuffer`                     | `<unknown>`                               |
-|  1.5% | 47.8 KiB |         1 | `Window / ://`                    | `<unknown>`                               |
-|  0.4% | 12.5 KiB |       107 | `Qd`                              | `node_modules/d3/dist/d3.min.js:2:140541` |
-|  0.2% | 6.45 KiB |         1 | `Object / `                       | `<unknown>`                               |
-|  0.2% | 5.91 KiB |        37 | `Error`                           | `<unknown>`                               |
-|  0.2% | 5.64 KiB |         1 | `Document`                        | `<unknown>`                               |
-|  0.2% | 5.23 KiB |        36 | `TypedArray`                      | `<unknown>`                               |
-|  0.2% | 5.23 KiB |       103 | `Date`                            | `<unknown>`                               |
-|  0.2% | 5.13 KiB |        12 | `Map`                             | `<unknown>`                               |
-|  0.2% | 5.09 KiB |         3 | `Math`                            | `<unknown>`                               |
-|  0.1% | 4.79 KiB |         3 | `console`                         | `<unknown>`                               |
-|  0.1% | 4.64 KiB |         1 | `HTMLElement`                     | `<unknown>`                               |
-|  0.1% | 4.48 KiB |         3 | `Intl.Locale`                     | `<unknown>`                               |
-|  0.1% | 4.34 KiB |         3 | `String`                          | `<unknown>`                               |
-|  0.1% | 4.02 KiB |         3 | `DataView`                        | `<unknown>`                               |
-|  0.1% | 3.98 KiB |         5 | `ye`                              | `node_modules/d3/dist/d3.min.js:2:30261`  |
-|  0.1% | 3.42 KiB |         1 | `Element`                         | `<unknown>`                               |
+|     % |     Size | Instances | Constructor                       | Location                                    |
+| ----: | -------: | --------: | --------------------------------- | ------------------------------------------- |
+| 33.7% | 1.06 MiB |     1,723 | `Object`                          | `<unknown>`                                 |
+| 20.1% |  648 KiB |         1 | `Window / http://127.0.0.1:52789` | `<unknown>`                                 |
+| 13.9% |  450 KiB |       429 | `system / Context`                | `<unknown>`                                 |
+|  3.4% |  108 KiB |        15 | `ArrayBuffer`                     | `<unknown>`                                 |
+|  1.5% | 47.8 KiB |         1 | `Window / ://`                    | `<unknown>`                                 |
+|  0.4% | 12.5 KiB |       107 | `Qd`                              | `./node_modules/d3/dist/d3.min.js:2:140541` |
+|  0.2% | 6.45 KiB |         1 | `Object / `                       | `<unknown>`                                 |
+|  0.2% | 5.91 KiB |        37 | `Error`                           | `<unknown>`                                 |
+|  0.2% | 5.64 KiB |         1 | `Document`                        | `<unknown>`                                 |
+|  0.2% | 5.23 KiB |        36 | `TypedArray`                      | `<unknown>`                                 |
+|  0.2% | 5.23 KiB |       103 | `Date`                            | `<unknown>`                                 |
+|  0.2% | 5.13 KiB |        12 | `Map`                             | `<unknown>`                                 |
+|  0.2% | 5.09 KiB |         3 | `Math`                            | `<unknown>`                                 |
+|  0.1% | 4.79 KiB |         3 | `console`                         | `<unknown>`                                 |
+|  0.1% | 4.64 KiB |         1 | `HTMLElement`                     | `<unknown>`                                 |
+|  0.1% | 4.48 KiB |         3 | `Intl.Locale`                     | `<unknown>`                                 |
+|  0.1% | 4.34 KiB |         3 | `String`                          | `<unknown>`                                 |
+|  0.1% | 4.02 KiB |         3 | `DataView`                        | `<unknown>`                                 |
+|  0.1% | 3.98 KiB |         5 | `ye`                              | `./node_modules/d3/dist/d3.min.js:2:30261`  |
+|  0.1% | 3.42 KiB |         1 | `Element`                         | `<unknown>`                                 |
 
 ##### Array
 
@@ -608,8 +608,8 @@ Instances ranked by contribution to each constructor's retained size.
 | ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | 54.9% |  597 KiB |         1 | `.__retained Window / http://127.0.0.1:52789`                                                                                                  |
 | 30.5% |  332 KiB |         4 | `(GC root)`                                                                                                                                    |
-|  2.8% |   30 KiB |         1 | `.prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                                |
-|  2.0% | 22.1 KiB |         1 | `.prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                                                                       |
+|  2.8% |   30 KiB |         1 | `.prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                              |
+|  2.0% | 22.1 KiB |         1 | `.prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                                                     |
 |  1.1% | 11.8 KiB |         1 | `.__data__ SVGPathElement ← [5] SVGGElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
 
 ##### `Window / http://127.0.0.1:52789` (`<unknown>`)
@@ -659,13 +659,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                          |
-| ----: | -------: | --------: | --------------------------------------------------------------------------------------------- |
-| 83.8% |  377 KiB |         4 | `(GC root)`                                                                                   |
-|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
-|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
-|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
-|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object` |
+|     % |     Size | Instances | Path                                                                                            |
+| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------- |
+| 83.8% |  377 KiB |         4 | `(GC root)`                                                                                     |
+|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
+|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
+|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
+|  1.3% | 6.05 KiB |         1 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object` |
 
 ##### `SVGCircleElement` (`<unknown>`)
 
@@ -679,23 +679,23 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                 |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------- |
-| 94.8% |  103 KiB |         1 | `.buffer Float32Array ← .e system / Context`                                                         |
-|  1.9% | 2.05 KiB |         1 | `.buffer Uint32Array ← .Au system / Context`                                                         |
-|  1.5% | 1.57 KiB |         3 | `(GC root)`                                                                                          |
-|  0.3% |    308 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
-|  0.3% |    308 B |         1 | `.buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
+|     % |     Size | Instances | Path                                                                                                   |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------ |
+| 94.8% |  103 KiB |         1 | `.buffer Float32Array ← .e system / Context`                                                           |
+|  1.9% | 2.05 KiB |         1 | `.buffer Uint32Array ← .Au system / Context`                                                           |
+|  1.5% | 1.57 KiB |         3 | `(GC root)`                                                                                            |
+|  0.3% |    308 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
+|  0.3% |    308 B |         1 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                                                                              |
-| ----: | ------: | --------: | --------------------------------------------------------------------------------------------------------------------------------- |
-| 96.7% | 103 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context`                                                         |
-|  1.9% |   2 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context`                                                         |
-|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
-|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
-|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
+|     % |    Size | Instances | Path                                                                                                                                |
+| ----: | ------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 96.7% | 103 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context`                                                           |
+|  1.9% |   2 KiB |         1 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context`                                                           |
+|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
+|  0.2% |   256 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
 
 ##### `SVGPathElement` (`<unknown>`)
 
@@ -819,12 +819,12 @@ Instances ranked by contribution to each constructor's retained size.
 | 0.4% | 64 B |         1 | `[8] SVGTextElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`                   |
 | 0.4% | 64 B |         1 | `[7] SVGTextElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`                   |
 
-##### `Qd` (`node_modules/d3/dist/d3.min.js:2:140541`)
+##### `Qd` (`./node_modules/d3/dist/d3.min.js:2:140541`)
 
-|     % |     Size | Instances | Path                                                                             |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------- |
-| 98.8% | 12.4 KiB |       106 | `[0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`     |
-|  1.2% |    148 B |         1 | `.prototype Up (node_modules/d3/dist/d3.min.js:2:147114) ← .Up system / Context` |
+|     % |     Size | Instances | Path                                                                               |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------- |
+| 98.8% | 12.4 KiB |       106 | `[0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789`       |
+|  1.2% |    148 B |         1 | `.prototype Up (./node_modules/d3/dist/d3.min.js:2:147114) ← .Up system / Context` |
 
 ##### `Text` (`<unknown>`)
 
@@ -928,7 +928,7 @@ Instances ranked by contribution to each constructor's retained size.
 | -----: | -------: | --------: | ----------- |
 | 100.0% | 4.02 KiB |         3 | `(GC root)` |
 
-##### `ye` (`node_modules/d3/dist/d3.min.js:2:30261`)
+##### `ye` (`./node_modules/d3/dist/d3.min.js:2:30261`)
 
 |      % |     Size | Instances | Path        |
 | -----: | -------: | --------: | ----------- |
@@ -962,13 +962,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Float64Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                          |
-| ----: | ----: | --------: | ----------------------------------------------------------------------------- |
-| 13.3% | 368 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
-| 13.3% | 368 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
-| 13.3% | 368 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
-| 13.3% | 368 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
-| 13.3% | 368 B |         1 | `._partials T (node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+|     % |  Size | Instances | Path                                                                            |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------- |
+| 13.3% | 368 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
+| 13.3% | 368 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
+| 13.3% | 368 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
+| 13.3% | 368 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
+| 13.3% | 368 B |         1 | `._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
 
 ##### `Uint32Array` (`<unknown>`)
 
@@ -986,84 +986,84 @@ Instances ranked by contribution to each constructor's retained size.
 
 Functions ranked by bytes that would be freed if the function were garbage collected.
 
-|    % | Retained | Instances | Paths | Name          | Location                                  | Example path                                                                                                        |
-| ---: | -------: | --------: | ----: | ------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| 1.0% |   31 KiB |         1 |     1 | `Su`          | `node_modules/d3/dist/d3.min.js:2:82035`  | `.Su system / Context`                                                                                              |
-| 0.8% | 24.3 KiB |         4 |     4 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:186157` | `.interpolateInferno Object`                                                                                        |
-| 0.7% |   23 KiB |         1 |     1 | `qu`          | `node_modules/d3/dist/d3.min.js:2:87903`  | `(GC root)`                                                                                                         |
-| 0.7% | 21.6 KiB |         1 |     1 | `update`      | `node_modules/d3/dist/d3.min.js:2:82533`  | `.update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                    |
-| 0.6% | 18.7 KiB |         1 |     1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:77113`  | `(GC root)`                                                                                                         |
-| 0.4% | 12.9 KiB |         1 |     1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:231984` | `.forceLink Object`                                                                                                 |
-| 0.4% | 12.7 KiB |         1 |     1 | `Lu`          | `node_modules/d3/dist/d3.min.js:2:94637`  | `.Delaunay Object`                                                                                                  |
-| 0.4% | 11.8 KiB |        27 |    27 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:41766`  | `.interpolateBrBG Object`                                                                                           |
-| 0.4% | 11.4 KiB |         1 |     1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:223060` | `.contourDensity Object`                                                                                            |
-| 0.3% |   11 KiB |         1 |     1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:233399` | `.forceManyBody Object`                                                                                             |
-| 0.3% |   11 KiB |         1 |     1 | `Q`           | `node_modules/d3/dist/d3.min.js:2:6993`   | `.bin Object`                                                                                                       |
-| 0.3% | 9.69 KiB |         1 |     1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:230973` | `.forceCollide Object`                                                                                              |
-| 0.3% | 9.39 KiB |        81 |    81 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:40205`  | `.o system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
-| 0.3% | 8.99 KiB |         1 |     1 | `(anonymous)` | `node_modules/d3/dist/d3.min.js:2:235388` | `.forceSimulation Object`                                                                                           |
-| 0.3% |  8.4 KiB |         1 |     1 | `_init`       | `node_modules/d3/dist/d3.min.js:2:94865`  | `._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                         |
-| 0.2% | 7.86 KiB |        14 |    14 | `safe`        | `extensions::SafeBuiltins:26:22`          | `.<symbol extensions::SafeBuiltins::Array> Window / http://127.0.0.1:52789`                                         |
-| 0.2% | 7.48 KiB |        27 |     9 | `i`           | `node_modules/d3/dist/d3.min.js:2:159037` | `(GC root)`                                                                                                         |
-| 0.2% | 7.39 KiB |         1 |     1 | `_init`       | `node_modules/d3/dist/d3.min.js:2:88246`  | `._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                            |
-| 0.2% | 7.15 KiB |        44 |    20 | `(anonymous)` | `<unknown>`                               | `(GC root)`                                                                                                         |
-| 0.2% | 6.95 KiB |         1 |     1 | `ed`          | `node_modules/d3/dist/d3.min.js:2:131060` | `.ed system / Context`                                                                                              |
+|    % | Retained | Instances | Paths | Name          | Location                                    | Example path                                                                                                          |
+| ---: | -------: | --------: | ----: | ------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 1.0% |   31 KiB |         1 |     1 | `Su`          | `./node_modules/d3/dist/d3.min.js:2:82035`  | `.Su system / Context`                                                                                                |
+| 0.8% | 24.3 KiB |         4 |     4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:186157` | `.interpolateInferno Object`                                                                                          |
+| 0.7% |   23 KiB |         1 |     1 | `qu`          | `./node_modules/d3/dist/d3.min.js:2:87903`  | `(GC root)`                                                                                                           |
+| 0.7% | 21.6 KiB |         1 |     1 | `update`      | `./node_modules/d3/dist/d3.min.js:2:82533`  | `.update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                    |
+| 0.6% | 18.7 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`  | `(GC root)`                                                                                                           |
+| 0.4% | 12.9 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:231984` | `.forceLink Object`                                                                                                   |
+| 0.4% | 12.7 KiB |         1 |     1 | `Lu`          | `./node_modules/d3/dist/d3.min.js:2:94637`  | `.Delaunay Object`                                                                                                    |
+| 0.4% | 11.8 KiB |        27 |    27 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:41766`  | `.interpolateBrBG Object`                                                                                             |
+| 0.4% | 11.4 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:223060` | `.contourDensity Object`                                                                                              |
+| 0.3% |   11 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:233399` | `.forceManyBody Object`                                                                                               |
+| 0.3% |   11 KiB |         1 |     1 | `Q`           | `./node_modules/d3/dist/d3.min.js:2:6993`   | `.bin Object`                                                                                                         |
+| 0.3% | 9.69 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:230973` | `.forceCollide Object`                                                                                                |
+| 0.3% | 9.39 KiB |        81 |    81 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:40205`  | `.o system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
+| 0.3% | 8.99 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235388` | `.forceSimulation Object`                                                                                             |
+| 0.3% |  8.4 KiB |         1 |     1 | `_init`       | `./node_modules/d3/dist/d3.min.js:2:94865`  | `._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                         |
+| 0.2% | 7.86 KiB |        14 |    14 | `safe`        | `extensions::SafeBuiltins:26:22`            | `.<symbol extensions::SafeBuiltins::Array> Window / http://127.0.0.1:52789`                                           |
+| 0.2% | 7.48 KiB |        27 |     9 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037` | `(GC root)`                                                                                                           |
+| 0.2% | 7.39 KiB |         1 |     1 | `_init`       | `./node_modules/d3/dist/d3.min.js:2:88246`  | `._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                            |
+| 0.2% | 7.15 KiB |        44 |    20 | `(anonymous)` | `<unknown>`                                 | `(GC root)`                                                                                                           |
+| 0.2% | 6.95 KiB |         1 |     1 | `ed`          | `./node_modules/d3/dist/d3.min.js:2:131060` | `.ed system / Context`                                                                                                |
 
 ### Retained
 
 Nodes ranked by contribution to each function's retained size.
 
-#### `Su` (`node_modules/d3/dist/d3.min.js:2:82035`)
+#### `Su` (`./node_modules/d3/dist/d3.min.js:2:82035`)
 
-|     % |     Self | Name                                 | Path                                                                                                                                                                                                                                                                                  |
-| ----: | -------: | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 44.7% | 13.8 KiB | `(instruction stream for update)`    | `.instruction_stream (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                    |
-|  8.9% | 2.75 KiB | `system / BytecodeArray`             | `.interpreter_data (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                      |
-|  8.1% |  2.5 KiB | `(instruction stream for _legalize)` | `.instruction_stream (code for _legalize) ← .trusted_function_data _legalize ← .shared _legalize (node_modules/d3/dist/d3.min.js:2:85298) ← ._legalize Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                        |
-|  6.2% | 1.93 KiB | `system / FeedbackVector`            | `.value system / FeedbackCell ← .feedback_cell update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                                                      |
-|  2.8% |    892 B | `system / TrustedByteArray`          | `.relocation_info (instruction stream for update) ← .instruction_stream (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context` |
+|     % |     Self | Name                                 | Path                                                                                                                                                                                                                                                                                      |
+| ----: | -------: | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 44.7% | 13.8 KiB | `(instruction stream for update)`    | `.instruction_stream (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                    |
+|  8.9% | 2.75 KiB | `system / BytecodeArray`             | `.interpreter_data (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                      |
+|  8.1% |  2.5 KiB | `(instruction stream for _legalize)` | `.instruction_stream (code for _legalize) ← .trusted_function_data _legalize ← .shared _legalize (./node_modules/d3/dist/d3.min.js:2:85298) ← ._legalize Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                        |
+|  6.2% | 1.93 KiB | `system / FeedbackVector`            | `.value system / FeedbackCell ← .feedback_cell update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                                                      |
+|  2.8% |    892 B | `system / TrustedByteArray`          | `.relocation_info (instruction stream for update) ← .instruction_stream (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context` |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:186157`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:186157`)
 
-|    % |     Self | Name                | Path                                                                                                                                  |
-| ---: | -------: | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
-| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
-| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
-| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object` |
-| 0.1% |     24 B | `system / Context`  | `.context (anonymous) (node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object`                                         |
+|    % |     Self | Name                | Path                                                                                                                                    |
+| ---: | -------: | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
+| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
+| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
+| 4.1% | 1.01 KiB | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object` |
+| 0.1% |     24 B | `system / Context`  | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object`                                         |
 
-#### `qu` (`node_modules/d3/dist/d3.min.js:2:87903`)
+#### `qu` (`./node_modules/d3/dist/d3.min.js:2:87903`)
 
-|     % |     Self | Name                                      | Path                                                                                                                                                                                                                                |
-| ----: | -------: | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 19.8% | 4.56 KiB | `(instruction stream for _init)`          | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                             |
-| 15.1% | 3.47 KiB | `(instruction stream for _clipSegment)`   | `.instruction_stream (code for _clipSegment) ← .trusted_function_data _clipSegment ← .shared _clipSegment (node_modules/d3/dist/d3.min.js:2:92064) ← ._clipSegment Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)` |
-| 10.3% | 2.38 KiB | `(instruction stream for render)`         | `.instruction_stream (code for render) ← .trusted_function_data render ← .shared render (node_modules/d3/dist/d3.min.js:2:88990) ← .render Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                         |
-|  3.9% |    908 B | `system / BytecodeArray`                  | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                               |
-|  3.4% |    800 B | `(instruction stream for _renderSegment)` | `.instruction_stream (code for _renderSegment) ← .code _renderSegment (node_modules/d3/dist/d3.min.js:2:90138) ← ._renderSegment Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                   |
+|     % |     Self | Name                                      | Path                                                                                                                                                                                                                                    |
+| ----: | -------: | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 19.8% | 4.56 KiB | `(instruction stream for _init)`          | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                             |
+| 15.1% | 3.47 KiB | `(instruction stream for _clipSegment)`   | `.instruction_stream (code for _clipSegment) ← .trusted_function_data _clipSegment ← .shared _clipSegment (./node_modules/d3/dist/d3.min.js:2:92064) ← ._clipSegment Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)` |
+| 10.3% | 2.38 KiB | `(instruction stream for render)`         | `.instruction_stream (code for render) ← .trusted_function_data render ← .shared render (./node_modules/d3/dist/d3.min.js:2:88990) ← .render Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                         |
+|  3.9% |    908 B | `system / BytecodeArray`                  | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                               |
+|  3.4% |    800 B | `(instruction stream for _renderSegment)` | `.instruction_stream (code for _renderSegment) ← .code _renderSegment (./node_modules/d3/dist/d3.min.js:2:90138) ← ._renderSegment Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                   |
 
-#### `update` (`node_modules/d3/dist/d3.min.js:2:82533`)
+#### `update` (`./node_modules/d3/dist/d3.min.js:2:82533`)
 
-|     % |     Self | Name                              | Path                                                                                                                                                                                                                                                                                  |
-| ----: | -------: | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 64.0% | 13.8 KiB | `(instruction stream for update)` | `.instruction_stream (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                    |
-| 12.7% | 2.75 KiB | `system / BytecodeArray`          | `.interpreter_data (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                      |
-|  8.9% | 1.93 KiB | `system / FeedbackVector`         | `.value system / FeedbackCell ← .feedback_cell update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                                                      |
-|  4.0% |    892 B | `system / TrustedByteArray`       | `.relocation_info (instruction stream for update) ← .instruction_stream (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context` |
-|  3.9% |    872 B | `system / TrustedByteArray`       | `.bytecode_offset_table (code for update) ← .trusted_function_data update ← .shared update (node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                 |
+|     % |     Self | Name                              | Path                                                                                                                                                                                                                                                                                      |
+| ----: | -------: | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 64.0% | 13.8 KiB | `(instruction stream for update)` | `.instruction_stream (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                    |
+| 12.7% | 2.75 KiB | `system / BytecodeArray`          | `.interpreter_data (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                      |
+|  8.9% | 1.93 KiB | `system / FeedbackVector`         | `.value system / FeedbackCell ← .feedback_cell update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                                                      |
+|  4.0% |    892 B | `system / TrustedByteArray`       | `.relocation_info (instruction stream for update) ← .instruction_stream (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context` |
+|  3.9% |    872 B | `system / TrustedByteArray`       | `.bytecode_offset_table (code for update) ← .trusted_function_data update ← .shared update (./node_modules/d3/dist/d3.min.js:2:82533) ← .update Object ← .prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                 |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:77113`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
 
-|     % |     Self | Name                           | Path                                                                                                                                  |
-| ----: | -------: | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 60.6% | 11.3 KiB | `code`                         | `.instruction_stream (code) ← .code (anonymous) (node_modules/d3/dist/d3.min.js:2:77113)`                                             |
-| 24.6% |  4.6 KiB | `system / TrustedByteArray`    | `.<dummy> system / ProtectedFixedArray ← .deoptimization_data (code) ← .code (anonymous) (node_modules/d3/dist/d3.min.js:2:77113)`    |
-| 12.0% | 2.25 KiB | `system / ProtectedFixedArray` | `.deoptimization_data (code) ← .code (anonymous) (node_modules/d3/dist/d3.min.js:2:77113)`                                            |
-|  1.0% |    196 B | `system / TrustedByteArray`    | `.relocation_info code ← .instruction_stream (code) ← .code (anonymous) (node_modules/d3/dist/d3.min.js:2:77113)`                     |
-|  0.9% |    168 B | `system / TrustedByteArray`    | `.(Builtins) system / ProtectedFixedArray ← .deoptimization_data (code) ← .code (anonymous) (node_modules/d3/dist/d3.min.js:2:77113)` |
+|     % |     Self | Name                           | Path                                                                                                                                    |
+| ----: | -------: | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 60.6% | 11.3 KiB | `code`                         | `.instruction_stream (code) ← .code (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                                             |
+| 24.6% |  4.6 KiB | `system / TrustedByteArray`    | `.<dummy> system / ProtectedFixedArray ← .deoptimization_data (code) ← .code (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`    |
+| 12.0% | 2.25 KiB | `system / ProtectedFixedArray` | `.deoptimization_data (code) ← .code (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                                            |
+|  1.0% |    196 B | `system / TrustedByteArray`    | `.relocation_info code ← .instruction_stream (code) ← .code (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                     |
+|  0.9% |    168 B | `system / TrustedByteArray`    | `.(Builtins) system / ProtectedFixedArray ← .deoptimization_data (code) ← .code (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)` |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:231984`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:231984`)
 
 |     % |     Self | Name                         | Path                                                                              |
 | ----: | -------: | ---------------------------- | --------------------------------------------------------------------------------- |
@@ -1073,37 +1073,37 @@ Nodes ranked by contribution to each function's retained size.
 |  4.6% |    608 B | `(instruction stream for d)` | `.instruction_stream (code for d) ← .trusted_function_data d ← .forceLink Object` |
 |  3.2% |    424 B | `system / BytecodeArray`     | `.interpreter_data (code for h) ← .trusted_function_data h ← .forceLink Object`   |
 
-#### `Lu` (`node_modules/d3/dist/d3.min.js:2:94637`)
+#### `Lu` (`./node_modules/d3/dist/d3.min.js:2:94637`)
 
-|     % |     Self | Name                             | Path                                                                                                                                                                                                                                                                         |
-| ----: | -------: | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 35.9% | 4.56 KiB | `(instruction stream for _init)` | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                   |
-|  7.2% |    936 B | `system / BytecodeArray`         | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                     |
-|  6.5% |    848 B | `system / FeedbackVector`        | `.value system / FeedbackCell ← .feedback_cell _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                                                   |
-|  6.4% |    832 B | `(BASELINE instruction stream)`  | `.instruction_stream (BASELINE code) ← .trusted_function_data (shared function info) ← .from Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                                                                                 |
-|  3.0% |    392 B | `system / TrustedByteArray`      | `.relocation_info (instruction stream for _init) ← .instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object` |
+|     % |     Self | Name                             | Path                                                                                                                                                                                                                                                                             |
+| ----: | -------: | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 35.9% | 4.56 KiB | `(instruction stream for _init)` | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                   |
+|  7.2% |    936 B | `system / BytecodeArray`         | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                     |
+|  6.5% |    848 B | `system / FeedbackVector`        | `.value system / FeedbackCell ← .feedback_cell _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                                                   |
+|  6.4% |    832 B | `(BASELINE instruction stream)`  | `.instruction_stream (BASELINE code) ← .trusted_function_data (shared function info) ← .from Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                                                                                   |
+|  3.0% |    392 B | `system / TrustedByteArray`      | `.relocation_info (instruction stream for _init) ← .instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object` |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:41766`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:41766`)
 
-|    % | Self | Name                | Path                                                                                                                                                                                                                    |
-| ---: | ---: | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .u system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateBrBG Object` |
-| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateBrBG Object` |
-| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .o system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateBrBG Object` |
-| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .u system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolatePRGn Object` |
-| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolatePRGn Object` |
+|    % | Self | Name                | Path                                                                                                                                                                                                                        |
+| ---: | ---: | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .u system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateBrBG Object` |
+| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateBrBG Object` |
+| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .o system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateBrBG Object` |
+| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .u system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolatePRGn Object` |
+| 0.4% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolatePRGn Object` |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:223060`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:223060`)
 
-|     % |     Self | Name                         | Path                                                                                                                                                                                                       |
-| ----: | -------: | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 25.2% | 2.88 KiB | `(instruction stream for h)` | `.instruction_stream (code for h) ← .trusted_function_data h ← .contourDensity Object`                                                                                                                     |
-|  5.5% |    648 B | `system / BytecodeArray`     | `.interpreter_data (code for h) ← .trusted_function_data h ← .contourDensity Object`                                                                                                                       |
-|  4.1% |    480 B | `(instruction stream for v)` | `.instruction_stream (code for v) ← .trusted_function_data v ← .contourDensity Object`                                                                                                                     |
-|  4.0% |    464 B | `system / FeedbackVector`    | `.value system / FeedbackCell ← .<dummy> system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell (anonymous) (node_modules/d3/dist/d3.min.js:2:223060) ← .contourDensity Object` |
-|  2.5% |    292 B | `system / BytecodeArray`     | `.trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:223060) ← .contourDensity Object`                                                                   |
+|     % |     Self | Name                         | Path                                                                                                                                                                                                         |
+| ----: | -------: | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 25.2% | 2.88 KiB | `(instruction stream for h)` | `.instruction_stream (code for h) ← .trusted_function_data h ← .contourDensity Object`                                                                                                                       |
+|  5.5% |    648 B | `system / BytecodeArray`     | `.interpreter_data (code for h) ← .trusted_function_data h ← .contourDensity Object`                                                                                                                         |
+|  4.1% |    480 B | `(instruction stream for v)` | `.instruction_stream (code for v) ← .trusted_function_data v ← .contourDensity Object`                                                                                                                       |
+|  4.0% |    464 B | `system / FeedbackVector`    | `.value system / FeedbackCell ← .<dummy> system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ← .contourDensity Object` |
+|  2.5% |    292 B | `system / BytecodeArray`     | `.trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ← .contourDensity Object`                                                                   |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:233399`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:233399`)
 
 |     % |     Self | Name                         | Path                                                                                  |
 | ----: | -------: | ---------------------------- | ------------------------------------------------------------------------------------- |
@@ -1113,17 +1113,17 @@ Nodes ranked by contribution to each function's retained size.
 |  6.8% |    768 B | `(instruction stream for s)` | `.instruction_stream (code for s) ← .trusted_function_data s ← .forceManyBody Object` |
 |  4.7% |    536 B | `system / BytecodeArray`     | `.interpreter_data (code for h) ← .trusted_function_data h ← .forceManyBody Object`   |
 
-#### `Q` (`node_modules/d3/dist/d3.min.js:2:6993`)
+#### `Q` (`./node_modules/d3/dist/d3.min.js:2:6993`)
 
-|     % |     Self | Name                         | Path                                                                                                                                                                                |
-| ----: | -------: | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 59.5% | 6.56 KiB | `(instruction stream for r)` | `.instruction_stream (code for r) ← .trusted_function_data r ← .bin Object`                                                                                                         |
-| 10.5% | 1.16 KiB | `system / BytecodeArray`     | `.interpreter_data (code for r) ← .trusted_function_data r ← .bin Object`                                                                                                           |
-|  7.5% |    852 B | `system / FeedbackVector`    | `.value system / FeedbackCell ← .<dummy> system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell Q (node_modules/d3/dist/d3.min.js:2:6993) ← .bin Object` |
-|  4.3% |    488 B | `system / TrustedByteArray`  | `.bytecode_offset_table (code for r) ← .trusted_function_data r ← .bin Object`                                                                                                      |
-|  4.2% |    476 B | `system / TrustedByteArray`  | `.relocation_info (instruction stream for r) ← .instruction_stream (code for r) ← .trusted_function_data r ← .bin Object`                                                           |
+|     % |     Self | Name                         | Path                                                                                                                                                                                  |
+| ----: | -------: | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 59.5% | 6.56 KiB | `(instruction stream for r)` | `.instruction_stream (code for r) ← .trusted_function_data r ← .bin Object`                                                                                                           |
+| 10.5% | 1.16 KiB | `system / BytecodeArray`     | `.interpreter_data (code for r) ← .trusted_function_data r ← .bin Object`                                                                                                             |
+|  7.5% |    852 B | `system / FeedbackVector`    | `.value system / FeedbackCell ← .<dummy> system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell Q (./node_modules/d3/dist/d3.min.js:2:6993) ← .bin Object` |
+|  4.3% |    488 B | `system / TrustedByteArray`  | `.bytecode_offset_table (code for r) ← .trusted_function_data r ← .bin Object`                                                                                                        |
+|  4.2% |    476 B | `system / TrustedByteArray`  | `.relocation_info (instruction stream for r) ← .instruction_stream (code for r) ← .trusted_function_data r ← .bin Object`                                                             |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:230973`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:230973`)
 
 |     % |     Self | Name                         | Path                                                                                 |
 | ----: | -------: | ---------------------------- | ------------------------------------------------------------------------------------ |
@@ -1133,35 +1133,35 @@ Nodes ranked by contribution to each function's retained size.
 |  7.7% |    768 B | `(instruction stream for u)` | `.instruction_stream (code for u) ← .trusted_function_data u ← .forceCollide Object` |
 |  4.3% |    428 B | `system / BytecodeArray`     | `.interpreter_data (code for g) ← .trusted_function_data g ← .forceCollide Object`   |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:40205`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:40205`)
 
-|    % | Self | Name                | Path                                                                                                                                                                                                                        |
-| ---: | ---: | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .o system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
-| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
-| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .u system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
-| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .o system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateRdYlGn Object`   |
-| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateRdYlGn Object`   |
+|    % | Self | Name                | Path                                                                                                                                                                                                                            |
+| ---: | ---: | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .o system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
+| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
+| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .u system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateSpectral Object` |
+| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .o system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateRdYlGn Object`   |
+| 0.5% | 52 B | `(object elements)` | `.elements Array ← .t system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ← .a system / Context ← .context (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ← .interpolateRdYlGn Object`   |
 
-#### `(anonymous)` (`node_modules/d3/dist/d3.min.js:2:235388`)
+#### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:235388`)
 
-|     % |     Self | Name                         | Path                                                                                                                                                                                                           |
-| ----: | -------: | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 18.8% | 1.69 KiB | `(instruction stream for h)` | `.instruction_stream (code for h) ← .trusted_function_data h ← .forceSimulation Object`                                                                                                                        |
-| 17.4% | 1.56 KiB | `(instruction stream for d)` | `.instruction_stream (code for d) ← .trusted_function_data d ← .forceSimulation Object`                                                                                                                        |
-|  3.3% |    304 B | `system / BytecodeArray`     | `.trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:235388) ← .forceSimulation Object`                                                                      |
-|  3.0% |    276 B | `system / BytecodeArray`     | `.interpreter_data (code for d) ← .trusted_function_data d ← .forceSimulation Object`                                                                                                                          |
-|  2.8% |    260 B | `system / FeedbackVector`    | `.value system / FeedbackCell ← .(GC roots) system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell (anonymous) (node_modules/d3/dist/d3.min.js:2:235388) ← .forceSimulation Object` |
+|     % |     Self | Name                         | Path                                                                                                                                                                                                             |
+| ----: | -------: | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 18.8% | 1.69 KiB | `(instruction stream for h)` | `.instruction_stream (code for h) ← .trusted_function_data h ← .forceSimulation Object`                                                                                                                          |
+| 17.4% | 1.56 KiB | `(instruction stream for d)` | `.instruction_stream (code for d) ← .trusted_function_data d ← .forceSimulation Object`                                                                                                                          |
+|  3.3% |    304 B | `system / BytecodeArray`     | `.trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ← .forceSimulation Object`                                                                      |
+|  3.0% |    276 B | `system / BytecodeArray`     | `.interpreter_data (code for d) ← .trusted_function_data d ← .forceSimulation Object`                                                                                                                            |
+|  2.8% |    260 B | `system / FeedbackVector`    | `.value system / FeedbackCell ← .(GC roots) system / ClosureFeedbackCellArray ← .value system / FeedbackCell ← .feedback_cell (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ← .forceSimulation Object` |
 
-#### `_init` (`node_modules/d3/dist/d3.min.js:2:94865`)
+#### `_init` (`./node_modules/d3/dist/d3.min.js:2:94865`)
 
-|     % |     Self | Name                             | Path                                                                                                                                                                                                                                                                         |
-| ----: | -------: | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 54.3% | 4.56 KiB | `(instruction stream for _init)` | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                   |
-| 10.9% |    936 B | `system / BytecodeArray`         | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                     |
-|  9.9% |    848 B | `system / FeedbackVector`        | `.value system / FeedbackCell ← .feedback_cell _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                                                   |
-|  4.6% |    392 B | `system / TrustedByteArray`      | `.relocation_info (instruction stream for _init) ← .instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object` |
-|  4.1% |    356 B | `system / TrustedByteArray`      | `.bytecode_offset_table (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                |
+|     % |     Self | Name                             | Path                                                                                                                                                                                                                                                                             |
+| ----: | -------: | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.3% | 4.56 KiB | `(instruction stream for _init)` | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                   |
+| 10.9% |    936 B | `system / BytecodeArray`         | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                     |
+|  9.9% |    848 B | `system / FeedbackVector`        | `.value system / FeedbackCell ← .feedback_cell _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                                                   |
+|  4.6% |    392 B | `system / TrustedByteArray`      | `.relocation_info (instruction stream for _init) ← .instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object` |
+|  4.1% |    356 B | `system / TrustedByteArray`      | `.bytecode_offset_table (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:94865) ← ._init Object ← .prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                                |
 
 #### `safe` (`extensions::SafeBuiltins:26:22`)
 
@@ -1173,25 +1173,25 @@ Nodes ranked by contribution to each function's retained size.
 | 2.2% | 176 B | `system / DescriptorArray` | `.descriptors system / Map ← .map safe (extensions::SafeBuiltins:26:22) ← .<symbol extensions::SafeBuiltins::Object> Window / ://`                    |
 | 1.9% | 152 B | `system / DescriptorArray` | `.descriptors system / Map ← .map safe (extensions::SafeBuiltins:26:22) ← .<symbol extensions::SafeBuiltins::String> Window / http://127.0.0.1:52789` |
 
-#### `i` (`node_modules/d3/dist/d3.min.js:2:159037`)
+#### `i` (`./node_modules/d3/dist/d3.min.js:2:159037`)
 
-|    % | Self | Name                     | Path                                                                                                                 |
-| ---: | ---: | ------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| 0.6% | 48 B | `(shared function info)` | `.shared (anonymous) (node_modules/d3/dist/d3.min.js:2:159886) ← .every i (node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.6% | 48 B | `(shared function info)` | `.shared (anonymous) (node_modules/d3/dist/d3.min.js:2:162441) ← .every i (node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.6% | 48 B | `(shared function info)` | `.shared (anonymous) (node_modules/d3/dist/d3.min.js:2:162824) ← .every i (node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.4% | 28 B | `(anonymous)`            | `.every i (node_modules/d3/dist/d3.min.js:2:159037)`                                                                 |
-| 0.4% | 28 B | `(anonymous)`            | `.count i (node_modules/d3/dist/d3.min.js:2:159037)`                                                                 |
+|    % | Self | Name                     | Path                                                                                                                     |
+| ---: | ---: | ------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| 0.6% | 48 B | `(shared function info)` | `.shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:159886) ← .every i (./node_modules/d3/dist/d3.min.js:2:159037)` |
+| 0.6% | 48 B | `(shared function info)` | `.shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:162441) ← .every i (./node_modules/d3/dist/d3.min.js:2:159037)` |
+| 0.6% | 48 B | `(shared function info)` | `.shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:162824) ← .every i (./node_modules/d3/dist/d3.min.js:2:159037)` |
+| 0.4% | 28 B | `(anonymous)`            | `.every i (./node_modules/d3/dist/d3.min.js:2:159037)`                                                                   |
+| 0.4% | 28 B | `(anonymous)`            | `.count i (./node_modules/d3/dist/d3.min.js:2:159037)`                                                                   |
 
-#### `_init` (`node_modules/d3/dist/d3.min.js:2:88246`)
+#### `_init` (`./node_modules/d3/dist/d3.min.js:2:88246`)
 
-|     % |     Self | Name                             | Path                                                                                                                                                                                                                                                      |
-| ----: | -------: | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 61.7% | 4.56 KiB | `(instruction stream for _init)` | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                                   |
-| 12.0% |    908 B | `system / BytecodeArray`         | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                                     |
-|  9.8% |    740 B | `system / FeedbackVector`        | `.value system / FeedbackCell ← .feedback_cell _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                                                                   |
-|  4.9% |    372 B | `system / TrustedByteArray`      | `.bytecode_offset_table (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)`                                                |
-|  4.8% |    360 B | `system / TrustedByteArray`      | `.relocation_info (instruction stream for _init) ← .instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (node_modules/d3/dist/d3.min.js:2:87903)` |
+|     % |     Self | Name                             | Path                                                                                                                                                                                                                                                          |
+| ----: | -------: | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 61.7% | 4.56 KiB | `(instruction stream for _init)` | `.instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                   |
+| 12.0% |    908 B | `system / BytecodeArray`         | `.interpreter_data (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                     |
+|  9.8% |    740 B | `system / FeedbackVector`        | `.value system / FeedbackCell ← .feedback_cell _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                                                   |
+|  4.9% |    372 B | `system / TrustedByteArray`      | `.bytecode_offset_table (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                |
+|  4.8% |    360 B | `system / TrustedByteArray`      | `.relocation_info (instruction stream for _init) ← .instruction_stream (code for _init) ← .trusted_function_data _init ← .shared _init (./node_modules/d3/dist/d3.min.js:2:88246) ← ._init Object ← .prototype qu (./node_modules/d3/dist/d3.min.js:2:87903)` |
 
 #### `(anonymous)` (`<unknown>`)
 
@@ -1203,15 +1203,15 @@ Nodes ranked by contribution to each function's retained size.
 | 1.4% | 104 B | `(function anonymous(\n) {\nreturn () => typeof glob…` | `.source code ← .script (shared function info) ← .shared (anonymous) ← .6 array ← .table Map ← .L system / Context` |
 | 1.1% |  80 B | `(object properties)`                                  | `.properties Object ← .prototype (anonymous) ← .puppeteer___ariaQuerySelectorAll Window / http://127.0.0.1:52789`   |
 
-#### `ed` (`node_modules/d3/dist/d3.min.js:2:131060`)
+#### `ed` (`./node_modules/d3/dist/d3.min.js:2:131060`)
 
-|     % |     Self | Name                               | Path                                                                                                                                                                                                                                     |
-| ----: | -------: | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 24.3% | 1.69 KiB | `(instruction stream for point)`   | `.instruction_stream (code for point) ← .trusted_function_data point ← .shared point (node_modules/d3/dist/d3.min.js:2:131561) ← .point Object ← .prototype ed (node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`         |
-|  4.2% |    300 B | `system / BytecodeArray`           | `.interpreter_data (code for point) ← .trusted_function_data point ← .shared point (node_modules/d3/dist/d3.min.js:2:131561) ← .point Object ← .prototype ed (node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`           |
-|  4.0% |    288 B | `(instruction stream for lineEnd)` | `.instruction_stream (code for lineEnd) ← .trusted_function_data lineEnd ← .shared lineEnd (node_modules/d3/dist/d3.min.js:2:131507) ← .lineEnd Object ← .prototype ed (node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context` |
-|  3.2% |    228 B | `system / FeedbackVector`          | `.value system / FeedbackCell ← .feedback_cell point (node_modules/d3/dist/d3.min.js:2:131561) ← .point Object ← .prototype ed (node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`                                         |
-|  2.7% |    192 B | `(instruction stream for result)`  | `.instruction_stream (code for result) ← .trusted_function_data result ← .shared result (node_modules/d3/dist/d3.min.js:2:131923) ← .result Object ← .prototype ed (node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`     |
+|     % |     Self | Name                               | Path                                                                                                                                                                                                                                         |
+| ----: | -------: | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 24.3% | 1.69 KiB | `(instruction stream for point)`   | `.instruction_stream (code for point) ← .trusted_function_data point ← .shared point (./node_modules/d3/dist/d3.min.js:2:131561) ← .point Object ← .prototype ed (./node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`         |
+|  4.2% |    300 B | `system / BytecodeArray`           | `.interpreter_data (code for point) ← .trusted_function_data point ← .shared point (./node_modules/d3/dist/d3.min.js:2:131561) ← .point Object ← .prototype ed (./node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`           |
+|  4.0% |    288 B | `(instruction stream for lineEnd)` | `.instruction_stream (code for lineEnd) ← .trusted_function_data lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:131507) ← .lineEnd Object ← .prototype ed (./node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context` |
+|  3.2% |    228 B | `system / FeedbackVector`          | `.value system / FeedbackCell ← .feedback_cell point (./node_modules/d3/dist/d3.min.js:2:131561) ← .point Object ← .prototype ed (./node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`                                         |
+|  2.7% |    192 B | `(instruction stream for result)`  | `.instruction_stream (code for result) ← .trusted_function_data result ← .shared result (./node_modules/d3/dist/d3.min.js:2:131923) ← .result Object ← .prototype ed (./node_modules/d3/dist/d3.min.js:2:131060) ← .ed system / Context`     |
 
 ## Largest strings
 
@@ -1246,25 +1246,25 @@ Strings ranked by bytes allocated for them.
 
 #### Concatenated string
 
-|     % | Size | Value                   | Path                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----: | ---: | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info)`                                                                                                                                                                                                                                                                                                |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info)`                                                                                                                                                                                                                                                                                                                                |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .second (concatenated string) ← .second (concatenated string) ← .second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (node_modules/d3/dist/d3.min.js:2:194383)` |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .second (concatenated string) ← .second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (node_modules/d3/dist/d3.min.js:2:194383)`                                 |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (node_modules/d3/dist/d3.min.js:2:194383)`                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (node_modules/d3/dist/d3.min.js:2:194383)`                                                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (node_modules/d3/dist/d3.min.js:2:194383)`                                                                                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:226006) ← .curveMonotoneX Object`                                                                                                                                                                                                                                       |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info eachBefore ← .shared eachBefore (node_modules/d3/dist/d3.min.js:2:141773) ← .eachBefore Object`                                                                                                                                                                                                                                                        |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Global handles) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                     |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Global handles) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                                     |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Micro tasks) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                        |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Micro tasks) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                                        |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Shareable object cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                             |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Shareable object cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                             |
-| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Smi roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                          |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Smi roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                                          |
-| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Startup object cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                               |
-| <0.1% | 20 B | `(concatenated string)` | `.(Relocatable) system / ScopeInfo ← .forceSimulation Object`                                                                                                                                                                                                                                                                                                                                      |
-| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data alphaTarget ← .(Traced handles) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (node_modules/d3/dist/d3.min.js:2:235388) ← .forceSimulation Object`                                                                                      |
+|     % | Size | Value                   | Path                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----: | ---: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info)`                                                                                                                                                                                                                                                                                                  |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info)`                                                                                                                                                                                                                                                                                                                                  |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .second (concatenated string) ← .second (concatenated string) ← .second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (./node_modules/d3/dist/d3.min.js:2:194383)` |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .second (concatenated string) ← .second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                 |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← .<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← .(Read-only roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Ym ← .shared Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                                                                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:226006) ← .curveMonotoneX Object`                                                                                                                                                                                                                                       |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info eachBefore ← .shared eachBefore (./node_modules/d3/dist/d3.min.js:2:141773) ← .eachBefore Object`                                                                                                                                                                                                                                                        |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Global handles) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Global handles) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Micro tasks) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                        |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Micro tasks) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                                        |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Shareable object cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Shareable object cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Smi roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                          |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Smi roots) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                                          |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info (shared function info) ← .(Startup object cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ← .treemap Object`                                                                                                               |
+| <0.1% | 20 B | `(concatenated string)` | `.(Relocatable) system / ScopeInfo ← .forceSimulation Object`                                                                                                                                                                                                                                                                                                                                        |
+| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data alphaTarget ← .(Traced handles) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data (shared function info) ← .shared (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ← .forceSimulation Object`                                                                                      |

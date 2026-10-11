@@ -359,7 +359,7 @@ describe(`convert`, () => {
           Instances: `1`,
           Paths: `1`,
           Name: `myFn`,
-          Location: `src/a.ts:6:11`,
+          Location: `./src/a.ts:6:11`,
           'Example path': `(GC root)`,
         },
       ],
@@ -442,7 +442,7 @@ describe(`convert`, () => {
           '%': `47.4%`,
           Size: `200 B`,
           Instances: `1`,
-          Constructor: `src/mod.js`,
+          Constructor: `./src/mod.js`,
           Location: `<unknown>`,
         },
       ],
@@ -455,7 +455,7 @@ describe(`convert`, () => {
           Instances: `1`,
           Paths: `1`,
           Name: `myFn`,
-          Location: `lib/a.ts:6:11`,
+          Location: `./lib/a.ts:6:11`,
           'Example path': `(GC root)`,
         },
       ],
@@ -509,7 +509,7 @@ describe(`convert`, () => {
       Instances: `0 → 1`,
       Paths: `0 → 1`,
       Name: `myFn`,
-      Location: `src/a-222.ts:6:11`,
+      Location: `./src/a-222.ts:6:11`,
       'Example path': `(GC root)`,
     }
     const removedFunction = {
@@ -520,7 +520,7 @@ describe(`convert`, () => {
       Instances: `1 → 0`,
       Paths: `1 → 0`,
       Name: `myFn`,
-      Location: `src/a-111.ts:6:11`,
+      Location: `./src/a-111.ts:6:11`,
       'Example path': `(GC root)`,
     }
     expect(

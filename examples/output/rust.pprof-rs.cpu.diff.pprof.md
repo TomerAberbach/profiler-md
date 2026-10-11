@@ -379,8 +379,8 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -9.1% | -141.00ms | 41.5% → 38.9% | 1.55s → 1.40s | 1,550 → 1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>`                                                                                                                                                                                                                  | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
 |  -9.1% | -141.00ms | 41.5% → 38.9% | 1.55s → 1.40s | 1,550 → 1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop`                                                                                                                                                                                                                 | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs`                |
 |  -9.1% | -141.00ms | 41.5% → 38.9% | 1.55s → 1.40s | 1,550 → 1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>`                                                                                                                                                                                                   | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
-|  -3.1% | -116.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::workload`                                                                                                                                                                                                                                                  | `profile.rs`                                                                                  |
-|  -3.1% | -116.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::main`                                                                                                                                                                                                                                                      | `profile.rs`                                                                                  |
+|  -3.1% | -116.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::workload`                                                                                                                                                                                                                                                  | `./profile.rs`                                                                                |
+|  -3.1% | -116.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::main`                                                                                                                                                                                                                                                      | `./profile.rs`                                                                                |
 |  -3.1% | -115.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,619 | `core::ops::function::FnOnce::call_once`                                                                                                                                                                                                                                | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs`            |
 |  -3.1% | -115.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,619 | `std::sys::backtrace::__rust_begin_short_backtrace`                                                                                                                                                                                                                     | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`            |
 |  -3.1% | -115.00ms |        100.0% | 3.73s → 3.61s | 3,734 → 3,619 | `std::rt::lang_start::{{closure}}`                                                                                                                                                                                                                                      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`                       |
@@ -663,7 +663,7 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | --------: | -----: | ------------: | ------------: | ------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  -9.1% | -141.00ms | 100.0% | 1.55s → 1.40s | 1,550 → 1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs` |
 
-##### `json_bench::workload` (`profile.rs`)
+##### `json_bench::workload` (`./profile.rs`)
 
 | Change |     Delta |             % |              Time |       Samples | Callee                                               | Location                                                                                                                                                                                                                        |
 | -----: | --------: | ------------: | ----------------: | ------------: | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -671,17 +671,17 @@ Callees with the largest change in contribution to each function's total time. I
 | +42.4% |  +50.00ms |   3.2% → 4.6% | 118.0ms → 168.0ms |     118 → 168 | `serde_json::ser::to_string`                         | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/ser.rs → ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/ser.rs` |
 |  -1.1% |  -23.00ms | 55.1% → 56.3% |     2.05s → 2.03s | 2,059 → 2,036 | `serde_json::de::from_str`                           | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs → ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`   |
 
-##### `json_bench::main` (`profile.rs`)
+##### `json_bench::main` (`./profile.rs`)
 
-| Change |     Delta |      % |          Time |       Samples | Callee                 | Location     |
-| -----: | --------: | -----: | ------------: | ------------: | ---------------------- | ------------ |
-|  -3.1% | -116.00ms | 100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::workload` | `profile.rs` |
+| Change |     Delta |      % |          Time |       Samples | Callee                 | Location       |
+| -----: | --------: | -----: | ------------: | ------------: | ---------------------- | -------------- |
+|  -3.1% | -116.00ms | 100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::workload` | `./profile.rs` |
 
 ##### `core::ops::function::FnOnce::call_once` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs`)
 
-| Change |     Delta |      % |          Time |       Samples | Callee             | Location     |
-| -----: | --------: | -----: | ------------: | ------------: | ------------------ | ------------ |
-|  -3.1% | -116.00ms | 100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::main` | `profile.rs` |
+| Change |     Delta |      % |          Time |       Samples | Callee             | Location       |
+| -----: | --------: | -----: | ------------: | ------------: | ------------------ | -------------- |
+|  -3.1% | -116.00ms | 100.0% | 3.73s → 3.61s | 3,734 → 3,618 | `json_bench::main` | `./profile.rs` |
 
 ##### `std::sys::backtrace::__rust_begin_short_backtrace` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`)
 

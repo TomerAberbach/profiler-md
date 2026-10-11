@@ -116,6 +116,16 @@ export const makeFileReference = (
     return undefined
   }
 
+  // A path that neither starts at a root nor contains a drive or scheme is
+  // relative.
+  if (
+    !urlOrPath.startsWith(`/`) &&
+    !urlOrPath.startsWith(`\\`) &&
+    !urlOrPath.includes(`:`)
+  ) {
+    return { type: `relative`, path: normalizeRelativePath(urlOrPath) }
+  }
+
   try {
     const url = absoluteFilePathURL(urlOrPath)
     if (url) {
@@ -126,15 +136,40 @@ export const makeFileReference = (
   }
 
   if (!urlOrPath.includes(`:`)) {
-    return { type: `relative`, path: urlOrPath }
+    return { type: `relative`, path: normalizeRelativePath(urlOrPath) }
   }
 
   try {
     return { type: `absolute`, url: normalizeURLPath(new URL(urlOrPath)) }
   } catch {
-    return { type: `relative`, path: urlOrPath }
+    return { type: `relative`, path: normalizeRelativePath(urlOrPath) }
   }
 }
+
+/**
+ * Resolves the `.`, `..`, and empty segments of a relative path
+ * (`./string/../sysdeps/memcpy.S` is `sysdeps/memcpy.S`), so it starts with
+ * `./` only when formatted relative to the base URL. A leading `..` has no
+ * segment to resolve against, so it stays.
+ */
+const normalizeRelativePath = (path: string): string => {
+  // A path of one segment has no other segment to resolve it against.
+  if (!path.includes(`/`) || !RELATIVE_PATH_DOT_OR_EMPTY_SEGMENT.test(path)) {
+    return path
+  }
+
+  const segments: string[] = []
+  for (const segment of path.split(`/`)) {
+    if (segment === `..` && segments.length > 0 && segments.at(-1) !== `..`) {
+      segments.pop()
+    } else if (segment !== `.` && segment !== ``) {
+      segments.push(segment)
+    }
+  }
+  return segments.length > 0 ? segments.join(`/`) : path
+}
+
+const RELATIVE_PATH_DOT_OR_EMPTY_SEGMENT = /(?:^|\/)\.{0,2}(?:\/|$)/u
 
 /**
  * Returns the `file:` URL of an absolute POSIX path, a Windows drive path
@@ -462,12 +497,18 @@ const relativeURLPath = (from: URL, to: URL): RelativeURLPath | undefined => {
   }
 }
 
+/**
+ * Joins a path relative to the base URL. A path below the base URL starts with
+ * `./`, so it reads differently from a relative path the profiler wrote, and a
+ * file named like a module (`zstd`) reads as a path.
+ */
 const joinRelativeURLPath = ({
   sharedDirectoryCount,
   levelsUp,
   segments,
 }: RelativeURLPath): string =>
-  `../`.repeat(levelsUp) + segments.slice(sharedDirectoryCount).join(`/`)
+  (levelsUp === 0 ? `./` : `../`.repeat(levelsUp)) +
+  segments.slice(sharedDirectoryCount).join(`/`)
 
 /**
  * Splits a URL into its root and the pathname segments below it. The root is

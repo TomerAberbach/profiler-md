@@ -551,7 +551,7 @@ Functions ranked by total time spent in the function and all its callees.
 | 100.0% | 5.79s |   5,796 | `0x27743`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 | 100.0% | 5.79s |   5,796 | `0x27817`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 | 100.0% | 5.79s |   5,796 | `_start`                                    | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
-|  99.9% | 5.79s |   5,791 | `profile.main`                              | `profile.zig`                                     |
+|  99.9% | 5.79s |   5,791 | `profile.main`                              | `./profile.zig`                                   |
 |  72.0% | 4.17s |   4,174 | `zig.Ast.Render.renderTree`                 | `/opt/zig/lib/std/zig/Ast/Render.zig`             |
 |  72.0% | 4.17s |   4,174 | `zig.Ast.render`                            | `/opt/zig/lib/std/zig/Ast.zig`                    |
 |  72.0% | 4.17s |   4,174 | `zig.Ast.renderAlloc`                       | `/opt/zig/lib/std/zig/Ast.zig`                    |
@@ -626,7 +626,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 |     % |  Time | Samples | Callee                                                                                | Location                                |
 | ----: | ----: | ------: | ------------------------------------------------------------------------------------- | --------------------------------------- |
-| 99.9% | 5.79s |   5,791 | `profile.main`                                                                        | `profile.zig`                           |
+| 99.9% | 5.79s |   5,791 | `profile.main`                                                                        | `./profile.zig`                         |
 | <0.1% | 2.0ms |       2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).ensureTotalCapacity` | `/opt/zig/lib/std/multi_array_list.zig` |
 | <0.1% | 1.0ms |       1 | `compiler_rt.memset`                                                                  | `/opt/zig/lib/compiler_rt.zig`          |
 | <0.1% | 1.0ms |       1 | `profile.main`                                                                        | `/opt/zig/lib/std/zig/Parse.zig`        |
@@ -662,7 +662,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ----: | ------: | --------- | -------------------------------------- |
 | 100.0% | 5.79s |   5,796 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `profile.main` (`profile.zig`)
+##### `profile.main` (`./profile.zig`)
 
 |     % |   Time | Samples | Callee                                   | Location                       |
 | ----: | -----: | ------: | ---------------------------------------- | ------------------------------ |
@@ -877,7 +877,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `profile.main` (`profile.zig`) ← `start.callMain` (`/opt/zig/lib/std/start.zig`) ← `start.callMainWithArgs` ← `start.main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
+Common call stack: `profile.main` (`./profile.zig`) ← `start.callMain` (`/opt/zig/lib/std/start.zig`) ← `start.callMainWithArgs` ← `start.main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
 |    % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ---: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
