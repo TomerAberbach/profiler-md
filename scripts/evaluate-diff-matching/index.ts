@@ -1,5 +1,5 @@
 /**
- * Scores how a diff pairs functions, and a heap snapshot's instance groups,
+ * Scores how a diff pairs functions, and a heap snapshot's retainer groups,
  * across its base and current sides against ground truth, to measure a change
  * to the pairing instead of judging it from examples.
  *
@@ -48,6 +48,12 @@
  * compared by match key. A group weighs its share of its snapshot's size. The
  * synthetic edits move the positions of the current side's paths in one
  * source reference, and only the groups with a step located in it are scored.
+ * The `retained nodes` tables score how it pairs each function's retained
+ * nodes, grouped by name, category, location, and retainer path within the
+ * instance retaining them, the same way, with a group's counterpart also
+ * sharing its nodes' match key and mapped position. Their synthetic edits also
+ * move the nodes' positions, and score the groups whose nodes are located in
+ * the edited source.
  *
  * Usage:
  * - `pnpm evaluate-diff-matching` scores every committed pair
@@ -66,6 +72,7 @@
 
 import { parseArgs } from 'node:util'
 import { parseExampleFilename } from '../../src/cli/examples.ts'
+import type { RetainerGroup } from '../../src/modalities/heap-snapshot/diff.ts'
 import { resolveProfileToMdOptions } from '../../src/options.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import {
@@ -74,12 +81,13 @@ import {
   updateGroundTruth,
 } from './ground-truth.ts'
 import { committedPairs, scoredInputPairs } from './inputs.ts'
-import {
-  applyInstanceGroupEdit,
-  evaluateInstanceGroups,
-  instanceGroupInput,
-} from './instance-groups.ts'
 import { identity } from './position.ts'
+import {
+  applyRetainerGroupEdit,
+  evaluateRetainerGroups,
+  retainerGroupInputs,
+} from './retainer-groups.ts'
+import type { RetainerGroupInput } from './retainer-groups.ts'
 import { addEvaluation, evaluate } from './score.ts'
 import type { Evaluation } from './score.ts'
 import { applySyntheticEdit, pairRandom } from './synthetic-edits.ts'
@@ -121,6 +129,21 @@ const main = (): void => {
   }
 }
 
+type GroupTables<Groups extends string> = Record<
+  `${`same code` | `version change` | `synthetic edits`}, ${Groups}`,
+  { rows: Map<string, Evaluation>; entities: string }
+>
+
+/** A kind of retainer group's tables, one per kind of ground truth. */
+const groupTables = <Groups extends string>(
+  groups: Groups,
+): GroupTables<Groups> =>
+  ({
+    [`same code, ${groups}`]: { rows: new Map(), entities: `groups` },
+    [`version change, ${groups}`]: { rows: new Map(), entities: `groups` },
+    [`synthetic edits, ${groups}`]: { rows: new Map(), entities: `groups` },
+  }) as GroupTables<Groups>
+
 /**
  * Scores each committed pair under the kinds of ground truth that apply to it,
  * and returns the evaluations keyed by kind, then by row, with the entities
@@ -146,18 +169,8 @@ const scoreCommittedPairs = (
       rows: new Map<string, Evaluation>(),
       entities: `functions`,
     },
-    'same code, instance groups': {
-      rows: new Map<string, Evaluation>(),
-      entities: `groups`,
-    },
-    'version change, instance groups': {
-      rows: new Map<string, Evaluation>(),
-      entities: `groups`,
-    },
-    'synthetic edits, instance groups': {
-      rows: new Map<string, Evaluation>(),
-      entities: `groups`,
-    },
+    ...groupTables(`instance groups`),
+    ...groupTables(`retained nodes`),
   }
 
   for (const pair of committedPairs(filter)) {
@@ -173,35 +186,46 @@ const scoreCommittedPairs = (
       )
 
       if (inputs.type === `heap-snapshot`) {
-        const input = instanceGroupInput(inputs.base, inputs.current, options)
-        if (versionChange) {
-          addEvaluation(
-            tables[`version change, instance groups`].rows,
-            row,
-            evaluateInstanceGroups(input, options, versionChange),
-          )
-          continue
-        }
-
-        addEvaluation(
-          tables[`same code, instance groups`].rows,
-          row,
-          evaluateInstanceGroups(input, options, { positionMap: identity }),
-        )
-        for (let edit = 0; edit < edits; edit++) {
-          const edited = applyInstanceGroupEdit(input, random)
-          if (!edited) {
-            break
+        const scoreGroups = <Group extends RetainerGroup>(
+          input: RetainerGroupInput<Group>,
+          groups: `instance groups` | `retained nodes`,
+        ) => {
+          if (versionChange) {
+            addEvaluation(
+              tables[`version change, ${groups}`].rows,
+              row,
+              evaluateRetainerGroups(input, options, versionChange),
+            )
+            return
           }
+
           addEvaluation(
-            tables[`synthetic edits, instance groups`].rows,
+            tables[`same code, ${groups}`].rows,
             row,
-            evaluateInstanceGroups(edited.input, options, {
-              positionMap: edited.positionMap,
-              editedSource: edited.source,
-            }),
+            evaluateRetainerGroups(input, options, { positionMap: identity }),
           )
+          for (let edit = 0; edit < edits; edit++) {
+            const edited = applyRetainerGroupEdit(input, options, random)
+            if (!edited) {
+              break
+            }
+            addEvaluation(
+              tables[`synthetic edits, ${groups}`].rows,
+              row,
+              evaluateRetainerGroups(edited.input, options, {
+                positionMap: edited.positionMap,
+                editedSource: edited.source,
+              }),
+            )
+          }
         }
+        const { instanceGroups, retainedNodeGroups } = retainerGroupInputs(
+          inputs.base,
+          inputs.current,
+          options,
+        )
+        scoreGroups(instanceGroups, `instance groups`)
+        scoreGroups(retainedNodeGroups, `retained nodes`)
         continue
       }
 

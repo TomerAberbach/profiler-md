@@ -4,7 +4,11 @@ import type { SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
 import { categoryTables, rankingTables } from '../../testing.ts'
-import type { RetainerPathStep } from './aggregate.ts'
+import type {
+  AggregatedHeapSnapshotNode,
+  RetainerPathEdge,
+  RetainerPathStep,
+} from './aggregate.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {
@@ -14,9 +18,11 @@ import {
   makeAggregatedHeapSnapshotString,
   makeRetainerHops,
   makeSourceLocation,
+  retainedObjectsTables,
   retainedSizeInstancesTables,
   selfSizeInstancesTables,
 } from './testing.ts'
+import type { HeapSnapshotNodeCategory } from './type.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
@@ -467,6 +473,18 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   })
 })
 
+const SEVERAL_RETAINERS: RetainerPathEdge = { type: `several-retainers` }
+
+/** A step through the property {@link name} of a retainer. */
+const propertyStep = (
+  name: string,
+  retainer: string,
+  location?: SourceLocation,
+): RetainerPathStep => ({
+  edge: { type: `property`, name },
+  retainer: { id: 0, name: retainer, location },
+})
+
 describe(`formatHeapSnapshotDiff instances`, () => {
   /** A snapshot of `Foo` instances, each of a size and at a retainer path. */
   const snapshotOf = (
@@ -491,16 +509,6 @@ describe(`formatHeapSnapshotDiff instances`, () => {
       ...makeRetainerHops(instances.map(({ steps }) => steps)),
     }
   }
-
-  /** A step through the property {@link name} of a retainer. */
-  const propertyStep = (
-    name: string,
-    retainer: string,
-    location?: SourceLocation,
-  ): RetainerPathStep => ({
-    edge: { type: `property`, name },
-    retainer: { id: 0, name: retainer, location },
-  })
 
   const instanceTablesOf = (
     base: { size: number; steps: RetainerPathStep[] }[],
@@ -708,6 +716,550 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           Size: `10 B → 30 B`,
           Instances: `1`,
           Path: `Foo ←.jQuery37102850593049792911– HTMLElement`,
+        },
+      ],
+    ])
+  })
+})
+
+describe(`formatHeapSnapshotDiff retained nodes`, () => {
+  type RetainedNode = {
+    name?: string
+    size: number
+    category?: HeapSnapshotNodeCategory
+    location?: SourceLocation
+
+    /** The steps from the node to an instance of `fn`, held by the instance. */
+    steps: RetainerPathStep[]
+
+    /** The index of the instance in {@link SnapshotFunction.instanceSteps}. */
+    instance?: number
+  }
+
+  type SnapshotFunction = {
+    location?: SourceLocation
+    retainedSize: number
+    nodes: RetainedNode[]
+
+    /**
+     * Each instance's steps to the GC root, or to the instance before it when
+     * {@link nestsInstances} is set.
+     */
+    instanceSteps?: RetainerPathStep[][]
+    nestsInstances?: boolean
+  }
+
+  /**
+   * A snapshot of `fn`, whose instances retain the nodes, or of no function
+   * when {@link fn} is undefined.
+   */
+  const snapshotOf = (fn: SnapshotFunction | undefined) => {
+    const nodes = fn?.nodes ?? []
+    const instanceSteps = fn?.instanceSteps ?? [[]]
+    const instanceIds = instanceSteps.map((_, index) => nodes.length + index)
+    return {
+      ...makeAggregatedHeapSnapshot({
+        functions: fn
+          ? [
+              {
+                ...makeAggregatedHeapSnapshotFunction({
+                  name: `fn`,
+                  selfSize: 10,
+                  retainedSize: fn.retainedSize,
+                  location: fn.location,
+                }),
+                largestInstanceId: instanceIds[0]!,
+                instanceIds,
+              },
+            ]
+          : [],
+      }),
+      // The nodes come first, then the instances, so each path's ordinal is
+      // its node's.
+      ...makeRetainerHops(
+        [...nodes.map(({ steps }) => steps), ...instanceSteps],
+        [
+          ...nodes.map(({ instance = 0 }) => instanceIds[instance]),
+          ...instanceSteps.map((_, index) =>
+            fn?.nestsInstances && index > 0
+              ? instanceIds[index - 1]
+              : undefined,
+          ),
+        ],
+      ),
+      // An instance retains its own nodes, and those of the instances it
+      // dominates.
+      retainedNodesOf: (instanceId: number) =>
+        nodes.flatMap(
+          (
+            { name, size, category = `object`, location, instance = 0 },
+            id,
+          ): AggregatedHeapSnapshotNode[] =>
+            fn?.nestsInstances || instanceIds[instance] === instanceId
+              ? [
+                  {
+                    type: `node`,
+                    id,
+                    name,
+                    category,
+                    selfSize: size,
+                    retainedSize: size,
+                    location,
+                  },
+                ]
+              : [],
+        ),
+    }
+  }
+
+  const retainedTablesOf = (
+    base: SnapshotFunction | undefined,
+    current: SnapshotFunction | undefined,
+    options = defaultOptions,
+  ) =>
+    retainedObjectsTables(
+      mdastToMarkdown(
+        formatHeapSnapshotDiff(
+          diffAggregatedHeapSnapshots(
+            snapshotOf(base),
+            snapshotOf(current),
+            options,
+          ),
+          options,
+        ),
+      ),
+      `fn`,
+    )
+
+  const fnStep = (name: string) => propertyStep(name, `fn`)
+
+  test(`pairs each function's retained nodes by name and retainer path`, () => {
+    const pPath = [fnStep(`p`)]
+    const qPath = [fnStep(`q`)]
+
+    expect(
+      retainedTablesOf(
+        {
+          retainedSize: 200,
+          nodes: [
+            { name: `Buf`, size: 100, steps: pPath },
+            { name: `Buf`, size: 50, steps: pPath },
+            { name: `Str`, size: 30, steps: qPath },
+          ],
+        },
+        {
+          retainedSize: 220,
+          nodes: [
+            { name: `Buf`, size: 100, steps: pPath },
+            { name: `Str`, size: 90, steps: qPath },
+          ],
+        },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+60 B`,
+          '%': `15.0% → 40.9%`,
+          Self: `30 B → 90 B`,
+          Name: `Str`,
+          'Path to function': `Str ←.q– fn`,
+        },
+        {
+          Change: `-33.3%`,
+          Delta: `-50 B`,
+          '%': `75.0% → 45.5%`,
+          Self: `150 B → 100 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.p– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the retained nodes of a function whose own retainer changed`, () => {
+    const steps = [propertyStep(`buf`, `Holder`), fnStep(`holder`)]
+
+    expect(
+      retainedTablesOf(
+        {
+          retainedSize: 100,
+          nodes: [{ name: `Buf`, size: 10, steps }],
+          instanceSteps: [[propertyStep(`fn`, `system / Context`)]],
+        },
+        {
+          retainedSize: 200,
+          nodes: [{ name: `Buf`, size: 30, steps }],
+          instanceSteps: [[propertyStep(`fn`, `Window`)]],
+        },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `10.0% → 15.0%`,
+          Self: `10 B → 30 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.buf– Holder ←.holder– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`groups the elements of an array`, () => {
+    const elementsOf = (count: number): RetainedNode[] =>
+      Array.from({ length: count }, (_, index) => ({
+        name: `Foo`,
+        size: 10,
+        steps: [
+          {
+            edge: { type: `element`, index },
+            retainer: { id: 0, name: `Array` },
+          },
+          fnStep(`items`),
+        ],
+      }))
+
+    expect(
+      retainedTablesOf(
+        { retainedSize: 100, nodes: elementsOf(2) },
+        { retainedSize: 200, nodes: elementsOf(5) },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+150.0%`,
+          Delta: `+30 B`,
+          '%': `20.0% → 25.0%`,
+          Self: `20 B → 50 B`,
+          Name: `Foo`,
+          'Path to function': `Foo ←[]– Array ←.items– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`groups the retained nodes with no name and an empty name`, () => {
+    const steps = [fnStep(`p`)]
+
+    expect(
+      retainedTablesOf(
+        {
+          retainedSize: 100,
+          nodes: [
+            { size: 10, steps },
+            { name: ``, size: 20, steps },
+          ],
+        },
+        { retainedSize: 200, nodes: [{ name: ``, size: 40, steps }] },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+33.3%`,
+          Delta: `+10 B`,
+          '%': `30.0% → 20.0%`,
+          Self: `30 B → 40 B`,
+          Name: `(unknown)`,
+          'Path to function': `(unknown) ←.p– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`separates the retained nodes of one name by location and category`, () => {
+    const steps = [fnStep(`p`)]
+    const at = (column: number) =>
+      makeSourceLocation(`/project/d3.js`, 2, column)
+
+    expect(
+      retainedTablesOf(
+        {
+          location: at(1),
+          retainedSize: 100,
+          nodes: [
+            { name: `f`, size: 10, steps, location: at(10) },
+            { name: `f`, size: 30, steps, location: at(20) },
+            { name: `f`, size: 5, steps, category: `string` },
+          ],
+        },
+        {
+          location: at(1),
+          retainedSize: 200,
+          nodes: [
+            { name: `f`, size: 30, steps, location: at(10) },
+            { name: `f`, size: 10, steps, location: at(20) },
+            { name: `f`, size: 5, steps, category: `array` },
+          ],
+        },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `10.0% → 15.0%`,
+          Self: `10 B → 30 B`,
+          Name: `f`,
+          Location: `./d3.js:2:10`,
+          'Path to function': `f ←.p– fn`,
+        },
+        {
+          Change: `-66.7%`,
+          Delta: `-20 B`,
+          '%': `30.0% → 5.0%`,
+          Self: `30 B → 10 B`,
+          Name: `f`,
+          Location: `./d3.js:2:20`,
+          'Path to function': `f ←.p– fn`,
+        },
+        {
+          Change: `removed`,
+          Delta: `-5 B`,
+          '%': `5.0% → 0.0%`,
+          Self: `5 B → 0 B`,
+          Name: `f`,
+          Location: `<unknown>`,
+          'Path to function': `f ←.p– fn`,
+        },
+        {
+          Change: `new`,
+          Delta: `+5 B`,
+          '%': `0.0% → 2.5%`,
+          Self: `0 B → 5 B`,
+          Name: `f`,
+          Location: `<unknown>`,
+          'Path to function': `f ←.p– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`hides the retained nodes whose location the entry filter hides`, () => {
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: ({ location }) => location === undefined,
+    })
+    const nodes = [
+      { name: `Shown`, size: 10, steps: [fnStep(`p`)] },
+      {
+        name: `Hidden`,
+        size: 20,
+        steps: [fnStep(`q`)],
+        location: makeSourceLocation(`/project/vendor.js`, 1, 1),
+      },
+    ]
+
+    const tables = retainedTablesOf(
+      { retainedSize: 100, nodes },
+      {
+        retainedSize: 200,
+        nodes: nodes.map(node => ({ ...node, size: node.size * 2 })),
+      },
+      options,
+    )
+
+    expect(tables).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+10 B`,
+          '%': `10.0%`,
+          Self: `10 B → 20 B`,
+          Name: `Shown`,
+          'Path to function': `Shown ←.p– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the nodes whose retainers an edit moved along their file`, () => {
+    const stepsAt = (column: number) => [
+      propertyStep(
+        `buf`,
+        `Holder`,
+        makeSourceLocation(`/project/d3.js`, 2, column),
+      ),
+      fnStep(`holder`),
+    ]
+
+    expect(
+      retainedTablesOf(
+        {
+          retainedSize: 100,
+          nodes: [
+            { name: `Buf`, size: 10, steps: stepsAt(100) },
+            { name: `Buf`, size: 20, steps: stepsAt(200) },
+          ],
+        },
+        {
+          retainedSize: 200,
+          nodes: [
+            { name: `Buf`, size: 30, steps: stepsAt(80) },
+            { name: `Buf`, size: 60, steps: stepsAt(180) },
+          ],
+        },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+40 B`,
+          '%': `20.0% → 30.0%`,
+          Self: `20 B → 60 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.buf– Holder (./d3.js:2:180) ←.holder– fn`,
+        },
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `10.0% → 15.0%`,
+          Self: `10 B → 30 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.buf– Holder (./d3.js:2:80) ←.holder– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs the nodes whose names differ by a per-run address`, () => {
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      matchEntry: ({ name }) => ({
+        name: (name ?? ``).replace(/@0x[0-9a-f]+$/u, ``),
+      }),
+    })
+    const steps = [fnStep(`p`)]
+
+    expect(
+      retainedTablesOf(
+        {
+          retainedSize: 100,
+          nodes: [{ name: `Buf@0x1003a68`, size: 10, steps }],
+        },
+        {
+          retainedSize: 200,
+          nodes: [{ name: `Buf@0x117f9d8`, size: 30, steps }],
+        },
+        options,
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `10.0% → 15.0%`,
+          Self: `10 B → 30 B`,
+          Name: `Buf@0x117f9d8`,
+          'Path to function': `Buf@0x117f9d8 ←.p– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`counts the nodes of an instance another instance dominates once`, () => {
+    const nodes: RetainedNode[] = [
+      { name: `Buf`, size: 10, steps: [fnStep(`outer`)] },
+      { name: `Buf`, size: 20, steps: [fnStep(`inner`)], instance: 1 },
+    ]
+    const instanceSteps = [[], [fnStep(`next`)]]
+
+    expect(
+      retainedTablesOf(
+        { retainedSize: 100, nodes, instanceSteps, nestsInstances: true },
+        {
+          retainedSize: 200,
+          nodes: nodes.map(node => ({ ...node, size: node.size * 2 })),
+          instanceSteps,
+          nestsInstances: true,
+        },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+20 B`,
+          '%': `20.0%`,
+          Self: `20 B → 40 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.inner– fn ←.next– fn`,
+        },
+        {
+          Change: `+100.0%`,
+          Delta: `+10 B`,
+          '%': `10.0%`,
+          Self: `10 B → 20 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.outer– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`marks each retainer that holds no reference to the node it retains`, () => {
+    const steps = [
+      { edge: SEVERAL_RETAINERS, retainer: { id: 0, name: `Holder` } },
+      propertyStep(`holder`, `fn`),
+      { edge: SEVERAL_RETAINERS, retainer: { id: 0, name: `fn` } },
+    ]
+    expect(
+      retainedTablesOf(
+        { retainedSize: 100, nodes: [{ name: `Buf`, size: 10, steps }] },
+        { retainedSize: 200, nodes: [{ name: `Buf`, size: 30, steps }] },
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+20 B`,
+          '%': `10.0% → 15.0%`,
+          Self: `10 B → 30 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←(several paths)– Holder ←.holder– fn ←(several paths)– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`reports the retained nodes of a function only in base as removed`, () => {
+    expect(
+      retainedTablesOf(
+        {
+          retainedSize: 100,
+          nodes: [{ name: `Buf`, size: 10, steps: [fnStep(`p`)] }],
+        },
+        undefined,
+      ),
+    ).toEqual([
+      [
+        {
+          Change: `removed`,
+          Delta: `-10 B`,
+          '%': `10.0% → 0.0%`,
+          Self: `10 B → 0 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.p– fn`,
+        },
+      ],
+    ])
+  })
+
+  test(`reports the retained nodes of a function only in current as new`, () => {
+    expect(
+      retainedTablesOf(undefined, {
+        retainedSize: 200,
+        nodes: [{ name: `Buf`, size: 10, steps: [fnStep(`p`)] }],
+      }),
+    ).toEqual([
+      [
+        {
+          Change: `new`,
+          Delta: `+10 B`,
+          '%': `0.0% → 5.0%`,
+          Self: `0 B → 10 B`,
+          Name: `Buf`,
+          'Path to function': `Buf ←.p– fn`,
         },
       ],
     ])
