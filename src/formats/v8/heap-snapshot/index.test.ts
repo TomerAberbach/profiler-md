@@ -3,7 +3,7 @@ import {
   functionTables,
   largestStringsTables,
   retainedObjectsTables,
-  selfSizeInstancesTables,
+  selfSizeRetainerPathTables,
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
@@ -347,7 +347,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(selfSizeInstancesTables(md, `MyClass`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `MyClass`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -640,7 +640,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeInstancesTables(md, `child`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `child`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -711,7 +711,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeInstancesTables(md, `child`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `child`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -770,7 +770,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeInstancesTables(md, `child`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `child`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -952,7 +952,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeInstancesTables(shown, `Widget`)).toEqual([
+    expect(selfSizeRetainerPathTables(shown, `Widget`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -971,7 +971,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeInstancesTables(hidden, `Widget`)).toEqual([
+    expect(selfSizeRetainerPathTables(hidden, `Widget`)).toEqual([
       [
         {
           '%': `80.0%`,
@@ -991,7 +991,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeInstancesTables(md, `Array`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `Array`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -1083,7 +1083,7 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
     ],
   ]
   expect(
-    [`a`, `b`, `c`, `xx`].map(name => selfSizeInstancesTables(md, name)),
+    [`a`, `b`, `c`, `xx`].map(name => selfSizeRetainerPathTables(md, name)),
   ).toEqual([
     rowAt(`a ← (GC root)`),
     rowAt(`b ←.x– a`),

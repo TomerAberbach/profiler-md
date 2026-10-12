@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |    % |   Time | Samples | Function                                                               | Location                                         |
 | ---: | -----: | ------: | ---------------------------------------------------------------------- | ------------------------------------------------ |
@@ -40,6 +40,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 1.4% |  7.0ms |       7 | `fmt::v11::detail::format_float`                                       | `./format.h`                                     |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -93,7 +95,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `fmt::v11::detail::buffer::append` (`./base.h`)
 
@@ -264,7 +266,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `fmt::v11::detail::buffer::append` (`./base.h`)
 
@@ -521,7 +523,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                                 | Location                               |
 | -----: | ------: | ------: | -------------------------------------------------------- | -------------------------------------- |
@@ -547,6 +549,8 @@ Functions ranked by total time spent in the function and all its callees.
 |   8.5% |  43.0ms |      43 | `fmt::v11::detail::format_handler::on_replacement_field` | `./format.h`                           |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -600,7 +604,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
@@ -805,7 +809,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`
 

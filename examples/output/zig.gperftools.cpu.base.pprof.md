@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/tmp/nix-shell.NcwiQ3/profile
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                                                                             | Location                                 |
 | ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------- | ---------------------------------------- |
@@ -40,6 +40,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  1.2% |  62.0ms |      62 | `mem.eqlBytes`                                                                                       | `/opt/zig/lib/std/mem.zig`               |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -93,7 +95,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig`)
 
@@ -269,7 +271,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig`)
 
@@ -575,7 +577,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |  Time | Samples | Function                                    | Location                                          |
 | -----: | ----: | ------: | ------------------------------------------- | ------------------------------------------------- |
@@ -601,6 +603,8 @@ Functions ranked by total time spent in the function and all its callees.
 |  28.2% | 1.47s |   1,478 | `zig.Ast.Render.tokenSliceForRender`        | `/opt/zig/lib/std/zig/Ast/Render.zig`             |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -654,7 +658,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `start.callMain` (`/opt/zig/lib/std/start.zig`)
 
@@ -882,7 +886,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `profile.main` (`/out/profile.zig`) ← `start.callMain` (`/opt/zig/lib/std/start.zig`) ← `start.callMainWithArgs` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 

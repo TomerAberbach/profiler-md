@@ -13,9 +13,11 @@ Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/c
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -44,7 +46,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `encoding/json.(*decodeState).objectInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078`)
 
@@ -179,7 +181,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `encoding/json.(*decodeState).objectInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078`)
 
@@ -306,7 +308,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |     Size |    Objects | Function                                       | Location                                                                                          |
 | ----: | -------: | ---------: | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -332,6 +334,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 10.6% |  182 MiB |  5,641,644 | `encoding/json.unquote`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -360,7 +364,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `main.workload.func1` (`./profile.go:25`)
 
@@ -494,7 +498,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `main.workload.func1` (`./profile.go:25`)
 
@@ -535,9 +539,11 @@ Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/c
 
 ### Self size
 
-Functions ranked by bytes retained directly in the function body, excluding callees.
+Functions with the most bytes retained within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -549,7 +555,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `bytes.growSlice` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`)
 
@@ -573,7 +579,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `bytes.growSlice` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`)
 
@@ -596,7 +602,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes retained in the function and all its callees.
+Functions with the most bytes retained within the function and its callees.
 
 |     % |     Size | Objects | Function                                    | Location                                                                                         |
 | ----: | -------: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -622,6 +628,8 @@ Functions ranked by total bytes retained in the function and all its callees.
 |  1.6% | 34.6 KiB |      20 | `runtime.schedule`                          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -650,7 +658,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `main.workload.func1` (`./profile.go:25`)
 
@@ -772,7 +780,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes retained in their leaf frame.
+Call stacks with the most bytes retained in their leaf frame.
 
 |     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,6 +1,6 @@
 import type { Node } from 'mdast'
 import { expect } from 'vitest'
-import { nodeText } from './helpers/markdown.ts'
+import { mdastToMarkdown, nodeText } from './helpers/markdown.ts'
 import {
   allTablesAfterHeadingContaining,
   nextTable,
@@ -61,6 +61,31 @@ export const summaryLines = (md: string): string[] => {
     }
   }
   return lines
+}
+
+/** The Markdown of the paragraphs above the first section below the title. */
+export const paragraphsUnderTitle = (md: string): string[] => {
+  const { children } = parseMd(md)
+  const end = children.findIndex(
+    node => node.type === `heading` && node.depth > 1,
+  )
+  return children
+    .slice(0, end === -1 ? children.length : end)
+    .filter(node => node.type === `paragraph`)
+    .map(paragraph => mdastToMarkdown([paragraph]).trimEnd())
+}
+
+/** The Markdown of the paragraph opening each section titled {@link heading}. */
+export const openingParagraphs = (md: string, heading: string): string[] => {
+  const { children } = parseMd(md)
+  return children.flatMap((node, index) => {
+    const next = children[index + 1]
+    return node.type === `heading` &&
+      nodeText(node) === heading &&
+      next?.type === `paragraph`
+      ? [mdastToMarkdown([next]).trimEnd()]
+      : []
+  })
 }
 
 export const categoryTables = (md: string): Table[] => {

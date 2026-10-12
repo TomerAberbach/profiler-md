@@ -16,7 +16,7 @@ Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
 #### Regressions
 
-Functions with the largest increase in bytes held at peak memory directly in the function body, excluding callees.
+Functions with the largest increase in bytes held at peak memory within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |    Change |      Delta |             % |                Size |     Allocations | Function                          | Location                                                    |
 | --------: | ---------: | ------------: | ------------------: | --------------: | --------------------------------- | ----------------------------------------------------------- |
@@ -68,7 +68,7 @@ Functions with the largest increase in bytes held at peak memory directly in the
 
 #### Improvements
 
-Functions with the largest decrease in bytes held at peak memory directly in the function body, excluding callees.
+Functions with the largest decrease in bytes held at peak memory within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |      Delta |            % |                Size | Allocations | Function                  | Location                                 |
 | ------: | ---------: | -----------: | ------------------: | ----------: | ------------------------- | ---------------------------------------- |
@@ -520,7 +520,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes held at peak memory in the function and all its callees.
+Functions with the largest increase in bytes held at peak memory within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Ours
 
@@ -561,7 +561,7 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 
 #### Improvements
 
-Functions with the largest decrease in total bytes held at peak memory in the function and all its callees.
+Functions with the largest decrease in bytes held at peak memory within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |      Delta |            % |              Size | Allocations | Function                    | Location                                 |
 | ------: | ---------: | -----------: | ----------------: | ----------: | --------------------------- | ---------------------------------------- |
@@ -626,7 +626,7 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `visit_simple_stmt` (`./black/linegen.py:295`)
 
@@ -915,7 +915,7 @@ Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
 #### Regressions
 
-Functions with the largest increase in bytes never freed directly in the function body, excluding callees.
+Functions with the largest increase in bytes never freed within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |    Change |      Delta |             % |                Size |     Allocations | Function                          | Location                                                    |
 | --------: | ---------: | ------------: | ------------------: | --------------: | --------------------------------- | ----------------------------------------------------------- |
@@ -967,7 +967,7 @@ Functions with the largest increase in bytes never freed directly in the functio
 
 #### Improvements
 
-Functions with the largest decrease in bytes never freed directly in the function body, excluding callees.
+Functions with the largest decrease in bytes never freed within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |      Delta |            % |                Size | Allocations | Function                  | Location                                 |
 | ------: | ---------: | -----------: | ------------------: | ----------: | ------------------------- | ---------------------------------------- |
@@ -1419,7 +1419,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes never freed in the function and all its callees.
+Functions with the largest increase in bytes never freed within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |  Delta |             % |                Size |     Allocations | Function              | Location                                                |
 | ------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ------------------------------------------------------- |
@@ -1484,7 +1484,7 @@ Functions with the largest increase in total bytes never freed in the function a
 
 #### Improvements
 
-Functions with the largest decrease in total bytes never freed in the function and all its callees.
+Functions with the largest decrease in bytes never freed within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |      Delta |             % |              Size | Allocations | Function                    | Location                                 |
 | ------: | ---------: | ------------: | ----------------: | ----------: | --------------------------- | ---------------------------------------- |
@@ -1548,7 +1548,7 @@ Functions with the largest decrease in total bytes never freed in the function a
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `visit_simple_stmt` (`./black/linegen.py:295`)
 

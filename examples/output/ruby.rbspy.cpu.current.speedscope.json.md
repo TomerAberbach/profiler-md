@@ -15,7 +15,7 @@ Paths starting with `./` or `../` are relative to `/src/app/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |    % |    Time | Samples | Function                                                               | Location                                                                                                       |
 | ---: | ------: | ------: | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -41,6 +41,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 1.2% | 182.6ms |      18 | `String#gsub! [c function]`                                            | `<unknown>`                                                                                                    |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
@@ -117,7 +119,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
 
@@ -319,7 +321,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `Module#extend_object [c function]` (`<unknown>`)
 
@@ -687,7 +689,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |     % |   Time | Samples | Function                                 | Location                                                                                     |
 | ----: | -----: | ------: | ---------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -713,6 +715,8 @@ Functions ranked by total time spent in the function and all its callees.
 | 93.7% | 14.77s |   1,455 | `block in call`                          | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb`        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
@@ -802,7 +806,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `<main>` (`profile.rb`)
 
@@ -1231,7 +1235,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `Rack::ETag#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`) ← `Rack::ConditionalGet#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/conditional_get.rb`) ← `Rack::Head#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/head.rb`) ← `ActionDispatch::ContentSecurityPolicy::Middleware#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/http/content_security_policy.rb`) ← `Rack::Session::Abstract::Persisted#context` (`/usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb`) ← `Rack::Session::Abstract::Persisted#call` ← `ActionDispatch::Cookies#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`) ← `block in call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb`) ← `ActiveSupport::Callbacks#run_callbacks` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb`) ← `ActionDispatch::Callbacks#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb`) ← `ActionDispatch::DebugExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/debug_exceptions.rb`) ← `ActionDispatch::ShowExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/show_exceptions.rb`) ← `Rails::Rack::Logger#call_app` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb`) ← `Rails::Rack::Logger#call` ← `Rails::Rack::SilenceRequest#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/silence_request.rb`) ← `ActionDispatch::RemoteIp#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/remote_ip.rb`) ← `ActionDispatch::RequestId#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/request_id.rb`) ← `Rack::MethodOverride#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/method_override.rb`) ← `Rack::Runtime#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/runtime.rb`) ← `ActionDispatch::Executor#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/executor.rb`) ← `ActionDispatch::Static#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb`) ← `Rack::Sendfile#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`) ← `ActionDispatch::SSL#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb`) ← `ActionDispatch::AssumeSSL#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/assume_ssl.rb`) ← `Rails::Engine#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb`) ← `<main>` (`profile.rb`)
 

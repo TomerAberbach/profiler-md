@@ -13,9 +13,11 @@ Paths starting with `./` or `../` are relative to `/out/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -69,7 +71,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig`)
 
@@ -243,7 +245,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig`)
 
@@ -543,7 +545,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |  Time | Samples | Function                                    | Location                                          |
 | -----: | ----: | ------: | ------------------------------------------- | ------------------------------------------------- |
@@ -569,6 +571,8 @@ Functions ranked by total time spent in the function and all its callees.
 |  27.1% | 1.57s |   1,573 | `zig.tokenizer.Tokenizer.next`              | `/opt/zig/lib/std/zig/tokenizer.zig`              |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -622,7 +626,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `start.callMain` (`/opt/zig/lib/std/start.zig`)
 
@@ -877,7 +881,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `profile.main` (`./profile.zig`) ← `start.callMain` (`/opt/zig/lib/std/start.zig`) ← `start.callMainWithArgs` ← `start.main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 

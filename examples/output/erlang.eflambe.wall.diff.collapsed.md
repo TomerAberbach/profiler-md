@@ -12,13 +12,13 @@ Took 19.8ms.
 
 ### Self time
 
-No function differed in wall time spent directly in the function body, excluding callees.
+No function differed in wall time spent within the function body, excluding callees.
 
 ### Total time
 
 #### Improvements
 
-Functions with the largest decrease in total wall time spent in the function and all its callees.
+Functions with the largest decrease in wall time spent within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 ##### Standard library
 
@@ -28,7 +28,7 @@ Functions with the largest decrease in total wall time spent in the function and
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `escape_binary_ascii/5` (`json`)
 

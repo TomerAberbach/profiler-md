@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/src/`.
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
+Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Native
 
@@ -25,7 +25,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
+Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Native
 
@@ -107,7 +107,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes allocated in the function and all its callees.
+Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |   Change |       Delta |             % |                Size |          Objects | Function                                                                                                                                                                    | Location                                                                                   |
 | -------: | ----------: | ------------: | ------------------: | ---------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -159,7 +159,7 @@ Functions with the largest increase in total bytes allocated in the function and
 
 #### Improvements
 
-Functions with the largest decrease in total bytes allocated in the function and all its callees.
+Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |             % |                Size |          Objects | Function                                                                                                                                                                                                              | Location                                                                    |
 | ------: | ----------: | ------------: | ------------------: | ---------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
@@ -211,7 +211,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `$s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
 
@@ -730,7 +730,7 @@ Paths starting with `./` or `../` are relative to `/src/`.
 
 #### Regressions
 
-Functions with the largest increase in bytes retained directly in the function body, excluding callees.
+Functions with the largest increase in bytes retained within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Native
 
@@ -740,7 +740,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 #### Improvements
 
-Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
+Functions with the largest decrease in bytes retained within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Native
 
@@ -783,7 +783,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes retained in the function and all its callees.
+Functions with the largest increase in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |  Delta |            % |               Size | Objects | Function                                                                                                                                                                    | Location                                                                                   |
 | ------: | -----: | -----------: | -----------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -804,7 +804,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 #### Improvements
 
-Functions with the largest decrease in total bytes retained in the function and all its callees.
+Functions with the largest decrease in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |  Delta |            % |                Size |   Objects | Function                                                                                                                                                     | Location                                                                               |
 | ------: | -----: | -----------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
@@ -851,7 +851,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `$s11SwiftSyntax0B7VisitorC015visitSourceFileB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
 

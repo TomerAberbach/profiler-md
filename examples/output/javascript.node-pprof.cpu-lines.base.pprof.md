@@ -17,7 +17,7 @@ Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc
 
 ### Self time
 
-Functions ranked by wall time spent directly in the function body, excluding callees.
+Functions with the most wall time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                               | Location                                      |
 | ----: | ------: | ------: | -------------------------------------- | --------------------------------------------- |
@@ -43,6 +43,8 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 |  0.6% |  98.0ms |      78 | `getUnionTypeFromSortedList`           | `./node_modules/typescript/lib/typescript.js` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -77,7 +79,7 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `recursiveTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js`)
 
@@ -276,7 +278,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `recursiveTypeRelatedTo` (`./node_modules/typescript/lib/typescript.js`)
 
@@ -452,7 +454,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total wall time spent in the function and all its callees.
+Functions with the most wall time spent within the function and its callees.
 
 |     % |   Time | Samples | Function                                   | Location                                                |
 | ----: | -----: | ------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -478,6 +480,8 @@ Functions ranked by total wall time spent in the function and all its callees.
 | 69.4% | 11.30s |   8,997 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js`           |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -512,7 +516,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `typeCheckProject` (`./tsc-workload.mjs`)
 
@@ -691,7 +695,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks with the most wall time spent in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs`) ← `(anonymous)` (`./datadog-pprof.mjs:3:33`) ← `run` (`node:internal/modules/esm/module_job`)
 

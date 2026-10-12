@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 5.01 MiB across 67,019 nodes and 279,123 edges.
+Held 5.01 MiB over 67,019 nodes and 279,123 edges.
 
 | Category            |     % |     Size |  Nodes |
 | ------------------- | ----: | -------: | -----: |
@@ -22,11 +22,13 @@ Allocated 5.01 MiB across 67,019 nodes and 279,123 edges.
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/worktrees/profiler-md-5e4d067b35a3/scripts/inputs/assets/javascript/`.
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                  | Location                                      |
 | ----: | -------: | --------: | ---------------------------- | --------------------------------------------- |
@@ -52,6 +54,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |    672 B |         7 | `Uint32Array`                | `<unknown>`                                   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Object
 
@@ -118,9 +122,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |     32 B |         1 | `Node / js_promise_hooks`         | `<unknown>` |
 | <0.1% |     24 B |         1 | `Node / BaseObjectList`           | `<unknown>` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Object` (`<unknown>`)
 
@@ -525,7 +529,7 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 |     % |     Size | Instances | Constructor                  | Location                                  |
 | ----: | -------: | --------: | ---------------------------- | ----------------------------------------- |
@@ -551,6 +555,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.1% | 7.59 KiB |         2 | `process`                    | `<unknown>`                               |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Object
 
@@ -617,9 +623,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 | <0.1% |     32 B |         1 | `Node / NodeArrayBufferAllocator` | `<unknown>` |
 | <0.1% |     32 B |         1 | `Node / js_promise_hooks`         | `<unknown>` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `Object` (`<unknown>`)
 
@@ -1001,7 +1007,7 @@ Instances ranked by contribution to each constructor's retained size. `B ←(sev
 
 ## Largest functions
 
-Functions ranked by bytes that would be freed if the function were garbage collected.
+Functions with the most instance bytes, including nodes only the instances keep alive.
 
 |    % | Retained | Instances | Paths | Name                   | Location                                       | Example path                                                                                                                                     |
 | ---: | -------: | --------: | ----: | ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -1026,9 +1032,9 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 | 0.1% | 7.27 KiB |         1 |     1 | `FileHandle`           | `node:internal/fs/promises:158:14`             | `FileHandle ← (GC root)`                                                                                                                         |
 | 0.1% | 6.96 KiB |         8 |     8 | `(anonymous)`          | `node:internal/per_context/primordials:385:32` | `(anonymous) ←.<symbol Symbol.iterator>– Set`                                                                                                    |
 
-### Retained
+### Retained nodes
 
-Nodes ranked by contribution to each function's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retained nodes with the largest contribution to each function's retained size.
 
 #### `BuiltinModule` (`node:internal/bootstrap/realm:239:14`)
 
@@ -1192,9 +1198,11 @@ Nodes ranked by contribution to each function's retained size. `B ←(several pa
 
 ## Largest strings
 
-Strings ranked by bytes allocated for them.
+Strings with the most bytes.
 
 ### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 #### String
 

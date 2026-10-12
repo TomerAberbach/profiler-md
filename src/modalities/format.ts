@@ -1,5 +1,9 @@
 import type { Heading, PhrasingContent, RootContent } from 'mdast'
-import { capitalizeFirst, formatConjunction } from '../helpers/format.ts'
+import {
+  capitalizeFirst,
+  formatConjunction,
+  formatPercent,
+} from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import {
   formatSectionGroup,
@@ -12,6 +16,7 @@ import {
 import type { DeepReadonly } from '../helpers/types.ts'
 import { absoluteURLPath, formatSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import { defaultShowEntry } from '../options.ts'
 import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
@@ -44,7 +49,7 @@ export const formatBaseURLNote = ({
   }
 
   const baseURLs = baseSideBaseURL
-    ? phrasing`${formatBaseURL(baseSideBaseURL)} in the base and to ${formatBaseURL(baseURL)} in the current`
+    ? phrasing`${formatBaseURL(baseSideBaseURL)} on the base side and to ${formatBaseURL(baseURL)} on the current side`
     : [formatBaseURL(baseURL)]
   return [
     paragraph(
@@ -90,13 +95,6 @@ export const formatZeroTotalNote = (
   scope: string,
 ): RootContent =>
   paragraph(`No ${metric.phrases.pastParticipleVerbPhrase}${scope}.`)
-
-/**
- * The note shown when the entry filter would hide every function, e.g. a
- * profile recorded entirely inside external code with no frame of ours (a
- * runtime dump, a lock profile parked in the JDK).
- */
-export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every recorded function, so all functions are shown.`
 
 /**
  * The name displayed for {@link category}, from either modality's set of
@@ -194,6 +192,16 @@ export type DiffRanking = {
 export type DiffChange = `increase` | `decrease`
 
 /** The sentence introducing a ranking of {@link change}s in {@link description}. */
+/** The sentence opening a ranking of {@link plural} by {@link description}. */
+export const rankingSentence = (plural: string, description: string): string =>
+  `${plural} with the most ${description}.`
+
+/** The sentence standing in for a diff ranking where nothing changed. */
+export const unchangedDiffSentence = (
+  singular: string,
+  description: string,
+): string => `No ${singular} differed in ${description}.`
+
 export const diffRankingSentence = (
   plural: string,
   change: DiffChange,
@@ -219,6 +227,8 @@ export const formatDiffFunctionSections = <Entity, Row>({
   increases,
   decreases,
   categoryRankings = [],
+  selfValueNoun,
+  minCategoryShare,
   rowOf,
   detailSections = [],
 }: {
@@ -231,6 +241,10 @@ export const formatDiffFunctionSections = <Entity, Row>({
   increases: Entity[]
   decreases: Entity[]
   categoryRankings?: DiffCategoryRanking<Entity>[]
+
+  /** The self value a category's share is of, e.g. "self samples". */
+  selfValueNoun: string
+  minCategoryShare: number
   rowOf: (entity: Entity) => Diff<Row>
   detailSections?: RootContent[]
 }): RootContent[] => {
@@ -243,6 +257,8 @@ export const formatDiffFunctionSections = <Entity, Row>({
         columns,
         ...changedEntities(change, { increases, decreases }),
         categoryRankings,
+        selfValueNoun,
+        minCategoryShare,
         rowOf,
       }),
   )
@@ -251,7 +267,7 @@ export const formatDiffFunctionSections = <Entity, Row>({
     if (!hasActive) {
       return []
     }
-    sections.push(paragraph(`No function differed in ${description}.`))
+    sections.push(paragraph(unchangedDiffSentence(`function`, description)))
   }
 
   return formatSectionGroup(
@@ -323,6 +339,8 @@ export const formatDiffRankingSections = <Entity, Row>({
   columns,
   entities,
   categoryRankings,
+  selfValueNoun,
+  minCategoryShare,
   entitiesOf,
   rowOf,
 }: {
@@ -332,25 +350,47 @@ export const formatDiffRankingSections = <Entity, Row>({
   columns: Table<Row>
   entities: Entity[]
   categoryRankings: DiffCategoryRanking<Entity>[]
+
+  /** The self value a category's share is of, e.g. "self samples". */
+  selfValueNoun: string
+  minCategoryShare: number
   entitiesOf: (ranking: DiffCategoryRanking<Entity>) => Entity[]
   rowOf: (entity: Entity) => Diff<Row>
-}): RootContent[] =>
-  entities.length === 0
-    ? []
-    : [
-        heading(headingLevel, subtitle),
-        paragraph(sentence),
-        ...formatDiffRankingTables({
-          headingLevel: headingLevel + 1,
-          columns,
-          entities,
-          categoryEntities: categoryRankings.map(ranking => ({
-            category: ranking.category,
-            entities: entitiesOf(ranking),
-          })),
-          rowOf,
-        }),
-      ]
+}): RootContent[] => {
+  if (entities.length === 0) {
+    return []
+  }
+
+  const categoryEntities = categoryRankings.map(ranking => ({
+    category: ranking.category,
+    entities: entitiesOf(ranking),
+  }))
+  return [
+    heading(headingLevel, subtitle),
+    paragraph(
+      categoryEntities.some(({ entities }) => entities.length > 0)
+        ? `${sentence} ${formatDiffCategoryShareSentence(minCategoryShare, selfValueNoun)}`
+        : sentence,
+    ),
+    ...formatDiffRankingTables({
+      headingLevel: headingLevel + 1,
+      columns,
+      entities,
+      categoryEntities,
+      rowOf,
+    }),
+  ]
+}
+
+/**
+ * The sentence stating the share a category of a diff ranking accounts for, on
+ * whichever side it is larger.
+ */
+const formatDiffCategoryShareSentence = (
+  minCategoryShare: number,
+  selfValueNoun: string,
+): string =>
+  `Categories account for at least ${formatPercent(minCategoryShare)} of ${selfValueNoun} on the base or the current side.`
 
 /**
  * The table ranking {@link entities}, followed by the per-category tables
@@ -411,39 +451,52 @@ export type DiffCategoryRanking<Item> = {
 }
 
 /**
- * The options a modality's sections format with. When the entry filter would
- * hide every entry ({@link showsAnyEntry} is false), the filter is disabled
- * and a note saying so ({@link disabledNote}) leads the sections, so the body
- * is shown rather than vanishes.
+ * The options a modality's sections format with. When `showEntry` would hide
+ * every entry the sections can show ({@link showsAnyEntry} is false), it is
+ * ignored so the body is shown rather than vanishes. When `defaultShowEntry`
+ * would show an entry, the caller's filter hid them, which logs a warning.
+ * Otherwise the default filter hid them, which logs an info line.
  */
 export const resolveEntryFilter = ({
   options,
+  formatsAnyEntry,
   showsAnyEntry,
-  disabledNote,
+  entities,
 }: {
   options: FormattingProfileToMdOptions
-  showsAnyEntry: boolean
-  disabledNote: string
-}): {
-  sectionOptions: FormattingProfileToMdOptions
-  notes: RootContent[]
-} =>
-  showsAnyEntry
-    ? { sectionOptions: options, notes: [] }
-    : {
-        sectionOptions: { ...options, showEntry: () => true },
-        notes: [paragraph(disabledNote)],
-      }
 
+  /** Whether the sections would show an entry if `showEntry` showed every one. */
+  formatsAnyEntry: boolean
+
+  /** Whether {@link ShowEntry} shows an entry the sections can show. */
+  showsAnyEntry: (showEntry: ShowEntry) => boolean
+  entities: string
+}): FormattingProfileToMdOptions => {
+  if (!formatsAnyEntry || showsAnyEntry(options.showEntry)) {
+    return options
+  }
+
+  const message = `entry filter ignored because it hides every ${entities}, so all ${entities}s are shown`
+  if (showsAnyEntry(defaultShowEntry)) {
+    options.logger.warn?.(message)
+  } else {
+    options.logger.info?.(`default ${message}`)
+  }
+  return { ...options, showEntry: () => true }
+}
+
+type ShowEntry = FormattingProfileToMdOptions[`showEntry`]
+
+/** Whether {@link showEntry} shows a diffed entity's entry on either side. */
 export const showDiffEntity = <
   Entry extends DeepReadonly<AggregatedProfileEntry>,
 >(
   { base, current }: Diff<Entry>,
   sides: DiffSides,
-  options: FormattingProfileToMdOptions,
+  showEntry: ShowEntry,
 ): boolean =>
-  (base !== undefined && options.showEntry(base, sides.base.context)) ||
-  (current !== undefined && options.showEntry(current, sides.current.context))
+  (base !== undefined && showEntry(base, sides.base.context)) ||
+  (current !== undefined && showEntry(current, sides.current.context))
 
 /** A diffed entity paired with its base and current values for one measure. */
 export type ActiveDiffEntity<Entity> = {
@@ -480,7 +533,7 @@ export const selectDiffEntities = <
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
       (baseValue > 0 || currentValue > 0) &&
-      showDiffEntity(entity, sides, options),
+      showDiffEntity(entity, sides, options.showEntry),
   )
   const increased = active.filter(
     ({ baseValue, currentValue }) => currentValue > baseValue,

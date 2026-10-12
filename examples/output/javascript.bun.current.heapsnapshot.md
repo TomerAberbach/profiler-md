@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 1.49 MiB across 16,748 nodes and 44,856 edges.
+Held 1.49 MiB over 16,748 nodes and 44,856 edges.
 
 | Category           |     % |     Size | Nodes |
 | ------------------ | ----: | -------: | ----: |
@@ -17,11 +17,13 @@ Allocated 1.49 MiB across 16,748 nodes and 44,856 edges.
 | Big number         | <0.1% |     32 B |     1 |
 | Synthetic          |  0.0% |      0 B |     1 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                         |
 | ----: | -------: | --------: | ----------------------------------- |
@@ -47,6 +49,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |     64 B |         2 | `Promise (fulfilled)`               |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Object
 
@@ -79,9 +83,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | ---: | -------: | --------: | -------------- |
 | 1.8% | 27.5 KiB |         4 | `ModuleRecord` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Object`
 
@@ -240,7 +244,7 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 |     % |     Size | Instances | Constructor                        |
 | ----: | -------: | --------: | ---------------------------------- |
@@ -266,6 +270,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.1% | 1.89 KiB |         2 | `FileInternalReadableStreamSource` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Object
 
@@ -298,9 +304,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 | ---: | ---: | --------: | -------------- |
 | 0.0% |  0 B |         4 | `ModuleRecord` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `GlobalObject`
 
@@ -457,7 +463,7 @@ Instances ranked by contribution to each constructor's retained size. `B ←(sev
 
 ## Largest functions
 
-Functions ranked by bytes that would be freed if the function were garbage collected.
+Functions with the most instance bytes, including nodes only the instances keep alive.
 
 |    % | Retained | Instances | Paths | Name                 | Example path                                                                                           |
 | ---: | -------: | --------: | ----: | -------------------- | ------------------------------------------------------------------------------------------------------ |
@@ -482,9 +488,9 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 | 0.2% | 2.33 KiB |        20 |    20 | `call`               | `call ← (GC root)`                                                                                     |
 | 0.1% | 2.29 KiB |         1 |     1 | `newRegistryEntry`   | `newRegistryEntry ← GlobalObject`                                                                      |
 
-### Retained
+### Retained nodes
 
-Nodes ranked by contribution to each function's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retained nodes with the largest contribution to each function's retained size.
 
 #### `Function`
 
@@ -685,9 +691,11 @@ Nodes ranked by contribution to each function's retained size. `B ←(several pa
 
 ## Largest strings
 
-Strings ranked by bytes allocated for them.
+Strings with the most bytes.
 
 ### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 #### String
 

@@ -11,7 +11,7 @@ Allocated 37 GiB over 75,411 samples (514 KiB per sample).
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Samples | Function                                     | Location                                                   |
 | ----: | -------: | ------: | -------------------------------------------- | ---------------------------------------------------------- |
@@ -37,6 +37,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% | 13.9 MiB |      22 | `copyOf(Object[], int, Class)`               | `java.util.Arrays`                                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -87,7 +89,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -307,7 +309,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -541,7 +543,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |     Size | Samples | Function                                             | Location                                                               |
 | ----: | -------: | ------: | ---------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -567,6 +569,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 75.0% | 27.7 GiB |  56,454 | `apply(Object, Object)`                              | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000005011a7248` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -620,7 +624,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
 
@@ -880,7 +884,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
@@ -920,7 +924,7 @@ Retained 30.5 MiB over 825 objects (37.9 KiB per object).
 
 ### Self size
 
-Functions ranked by bytes retained directly in the function body, excluding callees.
+Functions with the most bytes retained within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                                                                        | Location                                                   |
 | ----: | -------: | ------: | ------------------------------------------------------------------------------- | ---------------------------------------------------------- |
@@ -946,6 +950,8 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 #### Categories
 
+Categories accounting for at least 1.0% of self size.
+
 ##### Standard library
 
 |     % |     Size | Objects | Function                                                                        | Location                                 |
@@ -963,7 +969,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -1075,7 +1081,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -1196,7 +1202,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes retained in the function and all its callees.
+Functions with the most bytes retained within the function and its callees.
 
 |     % |     Size | Objects | Function                                             | Location                                                               |
 | ----: | -------: | ------: | ---------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -1222,6 +1228,8 @@ Functions ranked by total bytes retained in the function and all its callees.
 | 61.0% | 18.6 MiB |     153 | `invoke()`                                           | `java.util.concurrent.ForkJoinTask`                                    |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -1250,7 +1258,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
@@ -1431,7 +1439,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes retained in their leaf frame.
+Call stacks with the most bytes retained in their leaf frame.
 
 |     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 1.46 MiB across 16,676 nodes and 45,239 edges.
+Held 1.46 MiB over 16,676 nodes and 45,239 edges.
 
 | Category           |     % |     Size | Nodes |
 | ------------------ | ----: | -------: | ----: |
@@ -15,11 +15,13 @@ Allocated 1.46 MiB across 16,676 nodes and 45,239 edges.
 | Regular expression | <0.1% |    352 B |     4 |
 | Native             | <0.1% |     59 B |     2 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
@@ -45,6 +47,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  0.2% | 2.29 KiB |        70 | `AsyncFunction`              |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Code
 
@@ -129,9 +133,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  0.1% | 1.06 KiB |        34 | `SparseArrayValueMap` |
 | <0.1% |     18 B |         1 | `Array Iterator`      |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `FunctionCodeBlock`
 
@@ -563,7 +567,7 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
@@ -589,6 +593,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  1.1% | 15.8 KiB |       147 | `GetterSetter`               |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Code
 
@@ -673,9 +679,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.1% | 1.03 KiB |        34 | `SparseArrayValueMap` |
 | <0.1% |    464 B |         1 | `Array Iterator`      |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `GlobalObject`
 
@@ -1106,9 +1112,11 @@ Instances ranked by contribution to each constructor's retained size. `B ←(sev
 
 ## Largest strings
 
-Strings ranked by bytes allocated for them.
+Strings with the most bytes.
 
 ### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 #### String
 

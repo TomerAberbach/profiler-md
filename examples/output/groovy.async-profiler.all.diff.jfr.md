@@ -17,7 +17,7 @@ Collected 6,401 samples → 5,155 samples (-1,246 samples, -19.5%).
 
 #### Regressions
 
-Functions with the largest increase in samples taken directly in the function body, excluding callees.
+Functions with the largest increase in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |            % |   Samples | Function                                        | Location                                            |
 | ------: | ----: | -----------: | --------: | ----------------------------------------------- | --------------------------------------------------- |
@@ -152,7 +152,7 @@ Functions with the largest increase in samples taken directly in the function bo
 
 #### Improvements
 
-Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+Functions with the largest decrease in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |           % |  Samples | Function                                                                                                                     | Location                   |
 | ------: | ----: | ----------: | -------: | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
@@ -1911,7 +1911,7 @@ Callers with the largest change in contribution to each function's self samples.
 
 #### Regressions
 
-Functions with the largest increase in total samples taken in the function and all its callees.
+Functions with the largest increase in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 ##### Compiler
 
@@ -2024,7 +2024,7 @@ Functions with the largest increase in total samples taken in the function and a
 
 #### Improvements
 
-Functions with the largest decrease in total samples taken in the function and all its callees.
+Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change |  Delta |             % |       Samples | Function                                         | Location                                            |
 | ------: | -----: | ------------: | ------------: | ------------------------------------------------ | --------------------------------------------------- |
@@ -2160,7 +2160,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f00109bc00`)
 
@@ -3519,7 +3519,7 @@ Allocated 11.8 GiB → 11.9 GiB (+156.284 MiB, +1.3%) over 24,098 samples →
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
+Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Standard library
 
@@ -3548,7 +3548,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
+Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Standard library
 
@@ -4078,7 +4078,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes allocated in the function and all its callees.
+Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Standard library
 
@@ -4107,7 +4107,7 @@ Functions with the largest increase in total bytes allocated in the function and
 
 #### Improvements
 
-Functions with the largest decrease in total bytes allocated in the function and all its callees.
+Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Standard library
 
@@ -4136,7 +4136,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f0010c6400`)
 
@@ -4467,7 +4467,7 @@ Blocked 3.1ms (+0.03ms, +1.0%) over 46 contentions → 43 contentions (67.3µs �
 
 #### Regressions
 
-Functions with the largest increase in time blocked directly in the function body, excluding callees.
+Functions with the largest increase in time blocked within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 ##### Standard library
 
@@ -4477,7 +4477,7 @@ Functions with the largest increase in time blocked directly in the function bod
 
 #### Improvements
 
-Functions with the largest decrease in time blocked directly in the function body, excluding callees.
+Functions with the largest decrease in time blocked within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 ##### Standard library
 
@@ -4521,7 +4521,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 #### Regressions
 
-Functions with the largest increase in total time blocked in the function and all its callees.
+Functions with the largest increase in time blocked within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 ##### Standard library
 
@@ -4550,7 +4550,7 @@ Functions with the largest increase in total time blocked in the function and al
 
 #### Improvements
 
-Functions with the largest decrease in total time blocked in the function and all its callees.
+Functions with the largest decrease in time blocked within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |  Change |   Delta |             % |           Time | Contentions | Function                                            | Location                                            |
 | ------: | ------: | ------------: | -------------: | ----------: | --------------------------------------------------- | --------------------------------------------------- |
@@ -4602,7 +4602,7 @@ Functions with the largest decrease in total time blocked in the function and al
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f0010d3400`)
 

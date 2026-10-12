@@ -15,7 +15,7 @@ Paths starting with `./` or `../` are relative to `/src/zstd/`.
 
 #### Regressions
 
-Functions with the largest increase in instructions recorded directly in the function body, excluding callees.
+Functions with the largest increase in instructions recorded within the function body, excluding callees. Categories account for at least 1.0% of self instructions on the base or the current side.
 
 |   Change |      Delta |             % |            Instructions | Function                         | Location                                  |
 | -------: | ---------: | ------------: | ----------------------: | -------------------------------- | ----------------------------------------- |
@@ -67,7 +67,7 @@ Functions with the largest increase in instructions recorded directly in the fun
 
 #### Improvements
 
-Functions with the largest decrease in instructions recorded directly in the function body, excluding callees.
+Functions with the largest decrease in instructions recorded within the function body, excluding callees. Categories account for at least 1.0% of self instructions on the base or the current side.
 
 |  Change |    Delta |             % |            Instructions | Function                                          | Location                                           |
 | ------: | -------: | ------------: | ----------------------: | ------------------------------------------------- | -------------------------------------------------- |
@@ -474,7 +474,7 @@ Lines with the largest change in contribution to each function's self instructio
 
 #### Regressions
 
-Functions with the largest increase in total instructions recorded in the function and all its callees.
+Functions with the largest increase in instructions recorded within the function and its callees, excluding recursive calls. Categories account for at least 1.0% of self instructions on the base or the current side.
 
 ##### Ours
 
@@ -503,7 +503,7 @@ Functions with the largest increase in total instructions recorded in the functi
 
 #### Improvements
 
-Functions with the largest decrease in total instructions recorded in the function and all its callees.
+Functions with the largest decrease in instructions recorded within the function and its callees, excluding recursive calls. Categories account for at least 1.0% of self instructions on the base or the current side.
 
 ##### Ours
 
@@ -532,7 +532,7 @@ Functions with the largest decrease in total instructions recorded in the functi
 
 #### Callers
 
-Callers with the largest change in the instructions recorded in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callers with the largest change in contribution to each function's total instructions. Inlining can make caller attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `ZSTD_compress_frameChunk` (`./lib/compress/zstd_compress.c`)
 
@@ -801,7 +801,7 @@ Callers with the largest change in the instructions recorded in each function an
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total instructions. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callees with the largest change in contribution to each function's total instructions. Inlining can make callee attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `ZSTD_compress_frameChunk` (`./lib/compress/zstd_compress.c`)
 

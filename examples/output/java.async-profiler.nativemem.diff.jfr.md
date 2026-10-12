@@ -12,7 +12,7 @@ Allocated 257 MiB → 259 MiB (+2.185 MiB, +0.9%) over 85,604 samples → 88,
 
 #### Regressions
 
-Functions with the largest increase in native bytes allocated directly in the function body, excluding callees.
+Functions with the largest increase in native bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Native
 
@@ -45,7 +45,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total native bytes allocated in the function and all its callees.
+Functions with the largest increase in native bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |      Change |      Delta |             % |                Size |         Samples | Function                                                                                                               | Location                                                                                      |
 | ----------: | ---------: | ------------: | ------------------: | --------------: | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
@@ -97,7 +97,7 @@ Functions with the largest increase in total native bytes allocated in the funct
 
 #### Improvements
 
-Functions with the largest decrease in total native bytes allocated in the function and all its callees.
+Functions with the largest decrease in native bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |            % |                Size |       Samples | Function                                                                                                               | Location                                    |
 | ------: | -----------: | -----------: | ------------------: | ------------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
@@ -149,7 +149,7 @@ Functions with the largest decrease in total native bytes allocated in the funct
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 

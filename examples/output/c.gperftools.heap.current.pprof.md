@@ -11,7 +11,7 @@ Allocated 148 MiB over 81 objects (1.83 MiB per object).
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                      | Location                                           |
 | ----: | -------: | ------: | ----------------------------- | -------------------------------------------------- |
@@ -37,6 +37,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |     40 B |       1 | `FIO_createContext`           | `<unknown>`                                        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -70,7 +72,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `ZSTDMT_initCStream_internal` (`<unknown>`)
 
@@ -198,7 +200,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |     Size | Objects | Function                               | Location                               |
 | ----: | -------: | ------: | -------------------------------------- | -------------------------------------- |
@@ -224,6 +226,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 33.3% | 49.2 MiB |       1 | `0xffffaba2e377`                       | `<unknown>`                            |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -273,7 +277,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `main` (`<unknown>`)
 
@@ -484,7 +488,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 |     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -521,9 +525,11 @@ Retained 1.19 KiB over 4 objects (304 B per object).
 
 ### Self size
 
-Functions ranked by bytes retained directly in the function body, excluding callees.
+Functions with the most bytes retained within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -533,7 +539,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
 
@@ -543,7 +549,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes retained in the function and all its callees.
+Functions with the most bytes retained within the function and its callees.
 
 |      % |     Size | Objects | Function                         | Location                                           |
 | -----: | -------: | ------: | -------------------------------- | -------------------------------------------------- |
@@ -569,6 +575,8 @@ Functions ranked by total bytes retained in the function and all its callees.
 |  25.0% |    304 B |       1 | `0xfffffd78e19f`                 | `<unknown>`                                        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -596,7 +604,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0xff2f` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
 
@@ -734,7 +742,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes retained in their leaf frame.
+Call stacks with the most bytes retained in their leaf frame.
 
 |     % |  Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

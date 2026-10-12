@@ -15,22 +15,22 @@ export const SAMPLES: CountMetric = {
     titleNoun: `sampling`,
     columnNoun: `samples`,
     pastTenseVerb: `collected`,
-    pastParticipleVerbPhrase: `samples taken`,
+    pastParticipleVerbPhrase: `samples collected`,
   },
 }
 
 /** A count of occurrences the emitter leaves unnamed, speedscope's `none`. */
 const OCCURRENCES_METRIC: CountMetric = {
   type: `count`,
-  proseUnit: `time`,
+  proseUnit: `occurrence`,
   // An emitter stating its values have no unit states nothing about what they
   // measure, so a diff ranks neither direction of change as better or worse.
   improvement: `unknown`,
   phrases: {
     titleNoun: `count`,
-    columnNoun: `counts`,
+    columnNoun: `occurrences`,
     pastTenseVerb: `recorded`,
-    pastParticipleVerbPhrase: `count recorded`,
+    pastParticipleVerbPhrase: `occurrences recorded`,
   },
 }
 

@@ -10,9 +10,11 @@ Blocked 1.6ms over 11 contentions (146.9µs per contention).
 
 ### Self time
 
-Functions ranked by time blocked directly in the function body, excluding callees.
+Functions with the most time blocked within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -27,7 +29,7 @@ Functions ranked by time blocked directly in the function body, excluding callee
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
 
@@ -62,7 +64,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
 
@@ -102,7 +104,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time blocked in the function and all its callees.
+Functions with the most time blocked within the function and its callees.
 
 |     % |  Time | Contentions | Function                                             | Location                                                   |
 | ----: | ----: | ----------: | ---------------------------------------------------- | ---------------------------------------------------------- |
@@ -128,6 +130,8 @@ Functions ranked by total time blocked in the function and all its callees.
 | 35.1% | 0.6ms |           7 | `runWith(Object, Runnable)`                          | `java.lang.Thread`                                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -156,7 +160,7 @@ Functions ranked by total time blocked in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `loadClass(String)` (`java.lang.ClassLoader`)
 
@@ -323,7 +327,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time blocked in their leaf frame.
+Call stacks with the most time blocked in their leaf frame.
 
 |     % |   Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ----: | -----: | ----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

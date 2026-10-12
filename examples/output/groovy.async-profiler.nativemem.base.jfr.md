@@ -10,9 +10,11 @@ Allocated 1.06 GiB over 169,813 samples (6.56 KiB per sample).
 
 ### Self size
 
-Functions ranked by native bytes allocated directly in the function body, excluding callees.
+Functions with the most native bytes allocated within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -24,7 +26,7 @@ Functions ranked by native bytes allocated directly in the function body, exclud
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `malloc_hook` (`libasyncProfiler.dylib`)
 
@@ -52,7 +54,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total native bytes allocated in the function and all its callees.
+Functions with the most native bytes allocated within the function and its callees.
 
 |      % |     Size | Samples | Function                                   | Location                  |
 | -----: | -------: | ------: | ------------------------------------------ | ------------------------- |
@@ -78,6 +80,8 @@ Functions ranked by total native bytes allocated in the function and all its cal
 |  30.0% |  327 MiB |   3,112 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib`            |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -106,7 +110,7 @@ Functions ranked by total native bytes allocated in the function and all its cal
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `os::malloc` (`libjvm.dylib`)
 
@@ -347,7 +351,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by native bytes allocated in their leaf frame.
+Call stacks with the most native bytes allocated in their leaf frame.
 
 Common call stack: `Compile::Compile` (`libjvm.dylib`) ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`
 

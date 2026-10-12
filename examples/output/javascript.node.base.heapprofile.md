@@ -13,7 +13,7 @@ Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Samples | Function                                 | Location                                                |
 | ----: | -------: | ------: | ---------------------------------------- | ------------------------------------------------------- |
@@ -39,6 +39,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 |  2.3% |  512 KiB |       1 | `toPath3`                                | `./node_modules/typescript/lib/typescript.js:122790:19` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -76,7 +78,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `readFileSync` (`node:fs:433:22`)
 
@@ -224,7 +226,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |      % |     Size | Samples | Function                                   | Location                                                |
 | -----: | -------: | ------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -250,6 +252,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  20.7% | 4.51 MiB |       9 | `getAndCacheDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:123670:34` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -299,7 +303,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `typeCheckProject` (`./tsc-workload.mjs:3:33`)
 
@@ -531,7 +535,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs:3:33`) ← `(anonymous)` (`./tsc-run.mjs:1:1`) ← `next` ← `run` (`node:internal/modules/esm/module_job:332:12`) ← `(anonymous)`
 

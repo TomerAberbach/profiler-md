@@ -15,7 +15,7 @@ Collected 3,332 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |     % | Samples | Function                                                                                                                                                 | Location                         |
 | ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
@@ -41,6 +41,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.4% |      14 | `PhaseIdealLoop::build_loop_late_post_work`                                                                                                              | `libjvm.dylib`                   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
@@ -164,7 +166,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Lines
 
-Lines ranked by contribution to each function's self samples.
+Lines with the largest contribution to each function's self samples.
 
 ##### `sanitizeStackTrace(Throwable)` (`kotlin.jvm.internal.Intrinsics`)
 
@@ -424,7 +426,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
 
@@ -1084,7 +1086,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |     % | Samples | Function                                         | Location                                                |
 | ----: | ------: | ------------------------------------------------ | ------------------------------------------------------- |
@@ -1110,6 +1112,8 @@ Functions ranked by total samples taken in the function and all its callees.
 | 30.3% |   1,008 | `doMain(CLICompiler, String[])`                  | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
@@ -1233,7 +1237,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_pthread_start` (`libsystem_pthread.dylib`)
 
@@ -1854,7 +1858,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1892,7 +1896,7 @@ Allocated 667 MiB over 1,329 samples (514 KiB per sample).
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Samples | Function                                                    | Location                                                |
 | ----: | -------: | ------: | ----------------------------------------------------------- | ------------------------------------------------------- |
@@ -1918,6 +1922,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 |  0.4% |    3 MiB |       6 | `enlarge(int)`                                              | `jdk.internal.org.objectweb.asm.ByteVector`             |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -1971,7 +1977,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
 
@@ -2216,7 +2222,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
 
@@ -2498,7 +2504,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |    Size | Samples | Function                                                                                           | Location                                                |
 | ----: | ------: | ------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -2524,6 +2530,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 47.1% | 314 MiB |     628 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)`                             | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -2577,7 +2585,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -2835,7 +2843,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`
 

@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 13.4 MiB → 13.6 MiB (+261.26 KiB, +1.9%) across 700,233 → 704,337 nodes and 852,434 → 851,769 edges.
+Held 13.4 MiB → 13.6 MiB (+261.26 KiB, +1.9%) over 700,233 → 704,337 nodes and 852,434 → 851,769 edges.
 
 | Category           | Change |       Delta |             % |                Size |             Nodes |
 | ------------------ | -----: | ----------: | ------------: | ------------------: | ----------------: |
@@ -13,15 +13,15 @@ Allocated 13.4 MiB → 13.6 MiB (+261.26 KiB, +1.9%) across 700,233 → 704,3
 | Regular expression |   0.0% |         0 B |         <0.1% |               333 B |                 3 |
 | Synthetic          |      — |         0 B |          0.0% |                 0 B |                 1 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
-
 #### Regressions
 
-Constructors with the largest increase in self size.
+Constructors with the largest increase in instance bytes, excluding referenced nodes. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |                Size |       Instances | Constructor                                                |
 | ------: | -----------: | ------------: | ------------------: | --------------: | ---------------------------------------------------------- |
@@ -104,7 +104,7 @@ Constructors with the largest increase in self size.
 
 #### Improvements
 
-Constructors with the largest decrease in self size.
+Constructors with the largest decrease in instance bytes, excluding referenced nodes. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |             % |                Size |     Instances | Constructor                                               |
 | ------: | ----------: | ------------: | ------------------: | ------------: | --------------------------------------------------------- |
@@ -139,9 +139,9 @@ Constructors with the largest decrease in self size.
 |   -3.3% |  -33 B |        <0.1% |       990 B → 957 B |   30 → 29 | `java.lang.Thread$FieldHolder`                            |
 |  -16.7% |   -8 B |        <0.1% |         48 B → 40 B |     1 → 5 | `org.renaissance.harness.RenaissanceSuite$$$Lambda`       |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's self size.
 
 ##### `int[]`
 
@@ -537,11 +537,9 @@ Instances with the largest change in contribution to each constructor's self siz
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
-
 #### Regressions
 
-Constructors with the largest increase in retained size.
+Constructors with the largest increase in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |        Delta |             % |                Size |       Instances | Constructor                                                |
 | -----: | -----------: | ------------: | ------------------: | --------------: | ---------------------------------------------------------- |
@@ -628,7 +626,7 @@ Constructors with the largest increase in retained size.
 
 #### Improvements
 
-Constructors with the largest decrease in retained size.
+Constructors with the largest decrease in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |     Delta |            % |                Size | Instances | Constructor                                               |
 | ------: | --------: | -----------: | ------------------: | --------: | --------------------------------------------------------- |
@@ -671,9 +669,9 @@ Constructors with the largest decrease in retained size.
 |   -0.1% |      -5 B |        <0.1% | 3.59 KiB → 3.58 KiB |        22 | `java.net.URL`                                            |
 |   -0.2% |      -5 B |        <0.1% | 3.02 KiB → 3.01 KiB |        10 | `jdk.internal.loader.URLClassPath$JarLoader`              |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's retained size.
 
 ##### `java.util.HashMap`
 

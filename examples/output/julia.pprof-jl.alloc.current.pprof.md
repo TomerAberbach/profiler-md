@@ -12,9 +12,11 @@ Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-projec
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -24,7 +26,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `maybe_record_alloc_to_profile` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43`)
 
@@ -36,7 +38,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |      % |    Size | Allocations | Function                        | Location                                                                                                                                                                                                                                              |
 | -----: | ------: | ----------: | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -62,6 +64,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 100.0% | 106 KiB |       3,569 | `eval(::Module, ::Any)`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`                                                                                                                                                           |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -90,7 +94,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38`)
 
@@ -258,7 +262,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38`) ← `write` (37) ← `write` (37) ← `parse_workload` (`./profile.jl:18`) ← `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82`) ← `capture_alloc` (`./profile.jl:61`) ← `main` (90) ← `main` (90) ← `jl_apply` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318`) ← `do_call` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123`) ← `eval_stmt_value` (194) ← `eval_body` (675) ← `jl_interpret_toplevel_thunk` (884) ← `[unknown function]` ← `[unknown function]` ← `[unknown function]` ← `jl_system_image_data` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib`) ← `jl_toplevel_eval_flex` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:742`) ← `jl_eval_toplevel_stmts` (585) ← `jl_toplevel_eval_flex` (683) ← `ijl_toplevel_eval` (754) ← `ijl_toplevel_eval_in` (799) ← `eval(::Module, ::Any)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`) ← `include_string(::typeof(identity), ::Module, ::String, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989`) ← `_include(::Function, ::Module, ::String)` (3083) ← `include(::Module, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309`) ← `exec_options(::Base.JLOptions)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234`) ← `_start()` (570) ← `_start()` (570) ← `jl_apply` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318`) ← `true_main` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:985`) ← `jl_repl_entrypoint` (1152)
 

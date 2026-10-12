@@ -15,7 +15,7 @@ Took 24.50s → 34s (+9.500s, +38.8%) over 245 samples → 340 samples (100.0ms 
 
 #### Regressions
 
-Functions with the largest increase in time spent directly in the function body, excluding callees.
+Functions with the largest increase in time spent within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |  Change |     Delta |           % |              Time | Samples | Function                                                                 | Location                                                                                         |
 | ------: | --------: | ----------: | ----------------: | ------: | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
@@ -106,7 +106,7 @@ Functions with the largest increase in time spent directly in the function body,
 
 #### Improvements
 
-Functions with the largest decrease in time spent directly in the function body, excluding callees.
+Functions with the largest decrease in time spent within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |  Change |     Delta |           % |              Time | Samples | Function                                                          | Location                                                                                         |
 | ------: | --------: | ----------: | ----------------: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -737,7 +737,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 #### Regressions
 
-Functions with the largest increase in total time spent in the function and all its callees.
+Functions with the largest increase in time spent within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 | Change |   Delta |             % |            Time |   Samples | Function                                | Location                                                                                         |
 | -----: | ------: | ------------: | --------------: | --------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -845,7 +845,7 @@ Functions with the largest increase in total time spent in the function and all 
 
 #### Improvements
 
-Functions with the largest decrease in total time spent in the function and all its callees.
+Functions with the largest decrease in time spent within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |  Change |     Delta |             % |              Time | Samples | Function                                                          | Location                                                                                         |
 | ------: | --------: | ------------: | ----------------: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -937,7 +937,7 @@ Functions with the largest decrease in total time spent in the function and all 
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0x7fb1e8c1d24a` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
 

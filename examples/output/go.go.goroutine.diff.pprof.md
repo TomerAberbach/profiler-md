@@ -12,8 +12,8 @@ Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/c
 
 ### Self goroutines
 
-No function differed in goroutines recorded directly in the function body, excluding callees.
+No function differed in goroutines recorded within the function body, excluding callees.
 
 ### Total goroutines
 
-No function differed in total goroutines recorded in the function and all its callees.
+No function differed in goroutines recorded within the function and its callees.

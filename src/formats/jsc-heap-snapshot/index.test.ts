@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   largestStringsTables,
-  selfSizeInstancesTables,
+  selfSizeRetainerPathTables,
   selfSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
@@ -136,7 +136,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeInstancesTables(md, `Object`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `Object`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -324,7 +324,7 @@ describe(`convert`, () => {
     )
 
     expect(
-      selfSizeInstancesTables(md, `Object`).map(table =>
+      selfSizeRetainerPathTables(md, `Object`).map(table =>
         table.map(row => row.Path),
       ),
     ).toEqual([

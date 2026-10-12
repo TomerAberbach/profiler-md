@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 3.15 MiB → 3.03 MiB (-122.748 KiB, -3.8%) across 67,919 → 67,887 nodes and 265,376 → 264,933 edges.
+Held 3.15 MiB → 3.03 MiB (-122.748 KiB, -3.8%) over 67,919 → 67,887 nodes and 265,376 → 264,933 edges.
 
 | Category            | Change |        Delta |             % |                Size |           Nodes |
 | ------------------- | -----: | -----------: | ------------: | ------------------: | --------------: |
@@ -20,15 +20,15 @@ Allocated 3.15 MiB → 3.03 MiB (-122.748 KiB, -3.8%) across 67,919 → 67,88
 
 Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
-
 #### Regressions
 
-Constructors with the largest increase in self size.
+Constructors with the largest increase in instance bytes, excluding referenced nodes. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |  Delta |             % |       Size | Instances | Constructor                   | Location                                    |
 | -----: | -----: | ------------: | ---------: | --------: | ----------------------------- | ------------------------------------------- |
@@ -49,7 +49,7 @@ Constructors with the largest increase in self size.
 
 #### Improvements
 
-Constructors with the largest decrease in self size.
+Constructors with the largest decrease in instance bytes, excluding referenced nodes. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |            % |                Size |     Instances | Constructor                  | Location                                    |
 | ------: | -----------: | -----------: | ------------------: | ------------: | ---------------------------- | ------------------------------------------- |
@@ -81,9 +81,9 @@ Constructors with the largest decrease in self size.
 | removed | -60 B | <0.1% → 0.0% | 60 B → 0 B |         1 → 0 | `Float32Array` | `<unknown>` |
 |     ~0% | -16 B |  1.8% → 1.9% |     58 KiB | 3,706 → 3,705 | `Array`        | `<unknown>` |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's self size.
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -154,11 +154,9 @@ Instances with the largest change in contribution to each constructor's self siz
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
-
 #### Regressions
 
-Constructors with the largest increase in retained size.
+Constructors with the largest increase in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |             % |                Size |     Instances | Constructor                       | Location                                    |
 | ------: | ----------: | ------------: | ------------------: | ------------: | --------------------------------- | ------------------------------------------- |
@@ -198,7 +196,7 @@ Constructors with the largest increase in retained size.
 
 #### Improvements
 
-Constructors with the largest decrease in retained size.
+Constructors with the largest decrease in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |               Size | Instances | Constructor                  | Location                                    |
 | ------: | -----------: | ------------: | -----------------: | --------: | ---------------------------- | ------------------------------------------- |
@@ -228,9 +226,9 @@ Constructors with the largest decrease in retained size.
 | ------: | ----------: | ----------: | ------------: | --------: | -------------- | ----------- |
 | removed | -102.73 KiB | 3.2% → 0.0% | 103 KiB → 0 B |     1 → 0 | `Float32Array` | `<unknown>` |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's retained size.
 
 ##### `Window / http://127.0.0.1:52789` (`<unknown>`)
 
@@ -347,11 +345,9 @@ Instances with the largest change in contribution to each constructor's retained
 
 ## Largest functions
 
-Functions ranked by bytes that would be freed if the function were garbage collected.
-
 ### Regressions
 
-Functions with the largest increase in retained size.
+Functions with the largest increase in instance bytes, including nodes only the instances keep alive.
 
 |   Change |       Delta |            % |         Retained | Instances | Paths | Name | Location                                               | Example path                                                                  |
 | -------: | ----------: | -----------: | ---------------: | --------: | ----: | ---- | ------------------------------------------------------ | ----------------------------------------------------------------------------- |
@@ -378,7 +374,7 @@ Functions with the largest increase in retained size.
 
 ### Improvements
 
-Functions with the largest decrease in retained size.
+Functions with the largest decrease in instance bytes, including nodes only the instances keep alive.
 
 |  Change |       Delta |            % |            Retained | Instances |     Paths | Name          | Location                                               | Example path                                                                                                                                                   |
 | ------: | ----------: | -----------: | ------------------: | --------: | --------: | ------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -403,9 +399,9 @@ Functions with the largest decrease in retained size.
 |  -80.9% |      -492 B |        <0.1% |       608 B → 116 B |         1 |         1 | `Nm`          | `./node_modules/d3/dist/d3.min.js:2:192654 → 2:192650` | `Nm ←.Nm– system / Context ←(several paths)– Window / http://127.0.0.1:52789`                                                                                  |
 |   -3.1% |      -424 B |         0.4% |   13.4 KiB → 13 KiB |   40 → 39 |   18 → 17 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037 → 2:159016` | `i ←(several paths)– Window / http://127.0.0.1:52789`                                                                                                          |
 
-### Retained
+### Retained nodes
 
-Nodes with the largest change in contribution to each function's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths. `[]` stands for any element of an array.
+Retained nodes with the largest change in contribution to each function's retained size.
 
 #### `iu` (`./node_modules/d3/dist/d3.min.js:2:76774`)
 
@@ -809,11 +805,9 @@ Nodes with the largest change in contribution to each function's retained size. 
 
 ## Largest strings
 
-Strings ranked by bytes allocated for them.
-
 ### Regressions
 
-Strings with the largest increase in size.
+Strings with the largest increase in bytes. Categories account for at least 1.0% of self size on the base or the current side.
 
 #### String
 
@@ -842,7 +836,7 @@ Strings with the largest increase in size.
 
 ### Improvements
 
-Strings with the largest decrease in size.
+Strings with the largest decrease in bytes. Categories account for at least 1.0% of self size on the base or the current side.
 
 #### String
 

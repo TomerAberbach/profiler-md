@@ -7,6 +7,7 @@ import {
   categorySectionTables,
   categoryTables,
   diffRankingTable,
+  expectLogs,
   profileTitles,
   rankingTable,
   rankingTables,
@@ -36,7 +37,7 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
  * The note explaining the ellipsis, shown only when a displayed call stack
  * contains a hidden frame.
  */
-const ELLIPSIS_NOTE = `\`…\` stands for frames the entry filter hides.`
+const ELLIPSIS_NOTE = `\`…\` stands for hidden frames.`
 
 /**
  * A diff in {@link metric} of one function whose value doubled and one whose
@@ -426,9 +427,9 @@ describe(`formatCallStackProfile`, () => {
     expect(md).not.toContain(ELLIPSIS_NOTE)
   })
 
-  test(`shows all functions when the entry filter would hide every one`, () => {
+  test(`shows all functions with a warning when showEntry would hide every one`, () => {
     // A filter matching no sampled function would empty the body, so it is
-    // disabled with a note instead.
+    // ignored with a warning instead.
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],
       [
@@ -443,9 +444,9 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
-    expect(md).toContain(
-      `The entry filter hides every recorded function, so all functions are shown.`,
-    )
+    expectLogs([
+      `warn: entry filter ignored because it hides every function, so all functions are shown`,
+    ])
     expect(callStackTables(md)).toEqual([
       [
         {
@@ -456,6 +457,36 @@ describe(`formatCallStackProfile`, () => {
         },
       ],
     ])
+  })
+
+  test(`logs info when the default filter would hide every synthetic function`, () => {
+    const profile = makeAggregatedCallStackProfile(
+      [MICROSECONDS_METRIC],
+      [{ name: `(root)`, selfCount: 5, selfValues: [300] }],
+    )
+
+    formatCallStackProfile(profile, defaultOptions)
+
+    expectLogs([
+      `info: default entry filter ignored because it hides every function, so all functions are shown`,
+    ])
+  })
+
+  test(`logs nothing when showEntry hides every function of a metric with no recorded values`, () => {
+    const profile = makeAggregatedCallStackProfile(
+      [RETAINED_HEAP_METRIC],
+      [{ name: `funcA`, selfCount: 5, selfValues: [0] }],
+    )
+
+    formatCallStackProfile(
+      profile,
+      resolveProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: () => false,
+      }),
+    )
+
+    expectLogs([])
   })
 
   test(`notes a metric with no recorded values in place of its sections`, () => {
@@ -1096,7 +1127,7 @@ describe(`formatCallStackProfileDiff`, () => {
     expect(rankingTables(md, `Self weight`, `Regressions`)).toEqual([])
     expect(rankingTables(md, `Self weight`, `Improvements`)).toEqual([])
     expect(md).toContain(
-      `Functions with the largest increase in weight recorded directly in the function body, excluding callees.`,
+      `Functions with the largest increase in weight recorded within the function body, excluding callees.`,
     )
     expect(md.indexOf(`#### Increases`)).toBeLessThan(
       md.indexOf(`#### Decreases`),
@@ -1139,7 +1170,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     ])
     expect(md).toContain(
-      `Functions with the largest decrease in request recorded directly in the function body, excluding callees.`,
+      `Functions with the largest decrease in request recorded within the function body, excluding callees.`,
     )
     expect(md.indexOf(`#### Regressions`)).toBeLessThan(
       md.indexOf(`#### Improvements`),
@@ -1255,10 +1286,10 @@ describe(`formatCallStackProfileDiff`, () => {
     expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([])
     expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([])
     expect(md).toContain(
-      `No function differed in time spent directly in the function body, excluding callees.`,
+      `No function differed in time spent within the function body, excluding callees.`,
     )
     expect(md).toContain(
-      `No function differed in total time spent in the function and all its callees.`,
+      `No function differed in time spent within the function and its callees.`,
     )
 
     expect(categoryTables(md)).toEqual([
@@ -1405,11 +1436,39 @@ describe(`formatCallStackProfileDiff`, () => {
     expect(md).toMatch(/^## Heap$/mu)
     expect(rankingTables(md, `Self time`, `Regressions`)).not.toEqual([])
     expect(md).toContain(
-      `No function differed in bytes allocated directly in the function body, excluding callees.`,
+      `No function differed in bytes allocated within the function body, excluding callees.`,
     )
     expect(md).toContain(
-      `No function differed in total bytes allocated in the function and all its callees.`,
+      `No function differed in bytes allocated within the function and its callees.`,
     )
+  })
+
+  test(`warns once when showEntry would hide every function in a multi-metric diff`, () => {
+    const makeSide = (cpu: number) =>
+      makeAggregatedCallStackProfile(
+        [MICROSECONDS_METRIC, MEGABYTES_METRIC],
+        [{ name: `funcA`, selfCount: 5, selfValues: [cpu, 100] }],
+      )
+    const diff = diffAggregatedCallStackProfiles(
+      makeSide(100),
+      makeSide(200),
+      defaultOptions,
+    )
+
+    const md = mdastToMarkdown(
+      formatCallStackProfileDiff(
+        diff,
+        resolveProfileToMdOptions({
+          baseURL: `/project`,
+          showEntry: () => false,
+        }),
+      ),
+    )
+
+    expectLogs([
+      `warn: entry filter ignored because it hides every function, so all functions are shown`,
+    ])
+    expect(rankingTables(md, `Self time`, `Regressions`)).not.toEqual([])
   })
 
   test(`notes a metric with no recorded values on either side in place of its sections`, () => {

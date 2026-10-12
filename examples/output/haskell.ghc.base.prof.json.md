@@ -12,7 +12,7 @@ Took 3.63s over 3,630 samples (1.0ms per sample).
 
 ### Self time
 
-Functions ranked by wall time spent directly in the function body, excluding callees.
+Functions with the most wall time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -38,6 +38,8 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 |  0.2% |   6.0ms |       6 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -72,7 +74,7 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
 
@@ -217,7 +219,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total wall time spent in the function and all its callees.
+Functions with the most wall time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                          | Location                                          |
 | -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -243,6 +245,8 @@ Functions ranked by total wall time spent in the function and all its callees.
 |   0.7% |  25.0ms |      25 | `Main.toEncoding`                                 | `Profile.hs:83:10`                                |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -277,7 +281,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `MAIN.MAIN` (`<unknown>`)
 
@@ -400,7 +404,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks with the most wall time spent in their leaf frame.
 
 Common call stack: `MAIN.MAIN`
 
@@ -443,7 +447,7 @@ Allocated 10.1 GiB and recorded 18,616,855 entries.
 
 #### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Function                                          | Location                                          |
 | ----: | -------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -469,6 +473,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 |  0.1% | 12.9 MiB | `Data.Scientific.toBoundedInteger`                | `src/Data/Scientific.hs:772:1`                    |
 
 ##### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ###### Ours
 
@@ -497,7 +503,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 ##### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ###### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
 
@@ -642,7 +648,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 #### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |      % |     Size | Function                                          | Location                                          |
 | -----: | -------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -668,6 +674,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |   0.5% | 50.5 MiB | `Data.Aeson.encode`                               | `src/Data/Aeson.hs:187:1`                         |
 
 ##### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ###### Ours
 
@@ -696,7 +704,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 ##### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ###### `MAIN.MAIN` (`<unknown>`)
 
@@ -824,7 +832,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ### Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `MAIN.MAIN`
 
@@ -857,9 +865,11 @@ Common call stack: `MAIN.MAIN`
 
 #### Self entries
 
-Functions ranked by entries recorded directly in the function body, excluding callees.
+Functions with the most entries recorded within the function body, excluding callees.
 
 ##### Categories
+
+Categories accounting for at least 1.0% of self entries.
 
 ###### Ours
 
@@ -888,7 +898,7 @@ Functions ranked by entries recorded directly in the function body, excluding ca
 
 ##### Callers
 
-Callers ranked by contribution to each function's self entries. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self entries. Inlining can make caller attribution imprecise.
 
 ###### `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`)
 
@@ -1030,7 +1040,7 @@ Callers ranked by contribution to each function's self entries. Inlining can mak
 
 #### Total entries
 
-Functions ranked by total entries recorded in the function and all its callees.
+Functions with the most entries recorded within the function and its callees.
 
 |      % |    Entries | Function                                          | Location                                          |
 | -----: | ---------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -1056,6 +1066,8 @@ Functions ranked by total entries recorded in the function and all its callees.
 |   3.0% |    552,500 | `Main.summarize`                                  | `Profile.hs:118:1`                                |
 
 ##### Categories
+
+Categories accounting for at least 1.0% of self entries.
 
 ###### Ours
 
@@ -1084,7 +1096,7 @@ Functions ranked by total entries recorded in the function and all its callees.
 
 ##### Callees
 
-Callees ranked by contribution to each function's total entries. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total entries. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ###### `MAIN.MAIN` (`<unknown>`)
 
@@ -1211,7 +1223,7 @@ Callees ranked by contribution to each function's total entries. Inlining can ma
 
 ### Hottest call stacks
 
-Call stacks ranked by entries recorded in their leaf frame.
+Call stacks with the most entries recorded in their leaf frame.
 
 Common call stack: `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`) ← `Main.main` (`Profile.hs:146:1`) ← `MAIN.MAIN`
 

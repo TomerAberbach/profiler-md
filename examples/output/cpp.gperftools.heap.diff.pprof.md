@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
+Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Standard library
 
@@ -46,7 +46,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes allocated in the function and all its callees.
+Functions with the largest increase in bytes allocated within the function and its callees.
 
 | Change |        Delta |             % |          Size |       Objects | Function                       | Location                                                                       |
 | -----: | -----------: | ------------: | ------------: | ------------: | ------------------------------ | ------------------------------------------------------------------------------ |
@@ -60,7 +60,7 @@ Functions with the largest increase in total bytes allocated in the function and
 
 #### Improvements
 
-Functions with the largest decrease in total bytes allocated in the function and all its callees.
+Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |               Size |        Objects | Function                                   | Location                                    |
 | ------: | -----------: | ------------: | -----------------: | -------------: | ------------------------------------------ | ------------------------------------------- |
@@ -88,7 +88,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `fmt::v12::to_string` (`./format.h`)
 

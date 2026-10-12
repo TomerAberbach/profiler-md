@@ -116,8 +116,8 @@ describe(`parseMetric`, () => {
 
     expect(metric).toMatchObject({
       type: `count`,
-      proseUnit: `time`,
-      phrases: { titleNoun: `count`, columnNoun: `counts` },
+      proseUnit: `occurrence`,
+      phrases: { titleNoun: `count`, columnNoun: `occurrences` },
     })
   })
 

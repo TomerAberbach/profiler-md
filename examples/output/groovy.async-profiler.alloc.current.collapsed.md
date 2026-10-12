@@ -11,9 +11,11 @@ Collected 783 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Standard library
 
@@ -42,7 +44,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `transform` (`groovyjarjarantlr4.v4.runtime.atn.ATNConfig`)
 
@@ -173,7 +175,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |     % | Samples | Function         | Location                                             |
 | ----: | ------: | ---------------- | ---------------------------------------------------- |
@@ -199,6 +201,8 @@ Functions ranked by total samples taken in the function and all its callees.
 | 88.0% |     689 | `invokeSpecial`  | `java.lang.invoke.DirectMethodHandle$Holder`         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Standard library
 
@@ -227,7 +231,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `main` (`org.codenarc.CodeNarc`)
 
@@ -409,7 +413,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`) ← `fromCache` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`) ← `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000000401088800`) ← `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000004010a1800`) ← `linkToCallSite` (`java.lang.invoke.Invokers$Holder`) ← `main` (`org.codenarc.CodeNarc`)
 

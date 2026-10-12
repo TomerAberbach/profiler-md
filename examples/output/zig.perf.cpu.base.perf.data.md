@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/tmp/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |    % |    Time | Samples | Function  | Location                               |
 | ---: | ------: | ------: | --------- | -------------------------------------- |
@@ -40,6 +40,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 0.6% |  31.0ms |      31 | `0x140b0` | `./binary`                             |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -118,7 +120,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `0x138f0` (`./binary`)
 
@@ -526,7 +528,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function  | Location                               |
 | -----: | ------: | ------: | --------- | -------------------------------------- |
@@ -552,6 +554,8 @@ Functions ranked by total time spent in the function and all its callees.
 |  12.4% | 650.7ms |     650 | `0x3695c` | `./binary`                             |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -630,7 +634,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0x1130c` (`./binary`)
 
@@ -1062,7 +1066,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `0x1130c` (`./binary`) ← `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27818` ← `0xdf70` (`./binary`)
 

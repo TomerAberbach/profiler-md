@@ -624,6 +624,36 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   Markdown (column headers like `%`, `Delta`, and `Location`, `name (location)`
   heading keys, and the ranking headings a diff sorts its rows under), so a
   change to table or heading structure may require updating it
+- Write the Markdown's prose about the profile, never about the conversion that
+  produced it. A sentence states what the data contains or what a section ranks,
+  never what the conversion searched for, inferred, or overrode. The test: the
+  sentence stays true in a document written by hand from the same data. Report a
+  decision the conversion made through the logger instead
+- Place a note explaining the Markdown's notation by the sections that can show
+  the notation. A note for one section ends that section's opening paragraph. A
+  note for several sections goes below the summary, after the base URL note
+- Omit a note when no shown text uses its notation. Record the notation where
+  the text is formatted (e.g. `ShownRetainerPaths` in
+  `src/modalities/heap-snapshot/format.ts`), so a section that shows the text
+  cannot skip its note. Print a note unconditionally only when detecting its
+  notation costs more than the note: the base URL note prints whenever `baseURL`
+  is set, because finding a relative path would mean tracking every location the
+  Markdown shows
+- Name a heading by its role. Below the title and a metric's heading, every
+  heading is one of these. NEVER name a heading after what its rows are grouped
+  by
+
+  | Role           | Names                                                | Examples                                    |
+  | -------------- | ---------------------------------------------------- | ------------------------------------------- |
+  | Entity section | The rows, with the ranking's direction               | `Hottest functions`, `Largest constructors` |
+  | Measure        | What ranks the rows                                  | `Self time`, `Retained size`                |
+  | Partition      | A subset of the same rows                            | `Categories` › `Ours`, `Regressions`        |
+  | Breakdown      | The breakdown's rows, then the entity it breaks down | `Lines`, `Callers`, `Retainer paths`        |
+
+- Open the heading directly above a ranking's tables with one sentence naming
+  the rows and what ranks them: `<Rows> with the most <amount>` or
+  `<Rows> with the largest <contribution>`, and
+  `<Rows> with the largest <increase|decrease|change> in <amount>` in a diff
 
 ### Documenting
 

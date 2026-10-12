@@ -14,7 +14,7 @@ Collected 1,335 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |    % | Samples | Function                                                                                                                                                                    | Location    |
 | ---: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
@@ -40,6 +40,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | 0.5% |       7 | `PhaseChaitin::Select()`                                                                                                                                                    | `<unknown>` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Compiler
 
@@ -154,7 +156,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `inflate_fast` (`<unknown>`)
 
@@ -732,7 +734,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |     % | Samples | Function                                                                                           | Location                                                |
 | ----: | ------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -758,6 +760,8 @@ Functions ranked by total samples taken in the function and all its callees.
 | 26.2% |     350 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Compiler
 
@@ -873,7 +877,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_pthread_start` (`<unknown>`)
 
@@ -1495,7 +1499,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 |    % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ---: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

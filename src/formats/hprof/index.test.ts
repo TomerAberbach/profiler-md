@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { streamOf } from '../../helpers/testing.ts'
 import {
   retainedSizeTables,
-  selfSizeInstancesTables,
+  selfSizeRetainerPathTables,
   selfSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
@@ -88,7 +88,7 @@ const convert = (bytes: Uint8Array): string =>
 
 /** The retainer path of each instance the ranking of {@link name} lists. */
 const retainerPaths = (md: string, name: string): (string | undefined)[][] =>
-  selfSizeInstancesTables(md, name).map(table => table.map(row => row.Path))
+  selfSizeRetainerPathTables(md, name).map(table => table.map(row => row.Path))
 
 describe(`matches`, () => {
   test(`accepts a dump`, () => {

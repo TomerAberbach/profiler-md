@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 136 MiB (-303.768 KiB, -0.2%) across 1,716,926 → 1,715,213 nodes and 5,832,237 → 5,824,332 edges.
+Held 136 MiB (-303.768 KiB, -0.2%) over 1,716,926 → 1,715,213 nodes and 5,832,237 → 5,824,332 edges.
 
 | Category           | Change |        Delta |             % |                Size |             Nodes |
 | ------------------ | -----: | -----------: | ------------: | ------------------: | ----------------: |
@@ -16,15 +16,15 @@ Allocated 136 MiB (-303.768 KiB, -0.2%) across 1,716,926 → 1,715,213 nodes a
 | Native             |   0.0% |          0 B |         <0.1% |                48 B |                 3 |
 | Synthetic          |   0.0% |          0 B |         <0.1% |                16 B |                19 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
-
 #### Improvements
 
-Constructors with the largest decrease in self size.
+Constructors with the largest decrease in instance bytes, excluding referenced nodes. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Object
 
@@ -32,9 +32,9 @@ Constructors with the largest decrease in self size.
 | -----: | ---------: | ---: | ----------------: | --------------: | --------------------------- |
 |  -0.1% | -1.097 KiB | 0.6% | 885 KiB → 883 KiB | 14,864 → 14,860 | `<foreign memory - malloc>` |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's self size.
 
 ##### `<foreign memory - malloc>`
 
@@ -48,11 +48,9 @@ Instances with the largest change in contribution to each constructor's self siz
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
-
 #### Improvements
 
-Constructors with the largest decrease in retained size.
+Constructors with the largest decrease in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Object
 
@@ -60,9 +58,9 @@ Constructors with the largest decrease in retained size.
 | -----: | ---------: | ---: | ----------------: | --------------: | --------------------------- |
 |  -0.1% | -1.097 KiB | 0.6% | 885 KiB → 883 KiB | 14,864 → 14,860 | `<foreign memory - malloc>` |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's retained size.
 
 ##### `<foreign memory - malloc>`
 

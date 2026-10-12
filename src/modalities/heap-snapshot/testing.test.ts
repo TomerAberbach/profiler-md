@@ -3,9 +3,9 @@ import { describe, expect, test } from 'vitest'
 import {
   functionTables,
   largestStringsTables,
-  retainedSizeInstancesTables,
+  retainedSizeRetainerPathTables,
   retainedSizeTables,
-  selfSizeInstancesTables,
+  selfSizeRetainerPathTables,
   selfSizeTables,
   totalSizeTables,
 } from './testing.ts'
@@ -235,15 +235,15 @@ describe(`largestStringsTables`, () => {
   })
 })
 
-describe(`selfSizeInstancesTables`, () => {
+describe(`selfSizeRetainerPathTables`, () => {
   test(`returns [] when no match at any level`, () => {
-    const tables = selfSizeInstancesTables(`# Snapshot\n`, `MyClass`)
+    const tables = selfSizeRetainerPathTables(`# Snapshot\n`, `MyClass`)
 
     expect(tables).toStrictEqual([])
   })
 
-  test(`returns [] when Self size exists but Instances is absent`, () => {
-    const tables = selfSizeInstancesTables(
+  test(`returns [] when Self size exists but Retainer paths is absent`, () => {
+    const tables = selfSizeRetainerPathTables(
       dedent`
         ## Self size
 
@@ -259,12 +259,12 @@ describe(`selfSizeInstancesTables`, () => {
     expect(tables).toStrictEqual([])
   })
 
-  test(`returns [] when Instances exists but name sub-heading is absent`, () => {
-    const tables = selfSizeInstancesTables(
+  test(`returns [] when Retainer paths exists but name sub-heading is absent`, () => {
+    const tables = selfSizeRetainerPathTables(
       dedent`
         ## Self size
 
-        ### Instances
+        ### Retainer paths
 
         #### OtherClass
 
@@ -279,11 +279,11 @@ describe(`selfSizeInstancesTables`, () => {
   })
 
   test(`returns parsed rows when all levels match`, () => {
-    const tables = selfSizeInstancesTables(
+    const tables = selfSizeRetainerPathTables(
       dedent`
         ## Self size
 
-        ### Instances
+        ### Retainer paths
 
         #### MyClass
 
@@ -298,15 +298,15 @@ describe(`selfSizeInstancesTables`, () => {
   })
 })
 
-describe(`retainedSizeInstancesTables`, () => {
+describe(`retainedSizeRetainerPathTables`, () => {
   test(`returns [] when no match at any level`, () => {
-    const tables = retainedSizeInstancesTables(`# Snapshot\n`, `MyClass`)
+    const tables = retainedSizeRetainerPathTables(`# Snapshot\n`, `MyClass`)
 
     expect(tables).toStrictEqual([])
   })
 
-  test(`returns [] when Retained size exists but Instances is absent`, () => {
-    const tables = retainedSizeInstancesTables(
+  test(`returns [] when Retained size exists but Retainer paths is absent`, () => {
+    const tables = retainedSizeRetainerPathTables(
       dedent`
         ## Retained size
 
@@ -323,11 +323,11 @@ describe(`retainedSizeInstancesTables`, () => {
   })
 
   test(`returns parsed rows when all levels match`, () => {
-    const tables = retainedSizeInstancesTables(
+    const tables = retainedSizeRetainerPathTables(
       dedent`
         ## Retained size
 
-        ### Instances
+        ### Retainer paths
 
         #### MyClass
 

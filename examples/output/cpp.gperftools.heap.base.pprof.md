@@ -12,9 +12,11 @@ Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -25,7 +27,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
 
@@ -41,7 +43,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
 
@@ -57,7 +59,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |      % |    Size |   Objects | Function                                   | Location                                    |
 | -----: | ------: | --------: | ------------------------------------------ | ------------------------------------------- |
@@ -83,6 +85,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Categories
 
+Categories accounting for at least 1.0% of self size.
+
 ##### Standard library
 
 |      % |    Size |   Objects | Function                                   | Location                                    |
@@ -96,7 +100,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `main` (`/out/profile.cpp`)
 
@@ -214,7 +218,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 |     % |      Size |   Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ----: | --------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

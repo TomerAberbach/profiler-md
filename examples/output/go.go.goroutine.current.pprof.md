@@ -12,9 +12,11 @@ Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/c
 
 ### Self goroutines
 
-Functions ranked by goroutines recorded directly in the function body, excluding callees.
+Functions with the most goroutines recorded within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self goroutines.
 
 ##### Standard library
 
@@ -24,7 +26,7 @@ Functions ranked by goroutines recorded directly in the function body, excluding
 
 #### Lines
 
-Lines ranked by contribution to each function's self goroutines.
+Lines with the largest contribution to each function's self goroutines.
 
 ##### `runtime.goroutineProfileWithLabels` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1254`)
 
@@ -34,7 +36,7 @@ Lines ranked by contribution to each function's self goroutines.
 
 #### Callers
 
-Callers ranked by contribution to each function's self goroutines. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self goroutines. Inlining can make caller attribution imprecise.
 
 ##### `runtime.goroutineProfileWithLabels` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1254`)
 
@@ -44,7 +46,7 @@ Callers ranked by contribution to each function's self goroutines. Inlining can 
 
 ### Total goroutines
 
-Functions ranked by total goroutines recorded in the function and all its callees.
+Functions with the most goroutines recorded within the function and its callees.
 
 |      % | Goroutines | Function                                   | Location                                                                                        |
 | -----: | ---------: | ------------------------------------------ | ----------------------------------------------------------------------------------------------- |
@@ -59,6 +61,8 @@ Functions ranked by total goroutines recorded in the function and all its callee
 
 #### Categories
 
+Categories accounting for at least 1.0% of self goroutines.
+
 ##### Standard library
 
 |      % | Goroutines | Function                                   | Location                                                                                        |
@@ -72,7 +76,7 @@ Functions ranked by total goroutines recorded in the function and all its callee
 
 #### Callees
 
-Callees ranked by contribution to each function's total goroutines. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total goroutines. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `runtime.pprof_goroutineProfileWithLabels` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1249`)
 
@@ -118,7 +122,7 @@ Callees ranked by contribution to each function's total goroutines. Inlining can
 
 ## Hottest call stacks
 
-Call stacks ranked by goroutines recorded in their leaf frame.
+Call stacks with the most goroutines recorded in their leaf frame.
 
 |      % | Goroutines | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | -----: | ---------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

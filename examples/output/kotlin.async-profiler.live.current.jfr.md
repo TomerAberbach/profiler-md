@@ -11,7 +11,7 @@ Allocated 612 MiB over 1,218 samples (515 KiB per sample).
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Samples | Function                                                | Location                                               |
 | ----: | -------: | ------: | ------------------------------------------------------- | ------------------------------------------------------ |
@@ -37,6 +37,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 |  0.6% |  3.5 MiB |       7 | `newNode(int, Object, Object, HashMap$Node)`            | `java.util.HashMap`                                    |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -90,7 +92,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
 
@@ -322,7 +324,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
 
@@ -605,7 +607,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |    Size | Samples | Function                                                                                           | Location                                                |
 | ----: | ------: | ------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -631,6 +633,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 44.5% | 273 MiB |     545 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)`                             | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -684,7 +688,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -934,7 +938,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`
 
@@ -974,7 +978,7 @@ Retained 9.07 MiB over 345 objects (26.9 KiB per object).
 
 ### Self size
 
-Functions ranked by bytes retained directly in the function body, excluding callees.
+Functions with the most bytes retained within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                                                                              | Location                                                                       |
 | ----: | -------: | ------: | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -1000,6 +1004,8 @@ Functions ranked by bytes retained directly in the function body, excluding call
 | <0.1% |    224 B |       4 | `grow(int)`                                                                           | `java.util.ArrayList`                                                          |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -1053,7 +1059,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
@@ -1288,7 +1294,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
@@ -1540,7 +1546,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes retained in the function and all its callees.
+Functions with the most bytes retained within the function and its callees.
 
 |      % |     Size | Objects | Function                                                                     | Location                                               |
 | -----: | -------: | ------: | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
@@ -1566,6 +1572,8 @@ Functions ranked by total bytes retained in the function and all its callees.
 |  39.1% | 3.54 MiB |       2 | `<init>(File, int)`                                                          | `java.util.zip.ZipFile`                                |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -1619,7 +1627,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -1868,7 +1876,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes retained in their leaf frame.
+Call stacks with the most bytes retained in their leaf frame.
 
 Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`
 

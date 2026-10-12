@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 1.49 MiB (+1.515 KiB, +0.1%) across 16,733 → 16,748 nodes and 44,795 → 44,856 edges.
+Held 1.49 MiB (+1.515 KiB, +0.1%) over 16,733 → 16,748 nodes and 44,795 → 44,856 edges.
 
 | Category           | Change |      Delta |             % |                Size |         Nodes |
 | ------------------ | -----: | ---------: | ------------: | ------------------: | ------------: |
@@ -17,19 +17,19 @@ Allocated 1.49 MiB (+1.515 KiB, +0.1%) across 16,733 → 16,748 nodes and 44,7
 | Big number         |   0.0% |        0 B |         <0.1% |                32 B |             1 |
 | Synthetic          |      — |        0 B |          0.0% |                 0 B |             1 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.
+No constructor differed in instance bytes, excluding referenced nodes.
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
-
 #### Regressions
 
-Constructors with the largest increase in retained size.
+Constructors with the largest increase in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Object
 
@@ -41,9 +41,9 @@ Constructors with the largest increase in retained size.
 |    +0.1% |      +608 B |         40.8% |   622 KiB → 623 KiB |     1,367 | `Object`              |
 |    +0.5% |      +272 B |          3.4% | 51.9 KiB → 52.1 KiB |         1 | `url `                |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's retained size.
 
 ##### `GlobalObject`
 
@@ -81,8 +81,8 @@ Instances with the largest change in contribution to each constructor's retained
 
 ## Largest functions
 
-No function differed in bytes that would be freed if the function were garbage collected.
+No function differed in instance bytes, including nodes only the instances keep alive.
 
 ## Largest strings
 
-No string differed in bytes allocated for it.
+No string differed in bytes.

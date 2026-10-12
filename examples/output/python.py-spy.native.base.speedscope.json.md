@@ -13,7 +13,7 @@ Took 24.50s over 245 samples (100.0ms per sample).
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |    % |    Time | Samples | Function                                                                        | Location                                                                                         |
 | ---: | ------: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -39,6 +39,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 1.2% | 300.0ms |       3 | `__init__`                                                                      | `<string>`                                                                                       |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -95,7 +97,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `parse` (`/usr/lib/python3.11/ast.py`)
 
@@ -137,7 +139,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -347,7 +349,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |   Time | Samples | Function                                         | Location                                                                                         |
 | -----: | -----: | ------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
@@ -373,6 +375,8 @@ Functions ranked by total time spent in the function and all its callees.
 |  34.7% |  8.50s |      85 | `CPyDef_driver___Driver___parse_tokens`          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -457,7 +461,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0x7ff2a7b2e24a` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
 
@@ -814,7 +818,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `CPyDef_black___format_file_contents` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_black___format_file_in_place` ← `CPyDef_black___reformat_one` ← `CPyPy_black___reformat_one` ← `CPyDef_black___main` ← `CPyPy_black___main` ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py`) ← `invoke` ← `main` ← `__call__` ← `CPyDef_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyPy_black___patched_main` ← `<module>` (`/venv/lib/python3.11/site-packages/black/__main__.py`) ← `_run_code` (`<frozen runpy>`) ← `_run_module_as_main` ← `0x7ff2a7b2e24a` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
 
