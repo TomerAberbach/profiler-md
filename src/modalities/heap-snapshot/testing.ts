@@ -113,6 +113,7 @@ export const makeAggregatedHeapSnapshot = ({
   constructors,
   functions,
   strings,
+  outermostInstanceIdsOf: instanceIds => instanceIds,
   retainerHopOf: () => undefined,
   retainerPathOf: () => `(GC root)`,
   retainedNodesOf: () => [],
