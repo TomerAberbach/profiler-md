@@ -8,6 +8,8 @@ Took 101.6ms over 89 samples (1.1ms per sample).
 | Ours             | 34.4% | 35.0ms |      35 |
 | Native           | 18.7% | 19.0ms |      19 |
 
+Paths starting with `./` or `../` are relative to `https://en.wikipedia.org/`.
+
 ## Hottest functions
 
 ### Self time

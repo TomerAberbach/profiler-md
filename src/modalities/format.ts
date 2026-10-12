@@ -7,9 +7,10 @@ import {
   inlineCode,
   nameLocationPhrasing,
   paragraph,
+  phrasing,
 } from '../helpers/markdown.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
-import { formatSourceLocation } from '../location.ts'
+import { absoluteURLPath, formatSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type {
   AggregatedProfileEntry,
@@ -26,6 +27,24 @@ export const formatTitle = (metrics: Metric[]): string =>
   capitalizeFirst(
     `${formatConjunction(metrics.map(metric => metric.phrases.titleNoun))} profile`,
   )
+
+/**
+ * A paragraph stating the base URL, so a reader can resolve a path shown
+ * relative to it.
+ *
+ * A relative path the profiler wrote is shown as written, and keeps a leading
+ * `../`, so the note misstates its base. No committed input contains one.
+ */
+export const formatBaseURLNote = ({
+  baseURL,
+}: FormattingProfileToMdOptions): RootContent[] =>
+  baseURL
+    ? [
+        paragraph(
+          phrasing`Paths starting with ${inlineCode(`./`)} or ${inlineCode(`../`)} are relative to ${inlineCode(absoluteURLPath(baseURL))}.`,
+        ),
+      ]
+    : []
 
 /**
  * Wraps each measure's sections in a heading naming its metric when there are

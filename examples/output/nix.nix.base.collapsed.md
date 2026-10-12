@@ -9,6 +9,8 @@ Collected 1,266 samples.
 | Unknown          |  3.6% |      45 |
 | Standard library |  0.3% |       4 |
 
+Paths starting with `./` or `../` are relative to `/nix/store/j2r11kxv91yl5xqppy3vy84klwxjbz1i-source/`.
+
 ## Hottest functions
 
 ### Self samples

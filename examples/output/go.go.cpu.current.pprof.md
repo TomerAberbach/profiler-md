@@ -7,6 +7,8 @@ Took 5.63s over 563 samples (10.0ms per sample).
 | Standard library  | 99.3% |  5.59s |     559 |
 | Garbage collector |  0.7% | 40.0ms |       4 |
 
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+
 ## Hottest functions
 
 ### Self time

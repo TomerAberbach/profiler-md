@@ -11,6 +11,8 @@ Took 16.28s over 12,969 samples (1.3ms per sample).
 | Regular expression |  0.2% |  35.2ms |      28 |
 | Ours               | <0.1% |   1.3ms |       1 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
+
 ## Hottest functions
 
 ### Self time

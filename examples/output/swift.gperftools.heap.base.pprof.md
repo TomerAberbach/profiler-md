@@ -6,6 +6,8 @@ Allocated 97.3 MiB over 156,119 objects (653 B per object).
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 97.3 MiB | 156,119 |
 
+Paths starting with `./` or `../` are relative to `/src/`.
+
 ## Hottest functions
 
 ### Self size
@@ -507,6 +509,8 @@ Retained 5.82 MiB over 359 objects (16.6 KiB per object).
 | Category |      % |     Size | Objects |
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 5.82 MiB |     359 |
+
+Paths starting with `./` or `../` are relative to `/src/`.
 
 ## Hottest functions
 

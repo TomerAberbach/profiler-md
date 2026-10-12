@@ -8,6 +8,8 @@ Held 78.6 MiB (-1.702 KiB, ~0%) over 22,680 allocations → 22,679 allocations
 | Standard library |  +7.6% |     +1 MiB | 16.7% → 18.0% | 13.1 MiB → 14.1 MiB |           1,007 |
 | Third-party      |  +0.1% |     +172 B |          0.3% |   274 KiB → 275 KiB |             233 |
 
+Paths starting with `./` or `../` are relative to `/src/black/src/`.
+
 ## Hottest functions
 
 ### Self size
@@ -965,6 +967,8 @@ Leaked 59.9 MiB (-1.702 KiB, ~0%) over 22,485 allocations → 22,484 allocatio
 | Ours             |    ~0% | -2.396 KiB | 88.2% | 52.9 MiB |      21,383 |
 | Standard library |    ~0% |     +539 B | 11.4% | 6.82 MiB |   872 → 871 |
 | Third-party      |  +0.1% |     +172 B |  0.4% |  237 KiB |         230 |
+
+Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
 ## Hottest functions
 

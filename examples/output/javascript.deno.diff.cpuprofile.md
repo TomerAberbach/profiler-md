@@ -12,6 +12,8 @@ Took 2.13s → 2.15s (+17.97ms, +0.8%) over 2,912 samples → 2,926 samples (733
 | Unknown            | +229.0% |  +2.95ms |   0.1% → 0.2% |     1.3ms → 4.2ms |         1 → 4 |
 | Ours               |     new |  +1.26ms |   0.0% → 0.1% |       0ms → 1.3ms |         0 → 1 |
 
+Paths starting with `./` or `../` are relative to `/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
+
 ## Hottest functions
 
 ### Self time

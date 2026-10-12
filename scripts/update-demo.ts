@@ -13,6 +13,8 @@ const fail = (message: string): never => {
   process.exit(1)
 }
 
+const aliasPattern =
+  /^Type "alias profiler-md='node src\/cli\/index\.ts(?<args>[^']*)'"$/mu
 const commandPattern = /^Type "profiler-md(?<args>[^"]*)"$/gmu
 
 // The tape wraps each typed command in double quotes, so an argument can only
@@ -31,9 +33,17 @@ const parseArguments = (args: string): string[] =>
 const computeDigest = (): string => {
   const tape = readFileSync(tapePath)
   const hash = createHash(`sha256`).update(tape)
+  const tapeText = tape.toString(`utf8`)
 
-  const commands = [...tape.toString(`utf8`).matchAll(commandPattern)].map(
-    match => match.groups!.args!.trim(),
+  const aliasArgs = aliasPattern.exec(tapeText)?.groups!.args
+  if (aliasArgs === undefined) {
+    fail(
+      `${tapePath} defines no \`profiler-md\` alias for \`node src/cli/index.ts\`.`,
+    )
+  }
+
+  const commands = [...tapeText.matchAll(commandPattern)].map(match =>
+    match.groups!.args!.trim(),
   )
   if (commands.length === 0) {
     fail(
@@ -44,7 +54,11 @@ const computeDigest = (): string => {
   for (const command of commands) {
     const stdout = execFileSync(
       `node`,
-      [`src/cli/index.ts`, ...parseArguments(command)],
+      [
+        `src/cli/index.ts`,
+        ...parseArguments(aliasArgs!),
+        ...parseArguments(command),
+      ],
       {
         env: { ...process.env, FORCE_COLOR: `3` },
         maxBuffer: 64 * 1024 * 1024,

@@ -6,6 +6,8 @@ Allocated 301 MiB over 51,311 objects (6.01 KiB per object).
 | ---------------- | -----: | ------: | ------: |
 | Standard library | 100.0% | 301 MiB |  51,311 |
 
+Paths starting with `./` or `../` are relative to `/out/`.
+
 ## Hottest functions
 
 ### Self size
@@ -305,5 +307,7 @@ Call stacks ranked by bytes allocated in their leaf frame.
 # Retained heap profile
 
 Retained 0 B over 0 objects.
+
+Paths starting with `./` or `../` are relative to `/out/`.
 
 No bytes retained in any object.

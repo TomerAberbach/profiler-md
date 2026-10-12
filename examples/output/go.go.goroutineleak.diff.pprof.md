@@ -6,6 +6,8 @@ Recorded 3 leaked goroutines.
 | ---------------- | -----: | ----: | -----: | ----------------: |
 | Standard library |   0.0% |     0 | 100.0% |                 3 |
 
+Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/inputs/assets/go/`.
+
 ## Hottest functions
 
 ### Self leaked goroutines

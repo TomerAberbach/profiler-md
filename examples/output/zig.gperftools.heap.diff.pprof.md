@@ -6,6 +6,8 @@ Allocated 224 MiB → 301 MiB (+76.638 MiB, +34.1%) over 56,362 objects → 5
 | ---------------- | -----: | ----------: | -----: | ----------------: | --------------: |
 | Standard library | +34.1% | +76.638 MiB | 100.0% | 224 MiB → 301 MiB | 56,362 → 51,311 |
 
+Paths starting with `./` or `../` are relative to `/out/`.
+
 ## Hottest functions
 
 ### Self size
@@ -511,5 +513,7 @@ Callees with the largest change in contribution to each function's total size. I
 # Retained heap profile diff
 
 Retained 0 B over 0 objects.
+
+Paths starting with `./` or `../` are relative to `/out/`.
 
 No bytes retained in any object.

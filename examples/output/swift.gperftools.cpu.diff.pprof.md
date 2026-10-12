@@ -8,6 +8,8 @@ Took 4.96s → 5.22s (+268.00ms, +5.4%) over 4,960 samples → 5,228 samples (1.
 | Native           |  +1.2% |  +27.00ms | 45.6% → 43.8% |     2.26s → 2.29s | 2,263 → 2,290 |
 | Standard library | +57.5% | +130.00ms |   4.6% → 6.8% | 226.0ms → 356.0ms |     226 → 356 |
 
+Paths starting with `./` or `../` are relative to `/src/`.
+
 ## Hottest functions
 
 ### Self time

@@ -7,6 +7,8 @@ Took 3.73s over 3,734 samples (1.0ms per sample).
 | Third-party      | 57.6% | 2.15s |   2,151 |
 | Standard library | 42.4% | 1.58s |   1,583 |
 
+Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-rust-profile/src/`.
+
 ## Hottest functions
 
 ### Self time

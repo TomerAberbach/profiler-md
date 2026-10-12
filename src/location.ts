@@ -401,7 +401,7 @@ const isRelativePathReadable = (
  * with its server (`//server/share/a.cs`). A non-`file:` URL's protocol and
  * host state where the source came from.
  */
-const absoluteURLPath = (url: URL): string => {
+export const absoluteURLPath = (url: URL): string => {
   if (url.protocol !== `file:`) {
     return url.href
   }

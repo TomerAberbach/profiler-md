@@ -10,6 +10,8 @@ Collected 32,046 samples.
 | Native           |  4.0% |   1,274 |
 | Ours             |  0.2% |      69 |
 
+Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
+
 ## Hottest functions
 
 ### Self samples

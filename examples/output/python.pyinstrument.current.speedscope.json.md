@@ -8,6 +8,8 @@ Took 5.78s.
 | Native      |  2.4% | 141.0ms |
 | Third-party | <0.1% |   1.0ms |
 
+Paths starting with `./` or `../` are relative to `/src/black/src/`.
+
 ## Hottest functions
 
 ### Self time

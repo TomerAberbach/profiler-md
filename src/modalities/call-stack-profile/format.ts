@@ -37,6 +37,7 @@ import type {
 } from '../diff.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
+  formatBaseURLNote,
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
@@ -97,6 +98,7 @@ export const formatCallStackProfile = (
   return [
     heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
     ...formatOverallSummary(profile, measures),
+    ...formatBaseURLNote(options),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,
@@ -172,6 +174,7 @@ export const formatCallStackProfileDiff = (
       `${formatTitle(measures.map(({ metric }) => metric))} diff`,
     ),
     ...formatDiffSummary(diff, measures),
+    ...formatBaseURLNote(options),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,

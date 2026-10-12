@@ -9,6 +9,8 @@ Took 15.74s over 1,555 samples (10.1ms per sample).
 | Standard library |  1.7% | 274.1ms |      27 |
 | Ours             |  1.6% | 257.3ms |      26 |
 
+Paths starting with `./` or `../` are relative to `/src/app/`.
+
 ## Hottest functions
 
 ### Self time

@@ -7,6 +7,8 @@ Took 3.84s over 3,849 samples (1.0ms per sample).
 | Ours     | 59.1% | 2.27s |   2,275 |
 | Native   | 40.9% | 1.57s |   1,574 |
 
+Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
+
 ## Hottest functions
 
 ### Self time

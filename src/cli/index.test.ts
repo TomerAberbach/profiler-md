@@ -355,7 +355,8 @@ if (format === undefined) {
 
       const { stdout } = await runCli([cpuProfilePath, `--base-url`, baseURL])
 
-      expect(stdout).not.toContain(baseURL)
+      expect(stdout).not.toContain(`${baseURL}/nix-shell`)
+      expect(stdout).toContain(`./nix-shell`)
     },
   )
 

@@ -31,6 +31,7 @@ import type { Diff, EntryDiff } from '../diff.ts'
 import {
   diffRankings,
   diffRankingSentence,
+  formatBaseURLNote,
   formatDiffRankingSections,
   resolveEntryFilter,
   selectDiffEntities,
@@ -96,6 +97,7 @@ export const formatHeapSnapshot = (
   return [
     heading(1, `Heap snapshot`),
     ...formatOverallSummary(snapshot),
+    ...formatBaseURLNote(options),
     ...notes,
     ...formatLargestConstructors({
       snapshot,
@@ -556,6 +558,7 @@ export const formatHeapSnapshotDiff = (
   return [
     heading(1, `Heap snapshot diff`),
     ...formatDiffSummary(diff),
+    ...formatBaseURLNote(options),
     ...notes,
     ...formatDiffConstructors({ diff, hasLocation, options: sectionOptions }),
     ...formatDiffFunctions({ diff, hasLocation, options: sectionOptions }),

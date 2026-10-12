@@ -8,6 +8,8 @@ Took 5.23s over 5,237 samples (1.0ms per sample).
 | Native           |  7.3% | 383.0ms |     383 |
 | Ours             |  0.3% |  17.0ms |      17 |
 
+Paths starting with `./` or `../` are relative to `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fYcQks/zig-base/`.
+
 ## Hottest functions
 
 ### Self time

@@ -18,6 +18,8 @@ Allocated 3.03 MiB across 67,887 nodes and 264,933 edges.
 | Symbol              | <0.1% |     16 B |     17 |
 | Synthetic           |  0.0% |      0 B |     31 |
 
+Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
+
 ## Largest constructors
 
 ### Self size
