@@ -118,28 +118,28 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ##### Standard library
 
-|  Change | Delta |           % | Samples | Function                                                   | Location                                                                                                  |
-| ------: | ----: | ----------: | ------: | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `resize()`                                                 | `java.util.HashMap`                                                                                       |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `ensureCapacityInternal(int)`                              | `java.lang.AbstractStringBuilder`                                                                         |
-|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `isLatin1()`                                               | `java.lang.String`                                                                                        |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `get(Object)`                                              | `java.util.concurrent.ConcurrentHashMap`                                                                  |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `addConstantFieldref(String, String, String)`              | `jdk.internal.org.objectweb.asm.SymbolTable`                                                              |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `newInvokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000008801020400 → java.lang.invoke.LambdaForm$DMH.0x0000007001020400` |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `methodType(Class, Class[], boolean)`                      | `java.lang.invoke.MethodType`                                                                             |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getDirectMethodForConstant(byte, Class, MemberName)`      | `java.lang.invoke.MethodHandles$Lookup`                                                                   |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `closeEntry()`                                             | `java.util.zip.ZipInputStream`                                                                            |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `nextNode()`                                               | `java.util.HashMap$HashIterator`                                                                          |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `initCEN(int, ZipCoder)`                                   | `java.util.zip.ZipFile$Source`                                                                            |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getLongUnaligned(Object, long)`                           | `jdk.internal.misc.Unsafe`                                                                                |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `<init>(int, float, int)`                                  | `java.util.concurrent.ConcurrentHashMap`                                                                  |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `lastIndexOf(byte[], int, int)`                            | `java.lang.StringLatin1`                                                                                  |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `size()`                                                   | `java.util.Collections$EmptyList`                                                                         |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `flip()`                                                   | `java.nio.Buffer`                                                                                         |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `startsWith(String)`                                       | `java.lang.String`                                                                                        |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `offer(Object)`                                            | `java.util.concurrent.ConcurrentLinkedQueue`                                                              |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `constructor-impl(Object)`                                 | `kotlin.Result`                                                                                           |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `putMethodInfo(ByteVector)`                                | `jdk.internal.org.objectweb.asm.MethodWriter`                                                             |
+|  Change | Delta |           % | Samples | Function                                                   | Location                                             |
+| ------: | ----: | ----------: | ------: | ---------------------------------------------------------- | ---------------------------------------------------- |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `resize()`                                                 | `java.util.HashMap`                                  |
+|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `ensureCapacityInternal(int)`                              | `java.lang.AbstractStringBuilder`                    |
+|     new |    +2 | 0.0% → 0.2% |   0 → 2 | `isLatin1()`                                               | `java.lang.String`                                   |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `get(Object)`                                              | `java.util.concurrent.ConcurrentHashMap`             |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `addConstantFieldref(String, String, String)`              | `jdk.internal.org.objectweb.asm.SymbolTable`         |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `newInvokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001020400` |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `methodType(Class, Class[], boolean)`                      | `java.lang.invoke.MethodType`                        |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getDirectMethodForConstant(byte, Class, MemberName)`      | `java.lang.invoke.MethodHandles$Lookup`              |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `closeEntry()`                                             | `java.util.zip.ZipInputStream`                       |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `nextNode()`                                               | `java.util.HashMap$HashIterator`                     |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `initCEN(int, ZipCoder)`                                   | `java.util.zip.ZipFile$Source`                       |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `getLongUnaligned(Object, long)`                           | `jdk.internal.misc.Unsafe`                           |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `<init>(int, float, int)`                                  | `java.util.concurrent.ConcurrentHashMap`             |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `lastIndexOf(byte[], int, int)`                            | `java.lang.StringLatin1`                             |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `size()`                                                   | `java.util.Collections$EmptyList`                    |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `flip()`                                                   | `java.nio.Buffer`                                    |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `startsWith(String)`                                       | `java.lang.String`                                   |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `offer(Object)`                                            | `java.util.concurrent.ConcurrentLinkedQueue`         |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `constructor-impl(Object)`                                 | `kotlin.Result`                                      |
+|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `putMethodInfo(ByteVector)`                                | `jdk.internal.org.objectweb.asm.MethodWriter`        |
 
 ##### JIT
 
@@ -1849,28 +1849,28 @@ Callers with the largest change in contribution to each function's self samples.
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
-|  Change | Delta |             % |   Samples | Function                                                                                           | Location                                                                                                  |
-| ------: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-|  +40.0% |   +24 |   4.6% → 6.4% |   60 → 84 | `WorkerThread::run`                                                                                | `libjvm.dylib`                                                                                            |
-|  +95.2% |   +20 |   1.6% → 3.1% |   21 → 41 | `InstanceKlass::link_class_impl`                                                                   | `libjvm.dylib`                                                                                            |
-|  +95.0% |   +19 |   1.5% → 3.0% |   20 → 39 | `InstanceKlass::initialize_impl`                                                                   | `libjvm.dylib`                                                                                            |
-| +154.5% |   +17 |   0.8% → 2.1% |   11 → 28 | `InterpreterRuntime::resolve_from_cache`                                                           | `libjvm.dylib`                                                                                            |
-|   +4.6% |   +16 | 26.6% → 27.5% | 346 → 362 | `invoke(Object, Object[])`                                                                         | `java.lang.reflect.Method`                                                                                |
-|   +4.7% |   +16 | 26.4% → 27.4% | 344 → 360 | `doMain(CLICompiler, String[])`                                                                    | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`                                                   |
-|   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `exec(PrintStream, Services, MessageRenderer, String[])`                                           | `org.jetbrains.kotlin.cli.common.CLICompiler`                                                             |
-|   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `exec(PrintStream, MessageRenderer, String[])`                                                     | `org.jetbrains.kotlin.cli.common.CLICompiler`                                                             |
-|   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `doMainNoExit(CLICompiler, String[], MessageRenderer)`                                             | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`                                                   |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`                                                    |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                                                              |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeStatic(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$DMH.0x0000008801008000 → java.lang.invoke.LambdaForm$DMH.0x0000007001008000` |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object, Object)`                                                                   | `java.lang.invoke.LambdaForm$MH.0x0000008801009400 → java.lang.invoke.LambdaForm$MH.0x0000007001009400`   |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeExact_MT(Object, Object, Object, Object)`                                                   | `java.lang.invoke.Invokers$Holder`                                                                        |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeImpl(Object, Object[])`                                                                     | `jdk.internal.reflect.DirectMethodHandleAccessor`                                                         |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object[])`                                                                         | `jdk.internal.reflect.DirectMethodHandleAccessor`                                                         |
-|   +4.4% |   +15 | 26.4% → 27.3% | 344 → 359 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`                                                   |
-| +187.5% |   +15 |   0.6% → 1.7% |    8 → 23 | `Verifier::verify`                                                                                 | `libjvm.dylib`                                                                                            |
-|   +4.1% |   +14 | 26.0% → 26.8% | 339 → 353 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                        | `org.jetbrains.kotlin.cli.common.CLICompiler`                                                             |
-|  +59.1% |   +13 |   1.7% → 2.7% |   22 → 35 | `G1EvacuateRegionsBaseTask::work`                                                                  | `libjvm.dylib`                                                                                            |
+|  Change | Delta |             % |   Samples | Function                                                                                           | Location                                                |
+| ------: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+|  +40.0% |   +24 |   4.6% → 6.4% |   60 → 84 | `WorkerThread::run`                                                                                | `libjvm.dylib`                                          |
+|  +95.2% |   +20 |   1.6% → 3.1% |   21 → 41 | `InstanceKlass::link_class_impl`                                                                   | `libjvm.dylib`                                          |
+|  +95.0% |   +19 |   1.5% → 3.0% |   20 → 39 | `InstanceKlass::initialize_impl`                                                                   | `libjvm.dylib`                                          |
+| +154.5% |   +17 |   0.8% → 2.1% |   11 → 28 | `InterpreterRuntime::resolve_from_cache`                                                           | `libjvm.dylib`                                          |
+|   +4.6% |   +16 | 26.6% → 27.5% | 346 → 362 | `invoke(Object, Object[])`                                                                         | `java.lang.reflect.Method`                              |
+|   +4.7% |   +16 | 26.4% → 27.4% | 344 → 360 | `doMain(CLICompiler, String[])`                                                                    | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+|   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `exec(PrintStream, Services, MessageRenderer, String[])`                                           | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+|   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `exec(PrintStream, MessageRenderer, String[])`                                                     | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+|   +4.7% |   +16 | 26.2% → 27.2% | 342 → 358 | `doMainNoExit(CLICompiler, String[], MessageRenderer)`                                             | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`  |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeStatic(Object, Object)`                                                                     | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000`    |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object, Object)`                                                                   | `java.lang.invoke.LambdaForm$MH.0x0000007001009400`     |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeExact_MT(Object, Object, Object, Object)`                                                   | `java.lang.invoke.Invokers$Holder`                      |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeImpl(Object, Object[])`                                                                     | `jdk.internal.reflect.DirectMethodHandleAccessor`       |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object[])`                                                                         | `jdk.internal.reflect.DirectMethodHandleAccessor`       |
+|   +4.4% |   +15 | 26.4% → 27.3% | 344 → 359 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| +187.5% |   +15 |   0.6% → 1.7% |    8 → 23 | `Verifier::verify`                                                                                 | `libjvm.dylib`                                          |
+|   +4.1% |   +14 | 26.0% → 26.8% | 339 → 353 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                        | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+|  +59.1% |   +13 |   1.7% → 2.7% |   22 → 35 | `G1EvacuateRegionsBaseTask::work`                                                                  | `libjvm.dylib`                                          |
 
 ##### Compiler
 
@@ -1949,28 +1949,28 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Standard library
 
-|  Change | Delta |             % |   Samples | Function                                                                                                                   | Location                                                                                                  |
-| ------: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-|   +4.6% |   +16 | 26.6% → 27.5% | 346 → 362 | `invoke(Object, Object[])`                                                                                                 | `java.lang.reflect.Method`                                                                                |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeStatic(Object, Object)`                                                                                             | `java.lang.invoke.LambdaForm$DMH.0x0000008801008000 → java.lang.invoke.LambdaForm$DMH.0x0000007001008000` |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object, Object)`                                                                                           | `java.lang.invoke.LambdaForm$MH.0x0000008801009400 → java.lang.invoke.LambdaForm$MH.0x0000007001009400`   |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeExact_MT(Object, Object, Object, Object)`                                                                           | `java.lang.invoke.Invokers$Holder`                                                                        |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeImpl(Object, Object[])`                                                                                             | `jdk.internal.reflect.DirectMethodHandleAccessor`                                                         |
-|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object[])`                                                                                                 | `jdk.internal.reflect.DirectMethodHandleAccessor`                                                         |
-|  +20.5% |    +9 |   3.4% → 4.0% |   44 → 53 | `resumeWith(Object)`                                                                                                       | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`                                                     |
-| +166.7% |    +5 |   0.2% → 0.6% |     3 → 8 | `generateInnerClass()`                                                                                                     | `java.lang.invoke.InnerClassLambdaMetafactory`                                                            |
-| +166.7% |    +5 |   0.2% → 0.6% |     3 → 8 | `spinInnerClass()`                                                                                                         | `java.lang.invoke.InnerClassLambdaMetafactory`                                                            |
-|  +83.3% |    +5 |   0.5% → 0.8% |    6 → 11 | `getValue()`                                                                                                               | `kotlin.UnsafeLazyImpl`                                                                                   |
-| +400.0% |    +4 |   0.1% → 0.4% |     1 → 5 | `put(Object, Object)`                                                                                                      | `java.util.HashMap`                                                                                       |
-|     new |    +4 |   0.0% → 0.3% |     0 → 4 | `hash(Object)`                                                                                                             | `java.util.HashMap`                                                                                       |
-|  +23.1% |    +3 |   1.0% → 1.2% |   13 → 16 | `getValue()`                                                                                                               | `kotlin.SynchronizedLazyImpl`                                                                             |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `resize()`                                                                                                                 | `java.util.HashMap`                                                                                       |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `putVal(int, Object, Object, boolean, boolean)`                                                                            | `java.util.HashMap`                                                                                       |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `createModuleData(KotlinClassFinder, KotlinClassFinder, JavaClassFinder, String, ErrorReporter, JavaSourceElementFactory)` | `kotlin.reflect.jvm.internal.impl.load.kotlin.DeserializationComponentsForJava$Companion`                 |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `create(ClassLoader)`                                                                                                      | `kotlin.reflect.jvm.internal.impl.descriptors.runtime.components.RuntimeModuleData$Companion`             |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `getOrCreateModule(Class)`                                                                                                 | `kotlin.reflect.jvm.internal.ModuleByClassLoaderKt`                                                       |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `moduleData_delegate$lambda$0(KDeclarationContainerImpl)`                                                                  | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data`                                              |
-| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `accessor$KDeclarationContainerImpl$Data$lambda0(KDeclarationContainerImpl)`                                               | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data`                                              |
+|  Change | Delta |             % |   Samples | Function                                                                                                                   | Location                                                                                      |
+| ------: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+|   +4.6% |   +16 | 26.6% → 27.5% | 346 → 362 | `invoke(Object, Object[])`                                                                                                 | `java.lang.reflect.Method`                                                                    |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeStatic(Object, Object)`                                                                                             | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000`                                          |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object, Object)`                                                                                           | `java.lang.invoke.LambdaForm$MH.0x0000007001009400`                                           |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeExact_MT(Object, Object, Object, Object)`                                                                           | `java.lang.invoke.Invokers$Holder`                                                            |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invokeImpl(Object, Object[])`                                                                                             | `jdk.internal.reflect.DirectMethodHandleAccessor`                                             |
+|   +4.3% |   +15 | 26.6% → 27.5% | 346 → 361 | `invoke(Object, Object[])`                                                                                                 | `jdk.internal.reflect.DirectMethodHandleAccessor`                                             |
+|  +20.5% |    +9 |   3.4% → 4.0% |   44 → 53 | `resumeWith(Object)`                                                                                                       | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`                                         |
+| +166.7% |    +5 |   0.2% → 0.6% |     3 → 8 | `generateInnerClass()`                                                                                                     | `java.lang.invoke.InnerClassLambdaMetafactory`                                                |
+| +166.7% |    +5 |   0.2% → 0.6% |     3 → 8 | `spinInnerClass()`                                                                                                         | `java.lang.invoke.InnerClassLambdaMetafactory`                                                |
+|  +83.3% |    +5 |   0.5% → 0.8% |    6 → 11 | `getValue()`                                                                                                               | `kotlin.UnsafeLazyImpl`                                                                       |
+| +400.0% |    +4 |   0.1% → 0.4% |     1 → 5 | `put(Object, Object)`                                                                                                      | `java.util.HashMap`                                                                           |
+|     new |    +4 |   0.0% → 0.3% |     0 → 4 | `hash(Object)`                                                                                                             | `java.util.HashMap`                                                                           |
+|  +23.1% |    +3 |   1.0% → 1.2% |   13 → 16 | `getValue()`                                                                                                               | `kotlin.SynchronizedLazyImpl`                                                                 |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `resize()`                                                                                                                 | `java.util.HashMap`                                                                           |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `putVal(int, Object, Object, boolean, boolean)`                                                                            | `java.util.HashMap`                                                                           |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `createModuleData(KotlinClassFinder, KotlinClassFinder, JavaClassFinder, String, ErrorReporter, JavaSourceElementFactory)` | `kotlin.reflect.jvm.internal.impl.load.kotlin.DeserializationComponentsForJava$Companion`     |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `create(ClassLoader)`                                                                                                      | `kotlin.reflect.jvm.internal.impl.descriptors.runtime.components.RuntimeModuleData$Companion` |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `getOrCreateModule(Class)`                                                                                                 | `kotlin.reflect.jvm.internal.ModuleByClassLoaderKt`                                           |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `moduleData_delegate$lambda$0(KDeclarationContainerImpl)`                                                                  | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data`                                  |
+| +200.0% |    +2 |   0.1% → 0.2% |     1 → 3 | `accessor$KDeclarationContainerImpl$Data$lambda0(KDeclarationContainerImpl)`                                               | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data`                                  |
 
 ##### JIT
 
@@ -2211,15 +2211,15 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001009400`)
 
-| Change | Delta |      % |   Samples | Callee                         | Location                                                                                                  |
-| -----: | ----: | -----: | --------: | ------------------------------ | --------------------------------------------------------------------------------------------------------- |
-|  +4.3% |   +15 | 100.0% | 346 → 361 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000008801008000 → java.lang.invoke.LambdaForm$DMH.0x0000007001008000` |
+| Change | Delta |      % |   Samples | Callee                         | Location                                             |
+| -----: | ----: | -----: | --------: | ------------------------------ | ---------------------------------------------------- |
+|  +4.3% |   +15 | 100.0% | 346 → 361 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000` |
 
 ##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
 
-| Change | Delta |      % |   Samples | Callee                           | Location                                                                                                |
-| -----: | ----: | -----: | --------: | -------------------------------- | ------------------------------------------------------------------------------------------------------- |
-|  +4.3% |   +15 | 100.0% | 346 → 361 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000008801009400 → java.lang.invoke.LambdaForm$MH.0x0000007001009400` |
+| Change | Delta |      % |   Samples | Callee                           | Location                                            |
+| -----: | ----: | -----: | --------: | -------------------------------- | --------------------------------------------------- |
+|  +4.3% |   +15 | 100.0% | 346 → 361 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001009400` |
 
 ##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 
@@ -2640,13 +2640,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `getValue()` (`kotlin.UnsafeLazyImpl`)
 
-|  Change | Delta |             % | Samples | Callee     | Location                                                                                                                                                                |
-| ------: | ----: | ------------: | ------: | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +133.3% |    +4 | 50.0% → 63.6% |   3 → 7 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x0000008801686d48 → org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x0000007001686d48` |
-| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformer$BodyResolveTransformerComponents$$Lambda.0x0000008801596398`              |
-| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryClassSignatureParser$$Lambda.0x000000880160b6c8`                                                        |
-| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda.0x000000880163efa0`                                                                                         |
-|     new |    +1 |   0.0% → 9.1% |   0 → 1 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x0000007001670720`                                                                                 |
+|  Change | Delta |             % | Samples | Callee     | Location                                                                                                                                                   |
+| ------: | ----: | ------------: | ------: | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +133.3% |    +4 | 50.0% → 63.6% |   3 → 7 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x0000007001686d48`                                                                        |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformer$BodyResolveTransformerComponents$$Lambda.0x0000008801596398` |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryClassSignatureParser$$Lambda.0x000000880160b6c8`                                           |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda.0x000000880163efa0`                                                                            |
+|     new |    +1 |   0.0% → 9.1% |   0 → 1 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x0000007001670720`                                                                    |
 
 ##### `put(Object, Object)` (`java.util.HashMap`)
 
@@ -2665,13 +2665,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `getValue()` (`kotlin.SynchronizedLazyImpl`)
 
-|  Change | Delta |            % | Samples | Callee     | Location                                                                                                                                                                  |
-| ------: | ----: | -----------: | ------: | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +100.0% |    +1 | 7.7% → 12.5% |   1 → 2 | `invoke()` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x000000880137ba80 → org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x000000700137ba80` |
-| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.impl.FirEnumEntriesSupport$$Lambda.0x0000008801453498`                                                                                   |
-| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda.0x000000880163b700`                                                                                           |
-| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.backend.Fir2IrBuiltinSymbolsContainer$$Lambda.0x000000880177efb0`                                                                               |
-| +100.0% |    +1 | 7.7% → 12.5% |   1 → 2 | `invoke()` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen$$Lambda.0x00000088018913f0 → org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen$$Lambda.0x00000070018913f0`     |
+|  Change | Delta |            % | Samples | Callee     | Location                                                                                    |
+| ------: | ----: | -----------: | ------: | ---------- | ------------------------------------------------------------------------------------------- |
+| +100.0% |    +1 | 7.7% → 12.5% |   1 → 2 | `invoke()` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x000000700137ba80`        |
+| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.impl.FirEnumEntriesSupport$$Lambda.0x0000008801453498`     |
+| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda.0x000000880163b700`             |
+| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.backend.Fir2IrBuiltinSymbolsContainer$$Lambda.0x000000880177efb0` |
+| +100.0% |    +1 | 7.7% → 12.5% |   1 → 2 | `invoke()` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen$$Lambda.0x00000070018913f0`          |
 
 ##### `putVal(int, Object, Object, boolean, boolean)` (`java.util.HashMap`)
 

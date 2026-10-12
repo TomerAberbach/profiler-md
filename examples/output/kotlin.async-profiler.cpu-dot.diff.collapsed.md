@@ -1426,53 +1426,53 @@ Functions with the largest increase in total samples taken in the function and a
 
 ##### Ours
 
-|  Change | Delta |           % | Samples | Function                                | Location                                                                                                                                                                                      |
-| ------: | ----: | ----------: | ------: | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +26.8% |   +11 | 3.2% → 3.9% | 41 → 52 | `resumeTask`                            | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                                                                                                            |
-|  +26.8% |   +11 | 3.2% → 3.9% | 41 → 52 | `runTasks`                              | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                                                                                                            |
-|  +25.6% |   +11 | 3.4% → 4.1% | 43 → 54 | `runResolver`                           | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                                                                                               |
-|  +25.0% |   +11 | 3.4% → 4.2% | 44 → 55 | `runResolver$default`                   | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                                                                                               |
-|  +24.4% |   +11 | 3.5% → 4.2% | 45 → 56 | `collectCandidates`                     | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                                                                                      |
-|  +24.4% |   +11 | 3.5% → 4.2% | 45 → 56 | `collectCandidates$default`             | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                                                                                      |
-|  +55.0% |   +11 | 1.6% → 2.4% | 20 → 31 | `consumeCandidate`                      | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerLevelProcessor`                                                                                                                            |
-|  +55.0% |   +11 | 1.6% → 2.4% | 20 → 31 | `consumeCandidate$default`              | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerLevelProcessor`                                                                                                                            |
-|  +37.0% |   +10 | 2.1% → 2.8% | 27 → 37 | `processFunctionsAndConstructorsByName` | `org.jetbrains.kotlin.fir.resolve.calls.ConstructorProcessingKt`                                                                                                                              |
-|  +18.2% |   +10 | 4.3% → 4.9% | 55 → 65 | `loadClass`                             | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader`                                                                                                                                      |
-|  +23.7% |    +9 | 3.0% → 3.6% | 38 → 47 | `handleLevel`                           | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerLevelHandler`                                                                                                                              |
-|  +64.3% |    +9 | 1.1% → 1.7% | 14 → 23 | `consumeCallableCandidate`              | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                                                                                                                           |
-|  +40.0% |    +8 | 1.6% → 2.1% | 20 → 28 | `processFunctionsByName`                | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                                                                                                                           |
-|  +20.5% |    +8 | 3.0% → 3.6% | 39 → 47 | `resolveCallAndSelectCandidate$default` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                                                                                      |
-|  +40.0% |    +8 | 1.6% → 2.1% | 20 → 28 | `consumeCandidate`                      | `org.jetbrains.kotlin.fir.resolve.calls.candidate.CandidateCollector`                                                                                                                         |
-|  +61.5% |    +8 | 1.0% → 1.6% | 13 → 21 | `processFunctionsByName$lambda$0`       | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                                                                                                                           |
-|  +61.5% |    +8 | 1.0% → 1.6% | 13 → 21 | `invoke`                                | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x0000000301673068 → org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000d80166d520` |
-| +266.7% |    +8 | 0.2% → 0.8% |  3 → 11 | `mapSignature`                          | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                                                                                                                              |
-| +266.7% |    +8 | 0.2% → 0.8% |  3 → 11 | `mapSignature$default`                  | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                                                                                                                              |
-|  +17.5% |    +7 | 3.1% → 3.6% | 40 → 47 | `processLevel`                          | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirBaseTowerResolveTask`                                                                                                                        |
+|  Change | Delta |           % | Samples | Function                                | Location                                                                                       |
+| ------: | ----: | ----------: | ------: | --------------------------------------- | ---------------------------------------------------------------------------------------------- |
+|  +26.8% |   +11 | 3.2% → 3.9% | 41 → 52 | `resumeTask`                            | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                             |
+|  +26.8% |   +11 | 3.2% → 3.9% | 41 → 52 | `runTasks`                              | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                             |
+|  +25.6% |   +11 | 3.4% → 4.1% | 43 → 54 | `runResolver`                           | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                |
+|  +25.0% |   +11 | 3.4% → 4.2% | 44 → 55 | `runResolver$default`                   | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                |
+|  +24.4% |   +11 | 3.5% → 4.2% | 45 → 56 | `collectCandidates`                     | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                       |
+|  +24.4% |   +11 | 3.5% → 4.2% | 45 → 56 | `collectCandidates$default`             | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                       |
+|  +55.0% |   +11 | 1.6% → 2.4% | 20 → 31 | `consumeCandidate`                      | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerLevelProcessor`                             |
+|  +55.0% |   +11 | 1.6% → 2.4% | 20 → 31 | `consumeCandidate$default`              | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerLevelProcessor`                             |
+|  +37.0% |   +10 | 2.1% → 2.8% | 27 → 37 | `processFunctionsAndConstructorsByName` | `org.jetbrains.kotlin.fir.resolve.calls.ConstructorProcessingKt`                               |
+|  +18.2% |   +10 | 4.3% → 4.9% | 55 → 65 | `loadClass`                             | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader`                                       |
+|  +23.7% |    +9 | 3.0% → 3.6% | 38 → 47 | `handleLevel`                           | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerLevelHandler`                               |
+|  +64.3% |    +9 | 1.1% → 1.7% | 14 → 23 | `consumeCallableCandidate`              | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |
+|  +40.0% |    +8 | 1.6% → 2.1% | 20 → 28 | `processFunctionsByName`                | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |
+|  +20.5% |    +8 | 3.0% → 3.6% | 39 → 47 | `resolveCallAndSelectCandidate$default` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                       |
+|  +40.0% |    +8 | 1.6% → 2.1% | 20 → 28 | `consumeCandidate`                      | `org.jetbrains.kotlin.fir.resolve.calls.candidate.CandidateCollector`                          |
+|  +61.5% |    +8 | 1.0% → 1.6% | 13 → 21 | `processFunctionsByName$lambda$0`       | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel`                            |
+|  +61.5% |    +8 | 1.0% → 1.6% | 13 → 21 | `invoke`                                | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000d80166d520` |
+| +266.7% |    +8 | 0.2% → 0.8% |  3 → 11 | `mapSignature`                          | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                               |
+| +266.7% |    +8 | 0.2% → 0.8% |  3 → 11 | `mapSignature$default`                  | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                               |
+|  +17.5% |    +7 | 3.1% → 3.6% | 40 → 47 | `processLevel`                          | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirBaseTowerResolveTask`                         |
 
 ##### Standard library
 
-|  Change | Delta |           % | Samples | Function                       | Location                                                                                                  |
-| ------: | ----: | ----------: | ------: | ------------------------------ | --------------------------------------------------------------------------------------------------------- |
-|  +21.7% |   +10 | 3.6% → 4.2% | 46 → 56 | `resumeWith`                   | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`                                                     |
-|  +20.0% |   +10 | 3.9% → 4.5% | 50 → 60 | `defineClass1`                 | `java.lang.ClassLoader`                                                                                   |
-|  +17.5% |   +10 | 4.4% → 5.1% | 57 → 67 | `loadClass`                    | `java.lang.ClassLoader`                                                                                   |
-|  +15.1% |    +8 | 4.1% → 4.6% | 53 → 61 | `defineClass`                  | `java.lang.ClassLoader`                                                                                   |
-|  +66.7% |    +6 | 0.7% → 1.1% |  9 → 15 | `getValue`                     | `kotlin.UnsafeLazyImpl`                                                                                   |
-| +300.0% |    +3 | 0.1% → 0.3% |   1 → 4 | `generateCustomizedCode`       | `java.lang.invoke.InvokerBytecodeGenerator`                                                               |
-| +300.0% |    +3 | 0.1% → 0.3% |   1 → 4 | `compileToBytecode`            | `java.lang.invoke.LambdaForm`                                                                             |
-|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `putVal`                       | `java.util.HashMap`                                                                                       |
-|  +66.7% |    +2 | 0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandles$Lookup`                                                                   |
-|  +66.7% |    +2 | 0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandleNatives`                                                                    |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `findBootstrapClass`           | `java.lang.ClassLoader`                                                                                   |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `findBootstrapClassOrNull`     | `java.lang.ClassLoader`                                                                                   |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `updateBytes`                  | `java.util.zip.CRC32`                                                                                     |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `update`                       | `java.util.zip.CRC32`                                                                                     |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `lambda$getProxyConstructor$0` | `java.lang.reflect.Proxy`                                                                                 |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `apply`                        | `java.lang.reflect.Proxy$$Lambda.0x0000000301051c10 → java.lang.reflect.Proxy$$Lambda.0x000000d801051c10` |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `get`                          | `jdk.internal.loader.AbstractClassLoaderValue$Memoizer`                                                   |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `computeIfAbsent`              | `jdk.internal.loader.AbstractClassLoaderValue`                                                            |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `getProxyConstructor`          | `java.lang.reflect.Proxy`                                                                                 |
-| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `newProxyInstance`             | `java.lang.reflect.Proxy`                                                                                 |
+|  Change | Delta |           % | Samples | Function                       | Location                                                |
+| ------: | ----: | ----------: | ------: | ------------------------------ | ------------------------------------------------------- |
+|  +21.7% |   +10 | 3.6% → 4.2% | 46 → 56 | `resumeWith`                   | `kotlin.coroutines.jvm.internal.BaseContinuationImpl`   |
+|  +20.0% |   +10 | 3.9% → 4.5% | 50 → 60 | `defineClass1`                 | `java.lang.ClassLoader`                                 |
+|  +17.5% |   +10 | 4.4% → 5.1% | 57 → 67 | `loadClass`                    | `java.lang.ClassLoader`                                 |
+|  +15.1% |    +8 | 4.1% → 4.6% | 53 → 61 | `defineClass`                  | `java.lang.ClassLoader`                                 |
+|  +66.7% |    +6 | 0.7% → 1.1% |  9 → 15 | `getValue`                     | `kotlin.UnsafeLazyImpl`                                 |
+| +300.0% |    +3 | 0.1% → 0.3% |   1 → 4 | `generateCustomizedCode`       | `java.lang.invoke.InvokerBytecodeGenerator`             |
+| +300.0% |    +3 | 0.1% → 0.3% |   1 → 4 | `compileToBytecode`            | `java.lang.invoke.LambdaForm`                           |
+|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `putVal`                       | `java.util.HashMap`                                     |
+|  +66.7% |    +2 | 0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandles$Lookup`                 |
+|  +66.7% |    +2 | 0.2% → 0.4% |   3 → 5 | `linkMethodHandleConstant`     | `java.lang.invoke.MethodHandleNatives`                  |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `findBootstrapClass`           | `java.lang.ClassLoader`                                 |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `findBootstrapClassOrNull`     | `java.lang.ClassLoader`                                 |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `updateBytes`                  | `java.util.zip.CRC32`                                   |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `update`                       | `java.util.zip.CRC32`                                   |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `lambda$getProxyConstructor$0` | `java.lang.reflect.Proxy`                               |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `apply`                        | `java.lang.reflect.Proxy$$Lambda.0x000000d801051c10`    |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `get`                          | `jdk.internal.loader.AbstractClassLoaderValue$Memoizer` |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `computeIfAbsent`              | `jdk.internal.loader.AbstractClassLoaderValue`          |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `getProxyConstructor`          | `java.lang.reflect.Proxy`                               |
+| +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `newProxyInstance`             | `java.lang.reflect.Proxy`                               |
 
 ##### JIT
 
@@ -2106,13 +2106,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `getValue` (`kotlin.UnsafeLazyImpl`)
 
-|  Change | Delta |            % | Samples | Callee   | Location                                                                                                                                                                |
-| ------: | ----: | -----------: | ------: | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +66.7% |    +4 |        66.7% |  6 → 10 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x000000030168e168 → org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x000000d8016828a0` |
-| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.lightTree.fir.ValueParameter$$Lambda.0x000000030152cf10`                                                                                      |
-| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryClassSignatureParser$$Lambda.0x0000000301610b38`                                                        |
-|     new |    +1 |  0.0% → 6.7% |   0 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x000000d801670000`                                                                                 |
-|     new |    +1 |  0.0% → 6.7% |   0 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerDataElementsForName$$Lambda.0x000000d80165fce0`                                                                      |
+|  Change | Delta |            % | Samples | Callee   | Location                                                                                                         |
+| ------: | ----: | -----------: | ------: | -------- | ---------------------------------------------------------------------------------------------------------------- |
+|  +66.7% |    +4 |        66.7% |  6 → 10 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x000000d8016828a0`                              |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.lightTree.fir.ValueParameter$$Lambda.0x000000030152cf10`                               |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryClassSignatureParser$$Lambda.0x0000000301610b38` |
+|     new |    +1 |  0.0% → 6.7% |   0 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x000000d801670000`                          |
+|     new |    +1 |  0.0% → 6.7% |   0 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerDataElementsForName$$Lambda.0x000000d80165fce0`               |
 
 ##### `generateCustomizedCode` (`java.lang.invoke.InvokerBytecodeGenerator`)
 
@@ -2185,9 +2185,9 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `get` (`jdk.internal.loader.AbstractClassLoaderValue$Memoizer`)
 
-|  Change | Delta |      % | Samples | Callee  | Location                                                                                                  |
-| ------: | ----: | -----: | ------: | ------- | --------------------------------------------------------------------------------------------------------- |
-| +200.0% |    +2 | 100.0% |   1 → 3 | `apply` | `java.lang.reflect.Proxy$$Lambda.0x0000000301051c10 → java.lang.reflect.Proxy$$Lambda.0x000000d801051c10` |
+|  Change | Delta |      % | Samples | Callee  | Location                                             |
+| ------: | ----: | -----: | ------: | ------- | ---------------------------------------------------- |
+| +200.0% |    +2 | 100.0% |   1 → 3 | `apply` | `java.lang.reflect.Proxy$$Lambda.0x000000d801051c10` |
 
 ##### `computeIfAbsent` (`jdk.internal.loader.AbstractClassLoaderValue`)
 
@@ -2671,13 +2671,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `getValue` (`kotlin.SynchronizedLazyImpl`)
 
-|  Change | Delta |             % | Samples | Callee   | Location                                                                                                                                                                  |
-| ------: | ----: | ------------: | ------: | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -50.0% |    -1 | 15.4% → 10.0% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x0000000301388ad0 → org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x000000d801390000` |
-| removed |    -1 |   7.7% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.backend.Fir2IrBuiltinSymbolsContainer$$Lambda.0x0000000301784528`                                                                               |
-|  -50.0% |    -1 | 15.4% → 10.0% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda.0x0000000301614fc0 → org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda.0x000000d80160f940` |
-| removed |    -1 |   7.7% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.utils.PathUtil$$Lambda.0x00000003011560b8`                                                                                                          |
-|     new |    +1 |  0.0% → 10.0% |   0 → 1 | `invoke` | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter$$Lambda.0x000000d801786a30`                                                                                         |
+|  Change | Delta |             % | Samples | Callee   | Location                                                                                    |
+| ------: | ----: | ------------: | ------: | -------- | ------------------------------------------------------------------------------------------- |
+|  -50.0% |    -1 | 15.4% → 10.0% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x000000d801390000`        |
+| removed |    -1 |   7.7% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.backend.Fir2IrBuiltinSymbolsContainer$$Lambda.0x0000000301784528` |
+|  -50.0% |    -1 | 15.4% → 10.0% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda.0x000000d80160f940`        |
+| removed |    -1 |   7.7% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.utils.PathUtil$$Lambda.0x00000003011560b8`                            |
+|     new |    +1 |  0.0% → 10.0% |   0 → 1 | `invoke` | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter$$Lambda.0x000000d801786a30`           |
 
 ##### `defineClass0` (`java.lang.ClassLoader`)
 
@@ -2746,12 +2746,12 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `getValue` (`kotlin.SafePublicationLazyImpl`)
 
-|  Change | Delta |            % | Samples | Callee   | Location                                                                                                                                                                            |
-| ------: | ----: | -----------: | ------: | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -50.0% |    -1 | 14.3% → 8.3% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.ImplicitReceiverValue$$Lambda.0x000000030165b878 → org.jetbrains.kotlin.fir.resolve.calls.ImplicitReceiverValue$$Lambda.0x000000d801655c20` |
-| removed |    -1 |  7.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.java.FirLazyJavaDeclarationList$$Lambda.0x0000000301614718`                                                                                               |
-| removed |    -1 |  7.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.scopes.impl.FirClassDeclaredMemberScopeImpl$$Lambda.0x000000030162d058`                                                                                   |
-| removed |    -1 |  7.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope$$Lambda.0x0000000301634e40`                                                                                     |
+|  Change | Delta |            % | Samples | Callee   | Location                                                                                          |
+| ------: | ----: | -----------: | ------: | -------- | ------------------------------------------------------------------------------------------------- |
+|  -50.0% |    -1 | 14.3% → 8.3% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.ImplicitReceiverValue$$Lambda.0x000000d801655c20`         |
+| removed |    -1 |  7.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.java.FirLazyJavaDeclarationList$$Lambda.0x0000000301614718`             |
+| removed |    -1 |  7.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.scopes.impl.FirClassDeclaredMemberScopeImpl$$Lambda.0x000000030162d058` |
+| removed |    -1 |  7.1% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope$$Lambda.0x0000000301634e40`   |
 
 ##### `copyOfRange` (`java.util.Arrays`)
 

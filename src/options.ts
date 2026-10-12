@@ -310,6 +310,15 @@ export type AggregationProfileToMdOptions = Omit<
 export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
   baseURL: URL | undefined
   sourceMaps: SourceMapResolver
+
+  /**
+   * Whether a diffed entity's base and current sources are one source.
+   * Defaults to whether they are the same source reference.
+   */
+  isSameMatchedSource?: (
+    base: SourceLocation,
+    current: SourceLocation,
+  ) => boolean
 }
 
 export const DEFAULT_TOP_N = 20

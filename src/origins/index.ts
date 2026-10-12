@@ -1,6 +1,8 @@
 import { formatToSpec } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
+import { sourceReferenceId, sourceReferenceKind } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { Metric } from '../modalities/metric.ts'
 import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
@@ -61,6 +63,27 @@ export const hasRuntimeInsertedArcsForOrigin = (
   const spec: OriginSpec = originToSpec.get(origin)!
   return spec.hasRuntimeInsertedArcs?.(entry) ?? false
 }
+
+/**
+ * Whether two locations are one source under the origins' own match
+ * normalization, which strips only an identifier that differs per run or
+ * build, such as a store hash or a runtime address.
+ */
+export const isSameSourceForOrigins = (
+  location1: DeepReadonly<SourceLocation>,
+  origin1: Origin,
+  location2: DeepReadonly<SourceLocation>,
+  origin2: Origin,
+): boolean =>
+  sourceReferenceKind(location1) === sourceReferenceKind(location2) &&
+  originSourceKey(location1, origin1) === originSourceKey(location2, origin2)
+
+const originSourceKey = (
+  location: DeepReadonly<SourceLocation>,
+  origin: Origin,
+): string =>
+  matchEntryForOrigin({ id: 0, location }, origin)?.location ??
+  sourceReferenceId(location)
 
 export const matchEntryForOrigin = (
   entry: DeepReadonly<ProfileEntry>,

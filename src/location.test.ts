@@ -699,3 +699,27 @@ test.each<{
     ).toBe(expected)
   },
 )
+
+test(`formatSourceLocationDiff states both sources when a source map maps the sides to different sources`, () => {
+  const bundle = `file:///project/dist/bundle.js`
+  const options = resolveProfileToMdOptions({
+    baseURL: `/project`,
+    sourceMaps: {
+      [bundle]: {
+        version: `3`,
+        sources: [`/project/src/a.ts`, `/project/src/b.ts`],
+        names: [],
+        // Generated line 1 maps to a.ts line 1, and line 2 to b.ts line 1.
+        mappings: `AAAA;ACAA`,
+      },
+    },
+  })
+
+  expect(
+    formatSourceLocationDiff(
+      { type: `absolute`, url: new URL(bundle), line: 1, column: 1 },
+      { type: `absolute`, url: new URL(bundle), line: 2, column: 1 },
+      options,
+    ),
+  ).toBe(`./src/a.ts:1:1 → ./src/b.ts:1:1`)
+})

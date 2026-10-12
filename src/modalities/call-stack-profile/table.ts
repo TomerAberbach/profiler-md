@@ -2,7 +2,11 @@ import type { PhrasingContent } from 'mdast'
 import { capitalizeFirst } from '../../helpers/format.ts'
 import { inlineCode, phrasing, text } from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
-import { formatSourceLocation, isSameSourceReference } from '../../location.ts'
+import {
+  formatPosition,
+  formatSourceLocation,
+  isSameSourceReference,
+} from '../../location.ts'
 import type {
   FormattingProfileToMdOptions,
   FunctionCategory,
@@ -212,12 +216,8 @@ const formatFrameLocation = (
     ]
   }
 
-  const { line, column } = frame.location
-  if (!Number.isFinite(line)) {
-    return []
-  }
-
-  return [text(` (${line}${Number.isFinite(column) ? `:${column}` : ``})`)]
+  const position = formatPosition(frame.location)
+  return position === undefined ? [] : [text(` (${position})`)]
 }
 
 /**

@@ -12,6 +12,7 @@ import type {
   FormattingProfileToMdOptions,
   NormalizedProfileToMdOptions,
 } from '../options.ts'
+import { isSameSourceForOrigins } from '../origins/index.ts'
 import { SourceMapResolver } from '../source-map.ts'
 
 export const formatAggregatedInputs = (
@@ -56,11 +57,16 @@ export const formatAggregatedDiff = (
         `cannot diff a ${modalityName(baseInput.type)} against a ${modalityName(currentInput.type)}`,
       )
     }
-    return modalitySpecOf(baseInput).formatDiff(
-      baseInput,
-      currentInput,
-      formattingOptions,
-    )
+    return modalitySpecOf(baseInput).formatDiff(baseInput, currentInput, {
+      ...formattingOptions,
+      isSameMatchedSource: (baseLocation, currentLocation) =>
+        isSameSourceForOrigins(
+          baseLocation,
+          baseInput.context.origin,
+          currentLocation,
+          currentInput.context.origin,
+        ),
+    })
   })
   formattingOptions.sourceMaps.report(formattingOptions.baseURL)
   return toMarkdown(contents)
