@@ -1,4 +1,4 @@
-import type { Heading, RootContent } from 'mdast'
+import type { Heading, PhrasingContent, RootContent } from 'mdast'
 import { capitalizeFirst, formatConjunction } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import {
@@ -30,21 +30,31 @@ export const formatTitle = (metrics: Metric[]): string =>
 
 /**
  * A paragraph stating the base URL, so a reader can resolve a path shown
- * relative to it.
+ * relative to it. A diff whose sides have their own base URLs states each.
  *
  * A relative path the profiler wrote is shown as written, and keeps a leading
  * `../`, so the note misstates its base. No committed input contains one.
  */
 export const formatBaseURLNote = ({
   baseURL,
-}: FormattingProfileToMdOptions): RootContent[] =>
-  baseURL
-    ? [
-        paragraph(
-          phrasing`Paths starting with ${inlineCode(`./`)} or ${inlineCode(`../`)} are relative to ${inlineCode(absoluteURLPath(baseURL))}.`,
-        ),
-      ]
-    : []
+  baseSideBaseURL,
+}: FormattingProfileToMdOptions): RootContent[] => {
+  if (!baseURL) {
+    return []
+  }
+
+  const baseURLs = baseSideBaseURL
+    ? phrasing`${formatBaseURL(baseSideBaseURL)} in the base and to ${formatBaseURL(baseURL)} in the current`
+    : [formatBaseURL(baseURL)]
+  return [
+    paragraph(
+      phrasing`Paths starting with ${inlineCode(`./`)} or ${inlineCode(`../`)} are relative to ${baseURLs}.`,
+    ),
+  ]
+}
+
+const formatBaseURL = (baseURL: URL): PhrasingContent =>
+  inlineCode(absoluteURLPath(baseURL))
 
 /**
  * Wraps each measure's sections in a heading naming its metric when there are

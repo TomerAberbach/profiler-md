@@ -723,3 +723,20 @@ test(`formatSourceLocationDiff states both sources when a source map maps the si
     ),
   ).toBe(`./src/a.ts:1:1 → ./src/b.ts:1:1`)
 })
+
+test.each([
+  [`file:///build/run-111/src/a.ts`, `./a.ts`],
+  [`file:///build/run-222/src/b.ts`, `./b.ts`],
+])(
+  `diff location %s formats relative to the base URL of the side containing it as %s`,
+  (url, expected) => {
+    const options = {
+      ...resolveProfileToMdOptions({ baseURL: `/build/run-222/src` }),
+      baseSideBaseURL: new URL(`file:///build/run-111/src/`),
+    }
+
+    expect(
+      formatSourceLocation({ type: `absolute`, url: new URL(url) }, options),
+    ).toBe(expected)
+  },
+)

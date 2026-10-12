@@ -1,7 +1,6 @@
 import { formatArrow } from './helpers/format.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import type { FormattingProfileToMdOptions } from './options.ts'
-import { sourceMapSourceLocation } from './source-map.ts'
 
 export type SourceLocation = SourceReference & {
   /** The 1-based line number in the referenced source. */
@@ -287,7 +286,7 @@ export const formatSourceLocation = (
   options: FormattingProfileToMdOptions,
 ): string =>
   joinFormattedSourceLocation(
-    formatMappedSourceLocationParts(sourceMapped(location, options), options),
+    formatResolvedSourceLocationParts(resolve(location, options)),
   )
 
 /**
@@ -303,24 +302,24 @@ export const formatSourceLocationDiff = (
   current: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
 ): string => {
-  const mappedBase = sourceMapped(base, options)
-  const mappedCurrent = sourceMapped(current, options)
-  const currentParts = formatMappedSourceLocationParts(mappedCurrent, options)
+  const resolvedBase = resolve(base, options)
+  const resolvedCurrent = resolve(current, options)
+  const currentParts = formatResolvedSourceLocationParts(resolvedCurrent)
   const isSameSource = options.isSameMatchedSource ?? isSameSourceReference
   if (
-    !mappedBase ||
-    !mappedCurrent ||
-    !isSameSource(mappedBase, mappedCurrent)
+    !resolvedBase ||
+    !resolvedCurrent ||
+    !isSameSource(resolvedBase.location, resolvedCurrent.location)
   ) {
     return formatArrow(
       joinFormattedSourceLocation(
-        formatMappedSourceLocationParts(mappedBase, options),
+        formatResolvedSourceLocationParts(resolvedBase),
       ),
       joinFormattedSourceLocation(currentParts),
     )
   }
 
-  const basePosition = formatPosition(mappedBase)
+  const basePosition = formatPosition(resolvedBase.location)
   if (!currentParts.path || (!basePosition && !currentParts.position)) {
     return joinFormattedSourceLocation(currentParts)
   }
@@ -341,29 +340,57 @@ const joinFormattedSourceLocation = ({
 }: FormattedSourceLocation): string =>
   (position === undefined ? path : `${path}:${position}`) || `<unknown>`
 
-const sourceMapped = (
-  location: SourceLocation | undefined,
-  options: FormattingProfileToMdOptions,
-): SourceLocation | undefined =>
-  location && sourceMapSourceLocation(location, options)
+/** A location after source map resolution, and the base URL it formats relative to. */
+type ResolvedSourceLocation = {
+  location: SourceLocation
+  baseURL: URL | undefined
+}
 
-/** Formats a location after source map resolution. */
-const formatMappedSourceLocationParts = (
+/**
+ * Resolves {@link location} through its source map against the base URL it
+ * formats relative to: a diff's base side's own base URL for a location below
+ * it, and otherwise the base URL.
+ */
+const resolve = (
   location: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
-): FormattedSourceLocation => {
+): ResolvedSourceLocation | undefined => {
   if (!location) {
+    return undefined
+  }
+
+  const { baseSideBaseURL, sourceMaps } = options
+  const baseURL =
+    baseSideBaseURL && isBelowURL(location, baseSideBaseURL)
+      ? baseSideBaseURL
+      : options.baseURL
+  return { location: sourceMaps.resolve(location, baseURL), baseURL }
+}
+
+const formatResolvedSourceLocationParts = (
+  resolved: ResolvedSourceLocation | undefined,
+): FormattedSourceLocation => {
+  if (!resolved) {
     return { path: `` }
   }
 
+  const { location, baseURL } = resolved
   return {
     path:
       location.type === `absolute`
-        ? formatURLPath(location.url, options.baseURL)
+        ? formatURLPath(location.url, baseURL)
         : sourceReferenceId(location),
     position: formatPosition(location),
   }
 }
+
+/** Whether {@link location} is an absolute location below {@link url}. */
+export const isBelowURL = (
+  location: DeepReadonly<SourceLocation> | undefined,
+  url: URL,
+): boolean =>
+  location?.type === `absolute` &&
+  relativeURLPath(url, location.url)?.levelsUp === 0
 
 /**
  * Formats a location's line and column. A line or column that is not a finite
@@ -495,7 +522,10 @@ type RelativeURLPath = {
  * when their roots differ (e.g. another origin, or Windows drives `C:` and
  * `D:`).
  */
-const relativeURLPath = (from: URL, to: URL): RelativeURLPath | undefined => {
+const relativeURLPath = (
+  from: URL,
+  to: DeepReadonly<URL>,
+): RelativeURLPath | undefined => {
   const fromPath = splitURLPath(from)
   const toPath = splitURLPath(to)
   if (fromPath.root !== toPath.root) {
@@ -540,7 +570,7 @@ const joinRelativeURLPath = ({
  * target through its link, and `symlink` states which link replaced it.
  */
 const splitURLPath = (
-  url: URL,
+  url: DeepReadonly<URL>,
 ): { root: string; segments: string[]; symlink?: Symlink } => {
   const segments = url.pathname.split(`/`)
   if (url.protocol !== `file:`) {
