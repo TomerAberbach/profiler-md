@@ -1023,6 +1023,75 @@ describe(`convert`, () => {
   })
 })
 
+test(`diffProfiles formats each instance group's retainer path`, () => {
+  // The root retains `a` → `b` → `c`, and `xx` through both `p1` and `p2`, so
+  // `xx`'s dominator is the root, which references it only indirectly.
+  const snapshotWithSize = (selfSize: number) => {
+    const object = (name: number, id: number, edgeCount: number) =>
+      makeV8Node({ type: NODE_TYPE_OBJECT, name, id, selfSize, edgeCount })
+    const property = (name: number, toOrdinal: number) =>
+      makeV8Edge({
+        type: EDGE_TYPE_PROPERTY,
+        nameOrIndex: name,
+        toNode: 6 * toOrdinal,
+      })
+    return makeV8Snapshot({
+      nodeCount: 7,
+      edgeCount: 7,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 3,
+        }),
+        ...object(1, 3, 1),
+        ...object(2, 5, 1),
+        ...object(3, 7, 0),
+        ...object(4, 9, 1),
+        ...object(5, 11, 1),
+        ...object(6, 13, 0),
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+        ...property(4, 4),
+        ...property(5, 5),
+        ...property(7, 2),
+        ...property(8, 3),
+        ...property(9, 6),
+        ...property(10, 6),
+      ],
+      strings: [``, `a`, `b`, `c`, `p1`, `p2`, `xx`, `x`, `y`, `x1`, `x2`],
+    })
+  }
+  const md = diffProfiles(
+    { data: JSON.stringify(snapshotWithSize(8)), format: `v8-heap-snapshot` },
+    { data: JSON.stringify(snapshotWithSize(16)), format: `v8-heap-snapshot` },
+    { baseURL: null },
+  )
+  const rowAt = (path: string) => [
+    [
+      {
+        Change: `+100.0%`,
+        Delta: `+8 B`,
+        '%': `100.0%`,
+        Size: `8 B → 16 B`,
+        Instances: `1`,
+        Path: path,
+      },
+    ],
+  ]
+  expect(
+    [`a`, `b`, `c`, `xx`].map(name => selfSizeInstancesTables(md, name)),
+  ).toEqual([
+    rowAt(`a ← (GC root)`),
+    rowAt(`b ←.x– a`),
+    rowAt(`c ←.y– b ←.x– a`),
+    rowAt(`xx ← (GC root)`),
+  ])
+})
+
 describe(`malformed snapshots`, () => {
   // A synthetic root retaining one object.
   const makeSnapshot = ({

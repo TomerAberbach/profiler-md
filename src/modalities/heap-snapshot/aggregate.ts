@@ -89,6 +89,20 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       this.#isInternalNode,
     )
 
+  /** The location of the function or constructor the node is an instance of. */
+  readonly #entityLocationOf = (
+    nodeOrdinal: number,
+  ): SourceLocation | undefined => {
+    const functionIndex = this.#nodeOrdinalToFunctionIndex[nodeOrdinal]!
+    if (functionIndex !== -1) {
+      return this.#functions[functionIndex]!.location
+    }
+    const constructorIndex = this.#nodeOrdinalToConstructorIndex[nodeOrdinal]!
+    return constructorIndex === -1
+      ? undefined
+      : this.#constructors[constructorIndex]!.location
+  }
+
   public constructor(snapshot: HeapSnapshot) {
     const {
       nodeCount,
@@ -316,6 +330,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
           this.#selfSizeOf,
           ordinal => this.#formatNodeLabel(ordinal, options),
           this.#isInternalNode,
+          this.#entityLocationOf,
           categoryOf,
         ),
     }
@@ -361,8 +376,11 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   }
 }
 
-/** Identifies a constructor or function by its name and location. */
-const nodeKey = (name: string, location: SourceLocation | undefined): string =>
+/** Identifies a node by its name and location. */
+export const nodeKey = (
+  name: string,
+  location: SourceLocation | undefined,
+): string =>
   location
     ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
     : name
@@ -498,11 +516,13 @@ export const formatRetainerEdgeLabel = (
   )
 
 /**
- * A retainer path step's edge. A step whose retainer holds no edge to the node,
- * which it retains through the node's several retainers, records several
- * retainers.
+ * A retainer path step's edge. A path that groups the elements of an array
+ * records an element edge as any element. A step whose retainer holds no edge
+ * to the node, which it retains through the node's several retainers, records
+ * several retainers.
  */
-export type RetainerPathEdge = RetainerEdge | { type: `several-retainers` }
+export type RetainerPathEdge =
+  RetainerEdge | { type: `any-element` } | { type: `several-retainers` }
 
 /**
  * One step of a retainer path: the edge a retainer holds to the node the path
@@ -522,6 +542,8 @@ export const formatRetainerEdge = (
       return `.${propertyName(edge)}`
     case `element`:
       return `[${edge.index ?? `<unknown>`}]`
+    case `any-element`:
+      return `[]`
     case `several-retainers`:
       return `(several paths)`
     case `labeled`:
@@ -572,6 +594,7 @@ const computeRetainedNodes = (
   selfSizeOf: (nodeOrdinal: number) => number,
   formatNodeLabel: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
+  locationOf: (nodeOrdinal: number) => SourceLocation | undefined,
   categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
 ): AggregatedHeapSnapshotNode[] => {
   const retainedNodes: AggregatedHeapSnapshotNode[] = []
@@ -594,6 +617,7 @@ const computeRetainedNodes = (
         category: categoryOf(current),
         selfSize: selfSizeOf(current),
         retainedSize: nodeOrdinalToRetainedSize[current]!,
+        location: locationOf(current),
       })
     }
 
@@ -728,7 +752,6 @@ export type AggregatedHeapSnapshot = {
 /** A node's immediate dominator, and the dominator's edge to the node. */
 export type RetainerHop = {
   dominatorOrdinal: number
-
   edge: RetainerPathEdge
 
   /** Whether the dominator is an internal node. */
