@@ -100,21 +100,26 @@ ambiguous.
 
 ## Heap snapshot
 
-| Term              | Definition                                                                                        | Aliases to avoid            |
-| ----------------- | ------------------------------------------------------------------------------------------------- | --------------------------- |
-| **Node**          | A vertex in a heap snapshot                                                                       | object                      |
-| **Edge**          | A directed reference from one node to another                                                     | reference, pointer          |
-| **Ordinal**       | A node's dense sequential index, used to address nodes in typed-array structures                  | id, index                   |
-| **GC root**       | The synthetic node from which all reachable nodes are retained                                    | root node                   |
-| **Dominator**     | A node that lies on every path from the GC root to another node                                   | —                           |
-| **Self size**     | Bytes allocated directly for a node, not counting referenced nodes                                | size, shallow size          |
-| **Retained size** | Bytes that would be freed if a node and all nodes it exclusively dominates were garbage collected | size, deep size, total size |
-| **Retainer path** | The dominator-guided chain of edges from a node back toward the GC root                           | retention path, chain       |
-| **Internal node** | A VM bookkeeping node that never points to user code, trimmed from retainer paths                 | hidden node                 |
-| **Entity**        | A named aggregated unit of a heap snapshot (e.g. constructor)                                     | entry, object               |
-| **Instance**      | One heap object of a constructor; instances sharing a retainer path form an instance group        | object, occurrence          |
-| **Retained node** | A node a function or instance exclusively dominates, ranked by self size in output                | retained object             |
-| **Largest**       | Describes the entities with the highest size in a heap snapshot                                   | top, hottest                |
+| Term                    | Definition                                                                                                                                          | Aliases to avoid            |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| **Node**                | A vertex in a heap snapshot                                                                                                                         | object                      |
+| **Edge**                | A directed reference from one node to another                                                                                                       | reference, pointer          |
+| **Ordinal**             | A node's dense sequential index, used to address nodes in typed-array structures                                                                    | id, index                   |
+| **GC root**             | The synthetic node from which all reachable nodes are retained                                                                                      | root node                   |
+| **Dominator**           | A node that lies on every path from the GC root to another node                                                                                     | —                           |
+| **Self size**           | Bytes allocated directly for a node, not counting referenced nodes                                                                                  | size, shallow size          |
+| **Retained size**       | Bytes that would be freed if a node and all nodes it exclusively dominates were garbage collected                                                   | size, deep size, total size |
+| **Retainer path**       | The dominator-guided chain of steps from a node back toward the GC root, or toward one of its dominators                                            | retention path, chain       |
+| **Retainer**            | The node at the other end of a retainer path step's edge, one hop toward the GC root                                                                | —                           |
+| **Several retainers**   | A retainer path step whose retainer holds no edge to the node, which it retains through the node's several retainers, formatted `←(several paths)–` | indirect retention          |
+| **Internal node**       | A VM bookkeeping node that never points to user code, trimmed from retainer paths                                                                   | hidden node                 |
+| **Entity**              | A named aggregated unit of a heap snapshot (e.g. constructor)                                                                                       | entry, object               |
+| **Instance**            | A node of a constructor or function                                                                                                                 | object, occurrence          |
+| **Instance group**      | A constructor's instances that share a retainer path                                                                                                | —                           |
+| **Retained node**       | A node an instance exclusively dominates                                                                                                            | retained object             |
+| **Retained node group** | A function's retained nodes that share a name, a category, a location, and a retainer path within the instance retaining them                       | —                           |
+| **Retainer group**      | One side's nodes of an entity that share a retainer path, summed into one diff row                                                                  | —                           |
+| **Largest**             | Describes the entities with the highest size in a heap snapshot                                                                                     | top, hottest                |
 
 ## Diffing
 
@@ -161,10 +166,14 @@ ambiguous.
   one **metric** because it counts nothing to fall back on
 - A **heap snapshot** contains **nodes** connected by **edges**
 - A **node**'s **retained size** is computed via the **dominator** graph
-- An **entity** aggregates one or more **nodes**; a constructor **entity**'s
-  nodes are its **instances**
+- An **entity** aggregates one or more **nodes**; a constructor or function
+  **entity**'s nodes are its **instances**
 - A **diff** pairs each **base** entity with a **current** entity by **match
   key**; an unpaired entity is new or removed
+- A **retainer group** is an **instance group** or a **retained node group**
+- A **diff** pairs an entity's **retainer groups** across its sides by
+  **retainer path**, and pairs **retained node groups** by their nodes' **match
+  key** too
 - A **metric** states its **improvement direction**, by which a **diff** ranks
   its **regressions** and **improvements**. A **diff** of a **metric** whose
   direction is unknown ranks increases and decreases instead
