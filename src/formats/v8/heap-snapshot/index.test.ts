@@ -645,6 +645,77 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`marks a retainer that holds the node only through its several retainers`, () => {
+    // Root -> holder, which holds the child only through a and b, so holder
+    // dominates the child without an edge to it.
+    const snapshot = makeV8Snapshot({
+      nodeCount: 5,
+      edgeCount: 5,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 1,
+        }), // Root
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 1,
+          id: 3,
+          selfSize: 100,
+          edgeCount: 2,
+        }), // Holder
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 2,
+          id: 5,
+          selfSize: 10,
+          edgeCount: 1,
+        }), // A
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 3,
+          id: 7,
+          selfSize: 10,
+          edgeCount: 1,
+        }), // B
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 4,
+          id: 9,
+          selfSize: 50,
+          edgeCount: 0,
+        }), // Child
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }), // Root -> holder
+        ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 2, toNode: 12 }), // Holder -[a]-> A
+        ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 3, toNode: 18 }), // Holder -[b]-> B
+        ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 4, toNode: 24 }), // A -[child]-> child
+        ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 4, toNode: 24 }), // B -[child]-> child
+      ],
+      strings: [``, `holder`, `a`, `b`, `child`],
+    })
+
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(selfSizeInstancesTables(md, `child`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `50 B`,
+          Instances: `1`,
+          Path: `(several paths) holder`,
+        },
+      ],
+    ])
+  })
+
   test(`an element index above the safe integer range is unknown`, () => {
     // Root -> parent (Object) via HIDDEN, parent -> child (Object) via an
     // ELEMENT edge whose index is the `-1` Julia writes as a `size_t`, which

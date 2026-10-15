@@ -143,15 +143,6 @@ export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
       }
   )
 
-/**
- * One step of a retainer path: the edge a retainer holds to the node the path
- * reached so far, and the retainer.
- */
-export type RetainerStep = {
-  edge: RetainerEdge
-  retainer: RetainerNode
-}
-
 /** How a retainer refers to the node it retains. */
 export type RetainerEdge =
   | {

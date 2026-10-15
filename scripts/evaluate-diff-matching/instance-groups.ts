@@ -1,5 +1,8 @@
 import { sourceReferencePathOrName } from '../../src/location.ts'
-import type { AggregatedHeapSnapshot } from '../../src/modalities/heap-snapshot/aggregate.ts'
+import type {
+  AggregatedHeapSnapshot,
+  RetainerPathStep,
+} from '../../src/modalities/heap-snapshot/aggregate.ts'
 import {
   diffAggregatedHeapSnapshots,
   diffRetainerPaths,
@@ -11,7 +14,6 @@ import type {
   DiffedInstanceGroup,
   RetainerPaths,
 } from '../../src/modalities/heap-snapshot/diff.ts'
-import type { RetainerStep } from '../../src/modalities/heap-snapshot/type.ts'
 import type {
   FormattingProfileToMdOptions,
   ProfileToMdContext,
@@ -64,7 +66,10 @@ const matchConstructors = (input: InstanceGroupInput) =>
     ),
   )
 
-const hasStepIn = (steps: readonly RetainerStep[], source: string): boolean =>
+const hasStepIn = (
+  steps: readonly RetainerPathStep[],
+  source: string,
+): boolean =>
   steps.some(
     ({ retainer }) => sourcePositionOf(retainer.location)?.source === source,
   )
@@ -152,7 +157,7 @@ export const evaluateInstanceGroups = (
  * map left a position or source reference unknown.
  */
 const pathKey = (
-  steps: readonly RetainerStep[],
+  steps: readonly RetainerPathStep[],
   context: ProfileToMdContext,
   options: FormattingProfileToMdOptions,
   {

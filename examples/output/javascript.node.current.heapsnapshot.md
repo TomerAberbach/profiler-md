@@ -120,7 +120,7 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 #### Instances
 
-Instances ranked by contribution to each constructor's self size.
+Instances ranked by contribution to each constructor's self size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 ##### `Object` (`<unknown>`)
 
@@ -134,13 +134,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |   Size | Instances | Path                                                                                                                                                   |
-| ----: | -----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 30.2% | 22 KiB |        33 | `(GC root)`                                                                                                                                            |
-|  0.8% |  576 B |         1 | `.exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1313 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  0.8% |  560 B |         1 | `.exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1316 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  0.7% |  544 B |         1 | `.table Map`                                                                                                                                           |
-|  0.5% |  368 B |         1 | `.exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .608 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+|     % |   Size | Instances | Path                                                                                                                                                                            |
+| ----: | -----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 30.2% | 22 KiB |        33 | `(GC root)`                                                                                                                                                                     |
+|  0.8% |  576 B |         1 | `(several paths) Object ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1313 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  0.8% |  560 B |         1 | `(several paths) Object ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1316 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  0.7% |  544 B |         1 | `(several paths) array ← .table Map`                                                                                                                                            |
+|  0.5% |  368 B |         1 | `(several paths) Object ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .608 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
 
 ##### `Array` (`<unknown>`)
 
@@ -164,13 +164,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                            |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------- |
-| 77.2% | 8 KiB |         1 | `.backing_store ArrayBuffer`                                                    |
-|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer BigInt64Array ← .bigintStatValues Object` |
-|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array`                             |
-|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array`                                |
-|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array ← .unhexTable system / Context` |
+|     % |  Size | Instances | Path                                                                                                     |
+| ----: | ----: | --------: | -------------------------------------------------------------------------------------------------------- |
+| 77.2% | 8 KiB |         1 | `.backing_store ArrayBuffer`                                                                             |
+|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer BigInt64Array ← .bigintStatValues Object`                          |
+|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array`                                                      |
+|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array`                                                         |
+|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array ← .unhexTable system / Context ← (several paths) Object` |
 
 ##### `Error` (`<unknown>`)
 
@@ -190,13 +190,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|    % |  Size | Instances | Path                                               |
-| ---: | ----: | --------: | -------------------------------------------------- |
-| 5.6% | 176 B |         2 | `.buffer Int8Array ← .noEscape system / Context`   |
-| 2.8% |  88 B |         1 | `(GC root)`                                        |
-| 2.8% |  88 B |         1 | `.buffer Int8Array`                                |
-| 2.8% |  88 B |         1 | `.buffer Int8Array ← .unhexTable system / Context` |
-| 2.8% |  88 B |         1 | `.buffer Uint32Array ← .urlComponents Object`      |
+|    % | Size | Instances | Path                                                                        |
+| ---: | ---: | --------: | --------------------------------------------------------------------------- |
+| 2.8% | 88 B |         1 | `(GC root)`                                                                 |
+| 2.8% | 88 B |         1 | `.buffer Int8Array`                                                         |
+| 2.8% | 88 B |         1 | `.buffer Int8Array ← .unhexTable system / Context ← (several paths) Object` |
+| 2.8% | 88 B |         1 | `.buffer Int8Array ← .noEscape system / Context ← (several paths) Object`   |
+| 2.8% | 88 B |         1 | `.buffer Int8Array ← .noEscape system / Context`                            |
 
 ##### `TypeError` (`<unknown>`)
 
@@ -236,23 +236,23 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Promise` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                                         |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 38.4% | 344 B |         7 | `(GC root)`                                                                                                                                                                                                  |
-| 21.4% | 192 B |         4 | `.modulePromise ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                     |
-| 21.4% | 192 B |         4 | `.linked ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                            |
-|  5.4% |  48 B |         1 | `.(Bootstrapper) Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                    |
-|  5.4% |  48 B |         1 | `.(Bootstrapper) Generator (node:internal/modules/esm/loader:679:34) ← .extension system / Context ← .reactions_or_result Promise ← .(Bootstrapper) Generator (node:internal/modules/esm/module_job:332:12)` |
+|     % |  Size | Instances | Path                                                                                                                                                                                                                                                    |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.4% | 344 B |         7 | `(GC root)`                                                                                                                                                                                                                                             |
+| 21.4% | 192 B |         4 | `.modulePromise ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                                                                |
+| 21.4% | 192 B |         4 | `.linked ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                                                                       |
+|  5.4% |  48 B |         1 | `.(Bootstrapper) Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                                                               |
+|  5.4% |  48 B |         1 | `.(Bootstrapper) Generator (node:internal/modules/esm/loader:679:34) ← .extension system / Context ← (several paths) system / PromiseReaction ← .reactions_or_result Promise ← .(Bootstrapper) Generator (node:internal/modules/esm/module_job:332:12)` |
 
 ##### `Map` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                      |
-| ----: | ----: | --------: | ----------------------------------------- |
-| 21.9% | 184 B |         5 | `(GC root)`                               |
-|  3.8% |  32 B |         1 | `.cjsCache system / Context ← .table Map` |
-|  3.8% |  32 B |         1 | `._times console`                         |
-|  3.8% |  32 B |         1 | `.<symbol counts> console`                |
-|  3.8% |  32 B |         1 | `.signalWraps system / Context`           |
+|     % |  Size | Instances | Path                                                              |
+| ----: | ----: | --------: | ----------------------------------------------------------------- |
+| 21.9% | 184 B |         5 | `(GC root)`                                                       |
+|  3.8% |  32 B |         1 | `.cjsCache system / Context ← (several paths) array ← .table Map` |
+|  3.8% |  32 B |         1 | `._times console`                                                 |
+|  3.8% |  32 B |         1 | `.<symbol counts> console`                                        |
+|  3.8% |  32 B |         1 | `.signalWraps system / Context`                                   |
 
 ##### `Uint8Array` (`<unknown>`)
 
@@ -337,12 +337,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Int8Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                    |
-| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 40.0% | 192 B |         2 | `.noEscape system / Context`                                                                                                                                                            |
-| 20.0% |  96 B |         1 | `(GC root)`                                                                                                                                                                             |
-| 20.0% |  96 B |         1 | `.unhexTable system / Context`                                                                                                                                                          |
-| 20.0% |  96 B |         1 | `.noEscapeAuth system / Context ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1313 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|     % | Size | Instances | Path                                                                                                                                                                                                             |
+| ----: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 20.0% | 96 B |         1 | `.noEscape system / Context`                                                                                                                                                                                     |
+| 20.0% | 96 B |         1 | `(GC root)`                                                                                                                                                                                                      |
+| 20.0% | 96 B |         1 | `.unhexTable system / Context ← (several paths) Object`                                                                                                                                                          |
+| 20.0% | 96 B |         1 | `.noEscape system / Context ← (several paths) Object`                                                                                                                                                            |
+| 20.0% | 96 B |         1 | `.noEscapeAuth system / Context ← (several paths) Object ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1313 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
 
 ##### `Node / ModuleWrap` (`<unknown>`)
 
@@ -405,13 +406,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `WeakMap` (`<unknown>`)
 
-|     % | Size | Instances | Path                                           |
-| ----: | ---: | --------: | ---------------------------------------------- |
-| 26.2% | 88 B |         2 | `(GC root)`                                    |
-|  9.5% | 32 B |         1 | `.wasmInstances system / Context ← .table Map` |
-|  9.5% | 32 B |         1 | `.crossRealmRegexes system / Context`          |
-|  9.5% | 32 B |         1 | `.moduleRegistries system / Context`           |
-|  9.5% | 32 B |         1 | `._isUsingInspector system / Context`          |
+|     % | Size | Instances | Path                                                                   |
+| ----: | ---: | --------: | ---------------------------------------------------------------------- |
+| 26.2% | 88 B |         2 | `(GC root)`                                                            |
+|  9.5% | 32 B |         1 | `.wasmInstances system / Context ← (several paths) array ← .table Map` |
+|  9.5% | 32 B |         1 | `.crossRealmRegexes system / Context`                                  |
+|  9.5% | 32 B |         1 | `.moduleRegistries system / Context`                                   |
+|  9.5% | 32 B |         1 | `._isUsingInspector system / Context`                                  |
 
 ##### `Node / AliasedUint32Array` (`<unknown>`)
 
@@ -618,7 +619,7 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 #### Instances
 
-Instances ranked by contribution to each constructor's retained size.
+Instances ranked by contribution to each constructor's retained size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 ##### `Object` (`<unknown>`)
 
@@ -632,13 +633,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                                                                  |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 48.5% |  188 KiB |        29 | `(GC root)`                                                                                                                                           |
-| 17.8% | 68.9 KiB |         1 | `.context internalBinding (node:internal/bootstrap/realm:185:45)`                                                                                     |
-|  2.7% | 10.6 KiB |         1 | `.__proto__ NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`                                                                        |
-|  0.7% |  2.7 KiB |         1 | `.table Map`                                                                                                                                          |
-|  0.6% | 2.38 KiB |         1 | `.exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .608 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|     % |     Size | Instances | Path                                                                                                                                                                           |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 48.5% |  188 KiB |        29 | `(GC root)`                                                                                                                                                                    |
+| 17.8% | 68.9 KiB |         1 | `.context internalBinding (node:internal/bootstrap/realm:185:45)`                                                                                                              |
+|  2.7% | 10.6 KiB |         1 | `(several paths) Set ← .__proto__ NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`                                                                           |
+|  0.7% |  2.7 KiB |         1 | `(several paths) array ← .table Map`                                                                                                                                           |
+|  0.6% | 2.38 KiB |         1 | `(several paths) Object ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .608 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
 
 ##### `Map` (`<unknown>`)
 
@@ -665,7 +666,7 @@ Instances ranked by contribution to each constructor's retained size.
 |     % |     Size | Instances | Path                                                                                                                                         |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | 12.1% | 16.7 KiB |         1 | `.list FixedCircularBuffer (node:internal/fixed_queue:61:14) ← .tail FixedQueue (node:internal/fixed_queue:92:14) ← .queue system / Context` |
-|  7.6% | 10.5 KiB |         1 | `.nodeFlags system / Context ← .__proto__ NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`                                 |
+|  7.6% | 10.5 KiB |         1 | `.nodeFlags system / Context ← (several paths) Set ← .__proto__ NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`           |
 |  2.5% | 3.51 KiB |         1 | `(GC root)`                                                                                                                                  |
 |  2.4% | 3.25 KiB |         1 | `.array Object ← .<symbol internal properties> NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`                            |
 |  2.1% | 2.85 KiB |         1 | `.builtinIds system / Context`                                                                                                               |
@@ -742,13 +743,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                               |
-| ----: | -------: | --------: | -------------------------------------------------- |
-| 62.5% | 8.81 KiB |         2 | `(GC root)`                                        |
-|  2.6% |    376 B |         1 | `.buffer BigInt64Array ← .bigintStatValues Object` |
-|  2.6% |    376 B |         1 | `.buffer Float64Array`                             |
-|  2.4% |    344 B |         1 | `.buffer Int8Array`                                |
-|  2.4% |    344 B |         1 | `.buffer Int8Array ← .unhexTable system / Context` |
+|     % |     Size | Instances | Path                                                                        |
+| ----: | -------: | --------: | --------------------------------------------------------------------------- |
+| 62.5% | 8.81 KiB |         2 | `(GC root)`                                                                 |
+|  2.6% |    376 B |         1 | `.buffer BigInt64Array ← .bigintStatValues Object`                          |
+|  2.6% |    376 B |         1 | `.buffer Float64Array`                                                      |
+|  2.4% |    344 B |         1 | `.buffer Int8Array`                                                         |
+|  2.4% |    344 B |         1 | `.buffer Int8Array ← .unhexTable system / Context ← (several paths) Object` |
 
 ##### `global` (`<unknown>`)
 
@@ -774,13 +775,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                            |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------- |
-| 77.2% | 8 KiB |         1 | `.backing_store ArrayBuffer`                                                    |
-|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer BigInt64Array ← .bigintStatValues Object` |
-|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array`                             |
-|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array`                                |
-|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array ← .unhexTable system / Context` |
+|     % |  Size | Instances | Path                                                                                                     |
+| ----: | ----: | --------: | -------------------------------------------------------------------------------------------------------- |
+| 77.2% | 8 KiB |         1 | `.backing_store ArrayBuffer`                                                                             |
+|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer BigInt64Array ← .bigintStatValues Object`                          |
+|  2.7% | 288 B |         1 | `.backing_store ArrayBuffer ← .buffer Float64Array`                                                      |
+|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array`                                                         |
+|  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array ← .unhexTable system / Context ← (several paths) Object` |
 
 ##### `process` (`<unknown>`)
 
@@ -842,12 +843,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Int8Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                    |
-| ----: | ----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 34.4% | 624 B |         2 | `.noEscape system / Context`                                                                                                                                                            |
-| 24.2% | 440 B |         1 | `(GC root)`                                                                                                                                                                             |
-| 24.2% | 440 B |         1 | `.unhexTable system / Context`                                                                                                                                                          |
-| 17.2% | 312 B |         1 | `.noEscapeAuth system / Context ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1313 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|     % |  Size | Instances | Path                                                                                                                                                                                                             |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 24.2% | 440 B |         1 | `(GC root)`                                                                                                                                                                                                      |
+| 24.2% | 440 B |         1 | `.unhexTable system / Context ← (several paths) Object`                                                                                                                                                          |
+| 17.2% | 312 B |         1 | `.noEscape system / Context`                                                                                                                                                                                     |
+| 17.2% | 312 B |         1 | `.noEscape system / Context ← (several paths) Object`                                                                                                                                                            |
+| 17.2% | 312 B |         1 | `.noEscapeAuth system / Context ← (several paths) Object ← .exports BuiltinModule (node:internal/bootstrap/realm:239:14) ← .1313 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:239:14)` |
 
 ##### `Uint32Array` (`<unknown>`)
 
@@ -1008,7 +1010,7 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 | 2.2% |  112 KiB |       109 |    65 | `NodeError`            | `node:internal/errors:498:20`                  | `(GC root)`                                                                                                                       |
 | 1.3% | 69.1 KiB |         1 |     1 | `internalBinding`      | `node:internal/bootstrap/realm:185:45`         | `(GC root)`                                                                                                                       |
 | 0.9% | 45.3 KiB |        44 |    18 | `NodeError`            | `node:internal/errors:466:20`                  | `.ERR_HTTP2_INVALID_SETTING_VALUE Object`                                                                                         |
-| 0.7% |   36 KiB |       467 |   342 | `native_bind`          | `<unknown>`                                    | `.<symbol kConstruct> Object ← ._events ReadStream (node:internal/fs/streams:163:20)`                                             |
+| 0.7% |   36 KiB |       467 |   344 | `native_bind`          | `<unknown>`                                    | `.<symbol kConstruct> Object ← ._events ReadStream (node:internal/fs/streams:163:20)`                                             |
 | 0.6% | 28.5 KiB |        27 |    24 | `deprecated`           | `node:internal/util:187:22`                    | `(GC root)`                                                                                                                       |
 | 0.2% | 12.5 KiB |         1 |     1 | `Interface`            | `node:internal/readline/interface:350:1`       | `(GC root)`                                                                                                                       |
 | 0.2% | 12.3 KiB |        19 |    13 | `HideStackFramesError` | `node:internal/errors:407:16`                  | `.HideStackFramesError NodeError (node:internal/errors:466:20) ← .ERR_INVALID_CHAR Object`                                        |
@@ -1026,7 +1028,7 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 
 ### Retained
 
-Nodes ranked by contribution to each function's retained size.
+Nodes ranked by contribution to each function's retained size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 #### `BuiltinModule` (`node:internal/bootstrap/realm:239:14`)
 

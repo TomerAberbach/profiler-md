@@ -7,15 +7,6 @@ import type {
 import { matchHeapSnapshotEdgeNameForOrigin } from '../../origins/index.ts'
 import type { Diff, DiffedEntryKeys, EntryDiff } from '../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
-import type {
-  AggregatedHeapSnapshot,
-  AggregatedHeapSnapshotConstructor,
-  AggregatedHeapSnapshotFunction,
-  AggregatedHeapSnapshotNode,
-  AggregatedHeapSnapshotString,
-  NodeCategoryStats,
-  RetainerHop,
-} from './aggregate.ts'
 import {
   formatRetainerEdge,
   formatRetainerEdgeLabel,
@@ -24,11 +15,17 @@ import {
   keepsRetainerStep,
 } from './aggregate.ts'
 import type {
-  HeapSnapshotNodeCategory,
-  RetainerEdge,
-  RetainerNode,
-  RetainerStep,
-} from './type.ts'
+  AggregatedHeapSnapshot,
+  AggregatedHeapSnapshotConstructor,
+  AggregatedHeapSnapshotFunction,
+  AggregatedHeapSnapshotNode,
+  AggregatedHeapSnapshotString,
+  NodeCategoryStats,
+  RetainerHop,
+  RetainerPathEdge,
+  RetainerPathStep,
+} from './aggregate.ts'
+import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 /**
  * One side's data for an entity matched across the base and current snapshots,
@@ -364,7 +361,7 @@ export class RetainerPaths {
   readonly #options: FormattingProfileToMdOptions
 
   /** By path ID, each path's first step and the ID of the rest. */
-  readonly #steps: (RetainerStep | undefined)[] = [undefined]
+  readonly #steps: (RetainerPathStep | undefined)[] = [undefined]
   readonly #rests: number[] = [-1]
   readonly #stepKeyToPath = new Map<string, number>()
 
@@ -418,7 +415,7 @@ export class RetainerPaths {
 
       while (hops.length > 0) {
         const hop = hops.pop()!
-        if (keepsRetainerStep(hop, path === RetainerPaths.ROOT)) {
+        if (keepsRetainerStep(hop.internal, path === RetainerPaths.ROOT)) {
           const { edge, dominatorOrdinal } = hop
           // A dominator retains many nodes, so it's read and its label is
           // formatted once.
@@ -430,7 +427,7 @@ export class RetainerPaths {
             this.#options,
           )
           path = this.#intern(
-            edge!,
+            edge,
             retainer,
             path,
             ordinalToRetainerLabel[dominatorOrdinal],
@@ -443,7 +440,7 @@ export class RetainerPaths {
   }
 
   /** Interns the path of {@link steps}, from the node outward. */
-  public pathOfSteps(steps: readonly RetainerStep[]): number {
+  public pathOfSteps(steps: readonly RetainerPathStep[]): number {
     let path = RetainerPaths.ROOT
     for (let index = steps.length - 1; index >= 0; index--) {
       const { edge, retainer } = steps[index]!
@@ -458,8 +455,8 @@ export class RetainerPaths {
   }
 
   /** The steps of a path, from the node outward. */
-  public stepsOf(path: number): RetainerStep[] {
-    const steps: RetainerStep[] = []
+  public stepsOf(path: number): RetainerPathStep[] {
+    const steps: RetainerPathStep[] = []
     for (; path !== RetainerPaths.ROOT; path = this.#rests[path]!) {
       steps.push(this.#steps[path]!)
     }
@@ -547,7 +544,7 @@ export class RetainerPaths {
   }
 
   #intern(
-    edge: RetainerEdge,
+    edge: RetainerPathEdge,
     retainer: RetainerNode,
     rest: number,
     retainerLabel: string,
@@ -564,7 +561,7 @@ export class RetainerPaths {
   }
 
   #stepKeysOf(
-    { edge, retainer }: RetainerStep,
+    { edge, retainer }: RetainerPathStep,
     context: ProfileToMdContext,
   ): { own: string; normalized: string } {
     const retainerKeys = this.#options.entryMatchKeys(retainer, context)
@@ -732,7 +729,7 @@ const locatedInstanceGroupEntries = (
  * origin strips from a property's name stripped.
  */
 export const retainerEdgeMatchKey = (
-  edge: RetainerEdge,
+  edge: RetainerPathEdge,
   { origin }: ProfileToMdContext,
 ): string =>
   formatRetainerEdge(edge, ({ name }) =>
