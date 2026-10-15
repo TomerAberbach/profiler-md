@@ -501,8 +501,11 @@ const retainerEdge = (
   }
 
   const name = strings[edgeNameOrIndex]!
+  if (!name) {
+    return { type: `unlabeled` }
+  }
   // An edge name can be a file URL.
-  const nameLocation = name ? makeFileReference(name) : undefined
+  const nameLocation = makeFileReference(name)
   return nameLocation
     ? { type: `property`, name, nameLocation }
     : { type: `property`, name }
