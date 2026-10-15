@@ -1187,15 +1187,21 @@ if (format === undefined) {
       expectedStatus: 1,
     },
     {
+      scenario: `a --top-n of 0`,
+      args: [inputPath(`javascript.node.base.cpuprofile`), `--top-n`, `0`],
+      expectedStderr: `expected an integer of at least 1, got: "0"`,
+      expectedStatus: 2,
+    },
+    {
       scenario: `a negative --top-n`,
       args: [inputPath(`javascript.node.base.cpuprofile`), `--top-n`, `-1`],
-      expectedStderr: `expected an integer of at least 0, got: "-1"`,
+      expectedStderr: `expected an integer of at least 1, got: "-1"`,
       expectedStatus: 2,
     },
     {
       scenario: `a fractional --top-n`,
       args: [inputPath(`javascript.node.base.cpuprofile`), `--top-n`, `1.5`],
-      expectedStderr: `expected an integer of at least 0, got: "1.5"`,
+      expectedStderr: `expected an integer of at least 1, got: "1.5"`,
       expectedStatus: 2,
     },
     {
@@ -1205,7 +1211,7 @@ if (format === undefined) {
         `--top-n`,
         `99999999999999999999`,
       ],
-      expectedStderr: `expected an integer of at least 0, got: "99999999999999999999"`,
+      expectedStderr: `expected an integer of at least 1, got: "99999999999999999999"`,
       expectedStatus: 2,
     },
     {

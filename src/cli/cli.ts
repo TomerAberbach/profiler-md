@@ -220,7 +220,7 @@ const inputFlags = object(`Input`, {
 
 const rankingFlags = object(`Ranking`, {
   topN: withDefault(
-    option(`--top-n`, integerAtLeast(`N`, 0), {
+    option(`--top-n`, integerAtLeast(`N`, 1), {
       description: message`Entries to show per ranking, including category subsections`,
     }),
     DEFAULT_TOP_N,

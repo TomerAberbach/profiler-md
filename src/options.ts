@@ -141,7 +141,7 @@ export type ProfileToMdOptions = {
    * A quarter of this value, rounded up, limits the lists nested under each
    * entry, such as its hottest lines.
    *
-   * Defaults to 20.
+   * Must be a positive integer. Defaults to 20.
    */
   topN?: number
 
@@ -369,10 +369,8 @@ export const normalizeProfileToMdOptions = ({
 }
 
 const normalizeTopN = (topN: number): number => {
-  if (!(Number.isSafeInteger(topN) && topN >= 0)) {
-    throw new ProfilerMdError(
-      `topN must be a non-negative integer, got: ${topN}`,
-    )
+  if (!(Number.isSafeInteger(topN) && topN >= 1)) {
+    throw new ProfilerMdError(`topN must be a positive integer, got: ${topN}`)
   }
   return topN
 }
