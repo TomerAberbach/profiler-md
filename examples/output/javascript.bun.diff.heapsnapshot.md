@@ -65,12 +65,12 @@ Instances with the largest change in contribution to each constructor's retained
 
 ##### `Object`
 
-|  Change |  Delta |             % |                Size | Instances | Path                                                                                  |
-| ------: | -----: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------- |
-|   +0.8% | +608 B | 12.2% → 12.3% | 76.2 KiB → 76.8 KiB |        31 | `(GC root)`                                                                           |
-|  -81.0% | -272 B |  0.1% → <0.1% |        336 B → 64 B |         1 | `.scheduler Object ← . InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
-| removed | -234 B |  <0.1% → 0.0% |         234 B → 0 B |     1 → 0 | `.Symbol.unscopables Array (0)`                                                       |
-|     new | +234 B |  0.0% → <0.1% |         0 B → 234 B |     0 → 1 | `.Symbol.unscopables Array (0) ← . GlobalObject`                                      |
+|  Change |  Delta |             % |                Size | Instances | Path                                                                                |
+| ------: | -----: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------- |
+|   +0.8% | +608 B | 12.2% → 12.3% | 76.2 KiB → 76.8 KiB |        31 | `(GC root)`                                                                         |
+|  -81.0% | -272 B |  0.1% → <0.1% |        336 B → 64 B |         1 | `.scheduler Object ← InternalModuleRegistry ← .internalModuleRegistry GlobalObject` |
+| removed | -234 B |  <0.1% → 0.0% |         234 B → 0 B |     1 → 0 | `.Symbol.unscopables Array (0)`                                                     |
+|     new | +234 B |  0.0% → <0.1% |         0 B → 234 B |     0 → 1 | `.Symbol.unscopables Array (0) ← GlobalObject`                                      |
 
 ##### `url `
 
