@@ -639,9 +639,11 @@ const buildHeapSnapshot = (dump: Dump, nodes: Nodes): HeapSnapshot => {
     nodeAdjacencyGraph,
     selfSizeOf: nodeOrdinal => selfSizes[nodeOrdinal]!,
     nodes: heapSnapshotNodes(dump, nodes, names),
-    retainerStepOf: (retainerOrdinal, edgeIndex) => ({
-      edge: retainerEdge(dump, nodes, names, retainerOrdinal, edgeIndex),
-      retainer: { id: retainerOrdinal, name: names.labelOf(retainerOrdinal) },
+    retainerEdgeOf: (retainerOrdinal, edgeIndex) =>
+      retainerEdge(dump, nodes, names, retainerOrdinal, edgeIndex),
+    retainerOf: nodeOrdinal => ({
+      id: nodeOrdinal,
+      name: names.labelOf(nodeOrdinal),
     }),
     formatNodeLabel: nodeOrdinal => names.labelOf(nodeOrdinal),
     // The GC root is the only node the dump doesn't record, and every other

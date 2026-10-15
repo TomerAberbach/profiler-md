@@ -146,13 +146,12 @@ export const parseV8HeapSnapshot = (
             fieldLayout.nodeSelfSizeOffset
         ]!,
       nodes: v8SnapshotNodes(snapshot, fieldLayout, nodeOrdinalToLocation),
-      retainerStepOf: (retainerOrdinal, edgeIndex) => ({
-        edge: retainerEdge(edgeIndex, snapshot, fieldLayout),
-        retainer: {
-          id: retainerOrdinal,
-          ...nodeName(retainerOrdinal, snapshot, fieldLayout),
-          location: nodeOrdinalToLocation[retainerOrdinal],
-        },
+      retainerEdgeOf: (_, edgeIndex) =>
+        retainerEdge(edgeIndex, snapshot, fieldLayout),
+      retainerOf: nodeOrdinal => ({
+        id: nodeOrdinal,
+        ...nodeName(nodeOrdinal, snapshot, fieldLayout),
+        location: nodeOrdinalToLocation[nodeOrdinal],
       }),
       formatNodeLabel: (nodeOrdinal, options) =>
         formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),

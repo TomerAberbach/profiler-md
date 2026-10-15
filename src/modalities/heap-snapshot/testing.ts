@@ -19,7 +19,11 @@ import type {
 } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
-import type { HeapSnapshotNodeCategory, RetainerStep } from './type.ts'
+import type {
+  HeapSnapshotNodeCategory,
+  RetainerNode,
+  RetainerStep,
+} from './type.ts'
 
 /**
  * Builds a node adjacency graph from `[fromOrdinal, toOrdinal]` edges. A node's
@@ -115,28 +119,43 @@ export const makeAggregatedHeapSnapshot = ({
   strings,
   outermostInstanceIdsOf: instanceIds => instanceIds,
   retainerHopOf: () => undefined,
+  retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
   retainerPathOf: () => `(GC root)`,
   retainedNodesOf: () => [],
 })
 
 /**
- * The retainer hops of nodes at the given retainer paths, by node ordinal. Each
- * step's retainer is a node of its own, numbered after the paths' nodes.
+ * The retainer hops of nodes at the given retainer paths, by node ordinal, and
+ * their retainers. Each step's retainer is a node of its own, numbered after
+ * the paths' nodes.
  */
 export const makeRetainerHops = (
   paths: readonly (readonly RetainerStep[])[],
-): Pick<AggregatedHeapSnapshot, `nodeCount` | `retainerHopOf`> => {
+): Pick<
+  AggregatedHeapSnapshot,
+  `nodeCount` | `retainerHopOf` | `retainerOf`
+> => {
   const hops: RetainerHop[] = []
+  const retainers: RetainerNode[] = []
   let nodeCount = paths.length
   for (const [nodeOrdinal, steps] of paths.entries()) {
     let retainedOrdinal = nodeOrdinal
     for (const step of steps) {
       const dominatorOrdinal = nodeCount++
-      hops[retainedOrdinal] = { dominatorOrdinal, step, internal: false }
+      hops[retainedOrdinal] = {
+        dominatorOrdinal,
+        edge: step.edge,
+        internal: false,
+      }
+      retainers[dominatorOrdinal] = step.retainer
       retainedOrdinal = dominatorOrdinal
     }
   }
-  return { nodeCount, retainerHopOf: nodeOrdinal => hops[nodeOrdinal] }
+  return {
+    nodeCount,
+    retainerHopOf: nodeOrdinal => hops[nodeOrdinal],
+    retainerOf: nodeOrdinal => retainers[nodeOrdinal]!,
+  }
 }
 
 export const makeSourceLocation = (

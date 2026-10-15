@@ -26,6 +26,7 @@ import {
 import type {
   HeapSnapshotNodeCategory,
   RetainerEdge,
+  RetainerNode,
   RetainerStep,
 } from './type.ts'
 
@@ -387,10 +388,14 @@ export class RetainerPaths {
    * {@link snapshot}, memoized per node.
    */
   public pathOfNodeIn(
-    snapshot: Pick<AggregatedHeapSnapshot, `nodeCount` | `retainerHopOf`>,
+    snapshot: Pick<
+      AggregatedHeapSnapshot,
+      `nodeCount` | `retainerHopOf` | `retainerOf`
+    >,
   ): (nodeOrdinal: number) => number {
     let ordinalToPath: Int32Array | undefined
     // Sparse, since a path reaches few of the nodes.
+    const ordinalToRetainer: RetainerNode[] = []
     const ordinalToRetainerLabel: string[] = []
     const ordinals: number[] = []
     const hops: RetainerHop[] = []
@@ -414,14 +419,19 @@ export class RetainerPaths {
       while (hops.length > 0) {
         const hop = hops.pop()!
         if (keepsRetainerStep(hop, path === RetainerPaths.ROOT)) {
-          const { step, dominatorOrdinal } = hop
-          // A dominator retains many nodes, so its label is formatted once.
+          const { edge, dominatorOrdinal } = hop
+          // A dominator retains many nodes, so it's read and its label is
+          // formatted once.
+          ordinalToRetainer[dominatorOrdinal] ??=
+            snapshot.retainerOf(dominatorOrdinal)
+          const retainer = ordinalToRetainer[dominatorOrdinal]
           ordinalToRetainerLabel[dominatorOrdinal] ??= formatRetainerLabel(
-            step!.retainer,
+            retainer,
             this.#options,
           )
           path = this.#intern(
-            step!,
+            edge!,
+            retainer,
             path,
             ordinalToRetainerLabel[dominatorOrdinal],
           )
@@ -436,11 +446,12 @@ export class RetainerPaths {
   public pathOfSteps(steps: readonly RetainerStep[]): number {
     let path = RetainerPaths.ROOT
     for (let index = steps.length - 1; index >= 0; index--) {
-      const step = steps[index]!
+      const { edge, retainer } = steps[index]!
       path = this.#intern(
-        step,
+        edge,
+        retainer,
         path,
-        formatRetainerLabel(step.retainer, this.#options),
+        formatRetainerLabel(retainer, this.#options),
       )
     }
     return path
@@ -535,12 +546,17 @@ export class RetainerPaths {
     }
   }
 
-  #intern(step: RetainerStep, rest: number, retainerLabel: string): number {
-    const key = `${rest}\0${formatRetainerEdgeLabel(step.edge, this.#options)}\0${retainerLabel}`
+  #intern(
+    edge: RetainerEdge,
+    retainer: RetainerNode,
+    rest: number,
+    retainerLabel: string,
+  ): number {
+    const key = `${rest}\0${formatRetainerEdgeLabel(edge, this.#options)}\0${retainerLabel}`
     let path = this.#stepKeyToPath.get(key)
     if (path === undefined) {
       path = this.#steps.length
-      this.#steps.push(step)
+      this.#steps.push({ edge, retainer })
       this.#rests.push(rest)
       this.#stepKeyToPath.set(key, path)
     }
