@@ -84,17 +84,11 @@ export const parseJSCHeapSnapshot = (
       selfSizeOf: nodeOrdinal =>
         nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_SIZE_OFFSET]!,
       nodes: jscSnapshotNodes(snapshot, recordTally),
-      retainerStepOf: (retainerOrdinal, edgeIndex) => ({
-        edge: retainerEdge(
-          edgeIndex,
-          snapshot,
-          indexEdgeType,
-          internalEdgeType,
-        ),
-        retainer: {
-          id: retainerOrdinal,
-          name: formatNodeLabel(retainerOrdinal, snapshot),
-        },
+      retainerEdgeOf: (_, edgeIndex) =>
+        retainerEdge(edgeIndex, snapshot, indexEdgeType, internalEdgeType),
+      retainerOf: nodeOrdinal => ({
+        id: nodeOrdinal,
+        name: formatNodeLabel(nodeOrdinal, snapshot),
       }),
       formatNodeLabel: nodeOrdinal => formatNodeLabel(nodeOrdinal, snapshot),
       isInternalNode: nodeOrdinal => isInternalNode(nodeOrdinal, snapshot),
