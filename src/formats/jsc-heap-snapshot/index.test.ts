@@ -137,10 +137,17 @@ describe(`convert`, () => {
       ],
     ])
     expect(selfSizeInstancesTables(md, `Object`)).toEqual([
-      [{ '%': `100.0%`, Size: `280 B`, Instances: `2`, Path: `(GC root)` }],
+      [
+        {
+          '%': `100.0%`,
+          Size: `280 B`,
+          Instances: `2`,
+          Path: `Object ← (GC root)`,
+        },
+      ],
     ])
     expect(largestStringsTables(md)).toEqual([
-      [{ '%': `13.0%`, Size: `60 B`, Path: `(GC root)` }],
+      [{ '%': `13.0%`, Size: `60 B`, Path: `string ← (GC root)` }],
     ])
   })
 
@@ -167,7 +174,7 @@ describe(`convert`, () => {
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
-    ).toEqual([[`[0] Array`]])
+    ).toEqual([[`string ←[0]– Array`]])
   })
 
   test(`edges reference nodes by identifier, not ordinal`, () => {
@@ -196,7 +203,7 @@ describe(`convert`, () => {
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
-    ).toEqual([[`.data Holder`]])
+    ).toEqual([[`string ←.data– Holder`]])
   })
 
   test(`Internal edges carry no name`, () => {
@@ -224,7 +231,7 @@ describe(`convert`, () => {
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
-    ).toEqual([[`Structure`]])
+    ).toEqual([[`string ← Structure`]])
   })
 
   test(`categorizes a constructor whose nodes all report zero self size by its first node`, () => {
@@ -321,7 +328,12 @@ describe(`convert`, () => {
         table.map(row => row.Path),
       ),
     ).toEqual([
-      [`.propName Object`, `[2] Object`, `.varName Object`, `(GC root)`],
+      [
+        `Object ←.propName– Object`,
+        `Object ←[2]– Object`,
+        `Object ←.varName– Object`,
+        `Object ← (GC root)`,
+      ],
     ])
   })
 })

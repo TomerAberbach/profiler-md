@@ -32,17 +32,17 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 #### Instances
 
-Instances ranked by contribution to each constructor's self size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
+Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
 
 ##### `<foreign memory - malloc>`
 
-|     % |    Size | Instances | Path                                                                                                 |
-| ----: | ------: | --------: | ---------------------------------------------------------------------------------------------------- |
-| 21.0% | 185 KiB |         2 | `.<native> Memory{Tuple{UInt64, UInt64, UInt64}} ← .ref.mem Array{Tuple{UInt64, UInt64, UInt64}, 1}` |
-|  7.2% |  64 KiB |         1 | `.<native> Memory{UInt16} ← .bindingkeyset Base`                                                     |
-|  1.8% |  16 KiB |         1 | `.<native> Memory{UInt16}`                                                                           |
-|  1.8% |  16 KiB |         1 | `.<native> Memory{UInt16} ← .speckeyset Method`                                                      |
-|  1.8% |  16 KiB |         1 | `.<native> Memory{UInt16} ← .bindingkeyset LinearAlgebra`                                            |
+|     % |    Size | Instances | Path                                                                                                                             |
+| ----: | ------: | --------: | -------------------------------------------------------------------------------------------------------------------------------- |
+| 21.0% | 185 KiB |         2 | `<foreign memory - malloc> ←.<native>– Memory{Tuple{UInt64, UInt64, UInt64}} ←.ref.mem– Array{Tuple{UInt64, UInt64, UInt64}, 1}` |
+|  7.2% |  64 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.bindingkeyset– Base`                                                     |
+|  1.8% |  16 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16}`                                                                           |
+|  1.8% |  16 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.speckeyset– Method`                                                      |
+|  1.8% |  16 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.bindingkeyset– LinearAlgebra`                                            |
 
 ### Retained size
 
@@ -58,14 +58,14 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 #### Instances
 
-Instances ranked by contribution to each constructor's retained size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
+Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
 
 ##### `<foreign memory - malloc>`
 
-|     % |    Size | Instances | Path                                                                                                 |
-| ----: | ------: | --------: | ---------------------------------------------------------------------------------------------------- |
-| 21.0% | 185 KiB |         2 | `.<native> Memory{Tuple{UInt64, UInt64, UInt64}} ← .ref.mem Array{Tuple{UInt64, UInt64, UInt64}, 1}` |
-|  7.2% |  64 KiB |         1 | `.<native> Memory{UInt16} ← .bindingkeyset Base`                                                     |
-|  1.8% |  16 KiB |         1 | `.<native> Memory{UInt16}`                                                                           |
-|  1.8% |  16 KiB |         1 | `.<native> Memory{UInt16} ← .speckeyset Method`                                                      |
-|  1.8% |  16 KiB |         1 | `.<native> Memory{UInt16} ← .bindingkeyset LinearAlgebra`                                            |
+|     % |    Size | Instances | Path                                                                                                                             |
+| ----: | ------: | --------: | -------------------------------------------------------------------------------------------------------------------------------- |
+| 21.0% | 185 KiB |         2 | `<foreign memory - malloc> ←.<native>– Memory{Tuple{UInt64, UInt64, UInt64}} ←.ref.mem– Array{Tuple{UInt64, UInt64, UInt64}, 1}` |
+|  7.2% |  64 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.bindingkeyset– Base`                                                     |
+|  1.8% |  16 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16}`                                                                           |
+|  1.8% |  16 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.speckeyset– Method`                                                      |
+|  1.8% |  16 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.bindingkeyset– LinearAlgebra`                                            |

@@ -113,7 +113,7 @@ export const formatHeapSnapshot = (
 
 const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
 
-const SEVERAL_PATHS_NOTE = phrasing` ${inlineCode(`(several paths) A`)} means ${inlineCode(`A`)} holds the node before it only through other nodes, along several paths.`
+const SEVERAL_PATHS_NOTE = phrasing` ${inlineCode(`B ←(several paths)– A`)} means ${inlineCode(`A`)} holds ${inlineCode(`B`)} only through other nodes, along several paths.`
 
 const formatOverallSummary = ({
   totalSize,
@@ -803,7 +803,7 @@ const formatDiffConstructorInstances = ({
       size: sizeOf(group),
       total: sizeOf(entity),
       instanceCount: group.instanceCount,
-      retainerPath: paths.format(group.path),
+      retainerPath: paths.format(group.path, constructor),
     }
   return [
     formatEntityHeading(5, constructor, hasLocation, options),
