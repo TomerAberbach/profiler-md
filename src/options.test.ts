@@ -56,15 +56,15 @@ describe(`normalizeProfileToMdOptions`, () => {
     expect(normalizeProfileToMdOptions().topN).toBe(20)
   })
 
-  test.each([0, 5])(`keeps an explicit topN of %s`, topN => {
+  test.each([1, 5])(`keeps an explicit topN of %s`, topN => {
     expect(normalizeProfileToMdOptions({ topN }).topN).toBe(topN)
   })
 
-  test.each([-1, 2.5, Number.NaN, Number.POSITIVE_INFINITY])(
+  test.each([-1, 0, 2.5, Number.NaN, Number.POSITIVE_INFINITY])(
     `throws for a topN of %s`,
     topN => {
       expect(() => normalizeProfileToMdOptions({ topN })).toThrow(
-        `topN must be a non-negative integer, got: ${topN}`,
+        `topN must be a positive integer, got: ${topN}`,
       )
     },
   )
