@@ -300,6 +300,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       retainerOf: this.#retainerOf,
       retainerPathOf: (nodeOrdinal, options) =>
         formatRetainerPath(
+          this.#retainerOf(nodeOrdinal),
           computeRetainerSteps(
             nodeOrdinal,
             this.#retainerHopOf,
@@ -453,35 +454,39 @@ export const keepsRetainerStep = (
 ): boolean => !(isRestEmpty && internal)
 
 /**
- * Formats a retainer path from the node outward, or `(GC root)` for a node the
- * GC root holds directly.
+ * Formats a retainer path from the node outward, ending at `(GC root)` for a
+ * node the GC root holds directly. Each step shows its edge, when it has a
+ * label, inside the arrow to its retainer (e.g. `Entry ←.value– Item`).
  */
 export const formatRetainerPath = (
+  node: { name?: string; nameLocation?: FileReference },
   steps: readonly RetainerPathStep[],
   options: FormattingProfileToMdOptions,
-): string =>
-  steps.length === 0
-    ? `(GC root)`
-    : steps
-        .map(({ edge, retainer }) =>
-          joinRetainerStepLabels(
-            formatRetainerEdgeLabel(edge, options),
-            formatRetainerLabel(retainer, options),
-          ),
-        )
-        .join(` ← `)
+): string => {
+  const nodeName =
+    formatRetainerName({ ...node, name: node.name ?? `` }, options) ||
+    `(unknown)`
+  return steps.length === 0
+    ? `${nodeName} ← (GC root)`
+    : steps.reduce((path, { edge, retainer }) => {
+        const edgeLabel = formatRetainerEdgeLabel(edge, options)
+        return `${path} ${edgeLabel ? `←${edgeLabel}–` : `←`} ${formatRetainerLabel(retainer, options)}`
+      }, nodeName)
+}
 
-const joinRetainerStepLabels = (
-  edgeLabel: string,
-  retainerLabel: string,
-): string => (edgeLabel ? `${edgeLabel} ${retainerLabel}` : retainerLabel)
+const formatRetainerName = (
+  { name, nameLocation }: Pick<RetainerNode, `name` | `nameLocation`>,
+  options: FormattingProfileToMdOptions,
+): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
 
 export const formatRetainerLabel = (
-  { name, nameLocation, location }: RetainerNode,
+  retainer: RetainerNode,
   options: FormattingProfileToMdOptions,
 ): string =>
-  `${nameLocation ? formatSourceLocation(nameLocation, options) : name}${
-    location ? ` (${formatSourceLocation(location, options)})` : ``
+  `${formatRetainerName(retainer, options)}${
+    retainer.location
+      ? ` (${formatSourceLocation(retainer.location, options)})`
+      : ``
   }`
 
 export const formatRetainerEdgeLabel = (

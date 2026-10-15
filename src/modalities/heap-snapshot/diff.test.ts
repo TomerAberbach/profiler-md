@@ -542,7 +542,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `33.3% → 68.2%`,
           Size: `50 B → 300 B`,
           Instances: `1`,
-          Path: `.b Holder`,
+          Path: `Foo ←.b– Holder`,
         },
         {
           Change: `new`,
@@ -550,7 +550,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `0.0% → 9.1%`,
           Size: `0 B → 40 B`,
           Instances: `0 → 1`,
-          Path: `.c Holder`,
+          Path: `Foo ←.c– Holder`,
         },
       ],
     ])
@@ -583,7 +583,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `66.7%`,
           Size: `20 B → 60 B`,
           Instances: `1`,
-          Path: `.context l (./d3.js:2:180)`,
+          Path: `Foo ←.context– l (./d3.js:2:180)`,
         },
         {
           Change: `+200.0%`,
@@ -591,7 +591,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `33.3%`,
           Size: `10 B → 30 B`,
           Instances: `1`,
-          Path: `.context l (./d3.js:2:80)`,
+          Path: `Foo ←.context– l (./d3.js:2:80)`,
         },
       ],
     ])
@@ -626,7 +626,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `33.3% → 42.9%`,
           Size: `10 B → 30 B`,
           Instances: `1`,
-          Path: `.context l (./d3.js:2:10) ← .context t (./d3.js:2:100)`,
+          Path: `Foo ←.context– l (./d3.js:2:10) ←.context– t (./d3.js:2:100)`,
         },
         {
           Change: `+100.0%`,
@@ -634,7 +634,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `66.7% → 57.1%`,
           Size: `20 B → 40 B`,
           Instances: `1`,
-          Path: `.context l (./d3.js:2:10) ← .context t (./d3.js:2:200)`,
+          Path: `Foo ←.context– l (./d3.js:2:10) ←.context– t (./d3.js:2:200)`,
         },
       ],
     ])
@@ -669,7 +669,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `66.7%`,
           Size: `20 B → 60 B`,
           Instances: `1`,
-          Path: `.context l (./d3.js:2:10) ← .context t (./d3.js:2:180)`,
+          Path: `Foo ←.context– l (./d3.js:2:10) ←.context– t (./d3.js:2:180)`,
         },
         {
           Change: `+200.0%`,
@@ -677,7 +677,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `33.3%`,
           Size: `10 B → 30 B`,
           Instances: `1`,
-          Path: `.context l (./d3.js:2:10) ← .context t (./d3.js:2:80)`,
+          Path: `Foo ←.context– l (./d3.js:2:10) ←.context– t (./d3.js:2:80)`,
         },
       ],
     ])
@@ -707,7 +707,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           '%': `100.0%`,
           Size: `10 B → 30 B`,
           Instances: `1`,
-          Path: `.jQuery37102850593049792911 HTMLElement`,
+          Path: `Foo ←.jQuery37102850593049792911– HTMLElement`,
         },
       ],
     ])

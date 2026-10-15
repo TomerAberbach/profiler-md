@@ -348,7 +348,14 @@ describe(`convert`, () => {
     ])
 
     expect(selfSizeInstancesTables(md, `MyClass`)).toEqual([
-      [{ '%': `100.0%`, Size: `200 B`, Instances: `1`, Path: `(GC root)` }],
+      [
+        {
+          '%': `100.0%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Path: `MyClass ← (GC root)`,
+        },
+      ],
     ])
 
     expect(functionTables(md)).toEqual([
@@ -360,7 +367,7 @@ describe(`convert`, () => {
           Paths: `1`,
           Name: `myFn`,
           Location: `./src/a.ts:6:11`,
-          'Example path': `(GC root)`,
+          'Example path': `myFn ← (GC root)`,
         },
       ],
     ])
@@ -371,13 +378,13 @@ describe(`convert`, () => {
           '%': `26.1%`,
           Size: `110 B`,
           Value: `hello world`,
-          Path: `(GC root)`,
+          Path: `hello world ← (GC root)`,
         },
         {
           '%': `0.0%`,
           Size: `0 B`,
           Value: `file:///project/src/a.ts`,
-          Path: `(GC root)`,
+          Path: `file:///project/src/a.ts ← (GC root)`,
         },
       ],
     ])
@@ -456,7 +463,7 @@ describe(`convert`, () => {
           Paths: `1`,
           Name: `myFn`,
           Location: `./lib/a.ts:6:11`,
-          'Example path': `(GC root)`,
+          'Example path': `myFn ← (GC root)`,
         },
       ],
     ])
@@ -468,13 +475,13 @@ describe(`convert`, () => {
           '%': `26.1%`,
           Size: `110 B`,
           Value: `hello world`,
-          Path: `(GC root)`,
+          Path: `hello world ← (GC root)`,
         },
         {
           '%': `0.0%`,
           Size: `0 B`,
           Value: `file:///home/user/project/lib/a.ts`,
-          Path: `(GC root)`,
+          Path: `file:///home/user/project/lib/a.ts ← (GC root)`,
         },
       ],
     ])
@@ -510,7 +517,7 @@ describe(`convert`, () => {
       Paths: `0 → 1`,
       Name: `myFn`,
       Location: `./src/a-222.ts:6:11`,
-      'Example path': `(GC root)`,
+      'Example path': `myFn ← (GC root)`,
     }
     const removedFunction = {
       Change: `removed`,
@@ -521,7 +528,7 @@ describe(`convert`, () => {
       Paths: `1 → 0`,
       Name: `myFn`,
       Location: `./src/a-111.ts:6:11`,
-      'Example path': `(GC root)`,
+      'Example path': `myFn ← (GC root)`,
     }
     expect(
       rankingTables(unmatchedMd, `Largest functions`, `Regressions`),
@@ -639,7 +646,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Size: `50 B`,
           Instances: `1`,
-          Path: `.unknown parent`,
+          Path: `child ←.unknown– parent`,
         },
       ],
     ])
@@ -710,7 +717,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Size: `50 B`,
           Instances: `1`,
-          Path: `(several paths) holder`,
+          Path: `child ←(several paths)– holder`,
         },
       ],
     ])
@@ -769,7 +776,7 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Size: `50 B`,
           Instances: `1`,
-          Path: `[<unknown>] parent`,
+          Path: `child ←[<unknown>]– parent`,
         },
       ],
     ])
@@ -881,7 +888,14 @@ describe(`convert`, () => {
     )
 
     expect(retainedObjectsTables(shown, `myFn`)).toEqual([
-      [{ '%': `66.7%`, Self: `128 B`, Name: `payload`, Path: `.data myFn` }],
+      [
+        {
+          '%': `66.7%`,
+          Self: `128 B`,
+          Name: `payload`,
+          Path: `payload ←.data– myFn`,
+        },
+      ],
     ])
 
     const hidden = convertJsonToMd(
@@ -900,7 +914,7 @@ describe(`convert`, () => {
           Instances: `1`,
           Paths: `1`,
           Name: `myFn`,
-          'Example path': `(GC root)`,
+          'Example path': `myFn ← (GC root)`,
         },
       ],
     ])
@@ -939,7 +953,14 @@ describe(`convert`, () => {
     )
 
     expect(selfSizeInstancesTables(shown, `Widget`)).toEqual([
-      [{ '%': `100.0%`, Size: `250 B`, Instances: `2`, Path: `(GC root)` }],
+      [
+        {
+          '%': `100.0%`,
+          Size: `250 B`,
+          Instances: `2`,
+          Path: `Widget ← (GC root)`,
+        },
+      ],
     ])
 
     const hidden = convertJsonToMd(
@@ -951,7 +972,14 @@ describe(`convert`, () => {
     )
 
     expect(selfSizeInstancesTables(hidden, `Widget`)).toEqual([
-      [{ '%': `80.0%`, Size: `200 B`, Instances: `1`, Path: `(GC root)` }],
+      [
+        {
+          '%': `80.0%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Path: `Widget ← (GC root)`,
+        },
+      ],
     ])
   })
   test(`a constructor's instances take the category the origin names for its class`, () => {
@@ -964,7 +992,14 @@ describe(`convert`, () => {
     )
 
     expect(selfSizeInstancesTables(md, `Array`)).toEqual([
-      [{ '%': `100.0%`, Size: `300 B`, Instances: `2`, Path: `(GC root)` }],
+      [
+        {
+          '%': `100.0%`,
+          Size: `300 B`,
+          Instances: `2`,
+          Path: `Array ← (GC root)`,
+        },
+      ],
     ])
   })
 
@@ -976,7 +1011,14 @@ describe(`convert`, () => {
     )
 
     expect(largestStringsTables(md)).toEqual([
-      [{ '%': `37.5%`, Size: `120 B`, Value: `(module)`, Path: `(GC root)` }],
+      [
+        {
+          '%': `37.5%`,
+          Size: `120 B`,
+          Value: `(module)`,
+          Path: `(module) ← (GC root)`,
+        },
+      ],
     ])
   })
 })

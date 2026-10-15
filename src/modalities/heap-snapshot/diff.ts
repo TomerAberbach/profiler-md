@@ -463,8 +463,12 @@ export class RetainerPaths {
     return steps
   }
 
-  public format(path: number): string {
-    return formatRetainerPath(this.stepsOf(path), this.#options)
+  /** Formats a path from the node it starts at. */
+  public format(
+    path: number,
+    node: Parameters<typeof formatRetainerPath>[0],
+  ): string {
+    return formatRetainerPath(node, this.stepsOf(path), this.#options)
   }
 
   /**

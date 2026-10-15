@@ -264,8 +264,10 @@ describe(`convert`, () => {
       // The array's own instances match the heading too, since its name
       // contains the element class's.
     ).toEqual([
-      [`.elements com.example.Holder`],
-      [`[1] com.example.Entry[] ← .elements com.example.Holder`],
+      [`com.example.Entry[] ←.elements– com.example.Holder`],
+      [
+        `com.example.Entry ←[1]– com.example.Entry[] ←.elements– com.example.Holder`,
+      ],
     ])
   })
 
@@ -304,7 +306,10 @@ describe(`convert`, () => {
     )
 
     expect(retainerPaths(md, `com.example.Held`)).toEqual([
-      [`.own com.example.Derived`, `.inherited com.example.Derived`],
+      [
+        `com.example.Held ←.own– com.example.Derived`,
+        `com.example.Held ←.inherited– com.example.Derived`,
+      ],
     ])
   })
 
@@ -329,7 +334,9 @@ describe(`convert`, () => {
     )
 
     expect(retainerPaths(md, `com.example.Entry`)).toEqual([
-      [`[0] java.lang.Object[] ← .INSTANCES class com.example.Registry`],
+      [
+        `com.example.Entry ←[0]– java.lang.Object[] ←.INSTANCES– class com.example.Registry`,
+      ],
     ])
   })
 
@@ -370,7 +377,7 @@ describe(`convert`, () => {
 
     expect(retainerPaths(md, `com.example.Held`)).toEqual([
       [
-        `.held com.example.Entry ← [0] java.lang.Object[] ← .INSTANCES class com.example.Registry`,
+        `com.example.Held ←.held– com.example.Entry ←[0]– java.lang.Object[] ←.INSTANCES– class com.example.Registry`,
       ],
     ])
   })
@@ -431,7 +438,9 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(retainerPaths(md, `com.example.Holder`)).toEqual([[`(GC root)`]])
+    expect(retainerPaths(md, `com.example.Holder`)).toEqual([
+      [`com.example.Holder ← (GC root)`],
+    ])
   })
 
   test(`reads an object the dump records twice as one node, with a warning`, () => {
