@@ -32,7 +32,7 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 #### Instances
 
-Instances ranked by contribution to each constructor's self size.
+Instances ranked by contribution to each constructor's self size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 ##### `<foreign memory - malloc>`
 
@@ -58,7 +58,7 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 #### Instances
 
-Instances ranked by contribution to each constructor's retained size.
+Instances ranked by contribution to each constructor's retained size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 ##### `<foreign memory - malloc>`
 

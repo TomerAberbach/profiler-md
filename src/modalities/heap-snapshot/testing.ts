@@ -16,14 +16,11 @@ import type {
   AggregatedHeapSnapshotString,
   NodeCategoryStats,
   RetainerHop,
+  RetainerPathStep,
 } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
-import type {
-  HeapSnapshotNodeCategory,
-  RetainerNode,
-  RetainerStep,
-} from './type.ts'
+import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 /**
  * Builds a node adjacency graph from `[fromOrdinal, toOrdinal]` edges. A node's
@@ -130,7 +127,7 @@ export const makeAggregatedHeapSnapshot = ({
  * the paths' nodes.
  */
 export const makeRetainerHops = (
-  paths: readonly (readonly RetainerStep[])[],
+  paths: readonly (readonly RetainerPathStep[])[],
 ): Pick<
   AggregatedHeapSnapshot,
   `nodeCount` | `retainerHopOf` | `retainerOf`

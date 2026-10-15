@@ -4,6 +4,7 @@ import type { SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
 import { categoryTables, rankingTables } from '../../testing.ts'
+import type { RetainerPathStep } from './aggregate.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {
@@ -16,7 +17,6 @@ import {
   retainedSizeInstancesTables,
   selfSizeInstancesTables,
 } from './testing.ts'
-import type { RetainerStep } from './type.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
@@ -469,7 +469,9 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
 describe(`formatHeapSnapshotDiff instances`, () => {
   /** A snapshot of `Foo` instances, each of a size and at a retainer path. */
-  const snapshotOf = (instances: { size: number; steps: RetainerStep[] }[]) => {
+  const snapshotOf = (
+    instances: { size: number; steps: RetainerPathStep[] }[],
+  ) => {
     const constructor = makeAggregatedHeapSnapshotConstructor({
       name: `Foo`,
       selfSize: instances.reduce((sum, { size }) => sum + size, 0),
@@ -495,14 +497,14 @@ describe(`formatHeapSnapshotDiff instances`, () => {
     name: string,
     retainer: string,
     location?: SourceLocation,
-  ): RetainerStep => ({
+  ): RetainerPathStep => ({
     edge: { type: `property`, name },
     retainer: { id: 0, name: retainer, location },
   })
 
   const instanceTablesOf = (
-    base: { size: number; steps: RetainerStep[] }[],
-    current: { size: number; steps: RetainerStep[] }[],
+    base: { size: number; steps: RetainerPathStep[] }[],
+    current: { size: number; steps: RetainerPathStep[] }[],
   ) => {
     const md = mdastToMarkdown(
       formatHeapSnapshotDiff(

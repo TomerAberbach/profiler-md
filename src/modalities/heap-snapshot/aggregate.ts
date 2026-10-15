@@ -31,7 +31,6 @@ import type {
   HeapSnapshotNodeCategory,
   RetainerEdge,
   RetainerNode,
-  RetainerStep,
   UnresolvedHeapSnapshotNodeCategory,
 } from './type.ts'
 
@@ -399,7 +398,7 @@ const computeRetainerHop = (
   if (dominatorOrdinal === -1 || dominatorOrdinal === nodeOrdinal) {
     return undefined
   }
-  let edge: RetainerEdge | undefined
+  let edge: RetainerPathEdge = SEVERAL_RETAINERS_EDGE
   for (
     let offset = predecessorStartOffset;
     offset < predecessorEndOffset;
@@ -416,11 +415,13 @@ const computeRetainerHop = (
   return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
 }
 
+const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = { type: `several-retainers` }
+
 const computeRetainerSteps = (
   nodeOrdinal: number,
   retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined,
   retainerOf: HeapSnapshot[`retainerOf`],
-): RetainerStep[] => {
+): RetainerPathStep[] => {
   const hops: RetainerHop[] = []
   for (
     let hop = retainerHopOf(nodeOrdinal);
@@ -430,36 +431,33 @@ const computeRetainerSteps = (
     hops.push(hop)
   }
 
-  const steps: RetainerStep[] = []
+  const steps: RetainerPathStep[] = []
   for (let index = hops.length - 1; index >= 0; index--) {
     const hop = hops[index]!
-    if (keepsRetainerStep(hop, steps.length === 0)) {
-      steps.push({
-        edge: hop.edge!,
-        retainer: retainerOf(hop.dominatorOrdinal),
-      })
+    if (keepsRetainerStep(hop.internal, steps.length === 0)) {
+      steps.push({ edge: hop.edge, retainer: retainerOf(hop.dominatorOrdinal) })
     }
   }
   return steps.reverse()
 }
 
 /**
- * Whether a retainer path keeps a hop's step, given whether the path from the
- * hop's dominator outward is empty. A path skips a hop without an edge, and
+ * Whether a retainer path keeps a hop's step, given whether the hop's
+ * dominator is internal and whether the path from it outward is empty. A path
  * drops its trailing steps through internal nodes, which are VM bookkeeping
  * that never points to user code.
  */
 export const keepsRetainerStep = (
-  { edge, internal }: RetainerHop,
+  internal: boolean,
   isRestEmpty: boolean,
-): boolean => edge !== undefined && !(isRestEmpty && internal)
+): boolean => !(isRestEmpty && internal)
 
 /**
  * Formats a retainer path from the node outward, or `(GC root)` for a node the
  * GC root holds directly.
  */
 export const formatRetainerPath = (
-  steps: readonly RetainerStep[],
+  steps: readonly RetainerPathStep[],
   options: FormattingProfileToMdOptions,
 ): string =>
   steps.length === 0
@@ -479,7 +477,7 @@ const joinRetainerStepLabels = (
 ): string => (edgeLabel ? `${edgeLabel} ${retainerLabel}` : retainerLabel)
 
 export const formatRetainerLabel = (
-  { name, nameLocation, location }: RetainerStep[`retainer`],
+  { name, nameLocation, location }: RetainerNode,
   options: FormattingProfileToMdOptions,
 ): string =>
   `${nameLocation ? formatSourceLocation(nameLocation, options) : name}${
@@ -487,15 +485,31 @@ export const formatRetainerLabel = (
   }`
 
 export const formatRetainerEdgeLabel = (
-  edge: RetainerEdge,
+  edge: RetainerPathEdge,
   options: FormattingProfileToMdOptions,
 ): string =>
   formatRetainerEdge(edge, ({ name, nameLocation }) =>
     nameLocation ? formatSourceLocation(nameLocation, options) : name,
   )
 
+/**
+ * A retainer path step's edge. A step whose retainer holds no edge to the node,
+ * which it retains through the node's several retainers, records several
+ * retainers.
+ */
+export type RetainerPathEdge = RetainerEdge | { type: `several-retainers` }
+
+/**
+ * One step of a retainer path: the edge a retainer holds to the node the path
+ * reached so far, and the retainer.
+ */
+export type RetainerPathStep = {
+  edge: RetainerPathEdge
+  retainer: RetainerNode
+}
+
 export const formatRetainerEdge = (
-  edge: RetainerEdge,
+  edge: RetainerPathEdge,
   propertyName: (edge: Extract<RetainerEdge, { type: `property` }>) => string,
 ): string => {
   switch (edge.type) {
@@ -503,6 +517,8 @@ export const formatRetainerEdge = (
       return `.${propertyName(edge)}`
     case `element`:
       return `[${edge.index ?? `<unknown>`}]`
+    case `several-retainers`:
+      return `(several paths)`
     case `labeled`:
       return edge.label
     case `unlabeled`:
@@ -708,8 +724,7 @@ export type AggregatedHeapSnapshot = {
 export type RetainerHop = {
   dominatorOrdinal: number
 
-  /** Undefined when the dominator holds no edge to the node. */
-  edge: RetainerEdge | undefined
+  edge: RetainerPathEdge
 
   /** Whether the dominator is an internal node. */
   internal: boolean

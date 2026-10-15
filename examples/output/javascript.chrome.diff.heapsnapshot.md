@@ -83,7 +83,7 @@ Constructors with the largest decrease in self size.
 
 #### Instances
 
-Instances with the largest change in contribution to each constructor's self size.
+Instances with the largest change in contribution to each constructor's self size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -96,25 +96,29 @@ Instances with the largest change in contribution to each constructor's self siz
 
 ##### `ww` (`./node_modules/d3/dist/d3.min.js:2:216042`)
 
-| Change | Delta |             % |       Size | Instances | Path        |
-| -----: | ----: | ------------: | ---------: | --------: | ----------- |
-|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |     0 → 1 | `(GC root)` |
+| Change | Delta |             % |       Size | Instances | Path                                              |
+| -----: | ----: | ------------: | ---------: | --------: | ------------------------------------------------- |
+|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |     0 → 1 | `(several paths) Window / http://127.0.0.1:52789` |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|  Change |        Delta |            % |          Size | Instances | Path                                                                      |
-| ------: | -----------: | -----------: | ------------: | --------: | ------------------------------------------------------------------------- |
-| removed | -102.621 KiB | 96.7% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context` |
+|  Change |        Delta |            % |          Size | Instances | Path                                                                                                                                |
+| ------: | -----------: | -----------: | ------------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -102.621 KiB | 96.7% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context`                                                           |
+| removed |       -2 KiB |  1.9% → 0.0% |   2 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context`                                                           |
+|     new |       +2 KiB | 0.0% → 57.7% |   0 B → 2 KiB |     0 → 1 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context ← (several paths) Window / http://127.0.0.1:52789`         |
+| removed |       -256 B |  0.2% → 0.0% |   256 B → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+| removed |       -256 B |  0.2% → 0.0% |   256 B → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
 
 ##### `system / Context` (`<unknown>`)
 
-|  Change |  Delta |             % |                Size | Instances | Path                                                                                        |
-| ------: | -----: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------- |
-|   -9.8% | -608 B | 41.0% → 37.3% | 6.08 KiB → 5.49 KiB |   61 → 40 | `(GC root)`                                                                                 |
-|     new | +576 B |   0.0% → 3.8% |         0 B → 576 B |    0 → 20 | `.d3 Window / http://127.0.0.1:52789`                                                       |
-| removed |  -48 B |   0.3% → 0.0% |          48 B → 0 B |     1 → 0 | `.previous system / Context`                                                                |
-| removed |  -36 B |   0.2% → 0.0% |          36 B → 0 B |     1 → 0 | `.context center (./node_modules/d3/dist/d3.min.js:2:637) ← .bisectCenter Object`           |
-| removed |  -36 B |   0.2% → 0.0% |          36 B → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ← .interpolateCool Object` |
+|    Change |      Delta |            % |            Size | Instances | Path                                                           |
+| --------: | ---------: | -----------: | --------------: | --------: | -------------------------------------------------------------- |
+|    -98.5% |  -5.05 KiB | 34.6% → 0.5% | 5.13 KiB → 80 B |    32 → 4 | `(GC root)`                                                    |
+| +11681.8% | +5.019 KiB | 0.3% → 34.4% | 44 B → 5.06 KiB |    1 → 28 | `(several paths) Window / http://127.0.0.1:52789`              |
+|    -68.4% |     -416 B |  4.0% → 1.3% |   608 B → 192 B |    13 → 1 | `(several paths) Object`                                       |
+|       new |     +416 B |  0.0% → 2.8% |     0 B → 416 B |    0 → 12 | `(several paths) Object ← .d3 Window / http://127.0.0.1:52789` |
+|   removed |     -160 B |  1.1% → 0.0% |     160 B → 0 B |     8 → 0 | `(several paths) system / Context ← (several paths) Object`    |
 
 ##### `Float32Array` (`<unknown>`)
 
@@ -130,19 +134,23 @@ Instances with the largest change in contribution to each constructor's self siz
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|  Change | Delta |           % |       Size | Instances | Path                                         |
-| ------: | ----: | ----------: | ---------: | --------: | -------------------------------------------- |
-| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float32Array ← .e system / Context` |
+|  Change | Delta |           % |       Size | Instances | Path                                                                                                   |
+| ------: | ----: | ----------: | ---------: | --------: | ------------------------------------------------------------------------------------------------------ |
+| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
+| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
+| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .rh system / Context` |
+| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
+| removed | -52 B | 7.3% → 0.0% | 52 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
 
 ##### `Array` (`<unknown>`)
 
-| Change | Delta |    % |          Size | Instances | Path                                                                                                                                                                                    |
-| -----: | ----: | ---: | ------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -6.2% | -16 B | 0.4% | 260 B → 244 B |   11 → 10 | `(GC root)`                                                                                                                                                                             |
-|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[39] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
-|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[40] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
-|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[41] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
-|  +5.9% | +16 B | 0.5% | 272 B → 288 B |   17 → 18 | `[42] Array ← [0] Array ← [0] Array ← .coordinates Object ← .__data__ SVGPathElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+|  Change | Delta |           % |       Size | Instances | Path                                                                    |
+| ------: | ----: | ----------: | ---------: | --------: | ----------------------------------------------------------------------- |
+| removed | -48 B | 0.1% → 0.0% | 48 B → 0 B |     3 → 0 | `.u system / Context`                                                   |
+|     new | +48 B | 0.0% → 0.1% | 0 B → 48 B |     0 → 3 | `.u system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+| removed | -32 B | 0.1% → 0.0% | 32 B → 0 B |     2 → 0 | `[0] Array ← .u system / Context`                                       |
+| removed | -32 B | 0.1% → 0.0% | 32 B → 0 B |     2 → 0 | `[1] Array ← .u system / Context`                                       |
+| removed | -32 B | 0.1% → 0.0% | 32 B → 0 B |     2 → 0 | `[2] Array ← .u system / Context`                                       |
 
 ### Retained size
 
@@ -222,7 +230,7 @@ Constructors with the largest decrease in retained size.
 
 #### Instances
 
-Instances with the largest change in contribution to each constructor's retained size.
+Instances with the largest change in contribution to each constructor's retained size. `(several paths) A` means `A` holds the node before it only through other nodes, along several paths.
 
 ##### `Window / http://127.0.0.1:52789` (`<unknown>`)
 
@@ -232,13 +240,13 @@ Instances with the largest change in contribution to each constructor's retained
 
 ##### `Object` (`<unknown>`)
 
-|  Change |        Delta |             % |              Size | Instances | Path                                                                                                                |
-| ------: | -----------: | ------------: | ----------------: | --------: | ------------------------------------------------------------------------------------------------------------------- |
-|     new | +260.562 KiB |  0.0% → 23.9% |     0 B → 261 KiB |     0 → 1 | `.d3 Window / http://127.0.0.1:52789`                                                                               |
-|  -69.5% | -260.253 KiB | 34.4% → 10.5% | 375 KiB → 114 KiB |   51 → 50 | `(GC root)`                                                                                                         |
-| removed |  -10.179 KiB |   0.9% → 0.0% |    10.2 KiB → 0 B |     1 → 0 | `.prototype Lu (./node_modules/d3/dist/d3.min.js:2:94637) ← .Delaunay Object`                                       |
-|     new |  +10.179 KiB |   0.0% → 0.9% |    0 B → 10.2 KiB |     0 → 1 | `.prototype Lu (./node_modules/d3/dist/d3.min.js:2:94618) ← .Delaunay Object ← .d3 Window / http://127.0.0.1:52789` |
-|   +0.3% |   +2.308 KiB |         64.4% | 701 KiB → 703 KiB |       201 | `.__retained Window / http://127.0.0.1:52789`                                                                       |
+|  Change |        Delta |            % |               Size | Instances | Path                                                                                                                                |
+| ------: | -----------: | -----------: | -----------------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------- |
+|  -88.0% | -328.015 KiB | 34.3% → 4.1% | 373 KiB → 44.8 KiB |   48 → 32 | `(GC root)`                                                                                                                         |
+|     new | +260.562 KiB | 0.0% → 23.9% |      0 B → 261 KiB |     0 → 1 | `.d3 Window / http://127.0.0.1:52789`                                                                                               |
+|     new |  +67.761 KiB |  0.0% → 6.2% |     0 B → 67.8 KiB |    0 → 15 | `(several paths) Window / http://127.0.0.1:52789`                                                                                   |
+| removed |  -30.007 KiB |  2.8% → 0.0% |       30 KiB → 0 B |     1 → 0 | `.prototype Su (./node_modules/d3/dist/d3.min.js:2:82035) ← .Su system / Context`                                                   |
+|     new |  +29.976 KiB |  0.0% → 2.7% |       0 B → 30 KiB |     0 → 1 | `.prototype Su (./node_modules/d3/dist/d3.min.js:2:82034) ← .Su system / Context ← (several paths) Window / http://127.0.0.1:52789` |
 
 ##### `SVGGElement` (`<unknown>`)
 
@@ -250,11 +258,11 @@ Instances with the largest change in contribution to each constructor's retained
 
 ##### `SVGPathElement` (`<unknown>`)
 
-|  Change |      Delta |             % |                Size | Instances | Path                                                                                              |
-| ------: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------- |
-|   +2.7% | +2.308 KiB | 82.6% → 82.9% | 85.1 KiB → 87.5 KiB |        21 | `[11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
-| removed |      -16 B |  <0.1% → 0.0% |          16 B → 0 B |     1 → 0 | `[12] InternalNode ← [1] InternalNode ← [1] InternalNode`                                         |
-|     new |      +16 B |  0.0% → <0.1% |          0 B → 16 B |     0 → 1 | `[10] InternalNode ← [1] InternalNode ← [1] InternalNode`                                         |
+|  Change |      Delta |             % |                Size | Instances | Path                                                                                                                            |
+| ------: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------- |
+|   +2.7% | +2.308 KiB | 82.6% → 82.9% | 85.1 KiB → 87.5 KiB |        21 | `(several paths) SVGGElement ← [11] SVGSVGElement ← [0] Array ← .detached Object ← .__retained Window / http://127.0.0.1:52789` |
+| removed |      -16 B |  <0.1% → 0.0% |          16 B → 0 B |     1 → 0 | `[12] InternalNode ← [1] InternalNode ← [1] InternalNode`                                                                       |
+|     new |      +16 B |  0.0% → <0.1% |          0 B → 16 B |     0 → 1 | `[10] InternalNode ← [1] InternalNode ← [1] InternalNode`                                                                       |
 
 ##### `SVGSVGElement` (`<unknown>`)
 
@@ -276,9 +284,9 @@ Instances with the largest change in contribution to each constructor's retained
 
 ##### `ww` (`./node_modules/d3/dist/d3.min.js:2:216042`)
 
-| Change |  Delta |             % |        Size | Instances | Path        |
-| -----: | -----: | ------------: | ----------: | --------: | ----------- |
-|    new | +232 B | 0.0% → 100.0% | 0 B → 232 B |     0 → 1 | `(GC root)` |
+| Change |  Delta |             % |        Size | Instances | Path                                              |
+| -----: | -----: | ------------: | ----------: | --------: | ------------------------------------------------- |
+|    new | +232 B | 0.0% → 100.0% | 0 B → 232 B |     0 → 1 | `(several paths) Window / http://127.0.0.1:52789` |
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -291,19 +299,19 @@ Instances with the largest change in contribution to each constructor's retained
 
 ##### `Window` (`<unknown>`)
 
-| Change | Delta |     % |     Size | Instances | Path        |
-| -----: | ----: | ----: | -------: | --------: | ----------- |
-|  +0.1% | +40 B | 73.5% | 54.5 KiB |         6 | `(GC root)` |
+| Change | Delta |           % |                Size | Instances | Path        |
+| -----: | ----: | ----------: | ------------------: | --------: | ----------- |
+|  +1.6% | +40 B | 3.2% → 3.3% | 2.41 KiB → 2.45 KiB |         4 | `(GC root)` |
 
 ##### `system / Context` (`<unknown>`)
 
-|  Change |        Delta |             % |              Size | Instances | Path                                                                                            |
-| ------: | -----------: | ------------: | ----------------: | --------: | ----------------------------------------------------------------------------------------------- |
-|  -26.5% | -104.886 KiB | 87.9% → 83.9% | 396 KiB → 291 KiB |   61 → 40 | `(GC root)`                                                                                     |
-| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
-| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
-| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
-| removed |   -6.046 KiB |   1.3% → 0.0% |    6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateViridis Object` |
+|    Change |        Delta |             % |            Size | Instances | Path                                                                                            |
+| --------: | -----------: | ------------: | --------------: | --------: | ----------------------------------------------------------------------------------------------- |
+|   -100.0% | -385.949 KiB | 85.7% → <0.1% |  386 KiB → 80 B |    32 → 4 | `(GC root)`                                                                                     |
+| +59829.8% | +282.789 KiB |  0.1% → 81.6% | 484 B → 283 KiB |    1 → 28 | `(several paths) Window / http://127.0.0.1:52789`                                               |
+|   removed |   -6.046 KiB |   1.3% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateInferno Object` |
+|   removed |   -6.046 KiB |   1.3% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolateMagma Object`   |
+|   removed |   -6.046 KiB |   1.3% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `.context (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ← .interpolatePlasma Object`  |
 
 ##### `Float32Array` (`<unknown>`)
 
@@ -313,15 +321,23 @@ Instances with the largest change in contribution to each constructor's retained
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|  Change |        Delta |            % |          Size | Instances | Path                                         |
-| ------: | -----------: | -----------: | ------------: | --------: | -------------------------------------------- |
-| removed | -102.671 KiB | 94.8% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.buffer Float32Array ← .e system / Context` |
+|  Change |        Delta |            % |           Size | Instances | Path                                                                                                   |
+| ------: | -----------: | -----------: | -------------: | --------: | ------------------------------------------------------------------------------------------------------ |
+| removed | -102.671 KiB | 94.8% → 0.0% |  103 KiB → 0 B |     1 → 0 | `.buffer Float32Array ← .e system / Context`                                                           |
+| removed |    -2.05 KiB |  1.9% → 0.0% | 2.05 KiB → 0 B |     1 → 0 | `.buffer Uint32Array ← .Au system / Context`                                                           |
+|     new |    +2.05 KiB | 0.0% → 36.6% | 0 B → 2.05 KiB |     0 → 1 | `.buffer Uint32Array ← .Au system / Context ← (several paths) Window / http://127.0.0.1:52789`         |
+| removed |       -308 B |  0.3% → 0.0% |    308 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .Gh system / Context` |
+| removed |       -308 B |  0.3% → 0.0% |    308 B → 0 B |     1 → 0 | `.buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .ih system / Context` |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|  Change |        Delta |            % |          Size | Instances | Path                                                                      |
-| ------: | -----------: | -----------: | ------------: | --------: | ------------------------------------------------------------------------- |
-| removed | -102.621 KiB | 96.7% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context` |
+|  Change |        Delta |            % |          Size | Instances | Path                                                                                                                                |
+| ------: | -----------: | -----------: | ------------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -102.621 KiB | 96.7% → 0.0% | 103 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float32Array ← .e system / Context`                                                           |
+| removed |       -2 KiB |  1.9% → 0.0% |   2 KiB → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context`                                                           |
+|     new |       +2 KiB | 0.0% → 57.7% |   0 B → 2 KiB |     0 → 1 | `.backing_store ArrayBuffer ← .buffer Uint32Array ← .Au system / Context ← (several paths) Window / http://127.0.0.1:52789`         |
+| removed |       -256 B |  0.2% → 0.0% |   256 B → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .as system / Context` |
+| removed |       -256 B |  0.2% → 0.0% |   256 B → 0 B |     1 → 0 | `.backing_store ArrayBuffer ← .buffer Float64Array ← ._partials T (./node_modules/d3/dist/d3.min.js:2:3159) ← .us system / Context` |
 
 ##### `xw` (`./node_modules/d3/dist/d3.min.js:2:215993`)
 
@@ -337,55 +353,55 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 
 Functions with the largest increase in retained size.
 
-|   Change |       Delta |            % |         Retained | Instances | Paths | Name | Location                                               | Example path           |
-| -------: | ----------: | -----------: | ---------------: | --------: | ----: | ---- | ------------------------------------------------------ | ---------------------- |
-| +6658.2% | +23.667 KiB | <0.1% → 0.8% |   364 B → 24 KiB |         1 |     1 | `iu` | `./node_modules/d3/dist/d3.min.js:2:76774`             | `(GC root)`            |
-| +1285.5% |  +3.113 KiB | <0.1% → 0.1% | 248 B → 3.36 KiB |         1 |     1 | `Lm` | `./node_modules/d3/dist/d3.min.js:2:195934 → 2:194432` | `(GC root)`            |
-|  +772.2% |  +1.628 KiB | <0.1% → 0.1% | 216 B → 1.84 KiB |         1 |     1 | `Um` | `./node_modules/d3/dist/d3.min.js:2:193534 → 2:193552` | `.Um system / Context` |
-| +3612.5% |  +1.128 KiB |        <0.1% |  32 B → 1.16 KiB |         1 |     1 | `au` | `./node_modules/d3/dist/d3.min.js:2:79111 → 2:79110`   | `.au system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Jx` | `./node_modules/d3/dist/d3.min.js:2:210278`            | `.Jx system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Xx` | `./node_modules/d3/dist/d3.min.js:2:206588`            | `.Xx system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Wx` | `./node_modules/d3/dist/d3.min.js:2:207850`            | `.Wx system / Context` |
-|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Yx` | `./node_modules/d3/dist/d3.min.js:2:204737`            | `.Yx system / Context` |
-|      new |    +1,008 B | 0.0% → <0.1% |    0 B → 1,008 B |     0 → 1 | 0 → 1 | `ym` | `./node_modules/d3/dist/d3.min.js:2:192478`            | `.ym system / Context` |
-|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `lw` | `./node_modules/d3/dist/d3.min.js:2:212342 → 2:212348` | `.lw system / Context` |
-|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `fw` | `./node_modules/d3/dist/d3.min.js:2:211904 → 2:211922` | `.fw system / Context` |
-|  +403.6% |      +888 B |        <0.1% | 220 B → 1.08 KiB |         1 |     1 | `Gm` | `./node_modules/d3/dist/d3.min.js:2:196484 → 2:196504` | `.Gm system / Context` |
-|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `Kx` | `./node_modules/d3/dist/d3.min.js:2:209010`            | `.Kx system / Context` |
-|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `jx` | `./node_modules/d3/dist/d3.min.js:2:205618`            | `.jx system / Context` |
-|      new |      +724 B | 0.0% → <0.1% |      0 B → 724 B |     0 → 1 | 0 → 1 | `Ix` | `./node_modules/d3/dist/d3.min.js:2:201749`            | `.Ix system / Context` |
-|  +613.8% |      +712 B |        <0.1% |    116 B → 828 B |         1 |     1 | `nw` | `./node_modules/d3/dist/d3.min.js:2:211365 → 2:211383` | `.nw system / Context` |
-|  +527.6% |      +612 B |        <0.1% |    116 B → 728 B |         1 |     1 | `tx` | `./node_modules/d3/dist/d3.min.js:2:198548 → 2:198280` | `.tx system / Context` |
-|  +420.7% |      +488 B |        <0.1% |    116 B → 604 B |         1 |     1 | `km` | `./node_modules/d3/dist/d3.min.js:2:192864 → 2:192703` | `.km system / Context` |
-|   +53.0% |      +384 B |        <0.1% | 724 B → 1.08 KiB |         1 |     1 | `Ux` | `./node_modules/d3/dist/d3.min.js:2:201700 → 2:201718` | `.Ux system / Context` |
-|   +33.8% |      +280 B |        <0.1% | 828 B → 1.08 KiB |         1 |     1 | `Fx` | `./node_modules/d3/dist/d3.min.js:2:201638 → 2:201656` | `.Fx system / Context` |
+|   Change |       Delta |            % |         Retained | Instances | Paths | Name | Location                                               | Example path                                                             |
+| -------: | ----------: | -----------: | ---------------: | --------: | ----: | ---- | ------------------------------------------------------ | ------------------------------------------------------------------------ |
+| +6658.2% | +23.667 KiB | <0.1% → 0.8% |   364 B → 24 KiB |         1 |     1 | `iu` | `./node_modules/d3/dist/d3.min.js:2:76774`             | `(several paths) Window / http://127.0.0.1:52789`                        |
+| +1285.5% |  +3.113 KiB | <0.1% → 0.1% | 248 B → 3.36 KiB |         1 |     1 | `Lm` | `./node_modules/d3/dist/d3.min.js:2:195934 → 2:194432` | `(several paths) Window / http://127.0.0.1:52789`                        |
+|  +772.2% |  +1.628 KiB | <0.1% → 0.1% | 216 B → 1.84 KiB |         1 |     1 | `Um` | `./node_modules/d3/dist/d3.min.js:2:193534 → 2:193552` | `.Um system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+| +3612.5% |  +1.128 KiB |        <0.1% |  32 B → 1.16 KiB |         1 |     1 | `au` | `./node_modules/d3/dist/d3.min.js:2:79111 → 2:79110`   | `.au system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Jx` | `./node_modules/d3/dist/d3.min.js:2:210278`            | `.Jx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Xx` | `./node_modules/d3/dist/d3.min.js:2:206588`            | `.Xx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Wx` | `./node_modules/d3/dist/d3.min.js:2:207850`            | `.Wx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |  +1.082 KiB | 0.0% → <0.1% |   0 B → 1.08 KiB |     0 → 1 | 0 → 1 | `Yx` | `./node_modules/d3/dist/d3.min.js:2:204737`            | `.Yx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |    +1,008 B | 0.0% → <0.1% |    0 B → 1,008 B |     0 → 1 | 0 → 1 | `ym` | `./node_modules/d3/dist/d3.min.js:2:192478`            | `.ym system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `lw` | `./node_modules/d3/dist/d3.min.js:2:212342 → 2:212348` | `.lw system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  +855.2% |      +992 B |        <0.1% | 116 B → 1.08 KiB |         1 |     1 | `fw` | `./node_modules/d3/dist/d3.min.js:2:211904 → 2:211922` | `.fw system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  +403.6% |      +888 B |        <0.1% | 220 B → 1.08 KiB |         1 |     1 | `Gm` | `./node_modules/d3/dist/d3.min.js:2:196484 → 2:196504` | `.Gm system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `Kx` | `./node_modules/d3/dist/d3.min.js:2:209010`            | `.Kx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |      +828 B | 0.0% → <0.1% |      0 B → 828 B |     0 → 1 | 0 → 1 | `jx` | `./node_modules/d3/dist/d3.min.js:2:205618`            | `.jx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|      new |      +724 B | 0.0% → <0.1% |      0 B → 724 B |     0 → 1 | 0 → 1 | `Ix` | `./node_modules/d3/dist/d3.min.js:2:201749`            | `.Ix system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  +613.8% |      +712 B |        <0.1% |    116 B → 828 B |         1 |     1 | `nw` | `./node_modules/d3/dist/d3.min.js:2:211365 → 2:211383` | `.nw system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  +527.6% |      +612 B |        <0.1% |    116 B → 728 B |         1 |     1 | `tx` | `./node_modules/d3/dist/d3.min.js:2:198548 → 2:198280` | `.tx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  +420.7% |      +488 B |        <0.1% |    116 B → 604 B |         1 |     1 | `km` | `./node_modules/d3/dist/d3.min.js:2:192864 → 2:192703` | `.km system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|   +53.0% |      +384 B |        <0.1% | 724 B → 1.08 KiB |         1 |     1 | `Ux` | `./node_modules/d3/dist/d3.min.js:2:201700 → 2:201718` | `.Ux system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|   +33.8% |      +280 B |        <0.1% | 828 B → 1.08 KiB |         1 |     1 | `Fx` | `./node_modules/d3/dist/d3.min.js:2:201638 → 2:201656` | `.Fx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
 
 ### Improvements
 
 Functions with the largest decrease in retained size.
 
-|  Change |       Delta |            % |            Retained | Instances |     Paths | Name          | Location                                               | Example path                                                                                   |
-| ------: | ----------: | -----------: | ------------------: | --------: | --------: | ------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-|   -8.3% | -19.062 KiB |  7.1% → 6.7% |   229 KiB → 210 KiB | 765 → 760 | 485 → 484 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113 → 2:30289`   | `.on Object ← .prototype fe (./node_modules/d3/dist/d3.min.js:2:29314) ← .fe system / Context` |
-|  -94.1% |  -1.804 KiB | 0.1% → <0.1% |    1.92 KiB → 116 B |         1 |         1 | `Bm`          | `./node_modules/d3/dist/d3.min.js:2:193620 → 2:193642` | `.Bm system / Context`                                                                         |
-|  -86.2% |  -1.585 KiB | 0.1% → <0.1% |    1.84 KiB → 260 B |         1 |         1 | `qm`          | `./node_modules/d3/dist/d3.min.js:2:193503 → 2:193482` | `.qm system / Context`                                                                         |
-|  -42.8% |  -1.437 KiB |         0.1% | 3.36 KiB → 1.92 KiB |         1 |         1 | `Ym`          | `./node_modules/d3/dist/d3.min.js:2:194383 → 2:193669` | `(GC root)`                                                                                    |
-| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Qx`          | `./node_modules/d3/dist/d3.min.js:2:210229`            | `.Qx system / Context`                                                                         |
-| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Xm`          | `./node_modules/d3/dist/d3.min.js:2:196455`            | `.Xm system / Context`                                                                         |
-| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Hx`          | `./node_modules/d3/dist/d3.min.js:2:206539`            | `.Hx system / Context`                                                                         |
-| removed |    -1,008 B | <0.1% → 0.0% |       1,008 B → 0 B |     1 → 0 |     1 → 0 | `gm`          | `./node_modules/d3/dist/d3.min.js:2:192429`            | `.gm system / Context`                                                                         |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Bx`          | `./node_modules/d3/dist/d3.min.js:2:204688 → 2:204588` | `.Bx system / Context`                                                                         |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Vx`          | `./node_modules/d3/dist/d3.min.js:2:207801 → 2:207395` | `.Vx system / Context`                                                                         |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Rx`          | `./node_modules/d3/dist/d3.min.js:2:201607 → 2:201499` | `.Rx system / Context`                                                                         |
-|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `sw`          | `./node_modules/d3/dist/d3.min.js:2:212299 → 2:211953` | `.sw system / Context`                                                                         |
-|  -83.0% |      -920 B |        <0.1% |    1.08 KiB → 188 B |     7 → 6 |     7 → 6 | `a`           | `./node_modules/d3/dist/d3.min.js:2:78474 → 2:99767`   | `.csvFormatValue Object ← .d3 Window / http://127.0.0.1:52789`                                 |
-|  -88.2% |      -868 B |        <0.1% |       984 B → 116 B |         1 |         1 | `Qm`          | `./node_modules/d3/dist/d3.min.js:2:197651 → 2:197362` | `(GC root)`                                                                                    |
-| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Lx`          | `./node_modules/d3/dist/d3.min.js:2:205569`            | `.Lx system / Context`                                                                         |
-| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `tw`          | `./node_modules/d3/dist/d3.min.js:2:211334`            | `.tw system / Context`                                                                         |
-| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Zx`          | `./node_modules/d3/dist/d3.min.js:2:208961`            | `.Zx system / Context`                                                                         |
-|  -61.4% |      -604 B |        <0.1% |       984 B → 380 B |         1 |         1 | `uw`          | `./node_modules/d3/dist/d3.min.js:2:211842 → 2:211852` | `.uw system / Context`                                                                         |
-|  -80.9% |      -492 B |        <0.1% |       608 B → 116 B |         1 |         1 | `Nm`          | `./node_modules/d3/dist/d3.min.js:2:192654 → 2:192650` | `.Nm system / Context`                                                                         |
-|   -3.1% |      -424 B |         0.4% |   13.4 KiB → 13 KiB |   40 → 39 |        17 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037 → 2:159016` | `(GC root)`                                                                                    |
+|  Change |       Delta |            % |            Retained | Instances |     Paths | Name          | Location                                               | Example path                                                                                                                                     |
+| ------: | ----------: | -----------: | ------------------: | --------: | --------: | ------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+|   -8.3% | -19.062 KiB |  7.1% → 6.7% |   229 KiB → 210 KiB | 765 → 760 | 488 → 484 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113 → 2:30289`   | `.on Object ← .prototype fe (./node_modules/d3/dist/d3.min.js:2:29314) ← .fe system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|  -94.1% |  -1.804 KiB | 0.1% → <0.1% |    1.92 KiB → 116 B |         1 |         1 | `Bm`          | `./node_modules/d3/dist/d3.min.js:2:193620 → 2:193642` | `.Bm system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -86.2% |  -1.585 KiB | 0.1% → <0.1% |    1.84 KiB → 260 B |         1 |         1 | `qm`          | `./node_modules/d3/dist/d3.min.js:2:193503 → 2:193482` | `.qm system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -42.8% |  -1.437 KiB |         0.1% | 3.36 KiB → 1.92 KiB |         1 |         1 | `Ym`          | `./node_modules/d3/dist/d3.min.js:2:194383 → 2:193669` | `(several paths) Window / http://127.0.0.1:52789`                                                                                                |
+| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Qx`          | `./node_modules/d3/dist/d3.min.js:2:210229`            | `.Qx system / Context`                                                                                                                           |
+| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Xm`          | `./node_modules/d3/dist/d3.min.js:2:196455`            | `.Xm system / Context`                                                                                                                           |
+| removed |  -1.082 KiB | <0.1% → 0.0% |      1.08 KiB → 0 B |     1 → 0 |     1 → 0 | `Hx`          | `./node_modules/d3/dist/d3.min.js:2:206539`            | `.Hx system / Context`                                                                                                                           |
+| removed |    -1,008 B | <0.1% → 0.0% |       1,008 B → 0 B |     1 → 0 |     1 → 0 | `gm`          | `./node_modules/d3/dist/d3.min.js:2:192429`            | `.gm system / Context`                                                                                                                           |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Bx`          | `./node_modules/d3/dist/d3.min.js:2:204688 → 2:204588` | `.Bx system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Vx`          | `./node_modules/d3/dist/d3.min.js:2:207801 → 2:207395` | `.Vx system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `Rx`          | `./node_modules/d3/dist/d3.min.js:2:201607 → 2:201499` | `.Rx system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -89.5% |      -992 B |        <0.1% |    1.08 KiB → 116 B |         1 |         1 | `sw`          | `./node_modules/d3/dist/d3.min.js:2:212299 → 2:211953` | `.sw system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -83.0% |      -920 B |        <0.1% |    1.08 KiB → 188 B |     7 → 6 |     7 → 6 | `a`           | `./node_modules/d3/dist/d3.min.js:2:78474 → 2:99767`   | `.csvFormatValue Object ← .d3 Window / http://127.0.0.1:52789`                                                                                   |
+|  -88.2% |      -868 B |        <0.1% |       984 B → 116 B |         1 |         1 | `Qm`          | `./node_modules/d3/dist/d3.min.js:2:197651 → 2:197362` | `(several paths) Window / http://127.0.0.1:52789`                                                                                                |
+| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Lx`          | `./node_modules/d3/dist/d3.min.js:2:205569`            | `.Lx system / Context`                                                                                                                           |
+| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `tw`          | `./node_modules/d3/dist/d3.min.js:2:211334`            | `.tw system / Context`                                                                                                                           |
+| removed |      -828 B | <0.1% → 0.0% |         828 B → 0 B |     1 → 0 |     1 → 0 | `Zx`          | `./node_modules/d3/dist/d3.min.js:2:208961`            | `.Zx system / Context`                                                                                                                           |
+|  -61.4% |      -604 B |        <0.1% |       984 B → 380 B |         1 |         1 | `uw`          | `./node_modules/d3/dist/d3.min.js:2:211842 → 2:211852` | `.uw system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|  -80.9% |      -492 B |        <0.1% |       608 B → 116 B |         1 |         1 | `Nm`          | `./node_modules/d3/dist/d3.min.js:2:192654 → 2:192650` | `.Nm system / Context ← (several paths) Window / http://127.0.0.1:52789`                                                                         |
+|   -3.1% |      -424 B |         0.4% |   13.4 KiB → 13 KiB |   40 → 39 |   18 → 17 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037 → 2:159016` | `(several paths) Window / http://127.0.0.1:52789`                                                                                                |
 
 ## Largest strings
 
@@ -397,28 +413,28 @@ Strings with the largest increase in size.
 
 #### String
 
-| Change | Delta |            % |       Size | Value                                                | Path                                                                                                                                                                                                                                                            |
-| -----: | ----: | -----------: | ---------: | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    new | +68 B | 0.0% → <0.1% | 0 B → 68 B | `http://127.0.0.1:5278961BD7B6A550479043343F4BB3B5…` | `(GC root)`                                                                                                                                                                                                                                                     |
-|    new | +52 B | 0.0% → <0.1% | 0 B → 52 B | `// https://d3js.org v7.9.0 Copyright 2010-2023 Mi…` | `(GC root)`                                                                                                                                                                                                                                                     |
-|    new | +32 B | 0.0% → <0.1% | 0 B → 32 B | `schemeObservable10`                                 | `(GC root)`                                                                                                                                                                                                                                                     |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.areaStart`                                       | `system / ScopeInfo ← .name_or_scope_info areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:196076) ← .areaStart Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context`                                     |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.areaEnd`                                         | `system / ScopeInfo ← .name_or_scope_info areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:196109) ← .areaEnd Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context`                                           |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.lineStart`                                       | `system / ScopeInfo ← .name_or_scope_info lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:196146) ← .lineStart Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context`                                     |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.lineEnd`                                         | `system / ScopeInfo ← .name_or_scope_info lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:196180) ← .lineEnd Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context`                                           |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:197452) ← .areaStart Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context` |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:197496) ← .areaEnd Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context`       |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.lineStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:197540) ← .lineStart Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context` |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.lineEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:197584) ← .lineEnd Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context`       |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Fx.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:201822) ← .areaStart Object ← .prototype Fx (./node_modules/d3/dist/d3.min.js:2:201656) ← .Fx system / Context` |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Fx.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:201855) ← .areaEnd Object ← .prototype Fx (./node_modules/d3/dist/d3.min.js:2:201656) ← .Fx system / Context`       |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ux.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:203455) ← .areaStart Object ← .prototype Ux (./node_modules/d3/dist/d3.min.js:2:201718) ← .Ux system / Context` |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ux.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:203488) ← .areaEnd Object ← .prototype Ux (./node_modules/d3/dist/d3.min.js:2:201718) ← .Ux system / Context`       |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ix.lineStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:204088) ← .lineStart Object ← .prototype Ix (./node_modules/d3/dist/d3.min.js:2:201749) ← .Ix system / Context` |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ix.lineEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:204154) ← .lineEnd Object ← .prototype Ix (./node_modules/d3/dist/d3.min.js:2:201749) ← .Ix system / Context`       |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Yx.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:204807) ← .areaStart Object ← .prototype Yx (./node_modules/d3/dist/d3.min.js:2:204737) ← .Yx system / Context` |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Yx.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:204840) ← .areaEnd Object ← .prototype Yx (./node_modules/d3/dist/d3.min.js:2:204737) ← .Yx system / Context`       |
-|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Yx.lineStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:204877) ← .lineStart Object ← .prototype Yx (./node_modules/d3/dist/d3.min.js:2:204737) ← .Yx system / Context` |
+| Change | Delta |            % |       Size | Value                                                | Path                                                                                                                                                                                                                                                                                                              |
+| -----: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    new | +68 B | 0.0% → <0.1% | 0 B → 68 B | `http://127.0.0.1:5278961BD7B6A550479043343F4BB3B5…` | `(GC root)`                                                                                                                                                                                                                                                                                                       |
+|    new | +52 B | 0.0% → <0.1% | 0 B → 52 B | `// https://d3js.org v7.9.0 Copyright 2010-2023 Mi…` | `(GC root)`                                                                                                                                                                                                                                                                                                       |
+|    new | +32 B | 0.0% → <0.1% | 0 B → 32 B | `schemeObservable10`                                 | `(GC root)`                                                                                                                                                                                                                                                                                                       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.areaStart`                                       | `system / ScopeInfo ← .name_or_scope_info areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:196076) ← .areaStart Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context ← (several paths) Window / http://127.0.0.1:52789`                                     |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.areaEnd`                                         | `system / ScopeInfo ← .name_or_scope_info areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:196109) ← .areaEnd Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context ← (several paths) Window / http://127.0.0.1:52789`                                           |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.lineStart`                                       | `system / ScopeInfo ← .name_or_scope_info lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:196146) ← .lineStart Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context ← (several paths) Window / http://127.0.0.1:52789`                                     |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Um.lineEnd`                                         | `system / ScopeInfo ← .name_or_scope_info lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:196180) ← .lineEnd Object ← .prototype Um (./node_modules/d3/dist/d3.min.js:2:193552) ← .Um system / Context ← (several paths) Window / http://127.0.0.1:52789`                                           |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:197452) ← .areaStart Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:197496) ← .areaEnd Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context ← (several paths) Window / http://127.0.0.1:52789`       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.lineStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:197540) ← .lineStart Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Gm.lineEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:197584) ← .lineEnd Object ← .prototype Gm (./node_modules/d3/dist/d3.min.js:2:196504) ← .Gm system / Context ← (several paths) Window / http://127.0.0.1:52789`       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Fx.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:201822) ← .areaStart Object ← .prototype Fx (./node_modules/d3/dist/d3.min.js:2:201656) ← .Fx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Fx.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:201855) ← .areaEnd Object ← .prototype Fx (./node_modules/d3/dist/d3.min.js:2:201656) ← .Fx system / Context ← (several paths) Window / http://127.0.0.1:52789`       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ux.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:203455) ← .areaStart Object ← .prototype Ux (./node_modules/d3/dist/d3.min.js:2:201718) ← .Ux system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ux.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:203488) ← .areaEnd Object ← .prototype Ux (./node_modules/d3/dist/d3.min.js:2:201718) ← .Ux system / Context ← (several paths) Window / http://127.0.0.1:52789`       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ix.lineStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:204088) ← .lineStart Object ← .prototype Ix (./node_modules/d3/dist/d3.min.js:2:201749) ← .Ix system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Ix.lineEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:204154) ← .lineEnd Object ← .prototype Ix (./node_modules/d3/dist/d3.min.js:2:201749) ← .Ix system / Context ← (several paths) Window / http://127.0.0.1:52789`       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Yx.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:204807) ← .areaStart Object ← .prototype Yx (./node_modules/d3/dist/d3.min.js:2:204737) ← .Yx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Yx.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:204840) ← .areaEnd Object ← .prototype Yx (./node_modules/d3/dist/d3.min.js:2:204737) ← .Yx system / Context ← (several paths) Window / http://127.0.0.1:52789`       |
+|    new | +24 B | 0.0% → <0.1% | 0 B → 24 B | `Yx.lineStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:204877) ← .lineStart Object ← .prototype Yx (./node_modules/d3/dist/d3.min.js:2:204737) ← .Yx system / Context ← (several paths) Window / http://127.0.0.1:52789` |
 
 ### Improvements
 
@@ -442,8 +458,8 @@ Strings with the largest decrease in size.
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `qm.lineStart`                                       | `system / ScopeInfo ← .name_or_scope_info lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:196097) ← .lineStart Object ← .prototype qm (./node_modules/d3/dist/d3.min.js:2:193503) ← .qm system / Context`                                                 |
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `qm.lineEnd`                                         | `system / ScopeInfo ← .name_or_scope_info lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:196131) ← .lineEnd Object ← .prototype qm (./node_modules/d3/dist/d3.min.js:2:193503) ← .qm system / Context`                                                       |
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `qm.areaEnd`                                         | `system / ScopeInfo ← .name_or_scope_info areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:196060) ← .areaEnd Object ← .prototype qm (./node_modules/d3/dist/d3.min.js:2:193503) ← .qm system / Context`                                                       |
-| removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `ow.lineStart`                                       | `system / ScopeInfo ← .name_or_scope_info lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:213327) ← .lineStart Object`                                                                                                                                    |
-| removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `ow.lineEnd`                                         | `system / ScopeInfo ← .name_or_scope_info lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:213410) ← .lineEnd Object`                                                                                                                                          |
+| removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `ow.lineStart`                                       | `system / ScopeInfo ← .name_or_scope_info lineStart ← .shared lineStart (./node_modules/d3/dist/d3.min.js:2:213327) ← .lineStart Object ← (several paths) system / Context`                                                                                                 |
+| removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `ow.lineEnd`                                         | `system / ScopeInfo ← .name_or_scope_info lineEnd ← .shared lineEnd (./node_modules/d3/dist/d3.min.js:2:213410) ← .lineEnd Object ← (several paths) system / Context`                                                                                                       |
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `Nm.t.digits`                                        | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info) ← (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data Nm ← .shared Nm (./node_modules/d3/dist/d3.min.js:2:192654) ← .Nm system / Context`    |
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `Xm.areaStart`                                       | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaStart ← .shared areaStart (./node_modules/d3/dist/d3.min.js:2:197403) ← .areaStart Object ← .prototype Xm (./node_modules/d3/dist/d3.min.js:2:196455) ← .Xm system / Context`             |
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B | `Xm.areaEnd`                                         | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data areaEnd ← .shared areaEnd (./node_modules/d3/dist/d3.min.js:2:197447) ← .areaEnd Object ← .prototype Xm (./node_modules/d3/dist/d3.min.js:2:196455) ← .Xm system / Context`                   |
