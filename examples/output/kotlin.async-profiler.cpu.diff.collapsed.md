@@ -17,7 +17,7 @@ Collected 1,672 samples → 1,305 samples (-367 samples, -21.9%).
 
 #### Regressions
 
-Functions with the largest increase in samples taken directly in the function body, excluding callees.
+Functions with the largest increase in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |           % | Samples | Function                                                                                       | Location    |
 | ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------- | ----------- |
@@ -154,7 +154,7 @@ Functions with the largest increase in samples taken directly in the function bo
 
 #### Improvements
 
-Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+Functions with the largest decrease in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |           % | Samples | Function                                                                                                                     | Location            |
 | ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | ------------------- |
@@ -1373,7 +1373,7 @@ Callers with the largest change in contribution to each function's self samples.
 
 #### Regressions
 
-Functions with the largest increase in total samples taken in the function and all its callees.
+Functions with the largest increase in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |           % |   Samples | Function                                         | Location                                                                                                                  |
 | ------: | ----: | ----------: | --------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
@@ -1510,7 +1510,7 @@ Functions with the largest increase in total samples taken in the function and a
 
 #### Improvements
 
-Functions with the largest decrease in total samples taken in the function and all its callees.
+Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 | Change | Delta |             % |     Samples | Function                                   | Location                                                |
 | -----: | ----: | ------------: | ----------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -1644,7 +1644,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `invoke` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000007001687c78`)
 

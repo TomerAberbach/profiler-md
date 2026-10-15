@@ -15,7 +15,7 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
+Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |   Change |        Delta |             % |                Size |         Objects | Function                                          | Location                                          |
 | -------: | -----------: | ------------: | ------------------: | --------------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -46,7 +46,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
+Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |                Size |           Objects | Function                                    | Location                                          |
 | ------: | -----------: | ------------: | ------------------: | ----------------: | ------------------------------------------- | ------------------------------------------------- |
@@ -302,7 +302,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes allocated in the function and all its callees.
+Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |                Size |           Objects | Function                                        | Location                                                                           |
 | ------: | -----------: | ------------: | ------------------: | ----------------: | ----------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -379,7 +379,7 @@ Functions with the largest increase in total bytes allocated in the function and
 
 #### Improvements
 
-Functions with the largest decrease in total bytes allocated in the function and all its callees.
+Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |                Size |           Objects | Function                                           | Location                                                                        |
 | ------: | -----------: | ------------: | ------------------: | ----------------: | -------------------------------------------------- | ------------------------------------------------------------------------------- |
@@ -456,7 +456,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0xfa6bf` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
 
@@ -1043,13 +1043,13 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 ### Self size
 
-No function differed in bytes retained directly in the function body, excluding callees.
+No function differed in bytes retained within the function body, excluding callees.
 
 ### Total size
 
 #### Regressions
 
-Functions with the largest increase in total bytes retained in the function and all its callees.
+Functions with the largest increase in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |       Delta |           % |           Size | Objects | Function             | Location                                                                           |
 | -----: | ----------: | ----------: | -------------: | ------: | -------------------- | ---------------------------------------------------------------------------------- |
@@ -1126,7 +1126,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 #### Improvements
 
-Functions with the largest decrease in total bytes retained in the function and all its callees.
+Functions with the largest decrease in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |           % |           Size | Objects | Function             | Location                                                                        |
 | ------: | ----------: | ----------: | -------------: | ------: | -------------------- | ------------------------------------------------------------------------------- |
@@ -1203,7 +1203,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0x22aaf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
 

@@ -12,7 +12,7 @@ Took 20.05s over 20,056 samples (1.0ms per sample).
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                            | Location                    |
 | ----: | ------: | ------: | ----------------------------------- | --------------------------- |
@@ -38,6 +38,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | <0.1% |   3.0ms |       3 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -66,7 +68,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
@@ -222,7 +224,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
@@ -370,7 +372,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                             | Location            |
 | -----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
@@ -396,6 +398,8 @@ Functions ranked by total time spent in the function and all its callees.
 |   0.1% |  23.0ms |      23 | `ZSTD_splitBlock`                                    | `zstd_preSplit.c`   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -424,7 +428,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `unknown (libc.so.6)` (`<unknown>`)
 
@@ -559,7 +563,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -596,9 +600,11 @@ Slept 5 times.
 
 ### Self sleeps
 
-Functions ranked by uninterruptible sleeps entered directly in the function body, excluding callees.
+Functions with the most uninterruptible sleeps entered within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self sleeps.
 
 ##### Kernel
 
@@ -608,7 +614,7 @@ Functions ranked by uninterruptible sleeps entered directly in the function body
 
 #### Callers
 
-Callers ranked by contribution to each function's self sleeps. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self sleeps. Inlining can make caller attribution imprecise.
 
 ##### `bpf_trace_run4 ([kernel])` (`<unknown>`)
 
@@ -618,7 +624,7 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 
 ### Total sleeps
 
-Functions ranked by total uninterruptible sleeps entered in the function and all its callees.
+Functions with the most uninterruptible sleeps entered within the function and its callees.
 
 |      % | Sleeps | Function                                | Location    |
 | -----: | -----: | --------------------------------------- | ----------- |
@@ -644,6 +650,8 @@ Functions ranked by total uninterruptible sleeps entered in the function and all
 |  80.0% |      4 | `el1h_64_sync_handler ([kernel])`       | `<unknown>` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self sleeps.
 
 ##### Kernel
 
@@ -672,7 +680,7 @@ Functions ranked by total uninterruptible sleeps entered in the function and all
 
 #### Callees
 
-Callees ranked by contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `__bpf_trace_sched_switch ([kernel])` (`<unknown>`)
 
@@ -807,7 +815,7 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 ## Hottest call stacks
 
-Call stacks ranked by uninterruptible sleeps entered in their leaf frame.
+Call stacks with the most uninterruptible sleeps entered in their leaf frame.
 
 Common call stack: `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`
 
@@ -828,9 +836,11 @@ Slept 214 times.
 
 ### Self sleeps
 
-Functions ranked by interruptible sleeps entered directly in the function body, excluding callees.
+Functions with the most interruptible sleeps entered within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self sleeps.
 
 ##### Kernel
 
@@ -840,7 +850,7 @@ Functions ranked by interruptible sleeps entered directly in the function body, 
 
 #### Callers
 
-Callers ranked by contribution to each function's self sleeps. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self sleeps. Inlining can make caller attribution imprecise.
 
 ##### `bpf_trace_run4 ([kernel])` (`<unknown>`)
 
@@ -850,7 +860,7 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 
 ### Total sleeps
 
-Functions ranked by total interruptible sleeps entered in the function and all its callees.
+Functions with the most interruptible sleeps entered within the function and its callees.
 
 |      % | Sleeps | Function                                | Location    |
 | -----: | -----: | --------------------------------------- | ----------- |
@@ -877,6 +887,8 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 
 #### Categories
 
+Categories accounting for at least 1.0% of self sleeps.
+
 ##### Kernel
 
 |      % | Sleeps | Function                                | Location    |
@@ -898,7 +910,7 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 
 #### Callees
 
-Callees ranked by contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `__bpf_trace_sched_switch ([kernel])` (`<unknown>`)
 
@@ -1022,7 +1034,7 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 ## Hottest call stacks
 
-Call stacks ranked by interruptible sleeps entered in their leaf frame.
+Call stacks with the most interruptible sleeps entered in their leaf frame.
 
 |     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----: | -----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

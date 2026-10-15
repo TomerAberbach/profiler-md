@@ -16,7 +16,7 @@ Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function              | Location                                    |
 | ----: | ------: | ------: | --------------------- | ------------------------------------------- |
@@ -42,6 +42,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.9% |  36.4ms |      20 | `(program)`           | `<unknown>`                                 |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -87,7 +89,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
 
@@ -241,7 +243,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
 
@@ -409,7 +411,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Samples | Function                       | Location                                    |
 | ----: | ------: | ------: | ------------------------------ | ------------------------------------------- |
@@ -435,6 +437,8 @@ Functions ranked by total time spent in the function and all its callees.
 |  3.6% | 152.5ms |     121 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:1144`   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -480,7 +484,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `(anonymous)` (`./run.mjs:1:1`)
 
@@ -659,7 +663,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `chartLayouts` (`./workload.mjs:116:24`) ← `globalThis.buildAndRetainDom` (1:32) ← `(anonymous)` (`./run.mjs:1:1`)
 

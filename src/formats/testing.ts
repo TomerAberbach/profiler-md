@@ -55,7 +55,7 @@ export const readInput = (filename: string): Buffer =>
 export const detectionLogs = (filename: string, md: string): unknown[] => {
   const { format, origin } = parseExampleFilename(filename)
   const logs: unknown[] = [`info: detected format: ${format}`]
-  if (!md.startsWith(`No profiling data found.`)) {
+  if (!md.startsWith(`No profiles were recorded.`)) {
     logs.push(
       expect.stringMatching(/^debug: origin candidates, in priority order: /u),
       expect.stringMatching(

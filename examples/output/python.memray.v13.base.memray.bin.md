@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
 ### Self size
 
-Functions ranked by bytes held at peak memory directly in the function body, excluding callees.
+Functions with the most bytes held at peak memory within the function body, excluding callees.
 
 |     % |     Size | Allocations | Function                    | Location                                     |
 | ----: | -------: | ----------: | --------------------------- | -------------------------------------------- |
@@ -40,6 +40,8 @@ Functions ranked by bytes held at peak memory directly in the function body, exc
 |  1.3% |    1 MiB |           1 | `push`                      | `./blib2to3/pgen2/parse.py:386`              |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -93,7 +95,7 @@ Functions ranked by bytes held at peak memory directly in the function body, exc
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `mark` (`./black/brackets.py:70`)
 
@@ -369,7 +371,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `mark` (`./black/brackets.py:70`)
 
@@ -628,7 +630,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes held at peak memory in the function and all its callees.
+Functions with the most bytes held at peak memory within the function and its callees.
 
 |      % |     Size | Allocations | Function               | Location                                                         |
 | -----: | -------: | ----------: | ---------------------- | ---------------------------------------------------------------- |
@@ -654,6 +656,8 @@ Functions ranked by total bytes held at peak memory in the function and all its 
 |  46.4% | 36.4 MiB |      21,085 | `visit_default`        | `./black/linegen.py:134`                                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -707,7 +711,7 @@ Functions ranked by total bytes held at peak memory in the function and all its 
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_run_tracker` (`/venv13/lib/python3.11/site-packages/memray/commands/run.py:40`)
 
@@ -1012,7 +1016,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes held at peak memory in their leaf frame.
+Call stacks with the most bytes held at peak memory in their leaf frame.
 
 Common call stack: `run_module` (`<frozen runpy>:201`) ← `_run_tracker` (`/venv13/lib/python3.11/site-packages/memray/commands/run.py:40`)
 
@@ -1055,7 +1059,7 @@ Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
 ### Self size
 
-Functions ranked by bytes never freed directly in the function body, excluding callees.
+Functions with the most bytes never freed within the function body, excluding callees.
 
 |     % |     Size | Allocations | Function                    | Location                                     |
 | ----: | -------: | ----------: | --------------------------- | -------------------------------------------- |
@@ -1081,6 +1085,8 @@ Functions ranked by bytes never freed directly in the function body, excluding c
 |  1.7% |    1 MiB |           1 | `pre_order`                 | `./blib2to3/pytree.py:314`                   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -1134,7 +1140,7 @@ Functions ranked by bytes never freed directly in the function body, excluding c
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `mark` (`./black/brackets.py:70`)
 
@@ -1408,7 +1414,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `mark` (`./black/brackets.py:70`)
 
@@ -1668,7 +1674,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes never freed in the function and all its callees.
+Functions with the most bytes never freed within the function and its callees.
 
 |      % |     Size | Allocations | Function               | Location                                                         |
 | -----: | -------: | ----------: | ---------------------- | ---------------------------------------------------------------- |
@@ -1694,6 +1700,8 @@ Functions ranked by total bytes never freed in the function and all its callees.
 |  60.4% | 36.2 MiB |      20,714 | `visit_stmt`           | `./black/linegen.py:199`                                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -1747,7 +1755,7 @@ Functions ranked by total bytes never freed in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_run_tracker` (`/venv13/lib/python3.11/site-packages/memray/commands/run.py:40`)
 
@@ -2055,7 +2063,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes never freed in their leaf frame.
+Call stacks with the most bytes never freed in their leaf frame.
 
 Common call stack: `run_module` (`<frozen runpy>:201`) ← `_run_tracker` (`/venv13/lib/python3.11/site-packages/memray/commands/run.py:40`)
 

@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 13.4 MiB across 700,233 nodes and 852,434 edges.
+Held 13.4 MiB over 700,233 nodes and 852,434 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
@@ -13,11 +13,13 @@ Allocated 13.4 MiB across 700,233 nodes and 852,434 edges.
 | Regular expression | <0.1% |    333 B |       3 |
 | Synthetic          |  0.0% |      0 B |       1 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                                     |
 | ----: | -------: | --------: | ----------------------------------------------- |
@@ -43,6 +45,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  0.2% |   22 KiB |       627 | `jdk.internal.util.WeakReferenceKey`            |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Array
 
@@ -111,9 +115,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | ---: | ------: | --------: | ------------------ |
 | 2.3% | 313 KiB |    22,929 | `java.lang.String` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `java.lang.Double`
 
@@ -560,7 +564,7 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 |     % |      Size | Instances | Constructor                                     |
 | ----: | --------: | --------: | ----------------------------------------------- |
@@ -586,6 +590,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  1.1% |   144 KiB |     1,932 | `int[]`                                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Array
 
@@ -654,9 +660,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 | ---: | ------: | --------: | ------------------ |
 | 7.0% | 951 KiB |    22,929 | `java.lang.String` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `java.lang.Double[]`
 

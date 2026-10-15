@@ -22,7 +22,6 @@ import {
   formatRetainerEdge,
   formatRetainerEdgeLabel,
   formatRetainerLabel,
-  formatRetainerPath,
   keepsRetainerStep,
   nodeKey,
   shownRetainedNodes,
@@ -629,14 +628,6 @@ export class RetainerPaths {
       path = this.#rests[path]!
     }
     return steps
-  }
-
-  /** Formats a path from the node it starts at. */
-  public format(
-    path: number,
-    node: Parameters<typeof formatRetainerPath>[0],
-  ): string {
-    return formatRetainerPath(node, this.stepsOf(path), this.#options)
   }
 
   /**

@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 1.46 MiB (+1.516 KiB, +0.1%) across 16,676 → 16,691 nodes and 45,239 → 45,310 edges.
+Held 1.46 MiB (+1.516 KiB, +0.1%) over 16,676 → 16,691 nodes and 45,239 → 45,310 edges.
 
 | Category           | Change |      Delta |             % |                Size |         Nodes |
 | ------------------ | -----: | ---------: | ------------: | ------------------: | ------------: |
@@ -15,15 +15,15 @@ Allocated 1.46 MiB (+1.516 KiB, +0.1%) across 16,676 → 16,691 nodes and 45,2
 | Regular expression |   0.0% |        0 B |         <0.1% |               352 B |             4 |
 | Native             |   0.0% |        0 B |         <0.1% |                59 B |             2 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
-
 #### Regressions
 
-Constructors with the largest increase in self size.
+Constructors with the largest increase in instance bytes, excluding referenced nodes. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |      Delta |             % |                Size |     Instances | Constructor     |
 | -----: | ---------: | ------------: | ------------------: | ------------: | --------------- |
@@ -42,9 +42,9 @@ Constructors with the largest increase in self size.
 | -----: | ----: | ---: | ------------------: | --------: | --------------- |
 |  +0.5% | +96 B | 1.2% | 18.2 KiB → 18.3 KiB | 389 → 391 | `PropertyTable` |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's self size.
 
 ##### `Structure`
 
@@ -68,11 +68,9 @@ Instances with the largest change in contribution to each constructor's self siz
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
-
 #### Regressions
 
-Constructors with the largest increase in retained size.
+Constructors with the largest increase in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |       Delta |             % |                Size |     Instances | Constructor          |
 | -----: | ----------: | ------------: | ------------------: | ------------: | -------------------- |
@@ -125,7 +123,7 @@ Constructors with the largest increase in retained size.
 
 #### Improvements
 
-Constructors with the largest decrease in retained size.
+Constructors with the largest decrease in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Function
 
@@ -133,9 +131,9 @@ Constructors with the largest decrease in retained size.
 | -----: | -----: | ------------: | ----------------: | --------: | ----------- |
 |  -0.1% | -240 B | 19.0% → 18.9% | 284 KiB → 283 KiB |     1,732 | `Function`  |
 
-#### Instances
+#### Retainer paths
 
-Instances with the largest change in contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest change in contribution to each constructor's retained size.
 
 ##### `GlobalObject`
 

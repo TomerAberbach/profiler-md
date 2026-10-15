@@ -13,7 +13,7 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                  | Location                                          |
 | ----: | ------: | ------: | ----------------------------------------- | ------------------------------------------------- |
@@ -39,6 +39,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.5% |  21.0ms |      21 | `0x10c300`                                | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -90,7 +92,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
 
@@ -242,7 +244,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
 
@@ -529,7 +531,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                        | Location                                          |
 | -----: | ------: | ------: | ----------------------------------------------- | ------------------------------------------------- |
@@ -555,6 +557,8 @@ Functions ranked by total time spent in the function and all its callees.
 |   2.1% |  80.0ms |      80 | `__json_value_module_MOD_json_value_create`     | `./json_value_module.F90`                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -608,7 +612,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `MAIN__` (`/out/profile.f90`)
 
@@ -901,7 +905,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`
 

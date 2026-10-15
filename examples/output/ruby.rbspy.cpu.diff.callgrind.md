@@ -17,7 +17,7 @@ Paths starting with `./` or `../` are relative to `/src/app/`.
 
 #### Regressions
 
-Functions with the largest increase in samples taken directly in the function body, excluding callees.
+Functions with the largest increase in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |   Change | Delta |           % |  Samples | Function                                                               | Location                                                                                                       |
 | -------: | ----: | ----------: | -------: | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -112,7 +112,7 @@ Functions with the largest increase in samples taken directly in the function bo
 
 #### Improvements
 
-Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+Functions with the largest decrease in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |           % |  Samples | Function                                                           | Location                                                                                          |
 | ------: | ----: | ----------: | -------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
@@ -610,7 +610,7 @@ Lines with the largest change in contribution to each function's self samples.
 
 #### Regressions
 
-Functions with the largest increase in total samples taken in the function and all its callees.
+Functions with the largest increase in samples collected within the function and its callees, excluding recursive calls. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |   Change | Delta |             % |   Samples | Function                                                               | Location                                                                                           |
 | -------: | ----: | ------------: | --------: | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
@@ -712,7 +712,7 @@ Functions with the largest increase in total samples taken in the function and a
 
 #### Improvements
 
-Functions with the largest decrease in total samples taken in the function and all its callees.
+Functions with the largest decrease in samples collected within the function and its callees, excluding recursive calls. Categories account for at least 1.0% of self samples on the base or the current side.
 
 | Change | Delta |            % |  Samples | Function                                                                                     | Location                                                                                          |
 | -----: | ----: | -----------: | -------: | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -809,7 +809,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 #### Callers
 
-Callers with the largest change in the samples taken in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `Kernel#extend [c function]` (`<unknown>`)
 
@@ -1556,7 +1556,7 @@ Callers with the largest change in the samples taken in each function and its ca
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total samples. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `Kernel#extend [c function]` (`<unknown>`)
 

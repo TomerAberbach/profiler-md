@@ -1,1 +1,1 @@
-No profiling data found.
+No profiles were recorded.

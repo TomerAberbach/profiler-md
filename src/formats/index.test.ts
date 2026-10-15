@@ -110,8 +110,8 @@ const smallestAnyInput = smallestInput(allInputs)
 // contention), so the pipeline yields the no-data message instead of a heading.
 // These regexes check only that the format was detected and conversion ran end
 // to end.
-const MARKDOWN_REGEX = /^(?:# |No profiling data found\.)/u
-const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiling data found\.)/iu
+const MARKDOWN_REGEX = /^(?:# |No profiles were recorded\.)/u
+const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiles were recorded\.)/iu
 
 // A valid Speedscope file that carries no profiles, so it aggregates to nothing.
 const emptyProfile = JSON.stringify({
@@ -149,7 +149,7 @@ if (format === undefined) {
     const gzipped = new Uint8Array(gzipSync(bytes))
     const brotlied = new Uint8Array(brotliCompressSync(bytes))
     const lz4ed = asLz4Frame(bytes)
-    const NO_DATA = `No profiling data found.\n`
+    const NO_DATA = `No profiles were recorded.\n`
     const CODECS: [string, Uint8Array][] = [
       [`gzip`, gzipped],
       [`brotli`, brotlied],
@@ -648,7 +648,7 @@ describe(`profileToMd`, () => {
     test(`reports when there is no profiling data`, () => {
       const md = profileToMd(emptyProfile, { baseURL: null })
 
-      expect(md).toBe(`No profiling data found.\n`)
+      expect(md).toBe(`No profiles were recorded.\n`)
     })
 
     test(`throws on unknown data`, () => {
@@ -1616,7 +1616,7 @@ describe(`diffProfiles`, () => {
       )
 
       expect(md).toContain(
-        `Paths starting with \`./\` or \`../\` are relative to \`/build/run-111/src/\` in the base and to \`/build/run-222/src/\` in the current.`,
+        `Paths starting with \`./\` or \`../\` are relative to \`/build/run-111/src/\` on the base side and to \`/build/run-222/src/\` on the current side.`,
       )
       expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
         [
@@ -1798,7 +1798,7 @@ describe(`diffProfiles`, () => {
     test(`reports when there is no profiling data`, () => {
       const md = diffProfiles(emptyProfile, emptyProfile, { baseURL: null })
 
-      expect(md).toBe(`No profiling data found.\n`)
+      expect(md).toBe(`No profiles were recorded.\n`)
     })
 
     test(`throws on diffing a profile against a snapshot`, () => {

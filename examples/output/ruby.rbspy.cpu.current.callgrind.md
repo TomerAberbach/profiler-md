@@ -15,7 +15,7 @@ Paths starting with `./` or `../` are relative to `/src/app/`.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |    % | Samples | Function                                                               | Location                                                                                                       |
 | ---: | ------: | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -41,6 +41,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | 1.2% |      19 | `ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts`        | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
@@ -113,7 +115,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Lines
 
-Lines ranked by contribution to each function's self samples.
+Lines with the largest contribution to each function's self samples.
 
 ##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`<unknown>`)
 
@@ -321,7 +323,7 @@ Lines ranked by contribution to each function's self samples.
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.
+Functions with the most samples collected within the function and its callees, excluding recursive calls.
 
 |     % | Samples | Function                               | Location                                                                                     |
 | ----: | ------: | -------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -347,6 +349,8 @@ Functions ranked by total samples taken in the function and all its callees. Cal
 |  8.4% |     131 | `block (2 levels) in decorate`         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb`      |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
@@ -425,7 +429,7 @@ Functions ranked by total samples taken in the function and all its callees. Cal
 
 #### Callers
 
-Callers ranked by the samples taken in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `Rails::Engine#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb`)
 
@@ -830,7 +834,7 @@ Callers ranked by the samples taken in each function and its callees during call
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `<main>` (`./profile.rb`)
 

@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 10.4 MiB across 109,569 nodes and 307,833 edges.
+Held 10.4 MiB over 109,569 nodes and 307,833 edges.
 
 | Category           |     % |     Size |  Nodes |
 | ------------------ | ----: | -------: | -----: |
@@ -15,11 +15,13 @@ Allocated 10.4 MiB across 109,569 nodes and 307,833 edges.
 | Symbol             | <0.1% |    448 B |     28 |
 | Native             | <0.1% |    231 B |      7 |
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
@@ -45,6 +47,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  0.2% | 24.9 KiB |        14 | `Window`                     |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Code
 
@@ -137,9 +141,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | ---: | ------: | --------: | ----------- |
 | 1.0% | 108 KiB |       453 | `RegExp`    |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Structure`
 
@@ -663,7 +667,7 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
@@ -689,6 +693,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.8% | 85.1 KiB |     1,364 | `SymbolTable`                |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Code
 
@@ -781,9 +787,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 | ---: | ------: | --------: | ----------- |
 | 1.0% | 108 KiB |       453 | `RegExp`    |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `Object`
 
@@ -1300,9 +1306,11 @@ Instances ranked by contribution to each constructor's retained size. `B ←(sev
 
 ## Largest strings
 
-Strings ranked by bytes allocated for them.
+Strings with the most bytes.
 
 ### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 #### String
 

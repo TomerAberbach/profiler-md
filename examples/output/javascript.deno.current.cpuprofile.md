@@ -18,7 +18,7 @@ Paths starting with `./` or `../` are relative to `/tmp/nix-shell.K1HXIc/profile
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |    % |    Time | Samples | Function                        | Location                                               |
 | ---: | ------: | ------: | ------------------------------- | ------------------------------------------------------ |
@@ -44,6 +44,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 0.6% |  13.2ms |      19 | `bind`                          | `./node_modules/typescript/lib/typescript.js:47793:16` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -115,7 +117,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Lines
 
-Lines ranked by contribution to each function's self time.
+Lines with the largest contribution to each function's self time.
 
 ##### `compileFunction` (`ext:core/01_core.js:1100:22`)
 
@@ -454,7 +456,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `compileFunction` (`ext:core/01_core.js:1100:22`)
 
@@ -775,7 +777,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |     % |  Time | Samples | Function                                   | Location                                                |
 | ----: | ----: | ------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -801,6 +803,8 @@ Functions ranked by total time spent in the function and all its callees.
 | 62.2% | 1.33s |   1,859 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:88583:33`  |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -877,7 +881,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `(anonymous)` (`./cpuprofile-run.mjs`)
 
@@ -1182,7 +1186,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `processTicksAndRejections` (`ext:core/01_core.js:356:37`) ← `drainTicks` (425:22) ← `__drainNextTickAndMacrotasks` (479:40)
 

@@ -18,6 +18,7 @@ import type {
   RetainerHop,
   RetainerPathStep,
 } from './aggregate.ts'
+import { computeRetainerSteps } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 import { newOutermostInstanceIdsOf } from './retained.ts'
@@ -118,7 +119,7 @@ export const makeAggregatedHeapSnapshot = ({
   outermostInstanceIdsOf: instanceIds => instanceIds,
   retainerHopOf: () => undefined,
   retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
-  retainerPathOf: () => `(GC root)`,
+  retainerStepsOf: () => [],
   retainedNodesOf: () => [],
 })
 
@@ -133,7 +134,11 @@ export const makeRetainerHops = (
   endOrdinals: readonly (number | undefined)[] = [],
 ): Pick<
   AggregatedHeapSnapshot,
-  `nodeCount` | `outermostInstanceIdsOf` | `retainerHopOf` | `retainerOf`
+  | `nodeCount`
+  | `outermostInstanceIdsOf`
+  | `retainerHopOf`
+  | `retainerOf`
+  | `retainerStepsOf`
 > => {
   const hops: RetainerHop[] = []
   const retainers: RetainerNode[] = []
@@ -160,13 +165,18 @@ export const makeRetainerHops = (
     { length: nodeCount },
     (_, nodeOrdinal) => hops[nodeOrdinal]?.dominatorOrdinal ?? nodeOrdinal,
   )
+  const retainerHopOf = (nodeOrdinal: number) => hops[nodeOrdinal]
+  const retainerOf = (nodeOrdinal: number): RetainerNode =>
+    retainers[nodeOrdinal] ?? { id: nodeOrdinal, name: `` }
   return {
     nodeCount,
     outermostInstanceIdsOf: newOutermostInstanceIdsOf(
       ordinalToImmediateDominatorOrdinal,
     ),
-    retainerHopOf: nodeOrdinal => hops[nodeOrdinal],
-    retainerOf: nodeOrdinal => retainers[nodeOrdinal]!,
+    retainerHopOf,
+    retainerOf,
+    retainerStepsOf: nodeOrdinal =>
+      computeRetainerSteps(nodeOrdinal, retainerHopOf, retainerOf),
   }
 }
 
@@ -266,23 +276,26 @@ export const totalSizeTables = (md: string): Table[] =>
 export const retainedSizeTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Retained size`)
 
-export const selfSizeInstancesTables = (md: string, name: string): Table[] => {
+export const selfSizeRetainerPathTables = (
+  md: string,
+  name: string,
+): Table[] => {
   const selfUnder = nodesUnderHeading(parseMd(md), `Self size`)
   const instUnder = nodesUnderHeading(
     { type: `root`, children: selfUnder } as Root,
-    `Instances`,
+    `Retainer paths`,
   )
   return allTablesAfterHeadingContaining(instUnder, name)
 }
 
-export const retainedSizeInstancesTables = (
+export const retainedSizeRetainerPathTables = (
   md: string,
   name: string,
 ): Table[] => {
   const retainedUnder = nodesUnderHeading(parseMd(md), `Retained size`)
   const instancesUnder = nodesUnderHeading(
     { type: `root`, children: retainedUnder } as Root,
-    `Instances`,
+    `Retainer paths`,
   )
   return allTablesAfterHeadingContaining(instancesUnder, name)
 }
@@ -294,10 +307,12 @@ export const retainedObjectsTables = (md: string, name: string): Table[] => {
   const functionsUnder = nodesUnderHeading(parseMd(md), `Largest functions`)
   const retainedUnder = nodesUnderHeading(
     { type: `root`, children: functionsUnder } as Root,
-    `Retained`,
+    `Retained nodes`,
   )
   return allTablesAfterHeadingContaining(retainedUnder, name)
 }
 
 export const largestStringsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest strings`)
+
+export const SEVERAL_PATHS_NOTE = `\`B ←(several paths)– A\` means \`A\` retains \`B\` only through other nodes, along several paths.`

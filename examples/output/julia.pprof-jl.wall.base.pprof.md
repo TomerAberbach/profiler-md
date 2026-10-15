@@ -16,7 +16,7 @@ Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-projec
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |     % | Samples | Function                                                                                                                                                                                                                         | Location                                                                                              |
 | ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -42,6 +42,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.4% |     128 | `iterate`                                                                                                                                                                                                                        | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:75`   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Third-party
 
@@ -109,7 +111,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Lines
 
-Lines ranked by contribution to each function's self samples.
+Lines with the largest contribution to each function's self samples.
 
 ##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:1`)
 
@@ -386,7 +388,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:1`)
 
@@ -709,7 +711,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |     % | Samples | Function                                                           | Location                                                                                                          |
 | ----: | ------: | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
@@ -735,6 +737,8 @@ Functions ranked by total samples taken in the function and all its callees.
 | 18.4% |   5,882 | `#mapfoldl#271`                                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173`                     |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Third-party
 
@@ -803,7 +807,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:82`)
 
@@ -1149,7 +1153,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:40`) ← `[unknown function]` ← `parse_workload` (`./profile.jl:18`) ← `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:82`) ← `capture_wall` (`./profile.jl:43`) ← `[unknown function]` ← `eval(::Module, ::Any)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`) ← `include_string(::typeof(identity), ::Module, ::String, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989`) ← `_include(::Function, ::Module, ::String)` (3083) ← `include(::Module, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309`) ← `exec_options(::Base.JLOptions)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234`) ← `_start()` (570)
 

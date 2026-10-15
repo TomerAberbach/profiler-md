@@ -629,7 +629,7 @@ describe(`convert`, () => {
 
     expect(profileTitles(md)).toEqual([`Count profile`])
     expect(summaryLines(md)).toEqual([
-      `Recorded 42 times over 1 sample (42 times per sample).`,
+      `Recorded 42 occurrences over 1 sample (42 occurrences per sample).`,
     ])
   })
 })

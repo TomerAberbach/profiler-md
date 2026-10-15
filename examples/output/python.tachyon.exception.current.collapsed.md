@@ -12,7 +12,7 @@ Collected 1,596 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |     % | Samples | Function                                                | Location             |
 | ----: | ------: | ------------------------------------------------------- | -------------------- |
@@ -38,6 +38,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.4% |       6 | `Untokenizer.untokenize`                                | `tokenize.py`        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Ours
 
@@ -80,7 +82,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Lines
 
-Lines ranked by contribution to each function's self samples.
+Lines with the largest contribution to each function's self samples.
 
 ##### `_get_code_position` (`traceback.py`)
 
@@ -262,7 +264,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `_get_code_position` (`traceback.py`)
 
@@ -427,7 +429,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |      % | Samples | Function                                                 | Location         |
 | -----: | ------: | -------------------------------------------------------- | ---------------- |
@@ -453,6 +455,8 @@ Functions ranked by total samples taken in the function and all its callees.
 |  99.9% |   1,594 | `pytest_runtestloop`                                     | `main.py`        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Ours
 
@@ -507,7 +511,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_run_code` (`<frozen runpy>`)
 
@@ -723,7 +727,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `pytest_pyfunc_call` (`python.py`) ← `_multicall` (`_callers.py`) ← `PluginManager._hookexec` (`_manager.py`) ← `HookCaller.__call__` (`_hooks.py`) ← `Function.runtest` (`python.py`) ← `pytest_runtest_call` (`runner.py`) ← `_multicall` (`_callers.py`) ← `PluginManager._hookexec` (`_manager.py`) ← `HookCaller.__call__` (`_hooks.py`) ← `call_and_report.<locals>.<lambda>` (`runner.py`) ← `CallInfo.from_call` ← `call_and_report` ← `runtestprotocol` ← `pytest_runtest_protocol` ← `_multicall` (`_callers.py`) ← `PluginManager._hookexec` (`_manager.py`) ← `HookCaller.__call__` (`_hooks.py`) ← `pytest_runtestloop` (`main.py`) ← `_multicall` (`_callers.py`) ← `PluginManager._hookexec` (`_manager.py`) ← `HookCaller.__call__` (`_hooks.py`) ← `_main` (`main.py`) ← `wrap_session` ← `pytest_cmdline_main` ← `_multicall` (`_callers.py`) ← `PluginManager._hookexec` (`_manager.py`) ← `HookCaller.__call__` (`_hooks.py`) ← `_main` (`__init__.py`) ← `_console_main` ← `<module>` (`__main__.py`) ← `_run_code` (`<frozen runpy>`) ← `_run_module_code` ← `run_module` ← `_run_code` ← `_run_module_as_main`
 

@@ -12,9 +12,11 @@ Took 19.8ms.
 
 ### Self time
 
-Functions ranked by wall time spent directly in the function body, excluding callees.
+Functions with the most wall time spent within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -43,7 +45,7 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `escape_binary/5` (`json`)
 
@@ -173,7 +175,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total wall time spent in the function and all its callees.
+Functions with the most wall time spent within the function and its callees.
 
 |      % |   Time | Function                        | Location    |
 | -----: | -----: | ------------------------------- | ----------- |
@@ -199,6 +201,8 @@ Functions ranked by total wall time spent in the function and all its callees.
 |   3.3% |  0.6ms | `string_ascii/9`                | `json`      |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
@@ -227,7 +231,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `apply/2` (`eflambe`)
 
@@ -343,7 +347,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks with the most wall time spent in their leaf frame.
 
 Common call stack: `apply/2` (`eflambe`) ← `<0.10.0>`
 

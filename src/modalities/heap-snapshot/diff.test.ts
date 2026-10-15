@@ -3,7 +3,12 @@ import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import type { SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
-import { categoryTables, rankingTables } from '../../testing.ts'
+import {
+  categoryTables,
+  openingParagraphs,
+  paragraphsUnderTitle,
+  rankingTables,
+} from '../../testing.ts'
 import type {
   AggregatedHeapSnapshotNode,
   RetainerPathEdge,
@@ -19,8 +24,9 @@ import {
   makeRetainerHops,
   makeSourceLocation,
   retainedObjectsTables,
-  retainedSizeInstancesTables,
-  selfSizeInstancesTables,
+  retainedSizeRetainerPathTables,
+  selfSizeRetainerPathTables,
+  SEVERAL_PATHS_NOTE,
 } from './testing.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
 
@@ -220,7 +226,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Paths: `1`,
           Name: `myFn`,
           Location: `./src/a.ts:5:10 → 25:3`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -302,7 +308,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Paths: `0 → 1`,
           Name: `myFn`,
           Location: `./src/b.ts:5:10`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -317,7 +323,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Paths: `1 → 0`,
           Name: `myFn`,
           Location: `./src/a.ts:5:10`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -359,7 +365,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Paths: `1 → 0`,
           Name: `myFn`,
           Location: `./src/a.ts:5:10`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -398,7 +404,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Instances: `1`,
           Paths: `1`,
           Name: `myFn`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -431,7 +437,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           '%': `7.4% → 100.0%`,
           Size: `80 B → 50 B`,
           Value: `hello`,
-          Path: `(GC root)`,
+          Path: `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -524,8 +530,8 @@ describe(`formatHeapSnapshotDiff instances`, () => {
         defaultOptions,
       ),
     )
-    const tables = selfSizeInstancesTables(md, `Foo`)
-    expect(retainedSizeInstancesTables(md, `Foo`)).toEqual(tables)
+    const tables = selfSizeRetainerPathTables(md, `Foo`)
+    expect(retainedSizeRetainerPathTables(md, `Foo`)).toEqual(tables)
     return tables
   }
 
@@ -812,26 +818,79 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
     }
   }
 
-  const retainedTablesOf = (
+  const retainedMdOf = (
     base: SnapshotFunction | undefined,
     current: SnapshotFunction | undefined,
     options = defaultOptions,
   ) =>
-    retainedObjectsTables(
-      mdastToMarkdown(
-        formatHeapSnapshotDiff(
-          diffAggregatedHeapSnapshots(
-            snapshotOf(base),
-            snapshotOf(current),
-            options,
-          ),
+    mdastToMarkdown(
+      formatHeapSnapshotDiff(
+        diffAggregatedHeapSnapshots(
+          snapshotOf(base),
+          snapshotOf(current),
           options,
         ),
+        options,
       ),
-      `fn`,
     )
 
+  const retainedTablesOf = (
+    base: SnapshotFunction | undefined,
+    current: SnapshotFunction | undefined,
+    options = defaultOptions,
+  ) => retainedObjectsTables(retainedMdOf(base, current, options), `fn`)
+
   const fnStep = (name: string) => propertyStep(name, `fn`)
+
+  describe(`retainer path notes`, () => {
+    const OPENING = `Retained nodes with the largest change in contribution to each function's retained size.`
+
+    test.each([
+      {
+        notation: `no notation`,
+        steps: [fnStep(`p`)],
+        hasSeveralPathsNote: false,
+        opening: OPENING,
+      },
+      {
+        notation: `a step through several retainers`,
+        steps: [{ edge: SEVERAL_RETAINERS, retainer: { id: 0, name: `fn` } }],
+        hasSeveralPathsNote: true,
+        opening: OPENING,
+      },
+      {
+        notation: `an array element`,
+        steps: [
+          {
+            edge: { type: `element`, index: 0 } as const,
+            retainer: { id: 0, name: `Array` },
+          },
+          fnStep(`items`),
+        ],
+        hasSeveralPathsNote: false,
+        opening: `${OPENING} \`[]\` stands for any element of an array.`,
+      },
+    ])(
+      `explains the notation of shown paths with $notation`,
+      ({ steps, hasSeveralPathsNote, opening }) => {
+        const base = {
+          retainedSize: 100,
+          nodes: [{ name: `Buf`, size: 10, steps }],
+        }
+        const current = {
+          retainedSize: 200,
+          nodes: [{ name: `Buf`, size: 30, steps }],
+        }
+
+        const md = retainedMdOf(base, current)
+
+        expect(paragraphsUnderTitle(md).includes(SEVERAL_PATHS_NOTE)).toBe(
+          hasSeveralPathsNote,
+        )
+        expect(openingParagraphs(md, `Retained nodes`)).toEqual([opening])
+      },
+    )
+  })
 
   test(`pairs each function's retained nodes by name and retainer path`, () => {
     const pPath = [fnStep(`p`)]

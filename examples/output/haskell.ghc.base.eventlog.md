@@ -12,7 +12,7 @@ Took 3.59s over 3,592 samples (1.0ms per sample).
 
 ### Self time
 
-Functions ranked by wall time spent directly in the function body, excluding callees.
+Functions with the most wall time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -38,6 +38,8 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 |  0.2% |   7.0ms |       7 | `Data.Aeson.Encoding.Builder.text`                | `src/Data/Aeson/Encoding/Builder.hs:109:1`        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -72,7 +74,7 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
 
@@ -203,7 +205,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total wall time spent in the function and all its callees.
+Functions with the most wall time spent within the function and its callees.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -229,6 +231,8 @@ Functions ranked by total wall time spent in the function and all its callees.
 |  0.7% |  26.0ms |      26 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -263,7 +267,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `Main.main` (`Profile.hs:146:1`)
 
@@ -376,7 +380,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks with the most wall time spent in their leaf frame.
 
 Common call stack: `Main.main` (`Profile.hs:146:1`)
 

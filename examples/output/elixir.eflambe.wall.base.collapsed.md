@@ -12,7 +12,7 @@ Took 28.0ms.
 
 ### Self time
 
-Functions ranked by wall time spent directly in the function body, excluding callees.
+Functions with the most wall time spent within the function body, excluding callees.
 
 |     % |  Time | Function                             | Location          |
 | ----: | ----: | ------------------------------------ | ----------------- |
@@ -38,6 +38,8 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 |  0.5% | 0.1ms | `archive_split/3`                    | `erl_prim_loader` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -97,7 +99,7 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `string/6` (`Jason.Decoder`)
 
@@ -376,7 +378,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total wall time spent in the function and all its callees.
+Functions with the most wall time spent within the function and its callees.
 
 |      % |   Time | Function               | Location        |
 | -----: | -----: | ---------------------- | --------------- |
@@ -402,6 +404,8 @@ Functions ranked by total wall time spent in the function and all its callees.
 |   2.6% |  0.7ms | `value/3`              | `Jason.Encode`  |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -461,7 +465,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `apply/2` (`eflambe`)
 
@@ -725,7 +729,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks with the most wall time spent in their leaf frame.
 
 Common call stack: `apply/2` (`eflambe`) ← `<0.94.0>`
 

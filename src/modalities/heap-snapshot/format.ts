@@ -1,4 +1,4 @@
-import type { Heading, RootContent } from 'mdast'
+import type { Heading, PhrasingContent, RootContent } from 'mdast'
 import {
   formatArrow,
   formatBytes,
@@ -30,11 +30,13 @@ import {
   diffRankingSentence,
   formatBaseURLNote,
   formatDiffRankingSections,
+  rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
   selectLargestChanges,
   showDiffEntity,
   shownDiffEntities,
+  unchangedDiffSentence,
 } from '../format.ts'
 import type { DiffCategoryRanking } from '../format.ts'
 import { BYTES_METRIC } from '../metrics.ts'
@@ -46,12 +48,20 @@ import type {
   AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotNode,
   AggregatedHeapSnapshotString,
+  RetainerPathEdge,
+  RetainerPathStep,
 } from './aggregate.ts'
-import { shownRetainedNodes } from './aggregate.ts'
+import {
+  formatRetainerEdgeLabel,
+  formatRetainerLabel,
+  formatRetainerName,
+  shownRetainedNodes,
+} from './aggregate.ts'
 import {
   diffRetainerPaths,
   matchConstructorInstanceGroups,
   matchFunctionRetainedNodeGroups,
+  RetainerPaths,
 } from './diff.ts'
 import type {
   AggregatedHeapSnapshotDiff,
@@ -62,7 +72,6 @@ import type {
   DiffedInstanceGroup,
   DiffRetainerPaths,
   RetainerGroup,
-  RetainerPaths,
 } from './diff.ts'
 import {
   categoryColumns,
@@ -81,45 +90,150 @@ export const formatHeapSnapshot = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(snapshot)
-  const { sectionOptions, notes } = resolveEntryFilter({
+  const sectionOptions = resolveEntryFilter({
     options,
-    showsAnyEntry:
+    formatsAnyEntry:
+      snapshot.constructors.length > 0 ||
+      snapshot.functions.length > 0 ||
+      snapshot.strings.length > 0,
+    showsAnyEntry: showEntry =>
       snapshot.constructors.some(constructor =>
-        options.showEntry(constructor, snapshot.context),
+        showEntry(constructor, snapshot.context),
       ) ||
       snapshot.functions.some(fn =>
-        options.showEntry(
-          { ...fn, id: fn.largestInstanceId },
-          snapshot.context,
-        ),
+        showEntry({ ...fn, id: fn.largestInstanceId }, snapshot.context),
       ) ||
-      snapshot.strings.some(string =>
-        options.showEntry(string, snapshot.context),
-      ),
-    disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+      snapshot.strings.some(string => showEntry(string, snapshot.context)),
+    entities: `node`,
   })
+  const { result: sections, edgeTypes } = ShownRetainerPaths.record(
+    sectionOptions,
+    shownPaths => [
+      ...formatLargestConstructors({
+        snapshot,
+        hasLocation,
+        shownPaths,
+        options: sectionOptions,
+      }),
+      ...formatLargestFunctions({
+        snapshot,
+        hasLocation,
+        shownPaths,
+        options: sectionOptions,
+      }),
+      ...formatLargestStrings({
+        snapshot,
+        shownPaths,
+        options: sectionOptions,
+      }),
+    ],
+  )
   return [
     heading(1, `Heap snapshot`),
     ...formatOverallSummary(snapshot),
     ...formatBaseURLNote(options),
-    ...notes,
-    ...formatLargestConstructors({
-      snapshot,
-      hasLocation,
-      options: sectionOptions,
-    }),
-    ...formatLargestFunctions({
-      snapshot,
-      hasLocation,
-      options: sectionOptions,
-    }),
-    ...formatLargestStrings({ snapshot, options: sectionOptions }),
+    ...formatSeveralPathsNote(edgeTypes),
+    ...sections,
   ]
 }
 
-const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
+type RetainerPathEdgeType = RetainerPathEdge[`type`]
 
-const SEVERAL_PATHS_NOTE = phrasing` ${inlineCode(`B ←(several paths)– A`)} means ${inlineCode(`A`)} holds ${inlineCode(`B`)} only through other nodes, along several paths.`
+/** A built value, and the edge types of the paths formatted to build it. */
+type RecordedRetainerPaths<Result> = {
+  result: Result
+  edgeTypes: ReadonlySet<RetainerPathEdgeType>
+}
+
+/**
+ * Formats the retainer paths a document shows, recording the types of their
+ * edges so the document explains the notation it shows. Path text comes only
+ * from here, and only while a recording runs.
+ */
+class ShownRetainerPaths {
+  readonly #options: FormattingProfileToMdOptions
+  readonly #recordings: Set<RetainerPathEdgeType>[] = []
+
+  private constructor(options: FormattingProfileToMdOptions) {
+    this.#options = options
+  }
+
+  /** Runs {@link build} with a new instance, as {@link record} does. */
+  public static record<Result>(
+    options: FormattingProfileToMdOptions,
+    build: (paths: ShownRetainerPaths) => Result,
+  ): RecordedRetainerPaths<Result> {
+    const paths = new ShownRetainerPaths(options)
+    return paths.record(() => build(paths))
+  }
+
+  /**
+   * Runs {@link build}, recording the edge types of the paths it formats. A
+   * path formatted in a nested recording is recorded in every enclosing one.
+   */
+  public record<Result>(build: () => Result): RecordedRetainerPaths<Result> {
+    const edgeTypes = new Set<RetainerPathEdgeType>()
+    this.#recordings.push(edgeTypes)
+    try {
+      return { result: build(), edgeTypes }
+    } finally {
+      this.#recordings.pop()
+    }
+  }
+
+  /** Formats the retainer path of a node of {@link snapshot}. */
+  public ofNode(
+    snapshot: Pick<AggregatedHeapSnapshot, `retainerOf` | `retainerStepsOf`>,
+    nodeOrdinal: number,
+  ): string {
+    return this.ofSteps(
+      snapshot.retainerOf(nodeOrdinal),
+      snapshot.retainerStepsOf(nodeOrdinal),
+    )
+  }
+
+  /**
+   * Formats a retainer path from {@link node} outward, ending at `(GC root)`
+   * for a node the GC root holds directly. Each step shows its edge, when it
+   * has a label, inside the arrow to its retainer (e.g. `Entry ←.value– Item`).
+   */
+  public ofSteps(
+    node: { name?: string; nameLocation?: FileReference },
+    steps: readonly RetainerPathStep[],
+  ): string {
+    if (this.#recordings.length === 0) {
+      throw new Error(`retainer path formatted outside a recording`)
+    }
+
+    const nodeName =
+      formatRetainerName({ ...node, name: node.name ?? `` }, this.#options) ||
+      `(unknown)`
+    return steps.length === 0
+      ? `${nodeName} ← (GC root)`
+      : steps.reduce((path, { edge, retainer }) => {
+          for (const edgeTypes of this.#recordings) {
+            edgeTypes.add(edge.type)
+          }
+          const edgeLabel = formatRetainerEdgeLabel(edge, this.#options)
+          return `${path} ${edgeLabel ? `←${edgeLabel}–` : `←`} ${formatRetainerLabel(retainer, this.#options)}`
+        }, nodeName)
+  }
+}
+
+/**
+ * The note explaining a step through several retainers, which any section
+ * showing retainer paths can contain.
+ */
+const formatSeveralPathsNote = (
+  edgeTypes: ReadonlySet<RetainerPathEdgeType>,
+): RootContent[] =>
+  edgeTypes.has(`several-retainers`)
+    ? [
+        paragraph(
+          phrasing`${inlineCode(`B ←(several paths)– A`)} means ${inlineCode(`A`)} retains ${inlineCode(`B`)} only through other nodes, along several paths.`,
+        ),
+      ]
+    : []
 
 const formatOverallSummary = ({
   totalSize,
@@ -136,7 +250,7 @@ const formatOverallSummary = ({
 
   return [
     paragraph(
-      `Allocated ${formatBytes(totalSize)} across ${formatCount(
+      `Held ${formatBytes(totalSize)} over ${formatCount(
         nodeCount,
       )} nodes and ${formatCount(edgeCount)} edges.`,
     ),
@@ -155,10 +269,12 @@ const formatOverallSummary = ({
 const formatLargestConstructors = ({
   snapshot,
   hasLocation,
+  shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   // Resolved once for both rankings: a category qualifies for a subsection by
@@ -180,6 +296,7 @@ const formatLargestConstructors = ({
         snapshot,
         hasLocation,
         categories,
+        shownPaths,
         options,
         size: SELF_SIZE,
       }),
@@ -187,6 +304,7 @@ const formatLargestConstructors = ({
         snapshot,
         hasLocation,
         categories,
+        shownPaths,
         options,
         size: RETAINED_SIZE,
       }),
@@ -194,59 +312,124 @@ const formatLargestConstructors = ({
   )
 }
 
+/** A ranking's heading, and the prose naming what it ranks and by what. */
+type RankingProse = {
+  headingLevel: number
+  title: string
+  plural: string
+  singular: string
+
+  /** What ranks the entities, e.g. "instance bytes, excluding referenced nodes". */
+  description: string
+}
+
+/**
+ * A ranking's heading, followed by its ranking sentence. A diff states its
+ * sentence above each of its rankings instead, or, where no entity differed,
+ * a note saying so here.
+ */
+const formatRankingHeader = (
+  prose: RankingProse,
+  state: `ranking` | `diff` | `unchanged-diff`,
+): RootContent[] => [
+  heading(prose.headingLevel, prose.title),
+  ...(state === `ranking`
+    ? [paragraph(rankingSentence(prose.plural, prose.description))]
+    : state === `unchanged-diff`
+      ? [paragraph(unchangedDiffSentence(prose.singular, prose.description))]
+      : []),
+]
+
+const RETAINED_DESCRIPTION = `instance bytes, including nodes only the instances keep alive`
+
 /** One constructor size, self or retained. */
 type ConstructorSize = {
   sizeOf: (node: { selfSize: number; retainedSize: number }) => number
-
-  /**
-   * Formats the section heading, with a ranking sentence or, for an unchanged
-   * diff, a merged "did not differ" note.
-   */
-  formatHeader: (options: { isEmptyDiff: boolean }) => RootContent[]
-
-  /** The phrase naming the size in prose, e.g. "self size". */
-  description: string
+  prose: RankingProse
 }
 
 const SELF_SIZE: ConstructorSize = {
   sizeOf: node => node.selfSize,
-  formatHeader: ({ isEmptyDiff }) => [
-    heading(3, `Self size`),
-    paragraph(
-      isEmptyDiff
-        ? `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`
-        : `Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.`,
-    ),
-  ],
-  description: `self size`,
+  prose: {
+    headingLevel: 3,
+    title: `Self size`,
+    plural: `Constructors`,
+    singular: `constructor`,
+    description: `instance bytes, excluding referenced nodes`,
+  },
 }
 
 const RETAINED_SIZE: ConstructorSize = {
   sizeOf: node => node.retainedSize,
-  formatHeader: ({ isEmptyDiff }) => [
-    heading(3, `Retained size`),
-    paragraph(
-      isEmptyDiff
-        ? `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`
-        : `Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.`,
-    ),
-  ],
-  description: `retained size`,
+  prose: {
+    headingLevel: 3,
+    title: `Retained size`,
+    plural: `Constructors`,
+    singular: `constructor`,
+    description: RETAINED_DESCRIPTION,
+  },
 }
+
+const FUNCTIONS_PROSE: RankingProse = {
+  headingLevel: 2,
+  title: `Largest functions`,
+  plural: `Functions`,
+  singular: `function`,
+  description: RETAINED_DESCRIPTION,
+}
+
+const STRINGS_PROSE: RankingProse = {
+  headingLevel: 2,
+  title: `Largest strings`,
+  plural: `Strings`,
+  singular: `string`,
+  description: `bytes`,
+}
+
+/**
+ * The heading and sentence opening the retainer paths of a constructor
+ * ranking.
+ */
+const retainerPathsHeader = (
+  size: ConstructorSize,
+  ranking: `with the largest` | `with the largest change in`,
+): RootContent[] => [
+  heading(4, `Retainer paths`),
+  paragraph(
+    `Retainer paths ${ranking} contribution to each constructor's ${size.prose.title.toLowerCase()}.`,
+  ),
+]
+
+/**
+ * The heading and sentence opening the retained nodes of a function ranking,
+ * followed by {@link notes}.
+ */
+const retainedNodesHeader = (
+  ranking: `with the largest` | `with the largest change in`,
+  notes: PhrasingContent[] = [],
+): RootContent[] => [
+  heading(3, `Retained nodes`),
+  paragraph(
+    phrasing`Retained nodes ${ranking} contribution to each function's retained size.${notes}`,
+  ),
+]
 
 const formatLargestSizeConstructors = ({
   snapshot,
   hasLocation,
   categories,
+  shownPaths,
   options,
-  size: { sizeOf, formatHeader, description },
+  size,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   categories: HeapSnapshotNodeCategory[]
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
+  const { sizeOf, prose } = size
   const { totalSize, constructors, context } = snapshot
 
   const ranking = rankEntities({
@@ -267,13 +450,14 @@ const formatLargestSizeConstructors = ({
         constructor,
         snapshot,
         sizeOf,
+        shownPaths,
         hasLocation,
         options,
       }),
   )
 
   return [
-    ...formatHeader({ isEmptyDiff: false }),
+    ...formatRankingHeader(prose, `ranking`),
     ...formatRankingTables({
       ranking,
       formatEntityTable: entities =>
@@ -287,14 +471,11 @@ const formatLargestSizeConstructors = ({
           })),
         ),
       headingLevel: 4,
+      selfValueNoun: `self size`,
+      minCategoryShare: options.minCategoryShare,
     }),
     ...formatSectionGroup(
-      [
-        heading(4, `Instances`),
-        paragraph(
-          phrasing`Instances ranked by contribution to each constructor's ${description}.${SEVERAL_PATHS_NOTE}`,
-        ),
-      ],
+      retainerPathsHeader(size, `with the largest`),
       largestInstanceSections,
     ),
   ]
@@ -302,23 +483,25 @@ const formatLargestSizeConstructors = ({
 
 const formatLargestConstructorInstances = ({
   constructor,
-  snapshot: { retainerPathOf, context },
+  snapshot,
   sizeOf,
+  shownPaths,
   hasLocation,
   options,
 }: {
   constructor: AggregatedHeapSnapshotConstructor
   snapshot: AggregatedHeapSnapshot
   sizeOf: (node: AggregatedHeapSnapshotNode) => number
+  shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath({
     instances: constructor.instances.filter(instance =>
-      options.showEntry(instance, context),
+      options.showEntry(instance, snapshot.context),
     ),
     sizeOf,
-    retainerPathOf: nodeOrdinal => retainerPathOf(nodeOrdinal, options),
+    retainerPathOf: nodeOrdinal => shownPaths.ofNode(snapshot, nodeOrdinal),
     topN: Math.ceil(options.topN / 4),
   }).sort((group1, group2) => group2.size - group1.size)
   if (largestInstanceGroups.length === 0) {
@@ -348,6 +531,8 @@ const selectLargestInstancesByRetainerPath = ({
 }: {
   instances: AggregatedHeapSnapshotNode[]
   sizeOf: (instance: AggregatedHeapSnapshotNode) => number
+
+  /** Called only for an instance that joins a returned group. */
   retainerPathOf: (nodeOrdinal: number) => string
   topN: number
 }): InstanceGroup[] => {
@@ -386,13 +571,15 @@ type InstanceGroup = {
 const formatLargestFunctions = ({
   snapshot,
   hasLocation,
+  shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { totalSize, functions, retainerPathOf, context } = snapshot
+  const { totalSize, functions, context } = snapshot
 
   const largestFunctions = selectTopN(
     functions.filter(fn =>
@@ -406,11 +593,18 @@ const formatLargestFunctions = ({
   }
 
   const retainedSections = largestFunctions.flatMap(fn =>
-    formatFunctionRetainedNodes({ fn, snapshot, hasLocation, options }),
+    formatFunctionRetainedNodes({
+      fn,
+      snapshot,
+      shownPaths,
+      hasLocation,
+      options,
+    }),
   )
 
+  const pathOf = new RetainerPaths(options).pathOfNodeIn(snapshot)
   return [
-    ...formatLargestFunctionsHeading({ isEmptyDiff: false }),
+    ...formatRankingHeader(FUNCTIONS_PROSE, `ranking`),
     formatTable(
       functionColumns(hasLocation, options),
       largestFunctions.map(fn => ({
@@ -418,21 +612,12 @@ const formatLargestFunctions = ({
         size: fn.retainedSize,
         total: totalSize,
         instanceCount: fn.instanceIds.length,
-        pathCount: new Set(
-          fn.instanceIds.map(nodeOrdinal =>
-            retainerPathOf(nodeOrdinal, options),
-          ),
-        ).size,
-        examplePath: retainerPathOf(fn.largestInstanceId, options),
+        pathCount: new Set(fn.instanceIds.map(pathOf)).size,
+        examplePath: shownPaths.ofNode(snapshot, fn.largestInstanceId),
       })),
     ),
     ...formatSectionGroup(
-      [
-        heading(3, `Retained`),
-        paragraph(
-          phrasing`Nodes ranked by contribution to each function's retained size.${SEVERAL_PATHS_NOTE}`,
-        ),
-      ],
+      retainedNodesHeader(`with the largest`),
       retainedSections,
     ),
   ]
@@ -441,11 +626,13 @@ const formatLargestFunctions = ({
 const formatFunctionRetainedNodes = ({
   fn,
   snapshot,
+  shownPaths,
   hasLocation,
   options,
 }: {
   fn: AggregatedHeapSnapshotFunction
   snapshot: AggregatedHeapSnapshot
+  shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -469,19 +656,22 @@ const formatFunctionRetainedNodes = ({
         entity: node,
         size: node.selfSize,
         total: fn.retainedSize,
-        path: snapshot.retainerPathOf(node.id, options),
+        path: shownPaths.ofNode(snapshot, node.id),
       })),
     ),
   ]
 }
 
 const formatLargestStrings = ({
-  snapshot: { totalSize, strings, retainerPathOf, context },
+  snapshot,
+  shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
+  const { totalSize, strings, context } = snapshot
   const shownStrings = strings.filter(string =>
     options.showEntry(string, context),
   )
@@ -506,7 +696,7 @@ const formatLargestStrings = ({
     string => string.name !== undefined,
   )
   return [
-    ...formatLargestStringsHeading({ isEmptyDiff: false }),
+    ...formatRankingHeader(STRINGS_PROSE, `ranking`),
     ...formatRankingTables({
       ranking,
       formatEntityTable: entities =>
@@ -516,10 +706,12 @@ const formatLargestStrings = ({
             name: string.name,
             size: string.selfSize,
             total: totalSize,
-            path: retainerPathOf(string.id, options),
+            path: shownPaths.ofNode(snapshot, string.id),
           })),
         ),
       headingLevel: 3,
+      selfValueNoun: `self size`,
+      minCategoryShare: options.minCategoryShare,
     }),
   ]
 }
@@ -529,33 +721,45 @@ export const formatHeapSnapshotDiff = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(diff)
-  const { sectionOptions, notes } = resolveEntryFilter({
+  const sectionOptions = resolveEntryFilter({
     options,
-    showsAnyEntry:
-      diff.constructors.some(entity => showDiffEntity(entity, diff, options)) ||
-      diff.functions.some(entity => showDiffEntity(entity, diff, options)) ||
-      diff.strings.some(entity => showDiffEntity(entity, diff, options)),
-    disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+    showsAnyEntry: showEntry =>
+      [diff.constructors, diff.functions, diff.strings].some(entities =>
+        entities.some(entity => showDiffEntity(entity, diff, showEntry)),
+      ),
+    formatsAnyEntry:
+      diff.constructors.length > 0 ||
+      diff.functions.length > 0 ||
+      diff.strings.length > 0,
+    entities: `node`,
   })
   const retainerPaths = diffRetainerPaths(diff, sectionOptions)
+  const { result: sections, edgeTypes } = ShownRetainerPaths.record(
+    sectionOptions,
+    shownPaths => [
+      ...formatDiffConstructors({
+        diff,
+        hasLocation,
+        retainerPaths,
+        shownPaths,
+        options: sectionOptions,
+      }),
+      ...formatDiffFunctions({
+        diff,
+        hasLocation,
+        retainerPaths,
+        shownPaths,
+        options: sectionOptions,
+      }),
+      ...formatDiffStrings({ diff, shownPaths, options: sectionOptions }),
+    ],
+  )
   return [
     heading(1, `Heap snapshot diff`),
     ...formatDiffSummary(diff),
     ...formatBaseURLNote(options),
-    ...notes,
-    ...formatDiffConstructors({
-      diff,
-      hasLocation,
-      retainerPaths,
-      options: sectionOptions,
-    }),
-    ...formatDiffFunctions({
-      diff,
-      hasLocation,
-      retainerPaths,
-      options: sectionOptions,
-    }),
-    ...formatDiffStrings({ diff, options: sectionOptions }),
+    ...formatSeveralPathsNote(edgeTypes),
+    ...sections,
   ]
 }
 
@@ -568,14 +772,14 @@ const formatDiffSummaryLine = ({
   base,
   current,
 }: AggregatedHeapSnapshotDiff): string =>
-  `Allocated ${formatArrow(
+  `Held ${formatArrow(
     formatBytes(base.totalSize),
     formatBytes(current.totalSize),
   )}${formatChange(
     base.totalSize,
     current.totalSize,
     formatBytesDelta,
-  )} across ${formatArrow(
+  )} over ${formatArrow(
     formatCount(base.nodeCount),
     formatCount(current.nodeCount),
   )} nodes and ${formatArrow(
@@ -622,11 +826,13 @@ const formatDiffConstructors = ({
   diff,
   hasLocation,
   retainerPaths,
+  shownPaths,
   options,
 }: {
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
   retainerPaths: DiffRetainerPaths
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   // Resolved once for both rankings: a category qualifies for a subsection by
@@ -634,7 +840,7 @@ const formatDiffConstructors = ({
   // appears under doesn't change.
   const categories = subsectionDiffCategories({
     entries: diff.constructors.filter(entity =>
-      showDiffEntity(entity, diff, options),
+      showDiffEntity(entity, diff, options.showEntry),
     ),
     baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
     currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
@@ -657,6 +863,7 @@ const formatDiffConstructors = ({
         categories,
         instanceGroupDiffs,
         paths: retainerPaths.paths,
+        shownPaths,
         options,
         size: SELF_SIZE,
       }),
@@ -666,6 +873,7 @@ const formatDiffConstructors = ({
         categories,
         instanceGroupDiffs,
         paths: retainerPaths.paths,
+        shownPaths,
         options,
         size: RETAINED_SIZE,
       }),
@@ -711,17 +919,20 @@ const formatDiffSizeConstructors = ({
   categories,
   instanceGroupDiffs,
   paths,
+  shownPaths,
   options,
-  size: { sizeOf, formatHeader, description },
+  size,
 }: {
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
   categories: HeapSnapshotNodeCategory[]
   instanceGroupDiffs: InstanceGroupDiffs
   paths: RetainerPaths
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
+  const { sizeOf, prose } = size
   const { increases, decreases, hasActive, categoryRankings } =
     selectDiffEntities(
       diff.constructors.map(entity => ({
@@ -757,29 +968,24 @@ const formatDiffSizeConstructors = ({
       groupDiffs: instanceGroupDiffs(entity),
       paths,
       sizeOf,
+      shownPaths,
       hasLocation,
       options,
     }),
   )
 
   return formatDiffEntitySections({
-    formatHeader,
+    prose,
     headingLevel: 4,
-    plural: `Constructors`,
-    description,
     columns: constructorColumns(hasLocation, options),
     hasActive,
     increases,
     decreases,
     categoryRankings,
+    minCategoryShare: options.minCategoryShare,
     rowOf: ({ entity }) => rowOf(entity),
     detailSections: formatSectionGroup(
-      [
-        heading(4, `Instances`),
-        paragraph(
-          phrasing`Instances with the largest change in contribution to each constructor's ${description}.${SEVERAL_PATHS_NOTE}`,
-        ),
-      ],
+      retainerPathsHeader(size, `with the largest change in`),
       instanceSections,
     ),
   })
@@ -790,6 +996,7 @@ const formatDiffConstructorInstances = ({
   groupDiffs,
   paths,
   sizeOf,
+  shownPaths,
   hasLocation,
   options,
 }: {
@@ -797,6 +1004,7 @@ const formatDiffConstructorInstances = ({
   groupDiffs: EntryDiff<DiffedInstanceGroup>[]
   paths: RetainerPaths
   sizeOf: ConstructorSize[`sizeOf`]
+  shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] =>
@@ -811,7 +1019,7 @@ const formatDiffConstructorInstances = ({
       size,
       total,
       instanceCount: group.instanceCount,
-      retainerPath: paths.format(group.path, constructor),
+      retainerPath: shownPaths.ofSteps(constructor, paths.stepsOf(group.path)),
     }),
     hasLocation,
     options,
@@ -880,11 +1088,13 @@ const formatDiffFunctions = ({
   diff,
   hasLocation,
   retainerPaths,
+  shownPaths,
   options,
 }: {
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
   retainerPaths: DiffRetainerPaths
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const { increases, decreases, hasActive } = selectDiffEntities(
@@ -901,42 +1111,47 @@ const formatDiffFunctions = ({
     base,
     current,
   }: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>) => ({
-    base: base && functionRowOf(base, diff.base, options),
-    current: current && functionRowOf(current, diff.current, options),
+    base:
+      base && functionRowOf(base, diff.base, retainerPaths.base, shownPaths),
+    current:
+      current &&
+      functionRowOf(current, diff.current, retainerPaths.current, shownPaths),
   })
 
-  const retainedSections = shownDiffEntities({
-    improvement: BYTES_METRIC.improvement,
-    increases,
-    decreases,
-  }).flatMap(({ entity }) =>
-    formatDiffFunctionRetainedNodes({
-      diff,
-      fn: entity,
-      retainerPaths,
-      hasLocation,
-      options,
-    }),
+  const retained = shownPaths.record(() =>
+    shownDiffEntities({
+      improvement: BYTES_METRIC.improvement,
+      increases,
+      decreases,
+    }).flatMap(({ entity }) =>
+      formatDiffFunctionRetainedNodes({
+        diff,
+        fn: entity,
+        retainerPaths,
+        shownPaths,
+        hasLocation,
+        options,
+      }),
+    ),
   )
 
   return formatDiffEntitySections({
-    formatHeader: formatLargestFunctionsHeading,
+    prose: FUNCTIONS_PROSE,
     headingLevel: 3,
-    plural: `Functions`,
-    description: `retained size`,
     columns: functionColumns(hasLocation, options),
     hasActive,
     increases,
     decreases,
+    minCategoryShare: options.minCategoryShare,
     rowOf: ({ entity }) => rowOf(entity),
     detailSections: formatSectionGroup(
-      [
-        heading(3, `Retained`),
-        paragraph(
-          phrasing`Nodes with the largest change in contribution to each function's retained size.${SEVERAL_PATHS_NOTE} ${inlineCode(`[]`)} stands for any element of an array.`,
-        ),
-      ],
-      retainedSections,
+      retainedNodesHeader(
+        `with the largest change in`,
+        retained.edgeTypes.has(`any-element`)
+          ? phrasing` ${inlineCode(`[]`)} stands for any element of an array.`
+          : [],
+      ),
+      retained.result,
     ),
   })
 }
@@ -945,12 +1160,14 @@ const formatDiffFunctionRetainedNodes = ({
   diff,
   fn,
   retainerPaths,
+  shownPaths,
   hasLocation,
   options,
 }: {
   diff: AggregatedHeapSnapshotDiff
   fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>
   retainerPaths: DiffRetainerPaths
+  shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] =>
@@ -968,7 +1185,10 @@ const formatDiffFunctionRetainedNodes = ({
     columns: retainedColumns(`Path to function`, hasLocation, options),
     rowOf: (group, size, total) => ({
       entity: group.node,
-      path: retainerPaths.within.paths.format(group.path, group.node),
+      path: shownPaths.ofSteps(
+        group.node,
+        retainerPaths.within.paths.stepsOf(group.path),
+      ),
       size,
       total,
     }),
@@ -976,33 +1196,35 @@ const formatDiffFunctionRetainedNodes = ({
     options,
   })
 
+/** One side's row of a function, counting its distinct paths by {@link pathOf}. */
 const functionRowOf = (
   entity: DiffedHeapSnapshotFunction,
-  { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
-  options: FormattingProfileToMdOptions,
+  snapshot: AggregatedHeapSnapshot,
+  pathOf: (nodeOrdinal: number) => number,
+  shownPaths: ShownRetainerPaths,
 ): FunctionRow => ({
   entity,
   size: entity.retainedSize,
-  total: totalSize,
+  total: snapshot.totalSize,
   instanceCount: entity.instanceCount,
-  pathCount: new Set(
-    entity.instanceIds.map(nodeOrdinal => retainerPathOf(nodeOrdinal, options)),
-  ).size,
-  examplePath: retainerPathOf(entity.id, options),
+  pathCount: new Set(entity.instanceIds.map(pathOf)).size,
+  examplePath: shownPaths.ofNode(snapshot, entity.id),
 })
 
 const formatDiffStrings = ({
   diff,
+  shownPaths,
   options,
 }: {
   diff: AggregatedHeapSnapshotDiff
+  shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const categoryOf = (entity: AggregatedHeapSnapshotEntityDiff) =>
     entity.category
   const categories = subsectionDiffCategories({
     entries: diff.strings.filter(entity =>
-      showDiffEntity(entity, diff, options),
+      showDiffEntity(entity, diff, options.showEntry),
     ),
     baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
     currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
@@ -1023,34 +1245,33 @@ const formatDiffStrings = ({
     )
 
   const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
-    base: base && nodeRowOf(base, diff.base, options),
-    current: current && nodeRowOf(current, diff.current, options),
+    base: base && nodeRowOf(base, diff.base, shownPaths),
+    current: current && nodeRowOf(current, diff.current, shownPaths),
   })
 
   return formatDiffEntitySections({
-    formatHeader: formatLargestStringsHeading,
+    prose: STRINGS_PROSE,
     headingLevel: 3,
-    plural: `Strings`,
-    description: `size`,
     // Diffed strings are matched by value, so they always have a value.
     columns: stringColumns(true),
     hasActive,
     increases,
     decreases,
     categoryRankings,
+    minCategoryShare: options.minCategoryShare,
     rowOf: ({ entity }) => rowOf(entity),
   })
 }
 
 const nodeRowOf = (
   entity: DiffedHeapSnapshotEntity,
-  { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
-  options: FormattingProfileToMdOptions,
+  snapshot: AggregatedHeapSnapshot,
+  shownPaths: ShownRetainerPaths,
 ): NodeRow => ({
   name: entity.name,
   size: entity.selfSize,
-  total: totalSize,
-  path: retainerPathOf(entity.id, options),
+  total: snapshot.totalSize,
+  path: shownPaths.ofNode(snapshot, entity.id),
 })
 
 /**
@@ -1060,27 +1281,25 @@ const nodeRowOf = (
  * in all of them.
  */
 const formatDiffEntitySections = <Entity, Row>({
-  formatHeader,
+  prose,
   headingLevel,
-  plural,
-  description,
   columns,
   hasActive,
   increases,
   decreases,
   categoryRankings = [],
+  minCategoryShare,
   rowOf,
   detailSections = [],
 }: {
-  formatHeader: (options: { isEmptyDiff: boolean }) => RootContent[]
+  prose: RankingProse
   headingLevel: number
-  plural: string
-  description: string
   columns: Table<Row>
   hasActive: boolean
   increases: Entity[]
   decreases: Entity[]
   categoryRankings?: DiffCategoryRanking<Entity>[]
+  minCategoryShare: number
   rowOf: (entity: Entity) => Diff<Row>
   /** The sections breaking down the entities the rankings show. */
   detailSections?: RootContent[]
@@ -1090,10 +1309,12 @@ const formatDiffEntitySections = <Entity, Row>({
       formatDiffRankingSections({
         headingLevel,
         subtitle,
-        sentence: diffRankingSentence(plural, change, description),
+        sentence: diffRankingSentence(prose.plural, change, prose.description),
         columns,
         entities: change === `increase` ? increases : decreases,
         categoryRankings,
+        selfValueNoun: `self size`,
+        minCategoryShare,
         entitiesOf: categoryRanking =>
           change === `increase`
             ? categoryRanking.increases
@@ -1110,7 +1331,10 @@ const formatDiffEntitySections = <Entity, Row>({
   }
 
   return [
-    ...formatHeader({ isEmptyDiff: sections.length === 0 }),
+    ...formatRankingHeader(
+      prose,
+      sections.length === 0 ? `unchanged-diff` : `diff`,
+    ),
     ...sections,
     ...detailSections,
   ]
@@ -1125,32 +1349,6 @@ const hasAnyLocation = ({
 }): boolean =>
   constructors.some(constructor => constructor.location) ||
   functions.some(fn => fn.location)
-
-const formatLargestFunctionsHeading = ({
-  isEmptyDiff,
-}: {
-  isEmptyDiff: boolean
-}): RootContent[] => [
-  heading(2, `Largest functions`),
-  paragraph(
-    isEmptyDiff
-      ? `No function differed in bytes that would be freed if the function were garbage collected.`
-      : `Functions ranked by bytes that would be freed if the function were garbage collected.`,
-  ),
-]
-
-const formatLargestStringsHeading = ({
-  isEmptyDiff,
-}: {
-  isEmptyDiff: boolean
-}): RootContent[] => [
-  heading(2, `Largest strings`),
-  paragraph(
-    isEmptyDiff
-      ? `No string differed in bytes allocated for it.`
-      : `Strings ranked by bytes allocated for them.`,
-  ),
-]
 
 type NamedEntity = {
   name: string

@@ -80,7 +80,7 @@ const modalityName = (modality: Modality): string =>
 
 const toMarkdown = (contents: RootContent[]): string =>
   mdastToMarkdown(
-    contents.length > 0 ? contents : [paragraph(`No profiling data found.`)],
+    contents.length > 0 ? contents : [paragraph(`No profiles were recorded.`)],
   )
 
 /** Resolves the formatting options for {@link inputs}. */

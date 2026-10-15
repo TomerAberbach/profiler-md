@@ -12,7 +12,7 @@ Collected 301 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |    % | Samples | Function                                                                        | Location                                                      |
 | ---: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------- |
@@ -38,6 +38,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | 1.0% |       3 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__`              | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
@@ -90,7 +92,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Lines
 
-Lines ranked by contribution to each function's self samples.
+Lines with the largest contribution to each function's self samples.
 
 ##### `parse` (`ast.py`)
 
@@ -182,7 +184,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -406,7 +408,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |      % | Samples | Function                                | Location                                                      |
 | -----: | ------: | --------------------------------------- | ------------------------------------------------------------- |
@@ -432,6 +434,8 @@ Functions ranked by total samples taken in the function and all its callees.
 |  33.6% |     101 | `CPyDef_driver___Driver___parse_string` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
@@ -508,7 +512,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `0x7f3b306b724a` (`libc.so.6`)
 
@@ -851,7 +855,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `_run_module_as_main` (`<frozen runpy>`) ← `0x7f3b306b724a` (`libc.so.6`)
 

@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 3.15 MiB across 67,919 nodes and 265,376 edges.
+Held 3.15 MiB over 67,919 nodes and 265,376 edges.
 
 | Category            |     % |      Size |  Nodes |
 | ------------------- | ----: | --------: | -----: |
@@ -20,11 +20,13 @@ Allocated 3.15 MiB across 67,919 nodes and 265,376 edges.
 
 Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                   | Location    |
 | ----: | -------: | --------: | ----------------------------- | ----------- |
@@ -50,6 +52,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  0.1% | 3.63 KiB |        58 | `SVGAnimatedNumberList`       | `<unknown>` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -111,9 +115,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |   60 B |         1 | `Float32Array`   | `<unknown>` |
 | <0.1% |   60 B |         1 | `Uint32Array`    | `<unknown>` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -513,7 +517,7 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 |     % |     Size | Instances | Constructor                       | Location    |
 | ----: | -------: | --------: | --------------------------------- | ----------- |
@@ -539,6 +543,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.9% | 28.8 KiB |        49 | `SVGLineElement`                  | `<unknown>` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
@@ -600,9 +606,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.1% | 2.11 KiB |         1 | `Uint32Array`    | `<unknown>` |
 | <0.1% |    528 B |         3 | `Array Iterator` | `<unknown>` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `Object` (`<unknown>`)
 
@@ -986,7 +992,7 @@ Instances ranked by contribution to each constructor's retained size. `B ←(sev
 
 ## Largest functions
 
-Functions ranked by bytes that would be freed if the function were garbage collected.
+Functions with the most instance bytes, including nodes only the instances keep alive.
 
 |    % | Retained | Instances | Paths | Name          | Location                                    | Example path                                                                                                                        |
 | ---: | -------: | --------: | ----: | ------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -1011,9 +1017,9 @@ Functions ranked by bytes that would be freed if the function were garbage colle
 | 0.2% | 7.15 KiB |        44 |    20 | `(anonymous)` | `<unknown>`                                 | `(anonymous) ← (GC root)`                                                                                                           |
 | 0.2% | 6.95 KiB |         1 |     1 | `ed`          | `./node_modules/d3/dist/d3.min.js:2:131060` | `ed ←.ed– system / Context`                                                                                                         |
 
-### Retained
+### Retained nodes
 
-Nodes ranked by contribution to each function's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retained nodes with the largest contribution to each function's retained size.
 
 #### `Su` (`./node_modules/d3/dist/d3.min.js:2:82035`)
 
@@ -1217,9 +1223,11 @@ Nodes ranked by contribution to each function's retained size. `B ←(several pa
 
 ## Largest strings
 
-Strings ranked by bytes allocated for them.
+Strings with the most bytes.
 
 ### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 #### String
 

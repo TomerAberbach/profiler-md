@@ -5,10 +5,13 @@ import {
   categoryRankingTables,
   categorySectionTables,
   categoryTables,
+  expectLogs,
+  paragraphsUnderTitle,
   profileTitles,
   rankingTables,
   summaryLines,
 } from '../../testing.ts'
+import type { RetainerPathEdge } from './aggregate.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {
@@ -16,9 +19,11 @@ import {
   makeAggregatedHeapSnapshotConstructor,
   makeAggregatedHeapSnapshotFunction,
   makeAggregatedHeapSnapshotString,
+  makeRetainerHops,
   makeSourceLocation,
   retainedSizeTables,
   selfSizeTables,
+  SEVERAL_PATHS_NOTE,
 } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
@@ -42,9 +47,9 @@ describe(`formatHeapSnapshot`, () => {
 
     const md = mdastToMarkdown(formatHeapSnapshot(snapshot, options))
 
-    expect(md).toContain(
-      `The entry filter hides every node, so all nodes are shown.`,
-    )
+    expectLogs([
+      `warn: entry filter ignored because it hides every node, so all nodes are shown`,
+    ])
     expect(selfSizeTables(md)).toEqual([
       [
         {
@@ -65,6 +70,82 @@ describe(`formatHeapSnapshot`, () => {
         },
       ],
     ])
+  })
+
+  describe(`retainer path notes`, () => {
+    /** A snapshot of {@link entities}, whose node 0 is retained by {@link edge}. */
+    const snapshotOf = (
+      entities: Parameters<typeof makeAggregatedHeapSnapshot>[0],
+      edge: RetainerPathEdge,
+    ) => ({
+      ...makeAggregatedHeapSnapshot(entities),
+      ...makeRetainerHops([[{ edge, retainer: { id: 0, name: `Holder` } }]]),
+    })
+
+    test.each([
+      {
+        section: `Largest constructors`,
+        entities: {
+          constructors: [
+            makeAggregatedHeapSnapshotConstructor({
+              name: `Widget`,
+              selfSize: 100,
+              retainedSize: 150,
+              instanceCount: 1,
+            }),
+          ],
+        },
+      },
+      {
+        section: `Largest functions`,
+        entities: {
+          functions: [
+            makeAggregatedHeapSnapshotFunction({
+              name: `render`,
+              selfSize: 100,
+              retainedSize: 150,
+            }),
+          ],
+        },
+      },
+      {
+        section: `Largest strings`,
+        entities: {
+          strings: [
+            makeAggregatedHeapSnapshotString({ value: `a`, selfSize: 100 }),
+          ],
+        },
+      },
+    ])(
+      `explains a step through several retainers under the title when $section shows one`,
+      ({ entities }) => {
+        const snapshot = snapshotOf(entities, { type: `several-retainers` })
+
+        const md = mdastToMarkdown(formatHeapSnapshot(snapshot, defaultOptions))
+
+        expect(paragraphsUnderTitle(md)).toContain(SEVERAL_PATHS_NOTE)
+      },
+    )
+
+    test(`omits the note when no shown path has a step through several retainers`, () => {
+      const snapshot = snapshotOf(
+        {
+          constructors: [
+            makeAggregatedHeapSnapshotConstructor({
+              name: `Widget`,
+              selfSize: 100,
+              retainedSize: 150,
+              instanceCount: 1,
+            }),
+          ],
+        },
+        { type: `property`, name: `p` },
+      )
+
+      const md = mdastToMarkdown(formatHeapSnapshot(snapshot, defaultOptions))
+
+      expect(paragraphsUnderTitle(md)).not.toContain(SEVERAL_PATHS_NOTE)
+    })
   })
 
   describe(`category subsections`, () => {
@@ -189,10 +270,20 @@ describe(`formatHeapSnapshot`, () => {
 
       expect(categorySectionTables(md, `Largest strings`)).toEqual({
         String: [
-          { '%': `60.0%`, Size: `600 B`, Value: `flat`, Path: `(GC root)` },
+          {
+            '%': `60.0%`,
+            Size: `600 B`,
+            Value: `flat`,
+            Path: `(unknown) ← (GC root)`,
+          },
         ],
         'Concatenated string': [
-          { '%': `40.0%`, Size: `400 B`, Value: `joined`, Path: `(GC root)` },
+          {
+            '%': `40.0%`,
+            Size: `400 B`,
+            Value: `joined`,
+            Path: `(unknown) ← (GC root)`,
+          },
         ],
       })
     })
@@ -217,7 +308,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
     expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
     expect(summaryLines(md)).toEqual([
-      `Allocated 1\u00A0KiB → 1.5\u00A0KiB (+512\u00A0B, +50.0%) across 10 → 12 nodes and 20 → 25 edges.`,
+      `Held 1\u00A0KiB → 1.5\u00A0KiB (+512\u00A0B, +50.0%) over 10 → 12 nodes and 20 → 25 edges.`,
     ])
   })
 
@@ -232,7 +323,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(summaryLines(md)).toEqual([
-      `Allocated 1\u00A0KiB across 10 nodes and 20 edges.`,
+      `Held 1\u00A0KiB over 10 nodes and 20 edges.`,
     ])
   })
 
@@ -402,7 +493,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           Paths: `1`,
           Name: `grewFn`,
           Location: `./src/a.ts:5:10 → 7:10`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -417,7 +508,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           Paths: `1`,
           Name: `shrankFn`,
           Location: `./src/b.ts:1:1`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -447,7 +538,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           '%': `100.0%`,
           Size: `50 B → 160 B`,
           Value: `hello`,
-          Path: `(GC root)`,
+          Path: `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -515,7 +606,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           Instances: `1`,
           Paths: `1`,
           Name: `myFn`,
-          'Example path': `(GC root)`,
+          'Example path': `(unknown) ← (GC root)`,
         },
       ],
     ])
@@ -600,9 +691,9 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
-    expect(md).toContain(
-      `The entry filter hides every node, so all nodes are shown.`,
-    )
+    expectLogs([
+      `warn: entry filter ignored because it hides every node, so all nodes are shown`,
+    ])
     expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
       [
         {
@@ -651,17 +742,17 @@ describe(`formatHeapSnapshotDiff`, () => {
     expect(md).not.toMatch(/Regressions|Improvements/u)
     expect(md).toMatch(/^## Largest constructors$/mu)
 
-    expect(md).not.toMatch(/ranked by/u)
+    expect(md).not.toMatch(/with the most/u)
     expect(md).toContain(
-      `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,
+      `No constructor differed in instance bytes, excluding referenced nodes.`,
     )
     expect(md).toContain(
-      `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`,
+      `No constructor differed in instance bytes, including nodes only the instances keep alive.`,
     )
     expect(md).toContain(
-      `No function differed in bytes that would be freed if the function were garbage collected.`,
+      `No function differed in instance bytes, including nodes only the instances keep alive.`,
     )
-    expect(md).toContain(`No string differed in bytes allocated for it.`)
+    expect(md).toContain(`No string differed in bytes.`)
 
     expect(categoryTables(md)).toEqual([
       [
@@ -703,7 +794,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     expect(md).not.toContain(`No function differed`)
     expect(md).not.toContain(`No string differed`)
     expect(md).toContain(
-      `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,
+      `No constructor differed in instance bytes, excluding referenced nodes.`,
     )
   })
 
@@ -854,7 +945,7 @@ describe(`formatHeapSnapshotDiff`, () => {
             '%': `50.0% → 60.0%`,
             Size: `100 B → 300 B`,
             Value: `flat`,
-            Path: `(GC root)`,
+            Path: `(unknown) ← (GC root)`,
           },
         ],
         'Concatenated string': [
@@ -864,7 +955,7 @@ describe(`formatHeapSnapshotDiff`, () => {
             '%': `50.0% → 40.0%`,
             Size: `100 B → 200 B`,
             Value: `joined`,
-            Path: `(GC root)`,
+            Path: `(unknown) ← (GC root)`,
           },
         ],
       })

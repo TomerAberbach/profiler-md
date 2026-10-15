@@ -13,9 +13,11 @@ Paths starting with `./` or `../` are relative to `/src/zstd/`.
 
 ### Self instructions
 
-Functions ranked by instructions recorded directly in the function body, excluding callees.
+Functions with the most instructions recorded within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self instructions.
 
 ##### Ours
 
@@ -44,7 +46,7 @@ Functions ranked by instructions recorded directly in the function body, excludi
 
 #### Lines
 
-Lines ranked by contribution to each function's self instructions.
+Lines with the largest contribution to each function's self instructions.
 
 ##### `ZSTD_encodeSequences` (`./lib/common/bitstream.h`)
 
@@ -240,9 +242,11 @@ Lines ranked by contribution to each function's self instructions.
 
 ### Total instructions
 
-Functions ranked by total instructions recorded in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.
+Functions with the most instructions recorded within the function and its callees, excluding recursive calls.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self instructions.
 
 ##### Ours
 
@@ -271,7 +275,7 @@ Functions ranked by total instructions recorded in the function and all its call
 
 #### Callers
 
-Callers ranked by the instructions recorded in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callers with the largest contribution to each function's total instructions. Inlining can make caller attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `ZSTD_compress_frameChunk` (`./lib/compress/zstd_compress.c`)
 
@@ -411,7 +415,7 @@ Callers ranked by the instructions recorded in each function and its callees dur
 
 #### Callees
 
-Callees ranked by contribution to each function's total instructions. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callees with the largest contribution to each function's total instructions. Inlining can make callee attribution imprecise, and percentages can exceed 100% for recursive calls.
 
 ##### `ZSTD_compress_frameChunk` (`./lib/compress/zstd_compress.c`)
 

@@ -24,13 +24,13 @@ import {
 import { functionIdMatcher, lineMatcher } from '../diff.ts'
 import type { DiffedLine, FunctionIdMatcher, LineMatcher } from '../diff.ts'
 import {
-  ENTRY_FILTER_DISABLED_NOTE,
   formatBaseURLNote,
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
   formatZeroTotalNote,
+  rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
   selectLargestChanges,
@@ -38,7 +38,7 @@ import {
   shownDiffEntities,
 } from '../format.ts'
 import { formatProseValue, formatProseValueDelta } from '../measure.ts'
-import type { Metric } from '../metric.ts'
+import type { DiffMetric, Metric } from '../metric.ts'
 import type { EntryCategory } from '../registry.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type {
@@ -68,40 +68,58 @@ type Measure = { metric: Metric; index: number }
 const measuresOf = (metrics: Metric[]): Measure[] =>
   metrics.map((metric, index) => ({ metric, index }))
 
+/** What a self or total value of {@link metric} measures. */
+const functionDescription = (
+  direction: `self` | `total`,
+  metric: Metric,
+): string =>
+  direction === `self`
+    ? `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`
+    : `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees, excluding recursive calls`
+
+const isZeroTotal = (graph: AggregatedCallGraph, { index }: Measure): boolean =>
+  graph.totalValues[index] === 0
+
+const isZeroDiffTotal = (
+  { base, current }: AggregatedCallGraphDiff,
+  { baseIndex, currentIndex }: DiffMetric,
+): boolean =>
+  base.totalValues[baseIndex] === 0 && current.totalValues[currentIndex] === 0
+
 export const formatCallGraph = (
   graph: AggregatedCallGraph,
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
+  const measures = measuresOf(graph.metrics)
+  const sectionOptions = resolveEntryFilter({
+    options,
+    formatsAnyEntry:
+      graph.functions.length > 0 &&
+      !measures.every(measure => isZeroTotal(graph, measure)),
+    showsAnyEntry: showEntry =>
+      graph.functions.some(func => showEntry(func, graph.context)),
+    entities: `function`,
+  })
   return [
     heading(headingLevel, formatTitle(graph.metrics)),
     paragraph(formatSummaryLine(graph)),
     ...formatCategoryTable(graph),
     ...formatBaseURLNote(options),
     ...formatMeasureSections(
-      measuresOf(graph.metrics),
+      measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
-        if (graph.totalValues[measure.index] === 0) {
+        if (isZeroTotal(graph, measure)) {
           return [formatZeroTotalNote(measure.metric, ``)]
         }
 
-        const { sectionOptions, notes } = resolveEntryFilter({
-          options,
-          showsAnyEntry: graph.functions.some(func =>
-            options.showEntry(func, graph.context),
-          ),
-          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+        return formatHottestFunctions({
+          measure,
+          graph,
+          options: sectionOptions,
+          headingLevel: sectionHeadingLevel,
         })
-        return [
-          ...notes,
-          ...formatHottestFunctions({
-            measure,
-            graph,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-        ]
       },
     ),
   ]
@@ -237,7 +255,7 @@ const formatHottestSelfFunctions = ({
   return [
     heading(headingLevel, `Self ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by ${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees.`,
+      rankingSentence(`Functions`, functionDescription(`self`, metric)),
     ),
     ...formatRankingTables({
       ranking,
@@ -250,12 +268,14 @@ const formatHottestSelfFunctions = ({
           options,
         }),
       headingLevel: headingLevel + 1,
+      selfValueNoun: `self ${metric.phrases.columnNoun}`,
+      minCategoryShare: options.minCategoryShare,
     }),
     ...formatSectionGroup(
       [
         heading(headingLevel + 1, `Lines`),
         paragraph(
-          `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
+          `Lines with the largest contribution to each function's self ${metric.phrases.columnNoun}.`,
         ),
       ],
       hottestLinesSections,
@@ -348,7 +368,7 @@ const formatHottestTotalFunctions = ({
   return [
     heading(headingLevel, `Total ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.`,
+      rankingSentence(`Functions`, functionDescription(`total`, metric)),
     ),
     ...formatRankingTables({
       ranking,
@@ -361,6 +381,8 @@ const formatHottestTotalFunctions = ({
           options,
         }),
       headingLevel: headingLevel + 1,
+      selfValueNoun: `self ${metric.phrases.columnNoun}`,
+      minCategoryShare: options.minCategoryShare,
     }),
     ...formatHottestArcSections({
       measure,
@@ -391,7 +413,13 @@ const formatHottestArcSections = ({
     formatSectionGroup(
       [
         heading(headingLevel, `${arcs.entity}s`),
-        paragraph(arcSectionDescription(arcs, measure.metric, `ranked by`)),
+        paragraph(
+          arcSectionDescription(
+            arcs.entity,
+            measure.metric,
+            `with the largest`,
+          ),
+        ),
       ],
       funcs.flatMap(func =>
         formatHottestArcs({
@@ -453,7 +481,6 @@ const formatHottestArcs = ({
 
 type Arcs = {
   entity: `Caller` | `Callee`
-  measurePhraseOf: (metric: Metric) => string
 
   /** A function's arcs as rows for one metric, keyed by the other end's ID. */
   rowsOf: (
@@ -466,8 +493,6 @@ type CallGraphArcRow = ArcRow & { func: AggregatedCallGraphFunction }
 
 const CALLER_ARCS: Arcs = {
   entity: `Caller`,
-  measurePhraseOf: metric =>
-    `the ${metric.phrases.pastParticipleVerbPhrase} in each function and its callees during calls from that caller`,
   rowsOf: (func, index) =>
     func.callerIdToMetrics
       .entries()
@@ -484,8 +509,6 @@ const CALLER_ARCS: Arcs = {
 
 const CALLEE_ARCS: Arcs = {
   entity: `Callee`,
-  measurePhraseOf: metric =>
-    `contribution to each function's total ${metric.phrases.columnNoun}`,
   rowsOf: (func, index) =>
     func.calleeIdToMetrics
       .entries()
@@ -502,11 +525,11 @@ const CALLEE_ARCS: Arcs = {
 
 /** The paragraph opening a Callers or Callees section. */
 const arcSectionDescription = (
-  { entity, measurePhraseOf }: Arcs,
+  entity: Arcs[`entity`],
   metric: Metric,
-  ranking: `ranked by` | `with the largest change in`,
+  ranking: `with the largest` | `with the largest change in`,
 ): string =>
-  `${entity}s ${ranking} ${measurePhraseOf(metric)}. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`
+  `${entity}s ${ranking} contribution to each function's total ${metric.phrases.columnNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise, and percentages can exceed 100% for recursive calls.`
 
 export const formatCallGraphDiff = (
   diff: AggregatedCallGraphDiff,
@@ -516,6 +539,15 @@ export const formatCallGraphDiff = (
   const metrics = diff.metrics.map(({ metric }) => metric)
   const matchLines = lineMatcher(diff)
   const matchFunctionIds = functionIdMatcher(diff.functions)
+  const sectionOptions = resolveEntryFilter({
+    options,
+    formatsAnyEntry:
+      diff.functions.length > 0 &&
+      !diff.metrics.every(measure => isZeroDiffTotal(diff, measure)),
+    showsAnyEntry: showEntry =>
+      diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
+    entities: `function`,
+  })
   return [
     heading(headingLevel, `${formatTitle(metrics)} diff`),
     paragraph(formatDiffSummaryLine(diff)),
@@ -525,31 +557,18 @@ export const formatCallGraphDiff = (
       diff.metrics,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
-        if (
-          diff.base.totalValues[measure.baseIndex] === 0 &&
-          diff.current.totalValues[measure.currentIndex] === 0
-        ) {
+        if (isZeroDiffTotal(diff, measure)) {
           return [formatZeroTotalNote(measure.metric, ``)]
         }
 
-        const { sectionOptions, notes } = resolveEntryFilter({
-          options,
-          showsAnyEntry: diff.functions.some(func =>
-            showDiffEntity(func, diff, options),
-          ),
-          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+        return formatDiffFunctions({
+          diff,
+          measure,
+          matchLines,
+          matchFunctionIds,
+          options: sectionOptions,
+          headingLevel: sectionHeadingLevel,
         })
-        return [
-          ...notes,
-          ...formatDiffFunctions({
-            diff,
-            measure,
-            matchLines,
-            matchFunctionIds,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-        ]
       },
     ),
   ]
@@ -629,7 +648,9 @@ const formatDiffFunctions = ({
 }): RootContent[] => {
   // Resolved once for both rankings, over the functions the diff shows.
   const categories = subsectionDiffCategories({
-    entries: diff.functions.filter(func => showDiffEntity(func, diff, options)),
+    entries: diff.functions.filter(func =>
+      showDiffEntity(func, diff, options.showEntry),
+    ),
     baseSelfValueOf: func => func.base?.selfValues[measure.baseIndex] ?? 0,
     currentSelfValueOf: func =>
       func.current?.selfValues[measure.currentIndex] ?? 0,
@@ -720,16 +741,8 @@ const formatDiffDirectionFunctions = ({
     },
   })
 
-  const [title, description] =
-    direction === `self`
-      ? ([
-          `Self ${metric.phrases.columnNoun}`,
-          `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
-        ] as const)
-      : ([
-          `Total ${metric.phrases.columnNoun}`,
-          `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
-        ] as const)
+  const title = `${direction === `self` ? `Self` : `Total`} ${metric.phrases.columnNoun}`
+  const description = functionDescription(direction, metric)
 
   const detailArgs: DiffDetailArgs = {
     diff,
@@ -755,6 +768,8 @@ const formatDiffDirectionFunctions = ({
     increases,
     decreases,
     categoryRankings,
+    selfValueNoun: `self ${metric.phrases.columnNoun}`,
+    minCategoryShare: options.minCategoryShare,
     rowOf: ({ entity }) => rowOf(entity),
     detailSections:
       direction === `self`
@@ -783,7 +798,7 @@ const formatDiffArcSections = (args: DiffDetailArgs): RootContent[] => {
         heading(args.headingLevel, `${arcs.entity}s`),
         paragraph(
           arcSectionDescription(
-            arcs,
+            arcs.entity,
             args.measure.metric,
             `with the largest change in`,
           ),
@@ -828,7 +843,7 @@ const formatDiffFunctionArcs = ({
       showDiffEntity(
         { base: base?.func, current: current?.func },
         diff,
-        options,
+        options.showEntry,
       ),
     ),
     Math.ceil(options.topN / 4),

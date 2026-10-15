@@ -10,8 +10,8 @@ Recorded 13 thread creations.
 
 ### Self thread creations
 
-No function differed in thread creations recorded directly in the function body, excluding callees.
+No function differed in thread creations recorded within the function body, excluding callees.
 
 ### Total thread creations
 
-No function differed in total thread creations recorded in the function and all its callees.
+No function differed in thread creations recorded within the function and its callees.

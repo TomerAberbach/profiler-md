@@ -36,13 +36,13 @@ import type {
   LineMatcher,
 } from '../diff.ts'
 import {
-  ENTRY_FILTER_DISABLED_NOTE,
   formatBaseURLNote,
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
   formatZeroTotalNote,
+  rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
   selectLargestChanges,
@@ -88,13 +88,16 @@ export const formatCallStackProfile = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
-  const { memoizedOptions, showsAnyEntry } = memoizeShowEntry(profile, options)
-  const { sectionOptions, notes } = resolveEntryFilter({
-    options: memoizedOptions,
-    showsAnyEntry,
-    disabledNote: ENTRY_FILTER_DISABLED_NOTE,
-  })
+  const memoizedOptions = memoizeShowEntry(profile, options)
   const measures = measuresOf(profile)
+  const sectionOptions = resolveEntryFilter({
+    options: memoizedOptions,
+    formatsAnyEntry:
+      profile.functions.length > 0 && !measures.every(isZeroTotal),
+    showsAnyEntry: showEntry =>
+      profile.functions.some(func => showEntry(func, profile.context)),
+    entities: `function`,
+  })
   return [
     heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
     ...formatOverallSummary(profile, measures),
@@ -103,12 +106,11 @@ export const formatCallStackProfile = (
       measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
-        if (measure.total === 0) {
+        if (isZeroTotal(measure)) {
           return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
         }
 
         return [
-          ...notes,
           ...formatHottestFunctions({
             measure,
             profile,
@@ -138,27 +140,23 @@ export const formatCallStackProfile = (
 const memoizeShowEntry = (
   profile: AggregatedCallStackProfile,
   options: FormattingProfileToMdOptions,
-): {
-  memoizedOptions: FormattingProfileToMdOptions
-  showsAnyEntry: boolean
-} => {
+): FormattingProfileToMdOptions => {
   const { showEntry } = options
   const shownById = new Array<boolean | undefined>(profile.functions.length)
-  let showsAnyEntry = false
   for (const func of profile.functions) {
-    if ((shownById[func.id] = showEntry(func, profile.context))) {
-      showsAnyEntry = true
-    }
+    shownById[func.id] = showEntry(func, profile.context)
   }
   return {
-    memoizedOptions: {
-      ...options,
-      showEntry: (entry, context) =>
-        shownById[entry.id] ?? showEntry(entry, context),
-    },
-    showsAnyEntry,
+    ...options,
+    showEntry: (entry, context) =>
+      shownById[entry.id] ?? showEntry(entry, context),
   }
 }
+
+const isZeroTotal = (measure: Measure): boolean => measure.total === 0
+
+const isZeroDiffTotal = (measure: DiffMeasure): boolean =>
+  measure.base.total === 0 && measure.current.total === 0
 
 export const formatCallStackProfileDiff = (
   diff: AggregatedCallStackProfileDiff,
@@ -168,6 +166,14 @@ export const formatCallStackProfileDiff = (
   const measures = diffMeasuresOf(diff)
   const matchLines = lineMatcher(diff)
   const matchFunctionIds = functionIdMatcher(diff.functions)
+  const sectionOptions = resolveEntryFilter({
+    options,
+    formatsAnyEntry:
+      diff.functions.length > 0 && !measures.every(isZeroDiffTotal),
+    showsAnyEntry: showEntry =>
+      diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
+    entities: `function`,
+  })
   return [
     heading(
       headingLevel,
@@ -179,28 +185,18 @@ export const formatCallStackProfileDiff = (
       measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
-        if (measure.base.total === 0 && measure.current.total === 0) {
+        if (isZeroDiffTotal(measure)) {
           return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
         }
 
-        const { sectionOptions, notes } = resolveEntryFilter({
-          options,
-          showsAnyEntry: diff.functions.some(func =>
-            showDiffEntity(func, diff, options),
-          ),
-          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+        return formatDiffFunctions({
+          diff,
+          matchLines,
+          matchFunctionIds,
+          measure,
+          options: sectionOptions,
+          headingLevel: sectionHeadingLevel,
         })
-        return [
-          ...notes,
-          ...formatDiffFunctions({
-            diff,
-            matchLines,
-            matchFunctionIds,
-            measure,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-        ]
       },
     ),
   ]
@@ -376,19 +372,21 @@ const formatHottestSelfFunctions = ({
   return [
     heading(headingLevel, `Self ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by ${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees.`,
+      rankingSentence(`Functions`, SELF_DIRECTION.descriptionOf(metric)),
     ),
     ...formatRankingTables({
       ranking,
       formatEntityTable: functions =>
         formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
+      selfValueNoun: `self ${metric.phrases.columnNoun}`,
+      minCategoryShare: options.minCategoryShare,
     }),
     ...formatSectionGroup(
       [
         heading(headingLevel + 1, `Lines`),
         paragraph(
-          `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
+          `Lines with the largest contribution to each function's self ${metric.phrases.columnNoun}.`,
         ),
       ],
       hottestLinesSections,
@@ -500,13 +498,15 @@ const formatHottestTotalFunctions = ({
   return [
     heading(headingLevel, `Total ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees.`,
+      rankingSentence(`Functions`, TOTAL_DIRECTION.descriptionOf(metric)),
     ),
     ...formatRankingTables({
       ranking,
       formatEntityTable: functions =>
         formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
+      selfValueNoun: `self ${metric.phrases.columnNoun}`,
+      minCategoryShare: options.minCategoryShare,
     }),
     ...formatHottestNeighbors({
       measure,
@@ -559,7 +559,7 @@ const CALLEES: Neighbors = {
   entity: `Callee`,
   contributionOf: metric =>
     `contribution to each function's total ${metric.phrases.columnNoun}`,
-  caveat: `Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
+  caveat: `Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.`,
   metricsOf: func =>
     func.calleeIdToMetrics
       .entries()
@@ -591,7 +591,7 @@ const SELF_DIRECTION: FunctionDirection = {
   countOf: func => func.selfCount,
   titleOf: metric => `Self ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
-    `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
+    `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`,
   neighbors: CALLERS,
   formatDiffDetailSections: args => [
     ...formatDiffLines(args),
@@ -604,7 +604,7 @@ const TOTAL_DIRECTION: FunctionDirection = {
   countOf: func => func.totalCount,
   titleOf: metric => `Total ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
-    `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
+    `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees`,
   neighbors: CALLEES,
   formatDiffDetailSections: args => formatDiffNeighbors(args, TOTAL_DIRECTION),
 }
@@ -653,7 +653,7 @@ const formatHottestNeighbors = ({
     [
       heading(headingLevel, `${entity}s`),
       paragraph(
-        `${entity}s ranked by ${contributionOf(measure.metric)}. ${caveat}`,
+        `${entity}s with the largest ${contributionOf(measure.metric)}. ${caveat}`,
       ),
     ],
     funcs.flatMap(func =>
@@ -737,10 +737,10 @@ const formatHottestCallStacks = ({
     heading(headingLevel, `Hottest call stacks`),
     paragraph([
       text(
-        `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their leaf frame.`,
+        `Call stacks with the most ${metric.phrases.pastParticipleVerbPhrase} in their leaf frame.`,
       ),
       ...(hidesAnyFrame
-        ? phrasing` ${inlineCode(`…`)} stands for frames the entry filter hides.`
+        ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
         : []),
     ]),
     ...(commonCallStack.length > 0
@@ -1055,7 +1055,9 @@ const formatDiffFunctions = ({
 }): RootContent[] => {
   // Resolved once for both rankings, as in `formatHottestFunctions`.
   const categories = subsectionDiffCategories({
-    entries: diff.functions.filter(func => showDiffEntity(func, diff, options)),
+    entries: diff.functions.filter(func =>
+      showDiffEntity(func, diff, options.showEntry),
+    ),
     baseSelfValueOf: func =>
       func.base === undefined ? 0 : selfValueOf(measure.base, func.base),
     currentSelfValueOf: func =>
@@ -1174,6 +1176,8 @@ const formatDiffDirectionFunctions = ({
     increases,
     decreases,
     categoryRankings,
+    selfValueNoun: `self ${metric.phrases.columnNoun}`,
+    minCategoryShare: options.minCategoryShare,
     rowOf: ({ entity }) => rowOf(entity),
     detailSections: formatDiffDetailSections({
       diff,
@@ -1276,7 +1280,7 @@ const selectChangedNeighborRows = ({
       showDiffEntity(
         { base: base?.func, current: current?.func },
         diff,
-        options,
+        options.showEntry,
       ),
     ),
     Math.ceil(options.topN / 4),

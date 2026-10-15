@@ -27,7 +27,7 @@ const inputFilenames = injectedInputs()
 
 // A valid capture with no samples (e.g. a lock profile that saw no contention)
 // converts to the no-data message
-const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
+const MARKDOWN_OR_NO_DATA = /^(?:# |No profiles were recorded\.)/u
 
 const gzipAsync = promisify(gzip)
 const brotliCompressAsync = async (data: Buffer): Promise<Buffer> =>

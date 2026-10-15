@@ -14,7 +14,7 @@ Collected 613 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |    % | Samples | Function                                                                                                                                                                    | Location                                               |
 | ---: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
@@ -40,6 +40,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | 0.7% |       4 | `PhaseChaitin::elide_copy(Node*, int, Block*, Node_List*, Node_List*, bool)`                                                                                                | `<unknown>`                                            |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Compiler
 
@@ -118,7 +120,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `PhaseChaitin::Split(unsigned int, ResourceArea*)` (`<unknown>`)
 
@@ -511,7 +513,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |     % | Samples | Function                                                                                      | Location                                             |
 | ----: | ------: | --------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
@@ -537,6 +539,8 @@ Functions ranked by total samples taken in the function and all its callees.
 | 21.9% |     134 | `guard(Object, Object, Object)`                                                               | `java.lang.invoke.LambdaForm$MH.0x00000070010aac00`  |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Compiler
 
@@ -615,7 +619,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_pthread_start` (`<unknown>`)
 
@@ -1098,7 +1102,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `Thread::call_run()` ← `thread_native_entry(Thread*)` ← `_pthread_start` ← `thread_start`
 

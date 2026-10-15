@@ -13,7 +13,7 @@ Collected 109 samples → 112 samples (+3 samples, +2.8%).
 
 #### Regressions
 
-Functions with the largest increase in samples taken directly in the function body, excluding callees.
+Functions with the largest increase in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 | Change | Delta |           % | Samples | Function                                                                                                                                                                                                       | Location                                                                           |
 | -----: | ----: | ----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -81,7 +81,7 @@ Functions with the largest increase in samples taken directly in the function bo
 
 #### Improvements
 
-Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+Functions with the largest decrease in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |             % | Samples | Function                                                                                                                                                                                           | Location                                                                                       |
 | ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -836,7 +836,7 @@ Callers with the largest change in contribution to each function's self samples.
 
 #### Regressions
 
-Functions with the largest increase in total samples taken in the function and all its callees.
+Functions with the largest increase in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |             % | Samples | Function                                                                                           | Location                                                                                                 |
 | ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
@@ -913,7 +913,7 @@ Functions with the largest increase in total samples taken in the function and a
 
 #### Improvements
 
-Functions with the largest decrease in total samples taken in the function and all its callees.
+Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 ##### Standard library
 
@@ -967,7 +967,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `doMain(CLICompiler, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
 
@@ -1499,7 +1499,7 @@ Allocated 683 MiB (-247.781 KiB, ~0%) over 863 samples → 868 samples (811 K
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
+Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |   Change |          Delta |             % |                 Size |   Samples | Function                                                                                              | Location                                                                       |
 | -------: | -------------: | ------------: | -------------------: | --------: | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -1576,7 +1576,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
+Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |             % |                 Size |   Samples | Function                                 | Location                                                           |
 | ------: | ----------: | ------------: | -------------------: | --------: | ---------------------------------------- | ------------------------------------------------------------------ |
@@ -2675,7 +2675,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes allocated in the function and all its callees.
+Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |   Change |       Delta |           % |                 Size |  Samples | Function                                                                                                                                                                     | Location                                                                                                                  |
 | -------: | ----------: | ----------: | -------------------: | -------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -2752,7 +2752,7 @@ Functions with the largest increase in total bytes allocated in the function and
 
 #### Improvements
 
-Functions with the largest decrease in total bytes allocated in the function and all its callees.
+Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |             % |                Size |   Samples | Function                                                  | Location                                                                                                                  |
 | ------: | ----------: | ------------: | ------------------: | --------: | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -2829,7 +2829,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `addConstantUtf8(String)` (`jdk.internal.org.objectweb.asm.SymbolTable`)
 
@@ -3354,7 +3354,7 @@ Retained 19.3 MiB → 19.1 MiB (-215.578 KiB, -1.1%) over 208 objects → 198
 
 #### Regressions
 
-Functions with the largest increase in bytes retained directly in the function body, excluding callees.
+Functions with the largest increase in bytes retained within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |            % |              Size | Objects | Function                                                                                                                           | Location                                                                           |
 | ------: | ----------: | -----------: | ----------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -3393,7 +3393,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 #### Improvements
 
-Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
+Functions with the largest decrease in bytes retained within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |             % |                Size |   Objects | Function                                                                                                  | Location                                                                                |
 | ------: | ----------: | ------------: | ------------------: | --------: | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
@@ -3788,7 +3788,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in total bytes retained in the function and all its callees.
+Functions with the largest increase in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |       Delta |            % |              Size | Objects | Function                                                                                                                                                                                                           | Location                                                                                     |
 | -----: | ----------: | -----------: | ----------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
@@ -3865,7 +3865,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 #### Improvements
 
-Functions with the largest decrease in total bytes retained in the function and all its callees.
+Functions with the largest decrease in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Standard library
 
@@ -3919,7 +3919,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `invoke(Object)` (`org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt$$Lambda.0x00000070013f5a40`)
 
@@ -4403,7 +4403,7 @@ Blocked 505.4ms → 521.5ms (+16.10ms, +3.2%) over 3 contentions (168.5ms → 17
 
 #### Regressions
 
-Functions with the largest increase in time blocked directly in the function body, excluding callees.
+Functions with the largest increase in time blocked within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 ##### Standard library
 
@@ -4425,7 +4425,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 #### Regressions
 
-Functions with the largest increase in total time blocked in the function and all its callees.
+Functions with the largest increase in time blocked within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 ##### Standard library
 
@@ -4444,7 +4444,7 @@ Functions with the largest increase in total time blocked in the function and al
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`)
 

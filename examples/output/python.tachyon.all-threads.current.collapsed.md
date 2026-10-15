@@ -12,7 +12,7 @@ Collected 1,136 samples.
 
 ### Self samples
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions with the most samples collected within the function body, excluding callees.
 
 |     % | Samples | Function                             | Location                                 |
 | ----: | ------: | ------------------------------------ | ---------------------------------------- |
@@ -38,6 +38,8 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.6% |       7 | `whitespace`                         | `nodes.py`                               |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Ours
 
@@ -82,7 +84,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Lines
 
-Lines ranked by contribution to each function's self samples.
+Lines with the largest contribution to each function's self samples.
 
 ##### `Parser._addtoken` (`parse.py`)
 
@@ -281,7 +283,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `(garbage collector)` (`<unknown>`)
 
@@ -459,7 +461,7 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 ### Total samples
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions with the most samples collected within the function and its callees.
 
 |      % | Samples | Function                          | Location         |
 | -----: | ------: | --------------------------------- | ---------------- |
@@ -485,6 +487,8 @@ Functions ranked by total samples taken in the function and all its callees.
 |  50.7% |     576 | `check_stability_and_equivalence` | `__init__.py`    |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self samples.
 
 ##### Ours
 
@@ -544,7 +548,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `_run_code` (`<frozen runpy>`)
 
@@ -805,7 +809,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `format_file_contents` (`__init__.py`) ← `format_file_in_place` ← `reformat_one` ← `main` ← `pass_context.<locals>.new_func` (`decorators.py`) ← `Context.invoke` (`core.py`) ← `Command.invoke` ← `Command.main` ← `Command.__call__` ← `patched_main` (`__init__.py`) ← `<module>` (`__main__.py`) ← `_run_code` (`<frozen runpy>`) ← `_run_module_code` ← `run_module` ← `_run_code` ← `_run_module_as_main`
 

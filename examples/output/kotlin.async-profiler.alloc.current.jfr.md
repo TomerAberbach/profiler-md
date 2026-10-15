@@ -11,7 +11,7 @@ Allocated 643 MiB over 1,279 samples (515 KiB per sample).
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Samples | Function                                                    | Location                                              |
 | ----: | -------: | ------: | ----------------------------------------------------------- | ----------------------------------------------------- |
@@ -37,6 +37,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 |  0.5% |  3.5 MiB |       7 | `accept(ClassVisitor, Attribute[], int)`                    | `org.jetbrains.org.objectweb.asm.ClassReader`         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -90,7 +92,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
 
@@ -330,7 +332,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
 
@@ -606,7 +608,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |    Size | Samples | Function                                                                                            | Location                                                |
 | ----: | ------: | ------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
@@ -632,6 +634,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 45.8% | 295 MiB |     589 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -685,7 +689,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -934,7 +938,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`
 

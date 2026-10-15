@@ -67,7 +67,7 @@ Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |    % |    Time | Samples | Function                               | Location                                               |
 | ---: | ------: | ------: | -------------------------------------- | ------------------------------------------------------ |

@@ -1,6 +1,7 @@
 import type { RootContent } from 'mdast'
+import { formatPercent } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
-import { formatSectionGroup, heading } from '../helpers/markdown.ts'
+import { formatSectionGroup, heading, paragraph } from '../helpers/markdown.ts'
 import { formatCategory, isRepeatedByCategory } from './format.ts'
 import type { EntryCategory } from './registry.ts'
 
@@ -133,10 +134,16 @@ export const formatRankingTables = <Entity>({
   ranking: { rankedEntities, categoryRankings },
   formatEntityTable,
   headingLevel,
+  selfValueNoun,
+  minCategoryShare,
 }: {
   ranking: EntityRanking<Entity>
   formatEntityTable: (entities: Entity[]) => RootContent
   headingLevel: number
+
+  /** The self value a category's share is of, e.g. "self samples". */
+  selfValueNoun: string
+  minCategoryShare: number
 }): RootContent[] => [
   ...(isRepeatedByCategory(
     rankedEntities,
@@ -145,7 +152,12 @@ export const formatRankingTables = <Entity>({
     ? []
     : [formatEntityTable(rankedEntities)]),
   ...formatSectionGroup(
-    [heading(headingLevel, `Categories`)],
+    [
+      heading(headingLevel, `Categories`),
+      paragraph(
+        `Categories accounting for at least ${formatPercent(minCategoryShare)} of ${selfValueNoun}.`,
+      ),
+    ],
     categoryRankings.flatMap(({ category, entities }) =>
       entities.length === 0
         ? []

@@ -12,9 +12,11 @@ Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/c
 
 ### Self leaked goroutines
 
-Functions ranked by leaked goroutines recorded directly in the function body, excluding callees.
+Functions with the most leaked goroutines recorded within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self leaked goroutines.
 
 ##### Standard library
 
@@ -24,7 +26,7 @@ Functions ranked by leaked goroutines recorded directly in the function body, ex
 
 #### Lines
 
-Lines ranked by contribution to each function's self leaked goroutines.
+Lines with the largest contribution to each function's self leaked goroutines.
 
 ##### `runtime.gopark` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445`)
 
@@ -34,7 +36,7 @@ Lines ranked by contribution to each function's self leaked goroutines.
 
 #### Callers
 
-Callers ranked by contribution to each function's self leaked goroutines. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self leaked goroutines. Inlining can make caller attribution imprecise.
 
 ##### `runtime.gopark` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445`)
 
@@ -44,7 +46,7 @@ Callers ranked by contribution to each function's self leaked goroutines. Inlini
 
 ### Total leaked goroutines
 
-Functions ranked by total leaked goroutines recorded in the function and all its callees.
+Functions with the most leaked goroutines recorded within the function and its callees.
 
 |      % | Leaked goroutines | Function                 | Location                                                                                 |
 | -----: | ----------------: | ------------------------ | ---------------------------------------------------------------------------------------- |
@@ -54,6 +56,8 @@ Functions ranked by total leaked goroutines recorded in the function and all its
 | 100.0% |                 3 | `main.leakWorkers.func1` | `./profile.go:57`                                                                        |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self leaked goroutines.
 
 ##### Standard library
 
@@ -65,7 +69,7 @@ Functions ranked by total leaked goroutines recorded in the function and all its
 
 #### Callees
 
-Callees ranked by contribution to each function's total leaked goroutines. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total leaked goroutines. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `runtime.chansend` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176`)
 
@@ -87,7 +91,7 @@ Callees ranked by contribution to each function's total leaked goroutines. Inlin
 
 ## Hottest call stacks
 
-Call stacks ranked by leaked goroutines recorded in their leaf frame.
+Call stacks with the most leaked goroutines recorded in their leaf frame.
 
 |      % | Leaked goroutines | Call stack                                                                                                                                                                                                                                                                                             |
 | -----: | ----------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

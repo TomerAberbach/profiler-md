@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 5.01 MiB across 67,019 nodes and 279,122 → 279,123 edges.
+Held 5.01 MiB over 67,019 nodes and 279,122 → 279,123 edges.
 
 | Category            | Change | Delta |     % |     Size |  Nodes |
 | ------------------- | -----: | ----: | ----: | -------: | -----: |
@@ -26,16 +26,16 @@ Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/c
 
 ### Self size
 
-No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.
+No constructor differed in instance bytes, excluding referenced nodes.
 
 ### Retained size
 
-No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.
+No constructor differed in instance bytes, including nodes only the instances keep alive.
 
 ## Largest functions
 
-No function differed in bytes that would be freed if the function were garbage collected.
+No function differed in instance bytes, including nodes only the instances keep alive.
 
 ## Largest strings
 
-No string differed in bytes allocated for it.
+No string differed in bytes.

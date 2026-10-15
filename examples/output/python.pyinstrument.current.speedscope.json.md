@@ -14,7 +14,7 @@ Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Function                          | Location                         |
 | ----: | ------: | --------------------------------- | -------------------------------- |
@@ -40,6 +40,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | <0.1% |   2.5ms | `_addtoken`                       | `./blib2to3/pgen2/parse.py:278`  |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -74,7 +76,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `_format_str_once` (`./black/__init__.py:1215`)
 
@@ -200,7 +202,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Function                          | Location                                                    |
 | -----: | ------: | --------------------------------- | ----------------------------------------------------------- |
@@ -226,6 +228,8 @@ Functions ranked by total time spent in the function and all its callees.
 |   5.6% | 324.0ms | `get_features_used`               | `./black/__init__.py:1286`                                  |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
@@ -260,7 +264,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `<module>` (`/venv/bin/black:1`)
 
@@ -420,7 +424,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `<module>` (`/venv/bin/black:1`)
 

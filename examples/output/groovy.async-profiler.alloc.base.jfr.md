@@ -11,9 +11,11 @@ Allocated 12.1 GiB over 24,822 samples (512 KiB per sample).
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -42,7 +44,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `makeImpl(Class, Class[], boolean)` (`java.lang.invoke.MethodType`)
 
@@ -153,7 +155,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `makeImpl(Class, Class[], boolean)` (`java.lang.invoke.MethodType`)
 
@@ -296,7 +298,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |     Size | Samples | Function                                                                                      | Location                                             |
 | ----: | -------: | ------: | --------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
@@ -322,6 +324,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 99.6% | 12.1 GiB |  24,734 | `invoke(Object, Object[])`                                                                    | `java.lang.reflect.Method`                           |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
@@ -350,7 +354,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
 
@@ -540,7 +544,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 Common call stack: `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`) ← `doMethodInvoke(Object, Object[])` (`groovy.lang.MetaMethod`) ← `invokeMethod(Class, Object, String, Object[], boolean, boolean)` (`org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`) ← `invokeMethod(Object, String, Object[])` (`groovy.lang.MetaClassImpl`) ← `call(Object[])` (`groovy.lang.Closure`) ← `call(Object)` ← `eachFile(File, FileType, Closure)` (`org.codehaus.groovy.runtime.ResourceGroovyMethods`) ← `eachFile(File, Closure)` ← `doMethodInvoke(Object, Object[])` (`org.codehaus.groovy.runtime.dgm$1076`) ← `invokeVirtual(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301094400`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010a9800`) ← `guardWithCatch(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa000`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aac00`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010c7400`) ← `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`) ← `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301088800`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010a1800`) ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← `invokeSpecial(Object, Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`) ← `guardWithCatch(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010d4400`) ← `reinvoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003011c5c00`) ← `guard(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003011c8000`) ← `reinvoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003011c5c00`) ← `guard(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003011c8000`) ← `reinvoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003011c5c00`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003012b1000`) ← `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`) ← `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301088800`) ← `invoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010d6000`) ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← `invokeInterface(Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301094c00`) ← `guardWithCatch(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa000`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aac00`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aac00`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010d5000`) ← `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`) ← `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301088800`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010a1800`) ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← `invokeVirtual(Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000030102b000`) ← `guardWithCatch(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000000301098400`) ← `reinvoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000000301099c00`) ← `guard(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000030109a000`) ← `reinvoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000000301099c00`) ← `guard(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000030109a000`) ← `reinvoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000000301099c00`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000030109bc00`) ← `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`) ← `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301088800`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000030108e000`) ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← `invokeVirtual(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010c6800`) ← `guardWithCatch(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa000`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aac00`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aac00`) ← `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010aa800`) ← `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010c7400`) ← `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`) ← `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000000301088800`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003010a1800`) ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`)
 

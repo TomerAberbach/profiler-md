@@ -9,7 +9,7 @@ Collected 1,266 samples → 974 samples (-292 samples, -23.1%).
 | Unknown          | -11.1% |    -5 |   3.6% → 4.1% |     45 → 40 |
 | Standard library | +50.0% |    +2 |   0.3% → 0.6% |       4 → 6 |
 
-Paths starting with `./` or `../` are relative to `/nix/store/j2r11kxv91yl5xqppy3vy84klwxjbz1i-source/` in the base and to `/nix/store/lxg1pnrmz21ljinmjza552wh8l7byj0q-source/` in the current.
+Paths starting with `./` or `../` are relative to `/nix/store/j2r11kxv91yl5xqppy3vy84klwxjbz1i-source/` on the base side and to `/nix/store/lxg1pnrmz21ljinmjza552wh8l7byj0q-source/` on the current side.
 
 ## Hottest functions
 
@@ -17,7 +17,7 @@ Paths starting with `./` or `../` are relative to `/nix/store/j2r11kxv91yl5xqppy
 
 #### Regressions
 
-Functions with the largest increase in samples taken directly in the function body, excluding callees.
+Functions with the largest increase in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |           % | Samples | Function              | Location                                                           |
 | ------: | ----: | ----------: | ------: | --------------------- | ------------------------------------------------------------------ |
@@ -94,7 +94,7 @@ Functions with the largest increase in samples taken directly in the function bo
 
 #### Improvements
 
-Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+Functions with the largest decrease in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |             % |   Samples | Function              | Location                                                            |
 | ------: | ----: | ------------: | --------: | --------------------- | ------------------------------------------------------------------- |
@@ -747,7 +747,7 @@ Callers with the largest change in contribution to each function's self samples.
 
 #### Regressions
 
-Functions with the largest increase in total samples taken in the function and all its callees.
+Functions with the largest increase in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 | Change | Delta |            % | Samples | Function                                               | Location                                                            |
 | -----: | ----: | -----------: | ------: | ------------------------------------------------------ | ------------------------------------------------------------------- |
@@ -824,7 +824,7 @@ Functions with the largest increase in total samples taken in the function and a
 
 #### Improvements
 
-Functions with the largest decrease in total samples taken in the function and all its callees.
+Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
 |  Change | Delta |             % |     Samples | Function                               | Location                                                |
 | ------: | ----: | ------------: | ----------: | -------------------------------------- | ------------------------------------------------------- |
@@ -907,7 +907,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `primop derivationStrict:gnome-shell-50.2` (`«nix-internal»/derivation-internal.nix:37:12`)
 

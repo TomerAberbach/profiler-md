@@ -312,15 +312,11 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       ),
       retainerHopOf: this.#retainerHopOf,
       retainerOf: this.#retainerOf,
-      retainerPathOf: (nodeOrdinal, options) =>
-        formatRetainerPath(
-          this.#retainerOf(nodeOrdinal),
-          computeRetainerSteps(
-            nodeOrdinal,
-            this.#retainerHopOf,
-            this.#retainerOf,
-          ),
-          options,
+      retainerStepsOf: nodeOrdinal =>
+        computeRetainerSteps(
+          nodeOrdinal,
+          this.#retainerHopOf,
+          this.#retainerOf,
         ),
       retainedNodesOf: (nodeOrdinal, options) =>
         computeRetainedNodes(
@@ -436,7 +432,7 @@ const computeRetainerHop = (
 
 const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = { type: `several-retainers` }
 
-const computeRetainerSteps = (
+export const computeRetainerSteps = (
   nodeOrdinal: number,
   retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined,
   retainerOf: HeapSnapshot[`retainerOf`],
@@ -471,28 +467,7 @@ export const keepsRetainerStep = (
   isRestEmpty: boolean,
 ): boolean => !(isRestEmpty && internal)
 
-/**
- * Formats a retainer path from the node outward, ending at `(GC root)` for a
- * node the GC root holds directly. Each step shows its edge, when it has a
- * label, inside the arrow to its retainer (e.g. `Entry ←.value– Item`).
- */
-export const formatRetainerPath = (
-  node: { name?: string; nameLocation?: FileReference },
-  steps: readonly RetainerPathStep[],
-  options: FormattingProfileToMdOptions,
-): string => {
-  const nodeName =
-    formatRetainerName({ ...node, name: node.name ?? `` }, options) ||
-    `(unknown)`
-  return steps.length === 0
-    ? `${nodeName} ← (GC root)`
-    : steps.reduce((path, { edge, retainer }) => {
-        const edgeLabel = formatRetainerEdgeLabel(edge, options)
-        return `${path} ${edgeLabel ? `←${edgeLabel}–` : `←`} ${formatRetainerLabel(retainer, options)}`
-      }, nodeName)
-}
-
-const formatRetainerName = (
+export const formatRetainerName = (
   { name, nameLocation }: Pick<RetainerNode, `name` | `nameLocation`>,
   options: FormattingProfileToMdOptions,
 ): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
@@ -739,10 +714,9 @@ export type AggregatedHeapSnapshot = {
   /** The node as a retainer path step shows it. */
   retainerOf: (nodeOrdinal: number) => RetainerNode
 
-  retainerPathOf: (
-    nodeOrdinal: number,
-    options: FormattingProfileToMdOptions,
-  ) => string
+  /** The steps of a node's retainer path, from the node outward. */
+  retainerStepsOf: (nodeOrdinal: number) => RetainerPathStep[]
+
   retainedNodesOf: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,

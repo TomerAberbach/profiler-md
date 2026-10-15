@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Allocated 136 MiB across 1,716,926 nodes and 5,832,237 edges.
+Held 136 MiB over 1,716,926 nodes and 5,832,237 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
@@ -20,9 +20,11 @@ Allocated 136 MiB across 1,716,926 nodes and 5,832,237 edges.
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
+Constructors with the most instance bytes, excluding referenced nodes.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Object
 
@@ -30,9 +32,9 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | ---: | ------: | --------: | --------------------------- |
 | 0.6% | 885 KiB |    14,864 | `<foreign memory - malloc>` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's self size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `<foreign memory - malloc>`
 
@@ -46,9 +48,11 @@ Instances ranked by contribution to each constructor's self size. `B ←(several
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+Constructors with the most instance bytes, including nodes only the instances keep alive.
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Object
 
@@ -56,9 +60,9 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 | ---: | ------: | --------: | --------------------------- |
 | 0.6% | 885 KiB |    14,864 | `<foreign memory - malloc>` |
 
-#### Instances
+#### Retainer paths
 
-Instances ranked by contribution to each constructor's retained size. `B ←(several paths)– A` means `A` holds `B` only through other nodes, along several paths.
+Retainer paths with the largest contribution to each constructor's retained size.
 
 ##### `<foreign memory - malloc>`
 

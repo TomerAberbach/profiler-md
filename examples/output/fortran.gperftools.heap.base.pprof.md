@@ -13,7 +13,7 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 ### Self size
 
-Functions ranked by bytes allocated directly in the function body, excluding callees.
+Functions with the most bytes allocated within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                                          | Location                                          |
 | ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -38,6 +38,8 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |      1 B |       1 | `__json_value_module_MOD_pop_char.part.0`         | `./json_value_module.F90`                         |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -70,7 +72,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
 
@@ -168,7 +170,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
 
@@ -298,7 +300,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes allocated in the function and all its callees.
+Functions with the most bytes allocated within the function and its callees.
 
 |     % |     Size | Objects | Function                                        | Location                                          |
 | ----: | -------: | ------: | ----------------------------------------------- | ------------------------------------------------- |
@@ -324,6 +326,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  3.4% | 1.33 MiB |     340 | `0x4`                                           | `<unknown>`                                       |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -377,7 +381,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
 
@@ -665,7 +669,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks with the most bytes allocated in their leaf frame.
 
 |     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -705,7 +709,7 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 ### Self size
 
-Functions ranked by bytes retained directly in the function body, excluding callees.
+Functions with the most bytes retained within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                                          | Location                                          |
 | ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
@@ -726,6 +730,8 @@ Functions ranked by bytes retained directly in the function body, excluding call
 | <0.1% |      1 B |       1 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc`                   |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -754,7 +760,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 #### Lines
 
-Lines ranked by contribution to each function's self size.
+Lines with the largest contribution to each function's self size.
 
 ##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
 
@@ -825,7 +831,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
 
@@ -925,7 +931,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ### Total size
 
-Functions ranked by total bytes retained in the function and all its callees.
+Functions with the most bytes retained within the function and its callees.
 
 |     % |     Size | Objects | Function                                    | Location                                                                        |
 | ----: | -------: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------- |
@@ -951,6 +957,8 @@ Functions ranked by total bytes retained in the function and all its callees.
 |  1.5% | 13.6 KiB |      99 | `0x1`                                       | `<unknown>`                                                                     |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
@@ -1004,7 +1012,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
 
@@ -1283,7 +1291,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes retained in their leaf frame.
+Call stacks with the most bytes retained in their leaf frame.
 
 |     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

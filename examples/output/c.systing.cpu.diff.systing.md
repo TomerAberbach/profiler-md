@@ -14,7 +14,7 @@ Took 12s → 20.05s (+8.047s, +67.0%) over 12,009 samples → 20,056 samples (1.
 
 #### Regressions
 
-Functions with the largest increase in time spent directly in the function body, excluding callees.
+Functions with the largest increase in time spent within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |    Change |     Delta |             % |              Time |        Samples | Function                            | Location          |
 | --------: | --------: | ------------: | ----------------: | -------------: | ----------------------------------- | ----------------- |
@@ -61,7 +61,7 @@ Functions with the largest increase in time spent directly in the function body,
 
 #### Improvements
 
-Functions with the largest decrease in time spent directly in the function body, excluding callees.
+Functions with the largest decrease in time spent within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |  Change |    Delta |            % |            Time | Samples | Function                            | Location                    |
 | ------: | -------: | -----------: | --------------: | ------: | ----------------------------------- | --------------------------- |
@@ -510,7 +510,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 #### Regressions
 
-Functions with the largest increase in total time spent in the function and all its callees.
+Functions with the largest increase in time spent within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |    Change |     Delta |             % |              Time |         Samples | Function                               | Location            |
 | --------: | --------: | ------------: | ----------------: | --------------: | -------------------------------------- | ------------------- |
@@ -562,7 +562,7 @@ Functions with the largest increase in total time spent in the function and all 
 
 #### Improvements
 
-Functions with the largest decrease in total time spent in the function and all its callees.
+Functions with the largest decrease in time spent within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
 |  Change |    Delta |            % |            Time | Samples | Function                                | Location                    |
 | ------: | -------: | -----------: | --------------: | ------: | --------------------------------------- | --------------------------- |
@@ -607,7 +607,7 @@ Functions with the largest decrease in total time spent in the function and all 
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `unknown (libc.so.6)` (`<unknown>`)
 
@@ -849,7 +849,7 @@ Slept 2 times → 5 times (+3 times, +150.0%).
 
 #### Regressions
 
-Functions with the largest increase in uninterruptible sleeps entered directly in the function body, excluding callees.
+Functions with the largest increase in uninterruptible sleeps entered within the function body, excluding callees. Categories account for at least 1.0% of self sleeps on the base or the current side.
 
 ##### Kernel
 
@@ -871,7 +871,7 @@ Callers with the largest change in contribution to each function's self sleeps. 
 
 #### Regressions
 
-Functions with the largest increase in total uninterruptible sleeps entered in the function and all its callees.
+Functions with the largest increase in uninterruptible sleeps entered within the function and its callees. Categories account for at least 1.0% of self sleeps on the base or the current side.
 
 |  Change | Delta |              % | Sleeps | Function                                | Location    |
 | ------: | ----: | -------------: | -----: | --------------------------------------- | ----------- |
@@ -923,7 +923,7 @@ Functions with the largest increase in total uninterruptible sleeps entered in t
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `__bpf_trace_sched_switch ([kernel])` (`<unknown>`)
 
@@ -1070,7 +1070,7 @@ Slept 215 times → 214 times (-1 time, -0.5%).
 
 #### Improvements
 
-Functions with the largest decrease in interruptible sleeps entered directly in the function body, excluding callees.
+Functions with the largest decrease in interruptible sleeps entered within the function body, excluding callees. Categories account for at least 1.0% of self sleeps on the base or the current side.
 
 ##### Kernel
 
@@ -1092,7 +1092,7 @@ Callers with the largest change in contribution to each function's self sleeps. 
 
 #### Regressions
 
-Functions with the largest increase in total interruptible sleeps entered in the function and all its callees.
+Functions with the largest increase in interruptible sleeps entered within the function and its callees.
 
 | Change | Delta |             % |    Sleeps | Function                           | Location            |
 | -----: | ----: | ------------: | --------: | ---------------------------------- | ------------------- |
@@ -1102,7 +1102,7 @@ Functions with the largest increase in total interruptible sleeps entered in the
 
 #### Improvements
 
-Functions with the largest decrease in total interruptible sleeps entered in the function and all its callees.
+Functions with the largest decrease in interruptible sleeps entered within the function and its callees. Categories account for at least 1.0% of self sleeps on the base or the current side.
 
 | Change | Delta |              % |    Sleeps | Function                                | Location            |
 | -----: | ----: | -------------: | --------: | --------------------------------------- | ------------------- |
@@ -1148,7 +1148,7 @@ Functions with the largest decrease in total interruptible sleeps entered in the
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest change in contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `POOL_thread` (`pool.c`)
 

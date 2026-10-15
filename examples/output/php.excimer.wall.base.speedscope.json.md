@@ -13,7 +13,7 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                                                    | Location                                                                   |
 | ----: | ------: | ------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -39,6 +39,8 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.5% |  20.0ms |      20 | `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath`               | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -92,7 +94,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers with the largest contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `Composer\ClassMapGenerator\PhpFileParser::findClasses` (`./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`)
 
@@ -350,7 +352,7 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                                  | Location                                                                   |
 | -----: | ------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -376,6 +378,8 @@ Functions ranked by total time spent in the function and all its callees.
 |  18.0% | 748.0ms |     269 | `Composer\Command\BaseCommand::initialize`                | `./composer/src/Composer/Command/BaseCommand.php`                          |
 
 #### Categories
+
+Categories accounting for at least 1.0% of self time.
 
 ##### Third-party
 
@@ -429,7 +433,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
 ##### `(anonymous)` (`./profile.php`)
 
@@ -710,7 +714,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`) ← `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`) ← `(anonymous)` (`./profile.php`)
 
