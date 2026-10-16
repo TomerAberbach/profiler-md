@@ -2,8 +2,8 @@ import type { Metric } from '../metric.ts'
 import type { StackFrame } from '../stack-frame.ts'
 
 /**
- * A profile parsed into the uniform structure containing the distinct frames
- * and the observations that reference them.
+ * A profile parsed into the uniform structure containing the distinct frame
+ * records and the observations that reference them.
  *
  * A format that yields several profiles returns one of these per profile,
  * typically sharing the same {@link CallStackProfile.frames} array reference.
@@ -14,7 +14,7 @@ export type CallStackProfile = {
   /**
    * The ID of the origin the format's own metadata points to (e.g. a
    * recorder's event-type definitions or a writer's self-identification
-   * field), set by a parser when such evidence exists.
+   * field), set by a parser when that metadata identifies one.
    *
    * A hint, not a decision: detection treats it like a marker entry of that
    * origin, so a forced origin ignores it and a higher-priority origin's
@@ -23,7 +23,7 @@ export type CallStackProfile = {
   originHint?: string
 
   /**
-   * The distinct frames the observations reference.
+   * The distinct frame records the observations reference.
    *
    * A {@link Observation.frameIndices} entry is an index into this list.
    */
@@ -53,11 +53,11 @@ export type CallStackProfile = {
   lineMetrics?: Iterable<ObservationLineMetrics>
 }
 
-/** One record of a profile: a call stack, its values, and how many it stands for. */
+/** A call stack, a value per metric, and how many occurrences it stands for. */
 export type Observation = {
   /**
-   * An identifier for this record's call stack, if the caller has one (e.g. a
-   * format that references stacks by a constant-pool index).
+   * An identifier for this observation's call stack, if the caller has one
+   * (e.g. a format that references call stacks by a constant-pool index).
    *
    * When provided, the aggregator memoizes the resolved call stack by this ID.
    */
@@ -76,7 +76,8 @@ export type Observation = {
   executingLine?: number
 
   /**
-   * How many identical occurrences this record stands for, defaulting to `1`.
+   * How many identical occurrences this observation stands for, defaulting to
+   * `1`.
    *
    * {@link CallStackProfile.countMetric} states what one of them is.
    */

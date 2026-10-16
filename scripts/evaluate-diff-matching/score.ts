@@ -2,7 +2,11 @@ import { sourceReferencePathOrName } from '../../src/location.ts'
 import { lineMatcher, matchDiffedFunctions } from '../../src/modalities/diff.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import type { Func, FunctionInput } from './inputs.ts'
-import { positionKey, positionOf, sourcePositionOf } from './position.ts'
+import {
+  positionKey,
+  positionOf,
+  sourceReferencePositionOf,
+} from './position.ts'
 import type { PositionMap, SourceReferenceMap } from './position.ts'
 
 type Score = {
@@ -51,8 +55,8 @@ export const evaluate = (
   const diffs = matchDiffedFunctions<Func>(base, current, options)
   const evaluation = emptyEvaluation(performance.now() - start)
   const currentByPosition = functionsByPosition(current)
-  const currentBySource =
-    sourceReferenceMap && functionsBySource(current, options)
+  const currentBySourceReference =
+    sourceReferenceMap && functionsBySourceReference(current, options)
   const inputTotal = totalOf(base)
   const matchLines = lineMatcher<LineMetrics>({ base, current })
 
@@ -65,36 +69,44 @@ export const evaluate = (
   const counterpartsOf = (
     baseFunc: Func,
   ):
-    | { expected: readonly Func[]; source: string; byPosition: boolean }
+    | {
+        expected: readonly Func[]
+        sourceReference: string
+        byPosition: boolean
+      }
     | undefined => {
-    const position = sourcePositionOf(baseFunc.location)
+    const position = sourceReferencePositionOf(baseFunc.location)
     if (position) {
       const mapped = positionMap(position)
       return mapped
         ? {
             expected:
               currentByPosition.get(positionKey(baseFunc.name, mapped)) ?? [],
-            source: position.source,
+            sourceReference: position.sourceReference,
             byPosition: true,
           }
         : undefined
     }
-    if (!sourceReferenceMap || !currentBySource || !baseFunc.location) {
+    if (
+      !sourceReferenceMap ||
+      !currentBySourceReference ||
+      !baseFunc.location
+    ) {
       return undefined
     }
-    const source = sourceReferencePathOrName(baseFunc.location)
-    const mapped = sourceReferenceMap(source)
+    const sourceReference = sourceReferencePathOrName(baseFunc.location)
+    const mapped = sourceReferenceMap(sourceReference)
     return mapped === undefined
       ? undefined
       : {
           expected:
-            currentBySource.get(
-              sourceKey(
+            currentBySourceReference.get(
+              sourceReferenceKey(
                 options.entryMatchKeys(baseFunc, base.context).name,
                 mapped,
               ),
             ) ?? [],
-          source,
+          sourceReference,
           byPosition: false,
         }
   }
@@ -104,14 +116,18 @@ export const evaluate = (
    * to the scores. A base line's expected counterpart is the current
    * function's line at the position {@link positionMap} maps it to.
    */
-  const scoreLines = (baseFunc: Func, currentFunc: Func, source: string) => {
+  const scoreLines = (
+    baseFunc: Func,
+    currentFunc: Func,
+    sourceReference: string,
+  ) => {
     const lineDiffs = matchLines({ base: baseFunc, current: currentFunc })
     for (const { base: baseLine, current: currentLine } of lineDiffs) {
       if (!baseLine) {
         continue
       }
       const mapped = positionMap({
-        source,
+        sourceReference,
         line: baseLine.line,
         column: undefined,
       })
@@ -152,7 +168,7 @@ export const evaluate = (
       addOutcome(scores, outcome, weight)
     }
     if (currentFunc && truth.expected.includes(currentFunc)) {
-      scoreLines(baseFunc, currentFunc, truth.source)
+      scoreLines(baseFunc, currentFunc, truth.sourceReference)
     }
   }
   return evaluation
@@ -169,17 +185,17 @@ const lineTotalOf = (metrics: LineMetrics): number =>
 const functionsByPosition = (input: FunctionInput): Map<string, Func[]> =>
   Map.groupBy(
     input.functions.filter(func => positionOf(func.location)),
-    func => positionKey(func.name, sourcePositionOf(func.location)!),
+    func => positionKey(func.name, sourceReferencePositionOf(func.location)!),
   )
 
-const functionsBySource = (
+const functionsBySourceReference = (
   input: FunctionInput,
   options: FormattingProfileToMdOptions,
 ): Map<string, Func[]> =>
   Map.groupBy(
     input.functions.filter(func => func.location && !positionOf(func.location)),
     func =>
-      sourceKey(
+      sourceReferenceKey(
         // A matched name lacks the identifiers the origin strips because they
         // differ per run or per build, such as a Zig generic's
         // compiler-assigned ID.
@@ -189,8 +205,10 @@ const functionsBySource = (
   )
 
 /** Identifies an entity by its matched name and its source reference. */
-export const sourceKey = (name: string, source: string): string =>
-  `${name}\0${source}`
+export const sourceReferenceKey = (
+  name: string,
+  sourceReference: string,
+): string => `${name}\0${sourceReference}`
 
 /**
  * The outcome of the diff pairing a base entity with {@link current}, given

@@ -224,7 +224,7 @@ verify_generated_input() {
   echo "Verified $(rel "$out")"
 }
 
-# Verifies a base/current pair diffs, skipping a pair with a missing half.
+# Verifies an example pair diffs, skipping one with a missing side.
 verify_pair() {
   local base=$1 current=$2
   [[ -f "$base" && -f "$current" ]] || return 0
@@ -234,7 +234,7 @@ verify_pair() {
 }
 
 # The base path of every input `emit` handled, captured or already present, so
-# `verify_pairs` diffs every pair without callers re-listing paths.
+# `verify_pairs` diffs every example pair without callers re-listing paths.
 _emitted_bases=()
 
 # emit <out> <capture_fn> [args...]
@@ -257,7 +257,7 @@ emit() {
 status=0
 try() { "$@" || status=1; }
 
-# Diffs every base/current pair `emit` handled.
+# Diffs every example pair `emit` handled.
 verify_pairs() {
   local base
   for base in ${_emitted_bases[@]+"${_emitted_bases[@]}"}; do
@@ -270,7 +270,7 @@ WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/profiler-md-input-generation.XXXXXX")"
 cleanup_workdir() { _vm_stop; rm -rf "$WORKDIR"; }
 trap cleanup_workdir EXIT
 
-# Without this trap, captures wrapped in `try` or in `for role` loops swallow
+# Without this trap, captures wrapped in `try` or in `for side` loops swallow
 # Ctrl+C and SIGTERM and continue to the next capture. `exit` still runs
 # cleanup_workdir.
 trap 'exit 130' INT TERM

@@ -147,7 +147,7 @@ const tableBeforeSubsections = (nodes: readonly Node[]): Table | undefined => {
  * an assertion checks which categories the section broke down as well as their
  * rows.
  */
-export const categorySectionTables = (
+export const categorySubsectionTables = (
   md: string,
   section: string,
 ): Record<string, Table> =>

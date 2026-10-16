@@ -374,8 +374,8 @@ describe(`profileToMd`, () => {
       )
 
       // `ours` paths are relative to the inferred `/home/user/project/`; the
-      // dependency path goes up more than two levels from it, so it renders
-      // absolute, and the builtin location renders unchanged.
+      // dependency path goes up more than two levels from it, so it stays
+      // absolute, and the builtin location is unchanged.
       expect(selfTimeTables(md)).toEqual([
         [
           {
@@ -518,7 +518,7 @@ describe(`profileToMd`, () => {
 
     test(`baseURL: 'auto' infers the dominant file: base despite a lone HTTP location`, () => {
       // Two of the three absolute locations are file: URLs, so the file: group
-      // dominates and the lone HTTP location renders absolute.
+      // dominates and the lone HTTP location stays absolute.
       const cpuProfile = JSON.stringify({
         nodes: [
           makeV8CpuProfileRoot([2, 3, 4]),
@@ -1162,12 +1162,12 @@ const currentHeapSnapshot = JSON.stringify(
 )
 
 describe(`origin detection`, () => {
-  test(`resolves one origin for all sub-profiles from any sub-profile's marker`, () => {
-    // Only the first sub-profile contains an async-profiler marker, a
-    // slash-form `java/*` stdlib frame. The second sub-profile's frames are in a
-    // separate array with no marker entries, but its collapsed name still
-    // splits into method and declaring class under the origin detected from
-    // the first.
+  test(`resolves one origin for all parsed inputs from any parsed input's marker entry`, () => {
+    // Only the first parsed input contains an async-profiler marker entry, a
+    // slash-form `java/*` stdlib frame. The second parsed input's frames are in
+    // a separate array with no marker entries, but its collapsed name still
+    // splits into method and declaring class under the origin detected from the
+    // first.
     const markerProfile: CallStackProfile = {
       type: `call-stack-profile`,
       frames: [
@@ -1529,7 +1529,7 @@ describe(`diffProfiles`, () => {
 
     test(`baseURL: 'auto' infers one common ancestor across both diff sides`, () => {
       // The function moved from src/ to lib/ between the two profiles. A
-      // per-side base would render both as a bare `a.ts`; the shared base keeps
+      // per-side base would format both as a bare `a.ts`; the shared base keeps
       // the two locations distinguishable.
       const makeSide = (url: string) =>
         JSON.stringify({
@@ -1700,13 +1700,12 @@ describe(`diffProfiles`, () => {
       ])
     })
 
-    // The default `matchEntry`'s origin-aware normalization (stripping an
-    // origin's run-varying identifiers so functions match across builds) is
-    // covered at a lower level by `src/origins/index.test.ts` and
-    // `src/modalities/call-stack-profile/diff.test.ts`, since no committed input pair
-    // exhibits a differing build hash.
+    // The default `matchEntry` strips an origin's run-varying identifiers so
+    // functions match across builds. `src/origins/index.test.ts` and
+    // `src/modalities/call-stack-profile/diff.test.ts` cover it at a lower
+    // level, since no committed input pair exhibits a differing build hash.
 
-    test(`states a source once when the origin's match normalization makes the sides one source`, () => {
+    test(`states a source once when the origin's matchEntry makes the sides one source`, () => {
       const makeSide = (storeHash: string, count: number) => ({
         data: `/nix/store/${storeHash}-source/lib/a.nix:10:5:f ${count}\n`,
         format: `collapsed` as const,
@@ -1801,7 +1800,7 @@ describe(`diffProfiles`, () => {
       expect(md).toBe(`No profiles were recorded.\n`)
     })
 
-    test(`throws on diffing a profile against a snapshot`, () => {
+    test(`throws on diffing a call stack profile against a heap snapshot`, () => {
       const profileContent = readFileSync(
         inputPath(`javascript.node.base.cpuprofile`),
       )

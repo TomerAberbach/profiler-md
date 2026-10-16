@@ -14,7 +14,7 @@ export const printTable = (
   rows: Map<string, Evaluation>,
   entities: string,
 ): void => {
-  // A pair whose functions have no positions scores nothing.
+  // An example pair whose functions have no positions scores nothing.
   const scored = [...rows]
     .filter(([, { all }]) => all.count.expected > 0 || all.count.predicted > 0)
     .sort(([left], [right]) => left.localeCompare(right))

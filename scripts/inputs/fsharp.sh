@@ -9,28 +9,28 @@ assets="$REPO/scripts/inputs/assets/fsharp"
 # two versions of the same code.
 declare -A ARGU_VERSION=([base]="6.2.4" [current]="6.2.5")
 
-# Each role builds in one directory, so both record the same paths.
+# Each side builds in one directory, so both record the same paths.
 app_dll="$WORKDIR/fsharp-profile/bin/Release/net8.0/Profile.dll"
-build_for_role() {
-  local role=$1
-  notice "Building Argu ${ARGU_VERSION[$role]} profile"
+build_for_side() {
+  local side=$1
+  notice "Building Argu ${ARGU_VERSION[$side]} profile"
 
   local build="$WORKDIR/fsharp-profile"
   rm -rf "$build"
   mkdir -p "$build"
   cp "$assets/Profile.fsproj" "$assets/Profile.fs" "$build/"
   dotnet build "$build/Profile.fsproj" --configuration Release \
-    -p:ArguVersion="${ARGU_VERSION[$role]}"
+    -p:ArguVersion="${ARGU_VERSION[$side]}"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 capture_dotnet_trace() {
-  local out=$1 role=$2
-  build_for_role "$role" || return 1
+  local out=$1 side=$2
+  build_for_side "$side" || return 1
 
-  notice "Profiling Argu using dotnet-trace ($role)"
+  notice "Profiling Argu using dotnet-trace ($side)"
 
-  local prefix="$WORKDIR/fsharp-$role"
+  local prefix="$WORKDIR/fsharp-$side"
   dotnet-trace collect \
     --format speedscope \
     -o "$prefix.nettrace" \
@@ -43,9 +43,9 @@ capture_dotnet_trace() {
   mv "$produced" "$out"
 }
 
-for role in base current; do
-  out="$GENERATED_INPUTS/fsharp.dotnet-trace.$role.speedscope.json"
-  try emit "$out" capture_dotnet_trace "$role"
+for side in base current; do
+  out="$GENERATED_INPUTS/fsharp.dotnet-trace.$side.speedscope.json"
+  try emit "$out" capture_dotnet_trace "$side"
 done
 
 verify_pairs

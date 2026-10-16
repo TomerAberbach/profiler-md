@@ -42,7 +42,7 @@ export const originSpecs = [
   bunOriginSpec,
   nodeOriginSpec,
   // After the V8 runtimes: their runtime-specific markers must outrank
-  // chrome's web-page URL evidence.
+  // chrome's web-page URL markers.
   chromeOriginSpec,
   nodePprofOriginSpec,
   pprofRsOriginSpec,

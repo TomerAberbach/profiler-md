@@ -2,7 +2,7 @@ import type { EntityLocation, ModalitySpec } from '../spec.ts'
 import { entityLocation, HeapSnapshotAggregator } from './aggregate.ts'
 import type {
   AggregatedHeapSnapshot,
-  AggregatedHeapSnapshotNode,
+  AggregatedHeapSnapshotEntity,
 } from './aggregate.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
@@ -29,13 +29,13 @@ export const heapSnapshotModalitySpec = {
 } as const satisfies ModalitySpec<
   HeapSnapshot,
   AggregatedHeapSnapshot,
-  AggregatedHeapSnapshotNode
+  AggregatedHeapSnapshotEntity
 >
 
 function* entities({
   constructors,
   functions,
-}: AggregatedHeapSnapshot): Iterable<AggregatedHeapSnapshotNode> {
+}: AggregatedHeapSnapshot): Iterable<AggregatedHeapSnapshotEntity> {
   yield* constructors
   yield* functions
 }

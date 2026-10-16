@@ -6,8 +6,8 @@ import type { Download } from './fetch.ts'
 export type Side = `base` | `current`
 
 /**
- * A project whose version the input generation pins per side, so a pair
- * profiles two versions of it.
+ * A project whose version the input generation pins per side, so an example
+ * pair profiles two versions of it.
  */
 export type UpgradedProject = {
   name: string
@@ -21,7 +21,7 @@ export type UpgradedProject = {
 
   /**
    * The workload script under `scripts/inputs/` that pins the versions, named
-   * after the language of the pairs that profile the project.
+   * after the language of the example pairs that profile the project.
    */
   script: string
 
@@ -214,14 +214,15 @@ export const UPGRADED_PROJECTS: UpgradedProject[] = [
   },
 ]
 
-/**
- * Each per-side pin of a workload script that no upgraded project reads, keyed
- * `script:NAME`, with why its pairs have no ground truth.
- */
 const DOTNET_TRACE_REASON = `dotnet-trace records namespaces and classes, which identify no file`
 const JVM_REASON = `the JVM profilers record class names, which identify no file`
+
+/**
+ * Each per-side pin of a workload script that no upgraded project reads, keyed
+ * `script:NAME`, with why its example pairs have no ground truth.
+ */
 const UNSCORED_PINS: ReadonlyMap<string, string> = new Map([
-  [`haskell:ROLE_ITERATIONS`, `it pins how many iterations each side runs`],
+  [`haskell:SIDE_ITERATIONS`, `it pins how many iterations each side runs`],
   [`elixir:JASON_PIN`, `eflambe records module names, which identify no file`],
   [`csharp:NEWTONSOFT_JSON_VERSION`, DOTNET_TRACE_REASON],
   [`fsharp:ARGU_VERSION`, DOTNET_TRACE_REASON],
@@ -233,7 +234,7 @@ const UNSCORED_PINS: ReadonlyMap<string, string> = new Map([
 /**
  * Describes each per-side pin in `scripts/inputs/` that neither an upgraded
  * project reads nor {@link UNSCORED_PINS} exempts, and each exemption that
- * names no pin, so a version pinned for a diff pair has ground truth or a
+ * names no pin, so a version pinned for an example pair has ground truth or a
  * stated reason it has none.
  */
 export const pinProblems = (): string[] => {
@@ -259,7 +260,7 @@ export const pinProblems = (): string[] => {
       .filter(pin => !projectPins.has(pin) && !UNSCORED_PINS.has(pin))
       .map(
         pin =>
-          `no upgraded project reads pin ${pin}\n  hint: add a project to UPGRADED_PROJECTS, or the pin and why its pairs have no ground truth to UNSCORED_PINS`,
+          `no upgraded project reads pin ${pin}\n  hint: add a project to UPGRADED_PROJECTS, or the pin and why its example pairs have no ground truth to UNSCORED_PINS`,
       ),
     ...[...UNSCORED_PINS.keys()]
       .filter(pin => !pins.has(pin))
@@ -288,13 +289,13 @@ export const versionsOf = (project: UpgradedProject): Record<Side, string> => {
  * within it, or `undefined` for a path in no upgraded project.
  */
 export const upgradedFileOf = (
-  source: string | undefined,
+  sourceReference: string | undefined,
 ): { project: UpgradedProject; path: string } | undefined => {
-  if (source === undefined) {
+  if (sourceReference === undefined) {
     return undefined
   }
   for (const project of UPGRADED_PROJECTS) {
-    const groups = project.path.exec(source)?.groups
+    const groups = project.path.exec(sourceReference)?.groups
     if (groups?.path !== undefined) {
       const path =
         groups.directory === undefined
@@ -315,10 +316,12 @@ export const upgradedFileOf = (
  */
 export const upgradedFileAt = (
   location: SourceLocation | undefined,
-): { project: UpgradedProject; path: string; source: string } | undefined => {
-  const source = location && sourceReferencePathOrName(location)
-  const upgradedFile = upgradedFileOf(source)
-  return upgradedFile && { ...upgradedFile, source: source! }
+):
+  | { project: UpgradedProject; path: string; sourceReference: string }
+  | undefined => {
+  const sourceReference = location && sourceReferencePathOrName(location)
+  const upgradedFile = upgradedFileOf(sourceReference)
+  return upgradedFile && { ...upgradedFile, sourceReference: sourceReference! }
 }
 
 /** The versions a workload script pins with `declare -A NAME=([base]=… [current]=…)`. */

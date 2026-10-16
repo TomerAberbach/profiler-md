@@ -25,15 +25,15 @@ assets="$REPO/scripts/inputs/assets/javascript"
 # Keep the Chromium download inside WORKDIR so the EXIT trap cleans it up.
 export PUPPETEER_CACHE_DIR="$WORKDIR/.puppeteer"
 
-# Each role installs into one directory, so both record the same paths.
+# Each side installs into one directory, so both record the same paths.
 node_proj="$WORKDIR/zod"
-node_role=""
+node_side=""
 setup_node() {
-  local role=$1
-  [[ "$node_role" == "$role" ]] && return 0
+  local side=$1
+  [[ "$node_side" == "$side" ]] && return 0
   local dir="$node_proj"
 
-  if [[ -z "$node_role" ]]; then
+  if [[ -z "$node_side" ]]; then
     notice "Cloning zod ($ZOD_TAG)"
     git clone --depth 1 --branch "$ZOD_TAG" "$ZOD_REPO" "$dir" >&2 || return 1
   fi
@@ -42,12 +42,12 @@ setup_node() {
   # removes the packages an earlier one added. A nightly TypeScript is a
   # prerelease, which satisfies no range of zod's devDependencies that peer
   # depend on it (`typescript@>=3.7.0`), so the install skips peer resolution.
-  notice "Installing tsc ${TYPESCRIPT_VERSION[$role]}, d3 ${D3_VERSION[$role]}, tooling, and puppeteer (downloads pinned Chromium)"
+  notice "Installing tsc ${TYPESCRIPT_VERSION[$side]}, d3 ${D3_VERSION[$side]}, tooling, and puppeteer (downloads pinned Chromium)"
   npm install --prefix "$dir" --no-save --no-audit --no-fund --legacy-peer-deps \
-    "typescript@${TYPESCRIPT_VERSION[$role]}" \
+    "typescript@${TYPESCRIPT_VERSION[$side]}" \
     "@datadog/pprof@$DATADOG_PPROF_VERSION" \
     "puppeteer@$PUPPETEER_VERSION" \
-    "d3@${D3_VERSION[$role]}" >&2 || return 1
+    "d3@${D3_VERSION[$side]}" >&2 || return 1
 
   cp "$assets/cpuprofile-run.mjs" "$assets/tsc-run.mjs" \
     "$assets/tsc-workload.mjs" "$assets/heapprofile-run.mjs" \
@@ -56,67 +56,67 @@ setup_node() {
     "$assets/chrome-workload.mjs" "$assets/chrome-cpu.mjs" \
     "$assets/chrome-heap.mjs" "$assets/chrome-heap-snapshot.mjs" "$dir/" \
     || return 1
-  node_role=$role
+  node_side=$side
 }
 
 capture_node_cpu() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
-  notice "CPU profiling zod type-check using node ($role)"
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "CPU profiling zod type-check using node ($side)"
   node "$node_proj/cpuprofile-run.mjs" "$node_proj" "$out" >&2
 }
 
 capture_node_heap() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   local profdir
-  setup_node "$role" || return 1
-  profdir="$WORKDIR/node-heap-$role"
+  setup_node "$side" || return 1
+  profdir="$WORKDIR/node-heap-$side"
   mkdir -p "$profdir"
-  notice "Heap profiling zod type-check using node ($role)"
+  notice "Heap profiling zod type-check using node ($side)"
   node --heap-prof --heap-prof-dir="$profdir" \
     "$node_proj/tsc-run.mjs" "$node_proj" >&2
   mv "$(find "$profdir" -name '*.heapprofile' | head -1)" "$out"
 }
 
 capture_node_heap_snapshot() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   fetch_twitter_json || return 1
-  notice "Heap snapshotting parsed twitter.json using node ($role)"
+  notice "Heap snapshotting parsed twitter.json using node ($side)"
   node "$assets/heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_node_heap_all_allocations() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
-  notice "Heap profiling zod type-check including collected objects using node ($role)"
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "Heap profiling zod type-check including collected objects using node ($side)"
   node "$node_proj/heapprofile-run.mjs" "$node_proj" "$out" >&2
 }
 
 capture_pprof_cpu() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
-  notice "CPU profiling zod type-check using @datadog/pprof ($role)"
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "CPU profiling zod type-check using @datadog/pprof ($side)"
   node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" >&2
 }
 
 capture_pprof_cpu_lines() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
-  notice "CPU profiling zod type-check using @datadog/pprof with line numbers ($role)"
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "CPU profiling zod type-check using @datadog/pprof with line numbers ($side)"
   node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" --line-numbers >&2
 }
 
 capture_pprof_heap() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
-  notice "Heap profiling zod type-check using @datadog/pprof ($role)"
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "Heap profiling zod type-check using @datadog/pprof ($side)"
   node "$node_proj/datadog-pprof-heap.mjs" "$node_proj" "$out" >&2
 }
 
 capture_deno_cpu() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
-  notice "CPU profiling zod type-check using deno ($role)"
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "CPU profiling zod type-check using deno ($side)"
   # `manual` reads the node_modules setup_node installed. `auto` installs zod's
   # own devDependencies over it, replacing the pinned TypeScript with zod's.
   deno run -A --node-modules-dir=manual \
@@ -124,12 +124,12 @@ capture_deno_cpu() {
 }
 
 capture_bun_cpu() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   local profdir prof
-  setup_node "$role" || return 1
-  profdir="$WORKDIR/bun-cpu-$role"
+  setup_node "$side" || return 1
+  profdir="$WORKDIR/bun-cpu-$side"
   mkdir -p "$profdir"
-  notice "CPU profiling zod type-check using bun ($role)"
+  notice "CPU profiling zod type-check using bun ($side)"
   bun --cpu-prof --cpu-prof-dir="$profdir" \
     "$node_proj/tsc-run.mjs" "$node_proj" >&2
   prof="$(find "$profdir" -name '*.cpuprofile' | head -1)"
@@ -138,12 +138,12 @@ capture_bun_cpu() {
 }
 
 capture_bun_v8_heap_snapshot() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   local profdir prof
-  profdir="$WORKDIR/bun-v8-heap-snapshot-$role"
+  profdir="$WORKDIR/bun-v8-heap-snapshot-$side"
   mkdir -p "$profdir"
   fetch_twitter_json || return 1
-  notice "V8 heap snapshotting parsed twitter.json using bun ($role)"
+  notice "V8 heap snapshotting parsed twitter.json using bun ($side)"
   # `bun --heap-prof` writes a V8 heap snapshot on exit. Its `--heap-prof-dir`
   # mishandles absolute paths, stripping the leading slash and resolving the
   # rest against the cwd, so run from inside profdir and let it default to the
@@ -156,67 +156,67 @@ capture_bun_v8_heap_snapshot() {
 }
 
 capture_bun_jsc_heap_snapshot() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   fetch_twitter_json || return 1
-  notice "JSC heap snapshotting parsed twitter.json using bun ($role)"
-  # Bun's `generateHeapSnapshot("jsc")` returns the JSC Inspector snapshot
+  notice "JSC heap snapshotting parsed twitter.json using bun ($side)"
+  # Bun's `generateHeapSnapshot("jsc")` returns the JSC Inspector heap snapshot
   # Safari exports.
   bun "$assets/bun-jsc-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_cpu() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
+  local out=$1 side=$2
+  setup_node "$side" || return 1
   fetch_twitter_json || return 1
-  notice "CPU profiling d3 chart using headless Chrome ($role)"
+  notice "CPU profiling d3 chart using headless Chrome ($side)"
   node "$node_proj/chrome-cpu.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
+  local out=$1 side=$2
+  setup_node "$side" || return 1
   fetch_twitter_json || return 1
-  notice "Heap allocation profiling d3 chart using headless Chrome ($role)"
+  notice "Heap allocation profiling d3 chart using headless Chrome ($side)"
   node "$node_proj/chrome-heap.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap_snapshot() {
-  local out=$1 role=$2
-  setup_node "$role" || return 1
+  local out=$1 side=$2
+  setup_node "$side" || return 1
   fetch_twitter_json || return 1
-  notice "Heap snapshotting d3 chart using headless Chrome ($role)"
+  notice "Heap snapshotting d3 chart using headless Chrome ($side)"
   node "$node_proj/chrome-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/javascript.node.$role.cpuprofile" \
-    capture_node_cpu "$role"
-  try emit "$GENERATED_INPUTS/javascript.node.$role.heapprofile" \
-    capture_node_heap "$role"
-  try emit "$GENERATED_INPUTS/javascript.node.$role.heapsnapshot" \
-    capture_node_heap_snapshot "$role"
-  try emit "$GENERATED_INPUTS/javascript.node.all-allocations.$role.heapprofile" \
-    capture_node_heap_all_allocations "$role"
-  try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu.$role.pprof" \
-    capture_pprof_cpu "$role"
-  try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu-lines.$role.pprof" \
-    capture_pprof_cpu_lines "$role"
-  try emit "$GENERATED_INPUTS/javascript.node-pprof.heap.$role.pprof" \
-    capture_pprof_heap "$role"
-  try emit "$GENERATED_INPUTS/javascript.deno.$role.cpuprofile" \
-    capture_deno_cpu "$role"
-  try emit "$GENERATED_INPUTS/javascript.bun.$role.cpuprofile" \
-    capture_bun_cpu "$role"
-  try emit "$GENERATED_INPUTS/javascript.bun.$role.heapsnapshot" \
-    capture_bun_v8_heap_snapshot "$role"
-  try emit "$GENERATED_INPUTS/javascript.bun.$role.jsc-heap-snapshot.json" \
-    capture_bun_jsc_heap_snapshot "$role"
-  try emit "$GENERATED_INPUTS/javascript.chrome.$role.cpuprofile" \
-    capture_chrome_cpu "$role"
-  try emit "$GENERATED_INPUTS/javascript.chrome.$role.heapprofile" \
-    capture_chrome_heap "$role"
-  try emit "$GENERATED_INPUTS/javascript.chrome.$role.heapsnapshot" \
-    capture_chrome_heap_snapshot "$role"
+for side in base current; do
+  try emit "$GENERATED_INPUTS/javascript.node.$side.cpuprofile" \
+    capture_node_cpu "$side"
+  try emit "$GENERATED_INPUTS/javascript.node.$side.heapprofile" \
+    capture_node_heap "$side"
+  try emit "$GENERATED_INPUTS/javascript.node.$side.heapsnapshot" \
+    capture_node_heap_snapshot "$side"
+  try emit "$GENERATED_INPUTS/javascript.node.all-allocations.$side.heapprofile" \
+    capture_node_heap_all_allocations "$side"
+  try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu.$side.pprof" \
+    capture_pprof_cpu "$side"
+  try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu-lines.$side.pprof" \
+    capture_pprof_cpu_lines "$side"
+  try emit "$GENERATED_INPUTS/javascript.node-pprof.heap.$side.pprof" \
+    capture_pprof_heap "$side"
+  try emit "$GENERATED_INPUTS/javascript.deno.$side.cpuprofile" \
+    capture_deno_cpu "$side"
+  try emit "$GENERATED_INPUTS/javascript.bun.$side.cpuprofile" \
+    capture_bun_cpu "$side"
+  try emit "$GENERATED_INPUTS/javascript.bun.$side.heapsnapshot" \
+    capture_bun_v8_heap_snapshot "$side"
+  try emit "$GENERATED_INPUTS/javascript.bun.$side.jsc-heap-snapshot.json" \
+    capture_bun_jsc_heap_snapshot "$side"
+  try emit "$GENERATED_INPUTS/javascript.chrome.$side.cpuprofile" \
+    capture_chrome_cpu "$side"
+  try emit "$GENERATED_INPUTS/javascript.chrome.$side.heapprofile" \
+    capture_chrome_heap "$side"
+  try emit "$GENERATED_INPUTS/javascript.chrome.$side.heapsnapshot" \
+    capture_chrome_heap_snapshot "$side"
 done
 
 verify_pairs

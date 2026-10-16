@@ -13,18 +13,18 @@ bin="$CARGO_TARGET_DIR/release/json_bench"
 
 # Base and current profile consecutive serde_json releases, so a diff compares
 # two versions of the same code. The committed lockfile pins base's, and each
-# role builds a copy of the crate in one directory, so both record the same
+# side builds a copy of the crate in one directory, so both record the same
 # paths. The directory is fixed rather than under WORKDIR, which mktemp names
-# anew per run, so a role regenerated alone records the same paths as the
+# anew per run, so a side regenerated alone records the same paths as the
 # other.
 declare -A SERDE_JSON_VERSION=([base]="1.0.140" [current]="1.0.141")
 project="/tmp/profiler-md-rust-profile"
 
-built_role=
+built_side=
 build_profile() {
-  local role=$1
-  [[ "$built_role" == "$role" ]] && return 0
-  local version=${SERDE_JSON_VERSION[$role]}
+  local side=$1
+  [[ "$built_side" == "$side" ]] && return 0
+  local version=${SERDE_JSON_VERSION[$side]}
   notice "Building rust pprof-rs profile (serde_json $version)"
   rm -rf "$project"
   cp -R "$profile_dir" "$project" || return 1
@@ -34,21 +34,21 @@ build_profile() {
   cargo update --manifest-path "$project/Cargo.toml" \
     --package serde_json --precise "$version" || return 1
   cargo build --release --locked --manifest-path "$project/Cargo.toml" || return 1
-  built_role=$role
+  built_side=$side
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 run_rust_profile() {
-  local out=$1 role=$2
-  build_profile "$role" || return 1
+  local out=$1 side=$2
+  build_profile "$side" || return 1
   fetch_twitter_json
-  notice "Profiling serde_json using pprof-rs ($role)"
+  notice "Profiling serde_json using pprof-rs ($side)"
   "$bin" "$out" "$TWITTER_JSON"
 }
 
-for role in base current; do
-  out="$GENERATED_INPUTS/rust.pprof-rs.cpu.$role.pprof"
-  try emit "$out" run_rust_profile "$role"
+for side in base current; do
+  out="$GENERATED_INPUTS/rust.pprof-rs.cpu.$side.pprof"
+  try emit "$out" run_rust_profile "$side"
 done
 
 verify_pairs

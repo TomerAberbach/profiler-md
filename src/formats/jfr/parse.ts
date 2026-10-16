@@ -21,24 +21,24 @@ import type { RecordTally } from '../spec.ts'
  * The kind of profiling an event represents.
  *
  * - `cpu`: CPU/wall sampling (`jdk.ExecutionSample`, `jdk.NativeMethodSample`,
- *   async-profiler's `profiler.WallClockSample`). Carries no weight; ranked by
- *   sample count, each event contributing {@link JfrSampleEvent.count}
+ *   async-profiler's `profiler.WallClockSample`). Carries no value, so it ranks
+ *   by sample count, each event contributing {@link JfrSampleEvent.count}
  *   samples. Wall-clock samples rank by count too: their `timeSpan` is zero for
- *   most uncoalesced samples, so weighting by it would understate where
+ *   most uncoalesced samples, so ranking by it would understate where
  *   wall-clock time goes.
  * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the
- *   TLAB variants), weighted by the allocated bytes the event stands for.
+ *   TLAB variants), measured in the allocated bytes the event stands for.
  * - `nativemem`: off-heap native memory allocation (async-profiler's
- *   `profiler.Malloc`), weighted by allocated bytes. The paired
+ *   `profiler.Malloc`), measured in allocated bytes. The paired
  *   `profiler.Free` events are ignored: like `alloc`, this profiles where
  *   native memory is allocated, not the net live footprint, and frees usually
  *   dominate the recording so netting them would erase most of the signal.
  * - `live`: live-object sampling (`jdk.OldObjectSample` and async-profiler's
  *   `profiler.LiveObject`), objects sampled at allocation that were still
- *   live when captured, weighted by object size in bytes.
+ *   live when captured, measured in the objects' size in bytes.
  * - `lock`: lock contention (`jdk.JavaMonitorEnter`, `jdk.ThreadPark`,
- *   async-profiler's `profiler.NativeLock`), weighted by blocked duration in
- *   nanoseconds.
+ *   async-profiler's `profiler.NativeLock`), measured in the nanoseconds
+ *   the thread blocked.
  */
 type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
 
@@ -87,10 +87,10 @@ type JfrSampleEvent = {
   stackTraceId: number
 
   /**
-   * The sample's weight: `1` for CPU/wall samples, allocated bytes for heap and
+   * The sample's value: `1` for CPU/wall samples, allocated bytes for heap and
    * native memory allocation samples, and blocked nanoseconds for lock samples.
    */
-  weight: number
+  value: number
 
   /**
    * How many samples this event represents. `1` for most events, but
@@ -114,16 +114,17 @@ type Jfr = {
   isAsyncProfiler: boolean
 
   /**
-   * The weighted kinds whose events lack their weight field in some chunk, so
-   * their profiles rank by count alone. Older JDKs write such layouts:
+   * The kinds with a metric whose events lack their value field in some chunk,
+   * so their profiles rank by count alone. Older JDKs write such layouts:
    * `jdk.OldObjectSample` gained `objectSize` in JDK 21, so a JDK 17 recording
    * records which objects were live but not how large they were.
    */
-  unweightedKinds: Set<JfrSampleKind>
+  metriclessKinds: Set<JfrSampleKind>
 }
 
 /**
- * Parses a Java Flight Recorder recording into one profile per sample kind.
+ * Parses a Java Flight Recorder recording into one call stack profile per
+ * sample kind.
  *
  * Never throws on bytes that aren't a JFR recording. Input without the chunk
  * magic yields no profiles.
@@ -260,21 +261,22 @@ const jfrToProfiles = ({
   stackTraces,
   events,
   isAsyncProfiler,
-  unweightedKinds,
+  metriclessKinds,
 }: Jfr): CallStackProfile[] => {
   // Methods are a dense table whose index is the method id.
   const frames = methods.map(methodToStackFrame)
 
   const byKind = Map.groupBy(events, event => event.kind)
 
-  // A recording can mix sample kinds, so emit one profile per kind present.
+  // A recording can mix sample kinds, so emit one call stack profile per kind
+  // present.
   const profiles: CallStackProfile[] = []
   for (const { kind, metric: kindMetric, countMetric } of KINDS) {
     const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
     }
-    const metric = unweightedKinds.has(kind) ? undefined : kindMetric
+    const metric = metriclessKinds.has(kind) ? undefined : kindMetric
     profiles.push({
       type: `call-stack-profile`,
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
@@ -304,7 +306,7 @@ function* kindObservations(
     const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
     yield {
       id: event.stackTraceId,
-      values: metric ? [event.weight] : [],
+      values: metric ? [event.value] : [],
       frameIndices: methodIds,
       executingLine: leafLine,
       count: event.count,
@@ -423,15 +425,15 @@ type AllocFamily = `sampled` | `tlab`
 type EventKind = {
   kind: JfrSampleKind
 
-  /** The field whose value is the sample's weight, if the kind is weighted. */
-  weightField?: string
+  /** The field holding the sample's value, if the kind has a metric. */
+  valueField?: string
 
   /**
-   * Whether {@link weightField} is in ticks, which JFR annotates
+   * Whether {@link valueField} is in ticks, which JFR annotates
    * `@Timespan(TICKS)`, so it needs converting to nanoseconds via the chunk
    * frequency.
    */
-  weightInTicks?: boolean
+  valueInTicks?: boolean
 
   /** The field holding a batched sample count, for coalesced events. */
   countField?: string
@@ -447,7 +449,7 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
   [`profiler.WallClockSample`, { kind: `cpu`, countField: `samples` }],
   [
     `jdk.ObjectAllocationSample`,
-    { kind: `alloc`, weightField: `weight`, allocFamily: `sampled` },
+    { kind: `alloc`, valueField: `weight`, allocFamily: `sampled` },
   ],
   [
     // The JVM emits one event per TLAB refill, and async-profiler one per
@@ -457,28 +459,28 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
     // the sample stands for, and `allocationSize` is the size of the object
     // that triggered it.
     `jdk.ObjectAllocationInNewTLAB`,
-    { kind: `alloc`, weightField: `tlabSize`, allocFamily: `tlab` },
+    { kind: `alloc`, valueField: `tlabSize`, allocFamily: `tlab` },
   ],
   [
     // The JVM records an allocation too large for a TLAB in full, so its size
     // is the bytes the event stands for. The type declares no `tlabSize`.
     `jdk.ObjectAllocationOutsideTLAB`,
-    { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
+    { kind: `alloc`, valueField: `allocationSize`, allocFamily: `tlab` },
   ],
-  [`jdk.OldObjectSample`, { kind: `live`, weightField: `objectSize` }],
-  [`profiler.LiveObject`, { kind: `live`, weightField: `allocationSize` }],
-  [`profiler.Malloc`, { kind: `nativemem`, weightField: `size` }],
+  [`jdk.OldObjectSample`, { kind: `live`, valueField: `objectSize` }],
+  [`profiler.LiveObject`, { kind: `live`, valueField: `allocationSize` }],
+  [`profiler.Malloc`, { kind: `nativemem`, valueField: `size` }],
   [
     `jdk.JavaMonitorEnter`,
-    { kind: `lock`, weightField: `duration`, weightInTicks: true },
+    { kind: `lock`, valueField: `duration`, valueInTicks: true },
   ],
   [
     `jdk.ThreadPark`,
-    { kind: `lock`, weightField: `duration`, weightInTicks: true },
+    { kind: `lock`, valueField: `duration`, valueInTicks: true },
   ],
   [
     `profiler.NativeLock`,
-    { kind: `lock`, weightField: `duration`, weightInTicks: true },
+    { kind: `lock`, valueField: `duration`, valueInTicks: true },
   ],
 ]
 
@@ -507,7 +509,7 @@ type UnreadableRecordReason =
 type RawEvent = {
   kind: JfrSampleKind
   stackKey: number
-  weight: number
+  value: number
   count: number
   allocFamily?: AllocFamily
 }
@@ -561,7 +563,7 @@ class JfrParser {
   readonly #tlabEvents: JfrSampleEvent[] = []
 
   #hasSampledAlloc = false
-  readonly #unweightedKinds = new Set<JfrSampleKind>()
+  readonly #metriclessKinds = new Set<JfrSampleKind>()
 
   public constructor(recordTally: RecordTally) {
     this.#recordTally = recordTally
@@ -603,7 +605,7 @@ class JfrParser {
       stackTraces: this.#stackInterner.items,
       events: this.#finalizeEvents(),
       isAsyncProfiler: this.#isAsyncProfiler,
-      unweightedKinds: this.#unweightedKinds,
+      metriclessKinds: this.#metriclessKinds,
     }
   }
 
@@ -895,9 +897,10 @@ class JfrParser {
   // Events
 
   /**
-   * Maps this chunk's type IDs to their supported event kinds. An event type declared without its kind's weight field, as an
-   * older JDK writes it, marks the kind unweighted so its profile ranks by
-   * count instead of by a weight no event recorded.
+   * Maps this chunk's type IDs to their supported event kinds. An event type
+   * declared without its kind's value field, as an older JDK writes it, drops
+   * the kind's metric, so its profile ranks by count instead of by a value no
+   * event recorded.
    */
   #eventKinds(): Map<number, EventKind> {
     const eventKinds = new Map<number, EventKind>()
@@ -907,12 +910,12 @@ class JfrParser {
         continue
       }
       eventKinds.set(id, eventKind)
-      const { kind, weightField } = eventKind
+      const { kind, valueField } = eventKind
       if (
-        weightField !== undefined &&
-        !this.#types.get(id)!.fields.some(field => field.name === weightField)
+        valueField !== undefined &&
+        !this.#types.get(id)!.fields.some(field => field.name === valueField)
       ) {
-        this.#unweightedKinds.add(kind)
+        this.#metriclessKinds.add(kind)
       }
     }
     return eventKinds
@@ -920,10 +923,10 @@ class JfrParser {
 
   #parseEvent(
     type: TypeDef,
-    { kind, weightField, weightInTicks, countField, allocFamily }: EventKind,
+    { kind, valueField, valueInTicks, countField, allocFamily }: EventKind,
   ): RawEvent {
     let stackKey = 0
-    let rawWeight = 1
+    let rawValue = 1
     let count = 1
     for (const field of type.fields) {
       const value = this.#readValue(field)
@@ -931,8 +934,8 @@ class JfrParser {
         case `stackTrace`:
           stackKey = value as number
           break
-        case weightField:
-          rawWeight = value as number
+        case valueField:
+          rawValue = value as number
           break
         case countField:
           count = value as number
@@ -940,10 +943,8 @@ class JfrParser {
       }
     }
 
-    const weight = weightInTicks
-      ? this.#ticksToNanoseconds(rawWeight)
-      : rawWeight
-    return { kind, stackKey, weight, count, allocFamily }
+    const value = valueInTicks ? this.#ticksToNanoseconds(rawValue) : rawValue
+    return { kind, stackKey, value, count, allocFamily }
   }
 
   #ticksToNanoseconds(ticks: number): number {
@@ -1157,7 +1158,7 @@ class JfrParser {
   ): void {
     const resolver = this.#chunkResolver(pools)
     let missingStackCount = 0
-    for (const { kind, stackKey, weight, count, allocFamily } of rawEvents) {
+    for (const { kind, stackKey, value, count, allocFamily } of rawEvents) {
       let stackTraceId = resolver.resolveStack(stackKey)
       if (stackTraceId === undefined) {
         // A key of 0 is a null reference, which an event the JVM recorded
@@ -1169,7 +1170,7 @@ class JfrParser {
         stackTraceId = resolver.emptyStack()
       }
 
-      const event: JfrSampleEvent = { kind, stackTraceId, weight, count }
+      const event: JfrSampleEvent = { kind, stackTraceId, value, count }
       if (allocFamily === `tlab`) {
         this.#tlabEvents.push(event)
       } else {
@@ -1403,7 +1404,7 @@ class ChunkResolver {
 
   /**
    * A shared empty stack for events recorded without a stack (a null
-   * reference). Their weight still counts, so they're attributed to it rather
+   * reference). Their value still counts, so they're attributed to it rather
    * than dropped.
    */
   public emptyStack(): number {

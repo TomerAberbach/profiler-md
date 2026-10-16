@@ -66,7 +66,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns wall time phrases for wall value type`, () => {
+  it(`returns wall time phrases for the wall metric name`, () => {
     const metric = parseMetric({ name: `wall`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({
@@ -86,7 +86,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`keeps CPU phrases for the cpu value type`, () => {
+  it(`keeps CPU phrases for the cpu metric name`, () => {
     const metric = parseMetric({ name: `cpu`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({

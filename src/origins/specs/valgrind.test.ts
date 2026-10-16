@@ -4,7 +4,7 @@ import { valgrindOriginSpec } from './valgrind.ts'
 
 describe(`detection`, () => {
   test(`markerless: callgrind frames resolve to the format's fallback origin`, () => {
-    // Native frames any profiler could emit are no evidence of valgrind, but
+    // Native frames any profiler could emit are not valgrind markers, but
     // valgrind defines the callgrind format, so it is the format's fallback.
     expect(
       determineOrigin({

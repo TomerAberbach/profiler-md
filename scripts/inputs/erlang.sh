@@ -33,16 +33,16 @@ EOF
   project_dir="$dir"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 record_eflambe() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   setup_project
   fetch_twitter_json
   local dir="$project_dir"
 
-  notice "Profiling json using eflambe ($role)"
+  notice "Profiling json using eflambe ($side)"
 
-  local profile="$WORKDIR/erlang-$role-profile"
+  local profile="$WORKDIR/erlang-$side-profile"
   rm -rf "$profile"
   mkdir -p "$profile"
 
@@ -64,8 +64,8 @@ record_eflambe() {
   mv "$produced" "$out"
 }
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/erlang.eflambe.wall.$role.collapsed" record_eflambe "$role"
+for side in base current; do
+  try emit "$GENERATED_INPUTS/erlang.eflambe.wall.$side.collapsed" record_eflambe "$side"
 done
 
 verify_pairs

@@ -7,8 +7,8 @@ export const hprofFormatSpec = {
   title: `HPROF`,
   extension: `hprof`,
   languages: [`java`],
-  // HotSpot's own heap dumper defines the format, and every other emitter of a
-  // JVM heap dump writes what it produces.
+  // HotSpot's own heap dumper defines the format, and every other origin
+  // writing a JVM heap dump matches it.
   fallbackOrigin: `jdk`,
   type: `binary`,
   matches: matchesHprof,

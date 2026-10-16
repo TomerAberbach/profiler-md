@@ -78,7 +78,7 @@ import {
   constructorColumns,
   displayName,
   functionColumns,
-  instanceColumns,
+  instanceGroupColumns,
   retainedColumns,
   stringColumns,
 } from './table.ts'
@@ -101,7 +101,7 @@ export const formatHeapSnapshot = (
         showEntry(constructor, snapshot.context),
       ) ||
       snapshot.functions.some(fn =>
-        showEntry({ ...fn, id: fn.largestInstanceId }, snapshot.context),
+        showEntry({ ...fn, id: fn.largestInstanceOrdinal }, snapshot.context),
       ) ||
       snapshot.strings.some(string => showEntry(string, snapshot.context)),
     entities: `node`,
@@ -236,7 +236,7 @@ const formatSeveralPathsNote = (
     : []
 
 const formatOverallSummary = ({
-  totalSize,
+  heldSize,
   nodeCount,
   edgeCount,
   nodeCategoryToStats,
@@ -250,7 +250,7 @@ const formatOverallSummary = ({
 
   return [
     paragraph(
-      `Held ${formatBytes(totalSize)} over ${formatCount(
+      `Held ${formatBytes(heldSize)} over ${formatCount(
         nodeCount,
       )} nodes and ${formatCount(edgeCount)} edges.`,
     ),
@@ -260,7 +260,7 @@ const formatOverallSummary = ({
         category,
         size: stats.size,
         nodeCount: stats.nodeCount,
-        total: totalSize,
+        total: heldSize,
       })),
     ),
   ]
@@ -430,7 +430,7 @@ const formatLargestSizeConstructors = ({
   size: ConstructorSize
 }): RootContent[] => {
   const { sizeOf, prose } = size
-  const { totalSize, constructors, context } = snapshot
+  const { heldSize, constructors, context } = snapshot
 
   const ranking = rankEntities({
     entities: constructors.filter(constructor =>
@@ -466,7 +466,7 @@ const formatLargestSizeConstructors = ({
           entities.map(constructor => ({
             entity: constructor,
             size: sizeOf(constructor),
-            total: totalSize,
+            total: heldSize,
             instanceCount: constructor.instances.length,
           })),
         ),
@@ -491,12 +491,12 @@ const formatLargestConstructorInstances = ({
 }: {
   constructor: AggregatedHeapSnapshotConstructor
   snapshot: AggregatedHeapSnapshot
-  sizeOf: (node: AggregatedHeapSnapshotNode) => number
+  sizeOf: ConstructorSize[`sizeOf`]
   shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const largestInstanceGroups = selectLargestInstancesByRetainerPath({
+  const largestInstanceGroups = selectLargestInstanceGroups({
     instances: constructor.instances.filter(instance =>
       options.showEntry(instance, snapshot.context),
     ),
@@ -512,7 +512,7 @@ const formatLargestConstructorInstances = ({
   return [
     formatEntityHeading(5, constructor, hasLocation, options),
     formatTable(
-      instanceColumns,
+      instanceGroupColumns,
       largestInstanceGroups.map(group => ({
         size: group.size,
         total: constructorSize,
@@ -523,7 +523,7 @@ const formatLargestConstructorInstances = ({
   ]
 }
 
-const selectLargestInstancesByRetainerPath = ({
+const selectLargestInstanceGroups = ({
   instances,
   sizeOf,
   retainerPathOf,
@@ -579,11 +579,11 @@ const formatLargestFunctions = ({
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { totalSize, functions, context } = snapshot
+  const { heldSize, functions, context } = snapshot
 
   const largestFunctions = selectTopN(
     functions.filter(fn =>
-      options.showEntry({ ...fn, id: fn.largestInstanceId }, context),
+      options.showEntry({ ...fn, id: fn.largestInstanceOrdinal }, context),
     ),
     options.topN,
     fn => fn.retainedSize,
@@ -610,10 +610,10 @@ const formatLargestFunctions = ({
       largestFunctions.map(fn => ({
         entity: fn,
         size: fn.retainedSize,
-        total: totalSize,
-        instanceCount: fn.instanceIds.length,
-        pathCount: new Set(fn.instanceIds.map(pathOf)).size,
-        examplePath: shownPaths.ofNode(snapshot, fn.largestInstanceId),
+        total: heldSize,
+        instanceCount: fn.instanceOrdinals.length,
+        pathCount: new Set(fn.instanceOrdinals.map(pathOf)).size,
+        examplePath: shownPaths.ofNode(snapshot, fn.largestInstanceOrdinal),
       })),
     ),
     ...formatSectionGroup(
@@ -638,7 +638,7 @@ const formatFunctionRetainedNodes = ({
 }): RootContent[] => {
   const retainedNodes = selectTopN(
     Array.from(
-      shownRetainedNodes(fn.instanceIds, snapshot, options),
+      shownRetainedNodes(fn.instanceOrdinals, snapshot, options),
       ({ node }) => node,
     ),
     Math.ceil(options.topN / 4),
@@ -671,7 +671,7 @@ const formatLargestStrings = ({
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { totalSize, strings, context } = snapshot
+  const { heldSize, strings, context } = snapshot
   const shownStrings = strings.filter(string =>
     options.showEntry(string, context),
   )
@@ -705,7 +705,7 @@ const formatLargestStrings = ({
           entities.map(string => ({
             name: string.name,
             size: string.selfSize,
-            total: totalSize,
+            total: heldSize,
             path: shownPaths.ofNode(snapshot, string.id),
           })),
         ),
@@ -773,11 +773,11 @@ const formatDiffSummaryLine = ({
   current,
 }: AggregatedHeapSnapshotDiff): string =>
   `Held ${formatArrow(
-    formatBytes(base.totalSize),
-    formatBytes(current.totalSize),
+    formatBytes(base.heldSize),
+    formatBytes(current.heldSize),
   )}${formatChange(
-    base.totalSize,
-    current.totalSize,
+    base.heldSize,
+    current.heldSize,
     formatBytesDelta,
   )} over ${formatArrow(
     formatCount(base.nodeCount),
@@ -799,8 +799,8 @@ const formatDiffCategoryTable = (
     ([, left], [, right]) =>
       (right.current?.size ?? 0) - (left.current?.size ?? 0),
   )
-  const baseTotal = base.totalSize
-  const currentTotal = current.totalSize
+  const baseTotal = base.heldSize
+  const currentTotal = current.heldSize
   return [
     formatDiffTable(
       categoryColumns,
@@ -953,8 +953,8 @@ const formatDiffSizeConstructors = ({
       instanceCount: entity.instanceCount,
     }
   const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
-    base: sideRowOf(diff.base.totalSize, base),
-    current: sideRowOf(diff.current.totalSize, current),
+    base: sideRowOf(diff.base.heldSize, base),
+    current: sideRowOf(diff.current.heldSize, current),
   })
 
   const instanceSections = shownDiffEntities({
@@ -1014,7 +1014,7 @@ const formatDiffConstructorInstances = ({
     sizeOf,
     totalOf: sizeOf,
     headingLevel: 5,
-    columns: instanceColumns,
+    columns: instanceGroupColumns,
     rowOf: (group, size, total) => ({
       size,
       total,
@@ -1205,9 +1205,9 @@ const functionRowOf = (
 ): FunctionRow => ({
   entity,
   size: entity.retainedSize,
-  total: snapshot.totalSize,
+  total: snapshot.heldSize,
   instanceCount: entity.instanceCount,
-  pathCount: new Set(entity.instanceIds.map(pathOf)).size,
+  pathCount: new Set(entity.instanceOrdinals.map(pathOf)).size,
   examplePath: shownPaths.ofNode(snapshot, entity.id),
 })
 
@@ -1270,7 +1270,7 @@ const nodeRowOf = (
 ): NodeRow => ({
   name: entity.name,
   size: entity.selfSize,
-  total: snapshot.totalSize,
+  total: snapshot.heldSize,
   path: shownPaths.ofNode(snapshot, entity.id),
 })
 

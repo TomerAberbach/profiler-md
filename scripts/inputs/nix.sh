@@ -13,26 +13,26 @@ assets="$REPO/scripts/inputs/assets/nix"
 # source tree every run and the profile's store paths stay stable.
 CURRENT_NIXPKGS_REV="22bbca0e89aeef5b8245efb3cbc872e0b2b52e55"
 nixpkgs_rev() {
-  local role=$1
-  if [[ "$role" == current ]]; then
+  local side=$1
+  if [[ "$side" == current ]]; then
     echo "$CURRENT_NIXPKGS_REV"
   else
     jq -r .nodes.nixpkgs.locked.rev "$REPO/scripts/inputs/flake.lock"
   fi
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 #   Evaluates a NixOS system configuration's derivation, the evaluation that
-#   `nixos-rebuild` runs, from the role's nixpkgs revision.
+#   `nixos-rebuild` runs, from the side's nixpkgs revision.
 #   Evaluating the full system closure exercises the module system, the stdenv
 #   bootstrap, and the package set, so the samples fall in nixpkgs' own code.
 record_eval() {
-  local out=$1 role=$2 rev
-  rev="$(nixpkgs_rev "$role")" || return 1
+  local out=$1 side=$2 rev
+  rev="$(nixpkgs_rev "$side")" || return 1
 
-  notice "Profiling a NixOS system evaluation with the Nix evaluator ($role)"
+  notice "Profiling a NixOS system evaluation with the Nix evaluator ($side)"
 
-  local dir="$WORKDIR/nix-$role"
+  local dir="$WORKDIR/nix-$side"
   mkdir -p "$dir" || return 1
   cp "$assets/configuration.nix" "$dir/configuration.nix" || return 1
 
@@ -53,8 +53,8 @@ record_eval() {
   install -m 644 "$dir/eval.collapsed" "$out" || return 1
 }
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/nix.nix.$role.collapsed" record_eval "$role"
+for side in base current; do
+  try emit "$GENERATED_INPUTS/nix.nix.$side.collapsed" record_eval "$side"
 done
 
 verify_pairs

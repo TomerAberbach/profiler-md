@@ -102,12 +102,12 @@ export type ImmediateDominatorGraph = {
    * Node ordinal at each DFS traversal index, enabling bottom-up tree walks by
    * iterating in reverse.
    *
-   * Only nodes reachable from the root have a DFS index, so its length is the
-   * reachable node count rather than the node count.
+   * Only nodes reachable from the GC root have a DFS index, so its length is
+   * the reachable node count rather than the node count.
    */
   dfsIndexToOrdinal: Int32Array
 
-  /** -1 for unreachable nodes, self for the root. */
+  /** -1 for unreachable nodes, self for the GC root. */
   ordinalToImmediateDominatorOrdinal: Int32Array
 
   /**

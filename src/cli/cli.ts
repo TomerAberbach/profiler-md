@@ -33,7 +33,7 @@ const globalRegex = regex(`gu`)
 
 export type RegexReplacement = readonly [RegExp, string]
 
-/** Formats a `REGEX=VALUE` rule as its flag value. */
+/** Formats a flag rule as its `REGEX=VALUE` flag value. */
 export const formatRegexRule = ([regex, value]: readonly [
   RegExp,
   string,
@@ -65,7 +65,7 @@ const functionCategory = choice(FUNCTION_CATEGORY_SET.categories, {
   expected: `a function category listed by --help`,
 })
 
-/** A rule assigning functions matching a regex to a category. */
+/** A flag rule assigning functions matching a regex to a category. */
 export type RegexCategory = readonly [RegExp, FunctionCategory]
 
 /**
@@ -227,7 +227,7 @@ const rankingFlags = object(`Ranking`, {
   ),
   minCategoryShare: withDefault(
     option(`--min-category-share`, fraction(`FRACTION`), {
-      description: message`Share of a profile a category needs for its own subsection, from 0 to 1`,
+      description: message`Share of the shown entries' self values a category needs for its own subsection, from 0 to 1`,
     }),
     DEFAULT_MIN_CATEGORY_SHARE,
   ),

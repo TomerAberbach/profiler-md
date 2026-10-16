@@ -113,13 +113,13 @@ export const constructorColumns = (
 ]
 
 /** An instance group's row. */
-export type InstanceRow = SizeRow & {
+export type InstanceGroupRow = SizeRow & {
   instanceCount: number
   retainerPath: string
 }
 
 /** The columns of the largest instance groups table. */
-export const instanceColumns: Table<InstanceRow> = [
+export const instanceGroupColumns: Table<InstanceGroupRow> = [
   ...sizeColumns(`Size`),
   {
     header: { content: `Instances`, align: `right` },

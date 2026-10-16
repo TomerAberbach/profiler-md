@@ -83,7 +83,7 @@ export const rbspyOriginSpec = {
     `ours`,
   normalizeStackFrame: (input, format) => {
     if (input.definition) {
-      // Rbspy's speedscope export also emits one frame per sampled line, with
+      // Rbspy's speedscope export also emits one frame per executing line, with
       // the line stored beside the source rather than packed into the name.
       return dropPlaceholderPath(
         normalizeSpeedscopeExecutingLine(input, format),

@@ -15,7 +15,7 @@ $ARGUMENTS
 
 # Principles
 
-- A modality is the kind of data a format captures, defined by its aggregated
+- A modality is a data structure a format captures, defined by its aggregated
   form and Markdown output, not by any single format. Add one only when a
   format's data can't aggregate into an existing modality's form
 
@@ -32,7 +32,7 @@ $ARGUMENTS
 
 ## Design
 
-1. Define the modality: what a capture contains, its aggregated form, and what
+1. Define the modality: what its inputs contain, its aggregated form, and what
    its Markdown tables show. If an existing modality can represent it, STOP and
    explain why none is needed
 
@@ -42,7 +42,7 @@ $ARGUMENTS
    - The diff semantics for base/current pairs
    - How categorization works: what an entry (name + location) is for this
      modality, so origin detection and `showEntry` filtering apply uniformly
-   - What `detectOrigin` feeds the file's shared `OriginDetector`
+   - What `detectOrigin` feeds the raw input's shared `OriginDetector`
 
 ## Implement the modality module
 
@@ -54,7 +54,7 @@ $ARGUMENTS
      - A `<Name>Aggregator` class implementing `InputAggregator<Aggregated>`
        from `src/modalities/aggregator.ts`. `detectOrigin(detector)` feeds the
        input's origin-detection entries; `aggregate(options, context)`
-       aggregates and categorizes under the file's resolved context
+       aggregates and categorizes under the raw input's resolved context
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
    - `format.ts`: aggregated form and diff to Markdown, building tables with
      `src/table.ts` in a colocated `table.ts` like the other modalities. If the

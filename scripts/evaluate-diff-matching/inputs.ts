@@ -23,8 +23,8 @@ export const committedPairs = (filter?: string): ExampleDiffPair[] =>
     .sort((left, right) => left.base.localeCompare(right.base))
 
 /**
- * The aggregated inputs of a pair whose sides a diff can pair entities of: a
- * function input or a heap snapshot on both sides.
+ * The aggregated inputs of an example pair whose sides a diff can pair entities
+ * of: a function input or a heap snapshot on both sides.
  */
 export const scoredInputPairs = (
   pair: ExampleDiffPair,

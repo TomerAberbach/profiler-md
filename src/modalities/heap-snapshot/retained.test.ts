@@ -2,9 +2,9 @@ import { fc, test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import {
-  attributeCategoryRetainedSizes,
+  attributeEntityRetainedSizes,
   computeNodeOrdinalToRetainedSize,
-  newOutermostInstanceIdsOf,
+  newOutermostInstanceOrdinalsOf,
 } from './retained.ts'
 import { makeNodeAdjacencyGraph } from './testing.ts'
 
@@ -26,7 +26,7 @@ test(`computeNodeOrdinalToRetainedSize excludes unreachable nodes from the root'
 })
 
 // 0 → 1 → 2 → 3 and 0 → 4, with 5 unreachable
-const outermostInstanceIdsOf = newOutermostInstanceIdsOf(
+const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
   computeImmediateDominatorGraph(
     6,
     makeNodeAdjacencyGraph(6, [
@@ -41,65 +41,64 @@ const outermostInstanceIdsOf = newOutermostInstanceIdsOf(
 test.each([
   {
     scenario: `no instance dominates another`,
-    instanceIds: [3, 4],
+    instanceOrdinals: [3, 4],
     expected: [3, 4],
   },
   {
     scenario: `an instance dominates a later one`,
-    instanceIds: [2, 3],
+    instanceOrdinals: [2, 3],
     expected: [2],
   },
   {
     scenario: `an instance dominates an earlier one through a node between them`,
-    instanceIds: [3, 4, 1],
+    instanceOrdinals: [3, 4, 1],
     expected: [4, 1],
   },
   {
     scenario: `an instance is unreachable`,
-    instanceIds: [5, 4],
+    instanceOrdinals: [5, 4],
     expected: [4],
   },
   {
     scenario: `the only instance is unreachable`,
-    instanceIds: [5],
+    instanceOrdinals: [5],
     expected: [],
   },
 ])(
-  `newOutermostInstanceIdsOf selects the reachable instances no other dominates when $scenario`,
-  ({ instanceIds, expected }) => {
-    const outermostInstanceIds = outermostInstanceIdsOf(instanceIds)
+  `newOutermostInstanceOrdinalsOf selects the reachable instances no other dominates when $scenario`,
+  ({ instanceOrdinals, expected }) => {
+    const outermostInstanceOrdinals =
+      outermostInstanceOrdinalsOf(instanceOrdinals)
 
-    expect(outermostInstanceIds).toStrictEqual(expected)
+    expect(outermostInstanceOrdinals).toStrictEqual(expected)
   },
 )
 
-const graphWithAggregatedNodes = fc
-  .integer({ min: 1, max: 40 })
-  .chain(nodeCount =>
-    fc.record({
-      nodeCount: fc.constant(nodeCount),
-      edges: fc.array(
-        fc.tuple(
-          fc.integer({ min: 0, max: nodeCount - 1 }),
-          fc.integer({ min: 0, max: nodeCount - 1 }),
-        ),
-        { maxLength: nodeCount * 3 },
+const graphWithEntities = fc.integer({ min: 1, max: 40 }).chain(nodeCount =>
+  fc.record({
+    nodeCount: fc.constant(nodeCount),
+    edges: fc.array(
+      fc.tuple(
+        fc.integer({ min: 0, max: nodeCount - 1 }),
+        fc.integer({ min: 0, max: nodeCount - 1 }),
       ),
-      // `-1` for a node of no aggregated node.
-      nodeOrdinalToAggregatedNodeIndex: fc.array(
-        fc.integer({ min: -1, max: 3 }),
-        { minLength: nodeCount, maxLength: nodeCount },
-      ),
-      selfSizes: fc.array(fc.integer({ min: 0, max: 100 }), {
-        minLength: nodeCount,
-        maxLength: nodeCount,
-      }),
+      { maxLength: nodeCount * 3 },
+    ),
+    // `-1` for a node that is an instance of no entity.
+    nodeOrdinalToEntityIndex: fc.array(fc.integer({ min: -1, max: 3 }), {
+      minLength: nodeCount,
+      maxLength: nodeCount,
     }),
-  )
+    selfSizes: fc.array(fc.integer({ min: 0, max: 100 }), {
+      minLength: nodeCount,
+      maxLength: nodeCount,
+    }),
+  }),
+)
 
-test.prop([graphWithAggregatedNodes])(
-  `attributeCategoryRetainedSizes sums the retained sizes of the instances newOutermostInstanceIdsOf selects`,
-  ({ nodeCount, edges, nodeOrdinalToAggregatedNodeIndex, selfSizes }) => {
+test.prop([graphWithEntities])(
+  `attributeEntityRetainedSizes sums the retained sizes of the instances newOutermostInstanceOrdinalsOf selects`,
+  ({ nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes }) => {
     const immediateDominatorGraph = computeImmediateDominatorGraph(
       nodeCount,
       makeNodeAdjacencyGraph(nodeCount, edges),
@@ -108,30 +107,30 @@ test.prop([graphWithAggregatedNodes])(
       nodeOrdinal => selfSizes[nodeOrdinal]!,
       immediateDominatorGraph,
     )
-    const aggregatedNodes = Array.from({ length: 4 }, () => ({
+    const entities = Array.from({ length: 4 }, () => ({
       retainedSize: 0,
     }))
-    attributeCategoryRetainedSizes(
+    attributeEntityRetainedSizes(
       nodeOrdinalToRetainedSize,
       immediateDominatorGraph,
-      Int32Array.from(nodeOrdinalToAggregatedNodeIndex),
-      aggregatedNodes,
+      Int32Array.from(nodeOrdinalToEntityIndex),
+      entities,
     )
 
-    const outermostInstanceIdsOf = newOutermostInstanceIdsOf(
+    const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
       immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
     )
     expect(
-      aggregatedNodes.map((_, aggregatedNodeIndex) =>
-        outermostInstanceIdsOf(
-          nodeOrdinalToAggregatedNodeIndex.flatMap((index, nodeOrdinal) =>
-            index === aggregatedNodeIndex ? [nodeOrdinal] : [],
+      entities.map((_, entityIndex) =>
+        outermostInstanceOrdinalsOf(
+          nodeOrdinalToEntityIndex.flatMap((index, nodeOrdinal) =>
+            index === entityIndex ? [nodeOrdinal] : [],
           ),
         ).reduce(
           (sum, nodeOrdinal) => sum + nodeOrdinalToRetainedSize[nodeOrdinal]!,
           0,
         ),
       ),
-    ).toStrictEqual(aggregatedNodes.map(({ retainedSize }) => retainedSize))
+    ).toStrictEqual(entities.map(({ retainedSize }) => retainedSize))
   },
 )

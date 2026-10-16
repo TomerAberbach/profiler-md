@@ -157,28 +157,28 @@ const createStackFrameInterner = (): {
   }
 }
 
-const frameKey = (node: WebKitStackFrame): string =>
-  `${node.name}|${node.url}|${node.line}|${node.column}`
+const frameKey = (frame: WebKitStackFrame): string =>
+  `${frame.name}|${frame.url}|${frame.line}|${frame.column}`
 
 // The frame's own position is where the function is defined. The parser drops
 // a position without a URL (a host or builtin frame) along with the missing
 // source.
-const frameToStackFrame = (node: WebKitStackFrame): StackFrame => {
-  if (!node.url) {
-    return { name: node.name }
+const frameToStackFrame = (frame: WebKitStackFrame): StackFrame => {
+  if (!frame.url) {
+    return { name: frame.name }
   }
   const position =
-    node.line === -1
+    frame.line === -1
       ? undefined
       : {
-          line: node.line,
-          column: node.column === -1 ? undefined : node.column,
+          line: frame.line,
+          column: frame.column === -1 ? undefined : frame.column,
         }
   return {
-    name: node.name,
+    name: frame.name,
     definition: {
       type: `file`,
-      urlOrPath: node.url,
+      urlOrPath: frame.url,
       ...(position && { position }),
     },
   }

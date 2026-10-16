@@ -438,7 +438,7 @@ const formatHottestArcSections = ({
 
 /**
  * The Callers or Callees subsection for one function: its incoming or outgoing
- * arcs ranked by the arcs' recorded inclusive values.
+ * arcs ranked by the arcs' recorded total values.
  */
 const formatHottestArcs = ({
   measure: { metric, index },
@@ -819,7 +819,7 @@ const formatDiffArcSections = (args: DiffDetailArgs): RootContent[] => {
 
 /**
  * The Callers or Callees subsection for one function: its arcs whose recorded
- * inclusive values changed the most either way.
+ * total values changed the most either way.
  */
 const formatDiffFunctionArcs = ({
   diff,

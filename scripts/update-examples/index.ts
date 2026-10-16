@@ -22,11 +22,11 @@ const totalInputBytes = (filenames: string[]): number =>
 // stretching the run past the point everything else finished.
 const listExamplesLargestFirst = (
   inputFilenames: string[],
-  pairs: ExampleDiffPair[],
+  examplePairs: ExampleDiffPair[],
 ): Example[] =>
   [
     ...inputFilenames.map(filename => ({ name: filename, inputs: [filename] })),
-    ...pairs.map(({ name, ext, base, current }) => ({
+    ...examplePairs.map(({ name, ext, base, current }) => ({
       name: `${name}.diff.${ext}`,
       inputs: [base, current],
     })),

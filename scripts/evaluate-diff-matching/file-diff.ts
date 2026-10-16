@@ -5,8 +5,8 @@ import { CACHE_DIRECTORY } from './cache.ts'
 import type { Position } from './position.ts'
 
 /**
- * A diff's hunk: base start, base count, current start, current count, in lines
- * or in characters.
+ * A file diff's hunk: base start, base count, current start, current count, in
+ * lines or in characters.
  */
 type Hunk = [number, number, number, number]
 
@@ -160,7 +160,7 @@ const mapCharacterPosition = (
 }
 
 /**
- * Maps a base line, or a character offset of a character diff, through a
+ * Maps a base line, or a character offset of a character diff, through a file
  * diff's hunks. Returns `null` for one a hunk deleted without replacing, and
  * `undefined` for one a hunk replaced.
  */

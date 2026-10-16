@@ -4,7 +4,7 @@ import { resolveProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryRankingTables,
-  categorySectionTables,
+  categorySubsectionTables,
   categoryTables,
   diffRankingTable,
   expectLogs,
@@ -87,7 +87,7 @@ describe(`formatCallStackProfile`, () => {
           url: `file:///project/src/a.ts`,
           selfCount: 5,
           selfValues: [300],
-          stack: [0, 1],
+          callStack: [0, 1],
         },
         {
           name: `hotCaller`,
@@ -100,7 +100,7 @@ describe(`formatCallStackProfile`, () => {
           url: `file:///project/src/c.ts`,
           selfCount: 5,
           selfValues: [0],
-          stack: [2, 3],
+          callStack: [2, 3],
         },
         {
           name: `coldCaller`,
@@ -135,7 +135,7 @@ describe(`formatCallStackProfile`, () => {
           name: `extLeaf`,
           selfCount: 5,
           selfValues: [300],
-          stack: [0, 1, 2],
+          callStack: [0, 1, 2],
         },
         { name: `extMid`, selfCount: 0, selfValues: [0] },
         {
@@ -177,9 +177,10 @@ describe(`formatCallStackProfile`, () => {
   })
 
   test(`merges call stacks that differ only in hidden frames into one row`, () => {
-    // Two stacks share the visible suffix extApi ← main but end in different
-    // leaves the entry filter hides. Without merging they'd render as two
-    // identical rows, each carrying only its own slice of the value.
+    // Two call stacks share the visible suffix extApi ← main but end in
+    // different leaves the entry filter hides. Without merging, the Markdown
+    // would show two identical rows, each containing only its own part of the
+    // value.
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],
       [
@@ -187,13 +188,13 @@ describe(`formatCallStackProfile`, () => {
           name: `extLeafA`,
           selfCount: 3,
           selfValues: [180],
-          stack: [0, 2, 3],
+          callStack: [0, 2, 3],
         },
         {
           name: `extLeafB`,
           selfCount: 2,
           selfValues: [120],
-          stack: [1, 2, 3],
+          callStack: [1, 2, 3],
         },
         { name: `extApi`, selfCount: 0, selfValues: [0] },
         {
@@ -232,7 +233,7 @@ describe(`formatCallStackProfile`, () => {
           url: `file:///project/src/a.ts`,
           selfCount: 5,
           selfValues: [300],
-          stack: [0, 1, 2],
+          callStack: [0, 1, 2],
         },
         {
           name: `funcB`,
@@ -269,8 +270,8 @@ describe(`formatCallStackProfile`, () => {
   })
 
   test(`ends a row with an ellipsis when hidden frames precede the common call stack`, () => {
-    // One stack reaches funcC through a hidden frame and the other calls it
-    // directly, so the ellipsis prints on the row instead of in the common
+    // One call stack reaches funcC through a hidden frame and the other calls
+    // it directly, so the ellipsis prints on the row instead of in the common
     // call stack.
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],
@@ -280,7 +281,7 @@ describe(`formatCallStackProfile`, () => {
           url: `file:///project/src/a.ts`,
           selfCount: 6,
           selfValues: [360],
-          stack: [0, 1, 2],
+          callStack: [0, 1, 2],
         },
         {
           name: `hiddenMid`,
@@ -299,7 +300,7 @@ describe(`formatCallStackProfile`, () => {
           url: `file:///project/src/b.ts`,
           selfCount: 3,
           selfValues: [180],
-          stack: [3, 2],
+          callStack: [3, 2],
         },
       ],
     )
@@ -340,7 +341,7 @@ describe(`formatCallStackProfile`, () => {
           line: 10,
           selfCount: 5,
           selfValues: [300],
-          stack: [0, 1, 2],
+          callStack: [0, 1, 2],
         },
         {
           name: `funcB`,
@@ -385,7 +386,7 @@ describe(`formatCallStackProfile`, () => {
           url: `file:///project/src/leaf.ts`,
           selfCount: 5,
           selfValues: [300],
-          stack: [0, 1, 2, 3],
+          callStack: [0, 1, 2, 3],
         },
         {
           name: `funcA`,
@@ -433,7 +434,7 @@ describe(`formatCallStackProfile`, () => {
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],
       [
-        { name: `funcA`, selfCount: 5, selfValues: [300], stack: [0, 1] },
+        { name: `funcA`, selfCount: 5, selfValues: [300], callStack: [0, 1] },
         { name: `funcB`, selfCount: 0, selfValues: [0] },
       ],
     )
@@ -536,7 +537,7 @@ describe(`formatCallStackProfile`, () => {
           url: `lists`,
           selfCount: 5,
           selfValues: [200],
-          stack: [0, 1],
+          callStack: [0, 1],
         },
         {
           name: `caller`,
@@ -623,13 +624,13 @@ describe(`formatCallStackProfile`, () => {
             url: `file:///project/node_modules/lib/index.js`,
             selfCount: 39,
             selfValues: [390],
-            stack: [1, 0],
+            callStack: [1, 0],
           },
           {
             name: `nativeCall`,
             selfCount: 1,
             selfValues: [1],
-            stack: [2, 0],
+            callStack: [2, 0],
           },
         ],
         // Aggregated as `node` so a `node_modules/` location categorizes as
@@ -665,7 +666,7 @@ describe(`formatCallStackProfile`, () => {
           Location: `<unknown>`,
         },
       ])
-      expect(categorySectionTables(md, `Self time`)).toEqual({
+      expect(categorySubsectionTables(md, `Self time`)).toEqual({
         Ours: [
           {
             '%': `60.5%`,
@@ -694,7 +695,7 @@ describe(`formatCallStackProfile`, () => {
         formatCallStackProfile(makeMixedProfile(), defaultOptions),
       )
 
-      expect(Object.keys(categorySectionTables(md, `Self time`))).toEqual([
+      expect(Object.keys(categorySubsectionTables(md, `Self time`))).toEqual([
         `Ours`,
         `Third-party`,
       ])
@@ -753,7 +754,7 @@ describe(`formatCallStackProfile`, () => {
       )
 
       expect(rankingTable(md, `Self time`)).toBeUndefined()
-      expect(categorySectionTables(md, `Self time`)).toEqual({
+      expect(categorySubsectionTables(md, `Self time`)).toEqual({
         Ours: [
           {
             '%': `100.0%`,
@@ -777,7 +778,7 @@ describe(`formatCallStackProfile`, () => {
         ),
       )
 
-      expect(Object.keys(categorySectionTables(md, `Self time`))).toEqual([
+      expect(Object.keys(categorySubsectionTables(md, `Self time`))).toEqual([
         `Ours`,
         `Third-party`,
         `Native`,
@@ -1522,8 +1523,8 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     // Hiding funcA leaves the CPU metric with no active shown function, so
-    // its heading should not dangle without sections, while the heap metric
-    // still renders via funcB.
+    // its heading should not dangle without sections, while the heap metric's
+    // sections still show funcB.
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcA`,
@@ -1561,13 +1562,13 @@ describe(`formatCallStackProfileDiff`, () => {
             url: `file:///project/node_modules/lib/index.js`,
             selfCount: selfValues[1],
             selfValues: [selfValues[1] * 10],
-            stack: [1, 0],
+            callStack: [1, 0],
           },
           {
             name: `nativeCall`,
             selfCount: selfValues[2],
             selfValues: [selfValues[2] * 10],
-            stack: [2, 0],
+            callStack: [2, 0],
           },
         ],
         // Aggregated as `node` so a `node_modules/` location categorizes as
@@ -1697,14 +1698,14 @@ describe(`formatCallStackProfileDiff`, () => {
               url: `file:///project/node_modules/lib/first.js`,
               selfCount: firstSamples,
               selfValues: [firstSamples * 10],
-              stack: [1, 0],
+              callStack: [1, 0],
             },
             {
               name: `libSecond`,
               url: `file:///project/node_modules/lib/second.js`,
               selfCount: secondSamples,
               selfValues: [secondSamples * 10],
-              stack: [2, 0],
+              callStack: [2, 0],
             },
           ],
           { format: `v8-cpu-profile`, origin: `node` },

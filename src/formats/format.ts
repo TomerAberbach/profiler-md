@@ -108,8 +108,8 @@ const makeFormattingProfileToMdOptions = (
  *
  * `baseURL: 'auto'` infers one base URL across both sides, so a diff's sides
  * format consistently. When each side's own base URL differs only by what
- * match normalization removes, such as a Nix store hash, each side keeps its
- * own, because the shared one would state that identifier in every path.
+ * `matchEntry` strips, such as a Nix store hash, each side keeps its own,
+ * because the shared one would state that identifier in every path.
  */
 const makeDiffFormattingProfileToMdOptions = (
   options: NormalizedProfileToMdOptions,
@@ -128,7 +128,7 @@ const makeDiffFormattingProfileToMdOptions = (
   if (
     baseSideBaseURL &&
     currentSideBaseURL &&
-    differOnlyByMatchNormalization(
+    differOnlyByMatchEntry(
       { baseURL: baseSideBaseURL, inputs: base },
       { baseURL: currentSideBaseURL, inputs: current },
       options,
@@ -137,7 +137,7 @@ const makeDiffFormattingProfileToMdOptions = (
     logInferredBaseURL(baseInference, options, ` of the base`)
     logInferredBaseURL(currentInference, options, ` of the current`)
     options.logger.debug?.(
-      `the base and the current each format paths relative to their own base URL because the diff pairs functions below them that differ only by what match normalization removes`,
+      `the base and the current each format paths relative to their own base URL because the diff pairs functions below them that differ only by what matchEntry strips`,
     )
     return {
       ...options,
@@ -193,11 +193,11 @@ const inferBaseURL = (
 }
 
 /**
- * Whether two different base URLs differ only by what match normalization
- * removes: the diff pairs a function below one with a function below the other
- * by their normalized match keys, though their own match keys differ.
+ * Whether two different base URLs differ only by what `matchEntry` strips:
+ * the diff pairs a function below one with a function below the other by
+ * match key, though their own keys differ.
  */
-const differOnlyByMatchNormalization = (
+const differOnlyByMatchEntry = (
   base: { baseURL: URL; inputs: AggregatedInput[] },
   current: { baseURL: URL; inputs: AggregatedInput[] },
   options: NormalizedProfileToMdOptions,

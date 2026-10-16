@@ -3,9 +3,9 @@ import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { denoOriginSpec } from './deno.ts'
 
 describe(`detection`, () => {
-  test(`prefers Deno over Node when both signals are present`, () => {
+  test(`prefers Deno over Node when both markers are present`, () => {
     // Deno polyfills `node:` specifiers, so a `node:` entry alone shouldn't beat
-    // Deno's `ext:` signal.
+    // Deno's `ext:` marker.
     expect(
       determineOrigin({
         format: `v8-cpu-profile`,

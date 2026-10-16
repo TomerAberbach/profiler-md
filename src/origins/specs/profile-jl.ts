@@ -7,8 +7,8 @@ import type { OriginSpec } from '../spec.ts'
  * heap snapshots.
  *
  * Julia's runtime is the format's sole writer for Julia, so its snapshot
- * writer's own labels are origin-level evidence. Detection ignores `.jl` file
- * extensions, which are language-level evidence.
+ * writer's own labels are origin-level markers. Detection ignores `.jl` file
+ * extensions, which are language-level.
  */
 export const profileJlOriginSpec = {
   id: `profile-jl`,
@@ -25,7 +25,7 @@ export const profileJlOriginSpec = {
 /**
  * The category of a node whose declared Julia type is {@link declaredType}.
  *
- * Julia writes the concrete type of every object into V8's `meta.node_types`,
+ * Julia writes the concrete type of every node into V8's `meta.node_types`,
  * so the table holds thousands of names built from the program's own types
  * rather than the fifteen V8 defines. The rules match the type constructors
  * Julia's runtime and standard library define. A name none of them matches is a

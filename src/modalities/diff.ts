@@ -38,11 +38,11 @@ type DiffableEntry = {
 export type EntryDiff<Entry> = Diff<Entry> & { byPosition: boolean }
 
 /** The keys pairing an entry across a diff's two sides. */
-export type DiffedEntryKeys = {
+export type DiffedMatchKeys = {
   /** The key built from the entry's own name and location. */
   ownNameAndLocation: string
 
-  /** The key built from the entry's match normalization. */
+  /** The key built from the entry's `EntryMatch`. */
   nameAndLocation: string
 }
 
@@ -61,17 +61,17 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
 
 /**
  * Matches each side's entries by their own keys, then groups the
- * leftovers by their normalized keys and matches those.
+ * leftovers by the keys built from their entry matches and matches those.
  *
- * Match normalization can give distinct entities one key (e.g. Zig generic
+ * An entry match can give distinct entities one key (e.g. Zig generic
  * instantiations whose compiler-assigned IDs it strips). The first pass pairs
  * each entity on both sides with itself, and only the leftovers, whose
- * identifiers changed between the sides, pair by the normalized key. When
+ * identifiers changed between the sides, pair by the entry match key. When
  * both sides have leftovers of one own key, the first pass aligned them and
  * rejected every pair between them. They stay unpaired, because pairing them by
- * the normalized key would undo that decision. A leftover whose own key has no
+ * the entry match key would undo that decision. A leftover whose own key has no
  * leftover on the other side is left over because its side has more entries of
- * that key, and it pairs by the normalized key.
+ * that key, and it pairs by the entry match key.
  *
  * The result keeps the first pass's order, with a leftover pair in its base
  * entry's position, so the second pass reorders nothing it does not pair.
@@ -79,14 +79,14 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
 export const matchDiffedEntries = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
   currentEntries: Entry[],
-  baseEntryKeys: (entry: Entry) => DiffedEntryKeys,
-  currentEntryKeys: (entry: Entry) => DiffedEntryKeys,
+  baseMatchKeys: (entry: Entry) => DiffedMatchKeys,
+  currentMatchKeys: (entry: Entry) => DiffedMatchKeys,
 ): EntryDiff<Entry>[] => {
   const matchedByOwnKeys = matchEntryGroups(
     baseEntries,
     currentEntries,
-    entry => baseEntryKeys(entry).ownNameAndLocation,
-    entry => currentEntryKeys(entry).ownNameAndLocation,
+    entry => baseMatchKeys(entry).ownNameAndLocation,
+    entry => currentMatchKeys(entry).ownNameAndLocation,
   )
 
   const leftovers = unpairedEntries(matchedByOwnKeys)
@@ -95,10 +95,10 @@ export const matchDiffedEntries = <Entry extends DiffableEntry>(
   }
 
   const baseOwnKeys = leftovers.base.map(
-    entry => baseEntryKeys(entry).ownNameAndLocation,
+    entry => baseMatchKeys(entry).ownNameAndLocation,
   )
   const currentOwnKeys = leftovers.current.map(
-    entry => currentEntryKeys(entry).ownNameAndLocation,
+    entry => currentMatchKeys(entry).ownNameAndLocation,
   )
   const realignableBase = withoutKeysIn(
     leftovers.base,
@@ -117,8 +117,8 @@ export const matchDiffedEntries = <Entry extends DiffableEntry>(
   const leftoverMatched = matchEntryGroups(
     realignableBase,
     realignableCurrent,
-    entry => baseEntryKeys(entry).nameAndLocation,
-    entry => currentEntryKeys(entry).nameAndLocation,
+    entry => baseMatchKeys(entry).nameAndLocation,
+    entry => currentMatchKeys(entry).nameAndLocation,
   )
   return spliceLeftoverDiffs(matchedByOwnKeys, leftoverMatched)
 }
@@ -180,7 +180,8 @@ const spliceLeftoverDiffs = <Entry>(
 }
 
 /**
- * Matches each side's entries by that side's entry key.
+ * Matches each side's entries by the key {@link baseMatchKey} or
+ * {@link currentMatchKey} returns for them.
  *
  * Several entries can share one key (e.g. Julia methods of one function
  * defined at different lines of the same file, whose match key ignores line
@@ -190,11 +191,11 @@ const spliceLeftoverDiffs = <Entry>(
 const matchEntryGroups = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
   currentEntries: Entry[],
-  baseEntryKey: (entry: Entry) => string,
-  currentEntryKey: (entry: Entry) => string,
+  baseMatchKey: (entry: Entry) => string,
+  currentMatchKey: (entry: Entry) => string,
 ): EntryDiff<Entry>[] => {
-  const baseByKey = Map.groupBy(baseEntries, baseEntryKey)
-  const currentByKey = Map.groupBy(currentEntries, currentEntryKey)
+  const baseByKey = Map.groupBy(baseEntries, baseMatchKey)
+  const currentByKey = Map.groupBy(currentEntries, currentMatchKey)
   const lineWeight = Math.max(
     positionLineWeight(baseEntries),
     positionLineWeight(currentEntries),
@@ -739,16 +740,17 @@ export type LineMatcher<Metrics> = (
  * paired by {@link pairLines}.
  *
  * When either side has no definition line, an edit anywhere above a line moves
- * it, and one function has too few sampled lines to tell an edit's offset from
- * a coincidence. Every sampled line of the function's file on each side is
- * then paired by {@link pairLines}, and the function's lines pair where those
- * file lines do. A line before the definition line that its distance from the
- * definition line leaves unpaired pairs the same way, because it is outside the
- * function's body and moves with its own part of the file. V8 records such a
- * line under a caller's frame when it inlines a callee. The line's distance
- * pairs it first, because a profiler can report a different definition line
- * for one function in each run, as PProf.jl does for macro-expanded code, and
- * then the function's lines move together by the difference.
+ * it, and one function has too few executing lines to tell an edit's offset
+ * from a coincidence. Every executing line of the function's file on each side
+ * is then paired by {@link pairLines}, and the function's lines pair where
+ * those file lines do. A line before the definition line that its distance
+ * from the definition line leaves unpaired pairs the same way, because it is
+ * outside the function's body and moves with its own part of the file. V8
+ * records such a line under a caller's frame when it inlines a callee. The
+ * line's distance pairs it first, because a profiler can report a different
+ * definition line for one function in each run, as PProf.jl does for
+ * macro-expanded code, and then the function's lines move together by the
+ * difference.
  *
  * A function with no source reference has its own lines paired by
  * {@link pairLines}.
@@ -808,9 +810,9 @@ const pairByDistance = (
   )
 
 /**
- * Returns a function that pairs each sampled line of a base file with the
- * current file's line it aligns with, aligning every sampled line of each pair
- * of files once.
+ * Returns a function that pairs each executing line of a base file with the
+ * current file's line it aligns with, aligning every executing line of each
+ * pair of files once.
  */
 const fileLineAligner = <Metrics>(
   sides: LineDiffSides<Metrics>,

@@ -46,19 +46,19 @@ setup_workload_dir() {
   workload_ready=1
 }
 
-# Each role extracts its composer into one directory, so both record the same
+# Each side extracts its composer into one directory, so both record the same
 # paths.
 composer_src="$WORKLOAD_DIR/composer"
-composer_role=""
+composer_side=""
 setup_composer() {
-  local role=$1
-  [[ "$composer_role" == "$role" ]] && return 0
+  local side=$1
+  [[ "$composer_side" == "$side" ]] && return 0
 
-  local version=${COMPOSER_VERSION[$role]}
+  local version=${COMPOSER_VERSION[$side]}
   local phar="$WORKDIR/composer-$version.phar"
   fetch_asset "composer $version" \
     "https://getcomposer.org/download/$version/composer.phar" \
-    "${COMPOSER_SHA256[$role]}" "$phar" || return 1
+    "${COMPOSER_SHA256[$side]}" "$phar" || return 1
 
   # Composer runs from the extracted phar so its frames name plain file paths,
   # as a PHP application's frames do, rather than `phar://` URLs.
@@ -67,7 +67,7 @@ setup_composer() {
   php -r '$p = new Phar($argv[1]); $p->extractTo($argv[2], null, true);' \
     "$phar" "$composer_src" || return 1
 
-  composer_role=$role
+  composer_side=$side
 }
 
 guzzle_src=""
@@ -82,40 +82,40 @@ setup_guzzle() {
   guzzle_src="$src"
 }
 
-# Both roles profile the workload from the same paths, so their functions pair
+# Both sides profile the workload from the same paths, so their functions pair
 # across a diff.
 declare -A rundir=()
-run_for_role() {
-  local role=$1 cfg=$2
-  local key="$role.$cfg"
+run_for_side() {
+  local side=$1 cfg=$2
+  local key="$side.$cfg"
   [[ -n "${rundir[$key]:-}" ]] && return 0
 
   setup_workload_dir || return 1
-  setup_composer "$role" || return 1
+  setup_composer "$side" || return 1
   setup_guzzle || return 1
 
   local dir="$WORKDIR/php-$key"
   mkdir -p "$dir" || return 1
 
-  notice "Profiling composer dump-autoload using excimer ($cfg, $role)"
+  notice "Profiling composer dump-autoload using excimer ($cfg, $side)"
   php "$WORKLOAD_DIR/profile.php" "$dir" "$cfg" "$composer_src" "$WORKLOAD_DIR" \
     || return 1
 
   rundir[$key]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=config (cpu|wall)  $4=ext
+# capture_fn for emit: $1=out  $2=side  $3=config (cpu|wall)  $4=ext
 copy_excimer_profile() {
-  local out=$1 role=$2 cfg=$3 ext=$4
-  run_for_role "$role" "$cfg" || return 1
-  cp "${rundir[$role.$cfg]}/php.$ext" "$out"
+  local out=$1 side=$2 cfg=$3 ext=$4
+  run_for_side "$side" "$cfg" || return 1
+  cp "${rundir[$side.$cfg]}/php.$ext" "$out"
 }
 
-for role in base current; do
+for side in base current; do
   for cfg in "${CONFIGS[@]}"; do
     for ext in "${EXTS[@]}"; do
-      out="$GENERATED_INPUTS/php.excimer.$cfg.$role.$ext"
-      try emit "$out" copy_excimer_profile "$role" "$cfg" "$ext"
+      out="$GENERATED_INPUTS/php.excimer.$cfg.$side.$ext"
+      try emit "$out" copy_excimer_profile "$side" "$cfg" "$ext"
     done
   done
 done

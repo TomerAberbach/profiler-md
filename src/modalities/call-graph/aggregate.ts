@@ -67,7 +67,7 @@ class FunctionsAggregator {
    * Per parsed function index, the outgoing arcs the cycle analysis walks,
    * empty for a function whose origin marks them runtime-inserted.
    */
-  readonly #cycleCalls: CallGraphFunction[`calls`][]
+  readonly #cycleArcs: CallGraphFunction[`arcs`][]
 
   readonly #totalValues: Float64Array
 
@@ -84,7 +84,7 @@ class FunctionsAggregator {
     this.#context = context
 
     this.#mergedFunctions = this.#mergeFunctions()
-    this.#cycleCalls = this.#cycleAnalysisCalls()
+    this.#cycleArcs = this.#cycleAnalysisArcs()
     this.#totalValues = new Float64Array(metrics.length)
   }
 
@@ -117,7 +117,7 @@ class FunctionsAggregator {
    * parsed arcs, so the arcs still count toward totals and appear in the
    * caller/callee metrics.
    */
-  #cycleAnalysisCalls(): CallGraphFunction[`calls`][] {
+  #cycleAnalysisArcs(): CallGraphFunction[`arcs`][] {
     const runtimeInserted = new Set<AggregatedCallGraphFunction>()
     for (const func of this.#keyToFunction.values()) {
       if (hasRuntimeInsertedArcsForOrigin(func, this.#context.origin)) {
@@ -125,7 +125,7 @@ class FunctionsAggregator {
       }
     }
     return this.#functions.map((parsed, index) =>
-      runtimeInserted.has(this.#mergedFunctions[index]!) ? [] : parsed.calls,
+      runtimeInserted.has(this.#mergedFunctions[index]!) ? [] : parsed.arcs,
     )
   }
 
@@ -174,8 +174,8 @@ class FunctionsAggregator {
       addValues(this.#totalValues, parsed.selfValues)
       this.#aggregateLineCosts(func, parsed.lineToValues)
 
-      for (const call of parsed.calls) {
-        this.#aggregateArc(func, call)
+      for (const arc of parsed.arcs) {
+        this.#aggregateArc(func, arc)
       }
     }
   }
@@ -196,17 +196,17 @@ class FunctionsAggregator {
 
   #aggregateArc(
     func: AggregatedCallGraphFunction,
-    call: CallGraphFunction[`calls`][number],
+    arc: CallGraphFunction[`arcs`][number],
   ): void {
-    const callee = this.#mergedFunctions[call.callee]!
-    this.#aggregateCalleeMetrics(func, callee, call)
-    this.#aggregateCallerMetrics(func, callee, call)
+    const callee = this.#mergedFunctions[arc.callee]!
+    this.#aggregateCalleeMetrics(func, callee, arc)
+    this.#aggregateCallerMetrics(func, callee, arc)
   }
 
   #aggregateCalleeMetrics(
     func: AggregatedCallGraphFunction,
     callee: AggregatedCallGraphFunction,
-    call: CallGraphFunction[`calls`][number],
+    arc: CallGraphFunction[`arcs`][number],
   ): void {
     let calleeMetrics = func.calleeIdToMetrics.get(callee.id)
     if (!calleeMetrics) {
@@ -217,14 +217,14 @@ class FunctionsAggregator {
       }
       func.calleeIdToMetrics.set(callee.id, calleeMetrics)
     }
-    calleeMetrics.callCount += call.callCount
-    addValues(calleeMetrics.totalValues, call.totalValues)
+    calleeMetrics.callCount += arc.callCount
+    addValues(calleeMetrics.totalValues, arc.totalValues)
   }
 
   #aggregateCallerMetrics(
     func: AggregatedCallGraphFunction,
     callee: AggregatedCallGraphFunction,
-    call: CallGraphFunction[`calls`][number],
+    arc: CallGraphFunction[`arcs`][number],
   ): void {
     let callerMetrics = callee.callerIdToMetrics.get(func.id)
     if (!callerMetrics) {
@@ -235,17 +235,17 @@ class FunctionsAggregator {
       }
       callee.callerIdToMetrics.set(func.id, callerMetrics)
     }
-    callerMetrics.callCount += call.callCount
-    addValues(callerMetrics.totalValues, call.totalValues)
+    callerMetrics.callCount += arc.callCount
+    addValues(callerMetrics.totalValues, arc.totalValues)
   }
 
   /**
    * Computes each merged function's total values.
    *
-   * A function's total is its self cost plus its outgoing arcs' inclusive
+   * A function's total is its self cost plus its outgoing arcs' total
    * costs, with exceptions handled on the parsed graph, before the identity
-   * merge, because an emitter's recursion separation (callgrind's `fn'2`)
-   * keeps the parsed graph acyclic where the merged graph is not:
+   * merge, because an origin that separates recursion levels (callgrind's
+   * `fn'2`) keeps the parsed graph acyclic where the merged graph is not:
    *
    * - Arcs within a recursion cycle re-count the same work each time around
    *   the loop and can inflate far past the whole program's total, so totals
@@ -253,11 +253,11 @@ class FunctionsAggregator {
    *   understates the member a cycle is entered at: the rest of the cycle's
    *   subtree counts toward the members that call out to it, not toward the
    *   entry point. Totalling a cycle as one unit, the standard alternative,
-   *   fails on real captures. The calls between libc's own functions join many
+   *   fails on real inputs. The calls between libc's own functions join many
    *   unrelated functions into one cycle, and every function in it would then
    *   report the whole program's cost. The arcs themselves stay in the
    *   caller/callee metrics, so recursion is still visible.
-   * - When several parsed nodes merge into one function, their subtrees
+   * - When several parsed functions merge into one function, their subtrees
    *   overlap rather than add: a recursion level's cost is already inside the
    *   outer level's arcs. The merged function reports the largest instance's
    *   total, floored at its (summed) self cost so no total falls below its
@@ -265,8 +265,8 @@ class FunctionsAggregator {
    */
   #computeTotals(): void {
     const componentIndices = stronglyConnectedComponents(
-      this.#cycleCalls,
-      call => call.callee,
+      this.#cycleArcs,
+      arc => arc.callee,
     )
     for (let index = 0; index < this.#functions.length; index++) {
       raiseValues(
@@ -283,9 +283,9 @@ class FunctionsAggregator {
   #acyclicTotalValues(index: number, componentIndices: number[]): Float64Array {
     const totalValues = new Float64Array(this.#metrics.length)
     addValues(totalValues, this.#functions[index]!.selfValues)
-    for (const call of this.#functions[index]!.calls) {
-      if (componentIndices[call.callee] !== componentIndices[index]) {
-        addValues(totalValues, call.totalValues)
+    for (const arc of this.#functions[index]!.arcs) {
+      if (componentIndices[arc.callee] !== componentIndices[index]) {
+        addValues(totalValues, arc.totalValues)
       }
     }
     return totalValues
@@ -406,7 +406,7 @@ export type AggregatedCallGraphFunction = {
   /**
    * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
    * in the function's body and all its callees: its self values plus its
-   * outgoing arcs' inclusive values, excluding the arcs to functions in its own
+   * outgoing arcs' total values, excluding the arcs to functions in its own
    * recursion cycle, which re-count the same work.
    */
   totalValues: Float64Array

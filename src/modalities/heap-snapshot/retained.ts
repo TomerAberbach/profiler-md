@@ -29,26 +29,25 @@ export const computeNodeOrdinalToRetainedSize = (
 }
 
 /**
- * Adds each node's retained size to its aggregated node without
- * double-counting.
+ * Adds each node's retained size to its entity without double-counting.
  *
- * Only the outermost instance of an aggregated node on each root-to-leaf path
- * of the dominator tree counts, because an inner instance's retained set is
- * contained in the outer one's. These are the instances
- * {@link newOutermostInstanceIdsOf} selects from the aggregated node's.
+ * Only the outermost instance of an entity on each root-to-leaf path of the
+ * dominator tree counts, because an inner instance's retained set is contained
+ * in the outer one's. These are the instances
+ * {@link newOutermostInstanceOrdinalsOf} selects from the entity's.
  */
-export const attributeCategoryRetainedSizes = (
+export const attributeEntityRetainedSizes = (
   nodeOrdinalToRetainedSize: Float64Array,
   {
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
-  nodeOrdinalToAggregatedNodeIndex: Int32Array,
-  aggregatedNodes: { retainedSize: number }[],
+  nodeOrdinalToEntityIndex: Int32Array,
+  entities: { retainedSize: number }[],
 ): void => {
   const nodeCount = nodeOrdinalToRetainedSize.length
 
-  const categoryPathDepth = new Int32Array(aggregatedNodes.length)
+  const entityPathDepth = new Int32Array(entities.length)
 
   // A value >= 0 enters a node, and ~value (always < 0) exits it.
   const stack = new Int32Array(nodeCount * 2 + 1)
@@ -58,23 +57,22 @@ export const attributeCategoryRetainedSizes = (
     const encodedNodeOrdinal = stack[--topOffset]!
     if (encodedNodeOrdinal < 0) {
       const nodeOrdinal = ~encodedNodeOrdinal
-      const constructorIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
-      if (constructorIndex !== -1) {
-        categoryPathDepth[constructorIndex] =
-          categoryPathDepth[constructorIndex]! - 1
+      const entityIndex = nodeOrdinalToEntityIndex[nodeOrdinal]!
+      if (entityIndex !== -1) {
+        entityPathDepth[entityIndex] = entityPathDepth[entityIndex]! - 1
       }
       continue
     }
 
     const nodeOrdinal = encodedNodeOrdinal
-    const aggregatedNodeIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
-    if (aggregatedNodeIndex !== -1) {
-      const depth = categoryPathDepth[aggregatedNodeIndex]!
+    const entityIndex = nodeOrdinalToEntityIndex[nodeOrdinal]!
+    if (entityIndex !== -1) {
+      const depth = entityPathDepth[entityIndex]!
       if (depth === 0) {
-        aggregatedNodes[aggregatedNodeIndex]!.retainedSize +=
+        entities[entityIndex]!.retainedSize +=
           nodeOrdinalToRetainedSize[nodeOrdinal]!
       }
-      categoryPathDepth[aggregatedNodeIndex] = depth + 1
+      entityPathDepth[entityIndex] = depth + 1
       stack[topOffset++] = ~nodeOrdinal
     }
 
@@ -99,57 +97,59 @@ const DOMINATED = 1
 const NOT_DOMINATED = 2
 
 /**
- * Returns a function selecting the reachable instances among distinct instance
- * IDs that no other of them dominates. Their retained nodes are disjoint, and
- * contain every other reachable instance's.
- * {@link attributeCategoryRetainedSizes} counts the same instances toward an
- * aggregated node's retained size.
+ * Returns a function selecting, of the given distinct instance ordinals, those
+ * of the reachable instances that no other given instance dominates. Their
+ * retained nodes are disjoint, and contain every other reachable instance's.
+ * {@link attributeEntityRetainedSizes} counts the same instances toward an
+ * entity's retained size.
  */
-export const newOutermostInstanceIdsOf = (
+export const newOutermostInstanceOrdinalsOf = (
   ordinalToImmediateDominatorOrdinal: Int32Array,
-): ((instanceIds: readonly number[]) => readonly number[]) => {
+): ((instanceOrdinals: readonly number[]) => readonly number[]) => {
   // Allocated on the first call with several instances, and unmarked before
   // each call returns.
   let ordinalToMark: Uint8Array | undefined
   const markedOrdinals: number[] = []
   const isReachable = (ordinal: number): boolean =>
     ordinalToImmediateDominatorOrdinal[ordinal] !== -1
-  return instanceIds => {
-    if (instanceIds.length < 2) {
-      return instanceIds.filter(isReachable)
+  return instanceOrdinals => {
+    if (instanceOrdinals.length < 2) {
+      return instanceOrdinals.filter(isReachable)
     }
     ordinalToMark ??= new Uint8Array(ordinalToImmediateDominatorOrdinal.length)
     const marks = ordinalToMark
-    for (const instanceId of instanceIds) {
-      marks[instanceId] = DOMINATED
-      markedOrdinals.push(instanceId)
+    for (const instanceOrdinal of instanceOrdinals) {
+      marks[instanceOrdinal] = DOMINATED
+      markedOrdinals.push(instanceOrdinal)
     }
-    const outermostInstanceIds = instanceIds.filter(instanceId => {
-      if (!isReachable(instanceId)) {
-        return false
-      }
-      const walkStart = markedOrdinals.length
-      let mark = NOT_DOMINATED
-      // A reachable node's dominators are reachable, and the GC root dominates
-      // itself.
-      let ordinal = instanceId
-      while (ordinalToImmediateDominatorOrdinal[ordinal] !== ordinal) {
-        ordinal = ordinalToImmediateDominatorOrdinal[ordinal]!
-        if (marks[ordinal] !== UNMARKED) {
-          mark = marks[ordinal]!
-          break
+    const outermostInstanceOrdinals = instanceOrdinals.filter(
+      instanceOrdinal => {
+        if (!isReachable(instanceOrdinal)) {
+          return false
         }
-        markedOrdinals.push(ordinal)
-      }
-      for (let index = walkStart; index < markedOrdinals.length; index++) {
-        marks[markedOrdinals[index]!] = mark
-      }
-      return mark === NOT_DOMINATED
-    })
+        const walkStart = markedOrdinals.length
+        let mark = NOT_DOMINATED
+        // A reachable node's dominators are reachable, and the GC root
+        // dominates itself.
+        let ordinal = instanceOrdinal
+        while (ordinalToImmediateDominatorOrdinal[ordinal] !== ordinal) {
+          ordinal = ordinalToImmediateDominatorOrdinal[ordinal]!
+          if (marks[ordinal] !== UNMARKED) {
+            mark = marks[ordinal]!
+            break
+          }
+          markedOrdinals.push(ordinal)
+        }
+        for (let index = walkStart; index < markedOrdinals.length; index++) {
+          marks[markedOrdinals[index]!] = mark
+        }
+        return mark === NOT_DOMINATED
+      },
+    )
     for (const ordinal of markedOrdinals) {
       marks[ordinal] = UNMARKED
     }
     markedOrdinals.length = 0
-    return outermostInstanceIds
+    return outermostInstanceOrdinals
   }
 }

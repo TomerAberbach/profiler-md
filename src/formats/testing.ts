@@ -49,8 +49,8 @@ export const readInput = (filename: string): Buffer =>
 
 /**
  * The lines auto-detecting a committed input logs, given the Markdown it
- * converted to. The origin is the one the filename records, and the evidence
- * for it varies per input. An input with no profiling data logs no origin.
+ * converted to. The origin is the one the filename records, and how it is
+ * detected varies per input. An input with no profiling data logs no origin.
  */
 export const detectionLogs = (filename: string, md: string): unknown[] => {
   const { format, origin } = parseExampleFilename(filename)

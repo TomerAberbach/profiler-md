@@ -12,15 +12,15 @@ SYSTING_TAG="v1.13.14"
 SILESIA_DICKENS_URL="https://raw.githubusercontent.com/MiloszKrajewski/SilesiaCorpus/3f3fa2cdbbb3795c903b74e774acb309e1360337/dickens.zip"
 
 declare -A rundir=()
-run_for_role() {
-  local role=$1
-  if [[ -n "${rundir[$role]:-}" ]]; then
+run_for_side() {
+  local side=$1
+  if [[ -n "${rundir[$side]:-}" ]]; then
     return 0
   fi
-  local dir="$WORKDIR/c-$role"
+  local dir="$WORKDIR/c-$side"
   mkdir -p "$dir"
 
-  notice "Profiling zstd with gperftools ($role)"
+  notice "Profiling zstd with gperftools ($side)"
 
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
@@ -30,7 +30,7 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         build-essential git ca-certificates curl unzip
 
-      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$side]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # libprofiler and libtcmalloc load through LD_PRELOAD at run time, because
       # the default --as-needed drops them from the link.
@@ -67,7 +67,7 @@ run_for_role() {
 
       # The binary is needed on the host to symbolize the raw profiles.
       cp "$ZSTD" /out/binary
-    ' -e ROLE="$role"
+    ' -e SIDE="$side"
 
   # pprof can't symbolize the Linux runtime libraries (libc, tcmalloc, ld) on
   # another OS, so drop those expected warnings. Other errors still print and
@@ -78,14 +78,14 @@ run_for_role() {
   pprof -proto "$dir/binary" "$dir/heap.raw" >"$dir/heap.pprof" \
     2> >(grep -v "$drop" >&2 || true)
 
-  rundir[$role]=$dir
+  rundir[$side]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container basename (cpu|heap)
+# capture_fn for emit: $1=out  $2=side  $3=in-container basename (cpu|heap)
 copy_c_profile() {
-  local out=$1 role=$2 name=$3
-  run_for_role "$role"
-  cp "${rundir[$role]}/$name.pprof" "$out"
+  local out=$1 side=$2 name=$3
+  run_for_side "$side"
+  cp "${rundir[$side]}/$name.pprof" "$out"
 }
 
 # systing records through eBPF against the running kernel. The container must
@@ -95,7 +95,7 @@ copy_c_profile() {
 # host's native architecture instead of the pinned DOCKER_PLATFORM. The
 # container shares the host's pid namespace because systing filters samples by
 # the traced command's pid as the kernel numbers it, and a container's own
-# namespace renumbers it, leaving the recording without stacks.
+# namespace renumbers it, leaving the recording without call stacks.
 systing_rundir=
 run_systing() {
   if [[ -n "$systing_rundir" ]]; then
@@ -129,17 +129,17 @@ run_systing() {
         --tag "$SYSTING_TAG" systing
 
       # Frame pointers so systing'"'"'s unwinder can walk the stack, and debug
-      # info so frames carry source locations. Each role builds in /src/zstd,
+      # info so frames carry source locations. Each side builds in /src/zstd,
       # so both binaries record the same source paths.
       mkdir -p /work
-      for role in base current; do
-        tag=ZSTD_TAG_$role
+      for side in base current; do
+        tag=ZSTD_TAG_$side
         rm -rf /src/zstd
         git clone --depth 1 --branch "${!tag}" "'"$ZSTD_REPO"'" /src/zstd
         make -C /src/zstd -j"$(nproc)" zstd CFLAGS="-O2 -g -fno-omit-frame-pointer"
         ZSTD=/src/zstd/zstd
         [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
-        cp "$ZSTD" "/work/zstd-$role"
+        cp "$ZSTD" "/work/zstd-$side"
       done
 
       # systing symbolizes against the live process when the recording window
@@ -154,36 +154,36 @@ run_systing() {
 
       mount -t tracefs tracefs /sys/kernel/tracing 2>/dev/null || true
 
-      # Both roles run from one path, so their frames name the same binary.
-      for role in base current; do
-        cp "/work/zstd-$role" /work/zstd
+      # Both sides run from one path, so their frames name the same binary.
+      for side in base current; do
+        cp "/work/zstd-$side" /work/zstd
         systing --duration 12 \
-          --output "/out/cpu.$role.systing" \
-          --output-dir "/work/traces-$role" \
+          --output "/out/cpu.$side.systing" \
+          --output-dir "/work/traces-$side" \
           -- /work/zstd -19 -f -q "$INPUT" -o /dev/null || true
-        [ -s "/out/cpu.$role.systing" ]
+        [ -s "/out/cpu.$side.systing" ]
       done
     '
 
   systing_rundir=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 copy_systing_profile() {
-  local out=$1 role=$2
+  local out=$1 side=$2
   run_systing
-  cp "$systing_rundir/cpu.$role.systing" "$out"
+  cp "$systing_rundir/cpu.$side.systing" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 #   Runs in its own container, so regenerating it skips the gperftools
 #   captures.
 capture_callgrind() {
-  local out=$1 role=$2
-  local dir="$WORKDIR/c-callgrind-$role"
+  local out=$1 side=$2
+  local dir="$WORKDIR/c-callgrind-$side"
   mkdir -p "$dir"
 
-  notice "Profiling zstd with callgrind ($role)"
+  notice "Profiling zstd with callgrind ($side)"
 
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
@@ -192,7 +192,7 @@ capture_callgrind() {
       apt-get install -y -qq --no-install-recommends \
         valgrind build-essential git ca-certificates curl unzip
 
-      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$side]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # Build with debug info so callgrind resolves function names and source
       # files/lines rather than raw addresses.
@@ -200,7 +200,7 @@ capture_callgrind() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # Extracted in two steps as in run_for_role, then truncated further and
+      # Extracted in two steps as in run_for_side, then truncated further and
       # compressed at the default level, because callgrind instruments every
       # instruction, ~50x slower than native.
       mkdir -p /work
@@ -212,19 +212,19 @@ capture_callgrind() {
 
       valgrind --tool=callgrind --callgrind-out-file=/out/callgrind.out \
         "$ZSTD" -3 -f -q "$INPUT" -o /dev/null
-    ' -e ROLE="$role"
+    ' -e SIDE="$side"
 
   cp "$dir/callgrind.out" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 #   Runs in its own container, so regenerating it skips the other captures.
 capture_perf() {
-  local out=$1 role=$2
-  local dir="$WORKDIR/c-perf-$role"
+  local out=$1 side=$2
+  local dir="$WORKDIR/c-perf-$side"
   mkdir -p "$dir"
 
-  notice "Profiling zstd with perf ($role)"
+  notice "Profiling zstd with perf ($side)"
 
   # perf_event_open goes to the real kernel, so the container must be
   # `--privileged` (Docker's default seccomp profile blocks the syscall) and
@@ -241,7 +241,7 @@ capture_perf() {
       # the capture is user-space only rather than failing.
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$side]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # Frame pointers so perf can walk the stack without the debug info its
       # dwarf unwinder would copy whole stacks to reach.
@@ -249,7 +249,7 @@ capture_perf() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # Extracted in two steps as in run_for_role.
+      # Extracted in two steps as in run_for_side.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -261,7 +261,7 @@ capture_perf() {
       # exposes no PMU, so the hardware counter would fall back anyway.
       perf record -F 999 -e cpu-clock --call-graph fp -o /out/cpu.perf.data \
         -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
-    ' --privileged -e ROLE="$role"
+    ' --privileged -e SIDE="$side"
 
   cp "$dir/cpu.perf.data" "$out"
 }
@@ -280,18 +280,18 @@ fetch_simpleperf() {
     "$SIMPLEPERF_URL" "$SIMPLEPERF_B64_SHA256" "$SIMPLEPERF_B64"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 #   simpleperf writes perf.data with the feature sections the parser detects
 #   its origin by.
 capture_simpleperf() {
-  local out=$1 role=$2
-  local dir="$WORKDIR/c-simpleperf-$role"
+  local out=$1 side=$2
+  local dir="$WORKDIR/c-simpleperf-$side"
   mkdir -p "$dir" || return 1
   fetch_simpleperf || return 1
   base64 -d "$SIMPLEPERF_B64" >"$dir/simpleperf" || return 1
   chmod +x "$dir/simpleperf" || return 1
 
-  notice "Profiling zstd with simpleperf ($role)"
+  notice "Profiling zstd with simpleperf ($side)"
 
   # perf_event_open reaches the host kernel, as for the `perf` capture, so the
   # container is `--privileged` and runs natively.
@@ -304,7 +304,7 @@ capture_simpleperf() {
 
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      git clone --depth 1 --branch "'"${ZSTD_TAG[$role]}"'" "'"$ZSTD_REPO"'" /src/zstd
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$side]}"'" "'"$ZSTD_REPO"'" /src/zstd
 
       # Frame pointers so simpleperf can walk the stack without its dwarf
       # unwinder, whose stack copies the parser ignores.
@@ -312,7 +312,7 @@ capture_simpleperf() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # Extracted in two steps as in run_for_role.
+      # Extracted in two steps as in run_for_side.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -fsSL --retry 5 -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
@@ -325,20 +325,20 @@ capture_simpleperf() {
       /out/simpleperf record -f 999 -e cpu-clock --call-graph fp \
         -o /out/cpu.perf.data -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
       rm /out/simpleperf
-    ' --privileged -e ROLE="$role" || return 1
+    ' --privileged -e SIDE="$side" || return 1
 
   cp "$dir/cpu.perf.data" "$out" || return 1
 }
 
 ensure_docker
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/c.gperftools.cpu.$role.pprof"  copy_c_profile "$role" cpu
-  try emit "$GENERATED_INPUTS/c.gperftools.heap.$role.pprof" copy_c_profile "$role" heap
-  try emit "$GENERATED_INPUTS/c.systing.cpu.$role.systing"   copy_systing_profile "$role"
-  try emit "$GENERATED_INPUTS/c.valgrind.$role.callgrind"    capture_callgrind "$role"
-  try emit "$GENERATED_INPUTS/c.perf.cpu.$role.perf.data"    capture_perf "$role"
-  try emit "$GENERATED_INPUTS/c.simpleperf.cpu.$role.perf.data" capture_simpleperf "$role"
+for side in base current; do
+  try emit "$GENERATED_INPUTS/c.gperftools.cpu.$side.pprof"  copy_c_profile "$side" cpu
+  try emit "$GENERATED_INPUTS/c.gperftools.heap.$side.pprof" copy_c_profile "$side" heap
+  try emit "$GENERATED_INPUTS/c.systing.cpu.$side.systing"   copy_systing_profile "$side"
+  try emit "$GENERATED_INPUTS/c.valgrind.$side.callgrind"    capture_callgrind "$side"
+  try emit "$GENERATED_INPUTS/c.perf.cpu.$side.perf.data"    capture_perf "$side"
+  try emit "$GENERATED_INPUTS/c.simpleperf.cpu.$side.perf.data" capture_simpleperf "$side"
 done
 
 verify_pairs

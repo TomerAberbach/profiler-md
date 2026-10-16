@@ -7,7 +7,7 @@ import type { OriginSpec } from '../spec.ts'
  * The Excimer sampling profiler for PHP.
  *
  * Its speedscope output contains plain file paths and its collapsed output
- * contains no location, so the evidence in either format is its frame names:
+ * contains no location, so its markers in either format are its frame names:
  * {@link CLOSURE_FRAME}, {@link FILE_SCOPE_FRAME}, and
  * {@link TRUNCATION_FRAME}. Detection also uses the speedscope parser's origin
  * hint from the file's self-identifying `exporter` field.

@@ -32,7 +32,7 @@ run_swift() {
 
   notice "Profiling swift-syntax with gperftools (base + current; builds swift-syntax from source)"
 
-  # Both roles come from one container, so gperftools installs once and current
+  # Both sides come from one container, so gperftools installs once and current
   # parses the sources base's build checked out.
   docker run --rm --platform "$DOCKER_PLATFORM" \
     -v "$dir:/out" \
@@ -56,11 +56,11 @@ run_swift() {
       LIBPROFILER=$(find / -name "libprofiler.so*" -print -quit 2>/dev/null)
       LIBTCMALLOC=$(find / -name "libtcmalloc.so" -print -quit 2>/dev/null)
 
-      # Each role builds and runs in /src, so both record the same paths.
-      for role in base current; do
-        version=SWIFT_SYNTAX_VERSION_$role
+      # Each side builds and runs in /src, so both record the same paths.
+      for side in base current; do
+        version=SWIFT_SYNTAX_VERSION_$side
         sed -i "s/exact: \"[^\"]*\"/exact: \"${!version}\"/" Package.swift
-        if [ "$role" = current ]; then
+        if [ "$side" = current ]; then
           rm -rf .build Package.resolved
         fi
 
@@ -71,29 +71,29 @@ run_swift() {
         swift build -c release -Xswiftc -g
 
         # Real parsing input: base'"'"'s swift-syntax sources, 295 Swift files
-        # its build checked out, which both roles parse. Six passes keep each
+        # its build checked out, which both sides parse. Six passes keep each
         # recording around six seconds.
         SRC=/work/swift-syntax-sources
-        if [ "$role" = base ]; then
+        if [ "$side" = base ]; then
           mkdir -p /work
           cp -R .build/checkouts/swift-syntax/Sources "$SRC"
         fi
 
         # The raw profile is written on exit. 1 kHz sampling, against the 100 Hz
         # default, gives a denser profile.
-        CPUPROFILE="/out/cpu.$role.raw" CPUPROFILE_FREQUENCY=1000 \
+        CPUPROFILE="/out/cpu.$side.raw" CPUPROFILE_FREQUENCY=1000 \
           LD_PRELOAD="$LIBPROFILER" \
           ./.build/release/profile "$SRC" 6
 
-        # tcmalloc dumps heap.<role>.NNNN.heap, numbered from 0001. The workload
+        # tcmalloc dumps heap.<side>.NNNN.heap, numbered from 0001. The workload
         # allocates about 77 MiB in total, under the 1 GB allocation interval
         # and the 100 MB in-use interval, so the dump at exit is the only one.
-        HEAPPROFILE="/out/heap.$role" LD_PRELOAD="$LIBTCMALLOC" \
+        HEAPPROFILE="/out/heap.$side" LD_PRELOAD="$LIBTCMALLOC" \
           ./.build/release/profile "$SRC" 6
-        cp "$(ls -1 "/out/heap.$role".*.heap | sort | tail -n1)" "/out/heap.$role.raw"
+        cp "$(ls -1 "/out/heap.$side".*.heap | sort | tail -n1)" "/out/heap.$side.raw"
 
         # The host needs the binary to symbolize the raw profiles.
-        cp ./.build/release/profile "/out/binary.$role"
+        cp ./.build/release/profile "/out/binary.$side"
       done
     ' || {
     run_failed=1
@@ -103,25 +103,25 @@ run_swift() {
   rundir=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container basename (cpu|heap)
+# capture_fn for emit: $1=out  $2=side  $3=in-container basename (cpu|heap)
 symbolize_swift_profile() {
-  local out=$1 role=$2 name=$3
+  local out=$1 side=$2 name=$3
   run_swift || return 1
 
   # The Linux runtime libraries (libc, libswiftCore, ld) can't be symbolized
   # cross-OS, so the grep drops those expected warnings. Real errors still print
   # and fail the build via the exit code.
   local drop='Local symbolization failed'
-  pprof -proto "$rundir/binary.$role" "$rundir/$name.$role.raw" >"$rundir/$name.$role.pprof" \
+  pprof -proto "$rundir/binary.$side" "$rundir/$name.$side.raw" >"$rundir/$name.$side.pprof" \
     2> >(grep -v "$drop" >&2 || true) || return 1
-  cp "$rundir/$name.$role.pprof" "$out"
+  cp "$rundir/$name.$side.pprof" "$out"
 }
 
 ensure_docker
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/swift.gperftools.cpu.$role.pprof"  symbolize_swift_profile "$role" cpu
-  try emit "$GENERATED_INPUTS/swift.gperftools.heap.$role.pprof" symbolize_swift_profile "$role" heap
+for side in base current; do
+  try emit "$GENERATED_INPUTS/swift.gperftools.cpu.$side.pprof"  symbolize_swift_profile "$side" cpu
+  try emit "$GENERATED_INPUTS/swift.gperftools.heap.$side.pprof" symbolize_swift_profile "$side" heap
 done
 
 verify_pairs

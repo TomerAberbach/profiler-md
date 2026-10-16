@@ -8,8 +8,8 @@ export const callgrindFormatSpec = {
   extension: `callgrind`,
   languages: [`c`, `ruby`],
   // Valgrind's callgrind tool defines the format, and other profilers (e.g.
-  // rbspy) export it to match. The parser detects specific emitters from the
-  // file's `creator:` header and sets an origin hint.
+  // rbspy) export it to match. The parser sets an origin hint from the file's
+  // `creator:` header.
   fallbackOrigin: `valgrind`,
   type: `binary`,
   matches: matchesCallgrind,

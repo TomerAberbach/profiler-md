@@ -23,9 +23,14 @@ import type {
   FormattingProfileToMdOptions,
   ProfileToMdContext,
 } from '../../src/options.ts'
-import { identity, positionKey, sourcePositionOf } from './position.ts'
+import { identity, positionKey, sourceReferencePositionOf } from './position.ts'
 import type { PositionMap, SourceReferenceMap } from './position.ts'
-import { addOutcome, emptyEvaluation, pairOutcome, sourceKey } from './score.ts'
+import {
+  addOutcome,
+  emptyEvaluation,
+  pairOutcome,
+  sourceReferenceKey,
+} from './score.ts'
 import type { Evaluation } from './score.ts'
 import { pickRandom, randomEdits } from './synthetic-edits.ts'
 
@@ -114,10 +119,11 @@ const locationsOf = <Group extends RetainerGroup>(
 const isLocatedIn = <Group extends RetainerGroup>(
   input: RetainerGroupInput<Group>,
   group: Group,
-  source: string,
+  sourceReference: string,
 ): boolean =>
   locationsOf(input, group).some(
-    location => sourcePositionOf(location)?.source === source,
+    location =>
+      sourceReferencePositionOf(location)?.sourceReference === sourceReference,
   )
 
 /**
@@ -128,10 +134,11 @@ const isLocatedIn = <Group extends RetainerGroup>(
  * {@link sourceReferenceMap} when it is given. Steps and nodes are compared by
  * their match keys, so the identifiers the origin strips because they differ
  * per run don't make a counterpart unknown. A group goes unscored when a map
- * leaves a position or source reference unknown, and when {@link editedSource}
- * is given, unless a step or its nodes are located in it.
+ * leaves a position or source reference unknown, and when
+ * {@link editedSourceReference} is given, unless a step or its nodes are
+ * located in it.
  *
- * A group weighs its share of the base snapshot's size.
+ * A group weighs its share of the base heap snapshot's size.
  */
 export const evaluateRetainerGroups = <Group extends RetainerGroup>(
   input: RetainerGroupInput<Group>,
@@ -139,11 +146,11 @@ export const evaluateRetainerGroups = <Group extends RetainerGroup>(
   {
     positionMap,
     sourceReferenceMap,
-    editedSource,
+    editedSourceReference,
   }: {
     positionMap: PositionMap
     sourceReferenceMap?: SourceReferenceMap
-    editedSource?: string
+    editedSourceReference?: string
   },
 ): Evaluation => {
   const start = performance.now()
@@ -179,15 +186,16 @@ export const evaluateRetainerGroups = <Group extends RetainerGroup>(
     const currentByKey = Map.groupBy(current, group =>
       groupKey(group, `current`, {
         positionMap: identity,
-        sourceReferenceMap: sourceReferenceMap && (source => source),
+        sourceReferenceMap:
+          sourceReferenceMap && (sourceReference => sourceReference),
       }),
     )
     for (const diff of setDiffs[index]!) {
       const baseGroup = diff.base
       if (
         !baseGroup ||
-        (editedSource !== undefined &&
-          !isLocatedIn(input, baseGroup, editedSource))
+        (editedSourceReference !== undefined &&
+          !isLocatedIn(input, baseGroup, editedSourceReference))
       ) {
         continue
       }
@@ -207,9 +215,7 @@ export const evaluateRetainerGroups = <Group extends RetainerGroup>(
         diff.current !== undefined,
       )
       const weight =
-        input.base.totalSize === 0
-          ? 0
-          : baseGroup.selfSize / input.base.totalSize
+        input.base.heldSize === 0 ? 0 : baseGroup.selfSize / input.base.heldSize
       addOutcome(evaluation.all, outcome, weight)
       if (diff.byPosition) {
         addOutcome(evaluation.byPosition, outcome, weight)
@@ -259,28 +265,29 @@ const locatedKey = (
   { positionMap, sourceReferenceMap }: KeyMaps,
 ): string | null | undefined => {
   const { name, nameAndLocation } = options.entryMatchKeys(entry, context)
-  const position = sourcePositionOf(entry.location)
+  const position = sourceReferencePositionOf(entry.location)
   if (position) {
     const mapped = positionMap(position)
     return mapped && positionKey(name, mapped)
   }
   if (sourceReferenceMap && entry.location) {
     const mapped = sourceReferenceMap(sourceReferencePathOrName(entry.location))
-    return mapped === undefined ? undefined : sourceKey(name, mapped)
+    return mapped === undefined ? undefined : sourceReferenceKey(name, mapped)
   }
   return nameAndLocation
 }
 
 /**
- * Applies seeded edits to one source reference of the current side, picked
- * from the ones a step or the nodes of a group the diff pairs are located in,
- * and returns the edited input, where each base position in the source moved,
- * and the source. Returns `undefined` when no paired group has a located step
+ * Applies seeded edits to one source reference of the current side, picked from
+ * the ones a step or the nodes of a group the diff pairs are located in, and
+ * returns the edited input, the source reference, and where each of its base
+ * positions moved. Returns `undefined` when no paired group has a located step
  * or node.
  *
- * Unlike the functions' edits, which pick from the sources of functions the
- * diff pairs by position, it picks from every paired group's, because a same
- * code pair's groups pair by path before any pairs by position.
+ * Unlike the functions' edits, which pick from the source references of
+ * functions the diff pairs by position, it picks from every paired group's,
+ * because a same-code example pair's groups pair by path before any pairs by
+ * position.
  */
 export const applyRetainerGroupEdit = <Group extends RetainerGroup>(
   input: RetainerGroupInput<Group>,
@@ -290,20 +297,23 @@ export const applyRetainerGroupEdit = <Group extends RetainerGroup>(
   | {
       input: RetainerGroupInput<Group>
       positionMap: PositionMap
-      source: string
+      sourceReference: string
     }
   | undefined => {
   const { paths, sets } = input
-  const source = pickRandom(pairedSources(input, options), random)
-  if (source === undefined) {
+  const sourceReference = pickRandom(
+    pairedSourceReferences(input, options),
+    random,
+  )
+  if (sourceReference === undefined) {
     return undefined
   }
 
   const positions = sets.flatMap(({ current }) =>
     current.flatMap(group =>
       locationsOf(input, group).flatMap(location => {
-        const position = sourcePositionOf(location)
-        return position?.source === source ? [position] : []
+        const position = sourceReferencePositionOf(location)
+        return position?.sourceReference === sourceReference ? [position] : []
       }),
     ),
   )
@@ -314,15 +324,15 @@ export const applyRetainerGroupEdit = <Group extends RetainerGroup>(
   const moveLocation = (
     location: SourceLocation | undefined,
   ): SourceLocation | undefined => {
-    const position = sourcePositionOf(location)
-    if (position?.source !== source) {
+    const position = sourceReferencePositionOf(location)
+    if (position?.sourceReference !== sourceReference) {
       return location
     }
     const moved = move(position)!
     return { ...location!, line: moved.line, column: moved.column }
   }
   const editGroup = (group: Group): Group => {
-    if (!isLocatedIn(input, group, source)) {
+    if (!isLocatedIn(input, group, sourceReference)) {
       return group
     }
     const editedSteps = paths.stepsOf(group.path).map(step => ({
@@ -350,31 +360,32 @@ export const applyRetainerGroupEdit = <Group extends RetainerGroup>(
       })),
     },
     positionMap: position => {
-      if (position.source !== source) {
+      if (position.sourceReference !== sourceReference) {
         return position
       }
       const moved = move(position)
-      return moved ? { ...moved, source } : null
+      return moved ? { ...moved, sourceReference } : null
     },
-    source,
+    sourceReference,
   }
 }
 
-const pairedSources = <Group extends RetainerGroup>(
+const pairedSourceReferences = <Group extends RetainerGroup>(
   input: RetainerGroupInput<Group>,
   options: FormattingProfileToMdOptions,
 ): Set<string> => {
-  const sources = new Set<string>()
+  const sourceReferences = new Set<string>()
   for (const diff of matchSets(input, options).flat()) {
     if (!diff.base || !diff.current) {
       continue
     }
     for (const location of locationsOf(input, diff.current)) {
-      const source = sourcePositionOf(location)?.source
-      if (source !== undefined) {
-        sources.add(source)
+      const sourceReference =
+        sourceReferencePositionOf(location)?.sourceReference
+      if (sourceReference !== undefined) {
+        sourceReferences.add(sourceReference)
       }
     }
   }
-  return sources
+  return sourceReferences
 }

@@ -105,7 +105,7 @@ type Dump = {
    * The offset of each string's `HPROF_UTF8` record body, by string ID.
    *
    * A dump holds the whole runtime symbol table, most of it method names and
-   * signatures a heap snapshot never shows, so the bytes are decoded on demand
+   * signatures the Markdown never shows, so the bytes are decoded on demand
    * rather than up front.
    */
   stringRecordOffsets: Map<number, number>
@@ -677,23 +677,23 @@ const unresolvedCategoryOf = (
 
 const GC_ROOT_ORDINAL = 0
 
-/** Every reference between nodes, grouped by the node that holds it. */
+/** Every edge between nodes, grouped by the node that holds it. */
 type References = {
-  /** The target of each reference, ordered by the node holding it. */
+  /** The target of each edge, ordered by the node holding it. */
   successorOrdinals: Int32Array
 
   /**
-   * The position of each reference among the references its node holds, which
-   * a label is resolved from by re-reading the node's record.
+   * The position of each edge among the edges its node holds, which a label
+   * is resolved from by re-reading the node's record.
    */
   successorEdgeIndices: Int32Array
 
-  /** The number of references each node holds. */
+  /** The number of edges each node holds. */
   successorCounts: Int32Array
 }
 
 /**
- * Reads the references every node holds: the GC root's to each root object,
+ * Reads the edges every node holds: the GC root's to each root object,
  * an instance's object-typed fields, an array's elements, and a class's static
  * fields, loader, signers, and protection domain.
  *
@@ -1050,12 +1050,12 @@ const javaClassName = (rawName: string): string => {
 }
 
 /**
- * The edge of the reference at {@link edgeIndex} among those the node at
+ * The label of the edge at {@link edgeIndex} among those the node at
  * {@link retainerOrdinal} holds: the field name for an instance or class, and
  * the index for an array element.
  *
- * The node's record is read again rather than an edge kept per reference, of
- * which a dump holds millions and a converted snapshot shows a few dozen.
+ * The node's record is read again rather than a label kept per edge, of which
+ * a dump holds millions and the Markdown shows a few dozen.
  */
 const retainerEdge = (
   dump: Dump,
@@ -1098,7 +1098,7 @@ const classReferenceEdge = (
   return label === undefined ? UNKNOWN_FIELD_EDGE : { type: `labeled`, label }
 }
 
-/** The labels of the references a class holds after its static fields. */
+/** The labels of the edges a class holds after its static fields. */
 const CLASS_REFERENCE_LABELS = [
   `<class loader>`,
   `<signers>`,

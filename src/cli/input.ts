@@ -64,11 +64,11 @@ const STDIN_PATHS = new Set([`-`, `/dev/stdin`, `/dev/fd/0`, `/proc/self/fd/0`])
 
 const readStreamAsBlob = async (
   stream: NodeJS.ReadableStream,
-  source: string,
+  name: string,
 ): Promise<Blob> => {
   try {
     return await blob(stream)
   } catch (error) {
-    throw new CliError(`cannot read ${source}`, 1, { cause: error })
+    throw new CliError(`cannot read ${name}`, 1, { cause: error })
   }
 }

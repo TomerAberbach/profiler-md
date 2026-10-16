@@ -44,7 +44,7 @@ export const subsectionCategories = <Entry, Category extends string>({
  * A category's share is the larger of its two shares, its entries' summed base
  * self values over every entry's, and the same on the current side. Taking the
  * larger admits a category large enough on either side, so a category the
- * current profile replaced or introduced qualifies by the side it exists on.
+ * current side replaced or introduced qualifies by the side it exists on.
  *
  * A share is of one side, as in {@link subsectionCategories}, so
  * {@link minCategoryShare} means the same for a diff as for a single input.

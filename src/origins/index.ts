@@ -65,9 +65,9 @@ export const hasRuntimeInsertedArcsForOrigin = (
 }
 
 /**
- * Whether two locations are one source under the origins' own match
- * normalization, which strips only an identifier that differs per run or
- * build, such as a store hash or a runtime address.
+ * Whether two locations are one source under their origins' entry matches,
+ * which strip only an identifier that differs per run or build, such as a
+ * store hash or a runtime address.
  */
 export const isSameSourceForOrigins = (
   location1: DeepReadonly<SourceLocation>,
@@ -220,13 +220,13 @@ export class OriginDetector {
   }
 
   /**
-   * Applies an origin hint set by a parser: format-level metadata evidence
-   * (e.g. a recorder's own event types or a writer's self-identification
-   * field) pointing at an origin whose entries carry no marker.
+   * Applies an origin hint set by a parser: format-level metadata (e.g. a
+   * recorder's own event types or a writer's self-identification field)
+   * pointing at an origin whose entries carry no marker.
    *
-   * Treated like a marker entry of the hinted origin: a forced origin ignores
-   * it and a higher-priority origin's marker entry overrides it. An ID that
-   * isn't a candidate for the format is ignored.
+   * Treated like a marker entry of the hinted origin: a specified origin
+   * ignores it and a higher-priority origin's marker entry overrides it. An ID
+   * that isn't a candidate for the format is ignored.
    */
   public hint(origin: string): void {
     if (this.decided) {
@@ -264,7 +264,7 @@ export class OriginDetector {
     }
   }
 
-  /** The evidence {@link resolve} selects the origin by. */
+  /** The origin evidence {@link resolve} selects the origin by. */
   public get evidence(): OriginEvidence {
     const match = this.#match
     switch (match.type) {
@@ -290,9 +290,9 @@ export type OriginEvidence =
   | { type: `fallback` }
 
 /**
- * The highest-priority match an {@link OriginDetector} records: its evidence,
- * with the candidate index a marker entry or hint matched, or the specified
- * origin.
+ * The highest-priority match an {@link OriginDetector} records: its origin
+ * evidence, with the candidate index a marker entry or hint matched, or the
+ * specified origin.
  */
 type OriginMatch =
   | { type: `specified`; origin: Origin }

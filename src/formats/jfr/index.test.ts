@@ -4,12 +4,10 @@ import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   selfObjectsTables,
   selfSamplesTables,
-  selfTimeTables,
-} from '../../modalities/call-stack-profile/testing.ts'
-import {
   selfSizeTables,
+  selfTimeTables,
   totalSizeTables,
-} from '../../modalities/heap-snapshot/testing.ts'
+} from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
@@ -125,8 +123,8 @@ describe(`convert`, () => {
         },
       ],
       events: [
-        { type: `alloc`, stack: 0, weight: 2048 },
-        { type: `alloc`, stack: 0, weight: 1024 },
+        { type: `alloc`, stack: 0, value: 2048 },
+        { type: `alloc`, stack: 0, value: 1024 },
       ],
     })
 
@@ -176,8 +174,8 @@ describe(`convert`, () => {
         },
       ],
       events: [
-        { type: `nativemem`, stack: 0, weight: 4096 },
-        { type: `nativemem`, stack: 0, weight: 2048 },
+        { type: `nativemem`, stack: 0, value: 4096 },
+        { type: `nativemem`, stack: 0, value: 2048 },
       ],
     })
 
@@ -223,7 +221,7 @@ describe(`convert`, () => {
       ],
       stackTraces: [{ frames: [{ method: 0, line: 9 }, { method: 1 }] }],
       // 3,000,000 nanoseconds == 3 milliseconds.
-      events: [{ type: `lock`, stack: 0, weight: 3_000_000 }],
+      events: [{ type: `lock`, stack: 0, value: 3_000_000 }],
     })
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
@@ -248,10 +246,10 @@ describe(`convert`, () => {
       stackTraces: [{ frames: [{ method: 0, line: 3 }] }],
       events: [
         { type: `cpu`, stack: 0 },
-        { type: `alloc-tlab`, stack: 0, weight: 1024 },
-        { type: `liveobject`, stack: 0, weight: 512 },
-        { type: `nativemem`, stack: 0, weight: 256 },
-        { type: `lock`, stack: 0, weight: 3_000_000 },
+        { type: `alloc-tlab`, stack: 0, value: 1024 },
+        { type: `liveobject`, stack: 0, value: 512 },
+        { type: `nativemem`, stack: 0, value: 256 },
+        { type: `lock`, stack: 0, value: 3_000_000 },
       ],
     })
 
@@ -281,8 +279,8 @@ describe(`convert`, () => {
         },
       ],
       events: [
-        { type: `live`, stack: 0, weight: 2048 },
-        { type: `liveobject`, stack: 0, weight: 1024 },
+        { type: `live`, stack: 0, value: 2048 },
+        { type: `liveobject`, stack: 0, value: 1024 },
       ],
     })
 
@@ -325,7 +323,7 @@ describe(`convert`, () => {
         { type: `live`, stack: 0 },
         { type: `live`, stack: 1 },
       ],
-      eventTypesWithoutWeightField: [`live`],
+      eventTypesWithoutValueField: [`live`],
     })
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
@@ -350,16 +348,16 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`emits one profile per distinct event kind`, () => {
+  test(`emits one call stack profile per distinct event kind`, () => {
     const bytes = makeJfr({
       methods: [{ name: `m`, className: `C` }],
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
       events: [
         { type: `cpu`, stack: 0 },
-        { type: `alloc`, stack: 0, weight: 64 },
-        { type: `live`, stack: 0, weight: 32 },
-        { type: `nativemem`, stack: 0, weight: 128 },
-        { type: `lock`, stack: 0, weight: 1000 },
+        { type: `alloc`, stack: 0, value: 64 },
+        { type: `live`, stack: 0, value: 32 },
+        { type: `nativemem`, stack: 0, value: 128 },
+        { type: `lock`, stack: 0, value: 1000 },
       ],
     })
 
@@ -415,8 +413,8 @@ describe(`convert`, () => {
       methods: [{ name: `allocate`, className: `com.example.A` }],
       stackTraces: [{ frames: [{ method: 0, line: 7 }] }],
       events: [
-        { type: `alloc`, stack: 0, weight: 1024 },
-        { type: `alloc`, stack: -1, weight: 2048 },
+        { type: `alloc`, stack: 0, value: 1024 },
+        { type: `alloc`, stack: -1, value: 2048 },
       ],
     })
 
@@ -481,7 +479,7 @@ describe(`convert`, () => {
       methods: [{ name: `park`, className: `com.example.L` }],
       stackTraces: [{ frames: [{ method: 0, line: 8 }] }],
       // 5,000,000 nanoseconds == 5 milliseconds.
-      events: [{ type: `nativelock`, stack: 0, weight: 5_000_000 }],
+      events: [{ type: `nativelock`, stack: 0, value: 5_000_000 }],
     })
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
@@ -634,8 +632,8 @@ describe(`allocation event families`, () => {
       methods: [{ name: `allocate`, className: `com.example.A` }],
       stackTraces: [{ frames: [{ method: 0, line: 7 }] }],
       events: [
-        { type: `alloc`, stack: 0, weight: 1024 },
-        { type: `alloc-tlab`, stack: 0, weight: 9999 },
+        { type: `alloc`, stack: 0, value: 1024 },
+        { type: `alloc-tlab`, stack: 0, value: 9999 },
       ],
     })
 
@@ -654,7 +652,7 @@ describe(`allocation event families`, () => {
     ])
   })
 
-  test(`TLAB events are weighted by the refill they stand for`, () => {
+  test(`TLAB events are valued at the refill they stand for`, () => {
     // Sites allocating small objects rank alongside sites allocating large
     // ones at the same refill rate.
     const bytes = makeJfr({
@@ -667,8 +665,8 @@ describe(`allocation event families`, () => {
         { frames: [{ method: 1, line: 9 }] },
       ],
       events: [
-        { type: `alloc-tlab`, stack: 0, weight: 524_288, objectSize: 32 },
-        { type: `alloc-tlab`, stack: 1, weight: 524_288, objectSize: 4096 },
+        { type: `alloc-tlab`, stack: 0, value: 524_288, objectSize: 32 },
+        { type: `alloc-tlab`, stack: 1, value: 524_288, objectSize: 4096 },
       ],
     })
 
@@ -698,7 +696,7 @@ describe(`allocation event families`, () => {
     const bytes = makeJfr({
       methods: [{ name: `allocate`, className: `com.example.A` }],
       stackTraces: [{ frames: [{ method: 0, line: 7 }] }],
-      events: [{ type: `alloc-tlab`, stack: 0, weight: 2048 }],
+      events: [{ type: `alloc-tlab`, stack: 0, value: 2048 }],
     })
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
@@ -819,7 +817,7 @@ describe(`malformed recordings`, () => {
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
       events: [
         { type: `cpu`, stack: 0 },
-        { type: `lock`, stack: 0, weight: 1000 },
+        { type: `lock`, stack: 0, value: 1000 },
         { type: `cpu`, stack: 0 },
       ],
       malformations: { unreadableEventTypes: [`jdk.JavaMonitorEnter`] },
@@ -1023,7 +1021,7 @@ describe(`options`, () => {
           ],
         },
       ],
-      events: [{ type: `alloc`, stack: 0, weight: 2048 }],
+      events: [{ type: `alloc`, stack: 0, value: 2048 }],
     })
 
     const md = convertBytesToMd(
@@ -1054,7 +1052,7 @@ describe(`streaming parse`, () => {
     events: [
       { type: `cpu`, stack: 0 },
       { type: `cpu`, stack: 1 },
-      { type: `alloc`, stack: 0, weight: 4096 },
+      { type: `alloc`, stack: 0, value: 4096 },
     ],
   })
   const expected = convertBytesToMd(jfrFormatSpec, bytes, options)

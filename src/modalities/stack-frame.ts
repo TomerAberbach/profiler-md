@@ -15,20 +15,20 @@ import {
 import type { OriginDetector } from '../origins/index.ts'
 
 /**
- * A function occurrence, with each position the profiler recorded stored under
- * its semantic.
+ * A frame record: a parser's record of one function reference, with each
+ * position the profiler recorded stored under its semantic.
  *
- * Its {@link name} and {@link definition} identify the function; frames
- * sharing them are the same function. {@link executing} is never part of the
- * identity, and the leaf frame's executing line feeds its function's per-line
- * breakdown.
+ * Its {@link name} and {@link definition} identify the function, so frame
+ * records sharing them are the same function. {@link executing} is never part
+ * of the identity, and the leaf frame's executing line feeds its function's
+ * per-line breakdown.
  *
- * A parser fills each slot from what the emitter records there, per the
- * emitter's own source or spec, and leaves a slot the emitter doesn't record
+ * A parser fills each slot from what the profiler records there, per the
+ * profiler's own source or spec, and leaves a slot the profiler doesn't record
  * empty. It NEVER infers one position from another. The resolved origin's
  * `normalizeStackFrame` then splits out the source and positions for variants
- * that pack them into the frame string. It also moves a position that an
- * emitter records under a different semantic into its slot.
+ * that pack them into the frame string. It also moves a position that a
+ * profiler records under a different semantic into its slot.
  */
 export type StackFrame = {
   name?: string
@@ -72,9 +72,9 @@ export type StackFrame = {
 export type FunctionIdentity = `definition` | `call-site`
 
 /**
- * An input's distinct {@link StackFrame}s, owning everything derived
- * from them: origin detection over the raw frames and, once the context is
- * resolved, the {@link StackFrameFunctionTable} the frames resolve to.
+ * An input's distinct frame records, owning everything derived from them:
+ * origin detection over the raw frame records and, once the context is
+ * resolved, the {@link StackFrameFunctionTable} the frame records resolve to.
  *
  * One table exists per frames array. Formats that yield multiple inputs
  * sometimes share the frames; the table shares the derived data
@@ -82,7 +82,7 @@ export type FunctionIdentity = `definition` | `call-site`
  */
 export class StackFrameTable {
   /**
-   * A `WeakMap` rather than per-file state so sharing needs no extra
+   * A `WeakMap` rather than per-input state so sharing needs no extra
    * parameter passed through the pipeline: each table is reclaimed with its
    * frames array.
    */
@@ -134,8 +134,9 @@ export class StackFrameTable {
    * Returns the {@link StackFrameFunctionTable} the frames resolve to under
    * {@link context}, normalizing them with the resolved origin on first call.
    *
-   * Memoized without keying on the context: a frames array belongs to one file
-   * and is parsed fresh each conversion, so it never sees another context.
+   * Memoized without keying on the context: a frames array comes from one raw
+   * input and is parsed fresh each conversion, so it is never resolved under
+   * another context.
    */
   public resolve(context: ProfileToMdContext): StackFrameFunctionTable {
     this.#functionTable ??= this.#normalize(context)

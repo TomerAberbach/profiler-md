@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import {
+  selfSizeTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../modalities/call-stack-profile/testing.ts'
-import { selfSizeTables } from '../../modalities/heap-snapshot/testing.ts'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
@@ -231,8 +231,8 @@ describe(`convert`, () => {
     },
   )
 
-  test(`per-sampled-line frames merge into one function with a line breakdown under a py-spy origin`, () => {
-    // Py-spy emits one frame per sampled line. Once its origin is detected,
+  test(`per-executing-line frames merge into one function with a line breakdown under a py-spy origin`, () => {
+    // Py-spy emits one frame per executing line. Once its origin is detected,
     // here by the CPython stdlib location, the line feeds the function's line
     // breakdown instead of splitting its identity into a row per line.
     const profile = makeSpeedscopeProfile({
@@ -359,8 +359,8 @@ describe(`convert`, () => {
       }),
     )
 
-    // The zero-weight sample counts, so the count agrees with other renderings
-    // of the same recording.
+    // The zero-weight sample counts, so the count agrees with other
+    // views of the same recording.
     expect(summaryLines(md)).toEqual([
       expect.stringContaining(`30.0ms over 3 samples`),
     ])

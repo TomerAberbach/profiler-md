@@ -9,8 +9,8 @@ export const speedscopeFormatSpec = {
   extension: `speedscope.json`,
   languages: [`csharp`, `php`, `python`, `ruby`],
   // The speedscope viewer defines the format and profiles nothing itself, so no
-  // emitting origin is canonical. The parser detects emitters from the file's
-  // `exporter` field and sets an origin hint.
+  // emitting origin is canonical. The parser sets an origin hint from the
+  // file's `exporter` field.
   fallbackOrigin: `unknown`,
   type: `json`,
   matches: matchesSpeedscope,

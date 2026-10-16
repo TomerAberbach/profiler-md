@@ -8,8 +8,8 @@
 #                     (the agent or StartFlightRecording option). $2 and $3 are
 #                     the capture config and the input's extension, for
 #                     workloads that shrink high-volume captures like nativemem.
-#                     $4 is the role, for workloads that run a different
-#                     version per role
+#                     $4 is the side, for workloads that run a different
+#                     version per side
 #
 # and calls `emit_jvm_captures` followed by `verify_pairs`. A workload that also
 # captures a heap dump sets:
@@ -65,13 +65,13 @@ capture_path() {
   echo "$WORKDIR/$(basename "$1")"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=config  $4=event-spec
+# capture_fn for emit: $1=out  $2=side  $3=config  $4=event-spec
 capture_ap_jfr() {
-  local out=$1 role=$2 cfg=$3 event_spec=$4 capture
+  local out=$1 side=$2 cfg=$3 event_spec=$4 capture
   capture="$(capture_path "$out")"
   ensure_ap_lib || return 1
-  notice "Profiling $JVM_WORKLOAD using async-profiler JFR ($role, $event_spec)"
-  run_jvm_workload "-agentpath:$ap_lib=start,$event_spec,file=$capture,jfr" "$cfg" jfr "$role" \
+  notice "Profiling $JVM_WORKLOAD using async-profiler JFR ($side, $event_spec)"
+  run_jvm_workload "-agentpath:$ap_lib=start,$event_spec,file=$capture,jfr" "$cfg" jfr "$side" \
     || return 1
   mv "$capture" "$out"
 }
@@ -86,12 +86,12 @@ declare -A AP_COLLAPSED_OPTS=(
 )
 AP_COLLAPSED_CONFIGS=(cpu alloc cpu-threads-ann-sig cpu-dot alloc-dot)
 
-# capture_fn for emit: $1=out  $2=role  $3=config  $4=agent options
+# capture_fn for emit: $1=out  $2=side  $3=config  $4=agent options
 capture_ap_collapsed() {
-  local out=$1 role=$2 cfg=$3 opts=$4
+  local out=$1 side=$2 cfg=$3 opts=$4
   ensure_ap_lib || return 1
-  notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($role, $opts)"
-  run_jvm_workload "-agentpath:$ap_lib=start,$opts,file=$out,collapsed" "$cfg" collapsed "$role"
+  notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($side, $opts)"
+  run_jvm_workload "-agentpath:$ap_lib=start,$opts,file=$out,collapsed" "$cfg" collapsed "$side"
 }
 
 # The JVMs running now, one PID per line, excluding the `jcmd` process listing
@@ -104,19 +104,19 @@ jvm_pids() {
 
 HEAP_DUMP_STARTUP_TIMEOUT=180
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 #
 # Dumps the heap of a JVM running the workload, which a workload script keeps
 # alive past JVM_HEAP_DUMP_WARMUP seconds so the dump holds the workload's own
 # data rather than the JVM's startup state.
 capture_jdk_heap_dump() {
-  local out=$1 role=$2 before pid="" waited=0 workload_pid
+  local out=$1 side=$2 before pid="" waited=0 workload_pid
   local warmup=${JVM_HEAP_DUMP_WARMUP:-15}
-  notice "Dumping $JVM_WORKLOAD's heap using jcmd ($role)"
+  notice "Dumping $JVM_WORKLOAD's heap using jcmd ($side)"
   before="$(jvm_pids)"
   # A heap dump holds the JVM's working directory, so the workload runs from
   # WORKDIR rather than the checkout.
-  (cd "$WORKDIR" && run_jvm_workload "-XX:+UsePerfData" heap hprof "$role") &
+  (cd "$WORKDIR" && run_jvm_workload "-XX:+UsePerfData" heap hprof "$side") &
   workload_pid=$!
 
   while ((waited < HEAP_DUMP_STARTUP_TIMEOUT)); do
@@ -151,32 +151,32 @@ capture_jdk_heap_dump() {
   return "$dumped"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=config  $4=extra StartFlightRecording options
+# capture_fn for emit: $1=out  $2=side  $3=config  $4=extra StartFlightRecording options
 capture_jdk_jfr() {
-  local out=$1 role=$2 cfg=$3 extra=$4 capture
+  local out=$1 side=$2 cfg=$3 extra=$4 capture
   capture="$(capture_path "$out")"
-  notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($role, $extra)"
-  run_jvm_workload "-XX:StartFlightRecording=filename=$capture,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg" jfr "$role" \
+  notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($side, $extra)"
+  run_jvm_workload "-XX:StartFlightRecording=filename=$capture,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg" jfr "$side" \
     || return 1
   mv "$capture" "$out"
 }
 
 emit_jvm_captures() {
-  local role cfg out
-  for role in base current; do
+  local side cfg out
+  for side in base current; do
     for cfg in "${AP_JFR_CONFIGS[@]}"; do
-      out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$role.jfr"
-      try emit "$out" capture_ap_jfr "$role" "$cfg" "${AP_EVENT[$cfg]}"
+      out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$side.jfr"
+      try emit "$out" capture_ap_jfr "$side" "$cfg" "${AP_EVENT[$cfg]}"
     done
 
     for cfg in "${AP_COLLAPSED_CONFIGS[@]}"; do
-      out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$role.collapsed"
-      try emit "$out" capture_ap_collapsed "$role" "$cfg" "${AP_COLLAPSED_OPTS[$cfg]}"
+      out="$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.$cfg.$side.collapsed"
+      try emit "$out" capture_ap_collapsed "$side" "$cfg" "${AP_COLLAPSED_OPTS[$cfg]}"
     done
 
     for cfg in "${JDK_JFR_CONFIGS[@]}"; do
-      out="$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$cfg.$role.jfr"
-      try emit "$out" capture_jdk_jfr "$role" "$cfg" "${JDK_JFR_OPTS[$cfg]}"
+      out="$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$cfg.$side.jfr"
+      try emit "$out" capture_jdk_jfr "$side" "$cfg" "${JDK_JFR_OPTS[$cfg]}"
     done
 
     # Heap dumps are opt-in. A dump holds the live heap, which under the Kotlin
@@ -184,8 +184,8 @@ emit_jvm_captures() {
     # JVM's dump already covers a format the JVM writes the same way whichever
     # language runs on it.
     if [[ -n "${JVM_HEAP_DUMP:-}" ]]; then
-      try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$role.hprof" \
-        capture_jdk_heap_dump "$role"
+      try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$side.hprof" \
+        capture_jdk_heap_dump "$side"
     fi
   done
 }

@@ -136,10 +136,10 @@ const expectCanonicalAggregation = (
 
   // A function executes at or after its definition, so an executing
   // line before the definition line is a position in the wrong
-  // `StackFrame` slot. A parser or normalizer misread what the emitter
+  // `StackFrame` slot. A parser or normalizer misread what the profiler
   // records there (see the normalizing principles in `CLAUDE.md`).
   // V8 attributes an inlined or deoptimized tick to the enclosing
-  // function at the sampled script position, so real profiles contain
+  // function at the executing script position, so real profiles contain
   // a few correct lines before the definition line. The assertion
   // therefore bounds the rate instead of forbidding every case. A slot
   // misfiled wholesale pushes the rate toward 100%, and V8's
@@ -261,12 +261,12 @@ if (format === undefined) {
       aggregateInput(nodeInput(), recordOriginOptions(detectedOrigins))
       expect(detectedOrigins).toEqual([`node`])
 
-      const forcedOrigins: Origin[] = []
+      const specifiedOrigins: Origin[] = []
       aggregateInput(
         { data: nodeInput(), origin: `deno` },
-        recordOriginOptions(forcedOrigins),
+        recordOriginOptions(specifiedOrigins),
       )
-      expect(forcedOrigins).toEqual([`deno`])
+      expect(specifiedOrigins).toEqual([`deno`])
     })
   })
 
@@ -312,7 +312,7 @@ if (format === undefined) {
       expect(detector.resolve()).toBe(`gperftools`)
     })
 
-    test(`a forced origin ignores the hint`, () => {
+    test(`a specified origin ignores the hint`, () => {
       const detector = new OriginDetector({ format: `pprof`, origin: `go` })
       detector.hint(`gperftools`)
       expect(detector.resolve()).toBe(`go`)

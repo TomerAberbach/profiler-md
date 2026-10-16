@@ -39,7 +39,7 @@ export const parseCallgrindAsync = async (
 }
 
 /**
- * One function's accumulated costs. Value arrays are indexed by the builder's
+ * One function's summed costs. Value arrays are indexed by the builder's
  * global event indices.
  */
 type CallgrindFunction = {
@@ -52,7 +52,7 @@ type CallgrindFunction = {
   calleeToCalls: Map<CallgrindFunction, CallgrindCall>
 }
 
-/** One arc's accumulated call count and inclusive cost. */
+/** One arc's summed call count and inclusive cost. */
 type CallgrindCall = {
   callCount: number
   totalValues: number[]
@@ -179,7 +179,7 @@ class CallgrindProfileBuilder {
 
   /**
    * Per part-local cost-line value position, the global event index it
-   * accumulates into. `undefined` until the part's `events:` line.
+   * adds to. `undefined` until the part's `events:` line.
    */
   #partEventIndices: number[] | undefined
 
@@ -491,7 +491,7 @@ class CallgrindProfileBuilder {
     return values
   }
 
-  /** Accumulates a pending `calls=` and its inclusive cost onto the arc. */
+  /** Adds a pending `calls=` and its inclusive cost to the arc. */
   #addCallCost(
     caller: CallgrindFunction,
     pendingCall: PendingCall,
@@ -521,7 +521,6 @@ class CallgrindProfileBuilder {
     this.#clearCallObjectAndFile()
   }
 
-  /** Accumulates a cost recorded in the function's own body. */
   #addSelfCost(
     func: CallgrindFunction,
     costLine: number | undefined,
@@ -686,9 +685,10 @@ const creatorOriginHint = (creator: string | undefined): string | undefined => {
 const callgrindStackFrame = (func: CallgrindFunction): StackFrame => ({
   // Callgrind writes `???` for an unknown function name, and dropping it shows
   // the frame as `(anonymous)` instead of literal question marks. A
-  // recursion-separated instance (`--separate-recs`'s `fn'2`) stays a distinct
-  // call-graph node, because its arcs partition the recursion levels. Dropping
-  // the suffix here lets the aggregator fold the levels into one function.
+  // recursion-separated instance (`--separate-recs`'s `fn'2`) is a distinct
+  // function in the file, because its arcs partition the recursion levels.
+  // Dropping the suffix here lets the aggregator fold the levels into one
+  // function.
   name:
     func.name === UNKNOWN ? undefined : func.name.replace(RECURSION_SUFFIX, ``),
   // A function compiled without debug info has no source file. Its ELF object
@@ -710,7 +710,7 @@ const UNKNOWN = `???`
 const callGraphFunction = (func: CallgrindFunction): CallGraphFunction => ({
   selfValues: func.selfValues,
   lineToValues: func.lineToValues,
-  calls: Array.from(func.calleeToCalls, ([callee, call]) => ({
+  arcs: Array.from(func.calleeToCalls, ([callee, call]) => ({
     callee: callee.index,
     callCount: call.callCount,
     totalValues: call.totalValues,
@@ -723,7 +723,7 @@ const callgrindEventMetric = (
   nanosecondSystemTime: boolean,
 ): Metric => {
   // A sampling profiler exporting callgrind (e.g. rbspy) counts samples as
-  // its only event, so the output reads like a sampling profile: "Sampling
+  // its only event, so the output reads like a sampling profiler's: "Sampling
   // profile", "Collected 129 samples."
   if (name.toLowerCase() === `samples`) {
     return SAMPLES

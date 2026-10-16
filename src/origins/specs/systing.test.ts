@@ -17,8 +17,8 @@ describe(`detection`, () => {
     expect(systingOriginSpec.isMarkerEntry(relativeEntry(name))).toBe(true)
   })
 
-  // Signals any profiler could produce, or lookalike packings missing the
-  // address suffix, aren't systing evidence.
+  // Frames any profiler could produce, or lookalike packings missing the
+  // address suffix, aren't systing markers.
   test.each([
     `compute`,
     `work (app)`,
@@ -128,7 +128,7 @@ describe(`normalizeStackFrame`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = systingOriginSpec
 
-  // Normalization keeps systing's `name (module)` rendering for source-less
+  // Normalization keeps systing's `name (module)` form for source-less
   // frames, so the label module is the category signal.
   test.each<[string, FunctionCategory]>([
     [`do_syscall_64 ([kernel])`, `kernel`],

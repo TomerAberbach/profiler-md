@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   functionTables,
   largestStringsTables,
-  retainedObjectsTables,
+  retainedNodeTables,
   selfSizeRetainerPathTables,
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
@@ -204,7 +204,7 @@ const makeObjectSnapshot = (firstName: string, secondName: string) =>
   })
 
 // A synthetic root retaining a closure, which exclusively retains a string, so
-// the string appears under the function's retained objects.
+// the string appears under the function's retained nodes.
 const makeRetainingClosureSnapshot = () =>
   makeV8Snapshot({
     nodeCount: 3,
@@ -442,7 +442,7 @@ describe(`convert`, () => {
     )
 
     // The base is the common ancestor of the closure's location and the
-    // constructor's URL-shaped name, so both render relative to it.
+    // constructor's URL-shaped name, so the Markdown shows both relative to it.
     expect(selfSizeTables(md)).toEqual([
       [
         {
@@ -880,14 +880,14 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`a category filter hides a function's retained objects`, () => {
+  test(`a category filter hides a function's retained nodes`, () => {
     const shown = convertJsonToMd(
       v8HeapSnapshotFormatSpec,
       makeRetainingClosureSnapshot(),
       normalizeProfileToMdOptions(),
     )
 
-    expect(retainedObjectsTables(shown, `myFn`)).toEqual([
+    expect(retainedNodeTables(shown, `myFn`)).toEqual([
       [
         {
           '%': `66.7%`,
@@ -918,7 +918,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(retainedObjectsTables(hidden, `myFn`)).toEqual([])
+    expect(retainedNodeTables(hidden, `myFn`)).toEqual([])
   })
 
   test(`a category filter hides strings`, () => {

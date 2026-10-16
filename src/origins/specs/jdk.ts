@@ -11,7 +11,7 @@ import type { OriginSpec } from '../spec.ts'
  * through.
  *
  * Markerless: JDK JFR stacks are pure Java frames, indistinguishable at the
- * entry level from the Java frames every other JVM recorder emits, and a heap
+ * entry level from the Java frames every other JVM profiler emits, and a heap
  * dump names Java classes alone, so JDK inputs resolve here via each format's
  * fallback instead of detection.
  */

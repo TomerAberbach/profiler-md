@@ -39,14 +39,14 @@ install_hex() {
   hex_installed=1
 }
 
-# Each role creates its project in one directory, so both record the same
+# Each side creates its project in one directory, so both record the same
 # paths.
 project_dir="$WORKDIR/elixir-profile"
 setup_project() {
-  local role=$1
+  local side=$1
   install_hex || return 1
 
-  notice "Creating mix project (jason ${JASON_PIN[$role]}, eflambe $EFLAMBE_PIN)"
+  notice "Creating mix project (jason ${JASON_PIN[$side]}, eflambe $EFLAMBE_PIN)"
 
   local dir="$project_dir"
   rm -rf "$dir"
@@ -69,7 +69,7 @@ defmodule Profile.MixProject do
 
   defp deps do
     [
-      {:jason, "${JASON_PIN[$role]}"},
+      {:jason, "${JASON_PIN[$side]}"},
       {:eflambe, "$EFLAMBE_PIN"}
     ]
   end
@@ -84,16 +84,16 @@ EOF
   ( cd "$dir" && MIX_ENV=prod mix compile </dev/null )
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 record_eflambe() {
-  local out=$1 role=$2
-  setup_project "$role" || return 1
+  local out=$1 side=$2
+  setup_project "$side" || return 1
   fetch_twitter_json
   local dir="$project_dir"
 
-  notice "Profiling jason using eflambe ($role)"
+  notice "Profiling jason using eflambe ($side)"
 
-  local profile="$WORKDIR/elixir-$role-profile"
+  local profile="$WORKDIR/elixir-$side-profile"
   rm -rf "$profile"
   mkdir -p "$profile"
 
@@ -114,8 +114,8 @@ record_eflambe() {
   mv "$produced" "$out"
 }
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/elixir.eflambe.wall.$role.collapsed" record_eflambe "$role"
+for side in base current; do
+  try emit "$GENERATED_INPUTS/elixir.eflambe.wall.$side.collapsed" record_eflambe "$side"
 done
 
 verify_pairs

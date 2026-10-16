@@ -159,7 +159,7 @@ export type RetainerEdge =
       index: number | undefined
     }
   | {
-      /** A reference the format names other than as a property or element. */
+      /** An edge the format labels as neither a property nor an element. */
       type: `labeled`
       label: string
     }

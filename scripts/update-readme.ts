@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process'
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import {
-  exampleComboLabel,
+  exampleLabel,
   parseExampleFilename,
   variants,
 } from '../src/cli/examples.ts'
@@ -20,14 +20,17 @@ const check = process.argv.includes(`--check`)
 
 const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
-type Combo = {
+type VariantGroup = {
   language: string
   origin: Example[`origin`]
   config: string
   variants: Map<ExampleVariant, string>
 }
 
-const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
+const examplesByLanguage = new Map<
+  string,
+  Map<Format, Map<string, VariantGroup>>
+>()
 for (const filename of readdirSync(`examples/output`)) {
   const {
     language: languageId,
@@ -55,18 +58,18 @@ for (const filename of readdirSync(`examples/output`)) {
     byFormat = new Map()
     examplesByLanguage.set(primary, byFormat)
   }
-  let byCombo = byFormat.get(format)
-  if (!byCombo) {
-    byCombo = new Map()
-    byFormat.set(format, byCombo)
+  let variantGroups = byFormat.get(format)
+  if (!variantGroups) {
+    variantGroups = new Map()
+    byFormat.set(format, variantGroups)
   }
-  const comboKey = `${languageId}.${origin}.${config}`
-  let combo = byCombo.get(comboKey)
-  if (!combo) {
-    combo = { language: languageId, origin, config, variants: new Map() }
-    byCombo.set(comboKey, combo)
+  const groupKey = `${languageId}.${origin}.${config}`
+  let group = variantGroups.get(groupKey)
+  if (!group) {
+    group = { language: languageId, origin, config, variants: new Map() }
+    variantGroups.set(groupKey, group)
   }
-  combo.variants.set(variant, filename)
+  group.variants.set(variant, filename)
 }
 
 const escapeHtml = (text: string): string =>
@@ -81,10 +84,10 @@ const iconImage = (
 ): string =>
   `<img src="${languageIconUrl(icon)}" alt="${escapeHtml(name)}" width="${size}" height="${size}" />`
 
-const variantLinks = (combo: Combo): string =>
+const variantLinks = (group: VariantGroup): string =>
   variants
     .flatMap(variant => {
-      const filename = combo.variants.get(variant)
+      const filename = group.variants.get(variant)
       return filename ? [anchor(variant, `examples/output/${filename}`)] : []
     })
     .join(`&nbsp;·&nbsp;`)
@@ -164,9 +167,9 @@ const gridCell = ([id, language]: [string, Language]): string => {
 const languageExampleRows = ([id, language]: [string, Language]): string[] => {
   const includeLanguage = languageMembers(language).length > 1
   const cells = language.formats.flatMap(format =>
-    sortedExampleCombos(id, format).map(
-      combo =>
-        `<td>${escapeHtml(exampleComboLabel(combo, { includeLanguage }))}</td><td>${formatLink(format)}</td><td>${variantLinks(combo)}</td>`,
+    sortedVariantGroups(id, format).map(
+      group =>
+        `<td>${escapeHtml(exampleLabel(group, { includeLanguage }))}</td><td>${formatLink(format)}</td><td>${variantLinks(group)}</td>`,
     ),
   )
   if (cells.length === 0) {
@@ -179,7 +182,7 @@ const languageExampleRows = ([id, language]: [string, Language]): string[] => {
   )
 }
 
-const sortedExampleCombos = (id: string, format: Format): Combo[] =>
+const sortedVariantGroups = (id: string, format: Format): VariantGroup[] =>
   [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])].sort(
     (first, second) =>
       first.language.localeCompare(second.language) ||

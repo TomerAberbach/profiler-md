@@ -6,7 +6,7 @@ import {
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
-  categorySectionTables,
+  categorySubsectionTables,
   categoryTables,
   expectLogs,
 } from '../../testing.ts'
@@ -265,7 +265,7 @@ describe(`convert`, () => {
     )
 
     // `Widget` holds no bytes of its own, so no node of it outweighs another.
-    expect(categorySectionTables(md, `Retained size`)).toEqual({
+    expect(categorySubsectionTables(md, `Retained size`)).toEqual({
       Object: [
         {
           '%': `76.9%`,

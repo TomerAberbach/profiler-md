@@ -6,13 +6,14 @@ import type { OriginDetector } from '../origins/index.ts'
 
 export type InputAggregator<Aggregated> = {
   /**
-   * Passes this input's origin-detection entries to the file's shared detector.
+   * Passes this input's origin-detection entries to the raw input's shared
+   * detector.
    *
    * May be skipped when the detector decides early.
    */
   detectOrigin: (detector: OriginDetector) => void
 
-  /** Aggregates the input under the file's resolved context. */
+  /** Aggregates the input under the raw input's resolved context. */
   aggregate: (
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,

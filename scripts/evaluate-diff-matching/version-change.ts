@@ -16,7 +16,7 @@ import type { UpgradedProject } from './upgraded-projects.ts'
  * Maps a base position in an upgraded project's file through the file's diff,
  * and any other position to itself, and maps each source reference the same
  * way. Returns `undefined` when no located base entity is in an upgraded
- * project, so the pair profiles the same code.
+ * project, so the example pair profiles the same code.
  */
 export const versionChangeMap = (
   base: FunctionInput | AggregatedHeapSnapshot,
@@ -39,24 +39,26 @@ export const versionChangeMap = (
    * project file it is, or `undefined` when its project has no fetchable
    * version.
    */
-  const currentFileOf = (source: string) => {
-    const upgradedFile = upgradedFileOf(source)
+  const currentFileOf = (sourceReference: string) => {
+    const upgradedFile = upgradedFileOf(sourceReference)
     if (!upgradedFile) {
-      return { source, upgradedFile }
+      return { sourceReference, upgradedFile }
     }
     const { project, path } = upgradedFile
     return project.download
       ? {
-          source: currentPaths.get(upgradedFileKey(project, path)) ?? source,
+          sourceReference:
+            currentPaths.get(upgradedFileKey(project, path)) ?? sourceReference,
           upgradedFile,
         }
       : undefined
   }
 
   return {
-    sourceReferenceMap: source => currentFileOf(source)?.source,
+    sourceReferenceMap: sourceReference =>
+      currentFileOf(sourceReference)?.sourceReference,
     positionMap: position => {
-      const currentFile = currentFileOf(position.source)
+      const currentFile = currentFileOf(position.sourceReference)
       if (!currentFile?.upgradedFile) {
         return currentFile && position
       }
@@ -64,11 +66,13 @@ export const versionChangeMap = (
       const diff = groundTruthOf(groundTruth, project).files[path]
       if (!diff) {
         throw new Error(
-          `${GROUND_TRUTH_PATH} has no diff of ${project.name} file ${path}\n  hint: ${UPDATE_HINT}`,
+          `${GROUND_TRUTH_PATH} has no file diff of ${project.name} file ${path}\n  hint: ${UPDATE_HINT}`,
         )
       }
       const mapped = mapPosition(diff, position)
-      return mapped && { source: currentFile.source, ...mapped }
+      return (
+        mapped && { sourceReference: currentFile.sourceReference, ...mapped }
+      )
     },
   }
 }
@@ -86,7 +90,7 @@ const upgradedFileProfiledPaths = (
     if (upgradedFile) {
       profiledPaths.set(
         upgradedFileKey(upgradedFile.project, upgradedFile.path),
-        upgradedFile.source,
+        upgradedFile.sourceReference,
       )
     }
   }

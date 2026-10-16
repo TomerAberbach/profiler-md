@@ -908,7 +908,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     }
   })
 
-  test(`pairs functions by their own keys before their colliding normalized keys`, () => {
+  test(`pairs functions by their own keys before their colliding entry match keys`, () => {
     const free = (id: number, count: number) =>
       sampledFunc(`mem.Allocator.free__anon_${id}`, ZIG_ALLOCATOR, { count })
 
@@ -954,10 +954,10 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     })
   })
 
-  test(`leaves unpaired a function its own key's pass left unpaired, whatever else shares its normalized key`, () => {
+  test(`leaves unpaired a function its own key's pass left unpaired, whatever else shares its entry match key`, () => {
     // The first pass aligns the `free__anon_1` functions and leaves the one at
     // line 20, which moved alone, unpaired. `free__anon_2` shares the
-    // normalized key, and must not undo that decision.
+    // entry match key, and must not undo that decision.
     const free = (id: number, line: number, count: number) =>
       sampledFunc(`mem.Allocator.free__anon_${id}`, ZIG_ALLOCATOR, {
         line,
@@ -1027,7 +1027,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     })
   })
 
-  test(`pairs by its normalized key a function its own key's pass left over because the other side had fewer`, () => {
+  test(`pairs by its entry match key a function its own key's pass left over because the other side had fewer`, () => {
     const free = (id: number, line: number, count: number) =>
       sampledFunc(`mem.Allocator.free__anon_${id}`, ZIG_ALLOCATOR, {
         line,
@@ -1244,7 +1244,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 describe(`formatCallStackProfileDiff lines`, () => {
   /**
    * A function at `a.ts`, defined at {@link line} when it is given, sampled a
-   * microsecond per record at each line.
+   * microsecond per observation at each line.
    */
   const funcWithLines = (
     line: number | undefined,
@@ -1519,7 +1519,7 @@ const func = (
   line,
   selfValues: [count],
   selfCount: count,
-  stack,
+  callStack: stack,
 })
 
 describe(`formatCallStackProfileDiff callers and callees`, () => {

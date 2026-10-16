@@ -149,14 +149,19 @@ const exampleConfigName = (config: string): string =>
   configNames[config] ?? config
 
 /** Without the language, the label keeps the origin's casing (`pprof block`). */
-export const exampleComboLabel = (
-  combo: Pick<Example, `language` | `origin` | `config`>,
+export const exampleLabel = (
+  example: Pick<Example, `language` | `origin` | `config`>,
   { includeLanguage = true }: { includeLanguage?: boolean } = {},
 ): string => {
-  const profile = [originTitle(combo.origin), exampleConfigName(combo.config)]
+  const originAndConfiguration = [
+    originTitle(example.origin),
+    exampleConfigName(example.config),
+  ]
     .filter(Boolean)
     .join(` `)
   return includeLanguage
-    ? capitalizeFirst(`${exampleLanguageName(combo.language)} ${profile}`)
-    : profile
+    ? capitalizeFirst(
+        `${exampleLanguageName(example.language)} ${originAndConfiguration}`,
+      )
+    : originAndConfiguration
 }

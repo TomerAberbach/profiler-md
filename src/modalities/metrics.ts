@@ -19,11 +19,11 @@ export const SAMPLES: CountMetric = {
   },
 }
 
-/** A count of occurrences the emitter leaves unnamed, speedscope's `none`. */
+/** A count of occurrences the profiler leaves unnamed, speedscope's `none`. */
 const OCCURRENCES_METRIC: CountMetric = {
   type: `count`,
   proseUnit: `occurrence`,
-  // An emitter stating its values have no unit states nothing about what they
+  // A profiler stating its values have no unit states nothing about what they
   // measure, so a diff ranks neither direction of change as better or worse.
   improvement: `unknown`,
   phrases: {
@@ -218,16 +218,16 @@ export const INTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
 }
 
 /**
- * The metric for an emitter's own value-type name and unit.
+ * The metric for the name and unit a profiler writes for its values.
  *
  * The unit selects the scale from {@link UNIT_METRICS}. The name selects
  * phrases from {@link NAME_PHRASES} where that table contains it. A unit
  * missing from {@link UNIT_METRICS} becomes a count in that unit, named
- * verbatim, because a string the emitter chose states no grammatical number to
+ * verbatim, because a string the profiler chose states no grammatical number to
  * inflect from.
  *
  * Such a unit also states nothing about which direction of change is an
- * improvement, so pass {@link MetricImprovement} wherever the emitter's own
+ * improvement, so pass {@link MetricImprovement} wherever the profiler's own
  * documentation states what its values measure.
  */
 export const parseMetric = ({
@@ -261,7 +261,7 @@ export const parseMetric = ({
 
 /**
  * The metric, with its default phrases, for each spelling of a unit that a
- * supported format's emitters write. Add a spelling when a committed input
+ * profiler writes in a supported format. Add a spelling when a committed input
  * writes it. What the value measures beyond its unit comes from the name.
  */
 const UNIT_METRICS: ReadonlyMap<string, Metric> = new Map<string, Metric>([
@@ -313,7 +313,7 @@ const UNIT_METRICS: ReadonlyMap<string, Metric> = new Map<string, Metric>([
 ])
 
 /**
- * The phrases for the value-type names emitters write, for a name that states
+ * The phrases for the metric names profilers write, for a name that states
  * more than its unit does (e.g. `alloc_space` states what the bytes are). Add a
  * name when a committed input writes it and its unit's default phrases misstate
  * it. Keyed by the metric type the phrases fit, so a name matches only the

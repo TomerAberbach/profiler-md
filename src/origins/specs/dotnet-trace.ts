@@ -112,7 +112,7 @@ const ASSEMBLY_BANG_METHOD = /^[\w.]+!\S+\(.*\)$/u
 
 /**
  * Whether a frame is a TraceEvent pseudo-frame rather than a function: the
- * grouping nodes wrapping every stack
+ * grouping frames wrapping every stack
  * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`),
  * or the `CPU_TIME` bucket each sample's leaf time is recorded under. Dropping
  * `CPU_TIME` returns each sample's self time to the method that was executing.
@@ -130,7 +130,7 @@ const isPseudoFrame = (name: string): boolean =>
 /** TraceEvent's process root, e.g. `Process64 Process(76492) (76492) Args: `. */
 const PROCESS_FRAME = /^Process(?:32|64)? Process\(\d+\)/u
 
-/** TraceEvent's per-thread node, e.g. `Thread (22921464)`. */
+/** TraceEvent's per-thread frame, e.g. `Thread (22921464)`. */
 const THREAD_FRAME = /^Thread \(\d+\)$/u
 
 /**
