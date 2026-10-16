@@ -62,75 +62,6 @@ export const normalizeProfileInput = <Data>(
 export type { FunctionCategory } from './modalities/category-sets.ts'
 export type { AggregatedProfileEntry } from './modalities/registry.ts'
 
-/** A single entry in a formatted profile. */
-export type ProfileEntry = {
-  /** An index that uniquely identifies this entry. */
-  id: number
-
-  /** The name of the entity corresponding to this entry (e.g. a function name). */
-  name?: string
-
-  /**
-   * The location where the entity corresponding to this entry was defined: a
-   * file, or a logical name such as a JVM class or a BEAM module when the
-   * runtime reports no file. Undefined if unknown.
-   */
-  location?: SourceLocation
-}
-
-/**
- * The name and location overrides an entry's match key is built from, with the
- * identifiers that differ per run or build stripped.
- *
- * Only affects matching; the entry's displayed name and location are
- * unchanged.
- */
-export type EntryMatch = {
-  /** The name to match by. Omit to match by the entry's name. */
-  name?: string
-
-  /**
-   * The location to match by, as a URL, file path, or logical name string.
-   * Omit to match by the entry's location. An empty string matches by name
-   * alone.
-   */
-  location?: string
-}
-
-/**
- * The keys an entry is paired by across a diff's two sides, derived from its
- * {@link EntryMatch}.
- */
-type EntryMatchKeys = {
-  /**
-   * The key pairing entries by their entry match's name alone, for entities
-   * whose location varies between profiles of the same program.
-   */
-  name: string
-
-  nameAndLocation: string
-
-  /**
-   * The key built from the entry's own name and location, ignoring its
-   * {@link EntryMatch}.
-   */
-  ownNameAndLocation: string
-}
-
-export type ProfileToMdContext = {
-  format: Format
-  origin: Origin
-}
-
-/**
- * A {@link ProfileToMdContext} whose origin has not been resolved yet: `null`
- * when none was given explicitly and the origin has yet to be detected.
- */
-export type UnresolvedProfileToMdContext = {
-  format: Format
-  origin: Origin | null
-}
-
 export type ProfileToMdOptions = {
   /**
    * The number of entries to display when computing the "top N" by some metric.
@@ -273,6 +204,25 @@ export type ProfileToMdOptions = {
   ) => boolean
 }
 
+/**
+ * The name and location overrides an entry's match key is built from, with the
+ * identifiers that differ per run or build stripped.
+ *
+ * Only affects matching; the entry's displayed name and location are
+ * unchanged.
+ */
+export type EntryMatch = {
+  /** The name to match by. Omit to match by the entry's name. */
+  name?: string
+
+  /**
+   * The location to match by, as a URL, file path, or logical name string.
+   * Omit to match by the entry's location. An empty string matches by name
+   * alone.
+   */
+  location?: string
+}
+
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
@@ -330,9 +280,55 @@ export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
   ) => boolean
 }
 
-export const DEFAULT_TOP_N = 20
+/** A single entry in a formatted profile. */
+export type ProfileEntry = {
+  /** An index that uniquely identifies this entry. */
+  id: number
 
-export const DEFAULT_MIN_CATEGORY_SHARE = 0.01
+  /** The name of the entity corresponding to this entry (e.g. a function name). */
+  name?: string
+
+  /**
+   * The location where the entity corresponding to this entry was defined: a
+   * file, or a logical name such as a JVM class or a BEAM module when the
+   * runtime reports no file. Undefined if unknown.
+   */
+  location?: SourceLocation
+}
+
+export type ProfileToMdContext = {
+  format: Format
+  origin: Origin
+}
+
+/**
+ * A {@link ProfileToMdContext} whose origin has not been resolved yet: `null`
+ * when none was given explicitly and the origin has yet to be detected.
+ */
+export type UnresolvedProfileToMdContext = {
+  format: Format
+  origin: Origin | null
+}
+
+/**
+ * Resolves options as the conversion pipeline does, except `baseURL: 'auto'`,
+ * which it rejects.
+ */
+export const resolveProfileToMdOptions = (
+  options?: ProfileToMdOptions,
+): FormattingProfileToMdOptions => {
+  const { baseURL, sourceMaps, ...rest } = normalizeProfileToMdOptions(options)
+  if (baseURL === `auto`) {
+    throw new Error(
+      `baseURL 'auto' is resolved by the conversion pipeline, so pass a concrete base URL here`,
+    )
+  }
+  return {
+    ...rest,
+    baseURL,
+    sourceMaps: new SourceMapResolver(sourceMaps, rest.logger),
+  }
+}
 
 export const normalizeProfileToMdOptions = ({
   topN = DEFAULT_TOP_N,
@@ -369,161 +365,9 @@ export const normalizeProfileToMdOptions = ({
   }
 }
 
-const normalizeTopN = (topN: number): number => {
-  if (!(Number.isSafeInteger(topN) && topN >= 1)) {
-    throw new ProfilerMdError(`topN must be a positive integer, got: ${topN}`)
-  }
-  return topN
-}
+export const DEFAULT_TOP_N = 20
 
-const normalizeLogLevel = (logLevel: LogLevel): LogLevel => {
-  if (!LOG_LEVELS.includes(logLevel)) {
-    throw new ProfilerMdError(
-      `logLevel must be one of ${LOG_LEVELS.join(`, `)}, got: ${String(logLevel)}`,
-    )
-  }
-  return logLevel
-}
-
-const normalizeMinCategoryShare = (minCategoryShare: number): number => {
-  if (!(minCategoryShare >= 0 && minCategoryShare <= 1)) {
-    throw new ProfilerMdError(
-      `minCategoryShare must be a fraction between 0 and 1, got: ${minCategoryShare}`,
-    )
-  }
-  return minCategoryShare
-}
-
-/**
- * Resolves options as the conversion pipeline does, except `baseURL: 'auto'`,
- * which it rejects.
- */
-export const resolveProfileToMdOptions = (
-  options?: ProfileToMdOptions,
-): FormattingProfileToMdOptions => {
-  const { baseURL, sourceMaps, ...rest } = normalizeProfileToMdOptions(options)
-  if (baseURL === `auto`) {
-    throw new Error(
-      `baseURL 'auto' is resolved by the conversion pipeline, so pass a concrete base URL here`,
-    )
-  }
-  return {
-    ...rest,
-    baseURL,
-    sourceMaps: new SourceMapResolver(sourceMaps, rest.logger),
-  }
-}
-
-const normalizeBaseURL = (
-  baseURL: `auto` | (string & {}) | URL | null | undefined,
-): URL | `auto` | undefined => {
-  if (baseURL === null) {
-    return undefined
-  }
-  if (baseURL === `auto`) {
-    return `auto`
-  }
-
-  let url: URL | undefined
-  if (baseURL === undefined) {
-    if (typeof process !== `undefined`) {
-      url = filePathURL(`${process.cwd()}/`)
-    }
-  } else if (typeof baseURL === `string`) {
-    const fileReference = makeFileReference(baseURL)
-    if (fileReference?.type !== `absolute`) {
-      throw new ProfilerMdError(
-        `baseURL must be an absolute path or URL, got: ${baseURL}`,
-      )
-    }
-    ;({ url } = fileReference)
-  } else {
-    url = baseURL
-  }
-
-  if (url) {
-    url = ensureTrailingSlash(url)
-  }
-
-  return url
-}
-
-const ensureTrailingSlash = (url: URL): URL => {
-  if (url.pathname.endsWith(`/`)) {
-    return url
-  }
-
-  url = new URL(url.href)
-  url.pathname += `/`
-  return url
-}
-
-const entryMatchKeys = (
-  entry: ProfileEntry,
-  context: ProfileToMdContext,
-  matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
-): EntryMatchKeys => {
-  const entryName = entry.name ?? ``
-  const entryLocation = entry.location
-    ? sourceReferenceId(entry.location)
-    : undefined
-  const ownNameAndLocation = nameAndLocationKey(entry, entryName, entryLocation)
-
-  const match = matchEntry(entry, context)
-  if (!match) {
-    return {
-      name: entryName,
-      nameAndLocation: ownNameAndLocation,
-      ownNameAndLocation,
-    }
-  }
-
-  const name = match.name ?? entryName
-  return {
-    name,
-    nameAndLocation: nameAndLocationKey(
-      entry,
-      name,
-      match.location ?? entryLocation,
-    ),
-    ownNameAndLocation,
-  }
-}
-
-const nameAndLocationKey = (
-  entry: ProfileEntry,
-  name: string,
-  location: string | undefined,
-): string => {
-  if (!location) {
-    return name
-  }
-
-  // `EntryMatch.location` is a bare string, so the kind comes from the entry's
-  // own location, whose kind an entry match keeps.
-  const kind = entry.location ? sourceReferenceKind(entry.location) : ``
-  return `${name}\0${kind}\0${location}`
-}
-
-const cacheEntryFunction = <Entry extends object, Context, Value>(
-  func: (entry: Entry, context: Context) => Value,
-): ((entry: Entry, context?: Context) => Value) => {
-  // Cache by entry identity rather than entry ID because IDs are unique only
-  // within a single aggregated input, and the same options apply to every
-  // aggregated input of a conversion, whether a raw input yields several or a
-  // diff aggregates two. Keying by the entry alone stays valid despite the
-  // context, because an entry is in exactly one aggregated input and so is only
-  // ever passed with that input's context.
-  const cache = new WeakMap<Entry, Value>()
-  return (entry, context) => {
-    let cached = cache.get(entry)
-    if (cached === undefined) {
-      cached = func(entry, context!)
-      cache.set(entry, cached)
-    }
-    return cached
-  }
-}
+export const DEFAULT_MIN_CATEGORY_SHARE = 0.01
 
 /**
  * The default {@link ProfileToMdOptions.matchEntry}.
@@ -581,3 +425,159 @@ const TEXT_CATEGORIES = new Set<EntryCategory>([
   `concatenated-string`,
   `sliced-string`,
 ])
+
+const normalizeLogLevel = (logLevel: LogLevel): LogLevel => {
+  if (!LOG_LEVELS.includes(logLevel)) {
+    throw new ProfilerMdError(
+      `logLevel must be one of ${LOG_LEVELS.join(`, `)}, got: ${String(logLevel)}`,
+    )
+  }
+  return logLevel
+}
+
+const normalizeTopN = (topN: number): number => {
+  if (!(Number.isSafeInteger(topN) && topN >= 1)) {
+    throw new ProfilerMdError(`topN must be a positive integer, got: ${topN}`)
+  }
+  return topN
+}
+
+const normalizeMinCategoryShare = (minCategoryShare: number): number => {
+  if (!(minCategoryShare >= 0 && minCategoryShare <= 1)) {
+    throw new ProfilerMdError(
+      `minCategoryShare must be a fraction between 0 and 1, got: ${minCategoryShare}`,
+    )
+  }
+  return minCategoryShare
+}
+
+const normalizeBaseURL = (
+  baseURL: `auto` | (string & {}) | URL | null | undefined,
+): URL | `auto` | undefined => {
+  if (baseURL === null) {
+    return undefined
+  }
+  if (baseURL === `auto`) {
+    return `auto`
+  }
+
+  let url: URL | undefined
+  if (baseURL === undefined) {
+    if (typeof process !== `undefined`) {
+      url = filePathURL(`${process.cwd()}/`)
+    }
+  } else if (typeof baseURL === `string`) {
+    const fileReference = makeFileReference(baseURL)
+    if (fileReference?.type !== `absolute`) {
+      throw new ProfilerMdError(
+        `baseURL must be an absolute path or URL, got: ${baseURL}`,
+      )
+    }
+    ;({ url } = fileReference)
+  } else {
+    url = baseURL
+  }
+
+  if (url) {
+    url = ensureTrailingSlash(url)
+  }
+
+  return url
+}
+
+const ensureTrailingSlash = (url: URL): URL => {
+  if (url.pathname.endsWith(`/`)) {
+    return url
+  }
+
+  url = new URL(url.href)
+  url.pathname += `/`
+  return url
+}
+
+const cacheEntryFunction = <Entry extends object, Context, Value>(
+  func: (entry: Entry, context: Context) => Value,
+): ((entry: Entry, context?: Context) => Value) => {
+  // Cache by entry identity rather than entry ID because IDs are unique only
+  // within a single aggregated input, and the same options apply to every
+  // aggregated input of a conversion, whether a raw input yields several or a
+  // diff aggregates two. Keying by the entry alone stays valid despite the
+  // context, because an entry is in exactly one aggregated input and so is only
+  // ever passed with that input's context.
+  const cache = new WeakMap<Entry, Value>()
+  return (entry, context) => {
+    let cached = cache.get(entry)
+    if (cached === undefined) {
+      cached = func(entry, context!)
+      cache.set(entry, cached)
+    }
+    return cached
+  }
+}
+
+/**
+ * The keys an entry is paired by across a diff's two sides, derived from its
+ * {@link EntryMatch}.
+ */
+type EntryMatchKeys = {
+  /**
+   * The key pairing entries by their entry match's name alone, for entities
+   * whose location varies between profiles of the same program.
+   */
+  name: string
+
+  nameAndLocation: string
+
+  /**
+   * The key built from the entry's own name and location, ignoring its
+   * {@link EntryMatch}.
+   */
+  ownNameAndLocation: string
+}
+
+const entryMatchKeys = (
+  entry: ProfileEntry,
+  context: ProfileToMdContext,
+  matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
+): EntryMatchKeys => {
+  const entryName = entry.name ?? ``
+  const entryLocation = entry.location
+    ? sourceReferenceId(entry.location)
+    : undefined
+  const ownNameAndLocation = nameAndLocationKey(entry, entryName, entryLocation)
+
+  const match = matchEntry(entry, context)
+  if (!match) {
+    return {
+      name: entryName,
+      nameAndLocation: ownNameAndLocation,
+      ownNameAndLocation,
+    }
+  }
+
+  const name = match.name ?? entryName
+  return {
+    name,
+    nameAndLocation: nameAndLocationKey(
+      entry,
+      name,
+      match.location ?? entryLocation,
+    ),
+    ownNameAndLocation,
+  }
+}
+
+const nameAndLocationKey = (
+  entry: ProfileEntry,
+  name: string,
+  location: string | undefined,
+): string => {
+  if (!location) {
+    return name
+  }
+
+  // `EntryMatch.location` is a bare string, so the kind comes from the entry's
+  // own location, whose kind an entry match keeps.
+  const kind = entry.location ? sourceReferenceKind(entry.location) : ``
+  return `${name}\0${kind}\0${location}`
+}

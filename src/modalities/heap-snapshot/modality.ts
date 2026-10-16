@@ -32,14 +32,6 @@ export const heapSnapshotModalitySpec = {
   AggregatedHeapSnapshotEntity
 >
 
-function* entities({
-  constructors,
-  functions,
-}: AggregatedHeapSnapshot): Iterable<AggregatedHeapSnapshotEntity> {
-  yield* constructors
-  yield* functions
-}
-
 function* entityLocations(
   snapshot: AggregatedHeapSnapshot,
 ): Iterable<EntityLocation> {
@@ -49,4 +41,12 @@ function* entityLocations(
       yield { location, inferable: true }
     }
   }
+}
+
+function* entities({
+  constructors,
+  functions,
+}: AggregatedHeapSnapshot): Iterable<AggregatedHeapSnapshotEntity> {
+  yield* constructors
+  yield* functions
 }

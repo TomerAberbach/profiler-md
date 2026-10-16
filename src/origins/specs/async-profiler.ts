@@ -60,22 +60,6 @@ export const asyncProfilerOriginSpec = {
 } as const satisfies OriginSpec
 
 /**
- * Splits a collapsed frame name into the method and the JVM method descriptor
- * the `sig` option appends to it, or an empty descriptor without the option.
- * The descriptor's `;` terminators are written as `|` because `;` separates
- * collapsed frames, so the split restores them.
- */
-const splitMethodDescriptor = (
-  name: string,
-): [method: string, descriptor: string] => {
-  const open = name.indexOf(`(`)
-  if (open === -1) {
-    return [name, ``]
-  }
-  return [name.slice(0, open), name.slice(open).replaceAll(`|`, `;`)]
-}
-
-/**
  * The frame the `threads` option roots every stack at: the thread's name and
  * id, e.g. `[ForkJoinPool-1-worker-1 tid=35079]`, or the id alone for a thread
  * without a name, e.g. `[tid=16387]`.
@@ -101,14 +85,6 @@ const isClassFrame = (name: string): boolean => {
  */
 const CLASS_FRAME_SUFFIX = /_\[[ik]\]$/u
 
-/**
- * Whether a method is `package/path/Class.method`, or dotted with `dot`. A dotted
- * name requires a package, so a native symbol like
- * `tiny_malloc_from_free_list.cold.4` stays native.
- */
-const isJavaMethod = (method: string): boolean =>
-  method.includes(`/`) || DOTTED_METHOD.test(method)
-
 const IDENTIFIER_REST = String.raw`[\p{L}\p{N}_$]*`
 const IDENTIFIER = String.raw`[\p{L}_$]${IDENTIFIER_REST}`
 const PACKAGE_PATH = String.raw`(?:${IDENTIFIER}\.)+`
@@ -131,6 +107,36 @@ const CLASS = new RegExp(
 )
 
 /**
+ * The suffix the `ann` option appends to a Java frame: `_[j]` for JIT-compiled,
+ * `_[i]` for inlined, `_[0]` for interpreted, and `_[1]` for C1-compiled.
+ */
+const COMPILATION_ANNOTATION = /_\[[ji01]\]$/u
+
+/**
+ * Splits a collapsed frame name into the method and the JVM method descriptor
+ * the `sig` option appends to it, or an empty descriptor without the option.
+ * The descriptor's `;` terminators are written as `|` because `;` separates
+ * collapsed frames, so the split restores them.
+ */
+const splitMethodDescriptor = (
+  name: string,
+): [method: string, descriptor: string] => {
+  const open = name.indexOf(`(`)
+  if (open === -1) {
+    return [name, ``]
+  }
+  return [name.slice(0, open), name.slice(open).replaceAll(`|`, `;`)]
+}
+
+/**
+ * Whether a method is `package/path/Class.method`, or dotted with `dot`. A dotted
+ * name requires a package, so a native symbol like
+ * `tiny_malloc_from_free_list.cold.4` stays native.
+ */
+const isJavaMethod = (method: string): boolean =>
+  method.includes(`/`) || DOTTED_METHOD.test(method)
+
+/**
  * A dotted method name: a package, a class or hidden class address, and a
  * method, to which Kotlin's name mangling can add a `-` (e.g. `box-impl`).
  */
@@ -138,9 +144,3 @@ const DOTTED_METHOD = new RegExp(
   String.raw`^${PACKAGE_PATH}(?:${IDENTIFIER}|${HIDDEN_CLASS_ADDRESS})\.(?:<init>|<clinit>|[\p{L}_$][\p{L}\p{N}_$-]*)$`,
   `u`,
 )
-
-/**
- * The suffix the `ann` option appends to a Java frame: `_[j]` for JIT-compiled,
- * `_[i]` for inlined, `_[0]` for interpreted, and `_[1]` for C1-compiled.
- */
-const COMPILATION_ANNOTATION = /_\[[ji01]\]$/u

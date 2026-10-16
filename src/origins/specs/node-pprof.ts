@@ -81,9 +81,6 @@ export const nodePprofOriginSpec = {
   },
 } as const satisfies OriginSpec
 
-/** `dd-trace` packed anonymous frame name, e.g. `(anonymous:L#122135:C#9)`. */
-const PACKED_ANONYMOUS = /^\(anonymous:L#(?<line>\d+):C#(?<column>\d+)\)$/u
-
 /** The module specifiers Node resolves to runtime builtins. */
 const NODE_PROTOCOLS = [`node:`]
 
@@ -91,3 +88,6 @@ const garbageCollectionCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   name === `Garbage Collection` ? `garbage-collector` : undefined
+
+/** `dd-trace` packed anonymous frame name, e.g. `(anonymous:L#122135:C#9)`. */
+const PACKED_ANONYMOUS = /^\(anonymous:L#(?<line>\d+):C#(?<column>\d+)\)$/u

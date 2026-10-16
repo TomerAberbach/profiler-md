@@ -6,14 +6,6 @@ import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
 
-const located = (name: string, path: string): ProfileEntry => ({
-  id: 1,
-  name,
-  location: { type: `relative`, path },
-})
-
-const named = (name: string): ProfileEntry => ({ id: 1, name })
-
 describe(`detection`, () => {
   test.each([
     `parse - /app/lib/foo.rb:12`,
@@ -181,6 +173,14 @@ describe(`normalizeStackFrame`, () => {
     expect(normalizeStackFrame(input, `speedscope`)).toBe(input)
   })
 })
+
+const located = (name: string, path: string): ProfileEntry => ({
+  id: 1,
+  name,
+  location: { type: `relative`, path },
+})
+
+const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = rbspyOriginSpec

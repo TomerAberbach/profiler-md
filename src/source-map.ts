@@ -6,13 +6,94 @@ import { makeFileReference, sourceReferenceId } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
 import type { Logger } from './logger.ts'
 
+/** The caller's source maps, each keyed by the generated file it maps. */
+export type NormalizedSourceMaps = readonly NormalizedSourceMap[]
+
 type NormalizedSourceMap = {
   consumer: SourceMapConsumer
   fileReference: FileReference
 }
 
-/** The caller's source maps, each keyed by the generated file it maps. */
-export type NormalizedSourceMaps = readonly NormalizedSourceMap[]
+/**
+ * Keys each of the caller's source maps by the generated file it maps, warning
+ * about and dropping each map that identifies no generated file or names the
+ * same generated file as an earlier map.
+ */
+export const normalizeSourceMaps = (
+  sourceMaps: SourceMap[] | Record<string, SourceMap>,
+  logger: Logger,
+): NormalizedSourceMaps => {
+  const normalized = new Map<string, NormalizedSourceMap>()
+
+  const add = (
+    urlOrPath: string,
+    sourceMap: SourceMap,
+    describeKey: (rejection: string) => string,
+  ): void => {
+    const fileReference = makeSourceMapFileReference(urlOrPath)
+    if (!fileReference) {
+      logger.warn?.(
+        `source map ignored: ${describeKey(rejectionReason(urlOrPath))}, got: ${urlOrPath}`,
+      )
+      return
+    }
+
+    const generatedFileId = sourceReferenceId(fileReference)
+    if (normalized.has(generatedFileId)) {
+      logger.warn?.(
+        `source map ignored: ${describeKey(`names the same generated file as an earlier entry`)}, got: ${urlOrPath}`,
+      )
+      return
+    }
+
+    normalized.set(generatedFileId, {
+      consumer: makeSourceMapConsumer(urlOrPath, sourceMap),
+      fileReference,
+    })
+  }
+
+  if (Array.isArray(sourceMaps)) {
+    for (const [index, sourceMap] of sourceMaps.entries()) {
+      if (!sourceMap.file) {
+        logger.warn?.(
+          `source map ignored: the entry at index ${index} has no "file" field naming the generated file it maps`,
+        )
+        continue
+      }
+      add(
+        sourceMap.file,
+        sourceMap,
+        rejection =>
+          `the "file" field of the entry at index ${index} ${rejection}`,
+      )
+    }
+  } else {
+    for (const [key, sourceMap] of Object.entries(sourceMaps)) {
+      add(key, sourceMap, rejection => `its key ${rejection}`)
+    }
+  }
+
+  return [...normalized.values()]
+}
+
+const rejectionReason = (urlOrPath: string): string =>
+  urlOrPath === UNKNOWN_FILE
+    ? `is the placeholder a compiler writes when given no file name`
+    : `is not a URL or file path`
+
+const makeSourceMapConsumer = (
+  urlOrPath: string,
+  sourceMap: SourceMap,
+): SourceMapConsumer => {
+  try {
+    return new SourceMapConsumer(sourceMap)
+  } catch (error) {
+    throw new ProfilerMdError(
+      `sourceMaps entry for ${urlOrPath} is an invalid source map`,
+      { cause: error },
+    )
+  }
+}
 
 type GeneratedFileOutcome = UnmappedGeneratedFile | MappedGeneratedFile
 
@@ -207,86 +288,17 @@ export class SourceMapResolver {
   }
 }
 
-/**
- * Keys each of the caller's source maps by the generated file it maps, warning
- * about and dropping each map that identifies no generated file or names the
- * same generated file as an earlier map.
- */
-export const normalizeSourceMaps = (
-  sourceMaps: SourceMap[] | Record<string, SourceMap>,
-  logger: Logger,
-): NormalizedSourceMaps => {
-  const normalized = new Map<string, NormalizedSourceMap>()
-
-  const add = (
-    urlOrPath: string,
-    sourceMap: SourceMap,
-    describeKey: (rejection: string) => string,
-  ): void => {
-    const fileReference = makeSourceMapFileReference(urlOrPath)
-    if (!fileReference) {
-      logger.warn?.(
-        `source map ignored: ${describeKey(rejectionReason(urlOrPath))}, got: ${urlOrPath}`,
-      )
-      return
-    }
-
-    const generatedFileId = sourceReferenceId(fileReference)
-    if (normalized.has(generatedFileId)) {
-      logger.warn?.(
-        `source map ignored: ${describeKey(`names the same generated file as an earlier entry`)}, got: ${urlOrPath}`,
-      )
-      return
-    }
-
-    normalized.set(generatedFileId, {
-      consumer: makeSourceMapConsumer(urlOrPath, sourceMap),
-      fileReference,
-    })
-  }
-
-  if (Array.isArray(sourceMaps)) {
-    for (const [index, sourceMap] of sourceMaps.entries()) {
-      if (!sourceMap.file) {
-        logger.warn?.(
-          `source map ignored: the entry at index ${index} has no "file" field naming the generated file it maps`,
-        )
-        continue
-      }
-      add(
-        sourceMap.file,
-        sourceMap,
-        rejection =>
-          `the "file" field of the entry at index ${index} ${rejection}`,
-      )
-    }
-  } else {
-    for (const [key, sourceMap] of Object.entries(sourceMaps)) {
-      add(key, sourceMap, rejection => `its key ${rejection}`)
-    }
-  }
-
-  return [...normalized.values()]
-}
-
-const rejectionReason = (urlOrPath: string): string =>
-  urlOrPath === UNKNOWN_FILE
-    ? `is the placeholder a compiler writes when given no file name`
-    : `is not a URL or file path`
-
-const makeSourceMapConsumer = (
+const makeSourceMapFileReference = (
   urlOrPath: string,
-  sourceMap: SourceMap,
-): SourceMapConsumer => {
-  try {
-    return new SourceMapConsumer(sourceMap)
-  } catch (error) {
-    throw new ProfilerMdError(
-      `sourceMaps entry for ${urlOrPath} is an invalid source map`,
-      { cause: error },
-    )
-  }
-}
+): FileReference | undefined =>
+  urlOrPath === UNKNOWN_FILE ? undefined : makeFileReference(urlOrPath)
+
+/**
+ * The placeholder a compiler writes as a source map's `file` or `sources`
+ * entry when it was given no file name. Babel writes `unknown` for code
+ * transformed without a `filename` option.
+ */
+const UNKNOWN_FILE = `unknown`
 
 const originalPositionOf = (
   consumer: SourceMapConsumer,
@@ -352,17 +364,5 @@ const describeGeneratedFile = (
 }
 
 const MAX_LISTED_POSITIONS = 3
-
-const makeSourceMapFileReference = (
-  urlOrPath: string,
-): FileReference | undefined =>
-  urlOrPath === UNKNOWN_FILE ? undefined : makeFileReference(urlOrPath)
-
-/**
- * The placeholder a compiler writes as a source map's `file` or `sources`
- * entry when it was given no file name. Babel writes `unknown` for code
- * transformed without a `filename` option.
- */
-const UNKNOWN_FILE = `unknown`
 
 export type { RawSourceMap as SourceMap } from 'source-map-js'

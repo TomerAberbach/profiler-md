@@ -11,9 +11,6 @@ import {
 import { jscConstructorCategory } from '../jsc.ts'
 import type { OriginSpec } from '../spec.ts'
 
-/** The marker WebKit gives the scripts it injects (e.g. devtools internals). */
-const INJECTED_SCRIPT_MARKER = `__InjectedScript_`
-
 const isInjectedScript = ({
   name,
   location,
@@ -21,6 +18,9 @@ const isInjectedScript = ({
   name?.startsWith(INJECTED_SCRIPT_MARKER) === true ||
   (location !== undefined &&
     sourceReferencePathOrName(location).includes(INJECTED_SCRIPT_MARKER))
+
+/** The marker WebKit gives the scripts it injects (e.g. devtools internals). */
+const INJECTED_SCRIPT_MARKER = `__InjectedScript_`
 
 export const safariOriginSpec = {
   id: `safari`,

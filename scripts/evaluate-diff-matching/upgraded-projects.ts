@@ -3,8 +3,6 @@ import { sourceReferencePathOrName } from '../../src/location.ts'
 import type { SourceLocation } from '../../src/location.ts'
 import type { Download } from './fetch.ts'
 
-export type Side = `base` | `current`
-
 /**
  * A project whose version the input generation pins per side, so an example
  * pair profiles two versions of it.
@@ -46,6 +44,8 @@ export type UpgradedProject = {
   minified?: boolean
 }
 
+export type Side = `base` | `current`
+
 type DownloadOf = (version: string, path: string) => Download
 
 const npmDownload =
@@ -53,19 +53,6 @@ const npmDownload =
   (version, path) => ({
     url: `https://registry.npmjs.org/${name}/-/${name}-${version}.tgz`,
     member: `package/${path}`,
-  })
-
-const githubDownload =
-  (repository: string, tagPrefix = ``): DownloadOf =>
-  (version, path) => ({
-    url: `https://raw.githubusercontent.com/${repository}/${tagPrefix}${version}/${path}`,
-  })
-
-const crateDownload =
-  (name: string): DownloadOf =>
-  (version, path) => ({
-    url: `https://static.crates.io/crates/${name}/${name}-${version}.crate`,
-    member: `${name}-${version}/${path}`,
   })
 
 /**
@@ -87,12 +74,25 @@ const clonedRepositoryDownload =
     return githubDownload(repository)(version, path)
   }
 
+const githubDownload =
+  (repository: string, tagPrefix = ``): DownloadOf =>
+  (version, path) => ({
+    url: `https://raw.githubusercontent.com/${repository}/${tagPrefix}${version}/${path}`,
+  })
+
 /** Reads files from one archive per version, because Codeberg rate limits per file. */
 const codebergDownload =
   (repository: string): DownloadOf =>
   (version, path) => ({
     url: `https://codeberg.org/${repository}/archive/${version}.tar.gz`,
     member: `${repository.split(`/`)[1]}/${path}`,
+  })
+
+const crateDownload =
+  (name: string): DownloadOf =>
+  (version, path) => ({
+    url: `https://static.crates.io/crates/${name}/${name}-${version}.crate`,
+    member: `${name}-${version}/${path}`,
   })
 
 export const UPGRADED_PROJECTS: UpgradedProject[] = [
@@ -285,6 +285,21 @@ export const versionsOf = (project: UpgradedProject): Record<Side, string> => {
 }
 
 /**
+ * The upgraded project file a function is defined in, and its source reference's
+ * path, or `undefined` for a function with no location or in no upgraded
+ * project.
+ */
+export const upgradedFileAt = (
+  location: SourceLocation | undefined,
+):
+  | { project: UpgradedProject; path: string; sourceReference: string }
+  | undefined => {
+  const sourceReference = location && sourceReferencePathOrName(location)
+  const upgradedFile = upgradedFileOf(sourceReference)
+  return upgradedFile && { ...upgradedFile, sourceReference: sourceReference! }
+}
+
+/**
  * The upgraded project a source reference's path is in, and the file's path
  * within it, or `undefined` for a path in no upgraded project.
  */
@@ -309,20 +324,16 @@ export const upgradedFileOf = (
   return undefined
 }
 
-/**
- * The upgraded project file a function is defined in, and its source reference's
- * path, or `undefined` for a function with no location or in no upgraded
- * project.
- */
-export const upgradedFileAt = (
-  location: SourceLocation | undefined,
-):
-  | { project: UpgradedProject; path: string; sourceReference: string }
-  | undefined => {
-  const sourceReference = location && sourceReferencePathOrName(location)
-  const upgradedFile = upgradedFileOf(sourceReference)
-  return upgradedFile && { ...upgradedFile, sourceReference: sourceReference! }
+const flakeLockedRev = (input: string): string => {
+  const lock = JSON.parse(
+    readFileSync(`scripts/inputs/flake.lock`, `utf8`),
+  ) as { nodes: Record<string, { locked: { rev: string } }> }
+  return lock.nodes[input]!.locked.rev
 }
+
+/** The value a workload script assigns a variable with `NAME="…"`. */
+const shellVariable = (script: string, name: string): string =>
+  matchScript(script, `^${name}="([^"]+)"`, `assigns no ${name}`)[1]!
 
 /** The versions a workload script pins with `declare -A NAME=([base]=… [current]=…)`. */
 const pinnedVersions = (script: string, name: string): Record<Side, string> => {
@@ -333,10 +344,6 @@ const pinnedVersions = (script: string, name: string): Record<Side, string> => {
   )
   return { base: base!, current: current! }
 }
-
-/** The value a workload script assigns a variable with `NAME="…"`. */
-const shellVariable = (script: string, name: string): string =>
-  matchScript(script, `^${name}="([^"]+)"`, `assigns no ${name}`)[1]!
 
 const pinPattern = (name: string): string =>
   `^declare -A ${name}=\\(\\[base\\]=`
@@ -357,10 +364,3 @@ const readScript = (script: string): string =>
   readFileSync(scriptPath(script), `utf8`)
 
 const scriptPath = (script: string): string => `scripts/inputs/${script}.sh`
-
-const flakeLockedRev = (input: string): string => {
-  const lock = JSON.parse(
-    readFileSync(`scripts/inputs/flake.lock`, `utf8`),
-  ) as { nodes: Record<string, { locked: { rev: string } }> }
-  return lock.nodes[input]!.locked.rev
-}

@@ -8,36 +8,20 @@ import {
 } from './bytes.ts'
 import { chunk, streamOf } from './testing.ts'
 
-const lines = (text: string, chunkSize?: number): string[] => [
-  ...decodeUtf8Lines(new TextEncoder().encode(text), chunkSize),
-]
-
-const asyncLines = async (chunks: Uint8Array[]): Promise<string[]> => {
-  const lines: string[] = []
-  for await (const line of decodeUtf8LinesAsync(streamOf(...chunks))) {
-    lines.push(line)
-  }
-  return lines
-}
-
-const asyncTextLines = (
-  text: string,
-  chunkSize?: number,
-): Promise<string[]> => {
-  const bytes = new TextEncoder().encode(text)
-  return asyncLines(chunkSize === undefined ? [bytes] : chunk(bytes, chunkSize))
-}
-
-// The lines `decodeUtf8Lines` must yield at any chunk size
-const splitLines = (text: string): string[] =>
-  text.split(`\n`).map(line => (line.endsWith(`\r`) ? line.slice(0, -1) : line))
-
 // Text built from line separators alongside 1-, 2-, 3-, and 4-byte UTF-8
 // characters, so chunk boundaries fall on newlines and inside multi-byte
 // sequences. All characters are well-formed, so the bytes roundtrip.
 const text = fc.string({
   unit: fc.constantFrom(`\n`, `\r`, `a`, ` `, `é`, `→`, `𝟙`),
 })
+
+const lines = (text: string, chunkSize?: number): string[] => [
+  ...decodeUtf8Lines(new TextEncoder().encode(text), chunkSize),
+]
+
+// The lines `decodeUtf8Lines` must yield at any chunk size
+const splitLines = (text: string): string[] =>
+  text.split(`\n`).map(line => (line.endsWith(`\r`) ? line.slice(0, -1) : line))
 
 describe(`decodeUtf8Lines`, () => {
   test(`yields newline-delimited lines`, () => {
@@ -82,6 +66,22 @@ describe(`decodeUtf8Lines`, () => {
   })
 })
 
+const asyncTextLines = (
+  text: string,
+  chunkSize?: number,
+): Promise<string[]> => {
+  const bytes = new TextEncoder().encode(text)
+  return asyncLines(chunkSize === undefined ? [bytes] : chunk(bytes, chunkSize))
+}
+
+const asyncLines = async (chunks: Uint8Array[]): Promise<string[]> => {
+  const lines: string[] = []
+  for await (const line of decodeUtf8LinesAsync(streamOf(...chunks))) {
+    lines.push(line)
+  }
+  return lines
+}
+
 describe(`decodeUtf8LinesAsync`, () => {
   test(`yields newline-delimited lines`, async () => {
     expect(await asyncTextLines(`a\nbb\nccc`)).toEqual([`a`, `bb`, `ccc`])
@@ -123,8 +123,6 @@ describe(`decodeUtf8LinesAsync`, () => {
   })
 })
 
-const bytes = (...values: number[]): Uint8Array => new Uint8Array(values)
-
 describe(`startsWith`, () => {
   test.prop([fc.uint8Array(), fc.nat()])(
     `accepts a prefix of the bytes themselves`,
@@ -158,6 +156,8 @@ const queueOf = (...parts: Uint8Array[]): ByteQueue => {
   }
   return queue
 }
+
+const bytes = (...values: number[]): Uint8Array => new Uint8Array(values)
 
 describe(`ByteQueue`, () => {
   test(`length sums the pushed parts`, () => {

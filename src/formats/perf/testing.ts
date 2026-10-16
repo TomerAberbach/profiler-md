@@ -19,19 +19,6 @@ export const MULTI_EVENT_CPU_SAMPLE_TYPE = 0x1e7
 /** The `PERF_SAMPLE_STACK_USER` bit `perf record --call-graph dwarf` sets. */
 export const STACK_USER_SAMPLE_TYPE = 0x2000
 
-/** `PERF_TYPE_SOFTWARE` and `PERF_COUNT_SW_CPU_CLOCK`, the clock perf falls
- * back to where no hardware counter is available. */
-const SOFTWARE_EVENT = 1
-const CPU_CLOCK = 0
-
-/** The `perf_event_attr` length recent kernels write. */
-const ATTR_SIZE = 128
-
-/** The length of a `perf_file_section`, which follows each attribute. */
-const SECTION_SIZE = 16
-
-const FILE_HEADER_SIZE = 104
-
 /** One recorded event, as a built file describes it. */
 export type PerfEvent = {
   type?: number
@@ -97,74 +84,13 @@ export const makePerf = ({
   return writer.finish()
 }
 
-const writeFeatureFlags = (writer: Writer, features: PerfFeature[]): void => {
-  const flags = new Array<number>(4).fill(0)
-  for (const { bit } of features) {
-    flags[Math.floor(bit / 64)]! += 2 ** (bit % 64)
-  }
-  for (const flag of flags) {
-    writer.uint64(flag)
-  }
-}
+const FILE_HEADER_SIZE = 104
 
-const writeAttrs = (
-  writer: Writer,
-  events: PerfEvent[],
-  sampleIdAll: boolean,
-  idsOffset: number,
-): void => {
-  let idOffset = idsOffset
-  for (const {
-    type = SOFTWARE_EVENT,
-    config = CPU_CLOCK,
-    samplePeriod = 1_000_000,
-    sampleType = SAMPLE_TYPE,
-    readFormat = 0,
-    freq = true,
-    ids = [],
-  } of events) {
-    const start = writer.offset
-    writer.uint32(type)
-    writer.uint32(ATTR_SIZE)
-    writer.uint64(config)
-    writer.uint64(samplePeriod)
-    writer.uint64(sampleType)
-    writer.uint64(readFormat)
-    writer.uint64((freq ? 0x400 : 0) + (sampleIdAll ? 0x4_00_00 : 0))
-    writer.skipTo(start + ATTR_SIZE)
-    writer.section(idOffset, ids.length * 8)
-    idOffset += ids.length * 8
-  }
-}
+/** The `perf_event_attr` length recent kernels write. */
+const ATTR_SIZE = 128
 
-const writeIds = (writer: Writer, events: PerfEvent[]): void => {
-  for (const { ids = [] } of events) {
-    for (const id of ids) {
-      writer.uint64(id)
-    }
-  }
-}
-
-const writeFeatureSections = (
-  writer: Writer,
-  features: PerfFeature[],
-  featuresOffset: number,
-): void => {
-  let payloadOffset = featuresOffset + features.length * SECTION_SIZE
-  for (const { payload } of features) {
-    writer.section(payloadOffset, payload.length)
-    payloadOffset += payload.length
-  }
-  for (const { payload } of features) {
-    writer.bytes(payload)
-  }
-}
-
-/** A `PERF_RECORD_*` type a built record can have. */
-const RECORD_MMAP2 = 10
-const RECORD_COMM = 3
-const RECORD_FORK = 7
-const RECORD_SAMPLE = 9
+/** The length of a `perf_file_section`, which follows each attribute. */
+const SECTION_SIZE = 16
 
 /**
  * Builds a `PERF_RECORD_SAMPLE` laid out for {@link SAMPLE_TYPE}, or for the
@@ -325,39 +251,11 @@ export const truncatedRecord = (
 }
 
 /**
- * Appends the fields identifying a record other than a sample, which the kernel
- * adds when `sample_id_all` is set.
- */
-const trailer = (
-  writer: Writer,
-  {
-    pid,
-    tid,
-    time,
-    id,
-  }: { pid: number; tid: number; time: number; id?: number },
-): void => {
-  writer.uint32(pid)
-  writer.uint32(tid)
-  writer.uint64(time)
-  if (id !== undefined) {
-    writer.uint64(id)
-  }
-}
-
-/** `PERF_RECORD_MISC_USER` and `PERF_RECORD_MISC_KERNEL`. */
-const USER_MISC = 2
-export const KERNEL_MISC = 1
-
-/**
  * `PERF_CONTEXT_USER` and `PERF_CONTEXT_KERNEL`, as halves: both are within
  * 4095 of 2^64, which a number cannot hold apart from its neighbours.
  */
 export const CONTEXT_USER = [0xff_ff_ff_ff, 0xff_ff_fe_00] as const
 export const CONTEXT_KERNEL = [0xff_ff_ff_ff, 0xff_ff_ff_80] as const
-
-/** An address a call chain names, as a number or as its halves. */
-export type Address = number | readonly [number, number]
 
 /** Builds a feature section listing one name per recorded event. */
 export const eventDescFeature = (
@@ -384,22 +282,8 @@ export const eventDescFeature = (
   return { bit: 12, payload: writer.finish() }
 }
 
-const padded = (length: number): number => Math.ceil(length / 8) * 8
-
-const record = (
-  type: number,
-  misc: number,
-  write: (writer: Writer) => void,
-): Uint8Array => {
-  const writer = new Writer(4096)
-  writer.uint32(type)
-  writer.uint16(misc)
-  writer.uint16(0)
-  write(writer)
-  const bytes = writer.finish()
-  new DataView(bytes.buffer, bytes.byteOffset).setUint16(6, bytes.length, true)
-  return bytes
-}
+/** An address a call chain names, as a number or as its halves. */
+export type Address = number | readonly [number, number]
 
 /** A little-endian cursor over the bytes being built. */
 class Writer {
@@ -467,5 +351,121 @@ class Writer {
 
   public finish(): Uint8Array {
     return this.#bytes.subarray(0, this.#offset)
+  }
+}
+
+const writeFeatureFlags = (writer: Writer, features: PerfFeature[]): void => {
+  const flags = new Array<number>(4).fill(0)
+  for (const { bit } of features) {
+    flags[Math.floor(bit / 64)]! += 2 ** (bit % 64)
+  }
+  for (const flag of flags) {
+    writer.uint64(flag)
+  }
+}
+
+const writeAttrs = (
+  writer: Writer,
+  events: PerfEvent[],
+  sampleIdAll: boolean,
+  idsOffset: number,
+): void => {
+  let idOffset = idsOffset
+  for (const {
+    type = SOFTWARE_EVENT,
+    config = CPU_CLOCK,
+    samplePeriod = 1_000_000,
+    sampleType = SAMPLE_TYPE,
+    readFormat = 0,
+    freq = true,
+    ids = [],
+  } of events) {
+    const start = writer.offset
+    writer.uint32(type)
+    writer.uint32(ATTR_SIZE)
+    writer.uint64(config)
+    writer.uint64(samplePeriod)
+    writer.uint64(sampleType)
+    writer.uint64(readFormat)
+    writer.uint64((freq ? 0x400 : 0) + (sampleIdAll ? 0x4_00_00 : 0))
+    writer.skipTo(start + ATTR_SIZE)
+    writer.section(idOffset, ids.length * 8)
+    idOffset += ids.length * 8
+  }
+}
+
+/** `PERF_TYPE_SOFTWARE` and `PERF_COUNT_SW_CPU_CLOCK`, the clock perf falls
+ * back to where no hardware counter is available. */
+const SOFTWARE_EVENT = 1
+const CPU_CLOCK = 0
+
+const writeIds = (writer: Writer, events: PerfEvent[]): void => {
+  for (const { ids = [] } of events) {
+    for (const id of ids) {
+      writer.uint64(id)
+    }
+  }
+}
+
+const writeFeatureSections = (
+  writer: Writer,
+  features: PerfFeature[],
+  featuresOffset: number,
+): void => {
+  let payloadOffset = featuresOffset + features.length * SECTION_SIZE
+  for (const { payload } of features) {
+    writer.section(payloadOffset, payload.length)
+    payloadOffset += payload.length
+  }
+  for (const { payload } of features) {
+    writer.bytes(payload)
+  }
+}
+
+const record = (
+  type: number,
+  misc: number,
+  write: (writer: Writer) => void,
+): Uint8Array => {
+  const writer = new Writer(4096)
+  writer.uint32(type)
+  writer.uint16(misc)
+  writer.uint16(0)
+  write(writer)
+  const bytes = writer.finish()
+  new DataView(bytes.buffer, bytes.byteOffset).setUint16(6, bytes.length, true)
+  return bytes
+}
+
+/** A `PERF_RECORD_*` type a built record can have. */
+const RECORD_MMAP2 = 10
+const RECORD_COMM = 3
+const RECORD_FORK = 7
+const RECORD_SAMPLE = 9
+
+/** `PERF_RECORD_MISC_USER` and `PERF_RECORD_MISC_KERNEL`. */
+const USER_MISC = 2
+export const KERNEL_MISC = 1
+
+const padded = (length: number): number => Math.ceil(length / 8) * 8
+
+/**
+ * Appends the fields identifying a record other than a sample, which the kernel
+ * adds when `sample_id_all` is set.
+ */
+const trailer = (
+  writer: Writer,
+  {
+    pid,
+    tid,
+    time,
+    id,
+  }: { pid: number; tid: number; time: number; id?: number },
+): void => {
+  writer.uint32(pid)
+  writer.uint32(tid)
+  writer.uint64(time)
+  if (id !== undefined) {
+    writer.uint64(id)
   }
 }

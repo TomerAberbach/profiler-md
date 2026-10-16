@@ -104,48 +104,15 @@ export const withBufferedDecompressedAsync = async <Result>(
 }
 
 /**
- * Retries {@link attempt} on the bytes decoded as brotli, once it has failed
- * on them as they are. Brotli has no magic bytes to identify it by, and a
- * decoder accepts some bytes that are not brotli.
+ * Cancels a stream an attempt left unread, releasing the decoder behind it. A
+ * stream the attempt is still reading is locked, and its reader cancels it.
  */
-const retryAsBrotli = <Result>(
-  bytes: Uint8Array,
-  failure: unknown,
-  attempt: (bytes: Uint8Array) => Result,
-): Result => {
-  const brotli = tryDecompressBrotli(bytes)
-  if (brotli === undefined) {
-    throw failure
+const cancelUnread = async (data: AsyncProfileData): Promise<void> => {
+  if (data instanceof Blob || data.locked) {
+    return
   }
-  try {
-    return attempt(brotli)
-  } catch {
-    throw failure
-  }
+  await data.cancel()
 }
-
-const retryAsBrotliAsync = async <Result>(
-  data: Blob | Uint8Array,
-  failure: unknown,
-  attempt: (data: Blob) => Promise<Result>,
-): Promise<Result> => {
-  const brotli = await tryDecompressBrotliAsync(data)
-  if (brotli === undefined) {
-    throw failure
-  }
-  try {
-    return await attempt(brotli)
-  } catch {
-    throw failure
-  }
-}
-
-const GZIP_MAGIC = Uint8Array.from([0x1f, 0x8b])
-
-const isGzip = (bytes: Uint8Array): boolean => startsWith(bytes, GZIP_MAGIC)
-
-/** LZ4's magic, the longest of any codec's. */
-const MAGIC_LENGTH = 4
 
 /**
  * The result of stripping the compression the magic bytes identified.
@@ -203,17 +170,6 @@ const decompressIdentifiedAsync = async (
 }
 
 /**
- * Cancels a stream an attempt left unread, releasing the decoder behind it. A
- * stream the attempt is still reading is locked, and its reader cancels it.
- */
-const cancelUnread = async (data: AsyncProfileData): Promise<void> => {
-  if (data instanceof Blob || data.locked) {
-    return
-  }
-  await data.cancel()
-}
-
-/**
  * Decodes gzip, reporting a decoder failure as the input's. A runtime that
  * cannot decode gzip synchronously reports that itself.
  */
@@ -230,10 +186,65 @@ const decompressGzipStream = (
 ): ReadableStream<Uint8Array> =>
   classifyStreamFailures(runtime.decompressGzipStream(stream), gzipError)
 
+const gzipError = (error: unknown): ProfilerMdError =>
+  new ProfilerMdError(`cannot decompress the gzip input`, {
+    cause: error,
+  })
+
+const decompressLz4 = (bytes: Uint8Array): Uint8Array => {
+  try {
+    return decompressLz4Frame(bytes)
+  } catch (error) {
+    throw lz4Error(error)
+  }
+}
+
 const decompressLz4Stream = (
   stream: ReadableStream<Uint8Array>,
 ): ReadableStream<Uint8Array> =>
   classifyStreamFailures(decompressLz4FrameStream(stream), lz4Error)
+
+const lz4Error = (error: unknown): ProfilerMdError =>
+  new ProfilerMdError(`cannot decompress the LZ4 input`, {
+    cause: error,
+  })
+
+/**
+ * Retries {@link attempt} on the bytes decoded as brotli, once it has failed
+ * on them as they are. Brotli has no magic bytes to identify it by, and a
+ * decoder accepts some bytes that are not brotli.
+ */
+const retryAsBrotli = <Result>(
+  bytes: Uint8Array,
+  failure: unknown,
+  attempt: (bytes: Uint8Array) => Result,
+): Result => {
+  const brotli = tryDecompressBrotli(bytes)
+  if (brotli === undefined) {
+    throw failure
+  }
+  try {
+    return attempt(brotli)
+  } catch {
+    throw failure
+  }
+}
+
+const retryAsBrotliAsync = async <Result>(
+  data: Blob | Uint8Array,
+  failure: unknown,
+  attempt: (data: Blob) => Promise<Result>,
+): Promise<Result> => {
+  const brotli = await tryDecompressBrotliAsync(data)
+  if (brotli === undefined) {
+    throw failure
+  }
+  try {
+    return await attempt(brotli)
+  } catch {
+    throw failure
+  }
+}
 
 /**
  * Decodes {@link bytes} as brotli, or returns `undefined` when they are not a
@@ -269,26 +280,12 @@ const tryDecompressBrotliAsync = async (
   return decompressed.size > 0 ? decompressed : undefined
 }
 
-const decompressLz4 = (bytes: Uint8Array): Uint8Array => {
-  try {
-    return decompressLz4Frame(bytes)
-  } catch (error) {
-    throw lz4Error(error)
-  }
-}
+const isGzip = (bytes: Uint8Array): boolean => startsWith(bytes, GZIP_MAGIC)
 
-const gzipError = (error: unknown): ProfilerMdError =>
-  new ProfilerMdError(`cannot decompress the gzip input`, {
-    cause: error,
-  })
+const GZIP_MAGIC = Uint8Array.from([0x1f, 0x8b])
 
-const lz4Error = (error: unknown): ProfilerMdError =>
-  new ProfilerMdError(`cannot decompress the LZ4 input`, {
-    cause: error,
-  })
-
-const collectBlob = (stream: ReadableStream<Uint8Array>): Promise<Blob> =>
-  new Response(stream).blob()
+/** LZ4's magic, the longest of any codec's. */
+const MAGIC_LENGTH = 4
 
 /**
  * Reads chunks from {@link stream} until they hold {@link length} bytes or the
@@ -345,3 +342,6 @@ const prependChunks = (
     cancel: reason => reader.cancel(reason),
   })
 }
+
+const collectBlob = (stream: ReadableStream<Uint8Array>): Promise<Blob> =>
+  new Response(stream).blob()

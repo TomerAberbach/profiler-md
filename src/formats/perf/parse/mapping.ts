@@ -8,6 +8,54 @@ import {
 } from '../../../origins/linux.ts'
 
 /**
+ * One file mapped over one address range of one process.
+ *
+ * Addresses are held as 32-bit halves throughout, because a kernel address is
+ * far above the range a number holds exactly: rounded to a number, addresses
+ * near a mapping's end round up to it and fall out of the mapping.
+ */
+export type Mapping = {
+  startHigh: number
+  startLow: number
+  endHigh: number
+  endLow: number
+
+  /** The halves of the offset into the mapped file the range begins at. */
+  pageOffsetHigh: number
+  pageOffsetLow: number
+
+  /** When the mapping was made, or `0` when the file records no times. */
+  time: number
+
+  file: MappedFile
+}
+
+/**
+ * One program image a process ran, and what it had mapped: from an `execve`
+ * (or the recording's start) to the next.
+ */
+type ProcessImage = {
+  /** When the `execve` that began it happened, or `0` for the first. */
+  start: number
+  segments: Segment[]
+
+  /** The segment resolved last, which the next address usually falls in too. */
+  recent: Segment | undefined
+}
+
+/**
+ * A stretch of one process's address space that one mapping covered last: the
+ * mapping's range, less whatever later mappings took over.
+ */
+type Segment = {
+  startHigh: number
+  startLow: number
+  endHigh: number
+  endLow: number
+  mapping: Mapping
+}
+
+/**
  * The mappings one process made, as the records establishing them arrive:
  * unordered, and overlapping wherever a later mapping covered an earlier one.
  * Ordering them for lookup produces a {@link ProcessMaps}.
@@ -112,30 +160,41 @@ export class ProcessMaps {
   }
 }
 
-/**
- * One program image a process ran, and what it had mapped: from an `execve`
- * (or the recording's start) to the next.
- */
-type ProcessImage = {
-  /** When the `execve` that began it happened, or `0` for the first. */
-  start: number
-  segments: Segment[]
+const findSegment = (
+  segments: readonly Segment[],
+  high: number,
+  low: number,
+): Segment | undefined => {
+  let lowIndex = 0
+  let highIndex = segments.length - 1
+  while (lowIndex <= highIndex) {
+    const middle = (lowIndex + highIndex) >> 1
+    const segment = segments[middle]!
+    if (compareAddresses(segment.startHigh, segment.startLow, high, low) <= 0) {
+      lowIndex = middle + 1
+    } else {
+      highIndex = middle - 1
+    }
+  }
 
-  /** The segment resolved last, which the next address usually falls in too. */
-  recent: Segment | undefined
+  const segment = segments[highIndex]
+  return segment && segmentCovers(segment, high, low) ? segment : undefined
 }
 
-/**
- * A stretch of one process's address space that one mapping covered last: the
- * mapping's range, less whatever later mappings took over.
- */
-type Segment = {
-  startHigh: number
-  startLow: number
-  endHigh: number
-  endLow: number
-  mapping: Mapping
-}
+const segmentCovers = (
+  { startHigh, startLow, endHigh, endLow }: Segment,
+  high: number,
+  low: number,
+): boolean =>
+  compareAddresses(startHigh, startLow, high, low) <= 0 &&
+  compareAddresses(high, low, endHigh, endLow) < 0
+
+const compareAddresses = (
+  leftHigh: number,
+  leftLow: number,
+  rightHigh: number,
+  rightLow: number,
+): number => leftHigh - rightHigh || leftLow - rightLow
 
 /**
  * Returns the times the images a process ran begin, which begin with the
@@ -174,6 +233,20 @@ const segmentsOf = (mappings: Mapping[]): Segment[] => {
   const covering = coveringMappingsOf(mappings, boundaries)
   return segmentsFromIntervals(mappings, boundaries.points, covering)
 }
+
+/**
+ * The distinct addresses the mappings begin and end at, in ascending order, and
+ * where each mapping's range begins and ends among them. The interval a point
+ * numbers runs from it to the point after it.
+ */
+type BoundaryPoints = {
+  points: Boundary[]
+  firstPoint: Int32Array
+  endPoint: Int32Array
+}
+
+/** An end of a mapping's range, at the address with the given halves. */
+type Boundary = { high: number; low: number; mapping: number; isEnd: boolean }
 
 const boundaryPointsOf = (mappings: Mapping[]): BoundaryPoints => {
   const count = mappings.length
@@ -214,20 +287,6 @@ const boundaryPointsOf = (mappings: Mapping[]): BoundaryPoints => {
 
   return { points, firstPoint, endPoint }
 }
-
-/**
- * The distinct addresses the mappings begin and end at, in ascending order, and
- * where each mapping's range begins and ends among them. The interval a point
- * numbers runs from it to the point after it.
- */
-type BoundaryPoints = {
-  points: Boundary[]
-  firstPoint: Int32Array
-  endPoint: Int32Array
-}
-
-/** An end of a mapping's range, at the address with the given halves. */
-type Boundary = { high: number; low: number; mapping: number; isEnd: boolean }
 
 /**
  * Returns which mapping covers the interval each point begins, or `-1` for an
@@ -290,65 +349,6 @@ const segmentsFromIntervals = (
   return segments
 }
 
-const findSegment = (
-  segments: readonly Segment[],
-  high: number,
-  low: number,
-): Segment | undefined => {
-  let lowIndex = 0
-  let highIndex = segments.length - 1
-  while (lowIndex <= highIndex) {
-    const middle = (lowIndex + highIndex) >> 1
-    const segment = segments[middle]!
-    if (compareAddresses(segment.startHigh, segment.startLow, high, low) <= 0) {
-      lowIndex = middle + 1
-    } else {
-      highIndex = middle - 1
-    }
-  }
-
-  const segment = segments[highIndex]
-  return segment && segmentCovers(segment, high, low) ? segment : undefined
-}
-
-const segmentCovers = (
-  { startHigh, startLow, endHigh, endLow }: Segment,
-  high: number,
-  low: number,
-): boolean =>
-  compareAddresses(startHigh, startLow, high, low) <= 0 &&
-  compareAddresses(high, low, endHigh, endLow) < 0
-
-const compareAddresses = (
-  leftHigh: number,
-  leftLow: number,
-  rightHigh: number,
-  rightLow: number,
-): number => leftHigh - rightHigh || leftLow - rightLow
-
-/**
- * One file mapped over one address range of one process.
- *
- * Addresses are held as 32-bit halves throughout, because a kernel address is
- * far above the range a number holds exactly: rounded to a number, addresses
- * near a mapping's end round up to it and fall out of the mapping.
- */
-export type Mapping = {
-  startHigh: number
-  startLow: number
-  endHigh: number
-  endLow: number
-
-  /** The halves of the offset into the mapped file the range begins at. */
-  pageOffsetHigh: number
-  pageOffsetLow: number
-
-  /** When the mapping was made, or `0` when the file records no times. */
-  time: number
-
-  file: MappedFile
-}
-
 /**
  * A file mapped into a recorded process, owning the frames of the addresses
  * sampled within it so an address interns without a composite key.
@@ -390,12 +390,6 @@ export class MappedFile {
   }
 }
 
-/** Formats an address from its halves, the name an unsymbolized frame takes. */
-const addressName = (high: number, low: number): string =>
-  high === 0
-    ? `0x${low.toString(16)}`
-    : `0x${high.toString(16)}${low.toString(16).padStart(8, `0`)}`
-
 /**
  * Where the code at a mapped address was defined, as far as the file states it:
  * the mapped file. A mapping backed by no file (the kernel, the vDSO, an
@@ -416,3 +410,9 @@ const mappedFileSource = (
 
 /** A name `perf` gives a mapping backed by no file, e.g. `[vdso]`. */
 const PSEUDO_FILE = /^\[[^\][]+\]$/u
+
+/** Formats an address from its halves, the name an unsymbolized frame takes. */
+const addressName = (high: number, low: number): string =>
+  high === 0
+    ? `0x${low.toString(16)}`
+    : `0x${high.toString(16)}${low.toString(16).padStart(8, `0`)}`

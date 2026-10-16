@@ -209,6 +209,15 @@ const categoryShares = <Category extends string>({
   return categoryToShare
 }
 
+const admittedCategories = <Category extends string>(
+  categoryToShare: Map<Category, number>,
+  minCategoryShare: number,
+): Category[] =>
+  [...categoryToShare]
+    .filter(([, share]) => share >= minCategoryShare)
+    .sort(([, share1], [, share2]) => share2 - share1)
+    .map(([category]) => category)
+
 type CategorySideSums<Category extends string> = {
   categoryToValues: Map<Category, [base: number, current: number]>
   baseTotal: number
@@ -273,12 +282,3 @@ const largerSideShares = <Category extends string>({
 // side out of the comparison rather than dividing by zero.
 const shareOf = (value: number, total: number): number =>
   value > 0 && total > 0 ? value / total : 0
-
-const admittedCategories = <Category extends string>(
-  categoryToShare: Map<Category, number>,
-  minCategoryShare: number,
-): Category[] =>
-  [...categoryToShare]
-    .filter(([, share]) => share >= minCategoryShare)
-    .sort(([, share1], [, share2]) => share2 - share1)
-    .map(([category]) => category)

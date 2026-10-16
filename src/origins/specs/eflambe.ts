@@ -105,9 +105,6 @@ const beamModuleCategory = ({
   return isBeamStdlibModule(module) ? `stdlib` : `ours`
 }
 
-/** The atom prefix the Elixir compiler adds to every Elixir module. */
-const ELIXIR_MODULE_PREFIX = `Elixir.`
-
 const isBeamStdlibModule = (module: string): boolean => {
   if (module.startsWith(`eflambe`)) {
     return true
@@ -167,3 +164,6 @@ const ELIXIR_CORE_MODULES = new Set([
   `Range`,
   `Integer`,
 ])
+
+/** The atom prefix the Elixir compiler adds to every Elixir module. */
+const ELIXIR_MODULE_PREFIX = `Elixir.`

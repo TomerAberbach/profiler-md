@@ -20,12 +20,61 @@ const check = process.argv.includes(`--check`)
 
 const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
+const languageMatrix = (): string => {
+  const exampleRows = languageEntries.flatMap(languageExampleRows)
+  return `${languageGrid()}
+
+### Examples
+
+Each example links to the Markdown for a base profile, a current profile, and
+the diff between them.
+
+<details>
+<summary><b>Browse ${exampleRows.length} examples</b></summary>
+<br />
+<table>
+<thead>
+<tr><th>Language</th><th>Profile</th><th>Format</th><th>Markdown</th></tr>
+</thead>
+<tbody>
+${exampleRows.join(`\n`)}
+</tbody>
+</table>
+</details>`
+}
+
+const languageExampleRows = ([id, language]: [string, Language]): string[] => {
+  const includeLanguage = languageMembers(language).length > 1
+  const cells = language.formats.flatMap(format =>
+    sortedVariantGroups(id, format).map(
+      group =>
+        `<td>${escapeHtml(exampleLabel(group, { includeLanguage }))}</td><td>${formatLink(format)}</td><td>${variantLinks(group)}</td>`,
+    ),
+  )
+  if (cells.length === 0) {
+    return []
+  }
+
+  const languageCell = `<td rowspan="${cells.length}" align="center"><a href="docs/languages/${id}.md">${languageIcons(language, 32)}<br /><sub><b>${languageNames(language)}</b></sub></a></td>`
+  return cells.map(
+    (cell, index) => `<tr>${index === 0 ? languageCell : ``}${cell}</tr>`,
+  )
+}
+
 type VariantGroup = {
   language: string
   origin: Example[`origin`]
   config: string
   variants: Map<ExampleVariant, string>
 }
+
+const sortedVariantGroups = (id: string, format: Format): VariantGroup[] =>
+  [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])].sort(
+    (first, second) =>
+      first.language.localeCompare(second.language) ||
+      first.origin.localeCompare(second.origin) ||
+      first.config.localeCompare(second.config),
+  )
 
 const examplesByLanguage = new Map<
   string,
@@ -72,18 +121,6 @@ for (const filename of readdirSync(`examples/output`)) {
   group.variants.set(variant, filename)
 }
 
-const escapeHtml = (text: string): string =>
-  text.replaceAll(`&`, `&amp;`).replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`)
-
-const anchor = (text: string, href: string): string =>
-  `<a href="${href}">${escapeHtml(text)}</a>`
-
-const iconImage = (
-  { name, icon }: { name: string; icon: string },
-  size: number,
-): string =>
-  `<img src="${languageIconUrl(icon)}" alt="${escapeHtml(name)}" width="${size}" height="${size}" />`
-
 const variantLinks = (group: VariantGroup): string =>
   variants
     .flatMap(variant => {
@@ -91,52 +128,6 @@ const variantLinks = (group: VariantGroup): string =>
       return filename ? [anchor(variant, `examples/output/${filename}`)] : []
     })
     .join(`&nbsp;·&nbsp;`)
-
-const languageMembers = (language: Language) => [
-  language,
-  ...(language.aliases ?? []),
-]
-
-const languageIcons = (language: Language, size: number): string =>
-  languageMembers(language)
-    .map(member => iconImage(member, size))
-    .join(` `)
-
-const languageNames = (language: Language): string =>
-  languageMembers(language)
-    .map(member => escapeHtml(member.name))
-    .join(`⁠/⁠`)
-
-const formatLink = (format: Format): string =>
-  anchor(formatToSpec[format].title, `docs/formats/${format}.md`)
-
-const languageEntries = [...languages.entries()]
-
-const languageMatrix = (): string => {
-  const exampleRows = languageEntries.flatMap(languageExampleRows)
-  return `${languageGrid()}
-
-### Examples
-
-Each example links to the Markdown for a base profile, a current profile, and
-the diff between them.
-
-<details>
-<summary><b>Browse ${exampleRows.length} examples</b></summary>
-<br />
-<table>
-<thead>
-<tr><th>Language</th><th>Profile</th><th>Format</th><th>Markdown</th></tr>
-</thead>
-<tbody>
-${exampleRows.join(`\n`)}
-</tbody>
-</table>
-</details>`
-}
-
-const gridColumnCount = 4
-const gridCellWidth = `${100 / gridColumnCount}%`
 
 const languageGrid = (): string => {
   const rows: string[] = []
@@ -149,6 +140,11 @@ const languageGrid = (): string => {
   }
   return `<table>\n${rows.join(`\n`)}\n</table>`
 }
+
+const gridColumnCount = 4
+const gridCellWidth = `${100 / gridColumnCount}%`
+
+const languageEntries = [...languages.entries()]
 
 const gridRow = (entries: [string, Language][]): string => {
   const cells = entries.map(gridCell)
@@ -164,31 +160,35 @@ const gridCell = ([id, language]: [string, Language]): string => {
   return `<td align="center" width="${gridCellWidth}"><br /><a href="docs/languages/${id}.md">${languageIcons(language, 40)}<br /><b>${languageNames(language)}</b></a><br /><sub>${formatLinks}</sub><br /><br /></td>`
 }
 
-const languageExampleRows = ([id, language]: [string, Language]): string[] => {
-  const includeLanguage = languageMembers(language).length > 1
-  const cells = language.formats.flatMap(format =>
-    sortedVariantGroups(id, format).map(
-      group =>
-        `<td>${escapeHtml(exampleLabel(group, { includeLanguage }))}</td><td>${formatLink(format)}</td><td>${variantLinks(group)}</td>`,
-    ),
-  )
-  if (cells.length === 0) {
-    return []
-  }
+const formatLink = (format: Format): string =>
+  anchor(formatToSpec[format].title, `docs/formats/${format}.md`)
 
-  const languageCell = `<td rowspan="${cells.length}" align="center"><a href="docs/languages/${id}.md">${languageIcons(language, 32)}<br /><sub><b>${languageNames(language)}</b></sub></a></td>`
-  return cells.map(
-    (cell, index) => `<tr>${index === 0 ? languageCell : ``}${cell}</tr>`,
-  )
-}
+const anchor = (text: string, href: string): string =>
+  `<a href="${href}">${escapeHtml(text)}</a>`
 
-const sortedVariantGroups = (id: string, format: Format): VariantGroup[] =>
-  [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])].sort(
-    (first, second) =>
-      first.language.localeCompare(second.language) ||
-      first.origin.localeCompare(second.origin) ||
-      first.config.localeCompare(second.config),
-  )
+const languageIcons = (language: Language, size: number): string =>
+  languageMembers(language)
+    .map(member => iconImage(member, size))
+    .join(` `)
+
+const iconImage = (
+  { name, icon }: { name: string; icon: string },
+  size: number,
+): string =>
+  `<img src="${languageIconUrl(icon)}" alt="${escapeHtml(name)}" width="${size}" height="${size}" />`
+
+const languageNames = (language: Language): string =>
+  languageMembers(language)
+    .map(member => escapeHtml(member.name))
+    .join(`⁠/⁠`)
+
+const languageMembers = (language: Language) => [
+  language,
+  ...(language.aliases ?? []),
+]
+
+const escapeHtml = (text: string): string =>
+  text.replaceAll(`&`, `&amp;`).replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`)
 
 const examplePath = `examples/output/javascript.node.base.cpuprofile.md`
 const exampleLines = readFileSync(examplePath, `utf8`).split(`\n`)

@@ -23,15 +23,15 @@ import { makeAggregatedCallStackProfile } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
-const ZIG_ALLOCATOR = `file:///opt/zig/lib/std/mem/Allocator.zig`
-const ZIG_CONTEXT = { format: `pprof`, origin: `gperftools` } as const
-
 /** A function sampled `count` times at a microsecond each. */
 const sampledFunc = (
   name: string,
   url: string,
   { line, column, count }: { line?: number; column?: number; count: number },
 ) => ({ name, url, line, column, selfValues: [count], selfCount: count })
+
+const ZIG_ALLOCATOR = `file:///opt/zig/lib/std/mem/Allocator.zig`
+const ZIG_CONTEXT = { format: `pprof`, origin: `gperftools` } as const
 
 /**
  * The self time rankings of the two profiles' diff, whose rows show which base

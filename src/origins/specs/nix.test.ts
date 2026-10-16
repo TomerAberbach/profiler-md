@@ -6,12 +6,6 @@ import { nixOriginSpec } from './nix.ts'
 
 const NIXPKGS = `/nix/store/j2r11kxv91yl5xqppy3vy84klwxjbz1i-source`
 
-/** A frame as it looks after normalization. */
-const locatedEntry = (name: string | undefined, path: string): ProfileEntry =>
-  path.startsWith(`/`)
-    ? absoluteEntry(name ?? `(anonymous)`, `file://${path}`)
-    : relativeEntry(name ?? `(anonymous)`, path)
-
 describe(`detection`, () => {
   test.each([
     `${NIXPKGS}/lib/attrsets.nix:1623:11:binaryMerge`,
@@ -100,6 +94,12 @@ describe(`normalizeStackFrame`, () => {
     expect(normalizeStackFrame(input)).toBe(input)
   })
 })
+
+/** A frame as it looks after normalization. */
+const locatedEntry = (name: string | undefined, path: string): ProfileEntry =>
+  path.startsWith(`/`)
+    ? absoluteEntry(name ?? `(anonymous)`, `file://${path}`)
+    : relativeEntry(name ?? `(anonymous)`, path)
 
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = nixOriginSpec

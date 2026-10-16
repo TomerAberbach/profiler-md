@@ -102,85 +102,6 @@ const computeLineToIntensity = async (
   return lineToIntensity
 }
 
-/**
- * What a diff row's change is: `1` where it is a regression, `-1` where it is
- * an improvement, and `0` where its metric's improvement direction is unknown,
- * so the ranking covering it calls it neither.
- */
-type RegressionSign = 1 | -1 | 0
-
-/**
- * The regression sign each ranking heading a diff emits states about the rows
- * under it, whatever the sign of their deltas.
- */
-const RANKING_REGRESSION_SIGNS: ReadonlyMap<string, RegressionSign> = new Map([
-  [`Regressions`, 1],
-  [`Improvements`, -1],
-  [`Increases`, 0],
-  [`Decreases`, 0],
-])
-
-/**
- * What an increase is in a profile section whose rankings have no rows to
- * state one with. A profiler records what a program consumed, so an increase
- * is a regression.
- */
-const DEFAULT_INCREASE_SIGN: RegressionSign = 1
-
-/**
- * The diff rows no ranking heading covers, which is every summary table, held
- * until the profile section's rankings state what an increase in it is. A
- * summary table precedes the rankings measuring the same thing, so its rows are
- * tinted once those rankings are reached.
- */
-type UnrankedDiffRows = {
-  rows: RelativeDiffRow[]
-
-  /** The regression sign of an increase, null until a ranking states it. */
-  increaseSign: RegressionSign | null
-}
-
-/**
- * One diff row's line and its delta as a share of the profile section's total.
- */
-type RelativeDiffRow = { lineIndex: number; relativeDelta: number }
-
-const holdRows = (
-  unranked: UnrankedDiffRows,
-  rows: RelativeDiffRow[],
-  lineToIntensity: Map<number, number>,
-): void => {
-  unranked.rows.push(...rows)
-  if (unranked.increaseSign !== null) {
-    tintHeldRows(unranked, lineToIntensity)
-  }
-}
-
-const stateIncreaseSign = (
-  unranked: UnrankedDiffRows,
-  increaseSign: RegressionSign | null,
-  lineToIntensity: Map<number, number>,
-): void => {
-  if (increaseSign === null) {
-    return
-  }
-  unranked.increaseSign = increaseSign
-  tintHeldRows(unranked, lineToIntensity)
-}
-
-const tintHeldRows = (
-  unranked: UnrankedDiffRows,
-  lineToIntensity: Map<number, number>,
-): void => {
-  const increaseSign = unranked.increaseSign ?? DEFAULT_INCREASE_SIGN
-  if (increaseSign !== 0) {
-    for (const { lineIndex, relativeDelta } of unranked.rows) {
-      setIntensity(lineToIntensity, lineIndex, increaseSign * relativeDelta)
-    }
-  }
-  unranked.rows.length = 0
-}
-
 type HeadingSection = {
   level: Heading[`depth`]
 
@@ -218,6 +139,31 @@ type NameIntensity = {
   registeredLevel: Heading[`depth`]
 }
 
+/**
+ * The diff rows no ranking heading covers, which is every summary table, held
+ * until the profile section's rankings state what an increase in it is. A
+ * summary table precedes the rankings measuring the same thing, so its rows are
+ * tinted once those rankings are reached.
+ */
+type UnrankedDiffRows = {
+  rows: RelativeDiffRow[]
+
+  /** The regression sign of an increase, null until a ranking states it. */
+  increaseSign: RegressionSign | null
+}
+
+/**
+ * What a diff row's change is: `1` where it is a regression, `-1` where it is
+ * an improvement, and `0` where its metric's improvement direction is unknown,
+ * so the ranking covering it calls it neither.
+ */
+type RegressionSign = 1 | -1 | 0
+
+/**
+ * One diff row's line and its delta as a share of the profile section's total.
+ */
+type RelativeDiffRow = { lineIndex: number; relativeDelta: number }
+
 const visitHeading = (
   heading: Heading,
   sections: HeadingSection[],
@@ -254,6 +200,17 @@ const visitHeading = (
     lineToIntensity.set(shikiLineIndex(heading), intensity)
   }
 }
+
+/**
+ * The regression sign each ranking heading a diff emits states about the rows
+ * under it, whatever the sign of their deltas.
+ */
+const RANKING_REGRESSION_SIGNS: ReadonlyMap<string, RegressionSign> = new Map([
+  [`Regressions`, 1],
+  [`Improvements`, -1],
+  [`Increases`, 0],
+  [`Decreases`, 0],
+])
 
 /** The heading level opening one profile section of the output. */
 const PROFILE_HEADING_DEPTH = 1
@@ -356,57 +313,6 @@ const visitTable = (
   }
 }
 
-type PercentColumnIndexes = {
-  percent: number
-  location: number
-}
-
-/**
- * A row naming a function registers its intensity under the section's
- * `name (location)` key, from which a later heading for that function takes its
- * own tint.
- */
-const visitPercentTable = (
-  dataRows: Table[`children`],
-  columnIndexes: PercentColumnIndexes,
-  headingSection: HeadingSection | undefined,
-  lineToIntensity: Map<number, number>,
-): void => {
-  let nameColumnIndex = -1
-
-  for (const row of dataRows) {
-    const cells = row.children
-    const percentageCell = cells[columnIndexes.percent]
-    if (percentageCell === undefined) {
-      continue
-    }
-    const percentage = parsePercent(nodeText(percentageCell))
-    if (percentage === null) {
-      continue
-    }
-
-    const intensity = (headingSection?.intensity ?? 1) * percentage
-    if (columnIndexes.location !== -1 && headingSection !== undefined) {
-      if (nameColumnIndex === -1) {
-        nameColumnIndex = cells.findIndex(
-          cell =>
-            cell.children.length === 1 &&
-            cell.children[0]!.type === `inlineCode`,
-        )
-      }
-      const nameCell = cells[nameColumnIndex]
-      const locationCell = cells[columnIndexes.location]
-      if (nameCell !== undefined && locationCell !== undefined) {
-        headingSection.nameLocationToIntensity.set(
-          nameLocationKey(nodeText(nameCell), nodeText(locationCell)),
-          { intensity, registeredLevel: headingSection.level },
-        )
-      }
-    }
-    lineToIntensity.set(shikiLineIndex(row), intensity)
-  }
-}
-
 type DiffColumnIndexes = {
   change: number
   delta: number
@@ -463,6 +369,29 @@ const visitDiffTable = (
   }
 }
 
+const holdRows = (
+  unranked: UnrankedDiffRows,
+  rows: RelativeDiffRow[],
+  lineToIntensity: Map<number, number>,
+): void => {
+  unranked.rows.push(...rows)
+  if (unranked.increaseSign !== null) {
+    tintHeldRows(unranked, lineToIntensity)
+  }
+}
+
+const stateIncreaseSign = (
+  unranked: UnrankedDiffRows,
+  increaseSign: RegressionSign | null,
+  lineToIntensity: Map<number, number>,
+): void => {
+  if (increaseSign === null) {
+    return
+  }
+  unranked.increaseSign = increaseSign
+  tintHeldRows(unranked, lineToIntensity)
+}
+
 /**
  * What a ranking's rows state an increase is: a regression where the ranking
  * calls a positive delta one, or null where the ranking has no changed row to
@@ -478,6 +407,26 @@ const statedIncreaseSign = (
     : ((regressionSign * Math.sign(row.relativeDelta)) as RegressionSign)
 }
 
+const tintHeldRows = (
+  unranked: UnrankedDiffRows,
+  lineToIntensity: Map<number, number>,
+): void => {
+  const increaseSign = unranked.increaseSign ?? DEFAULT_INCREASE_SIGN
+  if (increaseSign !== 0) {
+    for (const { lineIndex, relativeDelta } of unranked.rows) {
+      setIntensity(lineToIntensity, lineIndex, increaseSign * relativeDelta)
+    }
+  }
+  unranked.rows.length = 0
+}
+
+/**
+ * What an increase is in a profile section whose rankings have no rows to
+ * state one with. A profiler records what a program consumed, so an increase
+ * is a regression.
+ */
+const DEFAULT_INCREASE_SIGN: RegressionSign = 1
+
 const setIntensity = (
   lineToIntensity: Map<number, number>,
   lineIndex: number,
@@ -485,6 +434,91 @@ const setIntensity = (
 ): void => {
   lineToIntensity.set(lineIndex, Math.max(-1, Math.min(1, intensity)))
 }
+
+type DiffRow = {
+  lineIndex: number
+  delta: number
+  candidate: TotalCandidate | null
+}
+
+const parseDiffRow = (
+  row: TableRow,
+  columnIndexes: DiffColumnIndexes,
+): DiffRow | null => {
+  const changeCell = row.children[columnIndexes.change]
+  const deltaCell = row.children[columnIndexes.delta]
+  const percentCell = row.children[columnIndexes.percent]
+  if (
+    changeCell === undefined ||
+    deltaCell === undefined ||
+    percentCell === undefined
+  ) {
+    return null
+  }
+  const delta = parseDelta(nodeText(deltaCell))
+  if (delta === null) {
+    return null
+  }
+  return {
+    lineIndex: shikiLineIndex(row),
+    delta,
+    candidate: totalCandidate(
+      nodeText(changeCell),
+      delta,
+      nodeText(percentCell),
+    ),
+  }
+}
+
+/**
+ * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MiB`, or a unitless
+ * count like `+1,384`) into a signed magnitude. Units are normalized so
+ * magnitudes are comparable within a single table, which only ever mixes units
+ * of the same dimension (time or size).
+ */
+const parseDelta = (cell: string): number | null => {
+  const normalized = cell.replaceAll(`,`, ``)
+  let magnitude = 0
+  let matched = false
+  for (const match of normalized.matchAll(DELTA_PART_REGEX)) {
+    const scale = DELTA_UNIT_SCALES.get(match.groups!.unit!)
+    if (scale === undefined) {
+      return null
+    }
+    magnitude += Number.parseFloat(match.groups!.value!) * scale
+    matched = true
+  }
+  if (!matched) {
+    const trimmed = normalized.trim()
+    const value = UNITLESS_DELTA_REGEX.test(trimmed)
+      ? Number.parseFloat(trimmed)
+      : Number.NaN
+    if (Number.isNaN(value)) {
+      return null
+    }
+    magnitude = Math.abs(value)
+  }
+  return cell.trimStart().startsWith(`-`) ? -magnitude : magnitude
+}
+
+const DELTA_PART_REGEX = /(?<value>[\d.]+)\s*(?<unit>[A-Za-zµ]+)/gu
+
+const DELTA_UNIT_SCALES: ReadonlyMap<string, number> = new Map([
+  [`µs`, 1e-3],
+  [`ms`, 1],
+  [`s`, 1e3],
+  [`m`, 60e3],
+  [`h`, 3600e3],
+  [`d`, 86_400e3],
+  [`B`, 1],
+  [`KiB`, 2 ** 10],
+  [`MiB`, 2 ** 20],
+  [`GiB`, 2 ** 30],
+  [`TiB`, 2 ** 40],
+  [`PiB`, 2 ** 50],
+])
+
+const UNITLESS_DELTA_REGEX = /^[+-]?[\d.]+$/u
 
 /**
  * The profile section's total to measure a diff table's deltas against, or
@@ -538,41 +572,6 @@ const impliedTotal = (diffRows: readonly DiffRow[]): number | null => {
     : bestCandidate.value / bestCandidate.percent
 }
 
-type DiffRow = {
-  lineIndex: number
-  delta: number
-  candidate: TotalCandidate | null
-}
-
-const parseDiffRow = (
-  row: TableRow,
-  columnIndexes: DiffColumnIndexes,
-): DiffRow | null => {
-  const changeCell = row.children[columnIndexes.change]
-  const deltaCell = row.children[columnIndexes.delta]
-  const percentCell = row.children[columnIndexes.percent]
-  if (
-    changeCell === undefined ||
-    deltaCell === undefined ||
-    percentCell === undefined
-  ) {
-    return null
-  }
-  const delta = parseDelta(nodeText(deltaCell))
-  if (delta === null) {
-    return null
-  }
-  return {
-    lineIndex: shikiLineIndex(row),
-    delta,
-    candidate: totalCandidate(
-      nodeText(changeCell),
-      delta,
-      nodeText(percentCell),
-    ),
-  }
-}
-
 type TotalCandidate = { percent: number; value: number }
 
 const totalCandidate = (
@@ -617,55 +616,63 @@ const parsePercentSides = (
   ]
 }
 
-/**
- * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MiB`, or a unitless
- * count like `+1,384`) into a signed magnitude. Units are normalized so
- * magnitudes are comparable within a single table, which only ever mixes units
- * of the same dimension (time or size).
- */
-const parseDelta = (cell: string): number | null => {
-  const normalized = cell.replaceAll(`,`, ``)
-  let magnitude = 0
-  let matched = false
-  for (const match of normalized.matchAll(DELTA_PART_REGEX)) {
-    const scale = DELTA_UNIT_SCALES.get(match.groups!.unit!)
-    if (scale === undefined) {
-      return null
-    }
-    magnitude += Number.parseFloat(match.groups!.value!) * scale
-    matched = true
-  }
-  if (!matched) {
-    const trimmed = normalized.trim()
-    const value = UNITLESS_DELTA_REGEX.test(trimmed)
-      ? Number.parseFloat(trimmed)
-      : Number.NaN
-    if (Number.isNaN(value)) {
-      return null
-    }
-    magnitude = Math.abs(value)
-  }
-  return cell.trimStart().startsWith(`-`) ? -magnitude : magnitude
+type PercentColumnIndexes = {
+  percent: number
+  location: number
 }
 
-const DELTA_PART_REGEX = /(?<value>[\d.]+)\s*(?<unit>[A-Za-zµ]+)/gu
+/**
+ * A row naming a function registers its intensity under the section's
+ * `name (location)` key, from which a later heading for that function takes its
+ * own tint.
+ */
+const visitPercentTable = (
+  dataRows: Table[`children`],
+  columnIndexes: PercentColumnIndexes,
+  headingSection: HeadingSection | undefined,
+  lineToIntensity: Map<number, number>,
+): void => {
+  let nameColumnIndex = -1
 
-const UNITLESS_DELTA_REGEX = /^[+-]?[\d.]+$/u
+  for (const row of dataRows) {
+    const cells = row.children
+    const percentageCell = cells[columnIndexes.percent]
+    if (percentageCell === undefined) {
+      continue
+    }
+    const percentage = parsePercent(nodeText(percentageCell))
+    if (percentage === null) {
+      continue
+    }
 
-const DELTA_UNIT_SCALES: ReadonlyMap<string, number> = new Map([
-  [`µs`, 1e-3],
-  [`ms`, 1],
-  [`s`, 1e3],
-  [`m`, 60e3],
-  [`h`, 3600e3],
-  [`d`, 86_400e3],
-  [`B`, 1],
-  [`KiB`, 2 ** 10],
-  [`MiB`, 2 ** 20],
-  [`GiB`, 2 ** 30],
-  [`TiB`, 2 ** 40],
-  [`PiB`, 2 ** 50],
-])
+    const intensity = (headingSection?.intensity ?? 1) * percentage
+    if (columnIndexes.location !== -1 && headingSection !== undefined) {
+      if (nameColumnIndex === -1) {
+        nameColumnIndex = cells.findIndex(
+          cell =>
+            cell.children.length === 1 &&
+            cell.children[0]!.type === `inlineCode`,
+        )
+      }
+      const nameCell = cells[nameColumnIndex]
+      const locationCell = cells[columnIndexes.location]
+      if (nameCell !== undefined && locationCell !== undefined) {
+        headingSection.nameLocationToIntensity.set(
+          nameLocationKey(nodeText(nameCell), nodeText(locationCell)),
+          { intensity, registeredLevel: headingSection.level },
+        )
+      }
+    }
+    lineToIntensity.set(shikiLineIndex(row), intensity)
+  }
+}
+
+/**
+ * Mdast positions are 1-based lines counted over the same `\n` separators as
+ * Shiki's token lines.
+ */
+const shikiLineIndex = (node: Heading | TableRow): number =>
+  node.position!.start.line - 1
 
 const parsePercent = (cell: string): number | null => {
   const trimmed = cell.trim()
@@ -675,13 +682,6 @@ const parsePercent = (cell: string): number | null => {
   const value = Number.parseFloat(trimmed.slice(0, -1))
   return Number.isNaN(value) ? null : value / 100
 }
-
-/**
- * Mdast positions are 1-based lines counted over the same `\n` separators as
- * Shiki's token lines.
- */
-const shikiLineIndex = (node: Heading | TableRow): number =>
-  node.position!.start.line - 1
 
 const renderTokens = (
   tokens: ThemedToken[][],

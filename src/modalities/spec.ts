@@ -60,8 +60,6 @@ export type ModalitySpec<
   categories: (input: Aggregated) => Iterable<string>
 }
 
-export type EntityLocation = { location: SourceLocation; inferable: boolean }
-
 /**
  * Reports what a parsed input's records yield to the conversion pipeline, so it
  * classifies an error the parser throws while aggregation consumes them the
@@ -78,3 +76,5 @@ export type RecordReader = {
   /** Notes {@link count} records the parser read before returning. */
   parsed: (count: number) => void
 }
+
+export type EntityLocation = { location: SourceLocation; inferable: boolean }

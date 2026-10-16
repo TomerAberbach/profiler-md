@@ -13,23 +13,11 @@ import {
 import type { Table } from '../table.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
 
-export type LabeledEntity = {
-  name?: string
-  nameLocation?: FileReference
-  location?: SourceLocation
+/** A category's row on one side. */
+export type CategoryRow = SizeRow & {
+  category: HeapSnapshotNodeCategory
+  nodeCount: number
 }
-
-/**
- * An entity's displayed name: its URL-shaped name formatted relative to the
- * base URL when it has one, and its raw name otherwise.
- */
-export const displayName = (
-  entity: { name?: string; nameLocation?: FileReference },
-  options: FormattingProfileToMdOptions,
-): string | undefined =>
-  entity.nameLocation
-    ? formatSourceLocation(entity.nameLocation, options)
-    : entity.name
 
 type SizeRow = {
   /** The row's size in bytes. */
@@ -51,34 +39,6 @@ const sizeColumns = (sizeLabel: string): Table<SizeRow> => [
     cellOf: row => bytesCell(row.size),
   },
 ]
-
-const entityColumns = (
-  nameLabel: string,
-  hasLocation: boolean,
-  options: FormattingProfileToMdOptions,
-): Table<{ entity: LabeledEntity }> => [
-  {
-    header: nameLabel,
-    cellOf: row =>
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      codeCell(displayName(row.entity, options) || `(unknown)`),
-  },
-  ...(hasLocation
-    ? [
-        {
-          header: `Location`,
-          cellOf: (row: { entity: LabeledEntity }) =>
-            locationCell(row.entity.location, options),
-        },
-      ]
-    : []),
-]
-
-/** A category's row on one side. */
-export type CategoryRow = SizeRow & {
-  category: HeapSnapshotNodeCategory
-  nodeCount: number
-}
 
 /** The columns of the overall largest node categories table. */
 export const categoryColumns: Table<CategoryRow> = [
@@ -154,12 +114,6 @@ export const functionColumns = (
   { header: `Example path`, cellOf: row => codeCell(row.examplePath) },
 ]
 
-/** A node's row within a strings table. */
-export type NodeRow = SizeRow & {
-  name?: string
-  path: string
-}
-
 /** A retained node's row, located at its function or constructor. */
 export type RetainedRow = SizeRow & {
   entity: LabeledEntity
@@ -180,6 +134,12 @@ export const retainedColumns = (
   { header: pathHeader, cellOf: row => codeCell(row.path) },
 ]
 
+/** A node's row within a strings table. */
+export type NodeRow = SizeRow & {
+  name?: string
+  path: string
+}
+
 /** The columns of the largest strings table. */
 export const stringColumns = (hasValues: boolean): Table<NodeRow> => [
   ...sizeColumns(`Size`),
@@ -193,3 +153,43 @@ export const stringColumns = (hasValues: boolean): Table<NodeRow> => [
     : []),
   { header: `Path`, cellOf: row => codeCell(row.path) },
 ]
+
+export type LabeledEntity = {
+  name?: string
+  nameLocation?: FileReference
+  location?: SourceLocation
+}
+
+const entityColumns = (
+  nameLabel: string,
+  hasLocation: boolean,
+  options: FormattingProfileToMdOptions,
+): Table<{ entity: LabeledEntity }> => [
+  {
+    header: nameLabel,
+    cellOf: row =>
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      codeCell(displayName(row.entity, options) || `(unknown)`),
+  },
+  ...(hasLocation
+    ? [
+        {
+          header: `Location`,
+          cellOf: (row: { entity: LabeledEntity }) =>
+            locationCell(row.entity.location, options),
+        },
+      ]
+    : []),
+]
+
+/**
+ * An entity's displayed name: its URL-shaped name formatted relative to the
+ * base URL when it has one, and its raw name otherwise.
+ */
+export const displayName = (
+  entity: { name?: string; nameLocation?: FileReference },
+  options: FormattingProfileToMdOptions,
+): string | undefined =>
+  entity.nameLocation
+    ? formatSourceLocation(entity.nameLocation, options)
+    : entity.name

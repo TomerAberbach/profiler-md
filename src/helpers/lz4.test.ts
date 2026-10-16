@@ -7,11 +7,6 @@ import {
 } from './lz4.ts'
 import { bytesOf, chunk, lz4FrameOf, streamOf } from './testing.ts'
 
-const text = (bytes: Uint8Array): string => new TextDecoder().decode(bytes)
-const codes = (string: string): number[] => [
-  ...new TextEncoder().encode(string),
-]
-
 describe(`isLz4Frame`, () => {
   test(`recognizes the frame magic alone`, () => {
     expect(isLz4Frame(lz4FrameOf([]))).toBe(true)
@@ -19,6 +14,11 @@ describe(`isLz4Frame`, () => {
     expect(isLz4Frame(new TextEncoder().encode(`not lz4`))).toBe(false)
   })
 })
+
+const text = (bytes: Uint8Array): string => new TextDecoder().decode(bytes)
+const codes = (string: string): number[] => [
+  ...new TextEncoder().encode(string),
+]
 
 describe(`decompressLz4Frame`, () => {
   test(`reads a sequence of literals`, () => {

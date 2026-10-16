@@ -33,6 +33,40 @@ export const systingOriginSpec = {
     nativeNormalizeStackFrame(unpackStackFrame(input)),
 } as const satisfies OriginSpec
 
+/**
+ * Categorizes frames by systing's bracketed label modules, which normalization
+ * keeps inside the `name (module)` form: kernel code (including the
+ * kernel-provided vDSO and gVisor's userspace kernel), and JIT-compiled regions
+ * no runtime symbolizer resolved. An `([exited])` frame, whose process exited
+ * before symbolization, stays `native` like any other unresolved native code.
+ */
+const labelModuleCategory = ({
+  name,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
+  const label = name && LABEL_MODULE.exec(name)?.groups!.label
+  if (!label) {
+    return undefined
+  }
+  if (label === `kernel` || label === `vdso`) {
+    return `kernel`
+  }
+  // GVisor's Sentry implements the guest's syscalls in userspace, so its
+  // trampolines and sysmsg stubs are the kernel doing the guest's work.
+  // `[gvisor:guest]` marks pages of the sandboxed program's own address space
+  // that the host symbolizer could not attribute, which fall through to
+  // `native` like any other unresolved mapping.
+  if (label === `gvisor:runtime`) {
+    return `kernel`
+  }
+  if (label.startsWith(`jit:`)) {
+    return `jit`
+  }
+  return undefined
+}
+
+/** A frame name ending in a bracketed label module, e.g. `… ([kernel])`. */
+const LABEL_MODULE = /\(\[(?<label>[^\][]+)\]\)$/u
+
 const unpackStackFrame = (input: StackFrame): StackFrame => {
   // A sourced frame can't be packed (systing always packs); guard anyway
   // per the normalizeStackFrame contract.
@@ -113,37 +147,3 @@ const PYTHON_FRAME_LINE =
   /^(?<func>.+) \(python\) \[(?<file>[^\][:]+):(?<line>\d+)\]$/u
 
 const PYTHON_FRAME = /^(?<func>.+) \(python\) \[(?<file>[^\][:]+)\]$/u
-
-/**
- * Categorizes frames by systing's bracketed label modules, which normalization
- * keeps inside the `name (module)` form: kernel code (including the
- * kernel-provided vDSO and gVisor's userspace kernel), and JIT-compiled regions
- * no runtime symbolizer resolved. An `([exited])` frame, whose process exited
- * before symbolization, stays `native` like any other unresolved native code.
- */
-const labelModuleCategory = ({
-  name,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
-  const label = name && LABEL_MODULE.exec(name)?.groups!.label
-  if (!label) {
-    return undefined
-  }
-  if (label === `kernel` || label === `vdso`) {
-    return `kernel`
-  }
-  // GVisor's Sentry implements the guest's syscalls in userspace, so its
-  // trampolines and sysmsg stubs are the kernel doing the guest's work.
-  // `[gvisor:guest]` marks pages of the sandboxed program's own address space
-  // that the host symbolizer could not attribute, which fall through to
-  // `native` like any other unresolved mapping.
-  if (label === `gvisor:runtime`) {
-    return `kernel`
-  }
-  if (label.startsWith(`jit:`)) {
-    return `jit`
-  }
-  return undefined
-}
-
-/** A frame name ending in a bracketed label module, e.g. `… ([kernel])`. */
-const LABEL_MODULE = /\(\[(?<label>[^\][]+)\]\)$/u

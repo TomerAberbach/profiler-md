@@ -1,5 +1,23 @@
 import { ByteBuffer } from '../../helpers/testing.ts'
 
+export type JfrTestInput = {
+  methods: JfrTestMethod[]
+  stackTraces: JfrTestStack[]
+  events: JfrTestEvent[]
+
+  /** Event types declared and written without their value field. */
+  eventTypesWithoutValueField?: JfrEventTypeWithoutValueField[]
+
+  malformations?: JfrMalformations
+
+  /**
+   * Declares an array field on `jdk.types.StackFrame`, written empty in every
+   * frame, so the parser reads stack traces through the generic field reader
+   * instead of the flat frame reader.
+   */
+  unrecognizedFrameLayout?: boolean
+}
+
 type JfrTestMethod = {
   name: string
   className: string
@@ -8,10 +26,10 @@ type JfrTestMethod = {
   descriptor?: string
 }
 
+type JfrTestStack = { frames: JfrTestStackFrame[] }
+
 /** A frame referencing a {@link JfrTestMethod} by index. */
 type JfrTestStackFrame = { method: number; line?: number }
-
-type JfrTestStack = { frames: JfrTestStackFrame[] }
 
 /** An event referencing a {@link JfrTestStack} by index. */
 type JfrTestEvent = {
@@ -62,30 +80,6 @@ type JfrTestEvent = {
  */
 type JfrEventTypeWithoutValueField = `live`
 
-// Metadata class IDs. Avoid 0 and 1, which are reserved for the metadata and
-// constant pool events in the chunk body.
-const LONG = 2
-const INT = 3
-const BOOLEAN = 4
-const STRING = 5
-const SYMBOL = 6
-const METHOD = 7
-const CLASS = 8
-const STACK_FRAME = 9
-const STACK_TRACE = 10
-const EXECUTION_SAMPLE = 20
-const OBJECT_ALLOCATION_SAMPLE = 21
-const JAVA_MONITOR_ENTER = 22
-const WALL_CLOCK_SAMPLE = 23
-const OBJECT_ALLOCATION_IN_NEW_TLAB = 24
-const NATIVE_LOCK = 25
-const MALLOC = 26
-const OLD_OBJECT_SAMPLE = 27
-const LIVE_OBJECT = 28
-
-/** A class id used for a field whose type the metadata never declares. */
-const UNKNOWN_FIELD_CLASS = 901
-
 /** Structural defects for parser-robustness tests. */
 type JfrMalformations = {
   /**
@@ -111,24 +105,6 @@ type JfrMalformations = {
 
   /** Bytes appended to the chunk after its last event. */
   trailingBytes?: number[]
-}
-
-export type JfrTestInput = {
-  methods: JfrTestMethod[]
-  stackTraces: JfrTestStack[]
-  events: JfrTestEvent[]
-
-  /** Event types declared and written without their value field. */
-  eventTypesWithoutValueField?: JfrEventTypeWithoutValueField[]
-
-  malformations?: JfrMalformations
-
-  /**
-   * Declares an array field on `jdk.types.StackFrame`, written empty in every
-   * frame, so the parser reads stack traces through the generic field reader
-   * instead of the flat frame reader.
-   */
-  unrecognizedFrameLayout?: boolean
 }
 
 /** Builds a single-chunk JFR recording from synthetic methods, stacks, events. */
@@ -328,8 +304,32 @@ export const makeJfr = ({
   return bytes
 }
 
-const CONSTANT_POOL_EVENT = 1
-const METADATA_EVENT = 0
+class ByteWriter {
+  readonly #buffer = new ByteBuffer()
+
+  public byte(value: number): void {
+    this.#buffer.byte(value)
+  }
+
+  public varint(value: number): void {
+    this.#buffer.leb128(value)
+  }
+
+  public string(value: string): void {
+    const utf8 = new TextEncoder().encode(value)
+    this.byte(3) // UTF-8 encoding
+    this.varint(utf8.length)
+    this.append(utf8)
+  }
+
+  public append(bytes: Uint8Array): void {
+    this.#buffer.bytes(bytes)
+  }
+
+  public toBytes(): Uint8Array {
+    return this.#buffer.toBytes()
+  }
+}
 
 /** Builds the metadata event declaring every type the parser reads. */
 const makeMetadata = (
@@ -489,6 +489,33 @@ const makeMetadata = (
   return sizedEvent(METADATA_EVENT, body)
 }
 
+// Metadata class IDs. Avoid 0 and 1, which are reserved for the metadata and
+// constant pool events in the chunk body.
+const LONG = 2
+const INT = 3
+const BOOLEAN = 4
+const STRING = 5
+const SYMBOL = 6
+const METHOD = 7
+const CLASS = 8
+const STACK_FRAME = 9
+const STACK_TRACE = 10
+const EXECUTION_SAMPLE = 20
+const OBJECT_ALLOCATION_SAMPLE = 21
+const JAVA_MONITOR_ENTER = 22
+const WALL_CLOCK_SAMPLE = 23
+const OBJECT_ALLOCATION_IN_NEW_TLAB = 24
+const NATIVE_LOCK = 25
+const MALLOC = 26
+const OLD_OBJECT_SAMPLE = 27
+const LIVE_OBJECT = 28
+
+/** A class id used for a field whose type the metadata never declares. */
+const UNKNOWN_FIELD_CLASS = 901
+
+const CONSTANT_POOL_EVENT = 1
+const METADATA_EVENT = 0
+
 /** Wraps a body in `[size][typeId][body]` with `size` covering the whole event. */
 const sizedEvent = (typeId: number, body: ByteWriter): ByteWriter => {
   const inner = new ByteWriter()
@@ -529,32 +556,5 @@ class StringTable {
 
   public index(string: string): number {
     return this.#indices.get(string)!
-  }
-}
-
-class ByteWriter {
-  readonly #buffer = new ByteBuffer()
-
-  public byte(value: number): void {
-    this.#buffer.byte(value)
-  }
-
-  public varint(value: number): void {
-    this.#buffer.leb128(value)
-  }
-
-  public string(value: string): void {
-    const utf8 = new TextEncoder().encode(value)
-    this.byte(3) // UTF-8 encoding
-    this.varint(utf8.length)
-    this.append(utf8)
-  }
-
-  public append(bytes: Uint8Array): void {
-    this.#buffer.bytes(bytes)
-  }
-
-  public toBytes(): Uint8Array {
-    return this.#buffer.toBytes()
   }
 }

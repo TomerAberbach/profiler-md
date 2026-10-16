@@ -23,63 +23,6 @@ import type {
 } from './aggregate.ts'
 import type { MeasureColumns } from './measure.ts'
 
-const countHeader = (countMetric: Metric): Header => ({
-  content: capitalizeFirst(countMetric.phrases.columnNoun),
-  align: `right`,
-})
-
-type MeasureRow = {
-  /** The row's measure value: metric value or count. */
-  value: number
-
-  count: number
-
-  /** The total the row's `%` is computed against. */
-  total: number
-}
-
-/**
- * The leading `%`, metric value, and count columns shared by the measure
- * tables.
- *
- * The count is the primary column when the measure ranks by it, and the metric
- * value column is dropped there because the two would repeat one number.
- */
-const measureColumns = ({
-  type,
-  metric,
-  countMetric,
-}: MeasureColumns): Table<MeasureRow> => [
-  {
-    header: { content: `%`, align: `right` },
-    changeDeltaBefore: true,
-    cellOf: row => percentCell(row.total ? row.value / row.total : 0),
-  },
-  ...(type === `count`
-    ? []
-    : [
-        {
-          header: {
-            content: capitalizeFirst(metric.phrases.columnNoun),
-            align: `right`,
-          },
-          primary: true,
-          cellOf: (row: MeasureRow) => metricCell(row.value, metric),
-        } satisfies Column<MeasureRow>,
-      ]),
-  ...(countMetric
-    ? [
-        {
-          header: countHeader(countMetric),
-          primary: type === `count`,
-          // A count of things formats as a count, and a count measuring a
-          // quantity as that quantity.
-          cellOf: (row: MeasureRow) => metricCell(row.count, countMetric),
-        } satisfies Column<MeasureRow>,
-      ]
-    : []),
-]
-
 export type FunctionMeasureRow = MeasureRow & { func: NamedFunction }
 
 /**
@@ -120,11 +63,9 @@ export const lineColumns = (
   },
 ]
 
-/**
- * Stands in for the frames `showEntry` hides between two shown frames of a
- * call stack.
- */
-export const HIDDEN_FRAMES = { type: `hidden` } as const
+export type CallStackRow = MeasureRow & {
+  frames: ShownFrame[]
+}
 
 /**
  * A frame of a call stack once the frames `showEntry` hides are removed: a
@@ -133,9 +74,11 @@ export const HIDDEN_FRAMES = { type: `hidden` } as const
 export type ShownFrame =
   AggregatedCallStackProfileFunction | typeof HIDDEN_FRAMES
 
-export type CallStackRow = MeasureRow & {
-  frames: ShownFrame[]
-}
+/**
+ * Stands in for the frames `showEntry` hides between two shown frames of a
+ * call stack.
+ */
+export const HIDDEN_FRAMES = { type: `hidden` } as const
 
 /**
  * The {@link measureColumns} followed by a `Call stack` column, with
@@ -214,6 +157,58 @@ const formatFrameLocation = (
   return position === undefined ? [] : [text(` (${position})`)]
 }
 
+type MeasureRow = {
+  /** The row's measure value: metric value or count. */
+  value: number
+
+  count: number
+
+  /** The total the row's `%` is computed against. */
+  total: number
+}
+
+/**
+ * The leading `%`, metric value, and count columns shared by the measure
+ * tables.
+ *
+ * The count is the primary column when the measure ranks by it, and the metric
+ * value column is dropped there because the two would repeat one number.
+ */
+const measureColumns = ({
+  type,
+  metric,
+  countMetric,
+}: MeasureColumns): Table<MeasureRow> => [
+  {
+    header: { content: `%`, align: `right` },
+    changeDeltaBefore: true,
+    cellOf: row => percentCell(row.total ? row.value / row.total : 0),
+  },
+  ...(type === `count`
+    ? []
+    : [
+        {
+          header: {
+            content: capitalizeFirst(metric.phrases.columnNoun),
+            align: `right`,
+          },
+          primary: true,
+          cellOf: (row: MeasureRow) => metricCell(row.value, metric),
+        } satisfies Column<MeasureRow>,
+      ]),
+  ...(countMetric
+    ? [
+        {
+          header: countHeader(countMetric),
+          primary: type === `count`,
+          // A count of things formats as a count, and a count measuring a
+          // quantity as that quantity.
+          cellOf: (row: MeasureRow) => metricCell(row.count, countMetric),
+        } satisfies Column<MeasureRow>,
+      ]
+    : []),
+]
+
 /**
  * A row of the categories table for one category on one side, reading each
  * metric column through that side's {@link indices} and ranking `%` against
@@ -264,3 +259,8 @@ export const categoryColumns = (
       : []),
   ]
 }
+
+const countHeader = (countMetric: Metric): Header => ({
+  content: capitalizeFirst(countMetric.phrases.columnNoun),
+  align: `right`,
+})

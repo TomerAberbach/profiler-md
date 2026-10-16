@@ -19,21 +19,6 @@ export const SAMPLES: CountMetric = {
   },
 }
 
-/** A count of occurrences the profiler leaves unnamed, speedscope's `none`. */
-const OCCURRENCES_METRIC: CountMetric = {
-  type: `count`,
-  proseUnit: `occurrence`,
-  // A profiler stating its values have no unit states nothing about what they
-  // measure, so a diff ranks neither direction of change as better or worse.
-  improvement: `unknown`,
-  phrases: {
-    titleNoun: `count`,
-    columnNoun: `occurrences`,
-    pastTenseVerb: `recorded`,
-    pastParticipleVerbPhrase: `occurrences recorded`,
-  },
-}
-
 const CPU_TIME_PHRASES: MetricPhrases = {
   titleNoun: `CPU`,
   columnNoun: `time`,
@@ -78,31 +63,6 @@ export const SECONDS_METRIC: Metric = {
   phrases: CPU_TIME_PHRASES,
 }
 
-export const BYTES_METRIC: Metric = {
-  type: `size`,
-  bytes: 1,
-  improvement: `decrease`,
-  phrases: HEAP_PHRASES,
-}
-const KILOBYTES_METRIC: Metric = {
-  type: `size`,
-  bytes: 1 << 10,
-  improvement: `decrease`,
-  phrases: HEAP_PHRASES,
-}
-export const MEGABYTES_METRIC: Metric = {
-  type: `size`,
-  bytes: 1 << 20,
-  improvement: `decrease`,
-  phrases: HEAP_PHRASES,
-}
-const GIGABYTES_METRIC: Metric = {
-  type: `size`,
-  bytes: 1 << 30,
-  improvement: `decrease`,
-  phrases: HEAP_PHRASES,
-}
-
 /**
  * Wall-clock time, named because a bare time unit titles a profile `sampling`.
  */
@@ -131,6 +91,31 @@ const CONTENTION_TIME_METRIC: Metric = metricWithPhrases(NANOSECONDS_METRIC, {
   pastTenseVerb: `blocked`,
   pastParticipleVerbPhrase: `time blocked`,
 })
+
+export const BYTES_METRIC: Metric = {
+  type: `size`,
+  bytes: 1,
+  improvement: `decrease`,
+  phrases: HEAP_PHRASES,
+}
+const KILOBYTES_METRIC: Metric = {
+  type: `size`,
+  bytes: 1 << 10,
+  improvement: `decrease`,
+  phrases: HEAP_PHRASES,
+}
+export const MEGABYTES_METRIC: Metric = {
+  type: `size`,
+  bytes: 1 << 20,
+  improvement: `decrease`,
+  phrases: HEAP_PHRASES,
+}
+const GIGABYTES_METRIC: Metric = {
+  type: `size`,
+  bytes: 1 << 30,
+  improvement: `decrease`,
+  phrases: HEAP_PHRASES,
+}
 
 /** Bytes allocated over the profile. */
 export const ALLOCATED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
@@ -257,6 +242,21 @@ export const parseMetric = ({
     ...(phrases ? metricWithPhrases(metric, phrases) : metric),
     improvement: improvement ?? metric.improvement,
   }
+}
+
+/** A count of occurrences the profiler leaves unnamed, speedscope's `none`. */
+const OCCURRENCES_METRIC: CountMetric = {
+  type: `count`,
+  proseUnit: `occurrence`,
+  // A profiler stating its values have no unit states nothing about what they
+  // measure, so a diff ranks neither direction of change as better or worse.
+  improvement: `unknown`,
+  phrases: {
+    titleNoun: `count`,
+    columnNoun: `occurrences`,
+    pastTenseVerb: `recorded`,
+    pastParticipleVerbPhrase: `occurrences recorded`,
+  },
 }
 
 /**

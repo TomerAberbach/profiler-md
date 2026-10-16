@@ -163,103 +163,176 @@ export const parseV8HeapSnapshot = (
   ]
 }
 
-const unresolvedCategoryOf = (
-  nodeOrdinal: number,
-  {
-    nodes,
-    snapshot: {
-      meta: {
-        node_types: [nodeTypes],
-      },
-    },
-  }: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-): UnresolvedHeapSnapshotNodeCategory => {
-  const nodeType =
-    nodes[
-      nodeOrdinal * fieldLayout.nodeFieldCount + fieldLayout.nodeTypeOffset
-    ]!
-  const category = fieldLayout.nodeTypeToCategory[nodeType]
-  // Keep a declared type name that isn't V8's own for an origin to map (see
-  // `HeapSnapshotNode.declaredType`).
-  return category === undefined
-    ? { category, declaredType: nodeTypes[nodeType]! }
-    : { category }
+/** The field offsets and type indices a {@link V8HeapSnapshot}'s `meta` declares. */
+type FieldLayout = {
+  nodeTypeOffset: number
+
+  /**
+   * Each declared node type's category, by its index in `meta.node_types`,
+   * resolved once so categorizing a node costs a lookup rather than a name
+   * comparison.
+   *
+   * An entry is undefined for a declared type name V8 doesn't define.
+   */
+  nodeTypeToCategory: (HeapSnapshotNodeCategory | undefined)[]
+
+  nodeNameOffset: number
+  nodeSelfSizeOffset: number
+
+  /**
+   * The node's edges occupy the next `edge_count * edgeFieldCount` slots in the
+   * flat `edges` array, immediately following the edges of the previous node.
+   */
+  nodeEdgeCountOffset: number
+
+  nodeFieldCount: number
+  edgeTypeOffset: number
+  edgeNameOrIndexOffset: number
+
+  /**
+   * The target node this edge points to, expressed as an offset into the flat
+   * `nodes` array (i.e. `targetNodeIndex * nodeFieldCount`).
+   */
+  edgeToNodeOffset: number
+
+  edgeFieldCount: number
+
+  /**
+   * Which node this location entry describes, as an offset into the flat
+   * `nodes` array.
+   */
+  locationObjectIndexOffset: number
+
+  /**
+   * The script containing the start of the node's function: the node itself
+   * for a function, its generator function for a generator object, and its
+   * constructor for any other object. V8 records no location for a node
+   * without one of these. Of the origins that write the format, only V8
+   * writes location entries.
+   */
+  locationScriptIdOffset: number
+
+  /** 0-based line number within the script of the node's function start. */
+  locationLineOffset: number
+
+  /** 0-based column number within the script of the node's function start. */
+  locationColumnOffset: number
+
+  locationFieldCount: number
+  edgeTypeElement: number
+
+  /**
+   * Nodes held only by weak edges can be garbage-collected, so these are
+   * excluded from retainer path analysis.
+   */
+  edgeTypeWeak: number
+
+  /** V8 internal node not visible in JS (e.g. hidden class, map). */
+  nodeTypeHidden: number
+
+  nodeTypeString: number
+  nodeTypeObject: number
+  nodeTypeClosure: number
+
+  /** Node allocated by native (C++) code, e.g. a DOM node. */
+  nodeTypeNative: number
+
+  /**
+   * Synthetic root node that V8 uses as a GC entry-point super-node.
+   *
+   * Not a real heap node.
+   */
+  nodeTypeSynthetic: number
+
+  /** String formed by concatenating two other strings (lazy, not yet flattened). */
+  nodeTypeConcatenatedString: number
+
+  /** String formed by slicing another string (lazy, shares backing store). */
+  nodeTypeSlicedString: number
 }
 
-const isInternalNode = (
-  nodeOrdinal: number,
-  { nodes }: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-): boolean => {
-  const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
-  const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
-  return (
-    nodeType === fieldLayout.nodeTypeHidden ||
-    nodeType === fieldLayout.nodeTypeSynthetic
-  )
-}
-
-function* v8SnapshotNodes(
-  snapshot: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-  nodeOrdinalToLocation: SourceLocation[],
-): Iterable<HeapSnapshotNode> {
+const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
   const {
-    snapshot: { node_count: nodeCount },
-    nodes,
-  } = snapshot
-  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
-    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
-    const { category, declaredType } = unresolvedCategoryOf(
-      nodeOrdinal,
-      snapshot,
-      fieldLayout,
-    )
+    node_fields: nodeFields,
+    node_types: [nodeTypes],
+    edge_fields: edgeFields,
+    edge_types: [edgeTypes],
+    location_fields: locationFields,
+  } = meta
 
-    switch (nodeType) {
-      case fieldLayout.nodeTypeObject:
-      case fieldLayout.nodeTypeNative: {
-        const { name, nameLocation } = nodeName(
-          nodeOrdinal,
-          snapshot,
-          fieldLayout,
-        )
-        yield {
-          category,
-          declaredType,
-          type: `constructor`,
-          name,
-          location: nodeOrdinalToLocation[nodeOrdinal],
-          nameLocation,
-        }
-        break
-      }
-      case fieldLayout.nodeTypeClosure:
-        yield {
-          category,
-          declaredType,
-          type: `function`,
-          name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
-          location: nodeOrdinalToLocation[nodeOrdinal],
-        }
-        break
-      case fieldLayout.nodeTypeString:
-      case fieldLayout.nodeTypeSlicedString:
-      case fieldLayout.nodeTypeConcatenatedString:
-        yield {
-          category,
-          declaredType,
-          type: `string`,
-          name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
-        }
-        break
-      default:
-        yield { category, declaredType }
-    }
+  const nodeFieldToIndex = valueToIndex(nodeFields)
+  const nodeTypeToIndex = valueToIndex(nodeTypes)
+  const edgeFieldToIndex = valueToIndex(edgeFields)
+  const locationFieldToIndex = valueToIndex(locationFields)
+  const edgeTypeToIndex = valueToIndex(edgeTypes)
+
+  const nodeSelfSizeOffset = nodeFieldToIndex.get(`self_size`)
+  // Formatting sums the self sizes, and crashes on a missing one.
+  if (nodeSelfSizeOffset === undefined) {
+    throw new FormatParseError(`meta lacks the self_size node field`)
+  }
+
+  return {
+    nodeTypeOffset: nodeFieldToIndex.get(`type`)!,
+    nodeTypeToCategory: nodeTypes.map(nodeType =>
+      V8_NODE_TYPE_TO_CATEGORY.get(nodeType),
+    ),
+    nodeNameOffset: nodeFieldToIndex.get(`name`)!,
+    nodeSelfSizeOffset,
+    nodeEdgeCountOffset: nodeFieldToIndex.get(`edge_count`)!,
+    nodeFieldCount: nodeFields.length,
+
+    edgeTypeOffset: edgeFieldToIndex.get(`type`)!,
+    edgeNameOrIndexOffset: edgeFieldToIndex.get(`name_or_index`)!,
+    edgeToNodeOffset: edgeFieldToIndex.get(`to_node`)!,
+    edgeFieldCount: edgeFields.length,
+
+    locationObjectIndexOffset: locationFieldToIndex.get(`object_index`)!,
+    locationScriptIdOffset: locationFieldToIndex.get(`script_id`)!,
+    locationLineOffset: locationFieldToIndex.get(`line`)!,
+    locationColumnOffset: locationFieldToIndex.get(`column`)!,
+    locationFieldCount: locationFields.length,
+
+    nodeTypeHidden: nodeTypeToIndex.get(`hidden`)!,
+    nodeTypeString: nodeTypeToIndex.get(`string`)!,
+    nodeTypeObject: nodeTypeToIndex.get(`object`)!,
+    nodeTypeClosure: nodeTypeToIndex.get(`closure`)!,
+    nodeTypeNative: nodeTypeToIndex.get(`native`)!,
+    nodeTypeSynthetic: nodeTypeToIndex.get(`synthetic`)!,
+    nodeTypeConcatenatedString: nodeTypeToIndex.get(`concatenated string`)!,
+    nodeTypeSlicedString: nodeTypeToIndex.get(`sliced string`)!,
+
+    edgeTypeElement: edgeTypeToIndex.get(`element`)!,
+    edgeTypeWeak: edgeTypeToIndex.get(`weak`)!,
   }
 }
+
+const valueToIndex = <T>(values: T[]): Map<T, number> =>
+  new Map(values.map((value, index) => [value, index]))
+
+/**
+ * The category each type V8 declares in `meta.node_types` names.
+ *
+ * `hidden` maps to `internal` because V8's name for its bookkeeping nodes is
+ * its own. The modality's categories name them the same as JavaScriptCore's.
+ */
+const V8_NODE_TYPE_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>([
+  [`object`, `object`],
+  [`array`, `array`],
+  [`string`, `string`],
+  [`concatenated string`, `concatenated-string`],
+  [`sliced string`, `sliced-string`],
+  [`closure`, `function`],
+  [`code`, `code`],
+  [`regexp`, `regexp`],
+  [`number`, `number`],
+  [`bigint`, `big-number`],
+  [`symbol`, `symbol`],
+  [`native`, `native`],
+  [`object shape`, `object-shape`],
+  [`hidden`, `internal`],
+  [`synthetic`, `synthetic`],
+])
 
 const computeNodeAdjacencyGraph = (
   { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
@@ -480,6 +553,91 @@ const computeScriptIdToFileLocation = (
   return scriptIdToFileLocation
 }
 
+function* v8SnapshotNodes(
+  snapshot: V8HeapSnapshot,
+  fieldLayout: FieldLayout,
+  nodeOrdinalToLocation: SourceLocation[],
+): Iterable<HeapSnapshotNode> {
+  const {
+    snapshot: { node_count: nodeCount },
+    nodes,
+  } = snapshot
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
+    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
+    const { category, declaredType } = unresolvedCategoryOf(
+      nodeOrdinal,
+      snapshot,
+      fieldLayout,
+    )
+
+    switch (nodeType) {
+      case fieldLayout.nodeTypeObject:
+      case fieldLayout.nodeTypeNative: {
+        const { name, nameLocation } = nodeName(
+          nodeOrdinal,
+          snapshot,
+          fieldLayout,
+        )
+        yield {
+          category,
+          declaredType,
+          type: `constructor`,
+          name,
+          location: nodeOrdinalToLocation[nodeOrdinal],
+          nameLocation,
+        }
+        break
+      }
+      case fieldLayout.nodeTypeClosure:
+        yield {
+          category,
+          declaredType,
+          type: `function`,
+          name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
+          location: nodeOrdinalToLocation[nodeOrdinal],
+        }
+        break
+      case fieldLayout.nodeTypeString:
+      case fieldLayout.nodeTypeSlicedString:
+      case fieldLayout.nodeTypeConcatenatedString:
+        yield {
+          category,
+          declaredType,
+          type: `string`,
+          name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
+        }
+        break
+      default:
+        yield { category, declaredType }
+    }
+  }
+}
+
+const unresolvedCategoryOf = (
+  nodeOrdinal: number,
+  {
+    nodes,
+    snapshot: {
+      meta: {
+        node_types: [nodeTypes],
+      },
+    },
+  }: V8HeapSnapshot,
+  fieldLayout: FieldLayout,
+): UnresolvedHeapSnapshotNodeCategory => {
+  const nodeType =
+    nodes[
+      nodeOrdinal * fieldLayout.nodeFieldCount + fieldLayout.nodeTypeOffset
+    ]!
+  const category = fieldLayout.nodeTypeToCategory[nodeType]
+  // Keep a declared type name that isn't V8's own for an origin to map (see
+  // `HeapSnapshotNode.declaredType`).
+  return category === undefined
+    ? { category, declaredType: nodeTypes[nodeType]! }
+    : { category }
+}
+
 const retainerEdge = (
   edgeIndex: number,
   { edges, strings }: V8HeapSnapshot,
@@ -508,6 +666,16 @@ const retainerEdge = (
   return nameLocation
     ? { type: `property`, name, nameLocation }
     : { type: `property`, name }
+}
+
+const formatNodeLabel = (
+  nodeOrdinal: number,
+  snapshot: V8HeapSnapshot,
+  fieldLayout: FieldLayout,
+  options: FormattingProfileToMdOptions,
+): string => {
+  const { name, nameLocation } = nodeName(nodeOrdinal, snapshot, fieldLayout)
+  return nameLocation ? formatSourceLocation(nameLocation, options) : name
 }
 
 /**
@@ -563,16 +731,6 @@ const nodeName = (
   }
 }
 
-const formatNodeLabel = (
-  nodeOrdinal: number,
-  snapshot: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-  options: FormattingProfileToMdOptions,
-): string => {
-  const { name, nameLocation } = nodeName(nodeOrdinal, snapshot, fieldLayout)
-  return nameLocation ? formatSourceLocation(nameLocation, options) : name
-}
-
 const formatString = (string: string): string => {
   if (string.length > MAX_STRING_LENGTH) {
     string = `${string.slice(0, MAX_STRING_LENGTH - 1)}…`
@@ -582,173 +740,15 @@ const formatString = (string: string): string => {
 
 const MAX_STRING_LENGTH = 50
 
-/** The field offsets and type indices a {@link V8HeapSnapshot}'s `meta` declares. */
-type FieldLayout = {
-  nodeTypeOffset: number
-
-  /**
-   * Each declared node type's category, by its index in `meta.node_types`,
-   * resolved once so categorizing a node costs a lookup rather than a name
-   * comparison.
-   *
-   * An entry is undefined for a declared type name V8 doesn't define.
-   */
-  nodeTypeToCategory: (HeapSnapshotNodeCategory | undefined)[]
-
-  nodeNameOffset: number
-  nodeSelfSizeOffset: number
-
-  /**
-   * The node's edges occupy the next `edge_count * edgeFieldCount` slots in the
-   * flat `edges` array, immediately following the edges of the previous node.
-   */
-  nodeEdgeCountOffset: number
-
-  nodeFieldCount: number
-  edgeTypeOffset: number
-  edgeNameOrIndexOffset: number
-
-  /**
-   * The target node this edge points to, expressed as an offset into the flat
-   * `nodes` array (i.e. `targetNodeIndex * nodeFieldCount`).
-   */
-  edgeToNodeOffset: number
-
-  edgeFieldCount: number
-
-  /**
-   * Which node this location entry describes, as an offset into the flat
-   * `nodes` array.
-   */
-  locationObjectIndexOffset: number
-
-  /**
-   * The script containing the start of the node's function: the node itself
-   * for a function, its generator function for a generator object, and its
-   * constructor for any other object. V8 records no location for a node
-   * without one of these. Of the origins that write the format, only V8
-   * writes location entries.
-   */
-  locationScriptIdOffset: number
-
-  /** 0-based line number within the script of the node's function start. */
-  locationLineOffset: number
-
-  /** 0-based column number within the script of the node's function start. */
-  locationColumnOffset: number
-
-  locationFieldCount: number
-  edgeTypeElement: number
-
-  /**
-   * Nodes held only by weak edges can be garbage-collected, so these are
-   * excluded from retainer path analysis.
-   */
-  edgeTypeWeak: number
-
-  /** V8 internal node not visible in JS (e.g. hidden class, map). */
-  nodeTypeHidden: number
-
-  nodeTypeString: number
-  nodeTypeObject: number
-  nodeTypeClosure: number
-
-  /** Node allocated by native (C++) code, e.g. a DOM node. */
-  nodeTypeNative: number
-
-  /**
-   * Synthetic root node that V8 uses as a GC entry-point super-node.
-   *
-   * Not a real heap node.
-   */
-  nodeTypeSynthetic: number
-
-  /** String formed by concatenating two other strings (lazy, not yet flattened). */
-  nodeTypeConcatenatedString: number
-
-  /** String formed by slicing another string (lazy, shares backing store). */
-  nodeTypeSlicedString: number
+const isInternalNode = (
+  nodeOrdinal: number,
+  { nodes }: V8HeapSnapshot,
+  fieldLayout: FieldLayout,
+): boolean => {
+  const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
+  const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
+  return (
+    nodeType === fieldLayout.nodeTypeHidden ||
+    nodeType === fieldLayout.nodeTypeSynthetic
+  )
 }
-
-/**
- * The category each type V8 declares in `meta.node_types` names.
- *
- * `hidden` maps to `internal` because V8's name for its bookkeeping nodes is
- * its own. The modality's categories name them the same as JavaScriptCore's.
- */
-const V8_NODE_TYPE_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>([
-  [`object`, `object`],
-  [`array`, `array`],
-  [`string`, `string`],
-  [`concatenated string`, `concatenated-string`],
-  [`sliced string`, `sliced-string`],
-  [`closure`, `function`],
-  [`code`, `code`],
-  [`regexp`, `regexp`],
-  [`number`, `number`],
-  [`bigint`, `big-number`],
-  [`symbol`, `symbol`],
-  [`native`, `native`],
-  [`object shape`, `object-shape`],
-  [`hidden`, `internal`],
-  [`synthetic`, `synthetic`],
-])
-
-const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
-  const {
-    node_fields: nodeFields,
-    node_types: [nodeTypes],
-    edge_fields: edgeFields,
-    edge_types: [edgeTypes],
-    location_fields: locationFields,
-  } = meta
-
-  const nodeFieldToIndex = valueToIndex(nodeFields)
-  const nodeTypeToIndex = valueToIndex(nodeTypes)
-  const edgeFieldToIndex = valueToIndex(edgeFields)
-  const locationFieldToIndex = valueToIndex(locationFields)
-  const edgeTypeToIndex = valueToIndex(edgeTypes)
-
-  const nodeSelfSizeOffset = nodeFieldToIndex.get(`self_size`)
-  // Formatting sums the self sizes, and crashes on a missing one.
-  if (nodeSelfSizeOffset === undefined) {
-    throw new FormatParseError(`meta lacks the self_size node field`)
-  }
-
-  return {
-    nodeTypeOffset: nodeFieldToIndex.get(`type`)!,
-    nodeTypeToCategory: nodeTypes.map(nodeType =>
-      V8_NODE_TYPE_TO_CATEGORY.get(nodeType),
-    ),
-    nodeNameOffset: nodeFieldToIndex.get(`name`)!,
-    nodeSelfSizeOffset,
-    nodeEdgeCountOffset: nodeFieldToIndex.get(`edge_count`)!,
-    nodeFieldCount: nodeFields.length,
-
-    edgeTypeOffset: edgeFieldToIndex.get(`type`)!,
-    edgeNameOrIndexOffset: edgeFieldToIndex.get(`name_or_index`)!,
-    edgeToNodeOffset: edgeFieldToIndex.get(`to_node`)!,
-    edgeFieldCount: edgeFields.length,
-
-    locationObjectIndexOffset: locationFieldToIndex.get(`object_index`)!,
-    locationScriptIdOffset: locationFieldToIndex.get(`script_id`)!,
-    locationLineOffset: locationFieldToIndex.get(`line`)!,
-    locationColumnOffset: locationFieldToIndex.get(`column`)!,
-    locationFieldCount: locationFields.length,
-
-    nodeTypeHidden: nodeTypeToIndex.get(`hidden`)!,
-    nodeTypeString: nodeTypeToIndex.get(`string`)!,
-    nodeTypeObject: nodeTypeToIndex.get(`object`)!,
-    nodeTypeClosure: nodeTypeToIndex.get(`closure`)!,
-    nodeTypeNative: nodeTypeToIndex.get(`native`)!,
-    nodeTypeSynthetic: nodeTypeToIndex.get(`synthetic`)!,
-    nodeTypeConcatenatedString: nodeTypeToIndex.get(`concatenated string`)!,
-    nodeTypeSlicedString: nodeTypeToIndex.get(`sliced string`)!,
-
-    edgeTypeElement: edgeTypeToIndex.get(`element`)!,
-    edgeTypeWeak: edgeTypeToIndex.get(`weak`)!,
-  }
-}
-
-const valueToIndex = <T>(values: T[]): Map<T, number> =>
-  new Map(values.map((value, index) => [value, index]))

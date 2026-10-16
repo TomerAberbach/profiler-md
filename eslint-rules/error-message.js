@@ -1,113 +1,5 @@
 /** Enforces the message conventions in `CLAUDE.md` on error and logger messages. */
 
-/**
- * Stands in for an interpolated value, so a check distinguishes an
- * interpolation from a gap in the text. It matches no check's pattern.
- */
-const INTERPOLATION = `\0`
-
-/** The text of a message argument, or `undefined` if it isn't one. */
-const messageText = node => {
-  switch (node.type) {
-    case `Literal`:
-      return typeof node.value === `string` ? node.value : undefined
-    case `TemplateLiteral`:
-      return node.quasis.map(quasi => quasi.value.cooked).join(INTERPOLATION)
-    case `BinaryExpression`: {
-      if (node.operator !== `+`) {
-        return undefined
-      }
-      const left = messageText(node.left)
-      const right = messageText(node.right)
-      return left === undefined || right === undefined
-        ? undefined
-        : left + right
-    }
-    default:
-      return undefined
-  }
-}
-
-const checks = [
-  {
-    // A continuation line indented by two spaces is a hint or detail under the
-    // message, which a logger prints as is.
-    messageId: `multiLine`,
-    fails: text => /\n(?! {2}\S)/u.test(text),
-  },
-  { messageId: `trailingPeriod`, fails: text => text.endsWith(`.`) },
-  { messageId: `semicolon`, fails: text => text.includes(`;`) },
-  {
-    // A capital may start an identifier, a proper noun, or a format title,
-    // which this rule cannot distinguish from prose, so it rejects only a
-    // capitalized opener followed by a lowercase word.
-    messageId: `capitalized`,
-    fails: text => /^[A-Z][a-z]+ [a-z]/u.test(text),
-  },
-]
-
-const LOGGER_METHODS = new Set([`error`, `warn`, `info`, `debug`])
-
-const LOGGER_NAME = /logger$/iu
-
-const isLoggerExpression = node =>
-  (node.type === `Identifier` && LOGGER_NAME.test(node.name)) ||
-  (node.type === `MemberExpression` &&
-    !node.computed &&
-    LOGGER_NAME.test(node.property.name))
-
-/**
- * Whether {@link callee} is a logger method accessed on the logger, as in
- * `logger.warn(...)`. Holds for `logger.warn?.(...)` too, because optional
- * chaining leaves the callee a member expression.
- */
-const isLoggerMethodAccess = callee =>
-  callee.type === `MemberExpression` &&
-  !callee.computed &&
-  LOGGER_METHODS.has(callee.property.name) &&
-  isLoggerExpression(callee.object)
-
-const findVariable = (scope, name) => {
-  for (let current = scope; current; current = current.upper) {
-    const variable = current.set.get(name)
-    if (variable) {
-      return variable
-    }
-  }
-  return undefined
-}
-
-const isDestructuredLoggerMethod = (callee, sourceCode) => {
-  if (callee.type !== `Identifier`) {
-    return false
-  }
-  const variable = findVariable(sourceCode.getScope(callee), callee.name)
-  return (variable?.defs ?? []).some(({ type, node }) => {
-    if (
-      type !== `Variable` ||
-      node.id.type !== `ObjectPattern` ||
-      !node.init ||
-      !isLoggerExpression(node.init)
-    ) {
-      return false
-    }
-    return node.id.properties.some(
-      property =>
-        property.type === `Property` &&
-        !property.computed &&
-        LOGGER_METHODS.has(property.key.name) &&
-        property.value.type === `Identifier` &&
-        property.value.name === callee.name,
-    )
-  })
-}
-
-const isLoggerCall = ({ callee }, sourceCode) =>
-  isLoggerMethodAccess(callee) || isDestructuredLoggerMethod(callee, sourceCode)
-
-const isErrorConstruction = ({ callee }) =>
-  callee.type === `Identifier` && callee.name.endsWith(`Error`)
-
 export const errorMessage = {
   meta: {
     type: `problem`,
@@ -150,4 +42,112 @@ export const errorMessage = {
       },
     }
   },
+}
+
+/** The text of a message argument, or `undefined` if it isn't one. */
+const messageText = node => {
+  switch (node.type) {
+    case `Literal`:
+      return typeof node.value === `string` ? node.value : undefined
+    case `TemplateLiteral`:
+      return node.quasis.map(quasi => quasi.value.cooked).join(INTERPOLATION)
+    case `BinaryExpression`: {
+      if (node.operator !== `+`) {
+        return undefined
+      }
+      const left = messageText(node.left)
+      const right = messageText(node.right)
+      return left === undefined || right === undefined
+        ? undefined
+        : left + right
+    }
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Stands in for an interpolated value, so a check distinguishes an
+ * interpolation from a gap in the text. It matches no check's pattern.
+ */
+const INTERPOLATION = `\0`
+
+const checks = [
+  {
+    // A continuation line indented by two spaces is a hint or detail under the
+    // message, which a logger prints as is.
+    messageId: `multiLine`,
+    fails: text => /\n(?! {2}\S)/u.test(text),
+  },
+  { messageId: `trailingPeriod`, fails: text => text.endsWith(`.`) },
+  { messageId: `semicolon`, fails: text => text.includes(`;`) },
+  {
+    // A capital may start an identifier, a proper noun, or a format title,
+    // which this rule cannot distinguish from prose, so it rejects only a
+    // capitalized opener followed by a lowercase word.
+    messageId: `capitalized`,
+    fails: text => /^[A-Z][a-z]+ [a-z]/u.test(text),
+  },
+]
+
+const isErrorConstruction = ({ callee }) =>
+  callee.type === `Identifier` && callee.name.endsWith(`Error`)
+
+const isLoggerCall = ({ callee }, sourceCode) =>
+  isLoggerMethodAccess(callee) || isDestructuredLoggerMethod(callee, sourceCode)
+
+/**
+ * Whether {@link callee} is a logger method accessed on the logger, as in
+ * `logger.warn(...)`. Holds for `logger.warn?.(...)` too, because optional
+ * chaining leaves the callee a member expression.
+ */
+const isLoggerMethodAccess = callee =>
+  callee.type === `MemberExpression` &&
+  !callee.computed &&
+  LOGGER_METHODS.has(callee.property.name) &&
+  isLoggerExpression(callee.object)
+
+const isDestructuredLoggerMethod = (callee, sourceCode) => {
+  if (callee.type !== `Identifier`) {
+    return false
+  }
+  const variable = findVariable(sourceCode.getScope(callee), callee.name)
+  return (variable?.defs ?? []).some(({ type, node }) => {
+    if (
+      type !== `Variable` ||
+      node.id.type !== `ObjectPattern` ||
+      !node.init ||
+      !isLoggerExpression(node.init)
+    ) {
+      return false
+    }
+    return node.id.properties.some(
+      property =>
+        property.type === `Property` &&
+        !property.computed &&
+        LOGGER_METHODS.has(property.key.name) &&
+        property.value.type === `Identifier` &&
+        property.value.name === callee.name,
+    )
+  })
+}
+
+const LOGGER_METHODS = new Set([`error`, `warn`, `info`, `debug`])
+
+const isLoggerExpression = node =>
+  (node.type === `Identifier` && LOGGER_NAME.test(node.name)) ||
+  (node.type === `MemberExpression` &&
+    !node.computed &&
+    LOGGER_NAME.test(node.property.name))
+
+const LOGGER_NAME = /logger$/iu
+
+const findVariable = (scope, name) => {
+  for (let current = scope; current; current = current.upper) {
+    const variable = current.set.get(name)
+    if (variable) {
+      return variable
+    }
+  }
+  return undefined
 }

@@ -5,15 +5,6 @@ import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 
-/** A frame as it looks after normalization. */
-const typeEntry = (name: string, type: string): ProfileEntry => ({
-  id: 1,
-  name,
-  location: { type: `logical`, name: type },
-})
-
-const named = (name: string): ProfileEntry => ({ id: 1, name })
-
 describe(`detection`, () => {
   test.each([
     `System.Private.CoreLib!System.AppContext.Setup(wchar**,wchar**,int32)`,
@@ -160,6 +151,15 @@ describe(`normalizeStackFrame`, () => {
 
     expect(normalizeStackFrame(input)).toBe(input)
   })
+})
+
+const named = (name: string): ProfileEntry => ({ id: 1, name })
+
+/** A frame as it looks after normalization. */
+const typeEntry = (name: string, type: string): ProfileEntry => ({
+  id: 1,
+  name,
+  location: { type: `logical`, name: type },
 })
 
 describe(`categorizeEntry`, () => {

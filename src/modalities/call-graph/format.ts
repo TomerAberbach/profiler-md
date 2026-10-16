@@ -57,35 +57,6 @@ import {
 } from './table.ts'
 import type { ArcRow } from './table.ts'
 
-/**
- * What a call-graph section ranks, percentages, and tabulates by: a metric at
- * a given index in {@link AggregatedCallGraph.metrics}. A call graph has at
- * least one metric, so unlike a call stack profile's measures, these need no
- * count fallback.
- */
-type Measure = { metric: Metric; index: number }
-
-const measuresOf = (metrics: Metric[]): Measure[] =>
-  metrics.map((metric, index) => ({ metric, index }))
-
-/** What a self or total value of {@link metric} measures. */
-const functionDescription = (
-  direction: `self` | `total`,
-  metric: Metric,
-): string =>
-  direction === `self`
-    ? `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`
-    : `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees, excluding recursive calls`
-
-const isZeroTotal = (graph: AggregatedCallGraph, { index }: Measure): boolean =>
-  graph.totalValues[index] === 0
-
-const isZeroDiffTotal = (
-  { base, current }: AggregatedCallGraphDiff,
-  { baseIndex, currentIndex }: DiffMetric,
-): boolean =>
-  base.totalValues[baseIndex] === 0 && current.totalValues[currentIndex] === 0
-
 export const formatCallGraph = (
   graph: AggregatedCallGraph,
   options: FormattingProfileToMdOptions,
@@ -124,6 +95,20 @@ export const formatCallGraph = (
     ),
   ]
 }
+
+/**
+ * What a call-graph section ranks, percentages, and tabulates by: a metric at
+ * a given index in {@link AggregatedCallGraph.metrics}. A call graph has at
+ * least one metric, so unlike a call stack profile's measures, these need no
+ * count fallback.
+ */
+type Measure = { metric: Metric; index: number }
+
+const measuresOf = (metrics: Metric[]): Measure[] =>
+  metrics.map((metric, index) => ({ metric, index }))
+
+const isZeroTotal = (graph: AggregatedCallGraph, { index }: Measure): boolean =>
+  graph.totalValues[index] === 0
 
 const formatSummaryLine = ({
   metrics,
@@ -165,11 +150,6 @@ const formatCategoryTable = (graph: AggregatedCallGraph): RootContent[] => {
     ),
   ]
 }
-
-const graphHasCallCounts = (graph: AggregatedCallGraph): boolean =>
-  graph.functions.some(func =>
-    func.calleeIdToMetrics.values().some(({ callCount }) => callCount > 0),
-  )
 
 const formatHottestFunctions = ({
   measure,
@@ -283,24 +263,6 @@ const formatHottestSelfFunctions = ({
   ]
 }
 
-const formatFunctionTable = ({
-  functions,
-  metric,
-  valueOf,
-  total,
-  options,
-}: {
-  functions: AggregatedCallGraphFunction[]
-  metric: Metric
-  valueOf: (func: AggregatedCallGraphFunction) => number
-  total: number
-  options: FormattingProfileToMdOptions
-}): RootContent =>
-  formatTable(
-    functionColumns(metric, `Function`, options),
-    functions.map(func => ({ func, value: valueOf(func), total })),
-  )
-
 const formatHottestLines = ({
   measure,
   func,
@@ -394,6 +356,24 @@ const formatHottestTotalFunctions = ({
   ]
 }
 
+const formatFunctionTable = ({
+  functions,
+  metric,
+  valueOf,
+  total,
+  options,
+}: {
+  functions: AggregatedCallGraphFunction[]
+  metric: Metric
+  valueOf: (func: AggregatedCallGraphFunction) => number
+  total: number
+  options: FormattingProfileToMdOptions
+}): RootContent =>
+  formatTable(
+    functionColumns(metric, `Function`, options),
+    functions.map(func => ({ func, value: valueOf(func), total })),
+  )
+
 /** The Callers and Callees sections of a total ranking. */
 const formatHottestArcSections = ({
   measure,
@@ -479,58 +459,6 @@ const formatHottestArcs = ({
   ]
 }
 
-type Arcs = {
-  entity: `Caller` | `Callee`
-
-  /** A function's arcs as rows for one metric, keyed by the other end's ID. */
-  rowsOf: (
-    func: AggregatedCallGraphFunction,
-    index: number,
-  ) => IteratorObject<readonly [id: number, row: CallGraphArcRow]>
-}
-
-type CallGraphArcRow = ArcRow & { func: AggregatedCallGraphFunction }
-
-const CALLER_ARCS: Arcs = {
-  entity: `Caller`,
-  rowsOf: (func, index) =>
-    func.callerIdToMetrics
-      .entries()
-      .map(([id, { caller, callCount, totalValues }]) => [
-        id,
-        {
-          func: caller,
-          callCount,
-          value: totalValues[index]!,
-          total: func.totalValues[index]!,
-        },
-      ]),
-}
-
-const CALLEE_ARCS: Arcs = {
-  entity: `Callee`,
-  rowsOf: (func, index) =>
-    func.calleeIdToMetrics
-      .entries()
-      .map(([id, { callee, callCount, totalValues }]) => [
-        id,
-        {
-          func: callee,
-          callCount,
-          value: totalValues[index]!,
-          total: func.totalValues[index]!,
-        },
-      ]),
-}
-
-/** The paragraph opening a Callers or Callees section. */
-const arcSectionDescription = (
-  entity: Arcs[`entity`],
-  metric: Metric,
-  ranking: `with the largest` | `with the largest change in`,
-): string =>
-  `${entity}s ${ranking} contribution to each function's total ${metric.phrases.columnNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise, and percentages can exceed 100% for recursive calls.`
-
 export const formatCallGraphDiff = (
   diff: AggregatedCallGraphDiff,
   options: FormattingProfileToMdOptions,
@@ -573,6 +501,12 @@ export const formatCallGraphDiff = (
     ),
   ]
 }
+
+const isZeroDiffTotal = (
+  { base, current }: AggregatedCallGraphDiff,
+  { baseIndex, currentIndex }: DiffMetric,
+): boolean =>
+  base.totalValues[baseIndex] === 0 && current.totalValues[currentIndex] === 0
 
 const formatDiffSummaryLine = (diff: AggregatedCallGraphDiff): string =>
   `${capitalizeFirst(
@@ -788,6 +722,78 @@ type DiffDetailArgs = {
   headingLevel: number
 }
 
+const formatDiffLines = ({
+  measure,
+  matchLines,
+  funcs,
+  options,
+  headingLevel,
+}: DiffDetailArgs): RootContent[] =>
+  formatSectionGroup(
+    [
+      heading(headingLevel, `Lines`),
+      paragraph(
+        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
+      ),
+    ],
+    funcs.flatMap(func =>
+      formatDiffFunctionLines({
+        measure,
+        matchLines,
+        func,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
+    ),
+  )
+
+const formatDiffFunctionLines = ({
+  measure: { metric, baseIndex, currentIndex },
+  matchLines,
+  func,
+  options,
+  headingLevel,
+}: {
+  measure: AggregatedCallGraphDiff[`metrics`][number]
+  matchLines: LineMatcher<Float64Array>
+  func: AggregatedCallGraphFunctionDiff
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const changedLines = selectLargestChanges(
+    matchLines(func),
+    Math.ceil(options.topN / 4),
+    ({ base, current }) =>
+      (current?.metrics[currentIndex] ?? 0) - (base?.metrics[baseIndex] ?? 0),
+  )
+  if (changedLines.length === 0) {
+    return []
+  }
+
+  const sideRowOf = (
+    sideFunc: AggregatedCallGraphFunction | undefined,
+    line: DiffedLine<Float64Array> | undefined,
+    index: number,
+  ) =>
+    sideFunc &&
+    line && {
+      func: sideFunc,
+      line: line.line,
+      value: line.metrics[index]!,
+      total: sideFunc.selfValues[index]!,
+    }
+  return [
+    formatFunctionHeading(headingLevel, func, options),
+    formatDiffTable(
+      lineColumns(metric, options),
+      changedLines.map(({ base, current }) => ({
+        base: sideRowOf(func.base, base, baseIndex),
+        current: sideRowOf(func.current, current, currentIndex),
+      })),
+    ),
+  ]
+}
+
 /** The Callers and Callees sections of a total ranking. */
 const formatDiffArcSections = (args: DiffDetailArgs): RootContent[] => {
   const hasCallCounts =
@@ -862,74 +868,68 @@ const formatDiffFunctionArcs = ({
   ]
 }
 
-const formatDiffLines = ({
-  measure,
-  matchLines,
-  funcs,
-  options,
-  headingLevel,
-}: DiffDetailArgs): RootContent[] =>
-  formatSectionGroup(
-    [
-      heading(headingLevel, `Lines`),
-      paragraph(
-        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
-      ),
-    ],
-    funcs.flatMap(func =>
-      formatDiffFunctionLines({
-        measure,
-        matchLines,
-        func,
-        options,
-        headingLevel: headingLevel + 1,
-      }),
-    ),
+/** What a self or total value of {@link metric} measures. */
+const functionDescription = (
+  direction: `self` | `total`,
+  metric: Metric,
+): string =>
+  direction === `self`
+    ? `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`
+    : `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees, excluding recursive calls`
+
+const graphHasCallCounts = (graph: AggregatedCallGraph): boolean =>
+  graph.functions.some(func =>
+    func.calleeIdToMetrics.values().some(({ callCount }) => callCount > 0),
   )
 
-const formatDiffFunctionLines = ({
-  measure: { metric, baseIndex, currentIndex },
-  matchLines,
-  func,
-  options,
-  headingLevel,
-}: {
-  measure: AggregatedCallGraphDiff[`metrics`][number]
-  matchLines: LineMatcher<Float64Array>
-  func: AggregatedCallGraphFunctionDiff
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] => {
-  const changedLines = selectLargestChanges(
-    matchLines(func),
-    Math.ceil(options.topN / 4),
-    ({ base, current }) =>
-      (current?.metrics[currentIndex] ?? 0) - (base?.metrics[baseIndex] ?? 0),
-  )
-  if (changedLines.length === 0) {
-    return []
-  }
+type Arcs = {
+  entity: `Caller` | `Callee`
 
-  const sideRowOf = (
-    sideFunc: AggregatedCallGraphFunction | undefined,
-    line: DiffedLine<Float64Array> | undefined,
+  /** A function's arcs as rows for one metric, keyed by the other end's ID. */
+  rowsOf: (
+    func: AggregatedCallGraphFunction,
     index: number,
-  ) =>
-    sideFunc &&
-    line && {
-      func: sideFunc,
-      line: line.line,
-      value: line.metrics[index]!,
-      total: sideFunc.selfValues[index]!,
-    }
-  return [
-    formatFunctionHeading(headingLevel, func, options),
-    formatDiffTable(
-      lineColumns(metric, options),
-      changedLines.map(({ base, current }) => ({
-        base: sideRowOf(func.base, base, baseIndex),
-        current: sideRowOf(func.current, current, currentIndex),
-      })),
-    ),
-  ]
+  ) => IteratorObject<readonly [id: number, row: CallGraphArcRow]>
 }
+
+type CallGraphArcRow = ArcRow & { func: AggregatedCallGraphFunction }
+
+const CALLER_ARCS: Arcs = {
+  entity: `Caller`,
+  rowsOf: (func, index) =>
+    func.callerIdToMetrics
+      .entries()
+      .map(([id, { caller, callCount, totalValues }]) => [
+        id,
+        {
+          func: caller,
+          callCount,
+          value: totalValues[index]!,
+          total: func.totalValues[index]!,
+        },
+      ]),
+}
+
+const CALLEE_ARCS: Arcs = {
+  entity: `Callee`,
+  rowsOf: (func, index) =>
+    func.calleeIdToMetrics
+      .entries()
+      .map(([id, { callee, callCount, totalValues }]) => [
+        id,
+        {
+          func: callee,
+          callCount,
+          value: totalValues[index]!,
+          total: func.totalValues[index]!,
+        },
+      ]),
+}
+
+/** The paragraph opening a Callers or Callees section. */
+const arcSectionDescription = (
+  entity: Arcs[`entity`],
+  metric: Metric,
+  ranking: `with the largest` | `with the largest change in`,
+): string =>
+  `${entity}s ${ranking} contribution to each function's total ${metric.phrases.columnNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise, and percentages can exceed 100% for recursive calls.`

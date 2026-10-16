@@ -99,91 +99,6 @@ export const parseJSCHeapSnapshot = (
 }
 
 /**
- * Classifies a node by its flags, except for a string, whose class name the
- * snapshot records instead of a flag.
- */
-const unresolvedCategoryOf = (
-  nodeOrdinal: number,
-  nodes: number[],
-  stringClassNameIndex: number,
-): UnresolvedHeapSnapshotNodeCategory => {
-  const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
-  const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
-  return classNameIndex === stringClassNameIndex
-    ? { category: `string` }
-    : { category: categorizeNode(nodes[nodeIndex + NODE_FLAGS_OFFSET]!) }
-}
-
-const isInternalNode = (
-  nodeOrdinal: number,
-  { nodes }: JSCHeapSnapshot,
-): boolean => {
-  const flags = nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_FLAGS_OFFSET]!
-  return (flags & NODE_INTERNAL_FLAG) !== 0
-}
-
-/**
- * Yields each node, and records each node whose class name index matches no
- * entry in {@link nodeClassNames}. Such a node keeps its size and category but
- * joins no constructor, and its label is `(unknown)`.
- */
-function* jscSnapshotNodes(
-  { nodes, nodeClassNames }: JSCHeapSnapshot,
-  recordTally: RecordTally,
-): Iterable<HeapSnapshotNode> {
-  const nodeCount = nodes.length / NODE_FIELD_COUNT
-  const stringClassNameIndex = nodeClassNames.indexOf(`string`)
-
-  let missingClassNameCount = 0
-  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
-    const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
-    const flags = nodes[nodeIndex + NODE_FLAGS_OFFSET]!
-
-    const name = nodeClassNames[classNameIndex]
-    if (name === undefined) {
-      missingClassNameCount++
-    }
-    yield classNameIndex === stringClassNameIndex
-      ? { category: `string`, type: `string` }
-      : name === undefined
-        ? { category: categorizeNode(flags) }
-        : { category: categorizeNode(flags), type: `constructor`, name }
-  }
-  if (missingClassNameCount > 0) {
-    recordTally.skipped(
-      `class name reference`,
-      `matching no entry in nodeClassNames`,
-      missingClassNameCount,
-    )
-  }
-}
-
-/**
- * Categorizes a node by its flags, all the snapshot itself defines about a
- * node. The class its name refers to is the engine's or the language's, so the
- * origin categorizes by name instead.
- *
- * An element node is one the host allocated for the document, which V8 declares
- * as `native`. The flags are a bitset, so no flag set means neither internal
- * nor element rather than unclassified. Every remaining node is therefore an
- * ordinary object, and the object flag it also has adds nothing.
- *
- * No committed input sets the element flag. A Safari capture of a page whose
- * heap holds 418 `HTMLDivElement` and 160 `Text` nodes leaves every one of them
- * unflagged, so a Safari heap snapshot reports the DOM as ordinary objects
- * while a V8 heap snapshot of a comparable page reports it as `native`.
- * Categorizing those nodes by their class name instead would mean trusting a
- * name a program can define (`Node`, `Range`, `Text`).
- */
-const categorizeNode = (flags: number): HeapSnapshotNodeCategory =>
-  flags & NODE_INTERNAL_FLAG
-    ? `internal`
-    : flags & NODE_ELEMENT_FLAG
-      ? `native`
-      : `object`
-
-/**
  * Maps node identifiers to node ordinals. Edges reference nodes by identifier,
  * and identifiers are not ordinals: nodes appear in traversal order while
  * identifiers reflect allocation order.
@@ -280,13 +195,6 @@ const countResolvedEdges = (
 }
 
 /**
- * Resolves a node id to its ordinal, or -1 for ids of nodes that don't exist,
- * which JSC's `HeapSnapshotBuilder` sometimes outputs edge endpoints for.
- */
-const resolveIdToOrdinal = (idToOrdinal: Int32Array, id: number): number =>
-  id < idToOrdinal.length ? idToOrdinal[id]! : -1
-
-/**
  * Fills the CSR successor and predecessor lists, excluding edges between nodes
  * that don't exist.
  *
@@ -354,6 +262,50 @@ const computeAdjacencyLists = (
 }
 
 /**
+ * Resolves a node id to its ordinal, or -1 for ids of nodes that don't exist,
+ * which JSC's `HeapSnapshotBuilder` sometimes outputs edge endpoints for.
+ */
+const resolveIdToOrdinal = (idToOrdinal: Int32Array, id: number): number =>
+  id < idToOrdinal.length ? idToOrdinal[id]! : -1
+
+/**
+ * Yields each node, and records each node whose class name index matches no
+ * entry in {@link nodeClassNames}. Such a node keeps its size and category but
+ * joins no constructor, and its label is `(unknown)`.
+ */
+function* jscSnapshotNodes(
+  { nodes, nodeClassNames }: JSCHeapSnapshot,
+  recordTally: RecordTally,
+): Iterable<HeapSnapshotNode> {
+  const nodeCount = nodes.length / NODE_FIELD_COUNT
+  const stringClassNameIndex = nodeClassNames.indexOf(`string`)
+
+  let missingClassNameCount = 0
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
+    const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
+    const flags = nodes[nodeIndex + NODE_FLAGS_OFFSET]!
+
+    const name = nodeClassNames[classNameIndex]
+    if (name === undefined) {
+      missingClassNameCount++
+    }
+    yield classNameIndex === stringClassNameIndex
+      ? { category: `string`, type: `string` }
+      : name === undefined
+        ? { category: categorizeNode(flags) }
+        : { category: categorizeNode(flags), type: `constructor`, name }
+  }
+  if (missingClassNameCount > 0) {
+    recordTally.skipped(
+      `class name reference`,
+      `matching no entry in nodeClassNames`,
+      missingClassNameCount,
+    )
+  }
+}
+
+/**
  * The edge's fourth field is type-dependent data: an `edgeNames` index for
  * `Property`/`Variable` edges, the array index for `Index` edges, and unused
  * for `Internal` edges, which carry no name.
@@ -381,6 +333,54 @@ const formatNodeLabel = (
     nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_CLASS_OFFSET]!
   return nodeClassNames[classNameIndex] ?? `(unknown)`
 }
+
+const isInternalNode = (
+  nodeOrdinal: number,
+  { nodes }: JSCHeapSnapshot,
+): boolean => {
+  const flags = nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_FLAGS_OFFSET]!
+  return (flags & NODE_INTERNAL_FLAG) !== 0
+}
+
+/**
+ * Classifies a node by its flags, except for a string, whose class name the
+ * snapshot records instead of a flag.
+ */
+const unresolvedCategoryOf = (
+  nodeOrdinal: number,
+  nodes: number[],
+  stringClassNameIndex: number,
+): UnresolvedHeapSnapshotNodeCategory => {
+  const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
+  const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
+  return classNameIndex === stringClassNameIndex
+    ? { category: `string` }
+    : { category: categorizeNode(nodes[nodeIndex + NODE_FLAGS_OFFSET]!) }
+}
+
+/**
+ * Categorizes a node by its flags, all the snapshot itself defines about a
+ * node. The class its name refers to is the engine's or the language's, so the
+ * origin categorizes by name instead.
+ *
+ * An element node is one the host allocated for the document, which V8 declares
+ * as `native`. The flags are a bitset, so no flag set means neither internal
+ * nor element rather than unclassified. Every remaining node is therefore an
+ * ordinary object, and the object flag it also has adds nothing.
+ *
+ * No committed input sets the element flag. A Safari capture of a page whose
+ * heap holds 418 `HTMLDivElement` and 160 `Text` nodes leaves every one of them
+ * unflagged, so a Safari heap snapshot reports the DOM as ordinary objects
+ * while a V8 heap snapshot of a comparable page reports it as `native`.
+ * Categorizing those nodes by their class name instead would mean trusting a
+ * name a program can define (`Node`, `Range`, `Text`).
+ */
+const categorizeNode = (flags: number): HeapSnapshotNodeCategory =>
+  flags & NODE_INTERNAL_FLAG
+    ? `internal`
+    : flags & NODE_ELEMENT_FLAG
+      ? `native`
+      : `object`
 
 const NODE_ID_OFFSET = 0
 const NODE_SIZE_OFFSET = 1

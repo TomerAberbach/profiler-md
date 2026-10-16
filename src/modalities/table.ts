@@ -15,6 +15,28 @@ import type { SourceLocation } from '../location.ts'
 import type { FormattingProfileToMdOptions } from '../options.ts'
 import type { Diff } from './diff.ts'
 
+/** A table's columns over a shared row type. */
+export type Table<Row> = Column<Row>[]
+
+/**
+ * A table column: a header and how a row produces the column's cell,
+ * so the two can't become mismatched across parallel header and row builders.
+ */
+export type Column<Row> = {
+  header: Header
+
+  /** Marks the column whose values derive a diff's `Change` and `Delta`. */
+  primary?: boolean
+
+  /**
+   * Marks the column before which a diff's `Change` and `Delta` columns are
+   * inserted. When no column is marked, they are prepended.
+   */
+  changeDeltaBefore?: boolean
+
+  cellOf: (row: Row) => Cell
+}
+
 /** A single table cell, already resolved to a value and a formatter. */
 export type Cell =
   | {
@@ -60,28 +82,6 @@ export const locationCell = (
   location: SourceLocation | undefined,
   options: FormattingProfileToMdOptions,
 ): Cell => ({ type: `location`, location, options })
-
-/**
- * A table column: a header and how a row produces the column's cell,
- * so the two can't become mismatched across parallel header and row builders.
- */
-export type Column<Row> = {
-  header: Header
-
-  /** Marks the column whose values derive a diff's `Change` and `Delta`. */
-  primary?: boolean
-
-  /**
-   * Marks the column before which a diff's `Change` and `Delta` columns are
-   * inserted. When no column is marked, they are prepended.
-   */
-  changeDeltaBefore?: boolean
-
-  cellOf: (row: Row) => Cell
-}
-
-/** A table's columns over a shared row type. */
-export type Table<Row> = Column<Row>[]
 
 export const formatTable = <Row>(
   columns: Table<Row>,
@@ -196,12 +196,12 @@ const formatDiffCell = (
   }
 }
 
+const numericValue = (cell: Cell | undefined): number =>
+  cell?.type === `number` ? cell.value : 0
+
 /** A missing side takes the present side's location, so it shows once. */
 const locationOf = (
   cell: Cell | undefined,
   present: Cell & { type: `location` },
 ): SourceLocation | undefined =>
   (cell?.type === `location` ? cell : present).location
-
-const numericValue = (cell: Cell | undefined): number =>
-  cell?.type === `number` ? cell.value : 0

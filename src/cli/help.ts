@@ -98,12 +98,6 @@ const seeAlsoTopics = (helpTopic: HelpTopic): string[] => {
   })
 }
 
-export const printBriefHelp = (): never => {
-  // eslint-disable-next-line local/no-standard-stream-write -- help is program output
-  process.stdout.write(getBriefHelpText({ colors: stdoutSupportsColor() }))
-  process.exit(0)
-}
-
 export type HelpTextOptions = {
   colors?: boolean
 }
@@ -120,104 +114,9 @@ export const getHelpText = ({
   ].join(``)
 }
 
-/** Where the per-language and per-format help is, to follow "Run". */
-export const helpTopicsHint: Message = message`${commandLine(`${program.metadata.name} --help <language>`)} for how to profile a language, and ${commandLine(`${program.metadata.name} --help <format>`)} for what a format contains`
-
-/** The description, the synopsis, the examples, and where the rest of the help is. */
-export const getBriefHelpText = ({
-  colors = false,
-}: HelpTextOptions = {}): string => {
-  const style = makeStyle(colors)
-  const { name } = program.metadata
-  const footer = style.message(
-    message`Run ${commandLine(`${name} --help`)} for every flag, ${helpTopicsHint}.`,
-  )
-  return `${getHeaderText(style)}\n${footer}\n`
-}
-
-/** The synopsis and where the full help is. */
-export const getUsageHint = ({ colors = false } = {}): string => {
-  const { name } = program.metadata
-  const text = makeStyle(colors).page({
-    usage,
-    sections: [],
-    footer: message`Run ${commandLine(`${name} --help`)} for every flag.`,
-  })
-  return `\n${text}\n`
-}
-
-const getHeaderText = (style: Style): string => {
-  const { brief } = program.metadata
-  const description = style.page({ brief, sections: [] })
-  const synopsis = style.page({ usage, sections: [] })
-  return `${description}\n${synopsis}\n${style.label(`Examples:`)}\n${formatUsageExamples(INDENT, style)}`
-}
-
-const optionsTerm = {
-  type: `optional`,
-  terms: [{ type: `argument`, metavar: `OPTIONS` }],
-} as const
-
-const inputUsages: Usage[] = inputParser.usage
-  .flatMap(term => (term.type === `exclusive` ? term.terms : [[term]]))
-  .map(terms => [optionsTerm, ...terms])
-
-/**
- * The ways to invoke the CLI, in place of the usage Optique derives from every
- * flag: each input alternative with the flags, and the help.
- */
-export const usage: Usage = [
-  {
-    type: `exclusive`,
-    terms: [
-      ...inputUsages,
-      [
-        { type: `option`, names: [`--help`] },
-        { type: `optional`, terms: [{ type: `argument`, metavar: `TOPIC` }] },
-      ],
-    ],
-  },
-]
-
-type UsageExample = {
-  description: string
-  command: string
-}
-
-export const usageExamples: readonly UsageExample[] = [
-  {
-    description: `Convert a profile, paged and syntax highlighted`,
-    command: `profiler-md profile.cpuprofile`,
-  },
-  {
-    description: `Diff two profiles or two heap snapshots`,
-    command: `profiler-md base.cpuprofile current.cpuprofile`,
-  },
-  {
-    description: `Write the Markdown to a file`,
-    command: `profiler-md profile.pb.gz -o profile.md`,
-  },
-  {
-    description: `Read a profile from stdin`,
-    command: `node --cpu-prof app.js && cat *.cpuprofile | profiler-md`,
-  },
-  {
-    description: `Show how to profile a language`,
-    command: `profiler-md --help python`,
-  },
-]
-
-/** Each example as a shell comment above its command, separated by blank lines. */
-export const formatUsageExamples = (
-  indent = ``,
-  style: KindlingPalette = makeKindlingPalette({ colors: false }),
-): string =>
-  usageExamples
-    .map(
-      ({ description, command }) =>
-        `${indent}${style.comment(`# ${description}`)}\n${indent}${style.punctuation(`$`)} ${style.command(command)}\n`,
-    )
-    .join(`\n`)
+/** The parser's sections in display order, each default in its description. */
+export const getDocSections = (): DocSection[] =>
+  getSections().sort(sectionOrder).map(describeDefaults)
 
 /** The parser's sections, with the flags `runParser` adds in the `Help` section. */
 export const getSections = (): DocSection[] =>
@@ -227,9 +126,20 @@ export const getSections = (): DocSection[] =>
       : section,
   )
 
-/** The parser's sections in display order, each default in its description. */
-export const getDocSections = (): DocSection[] =>
-  getSections().sort(sectionOrder).map(describeDefaults)
+/** The section the flags `runParser` adds to the parser are listed under. */
+const RUN_PARSER_SECTION = `Help`
+
+/** The flags `runParser` adds to the parser, which its doc page lacks. */
+const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
+  {
+    term: { type: `option`, names: [`--version`] },
+    description: message`Show the version`,
+  },
+  {
+    term: { type: `option`, names: [`--completion`], metavar: `SHELL` },
+    description: message`Print a completion script for SHELL (bash, fish, nu, pwsh, or zsh)`,
+  },
+]
 
 /**
  * Appends each entry's default to its description. Optique's `showDefault`, and
@@ -266,21 +176,6 @@ const joinTexts = (message: Message): Message => {
   return joined
 }
 
-/** The section the flags `runParser` adds to the parser are listed under. */
-const RUN_PARSER_SECTION = `Help`
-
-/** The flags `runParser` adds to the parser, which its doc page lacks. */
-const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
-  {
-    term: { type: `option`, names: [`--version`] },
-    description: message`Show the version`,
-  },
-  {
-    term: { type: `option`, names: [`--completion`], metavar: `SHELL` },
-    description: message`Print a completion script for SHELL (bash, fish, nu, pwsh, or zsh)`,
-  },
-]
-
 export const LISTS: readonly (readonly [string, readonly string[]])[] = [
   [`Formats`, formats],
   [`Origins`, origins],
@@ -293,34 +188,36 @@ export const LISTS: readonly (readonly [string, readonly string[]])[] = [
   ],
 ]
 
-const formatList = (
-  label: string,
-  items: readonly string[],
-  style: Style,
-): string => {
-  const lines = wrapCommaList(items, style.maxWidth - INDENT.length)
-  return `\n${style.label(`${label}:`)}\n${lines
-    .map(line => `${INDENT}${line.replaceAll(`,`, style.punctuation(`,`))}\n`)
-    .join(``)}`
+export const printBriefHelp = (): never => {
+  // eslint-disable-next-line local/no-standard-stream-write -- help is program output
+  process.stdout.write(getBriefHelpText({ colors: stdoutSupportsColor() }))
+  process.exit(0)
 }
 
-const wrapCommaList = (
-  items: readonly string[],
-  maxWidth: number,
-): string[] => {
-  const lines: string[] = []
-  let line = ``
-  for (const [index, item] of items.entries()) {
-    const word = index === items.length - 1 ? item : `${item},`
-    if (line && line.length + 1 + word.length > maxWidth) {
-      lines.push(line)
-      line = word
-    } else {
-      line = line ? `${line} ${word}` : word
-    }
-  }
-  lines.push(line)
-  return lines
+/** The description, the synopsis, the examples, and where the rest of the help is. */
+export const getBriefHelpText = ({
+  colors = false,
+}: HelpTextOptions = {}): string => {
+  const style = makeStyle(colors)
+  const { name } = program.metadata
+  const footer = style.message(
+    message`Run ${commandLine(`${name} --help`)} for every flag, ${helpTopicsHint}.`,
+  )
+  return `${getHeaderText(style)}\n${footer}\n`
+}
+
+/** Where the per-language and per-format help is, to follow "Run". */
+export const helpTopicsHint: Message = message`${commandLine(`${program.metadata.name} --help <language>`)} for how to profile a language, and ${commandLine(`${program.metadata.name} --help <format>`)} for what a format contains`
+
+/** The synopsis and where the full help is. */
+export const getUsageHint = ({ colors = false } = {}): string => {
+  const { name } = program.metadata
+  const text = makeStyle(colors).page({
+    usage,
+    sections: [],
+    footer: message`Run ${commandLine(`${name} --help`)} for every flag.`,
+  })
+  return `\n${text}\n`
 }
 
 type Style = KindlingPalette & {
@@ -347,15 +244,6 @@ const makeStyle = (colors: boolean): Style => {
   }
 }
 
-const formatMessage = createMessageFormatter(kindlingTerminalTheme)
-
-/** Orders the untitled section of positional arguments before the flags. */
-const sectionOrder = (first: DocSection, second: DocSection): number =>
-  Number(first.title !== undefined) - Number(second.title !== undefined)
-
-/** The indentation of Optique's doc page entries. */
-const INDENT = `  `
-
 const getMaxWidth = (): number =>
   Math.max(
     MIN_WIDTH,
@@ -365,3 +253,115 @@ const getMaxWidth = (): number =>
 
 // Optique throws below the width its narrowest layout requires
 const MIN_WIDTH = 40
+
+/** Orders the untitled section of positional arguments before the flags. */
+const sectionOrder = (first: DocSection, second: DocSection): number =>
+  Number(first.title !== undefined) - Number(second.title !== undefined)
+
+const formatMessage = createMessageFormatter(kindlingTerminalTheme)
+
+const getHeaderText = (style: Style): string => {
+  const { brief } = program.metadata
+  const description = style.page({ brief, sections: [] })
+  const synopsis = style.page({ usage, sections: [] })
+  return `${description}\n${synopsis}\n${style.label(`Examples:`)}\n${formatUsageExamples(INDENT, style)}`
+}
+
+const optionsTerm = {
+  type: `optional`,
+  terms: [{ type: `argument`, metavar: `OPTIONS` }],
+} as const
+
+const inputUsages: Usage[] = inputParser.usage
+  .flatMap(term => (term.type === `exclusive` ? term.terms : [[term]]))
+  .map(terms => [optionsTerm, ...terms])
+
+/**
+ * The ways to invoke the CLI, in place of the usage Optique derives from every
+ * flag: each input alternative with the flags, and the help.
+ */
+export const usage: Usage = [
+  {
+    type: `exclusive`,
+    terms: [
+      ...inputUsages,
+      [
+        { type: `option`, names: [`--help`] },
+        { type: `optional`, terms: [{ type: `argument`, metavar: `TOPIC` }] },
+      ],
+    ],
+  },
+]
+
+/** Each example as a shell comment above its command, separated by blank lines. */
+export const formatUsageExamples = (
+  indent = ``,
+  style: KindlingPalette = makeKindlingPalette({ colors: false }),
+): string =>
+  usageExamples
+    .map(
+      ({ description, command }) =>
+        `${indent}${style.comment(`# ${description}`)}\n${indent}${style.punctuation(`$`)} ${style.command(command)}\n`,
+    )
+    .join(`\n`)
+
+type UsageExample = {
+  description: string
+  command: string
+}
+
+export const usageExamples: readonly UsageExample[] = [
+  {
+    description: `Convert a profile, paged and syntax highlighted`,
+    command: `profiler-md profile.cpuprofile`,
+  },
+  {
+    description: `Diff two profiles or two heap snapshots`,
+    command: `profiler-md base.cpuprofile current.cpuprofile`,
+  },
+  {
+    description: `Write the Markdown to a file`,
+    command: `profiler-md profile.pb.gz -o profile.md`,
+  },
+  {
+    description: `Read a profile from stdin`,
+    command: `node --cpu-prof app.js && cat *.cpuprofile | profiler-md`,
+  },
+  {
+    description: `Show how to profile a language`,
+    command: `profiler-md --help python`,
+  },
+]
+
+const formatList = (
+  label: string,
+  items: readonly string[],
+  style: Style,
+): string => {
+  const lines = wrapCommaList(items, style.maxWidth - INDENT.length)
+  return `\n${style.label(`${label}:`)}\n${lines
+    .map(line => `${INDENT}${line.replaceAll(`,`, style.punctuation(`,`))}\n`)
+    .join(``)}`
+}
+
+/** The indentation of Optique's doc page entries. */
+const INDENT = `  `
+
+const wrapCommaList = (
+  items: readonly string[],
+  maxWidth: number,
+): string[] => {
+  const lines: string[] = []
+  let line = ``
+  for (const [index, item] of items.entries()) {
+    const word = index === items.length - 1 ? item : `${item},`
+    if (line && line.length + 1 + word.length > maxWidth) {
+      lines.push(line)
+      line = word
+    } else {
+      line = line ? `${line} ${word}` : word
+    }
+  }
+  lines.push(line)
+  return lines
+}

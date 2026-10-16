@@ -1,25 +1,3 @@
-export const UNPAIRED_COST = 2
-
-/**
- * The cost of a pair whose offset differs from the previous pair's.
- *
- * It is between one and two unpaired positions' cost. A run of pairs at a new
- * offset takes one change to enter and one to leave, so the alignment starts a
- * new offset only for a run of at least two pairs, or for a run that ends the
- * lists, which it never leaves. A lower cost pairs a lone position whose
- * offset neither adjacent position shares, and a higher one requires longer
- * runs.
- */
-export const OFFSET_CHANGE_COST = 3.5
-
-/**
- * The costs {@link alignPositions} minimizes: {@link offsetChange} per pair
- * whose offset differs from the previous pair's, and {@link offset} per unit of
- * each pair's absolute offset, beside {@link UNPAIRED_COST} per unpaired
- * position.
- */
-type Costs = { offsetChange: number; offset: number }
-
 /**
  * Pairs the positions of two strictly increasing lists, such as the lines of
  * one file's functions before and after an edit, by reconstructing the simplest
@@ -132,40 +110,37 @@ export const alignPositions = (
   }
 }
 
-/** Git's Myers diff floors its own search limit the same way, at 256. */
-const MINIMUM_SLACK_LIMIT = 32
+export const UNPAIRED_COST = 2
 
 /**
- * The pairs {@link alignPositions}'s passes consider in total, past which it
- * stops widening its band. A pass takes about 200 nanoseconds per pair.
+ * The cost of a pair whose offset differs from the previous pair's.
  *
- * It is about 20 times the most any group of same-named functions in the
- * committed examples considers. Aligning every executing line of a large file
- * can exceed it: the 3,397 and 3,443 lines of TypeScript's `typescript.js` in
- * `javascript.node-pprof.cpu-lines` align in 348 milliseconds, pairing 1,830
- * lines where a limit of 2^22 pairs 1,842 in 800.
+ * It is between one and two unpaired positions' cost. A run of pairs at a new
+ * offset takes one change to enter and one to leave, so the alignment starts a
+ * new offset only for a run of at least two pairs, or for a run that ends the
+ * lists, which it never leaves. A lower cost pairs a lone position whose
+ * offset neither adjacent position shares, and a higher one requires longer
+ * runs.
  */
-export const BAND_PAIRS_LIMIT = 2 ** 20
+export const OFFSET_CHANGE_COST = 3.5
 
-const pairEqualPositions = (
-  base: readonly number[],
-  current: readonly number[],
-): Int32Array => {
-  const pairs = new Int32Array(base.length).fill(-1)
-  let currentIndex = 0
-  for (let baseIndex = 0; baseIndex < base.length; baseIndex++) {
-    while (
-      currentIndex < current.length &&
-      current[currentIndex]! < base[baseIndex]!
-    ) {
-      currentIndex++
-    }
-    if (current[currentIndex] === base[baseIndex]) {
-      pairs[baseIndex] = currentIndex
+const assertStrictlyIncreasing = (positions: ArrayLike<number>) => {
+  for (let index = 1; index < positions.length; index++) {
+    if (!(positions[index - 1]! < positions[index]!)) {
+      throw new Error(
+        `positions must be strictly increasing, got: ${positions[index - 1]} before ${positions[index]}`,
+      )
     }
   }
-  return pairs
 }
+
+/**
+ * The costs {@link alignPositions} minimizes: {@link offsetChange} per pair
+ * whose offset differs from the previous pair's, and {@link offset} per unit of
+ * each pair's absolute offset, beside {@link UNPAIRED_COST} per unpaired
+ * position.
+ */
+type Costs = { offsetChange: number; offset: number }
 
 /**
  * Returns the cost per unit of a pair's absolute offset, which breaks ties
@@ -191,11 +166,46 @@ const tieBreakingOffsetCost = (
   return 0.25 / (pairs * span + 1)
 }
 
+/** Git's Myers diff floors its own search limit the same way, at 256. */
+const MINIMUM_SLACK_LIMIT = 32
+
+/**
+ * The pairs {@link alignPositions}'s passes consider in total, past which it
+ * stops widening its band. A pass takes about 200 nanoseconds per pair.
+ *
+ * It is about 20 times the most any group of same-named functions in the
+ * committed examples considers. Aligning every executing line of a large file
+ * can exceed it: the 3,397 and 3,443 lines of TypeScript's `typescript.js` in
+ * `javascript.node-pprof.cpu-lines` align in 348 milliseconds, pairing 1,830
+ * lines where a limit of 2^22 pairs 1,842 in 800.
+ */
+export const BAND_PAIRS_LIMIT = 2 ** 20
+
 /**
  * The pairs {@link alignPositions} considers: those whose current index minus
  * base index, their diagonal, is in the range.
  */
 type Band = { lowestDiagonal: number; highestDiagonal: number }
+
+const pairEqualPositions = (
+  base: readonly number[],
+  current: readonly number[],
+): Int32Array => {
+  const pairs = new Int32Array(base.length).fill(-1)
+  let currentIndex = 0
+  for (let baseIndex = 0; baseIndex < base.length; baseIndex++) {
+    while (
+      currentIndex < current.length &&
+      current[currentIndex]! < base[baseIndex]!
+    ) {
+      currentIndex++
+    }
+    if (current[currentIndex] === base[baseIndex]) {
+      pairs[baseIndex] = currentIndex
+    }
+  }
+  return pairs
+}
 
 /** Returns the cheapest alignment of the lists among those pairing only in the band. */
 const alignInBand = (
@@ -214,68 +224,6 @@ const alignInBand = (
     endOffset: undefined,
   })
   return pairs
-}
-
-/**
- * Whether the cheapest alignment in the band is the cheapest of all: the band
- * covers every pair, or the alignment costs no more than any alignment with a
- * pair outside the band could.
- */
-const isProvenCheapest = (
-  base: ArrayLike<number>,
-  current: ArrayLike<number>,
-  pairs: Int32Array,
-  { lowestDiagonal, highestDiagonal }: Band,
-  costs: Costs,
-): boolean => {
-  if (lowestDiagonal <= -base.length && highestDiagonal >= current.length) {
-    return true
-  }
-  // An alignment with a pair outside the band leaves more positions unpaired
-  // than the band's width allows, each costing at least UNPAIRED_COST.
-  const outsideCost = UNPAIRED_COST * (highestDiagonal - lowestDiagonal + 1)
-  return alignmentCost(base, current, pairs, costs) <= outsideCost
-}
-
-/** The cost {@link alignPositions} minimizes, of the given pairs. */
-const alignmentCost = (
-  base: ArrayLike<number>,
-  current: ArrayLike<number>,
-  pairs: Int32Array,
-  costs: Costs,
-): number => {
-  let paired = 0
-  let offsetsCost = 0
-  let offsetChanges = 0
-  let previousOffset = 0
-  for (let index = 0; index < pairs.length; index++) {
-    const pair = pairs[index]!
-    if (pair === -1) {
-      continue
-    }
-    paired++
-    const offset = current[pair]! - base[index]!
-    offsetsCost += costs.offset * Math.abs(offset)
-    if (offset !== previousOffset) {
-      offsetChanges++
-    }
-    previousOffset = offset
-  }
-  return (
-    UNPAIRED_COST * (base.length + current.length - 2 * paired) +
-    costs.offsetChange * offsetChanges +
-    offsetsCost
-  )
-}
-
-const assertStrictlyIncreasing = (positions: ArrayLike<number>) => {
-  for (let index = 1; index < positions.length; index++) {
-    if (!(positions[index - 1]! < positions[index]!)) {
-      throw new Error(
-        `positions must be strictly increasing, got: ${positions[index - 1]} before ${positions[index]}`,
-      )
-    }
-  }
 }
 
 /**
@@ -384,6 +332,30 @@ const splitRange = (
   }
 }
 
+/**
+ * The cheapest alignments of every row of a pass, each ending in a pair, keyed
+ * two ways for joining with another pass.
+ */
+type Frontier = {
+  /**
+   * At index `k`, the cost of the cheapest alignment whose last pair's column
+   * is before `k`.
+   */
+  costs: Float64Array
+
+  /** The last pair of the alignment {@link costs} has at index `k`. */
+  pairAt: (k: number) => FrontierPair
+
+  /** The last pair of the cheapest alignment whose last pair has each offset. */
+  pairsByOffset: Map<number, FrontierPair>
+}
+
+/**
+ * A pair ending an alignment of a pass's rows, or the pair before them at row
+ * and column `-1`, with the alignment's cost.
+ */
+type FrontierPair = { cost: number; row: number; column: number }
+
 /** Aligns the range's base positions before {@link middle} from its start. */
 const forwardFrontier = (
   base: ArrayLike<number>,
@@ -441,76 +413,6 @@ const backwardFrontier = (
       highestShift: currentEnd - baseEnd - lowestDiagonal,
     },
   )
-}
-
-/**
- * Returns the pairs of a forward and a backward frontier over a range of
- * {@link width} current positions whose alignments join most cheaply.
- * {@link isEndFree} is whether no pair follows the range. Two pairs join at no
- * cost when their offsets are equal.
- */
-const cheapestJoin = (
-  first: Frontier,
-  second: Frontier,
-  width: number,
-  isEndFree: boolean,
-  costs: Costs,
-): { first: FrontierPair; second: FrontierPair } => {
-  // The first pass's pair must precede the second's in the current positions,
-  // so their columns, counted from opposite ends, sum to less than the width.
-  let bestCost = Infinity
-  let bestFirst: FrontierPair | undefined
-  let bestSecond: FrontierPair | undefined
-  for (const [offset, firstPair] of first.pairsByOffset) {
-    const secondPair = second.pairsByOffset.get(-offset)
-    if (secondPair && firstPair.cost + secondPair.cost < bestCost) {
-      bestCost = firstPair.cost + secondPair.cost
-      bestFirst = firstPair
-      bestSecond = secondPair
-    }
-  }
-  if (isEndFree) {
-    const cost = first.costs[width]! + second.costs[0]!
-    if (cost < bestCost) {
-      bestCost = cost
-      bestFirst = first.pairAt(width)
-      bestSecond = second.pairAt(0)
-    }
-  }
-  for (let split = 0; split <= width; split++) {
-    const cost =
-      first.costs[split]! + second.costs[width - split]! + costs.offsetChange
-    if (cost < bestCost) {
-      bestCost = cost
-      bestFirst = first.pairAt(split)
-      bestSecond = second.pairAt(width - split)
-    }
-  }
-  return { first: bestFirst!, second: bestSecond! }
-}
-
-/**
- * A pair ending an alignment of a pass's rows, or the pair before them at row
- * and column `-1`, with the alignment's cost.
- */
-type FrontierPair = { cost: number; row: number; column: number }
-
-/**
- * The cheapest alignments of every row of a pass, each ending in a pair, keyed
- * two ways for joining with another pass.
- */
-type Frontier = {
-  /**
-   * At index `k`, the cost of the cheapest alignment whose last pair's column
-   * is before `k`.
-   */
-  costs: Float64Array
-
-  /** The last pair of the alignment {@link costs} has at index `k`. */
-  pairAt: (k: number) => FrontierPair
-
-  /** The last pair of the cheapest alignment whose last pair has each offset. */
-  pairsByOffset: Map<number, FrontierPair>
 }
 
 /**
@@ -616,4 +518,102 @@ const propagatePrefixMinimum = (
     costRows[column + 1] = costRows[column]!
     costColumns[column + 1] = costColumns[column]!
   }
+}
+
+/**
+ * Returns the pairs of a forward and a backward frontier over a range of
+ * {@link width} current positions whose alignments join most cheaply.
+ * {@link isEndFree} is whether no pair follows the range. Two pairs join at no
+ * cost when their offsets are equal.
+ */
+const cheapestJoin = (
+  first: Frontier,
+  second: Frontier,
+  width: number,
+  isEndFree: boolean,
+  costs: Costs,
+): { first: FrontierPair; second: FrontierPair } => {
+  // The first pass's pair must precede the second's in the current positions,
+  // so their columns, counted from opposite ends, sum to less than the width.
+  let bestCost = Infinity
+  let bestFirst: FrontierPair | undefined
+  let bestSecond: FrontierPair | undefined
+  for (const [offset, firstPair] of first.pairsByOffset) {
+    const secondPair = second.pairsByOffset.get(-offset)
+    if (secondPair && firstPair.cost + secondPair.cost < bestCost) {
+      bestCost = firstPair.cost + secondPair.cost
+      bestFirst = firstPair
+      bestSecond = secondPair
+    }
+  }
+  if (isEndFree) {
+    const cost = first.costs[width]! + second.costs[0]!
+    if (cost < bestCost) {
+      bestCost = cost
+      bestFirst = first.pairAt(width)
+      bestSecond = second.pairAt(0)
+    }
+  }
+  for (let split = 0; split <= width; split++) {
+    const cost =
+      first.costs[split]! + second.costs[width - split]! + costs.offsetChange
+    if (cost < bestCost) {
+      bestCost = cost
+      bestFirst = first.pairAt(split)
+      bestSecond = second.pairAt(width - split)
+    }
+  }
+  return { first: bestFirst!, second: bestSecond! }
+}
+
+/**
+ * Whether the cheapest alignment in the band is the cheapest of all: the band
+ * covers every pair, or the alignment costs no more than any alignment with a
+ * pair outside the band could.
+ */
+const isProvenCheapest = (
+  base: ArrayLike<number>,
+  current: ArrayLike<number>,
+  pairs: Int32Array,
+  { lowestDiagonal, highestDiagonal }: Band,
+  costs: Costs,
+): boolean => {
+  if (lowestDiagonal <= -base.length && highestDiagonal >= current.length) {
+    return true
+  }
+  // An alignment with a pair outside the band leaves more positions unpaired
+  // than the band's width allows, each costing at least UNPAIRED_COST.
+  const outsideCost = UNPAIRED_COST * (highestDiagonal - lowestDiagonal + 1)
+  return alignmentCost(base, current, pairs, costs) <= outsideCost
+}
+
+/** The cost {@link alignPositions} minimizes, of the given pairs. */
+const alignmentCost = (
+  base: ArrayLike<number>,
+  current: ArrayLike<number>,
+  pairs: Int32Array,
+  costs: Costs,
+): number => {
+  let paired = 0
+  let offsetsCost = 0
+  let offsetChanges = 0
+  let previousOffset = 0
+  for (let index = 0; index < pairs.length; index++) {
+    const pair = pairs[index]!
+    if (pair === -1) {
+      continue
+    }
+    paired++
+    const offset = current[pair]! - base[index]!
+    offsetsCost += costs.offset * Math.abs(offset)
+    if (offset !== previousOffset) {
+      offsetChanges++
+    }
+    previousOffset = offset
+  }
+  return (
+    UNPAIRED_COST * (base.length + current.length - 2 * paired) +
+    costs.offsetChange * offsetChanges +
+    offsetsCost
+  )
 }

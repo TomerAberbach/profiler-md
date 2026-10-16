@@ -1,21 +1,15 @@
 import { ByteBuffer } from '../../helpers/testing.ts'
 
-/** Basic types a field or array element can have. */
-export const HPROF_OBJECT = 2
-const HPROF_BOOLEAN = 4
-const HPROF_CHAR = 5
-const HPROF_FLOAT = 6
-const HPROF_DOUBLE = 7
-export const HPROF_BYTE = 8
-const HPROF_SHORT = 9
-export const HPROF_INT = 10
-const HPROF_LONG = 11
-
-/** Root sub-record tags. */
-export const HPROF_ROOT_JNI_GLOBAL = 0x01
-export const HPROF_ROOT_JAVA_FRAME = 0x03
-export const HPROF_ROOT_STICKY_CLASS = 0x05
-const HPROF_ROOT_THREAD_OBJECT = 0x08
+export type HprofDump = {
+  header?: string
+  idSize?: number
+  segmented?: boolean
+  classes?: HprofClass[]
+  instances?: HprofInstance[]
+  objectArrays?: HprofObjectArray[]
+  primitiveArrays?: HprofPrimitiveArray[]
+  roots?: HprofRoot[]
+}
 
 /** A class, written as both a load-class record and a class dump. */
 type HprofClass = {
@@ -56,16 +50,22 @@ type HprofPrimitiveArray = {
 
 type HprofRoot = { id: number; tag: number }
 
-export type HprofDump = {
-  header?: string
-  idSize?: number
-  segmented?: boolean
-  classes?: HprofClass[]
-  instances?: HprofInstance[]
-  objectArrays?: HprofObjectArray[]
-  primitiveArrays?: HprofPrimitiveArray[]
-  roots?: HprofRoot[]
-}
+/** Basic types a field or array element can have. */
+export const HPROF_OBJECT = 2
+const HPROF_BOOLEAN = 4
+const HPROF_CHAR = 5
+const HPROF_FLOAT = 6
+const HPROF_DOUBLE = 7
+export const HPROF_BYTE = 8
+const HPROF_SHORT = 9
+export const HPROF_INT = 10
+const HPROF_LONG = 11
+
+/** Root sub-record tags. */
+export const HPROF_ROOT_JNI_GLOBAL = 0x01
+export const HPROF_ROOT_JAVA_FRAME = 0x03
+export const HPROF_ROOT_STICKY_CLASS = 0x05
+const HPROF_ROOT_THREAD_OBJECT = 0x08
 
 export const makeHprof = ({
   header = `JAVA PROFILE 1.0.2`,
@@ -223,52 +223,6 @@ export const makeHprof = ({
   return writer.bytes
 }
 
-const HPROF_UTF8 = 0x01
-const HPROF_LOAD_CLASS = 0x02
-const HPROF_HEAP_DUMP = 0x0c
-const HPROF_HEAP_DUMP_SEGMENT = 0x1c
-const HPROF_HEAP_DUMP_END = 0x2c
-
-const HPROF_CLASS_DUMP = 0x20
-const HPROF_INSTANCE_DUMP = 0x21
-const HPROF_OBJECT_ARRAY_DUMP = 0x22
-const HPROF_PRIMITIVE_ARRAY_DUMP = 0x23
-
-const typeSize = (type: number, idSize: number): number =>
-  type === HPROF_OBJECT ? idSize : (TYPE_SIZES.get(type) ?? 0)
-
-const TYPE_SIZES: ReadonlyMap<number, number> = new Map([
-  [HPROF_BOOLEAN, 1],
-  [HPROF_CHAR, 2],
-  [HPROF_FLOAT, 4],
-  [HPROF_DOUBLE, 8],
-  [HPROF_BYTE, 1],
-  [HPROF_SHORT, 2],
-  [HPROF_INT, 4],
-  [HPROF_LONG, 8],
-])
-
-/** Assigns each distinct name a string ID, in first-use order. */
-class StringTable {
-  readonly #idsByName = new Map<string, number>()
-
-  public idOf(name: string): number {
-    let id = this.#idsByName.get(name)
-    if (id === undefined) {
-      id = STRING_ID_BASE + this.#idsByName.size
-      this.#idsByName.set(name, id)
-    }
-    return id
-  }
-
-  public entries(): Iterable<[string, number]> {
-    return this.#idsByName
-  }
-}
-
-/** Where string IDs start, clear of the object IDs a test writes. */
-const STRING_ID_BASE = 1
-
 /** Writes a dump's big-endian records. */
 class ByteWriter {
   readonly #idSize: number
@@ -345,3 +299,49 @@ class ByteWriter {
     this.raw(body.bytes)
   }
 }
+
+const typeSize = (type: number, idSize: number): number =>
+  type === HPROF_OBJECT ? idSize : (TYPE_SIZES.get(type) ?? 0)
+
+const TYPE_SIZES: ReadonlyMap<number, number> = new Map([
+  [HPROF_BOOLEAN, 1],
+  [HPROF_CHAR, 2],
+  [HPROF_FLOAT, 4],
+  [HPROF_DOUBLE, 8],
+  [HPROF_BYTE, 1],
+  [HPROF_SHORT, 2],
+  [HPROF_INT, 4],
+  [HPROF_LONG, 8],
+])
+
+/** Assigns each distinct name a string ID, in first-use order. */
+class StringTable {
+  readonly #idsByName = new Map<string, number>()
+
+  public idOf(name: string): number {
+    let id = this.#idsByName.get(name)
+    if (id === undefined) {
+      id = STRING_ID_BASE + this.#idsByName.size
+      this.#idsByName.set(name, id)
+    }
+    return id
+  }
+
+  public entries(): Iterable<[string, number]> {
+    return this.#idsByName
+  }
+}
+
+/** Where string IDs start, clear of the object IDs a test writes. */
+const STRING_ID_BASE = 1
+
+const HPROF_UTF8 = 0x01
+const HPROF_LOAD_CLASS = 0x02
+const HPROF_HEAP_DUMP = 0x0c
+const HPROF_HEAP_DUMP_SEGMENT = 0x1c
+const HPROF_HEAP_DUMP_END = 0x2c
+
+const HPROF_CLASS_DUMP = 0x20
+const HPROF_INSTANCE_DUMP = 0x21
+const HPROF_OBJECT_ARRAY_DUMP = 0x22
+const HPROF_PRIMITIVE_ARRAY_DUMP = 0x23

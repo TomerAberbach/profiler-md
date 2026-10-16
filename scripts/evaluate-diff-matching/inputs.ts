@@ -12,15 +12,23 @@ import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 
 const INPUT_DIRECTORY = `examples/input`
 
+export type Func = FunctionInput[`functions`][number]
+
 /** An input of a modality whose diff pairs functions. */
 export type FunctionInput = AggregatedCallStackProfile | AggregatedCallGraph
-
-export type Func = FunctionInput[`functions`][number]
 
 export const committedPairs = (filter?: string): ExampleDiffPair[] =>
   exampleDiffPairs(readdirSync(INPUT_DIRECTORY))
     .filter(({ base }) => !filter || base.includes(filter))
     .sort((left, right) => left.base.localeCompare(right.base))
+
+export type ScoredInputPair =
+  | { type: `function`; base: FunctionInput; current: FunctionInput }
+  | {
+      type: `heap-snapshot`
+      base: AggregatedHeapSnapshot
+      current: AggregatedHeapSnapshot
+    }
 
 /**
  * The aggregated inputs of an example pair whose sides a diff can pair entities
@@ -47,14 +55,6 @@ export const scoredInputPairs = (
     },
   )
 }
-
-export type ScoredInputPair =
-  | { type: `function`; base: FunctionInput; current: FunctionInput }
-  | {
-      type: `heap-snapshot`
-      base: AggregatedHeapSnapshot
-      current: AggregatedHeapSnapshot
-    }
 
 /**
  * The input's entities with a location: its functions, and a heap snapshot's

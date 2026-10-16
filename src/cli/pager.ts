@@ -5,19 +5,6 @@ import type { NormalizedLogger } from '../logger.ts'
 import { isClosedReaderError } from './error.ts'
 import type { Output } from './output.ts'
 
-export const DEFAULT_PAGER = `less`
-
-/**
- * Default `less` flags, overridable via the user's `LESS`:
- * - `F`: Quit if output fits one screen
- * - `I`: Ignore case in searches
- * - `R`: Pass through ANSI colors
- * - `S`: Chop long lines instead of wrapping
- * - `X`: Don't clear the screen on exit
- * - `-#6`: Scroll horizontally 6 columns at a time
- */
-export const DEFAULT_LESS = `FIRSX -#6`
-
 /**
  * Opens the user's pager, or `less`. Returns `null` when an empty `PAGER` opts
  * out of paging or no pager spawns.
@@ -76,33 +63,17 @@ const spawnPager = async (
 }
 
 /**
- * Writes the text to the pager and resolves to its exit status once it quits,
- * or `null` when a signal killed it.
- *
- * A terminal's Ctrl-C signals this process and the pager together. The pager
- * handles its own interrupt and keeps running, so exiting here would orphan
- * it on the terminal. This process ignores SIGINT while the pager runs, as
- * git does, so quitting the pager ends the run instead.
+ * Default `less` flags, overridable via the user's `LESS`:
+ * - `F`: Quit if output fits one screen
+ * - `I`: Ignore case in searches
+ * - `R`: Pass through ANSI colors
+ * - `S`: Chop long lines instead of wrapping
+ * - `X`: Don't clear the screen on exit
+ * - `-#6`: Scroll horizontally 6 columns at a time
  */
-const page = async (
-  child: PagerProcess,
-  text: string,
-): Promise<number | null> => {
-  process.on(`SIGINT`, ignoreSignal)
-  try {
-    // The pager can exit before the write settles, so listen for its exit
-    // before writing or the `exit` event is missed.
-    const [exitCode] = await Promise.all([
-      waitForExit(child),
-      writeStdin(child, text),
-    ])
-    return exitCode
-  } finally {
-    process.off(`SIGINT`, ignoreSignal)
-  }
-}
+export const DEFAULT_LESS = `FIRSX -#6`
 
-const ignoreSignal = () => {}
+export const DEFAULT_PAGER = `less`
 
 const trySpawn = (
   command: string,
@@ -131,6 +102,41 @@ const trySpawn = (
   })
 }
 
+/**
+ * Writes the text to the pager and resolves to its exit status once it quits,
+ * or `null` when a signal killed it.
+ *
+ * A terminal's Ctrl-C signals this process and the pager together. The pager
+ * handles its own interrupt and keeps running, so exiting here would orphan
+ * it on the terminal. This process ignores SIGINT while the pager runs, as
+ * git does, so quitting the pager ends the run instead.
+ */
+const page = async (
+  child: PagerProcess,
+  text: string,
+): Promise<number | null> => {
+  process.on(`SIGINT`, ignoreSignal)
+  try {
+    // The pager can exit before the write settles, so listen for its exit
+    // before writing or the `exit` event is missed.
+    const [exitCode] = await Promise.all([
+      waitForExit(child),
+      writeStdin(child, text),
+    ])
+    return exitCode
+  } finally {
+    process.off(`SIGINT`, ignoreSignal)
+  }
+}
+
+const ignoreSignal = () => {}
+
+const waitForExit = (child: PagerProcess): Promise<number | null> =>
+  new Promise((resolve, reject) => {
+    child.once(`exit`, code => resolve(code))
+    child.once(`error`, reject)
+  })
+
 const writeStdin = (child: PagerProcess, text: string): Promise<void> =>
   new Promise((resolve, reject) => {
     const finish = (error?: NodeJS.ErrnoException | null) => {
@@ -148,10 +154,4 @@ const writeStdin = (child: PagerProcess, text: string): Promise<void> =>
     child.stdin.write(text, error =>
       error ? finish(error) : child.stdin.end(finish),
     )
-  })
-
-const waitForExit = (child: PagerProcess): Promise<number | null> =>
-  new Promise((resolve, reject) => {
-    child.once(`exit`, code => resolve(code))
-    child.once(`error`, reject)
   })

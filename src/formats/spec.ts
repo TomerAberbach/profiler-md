@@ -1,6 +1,28 @@
 import type { LanguageId } from '../cli/languages.ts'
 import type { ParsedInput } from '../modalities/registry.ts'
 
+export type FormatSpec = JsonFormatSpec | BinaryFormatSpec
+
+export type JsonFormatSpec = FormatMeta &
+  Detect<unknown> & { type: `json` } & Parse<unknown>
+
+export type BinaryFormatSpec = FormatMeta &
+  Detect<Uint8Array> & {
+    type: `binary`
+
+    /**
+     * Parses a byte stream, the streaming analogue of {@link Parse.parse}.
+     *
+     * Formats that can stream (e.g. line-based text) should consume the stream
+     * incrementally; formats whose parser needs all bytes at once can buffer
+     * the stream and delegate.
+     */
+    parseAsync: (
+      stream: ReadableStream<Uint8Array>,
+      recordTally: RecordTally,
+    ) => Promise<ParsedInput[]>
+  } & Parse<Uint8Array>
+
 type FormatMeta = {
   /**
    * The format's ID: the `--format` value and `--help` topic that select it.
@@ -32,21 +54,19 @@ type FormatMeta = {
 }
 
 /**
- * Records why a parse used only part of its input, so the pipeline warns about
- * the partial result, or rejects an input that produced no records.
+ * Returns whether the input should be auto-detected as this format.
+ *
+ * Skipped when the user forces a format.
+ *
+ * It must be **cheap**. Because it's detection-only, it need not agree exactly
+ * with what {@link Parse.parse} accepts. It may be a loose prefilter that
+ * admits a few non-instances when the real check is expensive (`parse`
+ * re-validates and throws, so detection moves on), or stricter than `parse` to
+ * keep ambiguous input (e.g. text a user could force) from being auto-detected
+ * as this format.
  */
-export type RecordTally = {
-  /**
-   * Records that the parser skipped `count` records of `unit` (e.g. `sample`)
-   * for `reason`, a participle phrase (e.g. `referencing a missing node`).
-   */
-  skipped: (unit: string, reason: string, count?: number) => void
-
-  /**
-   * Records that the input ends before `missing` (e.g.
-   * `the end-of-data marker`), which a complete input contains.
-   */
-  endsBefore: (missing: string) => void
+export type Detect<Input> = {
+  matches: (input: Input) => boolean
 }
 
 /**
@@ -66,39 +86,19 @@ export type Parse<Input> = {
 }
 
 /**
- * Returns whether the input should be auto-detected as this format.
- *
- * Skipped when the user forces a format.
- *
- * It must be **cheap**. Because it's detection-only, it need not agree exactly
- * with what {@link Parse.parse} accepts. It may be a loose prefilter that
- * admits a few non-instances when the real check is expensive (`parse`
- * re-validates and throws, so detection moves on), or stricter than `parse` to
- * keep ambiguous input (e.g. text a user could force) from being auto-detected
- * as this format.
+ * Records why a parse used only part of its input, so the pipeline warns about
+ * the partial result, or rejects an input that produced no records.
  */
-export type Detect<Input> = {
-  matches: (input: Input) => boolean
+export type RecordTally = {
+  /**
+   * Records that the parser skipped `count` records of `unit` (e.g. `sample`)
+   * for `reason`, a participle phrase (e.g. `referencing a missing node`).
+   */
+  skipped: (unit: string, reason: string, count?: number) => void
+
+  /**
+   * Records that the input ends before `missing` (e.g.
+   * `the end-of-data marker`), which a complete input contains.
+   */
+  endsBefore: (missing: string) => void
 }
-
-export type JsonFormatSpec = FormatMeta &
-  Detect<unknown> & { type: `json` } & Parse<unknown>
-
-export type BinaryFormatSpec = FormatMeta &
-  Detect<Uint8Array> & {
-    type: `binary`
-
-    /**
-     * Parses a byte stream, the streaming analogue of {@link Parse.parse}.
-     *
-     * Formats that can stream (e.g. line-based text) should consume the stream
-     * incrementally; formats whose parser needs all bytes at once can buffer
-     * the stream and delegate.
-     */
-    parseAsync: (
-      stream: ReadableStream<Uint8Array>,
-      recordTally: RecordTally,
-    ) => Promise<ParsedInput[]>
-  } & Parse<Uint8Array>
-
-export type FormatSpec = JsonFormatSpec | BinaryFormatSpec

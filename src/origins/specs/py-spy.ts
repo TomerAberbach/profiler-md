@@ -34,13 +34,6 @@ export const pySpyOriginSpec = {
 } as const satisfies OriginSpec
 
 /**
- * A py-spy `function (file:line)` frame, e.g. `parse (black/parsing.py:42)`. The
- * `func` and `file` are greedy so a name or path containing spaces or
- * parentheses stays intact, anchored by the trailing `:line)`.
- */
-const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
-
-/**
  * Drops the executing line 0 py-spy writes for a `--native` frame with no line
  * information. The collapsed export omits the line, and the speedscope export
  * writes the 0.
@@ -68,6 +61,15 @@ const normalizePackedStackFrame = (input: StackFrame): StackFrame =>
   normalizeLinelessStackFrame(normalizeLinedStackFrame(input))
 
 /**
+ * A py-spy `function (file:line)` frame, e.g. `parse (black/parsing.py:42)`. The
+ * `func` and `file` are greedy so a name or path containing spaces or
+ * parentheses stays intact, anchored by the trailing `:line)`.
+ */
+const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
+
+const normalizeLinedStackFrame = packedLocationNormalizer(FRAME)
+
+/**
  * The `function (file)` shape py-spy writes when the line is its placeholder
  * 0: a `--native` frame it symbolicated to a module or source file with no
  * line, e.g. `PyObject_Call (/usr/lib/libpython3.12.so.1.0)`, or one it could
@@ -76,5 +78,3 @@ const normalizePackedStackFrame = (input: StackFrame): StackFrame =>
 const LINELESS_FRAME = /^(?<func>.+) \((?<file>.+)\)$/u
 
 const normalizeLinelessStackFrame = packedLocationNormalizer(LINELESS_FRAME)
-
-const normalizeLinedStackFrame = packedLocationNormalizer(FRAME)

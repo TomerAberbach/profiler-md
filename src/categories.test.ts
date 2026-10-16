@@ -25,35 +25,6 @@ const UNEMITTED_CATEGORIES: ReadonlyMap<string, string> = new Map([
   ],
 ])
 
-const OUTPUT_DIRECTORY = `examples/output`
-
-/** A row of an emitted `| Category | … |` table, which every modality writes. */
-const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
-
-/** The categories {@link output} emits, by their displayed name. */
-const emittedCategories = (output: string): string[] => {
-  const categories: string[] = []
-  let inCategoryTable = false
-  for (const line of output.split(`\n`)) {
-    if (line.startsWith(`| Category`)) {
-      inCategoryTable = true
-      continue
-    }
-    if (!inCategoryTable) {
-      continue
-    }
-    if (!line.startsWith(`|`)) {
-      inCategoryTable = false
-      continue
-    }
-    const category = CATEGORY_ROW.exec(line)?.groups!.category
-    if (category !== undefined && category !== `-`) {
-      categories.push(category)
-    }
-  }
-  return categories
-}
-
 /**
  * The categories the committed examples emit, by modality.
  *
@@ -84,6 +55,35 @@ const emittedCategoriesByModality = (): Map<string, Map<string, string>> => {
   }
   return modalityToCategoryToFilename
 }
+
+const OUTPUT_DIRECTORY = `examples/output`
+
+/** The categories {@link output} emits, by their displayed name. */
+const emittedCategories = (output: string): string[] => {
+  const categories: string[] = []
+  let inCategoryTable = false
+  for (const line of output.split(`\n`)) {
+    if (line.startsWith(`| Category`)) {
+      inCategoryTable = true
+      continue
+    }
+    if (!inCategoryTable) {
+      continue
+    }
+    if (!line.startsWith(`|`)) {
+      inCategoryTable = false
+      continue
+    }
+    const category = CATEGORY_ROW.exec(line)?.groups!.category
+    if (category !== undefined && category !== `-`) {
+      categories.push(category)
+    }
+  }
+  return categories
+}
+
+/** A row of an emitted `| Category | … |` table, which every modality writes. */
+const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
 
 describe.each(
   CATEGORY_SETS.map(({ noun, categories }) => [noun, categories] as const),

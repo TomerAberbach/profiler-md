@@ -113,88 +113,6 @@ export const buildOptions = async ({
   }
 }
 
-const loadSourceMaps = async (
-  patterns: readonly string[],
-  logger: Logger,
-): Promise<SourceMap[]> => {
-  const paths = (
-    await Promise.all(
-      patterns.map(async pattern => {
-        const matched = await Array.fromAsync(glob(pattern))
-        if (matched.length === 0) {
-          logger.warn?.(`--source-maps matched no file, got: ${pattern}`)
-        }
-        return matched
-      }),
-    )
-  ).flat()
-
-  return Promise.all(
-    paths.map(async path => {
-      let content
-      try {
-        content = await readFile(path, `utf8`)
-      } catch (error) {
-        throw new CliError(`cannot read source map ${path}`, 1, {
-          cause: error,
-        })
-      }
-
-      try {
-        return parseSourceMap(content, path, logger)
-      } catch (error) {
-        throw new CliError(`cannot parse source map ${path}`, 1, {
-          cause: error,
-        })
-      }
-    }),
-  )
-}
-
-const parseSourceMap = (
-  content: string,
-  path: string,
-  logger: Logger,
-): SourceMap => {
-  const inlineSourceMap = convertSourceMap.fromSource(content)?.toObject() as
-    SourceMap | undefined
-  let sourceMap: SourceMap
-  if (inlineSourceMap) {
-    // Default `file` to the containing file, so the map matches profile
-    // locations that reference that file.
-    inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
-    sourceMap = resolveSourceMapSources(inlineSourceMap, path)
-  } else {
-    sourceMap = resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
-  }
-  logger.debug?.(
-    `loaded ${inlineSourceMap ? `inline` : `JSON`} source map from ${path} for generated file ${sourceMap.file ?? `<none>`} with ${sourceMap.sources.length} sources`,
-  )
-  return sourceMap
-}
-
-/**
- * Pre-resolves relative source paths against the map file's directory so that
- * `source-map-js` returns absolute URLs.
- */
-const resolveSourceMapSources = (
-  sourceMap: SourceMap,
-  path: string,
-): SourceMap => {
-  if (sourceMap.sourceRoot) {
-    return sourceMap
-  }
-
-  return {
-    ...sourceMap,
-    sources: sourceMap.sources.map(source =>
-      makeFileReference(source)?.type === `absolute`
-        ? source
-        : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
-    ),
-  }
-}
-
 /**
  * An option built from regex flag rules, with `warnUnmatched` to call once the
  * conversion finishes.
@@ -257,35 +175,6 @@ const buildMatchEntry = (
     },
     warnUnmatched,
   }
-}
-
-const warnIgnoredWithoutDiff = (
-  flagRules: FlagRules<RegexReplacement>,
-  logger: Logger,
-): void => {
-  if (flagRules.rules.length > 0) {
-    logger.warn?.(
-      `${flagRules.flag} ignored because it pairs entries only across a diff\n  hint: pass a CURRENT profile to diff against`,
-    )
-  }
-}
-
-const applyReplacements = (
-  value: string | undefined,
-  flagRules: FlagRules<RegexReplacement>,
-): string | undefined => {
-  if (value === undefined) {
-    return undefined
-  }
-  for (const rule of flagRules.rules) {
-    const [regex, replacement] = rule
-    // `search` ignores the global regex's `lastIndex`, which `test` advances.
-    if (flagRules.wouldRecordMatch(rule) && value.search(regex) !== -1) {
-      flagRules.recordMatch(rule)
-    }
-    value = value.replace(regex, replacement)
-  }
-  return value
 }
 
 const buildCategorizeFunctions = (
@@ -424,6 +313,35 @@ const trackFlagRules = <Rule>(
   }
 }
 
+const warnIgnoredWithoutDiff = (
+  flagRules: FlagRules<RegexReplacement>,
+  logger: Logger,
+): void => {
+  if (flagRules.rules.length > 0) {
+    logger.warn?.(
+      `${flagRules.flag} ignored because it pairs entries only across a diff\n  hint: pass a CURRENT profile to diff against`,
+    )
+  }
+}
+
+const applyReplacements = (
+  value: string | undefined,
+  flagRules: FlagRules<RegexReplacement>,
+): string | undefined => {
+  if (value === undefined) {
+    return undefined
+  }
+  for (const rule of flagRules.rules) {
+    const [regex, replacement] = rule
+    // `search` ignores the global regex's `lastIndex`, which `test` advances.
+    if (flagRules.wouldRecordMatch(rule) && value.search(regex) !== -1) {
+      flagRules.recordMatch(rule)
+    }
+    value = value.replace(regex, replacement)
+  }
+  return value
+}
+
 const formatRegex = (regex: RegExp): string => regex.source
 
 /**
@@ -466,3 +384,85 @@ const matchesEntry = (
   (location !== undefined &&
     (regex.test(sourceReferenceId(location)) ||
       regex.test(sourceReferencePathOrName(location))))
+
+const loadSourceMaps = async (
+  patterns: readonly string[],
+  logger: Logger,
+): Promise<SourceMap[]> => {
+  const paths = (
+    await Promise.all(
+      patterns.map(async pattern => {
+        const matched = await Array.fromAsync(glob(pattern))
+        if (matched.length === 0) {
+          logger.warn?.(`--source-maps matched no file, got: ${pattern}`)
+        }
+        return matched
+      }),
+    )
+  ).flat()
+
+  return Promise.all(
+    paths.map(async path => {
+      let content
+      try {
+        content = await readFile(path, `utf8`)
+      } catch (error) {
+        throw new CliError(`cannot read source map ${path}`, 1, {
+          cause: error,
+        })
+      }
+
+      try {
+        return parseSourceMap(content, path, logger)
+      } catch (error) {
+        throw new CliError(`cannot parse source map ${path}`, 1, {
+          cause: error,
+        })
+      }
+    }),
+  )
+}
+
+const parseSourceMap = (
+  content: string,
+  path: string,
+  logger: Logger,
+): SourceMap => {
+  const inlineSourceMap = convertSourceMap.fromSource(content)?.toObject() as
+    SourceMap | undefined
+  let sourceMap: SourceMap
+  if (inlineSourceMap) {
+    // Default `file` to the containing file, so the map matches profile
+    // locations that reference that file.
+    inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
+    sourceMap = resolveSourceMapSources(inlineSourceMap, path)
+  } else {
+    sourceMap = resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
+  }
+  logger.debug?.(
+    `loaded ${inlineSourceMap ? `inline` : `JSON`} source map from ${path} for generated file ${sourceMap.file ?? `<none>`} with ${sourceMap.sources.length} sources`,
+  )
+  return sourceMap
+}
+
+/**
+ * Pre-resolves relative source paths against the map file's directory so that
+ * `source-map-js` returns absolute URLs.
+ */
+const resolveSourceMapSources = (
+  sourceMap: SourceMap,
+  path: string,
+): SourceMap => {
+  if (sourceMap.sourceRoot) {
+    return sourceMap
+  }
+
+  return {
+    ...sourceMap,
+    sources: sourceMap.sources.map(source =>
+      makeFileReference(source)?.type === `absolute`
+        ? source
+        : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
+    ),
+  }
+}

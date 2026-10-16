@@ -129,21 +129,6 @@ const main = (): void => {
   }
 }
 
-type GroupTables<Groups extends string> = Record<
-  `${`same code` | `version change` | `synthetic edits`}, ${Groups}`,
-  { rows: Map<string, Evaluation>; entities: string }
->
-
-/** A kind of retainer group's tables, one per kind of ground truth. */
-const groupTables = <Groups extends string>(
-  groups: Groups,
-): GroupTables<Groups> =>
-  ({
-    [`same code, ${groups}`]: { rows: new Map(), entities: `groups` },
-    [`version change, ${groups}`]: { rows: new Map(), entities: `groups` },
-    [`synthetic edits, ${groups}`]: { rows: new Map(), entities: `groups` },
-  }) as GroupTables<Groups>
-
 /**
  * Scores each example pair under the kinds of ground truth that apply to it,
  * and returns the evaluations keyed by kind, then by row, with the entities
@@ -266,5 +251,20 @@ const scoreCommittedPairs = (
   }
   return tables
 }
+
+type GroupTables<Groups extends string> = Record<
+  `${`same code` | `version change` | `synthetic edits`}, ${Groups}`,
+  { rows: Map<string, Evaluation>; entities: string }
+>
+
+/** A kind of retainer group's tables, one per kind of ground truth. */
+const groupTables = <Groups extends string>(
+  groups: Groups,
+): GroupTables<Groups> =>
+  ({
+    [`same code, ${groups}`]: { rows: new Map(), entities: `groups` },
+    [`version change, ${groups}`]: { rows: new Map(), entities: `groups` },
+    [`synthetic edits, ${groups}`]: { rows: new Map(), entities: `groups` },
+  }) as GroupTables<Groups>
 
 main()

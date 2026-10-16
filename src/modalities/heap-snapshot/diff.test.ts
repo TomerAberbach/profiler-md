@@ -479,8 +479,6 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   })
 })
 
-const SEVERAL_RETAINERS: RetainerPathEdge = { type: `several-retainers` }
-
 /** A step through the property {@link name} of a retainer. */
 const propertyStep = (
   name: string,
@@ -727,6 +725,8 @@ describe(`formatHeapSnapshotDiff instances`, () => {
     ])
   })
 })
+
+const SEVERAL_RETAINERS: RetainerPathEdge = { type: `several-retainers` }
 
 describe(`formatHeapSnapshotDiff retained nodes`, () => {
   type RetainedNode = {

@@ -47,6 +47,8 @@ export const maybeJsonAsync = async (data: Blob): Promise<boolean> =>
     new Uint8Array(await data.slice(0, MAYBE_JSON_PREFIX_LENGTH).arrayBuffer()),
   )
 
+const MAYBE_JSON_PREFIX_LENGTH = 1024
+
 /**
  * Whether the input opens a JSON object or array, the only shapes a profile in
  * JSON takes.
@@ -87,6 +89,8 @@ export const startsJsonDocumentAsync = async (data: Blob): Promise<boolean> =>
     ),
   )
 
+const START_JSON_DOCUMENT_PREFIX_LENGTH = 16
+
 // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include one
 const byteOrderMarkLength = (data: string | Uint8Array): number =>
   typeof data !== `string` &&
@@ -95,7 +99,3 @@ const byteOrderMarkLength = (data: string | Uint8Array): number =>
   data[2] === 0xbf
     ? 3
     : 0
-
-const START_JSON_DOCUMENT_PREFIX_LENGTH = 16
-
-const MAYBE_JSON_PREFIX_LENGTH = 1024

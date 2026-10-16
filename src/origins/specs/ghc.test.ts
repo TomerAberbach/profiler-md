@@ -3,14 +3,6 @@ import type { ProfileEntry } from '../../options.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { ghcOriginSpec } from './ghc.ts'
 
-const located = (name: string, path: string): ProfileEntry => ({
-  id: 1,
-  name,
-  location: { type: `relative`, path },
-})
-
-const named = (name: string): ProfileEntry => ({ id: 1, name })
-
 describe(`detection`, () => {
   test.each([`ghc-eventlog`, `ghc-json-profile`] as const)(
     `the runtime's own %s format resolves to GHC`,
@@ -33,6 +25,14 @@ describe(`detection`, () => {
     ).toBe(`unknown`)
   })
 })
+
+const located = (name: string, path: string): ProfileEntry => ({
+  id: 1,
+  name,
+  location: { type: `relative`, path },
+})
+
+const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = ghcOriginSpec

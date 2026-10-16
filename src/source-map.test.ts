@@ -13,30 +13,6 @@ import { resolveProfileToMdOptions } from './options.ts'
 import type { SourceMap } from './source-map.ts'
 import { expectLogs } from './testing.ts'
 
-const L1_C0_TO_SOURCE_0_L1_C0 = `AAAA`
-
-const makeSourceMap = (sourceMap: Partial<SourceMap> = {}): SourceMap => ({
-  version: `3`,
-  sources: [],
-  names: [],
-  mappings: ``,
-  ...sourceMap,
-})
-
-const makeNormalizedOptions = ({
-  baseURL = `/`,
-  sourceMaps,
-}: Pick<
-  ProfileToMdOptions,
-  `sourceMaps` | `baseURL`
->): FormattingProfileToMdOptions =>
-  resolveProfileToMdOptions({ baseURL, sourceMaps })
-
-const resolveLocation = (
-  location: SourceLocation,
-  { baseURL, sourceMaps }: FormattingProfileToMdOptions,
-): SourceLocation => sourceMaps.resolve(location, baseURL)
-
 const LOCATION = {
   type: `absolute`,
   url: new URL(`file:///project/dist/app.js`),
@@ -51,12 +27,36 @@ const MAPPED_LOCATION = {
   column: 1,
 } as const
 
+const resolveLocation = (
+  location: SourceLocation,
+  { baseURL, sourceMaps }: FormattingProfileToMdOptions,
+): SourceLocation => sourceMaps.resolve(location, baseURL)
+
 const mapping = (sourceMap: Partial<SourceMap> = {}): SourceMap =>
   makeSourceMap({
     sources: [`/project/src/original.ts`],
     mappings: L1_C0_TO_SOURCE_0_L1_C0,
     ...sourceMap,
   })
+
+const makeSourceMap = (sourceMap: Partial<SourceMap> = {}): SourceMap => ({
+  version: `3`,
+  sources: [],
+  names: [],
+  mappings: ``,
+  ...sourceMap,
+})
+
+const L1_C0_TO_SOURCE_0_L1_C0 = `AAAA`
+
+const makeNormalizedOptions = ({
+  baseURL = `/`,
+  sourceMaps,
+}: Pick<
+  ProfileToMdOptions,
+  `sourceMaps` | `baseURL`
+>): FormattingProfileToMdOptions =>
+  resolveProfileToMdOptions({ baseURL, sourceMaps })
 
 test(`sourceMaps drops and warns about a list entry with no file field`, () => {
   const mappedLocation = resolveLocation(

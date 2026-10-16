@@ -30,6 +30,11 @@ const HIDDEN_CLASS_ADDRESS_REGEX = /(?<=[\w$])[.+]0x[0-9a-fA-F]+(?![\w$])/gu
  */
 const ADAPTER_ADDRESS_REGEX = /(?<kept>I2C\/C2I adapters)\(0x[0-9a-fA-F]+\)/gu
 
+const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
+  [HIDDEN_CLASS_ADDRESS_REGEX, ``],
+  [ADAPTER_ADDRESS_REGEX, `$<kept>`],
+]
+
 /**
  * The random ID in the file name jansi extracts its native library to
  * (`jansi-2.4.0-a2f0bf3ff9fce776-libjansi.jnilib`), which is
@@ -37,11 +42,6 @@ const ADAPTER_ADDRESS_REGEX = /(?<kept>I2C\/C2I adapters)\(0x[0-9a-fA-F]+\)/gu
  */
 const JANSI_LIBRARY_ID_REGEX =
   /(?<kept>\bjansi-[^-/]+)-[0-9a-f]{1,16}(?=-[^/]*$)/u
-
-const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
-  [HIDDEN_CLASS_ADDRESS_REGEX, ``],
-  [ADAPTER_ADDRESS_REGEX, `$<kept>`],
-]
 
 export const jvmMatchEntry = matchEntryFromRules({
   // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`, or a
@@ -65,19 +65,19 @@ export const categorizeJvmEntry = (
   locationlessCategory(entry) ??
   `ours`
 
-/**
- * Whether a raw async-profiler frame name is in a JVM standard-library package,
- * before its `/`s become `.`s.
- */
-export const isJvmStdlibNameStackFrame = (name: string | undefined): boolean =>
-  name !== undefined && JVM_STDLIB_PACKAGE.test(name)
-
 const jvmStdlibCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && JVM_STDLIB_PACKAGE.test(sourceReferencePathOrName(location))
     ? `stdlib`
     : undefined
+
+/**
+ * Whether a raw async-profiler frame name is in a JVM standard-library package,
+ * before its `/`s become `.`s.
+ */
+export const isJvmStdlibNameStackFrame = (name: string | undefined): boolean =>
+  name !== undefined && JVM_STDLIB_PACKAGE.test(name)
 
 /**
  * JVM standard-library and JDK-internal package roots, in both spellings a
@@ -209,6 +209,26 @@ const UNRESOLVED_FRAME: ReadonlySet<string> = new Set([
 ])
 
 /**
+ * Categorizes native frames whose location is a bare module name without an
+ * extension (e.g. macOS's `CoreFoundation` framework or the `java` launcher
+ * binary) as `native`.
+ *
+ * A dot-less location alone could also be a default-package class, but JFR
+ * writes Java method names with their parenthesized signature (`main(String[])`)
+ * while native symbols are bare (`__CFRunLoopRun`), so a signature-less name
+ * disambiguates.
+ */
+const nativeModuleCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  location &&
+  !sourceReferencePathOrName(location).includes(`.`) &&
+  !(name ?? ``).includes(`(`)
+    ? `native`
+    : undefined
+
+/**
  * Whether a frame reports a native shared library as its location while its
  * name lacks a Java method's parenthesized signature. Only async-profiler's
  * own stack walker mixes such native frames into JFR or collapsed output; JFR
@@ -229,26 +249,6 @@ export const isNativeLibraryStackFrame = ({
   location !== undefined &&
   NATIVE_LIBRARY.test(sourceReferencePathOrName(location)) &&
   !(name ?? ``).includes(`(`)
-
-/**
- * Categorizes native frames whose location is a bare module name without an
- * extension (e.g. macOS's `CoreFoundation` framework or the `java` launcher
- * binary) as `native`.
- *
- * A dot-less location alone could also be a default-package class, but JFR
- * writes Java method names with their parenthesized signature (`main(String[])`)
- * while native symbols are bare (`__CFRunLoopRun`), so a signature-less name
- * disambiguates.
- */
-const nativeModuleCategory = ({
-  name,
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location &&
-  !sourceReferencePathOrName(location).includes(`.`) &&
-  !(name ?? ``).includes(`(`)
-    ? `native`
-    : undefined
 
 /**
  * The heap snapshot category of a constructor named {@link name} under the

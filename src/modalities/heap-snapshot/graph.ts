@@ -26,18 +26,6 @@ export type NodeAdjacencyGraph = {
 }
 
 /**
- * Prefix-sums per-node counts into CSR start offsets, with one extra trailing
- * entry holding the total.
- */
-export const computeStartOffsets = (ordinalToCount: Int32Array): Int32Array => {
-  const ordinalToStartOffset = new Int32Array(ordinalToCount.length + 1)
-  for (let i = 0; i < ordinalToCount.length; i++) {
-    ordinalToStartOffset[i + 1] = ordinalToStartOffset[i]! + ordinalToCount[i]!
-  }
-  return ordinalToStartOffset
-}
-
-/**
  * Builds a {@link NodeAdjacencyGraph} from successor lists already grouped by
  * the node holding each edge.
  *
@@ -89,6 +77,18 @@ export const nodeAdjacencyGraphFromSuccessors = (
     offsetToPredecessorOrdinal,
     offsetToPredecessorEdgeIndex,
   }
+}
+
+/**
+ * Prefix-sums per-node counts into CSR start offsets, with one extra trailing
+ * entry holding the total.
+ */
+export const computeStartOffsets = (ordinalToCount: Int32Array): Int32Array => {
+  const ordinalToStartOffset = new Int32Array(ordinalToCount.length + 1)
+  for (let i = 0; i < ordinalToCount.length; i++) {
+    ordinalToStartOffset[i + 1] = ordinalToStartOffset[i]! + ordinalToCount[i]!
+  }
+  return ordinalToStartOffset
 }
 
 /**

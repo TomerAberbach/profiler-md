@@ -83,25 +83,6 @@ const toMarkdown = (contents: RootContent[]): string =>
     contents.length > 0 ? contents : [paragraph(`No profiles were recorded.`)],
   )
 
-/** Resolves the formatting options for {@link inputs}. */
-const makeFormattingProfileToMdOptions = (
-  options: NormalizedProfileToMdOptions,
-  inputs: AggregatedInput[],
-): FormattingProfileToMdOptions => {
-  const sourceMaps = new SourceMapResolver(options.sourceMaps, options.logger)
-  const { baseURL } = options
-  if (baseURL !== `auto`) {
-    for (const { location } of locations(inputs)) {
-      sourceMaps.addGeneratedFile(location)
-    }
-    return { ...options, baseURL, sourceMaps }
-  }
-
-  const inference = inferBaseURL(inputs, sourceMaps)
-  logInferredBaseURL(inference, options)
-  return { ...options, baseURL: inference.inferred?.url, sourceMaps }
-}
-
 /**
  * Resolves the formatting options for the {@link base} and {@link current}
  * inputs of a diff.
@@ -155,20 +136,30 @@ const makeDiffFormattingProfileToMdOptions = (
   return { ...options, baseURL: shared.inferred?.url, sourceMaps }
 }
 
+/** Resolves the formatting options for {@link inputs}. */
+const makeFormattingProfileToMdOptions = (
+  options: NormalizedProfileToMdOptions,
+  inputs: AggregatedInput[],
+): FormattingProfileToMdOptions => {
+  const sourceMaps = new SourceMapResolver(options.sourceMaps, options.logger)
+  const { baseURL } = options
+  if (baseURL !== `auto`) {
+    for (const { location } of locations(inputs)) {
+      sourceMaps.addGeneratedFile(location)
+    }
+    return { ...options, baseURL, sourceMaps }
+  }
+
+  const inference = inferBaseURL(inputs, sourceMaps)
+  logInferredBaseURL(inference, options)
+  return { ...options, baseURL: inference.inferred?.url, sourceMaps }
+}
+
 type BaseURLInference = {
   inferred: { url: URL; urlCount: number } | undefined
   urls: URL[]
   hasDirectoryURL: boolean
 }
-
-const makeBaseURLInference = (
-  urls: URL[],
-  hasDirectoryURL: boolean,
-): BaseURLInference => ({
-  inferred: commonAncestorDirectoryURL(urls),
-  urls,
-  hasDirectoryURL,
-})
 
 const inferBaseURL = (
   inputs: AggregatedInput[],
@@ -190,6 +181,42 @@ const inferBaseURL = (
     }
   }
   return makeBaseURLInference(urls, hasDirectoryURL)
+}
+
+function* locations(inputs: AggregatedInput[]): Iterable<EntityLocation> {
+  for (const input of inputs) {
+    yield* modalitySpecOf(input).locations(input)
+  }
+}
+
+const makeBaseURLInference = (
+  urls: URL[],
+  hasDirectoryURL: boolean,
+): BaseURLInference => ({
+  inferred: commonAncestorDirectoryURL(urls),
+  urls,
+  hasDirectoryURL,
+})
+
+const logInferredBaseURL = (
+  { inferred, urls, hasDirectoryURL }: BaseURLInference,
+  { logger }: NormalizedProfileToMdOptions,
+  side = ``,
+): void => {
+  if (inferred) {
+    logger.info?.(`inferred base URL${side}: ${inferred.url.href}`)
+    logger.debug?.(
+      `the base URL${side} is the common directory of ${inferred.urlCount} of the ${urls.length} absolute locations categorized as ours, the most that share a top-level directory`,
+    )
+  } else if (hasDirectoryURL) {
+    logger.warn?.(
+      `baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
+    )
+  } else {
+    logger.warn?.(
+      `baseURL "auto" inferred no directory because no location is an absolute path or a URL in a directory`,
+    )
+  }
 }
 
 /**
@@ -232,30 +259,3 @@ const entriesBelow = (
     .toArray(),
   context: input.context,
 })
-
-function* locations(inputs: AggregatedInput[]): Iterable<EntityLocation> {
-  for (const input of inputs) {
-    yield* modalitySpecOf(input).locations(input)
-  }
-}
-
-const logInferredBaseURL = (
-  { inferred, urls, hasDirectoryURL }: BaseURLInference,
-  { logger }: NormalizedProfileToMdOptions,
-  side = ``,
-): void => {
-  if (inferred) {
-    logger.info?.(`inferred base URL${side}: ${inferred.url.href}`)
-    logger.debug?.(
-      `the base URL${side} is the common directory of ${inferred.urlCount} of the ${urls.length} absolute locations categorized as ours, the most that share a top-level directory`,
-    )
-  } else if (hasDirectoryURL) {
-    logger.warn?.(
-      `baseURL "auto" inferred no directory because no function categorized as ours has an absolute location, so paths stay absolute`,
-    )
-  } else {
-    logger.warn?.(
-      `baseURL "auto" inferred no directory because no location is an absolute path or a URL in a directory`,
-    )
-  }
-}

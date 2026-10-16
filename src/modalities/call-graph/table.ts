@@ -16,34 +16,6 @@ import {
 import type { Column, Table } from '../table.ts'
 import type { AggregatedCallGraphCategoryMetrics } from './aggregate.ts'
 
-type MeasureRow = {
-  /** The row's recorded value for the section's metric. */
-  value: number
-
-  /** The total the row's `%` is computed against. */
-  total: number
-}
-
-/**
- * A call graph records metric values only, so unlike a call stack profile's
- * tables, these columns include no count column.
- */
-const measureColumns = (metric: Metric): Table<MeasureRow> => [
-  {
-    header: { content: `%`, align: `right` },
-    changeDeltaBefore: true,
-    cellOf: row => percentCell(row.total ? row.value / row.total : 0),
-  },
-  {
-    header: {
-      content: metricColumnNouns([metric])[0]!,
-      align: `right`,
-    },
-    primary: true,
-    cellOf: row => metricCell(row.value, metric),
-  },
-]
-
 export type FunctionMeasureRow = MeasureRow & { func: NamedFunction }
 
 export const functionColumns = (
@@ -141,3 +113,31 @@ export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
     })),
   ]
 }
+
+type MeasureRow = {
+  /** The row's recorded value for the section's metric. */
+  value: number
+
+  /** The total the row's `%` is computed against. */
+  total: number
+}
+
+/**
+ * A call graph records metric values only, so unlike a call stack profile's
+ * tables, these columns include no count column.
+ */
+const measureColumns = (metric: Metric): Table<MeasureRow> => [
+  {
+    header: { content: `%`, align: `right` },
+    changeDeltaBefore: true,
+    cellOf: row => percentCell(row.total ? row.value / row.total : 0),
+  },
+  {
+    header: {
+      content: metricColumnNouns([metric])[0]!,
+      align: `right`,
+    },
+    primary: true,
+    cellOf: row => metricCell(row.value, metric),
+  },
+]

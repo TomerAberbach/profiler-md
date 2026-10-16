@@ -99,33 +99,6 @@ export const retainerGroupInputs = (
   }
 }
 
-const matchSets = <Group extends RetainerGroup>(
-  input: RetainerGroupInput<Group>,
-  options: FormattingProfileToMdOptions,
-): EntryDiff<Group>[][] =>
-  input.sets.map(groups =>
-    matchRetainerGroups(groups, input, input.paths, options),
-  )
-
-/** The locations of a group's steps' retainers, then of its nodes. */
-const locationsOf = <Group extends RetainerGroup>(
-  { paths }: RetainerGroupInput<Group>,
-  group: Group,
-): (SourceLocation | undefined)[] => [
-  ...paths.stepsOf(group.path).map(({ retainer }) => retainer.location),
-  group.node?.location,
-]
-
-const isLocatedIn = <Group extends RetainerGroup>(
-  input: RetainerGroupInput<Group>,
-  group: Group,
-  sourceReference: string,
-): boolean =>
-  locationsOf(input, group).some(
-    location =>
-      sourceReferencePositionOf(location)?.sourceReference === sourceReference,
-  )
-
 /**
  * Pairs each set's groups the way a diff does, then scores the pairs against
  * the current groups whose nodes and paths are the base group's, with the
@@ -370,6 +343,16 @@ export const applyRetainerGroupEdit = <Group extends RetainerGroup>(
   }
 }
 
+const isLocatedIn = <Group extends RetainerGroup>(
+  input: RetainerGroupInput<Group>,
+  group: Group,
+  sourceReference: string,
+): boolean =>
+  locationsOf(input, group).some(
+    location =>
+      sourceReferencePositionOf(location)?.sourceReference === sourceReference,
+  )
+
 const pairedSourceReferences = <Group extends RetainerGroup>(
   input: RetainerGroupInput<Group>,
   options: FormattingProfileToMdOptions,
@@ -389,3 +372,20 @@ const pairedSourceReferences = <Group extends RetainerGroup>(
   }
   return sourceReferences
 }
+
+const matchSets = <Group extends RetainerGroup>(
+  input: RetainerGroupInput<Group>,
+  options: FormattingProfileToMdOptions,
+): EntryDiff<Group>[][] =>
+  input.sets.map(groups =>
+    matchRetainerGroups(groups, input, input.paths, options),
+  )
+
+/** The locations of a group's steps' retainers, then of its nodes. */
+const locationsOf = <Group extends RetainerGroup>(
+  { paths }: RetainerGroupInput<Group>,
+  group: Group,
+): (SourceLocation | undefined)[] => [
+  ...paths.stepsOf(group.path).map(({ retainer }) => retainer.location),
+  group.node?.location,
+]

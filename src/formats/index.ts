@@ -148,6 +148,18 @@ export const aggregateInput = (
   }
 }
 
+const aggregateInputAsync = async (
+  input: ProfileInput<AsyncProfileData>,
+  options: AggregationProfileToMdOptions,
+): Promise<AggregatedInput[]> => {
+  const { name, ...normalized } = normalizeProfileInput(input)
+  try {
+    return await aggregateNormalizedInputAsync(normalized, options)
+  } catch (error: unknown) {
+    throw prefixInputName(error, name)
+  }
+}
+
 const aggregateNormalizedInput = (
   { data, format, origin }: Omit<NormalizedProfileInput<ProfileData>, `name`>,
   options: AggregationProfileToMdOptions,
@@ -172,18 +184,6 @@ const aggregateNormalizedInput = (
     options,
     makeContext(detected.format, origin),
   )
-}
-
-const aggregateInputAsync = async (
-  input: ProfileInput<AsyncProfileData>,
-  options: AggregationProfileToMdOptions,
-): Promise<AggregatedInput[]> => {
-  const { name, ...normalized } = normalizeProfileInput(input)
-  try {
-    return await aggregateNormalizedInputAsync(normalized, options)
-  } catch (error: unknown) {
-    throw prefixInputName(error, name)
-  }
 }
 
 const aggregateNormalizedInputAsync = async (

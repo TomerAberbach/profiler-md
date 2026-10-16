@@ -116,9 +116,6 @@ test(`treats empty keys as a single interned item`, () => {
   expect(creates()).toBe(1)
 })
 
-const arraysEqual = (left: number[], right: number[]) =>
-  left.length === right.length && left.every((value, i) => value === right[i])
-
 // Keys drawn from a small value space with bounded length so structurally
 // equal keys recur within a sequence, exercising dedup and collision lookups.
 const keysArb = fc.array(fc.array(fc.nat({ max: 3 }), { maxLength: 4 }), {
@@ -134,6 +131,9 @@ const hashArb = fc
     buckets => (key: number[]) =>
       key.reduce((sum, value) => sum + value, 0) % buckets,
   )
+
+const arraysEqual = (left: number[], right: number[]) =>
+  left.length === right.length && left.every((value, i) => value === right[i])
 
 test.prop([keysArb, hashArb])(
   `interns each key to its first-occurrence index regardless of hashing`,

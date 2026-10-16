@@ -90,12 +90,6 @@ export const attributeEntityRetainedSizes = (
   } while (topOffset > 0)
 }
 
-// A node's mark while selecting outermost instances. An instance is marked
-// `DOMINATED` before any walk, so a walk reaching it marks its own path so too.
-const UNMARKED = 0
-const DOMINATED = 1
-const NOT_DOMINATED = 2
-
 /**
  * Returns a function selecting, of the given distinct instance ordinals, those
  * of the reachable instances that no other given instance dominates. Their
@@ -153,3 +147,9 @@ export const newOutermostInstanceOrdinalsOf = (
     return outermostInstanceOrdinals
   }
 }
+
+// A node's mark while selecting outermost instances. An instance is marked
+// `DOMINATED` before any walk, so a walk reaching it marks its own path so too.
+const UNMARKED = 0
+const DOMINATED = 1
+const NOT_DOMINATED = 2

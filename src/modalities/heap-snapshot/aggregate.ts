@@ -34,6 +34,164 @@ import type {
   UnresolvedHeapSnapshotNodeCategory,
 } from './type.ts'
 
+export type AggregatedHeapSnapshot = {
+  type: `heap-snapshot`
+
+  /**
+   * The context this snapshot was aggregated under. Diffed sides that resolved
+   * different origins can normalize match keys differently and miss matches.
+   */
+  context: ProfileToMdContext
+
+  /** The summed self sizes of every node in the snapshot. */
+  heldSize: number
+  nodeCount: number
+  edgeCount: number
+  nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
+
+  constructors: AggregatedHeapSnapshotConstructor[]
+  functions: AggregatedHeapSnapshotFunction[]
+  strings: AggregatedHeapSnapshotString[]
+
+  /**
+   * Of the given distinct instance ordinals, those of the reachable instances
+   * that no other given instance dominates. Their retained nodes are disjoint,
+   * and contain every other reachable instance's.
+   */
+  outermostInstanceOrdinalsOf: (
+    instanceOrdinals: readonly number[],
+  ) => readonly number[]
+
+  /**
+   * The first hop of a node's retainer path along its dominators, or
+   * `undefined` for the GC root, a node without predecessors, and an
+   * unreachable node. Following each hop's
+   * {@link RetainerHop.dominatorOrdinal} ends at one of them.
+   */
+  retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined
+
+  /** The node as a retainer path step shows it. */
+  retainerOf: (nodeOrdinal: number) => RetainerNode
+
+  /** The steps of a node's retainer path, from the node outward. */
+  retainerStepsOf: (nodeOrdinal: number) => RetainerPathStep[]
+
+  retainedNodesOf: (
+    nodeOrdinal: number,
+    options: FormattingProfileToMdOptions,
+  ) => AggregatedHeapSnapshotNode[]
+}
+
+export type NodeCategoryStats = {
+  /** Bytes allocated directly for nodes in this category. */
+  size: number
+  nodeCount: number
+}
+
+export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity & {
+  name: string
+
+  /**
+   * What this constructor's instances hold: the category the origin assigns to
+   * its class, falling back to the category holding the most of their self
+   * size.
+   */
+  category: HeapSnapshotNodeCategory
+  instances: AggregatedHeapSnapshotNode[]
+}
+
+export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
+  name: string
+
+  /**
+   * What this function holds, taken from the instance
+   * {@link largestInstanceOrdinal} identifies, which is the instance its rows
+   * show.
+   */
+  category: HeapSnapshotNodeCategory
+
+  /** Node ordinal of the instance with the largest individual retained size. */
+  largestInstanceOrdinal: number
+  instanceOrdinals: number[]
+}
+
+export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotEntity & {
+  /** What this string holds: its representation in the heap. */
+  category: HeapSnapshotNodeCategory
+}
+
+/** A constructor, function, or string, aggregating the nodes it identifies. */
+export type AggregatedHeapSnapshotEntity = {
+  type: `node`
+
+  /** The ordinal of one of the entity's nodes. */
+  id: number
+  name?: string
+
+  /**
+   * The file reference the {@link name} parses as, when it is URL-shaped
+   * (e.g. a V8 module namespace object named by its file URL). Formatting
+   * shows it relative to the base URL in place of the raw name.
+   */
+  nameLocation?: FileReference
+
+  /** Bytes allocated directly for the entity's nodes. */
+  selfSize: number
+
+  category: HeapSnapshotNodeCategory
+
+  /**
+   * Bytes allocated for the entity's nodes, as well as all nodes that would be
+   * freed if they were garbage collected.
+   */
+  retainedSize: number
+
+  location?: SourceLocation
+}
+
+/** A constructor's instance, or a node an instance retains. */
+export type AggregatedHeapSnapshotNode = {
+  type: `node`
+
+  /** The node's ordinal. */
+  id: number
+
+  /** The node's label, which for an instance is its constructor's name. */
+  name: string
+
+  /** Bytes allocated directly for this node. */
+  selfSize: number
+
+  category: HeapSnapshotNodeCategory
+
+  /**
+   * Bytes allocated for this node, as well as all nodes that would be freed if
+   * the node were garbage collected.
+   */
+  retainedSize: number
+
+  /** The location of the constructor or function the node is an instance of. */
+  location?: SourceLocation
+}
+
+/**
+ * One step of a retainer path: the edge a retainer holds to the node the path
+ * reached so far, and the retainer.
+ */
+export type RetainerPathStep = {
+  edge: RetainerPathEdge
+  retainer: RetainerNode
+}
+
+/**
+ * A retainer path step's edge. A path that groups the elements of an array
+ * records an element edge as any element. A step whose retainer holds no edge
+ * to the node, which it retains through the node's several retainers, records
+ * several retainers.
+ */
+export type RetainerPathEdge =
+  RetainerEdge | { type: `any-element` } | { type: `several-retainers` }
+
 /**
  * Aggregates one {@link HeapSnapshot}.
  *
@@ -374,24 +532,14 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   }
 }
 
-/** Identifies a node by its name and location. */
-export const nodeKey = (
-  name: string,
-  location: SourceLocation | undefined,
-): string =>
-  location
-    ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
-    : name
+/** A node's immediate dominator, and the dominator's edge to the node. */
+export type RetainerHop = {
+  dominatorOrdinal: number
+  edge: RetainerPathEdge
 
-/**
- * An entity's effective location: its explicit location, falling back to its
- * URL-shaped name (e.g. a V8 module namespace object named by its file URL).
- */
-export const entityLocation = ({
-  location,
-  nameLocation,
-}: Pick<AggregatedHeapSnapshotEntity, `location` | `nameLocation`>):
-  SourceLocation | undefined => location ?? nameLocation
+  /** Whether the dominator is an internal node. */
+  internal: boolean
+}
 
 const computeRetainerHop = (
   nodeOrdinal: number,
@@ -434,6 +582,25 @@ const computeRetainerHop = (
 
 const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = { type: `several-retainers` }
 
+/**
+ * An entity's effective location: its explicit location, falling back to its
+ * URL-shaped name (e.g. a V8 module namespace object named by its file URL).
+ */
+export const entityLocation = ({
+  location,
+  nameLocation,
+}: Pick<AggregatedHeapSnapshotEntity, `location` | `nameLocation`>):
+  SourceLocation | undefined => location ?? nameLocation
+
+/** Identifies a node by its name and location. */
+export const nodeKey = (
+  name: string,
+  location: SourceLocation | undefined,
+): string =>
+  location
+    ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
+    : name
+
 export const computeRetainerSteps = (
   nodeOrdinal: number,
   retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined,
@@ -469,11 +636,6 @@ export const keepsRetainerStep = (
   isRestEmpty: boolean,
 ): boolean => !(isRestEmpty && internal)
 
-export const formatRetainerName = (
-  { name, nameLocation }: Pick<RetainerNode, `name` | `nameLocation`>,
-  options: FormattingProfileToMdOptions,
-): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
-
 export const formatRetainerLabel = (
   retainer: RetainerNode,
   options: FormattingProfileToMdOptions,
@@ -484,6 +646,11 @@ export const formatRetainerLabel = (
       : ``
   }`
 
+export const formatRetainerName = (
+  { name, nameLocation }: Pick<RetainerNode, `name` | `nameLocation`>,
+  options: FormattingProfileToMdOptions,
+): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
+
 export const formatRetainerEdgeLabel = (
   edge: RetainerPathEdge,
   options: FormattingProfileToMdOptions,
@@ -491,24 +658,6 @@ export const formatRetainerEdgeLabel = (
   formatRetainerEdge(edge, ({ name, nameLocation }) =>
     nameLocation ? formatSourceLocation(nameLocation, options) : name,
   )
-
-/**
- * A retainer path step's edge. A path that groups the elements of an array
- * records an element edge as any element. A step whose retainer holds no edge
- * to the node, which it retains through the node's several retainers, records
- * several retainers.
- */
-export type RetainerPathEdge =
-  RetainerEdge | { type: `any-element` } | { type: `several-retainers` }
-
-/**
- * One step of a retainer path: the edge a retainer holds to the node the path
- * reached so far, and the retainer.
- */
-export type RetainerPathStep = {
-  edge: RetainerPathEdge
-  retainer: RetainerNode
-}
 
 export const formatRetainerEdge = (
   edge: RetainerPathEdge,
@@ -527,37 +676,6 @@ export const formatRetainerEdge = (
       return edge.label
     case `unlabeled`:
       return ``
-  }
-}
-
-/** A shown retained node, and the instance retaining it. */
-export type ShownRetainedNode = {
-  node: AggregatedHeapSnapshotNode
-  instanceOrdinal: number
-}
-
-/**
- * Yields each shown node the outermost of the distinct {@link instanceOrdinals}
- * retain, and the instance retaining it.
- */
-export function* shownRetainedNodes(
-  instanceOrdinals: readonly number[],
-  {
-    outermostInstanceOrdinalsOf,
-    retainedNodesOf,
-    context,
-  }: Pick<
-    AggregatedHeapSnapshot,
-    `outermostInstanceOrdinalsOf` | `retainedNodesOf` | `context`
-  >,
-  options: FormattingProfileToMdOptions,
-): Iterable<ShownRetainedNode> {
-  for (const instanceOrdinal of outermostInstanceOrdinalsOf(instanceOrdinals)) {
-    for (const node of retainedNodesOf(instanceOrdinal, options)) {
-      if (options.showEntry(node, context)) {
-        yield { node, instanceOrdinal }
-      }
-    }
   }
 }
 
@@ -614,151 +732,33 @@ const computeRetainedNodes = (
   return retainedNodes
 }
 
-export type NodeCategoryStats = {
-  /** Bytes allocated directly for nodes in this category. */
-  size: number
-  nodeCount: number
+/** A shown retained node, and the instance retaining it. */
+export type ShownRetainedNode = {
+  node: AggregatedHeapSnapshotNode
+  instanceOrdinal: number
 }
 
-/** A constructor's instance, or a node an instance retains. */
-export type AggregatedHeapSnapshotNode = {
-  type: `node`
-
-  /** The node's ordinal. */
-  id: number
-
-  /** The node's label, which for an instance is its constructor's name. */
-  name: string
-
-  /** Bytes allocated directly for this node. */
-  selfSize: number
-
-  category: HeapSnapshotNodeCategory
-
-  /**
-   * Bytes allocated for this node, as well as all nodes that would be freed if
-   * the node were garbage collected.
-   */
-  retainedSize: number
-
-  /** The location of the constructor or function the node is an instance of. */
-  location?: SourceLocation
-}
-
-/** A constructor, function, or string, aggregating the nodes it identifies. */
-export type AggregatedHeapSnapshotEntity = {
-  type: `node`
-
-  /** The ordinal of one of the entity's nodes. */
-  id: number
-  name?: string
-
-  /**
-   * The file reference the {@link name} parses as, when it is URL-shaped
-   * (e.g. a V8 module namespace object named by its file URL). Formatting
-   * shows it relative to the base URL in place of the raw name.
-   */
-  nameLocation?: FileReference
-
-  /** Bytes allocated directly for the entity's nodes. */
-  selfSize: number
-
-  category: HeapSnapshotNodeCategory
-
-  /**
-   * Bytes allocated for the entity's nodes, as well as all nodes that would be
-   * freed if they were garbage collected.
-   */
-  retainedSize: number
-
-  location?: SourceLocation
-}
-
-export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity & {
-  name: string
-
-  /**
-   * What this constructor's instances hold: the category the origin assigns to
-   * its class, falling back to the category holding the most of their self
-   * size.
-   */
-  category: HeapSnapshotNodeCategory
-  instances: AggregatedHeapSnapshotNode[]
-}
-
-export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotEntity & {
-  /** What this string holds: its representation in the heap. */
-  category: HeapSnapshotNodeCategory
-}
-
-export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
-  name: string
-
-  /**
-   * What this function holds, taken from the instance
-   * {@link largestInstanceOrdinal} identifies, which is the instance its rows
-   * show.
-   */
-  category: HeapSnapshotNodeCategory
-
-  /** Node ordinal of the instance with the largest individual retained size. */
-  largestInstanceOrdinal: number
-  instanceOrdinals: number[]
-}
-
-export type AggregatedHeapSnapshot = {
-  type: `heap-snapshot`
-
-  /**
-   * The context this snapshot was aggregated under. Diffed sides that resolved
-   * different origins can normalize match keys differently and miss matches.
-   */
-  context: ProfileToMdContext
-
-  /** The summed self sizes of every node in the snapshot. */
-  heldSize: number
-  nodeCount: number
-  edgeCount: number
-  nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
-
-  constructors: AggregatedHeapSnapshotConstructor[]
-  functions: AggregatedHeapSnapshotFunction[]
-  strings: AggregatedHeapSnapshotString[]
-
-  /**
-   * Of the given distinct instance ordinals, those of the reachable instances
-   * that no other given instance dominates. Their retained nodes are disjoint,
-   * and contain every other reachable instance's.
-   */
-  outermostInstanceOrdinalsOf: (
-    instanceOrdinals: readonly number[],
-  ) => readonly number[]
-
-  /**
-   * The first hop of a node's retainer path along its dominators, or
-   * `undefined` for the GC root, a node without predecessors, and an
-   * unreachable node. Following each hop's
-   * {@link RetainerHop.dominatorOrdinal} ends at one of them.
-   */
-  retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined
-
-  /** The node as a retainer path step shows it. */
-  retainerOf: (nodeOrdinal: number) => RetainerNode
-
-  /** The steps of a node's retainer path, from the node outward. */
-  retainerStepsOf: (nodeOrdinal: number) => RetainerPathStep[]
-
-  retainedNodesOf: (
-    nodeOrdinal: number,
-    options: FormattingProfileToMdOptions,
-  ) => AggregatedHeapSnapshotNode[]
-}
-
-/** A node's immediate dominator, and the dominator's edge to the node. */
-export type RetainerHop = {
-  dominatorOrdinal: number
-  edge: RetainerPathEdge
-
-  /** Whether the dominator is an internal node. */
-  internal: boolean
+/**
+ * Yields each shown node the outermost of the distinct {@link instanceOrdinals}
+ * retain, and the instance retaining it.
+ */
+export function* shownRetainedNodes(
+  instanceOrdinals: readonly number[],
+  {
+    outermostInstanceOrdinalsOf,
+    retainedNodesOf,
+    context,
+  }: Pick<
+    AggregatedHeapSnapshot,
+    `outermostInstanceOrdinalsOf` | `retainedNodesOf` | `context`
+  >,
+  options: FormattingProfileToMdOptions,
+): Iterable<ShownRetainedNode> {
+  for (const instanceOrdinal of outermostInstanceOrdinalsOf(instanceOrdinals)) {
+    for (const node of retainedNodesOf(instanceOrdinal, options)) {
+      if (options.showEntry(node, context)) {
+        yield { node, instanceOrdinal }
+      }
+    }
+  }
 }

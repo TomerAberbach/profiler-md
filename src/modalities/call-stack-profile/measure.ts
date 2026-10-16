@@ -3,6 +3,19 @@ import type { AggregatedCallStackProfile } from './aggregate.ts'
 import type { AggregatedCallStackProfileDiff } from './diff.ts'
 
 /**
+ * What a profile section ranks, percentages, and tabulates by, resolved
+ * against one profile so reading a value or the total needs no metric-index
+ * bookkeeping.
+ */
+export type Measure = MeasureColumns & {
+  /** The value an entity contributes: its metric value, or its count. */
+  valueOf: (values: Float64Array, count: number) => number
+
+  /** The profile-wide total. */
+  total: number
+}
+
+/**
  * What a measure's table columns are built from: what the measure ranks by, and
  * what the profile it was resolved against counts.
  */
@@ -15,19 +28,6 @@ export type MeasureColumns = {
 
   /** @see {@link AggregatedCallStackProfile.countMetric} */
   countMetric: Metric | null
-}
-
-/**
- * What a profile section ranks, percentages, and tabulates by, resolved
- * against one profile so reading a value or the total needs no metric-index
- * bookkeeping.
- */
-export type Measure = MeasureColumns & {
-  /** The value an entity contributes: its metric value, or its count. */
-  valueOf: (values: Float64Array, count: number) => number
-
-  /** The profile-wide total. */
-  total: number
 }
 
 /**
@@ -53,53 +53,6 @@ export const measuresOf = (profile: AggregatedCallStackProfile): Measure[] => {
   }
   return [countMeasure(countMetric, profile)]
 }
-
-const countMeasure = (
-  countMetric: Metric,
-  profile: AggregatedCallStackProfile,
-): Measure => ({
-  type: `count`,
-  metric: countMetric,
-  countMetric,
-  valueOf: (_values, count) => count,
-  total: profile.totalCount,
-})
-
-const metricMeasure = (
-  metric: Metric,
-  index: number,
-  profile: AggregatedCallStackProfile,
-): Measure => ({
-  type: `metric`,
-  metric,
-  countMetric: profile.countMetric,
-  valueOf: values => values[index]!,
-  total: profile.totalValues[index]!,
-})
-
-/**
- * The scope of a measure's zero total, for the note shown in place of its
- * sections. A count measure ranks the counted things themselves, so nothing
- * narrows the note further. Counts measuring a quantity, or measuring nothing,
- * have no noun to narrow it with.
- */
-export const zeroTotalScope = ({
-  type,
-  countMetric,
-}: MeasureColumns): string =>
-  type === `count` || countMetric?.type !== `count`
-    ? ``
-    : ` in any ${countMetric.proseUnit}`
-
-export const selfValueOf = (
-  measure: Measure,
-  entity: { selfValues: Float64Array; selfCount: number },
-): number => measure.valueOf(entity.selfValues, entity.selfCount)
-
-export const totalValueOf = (
-  measure: Measure,
-  entity: { totalValues: Float64Array; totalCount: number },
-): number => measure.valueOf(entity.totalValues, entity.totalCount)
 
 /** A measure resolved against each side of a diff. */
 export type DiffMeasure = MeasureColumns & {
@@ -138,3 +91,50 @@ export const diffMeasuresOf = ({
     },
   ]
 }
+
+const metricMeasure = (
+  metric: Metric,
+  index: number,
+  profile: AggregatedCallStackProfile,
+): Measure => ({
+  type: `metric`,
+  metric,
+  countMetric: profile.countMetric,
+  valueOf: values => values[index]!,
+  total: profile.totalValues[index]!,
+})
+
+const countMeasure = (
+  countMetric: Metric,
+  profile: AggregatedCallStackProfile,
+): Measure => ({
+  type: `count`,
+  metric: countMetric,
+  countMetric,
+  valueOf: (_values, count) => count,
+  total: profile.totalCount,
+})
+
+export const selfValueOf = (
+  measure: Measure,
+  entity: { selfValues: Float64Array; selfCount: number },
+): number => measure.valueOf(entity.selfValues, entity.selfCount)
+
+export const totalValueOf = (
+  measure: Measure,
+  entity: { totalValues: Float64Array; totalCount: number },
+): number => measure.valueOf(entity.totalValues, entity.totalCount)
+
+/**
+ * The scope of a measure's zero total, for the note shown in place of its
+ * sections. A count measure ranks the counted things themselves, so nothing
+ * narrows the note further. Counts measuring a quantity, or measuring nothing,
+ * have no noun to narrow it with.
+ */
+export const zeroTotalScope = ({
+  type,
+  countMetric,
+}: MeasureColumns): string =>
+  type === `count` || countMetric?.type !== `count`
+    ? ``
+    : ` in any ${countMetric.proseUnit}`

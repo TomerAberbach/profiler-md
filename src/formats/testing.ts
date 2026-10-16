@@ -37,15 +37,15 @@ export const injectedFormat = (): Format | undefined => inject(`format`)
  */
 export const injectedInputs = (): string[] => inject(`inputs`)
 
+export const readInput = (filename: string): Buffer =>
+  readFileSync(inputPath(filename))
+
 export const inputPath = (filename?: string): string =>
   path.join(
     import.meta.dirname,
     `../../examples/input`,
     ...(filename ? [filename] : []),
   )
-
-export const readInput = (filename: string): Buffer =>
-  readFileSync(inputPath(filename))
 
 /**
  * The lines auto-detecting a committed input logs, given the Markdown it

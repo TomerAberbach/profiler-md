@@ -10,6 +10,13 @@ import type {
 import { functionIdentityForContext } from '../origins/index.ts'
 
 /**
+ * A diff of matched entries. `byPosition` is true when several entries on
+ * either side share the match key that matched it, so its pairing follows
+ * their positions.
+ */
+export type EntryDiff<Entry> = Diff<Entry> & { byPosition: boolean }
+
+/**
  * A pairing of base and current data for an entity matched across the two
  * sides of a diff. A side is absent if the entity only appears on the other
  * side.
@@ -25,27 +32,6 @@ export type DiffSides = {
   current: { context: ProfileToMdContext }
 }
 
-/** An entry matchable across the two sides of a diff by name and location. */
-type DiffableEntry = {
-  location?: DeepReadonly<SourceLocation> | undefined
-}
-
-/**
- * A diff of matched entries. `byPosition` is true when several entries on
- * either side share the match key that matched it, so its pairing follows
- * their positions.
- */
-export type EntryDiff<Entry> = Diff<Entry> & { byPosition: boolean }
-
-/** The keys pairing an entry across a diff's two sides. */
-export type DiffedMatchKeys = {
-  /** The key built from the entry's own name and location. */
-  ownNameAndLocation: string
-
-  /** The key built from the entry's `EntryMatch`. */
-  nameAndLocation: string
-}
-
 /** Matches two inputs' functions by their match keys under each input's context. */
 export const matchDiffedFunctions = <Func extends ProfileEntry>(
   base: { functions: Func[]; context: ProfileToMdContext },
@@ -58,6 +44,20 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
     func => entryMatchKeys(func, base.context),
     func => entryMatchKeys(func, current.context),
   )
+
+/** An entry matchable across the two sides of a diff by name and location. */
+type DiffableEntry = {
+  location?: DeepReadonly<SourceLocation> | undefined
+}
+
+/** The keys pairing an entry across a diff's two sides. */
+export type DiffedMatchKeys = {
+  /** The key built from the entry's own name and location. */
+  ownNameAndLocation: string
+
+  /** The key built from the entry's `EntryMatch`. */
+  nameAndLocation: string
+}
 
 /**
  * Matches each side's entries by their own keys, then groups the
@@ -123,12 +123,6 @@ export const matchDiffedEntries = <Entry extends DiffableEntry>(
   return spliceLeftoverDiffs(matchedByOwnKeys, leftoverMatched)
 }
 
-const withoutKeysIn = <Entry>(
-  entries: Entry[],
-  keys: string[],
-  excluded: Set<string>,
-): Entry[] => entries.filter((_, index) => !excluded.has(keys[index]!))
-
 /** Collects the entries of each side that the given diffs leave unpaired. */
 const unpairedEntries = <Entry>(
   diffs: Diff<Entry>[],
@@ -144,6 +138,12 @@ const unpairedEntries = <Entry>(
   }
   return { base, current }
 }
+
+const withoutKeysIn = <Entry>(
+  entries: Entry[],
+  keys: string[],
+  excluded: Set<string>,
+): Entry[] => entries.filter((_, index) => !excluded.has(keys[index]!))
 
 /**
  * Replaces the one-sided diffs of `diffs` with `leftoverDiffs`, the diffs of
@@ -231,100 +231,6 @@ const matchEntryGroups = <Entry extends DiffableEntry>(
 }
 
 /**
- * Pairs the members of one key's base and current groups by aligning their
- * positions with {@link alignPositions}, so members that moved together pair
- * even when a member was added or removed among them. Members at one position
- * pair in order, as do members without a line. When one member is left on each
- * side and one of them has no line, they pair, as a group of one member per
- * side does, because the alignment excludes members without a line. Any other
- * surplus members are one-sided.
- *
- * The alignment fits how an edit and sampling each change a group:
- * - An edit moves every function after it by the same amount, so the
- *   functions beside a moved function moved with it. The alignment pairs a
- *   run of members at one offset
- * - A member with no counterpart was sampled in one run only, or added or
- *   removed. A run of pairs continues past it at no cost
- * - A member whose offset neither adjacent member shares stays unpaired,
- *   because an edit that moved it would have moved its adjacent members too
- * - A member whose adjacent members in its group went unsampled has none to
- *   move with, but its file's other functions moved with it. A member the
- *   alignment leaves unpaired pairs with the other side's unpaired member at
- *   the offset of a key of one entry per side just before or after it in its
- *   file, which an edit around it moved by the same amount
- *
- * Other profilers' diffs pair no functions by position. pprof, Pyroscope,
- * Parca, and async-profiler merge the functions that share a name. The Firefox
- * Profiler keys a JavaScript function by its line as well, because "the name
- * is not garanteed to be unique in a resource"
- * ([merge-compare.ts](https://github.com/firefox-devtools/profiler/blob/fbc9d0cc92cb0a1640d0d631b4f5c3d0c8903f7f/src/profile-logic/merge-compare.ts#L974-L987)).
- * Its diff therefore shows a closure that moved as removed and added.
- */
-const pairGroups = <Entry extends DiffableEntry>(
-  baseGroup: Entry[],
-  currentGroup: Entry[],
-  lineWeight: number,
-  anchors: FileAnchors,
-): EntryDiff<Entry>[] => {
-  if (baseGroup.length === 1 && currentGroup.length === 1) {
-    return [
-      { base: baseGroup[0]!, current: currentGroup[0]!, byPosition: false },
-    ]
-  }
-
-  const baseLocation = baseGroup.find(entry => entry.location)?.location
-  const groupAnchors =
-    (baseLocation && anchors.get(sourceKeyOf(baseLocation))) ?? []
-  const base = groupByPosition(baseGroup, lineWeight)
-  const current = groupByPosition(currentGroup, lineWeight)
-  const pairs = new Int32Array(baseGroup.length).fill(-1)
-  zipAlignedIndices(base, current, pairs, groupAnchors)
-  zipIndices(base.lineless, current.lineless, pairs)
-  const isPairedCurrent = pairedCurrentFlags(pairs, currentGroup.length)
-  if (base.lineless.length > 0 || current.lineless.length > 0) {
-    pairLoneLeftoversWithoutLine(base, current, pairs, isPairedCurrent)
-  }
-  return inGroupOrder(baseGroup, currentGroup, pairs, isPairedCurrent)
-}
-
-const pairLoneLeftoversWithoutLine = (
-  base: { lineless: number[] },
-  current: { lineless: number[] },
-  pairs: Int32Array,
-  isPairedCurrent: Uint8Array,
-) => {
-  const baseLeftover = loneIndexOf(pairs, -1)
-  if (baseLeftover === undefined) {
-    return
-  }
-  const currentLeftover = loneIndexOf(isPairedCurrent, 0)
-  if (
-    currentLeftover !== undefined &&
-    (base.lineless.includes(baseLeftover) ||
-      current.lineless.includes(currentLeftover))
-  ) {
-    pairs[baseLeftover] = currentLeftover
-    isPairedCurrent[currentLeftover] = 1
-  }
-}
-
-const loneIndexOf = (
-  values: ArrayLike<number>,
-  value: number,
-): number | undefined => {
-  let lone: number | undefined
-  for (let index = 0; index < values.length; index++) {
-    if (values[index] === value) {
-      if (lone !== undefined) {
-        return undefined
-      }
-      lone = index
-    }
-  }
-  return lone
-}
-
-/**
  * Returns the weight of a line relative to a column, to pack a line and column
  * into one position. Members on one line, as in a minified file, then align by
  * column.
@@ -346,98 +252,16 @@ const positionLineWeight = (entries: DiffableEntry[]): number => {
 }
 
 /**
- * Groups the indices of a group's entries by their line and column, as strictly
- * increasing positions and the indices at each, and collects the indices of the
- * entries without a line. An entry whose line or column is not a finite number
- * counts as one without a line, so a malformed input's values still convert.
+ * The anchors of each base source reference, by {@link sourceKeyOf}, sorted by
+ * base position.
  */
-const groupByPosition = (
-  group: DiffableEntry[],
-  lineWeight: number,
-): { positions: number[]; indices: number[][]; lineless: number[] } => {
-  const positioned: { position: number; index: number }[] = []
-  const lineless: number[] = []
-  for (let index = 0; index < group.length; index++) {
-    const position = packedPosition(group[index]!.location, lineWeight)
-    if (position === undefined) {
-      lineless.push(index)
-    } else {
-      positioned.push({ position, index })
-    }
-  }
-  positioned.sort((left, right) => left.position - right.position)
-
-  const positions: number[] = []
-  const indices: number[][] = []
-  for (const { position, index } of positioned) {
-    if (positions.at(-1) === position) {
-      indices.at(-1)!.push(index)
-    } else {
-      positions.push(position)
-      indices.push([index])
-    }
-  }
-  return { positions, indices, lineless }
-}
-
-/**
- * The cost {@link pairGroups} gives a change of offset when it aligns a group's
- * members, against the alignment's `UNPAIRED_COST` of 2 per unpaired member.
- *
- * It is more than one pair saves, the cost of its two unpaired members, so the
- * alignment never pairs a lone member at a new offset. A lone member often has
- * no counterpart in the other run, and pairing it with another member at a
- * new offset reads as a change in one function. The members the alignment
- * leaves unpaired then pair by their file's anchors instead.
- *
- * Measured with `pnpm evaluate-diff-matching` against a cost of 3.5 without
- * pairing by anchors, the precision on the committed version changes rises
- * from 99.4% to 99.9%, and on the synthetic edits from 96.5% to 99.8%. Recall
- * changes by at most 0.1% on both. A cost of 4.5 without pairing by anchors
- * scores the same precision, but recall falls to 99.1% and 96.1%.
- */
-const FUNCTION_OFFSET_CHANGE_COST = 4.5
-
-const zipAlignedIndices = (
-  base: { positions: number[]; indices: number[][] },
-  current: { positions: number[]; indices: number[][] },
-  pairs: Int32Array,
-  anchors: readonly Anchor[],
-) => {
-  const positionPairs = alignPositions(base.positions, current.positions, {
-    offsetChangeCost: FUNCTION_OFFSET_CHANGE_COST,
-  })
-  pairByAnchorOffsets(base.positions, current.positions, positionPairs, anchors)
-  for (let index = 0; index < positionPairs.length; index++) {
-    const pair = positionPairs[index]!
-    if (pair !== -1) {
-      zipIndices(base.indices[index]!, current.indices[pair]!, pairs)
-    }
-  }
-}
-
-const zipIndices = (
-  baseIndices: number[],
-  currentIndices: number[],
-  pairs: Int32Array,
-) => {
-  const length = Math.min(baseIndices.length, currentIndices.length)
-  for (let index = 0; index < length; index++) {
-    pairs[baseIndices[index]!] = currentIndices[index]!
-  }
-}
+type FileAnchors = Map<string, Anchor[]>
 
 /**
  * An entry of its file whose key has one entry per side, by its packed position
  * on each side. Its offset states how the edits around it moved it.
  */
 type Anchor = { base: number; current: number }
-
-/**
- * The anchors of each base source reference, by {@link sourceKeyOf}, sorted by
- * base position.
- */
-type FileAnchors = Map<string, Anchor[]>
 
 /**
  * The anchors of the files that have a key with several entries on a side,
@@ -502,6 +326,151 @@ const filesWithGroups = <Entry extends DiffableEntry>(
   }
   return files
 }
+
+/**
+ * Identifies a source reference by its kind as well as its ID, because a file
+ * and a logical reference with one ID are different sources.
+ */
+const sourceKeyOf = (location: DeepReadonly<SourceLocation>): string =>
+  `${sourceReferenceKind(location)}\0${sourceReferenceId(location)}`
+
+/**
+ * Pairs the members of one key's base and current groups by aligning their
+ * positions with {@link alignPositions}, so members that moved together pair
+ * even when a member was added or removed among them. Members at one position
+ * pair in order, as do members without a line. When one member is left on each
+ * side and one of them has no line, they pair, as a group of one member per
+ * side does, because the alignment excludes members without a line. Any other
+ * surplus members are one-sided.
+ *
+ * The alignment fits how an edit and sampling each change a group:
+ * - An edit moves every function after it by the same amount, so the
+ *   functions beside a moved function moved with it. The alignment pairs a
+ *   run of members at one offset
+ * - A member with no counterpart was sampled in one run only, or added or
+ *   removed. A run of pairs continues past it at no cost
+ * - A member whose offset neither adjacent member shares stays unpaired,
+ *   because an edit that moved it would have moved its adjacent members too
+ * - A member whose adjacent members in its group went unsampled has none to
+ *   move with, but its file's other functions moved with it. A member the
+ *   alignment leaves unpaired pairs with the other side's unpaired member at
+ *   the offset of a key of one entry per side just before or after it in its
+ *   file, which an edit around it moved by the same amount
+ *
+ * Other profilers' diffs pair no functions by position. pprof, Pyroscope,
+ * Parca, and async-profiler merge the functions that share a name. The Firefox
+ * Profiler keys a JavaScript function by its line as well, because "the name
+ * is not garanteed to be unique in a resource"
+ * ([merge-compare.ts](https://github.com/firefox-devtools/profiler/blob/fbc9d0cc92cb0a1640d0d631b4f5c3d0c8903f7f/src/profile-logic/merge-compare.ts#L974-L987)).
+ * Its diff therefore shows a closure that moved as removed and added.
+ */
+const pairGroups = <Entry extends DiffableEntry>(
+  baseGroup: Entry[],
+  currentGroup: Entry[],
+  lineWeight: number,
+  anchors: FileAnchors,
+): EntryDiff<Entry>[] => {
+  if (baseGroup.length === 1 && currentGroup.length === 1) {
+    return [
+      { base: baseGroup[0]!, current: currentGroup[0]!, byPosition: false },
+    ]
+  }
+
+  const baseLocation = baseGroup.find(entry => entry.location)?.location
+  const groupAnchors =
+    (baseLocation && anchors.get(sourceKeyOf(baseLocation))) ?? []
+  const base = groupByPosition(baseGroup, lineWeight)
+  const current = groupByPosition(currentGroup, lineWeight)
+  const pairs = new Int32Array(baseGroup.length).fill(-1)
+  zipAlignedIndices(base, current, pairs, groupAnchors)
+  zipIndices(base.lineless, current.lineless, pairs)
+  const isPairedCurrent = pairedCurrentFlags(pairs, currentGroup.length)
+  if (base.lineless.length > 0 || current.lineless.length > 0) {
+    pairLoneLeftoversWithoutLine(base, current, pairs, isPairedCurrent)
+  }
+  return inGroupOrder(baseGroup, currentGroup, pairs, isPairedCurrent)
+}
+
+/**
+ * Groups the indices of a group's entries by their line and column, as strictly
+ * increasing positions and the indices at each, and collects the indices of the
+ * entries without a line. An entry whose line or column is not a finite number
+ * counts as one without a line, so a malformed input's values still convert.
+ */
+const groupByPosition = (
+  group: DiffableEntry[],
+  lineWeight: number,
+): { positions: number[]; indices: number[][]; lineless: number[] } => {
+  const positioned: { position: number; index: number }[] = []
+  const lineless: number[] = []
+  for (let index = 0; index < group.length; index++) {
+    const position = packedPosition(group[index]!.location, lineWeight)
+    if (position === undefined) {
+      lineless.push(index)
+    } else {
+      positioned.push({ position, index })
+    }
+  }
+  positioned.sort((left, right) => left.position - right.position)
+
+  const positions: number[] = []
+  const indices: number[][] = []
+  for (const { position, index } of positioned) {
+    if (positions.at(-1) === position) {
+      indices.at(-1)!.push(index)
+    } else {
+      positions.push(position)
+      indices.push([index])
+    }
+  }
+  return { positions, indices, lineless }
+}
+
+const packedPosition = (
+  location: DeepReadonly<SourceLocation> | undefined,
+  lineWeight: number,
+): number | undefined => {
+  const line = location?.line
+  const position =
+    line === undefined ? undefined : line * lineWeight + (location?.column ?? 0)
+  return Number.isFinite(position) ? position : undefined
+}
+
+const zipAlignedIndices = (
+  base: { positions: number[]; indices: number[][] },
+  current: { positions: number[]; indices: number[][] },
+  pairs: Int32Array,
+  anchors: readonly Anchor[],
+) => {
+  const positionPairs = alignPositions(base.positions, current.positions, {
+    offsetChangeCost: FUNCTION_OFFSET_CHANGE_COST,
+  })
+  pairByAnchorOffsets(base.positions, current.positions, positionPairs, anchors)
+  for (let index = 0; index < positionPairs.length; index++) {
+    const pair = positionPairs[index]!
+    if (pair !== -1) {
+      zipIndices(base.indices[index]!, current.indices[pair]!, pairs)
+    }
+  }
+}
+
+/**
+ * The cost {@link pairGroups} gives a change of offset when it aligns a group's
+ * members, against the alignment's `UNPAIRED_COST` of 2 per unpaired member.
+ *
+ * It is more than one pair saves, the cost of its two unpaired members, so the
+ * alignment never pairs a lone member at a new offset. A lone member often has
+ * no counterpart in the other run, and pairing it with another member at a
+ * new offset reads as a change in one function. The members the alignment
+ * leaves unpaired then pair by their file's anchors instead.
+ *
+ * Measured with `pnpm evaluate-diff-matching` against a cost of 3.5 without
+ * pairing by anchors, the precision on the committed version changes rises
+ * from 99.4% to 99.9%, and on the synthetic edits from 96.5% to 99.8%. Recall
+ * changes by at most 0.1% on both. A cost of 4.5 without pairing by anchors
+ * scores the same precision, but recall falls to 99.1% and 96.1%.
+ */
+const FUNCTION_OFFSET_CHANGE_COST = 4.5
 
 /**
  * Pairs each base position {@link pairs} leaves unpaired with the current
@@ -598,21 +567,15 @@ const anchorIndexAtOrAfter = (
   return low
 }
 
-/**
- * Identifies a source reference by its kind as well as its ID, because a file
- * and a logical reference with one ID are different sources.
- */
-const sourceKeyOf = (location: DeepReadonly<SourceLocation>): string =>
-  `${sourceReferenceKind(location)}\0${sourceReferenceId(location)}`
-
-const packedPosition = (
-  location: DeepReadonly<SourceLocation> | undefined,
-  lineWeight: number,
-): number | undefined => {
-  const line = location?.line
-  const position =
-    line === undefined ? undefined : line * lineWeight + (location?.column ?? 0)
-  return Number.isFinite(position) ? position : undefined
+const zipIndices = (
+  baseIndices: number[],
+  currentIndices: number[],
+  pairs: Int32Array,
+) => {
+  const length = Math.min(baseIndices.length, currentIndices.length)
+  for (let index = 0; index < length; index++) {
+    pairs[baseIndices[index]!] = currentIndices[index]!
+  }
 }
 
 const pairedCurrentFlags = (
@@ -626,6 +589,43 @@ const pairedCurrentFlags = (
     }
   }
   return isPairedCurrent
+}
+
+const pairLoneLeftoversWithoutLine = (
+  base: { lineless: number[] },
+  current: { lineless: number[] },
+  pairs: Int32Array,
+  isPairedCurrent: Uint8Array,
+) => {
+  const baseLeftover = loneIndexOf(pairs, -1)
+  if (baseLeftover === undefined) {
+    return
+  }
+  const currentLeftover = loneIndexOf(isPairedCurrent, 0)
+  if (
+    currentLeftover !== undefined &&
+    (base.lineless.includes(baseLeftover) ||
+      current.lineless.includes(currentLeftover))
+  ) {
+    pairs[baseLeftover] = currentLeftover
+    isPairedCurrent[currentLeftover] = 1
+  }
+}
+
+const loneIndexOf = (
+  values: ArrayLike<number>,
+  value: number,
+): number | undefined => {
+  let lone: number | undefined
+  for (let index = 0; index < values.length; index++) {
+    if (values[index] === value) {
+      if (lone !== undefined) {
+        return undefined
+      }
+      lone = index
+    }
+  }
+  return lone
 }
 
 /**
@@ -668,6 +668,27 @@ export type FunctionIdMatcher = <Value>(
 ) => Diff<Value>[]
 
 /**
+ * Returns a function that pairs each side's values keyed by function ID by the
+ * function diff each side's ID belongs to.
+ */
+export const functionIdMatcher = (
+  functionDiffs: readonly Diff<{ id: number }>[],
+): FunctionIdMatcher => {
+  const idToIndex = functionIdIndexes(functionDiffs)
+  return (base, current) => [
+    ...matchDiffedMaps(
+      Iterator.from(base ?? []).map(
+        ([id, value]) => [functionDiffs[idToIndex.base[id]!]!, value] as const,
+      ),
+      Iterator.from(current ?? []).map(
+        ([id, value]) =>
+          [functionDiffs[idToIndex.current[id]!]!, value] as const,
+      ),
+    ).values(),
+  ]
+}
+
+/**
  * Maps each side's function IDs to the index in {@link functionDiffs} of the
  * function diff the ID belongs to.
  */
@@ -689,24 +710,26 @@ export const functionIdIndexes = (
 }
 
 /**
- * Returns a function that pairs each side's values keyed by function ID by the
- * function diff each side's ID belongs to.
+ * Joins two keyed collections into a map from key to the base and current
+ * values for that key.
  */
-export const functionIdMatcher = (
-  functionDiffs: readonly Diff<{ id: number }>[],
-): FunctionIdMatcher => {
-  const idToIndex = functionIdIndexes(functionDiffs)
-  return (base, current) => [
-    ...matchDiffedMaps(
-      Iterator.from(base ?? []).map(
-        ([id, value]) => [functionDiffs[idToIndex.base[id]!]!, value] as const,
-      ),
-      Iterator.from(current ?? []).map(
-        ([id, value]) =>
-          [functionDiffs[idToIndex.current[id]!]!, value] as const,
-      ),
-    ).values(),
-  ]
+export const matchDiffedMaps = <Key, Value>(
+  base: Iterable<readonly [Key, Value]>,
+  current: Iterable<readonly [Key, Value]>,
+): Map<Key, Diff<Value>> => {
+  const matchedMap = new Map<Key, Diff<Value>>()
+  for (const [key, value] of base) {
+    matchedMap.set(key, { base: value })
+  }
+  for (const [key, value] of current) {
+    const existing = matchedMap.get(key)
+    if (existing) {
+      existing.current = value
+    } else {
+      matchedMap.set(key, { current: value })
+    }
+  }
+  return matchedMap
 }
 
 /** A function whose executing lines a diff pairs. */
@@ -714,9 +737,6 @@ type LineDiffableFunction<Metrics> = {
   location?: SourceLocation
   lineToMetrics: ReadonlyMap<number, Metrics>
 }
-
-/** An executing line and its metrics on one side of a diff. */
-export type DiffedLine<Metrics> = { line: number; metrics: Metrics }
 
 /** A diff's two sides, with the functions whose executing lines it pairs. */
 export type LineDiffSides<Metrics> = {
@@ -729,6 +749,9 @@ export type LineDiffSides<Metrics> = {
 export type LineMatcher<Metrics> = (
   func: Diff<LineDiffableFunction<Metrics>>,
 ) => Diff<DiffedLine<Metrics>>[]
+
+/** An executing line and its metrics on one side of a diff. */
+export type DiffedLine<Metrics> = { line: number; metrics: Metrics }
 
 /**
  * Returns a function that pairs the executing lines of a function matched
@@ -797,19 +820,6 @@ export const lineMatcher = <Metrics>(
 }
 
 /**
- * Pairs two sides' finite lines by their distance from a line on each side,
- * returning the index of the current line paired with each base line, or `-1`.
- */
-const pairByDistance = (
-  base: { lines: SortedLines<unknown>; from: number },
-  current: { lines: SortedLines<unknown>; from: number },
-): Int32Array =>
-  pairLines(
-    base.lines.finite.map(({ line }) => line - base.from),
-    current.lines.finite.map(({ line }) => line - current.from),
-  )
-
-/**
  * Returns a function that pairs each executing line of a base file with the
  * current file's line it aligns with, aligning every executing line of each
  * pair of files once.
@@ -848,48 +858,6 @@ const fileLineAligner = <Metrics>(
   }
 }
 
-/**
- * Pairs each finite base line left unpaired before {@link endLine} with the
- * current line its file's alignment pairs it with, where that line is unpaired
- * too, and updates the pairs and the current lines' flags. It aligns the file
- * only when such a line exists.
- */
-const pairByFile = (
-  lines: { base: SortedLines<unknown>; current: SortedLines<unknown> },
-  fileLinePairsOf: () => Map<number, number>,
-  {
-    pairs,
-    isPairedCurrent,
-  }: { pairs: Int32Array; isPairedCurrent: Uint8Array },
-  endLine = Infinity,
-) => {
-  if (!isPairedCurrent.includes(0)) {
-    return
-  }
-  let linePairs: Map<number, number> | undefined
-  let currentIndexes: Map<number, number> | undefined
-  for (let index = 0; index < pairs.length; index++) {
-    const { line } = lines.base.finite[index]!
-    if (pairs[index] !== -1 || line >= endLine) {
-      continue
-    }
-    linePairs ??= fileLinePairsOf()
-    currentIndexes ??= new Map(
-      lines.current.finite.map((currentLine, currentIndex) => [
-        currentLine.line,
-        currentIndex,
-      ]),
-    )
-    const pairedLine = linePairs.get(line)
-    const pair =
-      pairedLine === undefined ? undefined : currentIndexes.get(pairedLine)
-    if (pair !== undefined && !isPairedCurrent[pair]) {
-      pairs[index] = pair
-      isPairedCurrent[pair] = 1
-    }
-  }
-}
-
 /** The sorted distinct finite executing lines of each source reference's functions. */
 const sortedFileLines = (
   functions: readonly LineDiffableFunction<unknown>[],
@@ -918,63 +886,6 @@ const sortedFileLines = (
     ]),
   )
 }
-
-/**
- * The diffs of a function's lines given {@link pairs}, the index of the current
- * line paired with each finite base line or `-1`, and {@link isPairedCurrent},
- * the flags of the current lines they pair.
- */
-const lineDiffs = <Metrics>(
-  baseLines: SortedLines<Metrics>,
-  currentLines: SortedLines<Metrics>,
-  pairs: Int32Array,
-  isPairedCurrent: Uint8Array,
-): Diff<DiffedLine<Metrics>>[] => {
-  const diffs: Diff<DiffedLine<Metrics>>[] = []
-  for (let index = 0; index < pairs.length; index++) {
-    const pair = pairs[index]!
-    diffs.push({
-      base: baseLines.finite[index]!,
-      current: pair === -1 ? undefined : currentLines.finite[pair],
-    })
-  }
-  for (const line of baseLines.nonFinite) {
-    diffs.push({ base: line })
-  }
-  for (let index = 0; index < currentLines.finite.length; index++) {
-    if (!isPairedCurrent[index]) {
-      diffs.push({ current: currentLines.finite[index]! })
-    }
-  }
-  for (const line of currentLines.nonFinite) {
-    diffs.push({ current: line })
-  }
-  return diffs
-}
-
-/**
- * The cost {@link pairLines} gives a change of offset, against the alignment's
- * `UNPAIRED_COST` of 2 per unpaired line.
- *
- * A line is often sampled in one run only, so a few lines at a new offset are
- * more often different lines than lines an edit moved. A run of lines at a new
- * offset inside a function or file costs two changes, so it pairs only when it
- * pairs at least 5 lines on each side, and a run that ends the lines at least
- * 3. Lines at equal positions pair without a change, so a run must also
- * outweigh the equal positions it crosses.
- *
- * Measured with `pnpm evaluate-diff-matching` on the committed version
- * changes, this pairs 97.6% of the lines with their counterparts at 99.6%
- * precision, and 11.5 scores the same. A cost of 3.5 pairs 98.0% at 93.9%, and
- * 83.9% precision on the pairs that profile the same code twice. 7.5 pairs
- * 98.4% at 99.3%, but 99.0% precision on the same code, and 15.5 pairs 96.3%
- * at 99.4%.
- */
-const LINE_OFFSET_CHANGE_COST = 9.5
-
-/** Pairs two strictly increasing lists of line positions. */
-const pairLines = (base: number[], current: number[]): Int32Array =>
-  alignPositions(base, current, { offsetChangeCost: LINE_OFFSET_CHANGE_COST })
 
 type SortedLines<Metrics> = {
   finite: DiffedLine<Metrics>[]
@@ -1025,24 +936,113 @@ const definitionLineOf = (
 }
 
 /**
- * Joins two keyed collections into a map from key to the base and current
- * values for that key.
+ * Pairs two sides' finite lines by their distance from a line on each side,
+ * returning the index of the current line paired with each base line, or `-1`.
  */
-export const matchDiffedMaps = <Key, Value>(
-  base: Iterable<readonly [Key, Value]>,
-  current: Iterable<readonly [Key, Value]>,
-): Map<Key, Diff<Value>> => {
-  const matchedMap = new Map<Key, Diff<Value>>()
-  for (const [key, value] of base) {
-    matchedMap.set(key, { base: value })
+const pairByDistance = (
+  base: { lines: SortedLines<unknown>; from: number },
+  current: { lines: SortedLines<unknown>; from: number },
+): Int32Array =>
+  pairLines(
+    base.lines.finite.map(({ line }) => line - base.from),
+    current.lines.finite.map(({ line }) => line - current.from),
+  )
+
+/** Pairs two strictly increasing lists of line positions. */
+const pairLines = (base: number[], current: number[]): Int32Array =>
+  alignPositions(base, current, { offsetChangeCost: LINE_OFFSET_CHANGE_COST })
+
+/**
+ * The cost {@link pairLines} gives a change of offset, against the alignment's
+ * `UNPAIRED_COST` of 2 per unpaired line.
+ *
+ * A line is often sampled in one run only, so a few lines at a new offset are
+ * more often different lines than lines an edit moved. A run of lines at a new
+ * offset inside a function or file costs two changes, so it pairs only when it
+ * pairs at least 5 lines on each side, and a run that ends the lines at least
+ * 3. Lines at equal positions pair without a change, so a run must also
+ * outweigh the equal positions it crosses.
+ *
+ * Measured with `pnpm evaluate-diff-matching` on the committed version
+ * changes, this pairs 97.6% of the lines with their counterparts at 99.6%
+ * precision, and 11.5 scores the same. A cost of 3.5 pairs 98.0% at 93.9%, and
+ * 83.9% precision on the pairs that profile the same code twice. 7.5 pairs
+ * 98.4% at 99.3%, but 99.0% precision on the same code, and 15.5 pairs 96.3%
+ * at 99.4%.
+ */
+const LINE_OFFSET_CHANGE_COST = 9.5
+
+/**
+ * Pairs each finite base line left unpaired before {@link endLine} with the
+ * current line its file's alignment pairs it with, where that line is unpaired
+ * too, and updates the pairs and the current lines' flags. It aligns the file
+ * only when such a line exists.
+ */
+const pairByFile = (
+  lines: { base: SortedLines<unknown>; current: SortedLines<unknown> },
+  fileLinePairsOf: () => Map<number, number>,
+  {
+    pairs,
+    isPairedCurrent,
+  }: { pairs: Int32Array; isPairedCurrent: Uint8Array },
+  endLine = Infinity,
+) => {
+  if (!isPairedCurrent.includes(0)) {
+    return
   }
-  for (const [key, value] of current) {
-    const existing = matchedMap.get(key)
-    if (existing) {
-      existing.current = value
-    } else {
-      matchedMap.set(key, { current: value })
+  let linePairs: Map<number, number> | undefined
+  let currentIndexes: Map<number, number> | undefined
+  for (let index = 0; index < pairs.length; index++) {
+    const { line } = lines.base.finite[index]!
+    if (pairs[index] !== -1 || line >= endLine) {
+      continue
+    }
+    linePairs ??= fileLinePairsOf()
+    currentIndexes ??= new Map(
+      lines.current.finite.map((currentLine, currentIndex) => [
+        currentLine.line,
+        currentIndex,
+      ]),
+    )
+    const pairedLine = linePairs.get(line)
+    const pair =
+      pairedLine === undefined ? undefined : currentIndexes.get(pairedLine)
+    if (pair !== undefined && !isPairedCurrent[pair]) {
+      pairs[index] = pair
+      isPairedCurrent[pair] = 1
     }
   }
-  return matchedMap
+}
+
+/**
+ * The diffs of a function's lines given {@link pairs}, the index of the current
+ * line paired with each finite base line or `-1`, and {@link isPairedCurrent},
+ * the flags of the current lines they pair.
+ */
+const lineDiffs = <Metrics>(
+  baseLines: SortedLines<Metrics>,
+  currentLines: SortedLines<Metrics>,
+  pairs: Int32Array,
+  isPairedCurrent: Uint8Array,
+): Diff<DiffedLine<Metrics>>[] => {
+  const diffs: Diff<DiffedLine<Metrics>>[] = []
+  for (let index = 0; index < pairs.length; index++) {
+    const pair = pairs[index]!
+    diffs.push({
+      base: baseLines.finite[index]!,
+      current: pair === -1 ? undefined : currentLines.finite[pair],
+    })
+  }
+  for (const line of baseLines.nonFinite) {
+    diffs.push({ base: line })
+  }
+  for (let index = 0; index < currentLines.finite.length; index++) {
+    if (!isPairedCurrent[index]) {
+      diffs.push({ current: currentLines.finite[index]! })
+    }
+  }
+  for (const line of currentLines.nonFinite) {
+    diffs.push({ current: line })
+  }
+  return diffs
 }

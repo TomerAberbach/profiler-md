@@ -1,12 +1,9 @@
 import { formats, formatToSpec } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 
-type LanguageAlias = {
-  readonly id: string
-  readonly name: string
-  /** The language's icon name in the Devicon set. */
-  readonly icon: string
-}
+export type LanguageId = (typeof languageMetas)[number][0]
+
+export type Language = LanguageMeta & { formats: Format[] }
 
 type LanguageMeta = {
   readonly name: string
@@ -20,12 +17,17 @@ type LanguageMeta = {
   readonly extensions?: readonly string[]
 }
 
-export type Language = LanguageMeta & { formats: Format[] }
-
-export const DEVICON_VERSION = `2.17.0`
+type LanguageAlias = {
+  readonly id: string
+  readonly name: string
+  /** The language's icon name in the Devicon set. */
+  readonly icon: string
+}
 
 export const languageIconUrl = (icon: string): string =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon@v${DEVICON_VERSION}/icons/${icon}/${icon}-original.svg`
+
+export const DEVICON_VERSION = `2.17.0`
 
 const languageMetas = [
   [
@@ -160,8 +162,6 @@ const languageMetas = [
     },
   ],
 ] as const satisfies readonly (readonly [string, LanguageMeta])[]
-
-export type LanguageId = (typeof languageMetas)[number][0]
 
 export const languages: ReadonlyMap<string, Language> = new Map(
   languageMetas.map(([id, meta]) => [

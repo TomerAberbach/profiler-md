@@ -35,11 +35,6 @@ const readText = (data: string | Uint8Array): string => {
   return decoded
 }
 
-const readTextAsync = async (
-  data: Blob | ReadableStream<Uint8Array> | Uint8Array,
-): Promise<string> =>
-  readText(ArrayBuffer.isView(data) ? data : await bytesOf(data))
-
 // Vitest runs on Node, so `#compression` resolves to the Node runtime here.
 describe(`withDecompressed`, () => {
   test(`passes a string through`, () => {
@@ -115,6 +110,11 @@ describe(`withDecompressed`, () => {
     )
   })
 })
+
+const readTextAsync = async (
+  data: Blob | ReadableStream<Uint8Array> | Uint8Array,
+): Promise<string> =>
+  readText(ArrayBuffer.isView(data) ? data : await bytesOf(data))
 
 describe(`withDecompressedAsync`, () => {
   test(`passes an uncompressed blob through`, async () => {

@@ -48,6 +48,8 @@ export const ecmaScriptBuiltinCategory = ({
     ? `stdlib`
     : undefined
 
+let builtinNames: ReadonlySet<string> | undefined
+
 /**
  * The names of the globals the language defines and of the methods on them,
  * derived from the running engine rather than listed, so the set matches
@@ -98,24 +100,12 @@ const getBuiltinNames = (): ReadonlySet<string> => {
   return names
 }
 
-let builtinNames: ReadonlySet<string> | undefined
-
 /** One iterator per intrinsic iterator prototype the language defines. */
 const ITERATORS = [
   [][Symbol.iterator](),
   ``[Symbol.iterator](),
   new Map()[Symbol.iterator](),
 ]
-
-export const hasNodeModulesPath = (
-  location: DeepReadonly<SourceLocation> | undefined,
-): boolean => {
-  if (!location) {
-    return false
-  }
-  const path = sourceReferencePathOrName(location)
-  return path.startsWith(`node_modules/`) || path.includes(`/node_modules/`)
-}
 
 /**
  * Categorizes a frame resolved from a `node_modules/` directory as
@@ -128,6 +118,16 @@ export const nodeModulesCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   hasNodeModulesPath(location) ? `third-party` : undefined
+
+export const hasNodeModulesPath = (
+  location: DeepReadonly<SourceLocation> | undefined,
+): boolean => {
+  if (!location) {
+    return false
+  }
+  const path = sourceReferencePathOrName(location)
+  return path.startsWith(`node_modules/`) || path.includes(`/node_modules/`)
+}
 
 /**
  * The heap snapshot category of a constructor named {@link name} under
@@ -155,6 +155,8 @@ export const javaScriptConstructorCategory = (
 ): HeapSnapshotNodeCategory | undefined =>
   getConstructorNameToCategory().get(name)
 
+let constructorNameToCategory: Map<string, HeapSnapshotNodeCategory> | undefined
+
 const getConstructorNameToCategory = (): Map<
   string,
   HeapSnapshotNodeCategory
@@ -171,8 +173,6 @@ const getConstructorNameToCategory = (): Map<
   )
   return constructorNameToCategory
 }
-
-let constructorNameToCategory: Map<string, HeapSnapshotNodeCategory> | undefined
 
 /** The classes JavaScript defines, by the category they belong to. */
 const CATEGORY_TO_CLASS_NAMES = {

@@ -1,3 +1,11 @@
+export const makeSysting = (
+  records: unknown[],
+  header: object = systingHeader,
+): Uint8Array =>
+  new TextEncoder().encode(
+    [header, ...records].map(value => JSON.stringify(value)).join(`\n`),
+  )
+
 export const systingHeader = {
   systing_profile_export: 1,
   producer: `systing 1.11.4`,
@@ -16,11 +24,3 @@ export const systingHeader = {
   end_ts: 2_000_000_000,
   system: { sysname: `Linux`, release: `6.12.0`, machine: `x86_64` },
 }
-
-export const makeSysting = (
-  records: unknown[],
-  header: object = systingHeader,
-): Uint8Array =>
-  new TextEncoder().encode(
-    [header, ...records].map(value => JSON.stringify(value)).join(`\n`),
-  )

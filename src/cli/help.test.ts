@@ -27,14 +27,6 @@ describe(`every help topic has a doc file`, () => {
 
 const stdoutColumns = Object.getOwnPropertyDescriptor(process.stdout, `columns`)
 
-const setStdoutColumns = (columns: number | undefined): void => {
-  Object.defineProperty(process.stdout, `columns`, {
-    value: columns,
-    configurable: true,
-    writable: true,
-  })
-}
-
 beforeEach(() => {
   vi.stubEnv(`COLUMNS`, undefined)
 })
@@ -47,6 +39,14 @@ afterEach(() => {
     delete (process.stdout as { columns?: number }).columns
   }
 })
+
+const setStdoutColumns = (columns: number | undefined): void => {
+  Object.defineProperty(process.stdout, `columns`, {
+    value: columns,
+    configurable: true,
+    writable: true,
+  })
+}
 
 test(`getHelpText wraps to 80 columns when the terminal reports zero`, () => {
   setStdoutColumns(80)

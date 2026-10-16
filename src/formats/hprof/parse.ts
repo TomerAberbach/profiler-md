@@ -36,59 +36,6 @@ export const parseHprofAsync = async (
 ): Promise<HeapSnapshot[]> =>
   parseHprof(await streamToUint8Array(stream), recordTally)
 
-/** The prefix of the format name every dump begins with, which the version follows. */
-export const HPROF_MAGIC = new TextEncoder().encode(`JAVA PROFILE `)
-
-/** The format name every dump begins with, at a version the parser reads. */
-const HPROF_FORMAT_NAME = /^JAVA PROFILE 1\.0\.\d+$/u
-
-/** Top-level record tags. */
-const HPROF_UTF8 = 0x01
-const HPROF_LOAD_CLASS = 0x02
-const HPROF_HEAP_DUMP = 0x0c
-const HPROF_HEAP_DUMP_SEGMENT = 0x1c
-const HPROF_HEAP_DUMP_END = 0x2c
-
-/** Heap dump sub-record tags. */
-const HPROF_GC_ROOT_UNKNOWN = 0xff
-const HPROF_GC_ROOT_JNI_GLOBAL = 0x01
-const HPROF_GC_ROOT_JNI_LOCAL = 0x02
-const HPROF_GC_ROOT_JAVA_FRAME = 0x03
-const HPROF_GC_ROOT_NATIVE_STACK = 0x04
-const HPROF_GC_ROOT_STICKY_CLASS = 0x05
-const HPROF_GC_ROOT_THREAD_BLOCK = 0x06
-const HPROF_GC_ROOT_MONITOR_USED = 0x07
-const HPROF_GC_ROOT_THREAD_OBJECT = 0x08
-const HPROF_GC_CLASS_DUMP = 0x20
-const HPROF_GC_INSTANCE_DUMP = 0x21
-const HPROF_GC_OBJECT_ARRAY_DUMP = 0x22
-const HPROF_GC_PRIMITIVE_ARRAY_DUMP = 0x23
-
-/** The basic types a field, array element, or constant can have. */
-const TYPE_OBJECT = 2
-const TYPE_BOOLEAN = 4
-const TYPE_CHAR = 5
-const TYPE_FLOAT = 6
-const TYPE_DOUBLE = 7
-const TYPE_BYTE = 8
-const TYPE_SHORT = 9
-const TYPE_INT = 10
-const TYPE_LONG = 11
-
-const PRIMITIVE_TYPE_NAMES: ReadonlyMap<number, string> = new Map([
-  [TYPE_BOOLEAN, `boolean`],
-  [TYPE_CHAR, `char`],
-  [TYPE_FLOAT, `float`],
-  [TYPE_DOUBLE, `double`],
-  [TYPE_BYTE, `byte`],
-  [TYPE_SHORT, `short`],
-  [TYPE_INT, `int`],
-  [TYPE_LONG, `long`],
-])
-
-/** The class every class object is an instance of. */
-const CLASS_CONSTRUCTOR_NAME = `java.lang.Class`
-
 /** A parsed dump's header and the records read from a single pass over it. */
 type Dump = {
   bytes: Uint8Array
@@ -117,63 +64,8 @@ type Dump = {
   heapDumpRanges: number[]
 }
 
-/** A class dumped in the heap, describing the layout of its instances. */
-type DumpedClass = {
-  superObjectId: number
-  loaderObjectId: number
-  signersObjectId: number
-  protectionDomainObjectId: number
-
-  /** The bytes the dump records for this class's static field values. */
-  staticFieldsSize: number
-
-  /** The name string ID of each instance field this class declares. */
-  fieldNameStringIds: Float64Array
-
-  /** The basic type of each instance field this class declares. */
-  fieldTypes: Uint8Array
-
-  /** The name string ID of each static field holding an object reference. */
-  staticNameStringIds: Float64Array
-
-  /** The object each static field references, `0` for a null reference. */
-  staticObjectIds: Float64Array
-
-  /** Resolved on first use, since a dump holds classes with no instances. */
-  flattenedFields?: FlattenedFields
-}
-
-/**
- * The instance fields of a class followed by its super classes', the order an
- * instance's field values are written in.
- */
-type FlattenedFields = {
-  nameStringIds: Float64Array
-  types: Uint8Array
-}
-
-/** The nodes a dump's heap records define, indexed by node ordinal. */
-type Nodes = {
-  /** Node count, including the synthetic GC root at ordinal 0. */
-  nodeCount: number
-
-  ordinalOf: ObjectIdToOrdinal
-
-  /** The offset of each node's sub-record body, by ordinal. */
-  recordOffsets: Float64Array
-
-  /** The bytes the dump records for each node, by ordinal. */
-  selfSizes: Float64Array
-
-  /** Each dumped class, by the ordinal of its class object. */
-  classes: Map<number, DumpedClass>
-
-  /**
-   * The root sub-record tag that reported each node as a GC root, `0` for a
-   * node no root reports.
-   */
-  rootTags: Uint8Array
-}
+/** The byte width of every identifier in a dump, stated by its header. */
+type IdentifierSize = 4 | 8
 
 const readDump = (bytes: Uint8Array, recordTally: RecordTally): Dump => {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
@@ -197,9 +89,6 @@ const readDump = (bytes: Uint8Array, recordTally: RecordTally): Dump => {
 
   return dump
 }
-
-/** The byte width of every identifier in a dump, stated by its header. */
-type IdentifierSize = 4 | 8
 
 /**
  * Reads the identifier size out of the header, along with the offset the
@@ -231,6 +120,15 @@ const readHeader = (
   return { idSize, recordsOffset: offset + 12 }
 }
 
+/** The longest format name a dump can begin with, e.g. `JAVA PROFILE 1.0.2`. */
+const MAX_FORMAT_NAME_LENGTH = 64
+
+/** The prefix of the format name every dump begins with, which the version follows. */
+export const HPROF_MAGIC = new TextEncoder().encode(`JAVA PROFILE `)
+
+/** The format name every dump begins with, at a version the parser reads. */
+const HPROF_FORMAT_NAME = /^JAVA PROFILE 1\.0\.\d+$/u
+
 /**
  * Reads an identifier of {@link idSize} bytes.
  *
@@ -246,6 +144,17 @@ const idReader = (
     ? (offset: number): number =>
         view.getUint32(offset) * 0x1_00_00_00_00 + view.getUint32(offset + 4)
     : (offset: number): number => view.getUint32(offset)
+
+/** The basic types a field, array element, or constant can have. */
+const TYPE_OBJECT = 2
+const TYPE_BOOLEAN = 4
+const TYPE_CHAR = 5
+const TYPE_FLOAT = 6
+const TYPE_DOUBLE = 7
+const TYPE_BYTE = 8
+const TYPE_SHORT = 9
+const TYPE_INT = 10
+const TYPE_LONG = 11
 
 const basicTypeSizes = (idSize: IdentifierSize): Int32Array => {
   const typeSizes = new Int32Array(TYPE_LONG + 1).fill(-1)
@@ -327,114 +236,51 @@ const readTopLevelRecords = (
   }
 }
 
-/** The longest format name a dump can begin with, e.g. `JAVA PROFILE 1.0.2`. */
-const MAX_FORMAT_NAME_LENGTH = 64
+/** Top-level record tags. */
+const HPROF_UTF8 = 0x01
+const HPROF_LOAD_CLASS = 0x02
+const HPROF_HEAP_DUMP = 0x0c
+const HPROF_HEAP_DUMP_SEGMENT = 0x1c
+const HPROF_HEAP_DUMP_END = 0x2c
 
-const DECODER = new TextDecoder()
+/** Heap dump sub-record tags. */
+const HPROF_GC_ROOT_UNKNOWN = 0xff
+const HPROF_GC_ROOT_JNI_GLOBAL = 0x01
+const HPROF_GC_ROOT_JNI_LOCAL = 0x02
+const HPROF_GC_ROOT_JAVA_FRAME = 0x03
+const HPROF_GC_ROOT_NATIVE_STACK = 0x04
+const HPROF_GC_ROOT_STICKY_CLASS = 0x05
+const HPROF_GC_ROOT_THREAD_BLOCK = 0x06
+const HPROF_GC_ROOT_MONITOR_USED = 0x07
+const HPROF_GC_ROOT_THREAD_OBJECT = 0x08
+const HPROF_GC_CLASS_DUMP = 0x20
+const HPROF_GC_INSTANCE_DUMP = 0x21
+const HPROF_GC_OBJECT_ARRAY_DUMP = 0x22
+const HPROF_GC_PRIMITIVE_ARRAY_DUMP = 0x23
 
-const forEachSubRecord = (
-  dump: Dump,
-  visit: (tag: number, body: number) => void,
-): void => {
-  const { bytes, heapDumpRanges } = dump
-  for (let range = 0; range < heapDumpRanges.length; range += 2) {
-    let offset = heapDumpRanges[range]!
-    const end = heapDumpRanges[range + 1]!
-    while (offset < end) {
-      const tag = bytes[offset]!
-      const body = offset + 1
-      offset = subRecordEnd(dump, tag, body)
-      // The JVM writes whole sub-records into each segment.
-      if (offset > end) {
-        throw new FormatParseError(
-          `heap dump sub-record of tag 0x${tag.toString(16)} runs past its record`,
-        )
-      }
-      visit(tag, body)
-    }
-  }
-}
+const GC_ROOT_ORDINAL = 0
 
-/** The offset just past the sub-record of {@link tag} whose body is at {@link body}. */
-const subRecordEnd = (dump: Dump, tag: number, body: number): number => {
-  const { bytes, view, idSize, typeSizes } = dump
-  switch (tag) {
-    case HPROF_GC_ROOT_UNKNOWN:
-    case HPROF_GC_ROOT_STICKY_CLASS:
-    case HPROF_GC_ROOT_MONITOR_USED:
-      return body + idSize
-    case HPROF_GC_ROOT_JNI_GLOBAL:
-      return body + idSize * 2
-    case HPROF_GC_ROOT_NATIVE_STACK:
-    case HPROF_GC_ROOT_THREAD_BLOCK:
-      return body + idSize + 4
-    case HPROF_GC_ROOT_JNI_LOCAL:
-    case HPROF_GC_ROOT_JAVA_FRAME:
-    case HPROF_GC_ROOT_THREAD_OBJECT:
-      return body + idSize + 8
-    case HPROF_GC_CLASS_DUMP:
-      return classDumpEnd(dump, body)
-    case HPROF_GC_INSTANCE_DUMP:
-      return body + idSize * 2 + 8 + view.getUint32(body + idSize * 2 + 4)
-    case HPROF_GC_OBJECT_ARRAY_DUMP:
-      return body + idSize * 2 + 8 + view.getUint32(body + idSize + 4) * idSize
-    case HPROF_GC_PRIMITIVE_ARRAY_DUMP: {
-      const length = view.getUint32(body + idSize + 4)
-      const type = bytes[body + idSize + 8]!
-      return body + idSize + 9 + length * basicTypeSize(typeSizes, type)
-    }
-    default:
-      throw new FormatParseError(
-        `unsupported heap dump sub-record tag, got: 0x${tag.toString(16).padStart(2, `0`)}`,
-      )
-  }
-}
+/** The nodes a dump's heap records define, indexed by node ordinal. */
+type Nodes = {
+  /** Node count, including the synthetic GC root at ordinal 0. */
+  nodeCount: number
 
-/**
- * The offset just past the class dump whose body is at {@link body}.
- *
- * A class dump's length depends on its constant pool and field descriptors, so
- * it is measured by reading past them.
- */
-const classDumpEnd = (dump: Dump, body: number): number => {
-  const { bytes, view, idSize, typeSizes } = dump
+  ordinalOf: ObjectIdToOrdinal
 
-  let offset = constantPoolEnd(dump, body)
-  const staticFieldCount = view.getUint16(offset)
-  offset += 2
-  for (let index = 0; index < staticFieldCount; index++) {
-    offset += idSize + 1 + basicTypeSize(typeSizes, bytes[offset + idSize]!)
-  }
+  /** The offset of each node's sub-record body, by ordinal. */
+  recordOffsets: Float64Array
 
-  const instanceFieldCount = view.getUint16(offset)
-  return offset + 2 + instanceFieldCount * (idSize + 1)
-}
+  /** The bytes the dump records for each node, by ordinal. */
+  selfSizes: Float64Array
 
-/**
- * The offset just past the constant pool of the class dump whose body is at
- * {@link body}, where its static field descriptors begin.
- */
-const constantPoolEnd = (dump: Dump, body: number): number => {
-  const { bytes, view, idSize, typeSizes } = dump
+  /** Each dumped class, by the ordinal of its class object. */
+  classes: Map<number, DumpedClass>
 
-  // The class object, the stack trace serial number, the super class, the
-  // loader, the signers, the protection domain, the two reserved identifiers,
-  // and the instance size.
-  let offset = body + idSize * 7 + 8
-  const constantPoolCount = view.getUint16(offset)
-  offset += 2
-  for (let index = 0; index < constantPoolCount; index++) {
-    offset += 3 + basicTypeSize(typeSizes, bytes[offset + 2]!)
-  }
-  return offset
-}
-
-const basicTypeSize = (typeSizes: Int32Array, type: number): number => {
-  const size = typeSizes[type] ?? -1
-  if (size < 0) {
-    throw new FormatParseError(`unsupported basic type, got: ${type}`)
-  }
-  return size
+  /**
+   * The root sub-record tag that reported each node as a GC root, `0` for a
+   * node no root reports.
+   */
+  rootTags: Uint8Array
 }
 
 /**
@@ -529,46 +375,39 @@ const readNodes = (dump: Dump, recordTally: RecordTally): Nodes => {
   }
 }
 
-/**
- * The bytes the dump records for the object at {@link body}: an instance's
- * field values, or an array's elements.
- */
-const dumpedObjectSize = (dump: Dump, tag: number, body: number): number => {
-  const { bytes, view, idSize, typeSizes } = dump
-  switch (tag) {
-    case HPROF_GC_INSTANCE_DUMP:
-      return view.getUint32(body + idSize * 2 + 4)
-    case HPROF_GC_OBJECT_ARRAY_DUMP:
-      return view.getUint32(body + idSize + 4) * idSize
-    default:
-      return (
-        view.getUint32(body + idSize + 4) *
-        basicTypeSize(typeSizes, bytes[body + idSize + 8]!)
-      )
-  }
+/** A class dumped in the heap, describing the layout of its instances. */
+type DumpedClass = {
+  superObjectId: number
+  loaderObjectId: number
+  signersObjectId: number
+  protectionDomainObjectId: number
+
+  /** The bytes the dump records for this class's static field values. */
+  staticFieldsSize: number
+
+  /** The name string ID of each instance field this class declares. */
+  fieldNameStringIds: Float64Array
+
+  /** The basic type of each instance field this class declares. */
+  fieldTypes: Uint8Array
+
+  /** The name string ID of each static field holding an object reference. */
+  staticNameStringIds: Float64Array
+
+  /** The object each static field references, `0` for a null reference. */
+  staticObjectIds: Float64Array
+
+  /** Resolved on first use, since a dump holds classes with no instances. */
+  flattenedFields?: FlattenedFields
 }
 
 /**
- * The root sub-record tag that reported each node as a GC root, by ordinal.
- *
- * A dump reports the same object as a root through several references (a class
- * both loaded and referenced from a frame, say), so the first tag reported for
- * an object stands. It also reports roots for objects it dumps no record for,
- * such as a JNI local of a thread that exited.
+ * The instance fields of a class followed by its super classes', the order an
+ * instance's field values are written in.
  */
-const resolveRootTags = (
-  ordinalOf: ObjectIdToOrdinal,
-  nodeCount: number,
-  rootRecords: readonly number[],
-): Uint8Array => {
-  const rootTags = new Uint8Array(nodeCount)
-  for (let index = 0; index < rootRecords.length; index += 2) {
-    const ordinal = ordinalOf.get(rootRecords[index]!)
-    if (ordinal !== -1 && rootTags[ordinal] === 0) {
-      rootTags[ordinal] = rootRecords[index + 1]!
-    }
-  }
-  return rootTags
+type FlattenedFields = {
+  nameStringIds: Float64Array
+  types: Uint8Array
 }
 
 /** Reads a class dump's super class, loader, and field descriptors. */
@@ -622,6 +461,48 @@ const readClass = (dump: Dump, body: number): DumpedClass => {
   }
 }
 
+/**
+ * The bytes the dump records for the object at {@link body}: an instance's
+ * field values, or an array's elements.
+ */
+const dumpedObjectSize = (dump: Dump, tag: number, body: number): number => {
+  const { bytes, view, idSize, typeSizes } = dump
+  switch (tag) {
+    case HPROF_GC_INSTANCE_DUMP:
+      return view.getUint32(body + idSize * 2 + 4)
+    case HPROF_GC_OBJECT_ARRAY_DUMP:
+      return view.getUint32(body + idSize + 4) * idSize
+    default:
+      return (
+        view.getUint32(body + idSize + 4) *
+        basicTypeSize(typeSizes, bytes[body + idSize + 8]!)
+      )
+  }
+}
+
+/**
+ * The root sub-record tag that reported each node as a GC root, by ordinal.
+ *
+ * A dump reports the same object as a root through several references (a class
+ * both loaded and referenced from a frame, say), so the first tag reported for
+ * an object stands. It also reports roots for objects it dumps no record for,
+ * such as a JNI local of a thread that exited.
+ */
+const resolveRootTags = (
+  ordinalOf: ObjectIdToOrdinal,
+  nodeCount: number,
+  rootRecords: readonly number[],
+): Uint8Array => {
+  const rootTags = new Uint8Array(nodeCount)
+  for (let index = 0; index < rootRecords.length; index += 2) {
+    const ordinal = ordinalOf.get(rootRecords[index]!)
+    if (ordinal !== -1 && rootTags[ordinal] === 0) {
+      rootTags[ordinal] = rootRecords[index + 1]!
+    }
+  }
+  return rootTags
+}
+
 const buildHeapSnapshot = (dump: Dump, nodes: Nodes): HeapSnapshot => {
   const { nodeCount, selfSizes } = nodes
   const references = readReferences(dump, nodes)
@@ -653,29 +534,6 @@ const buildHeapSnapshot = (dump: Dump, nodes: Nodes): HeapSnapshot => {
       unresolvedCategoryOf(nodeOrdinal, dump, nodes),
   }
 }
-
-/** Classifies a node by the heap dump record that declares it. */
-const unresolvedCategoryOf = (
-  nodeOrdinal: number,
-  { bytes }: Dump,
-  { recordOffsets }: Nodes,
-): UnresolvedHeapSnapshotNodeCategory => {
-  if (nodeOrdinal === GC_ROOT_ORDINAL) {
-    return { category: `synthetic` }
-  }
-  switch (bytes[recordOffsets[nodeOrdinal]! - 1]!) {
-    case HPROF_GC_CLASS_DUMP:
-      // A class object describes the layout its instances share, which is
-      // what an object shape is in the languages that name one.
-      return { category: `object-shape` }
-    case HPROF_GC_INSTANCE_DUMP:
-      return { category: `object` }
-    default:
-      return { category: `array` }
-  }
-}
-
-const GC_ROOT_ORDINAL = 0
 
 /** Every edge between nodes, grouped by the node that holds it. */
 type References = {
@@ -792,6 +650,111 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
   }
 }
 
+const forEachSubRecord = (
+  dump: Dump,
+  visit: (tag: number, body: number) => void,
+): void => {
+  const { bytes, heapDumpRanges } = dump
+  for (let range = 0; range < heapDumpRanges.length; range += 2) {
+    let offset = heapDumpRanges[range]!
+    const end = heapDumpRanges[range + 1]!
+    while (offset < end) {
+      const tag = bytes[offset]!
+      const body = offset + 1
+      offset = subRecordEnd(dump, tag, body)
+      // The JVM writes whole sub-records into each segment.
+      if (offset > end) {
+        throw new FormatParseError(
+          `heap dump sub-record of tag 0x${tag.toString(16)} runs past its record`,
+        )
+      }
+      visit(tag, body)
+    }
+  }
+}
+
+/** The offset just past the sub-record of {@link tag} whose body is at {@link body}. */
+const subRecordEnd = (dump: Dump, tag: number, body: number): number => {
+  const { bytes, view, idSize, typeSizes } = dump
+  switch (tag) {
+    case HPROF_GC_ROOT_UNKNOWN:
+    case HPROF_GC_ROOT_STICKY_CLASS:
+    case HPROF_GC_ROOT_MONITOR_USED:
+      return body + idSize
+    case HPROF_GC_ROOT_JNI_GLOBAL:
+      return body + idSize * 2
+    case HPROF_GC_ROOT_NATIVE_STACK:
+    case HPROF_GC_ROOT_THREAD_BLOCK:
+      return body + idSize + 4
+    case HPROF_GC_ROOT_JNI_LOCAL:
+    case HPROF_GC_ROOT_JAVA_FRAME:
+    case HPROF_GC_ROOT_THREAD_OBJECT:
+      return body + idSize + 8
+    case HPROF_GC_CLASS_DUMP:
+      return classDumpEnd(dump, body)
+    case HPROF_GC_INSTANCE_DUMP:
+      return body + idSize * 2 + 8 + view.getUint32(body + idSize * 2 + 4)
+    case HPROF_GC_OBJECT_ARRAY_DUMP:
+      return body + idSize * 2 + 8 + view.getUint32(body + idSize + 4) * idSize
+    case HPROF_GC_PRIMITIVE_ARRAY_DUMP: {
+      const length = view.getUint32(body + idSize + 4)
+      const type = bytes[body + idSize + 8]!
+      return body + idSize + 9 + length * basicTypeSize(typeSizes, type)
+    }
+    default:
+      throw new FormatParseError(
+        `unsupported heap dump sub-record tag, got: 0x${tag.toString(16).padStart(2, `0`)}`,
+      )
+  }
+}
+
+/**
+ * The offset just past the class dump whose body is at {@link body}.
+ *
+ * A class dump's length depends on its constant pool and field descriptors, so
+ * it is measured by reading past them.
+ */
+const classDumpEnd = (dump: Dump, body: number): number => {
+  const { bytes, view, idSize, typeSizes } = dump
+
+  let offset = constantPoolEnd(dump, body)
+  const staticFieldCount = view.getUint16(offset)
+  offset += 2
+  for (let index = 0; index < staticFieldCount; index++) {
+    offset += idSize + 1 + basicTypeSize(typeSizes, bytes[offset + idSize]!)
+  }
+
+  const instanceFieldCount = view.getUint16(offset)
+  return offset + 2 + instanceFieldCount * (idSize + 1)
+}
+
+/**
+ * The offset just past the constant pool of the class dump whose body is at
+ * {@link body}, where its static field descriptors begin.
+ */
+const constantPoolEnd = (dump: Dump, body: number): number => {
+  const { bytes, view, idSize, typeSizes } = dump
+
+  // The class object, the stack trace serial number, the super class, the
+  // loader, the signers, the protection domain, the two reserved identifiers,
+  // and the instance size.
+  let offset = body + idSize * 7 + 8
+  const constantPoolCount = view.getUint16(offset)
+  offset += 2
+  for (let index = 0; index < constantPoolCount; index++) {
+    offset += 3 + basicTypeSize(typeSizes, bytes[offset + 2]!)
+  }
+  return offset
+}
+
+const basicTypeSize = (typeSizes: Int32Array, type: number): number => {
+  const size = typeSizes[type] ?? -1
+  if (size < 0) {
+    throw new FormatParseError(`unsupported basic type, got: ${type}`)
+  }
+  return size
+}
+
 const addClassReferences = (
   nodes: Nodes,
   classOrdinal: number,
@@ -849,88 +812,6 @@ const addArrayReferences = (
   for (let index = 0; index < length; index++) {
     addReference(nodes.ordinalOf.get(readId(offset)))
     offset += idSize
-  }
-}
-
-/**
- * A class whose own dump the heap lacks contributes no fields, which leaves the
- * instance's remaining field values unread rather than misread, since the
- * missing layout is what says how wide they are.
- */
-const flattenedFieldsOf = (
-  dump: Dump,
-  nodes: Nodes,
-  classOrdinal: number,
-): FlattenedFields => {
-  const dumpedClass = nodes.classes.get(classOrdinal)
-  if (!dumpedClass) {
-    return EMPTY_FIELDS
-  }
-  if (dumpedClass.flattenedFields) {
-    return dumpedClass.flattenedFields
-  }
-
-  const superFields = flattenedFieldsOf(
-    dump,
-    nodes,
-    nodes.ordinalOf.get(dumpedClass.superObjectId),
-  )
-  const { fieldNameStringIds, fieldTypes } = dumpedClass
-  const nameStringIds = new Float64Array(
-    fieldNameStringIds.length + superFields.nameStringIds.length,
-  )
-  nameStringIds.set(fieldNameStringIds)
-  nameStringIds.set(superFields.nameStringIds, fieldNameStringIds.length)
-  const types = new Uint8Array(nameStringIds.length)
-  types.set(fieldTypes)
-  types.set(superFields.types, fieldTypes.length)
-
-  const flattenedFields = { nameStringIds, types }
-  dumpedClass.flattenedFields = flattenedFields
-  return flattenedFields
-}
-
-const EMPTY_FIELDS: FlattenedFields = {
-  nameStringIds: new Float64Array(0),
-  types: new Uint8Array(0),
-}
-
-function* heapSnapshotNodes(
-  dump: Dump,
-  nodes: Nodes,
-  names: NodeNames,
-): Iterable<HeapSnapshotNode> {
-  const { bytes, idSize, readId } = dump
-  const { nodeCount, recordOffsets, ordinalOf } = nodes
-
-  yield unresolvedCategoryOf(GC_ROOT_ORDINAL, dump, nodes)
-
-  for (let ordinal = 1; ordinal < nodeCount; ordinal++) {
-    const { category } = unresolvedCategoryOf(ordinal, dump, nodes)
-    const body = recordOffsets[ordinal]!
-    switch (bytes[body - 1]!) {
-      case HPROF_GC_CLASS_DUMP:
-        yield {
-          category,
-          type: `constructor`,
-          name: CLASS_CONSTRUCTOR_NAME,
-        }
-        break
-      case HPROF_GC_INSTANCE_DUMP:
-        yield {
-          category,
-          type: `constructor`,
-          name: names.classNameOf(ordinalOf.get(readId(body + idSize + 4))),
-        }
-        break
-      default:
-        yield {
-          category,
-          type: `constructor`,
-          name: names.labelOf(ordinal),
-        }
-        break
-    }
   }
 }
 
@@ -1022,6 +903,19 @@ class NodeNames {
   }
 }
 
+const DECODER = new TextDecoder()
+
+const PRIMITIVE_TYPE_NAMES: ReadonlyMap<number, string> = new Map([
+  [TYPE_BOOLEAN, `boolean`],
+  [TYPE_CHAR, `char`],
+  [TYPE_FLOAT, `float`],
+  [TYPE_DOUBLE, `double`],
+  [TYPE_BYTE, `byte`],
+  [TYPE_SHORT, `short`],
+  [TYPE_INT, `int`],
+  [TYPE_LONG, `long`],
+])
+
 const primitiveTypeName = (type: number): string =>
   PRIMITIVE_TYPE_NAMES.get(type) ?? `(unknown)`
 
@@ -1048,6 +942,69 @@ const javaClassName = (rawName: string): string => {
     : (JVM_PRIMITIVE_DESCRIPTOR_NAMES.get(descriptor) ?? descriptor)
   return elementName + `[]`.repeat(dimensions)
 }
+
+function* heapSnapshotNodes(
+  dump: Dump,
+  nodes: Nodes,
+  names: NodeNames,
+): Iterable<HeapSnapshotNode> {
+  const { bytes, idSize, readId } = dump
+  const { nodeCount, recordOffsets, ordinalOf } = nodes
+
+  yield unresolvedCategoryOf(GC_ROOT_ORDINAL, dump, nodes)
+
+  for (let ordinal = 1; ordinal < nodeCount; ordinal++) {
+    const { category } = unresolvedCategoryOf(ordinal, dump, nodes)
+    const body = recordOffsets[ordinal]!
+    switch (bytes[body - 1]!) {
+      case HPROF_GC_CLASS_DUMP:
+        yield {
+          category,
+          type: `constructor`,
+          name: CLASS_CONSTRUCTOR_NAME,
+        }
+        break
+      case HPROF_GC_INSTANCE_DUMP:
+        yield {
+          category,
+          type: `constructor`,
+          name: names.classNameOf(ordinalOf.get(readId(body + idSize + 4))),
+        }
+        break
+      default:
+        yield {
+          category,
+          type: `constructor`,
+          name: names.labelOf(ordinal),
+        }
+        break
+    }
+  }
+}
+
+/** Classifies a node by the heap dump record that declares it. */
+const unresolvedCategoryOf = (
+  nodeOrdinal: number,
+  { bytes }: Dump,
+  { recordOffsets }: Nodes,
+): UnresolvedHeapSnapshotNodeCategory => {
+  if (nodeOrdinal === GC_ROOT_ORDINAL) {
+    return { category: `synthetic` }
+  }
+  switch (bytes[recordOffsets[nodeOrdinal]! - 1]!) {
+    case HPROF_GC_CLASS_DUMP:
+      // A class object describes the layout its instances share, which is
+      // what an object shape is in the languages that name one.
+      return { category: `object-shape` }
+    case HPROF_GC_INSTANCE_DUMP:
+      return { category: `object` }
+    default:
+      return { category: `array` }
+  }
+}
+
+/** The class every class object is an instance of. */
+const CLASS_CONSTRUCTOR_NAME = `java.lang.Class`
 
 /**
  * The label of the edge at {@link edgeIndex} among those the node at
@@ -1130,6 +1087,49 @@ const instanceFieldEdge = (
     }
   }
   return UNKNOWN_FIELD_EDGE
+}
+
+/**
+ * A class whose own dump the heap lacks contributes no fields, which leaves the
+ * instance's remaining field values unread rather than misread, since the
+ * missing layout is what says how wide they are.
+ */
+const flattenedFieldsOf = (
+  dump: Dump,
+  nodes: Nodes,
+  classOrdinal: number,
+): FlattenedFields => {
+  const dumpedClass = nodes.classes.get(classOrdinal)
+  if (!dumpedClass) {
+    return EMPTY_FIELDS
+  }
+  if (dumpedClass.flattenedFields) {
+    return dumpedClass.flattenedFields
+  }
+
+  const superFields = flattenedFieldsOf(
+    dump,
+    nodes,
+    nodes.ordinalOf.get(dumpedClass.superObjectId),
+  )
+  const { fieldNameStringIds, fieldTypes } = dumpedClass
+  const nameStringIds = new Float64Array(
+    fieldNameStringIds.length + superFields.nameStringIds.length,
+  )
+  nameStringIds.set(fieldNameStringIds)
+  nameStringIds.set(superFields.nameStringIds, fieldNameStringIds.length)
+  const types = new Uint8Array(nameStringIds.length)
+  types.set(fieldTypes)
+  types.set(superFields.types, fieldTypes.length)
+
+  const flattenedFields = { nameStringIds, types }
+  dumpedClass.flattenedFields = flattenedFields
+  return flattenedFields
+}
+
+const EMPTY_FIELDS: FlattenedFields = {
+  nameStringIds: new Float64Array(0),
+  types: new Uint8Array(0),
 }
 
 const UNKNOWN_FIELD_EDGE: RetainerEdge = { type: `property`, name: `(unknown)` }

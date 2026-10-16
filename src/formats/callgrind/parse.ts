@@ -107,66 +107,6 @@ class PendingCallSlot {
   }
 }
 
-const SPEC_KEYS: ReadonlySet<string> = new Set([
-  `ob`,
-  `fl`,
-  `fi`,
-  `fe`,
-  `fn`,
-  `cob`,
-  `cfi`,
-  `cfl`,
-  `cfn`,
-  `calls`,
-  `jump`,
-  `jcnd`,
-])
-
-/** The key of a `key: value` header line, e.g. `events: Ir` or `creator: x`. */
-const HEADER_KEY = /^[A-Za-z][\w-]*$/u
-
-/** A compressed name's numeric ID between its parentheses. */
-const COMPRESSED_NAME_ID = /^\d+$/u
-
-/**
- * Resolves a possibly-compressed name against its {@link dictionary}: `(N)`
- * defines (when a name follows) or references an ID. Anything else is a
- * literal name.
- */
-const resolveName = (
-  dictionary: Map<number, string>,
-  value: string,
-): string => {
-  // A position spec's name may follow its `=` after any run of spaces.
-  const rest = value.trimStart()
-  if (!rest.startsWith(`(`)) {
-    return rest
-  }
-  const close = rest.indexOf(`)`)
-  const idText = close === -1 ? `` : rest.slice(1, close)
-  if (!COMPRESSED_NAME_ID.test(idText)) {
-    // A literal name starting with `(` (e.g. Valgrind's `(below main)`),
-    // not a compression reference.
-    return rest
-  }
-
-  const id = Number(idText)
-  // The format's whitespace rules allow any run of spaces between `(N)` and
-  // the name it defines, so an empty remainder distinguishes a reference from a
-  // definition.
-  const name = rest.slice(close + 1).trimStart()
-  if (name.length > 0) {
-    dictionary.set(id, name)
-    return name
-  }
-
-  const known = dictionary.get(id)
-  if (known === undefined) {
-    throw new FormatParseError(`name (${id}) referenced before definition`)
-  }
-  return known
-}
-
 class CallgrindProfileBuilder {
   /** Global event names, in first-seen order across parts. */
   readonly #eventNames: string[] = []
@@ -249,6 +189,60 @@ class CallgrindProfileBuilder {
     throw new FormatParseError(
       `unrecognized line, got: ${JSON.stringify(line)}`,
     )
+  }
+
+  #addSpec(key: string, rest: string): void {
+    switch (key) {
+      case `ob`:
+        this.#object = resolveName(this.#objectNames, rest)
+        break
+      case `fl`:
+        this.#file = resolveName(this.#fileNames, rest)
+        this.#costFile = this.#file
+        this.#pendingCall.skip()
+        break
+      case `fi`:
+      case `fe`:
+        this.#costFile = resolveName(this.#fileNames, rest)
+        break
+      case `fn`:
+        this.#function = this.#getOrCreateFunction(
+          this.#object,
+          this.#file,
+          resolveName(this.#functionNames, rest),
+        )
+        // A new function starts back in its own file, ending any `fi=` switch.
+        this.#costFile = this.#file
+        this.#pendingCall.skip()
+        break
+      case `cob`:
+        this.#callObject = resolveName(this.#objectNames, rest)
+        break
+      case `cfi`:
+      case `cfl`:
+        this.#callFile = resolveName(this.#fileNames, rest)
+        break
+      case `cfn`:
+        this.#callName = resolveName(this.#functionNames, rest)
+        break
+      case `calls`: {
+        // `calls=count target-subpositions`. The following cost line contains
+        // the call's inclusive cost. Aggregation ignores the target position.
+        if (this.#callName === undefined) {
+          throw new FormatParseError(`calls= without a preceding cfn=`)
+        }
+        const count = rest.trimStart().split(/\s+/u, 1)[0]!
+        this.#pendingCall.replace({
+          calleeName: this.#callName,
+          callCount: parseCost(count),
+        })
+        break
+      }
+      // Jump specs (`jump=`/`jcnd=`) contain control-flow counts, not costs.
+      case `jump`:
+      case `jcnd`:
+        break
+    }
   }
 
   #addHeader(key: string, rest: string): void {
@@ -349,82 +343,6 @@ class CallgrindProfileBuilder {
     this.#lastSubpositions = []
   }
 
-  #addSpec(key: string, rest: string): void {
-    switch (key) {
-      case `ob`:
-        this.#object = resolveName(this.#objectNames, rest)
-        break
-      case `fl`:
-        this.#file = resolveName(this.#fileNames, rest)
-        this.#costFile = this.#file
-        this.#pendingCall.skip()
-        break
-      case `fi`:
-      case `fe`:
-        this.#costFile = resolveName(this.#fileNames, rest)
-        break
-      case `fn`:
-        this.#function = this.#getOrCreateFunction(
-          this.#object,
-          this.#file,
-          resolveName(this.#functionNames, rest),
-        )
-        // A new function starts back in its own file, ending any `fi=` switch.
-        this.#costFile = this.#file
-        this.#pendingCall.skip()
-        break
-      case `cob`:
-        this.#callObject = resolveName(this.#objectNames, rest)
-        break
-      case `cfi`:
-      case `cfl`:
-        this.#callFile = resolveName(this.#fileNames, rest)
-        break
-      case `cfn`:
-        this.#callName = resolveName(this.#functionNames, rest)
-        break
-      case `calls`: {
-        // `calls=count target-subpositions`. The following cost line contains
-        // the call's inclusive cost. Aggregation ignores the target position.
-        if (this.#callName === undefined) {
-          throw new FormatParseError(`calls= without a preceding cfn=`)
-        }
-        const count = rest.trimStart().split(/\s+/u, 1)[0]!
-        this.#pendingCall.replace({
-          calleeName: this.#callName,
-          callCount: parseCost(count),
-        })
-        break
-      }
-      // Jump specs (`jump=`/`jcnd=`) contain control-flow counts, not costs.
-      case `jump`:
-      case `jcnd`:
-        break
-    }
-  }
-
-  #getOrCreateFunction(
-    object: string,
-    file: string,
-    name: string,
-  ): CallgrindFunction {
-    const key = `${object}\0${file}\0${name}`
-    let func = this.#functions.get(key)
-    if (!func) {
-      func = {
-        index: this.#functions.size,
-        name,
-        file,
-        object,
-        selfValues: [],
-        lineToValues: new Map(),
-        calleeToCalls: new Map(),
-      }
-      this.#functions.set(key, func)
-    }
-    return func
-  }
-
   #addCostLine(line: string): void {
     const eventIndices = this.#partEventIndices
     if (!eventIndices) {
@@ -478,6 +396,21 @@ class CallgrindProfileBuilder {
     return beforePositionZero ? null : costLine
   }
 
+  #parseSubposition(token: string, column: number): number {
+    let value: number
+    if (token === `*`) {
+      value = this.#lastSubpositions[column] ?? 0
+    } else if (token.startsWith(`+`)) {
+      value = (this.#lastSubpositions[column] ?? 0) + parseCost(token.slice(1))
+    } else if (token.startsWith(`-`)) {
+      value = (this.#lastSubpositions[column] ?? 0) - parseCost(token.slice(1))
+    } else {
+      value = parseCost(token)
+    }
+    this.#lastSubpositions[column] = value
+    return value
+  }
+
   /** Reads the line's cost values into the global event indices. */
   #parseValues(tokens: string[], eventIndices: number[]): number[] {
     if (tokens.length > this.#subpositionCount + eventIndices.length) {
@@ -521,6 +454,43 @@ class CallgrindProfileBuilder {
     this.#clearCallObjectAndFile()
   }
 
+  #getOrCreateFunction(
+    object: string,
+    file: string,
+    name: string,
+  ): CallgrindFunction {
+    const key = `${object}\0${file}\0${name}`
+    let func = this.#functions.get(key)
+    if (!func) {
+      func = {
+        index: this.#functions.size,
+        name,
+        file,
+        object,
+        selfValues: [],
+        lineToValues: new Map(),
+        calleeToCalls: new Map(),
+      }
+      this.#functions.set(key, func)
+    }
+    return func
+  }
+
+  /**
+   * Resets the `cob=`/`cfi=` context after a call's cost line, matching what
+   * Valgrind writes. Valgrind omits `cfi=` for a call whose callee is in the
+   * caller's own file even after a `cfi=` naming another file, so carrying the
+   * last one forward would file the callee under the wrong source.
+   *
+   * The `cfn=` callee name stays, because a position spec holds until it is
+   * written again, and a `calls=` with no `cfn=` of its own calls the last
+   * callee named.
+   */
+  #clearCallObjectAndFile(): void {
+    this.#callObject = undefined
+    this.#callFile = undefined
+  }
+
   #addSelfCost(
     func: CallgrindFunction,
     costLine: number | undefined,
@@ -537,36 +507,6 @@ class CallgrindProfileBuilder {
     ) {
       addValues(mapValues(func.lineToValues, costLine), values)
     }
-  }
-
-  #parseSubposition(token: string, column: number): number {
-    let value: number
-    if (token === `*`) {
-      value = this.#lastSubpositions[column] ?? 0
-    } else if (token.startsWith(`+`)) {
-      value = (this.#lastSubpositions[column] ?? 0) + parseCost(token.slice(1))
-    } else if (token.startsWith(`-`)) {
-      value = (this.#lastSubpositions[column] ?? 0) - parseCost(token.slice(1))
-    } else {
-      value = parseCost(token)
-    }
-    this.#lastSubpositions[column] = value
-    return value
-  }
-
-  /**
-   * Resets the `cob=`/`cfi=` context after a call's cost line, matching what
-   * Valgrind writes. Valgrind omits `cfi=` for a call whose callee is in the
-   * caller's own file even after a `cfi=` naming another file, so carrying the
-   * last one forward would file the callee under the wrong source.
-   *
-   * The `cfn=` callee name stays, because a position spec holds until it is
-   * written again, and a `calls=` with no `cfn=` of its own calls the last
-   * callee named.
-   */
-  #clearCallObjectAndFile(): void {
-    this.#callObject = undefined
-    this.#callFile = undefined
   }
 
   public build(): CallGraph[] {
@@ -609,11 +549,29 @@ const specKeyEnd = (line: string): number => {
 
 const MAX_SPEC_KEY_LENGTH = 5
 
+const SPEC_KEYS: ReadonlySet<string> = new Set([
+  `ob`,
+  `fl`,
+  `fi`,
+  `fe`,
+  `fn`,
+  `cob`,
+  `cfi`,
+  `cfl`,
+  `cfn`,
+  `calls`,
+  `jump`,
+  `jcnd`,
+])
+
 /** The index of a header line's `:`, or `-1` when the line is not a header. */
 const headerKeyEnd = (line: string): number => {
   const colon = line.indexOf(`:`)
   return colon > 0 && HEADER_KEY.test(line.slice(0, colon)) ? colon : -1
 }
+
+/** The key of a `key: value` header line, e.g. `events: Ir` or `creator: x`. */
+const HEADER_KEY = /^[A-Za-z][\w-]*$/u
 
 /**
  * Whether a non-empty line starts with a subposition: a number (decimal or
@@ -634,6 +592,48 @@ const CHAR_9 = 57
 const CHAR_PLUS = 43
 const CHAR_MINUS = 45
 const CHAR_STAR = 42
+
+/**
+ * Resolves a possibly-compressed name against its {@link dictionary}: `(N)`
+ * defines (when a name follows) or references an ID. Anything else is a
+ * literal name.
+ */
+const resolveName = (
+  dictionary: Map<number, string>,
+  value: string,
+): string => {
+  // A position spec's name may follow its `=` after any run of spaces.
+  const rest = value.trimStart()
+  if (!rest.startsWith(`(`)) {
+    return rest
+  }
+  const close = rest.indexOf(`)`)
+  const idText = close === -1 ? `` : rest.slice(1, close)
+  if (!COMPRESSED_NAME_ID.test(idText)) {
+    // A literal name starting with `(` (e.g. Valgrind's `(below main)`),
+    // not a compression reference.
+    return rest
+  }
+
+  const id = Number(idText)
+  // The format's whitespace rules allow any run of spaces between `(N)` and
+  // the name it defines, so an empty remainder distinguishes a reference from a
+  // definition.
+  const name = rest.slice(close + 1).trimStart()
+  if (name.length > 0) {
+    dictionary.set(id, name)
+    return name
+  }
+
+  const known = dictionary.get(id)
+  if (known === undefined) {
+    throw new FormatParseError(`name (${id}) referenced before definition`)
+  }
+  return known
+}
+
+/** A compressed name's numeric ID between its parentheses. */
+const COMPRESSED_NAME_ID = /^\d+$/u
 
 /** Parses a decimal or `0x`-prefixed hexadecimal unsigned integer. */
 const parseCost = (token: string): number => {
@@ -681,41 +681,6 @@ const creatorOriginHint = (creator: string | undefined): string | undefined => {
   }
   return undefined
 }
-
-const callgrindStackFrame = (func: CallgrindFunction): StackFrame => ({
-  // Callgrind writes `???` for an unknown function name, and dropping it shows
-  // the frame as `(anonymous)` instead of literal question marks. A
-  // recursion-separated instance (`--separate-recs`'s `fn'2`) is a distinct
-  // function in the file, because its arcs partition the recursion levels.
-  // Dropping the suffix here lets the aggregator fold the levels into one
-  // function.
-  name:
-    func.name === UNKNOWN ? undefined : func.name.replace(RECURSION_SUFFIX, ``),
-  // A function compiled without debug info has no source file. Its ELF object
-  // (e.g. `/usr/lib/libc.so.6`) is the next best location, so categorization by
-  // path still applies to system libraries.
-  definition: sourceOf(func.file) ?? sourceOf(func.object),
-})
-
-/** Callgrind's recursion-separation suffix, e.g. `_dl_start'2`. */
-const RECURSION_SUFFIX = /'\d+$/u
-
-const sourceOf = (file: string): UnresolvedSourceReference | undefined =>
-  file === `` || file === UNKNOWN
-    ? undefined
-    : { type: `file`, urlOrPath: file }
-
-const UNKNOWN = `???`
-
-const callGraphFunction = (func: CallgrindFunction): CallGraphFunction => ({
-  selfValues: func.selfValues,
-  lineToValues: func.lineToValues,
-  arcs: Array.from(func.calleeToCalls, ([callee, call]) => ({
-    callee: callee.index,
-    callCount: call.callCount,
-    totalValues: call.totalValues,
-  })),
-})
 
 const callgrindEventMetric = (
   name: string,
@@ -803,3 +768,38 @@ const KNOWN_EVENTS: ReadonlyMap<string, string> = new Map([
   [`Ge`, `global bus event`],
   [`sysCount`, `system call`],
 ])
+
+const callgrindStackFrame = (func: CallgrindFunction): StackFrame => ({
+  // Callgrind writes `???` for an unknown function name, and dropping it shows
+  // the frame as `(anonymous)` instead of literal question marks. A
+  // recursion-separated instance (`--separate-recs`'s `fn'2`) is a distinct
+  // function in the file, because its arcs partition the recursion levels.
+  // Dropping the suffix here lets the aggregator fold the levels into one
+  // function.
+  name:
+    func.name === UNKNOWN ? undefined : func.name.replace(RECURSION_SUFFIX, ``),
+  // A function compiled without debug info has no source file. Its ELF object
+  // (e.g. `/usr/lib/libc.so.6`) is the next best location, so categorization by
+  // path still applies to system libraries.
+  definition: sourceOf(func.file) ?? sourceOf(func.object),
+})
+
+/** Callgrind's recursion-separation suffix, e.g. `_dl_start'2`. */
+const RECURSION_SUFFIX = /'\d+$/u
+
+const sourceOf = (file: string): UnresolvedSourceReference | undefined =>
+  file === `` || file === UNKNOWN
+    ? undefined
+    : { type: `file`, urlOrPath: file }
+
+const UNKNOWN = `???`
+
+const callGraphFunction = (func: CallgrindFunction): CallGraphFunction => ({
+  selfValues: func.selfValues,
+  lineToValues: func.lineToValues,
+  arcs: Array.from(func.calleeToCalls, ([callee, call]) => ({
+    callee: callee.index,
+    callCount: call.callCount,
+    totalValues: call.totalValues,
+  })),
+})

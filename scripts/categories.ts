@@ -79,9 +79,6 @@ const groupExamplesByCategory = (
 const isHeapSnapshot = (output: string): boolean =>
   output.startsWith(`# Heap snapshot`)
 
-/** A row of an emitted `| Category | … |` table, which every modality writes. */
-const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
-
 /**
  * The categories {@link output} emits, by their displayed name.
  *
@@ -110,6 +107,9 @@ const emittedCategories = (output: string): Set<string> => {
   }
   return categories
 }
+
+/** A row of an emitted `| Category | … |` table, which every modality writes. */
+const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
 
 const printEmittedCategories = (
   categoryToFilenames: Map<string, string[]>,

@@ -36,6 +36,25 @@ const kernelMappingCategory = ({
 }
 
 /**
+ * A kernel module's object file, `ext4.ko`, which the kernel may store
+ * compressed under `/lib/modules/<release>/`.
+ */
+const KERNEL_MODULE_FILE = /\.ko(?:\.(?:gz|xz|zst))?$/u
+
+/**
+ * Returns whether a bracketed mapping name is a kernel module's. `perf` names a
+ * module whose object file it did not find by the module's name in brackets,
+ * and reads every bracketed name but the kernel's, the vDSO's, and the ones the
+ * kernel gives a process's own memory as a module (`kmod_path__parse` in
+ * `tools/perf/util/dso.c`).
+ */
+const isKernelModuleName = (name: string): boolean =>
+  name.startsWith(`[`) &&
+  name.endsWith(`]`) &&
+  !KERNEL_MAPPING_NAMES.has(name) &&
+  !isAnonymousMapping(name)
+
+/**
  * The name the kernel's own mappings share, whatever section each covers,
  * after {@link isKernelMapping} matches the section suffix off.
  */
@@ -62,25 +81,6 @@ const KERNEL_MAPPING_NAMES: ReadonlySet<string> = new Set([
   `[vdsox32]`,
   `[vsyscall]`,
 ])
-
-/**
- * A kernel module's object file, `ext4.ko`, which the kernel may store
- * compressed under `/lib/modules/<release>/`.
- */
-const KERNEL_MODULE_FILE = /\.ko(?:\.(?:gz|xz|zst))?$/u
-
-/**
- * Returns whether a bracketed mapping name is a kernel module's. `perf` names a
- * module whose object file it did not find by the module's name in brackets,
- * and reads every bracketed name but the kernel's, the vDSO's, and the ones the
- * kernel gives a process's own memory as a module (`kmod_path__parse` in
- * `tools/perf/util/dso.c`).
- */
-const isKernelModuleName = (name: string): boolean =>
-  name.startsWith(`[`) &&
-  name.endsWith(`]`) &&
-  !KERNEL_MAPPING_NAMES.has(name) &&
-  !isAnonymousMapping(name)
 
 /**
  * Categorizes an address in memory a program obtained without a file, under

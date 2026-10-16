@@ -15,7 +15,12 @@ import { ghcEventlogFormatSpec } from './index.ts'
 import { parseGhcEventlog } from './parse.ts'
 import { makeGhcEventlog, undeclaredEvent } from './testing.ts'
 
-const options = () => normalizeProfileToMdOptions({ baseURL: `/project` })
+const eventlog = () =>
+  makeGhcEventlog({
+    costCentres: COST_CENTRES,
+    tickInterval: 1_000_000,
+    samples: [[2, 1], [2, 1], [2, 1], [1], [3]],
+  })
 
 const COST_CENTRES = [
   { id: 1, label: `main`, module: `Main`, srcLoc: `app/Main.hs:12:1-4` },
@@ -27,13 +32,6 @@ const COST_CENTRES = [
   },
   { id: 3, label: `GC`, module: `GC`, srcLoc: `<built-in>` },
 ]
-
-const eventlog = () =>
-  makeGhcEventlog({
-    costCentres: COST_CENTRES,
-    tickInterval: 1_000_000,
-    samples: [[2, 1], [2, 1], [2, 1], [1], [3]],
-  })
 
 describe(`matches`, () => {
   test(`accepts a log by its header marker`, () => {
@@ -50,6 +48,8 @@ describe(`matches`, () => {
     expect(ghcEventlogFormatSpec.matches(Uint8Array.of(0x68, 0x64))).toBe(false)
   })
 })
+
+const options = () => normalizeProfileToMdOptions({ baseURL: `/project` })
 
 describe(`parse`, () => {
   test(`rejects a log without the header`, () => {

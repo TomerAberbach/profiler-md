@@ -137,26 +137,6 @@ class CollapsedProfileBuilder {
 }
 
 /**
- * Returns the length of the strings' common prefix in code units.
- *
- * Code units, not code points: unit-wise equality never overstates the common
- * prefix. A pair split at the boundary only understates it, so the frame
- * containing the pair is interned again.
- */
-const commonPrefixLength = (string1: string, string2: string): number => {
-  const minLength = Math.min(string1.length, string2.length)
-  let length = 0
-  while (
-    length < minLength &&
-    // eslint-disable-next-line unicorn/prefer-code-point
-    string1.charCodeAt(length) === string2.charCodeAt(length)
-  ) {
-    length++
-  }
-  return length
-}
-
-/**
  * Parses one collapsed line into its stack text and count, returning
  * `undefined` for blank or `#` comment lines.
  *
@@ -185,4 +165,24 @@ export const parseCollapsedLine = (
     stack: line.slice(0, lastSpace).trimEnd(),
     count: Number(countText),
   }
+}
+
+/**
+ * Returns the length of the strings' common prefix in code units.
+ *
+ * Code units, not code points: unit-wise equality never overstates the common
+ * prefix. A pair split at the boundary only understates it, so the frame
+ * containing the pair is interned again.
+ */
+const commonPrefixLength = (string1: string, string2: string): number => {
+  const minLength = Math.min(string1.length, string2.length)
+  let length = 0
+  while (
+    length < minLength &&
+    // eslint-disable-next-line unicorn/prefer-code-point
+    string1.charCodeAt(length) === string2.charCodeAt(length)
+  ) {
+    length++
+  }
+  return length
 }

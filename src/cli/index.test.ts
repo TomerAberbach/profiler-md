@@ -25,10 +25,6 @@ vi.setConfig({ testTimeout: 125_000 })
 const format = injectedFormat()
 const inputFilenames = injectedInputs()
 
-// An input whose profiler recorded nothing (e.g. a lock profile with no
-// contention) converts to the no-data message
-const MARKDOWN_OR_NO_DATA = /^(?:# |No profiles were recorded\.)/u
-
 const gzipAsync = promisify(gzip)
 const brotliCompressAsync = async (data: Buffer): Promise<Buffer> =>
   promisify(brotliCompress)(data, {
@@ -64,6 +60,10 @@ const cliInputFilenames = [true, false].flatMap(gzipped =>
     inputFilenames.filter((_, index) => gzippedInputs[index] === gzipped),
   ),
 )
+
+// An input whose profiler recorded nothing (e.g. a lock profile with no
+// contention) converts to the no-data message
+const MARKDOWN_OR_NO_DATA = /^(?:# |No profiles were recorded\.)/u
 
 // Registered conditionally because the `unit` project receives no inputs.
 if (cliInputFilenames.length > 0) {

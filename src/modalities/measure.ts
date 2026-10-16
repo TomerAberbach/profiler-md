@@ -41,6 +41,21 @@ export const metricCell = (value: number, metric: Metric): Cell =>
   )
 
 /**
+ * Formats a metric value for prose, where no column header names a count
+ * metric's unit, so the unit noun follows the count.
+ */
+export const formatProseValue = (value: number, metric: Metric): string =>
+  metric.type === `count`
+    ? formatCount(value, metric.proseUnit)
+    : formatValue(value, metric)
+
+/** The delta-precision counterpart to {@link formatProseValue}. */
+export const formatProseValueDelta = (value: number, metric: Metric): string =>
+  metric.type === `count`
+    ? formatCount(value, metric.proseUnit)
+    : formatValueDelta(value, metric)
+
+/**
  * A count metric formats as a bare count, since the column header above the
  * cell already names the unit. Prose uses {@link formatProseValue} instead.
  */
@@ -65,18 +80,3 @@ const formatValueDelta = (value: number, metric: Metric): string => {
       return formatCount(value)
   }
 }
-
-/**
- * Formats a metric value for prose, where no column header names a count
- * metric's unit, so the unit noun follows the count.
- */
-export const formatProseValue = (value: number, metric: Metric): string =>
-  metric.type === `count`
-    ? formatCount(value, metric.proseUnit)
-    : formatValue(value, metric)
-
-/** The delta-precision counterpart to {@link formatProseValue}. */
-export const formatProseValueDelta = (value: number, metric: Metric): string =>
-  metric.type === `count`
-    ? formatCount(value, metric.proseUnit)
-    : formatValueDelta(value, metric)
