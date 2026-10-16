@@ -5,10 +5,6 @@ import { origins, originTitle } from '../origins/index.ts'
 import type { Origin } from '../origins/index.ts'
 import { languages } from './languages.ts'
 
-export const variants = [`base`, `current`, `diff`] as const
-
-export type ExampleVariant = (typeof variants)[number]
-
 /**
  * An `examples/output/` or `examples/input/` filename parsed into its canonical
  * parts.
@@ -21,18 +17,6 @@ export type Example = {
   config: string
   variant: ExampleVariant
   format: Format
-}
-
-const extensionFormats = new Map<string, Format>()
-for (const format of formats) {
-  const { extension } = formatToSpec[format]
-  const existing = extensionFormats.get(extension)
-  if (existing) {
-    throw new Error(
-      `formats ${existing} and ${format} share an extension: .${extension}`,
-    )
-  }
-  extensionFormats.set(extension, format)
 }
 
 /**
@@ -71,6 +55,25 @@ export const parseExampleFilename = (filename: string): Example => {
     format,
   }
 }
+
+export type ExampleVariant = (typeof variants)[number]
+
+export const variants = [`base`, `current`, `diff`] as const
+
+const extensionFormats = new Map<string, Format>()
+for (const format of formats) {
+  const { extension } = formatToSpec[format]
+  const existing = extensionFormats.get(extension)
+  if (existing) {
+    throw new Error(
+      `formats ${existing} and ${format} share an extension: .${extension}`,
+    )
+  }
+  extensionFormats.set(extension, format)
+}
+
+const isOrigin = (token: string): token is Origin =>
+  (origins as string[]).includes(token)
 
 /** A base input and the current input it is diffed against. */
 export type ExampleDiffPair = {
@@ -120,34 +123,6 @@ export const exampleDiffPairs = (
   })
 }
 
-const isOrigin = (token: string): token is Origin =>
-  (origins as string[]).includes(token)
-
-const configNames: Record<string, string> = {
-  [`all-allocations`]: `all allocations`,
-  [`all-threads`]: `all threads`,
-  gil: `GIL`,
-  cpu: `CPU`,
-  [`cpu-trimpath`]: `CPU (-trimpath)`,
-  [`cpu-lines`]: `CPU (line numbers)`,
-  [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
-  [`cpu-dot`]: `CPU (dot)`,
-  [`alloc-dot`]: `alloc (dot)`,
-  goroutineleak: `goroutine leak`,
-}
-
-const languageNames: ReadonlyMap<string, string> = new Map(
-  [...languages].flatMap(([id, { name, aliases }]) => [
-    [id, name] as const,
-    ...(aliases ?? []).map(alias => [alias.id, alias.name] as const),
-  ]),
-)
-
-const exampleLanguageName = (lang: string): string =>
-  languageNames.get(lang) ?? lang
-const exampleConfigName = (config: string): string =>
-  configNames[config] ?? config
-
 /** Without the language, the label keeps the origin's casing (`pprof block`). */
 export const exampleLabel = (
   example: Pick<Example, `language` | `origin` | `config`>,
@@ -164,4 +139,29 @@ export const exampleLabel = (
         `${exampleLanguageName(example.language)} ${originAndConfiguration}`,
       )
     : originAndConfiguration
+}
+
+const exampleLanguageName = (lang: string): string =>
+  languageNames.get(lang) ?? lang
+const exampleConfigName = (config: string): string =>
+  configNames[config] ?? config
+
+const languageNames: ReadonlyMap<string, string> = new Map(
+  [...languages].flatMap(([id, { name, aliases }]) => [
+    [id, name] as const,
+    ...(aliases ?? []).map(alias => [alias.id, alias.name] as const),
+  ]),
+)
+
+const configNames: Record<string, string> = {
+  [`all-allocations`]: `all allocations`,
+  [`all-threads`]: `all threads`,
+  gil: `GIL`,
+  cpu: `CPU`,
+  [`cpu-trimpath`]: `CPU (-trimpath)`,
+  [`cpu-lines`]: `CPU (line numbers)`,
+  [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
+  [`cpu-dot`]: `CPU (dot)`,
+  [`alloc-dot`]: `alloc (dot)`,
+  goroutineleak: `goroutine leak`,
 }

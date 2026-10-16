@@ -37,25 +37,6 @@ export const ghcOriginSpec = {
 } as const satisfies OriginSpec
 
 /**
- * Categorizes a cost centre GHC compiled from its own source tree as `stdlib`.
- *
- * GHC builds the libraries it ships under `libraries/<package>/`, so a span
- * rooted there (`libraries/text/src/Data/Text.hs`) is a boot library's. A
- * package the program depends on is unpacked into a directory of its own name
- * and compiled from paths relative to it, so nothing a dependency contributes
- * is rooted in `libraries/`.
- */
-const bootLibraryCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && BOOT_LIBRARY_SOURCE.test(sourceReferencePathOrName(location))
-    ? `stdlib`
-    : undefined
-
-/** A path under a boot library's directory in GHC's source tree. */
-const BOOT_LIBRARY_SOURCE = /^libraries\/[^/]+\//u
-
-/**
  * Categorizes the runtime activities GHC records as a built-in cost centre:
  * `GC.GC` for a tick sampled during collection and `IDLE.IDLE` for one sampled
  * while every capability had no work.
@@ -80,3 +61,22 @@ const RUNTIME_ACTIVITY_CATEGORIES = new Map<string, FunctionCategory>([
   [`GC.GC`, `garbage-collector`],
   [`IDLE.IDLE`, `idle`],
 ])
+
+/**
+ * Categorizes a cost centre GHC compiled from its own source tree as `stdlib`.
+ *
+ * GHC builds the libraries it ships under `libraries/<package>/`, so a span
+ * rooted there (`libraries/text/src/Data/Text.hs`) is a boot library's. A
+ * package the program depends on is unpacked into a directory of its own name
+ * and compiled from paths relative to it, so nothing a dependency contributes
+ * is rooted in `libraries/`.
+ */
+const bootLibraryCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  location && BOOT_LIBRARY_SOURCE.test(sourceReferencePathOrName(location))
+    ? `stdlib`
+    : undefined
+
+/** A path under a boot library's directory in GHC's source tree. */
+const BOOT_LIBRARY_SOURCE = /^libraries\/[^/]+\//u

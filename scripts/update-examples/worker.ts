@@ -11,6 +11,10 @@ enableCompileCache(join(`node_modules`, `.cache`, `node-compile-cache`))
 
 const { profileToMd, diffProfiles } = await import(`../../src/index.ts`)
 
+const options: ProfileToMdOptions = { baseURL: `auto` }
+
+const { check } = workerData as { check: boolean }
+
 export type ExampleTask = {
   exampleName: string
   inputPaths: string[]
@@ -23,9 +27,23 @@ export type ExampleResult = {
   failure?: string
 }
 
-const { check } = workerData as { check: boolean }
+const updateExample = ({ exampleName, inputPaths }: ExampleTask): void => {
+  const examplePath = join(`examples/output`, `${exampleName}.md`)
 
-const options: ProfileToMdOptions = { baseURL: `auto` }
+  const start = performance.now()
+  const markdown = convertInputs(inputPaths)
+  const elapsed = performance.now() - start
+
+  let failure
+  if (check) {
+    failure = checkExample(examplePath, markdown)
+  } else {
+    writeFileSync(examplePath, markdown)
+  }
+
+  const result: ExampleResult = { exampleName, elapsed, failure }
+  parentPort!.postMessage(result)
+}
 
 const convertInputs = (inputPaths: string[]): string => {
   const inputs = inputPaths.map(path => readFileSync(path))
@@ -50,24 +68,6 @@ const checkExample = (
     return `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.`
   }
   return undefined
-}
-
-const updateExample = ({ exampleName, inputPaths }: ExampleTask): void => {
-  const examplePath = join(`examples/output`, `${exampleName}.md`)
-
-  const start = performance.now()
-  const markdown = convertInputs(inputPaths)
-  const elapsed = performance.now() - start
-
-  let failure
-  if (check) {
-    failure = checkExample(examplePath, markdown)
-  } else {
-    writeFileSync(examplePath, markdown)
-  }
-
-  const result: ExampleResult = { exampleName, elapsed, failure }
-  parentPort!.postMessage(result)
 }
 
 parentPort!.on(`message`, updateExample)

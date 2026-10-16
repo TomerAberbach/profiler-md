@@ -14,6 +14,22 @@ import { CACHE_DIRECTORY } from './cache.ts'
 export type Download = { url: string; member?: string }
 
 /**
+ * Reads a download, fetching it first when it is not cached. Returns
+ * `undefined` when its URL responded 404 or its tarball has no such member.
+ */
+export const readDownload = ({ url, member }: Download): string | undefined => {
+  prefetch([url])
+  if (existsSync(missingPath(url))) {
+    return undefined
+  }
+  if (member === undefined) {
+    return readFileSync(cachePath(url), `utf8`)
+  }
+  const memberPath = join(extractedPath(url), member)
+  return existsSync(memberPath) ? readFileSync(memberPath, `utf8`) : undefined
+}
+
+/**
  * Downloads every URL not yet cached, in parallel. A URL that responds 404
  * is cached as missing, so a file a version lacks reads as `undefined`.
  */
@@ -86,21 +102,7 @@ export const prefetch = (urls: Iterable<string>): void => {
   }
 }
 
-/**
- * Reads a download, fetching it first when it is not cached. Returns
- * `undefined` when its URL responded 404 or its tarball has no such member.
- */
-export const readDownload = ({ url, member }: Download): string | undefined => {
-  prefetch([url])
-  if (existsSync(missingPath(url))) {
-    return undefined
-  }
-  if (member === undefined) {
-    return readFileSync(cachePath(url), `utf8`)
-  }
-  const memberPath = join(extractedPath(url), member)
-  return existsSync(memberPath) ? readFileSync(memberPath, `utf8`) : undefined
-}
+const missingPath = (url: string): string => `${cachePath(url)}.missing`
 
 const extractedPath = (url: string): string => {
   const directory = `${cachePath(url)}.extracted`
@@ -116,5 +118,3 @@ const extractedPath = (url: string): string => {
 
 const cachePath = (url: string): string =>
   join(CACHE_DIRECTORY, encodeURIComponent(url))
-
-const missingPath = (url: string): string => `${cachePath(url)}.missing`

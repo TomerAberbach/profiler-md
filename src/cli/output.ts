@@ -5,10 +5,6 @@ import type { NormalizedLogger } from '../logger.ts'
 import { CliError, isClosedReaderError } from './error.ts'
 import { openPager } from './pager.ts'
 
-export type Output = {
-  write: (text: string) => Promise<void>
-}
-
 export type WriteOutputOptions = {
   pager: boolean
   logger: NormalizedLogger
@@ -57,6 +53,10 @@ export const checkOutputPath = async (outputPath: string): Promise<void> => {
   if (isDirectory) {
     throw new CliError(`cannot write ${outputPath}: is a directory`, 1)
   }
+}
+
+export type Output = {
+  write: (text: string) => Promise<void>
 }
 
 const openOutput = async (outputPath: string): Promise<Output> => {
@@ -108,11 +108,6 @@ const writeError = (outputPath: string, error: unknown): CliError => {
   )
 }
 
-const errorCodeOf = (error: unknown): string | undefined =>
-  error instanceof Error && `code` in error && typeof error.code === `string`
-    ? error.code
-    : undefined
-
 const WRITE_ERROR_REASONS: ReadonlyMap<string | undefined, string> = new Map([
   [`ENOENT`, `no such directory`],
   [`ENOTDIR`, `no such directory`],
@@ -120,3 +115,8 @@ const WRITE_ERROR_REASONS: ReadonlyMap<string | undefined, string> = new Map([
   [`EACCES`, `permission denied`],
   [`EPERM`, `permission denied`],
 ])
+
+const errorCodeOf = (error: unknown): string | undefined =>
+  error instanceof Error && `code` in error && typeof error.code === `string`
+    ? error.code
+    : undefined

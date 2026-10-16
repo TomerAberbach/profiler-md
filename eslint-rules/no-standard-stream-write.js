@@ -3,26 +3,6 @@
  * diagnostic goes through a `Logger` and respects the log level.
  */
 
-const STANDARD_STREAMS = [`stdout`, `stderr`]
-
-const isIdentifier = (node, name) =>
-  node.type === `Identifier` && node.name === name
-
-const isProperty = (node, name) =>
-  !node.computed && isIdentifier(node.property, name)
-
-/** Whether {@link callee} is a method of `console`, as in `console.error`. */
-const isConsoleMethod = callee =>
-  callee.type === `MemberExpression` && isIdentifier(callee.object, `console`)
-
-/** Whether {@link callee} is `process.stdout.write` or `process.stderr.write`. */
-const isStandardStreamWrite = callee =>
-  callee.type === `MemberExpression` &&
-  isProperty(callee, `write`) &&
-  callee.object.type === `MemberExpression` &&
-  isIdentifier(callee.object.object, `process`) &&
-  STANDARD_STREAMS.some(stream => isProperty(callee.object, stream))
-
 export const noStandardStreamWrite = {
   meta: {
     type: `problem`,
@@ -50,3 +30,23 @@ export const noStandardStreamWrite = {
     },
   }),
 }
+
+/** Whether {@link callee} is a method of `console`, as in `console.error`. */
+const isConsoleMethod = callee =>
+  callee.type === `MemberExpression` && isIdentifier(callee.object, `console`)
+
+/** Whether {@link callee} is `process.stdout.write` or `process.stderr.write`. */
+const isStandardStreamWrite = callee =>
+  callee.type === `MemberExpression` &&
+  isProperty(callee, `write`) &&
+  callee.object.type === `MemberExpression` &&
+  isIdentifier(callee.object.object, `process`) &&
+  STANDARD_STREAMS.some(stream => isProperty(callee.object, stream))
+
+const isProperty = (node, name) =>
+  !node.computed && isIdentifier(node.property, name)
+
+const isIdentifier = (node, name) =>
+  node.type === `Identifier` && node.name === name
+
+const STANDARD_STREAMS = [`stdout`, `stderr`]

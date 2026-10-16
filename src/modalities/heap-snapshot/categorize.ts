@@ -119,6 +119,19 @@ class KeyedNodeStats<Key> {
     stats.nodeCount++
   }
 
+  #statsOf(node: HeapSnapshotNode, key: Key): NodeCategoryStats {
+    if (node.type !== `constructor`) {
+      return statsOf(this.#keyToStats, key)
+    }
+
+    let nameToStats = this.#keyToConstructorNameToStats.get(key)
+    if (!nameToStats) {
+      nameToStats = new Map()
+      this.#keyToConstructorNameToStats.set(key, nameToStats)
+    }
+    return statsOf(nameToStats, node.name)
+  }
+
   /**
    * Adds every key's stats to {@link nodeCategoryToStats} under the category
    * {@link categoryOf} resolves the key to, or the one the origin assigns to a
@@ -144,19 +157,6 @@ class KeyedNodeStats<Key> {
         )
       }
     }
-  }
-
-  #statsOf(node: HeapSnapshotNode, key: Key): NodeCategoryStats {
-    if (node.type !== `constructor`) {
-      return statsOf(this.#keyToStats, key)
-    }
-
-    let nameToStats = this.#keyToConstructorNameToStats.get(key)
-    if (!nameToStats) {
-      nameToStats = new Map()
-      this.#keyToConstructorNameToStats.set(key, nameToStats)
-    }
-    return statsOf(nameToStats, node.name)
   }
 }
 
@@ -320,17 +320,6 @@ type DominantCategory = {
 }
 
 /**
- * The key of a {@link DominantCategory} no node has contributed to yet, which
- * {@link CategoryKeys.keyOf} never returns.
- */
-const NO_CATEGORY_KEY = 0
-
-const newDominantCategory = (): DominantCategory => ({
-  key: NO_CATEGORY_KEY,
-  size: 0,
-})
-
-/**
  * Adds {@link size} to {@link key}'s share of {@link dominant}, promoting
  * {@link key} to the leading category when its share passes the leader's.
  *
@@ -361,3 +350,14 @@ const addCategorySize = (
   dominant.key = key
   dominant.size = keySize
 }
+
+const newDominantCategory = (): DominantCategory => ({
+  key: NO_CATEGORY_KEY,
+  size: 0,
+})
+
+/**
+ * The key of a {@link DominantCategory} no node has contributed to yet, which
+ * {@link CategoryKeys.keyOf} never returns.
+ */
+const NO_CATEGORY_KEY = 0

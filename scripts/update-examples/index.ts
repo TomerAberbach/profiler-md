@@ -6,16 +6,9 @@ import { exampleDiffPairs } from '../../src/cli/examples.ts'
 import type { ExampleDiffPair } from '../../src/cli/examples.ts'
 import type { ExampleResult, ExampleTask } from './worker.ts'
 
-const check = process.argv.includes(`--check`)
-
 type Example = { name: string; inputs: string[] }
 
-const totalInputBytes = (filenames: string[]): number =>
-  filenames.reduce(
-    (bytes, filename) =>
-      bytes + statSync(join(`examples/input`, filename)).size,
-    0,
-  )
+const check = process.argv.includes(`--check`)
 
 // Conversion cost tracks input size, so the largest examples start first.
 // Started last, one would run alone while the other workers sit idle,
@@ -33,6 +26,13 @@ const listExamplesLargestFirst = (
   ]
     .map(example => ({ ...example, bytes: totalInputBytes(example.inputs) }))
     .sort((example1, example2) => example2.bytes - example1.bytes)
+
+const totalInputBytes = (filenames: string[]): number =>
+  filenames.reduce(
+    (bytes, filename) =>
+      bytes + statSync(join(`examples/input`, filename)).size,
+    0,
+  )
 
 /** Fails under `--check` instead of deleting. */
 const deleteOutputsWithoutInput = (examples: Example[]): void => {
@@ -53,18 +53,24 @@ const deleteOutputsWithoutInput = (examples: Example[]): void => {
   }
 }
 
-const reportConverted = (
-  { exampleName, elapsed, failure }: ExampleResult,
-  done: number,
-  total: number,
-): void => {
-  process.stderr.write(
-    `[${done}/${total}] ${exampleName} ${elapsed.toFixed(0)}ms\n`,
-  )
-  if (failure !== undefined) {
-    process.stderr.write(`${failure}\n`)
-    process.exit(1)
+// Worker threads convert in-process, so the module graph loads once per thread
+// instead of once per example.
+const convertExamples = async (examples: Example[]): Promise<void> => {
+  if (examples.length === 0) {
+    return
   }
+
+  const workers = Array.from(
+    { length: Math.min(availableParallelism(), examples.length) },
+    () =>
+      new Worker(new URL(`worker.ts`, import.meta.url), {
+        workerData: { check },
+      }),
+  )
+
+  await convertOnWorkers(workers, examples)
+
+  await Promise.all(workers.map(worker => worker.terminate()))
 }
 
 const convertOnWorkers = (
@@ -103,24 +109,18 @@ const convertOnWorkers = (
   })
 }
 
-// Worker threads convert in-process, so the module graph loads once per thread
-// instead of once per example.
-const convertExamples = async (examples: Example[]): Promise<void> => {
-  if (examples.length === 0) {
-    return
-  }
-
-  const workers = Array.from(
-    { length: Math.min(availableParallelism(), examples.length) },
-    () =>
-      new Worker(new URL(`worker.ts`, import.meta.url), {
-        workerData: { check },
-      }),
+const reportConverted = (
+  { exampleName, elapsed, failure }: ExampleResult,
+  done: number,
+  total: number,
+): void => {
+  process.stderr.write(
+    `[${done}/${total}] ${exampleName} ${elapsed.toFixed(0)}ms\n`,
   )
-
-  await convertOnWorkers(workers, examples)
-
-  await Promise.all(workers.map(worker => worker.terminate()))
+  if (failure !== undefined) {
+    process.stderr.write(`${failure}\n`)
+    process.exit(1)
+  }
 }
 
 const inputFilenames = readdirSync(`examples/input`)

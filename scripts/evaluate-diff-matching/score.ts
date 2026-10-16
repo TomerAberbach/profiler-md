@@ -9,19 +9,6 @@ import {
 } from './position.ts'
 import type { PositionMap, SourceReferenceMap } from './position.ts'
 
-type Score = {
-  expected: number
-  found: number
-  predicted: number
-  correct: number
-}
-
-/**
- * `count` counts functions, and `weight` sums each function's total as a share
- * of its input's total, so inputs whose totals are in different units add up.
- */
-export type Scores = { count: Score; weight: Score }
-
 export type Evaluation = {
   all: Scores
   byPosition: Scores
@@ -33,6 +20,19 @@ export type Evaluation = {
   lines: Scores
 
   milliseconds: number
+}
+
+/**
+ * `count` counts functions, and `weight` sums each function's total as a share
+ * of its input's total, so inputs whose totals are in different units add up.
+ */
+export type Scores = { count: Score; weight: Score }
+
+type Score = {
+  expected: number
+  found: number
+  predicted: number
+  correct: number
 }
 
 /**
@@ -174,13 +174,24 @@ export const evaluate = (
   return evaluation
 }
 
-type LineMetrics =
-  Func[`lineToMetrics`] extends ReadonlyMap<number, infer Metrics>
-    ? Metrics
-    : never
+export const emptyEvaluation = (milliseconds = 0): Evaluation => ({
+  all: emptyScores(),
+  byPosition: emptyScores(),
+  lines: emptyScores(),
+  milliseconds,
+})
 
-const lineTotalOf = (metrics: LineMetrics): number =>
-  `count` in metrics ? metrics.count : (metrics[0] ?? 0)
+const emptyScores = (): Scores => ({
+  count: emptyScore(),
+  weight: emptyScore(),
+})
+
+const emptyScore = (): Score => ({
+  expected: 0,
+  found: 0,
+  predicted: 0,
+  correct: 0,
+})
 
 const functionsByPosition = (input: FunctionInput): Map<string, Func[]> =>
   Map.groupBy(
@@ -209,6 +220,17 @@ export const sourceReferenceKey = (
   name: string,
   sourceReference: string,
 ): string => `${name}\0${sourceReference}`
+
+const totalOf = (entity: Func | FunctionInput): number =>
+  `totalCount` in entity ? entity.totalCount : (entity.totalValues[0] ?? 0)
+
+type LineMetrics =
+  Func[`lineToMetrics`] extends ReadonlyMap<number, infer Metrics>
+    ? Metrics
+    : never
+
+const lineTotalOf = (metrics: LineMetrics): number =>
+  `count` in metrics ? metrics.count : (metrics[0] ?? 0)
 
 /**
  * The outcome of the diff pairing a base entity with {@link current}, given
@@ -255,28 +277,6 @@ export const addOutcome = (
     }
   }
 }
-
-const totalOf = (entity: Func | FunctionInput): number =>
-  `totalCount` in entity ? entity.totalCount : (entity.totalValues[0] ?? 0)
-
-const emptyScore = (): Score => ({
-  expected: 0,
-  found: 0,
-  predicted: 0,
-  correct: 0,
-})
-
-const emptyScores = (): Scores => ({
-  count: emptyScore(),
-  weight: emptyScore(),
-})
-
-export const emptyEvaluation = (milliseconds = 0): Evaluation => ({
-  all: emptyScores(),
-  byPosition: emptyScores(),
-  lines: emptyScores(),
-  milliseconds,
-})
 
 export const addEvaluation = (
   rows: Map<string, Evaluation>,

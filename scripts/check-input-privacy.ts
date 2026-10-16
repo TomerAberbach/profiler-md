@@ -15,53 +15,7 @@ import {
   tryDecompressBrotli,
 } from '../src/formats/compression.ts'
 
-const INPUT_DIRECTORY = `examples/input`
-const ASSETS_DIRECTORY = `scripts/inputs/assets`
-
-const MIN_RUN_LENGTH = 6
-
-/**
- * The byte entropy, in bits per byte, above which an input counts as compressed
- * or encrypted. Compressed bytes measure 7.9 and above. The committed inputs,
- * decompressed as the pipeline decompresses them, measure at most 6.9, with the
- * binary formats (perf.data, memray) well below the text ones.
- */
-const MAX_ENTROPY = 7.5
-
-/**
- * Inputs shorter than this skip the entropy check, because a few hundred bytes
- * of anything measure as noise.
- */
-const MIN_ENTROPY_BYTES = 4096
-
-const ENTROPY_SAMPLE_BYTES = 8 * 1024 * 1024
-
-const UTF16_SAMPLE_BYTES = 4096
-
-/**
- * Inputs shorter than this count as UTF-16 only with a byte order mark, because
- * a few code units of anything can alternate with zero bytes.
- */
-const MIN_UTF16_BYTES = 64
-
-/** The fraction of a parity's bytes that must be zero for UTF-16 text. */
-const UTF16_ZERO_FRACTION = 0.9
-
-/**
- * A match found in a committed file under `scripts/inputs/assets/` needs no
- * entry here. A fetched asset is gitignored, so CI has none, and a match in
- * one needs an entry.
- */
-const ALLOWLIST: readonly { value: string; reason: string }[] = [
-  {
-    value: `sindresorhus@gmail.com`,
-    reason: `the author field of an npm package the Node heap snapshot workload loads`,
-  },
-  {
-    value: `nonestep.revival@gmail.com`,
-    reason: `a tweet in simdjson's twitter.json sample the heap snapshot workloads parse, read with the \`n\` of the escaped newline before it`,
-  },
-]
+type Finding = { rule: Rule; values: Map<string, number> }
 
 type Rule = {
   name: string
@@ -73,164 +27,179 @@ type Rule = {
   threshold?: number
 }
 
-const regexMatches =
-  (regex: RegExp) =>
-  (text: string): string[] =>
-    [...text.matchAll(regex)].map(match => match[0])
-
-/**
- * The IPv4 ranges that address no host on the internet: private, loopback,
- * link-local, carrier NAT, multicast, documentation, and the unspecified and
- * broadcast addresses.
- */
-const NON_PUBLIC_IPV4 = [
-  `0.0.0.0/8`,
-  `10.0.0.0/8`,
-  `100.64.0.0/10`,
-  `127.0.0.0/8`,
-  `169.254.0.0/16`,
-  `172.16.0.0/12`,
-  `192.0.2.0/24`,
-  `192.168.0.0/16`,
-  `198.51.100.0/24`,
-  `203.0.113.0/24`,
-  `224.0.0.0/4`,
-  `255.255.255.255/32`,
-].map(range => new Address4(range))
-
-/**
- * The object identifier arcs under which the identifiers a heap or a binary
- * contains fall: X.500 attributes and certificate extensions, RSA and US
- * standards, the internet, OIW, Kerberos, and the Edwards curve algorithms.
- */
-const OBJECT_IDENTIFIER_ARCS = [
-  `0.9.2342.`,
-  `1.2.840.`,
-  `1.3.6.1.`,
-  `1.3.14.`,
-  `1.3.101.`,
-  `2.5.4.`,
-  `2.5.29.`,
-  `2.16.840.`,
-]
-
-/**
- * Whether four dotted numbers are an object identifier (e.g. `2.5.29.32`)
- * rather than an address: one under a known arc. A binary byte before the
- * identifier can read as a digit (`82.5.29.19`), so the check also looks for
- * the arc after each of the root's leading digits. The X.660 shape alone, a
- * root arc of at most 2 followed by an arc of at most 39, proves nothing,
- * because a public address such as `1.32.5.7` has it too.
- */
-const isObjectIdentifier = (candidate: string): boolean => {
-  const rootLength = candidate.indexOf(`.`)
-  for (let start = 0; start < rootLength; start++) {
-    const suffix = candidate.slice(start)
-    if (OBJECT_IDENTIFIER_ARCS.some(arc => suffix.startsWith(arc))) {
-      return true
+const checkInput = async (
+  path: string,
+  allowed: Set<string>,
+): Promise<Finding[]> => {
+  const bytes = decompress(new Uint8Array(readFileSync(path)))
+  const text = [textOf(bytes), ...embeddedTexts(bytes)].join(`\n`)
+  const findings: Finding[] = []
+  const opaque = opaqueFinding(bytes)
+  if (opaque) {
+    findings.push(opaque)
+  }
+  for (const rule of RULES) {
+    const finding = await ruleFinding(rule, text, allowed)
+    if (finding) {
+      findings.push(finding)
     }
   }
-  return false
+  return findings
+}
+
+/** Strips what the pipeline strips, so the check reads what the parsers read. */
+const decompress = (bytes: Uint8Array): Uint8Array => {
+  const { data, compressed } = decompressIdentified(bytes)
+  return compressed ? data : (tryDecompressBrotli(data) ?? data)
 }
 
 /**
- * A version has the same shape as an address, so an address requires an octet
- * past 31.
+ * The texts of the compressed streams the bytes embed, and of the streams
+ * those embed in turn. The rules match only the bytes' own printable runs,
+ * which a stream embedded in a text input hides.
  */
-const isPublicIpv4 = (candidate: string): boolean => {
-  if (!Address4.isValid(candidate)) {
-    return false
+const embeddedTexts = (bytes: Uint8Array): string[] => {
+  const buffer = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+  if (!EMBEDDED_STREAM_PREFIXES.some(prefix => buffer.includes(prefix))) {
+    return []
   }
-  const octets = candidate.split(`.`).map(Number)
-  if (!octets.some(octet => octet >= 32) || isObjectIdentifier(candidate)) {
-    return false
-  }
-  const address = new Address4(candidate)
-  return !NON_PUBLIC_IPV4.some(range => address.isInSubnet(range))
+  const text = new TextDecoder().decode(bytes)
+  return [
+    ...[...text.matchAll(JSON_BYTE_STRING)].map(([literal]) =>
+      jsonByteStringBytes(literal),
+    ),
+    ...[...text.matchAll(BASE64_GZIP)].map(([encoded]) => base64Bytes(encoded)),
+  ].flatMap(stream => (stream ? streamTexts(stream) : []))
 }
 
 /**
- * The parser rejects timestamps and MAC addresses, and the type check excludes
- * loopback, link-local, unique-local, multicast, and the unspecified address.
- * A qualified name spelled in hex letters (`face::feed`) parses as an address
- * too, so a candidate requires a digit and at least three colons.
+ * The text of a compressed stream and of the streams it embeds, or nothing
+ * when the stream fails to decompress, because the rules can read no text of
+ * a truncated or lossily stored body.
  */
-const isPublicIpv6 = (candidate: string): boolean =>
-  /\d/u.test(candidate) &&
-  candidate.split(`:`).length > 3 &&
-  Address6.isValid(candidate) &&
-  new Address6(candidate).getType() === `Global unicast`
-
-/** What a hand-redacted input replaces a sensitive header part with. */
-const REDACTED = `redacted`
+const streamTexts = (stream: Uint8Array): string[] => {
+  let bytes
+  try {
+    bytes = decompressIdentified(stream).data
+  } catch {
+    return []
+  }
+  return [textOf(bytes), ...embeddedTexts(bytes)]
+}
 
 /**
- * Header names whose values identify the client, each with the check that its
- * value has been redacted.
+ * A prefix of every {@link JSON_BYTE_STRING} or {@link BASE64_GZIP} match, to
+ * find in the bytes before decoding them.
  */
-const CLIENT_HEADERS = new Map<string, (value: string) => boolean>([
-  [
-    `cookie`,
-    value =>
-      Object.values(parseCookie(value)).every(cookie => cookie === REDACTED),
-  ],
-  [`set-cookie`, value => parseSetCookie(value).value === REDACTED],
-  [`authorization`, value => value === REDACTED],
-  [`proxy-authorization`, value => value === REDACTED],
-  [`x-client-ip`, value => value === REDACTED],
-  [`x-forwarded-for`, value => value === REDACTED],
-  [`x-real-ip`, value => value === REDACTED],
-  [`forwarded`, value => value === REDACTED],
-])
+const EMBEDDED_STREAM_PREFIXES = [`\\u001`, `\\u0004\\"M`, `H4sI`]
 
-const headerMatches = (text: string): string[] => {
-  const values: string[] = []
-  // A HAR header (`"name":"Cookie","value":"…"`) or a raw header line.
-  const regex =
-    /"name":"(?<harName>[A-Za-z-]+)","value":"(?<harValue>(?:[^"\\]|\\.)*)"|^(?<rawName>[A-Za-z-]+):[ \t]*(?<rawValue>\S.*)$/gmu
-  for (const match of text.matchAll(regex)) {
-    const groups = match.groups!
-    const name = (groups.harName ?? groups.rawName)!.toLowerCase()
-    const value = (groups.harValue ?? groups.rawValue)!
-    const isRedacted = CLIENT_HEADERS.get(name)
-    if (isRedacted && !isRedacted(value)) {
-      values.push(`${name}: ${value}`)
+/**
+ * A JSON string whose first escaped bytes are a gzip or LZ4 magic: a binary
+ * body stored as one character per byte (e.g. a HAR request's `postData`).
+ */
+const JSON_BYTE_STRING =
+  /"(?:\\u001[Ff](?:\u008B|\\u008[Bb])|\\u0004\\"M\\u0018)(?:[^"\\]|\\.)*"/gu
+
+/**
+ * The bytes a JSON string stores one per character, or `undefined` for a
+ * match that is no valid JSON string or holds a character past a byte.
+ */
+const jsonByteStringBytes = (literal: string): Uint8Array | undefined => {
+  let decoded: string
+  try {
+    decoded = JSON.parse(literal) as string
+  } catch {
+    return undefined
+  }
+  const bytes = new Uint8Array(decoded.length)
+  for (let i = 0; i < decoded.length; i++) {
+    const code = decoded.codePointAt(i)!
+    if (code > 0xff) {
+      return undefined
+    }
+    bytes[i] = code
+  }
+  return bytes
+}
+
+/** Base64 or base64url text that decodes to a gzip magic. */
+const BASE64_GZIP = /(?<![\w+/-])H4sI[\w+/-]+={0,2}/gu
+
+const base64Bytes = (encoded: string): Uint8Array | undefined => {
+  try {
+    return Uint8Array.fromBase64(
+      encoded.replaceAll(`-`, `+`).replaceAll(`_`, `/`),
+    )
+  } catch {
+    return undefined
+  }
+}
+
+const opaqueFinding = (bytes: Uint8Array): Finding | undefined => {
+  const entropy = bytes.length >= MIN_ENTROPY_BYTES ? entropyOf(bytes) : 0
+  if (entropy <= MAX_ENTROPY) {
+    return undefined
+  }
+  return {
+    rule: {
+      name: `opaque`,
+      description: `bytes that read as compressed or encrypted, which no rule can match. A compression the pipeline does not strip?`,
+      matches: () => [],
+    },
+    values: new Map([[`${entropy.toFixed(2)} bits per byte`, 1]]),
+  }
+}
+
+/**
+ * Inputs shorter than this skip the entropy check, because a few hundred bytes
+ * of anything measure as noise.
+ */
+const MIN_ENTROPY_BYTES = 4096
+
+/**
+ * The byte entropy, in bits per byte, above which an input counts as compressed
+ * or encrypted. Compressed bytes measure 7.9 and above. The committed inputs,
+ * decompressed as the pipeline decompresses them, measure at most 6.9, with the
+ * binary formats (perf.data, memray) well below the text ones.
+ */
+const MAX_ENTROPY = 7.5
+
+/** The Shannon entropy of the bytes' values, in bits per byte. */
+const entropyOf = (bytes: Uint8Array): number => {
+  const counts = new Float64Array(256)
+  const length = Math.min(bytes.length, ENTROPY_SAMPLE_BYTES)
+  for (let i = 0; i < length; i++) {
+    const byte = bytes[i]!
+    counts[byte] = counts[byte]! + 1
+  }
+  let entropy = 0
+  for (const count of counts) {
+    if (count > 0) {
+      const probability = count / length
+      entropy -= probability * Math.log2(probability)
     }
   }
-  return values
+  return entropy
 }
 
-/**
- * Environment variable names an interactive session sets and a build shell
- * leaves unset. Several in one input mean the profiler dumped the environment
- * of a workload run outside `generate-inputs`, whose shell drops the host's
- * environment. `HOME`, `USER`, `SHELL`, and `TMPDIR` are absent because the
- * shell keeps or sets them itself.
- */
-const SESSION_ENVIRONMENT = [
-  `LOGNAME`,
-  `OLDPWD`,
-  `SSH_AUTH_SOCK`,
-  `GNUPGHOME`,
-  `TERM_PROGRAM`,
-  `TERM_PROGRAM_VERSION`,
-  `TERM_SESSION_ID`,
-  `COLORTERM`,
-  `EDITOR`,
-  `VISUAL`,
-  `PAGER`,
-  `GIT_ASKPASS`,
-  `VSCODE_GIT_IPC_HANDLE`,
-  `__CF_USER_TEXT_ENCODING`,
-  `__CFBundleIdentifier`,
-  `XPC_SERVICE_NAME`,
-  `XPC_FLAGS`,
-]
+const ENTROPY_SAMPLE_BYTES = 8 * 1024 * 1024
 
-const environmentMatches = (text: string): string[] =>
-  SESSION_ENVIRONMENT.filter(name =>
-    new RegExp(`(?<![A-Za-z0-9_])${name}(?![A-Za-z0-9_])`, `u`).test(text),
-  )
+const ruleFinding = async (
+  rule: Rule,
+  text: string,
+  allowed: Set<string>,
+): Promise<Finding | undefined> => {
+  const values = new Map<string, number>()
+  for (const value of await rule.matches(text)) {
+    if (allowed.has(value)) {
+      continue
+    }
+    values.set(value, (values.get(value) ?? 0) + 1)
+  }
+  return values.size > 0 && values.size >= (rule.threshold ?? 1)
+    ? { rule, values }
+    : undefined
+}
 
 /**
  * The credentials secretlint's recommended rules recognize: cloud provider
@@ -263,6 +232,82 @@ const credentialMatches = async (text: string): Promise<string[]> => {
       `${text.slice(start, end)} (${ruleId.replace(`@secretlint/secretlint-rule-`, ``)})`,
   )
 }
+
+const headerMatches = (text: string): string[] => {
+  const values: string[] = []
+  // A HAR header (`"name":"Cookie","value":"…"`) or a raw header line.
+  const regex =
+    /"name":"(?<harName>[A-Za-z-]+)","value":"(?<harValue>(?:[^"\\]|\\.)*)"|^(?<rawName>[A-Za-z-]+):[ \t]*(?<rawValue>\S.*)$/gmu
+  for (const match of text.matchAll(regex)) {
+    const groups = match.groups!
+    const name = (groups.harName ?? groups.rawName)!.toLowerCase()
+    const value = (groups.harValue ?? groups.rawValue)!
+    const isRedacted = CLIENT_HEADERS.get(name)
+    if (isRedacted && !isRedacted(value)) {
+      values.push(`${name}: ${value}`)
+    }
+  }
+  return values
+}
+
+/**
+ * Header names whose values identify the client, each with the check that its
+ * value has been redacted.
+ */
+const CLIENT_HEADERS = new Map<string, (value: string) => boolean>([
+  [
+    `cookie`,
+    value =>
+      Object.values(parseCookie(value)).every(cookie => cookie === REDACTED),
+  ],
+  [`set-cookie`, value => parseSetCookie(value).value === REDACTED],
+  [`authorization`, value => value === REDACTED],
+  [`proxy-authorization`, value => value === REDACTED],
+  [`x-client-ip`, value => value === REDACTED],
+  [`x-forwarded-for`, value => value === REDACTED],
+  [`x-real-ip`, value => value === REDACTED],
+  [`forwarded`, value => value === REDACTED],
+])
+
+/** What a hand-redacted input replaces a sensitive header part with. */
+const REDACTED = `redacted`
+
+const regexMatches =
+  (regex: RegExp) =>
+  (text: string): string[] =>
+    [...text.matchAll(regex)].map(match => match[0])
+
+const environmentMatches = (text: string): string[] =>
+  SESSION_ENVIRONMENT.filter(name =>
+    new RegExp(`(?<![A-Za-z0-9_])${name}(?![A-Za-z0-9_])`, `u`).test(text),
+  )
+
+/**
+ * Environment variable names an interactive session sets and a build shell
+ * leaves unset. Several in one input mean the profiler dumped the environment
+ * of a workload run outside `generate-inputs`, whose shell drops the host's
+ * environment. `HOME`, `USER`, `SHELL`, and `TMPDIR` are absent because the
+ * shell keeps or sets them itself.
+ */
+const SESSION_ENVIRONMENT = [
+  `LOGNAME`,
+  `OLDPWD`,
+  `SSH_AUTH_SOCK`,
+  `GNUPGHOME`,
+  `TERM_PROGRAM`,
+  `TERM_PROGRAM_VERSION`,
+  `TERM_SESSION_ID`,
+  `COLORTERM`,
+  `EDITOR`,
+  `VISUAL`,
+  `PAGER`,
+  `GIT_ASKPASS`,
+  `VSCODE_GIT_IPC_HANDLE`,
+  `__CF_USER_TEXT_ENCODING`,
+  `__CFBundleIdentifier`,
+  `XPC_SERVICE_NAME`,
+  `XPC_FLAGS`,
+]
 
 const RULES: readonly Rule[] = [
   {
@@ -352,114 +397,100 @@ const RULES: readonly Rule[] = [
   },
 ]
 
-type Finding = { rule: Rule; values: Map<string, number> }
-
-const checkInput = async (
-  path: string,
-  allowed: Set<string>,
-): Promise<Finding[]> => {
-  const bytes = decompress(new Uint8Array(readFileSync(path)))
-  const text = [textOf(bytes), ...embeddedTexts(bytes)].join(`\n`)
-  const findings: Finding[] = []
-  const opaque = opaqueFinding(bytes)
-  if (opaque) {
-    findings.push(opaque)
+/**
+ * A version has the same shape as an address, so an address requires an octet
+ * past 31.
+ */
+const isPublicIpv4 = (candidate: string): boolean => {
+  if (!Address4.isValid(candidate)) {
+    return false
   }
-  for (const rule of RULES) {
-    const finding = await ruleFinding(rule, text, allowed)
-    if (finding) {
-      findings.push(finding)
+  const octets = candidate.split(`.`).map(Number)
+  if (!octets.some(octet => octet >= 32) || isObjectIdentifier(candidate)) {
+    return false
+  }
+  const address = new Address4(candidate)
+  return !NON_PUBLIC_IPV4.some(range => address.isInSubnet(range))
+}
+
+/**
+ * The IPv4 ranges that address no host on the internet: private, loopback,
+ * link-local, carrier NAT, multicast, documentation, and the unspecified and
+ * broadcast addresses.
+ */
+const NON_PUBLIC_IPV4 = [
+  `0.0.0.0/8`,
+  `10.0.0.0/8`,
+  `100.64.0.0/10`,
+  `127.0.0.0/8`,
+  `169.254.0.0/16`,
+  `172.16.0.0/12`,
+  `192.0.2.0/24`,
+  `192.168.0.0/16`,
+  `198.51.100.0/24`,
+  `203.0.113.0/24`,
+  `224.0.0.0/4`,
+  `255.255.255.255/32`,
+].map(range => new Address4(range))
+
+/**
+ * Whether four dotted numbers are an object identifier (e.g. `2.5.29.32`)
+ * rather than an address: one under a known arc. A binary byte before the
+ * identifier can read as a digit (`82.5.29.19`), so the check also looks for
+ * the arc after each of the root's leading digits. The X.660 shape alone, a
+ * root arc of at most 2 followed by an arc of at most 39, proves nothing,
+ * because a public address such as `1.32.5.7` has it too.
+ */
+const isObjectIdentifier = (candidate: string): boolean => {
+  const rootLength = candidate.indexOf(`.`)
+  for (let start = 0; start < rootLength; start++) {
+    const suffix = candidate.slice(start)
+    if (OBJECT_IDENTIFIER_ARCS.some(arc => suffix.startsWith(arc))) {
+      return true
     }
   }
-  return findings
-}
-
-/** Strips what the pipeline strips, so the check reads what the parsers read. */
-const decompress = (bytes: Uint8Array): Uint8Array => {
-  const { data, compressed } = decompressIdentified(bytes)
-  return compressed ? data : (tryDecompressBrotli(data) ?? data)
+  return false
 }
 
 /**
- * A JSON string whose first escaped bytes are a gzip or LZ4 magic: a binary
- * body stored as one character per byte (e.g. a HAR request's `postData`).
+ * The object identifier arcs under which the identifiers a heap or a binary
+ * contains fall: X.500 attributes and certificate extensions, RSA and US
+ * standards, the internet, OIW, Kerberos, and the Edwards curve algorithms.
  */
-const JSON_BYTE_STRING =
-  /"(?:\\u001[Ff](?:\u008B|\\u008[Bb])|\\u0004\\"M\\u0018)(?:[^"\\]|\\.)*"/gu
-
-/** Base64 or base64url text that decodes to a gzip magic. */
-const BASE64_GZIP = /(?<![\w+/-])H4sI[\w+/-]+={0,2}/gu
-
-/**
- * A prefix of every {@link JSON_BYTE_STRING} or {@link BASE64_GZIP} match, to
- * find in the bytes before decoding them.
- */
-const EMBEDDED_STREAM_PREFIXES = [`\\u001`, `\\u0004\\"M`, `H4sI`]
-
-/**
- * The texts of the compressed streams the bytes embed, and of the streams
- * those embed in turn. The rules match only the bytes' own printable runs,
- * which a stream embedded in a text input hides.
- */
-const embeddedTexts = (bytes: Uint8Array): string[] => {
-  const buffer = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-  if (!EMBEDDED_STREAM_PREFIXES.some(prefix => buffer.includes(prefix))) {
-    return []
-  }
-  const text = new TextDecoder().decode(bytes)
-  return [
-    ...[...text.matchAll(JSON_BYTE_STRING)].map(([literal]) =>
-      jsonByteStringBytes(literal),
-    ),
-    ...[...text.matchAll(BASE64_GZIP)].map(([encoded]) => base64Bytes(encoded)),
-  ].flatMap(stream => (stream ? streamTexts(stream) : []))
-}
+const OBJECT_IDENTIFIER_ARCS = [
+  `0.9.2342.`,
+  `1.2.840.`,
+  `1.3.6.1.`,
+  `1.3.14.`,
+  `1.3.101.`,
+  `2.5.4.`,
+  `2.5.29.`,
+  `2.16.840.`,
+]
 
 /**
- * The bytes a JSON string stores one per character, or `undefined` for a
- * match that is no valid JSON string or holds a character past a byte.
+ * The parser rejects timestamps and MAC addresses, and the type check excludes
+ * loopback, link-local, unique-local, multicast, and the unspecified address.
+ * A qualified name spelled in hex letters (`face::feed`) parses as an address
+ * too, so a candidate requires a digit and at least three colons.
  */
-const jsonByteStringBytes = (literal: string): Uint8Array | undefined => {
-  let decoded: string
-  try {
-    decoded = JSON.parse(literal) as string
-  } catch {
-    return undefined
-  }
-  const bytes = new Uint8Array(decoded.length)
-  for (let i = 0; i < decoded.length; i++) {
-    const code = decoded.codePointAt(i)!
-    if (code > 0xff) {
-      return undefined
+const isPublicIpv6 = (candidate: string): boolean =>
+  /\d/u.test(candidate) &&
+  candidate.split(`:`).length > 3 &&
+  Address6.isValid(candidate) &&
+  new Address6(candidate).getType() === `Global unicast`
+
+const assetMatches = async (): Promise<Set<string>> => {
+  const allowed = new Set<string>()
+  for (const path of committedAssets()) {
+    const text = textOf(new Uint8Array(readFileSync(path)))
+    for (const rule of RULES) {
+      for (const value of await rule.matches(text)) {
+        allowed.add(value)
+      }
     }
-    bytes[i] = code
   }
-  return bytes
-}
-
-const base64Bytes = (encoded: string): Uint8Array | undefined => {
-  try {
-    return Uint8Array.fromBase64(
-      encoded.replaceAll(`-`, `+`).replaceAll(`_`, `/`),
-    )
-  } catch {
-    return undefined
-  }
-}
-
-/**
- * The text of a compressed stream and of the streams it embeds, or nothing
- * when the stream fails to decompress, because the rules can read no text of
- * a truncated or lossily stored body.
- */
-const streamTexts = (stream: Uint8Array): string[] => {
-  let bytes
-  try {
-    bytes = decompressIdentified(stream).data
-  } catch {
-    return []
-  }
-  return [textOf(bytes), ...embeddedTexts(bytes)]
+  return allowed
 }
 
 /**
@@ -511,6 +542,17 @@ const utf16Encoding = (
   return undefined
 }
 
+const UTF16_SAMPLE_BYTES = 4096
+
+/**
+ * Inputs shorter than this count as UTF-16 only with a byte order mark, because
+ * a few code units of anything can alternate with zero bytes.
+ */
+const MIN_UTF16_BYTES = 64
+
+/** The fraction of a parity's bytes that must be zero for UTF-16 text. */
+const UTF16_ZERO_FRACTION = 0.9
+
 /** The printable ASCII runs of the bytes, joined by newlines. */
 const printableRuns = (bytes: Uint8Array): string => {
   // Each newline takes the place of a byte that ended a run, so the joined
@@ -545,68 +587,7 @@ const printableRuns = (bytes: Uint8Array): string => {
   return joined.toString(`latin1`, 0, length)
 }
 
-const opaqueFinding = (bytes: Uint8Array): Finding | undefined => {
-  const entropy = bytes.length >= MIN_ENTROPY_BYTES ? entropyOf(bytes) : 0
-  if (entropy <= MAX_ENTROPY) {
-    return undefined
-  }
-  return {
-    rule: {
-      name: `opaque`,
-      description: `bytes that read as compressed or encrypted, which no rule can match. A compression the pipeline does not strip?`,
-      matches: () => [],
-    },
-    values: new Map([[`${entropy.toFixed(2)} bits per byte`, 1]]),
-  }
-}
-
-/** The Shannon entropy of the bytes' values, in bits per byte. */
-const entropyOf = (bytes: Uint8Array): number => {
-  const counts = new Float64Array(256)
-  const length = Math.min(bytes.length, ENTROPY_SAMPLE_BYTES)
-  for (let i = 0; i < length; i++) {
-    const byte = bytes[i]!
-    counts[byte] = counts[byte]! + 1
-  }
-  let entropy = 0
-  for (const count of counts) {
-    if (count > 0) {
-      const probability = count / length
-      entropy -= probability * Math.log2(probability)
-    }
-  }
-  return entropy
-}
-
-const ruleFinding = async (
-  rule: Rule,
-  text: string,
-  allowed: Set<string>,
-): Promise<Finding | undefined> => {
-  const values = new Map<string, number>()
-  for (const value of await rule.matches(text)) {
-    if (allowed.has(value)) {
-      continue
-    }
-    values.set(value, (values.get(value) ?? 0) + 1)
-  }
-  return values.size > 0 && values.size >= (rule.threshold ?? 1)
-    ? { rule, values }
-    : undefined
-}
-
-const assetMatches = async (): Promise<Set<string>> => {
-  const allowed = new Set<string>()
-  for (const path of committedAssets()) {
-    const text = textOf(new Uint8Array(readFileSync(path)))
-    for (const rule of RULES) {
-      for (const value of await rule.matches(text)) {
-        allowed.add(value)
-      }
-    }
-  }
-  return allowed
-}
+const MIN_RUN_LENGTH = 6
 
 /**
  * The committed assets, listed by version control so a fetched asset, which
@@ -627,11 +608,31 @@ const committedAssets = (): string[] =>
         .split(`\0`)
         .filter(path => path.length > 0)
 
+const ASSETS_DIRECTORY = `scripts/inputs/assets`
+
+/**
+ * A match found in a committed file under `scripts/inputs/assets/` needs no
+ * entry here. A fetched asset is gitignored, so CI has none, and a match in
+ * one needs an entry.
+ */
+const ALLOWLIST: readonly { value: string; reason: string }[] = [
+  {
+    value: `sindresorhus@gmail.com`,
+    reason: `the author field of an npm package the Node heap snapshot workload loads`,
+  },
+  {
+    value: `nonestep.revival@gmail.com`,
+    reason: `a tweet in simdjson's twitter.json sample the heap snapshot workloads parse, read with the \`n\` of the escaped newline before it`,
+  },
+]
+
 const committedInputs = (): string[] =>
   readdirSync(INPUT_DIRECTORY)
     .map(name => join(INPUT_DIRECTORY, name))
     .filter(path => statSync(path).isFile())
     .sort()
+
+const INPUT_DIRECTORY = `examples/input`
 
 const report = (path: string, findings: Finding[]): void => {
   console.error(`${relative(process.cwd(), path)}:`)

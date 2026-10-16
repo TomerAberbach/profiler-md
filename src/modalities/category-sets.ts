@@ -8,20 +8,6 @@ export type CategorySet = {
   readonly categories: readonly string[]
 }
 
-const FUNCTION_CATEGORIES = [
-  `ours`,
-  `third-party`,
-  `stdlib`,
-  `native`,
-  `unknown`,
-  `garbage-collector`,
-  `compiler`,
-  `jit`,
-  `regexp`,
-  `kernel`,
-  `idle`,
-] as const
-
 /**
  * The category of code a function originated from.
  *
@@ -47,6 +33,20 @@ const FUNCTION_CATEGORIES = [
  *   `garbage-collector`
  */
 export type FunctionCategory = (typeof FUNCTION_CATEGORIES)[number]
+
+const FUNCTION_CATEGORIES = [
+  `ours`,
+  `third-party`,
+  `stdlib`,
+  `native`,
+  `unknown`,
+  `garbage-collector`,
+  `compiler`,
+  `jit`,
+  `regexp`,
+  `kernel`,
+  `idle`,
+] as const
 
 export const FUNCTION_CATEGORY_SET = {
   title: `Function categories`,

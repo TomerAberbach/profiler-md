@@ -1,13 +1,4 @@
 /**
- * The verbosity of a conversion's diagnostics, from `none` (the default) to
- * `debug`. A level enables its own messages and every level before it.
- */
-export type LogLevel = (typeof LOG_LEVELS)[number]
-
-/** Every {@link LogLevel}, least to most verbose. */
-export const LOG_LEVELS = [`none`, `error`, `warn`, `info`, `debug`] as const
-
-/**
  * Receives a conversion's diagnostics, one message per call.
  *
  * Only defined methods are called, so `console` qualifies as a logger, and so
@@ -16,6 +7,15 @@ export const LOG_LEVELS = [`none`, `error`, `warn`, `info`, `debug`] as const
 export type Logger = Partial<
   Record<Exclude<LogLevel, `none`>, (message: string) => void>
 >
+
+/**
+ * The verbosity of a conversion's diagnostics, from `none` (the default) to
+ * `debug`. A level enables its own messages and every level before it.
+ */
+export type LogLevel = (typeof LOG_LEVELS)[number]
+
+/** Every {@link LogLevel}, least to most verbose. */
+export const LOG_LEVELS = [`none`, `error`, `warn`, `info`, `debug`] as const
 
 declare const normalizedBrand: unique symbol
 

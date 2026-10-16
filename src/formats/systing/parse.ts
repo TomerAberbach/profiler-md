@@ -63,48 +63,6 @@ type SystingHeader = {
 }
 
 /**
- * The stack events of `x` records: systing samples CPU execution and takes a
- * stack each time a thread enters a sleep state.
- */
-const EVENT_KINDS = [
-  // CPU first (the headline), then uninterruptible sleep (D-state waits on
-  // disk or locks, the actionable off-CPU signal), then interruptible sleep.
-  `cpu`,
-  `uninterruptible_sleep`,
-  `interruptible_sleep`,
-] as const
-
-type SystingEventKind = (typeof EVENT_KINDS)[number]
-
-const isEventKind = (name: string): name is SystingEventKind =>
-  (EVENT_KINDS as readonly string[]).includes(name)
-
-/** The event type ids systing's recorder assigns, for legend-less headers. */
-const DEFAULT_EVENT_TYPE_KINDS: ReadonlyMap<number, SystingEventKind> = new Map(
-  [
-    [0, `uninterruptible_sleep`],
-    [1, `cpu`],
-    [2, `interruptible_sleep`],
-  ],
-)
-
-const eventTypeKinds = (
-  header: SystingHeader,
-): ReadonlyMap<number, SystingEventKind> => {
-  const legend = header.event_types
-  if (typeof legend !== `object` || legend === null) {
-    return DEFAULT_EVENT_TYPE_KINDS
-  }
-  const kinds = new Map<number, SystingEventKind>()
-  for (const [id, name] of Object.entries(legend)) {
-    if (isEventKind(name)) {
-      kinds.set(Number(id), name)
-    }
-  }
-  return kinds
-}
-
-/**
  * Parses systing profile export lines, see docs/PROFILE_EXPORT_FORMAT.md in
  * systing.
  *
@@ -290,36 +248,7 @@ class SystingProfileBuilder {
   }
 }
 
-/**
- * A sleep event is an occurrence rather than a duration, because it records a
- * thread entering the state with this stack. A sleep profile therefore has no
- * metric and counts sleeps. Each kind has its own count metric, so the profiles
- * are titled distinctly. A diff of two of them states which is which.
- */
-const SLEEP_COUNT_METRICS: ReadonlyMap<SystingEventKind, CountMetric> = new Map(
-  [
-    [`uninterruptible_sleep`, UNINTERRUPTIBLE_SLEEPS_METRIC],
-    [`interruptible_sleep`, INTERRUPTIBLE_SLEEPS_METRIC],
-  ],
-)
-
 const NO_VALUES: number[] = []
-
-/**
- * The CPU profile's metric per the header's sampling provenance: real time
- * for `cpu-clock` (the period is nanoseconds per sample), cycles for
- * `cpu-cycles` (converting cycles to time needs clock frequencies the export
- * doesn't carry), and none when the recording predates sampling provenance.
- */
-const cpuMetric = (header: SystingHeader): Metric | undefined => {
-  if (header.sample_event === `cpu-clock`) {
-    return NANOSECONDS_METRIC
-  }
-  if (header.sample_event === `cpu-cycles`) {
-    return CPU_CYCLES_METRIC
-  }
-  return undefined
-}
 
 const parseSystingHeader = (line: string): SystingHeader => {
   const json = parseJson(line)
@@ -345,3 +274,74 @@ const parseSystingHeader = (line: string): SystingHeader => {
   }
   return header
 }
+
+const eventTypeKinds = (
+  header: SystingHeader,
+): ReadonlyMap<number, SystingEventKind> => {
+  const legend = header.event_types
+  if (typeof legend !== `object` || legend === null) {
+    return DEFAULT_EVENT_TYPE_KINDS
+  }
+  const kinds = new Map<number, SystingEventKind>()
+  for (const [id, name] of Object.entries(legend)) {
+    if (isEventKind(name)) {
+      kinds.set(Number(id), name)
+    }
+  }
+  return kinds
+}
+
+/** The event type ids systing's recorder assigns, for legend-less headers. */
+const DEFAULT_EVENT_TYPE_KINDS: ReadonlyMap<number, SystingEventKind> = new Map(
+  [
+    [0, `uninterruptible_sleep`],
+    [1, `cpu`],
+    [2, `interruptible_sleep`],
+  ],
+)
+
+const isEventKind = (name: string): name is SystingEventKind =>
+  (EVENT_KINDS as readonly string[]).includes(name)
+
+/**
+ * The stack events of `x` records: systing samples CPU execution and takes a
+ * stack each time a thread enters a sleep state.
+ */
+const EVENT_KINDS = [
+  // CPU first (the headline), then uninterruptible sleep (D-state waits on
+  // disk or locks, the actionable off-CPU signal), then interruptible sleep.
+  `cpu`,
+  `uninterruptible_sleep`,
+  `interruptible_sleep`,
+] as const
+
+type SystingEventKind = (typeof EVENT_KINDS)[number]
+
+/**
+ * The CPU profile's metric per the header's sampling provenance: real time
+ * for `cpu-clock` (the period is nanoseconds per sample), cycles for
+ * `cpu-cycles` (converting cycles to time needs clock frequencies the export
+ * doesn't carry), and none when the recording predates sampling provenance.
+ */
+const cpuMetric = (header: SystingHeader): Metric | undefined => {
+  if (header.sample_event === `cpu-clock`) {
+    return NANOSECONDS_METRIC
+  }
+  if (header.sample_event === `cpu-cycles`) {
+    return CPU_CYCLES_METRIC
+  }
+  return undefined
+}
+
+/**
+ * A sleep event is an occurrence rather than a duration, because it records a
+ * thread entering the state with this stack. A sleep profile therefore has no
+ * metric and counts sleeps. Each kind has its own count metric, so the profiles
+ * are titled distinctly. A diff of two of them states which is which.
+ */
+const SLEEP_COUNT_METRICS: ReadonlyMap<SystingEventKind, CountMetric> = new Map(
+  [
+    [`uninterruptible_sleep`, UNINTERRUPTIBLE_SLEEPS_METRIC],
+    [`interruptible_sleep`, INTERRUPTIBLE_SLEEPS_METRIC],
+  ],
+)

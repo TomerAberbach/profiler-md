@@ -249,16 +249,6 @@ class Eventlog {
     }
   }
 
-  #sampleStackDepth(payload: number): number {
-    return this.#bytes[payload + SAMPLE_STACK_DEPTH]!
-  }
-
-  #sampleCostCentreId(payload: number, index: number): number {
-    return this.#view.getUint32(
-      payload + SAMPLE_STACK + index * COST_CENTRE_ID_SIZE,
-    )
-  }
-
   /**
    * Yields every event in the log, then returns whether it reached the
    * end-of-data marker.
@@ -305,7 +295,42 @@ class Eventlog {
     }
     return false
   }
+
+  #sampleStackDepth(payload: number): number {
+    return this.#bytes[payload + SAMPLE_STACK_DEPTH]!
+  }
+
+  #sampleCostCentreId(payload: number, index: number): number {
+    return this.#view.getUint32(
+      payload + SAMPLE_STACK + index * COST_CENTRE_ID_SIZE,
+    )
+  }
 }
+
+/** The events this parser reads, by their type in the eventlog format. */
+const COST_CENTRE_DEFINITION = 161
+const TIME_PROFILE_SAMPLE = 167
+const TIME_PROFILE_BEGIN = 168
+
+const textDecoder = new TextDecoder()
+
+/** The event type marking the end of the log's events. */
+const DATA_END = 0xffff
+
+/** The size of an event's type and timestamp, which precede its payload. */
+const EVENT_HEADER_SIZE = 2 + 8
+
+/** The declared size of an event type whose events carry their own length. */
+const VARIABLE_SIZE = -1
+
+/**
+ * Offsets within a {@link TIME_PROFILE_SAMPLE} payload, which is the capability
+ * set and the tick the sample was taken at, then the cost-centre stack: its
+ * depth, then its IDs innermost first, which is the order a call stack runs in.
+ */
+const SAMPLE_STACK_DEPTH = 4 + 8
+const SAMPLE_STACK = SAMPLE_STACK_DEPTH + 1
+const COST_CENTRE_ID_SIZE = 4
 
 /**
  * A cursor over the header's bytes.
@@ -358,31 +383,6 @@ class HeaderCursor {
     return start
   }
 }
-
-const textDecoder = new TextDecoder()
-
-/** The size of an event's type and timestamp, which precede its payload. */
-const EVENT_HEADER_SIZE = 2 + 8
-
-/** The declared size of an event type whose events carry their own length. */
-const VARIABLE_SIZE = -1
-
-/** The event type marking the end of the log's events. */
-const DATA_END = 0xffff
-
-/** The events this parser reads, by their type in the eventlog format. */
-const COST_CENTRE_DEFINITION = 161
-const TIME_PROFILE_SAMPLE = 167
-const TIME_PROFILE_BEGIN = 168
-
-/**
- * Offsets within a {@link TIME_PROFILE_SAMPLE} payload, which is the capability
- * set and the tick the sample was taken at, then the cost-centre stack: its
- * depth, then its IDs innermost first, which is the order a call stack runs in.
- */
-const SAMPLE_STACK_DEPTH = 4 + 8
-const SAMPLE_STACK = SAMPLE_STACK_DEPTH + 1
-const COST_CENTRE_ID_SIZE = 4
 
 /** The markers structuring the log, each four ASCII bytes. */
 export const MARKER_SIZE = 4

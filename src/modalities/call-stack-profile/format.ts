@@ -172,229 +172,6 @@ const memoizeShowEntry = (
 
 const isZeroTotal = (measure: Measure): boolean => measure.total === 0
 
-const isZeroDiffTotal = (measure: DiffMeasure): boolean =>
-  measure.base.total === 0 && measure.current.total === 0
-
-export const formatCallStackProfileDiff = (
-  diff: AggregatedCallStackProfileDiff,
-  options: FormattingProfileToMdOptions,
-): RootContent[] => {
-  const headingLevel = 1
-  const measures = diffMeasuresOf(diff)
-  const matchLines = lineMatcher(diff)
-  const matchFunctionIds = functionIdMatcher(diff.functions)
-  const sectionOptions = resolveEntryFilter({
-    options,
-    formatsAnyEntry:
-      diff.functions.length > 0 && !measures.every(isZeroDiffTotal),
-    showsAnyEntry: showEntry =>
-      diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
-    entities: `function`,
-  })
-  const callStacks = matchDiffedCallStacks(diff, sectionOptions)
-  return [
-    heading(
-      headingLevel,
-      `${formatTitle(measures.map(({ metric }) => metric))} diff`,
-    ),
-    ...formatDiffSummary(diff, measures),
-    ...formatBaseURLNote(options),
-    ...formatMeasureSections(
-      measures,
-      headingLevel + 1,
-      (measure, sectionHeadingLevel) => {
-        if (isZeroDiffTotal(measure)) {
-          return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
-        }
-
-        return [
-          ...formatDiffFunctions({
-            diff,
-            matchLines,
-            matchFunctionIds,
-            measure,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-          ...formatDiffCallStacks({
-            callStacks,
-            functions: diff.functions,
-            measure,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-        ]
-      },
-    ),
-  ]
-}
-
-/**
- * The call stacks whose self value in their leaf frame changed the most, as a
- * ranking per direction of change.
- */
-const formatDiffCallStacks = ({
-  callStacks,
-  functions,
-  measure,
-  options,
-  headingLevel,
-}: {
-  callStacks: DiffedCallStack[]
-  functions: AggregatedCallStackProfileDiff[`functions`]
-  measure: DiffMeasure
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] => {
-  const active: ActiveDiffEntity<DiffedCallStack>[] = []
-  for (const callStack of callStacks) {
-    const { base, current } = callStack
-    const baseValue = base ? selfValueOf(measure.base, base) : 0
-    const currentValue = current ? selfValueOf(measure.current, current) : 0
-    if (baseValue > 0 || currentValue > 0) {
-      active.push({ entity: callStack, baseValue, currentValue })
-    }
-  }
-  if (active.length === 0) {
-    return []
-  }
-
-  const { metric } = measure
-  const verbPhrase = metric.phrases.pastParticipleVerbPhrase
-  const changes = rankDiffEntities(active, options.topN)
-  const sections = diffRankings(metric.improvement).flatMap(
-    ({ change, title }) =>
-      formatDiffCallStackRanking({
-        callStacks:
-          change === `increase` ? changes.increases : changes.decreases,
-        functions,
-        measure,
-        options,
-        headingLevel: headingLevel + 1,
-        title,
-        sentence: diffRankingSentence(
-          `Call stacks`,
-          change,
-          `${verbPhrase} in their leaf frame`,
-        ),
-      }),
-  )
-  return [
-    heading(headingLevel, `Hottest call stacks`),
-    ...(sections.length === 0
-      ? [
-          paragraph(
-            unchangedDiffSentence(
-              `call stack`,
-              `${verbPhrase} in its leaf frame`,
-            ),
-          ),
-        ]
-      : sections),
-  ]
-}
-
-const formatDiffCallStackRanking = ({
-  callStacks,
-  functions,
-  measure,
-  options,
-  headingLevel,
-  title,
-  sentence,
-}: {
-  callStacks: ActiveDiffEntity<DiffedCallStack>[]
-  functions: AggregatedCallStackProfileDiff[`functions`]
-  measure: DiffMeasure
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-  title: string
-  sentence: string
-}): RootContent[] => {
-  if (callStacks.length === 0) {
-    return []
-  }
-
-  const functionOf =
-    (side: keyof Diff<unknown>) =>
-    (index: number): AggregatedCallStackProfileFunction =>
-      functions[index]![side]!
-  const diffedCallStacks = callStacks.map(({ entity }) => entity)
-  const commonCallStack = findCommonCallStack(
-    diffedCallStacks,
-    functionOf(
-      callStacks.some(({ entity }) => entity.current) ? `current` : `base`,
-    ),
-  )
-  const sideRowOf = (
-    side: Measure,
-    frames: ShownFrame[],
-    callStack: ShownCallStack | undefined,
-    value: number,
-  ) =>
-    callStack && {
-      frames,
-      value,
-      count: callStack.selfCount,
-      total: side.total,
-    }
-  return [
-    heading(headingLevel, title),
-    paragraph([text(sentence), ...formatHiddenFramesNote(diffedCallStacks)]),
-    ...formatCommonCallStack(commonCallStack, options),
-    formatDiffTable(
-      callStackColumns(measure, commonCallStack, options),
-      callStacks.map(
-        ({ entity: { key, base, current }, baseValue, currentValue }) => {
-          // A removed call stack's frames are the base side's functions.
-          const frames = shownFramesOf(
-            key,
-            functionOf(current ? `current` : `base`),
-          )
-          return {
-            base: sideRowOf(measure.base, frames, base, baseValue),
-            current: sideRowOf(measure.current, frames, current, currentValue),
-          }
-        },
-      ),
-    ),
-  ]
-}
-
-/**
- * A call stack merged on each side by its shown frames and paired across the
- * sides by its {@link CallStackKey}, whose numbers index the diff's functions.
- */
-type DiffedCallStack = Diff<ShownCallStack> & { key: CallStackKey }
-
-/**
- * Merges each side's call stacks by their shown frames, and pairs them across
- * the sides by the functions their frames are, as the diff paired functions.
- */
-const matchDiffedCallStacks = (
-  diff: AggregatedCallStackProfileDiff,
-  options: FormattingProfileToMdOptions,
-): DiffedCallStack[] => {
-  const idToIndex = functionIdIndexes(diff.functions)
-  const keys = newCallStackKeyInterner()
-  const mergeSide = (side: keyof Diff<unknown>) => {
-    const sideIdToIndex = idToIndex[side]
-    return mergeShownCallStacks(
-      diff[side],
-      memoizeShowEntry(diff[side], options).showEntry,
-      keys,
-      func => sideIdToIndex[func.id]!,
-    )
-  }
-  const baseCallStacks = mergeSide(`base`)
-  const currentCallStacks = mergeSide(`current`)
-  return keys.items.map((key, index) => ({
-    key,
-    base: baseCallStacks[index],
-    current: currentCallStacks[index],
-  }))
-}
-
 const formatOverallSummary = (
   profile: AggregatedCallStackProfile,
   measures: Measure[],
@@ -595,29 +372,6 @@ const formatHottestSelfFunctions = ({
   ]
 }
 
-const formatFunctionTable = ({
-  functions,
-  measure,
-  valueOf,
-  countOf,
-  options,
-}: {
-  functions: AggregatedCallStackProfileFunction[]
-  measure: Measure
-  valueOf: (func: AggregatedCallStackProfileFunction) => number
-  countOf: (func: AggregatedCallStackProfileFunction) => number
-  options: FormattingProfileToMdOptions
-}): RootContent =>
-  formatTable(
-    functionColumns(measure, `Function`, options),
-    functions.map(func => ({
-      func,
-      value: valueOf(func),
-      count: countOf(func),
-      total: measure.total,
-    })),
-  )
-
 const formatHottestLines = ({
   measure,
   func,
@@ -712,122 +466,28 @@ const formatHottestTotalFunctions = ({
   ]
 }
 
-/**
- * A function's callers or callees, each measured over the frame pairs it
- * shares with the function.
- */
-type Neighbors = {
-  entity: `Caller` | `Callee`
-  contributionOf: (metric: Metric) => string
-
-  /** What can make the attribution to neighbors imprecise. */
-  caveat: string
-  metricsOf: (
-    func: AggregatedCallStackProfileFunction,
-  ) => Iterable<readonly [id: number, metrics: NeighborMetrics]>
-}
-
-/**
- * A caller or callee, measured over the frame pairs it shares with the
- * function.
- */
-type NeighborMetrics = {
-  func: AggregatedCallStackProfileFunction
-  values: Float64Array
-  count: number
-}
-
-const CALLERS: Neighbors = {
-  entity: `Caller`,
-  contributionOf: metric =>
-    `contribution to each function's self ${metric.phrases.columnNoun}`,
-  caveat: `Inlining can make caller attribution imprecise.`,
-  metricsOf: func =>
-    func.callerIdToMetrics
-      .entries()
-      .map(([id, { caller, selfValues, selfCount }]) => [
-        id,
-        { func: caller, values: selfValues, count: selfCount },
-      ]),
-}
-
-const CALLEES: Neighbors = {
-  entity: `Callee`,
-  contributionOf: metric =>
-    `contribution to each function's total ${metric.phrases.columnNoun}`,
-  caveat: `Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.`,
-  metricsOf: func =>
-    func.calleeIdToMetrics
-      .entries()
-      .map(([id, { callee, totalValues, totalCount }]) => [
-        id,
-        { func: callee, values: totalValues, count: totalCount },
-      ]),
-}
-
-/**
- * The value accessors, phrasing, and neighbors of one function ranking
- * direction (self or total).
- */
-type FunctionDirection = {
-  valueOf: (side: Measure, func: AggregatedCallStackProfileFunction) => number
+const formatFunctionTable = ({
+  functions,
+  measure,
+  valueOf,
+  countOf,
+  options,
+}: {
+  functions: AggregatedCallStackProfileFunction[]
+  measure: Measure
+  valueOf: (func: AggregatedCallStackProfileFunction) => number
   countOf: (func: AggregatedCallStackProfileFunction) => number
-  titleOf: (metric: Metric) => string
-  descriptionOf: (metric: Metric) => string
-
-  /** The neighbors each function's value is attributed to. */
-  neighbors: Neighbors
-
-  /** The sections breaking down the functions a diff's rankings show. */
-  formatDiffDetailSections: (args: DiffDetailArgs) => RootContent[]
-}
-
-const SELF_DIRECTION: FunctionDirection = {
-  valueOf: selfValueOf,
-  countOf: func => func.selfCount,
-  titleOf: metric => `Self ${metric.phrases.columnNoun}`,
-  descriptionOf: metric =>
-    `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`,
-  neighbors: CALLERS,
-  formatDiffDetailSections: args => [
-    ...formatDiffLines(args),
-    ...formatDiffNeighbors(args, SELF_DIRECTION),
-  ],
-}
-
-const TOTAL_DIRECTION: FunctionDirection = {
-  valueOf: totalValueOf,
-  countOf: func => func.totalCount,
-  titleOf: metric => `Total ${metric.phrases.columnNoun}`,
-  descriptionOf: metric =>
-    `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees`,
-  neighbors: CALLEES,
-  formatDiffDetailSections: args => formatDiffNeighbors(args, TOTAL_DIRECTION),
-}
-
-/** A caller's or callee's row in a function's table. */
-type NeighborRow = FunctionMeasureRow & {
-  func: AggregatedCallStackProfileFunction
-}
-
-/**
- * The function's caller or callee rows keyed by each neighbor's ID, each a
- * share of the function's value in the direction.
- */
-const neighborRowsOf = (
-  measure: Measure,
-  func: AggregatedCallStackProfileFunction,
-  { valueOf, neighbors }: FunctionDirection,
-): Iterable<readonly [id: number, row: NeighborRow]> => {
-  const total = valueOf(measure, func)
-  return Iterator.from(neighbors.metricsOf(func)).map(
-    ([id, { func, values, count }]) =>
-      [
-        id,
-        { func, value: measure.valueOf(values, count), count, total },
-      ] as const,
+  options: FormattingProfileToMdOptions
+}): RootContent =>
+  formatTable(
+    functionColumns(measure, `Function`, options),
+    functions.map(func => ({
+      func,
+      value: valueOf(func),
+      count: countOf(func),
+      total: measure.total,
+    })),
   )
-}
 
 const formatHottestNeighbors = ({
   measure,
@@ -901,242 +561,212 @@ const formatFunctionHottestNeighbors = ({
   ]
 }
 
-const formatHottestCallStacks = ({
-  callStacks,
-  functionOf,
-  measure,
-  options,
-  headingLevel,
-}: {
-  callStacks: ShownCallStack[]
-  functionOf: FunctionOf
-  measure: Measure
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] => {
-  const hottestCallStacks = selectTopN(
-    callStacks.filter(callStack => selfValueOf(measure, callStack) > 0),
-    options.topN,
-    callStack => selfValueOf(measure, callStack),
-  )
-  if (hottestCallStacks.length === 0) {
-    return []
-  }
+/**
+ * The value accessors, phrasing, and neighbors of one function ranking
+ * direction (self or total).
+ */
+type FunctionDirection = {
+  valueOf: (side: Measure, func: AggregatedCallStackProfileFunction) => number
+  countOf: (func: AggregatedCallStackProfileFunction) => number
+  titleOf: (metric: Metric) => string
+  descriptionOf: (metric: Metric) => string
 
-  const { metric, total } = measure
-  const commonCallStack = findCommonCallStack(hottestCallStacks, functionOf)
+  /** The neighbors each function's value is attributed to. */
+  neighbors: Neighbors
+
+  /** The sections breaking down the functions a diff's rankings show. */
+  formatDiffDetailSections: (args: DiffDetailArgs) => RootContent[]
+}
+
+/**
+ * A function's callers or callees, each measured over the frame pairs it
+ * shares with the function.
+ */
+type Neighbors = {
+  entity: `Caller` | `Callee`
+  contributionOf: (metric: Metric) => string
+
+  /** What can make the attribution to neighbors imprecise. */
+  caveat: string
+  metricsOf: (
+    func: AggregatedCallStackProfileFunction,
+  ) => Iterable<readonly [id: number, metrics: NeighborMetrics]>
+}
+
+/**
+ * A caller or callee, measured over the frame pairs it shares with the
+ * function.
+ */
+type NeighborMetrics = {
+  func: AggregatedCallStackProfileFunction
+  values: Float64Array
+  count: number
+}
+
+const CALLERS: Neighbors = {
+  entity: `Caller`,
+  contributionOf: metric =>
+    `contribution to each function's self ${metric.phrases.columnNoun}`,
+  caveat: `Inlining can make caller attribution imprecise.`,
+  metricsOf: func =>
+    func.callerIdToMetrics
+      .entries()
+      .map(([id, { caller, selfValues, selfCount }]) => [
+        id,
+        { func: caller, values: selfValues, count: selfCount },
+      ]),
+}
+
+const CALLEES: Neighbors = {
+  entity: `Callee`,
+  contributionOf: metric =>
+    `contribution to each function's total ${metric.phrases.columnNoun}`,
+  caveat: `Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.`,
+  metricsOf: func =>
+    func.calleeIdToMetrics
+      .entries()
+      .map(([id, { callee, totalValues, totalCount }]) => [
+        id,
+        { func: callee, values: totalValues, count: totalCount },
+      ]),
+}
+
+const SELF_DIRECTION: FunctionDirection = {
+  valueOf: selfValueOf,
+  countOf: func => func.selfCount,
+  titleOf: metric => `Self ${metric.phrases.columnNoun}`,
+  descriptionOf: metric =>
+    `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`,
+  neighbors: CALLERS,
+  formatDiffDetailSections: args => [
+    ...formatDiffLines(args),
+    ...formatDiffNeighbors(args, SELF_DIRECTION),
+  ],
+}
+
+const TOTAL_DIRECTION: FunctionDirection = {
+  valueOf: totalValueOf,
+  countOf: func => func.totalCount,
+  titleOf: metric => `Total ${metric.phrases.columnNoun}`,
+  descriptionOf: metric =>
+    `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees`,
+  neighbors: CALLEES,
+  formatDiffDetailSections: args => formatDiffNeighbors(args, TOTAL_DIRECTION),
+}
+
+/** A caller's or callee's row in a function's table. */
+type NeighborRow = FunctionMeasureRow & {
+  func: AggregatedCallStackProfileFunction
+}
+
+/**
+ * The function's caller or callee rows keyed by each neighbor's ID, each a
+ * share of the function's value in the direction.
+ */
+const neighborRowsOf = (
+  measure: Measure,
+  func: AggregatedCallStackProfileFunction,
+  { valueOf, neighbors }: FunctionDirection,
+): Iterable<readonly [id: number, row: NeighborRow]> => {
+  const total = valueOf(measure, func)
+  return Iterator.from(neighbors.metricsOf(func)).map(
+    ([id, { func, values, count }]) =>
+      [
+        id,
+        { func, value: measure.valueOf(values, count), count, total },
+      ] as const,
+  )
+}
+
+export const formatCallStackProfileDiff = (
+  diff: AggregatedCallStackProfileDiff,
+  options: FormattingProfileToMdOptions,
+): RootContent[] => {
+  const headingLevel = 1
+  const measures = diffMeasuresOf(diff)
+  const matchLines = lineMatcher(diff)
+  const matchFunctionIds = functionIdMatcher(diff.functions)
+  const sectionOptions = resolveEntryFilter({
+    options,
+    formatsAnyEntry:
+      diff.functions.length > 0 && !measures.every(isZeroDiffTotal),
+    showsAnyEntry: showEntry =>
+      diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
+    entities: `function`,
+  })
+  const callStacks = matchDiffedCallStacks(diff, sectionOptions)
   return [
-    heading(headingLevel, `Hottest call stacks`),
-    paragraph([
-      text(
-        rankingSentence(
-          `Call stacks`,
-          `${metric.phrases.pastParticipleVerbPhrase} in their leaf frame`,
-        ),
-      ),
-      ...formatHiddenFramesNote(hottestCallStacks),
-    ]),
-    ...formatCommonCallStack(commonCallStack, options),
-    formatTable(
-      callStackColumns(measure, commonCallStack, options),
-      hottestCallStacks.map(callStack => ({
-        frames: shownFramesOf(callStack.key, functionOf),
-        value: selfValueOf(measure, callStack),
-        count: callStack.selfCount,
-        total,
-      })),
+    heading(
+      headingLevel,
+      `${formatTitle(measures.map(({ metric }) => metric))} diff`,
+    ),
+    ...formatDiffSummary(diff, measures),
+    ...formatBaseURLNote(options),
+    ...formatMeasureSections(
+      measures,
+      headingLevel + 1,
+      (measure, sectionHeadingLevel) => {
+        if (isZeroDiffTotal(measure)) {
+          return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
+        }
+
+        return [
+          ...formatDiffFunctions({
+            diff,
+            matchLines,
+            matchFunctionIds,
+            measure,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
+          ...formatDiffCallStacks({
+            callStacks,
+            functions: diff.functions,
+            measure,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
+        ]
+      },
     ),
   ]
 }
 
-/** The note ending a ranking's opening sentence when it hides any frame. */
-const formatHiddenFramesNote = (
-  callStacks: { key: CallStackKey }[],
-): PhrasingContent[] =>
-  callStacks.some(({ key }) => key.includes(HIDDEN_FRAME_KEY))
-    ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
-    : []
+const isZeroDiffTotal = (measure: DiffMeasure): boolean =>
+  measure.base.total === 0 && measure.current.total === 0
 
-const formatCommonCallStack = (
-  commonCallStack: ShownFrame[],
+/**
+ * A call stack merged on each side by its shown frames and paired across the
+ * sides by its {@link CallStackKey}, whose numbers index the diff's functions.
+ */
+type DiffedCallStack = Diff<ShownCallStack> & { key: CallStackKey }
+
+/**
+ * Merges each side's call stacks by their shown frames, and pairs them across
+ * the sides by the functions their frames are, as the diff paired functions.
+ */
+const matchDiffedCallStacks = (
+  diff: AggregatedCallStackProfileDiff,
   options: FormattingProfileToMdOptions,
-): RootContent[] =>
-  commonCallStack.length > 0
-    ? [
-        paragraph(
-          phrasing`Common call stack: ${formatCallStack(commonCallStack, options)}`,
-        ),
-      ]
-    : []
-
-/**
- * Returns the list of callers of {@link callStacks} that is the longest common
- * suffix of their keys, except it never returns a call stack as long as one of
- * the input call stacks.
- *
- * That cap makes it safe to remove the suffix from any call stack and still
- * have a non-empty call stack to format.
- */
-const findCommonCallStack = (
-  callStacks: { key: CallStackKey }[],
-  functionOf: FunctionOf,
-): ShownFrame[] => {
-  if (callStacks.length <= 1) {
-    return []
-  }
-
-  let minLength = Infinity
-  for (const { key } of callStacks) {
-    minLength = Math.min(minLength, key.length)
-  }
-  const firstKey = callStacks[0]!.key
-  let suffixLength = 0
-  for (let length = 1; length < minLength; length++) {
-    const frameKey = firstKey[firstKey.length - length]
-    if (!callStacks.every(({ key }) => key[key.length - length] === frameKey)) {
-      break
-    }
-    suffixLength = length
-  }
-
-  return shownFramesOf(
-    firstKey.slice(firstKey.length - suffixLength),
-    functionOf,
-  )
-}
-
-/**
- * Identifies a call stack by a number per shown frame, its function's, or
- * {@link HIDDEN_FRAME_KEY} for a run of hidden frames.
- */
-type CallStackKey = readonly number[]
-
-const HIDDEN_FRAME_KEY = -1
-
-/** Returns the function a {@link CallStackKey}'s number identifies. */
-type FunctionOf = (frameKey: number) => AggregatedCallStackProfileFunction
-
-const shownFramesOf = (
-  key: CallStackKey,
-  functionOf: FunctionOf,
-): ShownFrame[] =>
-  key.map(frameKey =>
-    frameKey === HIDDEN_FRAME_KEY ? HIDDEN_FRAMES : functionOf(frameKey),
-  )
-
-type ShownCallStack = {
-  key: CallStackKey
-  selfCount: number
-  selfValues: Float64Array
-}
-
-/**
- * An interner of call stack keys.
- *
- * It hashes the keys' numbers directly because building and hashing a key
- * string per call stack dominated the merge's runtime.
- */
-const newCallStackKeyInterner = (): HashInterner<CallStackKey, CallStackKey> =>
-  new HashInterner(
-    key => {
-      let hash = HASH_SEED
-      for (const frameKey of key) {
-        hash = mixHash(hash, frameKey)
-      }
-      return hash
-    },
-    (internedKey, key) =>
-      internedKey.length === key.length &&
-      internedKey.every((frameKey, i) => frameKey === key[i]),
-  )
-
-/**
- * Replaces each call stack with the key of its shown frames and merges the
- * call stacks whose keys are equal, summing their self metrics. Returns the
- * merged call stacks indexed by their key's index in {@link keys}, so the array
- * is sparse when {@link keys} holds another profile's keys.
- *
- * Without merging, call stacks distinct only in hidden frames would format as
- * duplicate rows, and each row would show only its own part of the value.
- * The merged row attributes the values of hidden frames, mostly hidden
- * leaves, to the nearest shown frame. Call stacks with fewer than two shown
- * frames are dropped: a single-frame "call stack" has no call structure.
- */
-const mergeShownCallStacks = (
-  { callStacks, context }: AggregatedCallStackProfile,
-  showEntry: FormattingProfileToMdOptions[`showEntry`],
-  keys: HashInterner<CallStackKey, CallStackKey>,
-  frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
-): ShownCallStack[] => {
-  const merged: ShownCallStack[] = []
-  for (const callStack of callStacks) {
-    const key = shownCallStackKeyOf(
-      callStack.frames,
-      context,
-      showEntry,
-      frameKeyOf,
+): DiffedCallStack[] => {
+  const idToIndex = functionIdIndexes(diff.functions)
+  const keys = newCallStackKeyInterner()
+  const mergeSide = (side: keyof Diff<unknown>) => {
+    const sideIdToIndex = idToIndex[side]
+    return mergeShownCallStacks(
+      diff[side],
+      memoizeShowEntry(diff[side], options).showEntry,
+      keys,
+      func => sideIdToIndex[func.id]!,
     )
-    if (key === null) {
-      continue
-    }
-
-    const index = keys.intern(key, () => key)
-    const mergedCallStack = merged[index]
-    if (mergedCallStack) {
-      addSelfMetrics(mergedCallStack, callStack)
-    } else {
-      merged[index] = {
-        key: keys.items[index]!,
-        selfCount: callStack.selfCount,
-        selfValues: new Float64Array(callStack.selfValues),
-      }
-    }
   }
-  return merged
-}
-
-/**
- * Returns the key of {@link frames} with the hidden frames between two shown
- * ones replaced by {@link HIDDEN_FRAME_KEY}, or `null` when fewer than two
- * frames are shown.
- *
- * Hidden frames below the leaf and above the root are dropped, because they
- * are between a shown frame and an end of the call stack instead of between
- * two shown frames.
- */
-const shownCallStackKeyOf = (
-  frames: AggregatedCallStackProfileFunction[],
-  context: ProfileToMdContext,
-  showEntry: FormattingProfileToMdOptions[`showEntry`],
-  frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
-): number[] | null => {
-  const key: number[] = []
-  let shownCount = 0
-  let hidAnyFrame = false
-  for (const frame of frames) {
-    if (!showEntry(frame, context)) {
-      hidAnyFrame = true
-      continue
-    }
-
-    if (hidAnyFrame && shownCount > 0) {
-      key.push(HIDDEN_FRAME_KEY)
-    }
-    key.push(frameKeyOf(frame))
-    shownCount++
-    hidAnyFrame = false
-  }
-  return shownCount > 1 ? key : null
-}
-
-const addSelfMetrics = (
-  target: ShownCallStack,
-  callStack: AggregatedCallStackProfileCallStack,
-): void => {
-  target.selfCount += callStack.selfCount
-  for (let i = 0; i < target.selfValues.length; i++) {
-    target.selfValues[i]! += callStack.selfValues[i]!
-  }
+  const baseCallStacks = mergeSide(`base`)
+  const currentCallStacks = mergeSide(`current`)
+  return keys.items.map((key, index) => ({
+    key,
+    base: baseCallStacks[index],
+    current: currentCallStacks[index],
+  }))
 }
 
 const formatDiffSummary = (
@@ -1326,16 +956,6 @@ const formatDiffFunctions = ({
   )
 }
 
-type DiffDetailArgs = {
-  diff: AggregatedCallStackProfileDiff
-  matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
-  matchFunctionIds: FunctionIdMatcher
-  measure: DiffMeasure
-  funcs: AggregatedCallStackProfileFunctionDiff[]
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}
-
 const formatDiffDirectionFunctions = ({
   diff,
   matchLines,
@@ -1425,6 +1045,93 @@ const formatDiffDirectionFunctions = ({
       headingLevel: headingLevel + 1,
     }),
   })
+}
+
+type DiffDetailArgs = {
+  diff: AggregatedCallStackProfileDiff
+  matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
+  matchFunctionIds: FunctionIdMatcher
+  measure: DiffMeasure
+  funcs: AggregatedCallStackProfileFunctionDiff[]
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}
+
+const formatDiffLines = ({
+  matchLines,
+  measure,
+  funcs,
+  options,
+  headingLevel,
+}: DiffDetailArgs): RootContent[] =>
+  formatSectionGroup(
+    [
+      heading(headingLevel, `Lines`),
+      paragraph(
+        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
+      ),
+    ],
+    funcs.flatMap(func =>
+      formatDiffFunctionLines({
+        matchLines,
+        measure,
+        func,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
+    ),
+  )
+
+const formatDiffFunctionLines = ({
+  matchLines,
+  measure,
+  func,
+  options,
+  headingLevel,
+}: {
+  matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
+  measure: DiffMeasure
+  func: AggregatedCallStackProfileFunctionDiff
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const sideValueOf = (
+    side: Measure,
+    line?: DiffedLine<AggregatedCallStackProfileLineMetrics>,
+  ) => (line ? lineValueOf(side, line.metrics) : 0)
+  const changedLines = selectLargestChanges(
+    matchLines(func),
+    Math.ceil(options.topN / 4),
+    ({ base, current }) =>
+      sideValueOf(measure.current, current) - sideValueOf(measure.base, base),
+  )
+  if (changedLines.length === 0) {
+    return []
+  }
+
+  const sideRowOf = (
+    side: Measure,
+    sideFunc: AggregatedCallStackProfileFunction | undefined,
+    line: DiffedLine<AggregatedCallStackProfileLineMetrics> | undefined,
+  ) =>
+    sideFunc &&
+    line && {
+      func: sideFunc,
+      line: line.line,
+      value: sideValueOf(side, line),
+      count: line.metrics.count,
+      total: selfValueOf(side, sideFunc),
+    }
+  return [
+    formatFunctionHeading(headingLevel, func, options),
+    formatDiffTable(
+      lineColumns(measure, options),
+      changedLines.map(({ base, current }) => ({
+        base: sideRowOf(measure.base, func.base, base),
+        current: sideRowOf(measure.current, func.current, current),
+      })),
+    ),
+  ]
 }
 
 const formatDiffNeighbors = (
@@ -1518,79 +1225,372 @@ const selectChangedNeighborRows = ({
     ({ base, current }) => (current?.value ?? 0) - (base?.value ?? 0),
   )
 
-const formatDiffLines = ({
-  matchLines,
+const formatHottestCallStacks = ({
+  callStacks,
+  functionOf,
   measure,
-  funcs,
-  options,
-  headingLevel,
-}: DiffDetailArgs): RootContent[] =>
-  formatSectionGroup(
-    [
-      heading(headingLevel, `Lines`),
-      paragraph(
-        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
-      ),
-    ],
-    funcs.flatMap(func =>
-      formatDiffFunctionLines({
-        matchLines,
-        measure,
-        func,
-        options,
-        headingLevel: headingLevel + 1,
-      }),
-    ),
-  )
-
-const formatDiffFunctionLines = ({
-  matchLines,
-  measure,
-  func,
   options,
   headingLevel,
 }: {
-  matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
-  measure: DiffMeasure
-  func: AggregatedCallStackProfileFunctionDiff
+  callStacks: ShownCallStack[]
+  functionOf: FunctionOf
+  measure: Measure
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const sideValueOf = (
-    side: Measure,
-    line?: DiffedLine<AggregatedCallStackProfileLineMetrics>,
-  ) => (line ? lineValueOf(side, line.metrics) : 0)
-  const changedLines = selectLargestChanges(
-    matchLines(func),
-    Math.ceil(options.topN / 4),
-    ({ base, current }) =>
-      sideValueOf(measure.current, current) - sideValueOf(measure.base, base),
+  const hottestCallStacks = selectTopN(
+    callStacks.filter(callStack => selfValueOf(measure, callStack) > 0),
+    options.topN,
+    callStack => selfValueOf(measure, callStack),
   )
-  if (changedLines.length === 0) {
+  if (hottestCallStacks.length === 0) {
     return []
   }
 
-  const sideRowOf = (
-    side: Measure,
-    sideFunc: AggregatedCallStackProfileFunction | undefined,
-    line: DiffedLine<AggregatedCallStackProfileLineMetrics> | undefined,
-  ) =>
-    sideFunc &&
-    line && {
-      func: sideFunc,
-      line: line.line,
-      value: sideValueOf(side, line),
-      count: line.metrics.count,
-      total: selfValueOf(side, sideFunc),
-    }
+  const { metric, total } = measure
+  const commonCallStack = findCommonCallStack(hottestCallStacks, functionOf)
   return [
-    formatFunctionHeading(headingLevel, func, options),
-    formatDiffTable(
-      lineColumns(measure, options),
-      changedLines.map(({ base, current }) => ({
-        base: sideRowOf(measure.base, func.base, base),
-        current: sideRowOf(measure.current, func.current, current),
+    heading(headingLevel, `Hottest call stacks`),
+    paragraph([
+      text(
+        rankingSentence(
+          `Call stacks`,
+          `${metric.phrases.pastParticipleVerbPhrase} in their leaf frame`,
+        ),
+      ),
+      ...formatHiddenFramesNote(hottestCallStacks),
+    ]),
+    ...formatCommonCallStack(commonCallStack, options),
+    formatTable(
+      callStackColumns(measure, commonCallStack, options),
+      hottestCallStacks.map(callStack => ({
+        frames: shownFramesOf(callStack.key, functionOf),
+        value: selfValueOf(measure, callStack),
+        count: callStack.selfCount,
+        total,
       })),
     ),
   ]
 }
+
+/**
+ * The call stacks whose self value in their leaf frame changed the most, as a
+ * ranking per direction of change.
+ */
+const formatDiffCallStacks = ({
+  callStacks,
+  functions,
+  measure,
+  options,
+  headingLevel,
+}: {
+  callStacks: DiffedCallStack[]
+  functions: AggregatedCallStackProfileDiff[`functions`]
+  measure: DiffMeasure
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const active: ActiveDiffEntity<DiffedCallStack>[] = []
+  for (const callStack of callStacks) {
+    const { base, current } = callStack
+    const baseValue = base ? selfValueOf(measure.base, base) : 0
+    const currentValue = current ? selfValueOf(measure.current, current) : 0
+    if (baseValue > 0 || currentValue > 0) {
+      active.push({ entity: callStack, baseValue, currentValue })
+    }
+  }
+  if (active.length === 0) {
+    return []
+  }
+
+  const { metric } = measure
+  const verbPhrase = metric.phrases.pastParticipleVerbPhrase
+  const changes = rankDiffEntities(active, options.topN)
+  const sections = diffRankings(metric.improvement).flatMap(
+    ({ change, title }) =>
+      formatDiffCallStackRanking({
+        callStacks:
+          change === `increase` ? changes.increases : changes.decreases,
+        functions,
+        measure,
+        options,
+        headingLevel: headingLevel + 1,
+        title,
+        sentence: diffRankingSentence(
+          `Call stacks`,
+          change,
+          `${verbPhrase} in their leaf frame`,
+        ),
+      }),
+  )
+  return [
+    heading(headingLevel, `Hottest call stacks`),
+    ...(sections.length === 0
+      ? [
+          paragraph(
+            unchangedDiffSentence(
+              `call stack`,
+              `${verbPhrase} in its leaf frame`,
+            ),
+          ),
+        ]
+      : sections),
+  ]
+}
+
+const formatDiffCallStackRanking = ({
+  callStacks,
+  functions,
+  measure,
+  options,
+  headingLevel,
+  title,
+  sentence,
+}: {
+  callStacks: ActiveDiffEntity<DiffedCallStack>[]
+  functions: AggregatedCallStackProfileDiff[`functions`]
+  measure: DiffMeasure
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+  title: string
+  sentence: string
+}): RootContent[] => {
+  if (callStacks.length === 0) {
+    return []
+  }
+
+  const functionOf =
+    (side: keyof Diff<unknown>) =>
+    (index: number): AggregatedCallStackProfileFunction =>
+      functions[index]![side]!
+  const diffedCallStacks = callStacks.map(({ entity }) => entity)
+  const commonCallStack = findCommonCallStack(
+    diffedCallStacks,
+    functionOf(
+      callStacks.some(({ entity }) => entity.current) ? `current` : `base`,
+    ),
+  )
+  const sideRowOf = (
+    side: Measure,
+    frames: ShownFrame[],
+    callStack: ShownCallStack | undefined,
+    value: number,
+  ) =>
+    callStack && {
+      frames,
+      value,
+      count: callStack.selfCount,
+      total: side.total,
+    }
+  return [
+    heading(headingLevel, title),
+    paragraph([text(sentence), ...formatHiddenFramesNote(diffedCallStacks)]),
+    ...formatCommonCallStack(commonCallStack, options),
+    formatDiffTable(
+      callStackColumns(measure, commonCallStack, options),
+      callStacks.map(
+        ({ entity: { key, base, current }, baseValue, currentValue }) => {
+          // A removed call stack's frames are the base side's functions.
+          const frames = shownFramesOf(
+            key,
+            functionOf(current ? `current` : `base`),
+          )
+          return {
+            base: sideRowOf(measure.base, frames, base, baseValue),
+            current: sideRowOf(measure.current, frames, current, currentValue),
+          }
+        },
+      ),
+    ),
+  ]
+}
+
+type ShownCallStack = {
+  key: CallStackKey
+  selfCount: number
+  selfValues: Float64Array
+}
+
+/**
+ * Identifies a call stack by a number per shown frame, its function's, or
+ * {@link HIDDEN_FRAME_KEY} for a run of hidden frames.
+ */
+type CallStackKey = readonly number[]
+
+const HIDDEN_FRAME_KEY = -1
+
+/**
+ * Replaces each call stack with the key of its shown frames and merges the
+ * call stacks whose keys are equal, summing their self metrics. Returns the
+ * merged call stacks indexed by their key's index in {@link keys}, so the array
+ * is sparse when {@link keys} holds another profile's keys.
+ *
+ * Without merging, call stacks distinct only in hidden frames would format as
+ * duplicate rows, and each row would show only its own part of the value.
+ * The merged row attributes the values of hidden frames, mostly hidden
+ * leaves, to the nearest shown frame. Call stacks with fewer than two shown
+ * frames are dropped: a single-frame "call stack" has no call structure.
+ */
+const mergeShownCallStacks = (
+  { callStacks, context }: AggregatedCallStackProfile,
+  showEntry: FormattingProfileToMdOptions[`showEntry`],
+  keys: HashInterner<CallStackKey, CallStackKey>,
+  frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
+): ShownCallStack[] => {
+  const merged: ShownCallStack[] = []
+  for (const callStack of callStacks) {
+    const key = shownCallStackKeyOf(
+      callStack.frames,
+      context,
+      showEntry,
+      frameKeyOf,
+    )
+    if (key === null) {
+      continue
+    }
+
+    const index = keys.intern(key, () => key)
+    const mergedCallStack = merged[index]
+    if (mergedCallStack) {
+      addSelfMetrics(mergedCallStack, callStack)
+    } else {
+      merged[index] = {
+        key: keys.items[index]!,
+        selfCount: callStack.selfCount,
+        selfValues: new Float64Array(callStack.selfValues),
+      }
+    }
+  }
+  return merged
+}
+
+/**
+ * Returns the key of {@link frames} with the hidden frames between two shown
+ * ones replaced by {@link HIDDEN_FRAME_KEY}, or `null` when fewer than two
+ * frames are shown.
+ *
+ * Hidden frames below the leaf and above the root are dropped, because they
+ * are between a shown frame and an end of the call stack instead of between
+ * two shown frames.
+ */
+const shownCallStackKeyOf = (
+  frames: AggregatedCallStackProfileFunction[],
+  context: ProfileToMdContext,
+  showEntry: FormattingProfileToMdOptions[`showEntry`],
+  frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
+): number[] | null => {
+  const key: number[] = []
+  let shownCount = 0
+  let hidAnyFrame = false
+  for (const frame of frames) {
+    if (!showEntry(frame, context)) {
+      hidAnyFrame = true
+      continue
+    }
+
+    if (hidAnyFrame && shownCount > 0) {
+      key.push(HIDDEN_FRAME_KEY)
+    }
+    key.push(frameKeyOf(frame))
+    shownCount++
+    hidAnyFrame = false
+  }
+  return shownCount > 1 ? key : null
+}
+
+const addSelfMetrics = (
+  target: ShownCallStack,
+  callStack: AggregatedCallStackProfileCallStack,
+): void => {
+  target.selfCount += callStack.selfCount
+  for (let i = 0; i < target.selfValues.length; i++) {
+    target.selfValues[i]! += callStack.selfValues[i]!
+  }
+}
+
+/**
+ * An interner of call stack keys.
+ *
+ * It hashes the keys' numbers directly because building and hashing a key
+ * string per call stack dominated the merge's runtime.
+ */
+const newCallStackKeyInterner = (): HashInterner<CallStackKey, CallStackKey> =>
+  new HashInterner(
+    key => {
+      let hash = HASH_SEED
+      for (const frameKey of key) {
+        hash = mixHash(hash, frameKey)
+      }
+      return hash
+    },
+    (internedKey, key) =>
+      internedKey.length === key.length &&
+      internedKey.every((frameKey, i) => frameKey === key[i]),
+  )
+
+/** Returns the function a {@link CallStackKey}'s number identifies. */
+type FunctionOf = (frameKey: number) => AggregatedCallStackProfileFunction
+
+/**
+ * Returns the list of callers of {@link callStacks} that is the longest common
+ * suffix of their keys, except it never returns a call stack as long as one of
+ * the input call stacks.
+ *
+ * That cap makes it safe to remove the suffix from any call stack and still
+ * have a non-empty call stack to format.
+ */
+const findCommonCallStack = (
+  callStacks: { key: CallStackKey }[],
+  functionOf: FunctionOf,
+): ShownFrame[] => {
+  if (callStacks.length <= 1) {
+    return []
+  }
+
+  let minLength = Infinity
+  for (const { key } of callStacks) {
+    minLength = Math.min(minLength, key.length)
+  }
+  const firstKey = callStacks[0]!.key
+  let suffixLength = 0
+  for (let length = 1; length < minLength; length++) {
+    const frameKey = firstKey[firstKey.length - length]
+    if (!callStacks.every(({ key }) => key[key.length - length] === frameKey)) {
+      break
+    }
+    suffixLength = length
+  }
+
+  return shownFramesOf(
+    firstKey.slice(firstKey.length - suffixLength),
+    functionOf,
+  )
+}
+
+const shownFramesOf = (
+  key: CallStackKey,
+  functionOf: FunctionOf,
+): ShownFrame[] =>
+  key.map(frameKey =>
+    frameKey === HIDDEN_FRAME_KEY ? HIDDEN_FRAMES : functionOf(frameKey),
+  )
+
+/** The note ending a ranking's opening sentence when it hides any frame. */
+const formatHiddenFramesNote = (
+  callStacks: { key: CallStackKey }[],
+): PhrasingContent[] =>
+  callStacks.some(({ key }) => key.includes(HIDDEN_FRAME_KEY))
+    ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
+    : []
+
+const formatCommonCallStack = (
+  commonCallStack: ShownFrame[],
+  options: FormattingProfileToMdOptions,
+): RootContent[] =>
+  commonCallStack.length > 0
+    ? [
+        paragraph(
+          phrasing`Common call stack: ${formatCallStack(commonCallStack, options)}`,
+        ),
+      ]
+    : []

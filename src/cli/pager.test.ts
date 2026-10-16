@@ -20,6 +20,16 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 
+const page = async (text: string): Promise<string[]> => {
+  const fallback = recordingOutput()
+
+  const output = await openPager(fallback, normalizeLogger({}, `none`))
+  expect(output).not.toBeNull()
+  await output!.write(text)
+
+  return fallback.texts
+}
+
 // Runs the script through `sh` instead of executing it, because Linux refuses
 // to execute a file that a child forked by a concurrent test's spawn still
 // holds open for writing (ETXTBSY).
@@ -38,16 +48,6 @@ const recordingOutput = (): Output & { texts: string[] } => {
       return Promise.resolve()
     },
   }
-}
-
-const page = async (text: string): Promise<string[]> => {
-  const fallback = recordingOutput()
-
-  const output = await openPager(fallback, normalizeLogger({}, `none`))
-  expect(output).not.toBeNull()
-  await output!.write(text)
-
-  return fallback.texts
 }
 
 test(`passes the output to the pager and writes nothing else`, async () => {

@@ -41,6 +41,15 @@ export const pyinstrumentOriginSpec = {
   },
 } as const satisfies OriginSpec
 
+const isSelfTimeFrame = (name: string | undefined): boolean =>
+  name === SELF_TIME_FRAME
+
+/**
+ * The pseudo-frame pyinstrument writes as a frame's callee to hold that frame's
+ * own execution time.
+ */
+const SELF_TIME_FRAME = `[self]`
+
 /**
  * Categorizes a C function as `native`. pyinstrument gives it the synthetic
  * file `<built-in>`, which marks the function as compiled interpreter code
@@ -55,12 +64,3 @@ const builtInCategory = ({
 
 /** Pyinstrument's synthetic file for a frame executing a C function. */
 const BUILT_IN_FILE = `<built-in>`
-
-const isSelfTimeFrame = (name: string | undefined): boolean =>
-  name === SELF_TIME_FRAME
-
-/**
- * The pseudo-frame pyinstrument writes as a frame's callee to hold that frame's
- * own execution time.
- */
-const SELF_TIME_FRAME = `[self]`

@@ -121,6 +121,28 @@ export const parseJsonAsync = async (
   }
 }
 
+function* guardIterableReads(
+  iterable: Iterable<Uint8Array>,
+): Iterable<Uint8Array> {
+  try {
+    yield* iterable
+  } catch (error: unknown) {
+    throw new InputReadError(error)
+  }
+}
+
+const guardStreamReads = (
+  stream: ReadableStream<Uint8Array>,
+): ReadableStream<Uint8Array> =>
+  classifyStreamFailures(stream, error => new InputReadError(error))
+
+/** Rethrows the error the caller's data threw, when the error stands in for one. */
+export const rethrowInputReadFailure = (error: unknown): void => {
+  if (error instanceof InputReadError) {
+    throw error.cause
+  }
+}
+
 const toInvalidJsonError = (error: unknown): unknown =>
   error instanceof InputReadError
     ? error
@@ -138,30 +160,10 @@ class InputReadError extends Error {
   }
 }
 
-/** Rethrows the error the caller's data threw, when the error stands in for one. */
-export const rethrowInputReadFailure = (error: unknown): void => {
-  if (error instanceof InputReadError) {
-    throw error.cause
-  }
-}
-
-function* guardIterableReads(
-  iterable: Iterable<Uint8Array>,
-): Iterable<Uint8Array> {
-  try {
-    yield* iterable
-  } catch (error: unknown) {
-    throw new InputReadError(error)
-  }
-}
-
-const guardStreamReads = (
-  stream: ReadableStream<Uint8Array>,
-): ReadableStream<Uint8Array> =>
-  classifyStreamFailures(stream, error => new InputReadError(error))
-
 const dataToStream = (data: AsyncProfileData): ReadableStream<Uint8Array> =>
   data instanceof Blob ? data.stream() : data
+
+let textEncoder: InstanceType<typeof TextEncoder> | undefined
 
 export const dataToBytes = (data: ProfileData): Uint8Array => {
   if (typeof data === `string`) {
@@ -172,5 +174,3 @@ export const dataToBytes = (data: ProfileData): Uint8Array => {
   }
   return concatUint8Arrays(data)
 }
-
-let textEncoder: InstanceType<typeof TextEncoder> | undefined

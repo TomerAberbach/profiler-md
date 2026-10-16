@@ -83,21 +83,6 @@ export const dotnetTraceOriginSpec = {
   },
 } as const satisfies OriginSpec
 
-/**
- * Rewrites a TraceEvent IL-style parameter list the way JFR writes method
- * parameters: `class`/`value class` modifiers dropped, every
- * namespace-qualified type reduced to its simple name, and parameters separated
- * by `, `, so `(class System.String,value class System.Threading.CancellationToken)`
- * becomes `(String, CancellationToken)`. Pointer/byref suffixes (`wchar**`),
- * IL primitives (`int32`), and generic parameter references (`!0`) pass
- * through unchanged.
- */
-const simplifySignature = (signature: string): string =>
-  signature
-    .replaceAll(/\b(?:value )?class /gu, ``)
-    .replaceAll(/[\w.]+\.(?=\w)/gu, ``)
-    .replaceAll(`,`, `, `)
-
 const isDotnetTraceStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (ASSEMBLY_BANG_METHOD.test(name) ||
@@ -109,46 +94,6 @@ const isDotnetTraceStackFrame = (name: string | undefined): boolean =>
  * qualified path contains no spaces, followed by its parenthesized signature.
  */
 const ASSEMBLY_BANG_METHOD = /^[\w.]+!\S+\(.*\)$/u
-
-/**
- * Whether a frame is a TraceEvent pseudo-frame rather than a function: the
- * grouping frames wrapping every stack
- * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`),
- * or the `CPU_TIME` bucket each sample's leaf time is recorded under. Dropping
- * `CPU_TIME` returns each sample's self time to the method that was executing.
- * `UNMANAGED_CODE_TIME` is native execution outside the managed stack, so it
- * stays as a location-less frame.
- */
-const isPseudoFrame = (name: string): boolean =>
-  name === `CPU_TIME` ||
-  name === `Threads` ||
-  name === `(Non-Activities)` ||
-  name === `(Activities)` ||
-  PROCESS_FRAME.test(name) ||
-  THREAD_FRAME.test(name)
-
-/** TraceEvent's process root, e.g. `Process64 Process(76492) (76492) Args: `. */
-const PROCESS_FRAME = /^Process(?:32|64)? Process\(\d+\)/u
-
-/** TraceEvent's per-thread frame, e.g. `Thread (22921464)`. */
-const THREAD_FRAME = /^Thread \(\d+\)$/u
-
-/**
- * Categorizes TraceEvent's unknown-assembly frame as `unknown`.
- *
- * A `?!?` frame is TraceEvent reporting that it resolved neither the assembly
- * nor the method, so it records nothing about what the code is.
- * `UNMANAGED_CODE_TIME`, also location-less, does record something: time in
- * CoreCLR's own compiled code outside the managed stack, which falls through to
- * `native`.
- */
-const unknownAssemblyCategory = ({
-  name,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  name?.startsWith(UNKNOWN_ASSEMBLY_PREFIX) === true ? `unknown` : undefined
-
-/** TraceEvent's marker for an assembly it could not resolve. */
-const UNKNOWN_ASSEMBLY_PREFIX = `?!`
 
 /**
  * Categorizes a frame by its declaring type (the location lifted out by
@@ -176,3 +121,58 @@ const dotnetNamespaceCategory = ({
  * so an application type like `SystemUtils` isn't mistaken for the framework.
  */
 const DOTNET_STDLIB_NAMESPACE = /^(?:System|Microsoft|Internal)(?:[.+`]|$)/u
+
+/**
+ * Categorizes TraceEvent's unknown-assembly frame as `unknown`.
+ *
+ * A `?!?` frame is TraceEvent reporting that it resolved neither the assembly
+ * nor the method, so it records nothing about what the code is.
+ * `UNMANAGED_CODE_TIME`, also location-less, does record something: time in
+ * CoreCLR's own compiled code outside the managed stack, which falls through to
+ * `native`.
+ */
+const unknownAssemblyCategory = ({
+  name,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  name?.startsWith(UNKNOWN_ASSEMBLY_PREFIX) === true ? `unknown` : undefined
+
+/** TraceEvent's marker for an assembly it could not resolve. */
+const UNKNOWN_ASSEMBLY_PREFIX = `?!`
+
+/**
+ * Whether a frame is a TraceEvent pseudo-frame rather than a function: the
+ * grouping frames wrapping every stack
+ * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`),
+ * or the `CPU_TIME` bucket each sample's leaf time is recorded under. Dropping
+ * `CPU_TIME` returns each sample's self time to the method that was executing.
+ * `UNMANAGED_CODE_TIME` is native execution outside the managed stack, so it
+ * stays as a location-less frame.
+ */
+const isPseudoFrame = (name: string): boolean =>
+  name === `CPU_TIME` ||
+  name === `Threads` ||
+  name === `(Non-Activities)` ||
+  name === `(Activities)` ||
+  PROCESS_FRAME.test(name) ||
+  THREAD_FRAME.test(name)
+
+/** TraceEvent's process root, e.g. `Process64 Process(76492) (76492) Args: `. */
+const PROCESS_FRAME = /^Process(?:32|64)? Process\(\d+\)/u
+
+/** TraceEvent's per-thread frame, e.g. `Thread (22921464)`. */
+const THREAD_FRAME = /^Thread \(\d+\)$/u
+
+/**
+ * Rewrites a TraceEvent IL-style parameter list the way JFR writes method
+ * parameters: `class`/`value class` modifiers dropped, every
+ * namespace-qualified type reduced to its simple name, and parameters separated
+ * by `, `, so `(class System.String,value class System.Threading.CancellationToken)`
+ * becomes `(String, CancellationToken)`. Pointer/byref suffixes (`wchar**`),
+ * IL primitives (`int32`), and generic parameter references (`!0`) pass
+ * through unchanged.
+ */
+const simplifySignature = (signature: string): string =>
+  signature
+    .replaceAll(/\b(?:value )?class /gu, ``)
+    .replaceAll(/[\w.]+\.(?=\w)/gu, ``)
+    .replaceAll(`,`, `, `)

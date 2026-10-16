@@ -1,3 +1,19 @@
+export const selectTopN = <Value>(
+  values: readonly Value[],
+  topN: number,
+  select: (value: Value) => number,
+): Value[] => {
+  if (topN === 0) {
+    return []
+  }
+  if (values.length <= topN) {
+    return values.toSorted((value1, value2) => select(value2) - select(value1))
+  }
+
+  const heap = new MaxHeap(values, select)
+  return Array.from({ length: topN }, () => heap.pop()!)
+}
+
 export class MaxHeap<Value> {
   readonly #keys: Float64Array
   readonly #values: readonly Value[]
@@ -75,20 +91,4 @@ export class MaxHeap<Value> {
       index = largest
     }
   }
-}
-
-export const selectTopN = <Value>(
-  values: readonly Value[],
-  topN: number,
-  select: (value: Value) => number,
-): Value[] => {
-  if (topN === 0) {
-    return []
-  }
-  if (values.length <= topN) {
-    return values.toSorted((value1, value2) => select(value2) - select(value1))
-  }
-
-  const heap = new MaxHeap(values, select)
-  return Array.from({ length: topN }, () => heap.pop()!)
 }

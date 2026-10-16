@@ -125,6 +125,25 @@ export const choice = <const Choice extends string>(
     },
   })
 
+export const integerAtLeast = (
+  metavar: NonEmptyString,
+  min: number,
+): ValueParser<`sync`, number> =>
+  numberInRange(integer({ metavar }), {
+    expected: `an integer of at least ${min}`,
+    min,
+    max: Infinity,
+  })
+
+export const fraction = (
+  metavar: NonEmptyString,
+): ValueParser<`sync`, number> =>
+  numberInRange(float({ metavar }), {
+    expected: `a number from 0 to 1`,
+    min: 0,
+    max: 1,
+  })
+
 /**
  * Parses a number with `parser`, rejecting one outside `min` to `max`. Every
  * failure, whether the input is malformed, unsafe, or out of range, states
@@ -146,25 +165,6 @@ const numberInRange = (
   },
 })
 
-export const integerAtLeast = (
-  metavar: NonEmptyString,
-  min: number,
-): ValueParser<`sync`, number> =>
-  numberInRange(integer({ metavar }), {
-    expected: `an integer of at least ${min}`,
-    min,
-    max: Infinity,
-  })
-
-export const fraction = (
-  metavar: NonEmptyString,
-): ValueParser<`sync`, number> =>
-  numberInRange(float({ metavar }), {
-    expected: `a number from 0 to 1`,
-    min: 0,
-    max: 1,
-  })
-
 export const nonEmptyString = (
   metavar: NonEmptyString,
   expected: string,
@@ -176,9 +176,6 @@ export const nonEmptyString = (
       patternMismatch: message`expected ${text(expected)}, got: ${value(``)}`,
     },
   })
-
-const unexpectedValue = (names: MessageTerm, input: string): Message =>
-  message`${names}: expected no value, got: ${value(input)}`
 
 /**
  * Optique's `option`, reporting a value attached to a Boolean option in this
@@ -220,6 +217,9 @@ export const negatableFlag = (
       ...options?.errors,
     },
   })
+
+const unexpectedValue = (names: MessageTerm, input: string): Message =>
+  message`${names}: expected no value, got: ${value(input)}`
 
 export const filePath = (
   metavar: NonEmptyString,

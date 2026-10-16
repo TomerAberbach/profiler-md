@@ -58,27 +58,6 @@ vi.setConfig({ testTimeout: 125_000 })
 
 const format = injectedFormat()
 
-const SPEEDSCOPE_REJECTION_LOG = `debug: speedscope recognized the input but rejected it: Cannot read properties of undefined (reading 'map')`
-const V8_CPU_PROFILE_REJECTION_LOG = `debug: v8-cpu-profile recognized the input but rejected it: Cannot destructure property 'functionName' of 'callFrame' as it is null.`
-const V8_CPU_PROFILE_CANDIDATES_LOG = `debug: origin candidates, in priority order: deno, bun, node, chrome`
-const NODE_ORIGIN_LOGS = [
-  `info: detected origin: node`,
-  `debug: node is marked by the entry post in node:inspector`,
-]
-const CHROME_ORIGIN_LOGS = [
-  `info: fallback origin: chrome`,
-  `debug: no entry marked another origin`,
-]
-const V8_CPU_PROFILE_DIFF_LOGS = [
-  `info: specified format: v8-cpu-profile`,
-  V8_CPU_PROFILE_CANDIDATES_LOG,
-  ...NODE_ORIGIN_LOGS,
-  `info: specified format: v8-cpu-profile`,
-  V8_CPU_PROFILE_CANDIDATES_LOG,
-  `info: detected origin: deno`,
-  `debug: deno is marked by the entry __drainNextTickAndMacrotasks in ext:core/01_core.js`,
-]
-
 const inputSets = {
   json: new Set<string>(),
   binary: new Set<string>(),
@@ -105,13 +84,6 @@ const allInputs = [...jsonInputs, ...binaryInputs]
 const smallestJsonInput = smallestInput(jsonInputs)
 const smallestBinaryInput = smallestInput(binaryInputs)
 const smallestAnyInput = smallestInput(allInputs)
-
-// Some real captures have no samples (e.g. a lock profile that saw no
-// contention), so the pipeline yields the no-data message instead of a heading.
-// These regexes check only that the format was detected and conversion ran end
-// to end.
-const MARKDOWN_REGEX = /^(?:# |No profiles were recorded\.)/u
-const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiles were recorded\.)/iu
 
 // A valid Speedscope file that carries no profiles, so it aggregates to nothing.
 const emptyProfile = JSON.stringify({
@@ -266,6 +238,34 @@ if (format === undefined) {
     })
   })
 }
+
+const SPEEDSCOPE_REJECTION_LOG = `debug: speedscope recognized the input but rejected it: Cannot read properties of undefined (reading 'map')`
+const V8_CPU_PROFILE_REJECTION_LOG = `debug: v8-cpu-profile recognized the input but rejected it: Cannot destructure property 'functionName' of 'callFrame' as it is null.`
+const V8_CPU_PROFILE_CANDIDATES_LOG = `debug: origin candidates, in priority order: deno, bun, node, chrome`
+const NODE_ORIGIN_LOGS = [
+  `info: detected origin: node`,
+  `debug: node is marked by the entry post in node:inspector`,
+]
+const CHROME_ORIGIN_LOGS = [
+  `info: fallback origin: chrome`,
+  `debug: no entry marked another origin`,
+]
+const V8_CPU_PROFILE_DIFF_LOGS = [
+  `info: specified format: v8-cpu-profile`,
+  V8_CPU_PROFILE_CANDIDATES_LOG,
+  ...NODE_ORIGIN_LOGS,
+  `info: specified format: v8-cpu-profile`,
+  V8_CPU_PROFILE_CANDIDATES_LOG,
+  `info: detected origin: deno`,
+  `debug: deno is marked by the entry __drainNextTickAndMacrotasks in ext:core/01_core.js`,
+]
+
+// Some real captures have no samples (e.g. a lock profile that saw no
+// contention), so the pipeline yields the no-data message instead of a heading.
+// These regexes check only that the format was detected and conversion ran end
+// to end.
+const MARKDOWN_REGEX = /^(?:# |No profiles were recorded\.)/u
+const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiles were recorded\.)/iu
 
 describe(`profileToMd`, () => {
   if (allInputs.length > 0) {

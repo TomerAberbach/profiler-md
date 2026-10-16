@@ -39,13 +39,6 @@ export const bunOriginSpec = {
 } as const satisfies OriginSpec
 
 /**
- * `internal:` is the scheme of Bun's own bundled JS modules
- * (`internal:primordials`, `internal:fs/streams`), which back the
- * `node:`/`bun:` builtins.
- */
-const BUN_STDLIB_PROTOCOLS = [`node:`, `bun:`, `internal:`]
-
-/**
  * JavaScriptCore module-loader builtins. These appear in Bun profiles (Bun runs
  * on JavaScriptCore) but never in V8 profiles (Node and Deno).
  */
@@ -73,3 +66,10 @@ const BUN_RUNTIME_CLASSES = new Set([
   `ProcessBindingConstants`,
   `FileInternalReadableStreamSource`,
 ])
+
+/**
+ * `internal:` is the scheme of Bun's own bundled JS modules
+ * (`internal:primordials`, `internal:fs/streams`), which back the
+ * `node:`/`bun:` builtins.
+ */
+const BUN_STDLIB_PROTOCOLS = [`node:`, `bun:`, `internal:`]

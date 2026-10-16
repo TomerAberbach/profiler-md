@@ -2,8 +2,6 @@ import { fc, test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { stronglyConnectedComponents } from './graph.ts'
 
-type Edge = { to: number }
-
 const graph = fc
   .array(fc.array(fc.nat(), { maxLength: 6 }), {
     minLength: 1,
@@ -45,6 +43,8 @@ const mutuallyReachable = (nodeToEdges: Edge[][]): boolean[][] => {
     nodeReaches.map((reached, to) => reached && reaches[to]![node]!),
   )
 }
+
+type Edge = { to: number }
 
 test.prop([graph])(
   `stronglyConnectedComponents groups exactly the mutually reachable nodes`,

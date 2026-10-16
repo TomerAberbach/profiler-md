@@ -20,6 +20,21 @@ export const streamToUint8Array = async (
   return concatUint8Arrays(chunks)
 }
 
+export const concatUint8Arrays = (arrays: Iterable<Uint8Array>): Uint8Array => {
+  const arrayArray: Uint8Array[] = Array.isArray(arrays)
+    ? (arrays as Uint8Array[])
+    : [...arrays]
+  const concatenated = new Uint8Array(
+    arrayArray.reduce((size, array) => size + array.length, 0),
+  )
+  let offset = 0
+  for (const array of arrayArray) {
+    concatenated.set(array, offset)
+    offset += array.length
+  }
+  return concatenated
+}
+
 /**
  * Wraps {@link stream} so an error it throws is replaced with the error
  * {@link toError} builds from it.
@@ -48,21 +63,6 @@ export const classifyStreamFailures = (
     },
     cancel: async reason => await (reader ?? stream).cancel(reason),
   })
-}
-
-export const concatUint8Arrays = (arrays: Iterable<Uint8Array>): Uint8Array => {
-  const arrayArray: Uint8Array[] = Array.isArray(arrays)
-    ? (arrays as Uint8Array[])
-    : [...arrays]
-  const concatenated = new Uint8Array(
-    arrayArray.reduce((size, array) => size + array.length, 0),
-  )
-  let offset = 0
-  for (const array of arrayArray) {
-    concatenated.set(array, offset)
-    offset += array.length
-  }
-  return concatenated
 }
 
 /**
@@ -149,6 +149,12 @@ export const hasLeadingNulByte = (bytes: Uint8Array): boolean =>
 
 const NUL_SCAN_LENGTH = 4096
 
+/**
+ * Large enough to amortize decode calls, and small enough that a chunk's
+ * decoded string stays far below the maximum string length.
+ */
+const DECODE_CHUNK_SIZE = 64 * 1024 * 1024
+
 class Utf8LineDecoder {
   // A streaming decoder buffers bytes across chunks, so sharing one would
   // corrupt interleaved iterations
@@ -172,12 +178,6 @@ class Utf8LineDecoder {
     yield stripCarriageReturn(this.#pending)
   }
 }
-
-/**
- * Large enough to amortize decode calls, and small enough that a chunk's
- * decoded string stays far below the maximum string length.
- */
-const DECODE_CHUNK_SIZE = 64 * 1024 * 1024
 
 const stripCarriageReturn = (line: string): string =>
   line.endsWith(`\r`) ? line.slice(0, -1) : line

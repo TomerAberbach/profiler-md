@@ -16,6 +16,97 @@ import type {
 } from '../stack-frame.ts'
 import type { CallGraph, CallGraphFunction } from './type.ts'
 
+export type AggregatedCallGraph = {
+  type: `call-graph`
+
+  /** @see {@link AggregatedCallStackProfile.context} */
+  context: ProfileToMdContext
+  metrics: Metric[]
+
+  /**
+   * For each metric in {@link AggregatedCallGraph.metrics}, the whole
+   * input's recorded cost: the sum of every function's self values.
+   */
+  totalValues: Float64Array
+
+  /** Function category to the summed self values of that category. */
+  categoryToMetrics: Map<FunctionCategory, AggregatedCallGraphCategoryMetrics>
+  functions: AggregatedCallGraphFunction[]
+}
+
+export type AggregatedCallGraphCategoryMetrics = {
+  /**
+   * For each metric in {@link AggregatedCallGraph.metrics}, the summed self
+   * values of functions with this category.
+   */
+  values: Float64Array
+}
+
+export type AggregatedCallGraphFunction = {
+  type: `function`
+
+  /** An index that uniquely identifies this function. */
+  id: number
+
+  name: string
+
+  /** Where the function was defined. */
+  location?: SourceLocation
+
+  category: FunctionCategory
+
+  /**
+   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
+   * directly in the function's body, excluding its callees.
+   */
+  selfValues: Float64Array
+
+  /**
+   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
+   * in the function's body and all its callees: its self values plus its
+   * outgoing arcs' total values, excluding the arcs to functions in its own
+   * recursion cycle, which re-count the same work.
+   */
+  totalValues: Float64Array
+
+  /** 1-based line number to the self values recorded at that line. */
+  lineToMetrics: Map<number, Float64Array>
+
+  /** Direct caller ID to the costs recorded during that caller's calls. */
+  callerIdToMetrics: Map<number, AggregatedCallGraphCallerMetrics>
+
+  /** Direct callee ID to the costs recorded during calls to that callee. */
+  calleeIdToMetrics: Map<number, AggregatedCallGraphCalleeMetrics>
+}
+
+/** One function's recorded costs during calls from a given direct caller. */
+type AggregatedCallGraphCallerMetrics = {
+  caller: AggregatedCallGraphFunction
+
+  /** The recorded number of calls, or `0` when the format records none. */
+  callCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
+   * in the function and its callees during calls from this caller.
+   */
+  totalValues: Float64Array
+}
+
+/** One function's recorded costs during its calls to a given direct callee. */
+type AggregatedCallGraphCalleeMetrics = {
+  callee: AggregatedCallGraphFunction
+
+  /** The recorded number of calls, or `0` when the format records none. */
+  callCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
+   * in the callee and its callees during this function's calls to it.
+   */
+  totalValues: Float64Array
+}
+
 export class CallGraphAggregator implements InputAggregator<AggregatedCallGraph> {
   readonly #graph: CallGraph
 
@@ -108,27 +199,6 @@ class FunctionsAggregator {
     })
   }
 
-  /**
-   * A function's outgoing calls are runtime-inserted when they come from its
-   * runtime rather than the profiled program.
-   *
-   * Only the cycle analysis reads these, so a runtime's arcs cannot join the
-   * functions they intersperse into one cycle. Every other stage reads the
-   * parsed arcs, so the arcs still count toward totals and appear in the
-   * caller/callee metrics.
-   */
-  #cycleAnalysisArcs(): CallGraphFunction[`arcs`][] {
-    const runtimeInserted = new Set<AggregatedCallGraphFunction>()
-    for (const func of this.#keyToFunction.values()) {
-      if (hasRuntimeInsertedArcsForOrigin(func, this.#context.origin)) {
-        runtimeInserted.add(func)
-      }
-    }
-    return this.#functions.map((parsed, index) =>
-      runtimeInserted.has(this.#mergedFunctions[index]!) ? [] : parsed.arcs,
-    )
-  }
-
   #registerFunction(
     key: string | symbol,
     { name, location }: StackFrameFunction,
@@ -149,6 +219,27 @@ class FunctionsAggregator {
     }
     this.#keyToFunction.set(key, func)
     return func
+  }
+
+  /**
+   * A function's outgoing calls are runtime-inserted when they come from its
+   * runtime rather than the profiled program.
+   *
+   * Only the cycle analysis reads these, so a runtime's arcs cannot join the
+   * functions they intersperse into one cycle. Every other stage reads the
+   * parsed arcs, so the arcs still count toward totals and appear in the
+   * caller/callee metrics.
+   */
+  #cycleAnalysisArcs(): CallGraphFunction[`arcs`][] {
+    const runtimeInserted = new Set<AggregatedCallGraphFunction>()
+    for (const func of this.#keyToFunction.values()) {
+      if (hasRuntimeInsertedArcsForOrigin(func, this.#context.origin)) {
+        runtimeInserted.add(func)
+      }
+    }
+    return this.#functions.map((parsed, index) =>
+      runtimeInserted.has(this.#mergedFunctions[index]!) ? [] : parsed.arcs,
+    )
   }
 
   public aggregate(): AggregatedCallGraph {
@@ -346,95 +437,4 @@ const raiseValues = (target: Float64Array, values: ArrayLike<number>): void => {
   for (let i = 0; i < target.length; i++) {
     target[i] = Math.max(target[i]!, values[i] ?? 0)
   }
-}
-
-export type AggregatedCallGraphCategoryMetrics = {
-  /**
-   * For each metric in {@link AggregatedCallGraph.metrics}, the summed self
-   * values of functions with this category.
-   */
-  values: Float64Array
-}
-
-/** One function's recorded costs during calls from a given direct caller. */
-type AggregatedCallGraphCallerMetrics = {
-  caller: AggregatedCallGraphFunction
-
-  /** The recorded number of calls, or `0` when the format records none. */
-  callCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
-   * in the function and its callees during calls from this caller.
-   */
-  totalValues: Float64Array
-}
-
-/** One function's recorded costs during its calls to a given direct callee. */
-type AggregatedCallGraphCalleeMetrics = {
-  callee: AggregatedCallGraphFunction
-
-  /** The recorded number of calls, or `0` when the format records none. */
-  callCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
-   * in the callee and its callees during this function's calls to it.
-   */
-  totalValues: Float64Array
-}
-
-export type AggregatedCallGraphFunction = {
-  type: `function`
-
-  /** An index that uniquely identifies this function. */
-  id: number
-
-  name: string
-
-  /** Where the function was defined. */
-  location?: SourceLocation
-
-  category: FunctionCategory
-
-  /**
-   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
-   * directly in the function's body, excluding its callees.
-   */
-  selfValues: Float64Array
-
-  /**
-   * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded
-   * in the function's body and all its callees: its self values plus its
-   * outgoing arcs' total values, excluding the arcs to functions in its own
-   * recursion cycle, which re-count the same work.
-   */
-  totalValues: Float64Array
-
-  /** 1-based line number to the self values recorded at that line. */
-  lineToMetrics: Map<number, Float64Array>
-
-  /** Direct caller ID to the costs recorded during that caller's calls. */
-  callerIdToMetrics: Map<number, AggregatedCallGraphCallerMetrics>
-
-  /** Direct callee ID to the costs recorded during calls to that callee. */
-  calleeIdToMetrics: Map<number, AggregatedCallGraphCalleeMetrics>
-}
-
-export type AggregatedCallGraph = {
-  type: `call-graph`
-
-  /** @see {@link AggregatedCallStackProfile.context} */
-  context: ProfileToMdContext
-  metrics: Metric[]
-
-  /**
-   * For each metric in {@link AggregatedCallGraph.metrics}, the whole
-   * input's recorded cost: the sum of every function's self values.
-   */
-  totalValues: Float64Array
-
-  /** Function category to the summed self values of that category. */
-  categoryToMetrics: Map<FunctionCategory, AggregatedCallGraphCategoryMetrics>
-  functions: AggregatedCallGraphFunction[]
 }

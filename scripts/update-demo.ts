@@ -8,24 +8,6 @@ const check = process.argv.includes(`--check`)
 const tapePath = `assets/demo.tape`
 const gifPath = `assets/demo.gif`
 
-const fail = (message: string): never => {
-  process.stderr.write(`${message}\n`)
-  process.exit(1)
-}
-
-const aliasPattern =
-  /^Type "alias profiler-md='node src\/cli\/index\.ts(?<args>[^']*)'"$/mu
-const commandPattern = /^Type "profiler-md(?<args>[^"]*)"$/gmu
-
-// The tape wraps each typed command in double quotes, so an argument can only
-// quote spaces with single quotes.
-const argumentPattern = /'(?<quoted>[^']*)'|(?<bare>\S+)/gu
-
-const parseArguments = (args: string): string[] =>
-  [...args.matchAll(argumentPattern)].map(
-    match => match.groups!.quoted ?? match.groups!.bare!,
-  )
-
 // Recording the gif requires vhs, which CI lacks, so `--check` instead verifies
 // a digest of what the recording captures: the tape and each typed command's
 // output. A change to the CLI, its highlighting, or the converted example
@@ -70,8 +52,18 @@ const computeDigest = (): string => {
   return hash.digest(`hex`)
 }
 
-const digestPrefix = `profiler-md-demo:`
-const digestLength = 64
+const aliasPattern =
+  /^Type "alias profiler-md='node src\/cli\/index\.ts(?<args>[^']*)'"$/mu
+const commandPattern = /^Type "profiler-md(?<args>[^"]*)"$/gmu
+
+const parseArguments = (args: string): string[] =>
+  [...args.matchAll(argumentPattern)].map(
+    match => match.groups!.quoted ?? match.groups!.bare!,
+  )
+
+// The tape wraps each typed command in double quotes, so an argument can only
+// quote spaces with single quotes.
+const argumentPattern = /'(?<quoted>[^']*)'|(?<bare>\S+)/gu
 
 // Appends a comment extension, which decoders skip, so an embedded digest
 // leaves rendering unchanged. See section 24 of
@@ -105,6 +97,14 @@ const readEmbeddedDigest = (gif: Buffer): string => {
   }
 
   return digest
+}
+
+const digestPrefix = `profiler-md-demo:`
+const digestLength = 64
+
+const fail = (message: string): never => {
+  process.stderr.write(`${message}\n`)
+  process.exit(1)
 }
 
 if (check) {

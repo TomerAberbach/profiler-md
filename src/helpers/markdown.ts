@@ -12,41 +12,6 @@ import type {
 import { gfmTableToMarkdown } from 'mdast-util-gfm-table'
 import { toMarkdown } from 'mdast-util-to-markdown'
 
-// The serializer encodes carriage returns in headings and table cells but
-// emits them raw in paragraphs, where a lone `\r` desyncs micromark's line
-// numbering (which counts it as a line ending) from the CLI highlighter's
-// Shiki line splitting (which splits on `\r?\n` only), shifting heat tints
-// onto the wrong lines. Normalize up front; `\r\n` is counted consistently by
-// both, so only a lone `\r` needs it.
-export const text = (value: string): Text => ({
-  type: `text`,
-  value: toControlPictures(value.replaceAll(/\r(?!\n)/gu, ` `)),
-})
-
-// Code spans render line endings as spaces, but a raw newline in the serialized
-// span would break the enclosing table row or heading. A GFM table cell cannot
-// represent a backslash directly before a pipe, because the `\|` escape splits
-// the cell before inline parsing and GFM cannot escape a backslash inside a
-// code span (https://github.com/syntax-tree/mdast-util-gfm-table/issues/7), so
-// break the pair with a space.
-export const inlineCode = (value: string): InlineCode => ({
-  type: `inlineCode`,
-  value: toControlPictures(
-    value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
-  ),
-})
-
-// A raw control character makes text tools treat the Markdown as binary, and
-// an escape character written to a terminal starts an escape sequence, so
-// replace each with its Unicode control picture (U+2400 to U+2421). Tabs and
-// line endings are text.
-const toControlPictures = (value: string): string =>
-  value.replaceAll(/[\0-\b\v\f\x0E-\x1F\x7F]/gu, char =>
-    char === `\x7F`
-      ? `\u2421`
-      : String.fromCodePoint(0x24_00 + char.codePointAt(0)!),
-  )
-
 export const heading = (
   depth: number,
   children: PhrasingContent[] | string,
@@ -63,6 +28,18 @@ export const paragraph = (children: PhrasingContent[] | string): Paragraph => ({
 
 const toPhrasing = (children: PhrasingContent[] | string): PhrasingContent[] =>
   typeof children === `string` ? [text(children)] : children
+
+/**
+ * Phrasing for an entity heading: a code-span name followed by its
+ * parenthesized location. {@link headingNameLocationKey} recovers the
+ * {@link nameLocationKey} key from this shape, so entity headings must be
+ * built through this helper for the CLI highlighter's heading ↔ table
+ * matching to work.
+ */
+export const nameLocationPhrasing = (
+  name: string,
+  location: string | PhrasingContent | PhrasingContent[],
+): PhrasingContent[] => phrasing`${inlineCode(name)} (${location})`
 
 /**
  * Builds phrasing content from a template, turning literal segments and
@@ -94,21 +71,40 @@ export const phrasing = (
   return children
 }
 
-/**
- * Phrasing for an entity heading: a code-span name followed by its
- * parenthesized location. {@link headingNameLocationKey} recovers the
- * {@link nameLocationKey} key from this shape, so entity headings must be
- * built through this helper for the CLI highlighter's heading ↔ table
- * matching to work.
- */
-export const nameLocationPhrasing = (
-  name: string,
-  location: string | PhrasingContent | PhrasingContent[],
-): PhrasingContent[] => phrasing`${inlineCode(name)} (${location})`
+// Code spans render line endings as spaces, but a raw newline in the serialized
+// span would break the enclosing table row or heading. A GFM table cell cannot
+// represent a backslash directly before a pipe, because the `\|` escape splits
+// the cell before inline parsing and GFM cannot escape a backslash inside a
+// code span (https://github.com/syntax-tree/mdast-util-gfm-table/issues/7), so
+// break the pair with a space.
+export const inlineCode = (value: string): InlineCode => ({
+  type: `inlineCode`,
+  value: toControlPictures(
+    value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
+  ),
+})
 
-/** The key matching a {@link nameLocationPhrasing} heading to a table row. */
-export const nameLocationKey = (name: string, location: string): string =>
-  `${name} (${location})`
+// The serializer encodes carriage returns in headings and table cells but
+// emits them raw in paragraphs, where a lone `\r` desyncs micromark's line
+// numbering (which counts it as a line ending) from the CLI highlighter's
+// Shiki line splitting (which splits on `\r?\n` only), shifting heat tints
+// onto the wrong lines. Normalize up front; `\r\n` is counted consistently by
+// both, so only a lone `\r` needs it.
+export const text = (value: string): Text => ({
+  type: `text`,
+  value: toControlPictures(value.replaceAll(/\r(?!\n)/gu, ` `)),
+})
+
+// A raw control character makes text tools treat the Markdown as binary, and
+// an escape character written to a terminal starts an escape sequence, so
+// replace each with its Unicode control picture (U+2400 to U+2421). Tabs and
+// line endings are text.
+const toControlPictures = (value: string): string =>
+  value.replaceAll(/[\0-\b\v\f\x0E-\x1F\x7F]/gu, char =>
+    char === `\x7F`
+      ? `\u2421`
+      : String.fromCodePoint(0x24_00 + char.codePointAt(0)!),
+  )
 
 /**
  * Extracts the {@link nameLocationKey} key from a heading with the
@@ -135,6 +131,10 @@ export const headingNameLocationKey = (heading: Heading): string | null => {
 
   return nameLocationKey(name, after.slice(1, -1))
 }
+
+/** The key matching a {@link nameLocationPhrasing} heading to a table row. */
+export const nameLocationKey = (name: string, location: string): string =>
+  `${name} (${location})`
 
 /** The concatenated text content of a node's subtree. */
 export const nodeText = (node: Node): string => {

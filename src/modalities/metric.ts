@@ -1,30 +1,5 @@
 import plur from 'plur'
 
-export type MetricPhrases = {
-  /** A noun to use in headings, like "CPU", "heap", etc. */
-  titleNoun: string
-
-  /** A noun to use in columns like "time", "size", etc. */
-  columnNoun: string
-
-  /** A verb to use in prose like "took", "allocated", etc. */
-  pastTenseVerb: string
-
-  /** A verb phrase to use in prose like "time spent", "bytes allocated", etc. */
-  pastParticipleVerbPhrase: string
-}
-
-/**
- * Which direction of change in a metric's value is an improvement.
- *
- * A profiler records what a program consumed, so a smaller value is a better
- * one for every unit this package recognizes. `increase` is for a metric
- * measuring something a program produces, and `unknown` for a metric whose
- * profiler named a unit this package cannot classify, where a diff states the
- * direction of each change and calls neither better nor worse.
- */
-export type MetricImprovement = `decrease` | `increase` | `unknown`
-
 export type Metric = (
   | {
       type: `time`
@@ -61,11 +36,30 @@ export type Metric = (
 /** A metric formatted as a bare count. */
 export type CountMetric = Extract<Metric, { type: `count` }>
 
-/** Returns {@link metric} rephrased, keeping its type and unit. */
-export const metricWithPhrases = <M extends Metric>(
-  metric: M,
-  phrases: MetricPhrases,
-): M => ({ ...metric, phrases })
+/**
+ * Which direction of change in a metric's value is an improvement.
+ *
+ * A profiler records what a program consumed, so a smaller value is a better
+ * one for every unit this package recognizes. `increase` is for a metric
+ * measuring something a program produces, and `unknown` for a metric whose
+ * profiler named a unit this package cannot classify, where a diff states the
+ * direction of each change and calls neither better nor worse.
+ */
+export type MetricImprovement = `decrease` | `increase` | `unknown`
+
+export type MetricPhrases = {
+  /** A noun to use in headings, like "CPU", "heap", etc. */
+  titleNoun: string
+
+  /** A noun to use in columns like "time", "size", etc. */
+  columnNoun: string
+
+  /** A verb to use in prose like "took", "allocated", etc. */
+  pastTenseVerb: string
+
+  /** A verb phrase to use in prose like "time spent", "bytes allocated", etc. */
+  pastParticipleVerbPhrase: string
+}
 
 export type CountMetricOptions = {
   /**
@@ -104,38 +98,11 @@ export const countMetricOf = (
   }
 }
 
-/**
- * Returns whether two metrics measure the same thing in the same unit, and rank
- * a change in it the same way.
- *
- * Two metrics disagreeing on which direction is an improvement measure
- * different things, whatever their units, since a diff pairing them would rank
- * every change by one side's direction alone.
- */
-export const metricsEqual = (left: Metric, right: Metric): boolean => {
-  if (
-    left.type !== right.type ||
-    left.improvement !== right.improvement ||
-    !phrasesEqual(left.phrases, right.phrases)
-  ) {
-    return false
-  }
-
-  switch (left.type) {
-    case `time`:
-      return left.milliseconds === (right as typeof left).milliseconds
-    case `size`:
-      return left.bytes === (right as typeof left).bytes
-    case `count`:
-      return left.proseUnit === (right as typeof left).proseUnit
-  }
-}
-
-const phrasesEqual = (left: MetricPhrases, right: MetricPhrases): boolean =>
-  left.titleNoun === right.titleNoun &&
-  left.columnNoun === right.columnNoun &&
-  left.pastTenseVerb === right.pastTenseVerb &&
-  left.pastParticipleVerbPhrase === right.pastParticipleVerbPhrase
+/** Returns {@link metric} rephrased, keeping its type and unit. */
+export const metricWithPhrases = <M extends Metric>(
+  metric: M,
+  phrases: MetricPhrases,
+): M => ({ ...metric, phrases })
 
 /** A metric measured on both sides of a diff. */
 export type DiffMetric = {
@@ -169,3 +136,36 @@ export const matchDiffedMetrics = (
   }
   return matchedMetrics
 }
+
+/**
+ * Returns whether two metrics measure the same thing in the same unit, and rank
+ * a change in it the same way.
+ *
+ * Two metrics disagreeing on which direction is an improvement measure
+ * different things, whatever their units, since a diff pairing them would rank
+ * every change by one side's direction alone.
+ */
+export const metricsEqual = (left: Metric, right: Metric): boolean => {
+  if (
+    left.type !== right.type ||
+    left.improvement !== right.improvement ||
+    !phrasesEqual(left.phrases, right.phrases)
+  ) {
+    return false
+  }
+
+  switch (left.type) {
+    case `time`:
+      return left.milliseconds === (right as typeof left).milliseconds
+    case `size`:
+      return left.bytes === (right as typeof left).bytes
+    case `count`:
+      return left.proseUnit === (right as typeof left).proseUnit
+  }
+}
+
+const phrasesEqual = (left: MetricPhrases, right: MetricPhrases): boolean =>
+  left.titleNoun === right.titleNoun &&
+  left.columnNoun === right.columnNoun &&
+  left.pastTenseVerb === right.pastTenseVerb &&
+  left.pastParticipleVerbPhrase === right.pastParticipleVerbPhrase

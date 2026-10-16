@@ -13,12 +13,6 @@ const positions = (maxLength = 20): fc.Arbitrary<number[]> =>
     .uniqueArray(fc.integer({ min: -15, max: 15 }), { maxLength })
     .map(list => list.toSorted((left, right) => left - right))
 
-/** The `[base index, current index]` pairs of {@link alignPositions}'s result. */
-const pairsOf = (pairs: Int32Array): [number, number][] =>
-  [...pairs].flatMap((pair, index) =>
-    pair === -1 ? [] : [[index, pair] as [number, number]],
-  )
-
 const alignmentCost = (
   base: number[],
   current: number[],
@@ -36,23 +30,8 @@ const alignmentCost = (
   return cost
 }
 
-const offsetsOf = (
-  base: number[],
-  current: number[],
-  pairs: [number, number][],
-): number =>
-  pairs.reduce(
-    (sum, [baseIndex, currentIndex]) =>
-      sum + Math.abs(current[currentIndex]! - base[baseIndex]!),
-    0,
-  )
-
 /** An alignment's cost, and the sum of its pairs' absolute offsets. */
 type Optimum = { cost: number; offsets: number }
-
-const isCheaper = (left: Optimum, right: Optimum): boolean =>
-  left.cost < right.cost ||
-  (left.cost === right.cost && left.offsets < right.offsets)
 
 /**
  * The cost of an optimal alignment, and the least sum of absolute offsets
@@ -101,6 +80,10 @@ const optimumNaively = (base: number[], current: number[]): Optimum => {
   return optimum(0, 0, 0)
 }
 
+const isCheaper = (left: Optimum, right: Optimum): boolean =>
+  left.cost < right.cost ||
+  (left.cost === right.cost && left.offsets < right.offsets)
+
 test.each([
   { base: [], current: [1, 2], pairs: [], cost: 2 * UNPAIRED_COST },
   {
@@ -144,6 +127,12 @@ test.each([
   },
 )
 
+/** The `[base index, current index]` pairs of {@link alignPositions}'s result. */
+const pairsOf = (pairs: Int32Array): [number, number][] =>
+  [...pairs].flatMap((pair, index) =>
+    pair === -1 ? [] : [[index, pair] as [number, number]],
+  )
+
 test.prop([positions(), positions()])(
   `alignPositions pairs each current position at most once, in increasing order`,
   (base, current) => {
@@ -159,6 +148,17 @@ test.prop([positions(), positions()])(
     )
   },
 )
+
+const offsetsOf = (
+  base: number[],
+  current: number[],
+  pairs: [number, number][],
+): number =>
+  pairs.reduce(
+    (sum, [baseIndex, currentIndex]) =>
+      sum + Math.abs(current[currentIndex]! - base[baseIndex]!),
+    0,
+  )
 
 test.prop([positions(), positions()])(
   `alignPositions returns the cheapest alignment with the least sum of absolute offsets`,

@@ -83,6 +83,8 @@ const endsInsideTopLevelField = (bytes: Uint8Array): boolean => {
   return false
 }
 
+const WIRE_TYPE_LENGTH_DELIMITED = 2
+
 /** The offset after the varint at {@link offset}, or `undefined` past the end. */
 const endOfVarint = (bytes: Uint8Array, offset: number): number | undefined => {
   for (let index = offset; index < bytes.length; index++) {
@@ -100,8 +102,6 @@ const readVarint = (bytes: Uint8Array, start: number, end: number): number => {
   }
   return value
 }
-
-const WIRE_TYPE_LENGTH_DELIMITED = 2
 
 type StringReader = (index: number | bigint) => string
 
@@ -147,15 +147,6 @@ const pprofOriginHint = (
 /** Gperftools' own internal function names in a legacy profile's frame filters. */
 const GPERFTOOLS_FRAME_FILTER =
   /CpuProfiler::prof_handler|ProfileData::prof_handler|tcmalloc::/u
-
-/** One sample type, with its index into a sample's parallel value list. */
-type ValueType = {
-  index: number
-  /** The sample type's name, such as `alloc_objects` or `cpu`. */
-  name: string
-  /** The sample type's unit, such as `count`, `bytes`, or `nanoseconds`. */
-  unit: string
-}
 
 /**
  * How one profile reads a sample's values: which of them are metrics, and which
@@ -211,6 +202,15 @@ const parseValueLayouts = (
   return [layoutWithCountsAsMetrics(valueTypes)]
 }
 
+/** One sample type, with its index into a sample's parallel value list. */
+type ValueType = {
+  index: number
+  /** The sample type's name, such as `alloc_objects` or `cpu`. */
+  name: string
+  /** The sample type's unit, such as `count`, `bytes`, or `nanoseconds`. */
+  unit: string
+}
+
 const parseSampleTypes = (
   profile: PprofProto,
   string: StringReader,
@@ -220,6 +220,66 @@ const parseSampleTypes = (
     name: string(type),
     unit: string(unit),
   }))
+
+/**
+ * The layout of one profile's value types.
+ *
+ * Without a count, each record counts as one sample.
+ */
+const layoutOf = (valueTypes: ValueType[]): ValueLayout => {
+  const countValueType = recordCountValueTypeOf(valueTypes)
+  return {
+    ...metricsOf(valueTypes.filter(valueType => valueType !== countValueType)),
+    countMetric: countValueType
+      ? (countedAs(countValueType.name) ??
+        // The unit is `count`, so the parsed metric is a count metric named
+        // after the sample type.
+        (parseMetric(countValueType) as CountMetric))
+      : SAMPLES,
+    countValueIndex: countValueType?.index,
+  }
+}
+
+/**
+ * The value type whose count is how many occurrences a record aggregates.
+ *
+ * A count of occurrences takes precedence over a count in an unrecognized name,
+ * which measures a quantity of its own wherever a recognized count states what
+ * a record is: `perf_data_converter` writes a hardware event's total beside its
+ * `sample` count. With no recognized count, the first count states what a
+ * record is, since a profile counting nothing would report no records.
+ */
+const recordCountValueTypeOf = (
+  valueTypes: ValueType[],
+): ValueType | undefined => {
+  const counts = valueTypes.filter(isCountValueType)
+  return counts.find(isOccurrenceCountValueType) ?? counts[0]
+}
+
+/**
+ * The value types grouped by their type name's prefix. Go and gperftools name a
+ * heap profile's types `alloc_objects`, `alloc_space`, `inuse_objects`, and
+ * `inuse_space`, so the prefix states which count each size was measured over.
+ *
+ * A count with no metric beside it forms a group of its own, so a count the
+ * prefixes pair with nothing is still reported.
+ *
+ * Returns `undefined` when a group holds several counts, a layout the prefixes
+ * fail to explain.
+ */
+const groupValueTypesByCount = (
+  valueTypes: ValueType[],
+): ValueType[][] | undefined => {
+  const groups = [...Map.groupBy(valueTypes, namePrefix).values()]
+  return groups.every(
+    group => group.filter(isOccurrenceCountValueType).length <= 1,
+  )
+    ? groups
+    : undefined
+}
+
+const namePrefix = ({ name }: ValueType): string =>
+  name.toLowerCase().split(`_`)[0]!
 
 /**
  * Whether a value type counts occurrences of something this package has a noun
@@ -273,73 +333,6 @@ const COUNT_TYPE_NOUNS: ReadonlyMap<string, string> = new Map([
 ])
 
 /**
- * The layout of one profile's value types.
- *
- * Without a count, each record counts as one sample.
- */
-const layoutOf = (valueTypes: ValueType[]): ValueLayout => {
-  const countValueType = recordCountValueTypeOf(valueTypes)
-  return {
-    ...metricsOf(valueTypes.filter(valueType => valueType !== countValueType)),
-    countMetric: countValueType
-      ? (countedAs(countValueType.name) ??
-        // The unit is `count`, so the parsed metric is a count metric named
-        // after the sample type.
-        (parseMetric(countValueType) as CountMetric))
-      : SAMPLES,
-    countValueIndex: countValueType?.index,
-  }
-}
-
-/**
- * The value type whose count is how many occurrences a record aggregates.
- *
- * A count of occurrences takes precedence over a count in an unrecognized name,
- * which measures a quantity of its own wherever a recognized count states what
- * a record is: `perf_data_converter` writes a hardware event's total beside its
- * `sample` count. With no recognized count, the first count states what a
- * record is, since a profile counting nothing would report no records.
- */
-const recordCountValueTypeOf = (
-  valueTypes: ValueType[],
-): ValueType | undefined => {
-  const counts = valueTypes.filter(isCountValueType)
-  return counts.find(isOccurrenceCountValueType) ?? counts[0]
-}
-
-const metricsOf = (
-  valueTypes: ValueType[],
-): Pick<ValueLayout, `metrics` | `metricValueIndices`> => ({
-  metrics: valueTypes.map(({ name, unit }) => parseMetric({ name, unit })),
-  metricValueIndices: valueTypes.map(({ index }) => index),
-})
-
-/**
- * The value types grouped by their type name's prefix. Go and gperftools name a
- * heap profile's types `alloc_objects`, `alloc_space`, `inuse_objects`, and
- * `inuse_space`, so the prefix states which count each size was measured over.
- *
- * A count with no metric beside it forms a group of its own, so a count the
- * prefixes pair with nothing is still reported.
- *
- * Returns `undefined` when a group holds several counts, a layout the prefixes
- * fail to explain.
- */
-const groupValueTypesByCount = (
-  valueTypes: ValueType[],
-): ValueType[][] | undefined => {
-  const groups = [...Map.groupBy(valueTypes, namePrefix).values()]
-  return groups.every(
-    group => group.filter(isOccurrenceCountValueType).length <= 1,
-  )
-    ? groups
-    : undefined
-}
-
-const namePrefix = ({ name }: ValueType): string =>
-  name.toLowerCase().split(`_`)[0]!
-
-/**
  * The layout with every count reported as a measured quantity rather than as a
  * record count, leaving the profile with no rate to state.
  */
@@ -347,6 +340,13 @@ const layoutWithCountsAsMetrics = (valueTypes: ValueType[]): ValueLayout => ({
   ...metricsOf(valueTypes),
   countMetric: null,
   countValueIndex: undefined,
+})
+
+const metricsOf = (
+  valueTypes: ValueType[],
+): Pick<ValueLayout, `metrics` | `metricValueIndices`> => ({
+  metrics: valueTypes.map(({ name, unit }) => parseMetric({ name, unit })),
+  metricValueIndices: valueTypes.map(({ index }) => index),
 })
 
 /**
@@ -400,6 +400,48 @@ const parseStackFrames = (
   return { frames, framesByLocationId }
 }
 
+/**
+ * A function in the profile's table, owning the frames of the executing
+ * positions sampled within it so a position interns without a composite key.
+ */
+class PprofFunction {
+  readonly #frame: Pick<StackFrame, `name` | `definition`>
+
+  /**
+   * An executing position to its index in the profile's frames, keyed by line
+   * and then column. 0 stands for an unknown line or column because
+   * `knownPprofLine` returns only positive numbers.
+   */
+  readonly #frames = new Map<number, Map<number, number>>()
+
+  public constructor(frame: Pick<StackFrame, `name` | `definition`>) {
+    this.#frame = frame
+  }
+
+  public frameFor(
+    executing: SourcePosition | undefined,
+    frames: StackFrame[],
+  ): number {
+    const lineKey = executing?.line ?? 0
+    let byColumn = this.#frames.get(lineKey)
+    if (!byColumn) {
+      byColumn = new Map()
+      this.#frames.set(lineKey, byColumn)
+    }
+
+    const columnKey = executing?.column ?? 0
+    let index = byColumn.get(columnKey)
+    if (index === undefined) {
+      index = frames.length
+      frames.push(
+        executing === undefined ? this.#frame : { ...this.#frame, executing },
+      )
+      byColumn.set(columnKey, index)
+    }
+    return index
+  }
+}
+
 const parseFunctions = (
   profile: PprofProto,
   string: StringReader,
@@ -429,15 +471,38 @@ const parseFunctions = (
   return functionById
 }
 
-const parseMappings = (
-  profile: PprofProto,
-  string: StringReader,
-): Map<number | bigint, PprofMapping> => {
-  const mappingById = new Map<number | bigint, PprofMapping>()
-  for (const mapping of profile.mapping) {
-    mappingById.set(mapping.id, new PprofMapping(mapping, string))
+const knownPprofPosition = (
+  line: number | bigint | undefined,
+  column?: number | bigint,
+): SourcePosition | undefined => {
+  const knownLine = knownPprofLine(line)
+  if (knownLine === undefined) {
+    return undefined
   }
-  return mappingById
+  const knownColumn = knownPprofLine(column)
+  return knownColumn === undefined
+    ? { line: knownLine }
+    : { line: knownLine, column: knownColumn }
+}
+
+/**
+ * Normalizes a pprof line or column to `undefined` when unknown.
+ *
+ * proto3 has no field presence for scalars, so an unset `Function.start_line`,
+ * `Line.line`, or `Line.column` decodes to `0`.
+ *
+ * Some profilers (e.g. PProf.jl) write `-1` for an unknown line, which
+ * `pprof-format` decodes as the unsigned 64-bit value, so a line is read back
+ * as the signed integer the field is declared as.
+ */
+const knownPprofLine = (
+  line: number | bigint | undefined,
+): number | undefined => {
+  if (line === undefined) {
+    return undefined
+  }
+  const signedLine = typeof line === `bigint` ? BigInt.asIntN(64, line) : line
+  return signedLine > 0 ? Number(signedLine) : undefined
 }
 
 /**
@@ -488,80 +553,15 @@ class PprofMapping {
   }
 }
 
-/**
- * A function in the profile's table, owning the frames of the executing
- * positions sampled within it so a position interns without a composite key.
- */
-class PprofFunction {
-  readonly #frame: Pick<StackFrame, `name` | `definition`>
-
-  /**
-   * An executing position to its index in the profile's frames, keyed by line
-   * and then column. 0 stands for an unknown line or column because
-   * `knownPprofLine` returns only positive numbers.
-   */
-  readonly #frames = new Map<number, Map<number, number>>()
-
-  public constructor(frame: Pick<StackFrame, `name` | `definition`>) {
-    this.#frame = frame
+const parseMappings = (
+  profile: PprofProto,
+  string: StringReader,
+): Map<number | bigint, PprofMapping> => {
+  const mappingById = new Map<number | bigint, PprofMapping>()
+  for (const mapping of profile.mapping) {
+    mappingById.set(mapping.id, new PprofMapping(mapping, string))
   }
-
-  public frameFor(
-    executing: SourcePosition | undefined,
-    frames: StackFrame[],
-  ): number {
-    const lineKey = executing?.line ?? 0
-    let byColumn = this.#frames.get(lineKey)
-    if (!byColumn) {
-      byColumn = new Map()
-      this.#frames.set(lineKey, byColumn)
-    }
-
-    const columnKey = executing?.column ?? 0
-    let index = byColumn.get(columnKey)
-    if (index === undefined) {
-      index = frames.length
-      frames.push(
-        executing === undefined ? this.#frame : { ...this.#frame, executing },
-      )
-      byColumn.set(columnKey, index)
-    }
-    return index
-  }
-}
-
-const knownPprofPosition = (
-  line: number | bigint | undefined,
-  column?: number | bigint,
-): SourcePosition | undefined => {
-  const knownLine = knownPprofLine(line)
-  if (knownLine === undefined) {
-    return undefined
-  }
-  const knownColumn = knownPprofLine(column)
-  return knownColumn === undefined
-    ? { line: knownLine }
-    : { line: knownLine, column: knownColumn }
-}
-
-/**
- * Normalizes a pprof line or column to `undefined` when unknown.
- *
- * proto3 has no field presence for scalars, so an unset `Function.start_line`,
- * `Line.line`, or `Line.column` decodes to `0`.
- *
- * Some profilers (e.g. PProf.jl) write `-1` for an unknown line, which
- * `pprof-format` decodes as the unsigned 64-bit value, so a line is read back
- * as the signed integer the field is declared as.
- */
-const knownPprofLine = (
-  line: number | bigint | undefined,
-): number | undefined => {
-  if (line === undefined) {
-    return undefined
-  }
-  const signedLine = typeof line === `bigint` ? BigInt.asIntN(64, line) : line
-  return signedLine > 0 ? Number(signedLine) : undefined
+  return mappingById
 }
 
 /**

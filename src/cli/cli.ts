@@ -28,42 +28,7 @@ import {
   withDefault,
 } from './optique.ts'
 
-const unicodeRegex = regex()
-const globalRegex = regex(`gu`)
-
-export type RegexReplacement = readonly [RegExp, string]
-
-/** Formats a flag rule as its `REGEX=VALUE` flag value. */
-export const formatRegexRule = ([regex, value]: readonly [
-  RegExp,
-  string,
-]): string => `${regex.source}=${value}`
-
-const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
-  mode: `sync`,
-  metavar: `REGEX=REPLACEMENT`,
-  placeholder: [/(?:)/u, ``],
-  parse: input => {
-    const index = input.indexOf(`=`)
-    if (index === -1) {
-      return {
-        success: false,
-        error: message`expected REGEX=REPLACEMENT, got: ${value(input)}`,
-      }
-    }
-
-    const result = globalRegex.parse(input.slice(0, index))
-    return result.success
-      ? { success: true, value: [result.value, input.slice(index + 1)] }
-      : result
-  },
-  format: formatRegexRule,
-})
-
-const functionCategory = choice(FUNCTION_CATEGORY_SET.categories, {
-  metavar: `CATEGORY`,
-  expected: `a function category listed by --help`,
-})
+export type CLIArgs = InferValue<typeof program.parser>
 
 /** A flag rule assigning functions matching a regex to a category. */
 export type RegexCategory = readonly [RegExp, FunctionCategory]
@@ -97,6 +62,43 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
   },
   format: formatRegexRule,
 })
+
+const functionCategory = choice(FUNCTION_CATEGORY_SET.categories, {
+  metavar: `CATEGORY`,
+  expected: `a function category listed by --help`,
+})
+
+const unicodeRegex = regex()
+const globalRegex = regex(`gu`)
+
+export type RegexReplacement = readonly [RegExp, string]
+
+const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
+  mode: `sync`,
+  metavar: `REGEX=REPLACEMENT`,
+  placeholder: [/(?:)/u, ``],
+  parse: input => {
+    const index = input.indexOf(`=`)
+    if (index === -1) {
+      return {
+        success: false,
+        error: message`expected REGEX=REPLACEMENT, got: ${value(input)}`,
+      }
+    }
+
+    const result = globalRegex.parse(input.slice(0, index))
+    return result.success
+      ? { success: true, value: [result.value, input.slice(index + 1)] }
+      : result
+  },
+  format: formatRegexRule,
+})
+
+/** Formats a flag rule as its `REGEX=VALUE` flag value. */
+export const formatRegexRule = ([regex, value]: readonly [
+  RegExp,
+  string,
+]): string => `${regex.source}=${value}`
 
 export const inputParser = or(
   withDefault(
@@ -323,8 +325,6 @@ const parser = merge(
   diffingFlags,
   helpFlags,
 )
-
-export type CLIArgs = InferValue<typeof program.parser>
 
 export const program = defineProgram({
   parser,

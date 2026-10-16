@@ -18,111 +18,6 @@ import { jvmMethodDisplayName, jvmSourceClassName } from '../../origins/jvm.ts'
 import type { RecordTally } from '../spec.ts'
 
 /**
- * The kind of profiling an event represents.
- *
- * - `cpu`: CPU/wall sampling (`jdk.ExecutionSample`, `jdk.NativeMethodSample`,
- *   async-profiler's `profiler.WallClockSample`). Carries no value, so it ranks
- *   by sample count, each event contributing {@link JfrSampleEvent.count}
- *   samples. Wall-clock samples rank by count too: their `timeSpan` is zero for
- *   most uncoalesced samples, so ranking by it would understate where
- *   wall-clock time goes.
- * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the
- *   TLAB variants), measured in the allocated bytes the event stands for.
- * - `nativemem`: off-heap native memory allocation (async-profiler's
- *   `profiler.Malloc`), measured in allocated bytes. The paired
- *   `profiler.Free` events are ignored: like `alloc`, this profiles where
- *   native memory is allocated, not the net live footprint, and frees usually
- *   dominate the recording so netting them would erase most of the signal.
- * - `live`: live-object sampling (`jdk.OldObjectSample` and async-profiler's
- *   `profiler.LiveObject`), objects sampled at allocation that were still
- *   live when captured, measured in the objects' size in bytes.
- * - `lock`: lock contention (`jdk.JavaMonitorEnter`, `jdk.ThreadPark`,
- *   async-profiler's `profiler.NativeLock`), measured in the nanoseconds
- *   the thread blocked.
- */
-type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
-
-/** A Java method observed in a stack frame, resolved via the constant pools. */
-type JfrMethod = {
-  /** A unique sequential index identifying this method. */
-  id: number
-
-  /** The method name with its parameter types, e.g. `compute(int, String)`. */
-  name: string
-
-  /** The declaring class name in source form, e.g. `com.example.Bench`. */
-  className: string
-}
-
-/**
- * A unique call stack referenced by sample events. Only the leaf frame's line
- * is kept: it's the only line the uniform {@link Observation} carries, so non-leaf
- * lines would be dropped anyway, and eliding them avoids a per-frame object.
- */
-type JfrStackTrace = {
-  /**
-   * Per frame in callee-to-caller order, the index of the {@link JfrMethod}
-   * executing in it.
-   */
-  methodIds: number[]
-
-  /** The 1-based line number executing in the leaf frame, if known. */
-  leafLine: number | undefined
-}
-
-/**
- * A stack trace as the constant pool stores it: each frame's chunk-local method
- * key in callee-to-caller order, and the leaf frame's raw line number (`0` when
- * the frame has none).
- */
-type FlatStackTrace = {
-  methods: number[]
-  leafLine: number
-}
-
-type JfrSampleEvent = {
-  kind: JfrSampleKind
-
-  /** The index of the {@link JfrStackTrace} active when the sample was taken. */
-  stackTraceId: number
-
-  /**
-   * The sample's value: `1` for CPU/wall samples, allocated bytes for heap and
-   * native memory allocation samples, and blocked nanoseconds for lock samples.
-   */
-  value: number
-
-  /**
-   * How many samples this event represents. `1` for most events, but
-   * coalesced events (async-profiler's `profiler.WallClockSample`) report a
-   * batched count.
-   */
-  count: number
-}
-
-type Jfr = {
-  methods: JfrMethod[]
-  stackTraces: JfrStackTrace[]
-  events: JfrSampleEvent[]
-
-  /**
-   * Whether any chunk declared async-profiler's own `profiler.*` event types.
-   * Async-profiler registers them in every recording regardless of config,
-   * while the JDK's recorder never does, so they identify the recorder even
-   * when the sampled stacks are pure Java frames.
-   */
-  isAsyncProfiler: boolean
-
-  /**
-   * The kinds with a metric whose events lack their value field in some chunk,
-   * so their profiles rank by count alone. Older JDKs write such layouts:
-   * `jdk.OldObjectSample` gained `objectSize` in JDK 21, so a JDK 17 recording
-   * records which objects were live but not how large they were.
-   */
-  metriclessKinds: Set<JfrSampleKind>
-}
-
-/**
  * Parses a Java Flight Recorder recording into one call stack profile per
  * sample kind.
  *
@@ -297,23 +192,6 @@ const methodToStackFrame = (method: JfrMethod): StackFrame => ({
     : undefined,
 })
 
-function* kindObservations(
-  events: JfrSampleEvent[],
-  metric: Metric | undefined,
-  stackTraces: JfrStackTrace[],
-): Iterable<Observation> {
-  for (const event of events) {
-    const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
-    yield {
-      id: event.stackTraceId,
-      values: metric ? [event.value] : [],
-      frameIndices: methodIds,
-      executingLine: leafLine,
-      count: event.count,
-    }
-  }
-}
-
 /** One object sampled at allocation and still live when the recording ended. */
 const OBJECTS = countMetricOf(`object`, { improvement: `decrease` })
 
@@ -352,6 +230,135 @@ const KINDS: {
     countMetric: CONTENTIONS,
   },
 ]
+
+function* kindObservations(
+  events: JfrSampleEvent[],
+  metric: Metric | undefined,
+  stackTraces: JfrStackTrace[],
+): Iterable<Observation> {
+  for (const event of events) {
+    const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
+    yield {
+      id: event.stackTraceId,
+      values: metric ? [event.value] : [],
+      frameIndices: methodIds,
+      executingLine: leafLine,
+      count: event.count,
+    }
+  }
+}
+
+type Jfr = {
+  methods: JfrMethod[]
+  stackTraces: JfrStackTrace[]
+  events: JfrSampleEvent[]
+
+  /**
+   * Whether any chunk declared async-profiler's own `profiler.*` event types.
+   * Async-profiler registers them in every recording regardless of config,
+   * while the JDK's recorder never does, so they identify the recorder even
+   * when the sampled stacks are pure Java frames.
+   */
+  isAsyncProfiler: boolean
+
+  /**
+   * The kinds with a metric whose events lack their value field in some chunk,
+   * so their profiles rank by count alone. Older JDKs write such layouts:
+   * `jdk.OldObjectSample` gained `objectSize` in JDK 21, so a JDK 17 recording
+   * records which objects were live but not how large they were.
+   */
+  metriclessKinds: Set<JfrSampleKind>
+}
+
+/** A Java method observed in a stack frame, resolved via the constant pools. */
+type JfrMethod = {
+  /** A unique sequential index identifying this method. */
+  id: number
+
+  /** The method name with its parameter types, e.g. `compute(int, String)`. */
+  name: string
+
+  /** The declaring class name in source form, e.g. `com.example.Bench`. */
+  className: string
+}
+
+type JfrSampleEvent = {
+  kind: JfrSampleKind
+
+  /** The index of the {@link JfrStackTrace} active when the sample was taken. */
+  stackTraceId: number
+
+  /**
+   * The sample's value: `1` for CPU/wall samples, allocated bytes for heap and
+   * native memory allocation samples, and blocked nanoseconds for lock samples.
+   */
+  value: number
+
+  /**
+   * How many samples this event represents. `1` for most events, but
+   * coalesced events (async-profiler's `profiler.WallClockSample`) report a
+   * batched count.
+   */
+  count: number
+}
+
+/**
+ * The kind of profiling an event represents.
+ *
+ * - `cpu`: CPU/wall sampling (`jdk.ExecutionSample`, `jdk.NativeMethodSample`,
+ *   async-profiler's `profiler.WallClockSample`). Carries no value, so it ranks
+ *   by sample count, each event contributing {@link JfrSampleEvent.count}
+ *   samples. Wall-clock samples rank by count too: their `timeSpan` is zero for
+ *   most uncoalesced samples, so ranking by it would understate where
+ *   wall-clock time goes.
+ * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the
+ *   TLAB variants), measured in the allocated bytes the event stands for.
+ * - `nativemem`: off-heap native memory allocation (async-profiler's
+ *   `profiler.Malloc`), measured in allocated bytes. The paired
+ *   `profiler.Free` events are ignored: like `alloc`, this profiles where
+ *   native memory is allocated, not the net live footprint, and frees usually
+ *   dominate the recording so netting them would erase most of the signal.
+ * - `live`: live-object sampling (`jdk.OldObjectSample` and async-profiler's
+ *   `profiler.LiveObject`), objects sampled at allocation that were still
+ *   live when captured, measured in the objects' size in bytes.
+ * - `lock`: lock contention (`jdk.JavaMonitorEnter`, `jdk.ThreadPark`,
+ *   async-profiler's `profiler.NativeLock`), measured in the nanoseconds
+ *   the thread blocked.
+ */
+type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
+
+/**
+ * A unique call stack referenced by sample events. Only the leaf frame's line
+ * is kept: it's the only line the uniform {@link Observation} carries, so non-leaf
+ * lines would be dropped anyway, and eliding them avoids a per-frame object.
+ */
+type JfrStackTrace = {
+  /**
+   * Per frame in callee-to-caller order, the index of the {@link JfrMethod}
+   * executing in it.
+   */
+  methodIds: number[]
+
+  /** The 1-based line number executing in the leaf frame, if known. */
+  leafLine: number | undefined
+}
+
+/** Where a recognized `jdk.types.StackTrace` layout stores what a frame reads. */
+type StackTraceLayout = {
+  /** The stack trace's `frames` array field. */
+  framesField: Field
+  /** Every field of a frame, each a scalar. */
+  frameFields: Field[]
+  methodIndex: number
+  lineIndex: number
+  /**
+   * The frame fields' kinds when every one is a varint or byte, so frame
+   * reading decodes them in a loop over locals instead of a call and a switch
+   * per field. Undefined when a frame field is a float, double, string, or
+   * nested object.
+   */
+  frameFieldKinds: Uint8Array | undefined
+}
 
 type Field = {
   name: string
@@ -398,29 +405,19 @@ type TypeDef = {
   fields: Field[]
 }
 
-/** Where a recognized `jdk.types.StackTrace` layout stores what a frame reads. */
-type StackTraceLayout = {
-  /** The stack trace's `frames` array field. */
-  framesField: Field
-  /** Every field of a frame, each a scalar. */
-  frameFields: Field[]
-  methodIndex: number
-  lineIndex: number
-  /**
-   * The frame fields' kinds when every one is a varint or byte, so frame
-   * reading decodes them in a loop over locals instead of a call and a switch
-   * per field. Undefined when a frame field is a float, double, string, or
-   * nested object.
-   */
-  frameFieldKinds: Uint8Array | undefined
+type MetadataElement = {
+  name: string
+  attributes: Map<string, string>
+  children: MetadataElement[]
 }
 
-/**
- * Among `alloc` events, the modern unified sampled event vs. the legacy TLAB
- * pair. They measure the same allocations differently, so only one family is
- * kept when both are present (see {@link JfrParser.finish}).
- */
-type AllocFamily = `sampled` | `tlab`
+type RawEvent = {
+  kind: JfrSampleKind
+  stackKey: number
+  value: number
+  count: number
+  allocFamily?: AllocFamily
+}
 
 type EventKind = {
   kind: JfrSampleKind
@@ -441,6 +438,13 @@ type EventKind = {
   /** Which allocation family this event belongs to, for `alloc` events. */
   allocFamily?: AllocFamily
 }
+
+/**
+ * Among `alloc` events, the modern unified sampled event vs. the legacy TLAB
+ * pair. They measure the same allocations differently, so only one family is
+ * kept when both are present (see {@link JfrParser.finish}).
+ */
+type AllocFamily = `sampled` | `tlab`
 
 /** The supported sample event types, by the event names JFR records. */
 const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
@@ -485,34 +489,22 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
 ]
 
 /**
- * Thrown when a record can't be read to its end, so reading further would
- * desync every following field. The reader resumes at the record's end, which
- * its enclosing event's size states.
+ * A stack trace as the constant pool stores it: each frame's chunk-local method
+ * key in callee-to-caller order, and the leaf frame's raw line number (`0` when
+ * the frame has none).
  */
-class UnreadableRecordError extends Error {
-  public readonly reason: UnreadableRecordReason
-
-  public constructor(reason: UnreadableRecordReason) {
-    super(reason)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'UnreadableRecordError'
-    this.reason = reason
-  }
+type FlatStackTrace = {
+  methods: number[]
+  leafLine: number
 }
 
-type UnreadableRecordReason =
-  // A type that isn't a primitive, pool reference, or known struct.
-  | `a field of an unreadable type`
-  | `a string of an unknown encoding`
-  | `a length past its end`
-
-type RawEvent = {
-  kind: JfrSampleKind
-  stackKey: number
-  value: number
-  count: number
-  allocFamily?: AllocFamily
-}
+/**
+ * A string read from a chunk: either an inline value, or a deferred reference
+ * into the chunk's `java.lang.String` constant pool that's resolved once the
+ * whole chunk (and thus the pool) has been read.
+ */
+type BuiltinString =
+  { type: `inline`; value: string } | { type: `reference`; index: number }
 
 class JfrParser {
   readonly #recordTally: RecordTally
@@ -620,10 +612,6 @@ class JfrParser {
       : [...this.#events, ...this.#tlabEvents]
   }
 
-  #readInt64(offset: number): number {
-    return Number(this.#view.getBigInt64(offset))
-  }
-
   /**
    * Reads the chunk's metadata, which describes every event and pool type's
    * fields. The rest of the chunk is read by these layouts rather than fixed
@@ -676,6 +664,95 @@ class JfrParser {
     this.#resolveFieldKinds()
     this.#resolveStackTraceLayout()
     return undefined
+  }
+
+  #readInt64(offset: number): number {
+    return Number(this.#view.getBigInt64(offset))
+  }
+
+  // Metadata
+
+  #parseMetadata(): Map<number, TypeDef> {
+    // The element tree's strings are interned in a leading table that the
+    // elements reference by index, so read it before the tree itself.
+    const strings = this.#readStringTable()
+    const root = this.#readMetadataElement(strings)
+
+    const metadata = root.children.find(child => child.name === `metadata`)
+    return typesFromMetadata(metadata)
+  }
+
+  #readStringTable(): (string | null)[] {
+    const count = this.#readLength(1)
+    const strings: (string | null)[] = []
+    for (let i = 0; i < count; i++) {
+      // Metadata's own interned strings are always inline; a pool reference here
+      // has nothing to resolve against, so treat it as absent.
+      const string = this.#readBuiltinString()
+      strings.push(string?.type === `inline` ? string.value : null)
+    }
+    return strings
+  }
+
+  #readMetadataElement(strings: (string | null)[]): MetadataElement {
+    const name = strings[this.#readVarint()] ?? ``
+
+    const attributeCount = this.#readLength(2)
+    const attributes = new Map<string, string>()
+    for (let i = 0; i < attributeCount; i++) {
+      const key = strings[this.#readVarint()] ?? ``
+      attributes.set(key, strings[this.#readVarint()] ?? ``)
+    }
+
+    const childCount = this.#readLength(3)
+    const children: MetadataElement[] = []
+    for (let i = 0; i < childCount; i++) {
+      children.push(this.#readMetadataElement(strings))
+    }
+
+    return { name, attributes, children }
+  }
+
+  // Generic value reading
+
+  /**
+   * Sets every field's {@link Field.kind}, and {@link Field.nested} for a
+   * nested object.
+   */
+  #resolveFieldKinds(): void {
+    const primitiveKinds = new Map<number, FieldKind>()
+    for (const [name, kind] of PRIMITIVE_FIELD_KINDS) {
+      const id = this.#typeIdsByName.get(name)
+      if (id !== undefined) {
+        primitiveKinds.set(id, kind)
+      }
+    }
+    if (this.#stringTypeId !== undefined) {
+      primitiveKinds.set(this.#stringTypeId, FIELD_STRING)
+    }
+
+    for (const type of this.#types.values()) {
+      for (const field of type.fields) {
+        if (field.constantPool) {
+          // Constant-pool fields hold a varint reference key into the pool,
+          // regardless of the referenced type.
+          field.kind = FIELD_VARINT
+          continue
+        }
+        const primitive = primitiveKinds.get(field.classId)
+        if (primitive !== undefined) {
+          field.kind = primitive
+          continue
+        }
+        const nested = this.#types.get(field.classId)
+        if (nested) {
+          field.kind = FIELD_NESTED
+          field.nested = nested
+        } else {
+          field.kind = FIELD_UNKNOWN
+        }
+      }
+    }
   }
 
   /**
@@ -787,47 +864,31 @@ class JfrParser {
     return { pools, rawEvents }
   }
 
-  // Metadata
+  // Events
 
-  #parseMetadata(): Map<number, TypeDef> {
-    // The element tree's strings are interned in a leading table that the
-    // elements reference by index, so read it before the tree itself.
-    const strings = this.#readStringTable()
-    const root = this.#readMetadataElement(strings)
-
-    const metadata = root.children.find(child => child.name === `metadata`)
-    return typesFromMetadata(metadata)
-  }
-
-  #readStringTable(): (string | null)[] {
-    const count = this.#readLength(1)
-    const strings: (string | null)[] = []
-    for (let i = 0; i < count; i++) {
-      // Metadata's own interned strings are always inline; a pool reference here
-      // has nothing to resolve against, so treat it as absent.
-      const string = this.#readBuiltinString()
-      strings.push(string?.type === `inline` ? string.value : null)
+  /**
+   * Maps this chunk's type IDs to their supported event kinds. An event type
+   * declared without its kind's value field, as an older JDK writes it, drops
+   * the kind's metric, so its profile ranks by count instead of by a value no
+   * event recorded.
+   */
+  #eventKinds(): Map<number, EventKind> {
+    const eventKinds = new Map<number, EventKind>()
+    for (const [name, eventKind] of EVENT_KINDS_BY_NAME) {
+      const id = this.#typeIdsByName.get(name)
+      if (id === undefined) {
+        continue
+      }
+      eventKinds.set(id, eventKind)
+      const { kind, valueField } = eventKind
+      if (
+        valueField !== undefined &&
+        !this.#types.get(id)!.fields.some(field => field.name === valueField)
+      ) {
+        this.#metriclessKinds.add(kind)
+      }
     }
-    return strings
-  }
-
-  #readMetadataElement(strings: (string | null)[]): MetadataElement {
-    const name = strings[this.#readVarint()] ?? ``
-
-    const attributeCount = this.#readLength(2)
-    const attributes = new Map<string, string>()
-    for (let i = 0; i < attributeCount; i++) {
-      const key = strings[this.#readVarint()] ?? ``
-      attributes.set(key, strings[this.#readVarint()] ?? ``)
-    }
-
-    const childCount = this.#readLength(3)
-    const children: MetadataElement[] = []
-    for (let i = 0; i < childCount; i++) {
-      children.push(this.#readMetadataElement(strings))
-    }
-
-    return { name, attributes, children }
+    return eventKinds
   }
 
   // Constant pools
@@ -892,117 +953,6 @@ class JfrParser {
         pool.set(key, value)
       }
     }
-  }
-
-  // Events
-
-  /**
-   * Maps this chunk's type IDs to their supported event kinds. An event type
-   * declared without its kind's value field, as an older JDK writes it, drops
-   * the kind's metric, so its profile ranks by count instead of by a value no
-   * event recorded.
-   */
-  #eventKinds(): Map<number, EventKind> {
-    const eventKinds = new Map<number, EventKind>()
-    for (const [name, eventKind] of EVENT_KINDS_BY_NAME) {
-      const id = this.#typeIdsByName.get(name)
-      if (id === undefined) {
-        continue
-      }
-      eventKinds.set(id, eventKind)
-      const { kind, valueField } = eventKind
-      if (
-        valueField !== undefined &&
-        !this.#types.get(id)!.fields.some(field => field.name === valueField)
-      ) {
-        this.#metriclessKinds.add(kind)
-      }
-    }
-    return eventKinds
-  }
-
-  #parseEvent(
-    type: TypeDef,
-    { kind, valueField, valueInTicks, countField, allocFamily }: EventKind,
-  ): RawEvent {
-    let stackKey = 0
-    let rawValue = 1
-    let count = 1
-    for (const field of type.fields) {
-      const value = this.#readValue(field)
-      switch (field.name) {
-        case `stackTrace`:
-          stackKey = value as number
-          break
-        case valueField:
-          rawValue = value as number
-          break
-        case countField:
-          count = value as number
-          break
-      }
-    }
-
-    const value = valueInTicks ? this.#ticksToNanoseconds(rawValue) : rawValue
-    return { kind, stackKey, value, count, allocFamily }
-  }
-
-  #ticksToNanoseconds(ticks: number): number {
-    return (ticks * NANOSECONDS_PER_SECOND) / this.#frequency
-  }
-
-  // Generic value reading
-
-  /**
-   * Sets every field's {@link Field.kind}, and {@link Field.nested} for a
-   * nested object.
-   */
-  #resolveFieldKinds(): void {
-    const primitiveKinds = new Map<number, FieldKind>()
-    for (const [name, kind] of PRIMITIVE_FIELD_KINDS) {
-      const id = this.#typeIdsByName.get(name)
-      if (id !== undefined) {
-        primitiveKinds.set(id, kind)
-      }
-    }
-    if (this.#stringTypeId !== undefined) {
-      primitiveKinds.set(this.#stringTypeId, FIELD_STRING)
-    }
-
-    for (const type of this.#types.values()) {
-      for (const field of type.fields) {
-        if (field.constantPool) {
-          // Constant-pool fields hold a varint reference key into the pool,
-          // regardless of the referenced type.
-          field.kind = FIELD_VARINT
-          continue
-        }
-        const primitive = primitiveKinds.get(field.classId)
-        if (primitive !== undefined) {
-          field.kind = primitive
-          continue
-        }
-        const nested = this.#types.get(field.classId)
-        if (nested) {
-          field.kind = FIELD_NESTED
-          field.nested = nested
-        } else {
-          field.kind = FIELD_UNKNOWN
-        }
-      }
-    }
-  }
-
-  #readFields(type: TypeDef): Record<string, unknown> {
-    const object: Record<string, unknown> = {}
-    // The single-value branch is inlined here rather than delegating to
-    // `#readValue` to skip a call per field on this hot path.
-    for (const field of type.fields) {
-      object[field.name] = field.array
-        ? this.#readArray(field)
-        : this.#readSingle(field)
-    }
-    return object
   }
 
   /**
@@ -1112,8 +1062,46 @@ class JfrParser {
     return { methods, leafLine }
   }
 
+  #parseEvent(
+    type: TypeDef,
+    { kind, valueField, valueInTicks, countField, allocFamily }: EventKind,
+  ): RawEvent {
+    let stackKey = 0
+    let rawValue = 1
+    let count = 1
+    for (const field of type.fields) {
+      const value = this.#readValue(field)
+      switch (field.name) {
+        case `stackTrace`:
+          stackKey = value as number
+          break
+        case valueField:
+          rawValue = value as number
+          break
+        case countField:
+          count = value as number
+          break
+      }
+    }
+
+    const value = valueInTicks ? this.#ticksToNanoseconds(rawValue) : rawValue
+    return { kind, stackKey, value, count, allocFamily }
+  }
+
   #readValue(field: Field): unknown {
     return field.array ? this.#readArray(field) : this.#readSingle(field)
+  }
+
+  #readFields(type: TypeDef): Record<string, unknown> {
+    const object: Record<string, unknown> = {}
+    // The single-value branch is inlined here rather than delegating to
+    // `#readValue` to skip a call per field on this hot path.
+    for (const field of type.fields) {
+      object[field.name] = field.array
+        ? this.#readArray(field)
+        : this.#readSingle(field)
+    }
+    return object
   }
 
   #readArray(field: Field): unknown[] {
@@ -1148,6 +1136,92 @@ class JfrParser {
       case FIELD_UNKNOWN:
         throw new UnreadableRecordError(`a field of an unreadable type`)
     }
+  }
+
+  #readBuiltinString(): BuiltinString | null {
+    const encoding = this.#bytes[this.#position++]!
+    switch (encoding) {
+      case STRING_NULL:
+        return null
+      case STRING_EMPTY:
+        return { type: `inline`, value: `` }
+      case STRING_CONSTANT_POOL:
+        return { type: `reference`, index: this.#readVarint() }
+      case STRING_UTF8: {
+        const length = this.#readLength(1)
+        const value = this.#decoder.decode(
+          this.#bytes.subarray(this.#position, this.#position + length),
+        )
+        this.#position += length
+        return { type: `inline`, value }
+      }
+      case STRING_CHAR_ARRAY: {
+        const length = this.#readLength(1)
+        let value = ``
+        for (let i = 0; i < length; i++) {
+          value += String.fromCodePoint(this.#readVarint())
+        }
+        return { type: `inline`, value }
+      }
+      case STRING_LATIN1: {
+        const length = this.#readLength(1)
+        let value = ``
+        for (let i = 0; i < length; i++) {
+          value += String.fromCodePoint(this.#bytes[this.#position++]!)
+        }
+        return { type: `inline`, value }
+      }
+      default:
+        throw new UnreadableRecordError(`a string of an unknown encoding`)
+    }
+  }
+
+  /**
+   * Reads a count of items that each occupy at least {@link bytesPerItem}
+   * bytes, rejecting a count the rest of the event can't hold rather than
+   * looping over it.
+   */
+  #readLength(bytesPerItem: number): number {
+    const length = this.#readVarint()
+    // Negated so a length a varint read past the chunk as `NaN` fails too.
+    if (!(length * bytesPerItem <= this.#recordEnd - this.#position)) {
+      throw new UnreadableRecordError(`a length past its end`)
+    }
+    return length
+  }
+
+  // Primitive readers
+
+  #readVarint(): number {
+    // Most varints are a single byte, so return it without the loop's counter,
+    // multiplier, and continuation checks.
+    const first = this.#bytes[this.#position++]!
+    if ((first & 0x80) === 0) {
+      return first
+    }
+
+    let result = first & 0x7f
+    // A running multiplier (×128 per byte) replaces `2 ** shift`: the
+    // exponentiation operator with a variable exponent compiles to a pow call,
+    // far costlier than a single float multiply on this per-byte hot path.
+    let multiplier = 128
+    for (let i = 1; i < 9; i++) {
+      const byte = this.#bytes[this.#position++]!
+      if (i === 8) {
+        result += byte * multiplier
+        break
+      }
+      result += (byte & 0x7f) * multiplier
+      if ((byte & 0x80) === 0) {
+        break
+      }
+      multiplier *= 128
+    }
+    return result
+  }
+
+  #ticksToNanoseconds(ticks: number): number {
+    return (ticks * NANOSECONDS_PER_SECOND) / this.#frequency
   }
 
   // Resolution
@@ -1226,88 +1300,6 @@ class JfrParser {
   /** Deduplicates a resolved stack across chunks, returning its global index. */
   #internStack(stack: JfrStackTrace): number {
     return this.#stackInterner.intern(stack, () => stack)
-  }
-
-  // Primitive readers
-
-  #readVarint(): number {
-    // Most varints are a single byte, so return it without the loop's counter,
-    // multiplier, and continuation checks.
-    const first = this.#bytes[this.#position++]!
-    if ((first & 0x80) === 0) {
-      return first
-    }
-
-    let result = first & 0x7f
-    // A running multiplier (×128 per byte) replaces `2 ** shift`: the
-    // exponentiation operator with a variable exponent compiles to a pow call,
-    // far costlier than a single float multiply on this per-byte hot path.
-    let multiplier = 128
-    for (let i = 1; i < 9; i++) {
-      const byte = this.#bytes[this.#position++]!
-      if (i === 8) {
-        result += byte * multiplier
-        break
-      }
-      result += (byte & 0x7f) * multiplier
-      if ((byte & 0x80) === 0) {
-        break
-      }
-      multiplier *= 128
-    }
-    return result
-  }
-
-  #readBuiltinString(): BuiltinString | null {
-    const encoding = this.#bytes[this.#position++]!
-    switch (encoding) {
-      case STRING_NULL:
-        return null
-      case STRING_EMPTY:
-        return { type: `inline`, value: `` }
-      case STRING_CONSTANT_POOL:
-        return { type: `reference`, index: this.#readVarint() }
-      case STRING_UTF8: {
-        const length = this.#readLength(1)
-        const value = this.#decoder.decode(
-          this.#bytes.subarray(this.#position, this.#position + length),
-        )
-        this.#position += length
-        return { type: `inline`, value }
-      }
-      case STRING_CHAR_ARRAY: {
-        const length = this.#readLength(1)
-        let value = ``
-        for (let i = 0; i < length; i++) {
-          value += String.fromCodePoint(this.#readVarint())
-        }
-        return { type: `inline`, value }
-      }
-      case STRING_LATIN1: {
-        const length = this.#readLength(1)
-        let value = ``
-        for (let i = 0; i < length; i++) {
-          value += String.fromCodePoint(this.#bytes[this.#position++]!)
-        }
-        return { type: `inline`, value }
-      }
-      default:
-        throw new UnreadableRecordError(`a string of an unknown encoding`)
-    }
-  }
-
-  /**
-   * Reads a count of items that each occupy at least {@link bytesPerItem}
-   * bytes, rejecting a count the rest of the event can't hold rather than
-   * looping over it.
-   */
-  #readLength(bytesPerItem: number): number {
-    const length = this.#readVarint()
-    // Negated so a length a varint read past the chunk as `NaN` fails too.
-    if (!(length * bytesPerItem <= this.#recordEnd - this.#position)) {
-      throw new UnreadableRecordError(`a length past its end`)
-    }
-    return length
   }
 }
 
@@ -1479,17 +1471,60 @@ class ChunkResolver {
 }
 
 /**
- * A string read from a chunk: either an inline value, or a deferred reference
- * into the chunk's `java.lang.String` constant pool that's resolved once the
- * whole chunk (and thus the pool) has been read.
+ * Returns a usable 1-based line number, or `undefined`. Native and unknown
+ * frames record `-1`, which the unsigned varint reader surfaces as a large
+ * value, so anything outside the valid range is discarded.
  */
-type BuiltinString =
-  { type: `inline`; value: string } | { type: `reference`; index: number }
+const validLineNumber = (lineNumber: number): number | undefined =>
+  lineNumber > 0 && lineNumber < 0x80_00_00_00 ? lineNumber : undefined
 
-type MetadataElement = {
-  name: string
-  attributes: Map<string, string>
-  children: MetadataElement[]
+const sameMethodIds = (left: number[], right: number[]): boolean => {
+  if (left.length !== right.length) {
+    return false
+  }
+  for (let i = 0; i < left.length; i++) {
+    if (left[i] !== right[i]) {
+      return false
+    }
+  }
+  return true
+}
+
+const NANOSECONDS_PER_SECOND = 1e9
+
+type UnreadableRecordReason =
+  // A type that isn't a primitive, pool reference, or known struct.
+  | `a field of an unreadable type`
+  | `a string of an unknown encoding`
+  | `a length past its end`
+
+/**
+ * Thrown when a record can't be read to its end, so reading further would
+ * desync every following field. The reader resumes at the record's end, which
+ * its enclosing event's size states.
+ */
+class UnreadableRecordError extends Error {
+  public readonly reason: UnreadableRecordReason
+
+  public constructor(reason: UnreadableRecordReason) {
+    super(reason)
+    // eslint-disable-next-line stylistic/quotes
+    this.name = 'UnreadableRecordError'
+    this.reason = reason
+  }
+}
+
+const indexTypeIdsByName = (
+  types: Map<number, TypeDef>,
+): Map<string, number> => {
+  const typeIdsByName = new Map<string, number>()
+  for (const [id, type] of types) {
+    // Type names are unique within a chunk; keep the first if any repeat.
+    if (!typeIdsByName.has(type.name)) {
+      typeIdsByName.set(type.name, id)
+    }
+  }
+  return typeIdsByName
 }
 
 const typesFromMetadata = (
@@ -1519,27 +1554,6 @@ const fieldFromElement = (element: MetadataElement): Field => ({
   nested: undefined,
 })
 
-const indexTypeIdsByName = (
-  types: Map<number, TypeDef>,
-): Map<string, number> => {
-  const typeIdsByName = new Map<string, number>()
-  for (const [id, type] of types) {
-    // Type names are unique within a chunk; keep the first if any repeat.
-    if (!typeIdsByName.has(type.name)) {
-      typeIdsByName.set(type.name, id)
-    }
-  }
-  return typeIdsByName
-}
-
-/**
- * Returns a usable 1-based line number, or `undefined`. Native and unknown
- * frames record `-1`, which the unsigned varint reader surfaces as a large
- * value, so anything outside the valid range is discarded.
- */
-const validLineNumber = (lineNumber: number): number | undefined =>
-  lineNumber > 0 && lineNumber < 0x80_00_00_00 ? lineNumber : undefined
-
 /**
  * Flattens a generically read `{ frames: [{ method, lineNumber }, …] }` stack
  * trace.
@@ -1553,20 +1567,6 @@ const flattenStackTrace = (object: Record<string, unknown>): FlatStackTrace => {
   const leafLine = frames[0]?.lineNumber
   return { methods, leafLine: typeof leafLine === `number` ? leafLine : 0 }
 }
-
-const sameMethodIds = (left: number[], right: number[]): boolean => {
-  if (left.length !== right.length) {
-    return false
-  }
-  for (let i = 0; i < left.length; i++) {
-    if (left[i] !== right[i]) {
-      return false
-    }
-  }
-  return true
-}
-
-const NANOSECONDS_PER_SECOND = 1e9
 
 /** The 4-byte magic that begins every JFR chunk: `FLR\0`. */
 const MAGIC = 0x464c5200

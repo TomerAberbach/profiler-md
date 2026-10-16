@@ -7,28 +7,23 @@ import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 import type { RecordTally } from '../spec.ts'
 
-/** A unique location within a function. */
-export type SpeedscopeFrame = {
-  name: string
+/**
+ * A group of speedscope profiles.
+ *
+ * @see https://github.com/jlfwong/speedscope/blob/main/src/lib/file-format-spec.ts
+ */
+export type SpeedscopeProfile = {
+  $schema: `https://www.speedscope.app/file-format-schema.json`
 
-  /** The path to the file where the function was defined. */
-  file?: string
+  /** The name of the tool that exported the file, if it identifies itself. */
+  exporter?: string
 
-  /**
-   * The 1-based line in the function, if known. The spec only allows omission,
-   * but some origins (py-spy, rbspy) write `null` for unknown.
-   */
-  line?: number | null
+  profiles: (SpeedscopeSampledProfile | SpeedscopeEventedProfile)[]
 
-  /**
-   * The 1-based column in the line in the function, if known. `null` as in
-   * {@link line}.
-   */
-  col?: number | null
+  shared: {
+    frames: SpeedscopeFrame[]
+  }
 }
-
-export type SpeedscopeValueUnit =
-  `nanoseconds` | `microseconds` | `milliseconds` | `seconds` | `bytes` | `none`
 
 export type SpeedscopeSampledProfile = {
   type: `sampled`
@@ -48,6 +43,20 @@ export type SpeedscopeSampledProfile = {
   weights: number[]
 }
 
+export type SpeedscopeEventedProfile = {
+  type: `evented`
+
+  /** A name for this profile (e.g. the name of the process). */
+  name: string
+
+  unit: SpeedscopeValueUnit
+
+  events: SpeedscopeEvent[]
+}
+
+export type SpeedscopeValueUnit =
+  `nanoseconds` | `microseconds` | `milliseconds` | `seconds` | `bytes` | `none`
+
 /** A frame open or close event. */
 export type SpeedscopeEvent = {
   /** Open or close. */
@@ -60,33 +69,24 @@ export type SpeedscopeEvent = {
   frame: number
 }
 
-export type SpeedscopeEventedProfile = {
-  type: `evented`
-
-  /** A name for this profile (e.g. the name of the process). */
+/** A unique location within a function. */
+export type SpeedscopeFrame = {
   name: string
 
-  unit: SpeedscopeValueUnit
+  /** The path to the file where the function was defined. */
+  file?: string
 
-  events: SpeedscopeEvent[]
-}
+  /**
+   * The 1-based line in the function, if known. The spec only allows omission,
+   * but some origins (py-spy, rbspy) write `null` for unknown.
+   */
+  line?: number | null
 
-/**
- * A group of speedscope profiles.
- *
- * @see https://github.com/jlfwong/speedscope/blob/main/src/lib/file-format-spec.ts
- */
-export type SpeedscopeProfile = {
-  $schema: `https://www.speedscope.app/file-format-schema.json`
-
-  /** The name of the tool that exported the file, if it identifies itself. */
-  exporter?: string
-
-  profiles: (SpeedscopeSampledProfile | SpeedscopeEventedProfile)[]
-
-  shared: {
-    frames: SpeedscopeFrame[]
-  }
+  /**
+   * The 1-based column in the line in the function, if known. `null` as in
+   * {@link line}.
+   */
+  col?: number | null
 }
 
 export const parseSpeedscope = (
@@ -175,9 +175,6 @@ const sampledProfile = (
     observations: sampledObservations(profile, frames.length, recordTally),
   }
 }
-
-const isFrameIndex = (frame: number, frameCount: number): boolean =>
-  Number.isInteger(frame) && frame >= 0 && frame < frameCount
 
 function* sampledObservations(
   profile: SpeedscopeSampledProfile,
@@ -292,3 +289,6 @@ function* eventedObservations(
     }
   }
 }
+
+const isFrameIndex = (frame: number, frameCount: number): boolean =>
+  Number.isInteger(frame) && frame >= 0 && frame < frameCount

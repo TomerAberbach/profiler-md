@@ -19,8 +19,6 @@ import {
   makeGhcProfileNode,
 } from './testing.ts'
 
-const options = () => normalizeProfileToMdOptions({ baseURL: `/project` })
-
 const COST_CENTRES = [
   makeGhcCostCentre({
     id: 1,
@@ -100,6 +98,8 @@ describe(`parse`, () => {
     ).toThrow(`cost-centre stack references undefined cost centre 7`)
   })
 })
+
+const options = () => normalizeProfileToMdOptions({ baseURL: `/project` })
 
 describe(`convert`, () => {
   test(`separates the ticks the profiler sampled from the allocation it counted`, () => {

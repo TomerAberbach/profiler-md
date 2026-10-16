@@ -5,9 +5,6 @@ import type { Func, FunctionInput } from './inputs.ts'
 import { positionOf, sourceReferencePositionOf } from './position.ts'
 import type { Position, PositionMap } from './position.ts'
 
-/** Returns where an edit moved a position, or `undefined` if it deleted it. */
-export type Edit = (position: Position) => Position | undefined
-
 /**
  * Applies seeded edits to one source reference of the current side, picked
  * from the ones with a function the diff pairs by position, and returns where
@@ -69,20 +66,6 @@ export const applySyntheticEdit = (
   }
 }
 
-const moveLines = <Metrics>(
-  func: { lineToMetrics: ReadonlyMap<number, Metrics> },
-  move: Edit,
-): void => {
-  const moved = new Map<number, Metrics>()
-  for (const [line, metrics] of func.lineToMetrics) {
-    const position = move({ line, column: undefined })
-    if (position) {
-      moved.set(position.line, metrics)
-    }
-  }
-  func.lineToMetrics = moved
-}
-
 const pickEditedSourceReference = (
   base: FunctionInput,
   current: FunctionInput,
@@ -111,6 +94,9 @@ export const pickRandom = (
     ? undefined
     : sorted[Math.floor(random() * sorted.length)]
 }
+
+/** Returns where an edit moved a position, or `undefined` if it deleted it. */
+export type Edit = (position: Position) => Position | undefined
 
 /**
  * Composes a few seeded edits between or within the lines of {@link positions}:
@@ -180,6 +166,20 @@ const randomEdit = (positions: Position[], random: () => number): Edit => {
         ? column + count
         : column,
   })
+}
+
+const moveLines = <Metrics>(
+  func: { lineToMetrics: ReadonlyMap<number, Metrics> },
+  move: Edit,
+): void => {
+  const moved = new Map<number, Metrics>()
+  for (const [line, metrics] of func.lineToMetrics) {
+    const position = move({ line, column: undefined })
+    if (position) {
+      moved.set(position.line, metrics)
+    }
+  }
+  func.lineToMetrics = moved
 }
 
 /**

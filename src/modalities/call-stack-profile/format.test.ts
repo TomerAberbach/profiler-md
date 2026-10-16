@@ -39,44 +39,6 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
  */
 const ELLIPSIS_NOTE = `\`…\` stands for hidden frames.`
 
-/**
- * A diff in {@link metric} of one function whose value doubled and one whose
- * value fell, so both of its rankings have a row.
- */
-const formatDiffOfMetric = (metric: Metric): string => {
-  const profileOf = (funcAValue: number, funcBValue: number) =>
-    makeAggregatedCallStackProfile(
-      [metric],
-      [
-        {
-          name: `funcA`,
-          url: `file:///project/src/a.ts`,
-          line: 10,
-          selfCount: funcAValue / 20,
-          selfValues: [funcAValue],
-        },
-        {
-          name: `funcB`,
-          url: `file:///project/src/b.ts`,
-          line: 20,
-          selfCount: funcBValue / 20,
-          selfValues: [funcBValue],
-        },
-      ],
-    )
-
-  return mdastToMarkdown(
-    formatCallStackProfileDiff(
-      diffAggregatedCallStackProfiles(
-        profileOf(100, 60),
-        profileOf(200, 20),
-        defaultOptions,
-      ),
-      defaultOptions,
-    ),
-  )
-}
-
 describe(`formatCallStackProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
     const profile = makeAggregatedCallStackProfile(
@@ -868,6 +830,44 @@ describe(`formatCallStackProfile`, () => {
     ])
   })
 })
+
+/**
+ * A diff in {@link metric} of one function whose value doubled and one whose
+ * value fell, so both of its rankings have a row.
+ */
+const formatDiffOfMetric = (metric: Metric): string => {
+  const profileOf = (funcAValue: number, funcBValue: number) =>
+    makeAggregatedCallStackProfile(
+      [metric],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          selfCount: funcAValue / 20,
+          selfValues: [funcAValue],
+        },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          line: 20,
+          selfCount: funcBValue / 20,
+          selfValues: [funcBValue],
+        },
+      ],
+    )
+
+  return mdastToMarkdown(
+    formatCallStackProfileDiff(
+      diffAggregatedCallStackProfiles(
+        profileOf(100, 60),
+        profileOf(200, 20),
+        defaultOptions,
+      ),
+      defaultOptions,
+    ),
+  )
+}
 
 describe(`formatCallStackProfileDiff`, () => {
   test(`produces expected title`, () => {

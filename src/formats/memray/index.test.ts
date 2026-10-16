@@ -68,9 +68,6 @@ const risesThenFalls = makeMemray({
 const options = () =>
   normalizeProfileToMdOptions({ baseURL: `/app`, showEntry: () => true })
 
-const PEAK = `Peak memory profile`
-const LEAKED = `Leaked memory profile`
-
 describe(`matches`, () => {
   test(`accepts a capture`, () => {
     expect(memrayFormatSpec.matches(risesThenFalls)).toBe(true)
@@ -202,6 +199,9 @@ describe(`matches`, () => {
     ])
   })
 })
+
+const PEAK = `Peak memory profile`
+const LEAKED = `Leaked memory profile`
 
 describe(`convert`, () => {
   test(`reads both capture versions the same way`, () => {

@@ -20,13 +20,6 @@ const NIX_LOCATION_MATCH_RULES: EntryMatchRule[] = [
 ]
 
 /**
- * The source the evaluator writes for a call whose position it could not
- * resolve, with line 0 and no column (`«none»:0`). The line is part of the
- * placeholder, so normalization drops it with the path.
- */
-const UNKNOWN_PATH = `«none»`
-
-/**
  * The Nix evaluator's built-in sampling profiler, enabled by the
  * `eval-profiler` setting, which samples the Nix function call stack and writes
  * collapsed stacks.
@@ -69,52 +62,6 @@ export const nixOriginSpec = {
   },
   functionIdentity: `call-site`,
 } as const satisfies OriginSpec
-
-/**
- * Splits a packed `source:line[:column][:name]` frame into its name and call
- * site, or returns `undefined` for a frame packing no position. The source
- * contains no colon. It is a store path, a `«nix-internal»` path, or a
- * `«none»` placeholder, which the parser drops with its placeholder line. The
- * evaluator omits the column when it recorded none (`«none»:0`). The name is
- * everything after the position, so a `primop derivationStrict:<name>` frame
- * keeps the derivation name the evaluator appends to it.
- */
-const parsePackedStackFrame = (frame: string): StackFrame | undefined => {
-  const position = POSITION.exec(frame)
-  if (!position) {
-    return undefined
-  }
-  const { file, line } = position.groups!
-
-  // The rest is `column`, `name`, `column:name`, or nothing.
-  let rest = frame.slice(position[0].length + 1)
-  const column = COLUMN.exec(rest)
-  let columnNumber
-  if (column) {
-    columnNumber = Number(column.groups!.column)
-    rest = rest.slice(column[0].length)
-  }
-
-  const name = rest === `` ? undefined : rest
-  if (file === UNKNOWN_PATH) {
-    return { name }
-  }
-  return {
-    name,
-    callSite: {
-      type: `file`,
-      urlOrPath: file!,
-      position: {
-        line: Number(line),
-        ...(columnNumber === undefined ? {} : { column: columnNumber }),
-      },
-    },
-  }
-}
-
-const POSITION = /^(?<file>[^:]+):(?<line>\d+)(?=:|$)/u
-
-const COLUMN = /^(?<column>\d+)(?::|$)/u
 
 const isNixStackFrame = (name: string): boolean =>
   name.startsWith(PRIMOP_PREFIX) ||
@@ -170,3 +117,56 @@ const unattributedNixCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location ? undefined : `unknown`
+
+/**
+ * Splits a packed `source:line[:column][:name]` frame into its name and call
+ * site, or returns `undefined` for a frame packing no position. The source
+ * contains no colon. It is a store path, a `«nix-internal»` path, or a
+ * `«none»` placeholder, which the parser drops with its placeholder line. The
+ * evaluator omits the column when it recorded none (`«none»:0`). The name is
+ * everything after the position, so a `primop derivationStrict:<name>` frame
+ * keeps the derivation name the evaluator appends to it.
+ */
+const parsePackedStackFrame = (frame: string): StackFrame | undefined => {
+  const position = POSITION.exec(frame)
+  if (!position) {
+    return undefined
+  }
+  const { file, line } = position.groups!
+
+  // The rest is `column`, `name`, `column:name`, or nothing.
+  let rest = frame.slice(position[0].length + 1)
+  const column = COLUMN.exec(rest)
+  let columnNumber
+  if (column) {
+    columnNumber = Number(column.groups!.column)
+    rest = rest.slice(column[0].length)
+  }
+
+  const name = rest === `` ? undefined : rest
+  if (file === UNKNOWN_PATH) {
+    return { name }
+  }
+  return {
+    name,
+    callSite: {
+      type: `file`,
+      urlOrPath: file!,
+      position: {
+        line: Number(line),
+        ...(columnNumber === undefined ? {} : { column: columnNumber }),
+      },
+    },
+  }
+}
+
+const POSITION = /^(?<file>[^:]+):(?<line>\d+)(?=:|$)/u
+
+const COLUMN = /^(?<column>\d+)(?::|$)/u
+
+/**
+ * The source the evaluator writes for a call whose position it could not
+ * resolve, with line 0 and no column (`«none»:0`). The line is part of the
+ * placeholder, so normalization drops it with the path.
+ */
+const UNKNOWN_PATH = `«none»`

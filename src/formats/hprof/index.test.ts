@@ -83,13 +83,6 @@ const HOLDER_GRAPH: HprofDump = {
 
 const holderGraph = makeHprof(HOLDER_GRAPH)
 
-const convert = (bytes: Uint8Array): string =>
-  convertBytesToMd(hprofFormatSpec, bytes, normalizeProfileToMdOptions())
-
-/** The retainer path of each instance the ranking of {@link name} lists. */
-const retainerPaths = (md: string, name: string): (string | undefined)[][] =>
-  selfSizeRetainerPathTables(md, name).map(table => table.map(row => row.Path))
-
 describe(`matches`, () => {
   test(`accepts a dump`, () => {
     expect(hprofFormatSpec.matches(makeHprof())).toBe(true)
@@ -160,6 +153,13 @@ describe(`parse`, () => {
     ).toThrow(`no heap dump records`)
   })
 })
+
+/** The retainer path of each instance the ranking of {@link name} lists. */
+const retainerPaths = (md: string, name: string): (string | undefined)[][] =>
+  selfSizeRetainerPathTables(md, name).map(table => table.map(row => row.Path))
+
+const convert = (bytes: Uint8Array): string =>
+  convertBytesToMd(hprofFormatSpec, bytes, normalizeProfileToMdOptions())
 
 describe(`convert`, () => {
   test(`ranks classes by the bytes their instances hold`, () => {

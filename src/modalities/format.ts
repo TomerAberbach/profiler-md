@@ -152,61 +152,164 @@ export const formatFunctionHeading = (
     ),
   )
 
+type ShowEntry = FormattingProfileToMdOptions[`showEntry`]
+
 /**
- * The two rankings a diff shows for a measure in {@link improvement}'s metric,
- * in the order they are shown: what the metric's improvement direction calls
- * worse first, or the increases first where that direction is unknown.
- *
- * A heading names the change itself wherever that direction is unknown, so
- * the output never calls a change an improvement it cannot measure as one.
+ * The options a modality's sections format with. When `showEntry` would hide
+ * every entry the sections can show ({@link showsAnyEntry} is false), it is
+ * ignored so the body is shown rather than vanishes. When `defaultShowEntry`
+ * would show an entry, the caller's filter hid them, which logs a warning.
+ * Otherwise the default filter hid them, which logs an info line.
  */
-export const diffRankings = (
-  improvement: MetricImprovement,
-): [DiffRanking, DiffRanking] => {
-  switch (improvement) {
-    case `decrease`:
-      return [
-        { change: `increase`, title: `Regressions` },
-        { change: `decrease`, title: `Improvements` },
-      ]
-    case `increase`:
-      return [
-        { change: `decrease`, title: `Regressions` },
-        { change: `increase`, title: `Improvements` },
-      ]
-    case `unknown`:
-      return [
-        { change: `increase`, title: `Increases` },
-        { change: `decrease`, title: `Decreases` },
-      ]
+export const resolveEntryFilter = ({
+  options,
+  formatsAnyEntry,
+  showsAnyEntry,
+  entities,
+}: {
+  options: FormattingProfileToMdOptions
+
+  /** Whether the sections would show an entry if `showEntry` showed every one. */
+  formatsAnyEntry: boolean
+
+  /** Whether {@link ShowEntry} shows an entry the sections can show. */
+  showsAnyEntry: (showEntry: ShowEntry) => boolean
+  entities: string
+}): FormattingProfileToMdOptions => {
+  if (!formatsAnyEntry || showsAnyEntry(options.showEntry)) {
+    return options
+  }
+
+  const message = `entry filter ignored because it hides every ${entities}, so all ${entities}s are shown`
+  if (showsAnyEntry(defaultShowEntry)) {
+    options.logger.warn?.(message)
+  } else {
+    options.logger.info?.(`default ${message}`)
+  }
+  return { ...options, showEntry: () => true }
+}
+
+type DiffEntityCategories<Entity> = {
+  categories: EntryCategory[]
+  categoryOf: (entity: Entity) => EntryCategory
+}
+
+type DiffEntityRankings<Entity> = {
+  increases: ActiveDiffEntity<Entity>[]
+  decreases: ActiveDiffEntity<Entity>[]
+  categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
+}
+
+/** A diffed entity paired with its base and current values for one measure. */
+export type ActiveDiffEntity<Entity> = {
+  entity: Entity
+  baseValue: number
+  currentValue: number
+}
+
+/** One category's own increases and decreases within a diff ranking. */
+export type DiffCategoryRanking<Item> = {
+  category: EntryCategory
+  increases: Item[]
+  decreases: Item[]
+}
+
+/**
+ * Selects the entities whose measure increased and decreased the most from
+ * {@link candidates}, keeping only those active on at least one side and shown
+ * by {@link options}, as {@link rankDiffEntities} does.
+ */
+export const selectDiffEntities = <
+  Entity extends Diff<DeepReadonly<AggregatedProfileEntry>>,
+>(
+  candidates: ActiveDiffEntity<Entity>[],
+  sides: DiffSides,
+  options: FormattingProfileToMdOptions,
+  categories?: DiffEntityCategories<Entity>,
+): DiffEntityRankings<Entity> & { hasActive: boolean } => {
+  const active = candidates.filter(
+    ({ entity, baseValue, currentValue }) =>
+      (baseValue > 0 || currentValue > 0) &&
+      showDiffEntity(entity, sides, options.showEntry),
+  )
+  return {
+    hasActive: active.length > 0,
+    ...rankDiffEntities(active, options.topN, categories),
   }
 }
 
-/** One of a diff's two rankings: the change it ranks, and its heading. */
-export type DiffRanking = {
-  change: DiffChange
-  title: string
+/** Whether {@link showEntry} shows a diffed entity's entry on either side. */
+export const showDiffEntity = <
+  Entry extends DeepReadonly<AggregatedProfileEntry>,
+>(
+  { base, current }: Diff<Entry>,
+  sides: DiffSides,
+  showEntry: ShowEntry,
+): boolean =>
+  (base !== undefined && showEntry(base, sides.base.context)) ||
+  (current !== undefined && showEntry(current, sides.current.context))
+
+/**
+ * Selects the {@link topN} entities whose measure increased and decreased the
+ * most from {@link entities}. {@link diffRankings} states which of the two a
+ * metric counts as a regression.
+ *
+ * {@link categories} additionally selects the top of each category, ranked the
+ * same way among that category's own entities.
+ */
+export const rankDiffEntities = <Entity>(
+  entities: ActiveDiffEntity<Entity>[],
+  topN: number,
+  categories?: DiffEntityCategories<Entity>,
+): DiffEntityRankings<Entity> => {
+  const increased = entities.filter(
+    ({ baseValue, currentValue }) => currentValue > baseValue,
+  )
+  const decreased = entities.filter(
+    ({ baseValue, currentValue }) => currentValue < baseValue,
+  )
+  const topIncreases = (entities: ActiveDiffEntity<Entity>[]) =>
+    selectTopN(
+      entities,
+      topN,
+      ({ baseValue, currentValue }) => currentValue - baseValue,
+    )
+  const topDecreases = (entities: ActiveDiffEntity<Entity>[]) =>
+    selectTopN(
+      entities,
+      topN,
+      ({ baseValue, currentValue }) => baseValue - currentValue,
+    )
+
+  return {
+    increases: topIncreases(increased),
+    decreases: topDecreases(decreased),
+    categoryRankings: (categories?.categories ?? []).map(category => {
+      const inCategory = ({ entity }: ActiveDiffEntity<Entity>) =>
+        categories!.categoryOf(entity) === category
+      return {
+        category,
+        increases: topIncreases(increased.filter(inCategory)),
+        decreases: topDecreases(decreased.filter(inCategory)),
+      }
+    }),
+  }
 }
 
-/** A direction of change between a diff's two sides. */
-export type DiffChange = `increase` | `decrease`
-
-/** The sentence opening a ranking of {@link plural} by {@link description}. */
-export const rankingSentence = (plural: string, description: string): string =>
-  `${plural} with the most ${description}.`
-
-/** The sentence standing in for a diff ranking where nothing changed. */
-export const unchangedDiffSentence = (
-  singular: string,
-  description: string,
-): string => `No ${singular} differed in ${description}.`
-
-/** The sentence opening a ranking of {@link plural} by their {@link change} in {@link description}. */
-export const diffRankingSentence = (
-  plural: string,
-  change: DiffChange,
-  description: string,
-): string => `${plural} with the largest ${change} in ${description}.`
+/**
+ * Selects at most {@link limit} of {@link items}, ranked by the size of their
+ * change either way. An item whose value did not change is left out.
+ */
+export const selectLargestChanges = <Item>(
+  items: Item[],
+  limit: number,
+  changeOf: (item: Item) => number,
+): Item[] =>
+  selectTopN(
+    items.filter(item => changeOf(item) !== 0),
+    limit,
+    item => Math.abs(changeOf(item)),
+  )
 
 /**
  * The increase and decrease subsections for the functions' self or total
@@ -275,62 +378,6 @@ export const formatDiffFunctionSections = <Entity, Row>({
     [...sections, ...detailSections],
   )
 }
-
-/**
- * The distinct entities a diff's rankings show, in the order they first
- * appear.
- */
-export const shownDiffEntities = <Entity>({
-  improvement,
-  increases,
-  decreases,
-  categoryRankings = [],
-}: {
-  improvement: MetricImprovement
-  increases: Entity[]
-  decreases: Entity[]
-  categoryRankings?: DiffCategoryRanking<Entity>[]
-}): Entity[] => [
-  ...new Set(
-    diffRankings(improvement).flatMap(({ change }) => {
-      const { entities, entitiesOf } = changedEntities(change, {
-        increases,
-        decreases,
-      })
-      return [...entities, ...categoryRankings.flatMap(entitiesOf)]
-    }),
-  ),
-]
-
-/**
- * The entities a ranking of one direction of change shows, and those each of
- * its category subsections shows.
- */
-const changedEntities = <Entity>(
-  change: DiffChange,
-  { increases, decreases }: { increases: Entity[]; decreases: Entity[] },
-): {
-  entities: Entity[]
-  entitiesOf: (ranking: DiffCategoryRanking<Entity>) => Entity[]
-} =>
-  change === `increase`
-    ? { entities: increases, entitiesOf: ranking => ranking.increases }
-    : { entities: decreases, entitiesOf: ranking => ranking.decreases }
-
-/**
- * Selects at most {@link limit} of {@link items}, ranked by the size of their
- * change either way. An item whose value did not change is left out.
- */
-export const selectLargestChanges = <Item>(
-  items: Item[],
-  limit: number,
-  changeOf: (item: Item) => number,
-): Item[] =>
-  selectTopN(
-    items.filter(item => changeOf(item) !== 0),
-    limit,
-    item => Math.abs(changeOf(item)),
-  )
 
 export const formatDiffRankingSections = <Entity, Row>({
   headingLevel,
@@ -443,146 +490,99 @@ export const isRepeatedByCategory = <Entity>(
       entries.every((entry, index) => entry === ranking[index]),
   )
 
-/** One category's own increases and decreases within a diff ranking. */
-export type DiffCategoryRanking<Item> = {
-  category: EntryCategory
-  increases: Item[]
-  decreases: Item[]
-}
-
 /**
- * The options a modality's sections format with. When `showEntry` would hide
- * every entry the sections can show ({@link showsAnyEntry} is false), it is
- * ignored so the body is shown rather than vanishes. When `defaultShowEntry`
- * would show an entry, the caller's filter hid them, which logs a warning.
- * Otherwise the default filter hid them, which logs an info line.
+ * The distinct entities a diff's rankings show, in the order they first
+ * appear.
  */
-export const resolveEntryFilter = ({
-  options,
-  formatsAnyEntry,
-  showsAnyEntry,
-  entities,
+export const shownDiffEntities = <Entity>({
+  improvement,
+  increases,
+  decreases,
+  categoryRankings = [],
 }: {
-  options: FormattingProfileToMdOptions
-
-  /** Whether the sections would show an entry if `showEntry` showed every one. */
-  formatsAnyEntry: boolean
-
-  /** Whether {@link ShowEntry} shows an entry the sections can show. */
-  showsAnyEntry: (showEntry: ShowEntry) => boolean
-  entities: string
-}): FormattingProfileToMdOptions => {
-  if (!formatsAnyEntry || showsAnyEntry(options.showEntry)) {
-    return options
-  }
-
-  const message = `entry filter ignored because it hides every ${entities}, so all ${entities}s are shown`
-  if (showsAnyEntry(defaultShowEntry)) {
-    options.logger.warn?.(message)
-  } else {
-    options.logger.info?.(`default ${message}`)
-  }
-  return { ...options, showEntry: () => true }
-}
-
-type ShowEntry = FormattingProfileToMdOptions[`showEntry`]
-
-/** Whether {@link showEntry} shows a diffed entity's entry on either side. */
-export const showDiffEntity = <
-  Entry extends DeepReadonly<AggregatedProfileEntry>,
->(
-  { base, current }: Diff<Entry>,
-  sides: DiffSides,
-  showEntry: ShowEntry,
-): boolean =>
-  (base !== undefined && showEntry(base, sides.base.context)) ||
-  (current !== undefined && showEntry(current, sides.current.context))
-
-/** A diffed entity paired with its base and current values for one measure. */
-export type ActiveDiffEntity<Entity> = {
-  entity: Entity
-  baseValue: number
-  currentValue: number
-}
-
-/**
- * Selects the entities whose measure increased and decreased the most from
- * {@link candidates}, keeping only those active on at least one side and shown
- * by {@link options}, as {@link rankDiffEntities} does.
- */
-export const selectDiffEntities = <
-  Entity extends Diff<DeepReadonly<AggregatedProfileEntry>>,
->(
-  candidates: ActiveDiffEntity<Entity>[],
-  sides: DiffSides,
-  options: FormattingProfileToMdOptions,
-  categories?: DiffEntityCategories<Entity>,
-): DiffEntityRankings<Entity> & { hasActive: boolean } => {
-  const active = candidates.filter(
-    ({ entity, baseValue, currentValue }) =>
-      (baseValue > 0 || currentValue > 0) &&
-      showDiffEntity(entity, sides, options.showEntry),
-  )
-  return {
-    hasActive: active.length > 0,
-    ...rankDiffEntities(active, options.topN, categories),
-  }
-}
-
-type DiffEntityCategories<Entity> = {
-  categories: EntryCategory[]
-  categoryOf: (entity: Entity) => EntryCategory
-}
-
-type DiffEntityRankings<Entity> = {
-  increases: ActiveDiffEntity<Entity>[]
-  decreases: ActiveDiffEntity<Entity>[]
-  categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
-}
-
-/**
- * Selects the {@link topN} entities whose measure increased and decreased the
- * most from {@link entities}. {@link diffRankings} states which of the two a
- * metric counts as a regression.
- *
- * {@link categories} additionally selects the top of each category, ranked the
- * same way among that category's own entities.
- */
-export const rankDiffEntities = <Entity>(
-  entities: ActiveDiffEntity<Entity>[],
-  topN: number,
-  categories?: DiffEntityCategories<Entity>,
-): DiffEntityRankings<Entity> => {
-  const increased = entities.filter(
-    ({ baseValue, currentValue }) => currentValue > baseValue,
-  )
-  const decreased = entities.filter(
-    ({ baseValue, currentValue }) => currentValue < baseValue,
-  )
-  const topIncreases = (entities: ActiveDiffEntity<Entity>[]) =>
-    selectTopN(
-      entities,
-      topN,
-      ({ baseValue, currentValue }) => currentValue - baseValue,
-    )
-  const topDecreases = (entities: ActiveDiffEntity<Entity>[]) =>
-    selectTopN(
-      entities,
-      topN,
-      ({ baseValue, currentValue }) => baseValue - currentValue,
-    )
-
-  return {
-    increases: topIncreases(increased),
-    decreases: topDecreases(decreased),
-    categoryRankings: (categories?.categories ?? []).map(category => {
-      const inCategory = ({ entity }: ActiveDiffEntity<Entity>) =>
-        categories!.categoryOf(entity) === category
-      return {
-        category,
-        increases: topIncreases(increased.filter(inCategory)),
-        decreases: topDecreases(decreased.filter(inCategory)),
-      }
+  improvement: MetricImprovement
+  increases: Entity[]
+  decreases: Entity[]
+  categoryRankings?: DiffCategoryRanking<Entity>[]
+}): Entity[] => [
+  ...new Set(
+    diffRankings(improvement).flatMap(({ change }) => {
+      const { entities, entitiesOf } = changedEntities(change, {
+        increases,
+        decreases,
+      })
+      return [...entities, ...categoryRankings.flatMap(entitiesOf)]
     }),
+  ),
+]
+
+/** One of a diff's two rankings: the change it ranks, and its heading. */
+export type DiffRanking = {
+  change: DiffChange
+  title: string
+}
+
+/** A direction of change between a diff's two sides. */
+export type DiffChange = `increase` | `decrease`
+
+/**
+ * The two rankings a diff shows for a measure in {@link improvement}'s metric,
+ * in the order they are shown: what the metric's improvement direction calls
+ * worse first, or the increases first where that direction is unknown.
+ *
+ * A heading names the change itself wherever that direction is unknown, so
+ * the output never calls a change an improvement it cannot measure as one.
+ */
+export const diffRankings = (
+  improvement: MetricImprovement,
+): [DiffRanking, DiffRanking] => {
+  switch (improvement) {
+    case `decrease`:
+      return [
+        { change: `increase`, title: `Regressions` },
+        { change: `decrease`, title: `Improvements` },
+      ]
+    case `increase`:
+      return [
+        { change: `decrease`, title: `Regressions` },
+        { change: `increase`, title: `Improvements` },
+      ]
+    case `unknown`:
+      return [
+        { change: `increase`, title: `Increases` },
+        { change: `decrease`, title: `Decreases` },
+      ]
   }
 }
+
+/** The sentence opening a ranking of {@link plural} by {@link description}. */
+export const rankingSentence = (plural: string, description: string): string =>
+  `${plural} with the most ${description}.`
+
+/** The sentence opening a ranking of {@link plural} by their {@link change} in {@link description}. */
+export const diffRankingSentence = (
+  plural: string,
+  change: DiffChange,
+  description: string,
+): string => `${plural} with the largest ${change} in ${description}.`
+
+/** The sentence standing in for a diff ranking where nothing changed. */
+export const unchangedDiffSentence = (
+  singular: string,
+  description: string,
+): string => `No ${singular} differed in ${description}.`
+
+/**
+ * The entities a ranking of one direction of change shows, and those each of
+ * its category subsections shows.
+ */
+const changedEntities = <Entity>(
+  change: DiffChange,
+  { increases, decreases }: { increases: Entity[]; decreases: Entity[] },
+): {
+  entities: Entity[]
+  entitiesOf: (ranking: DiffCategoryRanking<Entity>) => Entity[]
+} =>
+  change === `increase`
+    ? { entities: increases, entitiesOf: ranking => ranking.increases }
+    : { entities: decreases, entitiesOf: ranking => ranking.decreases }

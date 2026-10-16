@@ -63,6 +63,18 @@ export const decompressLz4FrameStream = (
  */
 const WINDOW_SIZE = 1 << 16
 
+type FrameDescriptor = {
+  /** The largest size a block's bytes and its decoded content may have. */
+  maximumBlockSize: number
+  hasContentChecksum: boolean
+  hasBlockChecksums: boolean
+}
+
+type BlockHeader = {
+  size: number
+  compressed: boolean
+}
+
 /**
  * Decompresses LZ4 frames incrementally. Each {@link push} decodes every block
  * the bytes so far complete into the output, calling {@link onBlock} after
@@ -223,13 +235,6 @@ class Lz4FrameDecoder {
   }
 }
 
-type FrameDescriptor = {
-  /** The largest size a block's bytes and its decoded content may have. */
-  maximumBlockSize: number
-  hasContentChecksum: boolean
-  hasBlockChecksums: boolean
-}
-
 /**
  * The maximum block size the block descriptor byte {@link descriptor}
  * declares, from the four sizes the format defines.
@@ -242,11 +247,6 @@ const maximumBlockSizeOf = (descriptor: number): number => {
     throw new Error(`reserved LZ4 block maximum size, got: ${sizeId}`)
   }
   return 1 << (8 + 2 * sizeId)
-}
-
-type BlockHeader = {
-  size: number
-  compressed: boolean
 }
 
 /**
@@ -299,9 +299,6 @@ const decompressBlock = (bytes: Uint8Array, output: Lz4Output): void => {
   }
 }
 
-/** The length every match encodes implicitly, since no shorter match is coded. */
-const MINIMUM_MATCH_LENGTH = 4
-
 /** Sums the `0xff`-terminated length extension bytes beginning at {@link offset}. */
 const readLengthExtension = (
   bytes: Uint8Array,
@@ -334,6 +331,9 @@ const lengthExtensionSize = (
   return size
 }
 
+/** The length every match encodes implicitly, since no shorter match is coded. */
+const MINIMUM_MATCH_LENGTH = 4
+
 /**
  * Where a decoder writes decompressed bytes: an append-only buffer a match can
  * copy earlier output from.
@@ -345,6 +345,56 @@ type Lz4Output = {
   /** Appends {@link length} bytes copied from {@link distance} bytes back. */
   copyWithin: (distance: number, length: number) => void
 }
+
+/**
+ * An {@link Lz4Output} that returns its bytes as they are decoded, retaining
+ * only the window a later match may copy from.
+ *
+ * The buffer is never written below its length and is replaced rather than
+ * reused when the window slides, so a view {@link read} returned stays valid
+ * however much is decoded after it.
+ */
+class Lz4Window implements Lz4Output {
+  /**
+   * Sized for the window and a few small blocks, and grown by doubling to fit
+   * the block size the frames turn out to use.
+   */
+  #bytes = new GrowableBytes(2 * WINDOW_SIZE)
+  /** The length of {@link bytes} already returned by {@link read}. */
+  #read = 0
+
+  public append(bytes: Uint8Array): void {
+    this.#bytes.append(bytes)
+  }
+
+  public copyWithin(distance: number, length: number): void {
+    this.#bytes.copyWithin(distance, length)
+  }
+
+  /** Returns the bytes decoded since the last read. */
+  public read(): Uint8Array {
+    const bytes = this.#bytes.toBytes().subarray(this.#read)
+    this.#read = this.#bytes.length
+
+    // Slide once the bytes before the window outgrow the slide interval, so a
+    // slide copies the window at most once per block, and the buffer holds at
+    // most the interval, the window, and one decoded block.
+    if (this.#read - WINDOW_SIZE >= SLIDE_INTERVAL) {
+      const window = new GrowableBytes(this.#read)
+      window.append(this.#bytes.toBytes().subarray(this.#read - WINDOW_SIZE))
+      this.#bytes = window
+      this.#read = WINDOW_SIZE
+    }
+    return bytes
+  }
+}
+
+/**
+ * How many bytes past the window the buffer accumulates between slides: the
+ * largest block a frame may declare, so copying the window costs at most a
+ * fraction of decoding a block's worth of output.
+ */
+const SLIDE_INTERVAL = 4 << 20
 
 /**
  * An append-only byte buffer that doubles its capacity as it fills, holding
@@ -405,53 +455,3 @@ class GrowableBytes implements Lz4Output {
 
 /** The largest reservation a frame's declared content size is trusted for. */
 const MAXIMUM_RESERVATION = 2 ** 32 - 1
-
-/**
- * An {@link Lz4Output} that returns its bytes as they are decoded, retaining
- * only the window a later match may copy from.
- *
- * The buffer is never written below its length and is replaced rather than
- * reused when the window slides, so a view {@link read} returned stays valid
- * however much is decoded after it.
- */
-class Lz4Window implements Lz4Output {
-  /**
-   * Sized for the window and a few small blocks, and grown by doubling to fit
-   * the block size the frames turn out to use.
-   */
-  #bytes = new GrowableBytes(2 * WINDOW_SIZE)
-  /** The length of {@link bytes} already returned by {@link read}. */
-  #read = 0
-
-  public append(bytes: Uint8Array): void {
-    this.#bytes.append(bytes)
-  }
-
-  public copyWithin(distance: number, length: number): void {
-    this.#bytes.copyWithin(distance, length)
-  }
-
-  /** Returns the bytes decoded since the last read. */
-  public read(): Uint8Array {
-    const bytes = this.#bytes.toBytes().subarray(this.#read)
-    this.#read = this.#bytes.length
-
-    // Slide once the bytes before the window outgrow the slide interval, so a
-    // slide copies the window at most once per block, and the buffer holds at
-    // most the interval, the window, and one decoded block.
-    if (this.#read - WINDOW_SIZE >= SLIDE_INTERVAL) {
-      const window = new GrowableBytes(this.#read)
-      window.append(this.#bytes.toBytes().subarray(this.#read - WINDOW_SIZE))
-      this.#bytes = window
-      this.#read = WINDOW_SIZE
-    }
-    return bytes
-  }
-}
-
-/**
- * How many bytes past the window the buffer accumulates between slides: the
- * largest block a frame may declare, so copying the window costs at most a
- * fraction of decoding a block's worth of output.
- */
-const SLIDE_INTERVAL = 4 << 20

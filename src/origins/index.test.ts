@@ -19,18 +19,6 @@ import { pprofJlOriginSpec } from './specs/pprof-jl.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
 
-/**
- * Records the origin `categorizeFunctions` receives into {@link origins}, one
- * entry per profile it is called for.
- */
-const recordOriginOptions = (origins: Origin[]): NormalizedProfileToMdOptions =>
-  normalizeProfileToMdOptions({
-    categorizeFunctions: (entries, { origin }) => {
-      origins.push(origin)
-      return entries.map(() => `ours`)
-    },
-  })
-
 const format = injectedFormat()
 const inputFilenames = injectedInputs()
 
@@ -160,6 +148,37 @@ const expectCanonicalAggregation = (
 }
 
 /**
+ * Counts the executing lines of every call stack profile function with a
+ * definition line, and describes each executing line before it.
+ */
+const executingLinesBeforeDefinition = (
+  inputs: AggregatedInput[],
+): { executingLineCount: number; misfiledPositions: string[] } => {
+  let executingLineCount = 0
+  const misfiledPositions: string[] = []
+  for (const input of inputs) {
+    if (input.type !== `call-stack-profile`) {
+      continue
+    }
+    for (const func of input.functions) {
+      const definitionLine = func.location?.line
+      if (definitionLine === undefined) {
+        continue
+      }
+      for (const line of func.lineToMetrics.keys()) {
+        executingLineCount++
+        if (line < definitionLine) {
+          misfiledPositions.push(
+            `${func.name} defined at ${definitionLine}, executing at ${line}`,
+          )
+        }
+      }
+    }
+  }
+  return { executingLineCount, misfiledPositions }
+}
+
+/**
  * The match key of every entry a diff pairs by key, except an unsymbolized
  * frame named by its address alone. Such an address has no stable form without
  * the library's load address, so the diff leaves it unpaired.
@@ -221,35 +240,16 @@ const ADDRESS = /0x[0-9a-fA-F]+|\b(?=[0-9a-f]*\d)[0-9a-f]{8,}\b/gu
 const UNSYMBOLIZED_ADDRESS = /^0x[0-9a-fA-F]+$/u
 
 /**
- * Counts the executing lines of every call stack profile function with a
- * definition line, and describes each executing line before it.
+ * Records the origin `categorizeFunctions` receives into {@link origins}, one
+ * entry per profile it is called for.
  */
-const executingLinesBeforeDefinition = (
-  inputs: AggregatedInput[],
-): { executingLineCount: number; misfiledPositions: string[] } => {
-  let executingLineCount = 0
-  const misfiledPositions: string[] = []
-  for (const input of inputs) {
-    if (input.type !== `call-stack-profile`) {
-      continue
-    }
-    for (const func of input.functions) {
-      const definitionLine = func.location?.line
-      if (definitionLine === undefined) {
-        continue
-      }
-      for (const line of func.lineToMetrics.keys()) {
-        executingLineCount++
-        if (line < definitionLine) {
-          misfiledPositions.push(
-            `${func.name} defined at ${definitionLine}, executing at ${line}`,
-          )
-        }
-      }
-    }
-  }
-  return { executingLineCount, misfiledPositions }
-}
+const recordOriginOptions = (origins: Origin[]): NormalizedProfileToMdOptions =>
+  normalizeProfileToMdOptions({
+    categorizeFunctions: (entries, { origin }) => {
+      origins.push(origin)
+      return entries.map(() => `ours`)
+    },
+  })
 
 if (format === undefined) {
   describe(`origin threading`, () => {

@@ -13,6 +13,21 @@ import type {
   AggregatedCallGraphFunction,
 } from './aggregate.ts'
 
+export type AggregatedCallGraphDiff = {
+  base: AggregatedCallGraph
+  current: AggregatedCallGraph
+
+  /** Metrics recorded in both the base and current call graphs. */
+  metrics: DiffMetric[]
+
+  /** Each side's values are indexed like {@link AggregatedCallGraphFunctionDiff}'s. */
+  categoryToMetrics: Map<
+    FunctionCategory,
+    Diff<AggregatedCallGraphCategoryMetrics>
+  >
+  functions: AggregatedCallGraphFunctionDiff[]
+}
+
 /**
  * A function matched across the base and current call graphs by name and
  * location, ignoring line and column.
@@ -29,21 +44,6 @@ export type AggregatedCallGraphFunctionDiff = Pick<
   `name` | `location` | `category`
 > &
   Diff<AggregatedCallGraphFunction>
-
-export type AggregatedCallGraphDiff = {
-  base: AggregatedCallGraph
-  current: AggregatedCallGraph
-
-  /** Metrics recorded in both the base and current call graphs. */
-  metrics: DiffMetric[]
-
-  /** Each side's values are indexed like {@link AggregatedCallGraphFunctionDiff}'s. */
-  categoryToMetrics: Map<
-    FunctionCategory,
-    Diff<AggregatedCallGraphCategoryMetrics>
-  >
-  functions: AggregatedCallGraphFunctionDiff[]
-}
 
 /**
  * Throws if the call graphs have no metrics in common, because a call graph has

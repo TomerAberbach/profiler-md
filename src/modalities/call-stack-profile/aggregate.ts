@@ -20,6 +20,70 @@ import type {
   ObservationLineMetrics,
 } from './type.ts'
 
+/** An aggregation of all observations within a call stack profile. */
+export type AggregatedCallStackProfile = {
+  type: `call-stack-profile`
+
+  /**
+   * The context (format and resolved origin) this profile was aggregated under.
+   * Match keys vary by origin, so build each diffed side's keys under that
+   * side's own context. Sides that resolved different origins can normalize
+   * match keys differently and miss matches.
+   */
+  context: ProfileToMdContext
+
+  /** Metrics recorded in this profile. */
+  metrics: Metric[]
+
+  /**
+   * What one unit of {@link Observation.count} measures: a periodic sample of
+   * the call stack, an entry into a function, an allocated object, a
+   * microsecond of traced time.
+   *
+   * With a count metric, the output formats the count as a count and states a
+   * rate per one of the things counted. With a time or size metric, the output
+   * formats the count as that quantity and states no rate, since a quantity
+   * has no unit to state a rate per.
+   *
+   * `null` when the counts measure nothing, so the profile reports its metrics
+   * alone.
+   */
+  countMetric: Metric | null
+
+  /** The number of counted units recorded within this profile. */
+  totalCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded within this profile.
+   */
+  totalValues: Float64Array
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the average
+   * metric value per counted unit (total value ÷ total count).
+   *
+   * Meaningless, and unreported, for a profile whose counts measure nothing or
+   * that counted nothing.
+   */
+  rates: Float64Array
+
+  /**
+   * Function category to values and count for calls of functions with
+   * that category.
+   */
+  categoryToMetrics: Map<
+    FunctionCategory,
+    AggregatedCallStackProfileCategoryMetrics
+  >
+
+  /** Aggregated data for all functions called in this profile. */
+  functions: AggregatedCallStackProfileFunction[]
+
+  /** Aggregated data for all call stacks encountered in this profile. */
+  callStacks: AggregatedCallStackProfileCallStack[]
+}
+
 export class CallStackProfileAggregator implements InputAggregator<AggregatedCallStackProfile> {
   readonly #profile: CallStackProfile
 
@@ -59,6 +123,168 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     }
     return aggregator.aggregate()
   }
+}
+
+/**
+ * An aggregation of data from every observation of functions with a given
+ * category within a profile.
+ */
+export type AggregatedCallStackProfileCategoryMetrics = {
+  /** The number of observations recorded for functions with this category. */
+  count: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded for functions with this category.
+   */
+  values: Float64Array
+}
+
+/**
+ * An aggregation of data from every observation involving a given function
+ * within a profile.
+ */
+export type AggregatedCallStackProfileFunction = {
+  type: `function`
+
+  /** An index that uniquely identifies this function. */
+  id: number
+
+  name: string
+
+  /** Where the function was defined, if known. */
+  location?: SourceLocation
+
+  category: FunctionCategory
+
+  /**
+   * The number of observations recorded directly within the function's body,
+   * excluding its callees.
+   */
+  selfCount: number
+
+  /**
+   * The number of observations recorded directly within the function's body
+   * _and_ all its callees.
+   */
+  totalCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded directly within the function's body,
+   * excluding its callees.
+   */
+  selfValues: Float64Array
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded directly within the function's body _and_
+   * all its callees.
+   */
+  totalValues: Float64Array
+
+  /** 1-based line number to values and count for that line. */
+  lineToMetrics: Map<number, AggregatedCallStackProfileLineMetrics>
+
+  /**
+   * Direct caller id to values and count with that caller's calls to
+   * this function.
+   */
+  callerIdToMetrics: Map<number, AggregatedCallStackProfileCallerMetrics>
+
+  /**
+   * Direct callee id to values and count for that callee's calls where
+   * this function was a direct or transitive caller.
+   */
+  calleeIdToMetrics: Map<number, AggregatedCallStackProfileCalleeMetrics>
+}
+
+/**
+ * An aggregation of observations recorded at a given line within a function's
+ * body.
+ */
+export type AggregatedCallStackProfileLineMetrics = {
+  /**
+   * The number of observations recorded directly within the function's body at
+   * this line.
+   */
+  count: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded directly within the function's body at
+   * this line.
+   */
+  values: Float64Array
+}
+
+/**
+ * An aggregation of observations recorded directly within a function's body
+ * with a given direct caller.
+ */
+type AggregatedCallStackProfileCallerMetrics = {
+  /** The caller corresponding to the ID. */
+  caller: AggregatedCallStackProfileFunction
+
+  /**
+   * The number of observations recorded directly within the function's body
+   * with this caller.
+   */
+  selfCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded directly within the function's body with
+   * this caller.
+   */
+  selfValues: Float64Array
+}
+
+/**
+ * An aggregation of observations recorded within a function's body, _and_ all
+ * its callees, with a given direct callee.
+ */
+type AggregatedCallStackProfileCalleeMetrics = {
+  /** The callee corresponding to the ID. */
+  callee: AggregatedCallStackProfileFunction
+
+  /**
+   * The number of observations recorded directly within the function's body,
+   * _and_ all its callees, with this callee.
+   */
+  totalCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded directly within the function's body,
+   * _and_ all its callees, with this callee.
+   */
+  totalValues: Float64Array
+
+  /**
+   * Internal aggregation bookkeeping: the epoch of the most recent call stack
+   * whose total this frame pair was counted into, so one that recurs within
+   * one call stack is counted just once.
+   */
+  lastSeenEpoch: number
+}
+
+/**
+ * An aggregation of data from every observation involving a given function call
+ * stack within a profile.
+ */
+export type AggregatedCallStackProfileCallStack = {
+  /** The functions on the call stack in callee to caller order. */
+  frames: AggregatedCallStackProfileFunction[]
+
+  /** The number of observations recorded with this exact call stack. */
+  selfCount: number
+
+  /**
+   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
+   * values from observations recorded with this exact call stack.
+   */
+  selfValues: Float64Array
 }
 
 class ObservationsAggregator {
@@ -186,6 +412,157 @@ class ObservationsAggregator {
     }
   }
 
+  public addLineMetrics({ frame, lines }: ObservationLineMetrics): void {
+    const func = this.#getOrCreateFunction(frame)
+    if (!func) {
+      return
+    }
+    for (const { line, count, values } of lines) {
+      let lineMetrics = func.lineToMetrics.get(line)
+      if (!lineMetrics) {
+        lineMetrics = {
+          count: 0,
+          values: new Float64Array(this.#metrics.length),
+        }
+        func.lineToMetrics.set(line, lineMetrics)
+      }
+      lineMetrics.count += count
+      for (let i = 0; i < values.length; i++) {
+        lineMetrics.values[i]! += values[i]!
+      }
+    }
+  }
+
+  #getOrCreateCallStack(
+    frameIndices: number[],
+    id: number | undefined,
+  ): AggregatedCallStackProfileCallStack {
+    // A stable call stack ID lets repeat call stacks (the common case, since a
+    // profile has far fewer unique call stacks than observations) skip
+    // resolving frames and the hash-keyed lookup, becoming a single
+    // sparse-array index.
+    if (id !== undefined) {
+      const cached = this.#idToCallStack[id]
+      if (cached) {
+        return cached
+      }
+    }
+
+    const frames: AggregatedCallStackProfileFunction[] = []
+    for (const index of frameIndices) {
+      const func = this.#getOrCreateFunction(index)
+      if (func) {
+        frames.push(func)
+      }
+    }
+    if (frames.length === 0) {
+      frames.push(this.#getOrCreateAnonymousFunction())
+    }
+    const callStack = this.#internCallStack(frames)
+
+    // Distinct IDs can resolve to the same call stack, so memoize against
+    // the canonical call stack the hash deduplicated to, not a fresh one.
+    if (id !== undefined) {
+      this.#idToCallStack[id] = callStack
+    }
+    return callStack
+  }
+
+  #getOrCreateAnonymousFunction(): AggregatedCallStackProfileFunction {
+    return (
+      this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
+      this.#registerFunction(
+        ANONYMOUS_FUNCTION_KEY,
+        parseStackFrameFunction({}),
+      )
+    )
+  }
+
+  #internCallStack(
+    frames: AggregatedCallStackProfileFunction[],
+  ): AggregatedCallStackProfileCallStack {
+    const index = this.#callStackInterner.intern(frames, () => ({
+      frames,
+      selfCount: 0,
+      selfValues: new Float64Array(this.#metrics.length),
+    }))
+    return this.#callStackInterner.items[index]!
+  }
+
+  /** Returns the frame's function, or `undefined` for a dropped frame. */
+  #getOrCreateFunction(
+    index: number,
+  ): AggregatedCallStackProfileFunction | undefined {
+    const cached = this.#frameIndexToFunction[index]
+    if (cached) {
+      return cached
+    }
+
+    // A function's identity is its normalized name and location, so frames that
+    // normalize alike (e.g. one function recorded at several lines) merge into
+    // one function.
+    const frameFunction = this.#functions.function(index)
+    if (!frameFunction) {
+      return undefined
+    }
+    const func =
+      this.#keyToFunction.get(frameFunction.key) ??
+      this.#registerFunction(frameFunction.key, frameFunction)
+    this.#frameIndexToFunction[index] = func
+    return func
+  }
+
+  #registerFunction(
+    key: number | string | symbol,
+    { name, location }: StackFrameFunction,
+  ): AggregatedCallStackProfileFunction {
+    const func: AggregatedCallStackProfileFunction = {
+      type: `function`,
+      id: this.#keyToFunction.size,
+      name,
+      location,
+      // Categories are assigned at the end of `aggregate`, in one pass over the
+      // full set of functions.
+      category: `unknown`,
+      selfCount: 0,
+      totalCount: 0,
+      selfValues: new Float64Array(this.#metrics.length),
+      totalValues: new Float64Array(this.#metrics.length),
+      lineToMetrics: new Map(),
+      callerIdToMetrics: new Map(),
+      calleeIdToMetrics: new Map(),
+    }
+    this.#keyToFunction.set(key, func)
+    return func
+  }
+
+  public aggregate(): AggregatedCallStackProfile {
+    this.#propagateCallStackMetrics()
+
+    const rates = new Float64Array(this.#metrics.length)
+    if (this.#totalCount > 0) {
+      for (let i = 0; i < rates.length; i++) {
+        rates[i] = this.#totalValues[i]! / this.#totalCount
+      }
+    }
+
+    const functions = [...this.#keyToFunction.values()]
+    const callStacks = this.#callStackInterner.items
+
+    return {
+      type: `call-stack-profile`,
+      context: this.#context,
+      metrics: this.#metrics,
+      countMetric: this.#countMetric,
+      totalCount: this.#totalCount,
+      totalValues: this.#totalValues,
+      rates,
+      categoryToMetrics: this.#categorize(functions),
+      functions,
+      callStacks,
+    }
+  }
+
   /**
    * Function, caller, and callee attributions depend only on a call stack's
    * frames, so summing each unique call stack's aggregated self metrics
@@ -295,157 +672,6 @@ class ObservationsAggregator {
     }
   }
 
-  public addLineMetrics({ frame, lines }: ObservationLineMetrics): void {
-    const func = this.#getOrCreateFunction(frame)
-    if (!func) {
-      return
-    }
-    for (const { line, count, values } of lines) {
-      let lineMetrics = func.lineToMetrics.get(line)
-      if (!lineMetrics) {
-        lineMetrics = {
-          count: 0,
-          values: new Float64Array(this.#metrics.length),
-        }
-        func.lineToMetrics.set(line, lineMetrics)
-      }
-      lineMetrics.count += count
-      for (let i = 0; i < values.length; i++) {
-        lineMetrics.values[i]! += values[i]!
-      }
-    }
-  }
-
-  #getOrCreateCallStack(
-    frameIndices: number[],
-    id: number | undefined,
-  ): AggregatedCallStackProfileCallStack {
-    // A stable call stack ID lets repeat call stacks (the common case, since a
-    // profile has far fewer unique call stacks than observations) skip
-    // resolving frames and the hash-keyed lookup, becoming a single
-    // sparse-array index.
-    if (id !== undefined) {
-      const cached = this.#idToCallStack[id]
-      if (cached) {
-        return cached
-      }
-    }
-
-    const frames: AggregatedCallStackProfileFunction[] = []
-    for (const index of frameIndices) {
-      const func = this.#getOrCreateFunction(index)
-      if (func) {
-        frames.push(func)
-      }
-    }
-    if (frames.length === 0) {
-      frames.push(this.#getOrCreateAnonymousFunction())
-    }
-    const callStack = this.#internCallStack(frames)
-
-    // Distinct IDs can resolve to the same call stack, so memoize against
-    // the canonical call stack the hash deduplicated to, not a fresh one.
-    if (id !== undefined) {
-      this.#idToCallStack[id] = callStack
-    }
-    return callStack
-  }
-
-  #internCallStack(
-    frames: AggregatedCallStackProfileFunction[],
-  ): AggregatedCallStackProfileCallStack {
-    const index = this.#callStackInterner.intern(frames, () => ({
-      frames,
-      selfCount: 0,
-      selfValues: new Float64Array(this.#metrics.length),
-    }))
-    return this.#callStackInterner.items[index]!
-  }
-
-  /** Returns the frame's function, or `undefined` for a dropped frame. */
-  #getOrCreateFunction(
-    index: number,
-  ): AggregatedCallStackProfileFunction | undefined {
-    const cached = this.#frameIndexToFunction[index]
-    if (cached) {
-      return cached
-    }
-
-    // A function's identity is its normalized name and location, so frames that
-    // normalize alike (e.g. one function recorded at several lines) merge into
-    // one function.
-    const frameFunction = this.#functions.function(index)
-    if (!frameFunction) {
-      return undefined
-    }
-    const func =
-      this.#keyToFunction.get(frameFunction.key) ??
-      this.#registerFunction(frameFunction.key, frameFunction)
-    this.#frameIndexToFunction[index] = func
-    return func
-  }
-
-  #getOrCreateAnonymousFunction(): AggregatedCallStackProfileFunction {
-    return (
-      this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
-      this.#registerFunction(
-        ANONYMOUS_FUNCTION_KEY,
-        parseStackFrameFunction({}),
-      )
-    )
-  }
-
-  #registerFunction(
-    key: number | string | symbol,
-    { name, location }: StackFrameFunction,
-  ): AggregatedCallStackProfileFunction {
-    const func: AggregatedCallStackProfileFunction = {
-      type: `function`,
-      id: this.#keyToFunction.size,
-      name,
-      location,
-      // Categories are assigned at the end of `aggregate`, in one pass over the
-      // full set of functions.
-      category: `unknown`,
-      selfCount: 0,
-      totalCount: 0,
-      selfValues: new Float64Array(this.#metrics.length),
-      totalValues: new Float64Array(this.#metrics.length),
-      lineToMetrics: new Map(),
-      callerIdToMetrics: new Map(),
-      calleeIdToMetrics: new Map(),
-    }
-    this.#keyToFunction.set(key, func)
-    return func
-  }
-
-  public aggregate(): AggregatedCallStackProfile {
-    this.#propagateCallStackMetrics()
-
-    const rates = new Float64Array(this.#metrics.length)
-    if (this.#totalCount > 0) {
-      for (let i = 0; i < rates.length; i++) {
-        rates[i] = this.#totalValues[i]! / this.#totalCount
-      }
-    }
-
-    const functions = [...this.#keyToFunction.values()]
-    const callStacks = this.#callStackInterner.items
-
-    return {
-      type: `call-stack-profile`,
-      context: this.#context,
-      metrics: this.#metrics,
-      countMetric: this.#countMetric,
-      totalCount: this.#totalCount,
-      totalValues: this.#totalValues,
-      rates,
-      categoryToMetrics: this.#categorize(functions),
-      functions,
-      callStacks,
-    }
-  }
-
   /**
    * Assigns each function's category and builds the profile's category metrics.
    *
@@ -500,14 +726,6 @@ class ObservationsAggregator {
   }
 }
 
-/**
- * Key for the single shared anonymous function that stackless observations
- * (empty {@link Observation.frameIndices}) are attributed to. A symbol so it
- * can never collide with a {@link StackFrameFunction.key}. All stackless
- * observations merge into one bucket because nothing distinguishes them.
- */
-const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
-
 const sameStackFrameIds = (
   left: AggregatedCallStackProfileFunction[],
   right: AggregatedCallStackProfileFunction[],
@@ -524,227 +742,9 @@ const sameStackFrameIds = (
 }
 
 /**
- * An aggregation of data from every observation of functions with a given
- * category within a profile.
+ * Key for the single shared anonymous function that stackless observations
+ * (empty {@link Observation.frameIndices}) are attributed to. A symbol so it
+ * can never collide with a {@link StackFrameFunction.key}. All stackless
+ * observations merge into one bucket because nothing distinguishes them.
  */
-export type AggregatedCallStackProfileCategoryMetrics = {
-  /** The number of observations recorded for functions with this category. */
-  count: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded for functions with this category.
-   */
-  values: Float64Array
-}
-
-/**
- * An aggregation of observations recorded at a given line within a function's
- * body.
- */
-export type AggregatedCallStackProfileLineMetrics = {
-  /**
-   * The number of observations recorded directly within the function's body at
-   * this line.
-   */
-  count: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded directly within the function's body at
-   * this line.
-   */
-  values: Float64Array
-}
-
-/**
- * An aggregation of observations recorded directly within a function's body
- * with a given direct caller.
- */
-type AggregatedCallStackProfileCallerMetrics = {
-  /** The caller corresponding to the ID. */
-  caller: AggregatedCallStackProfileFunction
-
-  /**
-   * The number of observations recorded directly within the function's body
-   * with this caller.
-   */
-  selfCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded directly within the function's body with
-   * this caller.
-   */
-  selfValues: Float64Array
-}
-
-/**
- * An aggregation of observations recorded within a function's body, _and_ all
- * its callees, with a given direct callee.
- */
-type AggregatedCallStackProfileCalleeMetrics = {
-  /** The callee corresponding to the ID. */
-  callee: AggregatedCallStackProfileFunction
-
-  /**
-   * The number of observations recorded directly within the function's body,
-   * _and_ all its callees, with this callee.
-   */
-  totalCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded directly within the function's body,
-   * _and_ all its callees, with this callee.
-   */
-  totalValues: Float64Array
-
-  /**
-   * Internal aggregation bookkeeping: the epoch of the most recent call stack
-   * whose total this frame pair was counted into, so one that recurs within
-   * one call stack is counted just once.
-   */
-  lastSeenEpoch: number
-}
-
-/**
- * An aggregation of data from every observation involving a given function
- * within a profile.
- */
-export type AggregatedCallStackProfileFunction = {
-  type: `function`
-
-  /** An index that uniquely identifies this function. */
-  id: number
-
-  name: string
-
-  /** Where the function was defined, if known. */
-  location?: SourceLocation
-
-  category: FunctionCategory
-
-  /**
-   * The number of observations recorded directly within the function's body,
-   * excluding its callees.
-   */
-  selfCount: number
-
-  /**
-   * The number of observations recorded directly within the function's body
-   * _and_ all its callees.
-   */
-  totalCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded directly within the function's body,
-   * excluding its callees.
-   */
-  selfValues: Float64Array
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded directly within the function's body _and_
-   * all its callees.
-   */
-  totalValues: Float64Array
-
-  /** 1-based line number to values and count for that line. */
-  lineToMetrics: Map<number, AggregatedCallStackProfileLineMetrics>
-
-  /**
-   * Direct caller id to values and count with that caller's calls to
-   * this function.
-   */
-  callerIdToMetrics: Map<number, AggregatedCallStackProfileCallerMetrics>
-
-  /**
-   * Direct callee id to values and count for that callee's calls where
-   * this function was a direct or transitive caller.
-   */
-  calleeIdToMetrics: Map<number, AggregatedCallStackProfileCalleeMetrics>
-}
-
-/**
- * An aggregation of data from every observation involving a given function call
- * stack within a profile.
- */
-export type AggregatedCallStackProfileCallStack = {
-  /** The functions on the call stack in callee to caller order. */
-  frames: AggregatedCallStackProfileFunction[]
-
-  /** The number of observations recorded with this exact call stack. */
-  selfCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded with this exact call stack.
-   */
-  selfValues: Float64Array
-}
-
-/** An aggregation of all observations within a call stack profile. */
-export type AggregatedCallStackProfile = {
-  type: `call-stack-profile`
-
-  /**
-   * The context (format and resolved origin) this profile was aggregated under.
-   * Match keys vary by origin, so build each diffed side's keys under that
-   * side's own context. Sides that resolved different origins can normalize
-   * match keys differently and miss matches.
-   */
-  context: ProfileToMdContext
-
-  /** Metrics recorded in this profile. */
-  metrics: Metric[]
-
-  /**
-   * What one unit of {@link Observation.count} measures: a periodic sample of
-   * the call stack, an entry into a function, an allocated object, a
-   * microsecond of traced time.
-   *
-   * With a count metric, the output formats the count as a count and states a
-   * rate per one of the things counted. With a time or size metric, the output
-   * formats the count as that quantity and states no rate, since a quantity
-   * has no unit to state a rate per.
-   *
-   * `null` when the counts measure nothing, so the profile reports its metrics
-   * alone.
-   */
-  countMetric: Metric | null
-
-  /** The number of counted units recorded within this profile. */
-  totalCount: number
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the sum of
-   * values from observations recorded within this profile.
-   */
-  totalValues: Float64Array
-
-  /**
-   * For each metric in {@link AggregatedCallStackProfile.metrics}, the average
-   * metric value per counted unit (total value ÷ total count).
-   *
-   * Meaningless, and unreported, for a profile whose counts measure nothing or
-   * that counted nothing.
-   */
-  rates: Float64Array
-
-  /**
-   * Function category to values and count for calls of functions with
-   * that category.
-   */
-  categoryToMetrics: Map<
-    FunctionCategory,
-    AggregatedCallStackProfileCategoryMetrics
-  >
-
-  /** Aggregated data for all functions called in this profile. */
-  functions: AggregatedCallStackProfileFunction[]
-
-  /** Aggregated data for all call stacks encountered in this profile. */
-  callStacks: AggregatedCallStackProfileCallStack[]
-}
+const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)

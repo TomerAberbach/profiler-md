@@ -13,23 +13,6 @@ import type {
   AggregatedCallStackProfileFunction,
 } from './aggregate.ts'
 
-/**
- * A function matched across the base and current profiles by name and location,
- * ignoring line and column.
- *
- * The name, location, and category come from the current profile when the
- * function is present in it, and from the base profile otherwise.
- *
- * Each side's values are indexed by that side's profile's
- * {@link AggregatedCallStackProfile.metrics}; read them using
- * {@link DiffMetric.baseIndex} and {@link DiffMetric.currentIndex}.
- */
-export type AggregatedCallStackProfileFunctionDiff = Pick<
-  AggregatedCallStackProfileFunction,
-  `name` | `location` | `category`
-> &
-  Diff<AggregatedCallStackProfileFunction>
-
 export type AggregatedCallStackProfileDiff = {
   base: AggregatedCallStackProfile
   current: AggregatedCallStackProfile
@@ -55,6 +38,60 @@ export type AggregatedCallStackProfileDiff = {
 
   /** Functions called in either profile, matched across the two. */
   functions: AggregatedCallStackProfileFunctionDiff[]
+}
+
+/**
+ * A function matched across the base and current profiles by name and location,
+ * ignoring line and column.
+ *
+ * The name, location, and category come from the current profile when the
+ * function is present in it, and from the base profile otherwise.
+ *
+ * Each side's values are indexed by that side's profile's
+ * {@link AggregatedCallStackProfile.metrics}; read them using
+ * {@link DiffMetric.baseIndex} and {@link DiffMetric.currentIndex}.
+ */
+export type AggregatedCallStackProfileFunctionDiff = Pick<
+  AggregatedCallStackProfileFunction,
+  `name` | `location` | `category`
+> &
+  Diff<AggregatedCallStackProfileFunction>
+
+/**
+ * Throws when the profiles share no metric, unless neither has metrics and the
+ * two count the same thing.
+ */
+export const diffAggregatedCallStackProfiles = (
+  base: AggregatedCallStackProfile,
+  current: AggregatedCallStackProfile,
+  options: FormattingProfileToMdOptions,
+): AggregatedCallStackProfileDiff => {
+  const metrics = matchDiffedMetrics(base.metrics, current.metrics)
+  if (
+    metrics.length === 0 &&
+    (base.metrics.length > 0 || current.metrics.length > 0)
+  ) {
+    throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
+  }
+
+  const functions = matchDiffedFunctions(base, current, options).map(
+    ({ base: baseFunc, current: currentFunc }) => {
+      const { name, location, category } = (currentFunc ?? baseFunc)!
+      return { name, location, category, base: baseFunc, current: currentFunc }
+    },
+  )
+
+  return {
+    base,
+    current,
+    metrics,
+    countMetric: matchDiffedCountMetrics(base, current, metrics.length === 0),
+    categoryToMetrics: matchDiffedMaps(
+      base.categoryToMetrics,
+      current.categoryToMetrics,
+    ),
+    functions,
+  }
 }
 
 /**
@@ -102,41 +139,4 @@ const describeCounts = (
     columnNoun !== otherCountMetric?.phrases.columnNoun
     ? columnNoun
     : titleNoun
-}
-
-/**
- * Throws when the profiles share no metric, unless neither has metrics and the
- * two count the same thing.
- */
-export const diffAggregatedCallStackProfiles = (
-  base: AggregatedCallStackProfile,
-  current: AggregatedCallStackProfile,
-  options: FormattingProfileToMdOptions,
-): AggregatedCallStackProfileDiff => {
-  const metrics = matchDiffedMetrics(base.metrics, current.metrics)
-  if (
-    metrics.length === 0 &&
-    (base.metrics.length > 0 || current.metrics.length > 0)
-  ) {
-    throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
-  }
-
-  const functions = matchDiffedFunctions(base, current, options).map(
-    ({ base: baseFunc, current: currentFunc }) => {
-      const { name, location, category } = (currentFunc ?? baseFunc)!
-      return { name, location, category, base: baseFunc, current: currentFunc }
-    },
-  )
-
-  return {
-    base,
-    current,
-    metrics,
-    countMetric: matchDiffedCountMetrics(base, current, metrics.length === 0),
-    categoryToMetrics: matchDiffedMaps(
-      base.categoryToMetrics,
-      current.categoryToMetrics,
-    ),
-    functions,
-  }
 }

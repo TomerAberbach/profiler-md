@@ -74,6 +74,14 @@ export class ObjectIdToOrdinal {
   }
 }
 
+const nextPowerOfTwo = (value: number): number => {
+  let result = 1
+  while (result < value) {
+    result *= 2
+  }
+  return result
+}
+
 /**
  * Mixes an object ID's low and high 32 bits into a 32-bit slot hash.
  *
@@ -84,12 +92,4 @@ const hashObjectId = (objectId: number): number => {
   const low = objectId >>> 0
   const high = (objectId / 0x1_00_00_00_00) >>> 0
   return (Math.imul(low ^ high, 0x9e_37_79_b1) >>> 0) ^ (low >>> 16)
-}
-
-const nextPowerOfTwo = (value: number): number => {
-  let result = 1
-  while (result < value) {
-    result *= 2
-  }
-  return result
 }

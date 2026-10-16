@@ -6,40 +6,6 @@ import { SAMPLES, SECONDS_METRIC } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { RecordTally } from '../spec.ts'
 
-export type WebKitStackFrame = {
-  /**
-   * WebKit's internal unique identifier for the script that contains the
-   * function.
-   */
-  sourceID: string
-
-  name: string
-
-  /**
-   * The 1-based line number of the function definition location, or -1 if
-   * unknown.
-   */
-  line: number
-
-  /**
-   * The 1-based column number of the function definition location, or -1 if
-   * unknown.
-   */
-  column: number
-
-  url: string
-
-  /**
-   * The location of the executing expression within this frame, or absent if
-   * unknown. For the innermost frame, this is the point of execution in the
-   * function body. For outer frames, this is the call site of the callee.
-   */
-  expressionLocation?: { line: number; column: number }
-}
-
-/** A sample's call stack, with its frames in callee-to-caller order. */
-type WebKitStackTrace = { stackFrames: WebKitStackFrame[] }
-
 /**
  * Web Inspector writes the samples per target under `samples`. Before `samples`
  * replaced it, it wrote them as the root-level
@@ -85,6 +51,40 @@ export type WebKitTimelineRecording = {
      */
     sampleDurations?: number[]
   }
+}
+
+/** A sample's call stack, with its frames in callee-to-caller order. */
+type WebKitStackTrace = { stackFrames: WebKitStackFrame[] }
+
+export type WebKitStackFrame = {
+  /**
+   * WebKit's internal unique identifier for the script that contains the
+   * function.
+   */
+  sourceID: string
+
+  name: string
+
+  /**
+   * The 1-based line number of the function definition location, or -1 if
+   * unknown.
+   */
+  line: number
+
+  /**
+   * The 1-based column number of the function definition location, or -1 if
+   * unknown.
+   */
+  column: number
+
+  url: string
+
+  /**
+   * The location of the executing expression within this frame, or absent if
+   * unknown. For the innermost frame, this is the point of execution in the
+   * function body. For outer frames, this is the call site of the callee.
+   */
+  expressionLocation?: { line: number; column: number }
 }
 
 export const parseWebKitTimelineRecording = (

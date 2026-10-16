@@ -137,13 +137,160 @@ export const formatHeapSnapshot = (
   ]
 }
 
-type RetainerPathEdgeType = RetainerPathEdge[`type`]
+const formatOverallSummary = ({
+  heldSize,
+  nodeCount,
+  edgeCount,
+  nodeCategoryToStats,
+}: AggregatedHeapSnapshot): RootContent[] => {
+  const largestNodeCategories = [...nodeCategoryToStats].sort(
+    ([, stats1], [, stats2]) => stats2.size - stats1.size,
+  )
+  if (largestNodeCategories.length === 0) {
+    return []
+  }
+
+  return [
+    paragraph(
+      `Held ${formatBytes(heldSize)} over ${formatCount(
+        nodeCount,
+      )} nodes and ${formatCount(edgeCount)} edges.`,
+    ),
+    formatTable(
+      categoryColumns,
+      largestNodeCategories.map(([category, stats]) => ({
+        category,
+        size: stats.size,
+        nodeCount: stats.nodeCount,
+        total: heldSize,
+      })),
+    ),
+  ]
+}
+
+export const formatHeapSnapshotDiff = (
+  diff: AggregatedHeapSnapshotDiff,
+  options: FormattingProfileToMdOptions,
+): RootContent[] => {
+  const hasLocation = hasAnyLocation(diff)
+  const sectionOptions = resolveEntryFilter({
+    options,
+    showsAnyEntry: showEntry =>
+      [diff.constructors, diff.functions, diff.strings].some(entities =>
+        entities.some(entity => showDiffEntity(entity, diff, showEntry)),
+      ),
+    formatsAnyEntry:
+      diff.constructors.length > 0 ||
+      diff.functions.length > 0 ||
+      diff.strings.length > 0,
+    entities: `node`,
+  })
+  const retainerPaths = diffRetainerPaths(diff, sectionOptions)
+  const { result: sections, edgeTypes } = ShownRetainerPaths.record(
+    sectionOptions,
+    shownPaths => [
+      ...formatDiffConstructors({
+        diff,
+        hasLocation,
+        retainerPaths,
+        shownPaths,
+        options: sectionOptions,
+      }),
+      ...formatDiffFunctions({
+        diff,
+        hasLocation,
+        retainerPaths,
+        shownPaths,
+        options: sectionOptions,
+      }),
+      ...formatDiffStrings({ diff, shownPaths, options: sectionOptions }),
+    ],
+  )
+  return [
+    heading(1, `Heap snapshot diff`),
+    ...formatDiffSummary(diff),
+    ...formatBaseURLNote(options),
+    ...formatSeveralPathsNote(edgeTypes),
+    ...sections,
+  ]
+}
+
+const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): RootContent[] => [
+  paragraph(formatDiffSummaryLine(diff)),
+  ...formatDiffCategoryTable(diff),
+]
+
+const formatDiffSummaryLine = ({
+  base,
+  current,
+}: AggregatedHeapSnapshotDiff): string =>
+  `Held ${formatArrow(
+    formatBytes(base.heldSize),
+    formatBytes(current.heldSize),
+  )}${formatChange(
+    base.heldSize,
+    current.heldSize,
+    formatBytesDelta,
+  )} over ${formatArrow(
+    formatCount(base.nodeCount),
+    formatCount(current.nodeCount),
+  )} nodes and ${formatArrow(
+    formatCount(base.edgeCount),
+    formatCount(current.edgeCount),
+  )} edges.`
+
+const formatDiffCategoryTable = (
+  diff: AggregatedHeapSnapshotDiff,
+): RootContent[] => {
+  const { nodeCategoryToStats, base, current } = diff
+  if (nodeCategoryToStats.size === 0) {
+    return []
+  }
+
+  const categories = [...nodeCategoryToStats].sort(
+    ([, left], [, right]) =>
+      (right.current?.size ?? 0) - (left.current?.size ?? 0),
+  )
+  const baseTotal = base.heldSize
+  const currentTotal = current.heldSize
+  return [
+    formatDiffTable(
+      categoryColumns,
+      categories.map(([category, { base, current }]) => ({
+        base: base && {
+          category,
+          size: base.size,
+          nodeCount: base.nodeCount,
+          total: baseTotal,
+        },
+        current: current && {
+          category,
+          size: current.size,
+          nodeCount: current.nodeCount,
+          total: currentTotal,
+        },
+      })),
+    ),
+  ]
+}
+
+const hasAnyLocation = ({
+  constructors,
+  functions,
+}: {
+  constructors: { location?: SourceLocation }[]
+  functions: { location?: SourceLocation }[]
+}): boolean =>
+  constructors.some(constructor => constructor.location) ||
+  functions.some(fn => fn.location)
 
 /** A built value, and the edge types of the paths formatted to build it. */
 type RecordedRetainerPaths<Result> = {
   result: Result
   edgeTypes: ReadonlySet<RetainerPathEdgeType>
 }
+
+type RetainerPathEdgeType = RetainerPathEdge[`type`]
 
 /**
  * Formats the retainer paths a document shows, recording the types of their
@@ -235,37 +382,6 @@ const formatSeveralPathsNote = (
       ]
     : []
 
-const formatOverallSummary = ({
-  heldSize,
-  nodeCount,
-  edgeCount,
-  nodeCategoryToStats,
-}: AggregatedHeapSnapshot): RootContent[] => {
-  const largestNodeCategories = [...nodeCategoryToStats].sort(
-    ([, stats1], [, stats2]) => stats2.size - stats1.size,
-  )
-  if (largestNodeCategories.length === 0) {
-    return []
-  }
-
-  return [
-    paragraph(
-      `Held ${formatBytes(heldSize)} over ${formatCount(
-        nodeCount,
-      )} nodes and ${formatCount(edgeCount)} edges.`,
-    ),
-    formatTable(
-      categoryColumns,
-      largestNodeCategories.map(([category, stats]) => ({
-        category,
-        size: stats.size,
-        nodeCount: stats.nodeCount,
-        total: heldSize,
-      })),
-    ),
-  ]
-}
-
 const formatLargestConstructors = ({
   snapshot,
   hasLocation,
@@ -312,6 +428,12 @@ const formatLargestConstructors = ({
   )
 }
 
+/** One constructor size, self or retained. */
+type ConstructorSize = {
+  sizeOf: (node: { selfSize: number; retainedSize: number }) => number
+  prose: RankingProse
+}
+
 /** A ranking's heading, and the prose naming what it ranks and by what. */
 type RankingProse = {
   headingLevel: number
@@ -323,30 +445,7 @@ type RankingProse = {
   description: string
 }
 
-/**
- * A ranking's heading, followed by its ranking sentence. A diff states its
- * sentence above each of its rankings instead, or, where no entity differed,
- * a note saying so here.
- */
-const formatRankingHeader = (
-  prose: RankingProse,
-  state: `ranking` | `diff` | `unchanged-diff`,
-): RootContent[] => [
-  heading(prose.headingLevel, prose.title),
-  ...(state === `ranking`
-    ? [paragraph(rankingSentence(prose.plural, prose.description))]
-    : state === `unchanged-diff`
-      ? [paragraph(unchangedDiffSentence(prose.singular, prose.description))]
-      : []),
-]
-
 const RETAINED_DESCRIPTION = `instance bytes, including nodes only the instances keep alive`
-
-/** One constructor size, self or retained. */
-type ConstructorSize = {
-  sizeOf: (node: { selfSize: number; retainedSize: number }) => number
-  prose: RankingProse
-}
 
 const SELF_SIZE: ConstructorSize = {
   sizeOf: node => node.selfSize,
@@ -385,6 +484,23 @@ const STRINGS_PROSE: RankingProse = {
   singular: `string`,
   description: `bytes`,
 }
+
+/**
+ * A ranking's heading, followed by its ranking sentence. A diff states its
+ * sentence above each of its rankings instead, or, where no entity differed,
+ * a note saying so here.
+ */
+const formatRankingHeader = (
+  prose: RankingProse,
+  state: `ranking` | `diff` | `unchanged-diff`,
+): RootContent[] => [
+  heading(prose.headingLevel, prose.title),
+  ...(state === `ranking`
+    ? [paragraph(rankingSentence(prose.plural, prose.description))]
+    : state === `unchanged-diff`
+      ? [paragraph(unchangedDiffSentence(prose.singular, prose.description))]
+      : []),
+]
 
 /**
  * The heading and sentence opening the retainer paths of a constructor
@@ -523,6 +639,13 @@ const formatLargestConstructorInstances = ({
   ]
 }
 
+/** A group of instances with the same retainer path. */
+type InstanceGroup = {
+  retainerPath: string
+  instanceCount: number
+  size: number
+}
+
 const selectLargestInstanceGroups = ({
   instances,
   sizeOf,
@@ -559,13 +682,6 @@ const selectLargestInstanceGroups = ({
   }
 
   return [...pathToGroup.values()]
-}
-
-/** A group of instances with the same retainer path. */
-type InstanceGroup = {
-  retainerPath: string
-  instanceCount: number
-  size: number
 }
 
 const formatLargestFunctions = ({
@@ -713,112 +829,6 @@ const formatLargestStrings = ({
       selfValueNoun: `self size`,
       minCategoryShare: options.minCategoryShare,
     }),
-  ]
-}
-
-export const formatHeapSnapshotDiff = (
-  diff: AggregatedHeapSnapshotDiff,
-  options: FormattingProfileToMdOptions,
-): RootContent[] => {
-  const hasLocation = hasAnyLocation(diff)
-  const sectionOptions = resolveEntryFilter({
-    options,
-    showsAnyEntry: showEntry =>
-      [diff.constructors, diff.functions, diff.strings].some(entities =>
-        entities.some(entity => showDiffEntity(entity, diff, showEntry)),
-      ),
-    formatsAnyEntry:
-      diff.constructors.length > 0 ||
-      diff.functions.length > 0 ||
-      diff.strings.length > 0,
-    entities: `node`,
-  })
-  const retainerPaths = diffRetainerPaths(diff, sectionOptions)
-  const { result: sections, edgeTypes } = ShownRetainerPaths.record(
-    sectionOptions,
-    shownPaths => [
-      ...formatDiffConstructors({
-        diff,
-        hasLocation,
-        retainerPaths,
-        shownPaths,
-        options: sectionOptions,
-      }),
-      ...formatDiffFunctions({
-        diff,
-        hasLocation,
-        retainerPaths,
-        shownPaths,
-        options: sectionOptions,
-      }),
-      ...formatDiffStrings({ diff, shownPaths, options: sectionOptions }),
-    ],
-  )
-  return [
-    heading(1, `Heap snapshot diff`),
-    ...formatDiffSummary(diff),
-    ...formatBaseURLNote(options),
-    ...formatSeveralPathsNote(edgeTypes),
-    ...sections,
-  ]
-}
-
-const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): RootContent[] => [
-  paragraph(formatDiffSummaryLine(diff)),
-  ...formatDiffCategoryTable(diff),
-]
-
-const formatDiffSummaryLine = ({
-  base,
-  current,
-}: AggregatedHeapSnapshotDiff): string =>
-  `Held ${formatArrow(
-    formatBytes(base.heldSize),
-    formatBytes(current.heldSize),
-  )}${formatChange(
-    base.heldSize,
-    current.heldSize,
-    formatBytesDelta,
-  )} over ${formatArrow(
-    formatCount(base.nodeCount),
-    formatCount(current.nodeCount),
-  )} nodes and ${formatArrow(
-    formatCount(base.edgeCount),
-    formatCount(current.edgeCount),
-  )} edges.`
-
-const formatDiffCategoryTable = (
-  diff: AggregatedHeapSnapshotDiff,
-): RootContent[] => {
-  const { nodeCategoryToStats, base, current } = diff
-  if (nodeCategoryToStats.size === 0) {
-    return []
-  }
-
-  const categories = [...nodeCategoryToStats].sort(
-    ([, left], [, right]) =>
-      (right.current?.size ?? 0) - (left.current?.size ?? 0),
-  )
-  const baseTotal = base.heldSize
-  const currentTotal = current.heldSize
-  return [
-    formatDiffTable(
-      categoryColumns,
-      categories.map(([category, { base, current }]) => ({
-        base: base && {
-          category,
-          size: base.size,
-          nodeCount: base.nodeCount,
-          total: baseTotal,
-        },
-        current: current && {
-          category,
-          size: current.size,
-          nodeCount: current.nodeCount,
-          total: currentTotal,
-        },
-      })),
-    ),
   ]
 }
 
@@ -1025,65 +1035,6 @@ const formatDiffConstructorInstances = ({
     options,
   })
 
-/**
- * An entity's groups whose size changed the most either way, paired across the
- * sides.
- *
- * Unlike the non-diff breakdowns, which stop at the largest nodes, a diff
- * groups every shown node, because a group's change needs its whole size on
- * both sides. It formats only the paths of the groups it shows.
- */
-const formatDiffEntityGroups = <
-  Entity extends DiffedHeapSnapshotEntity,
-  Group extends RetainerGroup,
-  Row,
->({
-  entity,
-  groupDiffs,
-  sizeOf,
-  totalOf,
-  headingLevel,
-  columns,
-  rowOf,
-  hasLocation,
-  options,
-}: {
-  entity: AggregatedHeapSnapshotEntityDiff<Entity>
-  groupDiffs: EntryDiff<Group>[]
-  sizeOf: (group: Group) => number
-
-  /** The size a group's share is of. */
-  totalOf: (entity: Entity) => number
-  headingLevel: Heading[`depth`]
-  columns: Table<Row>
-  rowOf: (group: Group, size: number, total: number) => Row
-  hasLocation: boolean
-  options: FormattingProfileToMdOptions
-}): RootContent[] => {
-  const changedGroups = selectLargestChanges(
-    groupDiffs,
-    Math.ceil(options.topN / 4),
-    ({ base, current }) =>
-      (current ? sizeOf(current) : 0) - (base ? sizeOf(base) : 0),
-  )
-  if (changedGroups.length === 0) {
-    return []
-  }
-
-  const sideRowOf = (side: Entity | undefined, group: Group | undefined) =>
-    side && group && rowOf(group, sizeOf(group), totalOf(side))
-  return [
-    formatEntityHeading(headingLevel, entity, hasLocation, options),
-    formatDiffTable(
-      columns,
-      changedGroups.map(({ base, current }) => ({
-        base: sideRowOf(entity.base, base),
-        current: sideRowOf(entity.current, current),
-      })),
-    ),
-  ]
-}
-
 const formatDiffFunctions = ({
   diff,
   hasLocation,
@@ -1156,6 +1107,21 @@ const formatDiffFunctions = ({
   })
 }
 
+/** One side's row of a function, counting its distinct paths by {@link pathOf}. */
+const functionRowOf = (
+  entity: DiffedHeapSnapshotFunction,
+  snapshot: AggregatedHeapSnapshot,
+  pathOf: (nodeOrdinal: number) => number,
+  shownPaths: ShownRetainerPaths,
+): FunctionRow => ({
+  entity,
+  size: entity.retainedSize,
+  total: snapshot.heldSize,
+  instanceCount: entity.instanceCount,
+  pathCount: new Set(entity.instanceOrdinals.map(pathOf)).size,
+  examplePath: shownPaths.ofNode(snapshot, entity.id),
+})
+
 const formatDiffFunctionRetainedNodes = ({
   diff,
   fn,
@@ -1196,20 +1162,64 @@ const formatDiffFunctionRetainedNodes = ({
     options,
   })
 
-/** One side's row of a function, counting its distinct paths by {@link pathOf}. */
-const functionRowOf = (
-  entity: DiffedHeapSnapshotFunction,
-  snapshot: AggregatedHeapSnapshot,
-  pathOf: (nodeOrdinal: number) => number,
-  shownPaths: ShownRetainerPaths,
-): FunctionRow => ({
+/**
+ * An entity's groups whose size changed the most either way, paired across the
+ * sides.
+ *
+ * Unlike the non-diff breakdowns, which stop at the largest nodes, a diff
+ * groups every shown node, because a group's change needs its whole size on
+ * both sides. It formats only the paths of the groups it shows.
+ */
+const formatDiffEntityGroups = <
+  Entity extends DiffedHeapSnapshotEntity,
+  Group extends RetainerGroup,
+  Row,
+>({
   entity,
-  size: entity.retainedSize,
-  total: snapshot.heldSize,
-  instanceCount: entity.instanceCount,
-  pathCount: new Set(entity.instanceOrdinals.map(pathOf)).size,
-  examplePath: shownPaths.ofNode(snapshot, entity.id),
-})
+  groupDiffs,
+  sizeOf,
+  totalOf,
+  headingLevel,
+  columns,
+  rowOf,
+  hasLocation,
+  options,
+}: {
+  entity: AggregatedHeapSnapshotEntityDiff<Entity>
+  groupDiffs: EntryDiff<Group>[]
+  sizeOf: (group: Group) => number
+
+  /** The size a group's share is of. */
+  totalOf: (entity: Entity) => number
+  headingLevel: Heading[`depth`]
+  columns: Table<Row>
+  rowOf: (group: Group, size: number, total: number) => Row
+  hasLocation: boolean
+  options: FormattingProfileToMdOptions
+}): RootContent[] => {
+  const changedGroups = selectLargestChanges(
+    groupDiffs,
+    Math.ceil(options.topN / 4),
+    ({ base, current }) =>
+      (current ? sizeOf(current) : 0) - (base ? sizeOf(base) : 0),
+  )
+  if (changedGroups.length === 0) {
+    return []
+  }
+
+  const sideRowOf = (side: Entity | undefined, group: Group | undefined) =>
+    side && group && rowOf(group, sizeOf(group), totalOf(side))
+  return [
+    formatEntityHeading(headingLevel, entity, hasLocation, options),
+    formatDiffTable(
+      columns,
+      changedGroups.map(({ base, current }) => ({
+        base: sideRowOf(entity.base, base),
+        current: sideRowOf(entity.current, current),
+      })),
+    ),
+  ]
+}
 
 const formatDiffStrings = ({
   diff,
@@ -1339,16 +1349,6 @@ const formatDiffEntitySections = <Entity, Row>({
     ...detailSections,
   ]
 }
-
-const hasAnyLocation = ({
-  constructors,
-  functions,
-}: {
-  constructors: { location?: SourceLocation }[]
-  functions: { location?: SourceLocation }[]
-}): boolean =>
-  constructors.some(constructor => constructor.location) ||
-  functions.some(fn => fn.location)
 
 type NamedEntity = {
   name: string

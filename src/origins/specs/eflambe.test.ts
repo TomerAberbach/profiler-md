@@ -9,15 +9,6 @@ import { profileTitles, summaryLines } from '../../testing.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { eflambeOriginSpec } from './eflambe.ts'
 
-/** A frame as it looks after normalization. */
-const moduleEntry = (name: string, module: string): ProfileEntry => ({
-  id: 1,
-  name,
-  location: { type: `logical`, name: module },
-})
-
-const named = (name: string): ProfileEntry => ({ id: 1, name })
-
 describe(`detection`, () => {
   test.each([`Elixir.Enum:reduce/3`, `lists:reverse/1`, `<0.94.0>`])(
     `detects BEAM by its %s frame`,
@@ -100,6 +91,15 @@ describe(`normalizeStackFrame`, () => {
     expect(normalizeStackFrame(input)).toBe(input)
   })
 })
+
+/** A frame as it looks after normalization. */
+const moduleEntry = (name: string, module: string): ProfileEntry => ({
+  id: 1,
+  name,
+  location: { type: `logical`, name: module },
+})
+
+const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = eflambeOriginSpec

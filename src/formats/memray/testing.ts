@@ -1,12 +1,19 @@
 import { ByteBuffer } from '../../helpers/testing.ts'
 
-/** The allocators a test allocation names, by their capture file values. */
-const MEMRAY_PYMALLOC_FREE = 1
-export const MEMRAY_FREE = 5
-export const MEMRAY_MALLOC = 6
-export const MEMRAY_CALLOC = 8
-export const MEMRAY_MMAP = 14
-export const MEMRAY_MUNMAP = 15
+export type MemrayTestHeader = {
+  /** `PY_VERSION_HEX` of the traced interpreter. Defaults to 3.11.0. */
+  pythonVersion?: number
+
+  version?: number
+  mainThreadId?: number
+  skippedFramesOnMainThread?: number
+
+  /** Whether records contain the native frames `--native` traces. */
+  nativeTraces?: boolean
+}
+
+/** The thread a test's records are on unless they name another. */
+export const MAIN_THREAD_ID = 1000
 
 export type MemrayTestCodeObject = {
   id: number
@@ -47,17 +54,13 @@ export type MemrayTestRecord =
   /** The bytes of a record written by hand, for one no writer emits. */
   | { type: `raw`; bytes: number[] }
 
-export type MemrayTestHeader = {
-  /** `PY_VERSION_HEX` of the traced interpreter. Defaults to 3.11.0. */
-  pythonVersion?: number
-
-  version?: number
-  mainThreadId?: number
-  skippedFramesOnMainThread?: number
-
-  /** Whether records contain the native frames `--native` traces. */
-  nativeTraces?: boolean
-}
+/** The allocators a test allocation names, by their capture file values. */
+const MEMRAY_PYMALLOC_FREE = 1
+export const MEMRAY_FREE = 5
+export const MEMRAY_MALLOC = 6
+export const MEMRAY_CALLOC = 8
+export const MEMRAY_MMAP = 14
+export const MEMRAY_MUNMAP = 15
 
 /** Builds a capture written without `--aggregate` from its records. */
 export const makeMemray = ({
@@ -218,57 +221,44 @@ export const makeAggregatedMemray = ({
   return writer.toBytes()
 }
 
-const ALL_ALLOCATIONS = 0
-const AGGREGATED_ALLOCATIONS = 1
+/** Writes a capture's little-endian records. */
+class ByteWriter {
+  readonly #buffer = new ByteBuffer()
 
-const RECORD_TRAILER = 1
-const RECORD_MEMORY = 2
-const RECORD_NATIVE_TRACE_INDEX = 5
-const RECORD_MEMORY_MAP_START = 6
-const RECORD_SEGMENT_HEADER = 7
-const RECORD_SEGMENT = 8
-const RECORD_THREAD = 10
-const RECORD_CONTEXT_SWITCH = 12
-const RECORD_CODE_OBJECT = 14
-const RECORD_FRAME_POP = 16
-const RECORD_OBJECT = 32
-const RECORD_FRAME_PUSH = 64
-const RECORD_ALLOCATION = 128
+  public byte(value: number): void {
+    this.#buffer.byte(value)
+  }
 
-const AGGREGATED_ALLOCATION = 2
-const AGGREGATED_PYTHON_TRACE_INDEX = 3
-const AGGREGATED_PYTHON_FRAME_INDEX = 4
-const AGGREGATED_SURVIVING_OBJECT = 13
-const AGGREGATED_CODE_OBJECT = 14
-const AGGREGATED_TRAILER = 15
+  public uint32(value: number): void {
+    this.#buffer.uint32(value)
+  }
 
-/** The thread a test's records are on unless they name another. */
-export const MAIN_THREAD_ID = 1000
+  public uint64(value: number): void {
+    this.uint32(value % 0x1_00_00_00_00)
+    this.uint32(Math.floor(value / 0x1_00_00_00_00))
+  }
 
-/** CPython 3.11, whose location table encoding the parser reads by default. */
-const PYTHON_3_11 = 0x03_0b_00_00
+  public varint(value: number): void {
+    this.#buffer.leb128(value)
+  }
 
-const CURRENT_VERSION = 13
+  public signedVarint(value: number): void {
+    this.varint(value < 0 ? -value * 2 - 1 : value * 2)
+  }
 
-const SEARCH_PATHS_VERSION = 13
+  /** Writes a null-terminated string. */
+  public string(value: string): void {
+    this.bytes(new TextEncoder().encode(value))
+    this.byte(0)
+  }
 
-/** The running values a writer delta-encodes against, mirroring the reader's. */
-class WriterState {
-  public lastFirstLineNumber = 0
-  public lastDataPointer = 0
-  public lastInstructionPointer = 0
-  public lastNativeFrameId = 0
-  public readonly recentAddresses = new Float64Array(15)
-}
+  public bytes(bytes: Uint8Array): void {
+    this.#buffer.bytes(bytes)
+  }
 
-/** Writes a native frame ID, delta-encoded like memray's writer encodes it. */
-const writeNativeFrameId = (
-  writer: ByteWriter,
-  state: WriterState,
-  nativeFrameId: number,
-): void => {
-  writer.signedVarint(nativeFrameId - state.lastNativeFrameId)
-  state.lastNativeFrameId = nativeFrameId
+  public toBytes(): Uint8Array {
+    return this.#buffer.toBytes()
+  }
 }
 
 const writeHeader = (
@@ -305,6 +295,25 @@ const writeHeader = (
     writer.string(`/usr/lib/python3.11`)
     writer.string(``) // Ends the sys.path list
   }
+}
+
+/** CPython 3.11, whose location table encoding the parser reads by default. */
+const PYTHON_3_11 = 0x03_0b_00_00
+
+const CURRENT_VERSION = 13
+
+const SEARCH_PATHS_VERSION = 13
+
+const ALL_ALLOCATIONS = 0
+const AGGREGATED_ALLOCATIONS = 1
+
+/** The running values a writer delta-encodes against, mirroring the reader's. */
+class WriterState {
+  public lastFirstLineNumber = 0
+  public lastDataPointer = 0
+  public lastInstructionPointer = 0
+  public lastNativeFrameId = 0
+  public readonly recentAddresses = new Float64Array(15)
 }
 
 const writeCodeObject = (
@@ -417,42 +426,33 @@ const writeUncachedAddress = (
   state.lastDataPointer = address / 8
 }
 
-/** Writes a capture's little-endian records. */
-class ByteWriter {
-  readonly #buffer = new ByteBuffer()
-
-  public byte(value: number): void {
-    this.#buffer.byte(value)
-  }
-
-  public uint32(value: number): void {
-    this.#buffer.uint32(value)
-  }
-
-  public uint64(value: number): void {
-    this.uint32(value % 0x1_00_00_00_00)
-    this.uint32(Math.floor(value / 0x1_00_00_00_00))
-  }
-
-  public varint(value: number): void {
-    this.#buffer.leb128(value)
-  }
-
-  public signedVarint(value: number): void {
-    this.varint(value < 0 ? -value * 2 - 1 : value * 2)
-  }
-
-  /** Writes a null-terminated string. */
-  public string(value: string): void {
-    this.bytes(new TextEncoder().encode(value))
-    this.byte(0)
-  }
-
-  public bytes(bytes: Uint8Array): void {
-    this.#buffer.bytes(bytes)
-  }
-
-  public toBytes(): Uint8Array {
-    return this.#buffer.toBytes()
-  }
+/** Writes a native frame ID, delta-encoded like memray's writer encodes it. */
+const writeNativeFrameId = (
+  writer: ByteWriter,
+  state: WriterState,
+  nativeFrameId: number,
+): void => {
+  writer.signedVarint(nativeFrameId - state.lastNativeFrameId)
+  state.lastNativeFrameId = nativeFrameId
 }
+
+const RECORD_TRAILER = 1
+const RECORD_MEMORY = 2
+const RECORD_NATIVE_TRACE_INDEX = 5
+const RECORD_MEMORY_MAP_START = 6
+const RECORD_SEGMENT_HEADER = 7
+const RECORD_SEGMENT = 8
+const RECORD_THREAD = 10
+const RECORD_CONTEXT_SWITCH = 12
+const RECORD_CODE_OBJECT = 14
+const RECORD_FRAME_POP = 16
+const RECORD_OBJECT = 32
+const RECORD_FRAME_PUSH = 64
+const RECORD_ALLOCATION = 128
+
+const AGGREGATED_ALLOCATION = 2
+const AGGREGATED_PYTHON_TRACE_INDEX = 3
+const AGGREGATED_PYTHON_FRAME_INDEX = 4
+const AGGREGATED_SURVIVING_OBJECT = 13
+const AGGREGATED_CODE_OBJECT = 14
+const AGGREGATED_TRAILER = 15

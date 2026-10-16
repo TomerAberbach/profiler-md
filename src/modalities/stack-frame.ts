@@ -63,6 +63,21 @@ export type StackFrame = {
   callSite?: UnresolvedSourceReference & { position: SourcePosition }
 }
 
+/** A frame's parsed name and location, the unit functions aggregate by. */
+export type StackFrameFunction = {
+  /** @see {@link StackFrame.name} */
+  name: string
+
+  /** The function's parsed identifying source and position. */
+  location: SourceLocation | undefined
+
+  /**
+   * The function's identity key, built from its name and identifying location.
+   * Two frames that parse to the same key are the same function.
+   */
+  key: string
+}
+
 /**
  * Which recorded position identifies and locates a profile's functions:
  * `definition` (the default), or `call-site` for an origin whose profiler
@@ -191,21 +206,6 @@ export class StackFrameFunctionTable {
   public executingLine(index: number): number | undefined {
     return this.#frames[index]?.executing?.line
   }
-}
-
-/** A frame's parsed name and location, the unit functions aggregate by. */
-export type StackFrameFunction = {
-  /** @see {@link StackFrame.name} */
-  name: string
-
-  /** The function's parsed identifying source and position. */
-  location: SourceLocation | undefined
-
-  /**
-   * The function's identity key, built from its name and identifying location.
-   * Two frames that parse to the same key are the same function.
-   */
-  key: string
 }
 
 export const parseStackFrameFunction = (

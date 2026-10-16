@@ -766,19 +766,6 @@ describe(`Markdown escaping resilience`, () => {
   )
 })
 
-const functionDocument = (name: string, location: string): string =>
-  mdastToMarkdown([
-    heading(3, `Functions`),
-    table(
-      [`Function`, `%`, `Location`],
-      [[[inlineCode(name)], [text(`100%`)], [inlineCode(location)]]],
-    ),
-    heading(5, nameLocationPhrasing(name, inlineCode(location))),
-  ])
-
-const h5LineIndex = (markdown: string): number =>
-  markdown.split(`\n`).findIndex(line => line.startsWith(`#####`))
-
 const highlight = async (
   markdown: string,
   options: HighlightMarkdownOptions,
@@ -806,6 +793,20 @@ const ANSI_CODE_TO_TAG: Record<string, string> = {
   '29': `</strike>`,
 }
 
+const highlightMarkdownOptions: HighlightMarkdownOptions = { outputPath: `-` }
+
+// Warm sand (#d3c6aa = 211,198,170) is the default.
+const defaultRowRed = 211
+const defaultRowGreen = 198
+// Golden amber (#dbbc7f = 219,188,127) is the default.
+const defaultHeadingRed = 219
+
+const maxRed = (output: string, lineIndex: number): number =>
+  Math.max(0, ...getLineColors(output, lineIndex).map(([red]) => red))
+
+const maxGreen = (output: string, lineIndex: number): number =>
+  Math.max(0, ...getLineColors(output, lineIndex).map(([, green]) => green))
+
 const getLineColors = (
   output: string,
   lineIndex: number,
@@ -820,16 +821,15 @@ const getLineColors = (
   ])
 }
 
-const maxRed = (output: string, lineIndex: number): number =>
-  Math.max(0, ...getLineColors(output, lineIndex).map(([red]) => red))
+const functionDocument = (name: string, location: string): string =>
+  mdastToMarkdown([
+    heading(3, `Functions`),
+    table(
+      [`Function`, `%`, `Location`],
+      [[[inlineCode(name)], [text(`100%`)], [inlineCode(location)]]],
+    ),
+    heading(5, nameLocationPhrasing(name, inlineCode(location))),
+  ])
 
-const maxGreen = (output: string, lineIndex: number): number =>
-  Math.max(0, ...getLineColors(output, lineIndex).map(([, green]) => green))
-
-// Warm sand (#d3c6aa = 211,198,170) is the default.
-const defaultRowRed = 211
-const defaultRowGreen = 198
-// Golden amber (#dbbc7f = 219,188,127) is the default.
-const defaultHeadingRed = 219
-
-const highlightMarkdownOptions: HighlightMarkdownOptions = { outputPath: `-` }
+const h5LineIndex = (markdown: string): number =>
+  markdown.split(`\n`).findIndex(line => line.startsWith(`#####`))

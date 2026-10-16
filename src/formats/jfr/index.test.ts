@@ -23,13 +23,6 @@ import type { JfrTestInput } from './testing.ts'
 
 const options = normalizeProfileToMdOptions({ baseURL: `/project` })
 
-/** The lines a recording from {@link makeJfr} logs, which name async-profiler. */
-const ORIGIN_LOGS = [
-  `debug: origin candidates, in priority order: async-profiler, jdk`,
-  `info: detected origin: async-profiler`,
-  `debug: async-profiler is named by the format's metadata`,
-]
-
 describe(`parse and matches`, () => {
   test(`accepts a synthetic recording with events`, () => {
     const bytes = makeJfr({
@@ -714,6 +707,13 @@ describe(`allocation event families`, () => {
     ])
   })
 })
+
+/** The lines a recording from {@link makeJfr} logs, which name async-profiler. */
+const ORIGIN_LOGS = [
+  `debug: origin candidates, in priority order: async-profiler, jdk`,
+  `info: detected origin: async-profiler`,
+  `debug: async-profiler is named by the format's metadata`,
+]
 
 describe(`malformed recordings`, () => {
   test(`reads constant pools that follow an empty unknown pool`, () => {

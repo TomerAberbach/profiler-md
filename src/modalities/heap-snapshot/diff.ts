@@ -29,15 +29,23 @@ import {
 } from './aggregate.ts'
 import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
-/**
- * One side's data for an entity matched across the base and current snapshots,
- * with the data {@link Instances} its kind keeps of its instances.
- *
- * The `id` is the ordinal of one of the entity's nodes within that side's
- * snapshot, so it never compares across the two snapshots.
- */
-export type DiffedHeapSnapshotEntity<Instances = unknown> =
-  AggregatedHeapSnapshotEntity & { instanceCount: number } & Instances
+export type AggregatedHeapSnapshotDiff = {
+  base: AggregatedHeapSnapshot
+  current: AggregatedHeapSnapshot
+  nodeCategoryToStats: Map<HeapSnapshotNodeCategory, Diff<NodeCategoryStats>>
+  constructors: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>[]
+  functions: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>[]
+
+  /**
+   * Strings present in either snapshot, matched across the two by value, with
+   * same-valued strings within a side merged together.
+   *
+   * Strings without a known value are excluded because they can't be matched
+   * across snapshots, though they still count towards totals and category
+   * stats.
+   */
+  strings: AggregatedHeapSnapshotEntityDiff[]
+}
 
 export type DiffedHeapSnapshotConstructor = DiffedHeapSnapshotEntity<{
   instances: AggregatedHeapSnapshotNode[]
@@ -47,6 +55,16 @@ export type DiffedHeapSnapshotConstructor = DiffedHeapSnapshotEntity<{
 export type DiffedHeapSnapshotFunction = DiffedHeapSnapshotEntity<{
   instanceOrdinals: number[]
 }>
+
+/**
+ * One side's data for an entity matched across the base and current snapshots,
+ * with the data {@link Instances} its kind keeps of its instances.
+ *
+ * The `id` is the ordinal of one of the entity's nodes within that side's
+ * snapshot, so it never compares across the two snapshots.
+ */
+export type DiffedHeapSnapshotEntity<Instances = unknown> =
+  AggregatedHeapSnapshotEntity & { instanceCount: number } & Instances
 
 /**
  * An entity matched across the base and current snapshots.
@@ -65,24 +83,6 @@ export type AggregatedHeapSnapshotEntityDiff<
 
   location?: SourceLocation
 } & Diff<Entity>
-
-export type AggregatedHeapSnapshotDiff = {
-  base: AggregatedHeapSnapshot
-  current: AggregatedHeapSnapshot
-  nodeCategoryToStats: Map<HeapSnapshotNodeCategory, Diff<NodeCategoryStats>>
-  constructors: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>[]
-  functions: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>[]
-
-  /**
-   * Strings present in either snapshot, matched across the two by value, with
-   * same-valued strings within a side merged together.
-   *
-   * Strings without a known value are excluded because they can't be matched
-   * across snapshots, though they still count towards totals and category
-   * stats.
-   */
-  strings: AggregatedHeapSnapshotEntityDiff[]
-}
 
 export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
@@ -113,6 +113,14 @@ export const diffAggregatedHeapSnapshots = (
     matchDiffedMaps(mergeStrings(base.strings), mergeStrings(current.strings)),
   ),
 })
+
+const entityDiffsFromMatches = <Entity extends DiffedHeapSnapshotEntity>(
+  diffs: Map<string, Diff<Entity>>,
+): AggregatedHeapSnapshotEntityDiff<Entity>[] =>
+  Array.from(diffs.values(), ({ base, current }) => {
+    const { name, nameLocation, location, category } = (current ?? base)!
+    return { name: name!, nameLocation, location, category, base, current }
+  })
 
 /**
  * Merges constructors sharing the same match key so the same class matches
@@ -247,49 +255,16 @@ const mergeStrings = (
   return valueToString
 }
 
-const entityDiffsFromMatches = <Entity extends DiffedHeapSnapshotEntity>(
-  diffs: Map<string, Diff<Entity>>,
-): AggregatedHeapSnapshotEntityDiff<Entity>[] =>
-  Array.from(diffs.values(), ({ base, current }) => {
-    const { name, nameLocation, location, category } = (current ?? base)!
-    return { name: name!, nameLocation, location, category, base, current }
-  })
-
-/** One side's nodes of an entity that share a retainer path. */
-export type RetainerGroup = {
-  /** The {@link RetainerPaths} ID of the path. */
-  path: number
-
-  selfSize: number
-
-  /**
-   * The group's first node, for a group whose nodes also share its name,
-   * category, and location.
-   */
-  node?: AggregatedHeapSnapshotNode
-}
-
-/** One side's instances of a constructor that share a retainer path. */
-export type DiffedInstanceGroup = RetainerGroup & {
-  instanceCount: number
-
-  /**
-   * The summed retained sizes of the instances. Instances with one path can't
-   * dominate one another, so their retained nodes are disjoint.
-   */
-  retainedSize: number
-}
-
-/** Interned paths, and each side's function interning a node's path. */
-type SidePaths<Intern> = Record<`base` | `current`, Intern> & {
-  paths: RetainerPaths
-}
-
 /**
  * A diff's retainer paths, and its retainer paths within a node's dominator.
  */
 export type DiffRetainerPaths = SidePaths<(nodeOrdinal: number) => number> & {
   within: SidePaths<(nodeOrdinal: number, dominatorOrdinal: number) => number>
+}
+
+/** Interned paths, and each side's function interning a node's path. */
+type SidePaths<Intern> = Record<`base` | `current`, Intern> & {
+  paths: RetainerPaths
 }
 
 export const diffRetainerPaths = (
@@ -309,143 +284,6 @@ export const diffRetainerPaths = (
     },
   }
 }
-
-/** Groups one side's shown instances of a constructor by their retainer paths. */
-export const groupConstructorInstances = (
-  diff: AggregatedHeapSnapshotDiff,
-  constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
-  side: `base` | `current`,
-  retainerPaths: DiffRetainerPaths,
-  options: FormattingProfileToMdOptions,
-): DiffedInstanceGroup[] => {
-  const { context } = diff[side]
-  const pathOf = retainerPaths[side]
-  const pathToGroup = new Map<number, DiffedInstanceGroup>()
-  for (const instance of constructor[side]?.instances ?? []) {
-    if (!options.showEntry(instance, context)) {
-      continue
-    }
-    const path = pathOf(instance.id)
-    let group = pathToGroup.get(path)
-    if (!group) {
-      group = { path, instanceCount: 0, selfSize: 0, retainedSize: 0 }
-      pathToGroup.set(path, group)
-    }
-    group.instanceCount++
-    group.selfSize += instance.selfSize
-    group.retainedSize += instance.retainedSize
-  }
-  return [...pathToGroup.values()]
-}
-
-/** Pairs a constructor's shown instance groups across a diff's sides. */
-export const matchConstructorInstanceGroups = (
-  diff: AggregatedHeapSnapshotDiff,
-  constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
-  retainerPaths: DiffRetainerPaths,
-  options: FormattingProfileToMdOptions,
-): EntryDiff<DiffedInstanceGroup>[] =>
-  matchRetainerGroups(
-    {
-      base: groupConstructorInstances(
-        diff,
-        constructor,
-        `base`,
-        retainerPaths,
-        options,
-      ),
-      current: groupConstructorInstances(
-        diff,
-        constructor,
-        `current`,
-        retainerPaths,
-        options,
-      ),
-    },
-    diff,
-    retainerPaths.paths,
-    options,
-  )
-
-/**
- * One side's retained nodes of a function that share a name, a category, a
- * location, and a retainer path within the instance retaining them.
- */
-export type DiffedRetainedNodeGroup = RetainerGroup & {
-  node: AggregatedHeapSnapshotNode
-}
-
-/**
- * Groups one side's shown retained nodes of a function by their names,
- * categories, locations, and retainer paths within the instances retaining
- * them. The elements of one array share a path, so they share a group.
- */
-export const groupFunctionRetainedNodes = (
-  diff: AggregatedHeapSnapshotDiff,
-  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>,
-  side: `base` | `current`,
-  retainerPaths: DiffRetainerPaths,
-  options: FormattingProfileToMdOptions,
-): DiffedRetainedNodeGroup[] => {
-  const pathWithin = retainerPaths.within[side]
-  const keyToGroup = new Map<number | string, DiffedRetainedNodeGroup>()
-  for (const { node, instanceOrdinal } of shownRetainedNodes(
-    fn[side]?.instanceOrdinals ?? [],
-    diff[side],
-    options,
-  )) {
-    const path = pathWithin(node.id, instanceOrdinal)
-    const key = retainerGroupKey(path, node)
-    const group = keyToGroup.get(key)
-    if (group) {
-      group.selfSize += node.selfSize
-    } else {
-      keyToGroup.set(key, { path, node, selfSize: node.selfSize })
-    }
-  }
-  return [...keyToGroup.values()]
-}
-
-/**
- * Identifies a retainer group among one side's groups by its path and, when it
- * has one, its node's name, category, and location.
- */
-const retainerGroupKey = (
-  path: number,
-  node: AggregatedHeapSnapshotNode | undefined,
-): number | string =>
-  node
-    ? `${path}\0${node.category}\0${nodeKey(node.name, node.location)}`
-    : path
-
-/** Pairs a function's shown retained node groups across a diff's sides. */
-export const matchFunctionRetainedNodeGroups = (
-  diff: AggregatedHeapSnapshotDiff,
-  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>,
-  retainerPaths: DiffRetainerPaths,
-  options: FormattingProfileToMdOptions,
-): EntryDiff<DiffedRetainedNodeGroup>[] =>
-  matchRetainerGroups(
-    {
-      base: groupFunctionRetainedNodes(
-        diff,
-        fn,
-        `base`,
-        retainerPaths,
-        options,
-      ),
-      current: groupFunctionRetainedNodes(
-        diff,
-        fn,
-        `current`,
-        retainerPaths,
-        options,
-      ),
-    },
-    diff,
-    retainerPaths.within.paths,
-    options,
-  )
 
 /**
  * The retainer paths of a diff's two sides, each by an ID. Two paths share an
@@ -774,6 +612,18 @@ export class RetainerPaths {
 
 const ANY_ELEMENT_EDGE: RetainerPathEdge = { type: `any-element` }
 
+/**
+ * The key a retainer edge matches by, with the run-varying identifier the
+ * origin strips from a property's name stripped.
+ */
+export const retainerEdgeMatchKey = (
+  edge: RetainerPathEdge,
+  { origin }: ProfileToMdContext,
+): string =>
+  formatRetainerEdge(edge, ({ name }) =>
+    matchHeapSnapshotEdgeNameForOrigin(name, origin),
+  )
+
 /** Whether two locations are at one position, or both have no line. */
 const isSamePosition = (
   left: SourceLocation | undefined,
@@ -785,6 +635,168 @@ const isSamePosition = (
       left.column === right.column &&
       sourceReferenceKind(left) === sourceReferenceKind(right) &&
       sourceReferenceId(left) === sourceReferenceId(right)
+
+/** One side's nodes of an entity that share a retainer path. */
+export type RetainerGroup = {
+  /** The {@link RetainerPaths} ID of the path. */
+  path: number
+
+  selfSize: number
+
+  /**
+   * The group's first node, for a group whose nodes also share its name,
+   * category, and location.
+   */
+  node?: AggregatedHeapSnapshotNode
+}
+
+/** One side's instances of a constructor that share a retainer path. */
+export type DiffedInstanceGroup = RetainerGroup & {
+  instanceCount: number
+
+  /**
+   * The summed retained sizes of the instances. Instances with one path can't
+   * dominate one another, so their retained nodes are disjoint.
+   */
+  retainedSize: number
+}
+
+/** Pairs a constructor's shown instance groups across a diff's sides. */
+export const matchConstructorInstanceGroups = (
+  diff: AggregatedHeapSnapshotDiff,
+  constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
+  retainerPaths: DiffRetainerPaths,
+  options: FormattingProfileToMdOptions,
+): EntryDiff<DiffedInstanceGroup>[] =>
+  matchRetainerGroups(
+    {
+      base: groupConstructorInstances(
+        diff,
+        constructor,
+        `base`,
+        retainerPaths,
+        options,
+      ),
+      current: groupConstructorInstances(
+        diff,
+        constructor,
+        `current`,
+        retainerPaths,
+        options,
+      ),
+    },
+    diff,
+    retainerPaths.paths,
+    options,
+  )
+
+/** Groups one side's shown instances of a constructor by their retainer paths. */
+export const groupConstructorInstances = (
+  diff: AggregatedHeapSnapshotDiff,
+  constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
+  side: `base` | `current`,
+  retainerPaths: DiffRetainerPaths,
+  options: FormattingProfileToMdOptions,
+): DiffedInstanceGroup[] => {
+  const { context } = diff[side]
+  const pathOf = retainerPaths[side]
+  const pathToGroup = new Map<number, DiffedInstanceGroup>()
+  for (const instance of constructor[side]?.instances ?? []) {
+    if (!options.showEntry(instance, context)) {
+      continue
+    }
+    const path = pathOf(instance.id)
+    let group = pathToGroup.get(path)
+    if (!group) {
+      group = { path, instanceCount: 0, selfSize: 0, retainedSize: 0 }
+      pathToGroup.set(path, group)
+    }
+    group.instanceCount++
+    group.selfSize += instance.selfSize
+    group.retainedSize += instance.retainedSize
+  }
+  return [...pathToGroup.values()]
+}
+
+/**
+ * One side's retained nodes of a function that share a name, a category, a
+ * location, and a retainer path within the instance retaining them.
+ */
+export type DiffedRetainedNodeGroup = RetainerGroup & {
+  node: AggregatedHeapSnapshotNode
+}
+
+/** Pairs a function's shown retained node groups across a diff's sides. */
+export const matchFunctionRetainedNodeGroups = (
+  diff: AggregatedHeapSnapshotDiff,
+  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>,
+  retainerPaths: DiffRetainerPaths,
+  options: FormattingProfileToMdOptions,
+): EntryDiff<DiffedRetainedNodeGroup>[] =>
+  matchRetainerGroups(
+    {
+      base: groupFunctionRetainedNodes(
+        diff,
+        fn,
+        `base`,
+        retainerPaths,
+        options,
+      ),
+      current: groupFunctionRetainedNodes(
+        diff,
+        fn,
+        `current`,
+        retainerPaths,
+        options,
+      ),
+    },
+    diff,
+    retainerPaths.within.paths,
+    options,
+  )
+
+/**
+ * Groups one side's shown retained nodes of a function by their names,
+ * categories, locations, and retainer paths within the instances retaining
+ * them. The elements of one array share a path, so they share a group.
+ */
+export const groupFunctionRetainedNodes = (
+  diff: AggregatedHeapSnapshotDiff,
+  fn: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>,
+  side: `base` | `current`,
+  retainerPaths: DiffRetainerPaths,
+  options: FormattingProfileToMdOptions,
+): DiffedRetainedNodeGroup[] => {
+  const pathWithin = retainerPaths.within[side]
+  const keyToGroup = new Map<number | string, DiffedRetainedNodeGroup>()
+  for (const { node, instanceOrdinal } of shownRetainedNodes(
+    fn[side]?.instanceOrdinals ?? [],
+    diff[side],
+    options,
+  )) {
+    const path = pathWithin(node.id, instanceOrdinal)
+    const key = retainerGroupKey(path, node)
+    const group = keyToGroup.get(key)
+    if (group) {
+      group.selfSize += node.selfSize
+    } else {
+      keyToGroup.set(key, { path, node, selfSize: node.selfSize })
+    }
+  }
+  return [...keyToGroup.values()]
+}
+
+/**
+ * Identifies a retainer group among one side's groups by its path and, when it
+ * has one, its node's name, category, and location.
+ */
+const retainerGroupKey = (
+  path: number,
+  node: AggregatedHeapSnapshotNode | undefined,
+): number | string =>
+  node
+    ? `${path}\0${node.category}\0${nodeKey(node.name, node.location)}`
+    : path
 
 /**
  * Pairs an entity's retainer groups across a diff's sides by their retainer
@@ -835,12 +847,6 @@ export const matchRetainerGroups = <Group extends RetainerGroup>(
   return paired
 }
 
-/** One side's groups of nodes sharing a retainer path. */
-type RetainerGroupSide<Group extends RetainerGroup> = {
-  groups: Group[]
-  context: ProfileToMdContext
-}
-
 /**
  * Pairs the groups with the same key, keeping each side's leftovers in order.
  * A side has one group per key.
@@ -872,6 +878,12 @@ const pairGroupsByKey = <Group extends RetainerGroup>(
     paired,
     leftovers: { base: leftoverBase, current: [...currentByKey.values()] },
   }
+}
+
+/** One side's groups of nodes sharing a retainer path. */
+type RetainerGroupSide<Group extends RetainerGroup> = {
+  groups: Group[]
+  context: ProfileToMdContext
 }
 
 type RetainerGroupEntry<Group> = {
@@ -943,15 +955,3 @@ const locatedRetainerGroupEntries = <Group extends RetainerGroup>(
   }
   return entries
 }
-
-/**
- * The key a retainer edge matches by, with the run-varying identifier the
- * origin strips from a property's name stripped.
- */
-export const retainerEdgeMatchKey = (
-  edge: RetainerPathEdge,
-  { origin }: ProfileToMdContext,
-): string =>
-  formatRetainerEdge(edge, ({ name }) =>
-    matchHeapSnapshotEdgeNameForOrigin(name, origin),
-  )
