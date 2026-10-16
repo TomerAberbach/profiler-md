@@ -677,8 +677,9 @@ if (failed > 0) {
   console.error(
     `\n${failed} of ${paths.length} inputs contain data about the generating machine. Regenerate them without it (see docs/languages/ for the profiler's flags), or redact it.`,
   )
-  process.exit(1)
+  process.exitCode = 1
+} else {
+  console.log(
+    `${paths.length} inputs contain no data about the generating machine`,
+  )
 }
-console.log(
-  `${paths.length} inputs contain no data about the generating machine`,
-)

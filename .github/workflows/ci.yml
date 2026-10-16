@@ -41,8 +41,11 @@ jobs:
           cache: true
           run_install: true
 
+      # Stops the checks before the job's `timeout-minutes`, leaving time for
+      # the steps above, so `check.ts` prints a hung step's output. A job
+      # timeout kills the process without it.
       - name: Check
-        run: pnpm check:static
+        run: pnpm check:static --timeout-minutes 12
 
   test:
     name: Tests (Node.js v${{ matrix.nodejs }}, ${{ matrix.os }})
