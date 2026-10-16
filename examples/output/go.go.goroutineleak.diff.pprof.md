@@ -17,3 +17,7 @@ No function differed in leaked goroutines recorded within the function body, exc
 ### Total leaked goroutines
 
 No function differed in leaked goroutines recorded within the function and its callees.
+
+## Hottest call stacks
+
+No call stack differed in leaked goroutines recorded in its leaf frame.

@@ -191,7 +191,6 @@ export type DiffRanking = {
 /** A direction of change between a diff's two sides. */
 export type DiffChange = `increase` | `decrease`
 
-/** The sentence introducing a ranking of {@link change}s in {@link description}. */
 /** The sentence opening a ranking of {@link plural} by {@link description}. */
 export const rankingSentence = (plural: string, description: string): string =>
   `${plural} with the most ${description}.`
@@ -202,6 +201,7 @@ export const unchangedDiffSentence = (
   description: string,
 ): string => `No ${singular} differed in ${description}.`
 
+/** The sentence opening a ranking of {@link plural} by their {@link change} in {@link description}. */
 export const diffRankingSentence = (
   plural: string,
   change: DiffChange,
@@ -508,11 +508,7 @@ export type ActiveDiffEntity<Entity> = {
 /**
  * Selects the entities whose measure increased and decreased the most from
  * {@link candidates}, keeping only those active on at least one side and shown
- * by {@link options}. {@link diffRankings} states which of the two a metric
- * counts as a regression.
- *
- * {@link categories} additionally selects the top of each category, ranked the
- * same way among that category's own entities.
+ * by {@link options}, as {@link rankDiffEntities} does.
  */
 export const selectDiffEntities = <
   Entity extends Diff<DeepReadonly<AggregatedProfileEntry>>,
@@ -520,42 +516,63 @@ export const selectDiffEntities = <
   candidates: ActiveDiffEntity<Entity>[],
   sides: DiffSides,
   options: FormattingProfileToMdOptions,
-  categories?: {
-    categories: EntryCategory[]
-    categoryOf: (entity: Entity) => EntryCategory
-  },
-): {
-  hasActive: boolean
-  increases: ActiveDiffEntity<Entity>[]
-  decreases: ActiveDiffEntity<Entity>[]
-  categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
-} => {
+  categories?: DiffEntityCategories<Entity>,
+): DiffEntityRankings<Entity> & { hasActive: boolean } => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
       (baseValue > 0 || currentValue > 0) &&
       showDiffEntity(entity, sides, options.showEntry),
   )
-  const increased = active.filter(
+  return {
+    hasActive: active.length > 0,
+    ...rankDiffEntities(active, options.topN, categories),
+  }
+}
+
+type DiffEntityCategories<Entity> = {
+  categories: EntryCategory[]
+  categoryOf: (entity: Entity) => EntryCategory
+}
+
+type DiffEntityRankings<Entity> = {
+  increases: ActiveDiffEntity<Entity>[]
+  decreases: ActiveDiffEntity<Entity>[]
+  categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
+}
+
+/**
+ * Selects the {@link topN} entities whose measure increased and decreased the
+ * most from {@link entities}. {@link diffRankings} states which of the two a
+ * metric counts as a regression.
+ *
+ * {@link categories} additionally selects the top of each category, ranked the
+ * same way among that category's own entities.
+ */
+export const rankDiffEntities = <Entity>(
+  entities: ActiveDiffEntity<Entity>[],
+  topN: number,
+  categories?: DiffEntityCategories<Entity>,
+): DiffEntityRankings<Entity> => {
+  const increased = entities.filter(
     ({ baseValue, currentValue }) => currentValue > baseValue,
   )
-  const decreased = active.filter(
+  const decreased = entities.filter(
     ({ baseValue, currentValue }) => currentValue < baseValue,
   )
   const topIncreases = (entities: ActiveDiffEntity<Entity>[]) =>
     selectTopN(
       entities,
-      options.topN,
+      topN,
       ({ baseValue, currentValue }) => currentValue - baseValue,
     )
   const topDecreases = (entities: ActiveDiffEntity<Entity>[]) =>
     selectTopN(
       entities,
-      options.topN,
+      topN,
       ({ baseValue, currentValue }) => baseValue - currentValue,
     )
 
   return {
-    hasActive: active.length > 0,
     increases: topIncreases(increased),
     decreases: topDecreases(decreased),
     categoryRankings: (categories?.categories ?? []).map(category => {

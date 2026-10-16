@@ -35,3 +35,21 @@ Callees with the largest change in contribution to each function's total time. I
 |  Change |   Delta |           % |        Time | Callee  | Location    |
 | ------: | ------: | ----------: | ----------: | ------- | ----------- |
 | removed | -2.00µs | 0.1% → 0.0% | 2.0µs → 0ms | `sleep` | `<unknown>` |
+
+## Hottest call stacks
+
+### Regressions
+
+Call stacks with the largest increase in wall time spent in their leaf frame.
+
+| Change |   Delta |            % |        Time | Call stack                                                                                                                                                                                                                                                                                   |
+| -----: | ------: | -----------: | ----------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    new | +2.00µs | 0.0% → <0.1% | 0ms → 2.0µs | `sleep` ← `-do_encode_map/2-lc$^0/1-0-/2` (`json`) ← `do_encode_map/2` ← `-do_encode_map/2-lc$^0/1-0-/2` ← `do_encode_map/2` ← `-do_encode_map/2-lc$^0/1-0-/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2` ← `foldl_1/3` (`lists`) ← `apply/2` (`eflambe`) ← `<0.10.0>` |
+
+### Improvements
+
+Call stacks with the largest decrease in wall time spent in their leaf frame.
+
+|  Change |   Delta |            % |        Time | Call stack                                                                                                                                                                                                                                                                                                             |
+| ------: | ------: | -----------: | ----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -2.00µs | <0.1% → 0.0% | 2.0µs → 0ms | `sleep` ← `escape_binary_ascii/5` (`json`) ← `-do_encode_map/2-lc$^0/1-0-/2` ← `do_encode_map/2` ← `-do_encode_map/2-lc$^0/1-0-/2` ← `do_encode_map/2` ← `-do_encode_map/2-lc$^0/1-0-/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2` ← `foldl_1/3` (`lists`) ← `apply/2` (`eflambe`) ← `<0.10.0>` |

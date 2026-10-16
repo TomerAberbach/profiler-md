@@ -667,30 +667,42 @@ export type FunctionIdMatcher = <Value>(
 ) => Diff<Value>[]
 
 /**
+ * Maps each side's function IDs to the index in {@link functionDiffs} of the
+ * function diff the ID belongs to.
+ */
+export const functionIdIndexes = (
+  functionDiffs: readonly Diff<{ id: number }>[],
+): { base: number[]; current: number[] } => {
+  // Sparse arrays, since IDs are sequential within a side.
+  const base: number[] = []
+  const current: number[] = []
+  for (const [index, functionDiff] of functionDiffs.entries()) {
+    if (functionDiff.base) {
+      base[functionDiff.base.id] = index
+    }
+    if (functionDiff.current) {
+      current[functionDiff.current.id] = index
+    }
+  }
+  return { base, current }
+}
+
+/**
  * Returns a function that pairs each side's values keyed by function ID by the
  * function diff each side's ID belongs to.
  */
 export const functionIdMatcher = (
   functionDiffs: readonly Diff<{ id: number }>[],
 ): FunctionIdMatcher => {
-  // Sparse arrays, since IDs are sequential within a side.
-  const baseIdToFunction: Diff<{ id: number }>[] = []
-  const currentIdToFunction: Diff<{ id: number }>[] = []
-  for (const functionDiff of functionDiffs) {
-    if (functionDiff.base) {
-      baseIdToFunction[functionDiff.base.id] = functionDiff
-    }
-    if (functionDiff.current) {
-      currentIdToFunction[functionDiff.current.id] = functionDiff
-    }
-  }
+  const idToIndex = functionIdIndexes(functionDiffs)
   return (base, current) => [
     ...matchDiffedMaps(
       Iterator.from(base ?? []).map(
-        ([id, value]) => [baseIdToFunction[id]!, value] as const,
+        ([id, value]) => [functionDiffs[idToIndex.base[id]!]!, value] as const,
       ),
       Iterator.from(current ?? []).map(
-        ([id, value]) => [currentIdToFunction[id]!, value] as const,
+        ([id, value]) =>
+          [functionDiffs[idToIndex.current[id]!]!, value] as const,
       ),
     ).values(),
   ]

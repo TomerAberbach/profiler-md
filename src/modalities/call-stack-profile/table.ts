@@ -133,12 +133,6 @@ export const HIDDEN_FRAMES = { type: `hidden` } as const
 export type ShownFrame =
   AggregatedCallStackProfileFunction | typeof HIDDEN_FRAMES
 
-/** Whether two shown frames are the same function, or both hidden. */
-export const sameShownFrame = (left: ShownFrame, right: ShownFrame): boolean =>
-  left.type === `hidden` || right.type === `hidden`
-    ? left.type === right.type
-    : left.id === right.id
-
 export type CallStackRow = MeasureRow & {
   frames: ShownFrame[]
 }

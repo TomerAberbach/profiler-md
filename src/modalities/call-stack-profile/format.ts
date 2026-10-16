@@ -1,4 +1,4 @@
-import type { RootContent } from 'mdast'
+import type { PhrasingContent, RootContent } from 'mdast'
 import {
   capitalizeFirst,
   formatArrow,
@@ -28,7 +28,7 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
-import { functionIdMatcher, lineMatcher } from '../diff.ts'
+import { functionIdIndexes, functionIdMatcher, lineMatcher } from '../diff.ts'
 import type {
   Diff,
   DiffedLine,
@@ -36,19 +36,24 @@ import type {
   LineMatcher,
 } from '../diff.ts'
 import {
+  diffRankings,
+  diffRankingSentence,
   formatBaseURLNote,
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
   formatZeroTotalNote,
+  rankDiffEntities,
   rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
   selectLargestChanges,
   showDiffEntity,
   shownDiffEntities,
+  unchangedDiffSentence,
 } from '../format.ts'
+import type { ActiveDiffEntity } from '../format.ts'
 import { formatProseValue, formatProseValueDelta } from '../measure.ts'
 import type { Metric } from '../metric.ts'
 import type { EntryCategory } from '../registry.ts'
@@ -79,7 +84,6 @@ import {
   functionColumns,
   HIDDEN_FRAMES,
   lineColumns,
-  sameShownFrame,
 } from './table.ts'
 import type { FunctionMeasureRow, ShownFrame } from './table.ts'
 
@@ -98,6 +102,18 @@ export const formatCallStackProfile = (
       profile.functions.some(func => showEntry(func, profile.context)),
     entities: `function`,
   })
+  const callStacks = mergeShownCallStacks(
+    profile,
+    sectionOptions.showEntry,
+    newCallStackKeyInterner(),
+    func => func.id,
+  )
+  const functionsById = new Array<AggregatedCallStackProfileFunction>(
+    profile.functions.length,
+  )
+  for (const func of profile.functions) {
+    functionsById[func.id] = func
+  }
   return [
     heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
     ...formatOverallSummary(profile, measures),
@@ -118,8 +134,9 @@ export const formatCallStackProfile = (
             headingLevel: sectionHeadingLevel,
           }),
           ...formatHottestCallStacks({
+            callStacks,
+            functionOf: id => functionsById[id]!,
             measure,
-            profile,
             options: sectionOptions,
             headingLevel: sectionHeadingLevel,
           }),
@@ -174,6 +191,7 @@ export const formatCallStackProfileDiff = (
       diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
     entities: `function`,
   })
+  const callStacks = matchDiffedCallStacks(diff, sectionOptions)
   return [
     heading(
       headingLevel,
@@ -189,17 +207,192 @@ export const formatCallStackProfileDiff = (
           return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
         }
 
-        return formatDiffFunctions({
-          diff,
-          matchLines,
-          matchFunctionIds,
-          measure,
-          options: sectionOptions,
-          headingLevel: sectionHeadingLevel,
-        })
+        return [
+          ...formatDiffFunctions({
+            diff,
+            matchLines,
+            matchFunctionIds,
+            measure,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
+          ...formatDiffCallStacks({
+            callStacks,
+            functions: diff.functions,
+            measure,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
+        ]
       },
     ),
   ]
+}
+
+/**
+ * The call stacks whose self value in their leaf frame changed the most, as a
+ * ranking per direction of change.
+ */
+const formatDiffCallStacks = ({
+  callStacks,
+  functions,
+  measure,
+  options,
+  headingLevel,
+}: {
+  callStacks: DiffedCallStack[]
+  functions: AggregatedCallStackProfileDiff[`functions`]
+  measure: DiffMeasure
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const active: ActiveDiffEntity<DiffedCallStack>[] = []
+  for (const callStack of callStacks) {
+    const { base, current } = callStack
+    const baseValue = base ? selfValueOf(measure.base, base) : 0
+    const currentValue = current ? selfValueOf(measure.current, current) : 0
+    if (baseValue > 0 || currentValue > 0) {
+      active.push({ entity: callStack, baseValue, currentValue })
+    }
+  }
+  if (active.length === 0) {
+    return []
+  }
+
+  const { metric } = measure
+  const verbPhrase = metric.phrases.pastParticipleVerbPhrase
+  const changes = rankDiffEntities(active, options.topN)
+  const sections = diffRankings(metric.improvement).flatMap(
+    ({ change, title }) =>
+      formatDiffCallStackRanking({
+        callStacks:
+          change === `increase` ? changes.increases : changes.decreases,
+        functions,
+        measure,
+        options,
+        headingLevel: headingLevel + 1,
+        title,
+        sentence: diffRankingSentence(
+          `Call stacks`,
+          change,
+          `${verbPhrase} in their leaf frame`,
+        ),
+      }),
+  )
+  return [
+    heading(headingLevel, `Hottest call stacks`),
+    ...(sections.length === 0
+      ? [
+          paragraph(
+            unchangedDiffSentence(
+              `call stack`,
+              `${verbPhrase} in its leaf frame`,
+            ),
+          ),
+        ]
+      : sections),
+  ]
+}
+
+const formatDiffCallStackRanking = ({
+  callStacks,
+  functions,
+  measure,
+  options,
+  headingLevel,
+  title,
+  sentence,
+}: {
+  callStacks: ActiveDiffEntity<DiffedCallStack>[]
+  functions: AggregatedCallStackProfileDiff[`functions`]
+  measure: DiffMeasure
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+  title: string
+  sentence: string
+}): RootContent[] => {
+  if (callStacks.length === 0) {
+    return []
+  }
+
+  const functionOf =
+    (side: keyof Diff<unknown>) =>
+    (index: number): AggregatedCallStackProfileFunction =>
+      functions[index]![side]!
+  const diffedCallStacks = callStacks.map(({ entity }) => entity)
+  const commonCallStack = findCommonCallStack(
+    diffedCallStacks,
+    functionOf(
+      callStacks.some(({ entity }) => entity.current) ? `current` : `base`,
+    ),
+  )
+  const sideRowOf = (
+    side: Measure,
+    frames: ShownFrame[],
+    callStack: ShownCallStack | undefined,
+    value: number,
+  ) =>
+    callStack && {
+      frames,
+      value,
+      count: callStack.selfCount,
+      total: side.total,
+    }
+  return [
+    heading(headingLevel, title),
+    paragraph([text(sentence), ...formatHiddenFramesNote(diffedCallStacks)]),
+    ...formatCommonCallStack(commonCallStack, options),
+    formatDiffTable(
+      callStackColumns(measure, commonCallStack, options),
+      callStacks.map(
+        ({ entity: { key, base, current }, baseValue, currentValue }) => {
+          // A removed call stack's frames are the base side's functions.
+          const frames = shownFramesOf(
+            key,
+            functionOf(current ? `current` : `base`),
+          )
+          return {
+            base: sideRowOf(measure.base, frames, base, baseValue),
+            current: sideRowOf(measure.current, frames, current, currentValue),
+          }
+        },
+      ),
+    ),
+  ]
+}
+
+/**
+ * A call stack merged on each side by its shown frames and paired across the
+ * sides by its {@link CallStackKey}, whose numbers index the diff's functions.
+ */
+type DiffedCallStack = Diff<ShownCallStack> & { key: CallStackKey }
+
+/**
+ * Merges each side's call stacks by their shown frames, and pairs them across
+ * the sides by the functions their frames are, as the diff paired functions.
+ */
+const matchDiffedCallStacks = (
+  diff: AggregatedCallStackProfileDiff,
+  options: FormattingProfileToMdOptions,
+): DiffedCallStack[] => {
+  const idToIndex = functionIdIndexes(diff.functions)
+  const keys = newCallStackKeyInterner()
+  const mergeSide = (side: keyof Diff<unknown>) => {
+    const sideIdToIndex = idToIndex[side]
+    return mergeShownCallStacks(
+      diff[side],
+      memoizeShowEntry(diff[side], options).showEntry,
+      keys,
+      func => sideIdToIndex[func.id]!,
+    )
+  }
+  const baseCallStacks = mergeSide(`base`)
+  const currentCallStacks = mergeSide(`current`)
+  return keys.items.map((key, index) => ({
+    key,
+    base: baseCallStacks[index],
+    current: currentCallStacks[index],
+  }))
 }
 
 const formatOverallSummary = (
@@ -706,20 +899,20 @@ const formatFunctionHottestNeighbors = ({
 }
 
 const formatHottestCallStacks = ({
+  callStacks,
+  functionOf,
   measure,
-  profile,
   options,
   headingLevel,
 }: {
+  callStacks: ShownCallStack[]
+  functionOf: FunctionOf
   measure: Measure
-  profile: AggregatedCallStackProfile
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
   const hottestCallStacks = selectTopN(
-    mergeShownCallStacks(profile, options).filter(
-      callStack => selfValueOf(measure, callStack) > 0,
-    ),
+    callStacks.filter(callStack => selfValueOf(measure, callStack) > 0),
     options.topN,
     callStack => selfValueOf(measure, callStack),
   )
@@ -728,32 +921,23 @@ const formatHottestCallStacks = ({
   }
 
   const { metric, total } = measure
-  const commonCallStack = findCommonCallStack(hottestCallStacks)
-  const hidesAnyFrame = hottestCallStacks.some(callStack =>
-    callStack.frames.some(frame => frame.type === `hidden`),
-  )
-
+  const commonCallStack = findCommonCallStack(hottestCallStacks, functionOf)
   return [
     heading(headingLevel, `Hottest call stacks`),
     paragraph([
       text(
-        `Call stacks with the most ${metric.phrases.pastParticipleVerbPhrase} in their leaf frame.`,
+        rankingSentence(
+          `Call stacks`,
+          `${metric.phrases.pastParticipleVerbPhrase} in their leaf frame`,
+        ),
       ),
-      ...(hidesAnyFrame
-        ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
-        : []),
+      ...formatHiddenFramesNote(hottestCallStacks),
     ]),
-    ...(commonCallStack.length > 0
-      ? [
-          paragraph(
-            phrasing`Common call stack: ${formatCallStack(commonCallStack, options)}`,
-          ),
-        ]
-      : []),
+    ...formatCommonCallStack(commonCallStack, options),
     formatTable(
       callStackColumns(measure, commonCallStack, options),
       hottestCallStacks.map(callStack => ({
-        frames: callStack.frames,
+        frames: shownFramesOf(callStack.key, functionOf),
         value: selfValueOf(measure, callStack),
         count: callStack.selfCount,
         total,
@@ -762,52 +946,112 @@ const formatHottestCallStacks = ({
   ]
 }
 
+/** The note ending a ranking's opening sentence when it hides any frame. */
+const formatHiddenFramesNote = (
+  callStacks: { key: CallStackKey }[],
+): PhrasingContent[] =>
+  callStacks.some(({ key }) => key.includes(HIDDEN_FRAME_KEY))
+    ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
+    : []
+
+const formatCommonCallStack = (
+  commonCallStack: ShownFrame[],
+  options: FormattingProfileToMdOptions,
+): RootContent[] =>
+  commonCallStack.length > 0
+    ? [
+        paragraph(
+          phrasing`Common call stack: ${formatCallStack(commonCallStack, options)}`,
+        ),
+      ]
+    : []
+
 /**
  * Returns the list of callers of {@link callStacks} that is the longest common
- * suffix of their frames, except it never returns a call stack as long as one
- * of the input call stacks.
+ * suffix of their keys, except it never returns a call stack as long as one of
+ * the input call stacks.
  *
  * That cap makes it safe to remove the suffix from any call stack and still
  * have a non-empty call stack to format.
  */
 const findCommonCallStack = (
-  callStacks: { frames: ShownFrame[] }[],
+  callStacks: { key: CallStackKey }[],
+  functionOf: FunctionOf,
 ): ShownFrame[] => {
   if (callStacks.length <= 1) {
     return []
   }
 
-  const minLength = Math.min(...callStacks.map(cs => cs.frames.length))
-  const firstFrames = callStacks[0]!.frames
+  let minLength = Infinity
+  for (const { key } of callStacks) {
+    minLength = Math.min(minLength, key.length)
+  }
+  const firstKey = callStacks[0]!.key
   let suffixLength = 0
-
-  for (let i = 1; i < minLength; i++) {
-    const suffix = firstFrames.slice(-i)
-    if (
-      callStacks.every(callStack =>
-        callStack.frames
-          .slice(-i)
-          .every((frame, j) => sameShownFrame(frame, suffix[j]!)),
-      )
-    ) {
-      suffixLength = i
-    } else {
+  for (let length = 1; length < minLength; length++) {
+    const frameKey = firstKey[firstKey.length - length]
+    if (!callStacks.every(({ key }) => key[key.length - length] === frameKey)) {
       break
     }
+    suffixLength = length
   }
 
-  return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
+  return shownFramesOf(
+    firstKey.slice(firstKey.length - suffixLength),
+    functionOf,
+  )
 }
 
+/**
+ * Identifies a call stack by a number per shown frame, its function's, or
+ * {@link HIDDEN_FRAME_KEY} for a run of hidden frames.
+ */
+type CallStackKey = readonly number[]
+
+const HIDDEN_FRAME_KEY = -1
+
+/** Returns the function a {@link CallStackKey}'s number identifies. */
+type FunctionOf = (frameKey: number) => AggregatedCallStackProfileFunction
+
+const shownFramesOf = (
+  key: CallStackKey,
+  functionOf: FunctionOf,
+): ShownFrame[] =>
+  key.map(frameKey =>
+    frameKey === HIDDEN_FRAME_KEY ? HIDDEN_FRAMES : functionOf(frameKey),
+  )
+
 type ShownCallStack = {
-  frames: ShownFrame[]
+  key: CallStackKey
   selfCount: number
   selfValues: Float64Array
 }
 
 /**
- * Replaces each call stack with its shown frames and merges the stacks that
- * become identical, summing their self metrics.
+ * An interner of call stack keys.
+ *
+ * It hashes the keys' numbers directly because building and hashing a key
+ * string per call stack dominated the merge's runtime.
+ */
+const newCallStackKeyInterner = (): HashInterner<CallStackKey, CallStackKey> =>
+  new HashInterner(
+    key => {
+      let hash = HASH_SEED
+      for (const frameKey of key) {
+        hash = mixHash(hash, frameKey)
+      }
+      return hash
+    },
+    (internedKey, key) =>
+      internedKey.length === key.length &&
+      internedKey.every((frameKey, i) => frameKey === key[i]),
+  )
+
+/**
+ * Replaces each call stack with the key of its shown frames and merges the
+ * stacks whose keys are equal, summing their self metrics. Returns the merged
+ * call stacks indexed by their key's index in {@link keys}, so the array is
+ * sparse when {@link keys} holds another profile's keys.
  *
  * Without merging, stacks distinct only in hidden frames would format as
  * duplicate rows, and each row would show only its own part of the value.
@@ -817,69 +1061,53 @@ type ShownCallStack = {
  */
 const mergeShownCallStacks = (
   { callStacks, context }: AggregatedCallStackProfile,
-  options: FormattingProfileToMdOptions,
+  showEntry: FormattingProfileToMdOptions[`showEntry`],
+  keys: HashInterner<CallStackKey, CallStackKey>,
+  frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
 ): ShownCallStack[] => {
-  const interner = newShownCallStackInterner()
-  const { showEntry } = options
+  const merged: ShownCallStack[] = []
   for (const callStack of callStacks) {
-    const frames = shownFramesOf(callStack.frames, context, showEntry)
-    if (frames === null) {
+    const key = shownCallStackKeyOf(
+      callStack.frames,
+      context,
+      showEntry,
+      frameKeyOf,
+    )
+    if (key === null) {
       continue
     }
 
-    const countBeforeIntern = interner.items.length
-    const index = interner.intern(frames, () => ({
-      frames,
-      selfCount: callStack.selfCount,
-      selfValues: new Float64Array(callStack.selfValues),
-    }))
-    if (index === countBeforeIntern) {
-      continue
+    const index = keys.intern(key, () => key)
+    const mergedCallStack = merged[index]
+    if (mergedCallStack) {
+      addSelfMetrics(mergedCallStack, callStack)
+    } else {
+      merged[index] = {
+        key: keys.items[index]!,
+        selfCount: callStack.selfCount,
+        selfValues: new Float64Array(callStack.selfValues),
+      }
     }
-
-    addSelfMetrics(interner.items[index]!, callStack)
   }
-  return interner.items
+  return merged
 }
 
 /**
- * An interner keying call stacks on their shown frames.
- *
- * It hashes frame IDs directly because building and hashing a key string per
- * call stack dominated the merge's runtime.
- */
-const newShownCallStackInterner = (): HashInterner<
-  ShownFrame[],
-  ShownCallStack
-> =>
-  new HashInterner(
-    frames => {
-      let hash = HASH_SEED
-      for (const frame of frames) {
-        hash = mixHash(hash, frame.type === `hidden` ? -1 : frame.id)
-      }
-      return hash
-    },
-    (callStack, frames) =>
-      callStack.frames.length === frames.length &&
-      callStack.frames.every((frame, i) => sameShownFrame(frame, frames[i]!)),
-  )
-
-/**
- * Returns {@link frames} with the hidden frames between two shown ones
- * replaced by {@link HIDDEN_FRAMES}, or `null` when fewer than two frames are
- * shown.
+ * Returns the key of {@link frames} with the hidden frames between two shown
+ * ones replaced by {@link HIDDEN_FRAME_KEY}, or `null` when fewer than two
+ * frames are shown.
  *
  * Hidden frames below the leaf and above the root are dropped, because they
  * are between a shown frame and an end of the stack instead of between two
  * shown frames.
  */
-const shownFramesOf = (
+const shownCallStackKeyOf = (
   frames: AggregatedCallStackProfileFunction[],
   context: ProfileToMdContext,
   showEntry: FormattingProfileToMdOptions[`showEntry`],
-): ShownFrame[] | null => {
-  const shownFrames: ShownFrame[] = []
+  frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
+): number[] | null => {
+  const key: number[] = []
   let shownCount = 0
   let hidAnyFrame = false
   for (const frame of frames) {
@@ -889,13 +1117,13 @@ const shownFramesOf = (
     }
 
     if (hidAnyFrame && shownCount > 0) {
-      shownFrames.push(HIDDEN_FRAMES)
+      key.push(HIDDEN_FRAME_KEY)
     }
-    shownFrames.push(frame)
+    key.push(frameKeyOf(frame))
     shownCount++
     hidAnyFrame = false
   }
-  return shownCount > 1 ? shownFrames : null
+  return shownCount > 1 ? key : null
 }
 
 const addSelfMetrics = (
