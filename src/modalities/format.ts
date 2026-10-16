@@ -209,8 +209,8 @@ export const diffRankingSentence = (
 ): string => `${plural} with the largest ${change} in ${description}.`
 
 /**
- * The increase and decrease subsections for one function direction (self or
- * total), under a {@link title} heading, followed by {@link detailSections}
+ * The increase and decrease subsections for the functions' self or total
+ * values, under a {@link title} heading, followed by {@link detailSections}
  * breaking down the functions they show.
  *
  * When nothing differed but {@link hasActive} functions exist on either side,

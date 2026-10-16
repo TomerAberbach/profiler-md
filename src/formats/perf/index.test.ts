@@ -401,7 +401,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`each recorded event becomes its own profile, measured in its own units`, () => {
+  test(`each recorded event becomes its own call stack profile, measured in its own units`, () => {
     // The clock event's period counts nanoseconds; the fault event's counts
     // faults.
     const cpuClock = {

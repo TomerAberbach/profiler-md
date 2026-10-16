@@ -1,6 +1,6 @@
 /**
- * Write every rule here to match its data whatever format wrote the input, so
- * a new format's inputs are checked without a rule for it.
+ * Write every rule here to match its data in an input of any format, so a new
+ * format's inputs are checked without a rule for it.
  */
 
 import { execFileSync } from 'node:child_process'

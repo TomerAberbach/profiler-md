@@ -51,16 +51,16 @@ ensure_spock() {
 # small module with one ruleset to keep the output under the 100 MB input size
 # limit. The nativemem capture records every malloc/free, and even CodeNarc's
 # startup (loading its ~350 rule classes and the Groovy runtime) emits ~80 MB of
-# events. The cpu-threads-ann-sig capture roots each stack at its thread and
-# appends method signatures, multiplying CodeNarc's distinct stacks. A full
-# collapsed alloc capture writes ~585 MB.
+# events. The cpu-threads-ann-sig capture roots each call stack at its thread
+# and appends method signatures, multiplying CodeNarc's distinct call stacks. A
+# full collapsed alloc capture writes ~585 MB.
 run_jvm_workload() {
-  local jvm_arg=$1 cfg=$2 ext=$3 role=$4 includes rulesets
-  local version=${CODENARC_VERSION[$role]}
+  local jvm_arg=$1 cfg=$2 ext=$3 side=$4 includes rulesets
+  local version=${CODENARC_VERSION[$side]}
   local jar="$REPO/scripts/inputs/assets/groovy/CodeNarc-$version-all.jar"
   fetch_asset "CodeNarc $version all jar" \
     "https://repo1.maven.org/maven2/org/codenarc/CodeNarc/$version/CodeNarc-$version-all.jar" \
-    "${CODENARC_SHA256[$role]}" "$jar" || return 1
+    "${CODENARC_SHA256[$side]}" "$jar" || return 1
   # The JVM's command line names the jar, and a recording holds the command
   # line, so the jar runs from WORKDIR rather than the checkout.
   cp "$jar" "$WORKDIR/codenarc.jar" || return 1

@@ -11,18 +11,18 @@ declare -A JSON_FORTRAN_TAG=([base]="8.5.2" [current]="9.0.0")
 profile="$REPO/scripts/inputs/assets/fortran/profile.f90"
 
 declare -A rundir=()
-run_for_role() {
-  local role=$1
-  if [[ -n "${rundir[$role]:-}" ]]; then
+run_for_side() {
+  local side=$1
+  if [[ -n "${rundir[$side]:-}" ]]; then
     return 0
   fi
-  local dir="$WORKDIR/fortran-$role"
+  local dir="$WORKDIR/fortran-$side"
   mkdir -p "$dir"
   # Stage the workload and its input where the container can read them.
   cp "$profile" "$dir/profile.f90"
   cp "$TWITTER_JSON" "$dir/twitter.json"
 
-  notice "Profiling json-fortran with gperftools ($role)"
+  notice "Profiling json-fortran with gperftools ($side)"
 
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
@@ -32,7 +32,7 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         gfortran git ca-certificates
 
-      git clone --depth 1 --branch "'"${JSON_FORTRAN_TAG[$role]}"'" \
+      git clone --depth 1 --branch "'"${JSON_FORTRAN_TAG[$side]}"'" \
         "'"$JSON_FORTRAN_REPO"'" /src/json-fortran
 
       # Compile the library sources in dependency order, then the workload
@@ -66,13 +66,13 @@ run_for_role() {
 
       # tcmalloc dumps numbered heap.NNNN.heap files. Parsing allocates a node
       # per JSON value, so dump every 256 MB rather than leaving thousands of dumps behind. Keeping the first
-      # dump captures both roles at the same allocated volume, so their diff
+      # dump captures both sides at the same allocated volume, so their diff
       # reflects the workload instead of where each run stopped.
       HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=268435456 \
         /out/binary /out/twitter.json 200
       cp "$(ls -1 /out/heap.*.heap | sort | head -n1)" /out/heap.raw
-    ' -e ROLE="$role"
+    ' -e SIDE="$side"
 
   # pprof can't symbolize the Linux runtime libraries (libc, libgfortran,
   # tcmalloc, ld) on another OS, so drop those expected warnings. Other errors
@@ -83,22 +83,22 @@ run_for_role() {
   pprof -proto "$dir/binary" "$dir/heap.raw" >"$dir/heap.pprof" \
     2> >(grep -v "$drop" >&2 || true)
 
-  rundir[$role]=$dir
+  rundir[$side]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container basename (cpu|heap)
+# capture_fn for emit: $1=out  $2=side  $3=in-container basename (cpu|heap)
 copy_fortran_profile() {
-  local out=$1 role=$2 name=$3
+  local out=$1 side=$2 name=$3
   fetch_twitter_json
-  run_for_role "$role"
-  cp "${rundir[$role]}/$name.pprof" "$out"
+  run_for_side "$side"
+  cp "${rundir[$side]}/$name.pprof" "$out"
 }
 
 ensure_docker
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/fortran.gperftools.cpu.$role.pprof"  copy_fortran_profile "$role" cpu
-  try emit "$GENERATED_INPUTS/fortran.gperftools.heap.$role.pprof" copy_fortran_profile "$role" heap
+for side in base current; do
+  try emit "$GENERATED_INPUTS/fortran.gperftools.cpu.$side.pprof"  copy_fortran_profile "$side" cpu
+  try emit "$GENERATED_INPUTS/fortran.gperftools.heap.$side.pprof" copy_fortran_profile "$side" heap
 done
 
 verify_pairs

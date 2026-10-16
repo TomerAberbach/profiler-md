@@ -21,9 +21,9 @@ import {
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
-  attributeCategoryRetainedSizes,
+  attributeEntityRetainedSizes,
   computeNodeOrdinalToRetainedSize,
-  newOutermostInstanceIdsOf,
+  newOutermostInstanceOrdinalsOf,
 } from './retained.ts'
 import type {
   HeapSnapshot,
@@ -60,7 +60,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     nodeOrdinal: number,
   ) => UnresolvedHeapSnapshotNodeCategory
 
-  #totalSize = 0
+  #heldSize = 0
   readonly #nodeCategoryStats = new NodeCategoryStatsAggregator()
 
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
@@ -170,7 +170,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
 
   #addCategoryNode(nodeOrdinal: number, node: HeapSnapshotNode): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
-    this.#totalSize += selfSize
+    this.#heldSize += selfSize
     this.#nodeCategoryStats.add(node, selfSize)
   }
 
@@ -238,17 +238,19 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         category: `function`,
         selfSize: 0,
         retainedSize: 0,
-        largestInstanceId: nodeOrdinal,
-        instanceIds: [],
+        largestInstanceOrdinal: nodeOrdinal,
+        instanceOrdinals: [],
       })
       this.#keyToFunctionIndex.set(key, functionIndex)
     }
 
     const fn = this.#functions[functionIndex]!
     fn.selfSize += this.#selfSizeOf(nodeOrdinal)
-    fn.instanceIds.push(nodeOrdinal)
-    if (retainedSize > this.#nodeOrdinalToRetainedSize[fn.largestInstanceId]!) {
-      fn.largestInstanceId = nodeOrdinal
+    fn.instanceOrdinals.push(nodeOrdinal)
+    if (
+      retainedSize > this.#nodeOrdinalToRetainedSize[fn.largestInstanceOrdinal]!
+    ) {
+      fn.largestInstanceOrdinal = nodeOrdinal
     }
     this.#nodeOrdinalToFunctionIndex[nodeOrdinal] = functionIndex
   }
@@ -274,13 +276,13 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
-    attributeCategoryRetainedSizes(
+    attributeEntityRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
       this.#nodeOrdinalToConstructorIndex,
       this.#constructors,
     )
-    attributeCategoryRetainedSizes(
+    attributeEntityRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
       this.#nodeOrdinalToFunctionIndex,
@@ -300,14 +302,14 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     return {
       type: `heap-snapshot`,
       context,
-      totalSize: this.#totalSize,
+      heldSize: this.#heldSize,
       nodeCount: this.#nodeCount,
       edgeCount: this.#edgeCount,
       nodeCategoryToStats: this.#nodeCategoryStats.aggregate(origin),
       constructors: this.#constructors,
       functions: this.#functions,
       strings: this.#strings,
-      outermostInstanceIdsOf: newOutermostInstanceIdsOf(
+      outermostInstanceOrdinalsOf: newOutermostInstanceOrdinalsOf(
         this.#immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
       ),
       retainerHopOf: this.#retainerHopOf,
@@ -362,7 +364,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
   ): void {
     for (const fn of this.#functions) {
-      fn.category = categoryOf(fn.largestInstanceId)
+      fn.category = categoryOf(fn.largestInstanceOrdinal)
     }
     for (const constructor of this.#constructors) {
       for (const instance of constructor.instances) {
@@ -388,7 +390,7 @@ export const nodeKey = (
 export const entityLocation = ({
   location,
   nameLocation,
-}: Pick<AggregatedHeapSnapshotNode, `location` | `nameLocation`>):
+}: Pick<AggregatedHeapSnapshotEntity, `location` | `nameLocation`>):
   SourceLocation | undefined => location ?? nameLocation
 
 const computeRetainerHop = (
@@ -409,7 +411,7 @@ const computeRetainerHop = (
   }
 
   const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-  // An unreachable node has no dominator, and the root dominates itself.
+  // An unreachable node has no dominator, and the GC root dominates itself.
   if (dominatorOrdinal === -1 || dominatorOrdinal === nodeOrdinal) {
     return undefined
   }
@@ -531,29 +533,29 @@ export const formatRetainerEdge = (
 /** A shown retained node, and the instance retaining it. */
 export type ShownRetainedNode = {
   node: AggregatedHeapSnapshotNode
-  instanceId: number
+  instanceOrdinal: number
 }
 
 /**
- * Yields each shown node the outermost of the distinct {@link instanceIds}
+ * Yields each shown node the outermost of the distinct {@link instanceOrdinals}
  * retain, and the instance retaining it.
  */
 export function* shownRetainedNodes(
-  instanceIds: readonly number[],
+  instanceOrdinals: readonly number[],
   {
-    outermostInstanceIdsOf,
+    outermostInstanceOrdinalsOf,
     retainedNodesOf,
     context,
   }: Pick<
     AggregatedHeapSnapshot,
-    `outermostInstanceIdsOf` | `retainedNodesOf` | `context`
+    `outermostInstanceOrdinalsOf` | `retainedNodesOf` | `context`
   >,
   options: FormattingProfileToMdOptions,
 ): Iterable<ShownRetainedNode> {
-  for (const instanceId of outermostInstanceIdsOf(instanceIds)) {
-    for (const node of retainedNodesOf(instanceId, options)) {
+  for (const instanceOrdinal of outermostInstanceOrdinalsOf(instanceOrdinals)) {
+    for (const node of retainedNodesOf(instanceOrdinal, options)) {
       if (options.showEntry(node, context)) {
-        yield { node, instanceId }
+        yield { node, instanceOrdinal }
       }
     }
   }
@@ -618,19 +620,15 @@ export type NodeCategoryStats = {
   nodeCount: number
 }
 
+/** A constructor's instance, or a node an instance retains. */
 export type AggregatedHeapSnapshotNode = {
   type: `node`
 
-  /** Unique ID for this node that can also be used as an index. */
+  /** The node's ordinal. */
   id: number
-  name?: string
 
-  /**
-   * The file reference the {@link name} parses as, when it is URL-shaped
-   * (e.g. a V8 module namespace object named by its file URL). Formatting
-   * shows it relative to the base URL in place of the raw name.
-   */
-  nameLocation?: FileReference
+  /** The node's label, which for an instance is its constructor's name. */
+  name: string
 
   /** Bytes allocated directly for this node. */
   selfSize: number
@@ -643,10 +641,40 @@ export type AggregatedHeapSnapshotNode = {
    */
   retainedSize: number
 
+  /** The location of the constructor or function the node is an instance of. */
   location?: SourceLocation
 }
 
-export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotNode & {
+/** A constructor, function, or string, aggregating the nodes it identifies. */
+export type AggregatedHeapSnapshotEntity = {
+  type: `node`
+
+  /** The ordinal of one of the entity's nodes. */
+  id: number
+  name?: string
+
+  /**
+   * The file reference the {@link name} parses as, when it is URL-shaped
+   * (e.g. a V8 module namespace object named by its file URL). Formatting
+   * shows it relative to the base URL in place of the raw name.
+   */
+  nameLocation?: FileReference
+
+  /** Bytes allocated directly for the entity's nodes. */
+  selfSize: number
+
+  category: HeapSnapshotNodeCategory
+
+  /**
+   * Bytes allocated for the entity's nodes, as well as all nodes that would be
+   * freed if they were garbage collected.
+   */
+  retainedSize: number
+
+  location?: SourceLocation
+}
+
+export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity & {
   name: string
 
   /**
@@ -658,23 +686,24 @@ export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotNode & {
   instances: AggregatedHeapSnapshotNode[]
 }
 
-export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotNode & {
+export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotEntity & {
   /** What this string holds: its representation in the heap. */
   category: HeapSnapshotNodeCategory
 }
 
-export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotNode & {
+export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
   name: string
 
   /**
    * What this function holds, taken from the instance
-   * {@link largestInstanceId} identifies, which is the instance its rows show.
+   * {@link largestInstanceOrdinal} identifies, which is the instance its rows
+   * show.
    */
   category: HeapSnapshotNodeCategory
 
   /** Node ordinal of the instance with the largest individual retained size. */
-  largestInstanceId: number
-  instanceIds: number[]
+  largestInstanceOrdinal: number
+  instanceOrdinals: number[]
 }
 
 export type AggregatedHeapSnapshot = {
@@ -686,8 +715,8 @@ export type AggregatedHeapSnapshot = {
    */
   context: ProfileToMdContext
 
-  /** Total bytes allocated in the snapshot. */
-  totalSize: number
+  /** The summed self sizes of every node in the snapshot. */
+  heldSize: number
   nodeCount: number
   edgeCount: number
   nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
@@ -697,11 +726,13 @@ export type AggregatedHeapSnapshot = {
   strings: AggregatedHeapSnapshotString[]
 
   /**
-   * The reachable instances among distinct instance IDs that no other of them
-   * dominates. Their retained nodes are disjoint, and contain every other
-   * reachable instance's.
+   * Of the given distinct instance ordinals, those of the reachable instances
+   * that no other given instance dominates. Their retained nodes are disjoint,
+   * and contain every other reachable instance's.
    */
-  outermostInstanceIdsOf: (instanceIds: readonly number[]) => readonly number[]
+  outermostInstanceOrdinalsOf: (
+    instanceOrdinals: readonly number[],
+  ) => readonly number[]
 
   /**
    * The first hop of a node's retainer path along its dominators, or

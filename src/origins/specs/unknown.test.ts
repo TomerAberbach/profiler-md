@@ -84,9 +84,9 @@ describe(`categorizeEntry`, () => {
 })
 
 describe(`matchEntry`, () => {
-  test(`an unmarked entry normalizes to undefined`, () => {
+  test(`an unmarked entry has no entry match`, () => {
     // The unknown origin carries no profiler's rules (see
-    // `unknownOriginSpec`), so no entry gets a match normalization.
+    // `unknownOriginSpec`), so no entry gets an entry match.
     expect(
       matchEntryForOrigin(
         absoluteEntry(`main`, `file:///project/src/main.rs`),

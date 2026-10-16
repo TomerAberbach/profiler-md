@@ -6,7 +6,7 @@ import { PerfFile } from './file.ts'
 export { hasPerfMagic } from './file.ts'
 
 /**
- * Parses a `perf.data` file into one profile per sampled event.
+ * Parses a `perf.data` file into one call stack profile per sampled event.
  *
  * A `perf.data` file carries no symbol tables, so an address resolves no
  * further than the object it fell in. Each frame is one address within one

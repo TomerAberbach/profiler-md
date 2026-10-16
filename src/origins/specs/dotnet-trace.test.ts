@@ -214,7 +214,7 @@ describe(`matchEntry`, () => {
     ).toEqual({ name: `Regex2_Scan(pMT, pMT<wchar>)` })
   })
 
-  test(`an entry without an address normalizes to undefined`, () => {
+  test(`an entry without an address has no entry match`, () => {
     expect(
       matchEntryForOrigin(
         typeEntry(`Main(String[])`, `Profile.Program`),

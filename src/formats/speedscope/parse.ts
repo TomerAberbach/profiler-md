@@ -132,9 +132,9 @@ const exporterOriginHint = (
 
 // The `line`/`col` are read as the function's definition position, matching
 // speedscope's own importer, which keys each frames-array entry as a distinct
-// frame. Some profilers (py-spy, rbspy) instead emit one frame per *sampled*
-// line; their origins' `normalizeStackFrame` reinterprets the line as the
-// executing line (see `normalizeSpeedscopeExecutingLine` in
+// frame. Some profilers (py-spy, rbspy) instead emit one frame per executing
+// line, so their origins' `normalizeStackFrame` moves the line into the
+// executing slot (see `normalizeSpeedscopeExecutingLine` in
 // `src/origins/spec.ts`).
 //
 // A definition position is a position within its source, so the parser drops
@@ -248,20 +248,20 @@ const eventedProfile = (
 
 /**
  * Reconstructs observations from open/close events: each frame's self time (the
- * gap since its last child closed) becomes one record of the current stack.
+ * gap since its last callee closed) becomes one record of the current stack.
  */
 function* eventedObservations(
   profile: SpeedscopeEventedProfile,
   frameCount: number,
 ): Iterable<Observation> {
-  const stack: { frame: number; lastChildClosed: number }[] = []
+  const stack: { frame: number; lastCalleeClosed: number }[] = []
 
-  function* emitTopSelfTime(at: number): Iterable<Observation> {
+  function* emitLeafSelfTime(at: number): Iterable<Observation> {
     if (stack.length === 0) {
       return
     }
-    const top = stack.at(-1)!
-    const selfTime = at - top.lastChildClosed
+    const leaf = stack.at(-1)!
+    const selfTime = at - leaf.lastCalleeClosed
     if (selfTime <= 0) {
       return
     }
@@ -270,7 +270,7 @@ function* eventedObservations(
       values: [selfTime],
       frameIndices: stack.map(entry => entry.frame).reverse(),
     }
-    top.lastChildClosed = at
+    leaf.lastCalleeClosed = at
   }
 
   for (const event of profile.events) {
@@ -281,13 +281,13 @@ function* eventedObservations(
     }
 
     if (event.type === `O`) {
-      yield* emitTopSelfTime(event.at)
-      stack.push({ frame: event.frame, lastChildClosed: event.at })
+      yield* emitLeafSelfTime(event.at)
+      stack.push({ frame: event.frame, lastCalleeClosed: event.at })
     } else {
-      yield* emitTopSelfTime(event.at)
+      yield* emitLeafSelfTime(event.at)
       stack.pop()
       if (stack.length > 0) {
-        stack.at(-1)!.lastChildClosed = event.at
+        stack.at(-1)!.lastCalleeClosed = event.at
       }
     }
   }

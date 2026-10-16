@@ -17,15 +17,15 @@ export GOEXPERIMENT=goroutineleakprofile
 profile="$REPO/scripts/inputs/assets/go/profile.go"
 
 declare -A rundir=()
-run_for_role() {
-  local role=$1
-  if [[ -z "${rundir[$role]:-}" ]]; then
-    local dir="$WORKDIR/go-$role"
+run_for_side() {
+  local side=$1
+  if [[ -z "${rundir[$side]:-}" ]]; then
+    local dir="$WORKDIR/go-$side"
     mkdir -p "$dir"
     fetch_twitter_json
-    notice "Profiling encoding/json using go ($role)"
+    notice "Profiling encoding/json using go ($side)"
     GOCACHE="$WORKDIR/gocache" GOFLAGS=-mod=mod go run "$profile" "$dir" "$TWITTER_JSON"
-    rundir[$role]=$dir
+    rundir[$side]=$dir
   fi
 }
 
@@ -37,41 +37,41 @@ run_for_role() {
 trimpath_workload="$REPO/scripts/inputs/assets/go/trimpath"
 
 declare -A trimpath_profile=()
-run_trimpath_for_role() {
-  local role=$1
-  if [[ -z "${trimpath_profile[$role]:-}" ]]; then
-    local dir="$WORKDIR/go-trimpath-$role"
+run_trimpath_for_side() {
+  local side=$1
+  if [[ -z "${trimpath_profile[$side]:-}" ]]; then
+    local dir="$WORKDIR/go-trimpath-$side"
     mkdir -p "$dir"
     fetch_twitter_json
-    notice "Profiling encoding/json using a -trimpath go build ($role)"
+    notice "Profiling encoding/json using a -trimpath go build ($side)"
     GOCACHE="$WORKDIR/gocache" go build -C "$trimpath_workload" -trimpath \
       -o "$dir/workload" .
     "$dir/workload" "$dir/cpu.pprof" "$TWITTER_JSON"
-    trimpath_profile[$role]=$dir/cpu.pprof
+    trimpath_profile[$side]=$dir/cpu.pprof
   fi
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 copy_go_trimpath_profile() {
-  local out=$1 role=$2
-  run_trimpath_for_role "$role"
-  cp "${trimpath_profile[$role]}" "$out"
+  local out=$1 side=$2
+  run_trimpath_for_side "$side"
+  cp "${trimpath_profile[$side]}" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=pprof profile name
+# capture_fn for emit: $1=out  $2=side  $3=pprof profile name
 copy_go_profile() {
-  local out=$1 role=$2 name=$3
-  run_for_role "$role"
-  cp "${rundir[$role]}/$name.pprof" "$out"
+  local out=$1 side=$2 name=$3
+  run_for_side "$side"
+  cp "${rundir[$side]}/$name.pprof" "$out"
 }
 
-for role in base current; do
+for side in base current; do
   for cfg in "${CONFIGS[@]}"; do
-    out="$GENERATED_INPUTS/go.go.$cfg.$role.pprof"
-    try emit "$out" copy_go_profile "$role" "${CONFIG_TO_PROFILE[$cfg]}"
+    out="$GENERATED_INPUTS/go.go.$cfg.$side.pprof"
+    try emit "$out" copy_go_profile "$side" "${CONFIG_TO_PROFILE[$cfg]}"
   done
-  try emit "$GENERATED_INPUTS/go.go.cpu-trimpath.$role.pprof" \
-    copy_go_trimpath_profile "$role"
+  try emit "$GENERATED_INPUTS/go.go.cpu-trimpath.$side.pprof" \
+    copy_go_trimpath_profile "$side"
 done
 
 verify_pairs

@@ -64,10 +64,10 @@ const createHighlighterCore = async (): Promise<HighlighterCore> => {
 }
 
 /**
- * Recovers heat intensities by re-parsing the Markdown (which this tool itself
- * serialized) with the inverse of the serializer, so escaped content (`\|`,
- * variable-length code fences, etc.) decodes back to the original name and
- * location strings and heading ↔ table keys agree by construction.
+ * Recovers heat intensities by re-parsing the Markdown (which profiler-md
+ * itself serialized) with the inverse of the serializer, so escaped content
+ * (`\|`, variable-length code fences, etc.) decodes back to the original name
+ * and location strings and heading ↔ table keys agree by construction.
  */
 const computeLineToIntensity = async (
   markdown: string,
@@ -121,17 +121,17 @@ const RANKING_REGRESSION_SIGNS: ReadonlyMap<string, RegressionSign> = new Map([
 ])
 
 /**
- * What an increase is in a profile whose rankings state nothing about one,
- * which happens when no ranking has rows to state it with. A profiler records
- * what a program consumed, so an increase is a regression.
+ * What an increase is in a profile section whose rankings have no rows to
+ * state one with. A profiler records what a program consumed, so an increase
+ * is a regression.
  */
 const DEFAULT_INCREASE_SIGN: RegressionSign = 1
 
 /**
  * The diff rows no ranking heading covers, which is every summary table, held
- * until the profile's rankings state what an increase in it is. A summary table
- * precedes the rankings measuring the same thing, so its rows are tinted once
- * those rankings are reached.
+ * until the profile section's rankings state what an increase in it is. A
+ * summary table precedes the rankings measuring the same thing, so its rows are
+ * tinted once those rankings are reached.
  */
 type UnrankedDiffRows = {
   rows: RelativeDiffRow[]
@@ -140,7 +140,9 @@ type UnrankedDiffRows = {
   increaseSign: RegressionSign | null
 }
 
-/** One diff row's line and its delta as a share of the profile total. */
+/**
+ * One diff row's line and its delta as a share of the profile section's total.
+ */
 type RelativeDiffRow = { lineIndex: number; relativeDelta: number }
 
 const holdRows = (
@@ -192,9 +194,9 @@ type HeadingSection = {
   isFunction: boolean
 
   /**
-   * The profile total the diff tables in this scope imply, or null where none
-   * has. A table under a function heading breaks down that function's value,
-   * so it implies none.
+   * The total the diff tables in this scope imply for their profile section,
+   * or null where none has. A table under a function heading breaks down that
+   * function's value, so it implies none.
    */
   profileTotal: number | null
 
@@ -226,8 +228,9 @@ const visitHeading = (
 
   const rankingSign = RANKING_REGRESSION_SIGNS.get(nodeText(heading))
   if (heading.depth === PROFILE_HEADING_DEPTH) {
-    // Each profile's rankings state what an increase is in its own metric, so
-    // the rows held for the profile above take what its rankings stated.
+    // Each profile section's rankings state what an increase is in its own
+    // metric, so the rows held for the profile section above take what its
+    // rankings stated.
     tintHeldRows(unranked, lineToIntensity)
     unranked.increaseSign = null
   } else if (rankingSign === 0) {
@@ -252,7 +255,7 @@ const visitHeading = (
   }
 }
 
-/** The heading level opening one profile's section of the output. */
+/** The heading level opening one profile section of the output. */
 const PROFILE_HEADING_DEPTH = 1
 
 const closeDeeperSections = (
@@ -411,16 +414,16 @@ type DiffColumnIndexes = {
 }
 
 /**
- * Tints each diff row by its delta's share of the profile total, the same
- * absolute scale non-diff tables get from their `%` column, so a row's tint is
- * proportional to how much of the profile its change moved.
+ * Tints each diff row by its delta's share of the profile section's total, the
+ * same absolute scale non-diff tables get from their `%` column, so a row's
+ * tint is proportional to how much of the profile section its change moved.
  *
  * A row is tinted red where its change is a regression and green where it is an
- * improvement, which {@link regressionSign} states for the rows a ranking
- * heading covers. Where a ranking calls a change neither, the rows stay
- * untinted. Rows no ranking covers are held until a ranking states what an
+ * improvement, which {@link HeadingSection.regressionSign} states for the rows
+ * a ranking heading covers. Where a ranking calls a change neither, the rows
+ * stay untinted. Rows no ranking covers are held until a ranking states what an
  * increase is, which its own rows reveal: the delta sign a `Regressions`
- * heading covers is the sign a regression has throughout the profile.
+ * heading covers is the sign a regression has throughout the profile section.
  */
 const visitDiffTable = (
   dataRows: Table[`children`],
@@ -484,8 +487,8 @@ const setIntensity = (
 }
 
 /**
- * The profile total to measure a diff table's deltas against, or null where
- * none is known.
+ * The profile section's total to measure a diff table's deltas against, or
+ * null where none is known.
  *
  * The total isn't printed, but each row implies it: `Change` is
  * `delta ÷ base value` and `%` holds the base and current shares of their
@@ -494,11 +497,11 @@ const setIntensity = (
  * estimate divides by rounded percentages, so take it from the row with the
  * largest share, where rounding error is proportionally smallest.
  *
- * Every table of a profile's rankings implies one total, which this records on
- * the table's section and each enclosing section that has none. A table under
- * a function heading breaks down that function's value, so its `%` column holds
- * shares of the function: it takes the nearest section's total, and implies
- * its own only where no section has one.
+ * Every table of a profile section's rankings implies one total, which this
+ * records on the table's section and each enclosing section that has none. A
+ * table under a function heading breaks down that function's value, so its `%`
+ * column holds shares of the function: it takes the nearest section's total,
+ * and implies its own only where no section has one.
  */
 const profileTotalOf = (
   diffRows: readonly DiffRow[],
@@ -616,7 +619,7 @@ const parsePercentSides = (
 
 /**
  * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MiB`, or a unitless
- * sample count like `+1,384`) into a signed magnitude. Units are normalized so
+ * count like `+1,384`) into a signed magnitude. Units are normalized so
  * magnitudes are comparable within a single table, which only ever mixes units
  * of the same dimension (time or size).
  */

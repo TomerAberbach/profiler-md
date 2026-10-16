@@ -67,7 +67,7 @@ describe(`detection`, () => {
     ).toBe(`node`)
   })
 
-  test(`a runtime marker outranks web-page evidence`, () => {
+  test(`a runtime marker outranks web-page markers`, () => {
     expect(
       determineOrigin({
         format: `v8-cpu-profile`,

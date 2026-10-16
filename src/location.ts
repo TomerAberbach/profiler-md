@@ -10,7 +10,7 @@ export type SourceLocation = SourceReference & {
   column?: number
 }
 
-/** A reference to where a function is defined: a file or a logical name. */
+/** A reference to where a function is defined. */
 export type SourceReference = FileReference | LogicalReference
 
 export type FileReference =
@@ -60,6 +60,10 @@ export const sourceReferenceKind = (
 ): `file` | `logical` =>
   sourceReference.type === `logical` ? `logical` : `file`
 
+/**
+ * A source reference as the parser records it, before resolution to a
+ * {@link SourceReference}.
+ */
 export type UnresolvedSourceReference =
   | {
       type: `file`
@@ -108,6 +112,13 @@ export const makeSourceLocation = (
   return sourceReferenceToSourceLocation(sourceReference, position)
 }
 
+/**
+ * Resolves an unresolved file reference's URL or path, or returns `undefined`
+ * for an empty one.
+ *
+ * A string that parses as neither an absolute file path nor a URL becomes a
+ * relative path.
+ */
 export const makeFileReference = (
   urlOrPath: string,
 ): FileReference | undefined => {

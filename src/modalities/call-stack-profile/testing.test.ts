@@ -1,7 +1,12 @@
 import dedent from 'dedent'
 import { describe, expect, test } from 'vitest'
 import { calleesTables, callersTables, linesTables } from '../../testing.ts'
-import { callStackTables, selfTimeTables, totalTimeTables } from './testing.ts'
+import {
+  callStackTables,
+  selfTimeTables,
+  totalSizeTables,
+  totalTimeTables,
+} from './testing.ts'
 
 describe(`selfTimeTables`, () => {
   test(`returns [] when heading is absent`, () => {
@@ -93,6 +98,51 @@ describe(`totalTimeTables`, () => {
     expect(tables).toStrictEqual([
       [{ Function: `foo`, Value: `50ms` }],
       [{ Function: `bar`, Value: `100ms` }],
+    ])
+  })
+})
+
+describe(`totalSizeTables`, () => {
+  test(`returns [] when heading is absent`, () => {
+    const tables = totalSizeTables(`# Profile\n`)
+
+    expect(tables).toStrictEqual([])
+  })
+
+  test(`returns parsed rows when heading is present`, () => {
+    const tables = totalSizeTables(dedent`
+      ## Total size
+
+      | Type | Bytes |
+      | --- | --- |
+      | Array | 128 |
+    `)
+
+    expect(tables).toStrictEqual([[{ Type: `Array`, Bytes: `128` }]])
+  })
+
+  test(`returns one table per matching heading`, () => {
+    const tables = totalSizeTables(dedent`
+      # Profile 1
+
+      ## Total size
+
+      | Type | Bytes |
+      | --- | --- |
+      | Array | 128 |
+
+      # Profile 2
+
+      ## Total size
+
+      | Type | Bytes |
+      | --- | --- |
+      | Map | 256 |
+    `)
+
+    expect(tables).toStrictEqual([
+      [{ Type: `Array`, Bytes: `128` }],
+      [{ Type: `Map`, Bytes: `256` }],
     ])
   })
 })

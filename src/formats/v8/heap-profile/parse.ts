@@ -30,7 +30,9 @@ export type V8HeapProfileNode = {
    */
   callFrame: V8CallFrame
 
-  /** Total bytes allocated directly at this call site (size × count). */
+  /**
+   * Bytes this node allocated directly, excluding its callees (size × count).
+   */
   selfSize: number
 
   /** Unique identifier used to correlate samples back to this node. */
@@ -39,7 +41,7 @@ export type V8HeapProfileNode = {
 }
 
 type V8HeapProfileSample = {
-  /** Total bytes for this allocation (size * count). */
+  /** Bytes attributed to this allocation sample (size × count). */
   size: number
 
   /** The node ID in the call tree where this allocation occurred. */
@@ -79,9 +81,9 @@ export const parseV8HeapProfile = (
 
 /**
  * Flattens the call tree, reindexing each node's ID to its flattened position,
- * which doubles as its frame-universe index, and returns the flattened nodes
- * with the mappings from original ID to position and from position to parent
- * position (`-1` for the root).
+ * which doubles as its index in the parsed profile's `frames`, and returns the
+ * flattened nodes with the mappings from original ID to position and from
+ * position to parent position (`-1` for the root).
  */
 const flattenCallTree = (
   profile: V8HeapProfile,
@@ -123,8 +125,8 @@ const nodeToStackFrame = (node: V8HeapProfileNode) => {
 /**
  * V8's sampling heap profiler labels an allocation made outside JS execution
  * with the raw `VMState` tag (see v8's `sampling-heap-profiler.cc`). Mapped to
- * the lowercase labels the V8 CPU profiler uses (`(garbage collector)`) so both
- * profile kinds format and categorize consistently.
+ * the lowercase labels the V8 CPU profiler uses (`(garbage collector)`) so a V8
+ * heap profile and a V8 CPU profile format and categorize consistently.
  *
  * The three stages of V8's compilation pipeline share the `(compiler)` label,
  * the granularity every other runtime reports compilation at. `(ATOMICS_WAIT)`

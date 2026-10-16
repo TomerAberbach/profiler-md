@@ -21,20 +21,20 @@ EXTS=(speedscope.json collapsed pprof callgrind)
 
 assets="$REPO/scripts/inputs/assets/ruby"
 
-# Each role records once and renders the recording into every format. A
+# Each side records once and renders the recording into every format. A
 # partial regeneration records again, so formats emitted by separate runs come
 # from separate recordings.
 declare -A rundir=()
-run_for_role() {
-  local role=$1
-  [[ -n "${rundir[$role]:-}" ]] && return 0
-  local dir="$WORKDIR/ruby-$role"
+run_for_side() {
+  local side=$1
+  [[ -n "${rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/ruby-$side"
   mkdir -p "$dir" || return 1
 
   fetch_twitter_json || return 1
   cp "$assets"/* "$TWITTER_JSON" "$dir" || return 1
 
-  notice "Profiling rails with rbspy ($role) in docker ($DOCKER_PLATFORM)"
+  notice "Profiling rails with rbspy ($side) in docker ($DOCKER_PLATFORM)"
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -84,24 +84,24 @@ run_for_role() {
     ' \
     --cap-add SYS_PTRACE \
     -e RBSPY_URL="$RBSPY_URL" \
-    -e RAILS_VERSION="${RAILS_VERSION[$role]}" \
+    -e RAILS_VERSION="${RAILS_VERSION[$side]}" \
     -e REQUEST_SECONDS="$REQUEST_SECONDS" || return 1
 
-  rundir[$role]=$dir
+  rundir[$side]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=ext (speedscope.json|collapsed|pprof|callgrind)
+# capture_fn for emit: $1=out  $2=side  $3=ext (speedscope.json|collapsed|pprof|callgrind)
 copy_ruby_profile() {
-  local out=$1 role=$2 ext=$3
-  run_for_role "$role" || return 1
-  cp "${rundir[$role]}/ruby.$ext" "$out"
+  local out=$1 side=$2 ext=$3
+  run_for_side "$side" || return 1
+  cp "${rundir[$side]}/ruby.$ext" "$out"
 }
 
 ensure_docker
 
-for role in base current; do
+for side in base current; do
   for ext in "${EXTS[@]}"; do
-    try emit "$GENERATED_INPUTS/ruby.rbspy.cpu.$role.$ext" copy_ruby_profile "$role" "$ext"
+    try emit "$GENERATED_INPUTS/ruby.rbspy.cpu.$side.$ext" copy_ruby_profile "$side" "$ext"
   done
 done
 

@@ -11,7 +11,7 @@ import type { OriginSpec } from '../spec.ts'
  * The Chrome browser's DevTools profilers.
  *
  * Runtime-specific markers (`node:`, `ext:`, JSC builtins) outrank web-page
- * evidence via priority order, so a server-side profile that also loads modules
+ * markers via priority order, so a server-side profile that also loads modules
  * over the web still resolves to its runtime, provided some runtime frame was
  * captured. A profile of exclusively web-loaded code (e.g. one attached mid-run
  * to a Deno process hot-looping in a remote module) resolves here, because the

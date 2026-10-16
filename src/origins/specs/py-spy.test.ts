@@ -126,7 +126,7 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`reinterprets a located speedscope frame's line as the executing line`, () => {
-    // Py-spy's speedscope export emits one frame per sampled line; the line
+    // Py-spy's speedscope export emits one frame per executing line; the line
     // must feed the line breakdown rather than the function's identity.
     expect(
       normalizeStackFrame(

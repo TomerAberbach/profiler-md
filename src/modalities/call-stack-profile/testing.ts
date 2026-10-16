@@ -23,15 +23,18 @@ export const makeAggregatedCallStackProfile = (
     line?: number
     column?: number
     selfValues: number[]
-    /** Leaf-to-caller frame indices of each record; defaults to the function alone. */
-    stack?: number[]
+    /**
+     * Leaf-to-root frame indices of each observation, defaulting to the
+     * function alone.
+     */
+    callStack?: number[]
   } & (
     | { selfCount: number; executingLines?: never }
     | {
         selfCount?: never
         /**
-         * The executing line of each of the function's records, whose counts
-         * sum to its self count.
+         * The executing line of each of the function's observations, whose
+         * counts sum to its self count.
          */
         executingLines: { line: number; count: number }[]
       }
@@ -50,7 +53,7 @@ export const makeAggregatedCallStackProfile = (
       func.executingLines?.reduce((sum, { count }) => sum + count, 0) ??
       func.selfCount!
     const values = func.selfValues.map(value => value / selfCount)
-    const stack = func.stack ?? [index]
+    const stack = func.callStack ?? [index]
     if (!func.executingLines) {
       return Array.from({ length: selfCount }, () => ({
         values,
@@ -122,22 +125,29 @@ export const selfObjectsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Self objects`)
 
 /**
- * The `Self size` tables under {@link section}, the heading separating the size
- * metrics an input records several of, whether as one profile's measures or as
- * a profile each (e.g. `Peak memory profile`).
+ * The `Self size` tables, or only those under {@link section} when given. A
+ * section is the heading separating the size metrics an input records several
+ * of, whether as one profile's measures or as a profile each (e.g.
+ * `Peak memory profile`).
  */
-export const selfSizeTables = (md: string, section: string): Table[] =>
-  allTablesAfterHeadingContaining(
-    nodesUnderHeading(parseMd(md), section),
-    `Self size`,
-  )
+export const selfSizeTables = (md: string, section?: string): Table[] =>
+  sizeTables(md, `Self size`, section)
 
 /** The `Total size` counterpart of {@link selfSizeTables}. */
-export const totalSizeTables = (md: string, section: string): Table[] =>
-  allTablesAfterHeadingContaining(
-    nodesUnderHeading(parseMd(md), section),
-    `Total size`,
-  )
+export const totalSizeTables = (md: string, section?: string): Table[] =>
+  sizeTables(md, `Total size`, section)
+
+const sizeTables = (
+  md: string,
+  heading: string,
+  section: string | undefined,
+): Table[] =>
+  section === undefined
+    ? allTablesAfterHeading(parseMd(md), heading)
+    : allTablesAfterHeadingContaining(
+        nodesUnderHeading(parseMd(md), section),
+        heading,
+      )
 
 export const callStackTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Hottest call stacks`)

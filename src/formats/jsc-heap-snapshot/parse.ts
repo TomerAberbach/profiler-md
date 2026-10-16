@@ -169,12 +169,12 @@ function* jscSnapshotNodes(
  * nor element rather than unclassified. Every remaining node is therefore an
  * ordinary object, and the object flag it also has adds nothing.
  *
- * No committed snapshot sets the element flag. A Safari capture of a page whose
+ * No committed input sets the element flag. A Safari capture of a page whose
  * heap holds 418 `HTMLDivElement` and 160 `Text` nodes leaves every one of them
- * unflagged, so a Safari snapshot reports the DOM as ordinary objects while a
- * V8 snapshot of a comparable page reports it as `native`. Categorizing those
- * nodes by their class name instead would mean trusting a name a program can
- * define (`Node`, `Range`, `Text`).
+ * unflagged, so a Safari heap snapshot reports the DOM as ordinary objects
+ * while a V8 heap snapshot of a comparable page reports it as `native`.
+ * Categorizing those nodes by their class name instead would mean trusting a
+ * name a program can define (`Node`, `Range`, `Text`).
  */
 const categorizeNode = (flags: number): HeapSnapshotNodeCategory =>
   flags & NODE_INTERNAL_FLAG

@@ -484,7 +484,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`names an unrecognized count after the emitter's own type name`, () => {
+  test(`names an unrecognized count after its sample type`, () => {
     const data = makePprof({
       valueTypes: [{ type: `widgets`, unit: `count` }],
       functions: [

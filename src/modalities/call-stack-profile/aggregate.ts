@@ -45,7 +45,7 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     const aggregator = new ObservationsAggregator(
       metrics,
       // The origin's answer overrides the format's, where the format's
-      // emitters disagree on what one count unit is.
+      // origins disagree on what one count measures.
       countMetricForOrigin(context.format, context.origin) ?? countMetric,
       functions,
       options,
@@ -78,7 +78,7 @@ class ObservationsAggregator {
 
   // Call stacks are deduplicated by a numeric hash of their frames' function
   // IDs rather than a joined string key, whose building and hashing dominated
-  // stack creation. The interner owns the canonical call stack list.
+  // call stack creation. The interner owns the canonical call stack list.
   readonly #callStackInterner = new HashInterner<
     AggregatedCallStackProfileFunction[],
     AggregatedCallStackProfileCallStack
@@ -125,8 +125,8 @@ class ObservationsAggregator {
   }
 
   /**
-   * Adds {@link Observation.count} occurrences (default `1`) of one profile
-   * record. An empty {@link Observation.frameIndices} is a stackless
+   * Adds {@link Observation.count} occurrences (default `1`) of one
+   * observation. An empty {@link Observation.frameIndices} is a stackless
    * observation, attributed to a single shared anonymous function.
    *
    * Passing a count is equivalent to calling this once per occurrence, but runs
@@ -148,7 +148,7 @@ class ObservationsAggregator {
 
     // Line metrics aggregate per observation rather than per call stack in
     // `#propagateCallStackMetrics`: frames that normalize to the same function
-    // intern to the same call stack while sampling different executing lines.
+    // intern to the same call stack while recording different executing lines.
     let leafLine = executingLine
     if (leafLine === undefined) {
       const leafIndex = frameIndices[0]
@@ -187,10 +187,10 @@ class ObservationsAggregator {
   }
 
   /**
-   * Function, caller, and callee attributions depend only on a stack's frames,
-   * so summing each unique call stack's aggregated self metrics reproduces the
-   * per-observation aggregation losslessly in one pass per unique call stack,
-   * rather than one O(depth) pass per observation.
+   * Function, caller, and callee attributions depend only on a call stack's
+   * frames, so summing each unique call stack's aggregated self metrics
+   * reproduces the per-observation aggregation losslessly in one pass per
+   * unique call stack, rather than one O(depth) pass per observation.
    */
   #propagateCallStackMetrics(): void {
     const callStacks = this.#callStackInterner.items
@@ -198,9 +198,9 @@ class ObservationsAggregator {
     const functionCount = this.#keyToFunction.size
     const functionIdToLastSeenEpoch = new Uint32Array(functionCount)
 
-    // A function is called from few sites, so across stacks a callee repeats
-    // its previous caller more often than not. The cache then replaces the
-    // frame pair's hash lookup with two indexed reads.
+    // A function is called from few sites, so across call stacks a callee
+    // repeats its previous caller more often than not. The cache then replaces
+    // the frame pair's hash lookup with two indexed reads.
     const lastCallerIdByCalleeId = new Int32Array(functionCount).fill(-1)
     const lastMetricsByCalleeId = new Array<
       AggregatedCallStackProfileCalleeMetrics | undefined
@@ -232,9 +232,9 @@ class ObservationsAggregator {
         }
       }
 
-      // A per-stack epoch deduplicates functions that recur within a single
-      // call stack so their totals count it once. A per-pair epoch
-      // deduplicates a frame pair that recurs (recursion) the same way.
+      // An epoch per call stack deduplicates functions that recur within it, so
+      // their totals count it once. A per-pair epoch deduplicates a frame pair
+      // that recurs (recursion) the same way.
       const lastIndex = frames.length - 1
       for (let i = 0; i <= lastIndex; i++) {
         const callee = frames[i]!
@@ -320,9 +320,10 @@ class ObservationsAggregator {
     frameIndices: number[],
     id: number | undefined,
   ): AggregatedCallStackProfileCallStack {
-    // A stable stack ID lets repeat stacks (the common case, since a profile
-    // has far fewer unique stacks than observations) skip resolving frames and
-    // the hash-keyed lookup, becoming a single sparse-array index.
+    // A stable call stack ID lets repeat call stacks (the common case, since a
+    // profile has far fewer unique call stacks than observations) skip
+    // resolving frames and the hash-keyed lookup, becoming a single
+    // sparse-array index.
     if (id !== undefined) {
       const cached = this.#idToCallStack[id]
       if (cached) {
@@ -342,7 +343,7 @@ class ObservationsAggregator {
     }
     const callStack = this.#internCallStack(frames)
 
-    // Distinct IDs can resolve to the same logical stack, so memoize against
+    // Distinct IDs can resolve to the same call stack, so memoize against
     // the canonical call stack the hash deduplicated to, not a fresh one.
     if (id !== undefined) {
       this.#idToCallStack[id] = callStack
@@ -690,9 +691,9 @@ export type AggregatedCallStackProfile = {
 
   /**
    * The context (format and resolved origin) this profile was aggregated under.
-   * Match-key normalization varies by origin, so each diffed side's keys must
-   * be built under that side's own context; sides that resolved different
-   * origins can normalize match keys differently and miss matches.
+   * Match keys vary by origin, so build each diffed side's keys under that
+   * side's own context. Sides that resolved different origins can normalize
+   * match keys differently and miss matches.
    */
   context: ProfileToMdContext
 

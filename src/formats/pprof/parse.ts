@@ -284,7 +284,7 @@ const layoutOf = (valueTypes: ValueType[]): ValueLayout => {
     countMetric: countValueType
       ? (countedAs(countValueType.name) ??
         // The unit is `count`, so the parsed metric is a count metric named
-        // after the emitter's own type name.
+        // after the sample type.
         (parseMetric(countValueType) as CountMetric))
       : SAMPLES,
     countValueIndex: countValueType?.index,
@@ -595,7 +595,7 @@ function* parseObservations(
     // A record's metric values are totals across its aggregated occurrences,
     // and the aggregator scales values by the count, so divide them back to
     // per-occurrence. A count of zero still describes one occurrence wherever a
-    // metric value remains, because some producers zero the count.
+    // metric value remains, because some profilers zero the count.
     const count = recordedCount > 0 ? recordedCount : 1
     const values = metricValueIndices.map(
       index => Number(value[index]!) / count,

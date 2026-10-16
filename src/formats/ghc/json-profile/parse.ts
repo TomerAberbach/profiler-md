@@ -86,12 +86,13 @@ export type GhcJsonProfileNode = {
 }
 
 /**
- * Parses the profile into a time profile and an allocation profile.
+ * Parses the profile into one call stack profile of time and one of
+ * allocation.
  *
  * The runtime samples ticks and counts allocation and entries exactly, so the
- * measures have their own counts and cannot share one profile's observations. A
- * tick is one sample of the time profile, while a cost-centre stack the profiler
- * never sampled still allocated.
+ * metrics have their own counts and cannot share one call stack profile's
+ * observations. A tick is one sample of time, while a cost-centre stack the
+ * profiler never sampled still allocated.
  */
 export const parseGhcJsonProfile = (
   profile: GhcJsonProfile,

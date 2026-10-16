@@ -23,7 +23,7 @@ import {
   makeAggregatedHeapSnapshotString,
   makeRetainerHops,
   makeSourceLocation,
-  retainedObjectsTables,
+  retainedNodeTables,
   retainedSizeRetainerPathTables,
   selfSizeRetainerPathTables,
   SEVERAL_PATHS_NOTE,
@@ -234,7 +234,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   })
 
   test(`keys each side's functions under that snapshot's own context`, () => {
-    // Match normalization is origin-aware.
+    // The origin normalizes match keys.
     const observedContexts: ProfileToMdContext[] = []
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
@@ -445,11 +445,11 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`reports a category present on one side only as new or removed`, () => {
     const base = makeAggregatedHeapSnapshot({
-      totalSize: 200,
+      heldSize: 200,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
     })
     const current = makeAggregatedHeapSnapshot({
-      totalSize: 50,
+      heldSize: 50,
       nodeCategoryToStats: new Map([[`string`, { size: 50, nodeCount: 1 }]]),
     })
 
@@ -730,7 +730,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
 
 describe(`formatHeapSnapshotDiff retained nodes`, () => {
   type RetainedNode = {
-    name?: string
+    name: string
     size: number
     category?: HeapSnapshotNodeCategory
     location?: SourceLocation
@@ -762,7 +762,9 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
   const snapshotOf = (fn: SnapshotFunction | undefined) => {
     const nodes = fn?.nodes ?? []
     const instanceSteps = fn?.instanceSteps ?? [[]]
-    const instanceIds = instanceSteps.map((_, index) => nodes.length + index)
+    const instanceOrdinals = instanceSteps.map(
+      (_, index) => nodes.length + index,
+    )
     return {
       ...makeAggregatedHeapSnapshot({
         functions: fn
@@ -774,8 +776,8 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
                   retainedSize: fn.retainedSize,
                   location: fn.location,
                 }),
-                largestInstanceId: instanceIds[0]!,
-                instanceIds,
+                largestInstanceOrdinal: instanceOrdinals[0]!,
+                instanceOrdinals,
               },
             ]
           : [],
@@ -785,23 +787,23 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
       ...makeRetainerHops(
         [...nodes.map(({ steps }) => steps), ...instanceSteps],
         [
-          ...nodes.map(({ instance = 0 }) => instanceIds[instance]),
+          ...nodes.map(({ instance = 0 }) => instanceOrdinals[instance]),
           ...instanceSteps.map((_, index) =>
             fn?.nestsInstances && index > 0
-              ? instanceIds[index - 1]
+              ? instanceOrdinals[index - 1]
               : undefined,
           ),
         ],
       ),
       // An instance retains its own nodes, and those of the instances it
       // dominates.
-      retainedNodesOf: (instanceId: number) =>
+      retainedNodesOf: (instanceOrdinal: number) =>
         nodes.flatMap(
           (
             { name, size, category = `object`, location, instance = 0 },
             id,
           ): AggregatedHeapSnapshotNode[] =>
-            fn?.nestsInstances || instanceIds[instance] === instanceId
+            fn?.nestsInstances || instanceOrdinals[instance] === instanceOrdinal
               ? [
                   {
                     type: `node`,
@@ -838,7 +840,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
     base: SnapshotFunction | undefined,
     current: SnapshotFunction | undefined,
     options = defaultOptions,
-  ) => retainedObjectsTables(retainedMdOf(base, current, options), `fn`)
+  ) => retainedNodeTables(retainedMdOf(base, current, options), `fn`)
 
   const fnStep = (name: string) => propertyStep(name, `fn`)
 
@@ -994,34 +996,6 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
           Self: `20 B → 50 B`,
           Name: `Foo`,
           'Path to function': `Foo ←[]– Array ←.items– fn`,
-        },
-      ],
-    ])
-  })
-
-  test(`groups the retained nodes with no name and an empty name`, () => {
-    const steps = [fnStep(`p`)]
-
-    expect(
-      retainedTablesOf(
-        {
-          retainedSize: 100,
-          nodes: [
-            { size: 10, steps },
-            { name: ``, size: 20, steps },
-          ],
-        },
-        { retainedSize: 200, nodes: [{ name: ``, size: 40, steps }] },
-      ),
-    ).toEqual([
-      [
-        {
-          Change: `+33.3%`,
-          Delta: `+10 B`,
-          '%': `30.0% → 20.0%`,
-          Self: `30 B → 40 B`,
-          Name: `(unknown)`,
-          'Path to function': `(unknown) ←.p– fn`,
         },
       ],
     ])
@@ -1256,7 +1230,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
     ])
   })
 
-  test(`marks each retainer that holds no reference to the node it retains`, () => {
+  test(`marks each retainer that holds no edge to the node it retains`, () => {
     const steps = [
       { edge: SEVERAL_RETAINERS, retainer: { id: 0, name: `Holder` } },
       propertyStep(`holder`, `fn`),

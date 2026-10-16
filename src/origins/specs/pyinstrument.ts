@@ -60,7 +60,7 @@ const isSelfTimeFrame = (name: string | undefined): boolean =>
   name === SELF_TIME_FRAME
 
 /**
- * Pyinstrument's synthetic child holding a frame's own execution time, which is
- * not a function.
+ * The pseudo-frame pyinstrument writes as a frame's callee to hold that frame's
+ * own execution time.
  */
 const SELF_TIME_FRAME = `[self]`

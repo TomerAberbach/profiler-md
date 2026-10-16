@@ -19,7 +19,7 @@ export const eflambeOriginSpec = {
   countMetric: format =>
     // Eflambe traces every call and, between two trace events, appends the
     // current stack once per microsecond elapsed, so one collapsed count is one
-    // microsecond of wall time on that stack rather than one observation of it.
+    // microsecond of wall time on that stack rather than one sample of it.
     // The traced time includes the sleeping eflambe records as its own frame.
     format === `collapsed` ? WALL_TIME_METRIC : undefined,
   categorizeEntry: entry =>

@@ -24,17 +24,17 @@ zig_tarball() {
 }
 
 declare -A rundir=()
-run_for_role() {
-  local role=$1
-  if [[ -n "${rundir[$role]:-}" ]]; then
+run_for_side() {
+  local side=$1
+  if [[ -n "${rundir[$side]:-}" ]]; then
     return 0
   fi
-  local dir="$WORKDIR/zig-$role"
+  local dir="$WORKDIR/zig-$side"
   mkdir -p "$dir"
   # Stage the workload where the container can read it.
-  cp "${ZIG_PROFILE[$role]}" "$dir/profile.zig"
+  cp "${ZIG_PROFILE[$side]}" "$dir/profile.zig"
 
-  notice "Profiling zig fmt with gperftools ($role)"
+  notice "Profiling zig fmt with gperftools ($side)"
 
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
@@ -44,8 +44,8 @@ run_for_role() {
         google-perftools libgoogle-perftools-dev \
         ca-certificates curl xz-utils
 
-      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$(zig_tarball "$role")"'"
-      echo "'"${ZIG_SHA256[$role]}"'  /tmp/zig.tar.xz" | sha256sum -c -
+      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$(zig_tarball "$side")"'"
+      echo "'"${ZIG_SHA256[$side]}"'  /tmp/zig.tar.xz" | sha256sum -c -
       mkdir -p /opt/zig
       tar -xJf /tmp/zig.tar.xz -C /opt/zig --strip-components=1
 
@@ -72,7 +72,7 @@ run_for_role() {
         HEAP_PROFILE_ALLOCATION_INTERVAL=536870912 \
         /out/binary /opt/zig/lib/std 15
       cp "$(ls -1 /out/heap.*.heap | sort | tail -n1)" /out/heap.raw
-    ' -e ROLE="$role"
+    ' -e SIDE="$side"
 
   # pprof can't symbolize the Linux runtime libraries (libc, tcmalloc, ld) on
   # another OS, so drop those expected warnings. Other errors still print and
@@ -83,26 +83,26 @@ run_for_role() {
   pprof -proto "$dir/binary" "$dir/heap.raw" >"$dir/heap.pprof" \
     2> >(grep -v "$drop" >&2 || true)
 
-  rundir[$role]=$dir
+  rundir[$side]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container basename (cpu|heap)
+# capture_fn for emit: $1=out  $2=side  $3=in-container basename (cpu|heap)
 copy_zig_profile() {
-  local out=$1 role=$2 name=$3
-  run_for_role "$role"
-  cp "${rundir[$role]}/$name.pprof" "$out"
+  local out=$1 side=$2 name=$3
+  run_for_side "$side"
+  cp "${rundir[$side]}/$name.pprof" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 #   Runs in its own container, so regenerating it skips the gperftools
 #   captures.
 capture_perf() {
-  local out=$1 role=$2
-  local dir="$WORKDIR/zig-perf-$role"
+  local out=$1 side=$2
+  local dir="$WORKDIR/zig-perf-$side"
   mkdir -p "$dir"
-  cp "${ZIG_PROFILE[$role]}" "$dir/profile.zig"
+  cp "${ZIG_PROFILE[$side]}" "$dir/profile.zig"
 
-  notice "Profiling zig fmt with perf ($role)"
+  notice "Profiling zig fmt with perf ($side)"
 
   # perf_event_open goes to the real kernel, so the container must be
   # `--privileged` (Docker's default seccomp profile blocks the syscall) and
@@ -119,8 +119,8 @@ capture_perf() {
       # the capture is user-space only rather than failing.
       sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
 
-      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$(zig_tarball "$role")"'"
-      echo "'"${ZIG_SHA256[$role]}"'  /tmp/zig.tar.xz" | sha256sum -c -
+      curl -fsSL --retry 5 -o /tmp/zig.tar.xz "'"$(zig_tarball "$side")"'"
+      echo "'"${ZIG_SHA256[$side]}"'  /tmp/zig.tar.xz" | sha256sum -c -
       mkdir -p /opt/zig
       tar -xJf /tmp/zig.tar.xz -C /opt/zig --strip-components=1
 
@@ -133,17 +133,17 @@ capture_perf() {
       # exposes no PMU, so the hardware counter would fall back anyway.
       perf record -F 999 -e cpu-clock --call-graph fp -o /out/cpu.perf.data \
         -- /tmp/binary /opt/zig/lib/std 15
-    ' --privileged -e ROLE="$role"
+    ' --privileged -e SIDE="$side"
 
   cp "$dir/cpu.perf.data" "$out"
 }
 
 ensure_docker
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/zig.gperftools.cpu.$role.pprof"  copy_zig_profile "$role" cpu
-  try emit "$GENERATED_INPUTS/zig.gperftools.heap.$role.pprof" copy_zig_profile "$role" heap
-  try emit "$GENERATED_INPUTS/zig.perf.cpu.$role.perf.data"    capture_perf "$role"
+for side in base current; do
+  try emit "$GENERATED_INPUTS/zig.gperftools.cpu.$side.pprof"  copy_zig_profile "$side" cpu
+  try emit "$GENERATED_INPUTS/zig.gperftools.heap.$side.pprof" copy_zig_profile "$side" heap
+  try emit "$GENERATED_INPUTS/zig.perf.cpu.$side.perf.data"    capture_perf "$side"
 done
 
 verify_pairs

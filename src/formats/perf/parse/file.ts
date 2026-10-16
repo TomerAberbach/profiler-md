@@ -104,9 +104,9 @@ export class PerfFile {
   }
 
   /**
-   * Returns one profile per event the file holds samples for. Every sample is
-   * decoded here, since a profile's frames must all be known before its
-   * observations are read.
+   * Returns one call stack profile per event the file holds samples for. It
+   * reads every sample here, since a call stack profile's frames must all be
+   * known before its observations are read.
    */
   public toProfiles(): CallStackProfile[] {
     let unattributedCount = 0
@@ -1100,12 +1100,12 @@ class EventSamples {
     return this.#count
   }
 
-  /** Whether the sample being decoded has resolved to any frame yet. */
+  /** Whether the sample being read has resolved to any frame yet. */
   public get hasFrames(): boolean {
     return this.#frameCount !== this.#offsets.array[this.#count]
   }
 
-  /** Adds a frame, leaf first, to the sample being decoded. */
+  /** Adds a frame, leaf first, to the sample being read. */
   public addFrame(index: number): void {
     this.#frameIndices.ensureCapacity(this.#frameCount + 1)[
       this.#frameCount++
@@ -1113,7 +1113,7 @@ class EventSamples {
   }
 
   /**
-   * Finishes the sample being decoded, standing for {@link period} event units,
+   * Finishes the sample being read, standing for {@link period} event units,
    * or drops it when it resolved to no frames.
    */
   public finish(period: number): void {

@@ -12,8 +12,8 @@ import type { OriginSpec } from '../spec.ts'
 export const asyncProfilerOriginSpec = {
   id: `async-profiler`,
   formats: [`jfr`, `collapsed`],
-  // Every marker is evidence of async-profiler's own stack walker, which no
-  // other JVM recorder writes into either format: raw slash-form Java names
+  // Every marker is a frame async-profiler's own stack walker writes and no
+  // other JVM profiler writes into either format: raw slash-form Java names
   // (collapsed), HotSpot code stubs, and native shared-library frames mixed
   // into Java stacks (JFR written by the JDK's recorder is Java-only).
   isMarkerEntry: entry =>

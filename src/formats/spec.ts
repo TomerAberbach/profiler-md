@@ -25,8 +25,8 @@ type FormatMeta = {
   /**
    * The origin to resolve to when no specific origin matches any input entry:
    * the format's canonical origin, the tool or runtime whose definition of the
-   * format the other emitters write to match. `unknown` when no emitting origin
-   * is canonical.
+   * format the other origins write to match. `unknown` when no origin that
+   * writes the format is canonical.
    */
   fallbackOrigin: string
 }

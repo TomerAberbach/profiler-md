@@ -15,7 +15,7 @@ import {
   calleesTables,
   callersTables,
   categoryRankingTables,
-  categorySectionTables,
+  categorySubsectionTables,
   categoryTables,
   diffRankingTable,
   expectLogs,
@@ -196,9 +196,9 @@ describe(`parse`, () => {
       {
         selfValues: [],
         lineToValues: new Map(),
-        calls: [{ callee: 1, callCount: 5, totalValues: [10] }],
+        arcs: [{ callee: 1, callCount: 5, totalValues: [10] }],
       },
-      { selfValues: [], lineToValues: new Map(), calls: [] },
+      { selfValues: [], lineToValues: new Map(), arcs: [] },
     ])
   })
 
@@ -223,7 +223,7 @@ describe(`parse`, () => {
           [3, [10]],
           [2, [30]],
         ]),
-        calls: [],
+        arcs: [],
       },
     ])
   })
@@ -241,7 +241,7 @@ describe(`parse`, () => {
           [1, [10]],
           [2, [20]],
         ]),
-        calls: [],
+        arcs: [],
       },
     ])
   })
@@ -291,9 +291,9 @@ describe(`parse`, () => {
       {
         selfValues: [10],
         lineToValues: new Map([[1, [10]]]),
-        calls: [{ callee: 1, callCount: 3, totalValues: [700] }],
+        arcs: [{ callee: 1, callCount: 3, totalValues: [700] }],
       },
-      { selfValues: [], lineToValues: new Map(), calls: [] },
+      { selfValues: [], lineToValues: new Map(), arcs: [] },
     ])
   })
 
@@ -316,8 +316,8 @@ describe(`parse`, () => {
     )
 
     expect(graph!.functions).toEqual([
-      { selfValues: [10], lineToValues: new Map([[1, [10]]]), calls: [] },
-      { selfValues: [20], lineToValues: new Map([[2, [20]]]), calls: [] },
+      { selfValues: [10], lineToValues: new Map([[1, [10]]]), arcs: [] },
+      { selfValues: [20], lineToValues: new Map([[2, [20]]]), arcs: [] },
     ])
   })
 })
@@ -1145,7 +1145,7 @@ describe(`convert`, () => {
     expect(profileTitles(md)).toEqual([`Exotic happenings profile`])
   })
 
-  test(`renders a lone samples event as a count-ranked profile`, () => {
+  test(`formats a lone samples event as a count-ranked profile`, () => {
     // Sampling profilers exporting callgrind (e.g. rbspy) count samples.
     const md = convertBytesToMd(
       callgrindFormatSpec,
@@ -1440,7 +1440,7 @@ describe(`category subsections`, () => {
       ...NATIVE_ROWS,
       ...STDLIB_ROWS,
     ])
-    expect(categorySectionTables(md, `Self instructions`)).toEqual({
+    expect(categorySubsectionTables(md, `Self instructions`)).toEqual({
       Ours: OURS_ROWS,
       Native: NATIVE_ROWS,
       'Standard library': STDLIB_ROWS,
@@ -1453,7 +1453,7 @@ describe(`category subsections`, () => {
       ...NATIVE_ROWS,
       ...STDLIB_ROWS,
     ])
-    expect(categorySectionTables(md, `Total instructions`)).toEqual({
+    expect(categorySubsectionTables(md, `Total instructions`)).toEqual({
       Ours: OURS_ROWS,
       Native: NATIVE_ROWS,
       'Standard library': STDLIB_ROWS,
@@ -1469,7 +1469,7 @@ describe(`category subsections`, () => {
 
     expect(rankingTable(singleCategoryMd, `Self instructions`)).toBeUndefined()
     expect(
-      categorySectionTables(singleCategoryMd, `Self instructions`),
+      categorySubsectionTables(singleCategoryMd, `Self instructions`),
     ).toEqual({
       Ours: [
         {

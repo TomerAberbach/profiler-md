@@ -2,7 +2,7 @@ import { HASH_SEED, mixHash } from '../../src/helpers/intern.ts'
 import { matchDiffedFunctions } from '../../src/modalities/diff.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import type { Func, FunctionInput } from './inputs.ts'
-import { positionOf, sourcePositionOf } from './position.ts'
+import { positionOf, sourceReferencePositionOf } from './position.ts'
 import type { Position, PositionMap } from './position.ts'
 
 /** Returns where an edit moved a position, or `undefined` if it deleted it. */
@@ -21,20 +21,27 @@ export const applySyntheticEdit = (
   options: FormattingProfileToMdOptions,
   random: () => number,
 ): { positionMap: PositionMap; restore: () => void } | undefined => {
-  const source = pickEditedSource(base, current, options, random)
-  if (source === undefined) {
+  const sourceReference = pickEditedSourceReference(
+    base,
+    current,
+    options,
+    random,
+  )
+  if (sourceReference === undefined) {
     return undefined
   }
 
-  const inSource = current.functions.filter(
-    func => sourcePositionOf(func.location)?.source === source,
+  const inSourceReference = current.functions.filter(
+    func =>
+      sourceReferencePositionOf(func.location)?.sourceReference ===
+      sourceReference,
   )
   const move = randomEdits(
-    inSource.map(func => positionOf(func.location)!),
+    inSourceReference.map(func => positionOf(func.location)!),
     random,
   )
 
-  const originals = inSource.map(
+  const originals = inSourceReference.map(
     func => [func, func.location!, func.lineToMetrics] as const,
   )
   for (const [func, location] of originals) {
@@ -47,11 +54,11 @@ export const applySyntheticEdit = (
 
   return {
     positionMap: position => {
-      if (position.source !== source) {
+      if (position.sourceReference !== sourceReference) {
         return undefined
       }
       const moved = move(position)
-      return moved ? { ...moved, source } : null
+      return moved ? { ...moved, sourceReference } : null
     },
     restore: () => {
       for (const [func, location, lineToMetrics] of originals) {
@@ -76,21 +83,22 @@ const moveLines = <Metrics>(
   func.lineToMetrics = moved
 }
 
-const pickEditedSource = (
+const pickEditedSourceReference = (
   base: FunctionInput,
   current: FunctionInput,
   options: FormattingProfileToMdOptions,
   random: () => number,
 ): string | undefined => {
-  const sources = new Set<string>()
+  const sourceReferences = new Set<string>()
   for (const diff of matchDiffedFunctions<Func>(base, current, options)) {
-    const source =
-      diff.byPosition && sourcePositionOf(diff.current?.location)?.source
-    if (source) {
-      sources.add(source)
+    const sourceReference =
+      diff.byPosition &&
+      sourceReferencePositionOf(diff.current?.location)?.sourceReference
+    if (sourceReference) {
+      sourceReferences.add(sourceReference)
     }
   }
-  return pickRandom(sources, random)
+  return pickRandom(sourceReferences, random)
 }
 
 /** Picks one of {@link values} by {@link random}, in sorted order. */
@@ -175,9 +183,9 @@ const randomEdit = (positions: Position[], random: () => number): Edit => {
 }
 
 /**
- * A seeded pseudorandom generator for the pair whose base filename is
- * {@link name}, so a pair's synthetic edits are the same whichever pairs run
- * before it.
+ * A seeded pseudorandom generator for the example pair whose base filename is
+ * {@link name}, so an example pair's synthetic edits are the same whichever
+ * example pairs run before it.
  */
 export const pairRandom = (seed: number, name: string): (() => number) => {
   let hash = mixHash(HASH_SEED, seed)

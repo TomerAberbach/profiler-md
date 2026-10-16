@@ -713,8 +713,8 @@ const formatHottestTotalFunctions = ({
 }
 
 /**
- * A function's callers or callees, each measured over the stacks it shares with
- * the function.
+ * A function's callers or callees, each measured over the frame pairs it
+ * shares with the function.
  */
 type Neighbors = {
   entity: `Caller` | `Callee`
@@ -727,7 +727,10 @@ type Neighbors = {
   ) => Iterable<readonly [id: number, metrics: NeighborMetrics]>
 }
 
-/** A caller or callee, measured over the stacks it shares with the function. */
+/**
+ * A caller or callee, measured over the frame pairs it shares with the
+ * function.
+ */
 type NeighborMetrics = {
   func: AggregatedCallStackProfileFunction
   values: Float64Array
@@ -1049,15 +1052,15 @@ const newCallStackKeyInterner = (): HashInterner<CallStackKey, CallStackKey> =>
 
 /**
  * Replaces each call stack with the key of its shown frames and merges the
- * stacks whose keys are equal, summing their self metrics. Returns the merged
- * call stacks indexed by their key's index in {@link keys}, so the array is
- * sparse when {@link keys} holds another profile's keys.
+ * call stacks whose keys are equal, summing their self metrics. Returns the
+ * merged call stacks indexed by their key's index in {@link keys}, so the array
+ * is sparse when {@link keys} holds another profile's keys.
  *
- * Without merging, stacks distinct only in hidden frames would format as
+ * Without merging, call stacks distinct only in hidden frames would format as
  * duplicate rows, and each row would show only its own part of the value.
  * The merged row attributes the values of hidden frames, mostly hidden
  * leaves, to the nearest shown frame. Call stacks with fewer than two shown
- * frames are dropped: a single-frame "stack" has no call structure.
+ * frames are dropped: a single-frame "call stack" has no call structure.
  */
 const mergeShownCallStacks = (
   { callStacks, context }: AggregatedCallStackProfile,
@@ -1098,8 +1101,8 @@ const mergeShownCallStacks = (
  * frames are shown.
  *
  * Hidden frames below the leaf and above the root are dropped, because they
- * are between a shown frame and an end of the stack instead of between two
- * shown frames.
+ * are between a shown frame and an end of the call stack instead of between
+ * two shown frames.
  */
 const shownCallStackKeyOf = (
   frames: AggregatedCallStackProfileFunction[],
@@ -1209,14 +1212,14 @@ const formatSideRate = (
   metric: Metric,
 ): string => (totalCount === 0 ? `—` : formatRate(rates[index]!, metric))
 
-const formatRate = (samplingRate: number, metric: Metric): string => {
+const formatRate = (rate: number, metric: Metric): string => {
   switch (metric.type) {
     case `time`:
-      return formatMicroseconds(samplingRate * 1000 * metric.milliseconds)
+      return formatMicroseconds(rate * 1000 * metric.milliseconds)
     case `size`:
-      return formatBytes(samplingRate * metric.bytes)
+      return formatBytes(rate * metric.bytes)
     case `count`:
-      return formatCount(samplingRate, metric.proseUnit)
+      return formatCount(rate, metric.proseUnit)
   }
 }
 

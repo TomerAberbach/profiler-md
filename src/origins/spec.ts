@@ -15,7 +15,7 @@ import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
  *
  * One origin per profiler, always; origins sharing runtime conventions share
  * helper modules, never a spec. An origin whose inputs carry no
- * distinguishing evidence still registers, with `isMarkerEntry: () => false`;
+ * marker entries still registers, with `isMarkerEntry: () => false`;
  * its inputs resolve to the format's fallback origin unless the origin is
  * specified explicitly.
  */
@@ -40,20 +40,20 @@ export type OriginSpec = {
    * profiler's markers. The format only narrows which origins are tried, and is
    * the fallback when no entry matches any origin.
    *
-   * The marker must be **origin-level, not language-level**: evidence of this
-   * profiler or runtime's own conventions (a synthetic frame name it invents,
-   * a runtime's install-layout path, its packed-name shape), never evidence any
+   * The marker must be **origin-level, not language-level**: a convention of
+   * this profiler or runtime (a synthetic frame name it invents, a runtime's
+   * install-layout path, its packed-name shape), never one any
    * profiler observing the same language would produce (a `.rb`/`.py` file
    * extension, idiomatic function names).
    *
-   * When no entry carries origin-level evidence but the format's own metadata
+   * When no entry is an origin-level marker but the format's own metadata
    * identifies the writer (a recorder's event-type definitions, a
    * self-identification field), the format's parser sets a
    * `CallStackProfile.originHint` instead, which detection treats like a marker entry
    * of that origin. Converting the input to another format drops the hint, so
    * it supplements markers rather than replacing them.
    *
-   * Used only for origin auto-detection (skipped when the user forces an
+   * Used only for origin auto-detection (skipped when the user specifies an
    * origin), so be strict to avoid false positives.
    */
   isMarkerEntry: (entry: DeepReadonly<ProfileEntry>) => boolean
@@ -98,13 +98,13 @@ export type OriginSpec = {
   ) => HeapSnapshotNodeCategory | undefined
 
   /**
-   * What one unit of {@link format}'s per-sample count measures, overriding
+   * What one unit of {@link format}'s observation count measures, overriding
    * the format's own answer for an origin that counts something else. For
    * example, eflambe writes one collapsed count per microsecond of traced
-   * time, where every other collapsed emitter writes one per sample.
+   * time, where every other collapsed profiler writes one per sample.
    *
    * This is the same field as `CallStackProfile.countMetric`. A format whose
-   * emitters agree sets it in the parser instead.
+   * origins agree sets it in the parser instead.
    */
   countMetric?: (format: Format) => Metric | undefined
 
@@ -123,16 +123,16 @@ export type OriginSpec = {
   hasRuntimeInsertedArcs?: (entry: DeepReadonly<ProfileEntry>) => boolean
 
   /**
-   * Returns a normalized name and location to match {@link entry} by across
-   * diffed profiles, with this origin's run-varying identifiers (build hashes,
-   * runtime addresses embedded in names or paths) stripped so the same entity
-   * matches across runs and builds.
+   * Returns an entry match, the name and location to match {@link entry} by
+   * across diffed profiles, with this origin's run-varying identifiers (build
+   * hashes, runtime addresses embedded in names or paths) stripped so the same
+   * entity matches across runs and builds.
    *
    * MUST return `undefined` for an entry carrying none of the origin's
    * markers, so unmarked entries match by their own name and location.
    *
    * Unlike {@link OriginSpec.isMarkerEntry}, which *detects* the origin from an
-   * entry, this normalizes entries of a profile whose origin is already
+   * entry, this builds the entry match of an entry whose origin is already
    * resolved.
    */
   matchEntry?: (entry: DeepReadonly<ProfileEntry>) => EntryMatch | undefined
@@ -232,8 +232,8 @@ export const placeholderPathNormalizer =
       : input
 
 /**
- * A single match-normalization rule: a pattern for a run-varying identifier
- * and the replacement that strips it (typically re-inserting named groups).
+ * A single entry match rule: a pattern for a run-varying identifier and the
+ * replacement that strips it (typically re-inserting named groups).
  */
 export type EntryMatchRule = readonly [RegExp, string]
 
@@ -284,13 +284,13 @@ export const matchEntryFromRules =
 
 /**
  * Reinterprets a speedscope frame's parsed definition line as its executing
- * line, for an origin that emits one speedscope frame per *sampled* line
+ * line, for an origin that emits one speedscope frame per executing line
  * rather than per function.
  *
  * The speedscope format leaves the field's semantics undefined, so only the
  * origin knows the line is where the frame was sampling, not where the function
  * is defined. The parsed column is dropped rather than moved, because these
- * emitters write no column, so one could come only from a hand-edited file.
+ * profilers write no column, so one could come only from a hand-edited file.
  *
  * A frame from any other format passes through unchanged.
  */

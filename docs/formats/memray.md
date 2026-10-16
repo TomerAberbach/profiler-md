@@ -15,8 +15,8 @@ peak memory from the allocations live at the moment total memory was highest,
 and leaked memory from those still live at the end. `memray flamegraph` and
 `memray flamegraph --leaks` report those measures. The measures count different
 allocations, so a capture converts to a profile each. Because memray records
-every allocation, the output states bytes per allocation rather than a sampling
-rate.
+every allocation, the output states its rate as bytes per allocation rather than
+per sample.
 
 This tool skips native frames, recorded by `memray run --native`, because
 resolving them means symbolizing instruction pointers against the binaries the

@@ -7,7 +7,6 @@ import {
   retainedSizeTables,
   selfSizeRetainerPathTables,
   selfSizeTables,
-  totalSizeTables,
 } from './testing.ts'
 
 describe(`selfSizeTables`, () => {
@@ -51,51 +50,6 @@ describe(`selfSizeTables`, () => {
     expect(tables).toStrictEqual([
       [{ Type: `Object`, Bytes: `64` }],
       [{ Type: `Array`, Bytes: `128` }],
-    ])
-  })
-})
-
-describe(`totalSizeTables`, () => {
-  test(`returns [] when heading is absent`, () => {
-    const tables = totalSizeTables(`# Snapshot\n`)
-
-    expect(tables).toStrictEqual([])
-  })
-
-  test(`returns parsed rows when heading is present`, () => {
-    const tables = totalSizeTables(dedent`
-      ## Total size
-
-      | Type | Bytes |
-      | --- | --- |
-      | Array | 128 |
-    `)
-
-    expect(tables).toStrictEqual([[{ Type: `Array`, Bytes: `128` }]])
-  })
-
-  test(`returns one table per matching heading`, () => {
-    const tables = totalSizeTables(dedent`
-      # Snapshot 1
-
-      ## Total size
-
-      | Type | Bytes |
-      | --- | --- |
-      | Array | 128 |
-
-      # Snapshot 2
-
-      ## Total size
-
-      | Type | Bytes |
-      | --- | --- |
-      | Map | 256 |
-    `)
-
-    expect(tables).toStrictEqual([
-      [{ Type: `Array`, Bytes: `128` }],
-      [{ Type: `Map`, Bytes: `256` }],
     ])
   })
 })

@@ -25,8 +25,8 @@ vi.setConfig({ testTimeout: 125_000 })
 const format = injectedFormat()
 const inputFilenames = injectedInputs()
 
-// A valid capture with no samples (e.g. a lock profile that saw no contention)
-// converts to the no-data message
+// An input whose profiler recorded nothing (e.g. a lock profile with no
+// contention) converts to the no-data message
 const MARKDOWN_OR_NO_DATA = /^(?:# |No profiles were recorded\.)/u
 
 const gzipAsync = promisify(gzip)
@@ -931,7 +931,7 @@ if (format === undefined) {
 
   test.concurrent.each([
     {
-      scenario: `two profiles`,
+      scenario: `two call stack profiles`,
       baseInput: `javascript.node.base.cpuprofile`,
       currentInput: `javascript.bun.base.cpuprofile`,
     },
@@ -1178,7 +1178,7 @@ if (format === undefined) {
       expectedStatus: 2,
     },
     {
-      scenario: `diffing a profile against a heap snapshot`,
+      scenario: `diffing a call stack profile against a heap snapshot`,
       args: [
         inputPath(`javascript.node.base.cpuprofile`),
         inputPath(`javascript.node.base.heapsnapshot`),

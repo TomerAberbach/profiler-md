@@ -8,24 +8,24 @@
  * truth identifies which current function each base function with a position
  * is, and under a version change, each base function with a source reference
  * and no position:
- * - Same code: a pair whose workload runs one version on both sides. A base
- *   function is the current function at its position. A function with no
- *   counterpart there was recorded in one run only. A function with no
- *   position goes unscored, because a pair that upgrades a project missing
- *   from `upgraded-projects.ts` is also scored as same code, and a function
- *   with no position would match by name across the upgrade
- * - Version change: a pair whose workload runs consecutive releases of a
- *   project in `upgraded-projects.ts`. The committed `ground-truth.json`
+ * - Same code: an example pair whose workload runs one version on both sides. A
+ *   base function is the current function at its position. A function with no
+ *   counterpart there was recorded in one run only. A function with no position
+ *   goes unscored, because an example pair that upgrades a project missing from
+ *   `upgraded-projects.ts` is also scored as same code, and a function with no
+ *   position would match by name across the upgrade
+ * - Version change: an example pair whose workload runs consecutive releases of
+ *   a project in `upgraded-projects.ts`. The committed `ground-truth.json`
  *   contains the file diff of each profiled file of such a project, which maps
  *   each base function to its current position. A function defined where the
- *   file diff changed has no known counterpart, so it goes unscored. A
- *   function with no position is the current function of its name in the same
- *   file, comparing names without the identifiers the origin strips because
- *   they differ per run or per build. `src/origins/index.test.ts` checks those
+ *   file diff changed has no known counterpart, so it goes unscored. A function
+ *   with no position is the current function of its name in the same file,
+ *   comparing names without the identifiers the origin strips because they
+ *   differ per run or per build. `src/origins/index.test.ts` checks those
  *   rules. A file no project matches is from a toolchain both sides share, so
  *   its positions map to themselves
- * - Synthetic edits: the same-code pairs with seeded edits applied to one
- *   source reference of the current side (lines inserted or deleted between
+ * - Synthetic edits: the same-code example pairs with seeded edits applied to
+ *   one source reference of the current side (lines inserted or deleted between
  *   functions, or columns shifted on one line), so the edits move each base
  *   function in it to a known position. Only the edited source reference's
  *   functions are scored
@@ -45,29 +45,29 @@
  * constructor's instance groups. A base group's counterpart is the current
  * group whose retainer path has the same steps, with each step's position
  * mapped under the same kinds of ground truth, and its edge and retainer
- * compared by match key. A group weighs its share of its snapshot's size. The
- * synthetic edits move the positions of the current side's paths in one
+ * compared by match key. A group weighs its share of its heap snapshot's size.
+ * The synthetic edits move the positions of the current side's paths in one
  * source reference, and only the groups with a step located in it are scored.
  * The `retained nodes` tables score how it pairs each function's retained
  * nodes, grouped by name, category, location, and retainer path within the
  * instance retaining them, the same way, with a group's counterpart also
  * sharing its nodes' match key and mapped position. Their synthetic edits also
  * move the nodes' positions, and score the groups whose nodes are located in
- * the edited source.
+ * the edited source reference.
  *
  * Usage:
- * - `pnpm evaluate-diff-matching` scores every committed pair
+ * - `pnpm evaluate-diff-matching` scores every example pair
  * - `--update` fetches both versions of each upgraded project's profiled files
  *   and rewrites `ground-truth.json` from their file diffs. Run it after
  *   regenerating inputs or changing a version pin
  * - `--check` fails when `ground-truth.json` is out of date, without
  *   fetching anything, or when a workload script pins a version per side that
  *   no upgraded project reads and `UNSCORED_PINS` does not exempt
- * - `--filter <substring>` scores only the pairs whose base filename contains
- *   it
- * - `--edits <count>` sets the number of synthetic edits per pair
+ * - `--filter <substring>` scores only the example pairs whose base filename
+ *   contains it
+ * - `--edits <count>` sets the number of synthetic edits per example pair
  * - `--seed <seed>` sets the synthetic edits' seed
- * - `--verbose` prints a row per pair instead of per origin
+ * - `--verbose` prints a row per example pair instead of per origin
  */
 
 import { parseArgs } from 'node:util'
@@ -145,7 +145,7 @@ const groupTables = <Groups extends string>(
   }) as GroupTables<Groups>
 
 /**
- * Scores each committed pair under the kinds of ground truth that apply to it,
+ * Scores each example pair under the kinds of ground truth that apply to it,
  * and returns the evaluations keyed by kind, then by row, with the entities
  * each kind scores.
  */
@@ -214,7 +214,7 @@ const scoreCommittedPairs = (
               row,
               evaluateRetainerGroups(edited.input, options, {
                 positionMap: edited.positionMap,
-                editedSource: edited.source,
+                editedSourceReference: edited.sourceReference,
               }),
             )
           }

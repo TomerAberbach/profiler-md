@@ -30,7 +30,7 @@ export type V8CpuProfile = {
 export type V8CpuProfileNode = {
   id: number
 
-  /** Number of samples where this node was at the top of the stack. */
+  /** Number of samples whose leaf frame is this node. */
   hitCount?: number
 
   callFrame: V8CallFrame
@@ -86,8 +86,8 @@ export const parseV8CpuProfile = (
 
 /**
  * Reindexes nodes so each node's ID is its position in the table, which
- * doubles as its frame-universe index, and returns the mapping from original
- * ID to position.
+ * doubles as its index in the parsed profile's `frames`, and returns the
+ * mapping from original ID to position.
  */
 const reindexNodes = (profile: V8CpuProfile): number[] => {
   const idToIndex: number[] = []

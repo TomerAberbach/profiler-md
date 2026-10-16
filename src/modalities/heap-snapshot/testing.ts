@@ -21,7 +21,7 @@ import type {
 import { computeRetainerSteps } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
-import { newOutermostInstanceIdsOf } from './retained.ts'
+import { newOutermostInstanceOrdinalsOf } from './retained.ts'
 import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 /**
@@ -91,15 +91,17 @@ export const makeAggregatedHeapSnapshot = ({
     ...constructors.flatMap(({ instances }) =>
       instances.map(({ id }) => id + 1),
     ),
-    ...functions.flatMap(({ instanceIds }) => instanceIds.map(id => id + 1)),
+    ...functions.flatMap(({ instanceOrdinals }) =>
+      instanceOrdinals.map(id => id + 1),
+    ),
   ),
-  totalSize = [...constructors, ...functions, ...strings].reduce(
-    (totalSize, node) => totalSize + node.selfSize,
+  heldSize = [...constructors, ...functions, ...strings].reduce(
+    (heldSize, entity) => heldSize + entity.selfSize,
     0,
   ),
 }: {
   context?: ProfileToMdContext
-  totalSize?: number
+  heldSize?: number
   nodeCount?: number
   edgeCount?: number
   nodeCategoryToStats?: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
@@ -109,14 +111,14 @@ export const makeAggregatedHeapSnapshot = ({
 } = {}): AggregatedHeapSnapshot => ({
   type: `heap-snapshot`,
   context,
-  totalSize,
+  heldSize,
   nodeCount,
   edgeCount,
   nodeCategoryToStats,
   constructors,
   functions,
   strings,
-  outermostInstanceIdsOf: instanceIds => instanceIds,
+  outermostInstanceOrdinalsOf: instanceOrdinals => instanceOrdinals,
   retainerHopOf: () => undefined,
   retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
   retainerStepsOf: () => [],
@@ -135,7 +137,7 @@ export const makeRetainerHops = (
 ): Pick<
   AggregatedHeapSnapshot,
   | `nodeCount`
-  | `outermostInstanceIdsOf`
+  | `outermostInstanceOrdinalsOf`
   | `retainerHopOf`
   | `retainerOf`
   | `retainerStepsOf`
@@ -170,7 +172,7 @@ export const makeRetainerHops = (
     retainers[nodeOrdinal] ?? { id: nodeOrdinal, name: `` }
   return {
     nodeCount,
-    outermostInstanceIdsOf: newOutermostInstanceIdsOf(
+    outermostInstanceOrdinalsOf: newOutermostInstanceOrdinalsOf(
       ordinalToImmediateDominatorOrdinal,
     ),
     retainerHopOf,
@@ -246,8 +248,8 @@ export const makeAggregatedHeapSnapshotFunction = ({
   category,
   selfSize,
   retainedSize,
-  largestInstanceId: 0,
-  instanceIds: Array.from({ length: instanceCount }, (_, index) => index),
+  largestInstanceOrdinal: 0,
+  instanceOrdinals: Array.from({ length: instanceCount }, (_, index) => index),
 })
 
 export const makeAggregatedHeapSnapshotString = ({
@@ -269,9 +271,6 @@ export const makeAggregatedHeapSnapshotString = ({
 
 export const selfSizeTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Self size`)
-
-export const totalSizeTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseMd(md), `Total size`)
 
 export const retainedSizeTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Retained size`)
@@ -303,7 +302,7 @@ export const retainedSizeRetainerPathTables = (
 export const functionTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest functions`)
 
-export const retainedObjectsTables = (md: string, name: string): Table[] => {
+export const retainedNodeTables = (md: string, name: string): Table[] => {
   const functionsUnder = nodesUnderHeading(parseMd(md), `Largest functions`)
   const retainedUnder = nodesUnderHeading(
     { type: `root`, children: functionsUnder } as Root,

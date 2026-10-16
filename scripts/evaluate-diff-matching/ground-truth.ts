@@ -27,7 +27,7 @@ export type GroundTruth = Record<
 >
 
 /**
- * Fetches both versions of every upgraded project file a committed pair's base
+ * Fetches both versions of every upgraded project file an example pair's base
  * side profiles, and writes their file diffs to {@link GROUND_TRUTH_PATH}.
  */
 export const updateGroundTruth = (
@@ -144,7 +144,7 @@ export const checkGroundTruth = (
 
 /**
  * Each upgraded project with a fetchable version, and the sorted files of it
- * that committed pairs' base sides profile. The ground truth maps only base
+ * that example pairs' base sides profile. The ground truth maps only base
  * positions, so a file only the current side profiles, which may be new in the
  * current version, needs no diff.
  */

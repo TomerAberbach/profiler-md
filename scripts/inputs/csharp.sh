@@ -9,28 +9,28 @@ assets="$REPO/scripts/inputs/assets/csharp"
 # two versions of the same code.
 declare -A NEWTONSOFT_JSON_VERSION=([base]="13.0.3" [current]="13.0.4")
 
-# Each role builds in one directory, so both record the same paths.
+# Each side builds in one directory, so both record the same paths.
 app_dll="$WORKDIR/csharp-profile/bin/Release/net8.0/Profile.dll"
-build_for_role() {
-  local role=$1
-  notice "Building Newtonsoft.Json ${NEWTONSOFT_JSON_VERSION[$role]} profile"
+build_for_side() {
+  local side=$1
+  notice "Building Newtonsoft.Json ${NEWTONSOFT_JSON_VERSION[$side]} profile"
 
   local build="$WORKDIR/csharp-profile"
   rm -rf "$build"
   mkdir -p "$build"
   cp "$assets/Profile.csproj" "$assets/Profile.cs" "$build/"
   dotnet build "$build/Profile.csproj" --configuration Release \
-    -p:NewtonsoftJsonVersion="${NEWTONSOFT_JSON_VERSION[$role]}"
+    -p:NewtonsoftJsonVersion="${NEWTONSOFT_JSON_VERSION[$side]}"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 capture_dotnet_trace() {
-  local out=$1 role=$2
-  build_for_role "$role" || return 1
+  local out=$1 side=$2
+  build_for_side "$side" || return 1
 
-  notice "Profiling Newtonsoft.Json using dotnet-trace ($role)"
+  notice "Profiling Newtonsoft.Json using dotnet-trace ($side)"
 
-  local prefix="$WORKDIR/csharp-$role"
+  local prefix="$WORKDIR/csharp-$side"
   dotnet-trace collect \
     --format speedscope \
     -o "$prefix.nettrace" \
@@ -43,9 +43,9 @@ capture_dotnet_trace() {
   mv "$produced" "$out"
 }
 
-for role in base current; do
-  out="$GENERATED_INPUTS/csharp.dotnet-trace.$role.speedscope.json"
-  try emit "$out" capture_dotnet_trace "$role"
+for side in base current; do
+  out="$GENERATED_INPUTS/csharp.dotnet-trace.$side.speedscope.json"
+  try emit "$out" capture_dotnet_trace "$side"
 done
 
 verify_pairs

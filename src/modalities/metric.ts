@@ -20,7 +20,7 @@ export type MetricPhrases = {
  * A profiler records what a program consumed, so a smaller value is a better
  * one for every unit this package recognizes. `increase` is for a metric
  * measuring something a program produces, and `unknown` for a metric whose
- * emitter named a unit this package cannot classify, where a diff states the
+ * profiler named a unit this package cannot classify, where a diff states the
  * direction of each change and calls neither better nor worse.
  */
 export type MetricImprovement = `decrease` | `increase` | `unknown`
@@ -137,7 +137,7 @@ const phrasesEqual = (left: MetricPhrases, right: MetricPhrases): boolean =>
   left.pastTenseVerb === right.pastTenseVerb &&
   left.pastParticipleVerbPhrase === right.pastParticipleVerbPhrase
 
-/** A metric measured in both the base and current profiles. */
+/** A metric measured on both sides of a diff. */
 export type DiffMetric = {
   metric: Metric
   baseIndex: number

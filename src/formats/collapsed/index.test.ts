@@ -158,9 +158,9 @@ describe(`convert`, () => {
   })
 
   test(`py-spy "func (file:line)" stacks: location split and per-line breakdown`, () => {
-    // Py-spy carries the sampled line separately from the function's file, so
-    // `work` sampled at lines 20 and 22 stays one function (file `app.py`) with
-    // a two-line breakdown rather than two functions.
+    // Py-spy reports the executing line separately from the function's file,
+    // so `work` executing at lines 20 and 22 stays one function (file
+    // `app.py`) with a two-line breakdown rather than two functions.
     const md = convertBytesToMd(
       collapsedFormatSpec,
       makeCollapsed([

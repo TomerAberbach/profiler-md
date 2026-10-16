@@ -37,20 +37,20 @@ declare -A HEAP_DUMP_EXPECTED_POINTS=(
 )
 
 run_jvm_workload() {
-  local jvm_arg=$1 cfg=$2 role=$4
-  local version=${RENAISSANCE_VERSION[$role]}
+  local jvm_arg=$1 cfg=$2 side=$4
+  local version=${RENAISSANCE_VERSION[$side]}
   local jar="$REPO/scripts/inputs/assets/java/renaissance-mit-$version.jar"
   fetch_asset "Renaissance $version jar" \
     "https://github.com/renaissance-benchmarks/renaissance/releases/download/v$version/renaissance-mit-$version.jar" \
-    "${RENAISSANCE_SHA256[$role]}" "$jar" || return 1
+    "${RENAISSANCE_SHA256[$side]}" "$jar" || return 1
   # The JVM's command line names the jar, and a recording holds the command
   # line, so the jar runs from WORKDIR rather than the checkout.
   cp "$jar" "$WORKDIR/renaissance.jar" || return 1
   jar="$WORKDIR/renaissance.jar"
   if [[ "$cfg" == heap ]]; then
     local overrides=(-o "vector_length=$HEAP_DUMP_VECTOR_LENGTH")
-    if [[ -n "${HEAP_DUMP_EXPECTED_POINTS[$role]:-}" ]]; then
-      overrides+=(-o "expected_points=${HEAP_DUMP_EXPECTED_POINTS[$role]}")
+    if [[ -n "${HEAP_DUMP_EXPECTED_POINTS[$side]:-}" ]]; then
+      overrides+=(-o "expected_points=${HEAP_DUMP_EXPECTED_POINTS[$side]}")
     fi
     java "$jvm_arg" -jar "$jar" \
       --scratch-base "$WORKDIR" \

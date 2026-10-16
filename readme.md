@@ -91,10 +91,10 @@ stacks, and per-line, caller, and callee detail. See the
 ## Features
 
 - **Polyglot:**
-  [profile, call graph, and heap snapshot formats](#languages-and-formats)
+  [call stack profile, call graph, and heap snapshot formats](#languages-and-formats)
   across many languages
-- **Profile analysis:** sampling rates, category breakdowns, and the hottest
-  functions, call stacks, lines, callers, and callees
+- **Profile analysis:** rates, category breakdowns, and the hottest functions,
+  call stacks, lines, callers, and callees
 - **Heap analysis:** self and
   [dominator](<https://en.wikipedia.org/wiki/Dominator_(graph_theory)>)-based
   retained sizes, retainer paths, and the largest constructors and strings
@@ -105,12 +105,12 @@ stacks, and per-line, caller, and callee detail. See the
 - **Source maps:** resolves minified and transpiled locations back to original
   sources
 - **Zero config:** auto-detects the format and profiler
-- **Configurable:** top entry counts, base URLs, categorization, filtering, and
-  diff matching
+- **Configurable:** top N, base URLs, categorization, filtering, and diff
+  matching
 - **CLI and API:** a command line and a fully-typed API with sync and async
   variants ([API docs](docs/api.md))
 - **Self-documenting:** `--help <language>` and `--help <format>` explain how to
-  generate and read each profile type
+  generate and read each format
 - **Agent-ready:** ships a [skill](#skill) that guides an agent through
   profiling and optimizing your code
 
@@ -227,9 +227,9 @@ Input:
 Ranking:
   --top-n N                           Entries to show per ranking, including 
                                       category subsections (default: 20)
-  --min-category-share FRACTION       Share of a profile a category needs for 
-                                      its own subsection, from 0 to 1 (default: 
-                                      0.01)
+  --min-category-share FRACTION       Share of the shown entries' self values a 
+                                      category needs for its own subsection, 
+                                      from 0 to 1 (default: 0.01)
 
 Filtering:
   --category REGEX=CATEGORY           Categorize functions whose name or 

@@ -12,7 +12,7 @@ export const v8HeapSnapshotFormatSpec = {
     // Julia's `Profile` stdlib writes heap snapshots in this format natively.
     `julia`,
   ],
-  // Chrome DevTools defines the format, and the other emitters write it to be
+  // Chrome DevTools defines the format, and the other origins write it to be
   // openable there.
   fallbackOrigin: `chrome`,
   type: `json`,

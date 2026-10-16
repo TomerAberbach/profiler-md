@@ -27,15 +27,15 @@ $ARGUMENTS
    specs. A later behavioral split must not break the published origin IDs
 
 2. Create `src/origins/specs/<origin>.ts` exporting an `OriginSpec` with:
-   - `isMarkerEntry`: detect the origin from frame data. When no entry carries
-     origin-level evidence, register it markerless
-     (`isMarkerEntry: () => false`, like `gperftools`) and check whether the
-     format's own metadata identifies the writer (a recorder's event-type
-     definitions, a self-identification field like speedscope's `exporter`): if
-     so, have the format's parser set `CallStackProfile.originHint` (see the
-     pprof and jfr parsers). Without either, its inputs resolve to the format's
-     fallback origin unless the user specifies the origin, and future detection
-     can be added without a breaking change
+   - `isMarkerEntry`: detect the origin from frame data. When no entry is a
+     marker entry, register it markerless (`isMarkerEntry: () => false`, like
+     `gperftools`) and check whether the format's own metadata identifies the
+     writer (a recorder's event-type definitions, a self-identification field
+     like speedscope's `exporter`): if so, have the format's parser set
+     `CallStackProfile.originHint` (see the pprof and jfr parsers). Without
+     either, its inputs resolve to the format's fallback origin unless the user
+     specifies the origin, and future detection can be added without a breaking
+     change
    - `title` when generated docs should show a display name other than the ID
      (e.g. `Node.js` for `node`)
    - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
@@ -48,7 +48,7 @@ $ARGUMENTS
      maps in the format's parser (see `VM_STATE_FRAME_NAMES` in
      `src/formats/v8/heap-profile/parse.ts`)
    - `categorizeHeapSnapshotConstructor` when the origin writes heap snapshots
-   - `normalizeStackFrame` when the profiler packs a frame's source into its
+   - `normalizeStackFrame` when the profiler packs a frame's location into its
      name (see `packedLocationNormalizer`), writes a placeholder for missing
      information (see `placeholderPathNormalizer`), or records a position with a
      semantic different from the one the format's parser stores it under. Read
@@ -71,16 +71,18 @@ $ARGUMENTS
    - `matchHeapSnapshotEdgeName` when the origin writes heap snapshots of a
      language whose programs write run-varying identifiers into property names
      (see `javaScriptMatchHeapSnapshotEdgeName`)
-   - `countMetric` when what one of the origin's per-sample counts measures
-     differs from what the format's other emitters count. It overrides the same
-     field the format's parser sets. For example, eflambe writes one collapsed
-     count per microsecond of traced time, where every other collapsed emitter
-     writes one per sample. See the counting principles in `CLAUDE.md`
+   - `countMetric` when what one unit of the origin's `Observation.count`
+     measures differs from what the format's other origins count. It overrides
+     the same field the format's parser sets. For example, eflambe writes one
+     collapsed count per microsecond of traced time, where every other origin
+     emitting collapsed stacks writes one per sample. See the counting
+     principles in `CLAUDE.md`
 
    Register it in `originSpecs` (in `src/origins/specs/index.ts`), ordered by
    global detection priority: within a format the detector tries candidates in
-   order, so place the new origin above any origin whose signals its own could
-   satisfy (e.g. Deno before Node, since Deno supports `node:` specifiers)
+   order, so place the new origin above any origin whose marker entries its
+   inputs could contain (e.g. Deno before Node, since Deno supports `node:`
+   specifiers)
 
    Add a colocated `src/origins/specs/<origin>.test.ts` for the origin's own
    logic: detection, `categorizeEntry`, and any `normalizeStackFrame` or
@@ -98,18 +100,18 @@ $ARGUMENTS
    detected-input-origins test in `src/origins/index.test.ts` requires every
    committed input to resolve to the origin in its filename (the second token,
    which must be the origin's ID). NEVER commit an input that resolves
-   elsewhere: give the origin a marker or a parser origin hint, or make the
-   workload realistic enough to carry the origin's evidence
+   elsewhere: give the origin a marker entry or a parser origin hint, or make
+   the workload realistic enough to contain the origin's marker entries
 
 4. Revisit the `fallbackOrigin` of every format the new origin emits, in each
    format's spec (in `src/formats/`). A format's fallback is its canonical
-   origin, the tool or runtime whose definition of the format the other emitters
-   write to match. It is `unknown` only when no emitting origin is canonical.
-   The fallback changes when the new origin is the format's canonical origin and
-   the format resolved to `unknown` because none was. It also changes when the
-   new origin is a second emitter of a format whose current fallback was never
-   the canonical origin. Update the comment above the field with the reasoning
-   either way
+   origin, the tool or runtime whose definition of the format every other origin
+   emitting it conforms to. It is `unknown` only when no emitting origin is
+   canonical. The fallback changes when the new origin is the format's canonical
+   origin and the format resolved to `unknown` because none was. It also changes
+   when another origin already emits the format and its current fallback was
+   never the canonical origin. Update the comment above the field with the
+   reasoning either way
 
 5. Run the origin tests (`pnpm test src/origins/specs/<origin>.test.ts`,
    `pnpm test src/origins/categorize.test.ts`, and

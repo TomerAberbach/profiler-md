@@ -79,7 +79,8 @@ export type ProfileEntry = {
 }
 
 /**
- * Normalized entry fields used to match an entry across diffed profiles.
+ * The name and location overrides an entry's match key is built from, with the
+ * identifiers that differ per run or build stripped.
  *
  * Only affects matching; the entry's displayed name and location are
  * unchanged.
@@ -102,8 +103,8 @@ export type EntryMatch = {
  */
 type EntryMatchKeys = {
   /**
-   * The key pairing entries by normalized name alone, for entities whose
-   * location varies between profiles of the same program.
+   * The key pairing entries by their entry match's name alone, for entities
+   * whose location varies between profiles of the same program.
    */
   name: string
 
@@ -213,9 +214,9 @@ export type ProfileToMdOptions = {
   logLevel?: LogLevel
 
   /**
-   * Returns a normalized name and location to match this entry by across
-   * diffed profiles, or `undefined` to match by the entry's own name and
-   * location.
+   * Returns an entry match, the name and location to match this entry by
+   * across diffed profiles, or `undefined` to match by the entry's own name
+   * and location.
    *
    * Only affects which entries are considered the same entity when diffing
    * (e.g. profile functions); displayed names and locations, categorization,
@@ -224,9 +225,9 @@ export type ProfileToMdOptions = {
    * `profileToMd` and `profileToMdAsync` ignore it and log a warning.
    *
    * A call stack profile or call graph diff first pairs entries whose own names
-   * and locations are equal, and pairs only the rest by the normalized name and
-   * location. Where normalization gives distinct entities one key, the diff
-   * still pairs each entity whose identifier is unchanged with itself.
+   * and locations are equal, and pairs only the rest by their entry matches.
+   * Where an entry match gives distinct entities one key, the diff still pairs
+   * each entity whose identifier is unchanged with itself.
    *
    * Matched entries display the _current_ profile's name and location (not
    * _base_).
@@ -312,7 +313,7 @@ export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
 
   /**
    * A diff's base side's own base URL, for the locations below it, when the
-   * sides' base URLs differ only by what match normalization removes.
+   * sides' base URLs differ only by what an entry match removes.
    * {@link baseURL} applies to every other location.
    */
   baseSideBaseURL?: URL
@@ -499,7 +500,7 @@ const nameAndLocationKey = (
   }
 
   // `EntryMatch.location` is a bare string, so the kind comes from the entry's
-  // own location, which a match normalizes rather than replaces.
+  // own location, whose kind an entry match keeps.
   const kind = entry.location ? sourceReferenceKind(entry.location) : ``
   return `${name}\0${kind}\0${location}`
 }
@@ -508,11 +509,11 @@ const cacheEntryFunction = <Entry extends object, Context, Value>(
   func: (entry: Entry, context: Context) => Value,
 ): ((entry: Entry, context?: Context) => Value) => {
   // Cache by entry identity rather than entry ID because IDs are unique only
-  // within a single profile, and the same options are used for multiple
-  // profiles when converting a multi-profile input or diffing two profiles.
-  // Keying by the entry alone stays valid despite the context because an
-  // entry belongs to exactly one aggregated profile, so it is only ever called
-  // with that one's context.
+  // within a single aggregated input, and the same options apply to every
+  // aggregated input of a conversion, whether a raw input yields several or a
+  // diff aggregates two. Keying by the entry alone stays valid despite the
+  // context, because an entry is in exactly one aggregated input and so is only
+  // ever passed with that input's context.
   const cache = new WeakMap<Entry, Value>()
   return (entry, context) => {
     let cached = cache.get(entry)
@@ -527,9 +528,9 @@ const cacheEntryFunction = <Entry extends object, Context, Value>(
 /**
  * The default {@link ProfileToMdOptions.matchEntry}.
  *
- * Applies the origin's match normalization to the entry, stripping the origin's
- * known run-varying identifiers (e.g. Rust build hashes for `pprof-rs`, JVM
- * runtime addresses for `jdk`), or `undefined` if the entry contains none.
+ * Builds the origin's entry match for the entry, stripping the origin's known
+ * run-varying identifiers (e.g. Rust build hashes for `pprof-rs`, JVM runtime
+ * addresses for `jdk`), or returns `undefined` if the entry contains none.
  */
 export const defaultMatchEntry = (
   entry: DeepReadonly<ProfileEntry>,

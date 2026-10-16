@@ -3,7 +3,7 @@ import type { StackFrame } from '../stack-frame.ts'
 
 /**
  * An input parsed as a weighted call graph: functions with recorded self costs
- * plus caller→callee arcs with recorded call counts and inclusive costs. The
+ * plus caller→callee arcs with recorded call counts and total costs. The
  * formats it comes from record no call stacks.
  */
 export type CallGraph = {
@@ -19,13 +19,13 @@ export type CallGraph = {
   metrics: Metric[]
 
   /**
-   * Each function node's frame (name and definition location), index-aligned
-   * with {@link CallGraph.functions}. The aggregator merges functions whose
-   * normalized frames share an identity.
+   * Each function's frame record (name and definition location),
+   * index-aligned with {@link CallGraph.functions}. The aggregator merges
+   * functions whose normalized frame records share an identity.
    */
   frames: StackFrame[]
 
-  /** The graph's function nodes, indexed by {@link CallGraphCall.callee}. */
+  /** The graph's functions, indexed by {@link CallGraphArc.callee}. */
   functions: CallGraphFunction[]
 }
 
@@ -35,11 +35,11 @@ export type CallGraphFunction = {
 
   /** Each 1-based line to the self cost recorded at that line, per metric. */
   lineToValues: Map<number, number[]>
-  calls: CallGraphCall[]
+  arcs: CallGraphArc[]
 }
 
-/** One caller→callee arc: the recorded call count and inclusive cost. */
-type CallGraphCall = {
+/** One caller→callee arc: the recorded call count and total cost. */
+type CallGraphArc = {
   /** The called function's index in {@link CallGraph.functions}. */
   callee: number
 
@@ -47,7 +47,7 @@ type CallGraphCall = {
   callCount: number
 
   /**
-   * The calls' inclusive cost per metric: cost recorded in the callee and its
+   * The calls' total cost per metric: cost recorded in the callee and its
    * callees during these calls.
    */
   totalValues: number[]

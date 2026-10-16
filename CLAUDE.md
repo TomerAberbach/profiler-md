@@ -54,7 +54,7 @@ profiler-md
 │   │   ├── <subdirectory>/<shared>.ts # Types shared by a subdirectory's formats (e.g. v8/common.ts, ghc/cost-centre.ts)
 │   │   └── testing.ts            # Test-only utilities for running a format spec and reading example inputs
 │   │
-│   ├── origins/                  # Profiler detection and categorization
+│   ├── origins/                  # Origin detection and categorization
 │   │   ├── spec.ts               # OriginSpec type + match and frame-normalization helpers
 │   │   ├── categorize.ts         # Generic categorization rule helpers
 │   │   ├── jvm.ts                # JVM runtime conventions shared across origins
@@ -84,7 +84,7 @@ profiler-md
 │   │   ├── diff.ts               # Base/current diffing primitives
 │   │   ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
 │   │   ├── metric.ts             # Recorded metric types, constructors, and equality
-│   │   ├── metrics.ts            # The named metric constants, and parsing of emitter unit/name strings to them
+│   │   ├── metrics.ts            # The named metric constants, and parsing of an input's unit/name strings to them
 │   │   ├── measure.ts            # Metric phrasing and cell formatting shared across modalities
 │   │   ├── table.ts              # Table cell/column types + Markdown table/diff-table formatting
 │   │   ├── format.ts             # Formatting helpers shared across modalities
@@ -100,7 +100,7 @@ profiler-md
 │   │   │   └── testing.ts        # Test-only utilities specific to this module
 │   │   ├── call-graph/           # Common weighted call graph conversion logic
 │   │   │   ├── type.ts           # Parsed call graph types
-│   │   │   ├── aggregate.ts      # Function-node merging, cycle-safe totals, and categorization
+│   │   │   ├── aggregate.ts      # Function merging, cycle-safe totals, and categorization
 │   │   │   ├── diff.ts           # Aggregated call graph diffing logic
 │   │   │   ├── table.ts          # The call graph formatter's table columns
 │   │   │   ├── format.ts         # Call graph and diff to Markdown formatting
@@ -120,9 +120,9 @@ profiler-md
 │   │       ├── index.ts          # Barrel file
 │   │       └── testing.ts        # Test-only utilities specific to this module
 │   │
-│   ├── options.ts                # API option types and normalization logic
+│   ├── options.ts                # API option types, and filling in their defaults
 │   ├── error.ts                  # ProfilerMdError, the class for a failure the caller's input or options caused
-│   ├── logger.ts                 # Logger and LogLevel types, and logger normalization
+│   ├── logger.ts                 # Logger and LogLevel types, and filtering a logger to a log level
 │   ├── location.ts               # URL, file path, and line:column location logic
 │   ├── source-map.ts             # Source map resolution logic
 │   ├── testing.ts                # Test-only option resolution, log assertion, and cross-modality Markdown assertion helpers
@@ -169,11 +169,11 @@ profiler-md
 │   ├── categories.ts             # Report the categories the examples emit, or the names a candidate rule matches
 │   ├── update-examples/
 │   │   ├── index.ts              # Update examples/output/ from examples/input/ on a worker thread pool
-│   │   └── worker.ts             # Converts one example per message, then checks or writes it
+│   │   └── worker.ts             # Converts one variant of an example per message, then checks or writes it
 │   ├── check-input-privacy.ts    # Fails an input containing data about the generating machine (addresses, cookies, environment, process list)
 │   ├── evaluate-diff-matching/   # Score how a diff pairs functions, instance groups, and retained node groups against ground truth: same code, version changes, and synthetic edits
-│   │   ├── index.ts              # Entry point: scores every committed pair per ground truth kind, or updates or checks ground-truth.json
-│   │   ├── inputs.ts             # Committed base/current pairs and their aggregated inputs with functions or heap snapshots
+│   │   ├── index.ts              # Entry point: scores every example pair per ground truth kind, or updates or checks ground-truth.json
+│   │   ├── inputs.ts             # Example pairs and their aggregated inputs with functions or heap snapshots
 │   │   ├── position.ts           # Function positions and the base-to-current position map type
 │   │   ├── upgraded-projects.ts  # Projects a pair profiles at two versions, their version pins, and how to fetch their files
 │   │   ├── fetch.ts              # Downloads cached in node_modules/.cache/evaluate-diff-matching/
@@ -197,8 +197,8 @@ profiler-md
 │   ├── demo.gif                  # Recorded from demo.tape with `pnpm update-demo`
 │   └── logo.svg                  # Readme logo
 │
-├── examples/                     # Filenames are `<lang>.<origin>.<config?>.<base|current|diff>.<ext>`, parsed by src/cli/examples.ts
-│   ├── input/                    # Profile and snapshot inputs for testing and docs
+├── examples/                     # Filenames are `<language>.<origin>.<configuration?>.<base|current|diff>.<ext>`, parsed by src/cli/examples.ts
+│   ├── input/                    # Inputs for testing and docs
 │   └── output/                   # Markdown generated from examples/input/* with `pnpm update-examples`
 └── readme.md                     # CLI and matrix sections generated with `pnpm update-readme`
 ```
@@ -302,11 +302,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   Origins sharing runtime conventions share logic through helper modules (e.g.
   `src/origins/jvm.ts`), never a merged spec: a later behavioral split must not
   break published origin IDs
-- A format's `fallbackOrigin` is its canonical origin, the tool or runtime whose
-  definition of the format the other emitters write to match. It is `unknown`
-  when no emitting origin is canonical, because the format is defined by
-  something that profiles nothing itself (e.g. the speedscope viewer). When
-  adding an origin, revisit the fallback of every format it emits
+- A format's `fallbackOrigin` is its canonical origin, the origin whose
+  definition of the format every other origin emitting it conforms to. It is
+  `unknown` when no origin is canonical, because something that profiles nothing
+  itself defines the format (e.g. the speedscope viewer). When adding an origin,
+  revisit the fallback of every format it emits
 - NEVER add logic that requires editing another file when a new format or origin
   is added. Express per-format or per-origin behavior as data or functions in
   the registry to derive from everywhere else
@@ -322,7 +322,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   come from the `languages` of every registered format spec
 - When a profiler emits no supported format, the format is missing. Implement it
   (`/new-format`)
-- An input should never containt data about the machine that generated it (e.g.
+- An input should never contain data about the machine that generated it (e.g.
   no environment variables, process list, etc.).
   `scripts/check-input-privacy.ts` verifies this
 
@@ -455,8 +455,8 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   check prevents a crash after `parse` returns. The pipeline already rejects an
   input whose every record was skipped. Throw only when the parser lost its
   place, or when every record depends on the failed value (e.g. a missing
-  `tick_interval`, an unsupported snapshot type). The test: if the failed value
-  belongs to one sample, frame, node, or edge, skip
+  `tick_interval`, an unsupported heap snapshot type). The test: if the failed
+  value belongs to one sample, frame, node, or edge, skip
 - NEVER check anything else: a field's type, presence, or range, the order of
   records, or agreement between two fields, when the parser reads the value as
   the input states it. Such an input converts to whatever Markdown its values
@@ -464,16 +464,17 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   reported as unusable input, so NEVER add a check for a nicer message. The
   test: delete the check. If the bad value then throws inside `parse` or shows
   up in the output as the input stated it, the check was validation
-- Parse a specified format to its spec, accepting every shape the spec allows.
-  Add handling for a shape the spec forbids only when an input contains it, and
-  name the emitter that writes it in a comment
-- Where a parser skips a record the spec forbids (e.g. a sample referencing a
-  missing node) or a record of a part of the spec the parser doesn't support
-  (e.g. an event type or string encoding outside those it reads), or reaches the
-  end of an input cut short, record it on the `recordTally` argument of `parse`
-  (`recordTally.skipped(...)`, `recordTally.endsBefore(...)`). The pipeline
-  rejects an input with no records and something recorded, and otherwise warns
-  once per reason. NEVER record a record the parser reads
+- Parse a specified format to its specification, accepting every shape the
+  specification allows. Add handling for a shape the specification forbids only
+  when an input contains it, and name the origin that writes it in a comment
+- Where a parser skips a record the specification forbids (e.g. a sample
+  referencing a missing node) or a record of a part of the specification the
+  parser doesn't support (e.g. an event type or string encoding outside those it
+  reads), or reaches the end of an input cut short, record it on the
+  `recordTally` argument of `parse` (`recordTally.skipped(...)`,
+  `recordTally.endsBefore(...)`). The pipeline rejects an input with no records
+  and something recorded, and otherwise warns once per reason. NEVER record a
+  record the parser reads
 - Count what the parser skips in a loop that already reads each record, either
   in `parse` or in a parsed input's lazy iterable, and record the total once
   after the loop. NEVER add a pass over the input only to tally it
@@ -483,11 +484,12 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 ### Profiler bugs
 
-- When a profiler writes output that violates its format's spec, report the bug
-  upstream and link the report in a comment where the code reads that output
-- Read the output as the spec defines it, and accept Markdown that reflects the
-  bug. Add a workaround only when a fixed rule identifies an affected record
-  from that record alone (e.g. dropping a placeholder line)
+- When a profiler writes output that violates its format's specification, report
+  the bug upstream and link the report in a comment where the code reads that
+  output
+- Read the output as the specification defines it, and accept Markdown that
+  reflects the bug. Add a workaround only when a fixed rule identifies an
+  affected record from that record alone (e.g. dropping a placeholder line)
 - NEVER infer what the profiler meant from a pattern across the input (e.g. the
   share of functions with several lines), because the inference misreads the
   inputs that break the pattern
@@ -495,20 +497,20 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Normalizing
 
 - Split a qualifier out of a frame's name only when it becomes that frame's
-  source. Where a declaring class, module, or namespace packed into the name is
-  the only source reference the profiler reports, `normalizeStackFrame` moves it
-  into a logical source. Where the profiler reports a file path, keep the
-  qualifier in the name
+  source reference. Where a declaring class, module, or namespace packed into
+  the name is the only source reference the profiler reports,
+  `normalizeStackFrame` moves it into a logical reference. Where the profiler
+  reports a file path, keep the qualifier in the name
 - NEVER reconstruct a qualifier the profiler did not emit
 - Decide the semantic of every position a profiler records from its source or
-  spec, never from a field's name, and store it in the `StackFrame` slot with
-  that semantic: `definition.position` (where the function is defined, part of
-  its identity) or `executing` (where the frame was when recorded, feeding the
-  line breakdown). Leave a slot the profiler doesn't record empty, and NEVER
-  infer one position from another
+  specification, never from a field's name, and store it in the `StackFrame`
+  slot with that semantic: `definition.position` (where the function is defined,
+  part of its identity) or `executing` (where the frame was when recorded,
+  feeding the line breakdown). Leave a slot the profiler doesn't record empty,
+  and NEVER infer one position from another
 - Where a format leaves a position field's semantics undefined (speedscope), the
   parser stores the format's conventional reading and each deviating origin's
-  `normalizeStackFrame` moves the position into its slot. Where one emitter
+  `normalizeStackFrame` moves the position into its slot. Where one origin
   violates the format's stated semantics, that origin moves it, checking the
   `format` param
 - A position packed into a frame's name (collapsed) has no parser reading, so
@@ -527,13 +529,13 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Counting
 
 - Decide what one unit of `Observation.count` counts from the profiler's source
-  or spec, never the field's name. The test is coverage, not what one record
-  describes: a count measures occurrences only when the profiler recorded every
-  occurrence, and samples otherwise. A profiler that samples the call stack on a
-  schedule counts samples, and one that records every allocation or every
-  contention counts those events. One that records an event per allocation, but
-  only for a subset of allocations, counts samples. State the answer with
-  `CallStackProfile.countMetric`
+  or specification, never the field's name. The test is coverage, not what one
+  record describes: a count measures occurrences only when the profiler recorded
+  every occurrence, and samples otherwise. A profiler that samples the call
+  stack on a schedule counts samples, and one that records every allocation or
+  every contention counts those events. One that records an event per
+  allocation, but only for a subset of allocations, counts samples. State the
+  answer with `CallStackProfile.countMetric`
 - Pass `countMetricOf(...)` when the profiler counts occurrences of something
   else. The noun titles a metric-less profile, heads its count column, and
   follows the rate, so pick what one occurrence is. "object" produces "over 78
@@ -544,7 +546,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Pass `null` when the counts measure nothing, so the profile reports its
   metrics alone: a count the parser reconstructed (speedscope's evented
   profiles), or a missing count
-- Where a format's emitters disagree on what one count measures, the origin
+- Where a format's origins disagree on what one count measures, the origin
   overrides the same field with `OriginSpec.countMetric`
 - NEVER count what the profiler did not record. Dropping the count costs a
   column; keeping it states a rate nothing measured
@@ -554,7 +556,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - State every metric's `improvement`, the direction of change a diff calls an
   improvement. A duration, a size, and a count of what a profiler recorded are
   costs, so a decrease improves them
-- Pass `improvement` to `parseMetric` wherever the emitter's own documentation
+- Pass `improvement` to `parseMetric` wherever the profiler's own documentation
   states what a unit this package does not recognize measures. A unit left
   unclassified is `unknown`, and a diff of it ranks `Increases` and `Decreases`
   instead of `Regressions` and `Improvements`
@@ -567,8 +569,8 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   name or location (a runtime address, a random ID), strip it in the origin's
   `matchEntry`, built with `matchEntryFromRules`. Keep the part that identifies
   the entity (`Foo$$Lambda` of `Foo$$Lambda.0x00000070011868b8`). Verify the
-  identifier differs per run from the profiler's source or a committed
-  base/current pair, never from its shape alone
+  identifier differs per run from the profiler's source or an example pair,
+  never from its shape alone
 - Strip an identifier that differs per build (a Nix store hash) only where the
   rest of the name or path identifies the entity across builds
 - Keep a number the compiler assigns to distinct functions (`func1`, `dgm$598`)
@@ -615,7 +617,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Use sparse arrays over `Map<number, T>` for dense or moderately sparse data,
   common with sequential IDs
 - NEVER assume parsed profile data contains sequential IDs unless the format's
-  spec mandates them
+  specification mandates them
 
 ### Formatting
 

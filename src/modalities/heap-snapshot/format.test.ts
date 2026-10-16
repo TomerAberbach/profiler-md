@@ -3,7 +3,7 @@ import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
 import {
   categoryRankingTables,
-  categorySectionTables,
+  categorySubsectionTables,
   categoryTables,
   expectLogs,
   paragraphsUnderTitle,
@@ -150,7 +150,7 @@ describe(`formatHeapSnapshot`, () => {
 
   describe(`category subsections`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
-      totalSize: 1000,
+      heldSize: 1000,
       constructors: [
         makeAggregatedHeapSnapshotConstructor({
           name: `Widget`,
@@ -179,7 +179,7 @@ describe(`formatHeapSnapshot`, () => {
     test(`splits a ranking into a subsection per covered category`, () => {
       const md = mdastToMarkdown(formatHeapSnapshot(snapshot, defaultOptions))
 
-      expect(categorySectionTables(md, `Self size`)).toEqual({
+      expect(categorySubsectionTables(md, `Self size`)).toEqual({
         Object: [
           {
             '%': `60.0%`,
@@ -218,7 +218,7 @@ describe(`formatHeapSnapshot`, () => {
         ),
       )
 
-      expect(Object.keys(categorySectionTables(md, `Self size`))).toEqual([
+      expect(Object.keys(categorySubsectionTables(md, `Self size`))).toEqual([
         `Object`,
         `Array`,
       ])
@@ -226,7 +226,7 @@ describe(`formatHeapSnapshot`, () => {
 
     test(`splits a ranking whose constructors all fall in one category`, () => {
       const singleCategory = makeAggregatedHeapSnapshot({
-        totalSize: 1000,
+        heldSize: 1000,
         constructors: [
           makeAggregatedHeapSnapshotConstructor({
             name: `Widget`,
@@ -242,7 +242,7 @@ describe(`formatHeapSnapshot`, () => {
         formatHeapSnapshot(singleCategory, defaultOptions),
       )
 
-      expect(categorySectionTables(md, `Self size`)).toEqual({
+      expect(categorySubsectionTables(md, `Self size`)).toEqual({
         Object: [
           {
             '%': `100.0%`,
@@ -268,7 +268,7 @@ describe(`formatHeapSnapshot`, () => {
 
       const md = mdastToMarkdown(formatHeapSnapshot(strings, defaultOptions))
 
-      expect(categorySectionTables(md, `Largest strings`)).toEqual({
+      expect(categorySubsectionTables(md, `Largest strings`)).toEqual({
         String: [
           {
             '%': `60.0%`,
@@ -293,12 +293,12 @@ describe(`formatHeapSnapshot`, () => {
 describe(`formatHeapSnapshotDiff`, () => {
   test(`produces expected title and summary line`, () => {
     const base = makeAggregatedHeapSnapshot({
-      totalSize: 1024,
+      heldSize: 1024,
       nodeCount: 10,
       edgeCount: 20,
     })
     const current = makeAggregatedHeapSnapshot({
-      totalSize: 1536,
+      heldSize: 1536,
       nodeCount: 12,
       edgeCount: 25,
     })
@@ -312,9 +312,9 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`omits the change suffix when the total size is unchanged`, () => {
+  test(`omits the change suffix when the held size is unchanged`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
-      totalSize: 1024,
+      heldSize: 1024,
       nodeCount: 10,
       edgeCount: 20,
     })
@@ -329,14 +329,14 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`includes a category table with change, delta, and node counts`, () => {
     const base = makeAggregatedHeapSnapshot({
-      totalSize: 1024,
+      heldSize: 1024,
       nodeCategoryToStats: new Map([
         [`object`, { size: 1024, nodeCount: 10 }],
         [`string`, { size: 100, nodeCount: 2 }],
       ]),
     })
     const current = makeAggregatedHeapSnapshot({
-      totalSize: 1536,
+      heldSize: 1536,
       nodeCategoryToStats: new Map([[`object`, { size: 1536, nodeCount: 12 }]]),
     })
 
@@ -710,7 +710,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`notes that each entity section is unchanged when nothing changed`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
-      totalSize: 300,
+      heldSize: 300,
       nodeCount: 3,
       edgeCount: 2,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
@@ -772,7 +772,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     // Only constructors are present, so a non-diff snapshot would omit the
     // functions and strings sections entirely.
     const snapshot = makeAggregatedHeapSnapshot({
-      totalSize: 300,
+      heldSize: 300,
       nodeCount: 3,
       edgeCount: 2,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
@@ -809,7 +809,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       structureSize: number,
     ) =>
       makeAggregatedHeapSnapshot({
-        totalSize: widgetSize + bufferSize + structureSize,
+        heldSize: widgetSize + bufferSize + structureSize,
         constructors: [
           makeAggregatedHeapSnapshotConstructor({
             name: `Widget`,

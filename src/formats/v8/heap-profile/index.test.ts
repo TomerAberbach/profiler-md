@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   selfSizeTables,
   totalSizeTables,
-} from '../../../modalities/heap-snapshot/testing.ts'
+} from '../../../modalities/call-stack-profile/testing.ts'
 import {
   defaultShowEntry,
   normalizeProfileToMdOptions,
@@ -414,8 +414,8 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`categorizes sentinel and RegExp functions`, () => {
-    // A sentinel function like `(garbage collector)` has no URL, and names its
+  test(`categorizes synthetic entries and RegExp functions`, () => {
+    // A synthetic entry like `(garbage collector)` has no URL, and names its
     // category inside the parentheses. `(program)` names where V8 was rather
     // than what it was doing, so it categorizes by its (absent) location like
     // any other frame. Functions starting with `RegExp: ` are `regexp`.

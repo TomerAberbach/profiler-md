@@ -5,8 +5,8 @@
 format originally from Google. It is the de facto standard cross-language
 profiling format.
 
-Locations support inlined call frames, meaning a single instruction address can
-correspond to multiple logical stack frames.
+Locations support inlining, meaning a single instruction address can correspond
+to multiple stack frames.
 
 It supports arbitrary metric units, multiple metrics per profile, and multiple
 profiles per file. A file containing several counts (a heap profile's

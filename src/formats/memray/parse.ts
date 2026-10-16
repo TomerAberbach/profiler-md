@@ -405,8 +405,8 @@ class Capture {
 
   public toProfiles(): CallStackProfile[] {
     if (this.#header.fileFormat !== `aggregated`) {
-      this.#heap.visitPeak(this.#accumulate(`peak`))
-      this.#heap.visitLeaked(this.#accumulate(`leaked`))
+      this.#heap.visitPeak(this.#addToUsage(`peak`))
+      this.#heap.visitLeaked(this.#addToUsage(`leaked`))
     }
 
     const stackFrames = this.#stackTree.frames.map(frame =>
@@ -589,7 +589,7 @@ class Capture {
       allocator,
       address,
       size,
-      isDeallocator(allocator) ? 0 : this.#topStack(),
+      isDeallocator(allocator) ? 0 : this.#currentCallStack(),
     )
   }
 
@@ -666,7 +666,7 @@ class Capture {
   }
 
   /** A visitor adding each allocation to its stack's {@link measure} totals. */
-  #accumulate(
+  #addToUsage(
     measure: `peak` | `leaked`,
   ): (size: number, stack: number) => void {
     const bytesKey = measure === `peak` ? `peakBytes` : `leakedBytes`
@@ -697,12 +697,16 @@ class Capture {
       this.#onMainThread &&
       this.#currentStack.length < this.#header.skippedFramesOnMainThread
     ) {
-      this.#currentStack.push(this.#topStack())
+      this.#currentStack.push(this.#currentCallStack())
       return
     }
 
     this.#currentStack.push(
-      this.#stackTree.extend(this.#topStack(), codeObjectId, instructionOffset),
+      this.#stackTree.extend(
+        this.#currentCallStack(),
+        codeObjectId,
+        instructionOffset,
+      ),
     )
   }
 
@@ -722,7 +726,7 @@ class Capture {
     this.#currentStack.length -= popped
   }
 
-  #topStack(): number {
+  #currentCallStack(): number {
     return this.#currentStack.length === 0 ? 0 : this.#currentStack.at(-1)!
   }
 
@@ -799,11 +803,11 @@ class Capture {
         continue
       }
 
-      // The aggregator scales a sample's values by its count, so the bytes go
-      // on a sample of one and the stack's remaining allocations follow as a
-      // sample of no bytes. Dividing them across the count instead would
-      // multiply back to a total off by an ulp, which a diff reports as a
-      // change.
+      // The aggregator scales an observation's values by its count, so the
+      // bytes go on an observation of one and the stack's remaining
+      // allocations follow as an observation of no bytes. Dividing them across
+      // the count instead would multiply back to a total off by an ulp, which a
+      // diff reports as a change.
       const frameIndices = this.#framesOf(stack)
       yield { id: stack, values: [bytes], frameIndices, count: 1 }
 

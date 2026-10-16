@@ -29,15 +29,15 @@ fetch_pydecimal() {
 }
 
 declare -A rundir=()
-run_for_role() {
-  local role=$1
-  [[ -n "${rundir[$role]:-}" ]] && return 0
-  local dir="$WORKDIR/python-$role"
+run_for_side() {
+  local side=$1
+  [[ -n "${rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/python-$side"
   mkdir -p "$dir"
   fetch_pydecimal || return 1
   cp "$TARGET" "$dir/_pydecimal.py" || return 1
 
-  notice "Profiling black with py-spy ($role)"
+  notice "Profiling black with py-spy ($side)"
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -71,9 +71,9 @@ run_for_role() {
       cap /out/function.speedscope.json speedscope --function
     ' --cap-add SYS_PTRACE \
     -e PY_SPY_VERSION="$PY_SPY_VERSION" \
-    -e BLACK_VERSION="${BLACK_VERSION[$role]}" || return 1
+    -e BLACK_VERSION="${BLACK_VERSION[$side]}" || return 1
 
-  rundir[$role]=$dir
+  rundir[$side]=$dir
 }
 
 # py-spy unwinds native stacks (`--native`) on x86_64 Linux only, and reads a
@@ -83,7 +83,7 @@ run_for_role() {
 # symbolicate, which it writes with the path `?`. Emulation slows Black
 # tenfold, and each sample pauses the emulated process for longer still,
 # so the captures sample at 10 Hz to record about as many samples as the other
-# py-spy inputs do at 100 Hz. One VM runs both roles' captures, since booting
+# py-spy inputs do at 100 Hz. One VM runs both sides' captures, since booting
 # and installing into it takes minutes.
 native_dir=""
 run_native() {
@@ -122,13 +122,13 @@ run_native() {
         done
         return 1
       }
-      # Each role installs its Black into one environment, so both record the
+      # Each side installs its Black into one environment, so both record the
       # same paths.
-      for role in base current; do
-        version=BLACK_VERSION_$role
+      for side in base current; do
+        version=BLACK_VERSION_$side
         /venv/bin/pip install --quiet "black==${!version}"
-        cap /out/$role/native.collapsed raw
-        cap /out/$role/native.speedscope.json speedscope
+        cap /out/$side/native.collapsed raw
+        cap /out/$side/native.speedscope.json speedscope
       done
     ' PY_SPY_VERSION="$PY_SPY_VERSION" \
     BLACK_VERSION_base="${BLACK_VERSION[base]}" \
@@ -139,22 +139,22 @@ run_native() {
 
 # memray traces every allocation Black makes, in both capture file formats: the
 # default one record per allocation, and the smaller `--aggregate` one holding
-# each stack's peak and leaked totals.
+# each call stack's peak and leaked totals.
 #
 # Black is installed from a checkout rather than from PyPI, so its frames use
 # the paths of its own sources instead of an installed package's. That is how a
 # project being worked on appears, and it keeps its code out of the third-party
 # category.
 declare -A memray_rundir=()
-run_memray_for_role() {
-  local role=$1
-  [[ -n "${memray_rundir[$role]:-}" ]] && return 0
-  local dir="$WORKDIR/python-memray-$role"
+run_memray_for_side() {
+  local side=$1
+  [[ -n "${memray_rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/python-memray-$side"
   mkdir -p "$dir"
   fetch_pydecimal || return 1
   cp "$TARGET" "$dir/_pydecimal.py" || return 1
 
-  notice "Profiling black with memray ($role)"
+  notice "Profiling black with memray ($side)"
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -187,9 +187,9 @@ run_memray_for_role() {
       cap /venv13 /out/v13.memray.bin
     ' -e MEMRAY_V12_VERSION="$MEMRAY_V12_VERSION" \
     -e MEMRAY_V13_VERSION="$MEMRAY_V13_VERSION" \
-    -e BLACK_VERSION="${BLACK_VERSION[$role]}" || return 1
+    -e BLACK_VERSION="${BLACK_VERSION[$side]}" || return 1
 
-  memray_rundir[$role]=$dir
+  memray_rundir[$side]=$dir
 }
 
 # pyinstrument samples from inside the interpreter and exports speedscope with
@@ -202,15 +202,15 @@ run_memray_for_role() {
 # installs one, and because pyinstrument hides installed-package frames by
 # default.
 declare -A pyinstrument_rundir=()
-run_pyinstrument_for_role() {
-  local role=$1
-  [[ -n "${pyinstrument_rundir[$role]:-}" ]] && return 0
-  local dir="$WORKDIR/python-pyinstrument-$role"
+run_pyinstrument_for_side() {
+  local side=$1
+  [[ -n "${pyinstrument_rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/python-pyinstrument-$side"
   mkdir -p "$dir"
   fetch_pydecimal || return 1
   cp "$TARGET" "$dir/_pydecimal.py" || return 1
 
-  notice "Profiling black with pyinstrument ($role)"
+  notice "Profiling black with pyinstrument ($side)"
   docker_capture "$dir" '
       export DEBIAN_FRONTEND=noninteractive
 
@@ -234,9 +234,9 @@ run_pyinstrument_for_role() {
       /venv/bin/pyinstrument -r speedscope -o /out/default.speedscope.json \
         /venv/bin/black /tmp/work.py
     ' -e PYINSTRUMENT_VERSION="$PYINSTRUMENT_VERSION" \
-    -e BLACK_VERSION="${BLACK_VERSION[$role]}" || return 1
+    -e BLACK_VERSION="${BLACK_VERSION[$side]}" || return 1
 
-  pyinstrument_rundir[$role]=$dir
+  pyinstrument_rundir[$side]=$dir
 }
 
 # Tachyon is the sampling profiler CPython 3.15 ships in its standard library.
@@ -250,10 +250,10 @@ declare -A HYPOTHESIS_VERSION=([base]="6.165.10" [current]="6.165.11")
 PYTEST_VERSION="9.1.1"
 
 # The sampling modes to capture Black under, and the sampling options that
-# change which frames a stack contains, each in the default wall mode.
-# `--all-threads` roots stacks at every thread's `tid:` frame instead of the
-# main thread's alone, and `--native` inserts a bare `<native>` frame where the
-# interpreter was running non-Python code.
+# change which frames a call stack contains, each in the default wall mode.
+# `--all-threads` roots call stacks at every thread's `tid:` frame instead of
+# the main thread's alone, and `--native` inserts a bare `<native>` frame where
+# the interpreter was running non-Python code.
 TACHYON_BLACK_CONFIGS=(
   "wall --mode wall"
   "cpu --mode cpu"
@@ -263,15 +263,15 @@ TACHYON_BLACK_CONFIGS=(
 )
 
 declare -A tachyon_rundir=()
-run_tachyon_for_role() {
-  local role=$1
-  [[ -n "${tachyon_rundir[$role]:-}" ]] && return 0
-  local dir="$WORKDIR/python-tachyon-$role"
+run_tachyon_for_side() {
+  local side=$1
+  [[ -n "${tachyon_rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/python-tachyon-$side"
   mkdir -p "$dir"
   fetch_pydecimal || return 1
   cp "$TARGET" "$dir/_pydecimal.py" || return 1
 
-  notice "Profiling black with tachyon ($role)"
+  notice "Profiling black with tachyon ($side)"
   DOCKER_IMAGE="$TACHYON_PYTHON_IMAGE" docker_capture "$dir" '
       python -m venv /venv
       /venv/bin/pip install --quiet "black==$BLACK_VERSION"
@@ -284,10 +284,10 @@ run_tachyon_for_role() {
           -o "/out/$config.collapsed" -m black /tmp/work.py
       done <<<"$TACHYON_CONFIGS"
     ' --cap-add SYS_PTRACE \
-    -e BLACK_VERSION="${BLACK_VERSION[$role]}" \
+    -e BLACK_VERSION="${BLACK_VERSION[$side]}" \
     -e TACHYON_CONFIGS="$(printf '%s\n' "${TACHYON_BLACK_CONFIGS[@]}")" || return 1
 
-  tachyon_rundir[$role]=$dir
+  tachyon_rundir[$side]=$dir
 }
 
 # Exception mode keeps a sample only while the thread has an exception in
@@ -298,13 +298,13 @@ run_tachyon_for_role() {
 # failing example, and the engine formats its traceback inside the `except`
 # block that caught it.
 declare -A tachyon_exception_rundir=()
-run_tachyon_exception_for_role() {
-  local role=$1
-  [[ -n "${tachyon_exception_rundir[$role]:-}" ]] && return 0
-  local dir="$WORKDIR/python-tachyon-exception-$role"
+run_tachyon_exception_for_side() {
+  local side=$1
+  [[ -n "${tachyon_exception_rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/python-tachyon-exception-$side"
   mkdir -p "$dir"
 
-  notice "Profiling the hypothesis shrink-quality tests with tachyon --mode exception ($role)"
+  notice "Profiling the hypothesis shrink-quality tests with tachyon --mode exception ($side)"
   DOCKER_IMAGE="$TACHYON_PYTHON_IMAGE" docker_capture "$dir" '
       python -m venv /venv
       /venv/bin/pip install --quiet "hypothesis==$HYPOTHESIS_VERSION" "pytest==$PYTEST_VERSION"
@@ -318,87 +318,87 @@ run_tachyon_exception_for_role() {
         -o /out/exception.collapsed \
         -m pytest -q -p no:cacheprovider tests/quality/test_shrink_quality.py
     ' --cap-add SYS_PTRACE \
-    -e HYPOTHESIS_VERSION="${HYPOTHESIS_VERSION[$role]}" \
+    -e HYPOTHESIS_VERSION="${HYPOTHESIS_VERSION[$side]}" \
     -e PYTEST_VERSION="$PYTEST_VERSION" || return 1
 
-  tachyon_exception_rundir[$role]=$dir
+  tachyon_exception_rundir[$side]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container filename
+# capture_fn for emit: $1=out  $2=side  $3=in-container filename
 copy_python_profile() {
-  local out=$1 role=$2 name=$3
-  run_for_role "$role" || return 1
-  cp "${rundir[$role]}/$name" "$out"
+  local out=$1 side=$2 name=$3
+  run_for_side "$side" || return 1
+  cp "${rundir[$side]}/$name" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-VM filename
+# capture_fn for emit: $1=out  $2=side  $3=in-VM filename
 copy_native_profile() {
-  local out=$1 role=$2 name=$3
+  local out=$1 side=$2 name=$3
   run_native || return 1
-  cp "$native_dir/$role/$name" "$out"
+  cp "$native_dir/$side/$name" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container filename
+# capture_fn for emit: $1=out  $2=side  $3=in-container filename
 copy_memray_capture() {
-  local out=$1 role=$2 name=$3
-  run_memray_for_role "$role" || return 1
-  cp "${memray_rundir[$role]}/$name" "$out"
+  local out=$1 side=$2 name=$3
+  run_memray_for_side "$side" || return 1
+  cp "${memray_rundir[$side]}/$name" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container filename
+# capture_fn for emit: $1=out  $2=side  $3=in-container filename
 copy_tachyon_profile() {
-  local out=$1 role=$2 name=$3
-  run_tachyon_for_role "$role" || return 1
-  cp "${tachyon_rundir[$role]}/$name" "$out"
+  local out=$1 side=$2 name=$3
+  run_tachyon_for_side "$side" || return 1
+  cp "${tachyon_rundir[$side]}/$name" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# capture_fn for emit: $1=out  $2=side
 copy_tachyon_exception_profile() {
-  local out=$1 role=$2
-  run_tachyon_exception_for_role "$role" || return 1
-  cp "${tachyon_exception_rundir[$role]}/exception.collapsed" "$out"
+  local out=$1 side=$2
+  run_tachyon_exception_for_side "$side" || return 1
+  cp "${tachyon_exception_rundir[$side]}/exception.collapsed" "$out"
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=in-container filename
+# capture_fn for emit: $1=out  $2=side  $3=in-container filename
 copy_pyinstrument_profile() {
-  local out=$1 role=$2 name=$3
-  run_pyinstrument_for_role "$role" || return 1
-  cp "${pyinstrument_rundir[$role]}/$name" "$out"
+  local out=$1 side=$2 name=$3
+  run_pyinstrument_for_side "$side" || return 1
+  cp "${pyinstrument_rundir[$side]}/$name" "$out"
 }
 
 ensure_docker
 
-for role in base current; do
-  try emit "$GENERATED_INPUTS/python.py-spy.cpu.$role.collapsed" \
-    copy_python_profile "$role" cpu.collapsed
-  try emit "$GENERATED_INPUTS/python.py-spy.cpu.$role.speedscope.json" \
-    copy_python_profile "$role" cpu.speedscope.json
-  try emit "$GENERATED_INPUTS/python.py-spy.wall.$role.collapsed" \
-    copy_python_profile "$role" wall.collapsed
-  try emit "$GENERATED_INPUTS/python.py-spy.function.$role.collapsed" \
-    copy_python_profile "$role" function.collapsed
-  try emit "$GENERATED_INPUTS/python.py-spy.function.$role.speedscope.json" \
-    copy_python_profile "$role" function.speedscope.json
-  try emit "$GENERATED_INPUTS/python.py-spy.native.$role.collapsed" \
-    copy_native_profile "$role" native.collapsed
-  try emit "$GENERATED_INPUTS/python.py-spy.native.$role.speedscope.json" \
-    copy_native_profile "$role" native.speedscope.json
-  try emit "$GENERATED_INPUTS/python.memray.$role.memray.bin" \
-    copy_memray_capture "$role" default.memray.bin
-  try emit "$GENERATED_INPUTS/python.memray.aggregated.$role.memray.bin" \
-    copy_memray_capture "$role" aggregated.memray.bin
-  try emit "$GENERATED_INPUTS/python.memray.native.$role.memray.bin" \
-    copy_memray_capture "$role" native.memray.bin
-  try emit "$GENERATED_INPUTS/python.memray.v13.$role.memray.bin" \
-    copy_memray_capture "$role" v13.memray.bin
-  try emit "$GENERATED_INPUTS/python.pyinstrument.$role.speedscope.json" \
-    copy_pyinstrument_profile "$role" default.speedscope.json
+for side in base current; do
+  try emit "$GENERATED_INPUTS/python.py-spy.cpu.$side.collapsed" \
+    copy_python_profile "$side" cpu.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.cpu.$side.speedscope.json" \
+    copy_python_profile "$side" cpu.speedscope.json
+  try emit "$GENERATED_INPUTS/python.py-spy.wall.$side.collapsed" \
+    copy_python_profile "$side" wall.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.function.$side.collapsed" \
+    copy_python_profile "$side" function.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.function.$side.speedscope.json" \
+    copy_python_profile "$side" function.speedscope.json
+  try emit "$GENERATED_INPUTS/python.py-spy.native.$side.collapsed" \
+    copy_native_profile "$side" native.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.native.$side.speedscope.json" \
+    copy_native_profile "$side" native.speedscope.json
+  try emit "$GENERATED_INPUTS/python.memray.$side.memray.bin" \
+    copy_memray_capture "$side" default.memray.bin
+  try emit "$GENERATED_INPUTS/python.memray.aggregated.$side.memray.bin" \
+    copy_memray_capture "$side" aggregated.memray.bin
+  try emit "$GENERATED_INPUTS/python.memray.native.$side.memray.bin" \
+    copy_memray_capture "$side" native.memray.bin
+  try emit "$GENERATED_INPUTS/python.memray.v13.$side.memray.bin" \
+    copy_memray_capture "$side" v13.memray.bin
+  try emit "$GENERATED_INPUTS/python.pyinstrument.$side.speedscope.json" \
+    copy_pyinstrument_profile "$side" default.speedscope.json
   for config in "${TACHYON_BLACK_CONFIGS[@]%% *}"; do
-    try emit "$GENERATED_INPUTS/python.tachyon.$config.$role.collapsed" \
-      copy_tachyon_profile "$role" "$config.collapsed"
+    try emit "$GENERATED_INPUTS/python.tachyon.$config.$side.collapsed" \
+      copy_tachyon_profile "$side" "$config.collapsed"
   done
-  try emit "$GENERATED_INPUTS/python.tachyon.exception.$role.collapsed" \
-    copy_tachyon_exception_profile "$role"
+  try emit "$GENERATED_INPUTS/python.tachyon.exception.$side.collapsed" \
+    copy_tachyon_exception_profile "$side"
 done
 
 verify_pairs
