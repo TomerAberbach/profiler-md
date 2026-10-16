@@ -1342,6 +1342,54 @@ test(`pairs each function's callers and callees in a diff`, () => {
   ])
 })
 
+test(`omits the call counts of a diff with a side that records none`, () => {
+  const base = makeCallgrind([
+    `events: Ir`,
+    `fl=(1) /src/main.c`,
+    `fn=(1) main`,
+    `10 100`,
+    `cfl=(2) /src/compress.c`,
+    `cfn=(2) compress`,
+    `calls=0 20`,
+    `12 200`,
+    `fl=(2)`,
+    `fn=(2)`,
+    `20 200`,
+  ])
+  const current = makeCallgrind([
+    `events: Ir`,
+    `fl=(1) /src/main.c`,
+    `fn=(1) main`,
+    `10 100`,
+    `cfl=(2) /src/compress.c`,
+    `cfn=(2) compress`,
+    `calls=4 20`,
+    `12 300`,
+    `fl=(2)`,
+    `fn=(2)`,
+    `20 300`,
+  ])
+
+  const md = diffProfiles(
+    { data: base, format: `callgrind` },
+    { data: current, format: `callgrind` },
+    { baseURL: `/`, showEntry: () => true },
+  )
+
+  expect(calleesTables(md, `main`)).toEqual([
+    [
+      {
+        Change: `+50.0%`,
+        Delta: `+100`,
+        '%': `66.7% → 75.0%`,
+        Instructions: `200 → 300`,
+        Callee: `compress`,
+        Location: `/src/compress.c`,
+      },
+    ],
+  ])
+})
+
 test(`pairs the lines of a function an edit moved in a diff`, () => {
   const graph = (lines: [number, number][]) =>
     makeCallgrind([
