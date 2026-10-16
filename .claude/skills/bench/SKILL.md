@@ -3,6 +3,7 @@ name: bench
 description: Profile a benchmark, identify hotspots, and optimize.
 disable-model-invocation: true
 argument-hint: '[args]'
+allowed-tools: 'Bash(pnpm bench *)'
 metadata:
   internal: true
 ---

@@ -8,9 +8,9 @@
  *   categories each example emits, and which no example emits
  * - `--rule <pattern>` runs every `examples/input/` profile through the
  *   pipeline and reports the function names a candidate name-matching rule
- *   matches, grouped by the category each name has today. CLAUDE.md's
- *   categorizing principles require a long-tail rule to record what it matches
- *   and misses
+ *   matches, grouped by the category each name has today. The categorizing
+ *   principles in `src/origins/CLAUDE.md` require a long-tail rule to record
+ *   what it matches and misses
  */
 
 import { readdirSync, readFileSync } from 'node:fs'

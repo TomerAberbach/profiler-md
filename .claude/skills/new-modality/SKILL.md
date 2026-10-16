@@ -2,7 +2,7 @@
 name: new-modality
 description: |
   Implement a new modality end-to-end: aggregated form, modality module,
-  registration, options, tests, and docs. Use when asked to add a modality, or
+  registration, tests, and docs. Use when asked to add a modality, or
   when a format fits none of the supported modalities.
 argument-hint: '[modality name, motivating format, issue link, or guidance]'
 ---
@@ -18,11 +18,6 @@ $ARGUMENTS
 - A modality is a data structure a format captures, defined by its aggregated
   form and Markdown output, not by any single format. Add one only when a
   format's data can't aggregate into an existing modality's form
-
-- A modality registers in exactly one place: its `ModalitySpec` in
-  `src/modalities/registry.ts`. The pipeline in `src/formats/` calls a modality
-  only through the `ModalitySpec` it looks up by an input's `type`, so adding a
-  modality edits no pipeline file
 
 - Mirror the existing modalities' pipelines: per-format code only parses to the
   modality's uniform parsed type; aggregation, categorization, diffing, and
@@ -52,29 +47,22 @@ $ARGUMENTS
    - `aggregate.ts`:
      - The aggregated form, with the same `type` and a `context` field
      - A `<Name>Aggregator` class implementing `InputAggregator<Aggregated>`
-       from `src/modalities/aggregator.ts`. `detectOrigin(detector)` feeds the
-       input's origin-detection entries; `aggregate(options, context)`
-       aggregates and categorizes under the raw input's resolved context
-   - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
+       from `src/modalities/aggregator.ts`
+   - `diff.ts`: aggregated diffing over `src/modalities/diff.ts` primitives
    - `format.ts`: aggregated form and diff to Markdown, building tables with
-     `src/table.ts` in a colocated `table.ts` like the other modalities. If the
-     modality's tables or headings diverge, update
-     `src/cli/highlight-markdown.ts`, which recovers heat intensities by
-     re-parsing the output (column headers like `%`, `Delta`, and `Location`,
-     and `name (location)` heading keys)
+     `src/modalities/table.ts` in a colocated `table.ts` like the other
+     modalities, following the formatting principles in
+     `src/modalities/CLAUDE.md`. If the modality's tables or headings diverge,
+     update `src/cli/highlight-markdown.ts`
    - `modality.ts`: the `<name>ModalitySpec` satisfying `ModalitySpec` from
      `src/modalities/spec.ts`, modeled on
-     `src/modalities/call-graph/modality.ts`. Its third type argument is the
-     entry type `showEntry` receives, from which the registry derives
-     `AggregatedProfileEntry`:
-     - `aggregator(parsed, reader)` returns the `<Name>Aggregator`, passing each
-       lazily consumed iterable of the parsed input through `reader.records` (or
-       `reader.iterable` for one that yields no records), or calling
-       `reader.parsed(count)` for records parsed eagerly
-     - `format` and `formatDiff`, `locations` for base URL inference, the
-       `entries` a diff pairs by match key, and the `categories` it assigned
-       from its `categorySet`. Annotate `entries` to return the entry type when
-       the entries it returns are a narrower type
+     `src/modalities/call-graph/modality.ts`:
+     - `aggregator(parsed, reader)` passes every lazily consumed iterable of the
+       parsed input through `reader`, so the pipeline counts its records
+     - When the entities are functions, spread `functionEntities<Func>()` from
+       `src/modalities/function-entities.ts`
+     - Annotate `entries` to return the entry type when the entries it returns
+       are a narrower type
    - `index.ts` barrel, `testing.ts` for modality-specific test utilities
    - Colocated tests asserting on Markdown output per the CLAUDE.md testing
      rules
@@ -83,24 +71,25 @@ $ARGUMENTS
 
 4. Add the modality's spec to `modalitySpecs` in `src/modalities/registry.ts`
 
-5. If the modality's entries draw from a new closed set of categories, give each
-   new category a display name in `CATEGORY_NAMES` in
-   `src/modalities/format.ts`. `CATEGORY_SETS` derives the set from the registry
+5. If the modality's entries draw from a new closed set of categories:
+   - Define it as a `CategorySet` (title, noun, categories) in `type.ts`, like
+     `HEAP_SNAPSHOT_NODE_CATEGORY_SET`. `CATEGORY_SETS` derives the set from the
+     registry, and `--help` lists it under its title
+   - Give each new category a display name in `CATEGORY_NAMES` in
+     `src/modalities/format.ts`
+   - `src/categories.test.ts` assigns each `examples/output/` file to a category
+     set by its H1 heading, so add the modality's heading there. List each
+     category no example reaches in `UNEMITTED_CATEGORIES`, with the reason
 
 ## Test, document, and finish
 
-6. Confirm the parameterized input tests cover the modality:
-   `src/formats/index.test.ts` exercises every committed input through the
-   registry, and `src/origins/index.test.ts` checks each aggregated input's
-   categories and entry match keys through its `ModalitySpec`
-
-7. Document:
+6. Document:
    - `glossary.md`: a term entry for the modality's name plus entries for its
      core nouns
-   - The CLAUDE.md project structure tree and any principle that enumerates
-     modalities
+   - The `src/modalities/CLAUDE.md` project structure tree and any principle
+     that enumerates modalities
 
-8. Implement the motivating format via `/new-format`; a modality with no format
+7. Implement the motivating format via `/new-format`; a modality with no format
    exercising it is dead code and must not be committed alone
 
-9. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`
+8. `pnpm check`

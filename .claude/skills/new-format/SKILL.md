@@ -42,33 +42,17 @@ $ARGUMENTS
    format when it writes the format itself, so leave out the tools that convert
    another profiler's output into it. Then decide the origin question:
    - Note which existing origins need their `formats` expanded
-   - Register each emitting tool or runtime we don't have yet as its own origin,
-     even when its inputs carry no detectable markers (a markerless spec,
-     `isMarkerEntry: () => false`); sharing another origin's spec would make a
-     later behavioral split a breaking change
-   - Decide the format's `fallbackOrigin`: the format's canonical origin, the
-     tool or runtime whose definition of the format every other origin emitting
-     it conforms to (e.g. `valgrind` for callgrind, `chrome` for the V8
-     formats). A format with several origins still has a canonical origin. The
-     canonical origin may have its own marker entries. Use `unknown` when the
-     format is defined by something that profiles nothing itself (e.g. the
-     speedscope viewer, FlameGraph's stack-collapsing scripts, the pprof
-     project). Record the reasoning in a comment above the field
+   - Note each emitting tool or runtime that has no origin yet
+   - Decide the format's `fallbackOrigin` following the registration principles
+     in `CLAUDE.md`, and record the reasoning in a comment above the field
 
 4. For a format the call stack profile modality captures, determine what one
-   unit of `Observation.count` measures, from each profiler's source or
-   specification rather than the field names. One unit is a periodic sample of
-   the call stack, an occurrence of something the profiler records (an entry, an
-   allocation, an object, a contention), or a quantity that counts nothing, as
-   when eflambe writes one collapsed count per microsecond. Note whether the
-   format's origins agree, since a format whose origins disagree requires the
-   answer per origin. See the counting principles in `CLAUDE.md`
+   unit of `Observation.count` measures, following the counting principles in
+   `CLAUDE.md`. Note whether the format's origins agree
 
-5. For a format the call stack profile modality captures, determine whether each
-   position the format records for a frame is where the function is defined or
-   where the frame was when recorded, from each profiler's source or
-   specification rather than the field names. Note whether the format's origins
-   agree. See the normalizing principles in `CLAUDE.md`
+5. For a format the call stack profile modality captures, determine the semantic
+   of each position the format records for a frame, following the normalizing
+   principles in `CLAUDE.md`. Note whether the format's origins agree
 
 6. Enumerate what the format records about the machine or the session rather
    than the program (environment, process list, host and addresses, cookies,
@@ -93,7 +77,11 @@ $ARGUMENTS
 ## Implement
 
 10. Create `src/formats/<name>/` with `parse.ts`, `matches.ts`, `index.ts` (the
-    `<name>FormatSpec`), and `index.test.ts`:
+    `<name>FormatSpec`), and `index.test.ts`, following the error and parsing
+    principles in `src/formats/CLAUDE.md`:
+    - Set the spec's `extension` (its example inputs' extension), `languages`,
+      and `fallbackOrigin` from step 3. `languages` takes registered language
+      IDs, so add a missing language's `languageMetas` entry (step 13) first
     - In `parse.ts`, rename a runtime activity the format spells its own way to
       the label the shared categorization already has (see
       `VM_STATE_FRAME_NAMES` in `src/formats/v8/heap-profile/parse.ts`) rather
@@ -106,7 +94,7 @@ $ARGUMENTS
       new, and call `parseMetric` only where the input names its own unit. For a
       lone count metric, populate `Observation.count` with no metrics. Set
       `countMetric` from step 4
-    - Keep `matches` cheap and strict enough not to claim other text or JSON
+    - Keep `matches` strict enough not to claim other text or JSON
     - Test `matches`, `parse` rejections, end-to-end conversion with the helpers
       in `src/formats/testing.ts` and the modality's `testing.ts`, and the
       tricky behaviors the real inputs exposed
@@ -114,25 +102,18 @@ $ARGUMENTS
 11. Implement the origin decision from step 3: for each new emitting tool or
     runtime, load `/new-origin` and follow its workflow.
 
-Then set up the format's origin detection:
-
-- List the format in the `formats` of every origin that emits it
-- A missing per-origin `formats` entry fails silently (detection falls back).
-  The detected-input-origins test in `src/origins/index.test.ts` requires every
-  committed input to resolve to the origin in its filename. NEVER commit an
-  input that resolves elsewhere: give the origin a marker entry or a parser
-  origin hint, or make the workload realistic enough to contain the origin's
-  marker entries
+    Then list the format in the `formats` of every existing origin that emits
+    it, as in `/new-origin` step 3
 
 ## Register
 
 12. Add the format spec to `formatSpecs` in `src/formats/registry.ts`
 
-13. `src/cli/languages.ts`: add a `languageMetas` entry (name, aliases,
-    extensions) for any emitting language we don't list yet. An origin's display
-    name comes from its `OriginSpec.title`. If a new configuration needs a
-    display label beyond title-casing, add it to `configNames` in
-    `src/cli/examples.ts`
+13. `src/cli/languages.ts`: add a `languageMetas` entry (name, Devicon `icon`,
+    aliases, extensions) for any emitting language we don't list yet. Its icon
+    must be in `src/cli/devicon-icons.txt`. If a new configuration's filename
+    token doesn't read as a label (e.g. `cpu` for CPU), add one to `configNames`
+    in `src/cli/examples.ts`
 
 ## Validate against real inputs
 
@@ -147,10 +128,11 @@ Then set up the format's origin detection:
 
 16. `docs/formats/<name>.md` for `--help <format>`; generation instructions in
     each emitting language's `docs/languages/<language>.md` (a new file for a
-    new language). Verify the content prints with
-    `node src/cli/index.ts --help <name>` for the format and each language
+    new language, following `docs/languages/CLAUDE.md`). Verify the content
+    prints with `node src/cli/index.ts --help <name>` for the format and each
+    language
 
 17. `pnpm update-examples` (re-run after ANY later format spec change), then
     `pnpm update-readme`
 
-18. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`
+18. `pnpm check`
