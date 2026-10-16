@@ -8,199 +8,31 @@ friendly Markdown.
 ```
 profiler-md
 ├── src/
-│   │
 │   ├── index.ts                  # API entry point
-│   │
 │   ├── cli/
-│   │   ├── index.ts              # CLI entry point that orchestrates the run
-│   │   ├── cli.ts                # Optique flag and topic definitions, and the program
-│   │   ├── optique.ts            # Optique primitive, modifier, and value parser wrappers that state errors and defaults in this CLI's style
-│   │   ├── parse-args.ts         # Runs the Optique parser over argv, restating its errors in this CLI's style
-│   │   ├── input.ts              # Opens stdin or a file as a Blob, reporting a read failure
-│   │   ├── options.ts            # Builds API options from CLI flags
-│   │   ├── output.ts             # Writes Markdown to file or stdout (optionally paged)
-│   │   ├── pager.ts              # Spawns $PAGER or `less` for stdout output
-│   │   ├── highlight-markdown.ts # ANSI Markdown syntax highlighting for stdout
-│   │   ├── theme-kindling.ts     # The Kindling colors as a Shiki theme, an Optique terminal theme, and an ANSI palette
-│   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
-│   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color), and a plain Ansis for uncolored output
-│   │   ├── log.ts                # The stderr logger and the $PROFILER_MD_LOG log level
-│   │   ├── help.ts               # Prints CLI help (synopsis, examples, flag sections) and per-topic docs
-│   │   ├── man.ts                # The profiler-md(1) man page, built from the help's synopsis, flag sections, and examples
-│   │   ├── languages.ts          # Language display metadata, including each language's Devicon icon
-│   │   ├── devicon-icons.txt     # Pinned Devicon icon names the languages test checks each language's icon against
-│   │   ├── examples.ts           # Parses metadata from examples/ filenames
-│   │   └── error.ts              # CliError class and top-level error reporting
-│   │
-│   ├── formats/                  # Individual profile format implementations
-│   │   ├── spec.ts               # The FormatSpec contract every format registers
-│   │   ├── registry.ts           # Format spec registry
-│   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
-│   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
-│   │   ├── record-tally.ts       # Counts what a parse skipped and reports parsed inputs' lazy iterable failures, then rejects an input with no records or warns
-│   │   ├── compression.ts        # Strips gzip and LZ4 by their magic bytes, and tries brotli last, using the runtime's decoders
-│   │   ├── compression.node.ts   # The `#compression` runtime a Node bundle resolves to (node:zlib)
-│   │   ├── compression.web.ts    # The `#compression` runtime every other bundle resolves to (DecompressionStream)
-│   │   ├── detect.ts             # Format auto-detection and its undetected-format error
-│   │   ├── aggregate.ts          # Aggregates parsed inputs under the origin detected across them
-│   │   ├── format.ts             # Aggregated inputs and diffs to Markdown, with base URL inference
-│   │   ├── index.ts              # profileToMd(Async)/diffProfiles(Async): buffers the input, then parses or detects, aggregates, and formats
-│   │   ├── **/<name>/            # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
-│   │   │   ├── matches.ts        # Cheap auto-detection check for the format
-│   │   │   ├── parse.ts          # Parses input into a modality's parsed type
-│   │   │   ├── index.ts          # Exports the format's spec
-│   │   │   ├── testing.ts        # Test-only utilities specific to this format (optional)
-│   │   │   └── <helper>.ts       # Types or structures specific to the format (optional, e.g. hprof/object-ids.ts)
-│   │   ├── <subdirectory>/<shared>.ts # Types shared by a subdirectory's formats (e.g. v8/common.ts, ghc/cost-centre.ts)
-│   │   └── testing.ts            # Test-only utilities for running a format spec and reading example inputs
-│   │
-│   ├── origins/                  # Origin detection and categorization
-│   │   ├── spec.ts               # OriginSpec type + match and frame-normalization helpers
-│   │   ├── categorize.ts         # Generic categorization rule helpers
-│   │   ├── jvm.ts                # JVM runtime conventions shared across origins
-│   │   ├── javascript.ts         # JavaScript ecosystem conventions shared across origins
-│   │   ├── jsc.ts                # JavaScriptCore engine conventions shared across origins
-│   │   ├── cpython.ts            # CPython interpreter conventions shared across origins
-│   │   ├── linux.ts              # Linux kernel and system mapping conventions for native profilers
-│   │   ├── swift.ts              # Swift standard library conventions for native profilers
-│   │   ├── rust.ts               # Rust toolchain conventions shared by pprof-rs and the native profilers
-│   │   ├── go.ts                 # Go toolchain conventions shared by Go's profiler and the native profilers
-│   │   ├── zig.ts                # Zig toolchain conventions for native profilers (Zig registers no origin)
-│   │   ├── native.ts             # Match rules every native profiler applies, from each compiled language's conventions
-│   │   ├── specs/
-│   │   │   ├── <name>.ts         # One file per origin (e.g. node, node-pprof, jdk)
-│   │   │   ├── go-std-packages.txt # Pinned `go list std` output the go spec's test checks its stdlib rule against
-│   │   │   └── index.ts          # Exports originSpecs in detection-priority order
-│   │   ├── index.ts              # Origin registry and derived detector
-│   │   └── testing.ts            # Test-only origin detection and entry construction helpers
-│   │
-│   ├── modalities/               # Individual modality implementations
-│   │   ├── spec.ts               # The ModalitySpec contract every modality registers, and the record reader its aggregator reads through
-│   │   ├── registry.ts           # Modality registry, and the parsed input, aggregated input, entry, and category unions derived from it
-│   │   ├── aggregator.ts         # Uniform per-input aggregator contract all modalities implement
-│   │   ├── category.ts           # Splitting a ranking into per-category subsections
-│   │   ├── category-sets.ts      # The category set type, and the function category set modalities share
-│   │   ├── function-entities.ts  # The ModalitySpec fields of a modality whose entities are functions
-│   │   ├── diff.ts               # Base/current diffing primitives
-│   │   ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
-│   │   ├── metric.ts             # Recorded metric types, constructors, and equality
-│   │   ├── metrics.ts            # The named metric constants, and parsing of an input's unit/name strings to them
-│   │   ├── measure.ts            # Metric phrasing and cell formatting shared across modalities
-│   │   ├── table.ts              # Table cell/column types + Markdown table/diff-table formatting
-│   │   ├── format.ts             # Formatting helpers shared across modalities
-│   │   ├── call-stack-profile/   # Common call stack profile conversion logic
-│   │   │   ├── type.ts           # Parsed call stack profile types
-│   │   │   ├── aggregate.ts      # Observation aggregation over frames
-│   │   │   ├── diff.ts           # Aggregated call stack profile diffing logic
-│   │   │   ├── measure.ts        # Profile-resolved measure views with count fallback
-│   │   │   ├── table.ts          # The call stack profile formatter's table columns
-│   │   │   ├── format.ts         # Call stack profile and diff to Markdown formatting
-│   │   │   ├── modality.ts       # The modality's registered ModalitySpec
-│   │   │   ├── index.ts          # Barrel file
-│   │   │   └── testing.ts        # Test-only utilities specific to this module
-│   │   ├── call-graph/           # Common weighted call graph conversion logic
-│   │   │   ├── type.ts           # Parsed call graph types
-│   │   │   ├── aggregate.ts      # Function merging, cycle-safe totals, and categorization
-│   │   │   ├── diff.ts           # Aggregated call graph diffing logic
-│   │   │   ├── table.ts          # The call graph formatter's table columns
-│   │   │   ├── format.ts         # Call graph and diff to Markdown formatting
-│   │   │   ├── modality.ts       # The modality's registered ModalitySpec
-│   │   │   ├── index.ts          # Barrel file
-│   │   │   └── testing.ts        # Test-only utilities specific to this module
-│   │   └── heap-snapshot/        # Common heap snapshot conversion logic
-│   │       ├── type.ts           # Parsed heap snapshot types
-│   │       ├── graph.ts          # Node adjacency graph in CSR format
-│   │       ├── retained.ts       # Retained size computation, and the outermost of a set of instances
-│   │       ├── aggregate.ts      # Heap snapshot aggregation over classified nodes
-│   │       ├── categorize.ts     # Node and entity categorization under the resolved origin
-│   │       ├── diff.ts           # Aggregated heap snapshot diffing logic
-│   │       ├── table.ts          # The heap snapshot formatter's table columns
-│   │       ├── format.ts         # Heap snapshot and diff to Markdown formatting
-│   │       ├── modality.ts       # The modality's registered ModalitySpec
-│   │       ├── index.ts          # Barrel file
-│   │       └── testing.ts        # Test-only utilities specific to this module
-│   │
-│   ├── options.ts                # API option types, and filling in their defaults
-│   ├── error.ts                  # ProfilerMdError, the class for a failure the caller's input or options caused
-│   ├── logger.ts                 # Logger and LogLevel types, and filtering a logger to a log level
-│   ├── location.ts               # URL, file path, and line:column location logic
-│   ├── source-map.ts             # Source map resolution logic
+│   │   ├── index.ts              # CLI entry point
+│   │   ├── optique.ts            # Optique wrappers that state errors and defaults in this CLI's style. Build flags from these
+│   │   └── help.ts               # CLI help and per-topic docs, the source of the man page and the readme's CLI sections
+│   ├── formats/                  # Format specs and the conversion pipeline (has its own CLAUDE.md)
+│   ├── origins/                  # Origin specs, detection, and categorization (has its own CLAUDE.md)
+│   ├── modalities/               # Modality specs: aggregation, diffing, and Markdown formatting (has its own CLAUDE.md)
 │   ├── testing.ts                # Test-only option resolution, log assertion, and cross-modality Markdown assertion helpers
-│   ├── test-setup.ts             # Vitest setup: records every logged line and fails a test that leaves one unasserted
-│   │
-│   └── helpers/                  # Truly generic (non-profiling) utility functions
-│       ├── array.ts
-│       ├── bits.ts
-│       ├── bytes.ts
-│       ├── color.ts              # Hex color parsing to RGB
-│       ├── free-indices.ts       # Interval union-find over a range's free indices
-│       ├── graph.ts
-│       ├── heap.ts
-│       ├── format.ts
-│       ├── intern.ts
-│       ├── json.ts
-│       ├── lz4.ts                # LZ4 frame decompression
-│       ├── markdown.ts
-│       ├── testing.ts
-│       └── types.ts
-│
+│   ├── test-setup.ts             # Vitest setup that fails a test leaving a logged warning or error unasserted
+│   └── helpers/                  # Generic (non-profiling) utility functions
 ├── docs/
 │   ├── api.md                    # Programmatic API guide linked from the readme
-│   ├── languages/                # Per-language generation instructions (`profiler-md --help <language>`)
+│   ├── languages/                # Per-language generation instructions (`profiler-md --help <language>`, has its own CLAUDE.md)
 │   └── formats/                  # Per-format descriptions (`profiler-md --help <format>`)
-│
-├── skills/
-│   └── profile-optimize/         # Agent skill published with the package
-│
-├── eslint-rules/
-│   ├── error-message.js          # ESLint rule enforcing the error and log message wording conventions below
-│   └── no-standard-stream-write.js # ESLint rule forbidding console and process.{stdout,stderr} writes in src/
-│
-├── .claude/
-│   ├── dimensions.md             # Where behavior belongs across format/modality/origin
-│   ├── hooks/lint-format.sh      # Lints and formats each written file
-│   └── skills/                   # Repo-only agent skills (new-format, new-modality, new-origin, new-input, bench)
-│
-├── scripts/                      # Bash and TypeScript scripts
-│   ├── bench                     # Benchmark the CLI with the given arguments
-│   ├── check-bash                # Fail when a bash script doesn't parse (`bash -n`)
-│   ├── generate-inputs           # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
-│   ├── inputs/                   # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
-│   ├── categories.ts             # Report the categories the examples emit, or the names a candidate rule matches
-│   ├── update-examples/
-│   │   ├── index.ts              # Update examples/output/ from examples/input/ on a worker thread pool
-│   │   └── worker.ts             # Converts one variant of an example per message, then checks or writes it
-│   ├── check-input-privacy.ts    # Fails an input containing data about the generating machine (addresses, cookies, environment, process list)
-│   ├── evaluate-diff-matching/   # Score how a diff pairs functions, instance groups, and retained node groups against ground truth: same code, version changes, and synthetic edits
-│   │   ├── index.ts              # Entry point: scores every example pair per ground truth kind, or updates or checks ground-truth.json
-│   │   ├── inputs.ts             # Example pairs and their aggregated inputs with functions or heap snapshots
-│   │   ├── position.ts           # Function positions and the base-to-current position map type
-│   │   ├── upgraded-projects.ts  # Projects a pair profiles at two versions, their version pins, and how to fetch their files
-│   │   ├── fetch.ts              # Downloads cached in node_modules/.cache/evaluate-diff-matching/
-│   │   ├── cache.ts              # The cache directory
-│   │   ├── file-diff.ts          # A file's line or character diff from `git diff`, and mapping a position through it
-│   │   ├── ground-truth.ts       # Reads, updates, and checks ground-truth.json
-│   │   ├── ground-truth.json     # File diffs of the upgraded projects' profiled files, the version-change ground truth (`--update` rewrites it)
-│   │   ├── version-change.ts     # The position map of a pair that profiles two versions of an upgraded project
-│   │   ├── synthetic-edits.ts    # Seeded edits to one source reference of the current side, and the position map they produce
-│   │   ├── score.ts              # Pairs two inputs' functions as a diff does and scores the pairs against a position map
-│   │   ├── retainer-groups.ts    # Pairs two heap snapshots' instance groups and retained node groups as a diff does, scores the pairs, and applies synthetic edits to their retainer paths
-│   │   └── table.ts              # Prints a table of scores per pair or origin
-│   ├── helpers/
-│   │   └── table.ts              # Prints an evaluation script's scores as an aligned text table
-│   ├── build-man.ts              # Write the man page to dist/man/ (run by `pnpm build`)
-│   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
-│   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
-│
-├── assets/
-│   ├── demo.tape                 # vhs script for the readme demo
-│   ├── demo.gif                  # Recorded from demo.tape with `pnpm update-demo`
-│   └── logo.svg                  # Readme logo
-│
-├── examples/                     # Filenames are `<language>.<origin>.<configuration?>.<base|current|diff>.<ext>`, parsed by src/cli/examples.ts
+├── skills/                       # Agent skills published with the package
+├── eslint-rules/                 # Local ESLint rules enforcing the message wording and stream write conventions below
+├── .claude/dimensions.md         # Where behavior belongs across format/modality/origin
+├── scripts/
+│   ├── inputs/                   # Per-language workload scripts, workload assets, and the profiler toolchain nix flake
+│   └── evaluate-diff-matching/   # Scores how a diff pairs entities against ground truth
+├── examples/                     # Filenames are `<language>.<origin>.<configuration?>.<base|current|diff>.<ext>`
 │   ├── input/                    # Inputs for testing and docs
-│   └── output/                   # Markdown generated from examples/input/* with `pnpm update-examples`
-└── readme.md                     # CLI and matrix sections generated with `pnpm update-readme`
+│   └── output/                   # Generated by `pnpm update-examples`
+└── readme.md                     # CLI and matrix sections generated by `pnpm update-readme`
 ```
 
 ## Development
@@ -209,61 +41,28 @@ profiler-md
 # Everything CI runs, in CI's order. Run before handing work back
 pnpm check
 
-pnpm format
-pnpm lint
-pnpm typecheck
-pnpm knip     # Find unused files, dependencies, and exports
-pnpm test
-pnpm test -u   # Update snapshots
-pnpm coverage
-pnpm build    # Bundle with tsdown
-
-# Update `examples/output/` from `examples/input/`
-pnpm update-examples
-# Re-record `assets/demo.gif` from `assets/demo.tape` (requires vhs and gifsicle)
-pnpm update-demo
-# Update readme (CLI examples, help, and language matrix) from src/cli/help.ts, src/cli/languages.ts, and `--help`
-pnpm update-readme
-
-# Each generated artifact has a `--check` variant CI runs instead of updating
-pnpm check-examples
-pnpm check-demo
-pnpm check-readme
-pnpm check-diff-matching
-
-# Check every bash script parses
-pnpm check-bash
-
-# Fail any committed input (or the given ones) containing data about the generating machine
-pnpm check-input-privacy
-pnpm check-input-privacy examples/input/java.jdk.cpu.base.jfr
+# Regenerate an artifact after changing what it's built from. Each has a
+# `check-*` variant CI runs instead
+pnpm update-examples      # examples/output/ from examples/input/
+pnpm update-readme        # from src/cli/help.ts, src/cli/languages.ts, and `--help`
+pnpm update-demo          # assets/demo.gif from assets/demo.tape (requires vhs and gifsicle)
+pnpm evaluate-diff-matching --update # ground truth, after regenerating inputs or changing a version pin
 
 # Run the CLI from source (Node runs the TypeScript directly)
 node src/cli/index.ts ./examples/input/javascript.node.base.cpuprofile
-
-# Benchmark the CLI with the given args
-pnpm bench ./examples/input/javascript.node.base.cpuprofile
 
 # Report which categories the examples emit, and which none emits
 pnpm categories
 # Report the function names a candidate rule matches, by their category today
 pnpm categories --rule '^LinearScan'
 
-# Score how a diff pairs functions, instance groups, and retained node groups against ground truth
-pnpm evaluate-diff-matching
-# Rewrite the version-change ground truth after regenerating inputs or changing a pin
-pnpm evaluate-diff-matching --update
-
-# Generate inputs
-pnpm generate-inputs           # Skip already-generated inputs (the default, --missing)
-pnpm generate-inputs --all     # Delete targets first, regenerate all
+# Generate inputs, skipping those already generated. `--all` regenerates all
+pnpm generate-inputs
 pnpm generate-inputs go ruby   # Limit to named workload scripts
 ```
 
 ## Testing
 
-- Uses `vitest` and `@fast-check/vitest`
-- `*.test.ts` and `testing.ts` are colocated with implementation
 - Most tests run profile to Markdown conversion end-to-end
   - Assert on the Markdown output, not on intermediate data structures, using
     the Markdown assertion helpers in the colocated `testing.ts` files (e.g.
@@ -331,6 +130,15 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Name a discriminated union's discriminant `type`, never `kind`. This does not
   apply to a categorical field that merely names a variant on a non-union type
 
+### Declaration order
+
+- Order a file's declarations top-down, each caller above its callees, so the
+  file opens with its entry points. Keep related declarations together: sync and
+  async twins, a type and the function that builds it, a cache and the function
+  that fills it. Put code that runs when the module loads below what it reads
+- Keep the line order of the workload source files in `scripts/inputs/assets/`,
+  because the committed example inputs record their line numbers
+
 ### Errors
 
 - Choose the class by who caused the failure: `ProfilerMdError` for the caller's
@@ -342,26 +150,6 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   the message. NEVER embed the cause's `message`: the CLI prints each cause on
   its own indented `caused by:` line under the message, and `reasonOf` joins the
   chain for a log line
-- A format spec's `parse` throws a `FormatParseError` stating the reason alone,
-  and the conversion pipeline prefixes the format's ID. Write `matches` to
-  accept anything of the format, including a version or variant the parser
-  rejects, so auto-detection reports that reason instead of an undetectable
-  input
-- The pipeline classifies a failure `parse` throws by the error's class, at the
-  boundary it catches it. A `FormatParseError` is a violation the parser
-  identified. Any other error escaping `parse` is one the parser did not
-  classify: the input violates the format in a way the parser does not check, or
-  the parser has a bug. The pipeline reports both as unusable input. It reports
-  the second as `<format>: failed to parse the input` with the error as its
-  cause, and the CLI adds a bug report caveat to it (`mayBeParserBug`). The
-  classification is the same under auto-detection and a specified format, and
-  the same for an error a parsed input's lazy iterable throws while aggregation
-  consumes it. An error the caller's data throws while `parse` reads it is the
-  caller's, and the pipeline rethrows it unwrapped. Any other error after
-  `parse` is a bug
-- Wrap a third-party decoder's error (e.g. `JSON.parse`) in a `FormatParseError`
-  at its call site. The parser cannot check anything before decoding succeeds,
-  so a decoding failure is the input's, however the decoder reports it
 - Write a message as `<what failed>: <detail>`, or as a single clause when there
   is no useful prefix. Put the offending value last, after `got: `.
   `eslint-rules/error-message.js` checks the remaining wording conventions
@@ -429,58 +217,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Performance
 
 - Prioritize runtime performance so large profiles process quickly
-- Use low overhead abstractions
 - NEVER use more than `O(n)` memory for a profile of size `n`
 - Preallocate an array of known length with `new Array(length)`, not
   `Array.from({ length })`, which runs the iteration protocol per element
-
-### Parsing
-
-- Cast untyped profile data to typed data for performance. Add a check to a
-  parser only where, without it, the conversion would:
-  - Lose its place: read past the end of the input or of the enclosing record,
-    loop on a length the remaining bytes can't hold, or read a record by the
-    wrong layout because the value that selects the layout (an encoding, a
-    variant, an allocator) is unknown. Throw, or call
-    `recordTally.endsBefore(...)` where the parser keeps what it read
-  - Drop a record, or replace a record or reference with a default, including
-    through a lookup that misses (e.g. a sample referencing a missing node, or a
-    sample past the end of a parallel array such as `timeDeltas`). Call
-    `recordTally.skipped(...)`
-  - Throw after `parse` returns: in a lazy iterable, after auto-detection has
-    moved on (check that `samples` is an array), or in formatting, which the
-    pipeline reports as a bug (check that a sample has a `timeDeltas` entry)
-- Where a check fails on one record and the records after it are readable, skip
-  that record with `recordTally.skipped(...)` instead of throwing, even when the
-  check prevents a crash after `parse` returns. The pipeline already rejects an
-  input whose every record was skipped. Throw only when the parser lost its
-  place, or when every record depends on the failed value (e.g. a missing
-  `tick_interval`, an unsupported heap snapshot type). The test: if the failed
-  value belongs to one sample, frame, node, or edge, skip
-- NEVER check anything else: a field's type, presence, or range, the order of
-  records, or agreement between two fields, when the parser reads the value as
-  the input states it. Such an input converts to whatever Markdown its values
-  produce. An error the unchecked value throws inside `parse` is already
-  reported as unusable input, so NEVER add a check for a nicer message. The
-  test: delete the check. If the bad value then throws inside `parse` or shows
-  up in the output as the input stated it, the check was validation
-- Parse a specified format to its specification, accepting every shape the
-  specification allows. Add handling for a shape the specification forbids only
-  when an input contains it, and name the origin that writes it in a comment
-- Where a parser skips a record the specification forbids (e.g. a sample
-  referencing a missing node) or a record of a part of the specification the
-  parser doesn't support (e.g. an event type or string encoding outside those it
-  reads), or reaches the end of an input cut short, record it on the
-  `recordTally` argument of `parse` (`recordTally.skipped(...)`,
-  `recordTally.endsBefore(...)`). The pipeline rejects an input with no records
-  and something recorded, and otherwise warns once per reason. NEVER record a
-  record the parser reads
-- Count what the parser skips in a loop that already reads each record, either
-  in `parse` or in a parsed input's lazy iterable, and record the total once
-  after the loop. NEVER add a pass over the input only to tally it
-- NEVER index into a plain object with profile-derived strings (e.g. frame
-  names): keys like `toString` or `constructor` resolve to `Object.prototype`
-  members. Use a `Map`
 
 ### Profiler bugs
 
@@ -563,112 +302,12 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - NEVER call a change the metric does not measure better or worse. A wrong call
   reads as a finding; an unranked change reads as a number
 
-### Matching
-
-- Where a profiler writes an identifier that differs per run into an entry's
-  name or location (a runtime address, a random ID), strip it in the origin's
-  `matchEntry`, built with `matchEntryFromRules`. Keep the part that identifies
-  the entity (`Foo$$Lambda` of `Foo$$Lambda.0x00000070011868b8`). Verify the
-  identifier differs per run from the profiler's source or an example pair,
-  never from its shape alone
-- Strip an identifier that differs per build (a Nix store hash) only where the
-  rest of the name or path identifies the entity across builds
-- Keep a number the compiler assigns to distinct functions (`func1`, `dgm$598`)
-  and an unsymbolized address, because stripping either gives distinct functions
-  one match key
-- Record in the rule's doc comment which entities share a match key once it
-  strips the identifier. The diff pairs them in order
-- Drop a pseudo-frame (`[tid=16387]`) in `normalizeStackFrame`, never by
-  matching it
-- `src/origins/index.test.ts` fails when an unpaired base key and an unpaired
-  current key differ only by an address or a hex ID. It cannot tell a decimal ID
-  from a compiler's numbering, so read a new input's unpaired rows for one
-
-### Categorizing
-
-- `FunctionCategory` is a closed set. Add a category only when the distinction
-  it names exists across languages and its name states what it means without
-  knowing which profiler wrote the input. One naming a stack position
-  (`below main`) or an engine (`v8 api`) fails both
-- Categorize from what the profiler states, never from what it omits. `stdlib`
-  requires positive evidence that the code is the language's or runtime's own
-  library: a path, module specifier, namespace, or package prefix. A frame the
-  profiler attributed to no source file is `native`, and one it could not
-  identify is `unknown`, so keep that distinction wherever a profiler draws it
-- `compiler` is the runtime producing executable code, and `jit` a frame
-  executing code the runtime generated. A named activity takes precedence over
-  `jit`, so a garbage collection write barrier compiled inline is
-  `garbage-collector`
-- Match on a name alone only behind a guard that excludes the profiled program's
-  own code, and state it: a JavaScript engine locates every function the program
-  defines, so a missing location is that guard
-- Write a rule only for a shape a committed input contains. Measure one matching
-  a long tail of symbols, and record what it matches and misses in its doc
-  comment (e.g. `HOTSPOT_COMPILER` in `src/origins/jvm.ts`)
-- `src/origins/categorize.test.ts` holds the cross-origin invariants, and
-  `src/categories.test.ts` requires an example to emit every category, or a
-  listed reason why nothing reaches it
-
-### Aggregating
-
-- NEVER sort, filter by `topN`, or apply any other formatting logic
-- Use sequential IDs, `TypedArray`s, and compressed sparse row format when they
-  improve performance
-- Use sparse arrays over `Map<number, T>` for dense or moderately sparse data,
-  common with sequential IDs
-- NEVER assume parsed profile data contains sequential IDs unless the format's
-  specification mandates them
-
 ### Formatting
 
-- Use heaps to avoid fully sorting data when possible
-- `src/cli/highlight-markdown.ts` heat-tints stdout by re-parsing the emitted
-  Markdown (column headers like `%`, `Delta`, and `Location`, `name (location)`
-  heading keys, and the ranking headings a diff sorts its rows under), so a
-  change to table or heading structure may require updating it
+`src/modalities/CLAUDE.md` contains the rules for headings, notes, and tables.
+
 - Write the Markdown's prose about the profile, never about the conversion that
   produced it. A sentence states what the data contains or what a section ranks,
   never what the conversion searched for, inferred, or overrode. The test: the
   sentence stays true in a document written by hand from the same data. Report a
   decision the conversion made through the logger instead
-- Place a note explaining the Markdown's notation by the sections that can show
-  the notation. A note for one section ends that section's opening paragraph. A
-  note for several sections goes below the summary, after the base URL note
-- Omit a note when no shown text uses its notation. Record the notation where
-  the text is formatted (e.g. `ShownRetainerPaths` in
-  `src/modalities/heap-snapshot/format.ts`), so a section that shows the text
-  cannot skip its note. Print a note unconditionally only when detecting its
-  notation costs more than the note: the base URL note prints whenever `baseURL`
-  is set, because finding a relative path would mean tracking every location the
-  Markdown shows
-- Name a heading by its role. Below the title and a metric's heading, every
-  heading is one of these. NEVER name a heading after what its rows are grouped
-  by
-
-  | Role           | Names                                                | Examples                                    |
-  | -------------- | ---------------------------------------------------- | ------------------------------------------- |
-  | Entity section | The rows, with the ranking's direction               | `Hottest functions`, `Largest constructors` |
-  | Measure        | What ranks the rows                                  | `Self time`, `Retained size`                |
-  | Partition      | A subset of the same rows                            | `Categories` › `Ours`, `Regressions`        |
-  | Breakdown      | The breakdown's rows, then the entity it breaks down | `Lines`, `Callers`, `Retainer paths`        |
-
-- Open the heading directly above a ranking's tables with one sentence naming
-  the rows and what ranks them: `<Rows> with the most <amount>` or
-  `<Rows> with the largest <contribution>`, and
-  `<Rows> with the largest <increase|decrease|change> in <amount>` in a diff
-
-### Documenting
-
-- In `docs/languages/`, a top-level section is what the profile measures (e.g.
-  `## CPU profiling`, `## Memory profiling`), opening with what it records and
-  what it is useful for. A tool is never a top-level section:
-  `## perf profiling` states what wrote the profile, and `## CPU profiling` what
-  it measured. The test: two tools that sample the same thing by different
-  mechanisms (e.g. a kernel counter and an interval timer) share a section
-- Where a section covers one tool, nest its `### CLI` and `### Programmatic API`
-  directly. Where it covers several, give each a `### <tool>` subsection and
-  nest `#### CLI` and `#### Programmatic API` under it
-- Put a `#### Flags` or `#### Environment variables` table under the `### CLI`
-  that uses it. Where the tool has a `### <tool>` subsection instead, move its
-  table to a `## <tool> CLI flags` section after the last section that uses the
-  tool
