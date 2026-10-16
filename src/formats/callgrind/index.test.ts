@@ -1290,6 +1290,50 @@ describe(`convert`, () => {
       ],
     ])
   })
+
+  test(`sorts a diff's categories by their larger side's share`, () => {
+    const graph = (mainSelf: number, memcpySelf: number) => [
+      `events: Ir`,
+      `ob=(1) /usr/bin/zstd`,
+      `fl=(1) /src/main.c`,
+      `fn=(1) main`,
+      `10 ${mainSelf}`,
+      `cob=(2) /usr/lib/libc.so.6`,
+      `cfi=(2) ???`,
+      `cfn=(2) memcpy`,
+      `calls=1 0`,
+      `11 ${memcpySelf}`,
+      `ob=(2)`,
+      `fl=(2)`,
+      `fn=(2)`,
+      `0 ${memcpySelf}`,
+    ]
+
+    const md = diffProfiles(
+      { data: makeCallgrind(graph(100, 900)), format: `callgrind` },
+      { data: makeCallgrind(graph(300, 100)), format: `callgrind` },
+      { baseURL: `/`, showEntry: () => true },
+    )
+
+    expect(categoryTables(md)).toEqual([
+      [
+        {
+          Category: `Native`,
+          Change: `-88.9%`,
+          Delta: `-800`,
+          '%': `90.0% → 25.0%`,
+          Instructions: `900 → 100`,
+        },
+        {
+          Category: `Ours`,
+          Change: `+200.0%`,
+          Delta: `+200`,
+          '%': `10.0% → 75.0%`,
+          Instructions: `100 → 300`,
+        },
+      ],
+    ])
+  })
 })
 
 test(`pairs each function's callers and callees in a diff`, () => {

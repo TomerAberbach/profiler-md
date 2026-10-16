@@ -17,6 +17,7 @@ import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
   formatRankingTables,
   rankEntities,
+  sortDiffCategories,
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
@@ -1079,27 +1080,47 @@ const formatDiffCategoryTable = ({
   return [
     formatDiffTable(
       categoryColumns(summaryColumnOptions(base, current)),
-      [...categoryToStats]
-        .sort(([, stats1], [, stats2]) =>
-          compareStats(
-            stats1.current ?? EMPTY_STATS,
-            stats2.current ?? EMPTY_STATS,
-          ),
-        )
-        .map(([category, stats]) => ({
-          base: stats.base && {
-            category,
-            stats: stats.base,
-            total: base.duration,
-          },
-          current: stats.current && {
-            category,
-            stats: stats.current,
-            total: current.duration,
-          },
-        })),
+      sortDiffCategories(categoryToStats, [
+        {
+          valueOf: ({ time }) => time,
+          baseTotal: timeTotal(base),
+          currentTotal: timeTotal(current),
+        },
+        {
+          valueOf: ({ count }) => count,
+          baseTotal: base.eventCount,
+          currentTotal: current.eventCount,
+        },
+      ]).map(([category, stats]) => ({
+        base: stats.base && {
+          category,
+          stats: stats.base,
+          total: base.duration,
+        },
+        current: stats.current && {
+          category,
+          stats: stats.current,
+          total: current.duration,
+        },
+      })),
     ),
   ]
+}
+
+/**
+ * The time a category's share of a trace's time is of: the recorded duration,
+ * which the `%` column divides by, or the categories' summed time when the
+ * trace times no event's start.
+ */
+const timeTotal = ({ duration, categoryToStats }: AggregatedTrace): number => {
+  if (duration !== undefined) {
+    return duration
+  }
+  let total = 0
+  for (const { time } of categoryToStats.values()) {
+    total += time
+  }
+  return total
 }
 
 const EMPTY_STATS: AggregatedTraceStats = { time: 0, count: 0 }

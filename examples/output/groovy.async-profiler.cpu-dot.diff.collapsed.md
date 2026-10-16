@@ -9,8 +9,8 @@ Collected 5,955 samples → 6,026 samples (+71 samples, +1.2%).
 | Standard library  |   -1.7% |   -26 | 26.4% → 25.7% | 1,574 → 1,548 |
 | Ours              |   -6.2% |    -5 |   1.4% → 1.3% |       81 → 76 |
 | JIT               |   -9.7% |    -6 |   1.0% → 0.9% |       62 → 56 |
-| Garbage collector | +400.0% |    +4 |  <0.1% → 0.1% |         1 → 5 |
 | Unknown           |  -50.0% |    -3 |  0.1% → <0.1% |         6 → 3 |
+| Garbage collector | +400.0% |    +4 |  <0.1% → 0.1% |         1 → 5 |
 
 ## Hottest functions
 

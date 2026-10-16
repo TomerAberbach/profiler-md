@@ -24,6 +24,9 @@ const spanRanking = (md: string, measure: string, ranking: string) =>
 const spanBreakdown = (md: string, breakdown: string) =>
   tablesBySubheading(md, [`Longest thread spans`, `Total time`, breakdown])
 
+const repeat = <T>(count: number, make: () => T): T[] =>
+  Array.from({ length: count }, make)
+
 describe(`summary`, () => {
   test(`states each side's event count and recorded duration`, () => {
     const md = traceDiffMd(
@@ -116,6 +119,118 @@ describe(`summary`, () => {
           Delta: `+20.00ms`,
           '%': `0.0% → 20.0%`,
           Time: `0ms → 20.0ms`,
+          Count: `0 → 1`,
+        },
+      ],
+    ])
+  })
+
+  test(`sorts categories by time when no side times a start`, () => {
+    const md = traceDiffMd(
+      makeAggregatedTrace([
+        span(`read`, { category: `io`, duration: 90 }),
+        ...repeat(5, () => span(`run`, { category: `script`, duration: 2 })),
+      ]),
+      makeAggregatedTrace([
+        span(`read`, { category: `io`, duration: 60 }),
+        ...repeat(5, () => span(`run`, { category: `script`, duration: 2 })),
+      ]),
+    )
+
+    expect(summaryTables(md)).toEqual([
+      [
+        {
+          Category: `I/O`,
+          Change: `-33.3%`,
+          Delta: `-30.00ms`,
+          Time: `90.0ms → 60.0ms`,
+          Count: `1`,
+        },
+        {
+          Category: `Script`,
+          Change: `0.0%`,
+          Delta: `0ms`,
+          Time: `10.0ms`,
+          Count: `5`,
+        },
+      ],
+    ])
+  })
+
+  test(`sorts a category by its base side when only the current side has a duration`, () => {
+    const md = traceDiffMd(
+      makeAggregatedTrace([
+        span(`read`, { category: `io`, duration: 95 }),
+        ...repeat(5, () => span(`run`, { category: `script`, duration: 1 })),
+      ]),
+      makeAggregatedTrace([
+        ...repeat(5, () =>
+          span(`run`, { category: `script`, start: 0, duration: 2 }),
+        ),
+        span(`parse`, { category: `parsing`, start: 10, duration: 90 }),
+      ]),
+    )
+
+    expect(summaryTables(md)).toEqual([
+      [
+        {
+          Category: `I/O`,
+          Change: `removed`,
+          Delta: `-95.00ms`,
+          '%': `0.0%`,
+          Time: `95.0ms → 0ms`,
+          Count: `1 → 0`,
+        },
+        {
+          Category: `Parsing`,
+          Change: `new`,
+          Delta: `+90.00ms`,
+          '%': `0.0% → 90.0%`,
+          Time: `0ms → 90.0ms`,
+          Count: `0 → 1`,
+        },
+        {
+          Category: `Script`,
+          Change: `+100.0%`,
+          Delta: `+5.00ms`,
+          '%': `0.0% → 10.0%`,
+          Time: `5.0ms → 10.0ms`,
+          Count: `5`,
+        },
+      ],
+    ])
+  })
+
+  test(`sorts categories of instants by their larger side's share of events`, () => {
+    const md = traceDiffMd(
+      makeAggregatedTrace([
+        ...repeat(60, () => instant(`run`, { category: `script` })),
+        ...repeat(40, () => instant(`read`, { category: `io` })),
+      ]),
+      makeAggregatedTrace([
+        ...repeat(9, () => instant(`read`, { category: `io` })),
+        instant(`parse`, { category: `parsing` }),
+      ]),
+    )
+
+    expect(summaryTables(md)).toEqual([
+      [
+        {
+          Category: `I/O`,
+          Change: `-77.5%`,
+          Delta: `-31`,
+          Count: `40 → 9`,
+        },
+        {
+          Category: `Script`,
+          Change: `removed`,
+          Delta: `-60`,
+          Count: `60 → 0`,
+        },
+        {
+          Category: `Parsing`,
+          Change: `new`,
+          Delta: `+1`,
           Count: `0 → 1`,
         },
       ],

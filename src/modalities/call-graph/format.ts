@@ -18,6 +18,7 @@ import type {
 import {
   formatRankingTables,
   rankEntities,
+  sortDiffCategories,
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
@@ -535,16 +536,18 @@ const formatDiffCategoryTable = (
   const metrics = diff.metrics.map(({ metric }) => metric)
   // The first metric determines sorting and %.
   const { baseIndex, currentIndex } = diff.metrics[0]!
-  const categories = [...diff.categoryToMetrics].sort(
-    ([, left], [, right]) =>
-      (right.current?.values[currentIndex] ?? 0) -
-      (left.current?.values[currentIndex] ?? 0),
-  )
-
   const baseIndices = diff.metrics.map(metric => metric.baseIndex)
   const currentIndices = diff.metrics.map(metric => metric.currentIndex)
   const baseTotal = diff.base.totalValues[baseIndex]!
   const currentTotal = diff.current.totalValues[currentIndex]!
+  const categories = sortDiffCategories(diff.categoryToMetrics, [
+    {
+      valueOf: ({ values }, side) =>
+        values[side === `base` ? baseIndex : currentIndex]!,
+      baseTotal,
+      currentTotal,
+    },
+  ])
   return [
     formatDiffTable(
       categoryColumns(metrics),

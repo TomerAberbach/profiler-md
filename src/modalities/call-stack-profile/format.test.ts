@@ -1113,6 +1113,59 @@ describe(`formatCallStackProfileDiff`, () => {
     ])
   })
 
+  test(`sorts categories by their larger side's share`, () => {
+    const profile = (ourValue: number, libValue: number) =>
+      makeAggregatedCallStackProfile(
+        [MICROSECONDS_METRIC],
+        [
+          {
+            name: `ourFunc`,
+            url: `file:///project/src/a.ts`,
+            selfCount: ourValue,
+            selfValues: [ourValue],
+          },
+          {
+            name: `libFunc`,
+            url: `file:///project/node_modules/lib/index.js`,
+            selfCount: libValue,
+            selfValues: [libValue],
+            callStack: [1, 0],
+          },
+        ],
+        // Aggregated as `node` so a `node_modules/` location categorizes as
+        // `third-party`.
+        { format: `v8-cpu-profile`, origin: `node` },
+      )
+
+    const diff = diffAggregatedCallStackProfiles(
+      profile(100, 900),
+      profile(300, 100),
+      defaultOptions,
+    )
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
+
+    expect(categoryTables(md)).toEqual([
+      [
+        {
+          Category: `Third-party`,
+          Change: `-88.9%`,
+          Delta: `-0.80ms`,
+          '%': `90.0% → 25.0%`,
+          Time: `0.9ms → 0.1ms`,
+          Samples: `900 → 100`,
+        },
+        {
+          Category: `Ours`,
+          Change: `+200.0%`,
+          Delta: `+0.20ms`,
+          '%': `10.0% → 75.0%`,
+          Time: `0.1ms → 0.3ms`,
+          Samples: `100 → 300`,
+        },
+      ],
+    ])
+  })
+
   test(`lists regressions and improvements per direction`, () => {
     const base = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],
