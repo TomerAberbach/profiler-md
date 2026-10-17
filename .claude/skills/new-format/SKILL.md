@@ -15,9 +15,11 @@ $ARGUMENTS
 
 # Principles
 
-- Trust real profiler output over the specification, because real inputs may
-  violate it. Consider parsing correct only after a generated real input
-  validates it, not just hand-written tests
+- Consider parsing correct only after a generated real input validates it, not
+  just hand-written tests, because a real input can contain shapes a
+  hand-written test omits, including ones the specification forbids. Where an
+  input violates the specification, follow the profiler bugs principles in
+  `CLAUDE.md`
 
 - Verify against ground truth you compute independently. Before trusting the
   Markdown output for a real input, write a throwaway script that tallies
