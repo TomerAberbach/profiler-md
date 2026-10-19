@@ -9,6 +9,8 @@ ZSTD_REPO="https://github.com/facebook/zstd"
 declare -A ZSTD_TAG=([base]="v1.5.6" [current]="v1.5.7")
 # systing is not published to crates.io, so cargo installs it from its repository.
 SYSTING_TAG="v1.13.14"
+# Debian 13 packages clang 19, and DOCKER_IMAGE's Debian 12 packages clang 14.
+CLANG_DOCKER_IMAGE="debian:trixie-slim"
 SILESIA_DICKENS_URL="https://raw.githubusercontent.com/MiloszKrajewski/SilesiaCorpus/3f3fa2cdbbb3795c903b74e774acb309e1360337/dickens.zip"
 
 declare -A rundir=()
@@ -330,6 +332,32 @@ capture_simpleperf() {
   cp "$dir/cpu.perf.data" "$out" || return 1
 }
 
+# capture_fn for emit: $1=out  $2=side
+capture_clang_time_trace() {
+  local out=$1 side=$2
+  local dir="$WORKDIR/c-clang-$side"
+  mkdir -p "$dir" || return 1
+
+  notice "Tracing the clang compilation of zstd's zstd_compress.c ($side)"
+
+  DOCKER_IMAGE="$CLANG_DOCKER_IMAGE" docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends \
+        clang libc6-dev git ca-certificates
+
+      git clone --depth 1 --branch "'"${ZSTD_TAG[$side]}"'" "'"$ZSTD_REPO"'" /src/zstd
+
+      # -O3 as in the zstd Makefile. clang writes the trace beside the object
+      # file, as zstd_compress.json.
+      clang -O3 -ftime-trace \
+        -c /src/zstd/lib/compress/zstd_compress.c -o /out/zstd_compress.o
+    ' || return 1
+
+  cp "$dir/zstd_compress.json" "$out" || return 1
+}
+
 ensure_docker
 
 for side in base current; do
@@ -339,6 +367,7 @@ for side in base current; do
   try emit "$GENERATED_INPUTS/c.valgrind.$side.callgrind"    capture_callgrind "$side"
   try emit "$GENERATED_INPUTS/c.perf.cpu.$side.perf.data"    capture_perf "$side"
   try emit "$GENERATED_INPUTS/c.simpleperf.cpu.$side.perf.data" capture_simpleperf "$side"
+  try emit "$GENERATED_INPUTS/c.clang.$side.trace-event.json" capture_clang_time_trace "$side"
 done
 
 verify_pairs

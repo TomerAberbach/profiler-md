@@ -5,6 +5,7 @@ C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools),
 [Linux `perf`](https://perfwiki.github.io/main/),
 [simpleperf](https://android.googlesource.com/platform/system/extras/+/refs/heads/main/simpleperf/doc/README.md),
 or [systing](https://github.com/josefbacik/systing).
+[Clang](https://clang.llvm.org) also traces its own compilation of a file.
 
 ## CPU profiling
 
@@ -283,6 +284,29 @@ sudo systing --duration 30 --output profile.systing --pid <pid>
 | `--sample-freq`                   | `1000`     | CPU stack-sampling rate in Hz                                    |
 | `--no-sleep-stack-traces`         | off        | Skip uninterruptible-sleep stacks                                |
 | `--no-interruptible-stack-traces` | off        | Skip interruptible-sleep stacks                                  |
+
+## Compilation tracing
+
+Traces Clang compiling one file: each header it reads, each template it
+instantiates, and each optimization pass it runs on each function. Useful for
+finding the headers and templates that slow a build.
+
+### CLI
+
+```sh
+clang -ftime-trace -c program.c      # C
+clang++ -ftime-trace -c program.cpp  # C++
+```
+
+#### Flags
+
+| Flag                            | Default   | Description                               |
+| ------------------------------- | --------- | ----------------------------------------- |
+| `-ftime-trace`                  | —         | Write a trace of the compilation when set |
+| `-ftime-trace=<path>`           | see below | File or directory for the trace           |
+| `-ftime-trace-granularity=<µs>` | `500`     | Shortest event to record, in microseconds |
+
+Clang writes the trace beside the object file, as `program.json`.
 
 ## Tips
 

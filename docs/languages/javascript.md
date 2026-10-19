@@ -2,7 +2,8 @@
 
 JavaScript profiling uses the profilers built into Node.js, Deno, Bun, Chrome
 DevTools, and Safari's Web Inspector, which capture CPU profiles, heap profiles,
-and heap snapshots in the V8 and JavaScriptCore formats.
+and heap snapshots in the V8 and JavaScriptCore formats. Node.js and the
+TypeScript compiler also write traces in the Trace Event Format.
 
 ## CPU profiling
 
@@ -168,6 +169,71 @@ await Bun.write(`heap.json`, JSON.stringify(jsc))
 const v8 = generateHeapSnapshot(`v8`)
 await Bun.write(`heap.heapsnapshot`, v8)
 ```
+
+## Runtime tracing
+
+Records what the runtime did and when: each garbage collection with the heap's
+size before and after it, the collector's phases on every thread, synchronous
+file system calls, and the lifetime of each async resource. Useful for finding
+how much of a run was spent paused in garbage collection, and why.
+
+### CLI
+
+```sh
+node --trace-event-categories v8,v8.execute,node.async_hooks,node.fs.sync,devtools.timeline,disabled-by-default-v8.gc script.js
+```
+
+#### Flags
+
+| Flag                                | Default                      | Description                                             |
+| ----------------------------------- | ---------------------------- | ------------------------------------------------------- |
+| `--trace-event-categories=<list>`   | —                            | Comma-separated categories that enable tracing when set |
+| `--trace-event-file-pattern=<path>` | `node_trace.${rotation}.log` | Path for the trace, which may use `${pid}`              |
+
+The `devtools.timeline` category records each garbage collection, and
+`disabled-by-default-v8.gc` its phases. The `node.environment` category records
+the process's command line, and `node.fs.async` the path of each file opened, so
+leave both out of a trace you share.
+
+### Programmatic API
+
+Trace a section of code rather than the whole process:
+
+```js
+import { createTracing } from 'node:trace_events'
+
+const tracing = createTracing({
+  categories: [`v8`, `devtools.timeline`, `disabled-by-default-v8.gc`],
+})
+tracing.enable()
+
+// Code to trace...
+
+tracing.disable()
+```
+
+## Type check tracing
+
+Traces the TypeScript compiler building a program: each file it parses, binds,
+and checks, and the type comparisons it samples. Useful for finding the files
+and types that slow a type check.
+
+### CLI
+
+```sh
+tsc --generateTrace trace-directory
+```
+
+#### Flags
+
+| Flag                    | Default | Description                                    |
+| ----------------------- | ------- | ---------------------------------------------- |
+| `--generateTrace <dir>` | —       | Output directory that enables tracing when set |
+
+The compiler writes `trace.json`, which this tool reads, and `types.json` to the
+directory. It records a type comparison only when the comparison is running at
+one of its 10 ms sampling points, so an event's count excludes the comparisons
+that ran between sampling points.
 
 ## pprof
 

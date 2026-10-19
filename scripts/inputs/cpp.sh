@@ -8,6 +8,9 @@ FMT_REPO="https://github.com/fmtlib/fmt"
 # versions of the same code.
 declare -A FMT_TAG=([base]="11.2.0" [current]="12.0.0")
 
+# Debian 13 packages clang 19, and DOCKER_IMAGE's Debian 12 packages clang 14.
+CLANG_DOCKER_IMAGE="debian:trixie-slim"
+
 profile="$REPO/scripts/inputs/assets/cpp/profile.cpp"
 
 declare -A rundir=()
@@ -115,12 +118,40 @@ capture_perf() {
   cp "$dir/cpu.perf.data" "$out"
 }
 
+# capture_fn for emit: $1=out  $2=side
+capture_clang_time_trace() {
+  local out=$1 side=$2
+  local dir="$WORKDIR/cpp-clang-$side"
+  mkdir -p "$dir"
+
+  notice "Tracing the clang compilation of fmt's format-test.cc ($side)"
+
+  DOCKER_IMAGE="$CLANG_DOCKER_IMAGE" docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends \
+        clang libstdc++-14-dev git ca-certificates
+
+      git clone --depth 1 --branch "'"${FMT_TAG[$side]}"'" "'"$FMT_REPO"'" /src/fmt
+
+      # fmt bundles the googletest its tests include. clang writes the trace
+      # beside the object file, as format-test.json.
+      clang++ -std=c++17 -O2 -ftime-trace \
+        -I /src/fmt/include -I /src/fmt/test -I /src/fmt/test/gtest \
+        -c /src/fmt/test/format-test.cc -o /out/format-test.o
+    ' || return 1
+
+  cp "$dir/format-test.json" "$out"
+}
+
 ensure_docker
 
 for side in base current; do
   try emit "$GENERATED_INPUTS/cpp.gperftools.cpu.$side.pprof"  copy_cpp_profile "$side" cpu
   try emit "$GENERATED_INPUTS/cpp.gperftools.heap.$side.pprof" copy_cpp_profile "$side" heap
   try emit "$GENERATED_INPUTS/cpp.perf.cpu.$side.perf.data"    capture_perf "$side"
+  try emit "$GENERATED_INPUTS/cpp.clang.$side.trace-event.json" capture_clang_time_trace "$side"
 done
 
 verify_pairs

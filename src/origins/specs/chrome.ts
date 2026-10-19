@@ -6,6 +6,10 @@ import {
 } from '../javascript.ts'
 import { hasProtocol } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
+import {
+  normalizeV8TraceEvent,
+  v8TraceEventCategory,
+} from '../v8-trace-events.ts'
 
 /**
  * The Chrome browser's DevTools profilers.
@@ -20,7 +24,12 @@ import type { OriginSpec } from '../spec.ts'
 export const chromeOriginSpec = {
   id: `chrome`,
   title: `Chrome`,
-  formats: [`v8-cpu-profile`, `v8-heap-snapshot`, `v8-heap-profile`],
+  formats: [
+    `v8-cpu-profile`,
+    `v8-heap-snapshot`,
+    `v8-heap-profile`,
+    `trace-event`,
+  ],
   // Blink's natives match only location-less entries, since a Blink native has
   // no script location while a JavaScript function or class sharing the name
   // (e.g. in a DOM polyfill like jsdom) always has one.
@@ -35,6 +44,8 @@ export const chromeOriginSpec = {
     `ours`,
   categorizeHeapSnapshotConstructor: javaScriptConstructorCategory,
   matchHeapSnapshotEdgeName: javaScriptMatchHeapSnapshotEdgeName,
+  categorizeTraceEvent: v8TraceEventCategory,
+  normalizeTraceEvent: normalizeV8TraceEvent,
 } as const satisfies OriginSpec
 
 /** The protocol a browser extension's injected scripts load from. */
