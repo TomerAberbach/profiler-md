@@ -20,6 +20,10 @@ declare -A D3_VERSION=([base]=7.8.5 [current]=7.9.0)
 ZOD_REPO=https://github.com/colinhacks/zod
 ZOD_TAG=v3.23.8
 
+# `node.fs.sync` events record no arguments. `node.fs.async` records each path
+# and `node.environment` the command line, so both stay off.
+NODE_TRACE_EVENT_CATEGORIES=v8,v8.execute,node.async_hooks,node.fs.sync,devtools.timeline,disabled-by-default-v8.gc
+
 assets="$REPO/scripts/inputs/assets/javascript"
 
 # Keep the Chromium download inside WORKDIR so the EXIT trap cleans it up.
@@ -90,6 +94,16 @@ capture_node_heap_all_allocations() {
   setup_node "$side" || return 1
   notice "Heap profiling zod type-check including collected objects using node ($side)"
   node "$node_proj/heapprofile-run.mjs" "$node_proj" "$out" >&2
+}
+
+capture_node_trace_events() {
+  local out=$1 side=$2
+  setup_node "$side" || return 1
+  notice "Tracing zod type-check events using node ($side)"
+  # The pattern replaces the default `node_trace.${rotation}.log` in the cwd.
+  node --trace-event-categories "$NODE_TRACE_EVENT_CATEGORIES" \
+    --trace-event-file-pattern "$out" \
+    "$node_proj/tsc-run.mjs" "$node_proj" >&2
 }
 
 capture_pprof_cpu() {
@@ -197,6 +211,8 @@ for side in base current; do
     capture_node_heap_snapshot "$side"
   try emit "$GENERATED_INPUTS/javascript.node.all-allocations.$side.heapprofile" \
     capture_node_heap_all_allocations "$side"
+  try emit "$GENERATED_INPUTS/javascript.node.$side.trace-event.json" \
+    capture_node_trace_events "$side"
   try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu.$side.pprof" \
     capture_pprof_cpu "$side"
   try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu-lines.$side.pprof" \

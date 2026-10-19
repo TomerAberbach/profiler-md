@@ -11,6 +11,7 @@ import { pprofFormatSpec } from './pprof/index.ts'
 import type { FormatSpec } from './spec.ts'
 import { speedscopeFormatSpec } from './speedscope/index.ts'
 import { systingFormatSpec } from './systing/index.ts'
+import { traceEventFormatSpec } from './trace-event/index.ts'
 import { v8CpuProfileFormatSpec } from './v8/cpu-profile/index.ts'
 import { v8HeapProfileFormatSpec } from './v8/heap-profile/index.ts'
 import { v8HeapSnapshotFormatSpec } from './v8/heap-snapshot/index.ts'
@@ -30,6 +31,7 @@ export const formatSpecs = [
   pprofFormatSpec,
   speedscopeFormatSpec,
   systingFormatSpec,
+  traceEventFormatSpec,
   v8CpuProfileFormatSpec,
   v8HeapProfileFormatSpec,
   v8HeapSnapshotFormatSpec,

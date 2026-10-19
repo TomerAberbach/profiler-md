@@ -181,8 +181,8 @@ export type ProfileToMdOptions = {
    *
    * Called once per profile with all its {@link entries}.
    *
-   * Doesn't apply to heap snapshots because they record their own node
-   * categories.
+   * Doesn't apply to heap snapshots, which record their own node categories,
+   * or to traces, whose events the origin categorizes.
    *
    * Defaults to {@link defaultCategorizeFunctions}.
    */

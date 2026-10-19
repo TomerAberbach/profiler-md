@@ -16,6 +16,7 @@ of any modality.
 | **Call stack profile** | The modality whose records each carry a whole call stack, however the profiler produced them | sampling profile (as the modality's name), profile |
 | **Call graph**         | The modality produced by recording per-function costs and caller→callee arcs                 | profile                                            |
 | **Heap snapshot**      | The modality produced by capturing the program's state at a single point in time             | snapshot, profile                                  |
+| **Trace**              | The modality whose records are timed events and gauge readings, in the order they happened   | timeline, log, profile                             |
 | **Origin**             | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)            | source, emitter, tool, producer, recorder          |
 | **Canonical origin**   | The origin whose definition of a format the format's other origins write to match            | reference origin                                   |
 | **Markerless origin**  | An origin whose inputs contain no marker entry                                               | unmarked origin                                    |
@@ -45,19 +46,20 @@ of any modality.
 
 ### Formatting
 
-| Term                    | Definition                                                                                            | Aliases to avoid                    |
-| ----------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| **Entity**              | A named aggregated unit a ranking shows: a function, or a heap snapshot constructor or string         | aggregated node                     |
-| **Ranking**             | A list of entities ordered by one measure, shown as tables truncated to the top N                     | leaderboard                         |
-| **Profile section**     | The Markdown section, under one H1 heading, for one parsed input                                      | —                                   |
-| **Entity section**      | A heading over a ranking's rows, naming them with the ranking's direction                             | —                                   |
-| **Partition**           | A heading over a subset of a ranking's rows (e.g. a category subsection, `Regressions`)               | —                                   |
-| **Breakdown**           | A table under an entity's heading that splits its value by lines, callers, callees, or retainer paths | —                                   |
-| **Synthetic entry**     | A profiler-invented entry (e.g. `(root)`, `(garbage collector)`) that exists in no source file        | fake, artificial, sentinel function |
-| **Measure**             | A quantity a section ranks and tabulates by: a metric, or the count when there is none                | metric, value                       |
-| **Top N**               | The per-ranking display count; a truncation limit, not a synonym for hottest/largest                  | top entry count                     |
-| **Category share**      | A category's part of the summed self values of the entries a ranking shows                            | coverage, weight                    |
-| **Category subsection** | A ranking of one category's own entries, repeating its ranking within that category                   | category section                    |
+| Term                    | Definition                                                                                                      | Aliases to avoid                    |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| **Entity**              | A named aggregated unit a ranking shows: a function, a heap snapshot constructor or string, or an event         | aggregated node                     |
+| **Instance**            | One of the individual things an entity aggregates: a node of a constructor or function, or one span of an event | object                              |
+| **Ranking**             | A list of entities ordered by one measure, shown as tables truncated to the top N                               | leaderboard                         |
+| **Profile section**     | The Markdown section, under one H1 heading, for one parsed input                                                | —                                   |
+| **Entity section**      | A heading over a ranking's rows, naming them with the ranking's direction                                       | —                                   |
+| **Partition**           | A heading over a subset of a ranking's rows (e.g. a category subsection, `Regressions`)                         | —                                   |
+| **Breakdown**           | A table under an entity's heading that splits its value by lines, callers, callees, or retainer paths           | —                                   |
+| **Synthetic entry**     | A profiler-invented entry (e.g. `(root)`, `(garbage collector)`) that exists in no source file                  | fake, artificial, sentinel function |
+| **Measure**             | A quantity a section ranks and tabulates by: a metric, or the count when there is none                          | metric, value                       |
+| **Top N**               | The per-ranking display count; a truncation limit, not a synonym for hottest/largest                            | top entry count                     |
+| **Category share**      | A category's part of the summed self values of the entries a ranking shows                                      | coverage, weight                    |
+| **Category subsection** | A ranking of one category's own entries, repeating its ranking within that category                             | category section                    |
 
 ## Code location
 
@@ -143,13 +145,39 @@ of any modality.
 | **Retainer**            | The node at the other end of a retainer path step's edge, one hop toward the GC root                                                                | —                                       |
 | **Several retainers**   | A retainer path step whose retainer holds no edge to the node, which it retains through the node's several retainers, formatted `←(several paths)–` | indirect retention                      |
 | **Internal node**       | A VM bookkeeping node that never points to user code, trimmed from retainer paths                                                                   | hidden node                             |
-| **Instance**            | A node of a constructor or function                                                                                                                 | object, occurrence                      |
 | **Outermost instance**  | An instance that no other instance of the same set dominates                                                                                        | root instance, top instance             |
 | **Instance group**      | A constructor's instances that share a retainer path                                                                                                | —                                       |
 | **Retained node**       | A node an instance exclusively dominates                                                                                                            | retained object                         |
 | **Retained node group** | A function's retained nodes that share a name, a category, a location, and a retainer path within the instance retaining them                       | —                                       |
 | **Retainer group**      | One side's nodes of an entity that share a retainer path, summed into one diff row                                                                  | —                                       |
 | **Largest**             | Describes the entities with the highest size in a heap snapshot                                                                                     | top, hottest                            |
+
+## Trace
+
+| Term                   | Definition                                                                                                  | Aliases to avoid                     |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **Event**              | A span or an instant. As an entity, every span or every instant sharing a name                              | record, entry                        |
+| **Span**               | A named event with a duration                                                                               | slice, interval, duration event      |
+| **Thread span**        | A span recorded on one thread, timed by that thread's time between its start and end                        | sync span, duration event            |
+| **Async span**         | A span of an operation that stays pending while threads do other work, timed by the time that elapsed       | async event                          |
+| **Instant**            | A named event at a moment, with no duration                                                                 | mark, point event                    |
+| **Gauge**              | A named quantity whose level the input records over time                                                    | counter, series                      |
+| **Reading**            | One recorded value of a gauge                                                                               | sample, point                        |
+| **Level**              | The value a gauge has at a moment, which stays the same until its next reading                              | value (of a gauge)                   |
+| **Trend**              | A gauge's level across the trace: the highest reading in each equal part of the recorded duration           | sparkline, line graph                |
+| **Argument**           | A key and a value a format records on an event, before the origin turns it into an attribute or a reading   | arg, parameter                       |
+| **Parent**             | The span another span is nested directly in                                                                 | caller, enclosing span               |
+| **Child**              | A span nested directly in another                                                                           | callee, nested span                  |
+| **Attribute**          | A key and a value on an event: a string, or an amount                                                       | tag, label                           |
+| **Amount**             | A numeric attribute value stating how much of something an event consumed or produced, summed across events | —                                    |
+| **Declared category**  | A category name a format records for an event, which the origin maps to a category                          | raw category                         |
+| **Exclusive category** | A category whose spans stop every other activity of their thread                                            | blocking category, covering category |
+| **Thread**             | The thread an event was recorded on, named with its process where a trace records several processes         | track, lane                          |
+| **Elapsed time**       | The time from an async span's start to its end                                                              | wall time                            |
+| **CPU time**           | The time a thread spent executing during a span, where the input records it                                 | thread time                          |
+| **Untimed**            | Describes a span with no duration or a reading with no time, which counts but adds to no time measure       | unended, open                        |
+| **Most frequent**      | Describes the instants with the highest count in a trace                                                    | top, hottest                         |
+| **Longest**            | Describes the spans with the highest time in a trace                                                        | top, hottest                         |
 
 ## Diffing
 
@@ -249,9 +277,9 @@ of any modality.
   **ordinal**
 - A **retainer path** keeps one step per **retainer hop**, except trailing hops
   through **internal nodes**
-- An **entity** aggregates one or more **nodes**. A constructor or function
-  **entity**'s **nodes** are its **instances**, and a string **entity** is
-  exactly one **node**
+- A heap snapshot **entity** aggregates one or more **nodes**. A constructor or
+  function **entity**'s **nodes** are its **instances**, and a string **entity**
+  is exactly one **node**
 - An **entity**'s **retained size** and **retained nodes** come from its
   **outermost instances** only
 - A **ranking** shows **entities** under an **entity section**, split into
@@ -269,6 +297,31 @@ of any modality.
 - A **metric** states its **improvement direction**, by which a **diff** ranks
   its **regressions** and **improvements**. A **diff** of a **metric** whose
   direction is unknown ranks increases and decreases instead
+- A **trace** contains **events** and **readings**. An **event** is exactly one
+  of a **span** or an **instant**
+- A **span** is nested in at most one other **span**, its **parent**, only where
+  the input states the nesting or its **format**'s **spans** nest by
+  construction within one **thread**
+- A **span** is exactly one of a **thread span** or an **async span**
+- A **thread span**'s **self** time is its time less that of its **children**,
+  and its **total** time is its own. An **async span** has **elapsed time** and
+  neither
+- **Spans** sharing a name are one **entity**, as are **instants** sharing a
+  name. An **async span** and a **thread span** sharing a name are two
+- A span **entity**'s **spans** are its **instances**, each with its own start
+  and time
+- A **gauge** has one or more **readings**. **Readings** sharing a name are one
+  **gauge**, or one per **thread** where they state the **thread** the quantity
+  is of
+- A **gauge** has exactly one **level** at a moment, and exactly one **trend**
+- A **span** nested in a **span** of an **exclusive category** counts toward
+  that **category**, whatever its own
+- An **argument** becomes at most one of an **attribute** or a **reading**. An
+  **argument** left holding a string becomes an **attribute**
+- An **attribute**'s value is a string or an **amount**. A level is a
+  **gauge**'s **reading**, because levels do not sum
+- A **diff** pairs **events** by **match key**, **attribute** values by key and
+  value, **threads** by name, and **gauges** by **thread** and name
 - An **example** has exactly one **language**, one **origin**, and an optional
   **configuration**. An **example pair** produces exactly one `diff` **variant**
 - Each committed **input** comes from exactly one **capture** of a **workload**

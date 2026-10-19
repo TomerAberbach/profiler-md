@@ -11,7 +11,8 @@ modalities
 ├── metric.ts             # Recorded metric types, constructors, and equality
 ├── metrics.ts            # The named metric constants, and parsing of an input's unit/name strings to them
 ├── measure.ts            # Metric phrasing and cell formatting shared across modalities
-└── <modality>/           # One per modality (e.g. heap-snapshot): aggregate.ts, diff.ts, table.ts, format.ts, and modality.ts, its registered ModalitySpec
+├── <modality>/           # One per modality (e.g. heap-snapshot): aggregate.ts, diff.ts, table.ts, format.ts, and modality.ts, its registered ModalitySpec
+└── trace/gc.ts           # A shared trace event constructor: one per event several formats record, so each names its category, attributes, and gauges alike
 ```
 
 ## Aggregating
@@ -46,14 +47,44 @@ modalities
   heading is one of these. NEVER name a heading after what its rows are grouped
   by
 
-  | Role           | Names                                                | Examples                                    |
-  | -------------- | ---------------------------------------------------- | ------------------------------------------- |
-  | Entity section | The rows, with the ranking's direction               | `Hottest functions`, `Largest constructors` |
-  | Measure        | What ranks the rows                                  | `Self time`, `Retained size`                |
-  | Partition      | A subset of the same rows                            | `Categories` › `Ours`, `Regressions`        |
-  | Breakdown      | The breakdown's rows, then the entity it breaks down | `Lines`, `Callers`, `Retainer paths`        |
+  | Role           | Names                                                | Examples                                                           |
+  | -------------- | ---------------------------------------------------- | ------------------------------------------------------------------ |
+  | Entity section | The rows, with the ranking's direction               | `Hottest functions`, `Largest constructors`, `Longest async spans` |
+  | Measure        | What ranks the rows                                  | `Self time`, `Retained size`, `Elapsed time`                       |
+  | Partition      | A subset of the same rows                            | `Categories` › `Ours`, `Regressions`                               |
+  | Breakdown      | The breakdown's rows, then the entity it breaks down | `Lines`, `Callers`, `Retainer paths`, `Attribute values`           |
 
+- Open an entity section with a definition of its rows only where its heading
+  uses a term the reader has not met (`Longest async spans`). State what the
+  rows are and what a reader needs to read their values
+- Bound every table's rows by a number derived from `topN`, or by a closed set
+  such as the categories. NEVER show a row per key, thread, or gauge an input
+  records, because an input can record any number of them. To bound a table,
+  rank its rows and keep the top ones, so every table but one over a closed set
+  is a ranking and opens with a ranking sentence
+- Rank rows whose values differ in unit by a quantity they share: the time or
+  count of the events recording them, a number of readings, or in a diff the
+  change relative to the base value
 - Open the heading directly above a ranking's tables with one sentence naming
   the rows and what ranks them: `<Rows> with the most <amount>` or
   `<Rows> with the largest <contribution>`, and
   `<Rows> with the largest <increase|decrease|change> in <amount>` in a diff
+
+## Traces
+
+- The trace modality treats no kind of event specially. Where several formats
+  record the same event (a garbage collection), add a constructor beside
+  `src/modalities/trace/gc.ts` that builds its span, attributes, and readings,
+  and call it from every parser and origin that recognizes the event
+- State a category whose spans stop every other activity of their thread in
+  `EXCLUSIVE_TRACE_EVENT_CATEGORIES`, so the aggregator counts a span nested in
+  one toward that category. NEVER name a category in the aggregator
+- Set a reading's `thread` where each thread has a gauge of that name (a heap),
+  so two threads' readings are two gauges
+- An amount sums across events, so it is an attribute. A level does not, so it
+  is a gauge reading. NEVER make a level an attribute
+- Set a span's parent only from nesting the input states, or from containment
+  within one thread where the format's spans nest by construction
+- Mark a span async when its duration is elapsed time that no thread spent on it
+  alone. An async span has no self time and adds to no category's time, because
+  it overlaps the spans its threads ran meanwhile

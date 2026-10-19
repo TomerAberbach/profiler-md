@@ -64,3 +64,77 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(relativeEntry(`RegExp: /a/`))).toBe(`regexp`)
   })
 })
+
+describe(`detection of a trace`, () => {
+  test(`detects Node by the process name origin hint`, () => {
+    expect(
+      determineOrigin({ format: `trace-event`, entries: [], hint: `node` }),
+    ).toBe(`node`)
+  })
+})
+
+describe(`categorizeTraceEvent`, () => {
+  const { categorizeTraceEvent } = nodeOriginSpec
+
+  test(`a file system event is I/O`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `fs.sync.read`,
+        declaredCategories: [`node`, `node.fs`, `node.fs.sync`],
+      }),
+    ).toBe(`io`)
+  })
+
+  test(`an async resource's callback is script`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `PROMISE_CALLBACK`,
+        declaredCategories: [`node`, `node.async_hooks`],
+      }),
+    ).toBe(`script`)
+  })
+
+  test(`an async resource's lifetime has no category`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `PROMISE`,
+        declaredCategories: [`node`, `node.async_hooks`],
+      }),
+    ).toBeUndefined()
+  })
+
+  test(`an event named like a callback outside async_hooks has no category`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `MY_CALLBACK`,
+        declaredCategories: [`node`, `node.environment`],
+      }),
+    ).toBeUndefined()
+  })
+
+  test(`an event V8 writes takes V8's category`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `RunMicrotasks`,
+        declaredCategories: [`v8.execute`],
+      }),
+    ).toBe(`script`)
+  })
+})
+
+describe(`normalizeTraceEvent`, () => {
+  test(`a V8 collection becomes a collection's events`, () => {
+    expect(
+      nodeOriginSpec.normalizeTraceEvent({
+        type: `span`,
+        name: `MinorGC`,
+        start: 0,
+        duration: 10,
+        arguments: { usedHeapSizeBefore: 8, usedHeapSizeAfter: 2 },
+      }),
+    ).toMatchObject({
+      event: { name: `MinorGC`, category: `garbage-collection-pause` },
+      readings: [{ value: 8 }, { value: 2 }],
+    })
+  })
+})

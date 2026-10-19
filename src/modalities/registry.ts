@@ -2,11 +2,13 @@ import { callGraphModalitySpec } from './call-graph/index.ts'
 import { callStackProfileModalitySpec } from './call-stack-profile/index.ts'
 import { heapSnapshotModalitySpec } from './heap-snapshot/index.ts'
 import type { ModalitySpec } from './spec.ts'
+import { traceModalitySpec } from './trace/index.ts'
 
 const modalitySpecs = [
   callStackProfileModalitySpec,
   callGraphModalitySpec,
   heapSnapshotModalitySpec,
+  traceModalitySpec,
 ] as const
 
 type RegisteredModalitySpec = (typeof modalitySpecs)[number]
