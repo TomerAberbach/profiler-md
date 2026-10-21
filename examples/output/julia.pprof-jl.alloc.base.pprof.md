@@ -91,6 +91,184 @@ Categories accounting for at least 1.0% of self size.
 |  17.2% | 13.4 KiB |       1,718 | `ijl_box_int64`                    | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1556`        |
 |   9.9% | 7.74 KiB |         235 | `ijl_alloc_string`                 | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/array.c:300`            |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `maybe_record_alloc_to_profile` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43`)
+
+|     % |     Size | Allocations | Caller               | Location                                                                                                                                                                                                                                      |
+| ----: | -------: | ----------: | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 64.0% | 49.9 KiB |       2,597 | `jl_gc_alloc_`       | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:814` |
+| 36.0% |   28 KiB |         811 | `ijl_gc_small_alloc` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784` |
+
+##### `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:38`)
+
+|      % |   Size | Allocations | Caller  | Location                                                                                            |
+| -----: | -----: | ----------: | ------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `write` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:37` |
+
+##### `write` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:37`)
+
+|      % |   Size | Allocations | Caller           | Location                                                                                            |
+| -----: | -----: | ----------: | ---------------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `write`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:37` |
+| 100.0% | 78 KiB |       3,408 | `parse_workload` | `./profile.jl:18`                                                                                   |
+
+##### `parse_workload` (`./profile.jl:18`)
+
+|      % |   Size | Allocations | Caller            | Location                                                                                                         |
+| -----: | -----: | ----------: | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82` |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82`)
+
+|      % |   Size | Allocations | Caller          | Location          |
+| -----: | -----: | ----------: | --------------- | ----------------- |
+| 100.0% | 78 KiB |       3,408 | `capture_alloc` | `./profile.jl:61` |
+
+##### `capture_alloc` (`./profile.jl:61`)
+
+|      % |   Size | Allocations | Caller | Location          |
+| -----: | -----: | ----------: | ------ | ----------------- |
+| 100.0% | 78 KiB |       3,408 | `main` | `./profile.jl:90` |
+
+##### `main` (`./profile.jl:90`)
+
+|      % |   Size | Allocations | Caller     | Location                                                                                                                                                                                                                                    |
+| -----: | -----: | ----------: | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `main`     | `./profile.jl:90`                                                                                                                                                                                                                           |
+| 100.0% | 78 KiB |       3,408 | `jl_apply` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318` |
+
+##### `jl_apply` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318`)
+
+|      % |   Size | Allocations | Caller      | Location                                                                                                                                                                                                                                         |
+| -----: | -----: | ----------: | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 100.0% | 78 KiB |       3,408 | `do_call`   | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123` |
+| 100.0% | 78 KiB |       3,408 | `true_main` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:985`       |
+
+##### `do_call` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123`)
+
+|      % |   Size | Allocations | Caller            | Location                                                                                                                                                                                                                                         |
+| -----: | -----: | ----------: | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 100.0% | 78 KiB |       3,408 | `eval_stmt_value` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:194` |
+
+##### `eval_stmt_value` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:194`)
+
+|      % |   Size | Allocations | Caller      | Location                                                                                                                                                                                                                                         |
+| -----: | -----: | ----------: | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 100.0% | 78 KiB |       3,408 | `eval_body` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:675` |
+
+##### `eval_body` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:675`)
+
+|      % |   Size | Allocations | Caller                        | Location                                                                                                                                                                                                                                         |
+| -----: | -----: | ----------: | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 100.0% | 78 KiB |       3,408 | `jl_interpret_toplevel_thunk` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:884` |
+
+##### `jl_interpret_toplevel_thunk` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:884`)
+
+|      % |   Size | Allocations | Caller               | Location    |
+| -----: | -----: | ----------: | -------------------- | ----------- |
+| 100.0% | 78 KiB |       3,408 | `[unknown function]` | `<unknown>` |
+
+##### `[unknown function]` (`<unknown>`)
+
+|      % |   Size | Allocations | Caller                 | Location                                                                           |
+| -----: | -----: | ----------: | ---------------------- | ---------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `[unknown function]`   | `<unknown>`                                                                        |
+| 100.0% | 78 KiB |       3,408 | `jl_system_image_data` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib` |
+
+##### `jl_system_image_data` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib`)
+
+|      % |   Size | Allocations | Caller                  | Location                                                                                                                                                                                                                                      |
+| -----: | -----: | ----------: | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `jl_toplevel_eval_flex` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:742` |
+
+##### `jl_toplevel_eval_flex` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:742`)
+
+|      % |   Size | Allocations | Caller                   | Location                                                                                                                                                                                                                                      |
+| -----: | -----: | ----------: | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `jl_eval_toplevel_stmts` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:585` |
+
+##### `jl_eval_toplevel_stmts` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:585`)
+
+|      % |   Size | Allocations | Caller                  | Location                                                                                                                                                                                                                                      |
+| -----: | -----: | ----------: | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `jl_toplevel_eval_flex` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:683` |
+
+##### `jl_toplevel_eval_flex` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:683`)
+
+|      % |   Size | Allocations | Caller              | Location                                                                                                                                                                                                                                      |
+| -----: | -----: | ----------: | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `ijl_toplevel_eval` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:754` |
+
+##### `ijl_toplevel_eval` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:754`)
+
+|      % |   Size | Allocations | Caller                 | Location                                                                                                                                                                                                                                      |
+| -----: | -----: | ----------: | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `ijl_toplevel_eval_in` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:799` |
+
+##### `ijl_toplevel_eval_in` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:799`)
+
+|      % |   Size | Allocations | Caller                  | Location                                                                                    |
+| -----: | -----: | ----------: | ----------------------- | ------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `eval(::Module, ::Any)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489` |
+
+##### `eval(::Module, ::Any)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`)
+
+|      % |   Size | Allocations | Caller                                                             | Location                                                                                        |
+| -----: | -----: | ----------: | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `include_string(::typeof(identity), ::Module, ::String, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989` |
+
+##### `true_main` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:985`)
+
+|      % |   Size | Allocations | Caller               | Location                                                                                                                                                                                                                                    |
+| -----: | -----: | ----------: | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 78 KiB |       3,408 | `jl_repl_entrypoint` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:1152` |
+
+##### `jl_gc_alloc_` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:814`)
+
+|     % |     Size | Allocations | Caller                             | Location                                                                                                                                                                                                                                          |
+| ----: | -------: | ----------: | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 42.3% | 21.1 KiB |         129 | `jl_alloc_genericmemory_unchecked` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:41` |
+| 26.9% | 13.4 KiB |       1,718 | `ijl_box_int64`                    | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1556`    |
+| 15.5% | 7.74 KiB |         235 | `ijl_alloc_string`                 | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/array.c:300`        |
+| 13.7% | 6.83 KiB |         431 | `arg_tuple`                        | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/builtins.c:948`     |
+|  1.2% |    592 B |          74 | `ijl_box_uint64`                   | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1557`    |
+
+##### `ijl_gc_small_alloc` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784`)
+
+|     % |     Size | Allocations | Caller                                                                         | Location                                                                                                  |
+| ----: | -------: | ----------: | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| 28.1% | 7.88 KiB |         252 | `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)`      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`              |
+| 18.6% | 5.22 KiB |         167 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:340` |
+| 13.5% | 3.78 KiB |         121 | `indexed_iterate`                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`              |
+| 12.7% | 3.56 KiB |         114 | `_foldl_impl`                                                                  | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:61`              |
+|  7.0% | 1.95 KiB |          25 | `Dict`                                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:80`                |
+
+##### `jl_alloc_genericmemory_unchecked` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:41`)
+
+|      % |     Size | Allocations | Caller          | Location                                                                                    |
+| -----: | -------: | ----------: | --------------- | ------------------------------------------------------------------------------------------- |
+| 100.0% | 21.1 KiB |         129 | `GenericMemory` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:588` |
+
+##### `ijl_box_int64` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1556`)
+
+|     % |     Size | Allocations | Caller                | Location                                                                                                                                                                                                                                       |
+| ----: | -------: | ----------: | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 48.7% | 6.53 KiB |         836 | `ijl_new_bits`        | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1138` |
+| 31.8% | 4.27 KiB |         546 | `+(::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib:87`                                                                                                                                                          |
+| 15.8% | 2.13 KiB |         272 | `-(::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib:86`                                                                                                                                                          |
+|  1.3% |    176 B |          22 | `iterate`             | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/JSON3.jl:75`                                                                                                                                            |
+|  0.9% |    128 B |          16 | `iterate`             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/range.jl`                                                                                                                                                       |
+
+##### `ijl_alloc_string` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/array.c:300`)
+
+|     % |     Size | Allocations | Caller                | Location                                                                                                                                                                                                                                   |
+| ----: | -------: | ----------: | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 78.6% | 6.08 KiB |         226 | `ijl_pchar_to_string` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/array.c:309` |
+| 21.4% | 1.65 KiB |           9 | `_string_n`           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:136`                                                                                                                                      |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

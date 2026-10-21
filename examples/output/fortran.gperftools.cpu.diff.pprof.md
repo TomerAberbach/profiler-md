@@ -884,6 +884,513 @@ Functions with the largest decrease in time spent within the function and its ca
 | -57.1% |  -8.00ms | 0.4% → 0.2% |    14.0ms → 6.0ms |        14 → 6 | `0xfa6b3`  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 | -63.6% |  -7.00ms | 0.3% → 0.1% |    11.0ms → 4.0ms |        11 → 4 | `0x92260`  | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                                 | Location                  |
+| -----: | -------: | ------------: | ----------------: | --------: | -------------------------------------- | ------------------------- |
+| +14.1% | +51.00ms | 85.6% → 87.5% | 362.0ms → 413.0ms | 362 → 413 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  -3.3% |  -2.00ms | 14.4% → 12.5% |   61.0ms → 59.0ms |   61 → 59 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `0x92a9b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                       | Location                                          |
+| ------: | ------: | ------------: | --------------: | ------: | -------------------------------------------- | ------------------------------------------------- |
+| +350.0% | +7.00ms |   3.6% → 9.8% |   2.0ms → 9.0ms |   2 → 9 | `__json_value_module_MOD_parse_value`        | `./json_value_module.F90`                         |
+| +125.0% | +5.00ms |   7.3% → 9.8% |   4.0ms → 9.0ms |   4 → 9 | `__json_value_module_MOD_destroy_json_data`  | `./json_value_module.F90`                         |
+| +133.3% | +4.00ms |   5.5% → 7.6% |   3.0ms → 7.0ms |   3 → 7 | `0x10a00b`                                   | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  +18.8% | +3.00ms | 29.1% → 20.7% | 16.0ms → 19.0ms | 16 → 19 | `__json_value_module_MOD_json_value_destroy` | `./json_value_module.F90`                         |
+| +150.0% | +3.00ms |   3.6% → 5.4% |   2.0ms → 5.0ms |   2 → 5 | `0x10a23b`                                   | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                 | Location                  |
+| -----: | -------: | -----: | ----------------: | --------: | -------------------------------------- | ------------------------- |
+| +10.4% | +36.00ms | 100.0% | 345.0ms → 381.0ms | 345 → 381 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                                             | Location                  |
+| -----: | -------: | ------------: | ----------------: | --------: | -------------------------------------------------- | ------------------------- |
+|  +8.2% | +24.00ms | 96.7% → 95.5% | 293.0ms → 317.0ms | 293 → 317 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90` |
+| +30.0% |  +3.00ms |   3.3% → 3.9% |   10.0ms → 13.0ms |   10 → 13 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
+|    new |  +2.00ms |   0.0% → 0.6% |       0ms → 2.0ms |     0 → 2 | `__json_value_module_MOD_parse_number`             | `./json_value_module.F90` |
+
+##### `0x1189ec` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                 | Location                  |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------- | ------------------------- |
+| +200.0% | +14.00ms | 21.2% → 39.6% |  7.0ms → 21.0ms |  7 → 21 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  +50.0% | +10.00ms | 60.6% → 56.6% | 20.0ms → 30.0ms | 20 → 30 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|  -66.7% |  -4.00ms |  18.2% → 3.8% |   6.0ms → 2.0ms |   6 → 2 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+
+| Change |    Delta |             % |            Time | Samples | Caller                                 | Location                  |
+| -----: | -------: | ------------: | --------------: | ------: | -------------------------------------- | ------------------------- |
+| +14.9% | +11.00ms | 92.5% → 89.5% | 74.0ms → 85.0ms | 74 → 85 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| +66.7% |  +4.00ms |  7.5% → 10.5% |  6.0ms → 10.0ms |  6 → 10 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `0x9245b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |             % |            Time | Samples | Caller                                          | Location                               |
+| -----: | -------: | ------------: | --------------: | ------: | ----------------------------------------------- | -------------------------------------- |
+| +27.4% | +17.00ms | 26.8% → 32.2% | 62.0ms → 79.0ms | 62 → 79 | `__json_value_module_MOD_json_value_create`     | `./json_value_module.F90`              |
+|  +7.4% |  +4.00ms | 23.4% → 23.7% | 54.0ms → 58.0ms | 54 → 58 | `__json_value_module_MOD_parse_string`          | `./json_value_module.F90`              |
+| -80.0% |  -4.00ms |   2.2% → 0.4% |   5.0ms → 1.0ms |   5 → 1 | `0x9980f`                                       | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| -60.0% |  -3.00ms |   2.2% → 0.8% |   5.0ms → 2.0ms |   5 → 2 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90`          |
+
+##### `0x108f53` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                          | Location                      |
+| -----: | -------: | -----: | --------------: | ------: | ----------------------------------------------- | ----------------------------- |
+| +77.8% | +14.00ms | 100.0% | 18.0ms → 32.0ms | 18 → 32 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+
+##### `__json_value_module_MOD_json_value_destroy` (`./json_value_module.F90`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                       | Location                  |
+| -----: | -------: | -----: | --------------: | ------: | -------------------------------------------- | ------------------------- |
+| +18.6% | +13.00ms | 100.0% | 70.0ms → 83.0ms | 70 → 83 | `__json_value_module_MOD_json_value_destroy` | `./json_value_module.F90` |
+| +18.6% | +13.00ms | 100.0% | 70.0ms → 83.0ms | 70 → 83 | `__json_file_module_MOD_json_file_destroy`   | `./json_file_module.F90`  |
+
+##### `__json_file_module_MOD_json_file_destroy` (`./json_file_module.F90`)
+
+| Change |    Delta |      % |            Time | Samples | Caller   | Location           |
+| -----: | -------: | -----: | --------------: | ------: | -------- | ------------------ |
+| +18.6% | +13.00ms | 100.0% | 70.0ms → 83.0ms | 70 → 83 | `MAIN__` | `/out/profile.f90` |
+
+##### `0x108efb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |    Delta |              % |           Time | Samples | Caller                                          | Location                      |
+| ------: | -------: | -------------: | -------------: | ------: | ----------------------------------------------- | ----------------------------- |
+| +200.0% | +12.00ms | 100.0% → 94.7% | 6.0ms → 18.0ms |  6 → 18 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+|     new |  +1.00ms |    0.0% → 5.3% |    0ms → 1.0ms |   0 → 1 | `MAIN__`                                        | `/out/profile.f90`            |
+
+##### `__json_value_module_MOD_destroy_json_data` (`./json_value_module.F90`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                       | Location                  |
+| ------: | ------: | ------------: | --------------: | ------: | -------------------------------------------- | ------------------------- |
+|  +40.0% | +8.00ms | 90.9% → 82.4% | 20.0ms → 28.0ms | 20 → 28 | `__json_value_module_MOD_json_value_destroy` | `./json_value_module.F90` |
+|     new | +2.00ms |   0.0% → 5.9% |     0ms → 2.0ms |   0 → 2 | `__json_value_module_MOD_to_array`           | `./json_value_module.F90` |
+| +100.0% | +1.00ms |   4.5% → 5.9% |   1.0ms → 2.0ms |   1 → 2 | `__json_value_module_MOD_to_string`          | `./json_value_module.F90` |
+|     new | +1.00ms |   0.0% → 2.9% |     0ms → 1.0ms |   0 → 1 | `__json_value_module_MOD_parse_number`       | `./json_value_module.F90` |
+
+##### `0x929c4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                  | Location                  |
+| ------: | ------: | ------------: | --------------: | ------: | --------------------------------------- | ------------------------- |
+| +200.0% | +6.00ms |  6.7% → 16.1% |   3.0ms → 9.0ms |   3 → 9 | `__json_value_module_MOD_parse_value`   | `./json_value_module.F90` |
+|  +57.1% | +4.00ms | 15.6% → 19.6% |  7.0ms → 11.0ms |  7 → 11 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90` |
+|   +3.0% | +1.00ms | 73.3% → 60.7% | 33.0ms → 34.0ms | 33 → 34 | `__json_value_module_MOD_parse_object`  | `./json_value_module.F90` |
+| removed | -1.00ms |   2.2% → 0.0% |     1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_parse_number`  | `./json_value_module.F90` |
+| +100.0% | +1.00ms |   2.2% → 3.6% |   1.0ms → 2.0ms |   1 → 2 | `__json_value_module_MOD_parse_array`   | `./json_value_module.F90` |
+
+##### `0x107fa7` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |    Delta |      % |            Time | Samples | Caller     | Location                                          |
+| -----: | -------: | -----: | --------------: | ------: | ---------- | ------------------------------------------------- |
+| +71.4% | +10.00ms | 100.0% | 14.0ms → 24.0ms | 14 → 24 | `0x108f53` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10a0fb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |    Delta |              % |            Time | Samples | Caller                                          | Location                      |
+| ------: | -------: | -------------: | --------------: | ------: | ----------------------------------------------- | ----------------------------- |
+| +100.0% | +10.00ms | 90.9% → 100.0% | 10.0ms → 20.0ms | 10 → 20 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+| removed |  -1.00ms |    9.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `MAIN__`                                        | `/out/profile.f90`            |
+
+##### `0x1186dc` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                  | Location                                          |
+| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------- | ------------------------------------------------- |
+| +300.0% | +6.00ms | 40.0% → 66.7% | 2.0ms → 8.0ms |   2 → 8 | `0x10b283`                              | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  +33.3% | +1.00ms | 60.0% → 33.3% | 3.0ms → 4.0ms |   3 → 4 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90`                         |
+
+##### `0x118730` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |              % |          Time | Samples | Caller                                             | Location                  |
+| ------: | ------: | -------------: | ------------: | ------: | -------------------------------------------------- | ------------------------- |
+| +250.0% | +5.00ms | 100.0% → 77.8% | 2.0ms → 7.0ms |   2 → 7 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90` |
+|     new | +1.00ms |   0.0% → 11.1% |   0ms → 1.0ms |   0 → 1 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
+|     new | +1.00ms |   0.0% → 11.1% |   0ms → 1.0ms |   0 → 1 | `main`                                             | `/out/profile.f90`        |
+
+##### `0x9123c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |              % |            Time | Samples | Caller    | Location                               |
+| ------: | ------: | -------------: | --------------: | ------: | --------- | -------------------------------------- |
+|  +61.5% | +8.00ms | 92.9% → 100.0% | 13.0ms → 21.0ms | 13 → 21 | `0x9245b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -1.00ms |    7.1% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x91b93` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x11899c` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                 | Location                  |
+| ------: | ------: | ------------: | --------------: | ------: | -------------------------------------- | ------------------------- |
+| +500.0% | +5.00ms |   1.7% → 9.1% |   1.0ms → 6.0ms |   1 → 6 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+|   +7.3% | +3.00ms | 68.3% → 66.7% | 41.0ms → 44.0ms | 41 → 44 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|  -11.1% | -2.00ms | 30.0% → 24.2% | 18.0ms → 16.0ms | 18 → 16 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x10b283` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |   Delta |      % |            Time | Samples | Caller     | Location                                          |
+| -----: | ------: | -----: | --------------: | ------: | ---------- | ------------------------------------------------- |
+| +33.3% | +6.00ms | 100.0% | 18.0ms → 24.0ms | 18 → 24 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                 | Location                  |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------- | ------------------------- |
+| +22.7% | +5.00ms | 100.0% | 22.0ms → 27.0ms | 22 → 27 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_value_add_member` (`./json_value_module.F90`)
+
+| Change |   Delta |             % |           Time | Samples | Caller                                          | Location                  |
+| -----: | ------: | ------------: | -------------: | ------: | ----------------------------------------------- | ------------------------- |
+| +42.9% | +3.00ms | 87.5% → 90.9% | 7.0ms → 10.0ms |  7 → 10 | `__json_value_module_MOD_parse_object`          | `./json_value_module.F90` |
+| +16.7% | +1.00ms | 75.0% → 63.6% |  6.0ms → 7.0ms |   6 → 7 | `__json_value_module_MOD_json_value_add_member` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_to_array` (`./json_value_module.F90`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                | Location                  |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------- | ------------------------- |
+|    new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                     | Location                  |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------------ | ------------------------- |
+|  +5.9% | +1.00ms | 100.0% | 17.0ms → 18.0ms | 17 → 18 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                            | Location                        |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------------------- | ------------------------------- |
+|  +5.9% | +1.00ms | 100.0% | 17.0ms → 18.0ms | 17 → 18 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
+
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                        | Location                 |
+| -----: | ------: | -----: | --------------: | ------: | --------------------------------------------- | ------------------------ |
+|  +5.6% | +1.00ms | 100.0% | 18.0ms → 19.0ms | 18 → 19 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
+
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`)
+
+| Change |   Delta |      % |            Time | Samples | Caller   | Location           |
+| -----: | ------: | -----: | --------------: | ------: | -------- | ------------------ |
+|  +5.6% | +1.00ms | 100.0% | 18.0ms → 19.0ms | 18 → 19 | `MAIN__` | `/out/profile.f90` |
+
+##### `__json_value_module_MOD_json_info` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                          | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------- | ------------------------- |
+| +50.0% | +1.00ms | 100.0% | 2.0ms → 3.0ms |   2 → 3 | `__json_value_module_MOD_json_value_add_member` | `./json_value_module.F90` |
+
+##### `0x8faa0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller    | Location                               |
+| ------: | ------: | -----: | ------------: | ------: | --------- | -------------------------------------- |
+| +200.0% | +6.00ms | 100.0% | 3.0ms → 9.0ms |   3 → 9 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x10a00b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |      % |           Time | Samples | Caller                                          | Location                      |
+| ------: | ------: | -----: | -------------: | ------: | ----------------------------------------------- | ----------------------------- |
+| +120.0% | +6.00ms | 100.0% | 5.0ms → 11.0ms |  5 → 11 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+
+##### `0x8faf4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |             % |            Time | Samples | Caller    | Location                               |
+| -----: | -------: | ------------: | --------------: | ------: | --------- | -------------------------------------- |
+| +41.9% | +13.00ms | 66.0% → 84.6% | 31.0ms → 44.0ms | 31 → 44 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| -57.1% |  -8.00ms | 29.8% → 11.5% |  14.0ms → 6.0ms |  14 → 6 | `0x91c5f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8eb7f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |            Time | Samples | Caller    | Location                               |
+| -----: | ------: | -----: | --------------: | ------: | --------- | -------------------------------------- |
+| +38.5% | +5.00ms | 100.0% | 13.0ms → 18.0ms | 13 → 18 | `0x9102b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x10890b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location                                          |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | ------------------------------------------------- |
+| +125.0% | +5.00ms | 100.0% | 4.0ms → 9.0ms |   4 → 9 | `0x108efb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x108537` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller     | Location                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ---------- | ------------------------------------------------- |
+| +500.0% | +5.00ms | 25.0% → 66.7% | 1.0ms → 6.0ms |   1 → 6 | `0x108efb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x91544` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller    | Location                               |
+| ------: | ------: | -----: | ------------: | ------: | --------- | -------------------------------------- |
+| +500.0% | +5.00ms | 100.0% | 1.0ms → 6.0ms |   1 → 6 | `0x9245b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+
+| Change |    Delta |             % |            Time |       Samples | Caller                                    | Location                  |
+| -----: | -------: | ------------: | --------------: | ------------: | ----------------------------------------- | ------------------------- |
+|  -3.9% | -47.00ms | 94.8% → 95.2% |   1.19s → 1.14s | 1,194 → 1,147 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+| -23.8% |  -5.00ms |   1.7% → 1.3% | 21.0ms → 16.0ms |       21 → 16 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|  -6.7% |  -3.00ms |   3.6% → 3.5% | 45.0ms → 42.0ms |       45 → 42 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                                 | Location                  |
+| -----: | -------: | ------------: | ----------------: | --------: | -------------------------------------- | ------------------------- |
+|  -5.7% | -49.00ms | 49.1% → 47.6% | 858.0ms → 809.0ms | 858 → 809 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+|  +0.3% |  +3.00ms | 50.9% → 52.4% | 888.0ms → 891.0ms | 888 → 891 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller   | Location           |
+| -----: | -------: | -----: | ------------: | ------------: | -------- | ------------------ |
+|  -1.1% | -42.00ms | 100.0% | 3.74s → 3.70s | 3,745 → 3,703 | `MAIN__` | `/out/profile.f90` |
+
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                  | Location                 |
+| -----: | -------: | -----: | ------------: | ------------: | --------------------------------------- | ------------------------ |
+|  -1.1% | -41.00ms | 100.0% | 3.74s → 3.70s | 3,744 → 3,703 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+
+##### `MAIN__` (`/out/profile.f90`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller | Location           |
+| -----: | -------: | -----: | ------------: | ------------: | ------ | ------------------ |
+|  -1.0% | -40.00ms | 100.0% | 3.84s → 3.80s | 3,849 → 3,809 | `main` | `/out/profile.f90` |
+
+##### `main` (`/out/profile.f90`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller    | Location                               |
+| -----: | -------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
+|  -1.0% | -38.00ms | 100.0% | 3.84s → 3.81s | 3,849 → 3,811 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller    | Location                               |
+| -----: | -------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
+|  -1.0% | -38.00ms | 100.0% | 3.84s → 3.81s | 3,849 → 3,811 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller   | Location    |
+| -----: | -------: | -----: | ------------: | ------------: | -------- | ----------- |
+|  -1.0% | -38.00ms | 100.0% | 3.84s → 3.81s | 3,849 → 3,811 | `_start` | `<unknown>` |
+
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                    | Location                  |
+| -----: | -------: | -----: | ------------: | ------------: | ----------------------------------------- | ------------------------- |
+|  -0.8% | -28.00ms | 100.0% | 3.64s → 3.62s | 3,648 → 3,620 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|  -0.7% | -27.00ms |  99.8% | 3.63s → 3.61s | 3,639 → 3,612 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+|  -0.7% | -25.00ms |  99.6% | 3.63s → 3.60s | 3,632 → 3,607 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+
+##### `_init` (`<unknown>`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                       | Location                  |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------------- | ------------------------- |
+|  -24.6% | -17.00ms | 67.6% → 68.4% | 69.0ms → 52.0ms | 69 → 52 | `__json_value_module_MOD_parse_object`       | `./json_value_module.F90` |
+|  -33.3% |  -7.00ms | 20.6% → 18.4% | 21.0ms → 14.0ms | 21 → 14 | `__json_value_module_MOD_parse_value`        | `./json_value_module.F90` |
+|  -80.0% |  -4.00ms |   4.9% → 1.3% |   5.0ms → 1.0ms |   5 → 1 | `__json_value_module_MOD_parse_string`       | `./json_value_module.F90` |
+| +300.0% |  +3.00ms |   1.0% → 5.3% |   1.0ms → 4.0ms |   1 → 4 | `__json_value_module_MOD_json_value_destroy` | `./json_value_module.F90` |
+| removed |  -1.00ms |   1.0% → 0.0% |     1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_parse_array`        | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                 | Location                  |
+| -----: | -------: | -----: | ------------: | ------------: | -------------------------------------- | ------------------------- |
+|  -0.7% | -25.00ms | 100.0% | 3.64s → 3.61s | 3,643 → 3,618 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x92f67` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                        | Location                      |
+| ------: | -------: | ------------: | --------------: | ------: | --------------------------------------------- | ----------------------------- |
+|  -38.9% | -21.00ms | 83.1% → 80.5% | 54.0ms → 33.0ms | 54 → 33 | `__json_value_module_MOD_parse_string`        | `./json_value_module.F90`     |
+|  -33.3% |  -3.00ms | 13.8% → 14.6% |   9.0ms → 6.0ms |   9 → 6 | `__json_value_module_MOD_parse_value`         | `./json_value_module.F90`     |
+| removed |  -2.00ms |   3.1% → 0.0% |     2.0ms → 0ms |   2 → 0 | `__json_value_module_MOD_json_initialize`     | `./json_value_module.F90`     |
+|     new |  +1.00ms |   0.0% → 2.4% |     0ms → 1.0ms |   0 → 1 | `__json_string_utilities_MOD_unescape_string` | `./json_string_utilities.F90` |
+|     new |  +1.00ms |   0.0% → 2.4% |     0ms → 1.0ms |   0 → 1 | `__json_value_module_MOD_json_get_string`     | `./json_value_module.F90`     |
+
+##### `0x10a47b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                    | Location                  |
+| -----: | -------: | -----: | --------------: | ------: | ----------------------------------------- | ------------------------- |
+| -34.4% | -22.00ms | 100.0% | 64.0ms → 42.0ms | 64 → 42 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
+
+##### `0x91c5f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |      % |            Time | Samples | Caller    | Location                               |
+| -----: | -------: | -----: | --------------: | ------: | --------- | -------------------------------------- |
+| -44.9% | -22.00ms | 100.0% | 49.0ms → 27.0ms | 49 → 27 | `0x92f67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x118680` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                 | Location                                          |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------- | ------------------------------------------------- |
+|  -44.4% | -24.00ms | 85.7% → 66.7% | 54.0ms → 30.0ms | 54 → 30 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90`                         |
+| +133.3% |  +8.00ms |  9.5% → 31.1% |  6.0ms → 14.0ms |  6 → 14 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90`                         |
+| removed |  -1.00ms |   1.6% → 0.0% |     1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90`                         |
+| removed |  -1.00ms |   1.6% → 0.0% |     1.0ms → 0ms |   1 → 0 | `0x10b283`                             | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10c300` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |    Delta |      % |           Time | Samples | Caller     | Location                                          |
+| -----: | -------: | -----: | -------------: | ------: | ---------- | ------------------------------------------------- |
+| -76.2% | -16.00ms | 100.0% | 21.0ms → 5.0ms |  21 → 5 | `0x10a47b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
+
+| Change |    Delta |             % |              Time |       Samples | Caller                                 | Location                  |
+| -----: | -------: | ------------: | ----------------: | ------------: | -------------------------------------- | ------------------------- |
+|  -2.3% | -28.00ms | 59.8% → 58.9% |     1.23s → 1.20s | 1,233 → 1,205 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+| -10.3% | -19.00ms |   8.9% → 8.1% | 184.0ms → 165.0ms |     184 → 165 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+| +47.5% | +19.00ms |   1.9% → 2.9% |   40.0ms → 59.0ms |       40 → 59 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+|  +3.3% | +18.00ms | 26.2% → 27.3% | 541.0ms → 559.0ms |     541 → 559 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| -46.7% |  -7.00ms |   0.7% → 0.4% |    15.0ms → 8.0ms |        15 → 8 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `0x1186f8` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |             % |           Time | Samples | Caller                                 | Location                                          |
+| ------: | ------: | ------------: | -------------: | ------: | -------------------------------------- | ------------------------------------------------- |
+|  -56.3% | -9.00ms | 69.6% → 70.0% | 16.0ms → 7.0ms |  16 → 7 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90`                         |
+| removed | -3.00ms |  13.0% → 0.0% |    3.0ms → 0ms |   3 → 0 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90`                         |
+|  -33.3% | -1.00ms | 13.0% → 20.0% |  3.0ms → 2.0ms |   3 → 2 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90`                         |
+| removed | -1.00ms |   4.3% → 0.0% |    1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90`                         |
+|     new | +1.00ms |  0.0% → 10.0% |    0ms → 1.0ms |   0 → 1 | `0x10b283`                             | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x118970` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |    Delta |             % |            Time | Samples | Caller                                 | Location                  |
+| -----: | -------: | ------------: | --------------: | ------: | -------------------------------------- | ------------------------- |
+| -37.5% | -15.00ms | 55.6% → 42.4% | 40.0ms → 25.0ms | 40 → 25 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| +66.7% |  +4.00ms |  8.3% → 16.9% |  6.0ms → 10.0ms |  6 → 10 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+|  -8.3% |  -2.00ms | 33.3% → 37.3% | 24.0ms → 22.0ms | 24 → 22 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_value_get_child_by_name` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                 | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------------------ | ------------------------- |
+| -60.0% | -3.00ms | 100.0% | 5.0ms → 2.0ms |   5 → 2 | `__json_value_module_MOD_json_value_get_child_by_name` | `./json_value_module.F90` |
+| -60.0% | -3.00ms | 100.0% | 5.0ms → 2.0ms |   5 → 2 | `__json_value_module_MOD_json_get_by_path_default`     | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_pop_char` (`./json_value_module.F90`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                 | Location                  |
+| ------: | ------: | ------------: | ------------: | ------: | -------------------------------------- | ------------------------- |
+|  -66.7% | -2.00ms | 75.0% → 50.0% | 3.0ms → 1.0ms |   3 → 1 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| removed | -1.00ms |  25.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+|     new | +1.00ms |  0.0% → 50.0% |   0ms → 1.0ms |   0 → 1 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                | Location                 |
+| ------: | ------: | ------------: | ----------: | ------: | ----------------------------------------------------- | ------------------------ |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90` |
+
+##### `__json_file_module_MOD_initialize_json_core_in_file` (`./json_file_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller   | Location           |
+| ------: | ------: | ------------: | ----------: | ------: | -------- | ------------------ |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `MAIN__` | `/out/profile.f90` |
+
+##### `__json_value_module_MOD_name_strings_equal` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                 | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------------------ | ------------------------- |
+| -66.7% | -2.00ms | 100.0% | 3.0ms → 1.0ms |   3 → 1 | `__json_value_module_MOD_json_value_get_child_by_name` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_parse_for_chars` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                | Location                  |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------- | ------------------------- |
+|  -1.6% | -1.00ms | 100.0% | 61.0ms → 60.0ms | 61 → 60 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
+
+##### `__json_string_utilities_MOD_string_to_real` (`./json_string_utilities.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                   | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------------------------- | ------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_string_to_dble` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_string_to_dble` (`./json_value_module.F90`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                 | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                 | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | -------------------------------------- | ------------------------- |
+| -33.3% | -1.00ms | 100.0% | 3.0ms → 2.0ms |   3 → 2 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+
+##### `0x118720` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |   Delta |             % |            Time | Samples | Caller                                  | Location                  |
+| -----: | ------: | ------------: | --------------: | ------: | --------------------------------------- | ------------------------- |
+| -38.1% | -8.00ms | 46.7% → 39.4% | 21.0ms → 13.0ms | 21 → 13 | `__json_value_module_MOD_parse_value`   | `./json_value_module.F90` |
+| -21.7% | -5.00ms | 51.1% → 54.5% | 23.0ms → 18.0ms | 23 → 18 | `__json_value_module_MOD_parse_object`  | `./json_value_module.F90` |
+|    new | +1.00ms |   0.0% → 3.0% |     0ms → 1.0ms |   0 → 1 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90` |
+
+##### `0x118994` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                 | Location                  |
+| ------: | ------: | ------------: | --------------: | ------: | -------------------------------------- | ------------------------- |
+|  -25.0% | -8.00ms | 55.2% → 52.2% | 32.0ms → 24.0ms | 32 → 24 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|  -31.3% | -5.00ms | 27.6% → 23.9% | 16.0ms → 11.0ms | 16 → 11 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  +37.5% | +3.00ms | 13.8% → 23.9% |  8.0ms → 11.0ms |  8 → 11 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+| removed | -2.00ms |   3.4% → 0.0% |     2.0ms → 0ms |   2 → 0 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `0x109623` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |   Delta |             % |              Time |   Samples | Caller                                          | Location                      |
+| -----: | ------: | ------------: | ----------------: | --------: | ----------------------------------------------- | ----------------------------- |
+|  -5.5% | -7.00ms | 96.2% → 99.2% | 127.0ms → 120.0ms | 127 → 120 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+| -80.0% | -4.00ms |   3.8% → 0.8% |     5.0ms → 1.0ms |     5 → 1 | `MAIN__`                                        | `/out/profile.f90`            |
+
+##### `0x90dc0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location                               |
+| -----: | ------: | -----: | -------------: | ------: | --------- | -------------------------------------- |
+| -50.0% | -9.00ms | 100.0% | 18.0ms → 9.0ms |  18 → 9 | `0x9245b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8fbf0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |              % |          Time | Samples | Caller    | Location                               |
+| ------: | ------: | -------------: | ------------: | ------: | --------- | -------------------------------------- |
+|  -75.0% | -6.00ms | 80.0% → 100.0% | 8.0ms → 2.0ms |   8 → 2 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -2.00ms |   20.0% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x91bfb` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9980f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location                                          |
+| -----: | ------: | -----: | -------------: | ------: | --------- | ------------------------------------------------- |
+| -61.5% | -8.00ms | 100.0% | 13.0ms → 5.0ms |  13 → 5 | `0x1c42b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x1c42b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location                                          |
+| -----: | ------: | -----: | -------------: | ------: | --------- | ------------------------------------------------- |
+| -57.1% | -8.00ms | 100.0% | 14.0ms → 6.0ms |  14 → 6 | `0xfa6b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0xfa6b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |   Delta |      % |           Time | Samples | Caller     | Location                                          |
+| -----: | ------: | -----: | -------------: | ------: | ---------- | ------------------------------------------------- |
+| -57.1% | -8.00ms | 100.0% | 14.0ms → 6.0ms |  14 → 6 | `0x109623` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x92260` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                        | Location                      |
+| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------- | ----------------------------- |
+| removed | -2.00ms |  18.2% → 0.0% |   2.0ms → 0ms |   2 → 0 | `__json_value_module_MOD_json_value_create`   | `./json_value_module.F90`     |
+|  -40.0% | -2.00ms | 45.5% → 75.0% | 5.0ms → 3.0ms |   5 → 3 | `__json_value_module_MOD_parse_string`        | `./json_value_module.F90`     |
+| removed | -1.00ms |   9.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `__json_string_utilities_MOD_unescape_string` | `./json_string_utilities.F90` |
+| removed | -1.00ms |   9.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `MAIN__`                                      | `/out/profile.f90`            |
+|  -50.0% | -1.00ms | 18.2% → 25.0% | 2.0ms → 1.0ms |   2 → 1 | `__json_value_module_MOD_parse_object`        | `./json_value_module.F90`     |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

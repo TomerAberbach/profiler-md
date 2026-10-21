@@ -1057,6 +1057,548 @@ Functions with the largest decrease in time spent within the function and its ca
 | removed | -2.00ms | 0.4% → 0.0% |     2.0ms → 0ms |   2 → 0 | `std::__cxx11::basic_string::_M_data`       | `/usr/include/c++/12/bits/basic_string.h`   |
 | removed | -2.00ms | 0.4% → 0.0% |     2.0ms → 0ms |   2 → 0 | `std::__cxx11::basic_string::_M_set_length` | `/usr/include/c++/12/bits/basic_string.h`   |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `fmt::v12::vformat[abi:cxx11]` (`./format-inl.h`)
+
+| Change |     Delta |            % |          Time | Samples | Caller             | Location                               |
+| -----: | --------: | -----------: | ------------: | ------: | ------------------ | -------------------------------------- |
+|    new | +512.00ms | 0.0% → 99.4% | 0ms → 512.0ms | 0 → 512 | `fmt::v12::format` | `./format.h`                           |
+|    new |   +3.00ms |  0.0% → 0.6% |   0ms → 3.0ms |   0 → 3 | `0x27743`          | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `fmt::v12::format` (`./format.h`)
+
+| Change |     Delta |             % |          Time | Samples | Caller | Location           |
+| -----: | --------: | ------------: | ------------: | ------: | ------ | ------------------ |
+|    new | +512.00ms | 0.0% → 100.0% | 0ms → 512.0ms | 0 → 512 | `main` | `/out/profile.cpp` |
+
+##### `fmt::v12::detail::vformat_to` (`./format-inl.h`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                         | Location         |
+| -----: | --------: | ------------: | ------------: | ------: | ------------------------------ | ---------------- |
+|    new | +470.00ms | 0.0% → 100.0% | 0ms → 470.0ms | 0 → 470 | `fmt::v12::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `fmt::v12::detail::parse_format_string` (`./base.h`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                         | Location         |
+| -----: | --------: | ------------: | ------------: | ------: | ------------------------------ | ---------------- |
+|    new | +468.00ms | 0.0% → 100.0% | 0ms → 468.0ms | 0 → 468 | `fmt::v12::detail::vformat_to` | `./format-inl.h` |
+
+##### `fmt::v12::detail::parse_replacement_field` (`./base.h`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                  | Location   |
+| -----: | --------: | ------------: | ------------: | ------: | --------------------------------------- | ---------- |
+|    new | +405.00ms | 0.0% → 100.0% | 0ms → 405.0ms | 0 → 405 | `fmt::v12::detail::parse_format_string` | `./base.h` |
+
+##### `fmt::v12::detail::format_handler::on_format_specs` (`./format.h`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                      | Location   |
+| -----: | --------: | ------------: | ------------: | ------: | ------------------------------------------- | ---------- |
+|    new | +340.00ms | 0.0% → 100.0% | 0ms → 340.0ms | 0 → 340 | `fmt::v12::detail::parse_replacement_field` | `./base.h` |
+
+##### `fmt::v12::detail::write` (`./format.h`)
+
+| Change |     Delta |            % |          Time | Samples | Caller                                                | Location     |
+| -----: | --------: | -----------: | ------------: | ------: | ----------------------------------------------------- | ------------ |
+|    new | +178.00ms | 0.0% → 94.2% | 0ms → 178.0ms | 0 → 178 | `fmt::v12::detail::format_handler::on_format_specs`   | `./format.h` |
+|    new |   +4.00ms |  0.0% → 2.1% |   0ms → 4.0ms |   0 → 4 | `fmt::v12::detail::parse_format_string`               | `./base.h`   |
+|    new |   +4.00ms |  0.0% → 2.1% |   0ms → 4.0ms |   0 → 4 | `fmt::v12::detail::arg_formatter::operator()`         | `./format.h` |
+|    new |   +3.00ms |  0.0% → 1.6% |   0ms → 3.0ms |   0 → 3 | `fmt::v12::detail::default_arg_formatter::operator()` | `./format.h` |
+
+##### `fmt::v12::detail::for_each_codepoint` (`./format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                    | Location     |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------- | ------------ |
+|    new | +71.00ms | 0.0% → 100.0% | 0ms → 71.0ms |  0 → 71 | `fmt::v12::detail::write` | `./format.h` |
+
+##### `fmt::v12::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` (`./format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                 | Location     |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------------------------- | ------------ |
+|    new | +66.00ms | 0.0% → 100.0% | 0ms → 66.0ms |  0 → 66 | `fmt::v12::detail::for_each_codepoint` | `./format.h` |
+
+##### `fmt::v12::detail::copy_noinline` (`./format.h`)
+
+| Change |    Delta |            % |         Time | Samples | Caller                                                   | Location     |
+| -----: | -------: | -----------: | -----------: | ------: | -------------------------------------------------------- | ------------ |
+|    new | +31.00ms | 0.0% → 48.4% | 0ms → 31.0ms |  0 → 31 | `fmt::v12::detail::format_handler::on_text`              | `./format.h` |
+|    new | +18.00ms | 0.0% → 28.1% | 0ms → 18.0ms |  0 → 18 | `fmt::v12::detail::format_handler::on_replacement_field` | `./format.h` |
+|    new | +15.00ms | 0.0% → 23.4% | 0ms → 15.0ms |  0 → 15 | `fmt::v12::detail::write_significand`                    | `./format.h` |
+
+##### `fmt::v12::detail::write_padded` (`./format.h`)
+
+| Change |    Delta |            % |         Time | Samples | Caller                           | Location     |
+| -----: | -------: | -----------: | -----------: | ------: | -------------------------------- | ------------ |
+|    new | +49.00ms | 0.0% → 76.6% | 0ms → 49.0ms |  0 → 49 | `fmt::v12::detail::write_padded` | `./format.h` |
+|    new | +26.00ms | 0.0% → 40.6% | 0ms → 26.0ms |  0 → 26 | `fmt::v12::detail::write_fixed`  | `./format.h` |
+|    new | +23.00ms | 0.0% → 35.9% | 0ms → 23.0ms |  0 → 23 | `fmt::v12::detail::write_int`    | `./format.h` |
+|    new | +15.00ms | 0.0% → 23.4% | 0ms → 15.0ms |  0 → 15 | `fmt::v12::detail::write`        | `./format.h` |
+
+##### `fmt::v12::detail::parse_format_specs` (`./base.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                              | Location     |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------------------- | ------------ |
+|    new | +57.00ms | 0.0% → 100.0% | 0ms → 57.0ms |  0 → 57 | `fmt::v12::detail::format_handler::on_format_specs` | `./format.h` |
+
+##### `fmt::v12::detail::copy` (`./base.h`)
+
+| Change |    Delta |            % |         Time | Samples | Caller                                                                            | Location     |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------------------------------------------------------------- | ------------ |
+|    new | +39.00ms | 0.0% → 73.6% | 0ms → 39.0ms |  0 → 39 | `fmt::v12::detail::copy_noinline`                                                 | `./format.h` |
+|    new |  +7.00ms | 0.0% → 13.2% |  0ms → 7.0ms |   0 → 7 | `fmt::v12::detail::write_int()::{lambda(fmt::v12::basic_appender)#1}::operator()` | `./format.h` |
+|    new |  +5.00ms |  0.0% → 9.4% |  0ms → 5.0ms |   0 → 5 | `fmt::v12::detail::write()::{lambda(fmt::v12::basic_appender)#2}::operator()`     | `./format.h` |
+|    new |  +1.00ms |  0.0% → 1.9% |  0ms → 1.0ms |   0 → 1 | `fmt::v12::detail::for_each_codepoint`                                            | `./format.h` |
+|    new |  +1.00ms |  0.0% → 1.9% |  0ms → 1.0ms |   0 → 1 | `fmt::v12::detail::write_significand`                                             | `./format.h` |
+
+##### `fmt::v12::detail::buffer::append` (`./base.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                   | Location   |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------ | ---------- |
+|    new | +52.00ms | 0.0% → 100.0% | 0ms → 52.0ms |  0 → 52 | `fmt::v12::detail::copy` | `./base.h` |
+
+##### `fmt::v12::detail::write_int` (`./format.h`)
+
+| Change |    Delta |            % |         Time | Samples | Caller                                              | Location     |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------------------------------- | ------------ |
+|    new | +43.00ms | 0.0% → 91.5% | 0ms → 43.0ms |  0 → 43 | `fmt::v12::detail::format_handler::on_format_specs` | `./format.h` |
+|    new |  +4.00ms |  0.0% → 8.5% |  0ms → 4.0ms |   0 → 4 | `fmt::v12::detail::parse_format_string`             | `./base.h`   |
+
+##### `fmt::v12::detail::format_handler::on_replacement_field` (`./format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                      | Location   |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------- | ---------- |
+|    new | +47.00ms | 0.0% → 100.0% | 0ms → 47.0ms |  0 → 47 | `fmt::v12::detail::parse_replacement_field` | `./base.h` |
+
+##### `fmt::v12::detail::write_float` (`./format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                    | Location     |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------- | ------------ |
+|    new | +47.00ms | 0.0% → 100.0% | 0ms → 47.0ms |  0 → 47 | `fmt::v12::detail::write` | `./format.h` |
+
+##### `fmt::v12::detail::utf8_decode` (`./format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                     | Location     |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------ | ------------ |
+|    new | +42.00ms | 0.0% → 100.0% | 0ms → 42.0ms |  0 → 42 | `fmt::v12::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` | `./format.h` |
+
+##### `fmt::v12::detail::format_handler::on_text` (`./format.h`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                  | Location   |
+| -----: | -------: | ------------: | -----------: | ------: | --------------------------------------- | ---------- |
+|    new | +36.00ms | 0.0% → 100.0% | 0ms → 36.0ms |  0 → 36 | `fmt::v12::detail::parse_format_string` | `./base.h` |
+
+##### `fmt::v12::detail::write_fixed` (`./format.h`)
+
+| Change |    Delta |            % |         Time | Samples | Caller                                              | Location     |
+| -----: | -------: | -----------: | -----------: | ------: | --------------------------------------------------- | ------------ |
+|    new | +33.00ms | 0.0% → 91.7% | 0ms → 33.0ms |  0 → 33 | `fmt::v12::detail::write_float`                     | `./format.h` |
+|    new |  +3.00ms |  0.0% → 8.3% |  0ms → 3.0ms |   0 → 3 | `fmt::v12::detail::format_handler::on_format_specs` | `./format.h` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller    | Location                               |
+| -----: | -------: | -----: | ----------------: | --------: | --------- | -------------------------------------- |
+|  +5.7% | +29.00ms | 100.0% | 508.0ms → 537.0ms | 508 → 537 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller   | Location    |
+| -----: | -------: | -----: | ----------------: | --------: | -------- | ----------- |
+|  +5.7% | +29.00ms | 100.0% | 508.0ms → 537.0ms | 508 → 537 | `_start` | `<unknown>` |
+
+##### `0x9e6c0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller                                                   | Location     |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------------------------------- | ------------ |
+|     new | +6.00ms | 0.0% → 50.0% | 0ms → 6.0ms |   0 → 6 | `fmt::v12::detail::format_handler::on_format_specs`      | `./format.h` |
+|     new | +6.00ms | 0.0% → 50.0% | 0ms → 6.0ms |   0 → 6 | `fmt::v12::detail::format_handler::on_replacement_field` | `./format.h` |
+| removed | -4.00ms | 66.7% → 0.0% | 4.0ms → 0ms |   4 → 0 | `fmt::v11::detail::format_handler::on_replacement_field` | `./format.h` |
+| removed | -2.00ms | 33.3% → 0.0% | 2.0ms → 0ms |   2 → 0 | `fmt::v11::detail::format_handler::on_format_specs`      | `./format.h` |
+
+##### `0xa0cb0` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller    | Location                               |
+| ------: | ------: | -----: | ------------: | ------: | --------- | -------------------------------------- |
+| +125.0% | +5.00ms | 100.0% | 4.0ms → 9.0ms |   4 → 9 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                         | Location         |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------ | ---------------- |
+|     new | +14.00ms | 0.0% → 100.0% | 0ms → 14.0ms |  0 → 14 | `fmt::v12::vformat[abi:cxx11]` | `./format-inl.h` |
+| removed | -12.00ms | 100.0% → 0.0% | 12.0ms → 0ms |  12 → 0 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `0x8faf4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |          Time | Samples | Caller    | Location                               |
+| -----: | ------: | -----: | ------------: | ------: | --------- | -------------------------------------- |
+| +33.3% | +1.00ms | 100.0% | 3.0ms → 4.0ms |   3 → 4 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d11c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                              | Location         |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- | ---------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `fmt::v11::vformat[abi:cxx11]`                      | `./format-inl.h` |
+|     new | +1.00ms |  0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::detail::format_handler::on_format_specs` | `./format.h`     |
+|     new | +1.00ms |  0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::vformat[abi:cxx11]`                      | `./format-inl.h` |
+
+##### `0x92aa0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                             | Location                                   |
+| ------: | ------: | -----: | ------------: | ------: | ---------------------------------- | ------------------------------------------ |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `std::__new_allocator::deallocate` | `/usr/include/c++/12/bits/new_allocator.h` |
+
+##### `0x9d1b0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                         | Location         |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------ | ---------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `0x9d168` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                              | Location     |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- | ------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::detail::format_handler::on_format_specs` | `./format.h` |
+
+##### `0x9d184` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                              | Location     |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- | ------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::detail::format_handler::on_format_specs` | `./format.h` |
+
+##### `0x137f3c` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                         | Location         |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------ | ---------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `std::char_traits::copy` (`/usr/include/c++/12/bits/char_traits.h`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                | Location                                  |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------- | ----------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `std::__cxx11::basic_string::_S_copy` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::_S_copy` (`/usr/include/c++/12/bits/basic_string.h`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                      | Location                                  |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------------- | ----------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `std::__cxx11::basic_string::_S_copy`       | `/usr/include/c++/12/bits/basic_string.h` |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `std::__cxx11::basic_string::_S_copy_chars` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::_S_copy_chars` (`/usr/include/c++/12/bits/basic_string.h`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                     | Location                                    |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------------------------ | ------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
+
+##### `std::__cxx11::basic_string::size` (`/usr/include/c++/12/bits/basic_string.h`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location           |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | ------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `main` | `/out/profile.cpp` |
+
+##### `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller             | Location                               |
+| ------: | --------: | -----------: | ------------: | ------: | ------------------ | -------------------------------------- |
+| removed | -482.00ms | 99.6% → 0.0% | 482.0ms → 0ms | 482 → 0 | `fmt::v11::format` | `./format.h`                           |
+| removed |   -2.00ms |  0.4% → 0.0% |   2.0ms → 0ms |   2 → 0 | `0x27743`          | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `fmt::v11::format` (`./format.h`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller | Location           |
+| ------: | --------: | ------------: | ------------: | ------: | ------ | ------------------ |
+| removed | -484.00ms | 100.0% → 0.0% | 484.0ms → 0ms | 484 → 0 | `main` | `/out/profile.cpp` |
+
+##### `fmt::v11::detail::vformat_to` (`./format-inl.h`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                         | Location         |
+| ------: | --------: | ------------: | ------------: | ------: | ------------------------------ | ---------------- |
+| removed | -430.00ms | 100.0% → 0.0% | 430.0ms → 0ms | 430 → 0 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `fmt::v11::detail::parse_format_string` (`./base.h`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                         | Location         |
+| ------: | --------: | ------------: | ------------: | ------: | ------------------------------ | ---------------- |
+| removed | -429.00ms | 100.0% → 0.0% | 429.0ms → 0ms | 429 → 0 | `fmt::v11::detail::vformat_to` | `./format-inl.h` |
+
+##### `fmt::v11::detail::parse_replacement_field` (`./base.h`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                  | Location   |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------- | ---------- |
+| removed | -370.00ms | 100.0% → 0.0% | 370.0ms → 0ms | 370 → 0 | `fmt::v11::detail::parse_format_string` | `./base.h` |
+
+##### `fmt::v11::detail::format_handler::on_format_specs` (`./format.h`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller                                      | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | ------------------------------------------- | ---------- |
+| removed | -300.00ms | 99.7% → 0.0% | 300.0ms → 0ms | 300 → 0 | `fmt::v11::detail::parse_replacement_field` | `./base.h` |
+| removed |   -1.00ms |  0.3% → 0.0% |   1.0ms → 0ms |   1 → 0 | `fmt::v11::detail::parse_format_string`     | `./base.h` |
+
+##### `fmt::v11::detail::write` (`./format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                                | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | ----------------------------------------------------- | ------------ |
+| removed | -98.00ms | 65.8% → 0.0% | 98.0ms → 0ms |  98 → 0 | `fmt::v11::detail::arg_formatter::operator()`         | `./format.h` |
+| removed | -48.00ms | 32.2% → 0.0% | 48.0ms → 0ms |  48 → 0 | `fmt::v11::detail::format_handler::on_format_specs`   | `./format.h` |
+| removed |  -3.00ms |  2.0% → 0.0% |  3.0ms → 0ms |   3 → 0 | `fmt::v11::detail::default_arg_formatter::operator()` | `./format.h` |
+
+##### `fmt::v11::basic_format_arg::visit` (`./base.h`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller                                                   | Location     |
+| ------: | --------: | -----------: | ------------: | ------: | -------------------------------------------------------- | ------------ |
+| removed | -113.00ms | 95.0% → 0.0% | 113.0ms → 0ms | 113 → 0 | `fmt::v11::detail::format_handler::on_format_specs`      | `./format.h` |
+| removed |   -6.00ms |  5.0% → 0.0% |   6.0ms → 0ms |   6 → 0 | `fmt::v11::detail::format_handler::on_replacement_field` | `./format.h` |
+
+##### `fmt::v11::detail::arg_formatter::operator()` (`./format.h`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                              | Location   |
+| ------: | --------: | ------------: | ------------: | ------: | ----------------------------------- | ---------- |
+| removed | -103.00ms | 100.0% → 0.0% | 103.0ms → 0ms | 103 → 0 | `fmt::v11::basic_format_arg::visit` | `./base.h` |
+
+##### `fmt::v11::detail::write_float` (`./format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                              | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------------------------- | ------------ |
+| removed | -94.00ms | 97.9% → 0.0% | 94.0ms → 0ms |  94 → 0 | `fmt::v11::detail::write`                           | `./format.h` |
+| removed | -56.00ms | 58.3% → 0.0% | 56.0ms → 0ms |  56 → 0 | `fmt::v11::detail::write_float`                     | `./format.h` |
+| removed |  -2.00ms |  2.1% → 0.0% |  2.0ms → 0ms |   2 → 0 | `fmt::v11::detail::format_handler::on_format_specs` | `./format.h` |
+
+##### `fmt::v11::detail::parse_format_specs` (`./base.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                              | Location     |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------- | ------------ |
+| removed | -65.00ms | 100.0% → 0.0% | 65.0ms → 0ms |  65 → 0 | `fmt::v11::detail::format_handler::on_format_specs` | `./format.h` |
+
+##### `fmt::v11::detail::copy_noinline` (`./format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                                   | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | -------------------------------------------------------- | ------------ |
+| removed | -23.00ms | 38.3% → 0.0% | 23.0ms → 0ms |  23 → 0 | `fmt::v11::detail::format_handler::on_text`              | `./format.h` |
+| removed | -22.00ms | 36.7% → 0.0% | 22.0ms → 0ms |  22 → 0 | `fmt::v11::detail::format_handler::on_replacement_field` | `./format.h` |
+| removed | -14.00ms | 23.3% → 0.0% | 14.0ms → 0ms |  14 → 0 | `fmt::v11::detail::write_significand`                    | `./format.h` |
+| removed |  -1.00ms |  1.7% → 0.0% |  1.0ms → 0ms |   1 → 0 | `fmt::v11::format`                                       | `./format.h` |
+
+##### `fmt::v11::detail::write_padded` (`./format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                             | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | ---------------------------------- | ------------ |
+| removed | -47.00ms | 85.5% → 0.0% | 47.0ms → 0ms |  47 → 0 | `fmt::v11::detail::write_padded`   | `./format.h` |
+| removed | -30.00ms | 54.5% → 0.0% | 30.0ms → 0ms |  30 → 0 | `fmt::v11::detail::do_write_float` | `./format.h` |
+| removed | -17.00ms | 30.9% → 0.0% | 17.0ms → 0ms |  17 → 0 | `fmt::v11::detail::write_int`      | `./format.h` |
+| removed |  -8.00ms | 14.5% → 0.0% |  8.0ms → 0ms |   8 → 0 | `fmt::v11::detail::write`          | `./format.h` |
+
+##### `fmt::v11::detail::buffer::append` (`./base.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                   | Location   |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------ | ---------- |
+| removed | -49.00ms | 100.0% → 0.0% | 49.0ms → 0ms |  49 → 0 | `fmt::v11::detail::copy` | `./base.h` |
+
+##### `fmt::v11::detail::copy` (`./base.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                                                            | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------------------------------------------------------- | ------------ |
+| removed | -39.00ms | 79.6% → 0.0% | 39.0ms → 0ms |  39 → 0 | `fmt::v11::detail::copy_noinline`                                                 | `./format.h` |
+| removed |  -5.00ms | 10.2% → 0.0% |  5.0ms → 0ms |   5 → 0 | `fmt::v11::detail::write_int()::{lambda(fmt::v11::basic_appender)#1}::operator()` | `./format.h` |
+| removed |  -4.00ms |  8.2% → 0.0% |  4.0ms → 0ms |   4 → 0 | `fmt::v11::detail::write()::{lambda(fmt::v11::basic_appender)#1}::operator()`     | `./format.h` |
+| removed |  -1.00ms |  2.0% → 0.0% |  1.0ms → 0ms |   1 → 0 | `fmt::v11::detail::write_significand`                                             | `./format.h` |
+
+##### `fmt::v11::detail::format_handler::on_replacement_field` (`./format.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                      | Location   |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------- | ---------- |
+| removed | -43.00ms | 100.0% → 0.0% | 43.0ms → 0ms |  43 → 0 | `fmt::v11::detail::parse_replacement_field` | `./base.h` |
+
+##### `fmt::v11::detail::write_int` (`./format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                              | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | --------------------------------------------------- | ------------ |
+| removed | -41.00ms | 97.6% → 0.0% | 41.0ms → 0ms |  41 → 0 | `fmt::v11::detail::format_handler::on_format_specs` | `./format.h` |
+| removed |  -1.00ms |  2.4% → 0.0% |  1.0ms → 0ms |   1 → 0 | `fmt::v11::detail::parse_replacement_field`         | `./base.h`   |
+
+##### `fmt::v11::detail::for_each_codepoint` (`./format.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                            | Location     |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------- | ------------ |
+| removed | -40.00ms | 100.0% → 0.0% | 40.0ms → 0ms |  40 → 0 | `fmt::v11::detail::compute_width` | `./format.h` |
+
+##### `fmt::v11::detail::compute_width` (`./format.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                    | Location     |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------- | ------------ |
+| removed | -40.00ms | 100.0% → 0.0% | 40.0ms → 0ms |  40 → 0 | `fmt::v11::detail::write` | `./format.h` |
+
+##### `fmt::v11::detail::do_write_float` (`./format.h`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                          | Location     |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------- | ------------ |
+| removed | -37.00ms | 94.9% → 0.0% | 37.0ms → 0ms |  37 → 0 | `fmt::v11::detail::write_float` | `./format.h` |
+| removed |  -2.00ms |  5.1% → 0.0% |  2.0ms → 0ms |   2 → 0 | `fmt::v11::detail::write`       | `./format.h` |
+
+##### `0x137f20` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                         | Location         |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------ | ---------------- |
+| removed | -15.00ms | 100.0% → 0.0% | 15.0ms → 0ms |  15 → 0 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |  0 → 10 | `fmt::v12::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `0xa2cab` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                     | Location                                    |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------ | ------------------------------------------- |
+| -44.4% | -4.00ms | 100.0% | 9.0ms → 5.0ms |   9 → 5 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
+
+##### `0x92a9b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                             | Location                                   |
+| -----: | ------: | -----: | ------------: | ------: | ---------------------------------- | ------------------------------------------ |
+| -37.5% | -3.00ms | 100.0% | 8.0ms → 5.0ms |   8 → 5 | `std::__new_allocator::deallocate` | `/usr/include/c++/12/bits/new_allocator.h` |
+
+##### `0x137f84` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                          | Location     |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------- | ------------ |
+| removed | -5.00ms | 100.0% → 0.0% | 5.0ms → 0ms |   5 → 0 | `fmt::v11::detail::write_float` | `./format.h` |
+|     new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `fmt::v12::detail::write_float` | `./format.h` |
+
+##### `0x92284` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |          Time | Samples | Caller    | Location                                         |
+| -----: | ------: | -----: | ------------: | ------: | --------- | ------------------------------------------------ |
+| -50.0% | -3.00ms | 100.0% | 6.0ms → 3.0ms |   6 → 3 | `0xa2cab` | `/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+
+##### `0x137f94` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                          | Location     |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------- | ------------ |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `fmt::v11::detail::write_float` | `./format.h` |
+
+##### `0x8fae0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8faa0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x92aa4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                             | Location                                   |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------------------- | ------------------------------------------ |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `std::__new_allocator::deallocate` | `/usr/include/c++/12/bits/new_allocator.h` |
+
+##### `0x92260` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                                         |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | ------------------------------------------------ |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0xa2cab` | `/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30` |
+
+##### `0x9d138` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                              | Location         |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------------------------------------- | ---------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `fmt::v11::detail::format_handler::on_format_specs` | `./format.h`     |
+|     new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `fmt::v12::vformat[abi:cxx11]`                      | `./format-inl.h` |
+
+##### `0x9a8f0` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x929c4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8fb44` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9c2e4` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                     | Location                                    |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------ | ------------------------------------------- |
+| -50.0% | -1.00ms | 100.0% | 2.0ms → 1.0ms |   2 → 1 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
+
+##### `0xa2c9c` (`/usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                     | Location                                    |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------ | ------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
+
+##### `0x92a58` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                             | Location                                   |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------------------- | ------------------------------------------ |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `std::__new_allocator::deallocate` | `/usr/include/c++/12/bits/new_allocator.h` |
+
+##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                     | Location                                  |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------------------ | ----------------------------------------- |
+| -35.7% | -5.00ms | 100.0% | 14.0ms → 9.0ms |  14 → 9 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                | Location     |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------- | ------------ |
+| removed | -15.00ms | 100.0% → 0.0% | 15.0ms → 0ms |  15 → 0 | `fmt::v11::to_string` | `./format.h` |
+|     new | +10.00ms | 0.0% → 100.0% | 0ms → 10.0ms |  0 → 10 | `fmt::v12::to_string` | `./format.h` |
+
+##### `std::__cxx11::basic_string::~basic_string` (`/usr/include/c++/12/bits/basic_string.h`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                              | Location           |
+| ------: | ------: | ------------: | --------------: | ------: | --------------------------------------------------- | ------------------ |
+|  -28.6% | -4.00ms | 93.3% → 90.9% | 14.0ms → 10.0ms | 14 → 10 | `main`                                              | `/out/profile.cpp` |
+| removed | -1.00ms |   6.7% → 0.0% |     1.0ms → 0ms |   1 → 0 | `fmt::v11::detail::digit_grouping::~digit_grouping` | `./format.h`       |
+|     new | +1.00ms |   0.0% → 9.1% |     0ms → 1.0ms |   0 → 1 | `fmt::v12::detail::digit_grouping::~digit_grouping` | `./format.h`       |
+
+##### `std::__new_allocator::deallocate` (`/usr/include/c++/12/bits/new_allocator.h`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                              | Location                                  |
+| -----: | ------: | -----: | --------------: | ------: | ----------------------------------- | ----------------------------------------- |
+| -28.6% | -4.00ms | 100.0% | 14.0ms → 10.0ms | 14 → 10 | `std::allocator_traits::deallocate` | `/usr/include/c++/12/bits/alloc_traits.h` |
+
+##### `std::allocator_traits::deallocate` (`/usr/include/c++/12/bits/alloc_traits.h`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                   | Location                                  |
+| -----: | ------: | -----: | --------------: | ------: | ---------------------------------------- | ----------------------------------------- |
+| -28.6% | -4.00ms | 100.0% | 14.0ms → 10.0ms | 14 → 10 | `std::__cxx11::basic_string::_M_destroy` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::_M_destroy` (`/usr/include/c++/12/bits/basic_string.h`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                   | Location                                  |
+| -----: | ------: | -----: | --------------: | ------: | ---------------------------------------- | ----------------------------------------- |
+| -28.6% | -4.00ms | 100.0% | 14.0ms → 10.0ms | 14 → 10 | `std::__cxx11::basic_string::_M_dispose` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::_M_dispose` (`/usr/include/c++/12/bits/basic_string.h`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                      | Location                                  |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------------- | ----------------------------------------- |
+| -28.6% | -4.00ms | 100.0% | 14.0ms → 10.0ms | 14 → 10 | `std::__cxx11::basic_string::~basic_string` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::_M_data` (`/usr/include/c++/12/bits/basic_string.h`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                      | Location                                  |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------- | ----------------------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `std::__cxx11::basic_string::_M_set_length` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::_M_set_length` (`/usr/include/c++/12/bits/basic_string.h`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                     | Location                                    |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------ | ------------------------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -463,6 +463,285 @@ Categories accounting for at least 1.0% of self time.
 | ---: | ----: | -------- | ----------- |
 | 2.1% | 0.6ms | `sleep`  | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `apply/2` (`eflambe`)
+
+|      % |   Time | Caller     | Location    |
+| -----: | -----: | ---------- | ----------- |
+| 100.0% | 27.9ms | `<0.94.0>` | `<unknown>` |
+
+##### `reduce_range/5` (`Enum`)
+
+|      % |   Time | Caller    | Location  |
+| -----: | -----: | --------- | --------- |
+| 100.0% | 21.0ms | `apply/2` | `eflambe` |
+
+##### `-run/1-fun-0-/2` (`Profile`)
+
+|     % |   Time | Caller           | Location |
+| ----: | -----: | ---------------- | -------- |
+| 70.9% | 10.3ms | `reduce_range/5` | `Enum`   |
+| 29.1% |  4.2ms | `reduce/3`       | `Enum`   |
+
+##### `encode!/2` (`Jason`)
+
+|      % |   Time | Caller            | Location  |
+| -----: | -----: | ----------------- | --------- |
+| 100.0% | 14.5ms | `-run/1-fun-0-/2` | `Profile` |
+
+##### `decode!/2` (`Jason`)
+
+|     % |   Time | Caller           | Location |
+| ----: | -----: | ---------------- | -------- |
+| 80.0% | 10.7ms | `reduce_range/5` | `Enum`   |
+| 20.0% |  2.7ms | `reduce/3`       | `Enum`   |
+
+##### `parse/2` (`Jason.Decoder`)
+
+|      % |   Time | Caller      | Location |
+| -----: | -----: | ----------- | -------- |
+| 100.0% | 13.2ms | `decode!/2` | `Jason`  |
+
+##### `encode/2` (`Jason.Encode`)
+
+|      % |   Time | Caller      | Location |
+| -----: | -----: | ----------- | -------- |
+| 100.0% | 12.8ms | `encode!/2` | `Jason`  |
+
+##### `map_naive/3` (`Jason.Encode`)
+
+|      % |   Time | Caller             | Location       |
+| -----: | -----: | ------------------ | -------------- |
+| 100.0% | 12.8ms | `encode/2`         | `Jason.Encode` |
+|  68.2% |  8.7ms | `map_naive_loop/3` | `Jason.Encode` |
+|   4.7% |  0.6ms | `list/3`           | `Jason.Encode` |
+
+##### `map_naive_loop/3` (`Jason.Encode`)
+
+|      % |   Time | Caller        | Location       |
+| -----: | -----: | ------------- | -------------- |
+| 100.0% | 12.5ms | `map_naive/3` | `Jason.Encode` |
+
+##### `string/6` (`Jason.Decoder`)
+
+|      % |  Time | Caller    | Location        |
+| -----: | ----: | --------- | --------------- |
+| 100.0% | 9.0ms | `parse/2` | `Jason.Decoder` |
+
+##### `escape_json_chunk/5` (`Jason.Encode`)
+
+|     % |  Time | Caller             | Location       |
+| ----: | ----: | ------------------ | -------------- |
+| 51.8% | 4.4ms | `map_naive_loop/3` | `Jason.Encode` |
+| 43.9% | 3.7ms | `encode_string/2`  | `Jason.Encode` |
+|  4.3% | 0.4ms | `map_naive/3`      | `Jason.Encode` |
+
+##### `reduce/3` (`Enum`)
+
+|      % |  Time | Caller    | Location  |
+| -----: | ----: | --------- | --------- |
+| 100.0% | 6.9ms | `apply/2` | `eflambe` |
+
+##### `encode_string/2` (`Jason.Encode`)
+
+|     % |   Time | Caller             | Location       |
+| ----: | -----: | ------------------ | -------------- |
+| 99.3% |  4.4ms | `map_naive_loop/3` | `Jason.Encode` |
+|  0.7% | 30.0µs | `map_naive/3`      | `Jason.Encode` |
+
+##### `undefined_function/3` (`error_handler`)
+
+|      % |  Time | Caller      | Location |
+| -----: | ----: | ----------- | -------- |
+| 100.0% | 1.7ms | `encode!/2` | `Jason`  |
+
+##### `object/6` (`Jason.Decoder`)
+
+|      % |  Time | Caller    | Location        |
+| -----: | ----: | --------- | --------------- |
+| 100.0% | 1.2ms | `parse/2` | `Jason.Decoder` |
+
+##### `ensure_loaded/1` (`code`)
+
+|      % |  Time | Caller                 | Location        |
+| -----: | ----: | ---------------------- | --------------- |
+| 100.0% | 1.2ms | `undefined_function/3` | `error_handler` |
+
+##### `string/7` (`Jason.Decoder`)
+
+|      % |  Time | Caller    | Location        |
+| -----: | ----: | --------- | --------------- |
+| 100.0% | 1.0ms | `parse/2` | `Jason.Decoder` |
+
+##### `prepare_loading_1/2` (`erlang`)
+
+|      % |  Time | Caller            | Location |
+| -----: | ----: | ----------------- | -------- |
+| 100.0% | 0.9ms | `ensure_loaded/1` | `code`   |
+
+##### `value/3` (`Jason.Encode`)
+
+|     % |   Time | Caller             | Location       |
+| ----: | -----: | ------------------ | -------------- |
+| 77.8% |  0.6ms | `map_naive_loop/3` | `Jason.Encode` |
+|  9.7% |  0.1ms | `map_naive/3`      | `Jason.Encode` |
+|  6.2% | 45.0µs | `list/3`           | `Jason.Encode` |
+|  4.2% | 30.0µs | `encode/2`         | `Jason.Encode` |
+|  2.1% | 15.0µs | `list_loop/3`      | `Jason.Encode` |
+
+##### `list/3` (`Jason.Encode`)
+
+|     % |   Time | Caller             | Location       |
+| ----: | -----: | ------------------ | -------------- |
+| 98.5% |  0.7ms | `map_naive_loop/3` | `Jason.Encode` |
+|  1.5% | 10.0µs | `map_naive/3`      | `Jason.Encode` |
+
+##### `number/6` (`Jason.Decoder`)
+
+|      % |  Time | Caller    | Location        |
+| -----: | ----: | --------- | --------------- |
+| 100.0% | 0.6ms | `parse/2` | `Jason.Decoder` |
+
+##### `escape_json/4` (`Jason.Encode`)
+
+|     % |   Time | Caller             | Location       |
+| ----: | -----: | ------------------ | -------------- |
+| 57.3% |  0.3ms | `map_naive_loop/3` | `Jason.Encode` |
+| 36.9% |  0.2ms | `encode_string/2`  | `Jason.Encode` |
+|  5.8% | 35.0µs | `map_naive/3`      | `Jason.Encode` |
+
+##### `sleep` (`<unknown>`)
+
+|     % |  Time | Caller                | Location        |
+| ----: | ----: | --------------------- | --------------- |
+| 95.6% | 0.6ms | `call/1`              | `code_server`   |
+|  1.0% | 6.0µs | `sleep`               | `<unknown>`     |
+|  1.0% | 6.0µs | `escape_json_chunk/5` | `Jason.Encode`  |
+|  1.0% | 6.0µs | `string/7`            | `Jason.Decoder` |
+|  0.7% | 4.0µs | `read_file_nif/1`     | `prim_file`     |
+
+##### `call/1` (`code_server`)
+
+|     % |  Time | Caller                 | Location        |
+| ----: | ----: | ---------------------- | --------------- |
+| 83.4% | 0.5ms | `undefined_function/3` | `error_handler` |
+| 16.6% | 0.1ms | `ensure_loaded/1`      | `code`          |
+
+##### `escape_json/1` (`Jason.Encode`)
+
+|     % |   Time | Caller             | Location       |
+| ----: | -----: | ------------------ | -------------- |
+| 65.7% |  0.3ms | `map_naive_loop/3` | `Jason.Encode` |
+| 27.6% |  0.1ms | `encode_string/2`  | `Jason.Encode` |
+|  6.7% | 35.0µs | `map_naive/3`      | `Jason.Encode` |
+
+##### `-string_decode_function/1-fun-0-/1` (`Jason.Decoder`)
+
+|      % |  Time | Caller     | Location        |
+| -----: | ----: | ---------- | --------------- |
+| 100.0% | 0.5ms | `string/6` | `Jason.Decoder` |
+
+##### `binary_to_integer/1` (`erlang`)
+
+|      % |  Time | Caller     | Location        |
+| -----: | ----: | ---------- | --------------- |
+| 100.0% | 0.3ms | `number/6` | `Jason.Decoder` |
+
+##### `ensure_prepare_loading/3` (`code`)
+
+|      % |  Time | Caller            | Location |
+| -----: | ----: | ----------------- | -------- |
+| 100.0% | 0.2ms | `ensure_loaded/1` | `code`   |
+
+##### `big_binary_to_int/2` (`erlang`)
+
+|      % |  Time | Caller                | Location |
+| -----: | ----: | --------------------- | -------- |
+| 100.0% | 0.1ms | `binary_to_integer/1` | `erlang` |
+
+##### `to_list/1` (`maps`)
+
+|      % |  Time | Caller    | Location       |
+| -----: | ----: | --------- | -------------- |
+| 100.0% | 0.1ms | `value/3` | `Jason.Encode` |
+
+##### `integer_to_binary/1` (`erlang`)
+
+|      % |  Time | Caller    | Location       |
+| -----: | ----: | --------- | -------------- |
+| 100.0% | 0.1ms | `value/3` | `Jason.Encode` |
+
+##### `binary_to_integer/2` (`erts_internal`)
+
+|     % |   Time | Caller                | Location |
+| ----: | -----: | --------------------- | -------- |
+| 81.8% | 45.0µs | `binary_to_integer/1` | `erlang` |
+|  9.1% |  5.0µs | `segmentize/4`        | `erlang` |
+|  9.1% |  5.0µs | `segmentize_1/4`      | `erlang` |
+
+##### `into_map/2` (`Enum`)
+
+|     % |   Time | Caller      | Location |
+| ----: | -----: | ----------- | -------- |
+| 50.0% | 25.0µs | `encode!/2` | `Jason`  |
+| 50.0% | 25.0µs | `decode/2`  | `Jason`  |
+
+##### `to_list_internal/1` (`maps`)
+
+|      % |  Time | Caller    | Location       |
+| -----: | ----: | --------- | -------------- |
+| 100.0% | 0.1ms | `value/3` | `Jason.Encode` |
+
+##### `from_list/1` (`maps`)
+
+|     % |   Time | Caller       | Location        |
+| ----: | -----: | ------------ | --------------- |
+| 77.8% | 35.0µs | `object/6`   | `Jason.Decoder` |
+| 22.2% | 10.0µs | `into_map/2` | `Enum`          |
+
+##### `map_next/3` (`erts_internal`)
+
+|     % |   Time | Caller               | Location |
+| ----: | -----: | -------------------- | -------- |
+| 87.5% | 35.0µs | `to_list/1`          | `maps`   |
+| 12.5% |  5.0µs | `to_list_internal/1` | `maps`   |
+
+##### `combine/2` (`erlang`)
+
+|      % |   Time | Caller                | Location |
+| -----: | -----: | --------------------- | -------- |
+| 100.0% | 25.0µs | `big_binary_to_int/2` | `erlang` |
+
+##### `iolist_to_binary/1` (`erlang`)
+
+|     % |   Time | Caller      | Location        |
+| ----: | -----: | ----------- | --------------- |
+| 50.0% | 10.0µs | `string/7`  | `Jason.Decoder` |
+| 25.0% |  5.0µs | `encode!/2` | `Jason`         |
+| 25.0% |  5.0µs | `decode/2`  | `Jason`         |
+
+##### `segmentize_1/4` (`erlang`)
+
+|      % |   Time | Caller                | Location |
+| -----: | -----: | --------------------- | -------- |
+| 100.0% | 20.0µs | `big_binary_to_int/2` | `erlang` |
+
+##### `segmentize/4` (`erlang`)
+
+|      % |   Time | Caller                | Location |
+| -----: | -----: | --------------------- | -------- |
+| 100.0% | 15.0µs | `big_binary_to_int/2` | `erlang` |
+
+##### `reverse/2` (`lists`)
+
+|     % |   Time | Caller      | Location          |
+| ----: | -----: | ----------- | ----------------- |
+| 90.9% | 10.0µs | `array/6`   | `Jason.Decoder`   |
+|  9.1% |  1.0µs | `reverse/1` | `erl_prim_loader` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

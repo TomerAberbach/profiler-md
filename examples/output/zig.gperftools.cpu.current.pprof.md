@@ -624,6 +624,275 @@ Categories accounting for at least 1.0% of self time.
 |  <0.1% |  2.0ms |       2 | `0x91b93` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 |  <0.1% |  2.0ms |       2 | `0x9d210` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `start.callMain` (`/opt/zig/lib/std/start.zig`)
+
+|      % |  Time | Samples | Caller                   | Location                     |
+| -----: | ----: | ------: | ------------------------ | ---------------------------- |
+| 100.0% | 5.79s |   5,796 | `start.callMainWithArgs` | `/opt/zig/lib/std/start.zig` |
+
+##### `start.callMainWithArgs` (`/opt/zig/lib/std/start.zig`)
+
+|      % |  Time | Samples | Caller       | Location                     |
+| -----: | ----: | ------: | ------------ | ---------------------------- |
+| 100.0% | 5.79s |   5,796 | `start.main` | `/opt/zig/lib/std/start.zig` |
+
+##### `start.main` (`/opt/zig/lib/std/start.zig`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.79s |   5,796 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.79s |   5,796 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller   | Location                                          |
+| -----: | ----: | ------: | -------- | ------------------------------------------------- |
+| 100.0% | 5.79s |   5,796 | `_start` | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
+
+##### `profile.main` (`./profile.zig`)
+
+|      % |  Time | Samples | Caller           | Location                     |
+| -----: | ----: | ------: | ---------------- | ---------------------------- |
+| 100.0% | 5.79s |   5,791 | `start.callMain` | `/opt/zig/lib/std/start.zig` |
+
+##### `zig.Ast.Render.renderTree` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |  Time | Samples | Caller           | Location                       |
+| -----: | ----: | ------: | ---------------- | ------------------------------ |
+| 100.0% | 4.17s |   4,174 | `zig.Ast.render` | `/opt/zig/lib/std/zig/Ast.zig` |
+
+##### `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig`)
+
+|      % |  Time | Samples | Caller                | Location                       |
+| -----: | ----: | ------: | --------------------- | ------------------------------ |
+| 100.0% | 4.17s |   4,174 | `zig.Ast.renderAlloc` | `/opt/zig/lib/std/zig/Ast.zig` |
+
+##### `zig.Ast.renderAlloc` (`/opt/zig/lib/std/zig/Ast.zig`)
+
+|      % |  Time | Samples | Caller         | Location        |
+| -----: | ----: | ------: | -------------- | --------------- |
+| 100.0% | 4.17s |   4,174 | `profile.main` | `./profile.zig` |
+
+##### `zig.Ast.Render.renderMembers` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |  Time | Samples | Caller                      | Location                              |
+| -----: | ----: | ------: | --------------------------- | ------------------------------------- |
+| 100.0% | 4.17s |   4,170 | `zig.Ast.Render.renderTree` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderExpression` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|     % |    Time | Samples | Caller                                      | Location                              |
+| ----: | ------: | ------: | ------------------------------------------- | ------------------------------------- |
+| 59.2% |   2.40s |   2,404 | `zig.Ast.Render.renderMember`               | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 57.2% |   2.32s |   2,326 | `zig.Ast.Render.renderVarDeclWithoutFixups` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 52.9% |   2.15s |   2,151 | `zig.Ast.Render.finishRenderBlock`          | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 31.0% |   1.26s |   1,260 | `zig.Ast.Render.renderExpression`           | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 20.2% | 822.0ms |     822 | `zig.Ast.Render.renderParamList`            | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderMember` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|     % |  Time | Samples | Caller                               | Location                              |
+| ----: | ----: | ------: | ------------------------------------ | ------------------------------------- |
+| 99.6% | 3.60s |   3,604 | `zig.Ast.Render.renderMembers`       | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 42.2% | 1.52s |   1,528 | `zig.Ast.Render.renderContainerDecl` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderBlock` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |  Time | Samples | Caller                            | Location                              |
+| -----: | ----: | ------: | --------------------------------- | ------------------------------------- |
+| 100.0% | 2.78s |   2,781 | `zig.Ast.Render.renderExpression` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.finishRenderBlock` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |  Time | Samples | Caller                       | Location                              |
+| -----: | ----: | ------: | ---------------------------- | ------------------------------------- |
+| 100.0% | 2.77s |   2,774 | `zig.Ast.Render.renderBlock` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderVarDeclWithoutFixups` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |  Time | Samples | Caller                         | Location                              |
+| -----: | ----: | ------: | ------------------------------ | ------------------------------------- |
+| 100.0% | 2.51s |   2,515 | `zig.Ast.Render.renderVarDecl` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderVarDecl` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|     % |    Time | Samples | Caller                             | Location                              |
+| ----: | ------: | ------: | ---------------------------------- | ------------------------------------- |
+| 70.1% |   1.76s |   1,763 | `zig.Ast.Render.renderMember`      | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 36.0% | 905.0ms |     905 | `zig.Ast.Render.finishRenderBlock` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| <0.1% |   1.0ms |       1 | `zig.Ast.Render.renderExpression`  | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderContainerDecl` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |  Time | Samples | Caller                            | Location                              |
+| -----: | ----: | ------: | --------------------------------- | ------------------------------------- |
+| 100.0% | 1.72s |   1,723 | `zig.Ast.Render.renderExpression` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderToken` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|     % |    Time | Samples | Caller                                      | Location                              |
+| ----: | ------: | ------: | ------------------------------------------- | ------------------------------------- |
+| 42.4% | 670.0ms |     670 | `zig.Ast.Render.renderIdentifier`           | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 13.5% | 213.0ms |     213 | `zig.Ast.Render.renderParamList`            | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 10.4% | 165.0ms |     165 | `zig.Ast.Render.renderExpression`           | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 10.0% | 158.0ms |     158 | `zig.Ast.Render.renderSpace`                | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  5.5% |  87.0ms |      87 | `zig.Ast.Render.renderVarDeclWithoutFixups` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig`)
+
+|     % |    Time | Samples | Caller                               | Location                              |
+| ----: | ------: | ------: | ------------------------------------ | ------------------------------------- |
+| 63.0% | 991.0ms |     991 | `zig.Ast.tokenSlice`                 | `/opt/zig/lib/std/zig/Ast.zig`        |
+| 36.9% | 581.0ms |     581 | `zig.Ast.parse`                      | `/opt/zig/lib/std/zig/Ast.zig`        |
+|  0.1% |   1.0ms |       1 | `zig.Ast.Render.tokenSliceForRender` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig`)
+
+|      % |  Time | Samples | Caller         | Location        |
+| -----: | ----: | ------: | -------------- | --------------- |
+| 100.0% | 1.52s |   1,523 | `profile.main` | `./profile.zig` |
+
+##### `zig.Ast.Render.tokenSliceForRender` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|     % |    Time | Samples | Caller                                   | Location                              |
+| ----: | ------: | ------: | ---------------------------------------- | ------------------------------------- |
+| 46.9% | 678.0ms |     678 | `zig.Ast.Render.renderToken`             | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 40.0% | 578.0ms |     578 | `zig.Ast.Render.renderIdentifier`        | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  8.6% | 124.0ms |     124 | `zig.Ast.Render.renderExpression`        | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  3.6% |  52.0ms |      52 | `zig.Ast.Render.renderExtraNewlineToken` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  0.3% |   5.0ms |       5 | `zig.Ast.Render.renderArrayInit`         | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `zig.Ast.Render.renderIdentifier` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|     % |    Time | Samples | Caller                                      | Location                              |
+| ----: | ------: | ------: | ------------------------------------------- | ------------------------------------- |
+| 42.4% | 591.0ms |     591 | `zig.Ast.Render.renderExpression`           | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 10.4% | 145.0ms |     145 | `zig.Ast.Render.renderVarDeclWithoutFixups` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  9.1% | 127.0ms |     127 | `zig.Ast.Render.renderParamList`            | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  8.7% | 122.0ms |     122 | `zig.Ast.Render.renderContainerField`       | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+|  7.5% | 105.0ms |     105 | `zig.Ast.Render.renderFnProto`              | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+
+##### `0xe3e00` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                                | Location                           |
+| -----: | -----: | ------: | ------------------------------------- | ---------------------------------- |
+| 100.0% | 39.0ms |      39 | `Io.Threaded.fileReadPositionalPosix` | `/opt/zig/lib/std/Io/Threaded.zig` |
+
+##### `0x92f67` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                        | Location                    |
+| -----: | -----: | ------: | ----------------------------- | --------------------------- |
+| 100.0% | 27.0ms |      27 | `heap.c_allocator_impl.remap` | `/opt/zig/lib/std/heap.zig` |
+
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 15.0ms |      15 | `0x92f67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0xdda44` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                         | Location                           |
+| ----: | -----: | ------: | ------------------------------ | ---------------------------------- |
+| 92.9% | 13.0ms |      13 | `Io.Threaded.dirOpenFilePosix` | `/opt/zig/lib/std/Io/Threaded.zig` |
+|  7.1% |  1.0ms |       1 | `Io.Threaded.dirOpenDirPosix`  | `/opt/zig/lib/std/Io/Threaded.zig` |
+
+##### `0xe3acc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 11.0ms |      11 | `0x8f987` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8f987` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 81.8% | 9.0ms |       9 | `0x8fa47` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 18.2% | 2.0ms |       2 | `0x90817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x92a9b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                       | Location                    |
+| -----: | -----: | ------: | ---------------------------- | --------------------------- |
+| 100.0% | 10.0ms |      10 | `heap.c_allocator_impl.free` | `/opt/zig/lib/std/heap.zig` |
+
+##### `0x8fa47` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 9.0ms |       9 | `0x9023f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9023f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 9.0ms |       9 | `0x92a9b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0xde3c8` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                | Location                           |
+| -----: | ----: | ------: | --------------------- | ---------------------------------- |
+| 100.0% | 7.0ms |       7 | `Io.Threaded.closeFd` | `/opt/zig/lib/std/Io/Threaded.zig` |
+
+##### `0xdd2b4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller         | Location                       |
+| -----: | ----: | ------: | -------------- | ------------------------------ |
+| 100.0% | 4.0ms |       4 | `Io.File.stat` | `/opt/zig/lib/std/Io/File.zig` |
+
+##### `0x929c4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                            | Location                              |
+| ----: | ----: | ------: | --------------------------------- | ------------------------------------- |
+| 66.7% | 2.0ms |       2 | `zig.Ast.Render.renderExpression` | `/opt/zig/lib/std/zig/Ast/Render.zig` |
+| 33.3% | 1.0ms |       1 | `start.callMain`                  | `/opt/zig/lib/std/start.zig`          |
+
+##### `0x91d0c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 3.0ms |       3 | `0x92f67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91bfb` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 3.0ms |       3 | `0x92f67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x90817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9189b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 50.0% | 1.0ms |       1 | `0x91b93` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 50.0% | 1.0ms |       1 | `0x9245b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91b93` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x92f67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d210` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x92f67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

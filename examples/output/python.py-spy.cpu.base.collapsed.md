@@ -441,6 +441,145 @@ Categories accounting for at least 1.0% of self samples.
 | ---: | ------: | ------------- | ----------- |
 | 4.3% |      11 | `(anonymous)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `format_file_contents` (`black/__init__.py`)
+
+|      % | Samples | Caller                 | Location            |
+| -----: | ------: | ---------------------- | ------------------- |
+| 100.0% |     239 | `format_file_in_place` | `black/__init__.py` |
+
+##### `format_file_in_place` (`black/__init__.py`)
+
+|      % | Samples | Caller         | Location            |
+| -----: | ------: | -------------- | ------------------- |
+| 100.0% |     239 | `reformat_one` | `black/__init__.py` |
+
+##### `reformat_one` (`black/__init__.py`)
+
+|      % | Samples | Caller | Location            |
+| -----: | ------: | ------ | ------------------- |
+| 100.0% |     239 | `main` | `black/__init__.py` |
+
+##### `main` (`black/__init__.py`)
+
+|      % | Samples | Caller     | Location              |
+| -----: | ------: | ---------- | --------------------- |
+| 100.0% |     239 | `new_func` | `click/decorators.py` |
+
+##### `new_func` (`click/decorators.py`)
+
+|      % | Samples | Caller   | Location        |
+| -----: | ------: | -------- | --------------- |
+| 100.0% |     239 | `invoke` | `click/core.py` |
+
+##### `invoke` (`click/core.py`)
+
+|      % | Samples | Caller   | Location        |
+| -----: | ------: | -------- | --------------- |
+| 100.0% |     239 | `invoke` | `click/core.py` |
+| 100.0% |     239 | `main`   | `click/core.py` |
+
+##### `main` (`click/core.py`)
+
+|      % | Samples | Caller     | Location        |
+| -----: | ------: | ---------- | --------------- |
+| 100.0% |     239 | `__call__` | `click/core.py` |
+
+##### `__call__` (`click/core.py`)
+
+|      % | Samples | Caller         | Location            |
+| -----: | ------: | -------------- | ------------------- |
+| 100.0% |     239 | `patched_main` | `black/__init__.py` |
+
+##### `patched_main` (`black/__init__.py`)
+
+|      % | Samples | Caller     | Location            |
+| -----: | ------: | ---------- | ------------------- |
+| 100.0% |     239 | `<module>` | `black/__main__.py` |
+
+##### `<module>` (`black/__main__.py`)
+
+|      % | Samples | Caller      | Location         |
+| -----: | ------: | ----------- | ---------------- |
+| 100.0% |     239 | `_run_code` | `<frozen runpy>` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |     239 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `_format_str_once` (`black/__init__.py`)
+
+|     % | Samples | Caller          | Location            |
+| ----: | ------: | --------------- | ------------------- |
+| 64.8% |     138 | `format_str`    | `black/__init__.py` |
+| 35.2% |      75 | `assert_stable` | `black/__init__.py` |
+
+##### `format_str` (`black/__init__.py`)
+
+|      % | Samples | Caller                 | Location            |
+| -----: | ------: | ---------------------- | ------------------- |
+| 100.0% |     140 | `format_file_contents` | `black/__init__.py` |
+
+##### `check_stability_and_equivalence` (`black/__init__.py`)
+
+|      % | Samples | Caller                 | Location            |
+| -----: | ------: | ---------------------- | ------------------- |
+| 100.0% |      99 | `format_file_contents` | `black/__init__.py` |
+
+##### `parse_tokens` (`blib2to3/pgen2/driver.py`)
+
+|      % | Samples | Caller         | Location                   |
+| -----: | ------: | -------------- | -------------------------- |
+| 100.0% |      84 | `parse_string` | `blib2to3/pgen2/driver.py` |
+
+##### `parse_string` (`blib2to3/pgen2/driver.py`)
+
+|      % | Samples | Caller          | Location           |
+| -----: | ------: | --------------- | ------------------ |
+| 100.0% |      84 | `lib2to3_parse` | `black/parsing.py` |
+
+##### `lib2to3_parse` (`black/parsing.py`)
+
+|      % | Samples | Caller             | Location            |
+| -----: | ------: | ------------------ | ------------------- |
+| 100.0% |      84 | `_format_str_once` | `black/__init__.py` |
+
+##### `assert_stable` (`black/__init__.py`)
+
+|      % | Samples | Caller                            | Location            |
+| -----: | ------: | --------------------------------- | ------------------- |
+| 100.0% |      75 | `check_stability_and_equivalence` | `black/__init__.py` |
+
+##### `visit_default` (`black/linegen.py`)
+
+|      % | Samples | Caller              | Location           |
+| -----: | ------: | ------------------- | ------------------ |
+| 100.0% |      73 | `visit`             | `black/nodes.py`   |
+|  97.3% |      71 | `visit_suite`       | `black/linegen.py` |
+|  61.6% |      45 | `visit_simple_stmt` | `black/linegen.py` |
+|  27.4% |      20 | `visit_power`       | `black/linegen.py` |
+|   9.6% |       7 | `visit_NUMBER`      | `black/linegen.py` |
+
+##### `visit` (`black/nodes.py`)
+
+|      % | Samples | Caller             | Location            |
+| -----: | ------: | ------------------ | ------------------- |
+| 100.0% |      73 | `visit_default`    | `black/nodes.py`    |
+| 100.0% |      73 | `_format_str_once` | `black/__init__.py` |
+|  97.3% |      71 | `visit_funcdef`    | `black/linegen.py`  |
+|  95.9% |      70 | `visit_stmt`       | `black/linegen.py`  |
+
+##### `visit_default` (`black/nodes.py`)
+
+|      % | Samples | Caller          | Location           |
+| -----: | ------: | --------------- | ------------------ |
+| 100.0% |      73 | `visit_default` | `black/linegen.py` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

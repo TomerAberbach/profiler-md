@@ -1460,6 +1460,791 @@ Functions with the largest decrease in time spent within the function and its ca
 |  -66.7% |  -4.00ms | 0.1% → <0.1% |     6.0ms → 2.0ms |     6 → 2 | `$sSa6appendyyxnF11SwiftSyntax017RawPatternBindingC0V_Tg5`                                                                                                     | `<unknown>`                                                                               |
 |  -60.0% |  -3.00ms | 0.1% → <0.1% |     5.0ms → 2.0ms |     5 → 2 | `$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtF11SwiftSyntax03RawL0V2IDV_SiTg5`                                                  | `<unknown>`                                                                               |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `$s11SwiftParser15SyntaxParseablePAAE5parse33_A2E5EEB4E7271C1F548910D9ED42E2EBLL4fromADxAA0B0Vz_qd__AHzXEt0aC003RawC12NodeProtocolRd__lFZAI010SourceFileC0V_AI0qtuC0VTt2g5` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller                                                             | Location                                                                                   |
+| -----: | ------: | ------------: | ----------: | --------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+|    new | +3.767s | 0.0% → 100.0% | 0ms → 3.76s | 0 → 3,767 | `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift` |
+
+##### `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZAA03RawcdB0VAHzXEfU_` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller                                                                                                                                                                      | Location                                                                                   |
+| -----: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+|    new | +3.764s | 0.0% → 100.0% | 0ms → 3.76s | 0 → 3,764 | `$s11SwiftParser15SyntaxParseablePAAE5parse33_A2E5EEB4E7271C1F548910D9ED42E2EBLL4fromADxAA0B0Vz_qd__AHzXEt0aC003RawC12NodeProtocolRd__lFZAI010SourceFileC0V_AI0qtuC0VTt2g5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift` |
+
+##### `$s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+| Change |     Delta |             % |          Time |   Samples | Caller                                                                                                                                   | Location                                                                 |
+| -----: | --------: | ------------: | ------------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|    new |   +3.718s | 0.0% → 100.0% |   0ms → 3.71s | 0 → 3,718 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`     |
+|    new |   +3.259s |  0.0% → 87.7% |   0ms → 3.25s | 0 → 3,259 | `$s11SwiftParser0B0V20parseMemberBlockItem0A6Syntax03RawdefG0VSgyF`                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+|    new | +121.00ms |   0.0% → 3.3% | 0ms → 121.0ms |   0 → 121 | `$s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tFAF0g15MemberBlockItemF0VSgACz_SbtXEfU0_`             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftParser0B0V23parseBindingDeclaration__2in0A6Syntax015RawVariableDeclG0VAC0J10AttributesV_AA25RecoveryConsumptionHandleVAC0E12ParseContextOtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller                                                                                | Location                                                                 |
+| -----: | ------: | ------------: | ----------: | --------: | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|    new | +1.374s | 0.0% → 100.0% | 0ms → 1.37s | 0 → 1,374 | `$s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC015visitSourceFileB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +940.00ms | 0.0% → 100.0% | 0ms → 940.0ms | 0 → 940 | `$s11SwiftSyntax0B7VisitorC4walkyyxAA0B8ProtocolRzlF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                                      | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +938.00ms | 0.0% → 100.0% | 0ms → 938.0ms | 0 → 938 | `$s11SwiftSyntax0B7VisitorC015visitSourceFileB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF`          | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+|    new | +937.00ms |  0.0% → 99.9% | 0ms → 937.0ms | 0 → 937 | `$s11SwiftSyntax0B7VisitorC022visitCodeBlockItemListB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF`   | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+|    new | +936.00ms |  0.0% → 99.8% | 0ms → 936.0ms | 0 → 936 | `$s11SwiftSyntax0B7VisitorC018visitCodeBlockItemB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF`       | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+|    new | +814.00ms |  0.0% → 86.8% | 0ms → 814.0ms | 0 → 814 | `$s11SwiftSyntax0B7VisitorC016visitMemberBlockB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF`         | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+|    new | +812.00ms |  0.0% → 86.6% | 0ms → 812.0ms | 0 → 812 | `$s11SwiftSyntax0B7VisitorC024visitMemberBlockItemListB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC018visitCodeBlockItemB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +937.00ms | 0.0% → 100.0% | 0ms → 937.0ms | 0 → 937 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC022visitCodeBlockItemListB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +937.00ms | 0.0% → 100.0% | 0ms → 937.0ms | 0 → 937 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC016visitMemberBlockB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +816.00ms | 0.0% → 100.0% | 0ms → 816.0ms | 0 → 816 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC024visitMemberBlockItemListB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +812.00ms | 0.0% → 100.0% | 0ms → 812.0ms | 0 → 812 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC020visitMemberBlockItemB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +809.00ms | 0.0% → 100.0% | 0ms → 809.0ms | 0 → 809 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC014visitCodeBlockB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +548.00ms | 0.0% → 100.0% | 0ms → 548.0ms | 0 → 548 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller                                                            | Location                                                                    |
+| -----: | --------: | -----: | ------------: | ------------: | ----------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| +15.3% | +500.00ms | 100.0% | 3.26s → 3.76s | 3,267 → 3,767 | `$s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift` |
+
+##### `$s11SwiftParser0B0V15parseSourceFile0A6Syntax03RawdeF0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                                 | Location                                                                                   |
+| ------: | ------: | ------------: | ----------: | --------: | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+|     new | +3.764s | 0.0% → 100.0% | 0ms → 3.76s | 0 → 3,764 | `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZAA03RawcdB0VAHzXEfU_` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift` |
+| removed | -3.265s | 100.0% → 0.0% | 3.26s → 0ms | 3,265 → 0 | `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ`                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift` |
+
+##### `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm` (`Attributes.swift.o`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller                                                                           | Location                                                             |
+| -----: | --------: | -----: | ------------: | ------------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| +15.2% | +497.00ms | 100.0% | 3.26s → 3.76s | 3,264 → 3,761 | `$s11SwiftParser0B0V27parseTopLevelCodeBlockItems0A6Syntax03Rawfg8ItemListI0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftParser0B0V27parseTopLevelCodeBlockItems0A6Syntax03Rawfg8ItemListI0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller                                                      | Location                                                             |
+| -----: | --------: | -----: | ------------: | ------------: | ----------------------------------------------------------- | -------------------------------------------------------------------- |
+| +15.2% | +497.00ms | 100.0% | 3.26s → 3.76s | 3,264 → 3,761 | `$s11SwiftParser0B0V15parseSourceFile0A6Syntax03RawdeF0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller         | Location                       |
+| -----: | --------: | -----: | ------------: | ------------: | -------------- | ------------------------------ |
+| +15.1% | +495.00ms | 100.0% | 3.28s → 3.77s | 3,282 → 3,777 | `profile_main` | `./Sources/profile/main.swift` |
+
+##### `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+| Change |     Delta |             % |              Time |       Samples | Caller                                                                                                                                                                                                                | Location                                                             |
+| -----: | --------: | ------------: | ----------------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| +15.1% | +492.00ms |        100.0% |     3.26s → 3.75s | 3,263 → 3,755 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm` | `Attributes.swift.o`                                                 |
+| +16.4% | +370.00ms | 69.3% → 70.0% |     2.26s → 2.63s | 2,260 → 2,630 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF`                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+| +16.2% |  +31.00ms |          5.9% | 191.0ms → 222.0ms |     191 → 222 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_`                                                             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller                                                                                              | Location                                                             |
+| -----: | --------: | -----: | ------------: | ------------: | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| +15.0% | +488.00ms | 100.0% | 3.25s → 3.74s | 3,259 → 3,747 | `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC015visitStructDeclB4Impl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+| Change |     Delta |             % |          Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | --------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +451.00ms | 0.0% → 100.0% | 0ms → 451.0ms | 0 → 451 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `0x284c3` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller    | Location                               |
+| -----: | --------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
+|  +5.4% | +247.00ms | 100.0% | 4.57s → 4.81s | 4,572 → 4,819 | `0x28597` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x28597` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller   | Location    |
+| -----: | --------: | -----: | ------------: | ------------: | -------- | ----------- |
+|  +5.4% | +247.00ms | 100.0% | 4.57s → 4.81s | 4,572 → 4,819 | `_start` | `<unknown>` |
+
+##### `0x3e564b` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |     Delta |      % |             Time |  Samples | Caller                                        | Location    |
+| ------: | --------: | -----: | ---------------: | -------: | --------------------------------------------- | ----------- |
+| +160.3% | +117.00ms | 100.0% | 73.0ms → 190.0ms | 73 → 190 | `$sSw8allocate9byteCount9alignmentSwSi_SitFZ` | `<unknown>` |
+
+##### `0x985eb` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |     Delta |      % |             Time |  Samples | Caller     | Location                               |
+| ------: | --------: | -----: | ---------------: | -------: | ---------- | -------------------------------------- |
+| +159.7% | +115.00ms | 100.0% | 72.0ms → 187.0ms | 72 → 187 | `0x3e564b` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x966ab` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |     Delta |             % |             Time |  Samples | Caller     | Location                               |
+| ------: | --------: | ------------: | ---------------: | -------: | ---------- | -------------------------------------- |
+| +155.6% | +112.00ms | 94.7% → 98.9% | 72.0ms → 184.0ms | 72 → 184 | `0x985eb`  | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  -50.0% |   -2.00ms |   5.3% → 1.1% |    4.0ms → 2.0ms |    4 → 2 | `0x3e562f` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x95968` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |     Delta |      % |             Time |  Samples | Caller    | Location                               |
+| ------: | --------: | -----: | ---------------: | -------: | --------- | -------------------------------------- |
+| +180.0% | +108.00ms | 100.0% | 60.0ms → 168.0ms | 60 → 168 | `0x966ab` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `$s11SwiftSyntax0B9DataArenaCfD` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller     | Location                               |
+| -----: | -------: | ------------: | -----------: | ------: | ---------- | -------------------------------------- |
+|    new | +87.00ms | 0.0% → 100.0% | 0ms → 87.0ms |  0 → 87 | `0x3e7633` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ` (`<unknown>`)
+
+| Change |    Delta |            % |         Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                 | Location                                                                                      |
+| -----: | -------: | -----------: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+|    new | +23.00ms | 0.0% → 28.7% | 0ms → 23.0ms |  0 → 23 | `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0cB5ArenaChtcAA0ceB12NodeProtocolRzlufC`                                                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+|    new | +21.00ms | 0.0% → 26.3% | 0ms → 21.0ms |  0 → 21 | `$s11SwiftSyntax019RawFunctionCallExprB0V_16calledExpression_9leftParen_9arguments_05rightJ0_15trailingClosure_26additionalTrailingClosures_5arenaAcA0c15UnexpectedNodesB0VSg_xAmA0c5TokenB0VSgAmA0c7Labeledf4ListB0VAmpmA0cnfB0VSgAmA0c8Multiplepn7ElementwB0VAmA0cB5ArenaChtcAA0cfB12NodeProtocolRzlufC`                             | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+|    new |  +8.00ms | 0.0% → 10.0% |  0ms → 8.0ms |   0 → 8 | `$s11SwiftSyntax020RawFunctionParameterB0V_10attributes_9modifiers_9firstName_06secondI0_5colon_4type_8ellipsis_12defaultValue_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VApA0c12DeclModifiervB0VApA0c5TokenB0VApVSgApvPxApwpA0c17InitializerClauseB0VSgApwpA0cB5ArenaChtcAA0c4TypeB12NodeProtocolRzlufC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+|    new |  +6.00ms |  0.0% → 7.5% |  0ms → 6.0ms |   0 → 6 | `$s11SwiftSyntax015RawArrayElementB0V_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_xAiA0c5TokenB0VSgAiA0cB5ArenaChtcAA0c4ExprB12NodeProtocolRzlufC`                                                                                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesAB.swift`    |
+|    new |  +4.00ms |  0.0% → 5.0% |  0ms → 4.0ms |   0 → 4 | `$s11SwiftSyntax020RawSubscriptCallExprB0V_16calledExpression_10leftSquare_9arguments_05rightJ0_15trailingClosure_26additionalTrailingClosures_5arenaAcA0c15UnexpectedNodesB0VSg_xAmA0c5TokenB0VAmA0c7Labeledf4ListB0VAmomA0cnfB0VSgAmA0c8Multiplepn7ElementwB0VAmA0cB5ArenaChtcAA0cfB12NodeProtocolRzlufC`                            | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesQRS.swift`   |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                        | Location                                                                                  |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+|    new | +70.00ms | 0.0% → 100.0% | 0ms → 70.0ms |  0 → 70 | `$s11SwiftSyntax020RawDeclReferenceExprB0V_8baseName_13argumentNames_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAiA0cdh9ArgumentsB0VSgAiA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesD.swift` |
+
+##### `$s11SwiftParser0B0V9LookaheadVWOs` (`<unknown>`)
+
+| Change |    Delta |             % |            Time | Samples | Caller                                                                                                                      | Location    |
+| -----: | -------: | ------------: | --------------: | ------: | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|    new | +49.00ms |  0.0% → 26.1% |    0ms → 49.0ms |  0 → 49 | `$s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF` | `<unknown>` |
+|    new |  +6.00ms |   0.0% → 3.2% |     0ms → 6.0ms |   0 → 6 | `$s11SwiftParser0B0V22parseFunctionParameter0A6Syntax03RawdeF0VyF`                                                          | `<unknown>` |
+| +23.5% |  +4.00ms | 13.7% → 11.2% | 17.0ms → 21.0ms | 17 → 21 | `$s11SwiftParser0B0V15parseTypeScalar19misplacedSpecifiers0A6Syntax03RawdH0VSayAF0i5TokenH0VG_tF`                           | `<unknown>` |
+| -50.0% |  -4.00ms |   6.5% → 2.1% |   8.0ms → 4.0ms |   8 → 4 | `$s11SwiftParser0B0V19parseSwitchCaseBody0A6Syntax020RawCodeBlockItemListG0VyF`                                             | `<unknown>` |
+|  -7.9% |  -3.00ms | 30.6% → 18.6% | 38.0ms → 35.0ms | 38 → 35 | `$s11SwiftParser0B0V25parseIdentifierExpression6flavor0A6Syntax07RawExprG0VAC0I6FlavorO_tF`                                 | `<unknown>` |
+
+##### `$s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                                               | Location                                                                |
+| -----: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+|    new | +59.00ms | 0.0% → 100.0% | 0ms → 59.0ms |  0 → 59 | `$s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift` |
+
+##### `$s11SwiftSyntax010ParsingRawB5ArenaCfd` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                   | Location                                                                       |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------ |
+|    new | +57.00ms | 0.0% → 100.0% | 0ms → 57.0ms |  0 → 57 | `$s11SwiftSyntax010ParsingRawB5ArenaCfD` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntaxArena.swift` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx8VAjA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_n` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                                  | Location                                                                                      |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+|    new | +55.00ms | 0.0% → 100.0% | 0ms → 55.0ms |  0 → 55 | `$s11SwiftSyntax019RawMemberAccessExprB0V_4base_6period_8declName_5arenaAcA0c15UnexpectedNodesB0VSg_AA0cfB0VSgAjA0c5TokenB0VAjA0c13DeclReferencefB0VAjA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+
+##### `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF` (`<unknown>`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                                                                                                       | Location                                                                |
+| -----: | -------: | -----: | ----------------: | --------: | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| +27.5% | +52.00ms | 100.0% | 189.0ms → 241.0ms | 189 → 241 | `$s11SwiftParser0B0V28parsePostfixExpressionSuffix_6flavor7pattern0A6Syntax07RawExprI0VAI_AC0K6FlavorOAC14PatternContextOtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift` |
+
+##### `0x3e812f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                           | Location                                                                       |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------- | ------------------------------------------------------------------------------ |
+|     new | +87.00ms |  0.0% → 82.1% |    0ms → 87.0ms |  0 → 87 | `$s11SwiftSyntax0B9DataArenaCfD` | `<unknown>`                                                                    |
+|     new | +55.00ms |  0.0% → 51.9% |    0ms → 55.0ms |  0 → 55 | `$s11SwiftSyntax03RawB5ArenaCfd` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntaxArena.swift` |
+| +112.2% | +46.00ms | 69.5% → 82.1% | 41.0ms → 87.0ms | 41 → 87 | `profile_main`                   | `<unknown>`                                                                    |
+| removed | -41.00ms |  69.5% → 0.0% |    41.0ms → 0ms |  41 → 0 | `$s11SwiftSyntax0B5ArenaCfd`     | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxArena.swift`        |
+| removed | -41.00ms |  69.5% → 0.0% |    41.0ms → 0ms |  41 → 0 | `$s11SwiftSyntax0B0V4InfoCfD`    | `<unknown>`                                                                    |
+
+##### `0x3e7633` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+| Change |    Delta |      % |             Time |  Samples | Caller     | Location                               |
+| -----: | -------: | -----: | ---------------: | -------: | ---------- | -------------------------------------- |
+| +78.0% | +46.00ms | 100.0% | 59.0ms → 105.0ms | 59 → 105 | `0x3e812f` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `profile_main` (`<unknown>`)
+
+|  Change |    Delta |      % |            Time | Samples | Caller    | Location                               |
+| ------: | -------: | -----: | --------------: | ------: | --------- | -------------------------------------- |
+| +112.2% | +46.00ms | 100.0% | 41.0ms → 87.0ms | 41 → 87 | `0x284c3` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0xe3304` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |      % |            Time | Samples | Caller    | Location                               |
+| ------: | -------: | -----: | --------------: | ------: | --------- | -------------------------------------- |
+| +104.7% | +45.00ms | 100.0% | 43.0ms → 88.0ms | 43 → 88 | `0xe8df7` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0xe8df7` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |      % |            Time | Samples | Caller    | Location                               |
+| ------: | -------: | -----: | --------------: | ------: | --------- | -------------------------------------- |
+| +104.7% | +45.00ms | 100.0% | 43.0ms → 88.0ms | 43 → 88 | `0x93a4b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `$sSw8allocate9byteCount9alignmentSwSi_SitFZ` (`<unknown>`)
+
+|  Change |     Delta |      % |             Time |  Samples | Caller                                                                                     | Location                                                                     |
+| ------: | --------: | -----: | ---------------: | -------: | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| +163.0% | +119.00ms | 100.0% | 73.0ms → 192.0ms | 73 → 192 | `$s11SwiftSyntax16BumpPtrAllocatorC12startNewSlab33_61CB623A74FD1871D887FFA45954E6F5LLyyF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+
+##### `$sSpsRi_zrlE10initialize2toyxn_tF11SwiftSyntax0D4DataV_Tg5` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                                                                      | Location                                                           |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+|    new | +47.00ms | 0.0% → 100.0% | 0ms → 47.0ms |  0 → 47 | `$s11SwiftSyntax0B9DataArenaC06createC4Impl33_B3300DB0BA2B3E5E35A338B811650793LL9allocator3raw6parent12absoluteInfoAA0D16AllocatedPointerVyAA0bC0VGAA16BumpPtrAllocatorC_AA03RawB0VANSgAA08AbsolutebS0VtFZ` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Syntax.swift` |
+
+##### `$sSR8IteratorV4nextxSgyF11SwiftSyntax03RawD0VSg_Tg5` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                                                             | Location                                                           |
+| -----: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+|    new | +23.00ms | 0.0% → 100.0% | 0ms → 23.0ms |  0 → 23 | `$s11SwiftSyntax0B9DataArenaC012createLayoutC4Impl33_B3300DB0BA2B3E5E35A338B811650793LLySRyAA0D16AllocatedPointerVyAA0bC0VGSgGAJF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Syntax.swift` |
+
+##### `$sSw10deallocateyyF` (`<unknown>`)
+
+|  Change |    Delta |      % |            Time | Samples | Caller                                 | Location                                                                     |
+| ------: | -------: | -----: | --------------: | ------: | -------------------------------------- | ---------------------------------------------------------------------------- |
+| +110.0% | +22.00ms | 100.0% | 20.0ms → 42.0ms | 20 → 42 | `$s11SwiftSyntax16BumpPtrAllocatorCfd` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+
+##### `$sSR8IteratorV4nextxSgyF11SwiftSyntax21ArenaAllocatedPointerVyAE0D4DataVGSg_Tg5` (`<unknown>`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                                                                                    | Location                                                                            |
+| -----: | -------: | ------------: | -----------: | ------: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+|    new | +21.00ms | 0.0% → 100.0% | 0ms → 21.0ms |  0 → 21 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$ss7UnicodeO6ScalarV11SwiftParserE17testCharacterInfo33_CBBF9FEF132CFB2EFF7837FA6BCFF520LLySbSJAEE0G0AGLLVF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                                                                                                                                                                                                                 | Location                                                                 |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|  +24.4% | +10.00ms | 97.6% → 87.9% | 41.0ms → 51.0ms | 41 → 51 | `$s11SwiftParser5LexerO6CursorV13lexIdentifierAC6ResultVyFSbs7UnicodeO6ScalarVXEfU0_`                                                                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+|     new |  +7.00ms |  0.0% → 12.1% |     0ms → 7.0ms |   0 → 7 | `$s11SwiftParser5LexerO6CursorV13lexIdentifierAC6ResultVyFSbs7UnicodeO6ScalarVXEfU_`                                                                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+| removed |  -1.00ms |   2.4% → 0.0% |     1.0ms → 0ms |   1 → 0 | `$s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF04$s11a7Parser5c2O6d119V9lexNormal33_40499B5A26053AEB2F96A7C76320F673LL17sourceBufferStart29preferRegexOverBinaryOperatorAC6ResultVAE_SbtFSbs7gkH6VXEfU_Tf1cn_nTm` | `Attributes.swift.o`                                                     |
+
+##### `$sSpsRi_zrlE10initialize2toyxn_tF11SwiftSyntax03RawD4DataV_Tg5` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                   | Location                                                                       |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------- | ------------------------------------------------------------------------------ |
+|     new | +35.00ms | 0.0% → 100.0% | 0ms → 35.0ms |  0 → 35 | `$s11SwiftSyntax03RawB5ArenaC6internySPyAA0cB4DataVGAFF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntaxArena.swift` |
+| removed | -25.00ms | 100.0% → 0.0% | 25.0ms → 0ms |  25 → 0 | `$s11SwiftSyntax0B5ArenaC6internySPyAA03RawB4DataVGAFF`  | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxArena.swift`        |
+
+##### `$sSp10initialize9repeating5countyx_SitF11SwiftSyntax03RawE0VSg_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                       | Location    |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------------------------------ | ----------- |
+| +47.4% | +9.00ms | 100.0% | 19.0ms → 28.0ms | 19 → 28 | `$sSr10initialize9repeatingyx_tF11SwiftSyntax03RawD0VSg_Tg5` | `<unknown>` |
+
+##### `$sSr10initialize9repeatingyx_tF11SwiftSyntax03RawD0VSg_Tg5` (`<unknown>`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                                    | Location                                                                                      |
+| ------: | ------: | -----------: | ----------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+|     new | +6.00ms | 0.0% → 21.4% | 0ms → 6.0ms |   0 → 6 | `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0cB5ArenaChtcAA0ceB12NodeProtocolRzlufcySryAA0cB0VSgGXEfU_`                                                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+| removed | -5.00ms | 26.3% → 0.0% | 5.0ms → 0ms |   5 → 0 | `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0B5ArenaChtcAA0ceB12NodeProtocolRzlufcySryAA0cB0VSgGXEfU_`                                                                                                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+| removed | -4.00ms | 21.1% → 0.0% | 4.0ms → 0ms |   4 → 0 | `$s11SwiftSyntax019RawMemberAccessExprB0V_4base_6period_8declName_5arenaAcA0c15UnexpectedNodesB0VSg_AA0cfB0VSgAjA0c5TokenB0VAjA0c13DeclReferencefB0VAjA0B5ArenaChtcfcySryAA0cB0VSgGXEfU_`                                                                                                                                                                 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+|     new | +4.00ms | 0.0% → 14.3% | 0ms → 4.0ms |   0 → 4 | `$s11SwiftSyntax019RawFunctionCallExprB0V_16calledExpression_9leftParen_9arguments_05rightJ0_15trailingClosure_26additionalTrailingClosures_5arenaAcA0c15UnexpectedNodesB0VSg_xAmA0c5TokenB0VSgAmA0c7Labeledf4ListB0VAmpmA0cnfB0VSgAmA0c8Multiplepn7ElementwB0VAmA0cB5ArenaChtcAA0cfB12NodeProtocolRzlufcySryAA0cB0VSgGXEfU_`                             | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+|     new | +4.00ms | 0.0% → 14.3% | 0ms → 4.0ms |   0 → 4 | `$s11SwiftSyntax020RawFunctionParameterB0V_10attributes_9modifiers_9firstName_06secondI0_5colon_4type_8ellipsis_12defaultValue_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VApA0c12DeclModifiervB0VApA0c5TokenB0VApVSgApvPxApwpA0c17InitializerClauseB0VSgApwpA0cB5ArenaChtcAA0c4TypeB12NodeProtocolRzlufcySryAA0cB0VSgGXEfU_` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+
+##### `$sSpsRi_zrlE10initialize2toyxn_tF11SwiftSyntax21ArenaAllocatedPointerVyAC0D4DataVGSg_Tg5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntaxLayoutView.swift`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                                                                                                             | Location                                                           |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+|    new | +9.00ms | 0.0% → 100.0% | 0ms → 9.0ms |   0 → 9 | `$s11SwiftSyntax0B9DataArenaC012createLayoutC4Impl33_B3300DB0BA2B3E5E35A338B811650793LLySRyAA0D16AllocatedPointerVyAA0bC0VGSgGAJF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Syntax.swift` |
+
+##### `$sSlsEy11SubSequenceQzys15UnboundedRange_OXEcigSRys5UInt8VG_Tg5` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                                         | Location                                                                 |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|    new | +7.00ms | 0.0% → 100.0% | 0ms → 7.0ms |   0 → 7 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+
+##### `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax027RawStringLiteralSegmentListQ0V7ElementO_Tg5Tm` (`Attributes.swift.o`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                                                                                                                        | Location                                                                  |
+| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| +150.0% | +3.00ms | 33.3% → 41.7% | 2.0ms → 5.0ms |   2 → 5 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax027RawStringLiteralSegmentListI0V7ElementO_Tg5`                                   | `<unknown>`                                                               |
+|     new | +2.00ms |  0.0% → 16.7% |   0ms → 2.0ms |   0 → 2 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax016RawAttributeListI0V7ElementO_Tg5`                                              | `<unknown>`                                                               |
+|  +33.3% | +1.00ms | 50.0% → 33.3% | 3.0ms → 4.0ms |   3 → 4 | `$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lF11SwiftSyntax020RawTypeSpecifierListF0VACO_SayAHGTg5`                                 | `<unknown>`                                                               |
+| removed | -1.00ms |  16.7% → 0.0% |   1.0ms → 0ms |   1 → 0 | `$sSa16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtF11SwiftSyntax027RawStringLiteralSegmentListM0V7ElementO_Tg5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift` |
+|     new | +1.00ms |   0.0% → 8.3% |   0ms → 1.0ms |   0 → 1 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax020RawTypeSpecifierListI0V7ElementO_Tg5`                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift`         |
+
+##### `$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lF11SwiftSyntax03RawF0V_SayAGGTg5` (`<unknown>`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                                                                                                                    | Location                                                                |
+| ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+|  +66.7% | +2.00ms | 75.0% → 62.5% | 3.0ms → 5.0ms |   3 → 5 | `$sSa1poiySayxGAB_ABtFZ11SwiftSyntax03RawB0V_Tt1g5`                                                                                       | `<unknown>`                                                             |
+| +100.0% | +1.00ms |         25.0% | 1.0ms → 2.0ms |   1 → 2 | `$sSa1poiySayxGAB_ABtFZ11SwiftSyntax03RawB0V_Tt1g5`                                                                                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/SyntaxUtils.swift` |
+|     new | +1.00ms |  0.0% → 12.5% |   0ms → 1.0ms |   0 → 1 | `$s11SwiftParser0B0V21parseEffectSpecifiers33_8AD3DBEA1A6EBF8CF81277B5457C52BFLLyxSgxmAA03RawdE5TraitRzlF0A6Syntax0n8FunctiondeP0V_Tt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Specifiers.swift`  |
+
+##### `$sSR8IteratorV4nextxSgyF11SwiftSyntax03RawD0VSg_Tg5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                                                                                   | Location                                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+|     new | +12.00ms | 0.0% → 100.0% | 0ms → 12.0ms |  0 → 12 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZTf4nnnnnd_n`                                                                                                                                                                                                                              | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift` |
+| removed |  -7.00ms |  87.5% → 0.0% |  7.0ms → 0ms |   7 → 0 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZTf4nnnnnd_n`                                                                                                                                                                                                                               | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift` |
+| removed |  -1.00ms |  12.5% → 0.0% |  1.0ms → 0ms |   1 → 0 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c40KeyPathComponentB0V_6period_9component_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiC0F0OAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0cuvwB0V0W0OASTf1nnnncn_nTf4nnnndnnnnn_n` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift` |
+
+##### `$sSa6appendyyxnFSw_Tg5` (`<unknown>`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                                                                                     | Location                                                                     |
+| ------: | ------: | -----: | ------------: | ------: | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| +100.0% | +4.00ms | 100.0% | 4.0ms → 8.0ms |   4 → 8 | `$s11SwiftSyntax16BumpPtrAllocatorC12startNewSlab33_61CB623A74FD1871D887FFA45954E6F5LLyyF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+
+##### `$ss7UnicodeO6ScalarV11SwiftParserE22isAsciiIdentifierStartSbvg` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                                                    | Location                                                                                  |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| +37.5% | +3.00ms | 100.0% | 8.0ms → 11.0ms |  8 → 11 | `$ss7UnicodeO6ScalarV11SwiftParserE31isValidIdentifierStartCodePointSbvg` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/UnicodeScalarExtensions.swift` |
+
+##### `$ss7UnicodeO6ScalarV11SwiftParserE31isValidIdentifierStartCodePointSbvg` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/UnicodeScalarExtensions.swift`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                                                                                                                                                      | Location                                                                 |
+| ------: | ------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+|  +28.6% | +2.00ms | 87.5% → 81.8% | 7.0ms → 9.0ms |   7 → 9 | `$s11SwiftParser5LexerO6CursorV13lexIdentifierAC6ResultVyFSbs7UnicodeO6ScalarVXEfU_`                                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+| +100.0% | +1.00ms | 12.5% → 18.2% | 1.0ms → 2.0ms |   1 → 2 | `$s11SwiftParser5LexerO6CursorV9lexNormal33_40499B5A26053AEB2F96A7C76320F673LL17sourceBufferStart29preferRegexOverBinaryOperatorAC6ResultVAE_SbtFSbs7UnicodeO6ScalarVXEfU_` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+
+##### `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax027RawStringLiteralSegmentListI0V7ElementO_Tg5` (`<unknown>`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                                                                        | Location    |
+| ------: | ------: | -----: | ------------: | ------: | ----------------------------------------------------------------------------- | ----------- |
+| +150.0% | +3.00ms | 100.0% | 2.0ms → 5.0ms |   2 → 5 | `$sSa6appendyyxnF11SwiftSyntax027RawStringLiteralSegmentListC0V7ElementO_Tg5` | `<unknown>` |
+
+##### `$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lF11SwiftSyntax020RawTypeSpecifierListF0VACO_SayAHGTg5` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                                          | Location    |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------------------------------------------- | ----------- |
+| +75.0% | +3.00ms | 100.0% | 4.0ms → 7.0ms |   4 → 7 | `$sSa2peoiyySayxGz_ABtFZ11SwiftSyntax020RawTypeSpecifierListC0V7ElementO_Tt1g5` | `<unknown>` |
+
+##### `$sSa2peoiyySayxGz_ABtFZ11SwiftSyntax020RawTypeSpecifierListC0V7ElementO_Tt1g5` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                                                                                                                             | Location                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+|     new | +7.00ms | 0.0% → 100.0% | 0ms → 7.0ms |   0 → 7 | `$s11SwiftParser0B0V22parseTypeAttributeList19misplacedSpecifiers0A6Syntax03Rawd9SpecifierfI0V10specifiers_AF0jefI0V10attributesAH04lateH0tSgSayAF0j5TokenI0VG_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift` |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `$s11SwiftParser0B0V22parseTypeAttributeList19misplacedSpecifiers0A6Syntax03Rawd9SpecifierfI0V10specifiers_AF0jefI0V10attributestSgSayAF0j5TokenI0VG_tF`           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift` |
+
+##### `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+|  Change |     Delta |             % |          Time |   Samples | Caller                                                                                                                                   | Location                                                                 |
+| ------: | --------: | ------------: | ------------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| removed |   -3.220s | 100.0% → 0.0% |   3.22s → 0ms | 3,220 → 0 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`     |
+| removed |   -2.807s |  87.2% → 0.0% |   2.80s → 0ms | 2,807 → 0 | `$s11SwiftParser0B0V20parseMemberBlockItem0A6Syntax03RawdefG0VSgyF`                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+| removed | -101.00ms |   3.1% → 0.0% | 101.0ms → 0ms |   101 → 0 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tFAF0jf9BlockItemI0VSgACz_SbtXEfU0_`                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                                     | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| removed | -1.240s | 100.0% → 0.0% | 1.24s → 0ms | 1,240 → 0 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -1.240s | 100.0% → 0.0% | 1.24s → 0ms | 1,240 → 0 | `$s11SwiftSyntax0B7VisitorC4walkyyxAA0B8ProtocolRzlF`                                      | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                                                                                                                | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.240s | 100.0% → 0.0% | 1.24s → 0ms | 1,240 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA010SourceFileB0V_Tt0g5`          | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -1.237s |  99.8% → 0.0% | 1.23s → 0ms | 1,237 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA017CodeBlockItemListB0V_Tt0g5`   | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -1.234s |  99.5% → 0.0% | 1.23s → 0ms | 1,234 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA013CodeBlockItemB0V_Tt0g5`       | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -1.080s |  87.1% → 0.0% | 1.08s → 0ms | 1,080 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA011MemberBlockB0V_Tt0g5`         | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -1.074s |  86.6% → 0.0% | 1.07s → 0ms | 1,074 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA019MemberBlockItemListB0V_Tt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA017CodeBlockItemListB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                            | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.240s | 100.0% → 0.0% | 1.24s → 0ms | 1,240 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA010SourceFileB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                            | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.240s | 100.0% → 0.0% | 1.24s → 0ms | 1,240 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA013CodeBlockItemB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                            | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.236s | 100.0% → 0.0% | 1.23s → 0ms | 1,236 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftParser0B0V23parseBindingDeclaration__16inMemberDeclList0A6Syntax011RawVariablehJ0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVSbtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                           | Location                                                                 |
+| ------: | ------: | ------------: | ----------: | --------: | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| removed | -1.186s | 100.0% → 0.0% | 1.18s → 0ms | 1,186 → 0 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA011MemberBlockB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                            | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.080s | 100.0% → 0.0% | 1.08s → 0ms | 1,080 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA019MemberBlockItemListB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                            | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.077s | 100.0% → 0.0% | 1.07s → 0ms | 1,077 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA015MemberBlockItemB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller                                                                            | Location                                                                            |
+| ------: | ------: | ------------: | ----------: | --------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -1.068s | 100.0% → 0.0% | 1.06s → 0ms | 1,068 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA09CodeBlockB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -765.00ms | 100.0% → 0.0% | 765.0ms → 0ms | 765 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA016FunctionCallExprB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -581.00ms | 100.0% → 0.0% | 581.0ms → 0ms | 581 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA010StructDeclB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -574.00ms | 100.0% → 0.0% | 574.0ms → 0ms | 574 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA012VariableDeclB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -511.00ms | 100.0% → 0.0% | 511.0ms → 0ms | 511 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA012FunctionDeclB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -504.00ms | 100.0% → 0.0% | 504.0ms → 0ms | 504 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA018PatternBindingListB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -461.00ms | 100.0% → 0.0% | 461.0ms → 0ms | 461 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA014PatternBindingB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -452.00ms | 100.0% → 0.0% | 452.0ms → 0ms | 452 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA014ExpressionStmtB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -365.00ms | 100.0% → 0.0% | 365.0ms → 0ms | 365 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA015LabeledExprListB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -361.00ms | 100.0% → 0.0% | 361.0ms → 0ms | 361 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA013ExtensionDeclB0V_Tt0g5` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -358.00ms | 100.0% → 0.0% | 358.0ms → 0ms | 358 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`<unknown>`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                                                                                                                                              | Location                                                                            |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -15.00ms | 12.6% → 0.0% | 15.0ms → 0ms |  15 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA016FunctionCallExprB0V_Tt0g5`  | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -13.00ms | 10.9% → 0.0% | 13.0ms → 0ms |  13 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA011LabeledExprB0V_Tt0g5`       | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed | -12.00ms | 10.1% → 0.0% | 12.0ms → 0ms |  12 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA016MemberAccessExprB0V_Tt0g5`  | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed |  -8.00ms |  6.7% → 0.0% |  8.0ms → 0ms |   8 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA017DeclReferenceExprB0V_Tt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| removed |  -7.00ms |  5.9% → 0.0% |  7.0ms → 0ms |   7 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA08ExprListB0V_Tt0g5`           | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `0x3e69e0` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | --------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -103.00ms | 100.0% → 0.0% | 103.0ms → 0ms | 103 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `0x430244` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                   | Location    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------ | ----------- |
+| removed | -69.00ms | 100.0% → 0.0% | 69.0ms → 0ms |  69 → 0 | `$ss25isKnownUniquelyReferencedySbxSgzRlzClF11SwiftSyntax0F0V4InfoC_Tg5` | `<unknown>` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                       | Location                                                                                  |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| removed | -64.00ms | 100.0% → 0.0% | 64.0ms → 0ms |  64 → 0 | `$s11SwiftSyntax020RawDeclReferenceExprB0V_8baseName_13argumentNames_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAiA0cdh9ArgumentsB0VSgAiA0B5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesD.swift` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ` (`<unknown>`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                | Location                                                                                      |
+| ------: | -------: | -----------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| removed | -16.00ms | 27.1% → 0.0% | 16.0ms → 0ms |  16 → 0 | `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0B5ArenaChtcAA0ceB12NodeProtocolRzlufC`                                                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+| removed | -10.00ms | 16.9% → 0.0% | 10.0ms → 0ms |  10 → 0 | `$s11SwiftSyntax019RawFunctionCallExprB0V_16calledExpression_9leftParen_9arguments_05rightJ0_15trailingClosure_26additionalTrailingClosures_5arenaAcA0c15UnexpectedNodesB0VSg_xAmA0c5TokenB0VSgAmA0c7Labeledf4ListB0VAmpmA0cnfB0VSgAmA0c8Multiplepn7ElementwB0VAmA0B5ArenaChtcAA0cfB12NodeProtocolRzlufC`                             | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+| removed |  -8.00ms | 13.6% → 0.0% |  8.0ms → 0ms |   8 → 0 | `$s11SwiftSyntax017RawPatternBindingB0V_7pattern_14typeAnnotation_11initializer_13accessorBlock_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_xAlA0c4TypehB0VSgAlA0c17InitializerClauseB0VSgAlA0c8AccessorkB0VSgAlA0c5TokenB0VSgAlA0B5ArenaChtcAA0cdB12NodeProtocolRzlufC`                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesOP.swift`    |
+| removed |  -7.00ms | 11.9% → 0.0% |  7.0ms → 0ms |   7 → 0 | `$s11SwiftSyntax020RawFunctionParameterB0V_10attributes_9modifiers_9firstName_06secondI0_5colon_4type_8ellipsis_12defaultValue_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VApA0c12DeclModifiervB0VApA0c5TokenB0VApVSgApvPxApwpA0c17InitializerClauseB0VSgApwpA0B5ArenaChtcAA0c4TypeB12NodeProtocolRzlufC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+| removed |  -4.00ms |  6.8% → 0.0% |  4.0ms → 0ms |   4 → 0 | `$s11SwiftSyntax018RawMemberBlockItemB0V_4decl_9semicolon_5arenaAcA0c15UnexpectedNodesB0VSg_xAiA0c5TokenB0VSgAiA0B5ArenaChtcAA0c4DeclB12NodeProtocolRzlufC`                                                                                                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx7VAjA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_n` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                                 | Location                                                                                      |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| removed | -53.00ms | 100.0% → 0.0% | 53.0ms → 0ms |  53 → 0 | `$s11SwiftSyntax019RawMemberAccessExprB0V_4base_6period_8declName_5arenaAcA0c15UnexpectedNodesB0VSg_AA0cfB0VSgAjA0c5TokenB0VAjA0c13DeclReferencefB0VAjA0B5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA017DeclReferenceExprB0VcACYbcfu263_AiKcfu264_` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                 | Location    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| removed | -43.00ms | 100.0% → 0.0% | 43.0ms → 0ms |  43 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA017DeclReferenceExprB0VcACYbcfu263_AiKcfu264_TA` | `<unknown>` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA017DeclReferenceExprB0VcACYbcfu263_AiKcfu264_TA` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                             | Location    |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------------- | ----------- |
+| removed | -43.00ms | 100.0% → 0.0% | 43.0ms → 0ms |  43 → 0 | `$s11SwiftSyntax017DeclReferenceExprB0VAA0B19VisitorContinueKindOIggd_AcEIegnd_TR` | `<unknown>` |
+
+##### `$s11SwiftSyntax017DeclReferenceExprB0VAA0B19VisitorContinueKindOIggd_AcEIegnd_TR` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                              | Location                                                                            |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -43.00ms | 100.0% → 0.0% | 43.0ms → 0ms |  43 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA017DeclReferenceExprB0V_Tt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax07ParsingB5ArenaCfd` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                               | Location                                                                |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------ | ----------------------------------------------------------------------- |
+| removed | -41.00ms | 100.0% → 0.0% | 41.0ms → 0ms |  41 → 0 | `$s11SwiftSyntax07ParsingB5ArenaCfD` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxArena.swift` |
+
+##### `$s11SwiftSyntax0B0V4InfoCfD` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller     | Location                               |
+| ------: | -------: | ------------: | -----------: | ------: | ---------- | -------------------------------------- |
+| removed | -41.00ms | 100.0% → 0.0% | 41.0ms → 0ms |  41 → 0 | `0x3e7633` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x3e6994` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                            | Location                                                                            |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -40.00ms | 100.0% → 0.0% | 40.0ms → 0ms |  40 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `0x3e62dc` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                                                                     | Location                                                                            |
+| ------: | -------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| removed | -37.00ms |  20.7% → 0.0% |    37.0ms → 0ms |  37 → 0 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+| +161.5% | +21.00ms |  7.3% → 23.8% | 13.0ms → 34.0ms | 13 → 34 | `$s11SwiftParser0B0V9LookaheadVWOs`                                                        | `<unknown>`                                                                         |
+|  -12.2% | -10.00ms | 45.8% → 50.3% | 82.0ms → 72.0ms | 82 → 72 | `$s11SwiftSyntax0B8ProtocolPAAE3rawAA03RawB0Vvg`                                           | `<unknown>`                                                                         |
+|  -52.9% |  -9.00ms |   9.5% → 5.6% |  17.0ms → 8.0ms |  17 → 8 | `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF`                                  | `<unknown>`                                                                         |
+| removed |  -7.00ms |   3.9% → 0.0% |     7.0ms → 0ms |   7 → 0 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `<unknown>`                                                                         |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                     | Location                                                                            |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| removed | -31.00ms | 100.0% → 0.0% | 31.0ms → 0ms |  31 → 0 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA011LabeledExprB0VcACYbcfu623_AiKcfu624_` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                           | Location    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| removed | -27.00ms | 100.0% → 0.0% | 27.0ms → 0ms |  27 → 0 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA011LabeledExprB0VcACYbcfu623_AiKcfu624_TA` | `<unknown>` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA011LabeledExprB0VcACYbcfu623_AiKcfu624_TA` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                       | Location    |
+| ------: | -------: | ------------: | -----------: | ------: | ---------------------------------------------------------------------------- | ----------- |
+| removed | -27.00ms | 100.0% → 0.0% | 27.0ms → 0ms |  27 → 0 | `$s11SwiftSyntax011LabeledExprB0VAA0B19VisitorContinueKindOIggd_AcEIegnd_TR` | `<unknown>` |
+
+##### `$s11SwiftSyntax011LabeledExprB0VAA0B19VisitorContinueKindOIggd_AcEIegnd_TR` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                                                                                                                                        | Location                                                                            |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| removed | -27.00ms | 100.0% → 0.0% | 27.0ms → 0ms |  27 → 0 | `$s11SwiftSyntax0B7VisitorC9visitImpl33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0Vz_xmAA0bC12ContinueKindOxXEyxXEtAA0B8ProtocolRzlFAA011LabeledExprB0V_Tt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift` |
+
+##### `0x47f088` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |    Delta |              % |            Time | Samples | Caller     | Location                               |
+| ------: | -------: | -------------: | --------------: | ------: | ---------- | -------------------------------------- |
+|  -61.5% | -16.00ms | 83.9% → 100.0% | 26.0ms → 10.0ms | 26 → 10 | `0x3e6673` | `/usr/lib/swift/linux/libswiftCore.so` |
+| removed |  -5.00ms |   16.1% → 0.0% |     5.0ms → 0ms |   5 → 0 | `0x3e67af` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x4301f4` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                                                                 | Location                       |
+| ------: | -------: | ------------: | --------------: | ------: | -------------------------------------------------------------------------------------- | ------------------------------ |
+|  -17.2% | -11.00ms | 78.0% → 84.1% | 64.0ms → 53.0ms | 64 → 53 | `$sSD_7defaultq_x_q_yXKtciM11SwiftSyntax0C4KindO_SiTg5`                                | `./Sources/profile/main.swift` |
+|  -80.0% |  -4.00ms |   6.1% → 1.6% |   5.0ms → 1.0ms |   5 → 1 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax014RawLabeledExprI0V_Tg5`  | `<unknown>`                    |
+| removed |  -2.00ms |   2.4% → 0.0% |     2.0ms → 0ms |   2 → 0 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax015RawAccessorDeclI0V_Tg5` | `<unknown>`                    |
+| removed |  -1.00ms |   1.2% → 0.0% |     1.0ms → 0ms |   1 → 0 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax015RawDeclModifierI0V_Tg5` | `<unknown>`                    |
+|  +50.0% |  +1.00ms |   2.4% → 4.8% |   2.0ms → 3.0ms |   2 → 3 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyFSw_Tg5`                                 | `<unknown>`                    |
+
+##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW` (`<unknown>`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                                                                                                                                  | Location                                                              |
+| -----: | -------: | ------------: | ----------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+|  -8.6% | -25.00ms | 53.8% → 51.0% | 291.0ms → 266.0ms | 291 → 266 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_Tg5`                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift` |
+|  +1.6% |  +4.00ms | 45.7% → 48.1% | 247.0ms → 251.0ms | 247 → 251 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_TG5`                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift` |
+|    new |  +2.00ms |   0.0% → 0.4% |       0ms → 2.0ms |     0 → 2 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_xTi50A6Syntax023SimpleStringLiteralExprG0VAAE19OpeningQuoteOptionsO_TG5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift` |
+
+##### `$ss25isKnownUniquelyReferencedySbxSgzRlzClF11SwiftSyntax0F0V4InfoC_Tg5` (`<unknown>`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                                              | Location                                                                      |
+| ------: | -------: | ------------: | -----------: | ------: | --------------------------------------------------- | ----------------------------------------------------------------------------- |
+| removed | -82.00ms | 100.0% → 0.0% | 82.0ms → 0ms |  82 → 0 | `$s11SwiftSyntax0B11NodeFactoryV7disposeyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxNodeFactory.swift` |
+
+##### `$sSD_7defaultq_x_q_yXKtciM11SwiftSyntax0C4KindO_SiTg5` (`./Sources/profile/main.swift`)
+
+| Change |    Delta |      % |             Time |  Samples | Caller                                                                         | Location                       |
+| -----: | -------: | -----: | ---------------: | -------: | ------------------------------------------------------------------------------ | ------------------------------ |
+| -17.4% | -19.00ms | 100.0% | 109.0ms → 90.0ms | 109 → 90 | `$s7profile11KindCounterC8visitAnyy11SwiftSyntax0g15VisitorContinueB0OAE0G0VF` | `./Sources/profile/main.swift` |
+
+##### `$ss7UnicodeO6ScalarV11SwiftParserE6lexing7advance4peekADSgs5UInt8VSgyXE_ALyXEtFZ` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/UnicodeScalarExtensions.swift`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                                                                 | Location                                                                 |
+| -----: | -------: | -----: | ----------------: | --------: | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| -10.7% | -13.00ms | 100.0% | 121.0ms → 108.0ms | 121 → 108 | `$s11SwiftParser5LexerO6CursorV30advanceValidatingUTF8Characters7UnicodeO6ScalarVSgyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+
+##### `$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlF11SwiftSyntax0M4KindO_Tg5` (`<unknown>`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                                  | Location                       |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------------------------------- | ------------------------------ |
+| -37.9% | -11.00ms | 100.0% | 29.0ms → 18.0ms | 29 → 18 | `$sSD_7defaultq_x_q_yXKtciM11SwiftSyntax0C4KindO_SiTg5` | `./Sources/profile/main.swift` |
+
+##### `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax014RawLabeledExprI0V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                  | Location    |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------------------------- | ----------- |
+| -41.2% | -7.00ms | 100.0% | 17.0ms → 10.0ms | 17 → 10 | `$sSa6appendyyxnF11SwiftSyntax014RawLabeledExprC0V_Tg5` | `<unknown>` |
+
+##### `$ss17_NativeDictionaryV8setValue_6forKey8isUniqueyq_n_xSbtF11SwiftSyntax03RawJ0V2IDV_SiTg5` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                         | Location    |
+| -----: | ------: | -----: | --------------: | ------: | ---------------------------------------------- | ----------- |
+| -30.0% | -6.00ms | 100.0% | 20.0ms → 14.0ms | 20 → 14 | `$sSDyq_Sgxcis11SwiftSyntax03RawB0V2IDV_SiTg5` | `<unknown>` |
+
+##### `$sSDyq_Sgxcis11SwiftSyntax03RawB0V2IDV_SiTg5` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                                                                            | Location                                                           |
+| -----: | ------: | -----: | --------------: | ------: | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| -27.3% | -6.00ms | 100.0% | 22.0ms → 16.0ms | 22 → 16 | `$s11SwiftParser15LookaheadRangesV31registerNodeForIncrementalParse4node15lookaheadLengthy0A6Syntax03RawM0V_SitF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift` |
+
+##### `$sSa6appendyyxnF11SwiftSyntax014RawLabeledExprC0V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                                                                                                                   | Location                                                                |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| -30.0% | -6.00ms | 100.0% | 20.0ms → 14.0ms | 20 → 14 | `$s11SwiftParser0B0V25parseArgumentListElements7pattern6flavor18allowTrailingCommaSay0A6Syntax014RawLabeledExprL0VGAC14PatternContextO_AC0O6FlavorOSbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift` |
+
+##### `$sSS8withUTF8yxxSRys5UInt8VGKXEKlF11SwiftParser0E0V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                                                                                                                                                                                     | Location                                                           |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| -33.3% | -5.00ms | 100.0% | 15.0ms → 10.0ms | 15 → 10 | `$s11SwiftParser0B0V6string19maximumNestingLevel15parseTransition12swiftVersion20experimentalFeaturesACSS_SiSgAA016IncrementalParseH0CSgAC0aJ0OSgAC012ExperimentalL0Vtc33_49C1C78A0F05B0599BA164E1178AF97ALlfCTf4nnnnnd_n` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift` |
+
+##### `$sSls11SubSequenceQzRszrlE8popFirst7ElementQzSgyFs5SliceVySRys5UInt8VGG_Tg5` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                         | Location                                                                 |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| -20.0% | -4.00ms | 100.0% | 20.0ms → 16.0ms | 20 → 16 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift` |
+
+##### `$sSa6appendyyxnF11SwiftSyntax07RawExprC0V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                                                                               | Location                                                                |
+| -----: | ------: | -----: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| -44.4% | -4.00ms | 100.0% | 9.0ms → 5.0ms |   9 → 5 | `$s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift` |
+
+##### `$sSis35_ExpressibleByBuiltinIntegerLiteralssAAP08_builtindE0xBI_tcfCTW` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                             | Location    |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------------------ | ----------- |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `$sSUss17FixedWidthIntegerRzrlEyxqd__cSzRd__lufCs6UInt32V_SiTt1g5` | `<unknown>` |
+
+##### `$sSUss17FixedWidthIntegerRzrlEyxqd__cSzRd__lufCs6UInt32V_SiTt1g5` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                                         | Location                                                                   |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `$s11SwiftSyntax03RawB8ChildrenV5index_10advancedByAA0bD5IndexVAG_AA0cB0VSgtF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxChildren.swift` |
+
+##### `$ss13ManagedBufferCsRi__rlE25withUnsafeMutablePointersyqd_0_qd_0_SpyxG_Spyq_Gtqd__YKXEqd__YKs5ErrorRd__Ri_d_0_r0_lFSi_11SwiftSyntax0I0V4InfoCSgs5NeverOytTg5` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                                                            | Location                                                                      |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `$s11SwiftSyntax0B14InfoRepository33_144A0750A39B358DE708645CE8EF6248LLV4pushyySpyAA0B0V0C0CSgGF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxNodeFactory.swift` |
+
+##### `$sSp10initialize4from5countySPyxG_SitFs5UInt8V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                                      | Location    |
+| -----: | ------: | -----: | ------------: | ------: | --------------------------------------------------------------------------- | ----------- |
+| -44.4% | -4.00ms | 100.0% | 9.0ms → 5.0ms |   9 → 5 | `$sSR13_copyContents12initializingSR8IteratorVyx_G_SitSryxG_tFs5UInt8V_Tg5` | `<unknown>` |
+
+##### `$sSR13_copyContents12initializingSR8IteratorVyx_G_SitSryxG_tFs5UInt8V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                                                    | Location    |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------- |
+| -44.4% | -4.00ms | 100.0% | 9.0ms → 5.0ms |   9 → 5 | `$sSRyxGSTsST13_copyContents12initializing8IteratorQz_SitSry7ElementQzG_tFTWs5UInt8V_Tg5` | `<unknown>` |
+
+##### `$sSRyxGSTsST13_copyContents12initializing8IteratorQz_SitSry7ElementQzG_tFTWs5UInt8V_Tg5` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                                                    | Location    |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ----------- |
+| -44.4% | -4.00ms | 100.0% | 9.0ms → 5.0ms |   9 → 5 | `$sSr10initialize4from8IteratorQyd___Sitqd___t7ElementQyd__RszSTRd__lFs5UInt8V_SRyAHGTg5` | `<unknown>` |
+
+##### `$sSr10initialize4from8IteratorQyd___Sitqd___t7ElementQyd__RszSTRd__lFs5UInt8V_SRyAHGTg5` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                                     | Location                                                                       |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| removed | -9.00ms | 100.0% → 0.0% | 9.0ms → 0ms |   9 → 0 | `$s11SwiftSyntax07ParsingB5ArenaC18internSourceBufferySRys5UInt8VGAGF`     | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxArena.swift`        |
+|     new | +5.00ms | 0.0% → 100.0% | 0ms → 5.0ms |   0 → 5 | `$s11SwiftSyntax010ParsingRawB5ArenaC18internSourceBufferySRys5UInt8VGAGF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntaxArena.swift` |
+
+##### `$sSa6appendyyxnF11SwiftSyntax017RawPatternBindingC0V_Tg5` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                                                                                                                                                 | Location                                                                 |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| removed | -6.00ms | 100.0% → 0.0% | 6.0ms → 0ms |   6 → 0 | `$s11SwiftParser0B0V23parseBindingDeclaration__16inMemberDeclList0A6Syntax011RawVariablehJ0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVSbtF`      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+|     new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `$s11SwiftParser0B0V23parseBindingDeclaration__2in0A6Syntax015RawVariableDeclG0VAC0J10AttributesV_AA25RecoveryConsumptionHandleVAC0E12ParseContextOtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtF11SwiftSyntax03RawL0V2IDV_SiTg5` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                                                        | Location    |
+| -----: | ------: | -----: | ------------: | ------: | --------------------------------------------------------------------------------------------- | ----------- |
+| -60.0% | -3.00ms | 100.0% | 5.0ms → 2.0ms |   5 → 2 | `$ss17_NativeDictionaryV12ensureUnique02isD08capacityS2b_SitF11SwiftSyntax03RawH0V2IDV_SiTg5` | `<unknown>` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

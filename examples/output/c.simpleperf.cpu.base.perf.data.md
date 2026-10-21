@@ -228,6 +228,140 @@ Categories accounting for at least 1.0% of self time.
 |  1.1% |  20.0ms |      20 | `0x596b8` | `./zstd` |
 |  1.0% |  19.0ms |      19 | `0x609be` | `./zstd` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `0x9cee` (`./zstd`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.88s |   1,884 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8202e` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.88s |   1,884 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x1601e` (`./zstd`)
+
+|     % |    Time | Samples | Caller    | Location |
+| ----: | ------: | ------: | --------- | -------- |
+| 83.7% |   1.56s |   1,561 | `0x61402` | `./zstd` |
+| 16.3% | 305.3ms |     305 | `0x17766` | `./zstd` |
+
+##### `0x1108e` (`./zstd`)
+
+|      % |  Time | Samples | Caller    | Location |
+| -----: | ----: | ------: | --------- | -------- |
+| 100.0% | 1.86s |   1,865 | `0x1601e` | `./zstd` |
+
+##### `0x61402` (`./zstd`)
+
+|      % |  Time | Samples | Caller   | Location |
+| -----: | ----: | ------: | -------- | -------- |
+| 100.0% | 1.57s |   1,576 | `0x9cee` | `./zstd` |
+
+##### `0x59272` (`./zstd`)
+
+|     % |   Time | Samples | Caller    | Location |
+| ----: | -----: | ------: | --------- | -------- |
+| 99.3% |  1.48s |   1,480 | `0x1108e` | `./zstd` |
+|  0.7% | 11.0ms |      11 | `0x609be` | `./zstd` |
+
+##### `0x17766` (`./zstd`)
+
+|      % |    Time | Samples | Caller    | Location |
+| -----: | ------: | ------: | --------- | -------- |
+| 100.0% | 306.3ms |     306 | `0x616b6` | `./zstd` |
+
+##### `0x616b6` (`./zstd`)
+
+|      % |    Time | Samples | Caller   | Location |
+| -----: | ------: | ------: | -------- | -------- |
+| 100.0% | 306.3ms |     306 | `0x9cee` | `./zstd` |
+
+##### `0x5f800` (`./zstd`)
+
+|     % |    Time | Samples | Caller    | Location |
+| ----: | ------: | ------: | --------- | -------- |
+| 99.7% | 295.3ms |     295 | `0x59272` | `./zstd` |
+|  0.3% |   1.0ms |       1 | `0x58c76` | `./zstd` |
+
+##### `0x5f848` (`./zstd`)
+
+|     % |    Time | Samples | Caller    | Location |
+| ----: | ------: | ------: | --------- | -------- |
+| 99.7% | 295.3ms |     295 | `0x59272` | `./zstd` |
+|  0.3% |   1.0ms |       1 | `0x58c76` | `./zstd` |
+
+##### `0x5fab8` (`./zstd`)
+
+|      % |    Time | Samples | Caller    | Location |
+| -----: | ------: | ------: | --------- | -------- |
+| 100.0% | 292.3ms |     292 | `0x59272` | `./zstd` |
+
+##### `0x5fadc` (`./zstd`)
+
+|      % |    Time | Samples | Caller    | Location |
+| -----: | ------: | ------: | --------- | -------- |
+| 100.0% | 249.2ms |     249 | `0x59272` | `./zstd` |
+
+##### `0x5f838` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 99.1ms |      99 | `0x59272` | `./zstd` |
+
+##### `0x5fb10` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 52.1ms |      52 | `0x59272` | `./zstd` |
+
+##### `0x594d8` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 43.0ms |      43 | `0x1108e` | `./zstd` |
+
+##### `0x59640` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 42.0ms |      42 | `0x1108e` | `./zstd` |
+
+##### `0x596dc` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 33.0ms |      33 | `0x1108e` | `./zstd` |
+
+##### `0x5f86c` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 32.0ms |      32 | `0x59272` | `./zstd` |
+
+##### `0x5960c` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 25.0ms |      25 | `0x1108e` | `./zstd` |
+
+##### `0x596b8` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 20.0ms |      20 | `0x1108e` | `./zstd` |
+
+##### `0x609be` (`./zstd`)
+
+|      % |   Time | Samples | Caller    | Location |
+| -----: | -----: | ------: | --------- | -------- |
+| 100.0% | 19.0ms |      19 | `0x1108e` | `./zstd` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

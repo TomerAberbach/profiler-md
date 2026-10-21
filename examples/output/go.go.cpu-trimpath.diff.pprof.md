@@ -696,6 +696,254 @@ Functions with the largest decrease in time spent within the function and its ca
 | -12.3% |  -80.00ms | 18.8% → 16.6% | 650.0ms → 570.0ms | 65 → 57 | `runtime.sysUsed`              | `runtime/mem.go:89`           |
 | -43.8% |  -70.00ms |   4.6% → 2.6% |  160.0ms → 90.0ms |  16 → 9 | `runtime.goschedImpl`          | `runtime/proc.go:4307`        |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`)
+
+| Change |     Delta |      % |          Time |   Samples | Caller      | Location                                                   |
+| -----: | --------: | -----: | ------------: | --------: | ----------- | ---------------------------------------------------------- |
+| +13.2% | +200.00ms | 100.0% | 1.51s → 1.71s | 151 → 171 | `main.main` | `github.com/tomeraberbach/profiler-md-workload/main.go:12` |
+
+##### `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`)
+
+| Change |     Delta |      % |          Time |   Samples | Caller         | Location              |
+| -----: | --------: | -----: | ------------: | --------: | -------------- | --------------------- |
+| +13.2% | +200.00ms | 100.0% | 1.51s → 1.71s | 151 → 171 | `runtime.main` | `runtime/proc.go:149` |
+
+##### `encoding/json.(*decodeState).objectInterface` (`encoding/json/decode.go:1078`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                                        | Location                       |
+| -----: | --------: | -----: | ----------------: | ------: | --------------------------------------------- | ------------------------------ |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).object`         | `encoding/json/decode.go:604`  |
+
+##### `encoding/json.(*decodeState).valueInterface` (`encoding/json/decode.go:1035`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                                         | Location                       |
+| -----: | --------: | -----: | ----------------: | ------: | ---------------------------------------------- | ------------------------------ |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).arrayInterface`  | `encoding/json/decode.go:1052` |
+
+##### `encoding/json.(*decodeState).arrayInterface` (`encoding/json/decode.go:1052`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                                        | Location                       |
+| -----: | --------: | -----: | ----------------: | ------: | --------------------------------------------- | ------------------------------ |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
+
+##### `encoding/json.(*decodeState).object` (`encoding/json/decode.go:604`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                               | Location                      |
+| -----: | --------: | -----: | ----------------: | ------: | ------------------------------------ | ----------------------------- |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).value` | `encoding/json/decode.go:363` |
+
+##### `encoding/json.(*decodeState).value` (`encoding/json/decode.go:363`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                                   | Location                      |
+| -----: | --------: | -----: | ----------------: | ------: | ---------------------------------------- | ----------------------------- |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.(*decodeState).unmarshal` | `encoding/json/decode.go:173` |
+
+##### `encoding/json.(*decodeState).unmarshal` (`encoding/json/decode.go:173`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                    | Location                      |
+| -----: | --------: | -----: | ----------------: | ------: | ------------------------- | ----------------------------- |
+| +21.8% | +120.00ms | 100.0% | 550.0ms → 670.0ms | 55 → 67 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
+
+##### `runtime.mapassign_faststr` (`internal/runtime/maps/runtime_faststr.go:263`)
+
+|  Change |     Delta |      % |             Time | Samples | Caller                                         | Location                       |
+| ------: | --------: | -----: | ---------------: | ------: | ---------------------------------------------- | ------------------------------ |
+| +171.4% | +120.00ms | 100.0% | 70.0ms → 190.0ms |  7 → 19 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
+
+##### `encoding/json.Unmarshal` (`encoding/json/decode.go:102`)
+
+| Change |     Delta |      % |          Time |   Samples | Caller                                                            | Location                                                                 |
+| -----: | --------: | -----: | ------------: | --------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| +10.8% | +110.00ms | 100.0% | 1.02s → 1.13s | 102 → 113 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11` |
+
+##### `encoding/json.(*encodeState).reflectValue` (`encoding/json/encode.go:366`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                                 | Location                      |
+| -----: | -------: | -----: | ----------------: | ------: | -------------------------------------- | ----------------------------- |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.interfaceEncoder`       | `encoding/json/encode.go:695` |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.(*encodeState).marshal` | `encoding/json/encode.go:333` |
+
+##### `encoding/json.interfaceEncoder` (`encoding/json/encode.go:695`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                              | Location                      |
+| -----: | -------: | -----: | ----------------: | ------: | ----------------------------------- | ----------------------------- |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.mapEncoder.encode`   | `encoding/json/encode.go:765` |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.arrayEncoder.encode` | `encoding/json/encode.go:883` |
+
+##### `encoding/json.mapEncoder.encode` (`encoding/json/encode.go:765`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                                      | Location                      |
+| -----: | -------: | -----: | ----------------: | ------: | ------------------------------------------- | ----------------------------- |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.(*encodeState).reflectValue` | `encoding/json/encode.go:366` |
+
+##### `encoding/json.arrayEncoder.encode` (`encoding/json/encode.go:883`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                              | Location                      |
+| -----: | -------: | -----: | ----------------: | ------: | ----------------------------------- | ----------------------------- |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.sliceEncoder.encode` | `encoding/json/encode.go:843` |
+
+##### `encoding/json.sliceEncoder.encode` (`encoding/json/encode.go:843`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                                      | Location                      |
+| -----: | -------: | -----: | ----------------: | ------: | ------------------------------------------- | ----------------------------- |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.(*encodeState).reflectValue` | `encoding/json/encode.go:366` |
+
+##### `encoding/json.(*encodeState).marshal` (`encoding/json/encode.go:333`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                  | Location                      |
+| -----: | -------: | -----: | ----------------: | ------: | ----------------------- | ----------------------------- |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `encoding/json.Marshal` | `encoding/json/encode.go:205` |
+
+##### `encoding/json.Marshal` (`encoding/json/encode.go:205`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                                                            | Location                                                                 |
+| -----: | -------: | -----: | ----------------: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| +18.4% | +90.00ms | 100.0% | 490.0ms → 580.0ms | 49 → 58 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11` |
+
+##### `encoding/json.stateBeginString` (`encoding/json/scanner.go:268`)
+
+|  Change |    Delta |             % |            Time | Samples | Caller                                   | Location                      |
+| ------: | -------: | ------------: | --------------: | ------: | ---------------------------------------- | ----------------------------- |
+| +125.0% | +50.00ms | 57.1% → 64.3% | 40.0ms → 90.0ms |   4 → 9 | `encoding/json.checkValid`               | `encoding/json/scanner.go:33` |
+|  +66.7% | +20.00ms | 42.9% → 35.7% | 30.0ms → 50.0ms |   3 → 5 | `encoding/json.(*decodeState).scanWhile` | `encoding/json/decode.go:298` |
+
+##### `runtime.pthread_kill` (`runtime/sys_darwin.go:148`)
+
+| Change |    Delta |      % |             Time | Samples | Caller            | Location                   |
+| -----: | -------: | -----: | ---------------: | ------: | ----------------- | -------------------------- |
+| +87.5% | +70.00ms | 100.0% | 80.0ms → 150.0ms |  8 → 15 | `runtime.signalM` | `runtime/os_darwin.go:489` |
+
+##### `runtime.signalM` (`runtime/os_darwin.go:489`)
+
+| Change |    Delta |      % |             Time | Samples | Caller             | Location                     |
+| -----: | -------: | -----: | ---------------: | ------: | ------------------ | ---------------------------- |
+| +87.5% | +70.00ms | 100.0% | 80.0ms → 150.0ms |  8 → 15 | `runtime.preemptM` | `runtime/signal_unix.go:369` |
+
+##### `runtime.preemptM` (`runtime/signal_unix.go:369`)
+
+|  Change |    Delta |             % |             Time | Samples | Caller               | Location               |
+| ------: | -------: | ------------: | ---------------: | ------: | -------------------- | ---------------------- |
+| +100.0% | +70.00ms | 87.5% → 93.3% | 70.0ms → 140.0ms |  7 → 14 | `runtime.preemptone` | `runtime/proc.go:6866` |
+
+##### `runtime.stopm` (`runtime/proc.go:2992`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                 | Location               |
+| -----: | --------: | -----: | ----------------: | ------: | ---------------------- | ---------------------- |
+| -31.0% | -130.00ms | 100.0% | 420.0ms → 290.0ms | 42 → 29 | `runtime.findRunnable` | `runtime/proc.go:3389` |
+
+##### `runtime.findRunnable` (`runtime/proc.go:3389`)
+
+| Change |     Delta |      % |              Time | Samples | Caller             | Location               |
+| -----: | --------: | -----: | ----------------: | ------: | ------------------ | ---------------------- |
+| -24.0% | -120.00ms | 100.0% | 500.0ms → 380.0ms | 50 → 38 | `runtime.schedule` | `runtime/proc.go:4135` |
+
+##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
+
+| Change |     Delta |      % |              Time | Samples | Caller              | Location                  |
+| -----: | --------: | -----: | ----------------: | ------: | ------------------- | ------------------------- |
+| -28.2% | -110.00ms | 100.0% | 390.0ms → 280.0ms | 39 → 28 | `runtime.semasleep` | `runtime/os_darwin.go:45` |
+
+##### `runtime.schedule` (`runtime/proc.go:4135`)
+
+| Change |     Delta |             % |              Time | Samples | Caller           | Location               |
+| -----: | --------: | ------------: | ----------------: | ------: | ---------------- | ---------------------- |
+| -21.6% | -110.00ms | 96.2% → 95.2% | 510.0ms → 400.0ms | 51 → 40 | `runtime.park_m` | `runtime/proc.go:4253` |
+
+##### `runtime.park_m` (`runtime/proc.go:4253`)
+
+| Change |     Delta |      % |              Time | Samples | Caller          | Location                  |
+| -----: | --------: | -----: | ----------------: | ------: | --------------- | ------------------------- |
+| -21.6% | -110.00ms | 100.0% | 510.0ms → 400.0ms | 51 → 40 | `runtime.mcall` | `runtime/asm_arm64.s:302` |
+
+##### `runtime.semasleep` (`runtime/os_darwin.go:45`)
+
+|  Change |     Delta |             % |              Time | Samples | Caller                        | Location                      |
+| ------: | --------: | ------------: | ----------------: | ------: | ----------------------------- | ----------------------------- |
+|  -26.3% | -100.00ms | 97.4% → 96.6% | 380.0ms → 280.0ms | 38 → 28 | `runtime.notesleep`           | `runtime/lock_sema.go:46`     |
+| removed |  -10.00ms |   2.6% → 0.0% |      10.0ms → 0ms |   1 → 0 | `runtime.lock2`               | `runtime/lock_spinbit.go:155` |
+|     new |  +10.00ms |   0.0% → 3.4% |      0ms → 10.0ms |   0 → 1 | `runtime.notetsleep_internal` | `runtime/lock_sema.go:75`     |
+
+##### `runtime.notesleep` (`runtime/lock_sema.go:46`)
+
+| Change |     Delta |      % |              Time | Samples | Caller          | Location               |
+| -----: | --------: | -----: | ----------------: | ------: | --------------- | ---------------------- |
+| -26.3% | -100.00ms | 100.0% | 380.0ms → 280.0ms | 38 → 28 | `runtime.mPark` | `runtime/proc.go:1965` |
+
+##### `runtime.mPark` (`runtime/proc.go:1965`)
+
+| Change |     Delta |      % |              Time | Samples | Caller          | Location               |
+| -----: | --------: | -----: | ----------------: | ------: | --------------- | ---------------------- |
+| -26.3% | -100.00ms | 100.0% | 380.0ms → 280.0ms | 38 → 28 | `runtime.stopm` | `runtime/proc.go:2992` |
+
+##### `runtime.lock2` (`runtime/lock_spinbit.go:155`)
+
+| Change |     Delta |      % |              Time | Samples | Caller                 | Location                     |
+| -----: | --------: | -----: | ----------------: | ------: | ---------------------- | ---------------------------- |
+| -45.5% | -100.00ms | 100.0% | 220.0ms → 120.0ms | 22 → 12 | `runtime.lockWithRank` | `runtime/lockrank_off.go:23` |
+
+##### `runtime.lockWithRank` (`runtime/lockrank_off.go:23`)
+
+| Change |     Delta |      % |              Time | Samples | Caller         | Location                      |
+| -----: | --------: | -----: | ----------------: | ------: | -------------- | ----------------------------- |
+| -45.5% | -100.00ms | 100.0% | 220.0ms → 120.0ms | 22 → 12 | `runtime.lock` | `runtime/lock_spinbit.go:151` |
+
+##### `runtime.lock` (`runtime/lock_spinbit.go:151`)
+
+|  Change |    Delta |             % |             Time | Samples | Caller                 | Location               |
+| ------: | -------: | ------------: | ---------------: | ------: | ---------------------- | ---------------------- |
+|  -45.5% | -50.00ms |         50.0% | 110.0ms → 60.0ms |  11 → 6 | `runtime.goschedImpl`  | `runtime/proc.go:4307` |
+|  -75.0% | -30.00ms |  18.2% → 8.3% |  40.0ms → 10.0ms |   4 → 1 | `runtime.stopm`        | `runtime/proc.go:2992` |
+|  -60.0% | -30.00ms | 22.7% → 16.7% |  50.0ms → 20.0ms |   5 → 2 | `runtime.findRunnable` | `runtime/proc.go:3389` |
+| +100.0% | +10.00ms |  4.5% → 16.7% |  10.0ms → 20.0ms |   1 → 2 | `runtime.wakep`        | `runtime/proc.go:3212` |
+
+##### `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`)
+
+| Change |    Delta |             % |              Time | Samples | Caller                         | Location                |
+| -----: | -------: | ------------: | ----------------: | ------: | ------------------------------ | ----------------------- |
+| -13.6% | -90.00ms | 98.5% → 98.3% | 660.0ms → 570.0ms | 66 → 57 | `runtime.(*mheap).alloc.func1` | `runtime/mheap.go:1011` |
+
+##### `runtime.(*mheap).alloc.func1` (`runtime/mheap.go:1011`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                | Location                  |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------- | ------------------------- |
+| -13.6% | -90.00ms | 100.0% | 660.0ms → 570.0ms | 66 → 57 | `runtime.systemstack` | `runtime/asm_arm64.s:353` |
+
+##### `runtime.slicebytetostring` (`runtime/string.go:139`)
+
+| Change |    Delta |             % |             Time | Samples | Caller                  | Location                       |
+| -----: | -------: | ------------: | ---------------: | ------: | ----------------------- | ------------------------------ |
+| -90.0% | -90.00ms | 90.9% → 50.0% | 100.0ms → 10.0ms |  10 → 1 | `encoding/json.unquote` | `encoding/json/decode.go:1187` |
+
+##### `runtime.madvise` (`runtime/sys_darwin.go:224`)
+
+| Change |    Delta |      % |              Time | Samples | Caller              | Location                   |
+| -----: | -------: | -----: | ----------------: | ------: | ------------------- | -------------------------- |
+| -12.3% | -80.00ms | 100.0% | 650.0ms → 570.0ms | 65 → 57 | `runtime.sysUsedOS` | `runtime/mem_darwin.go:29` |
+
+##### `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`)
+
+| Change |    Delta |      % |              Time | Samples | Caller            | Location            |
+| -----: | -------: | -----: | ----------------: | ------: | ----------------- | ------------------- |
+| -12.3% | -80.00ms | 100.0% | 650.0ms → 570.0ms | 65 → 57 | `runtime.sysUsed` | `runtime/mem.go:89` |
+
+##### `runtime.sysUsed` (`runtime/mem.go:89`)
+
+| Change |    Delta |      % |              Time | Samples | Caller                       | Location                |
+| -----: | -------: | -----: | ----------------: | ------: | ---------------------------- | ----------------------- |
+| -12.3% | -80.00ms | 100.0% | 650.0ms → 570.0ms | 65 → 57 | `runtime.(*mheap).allocSpan` | `runtime/mheap.go:1224` |
+
+##### `runtime.goschedImpl` (`runtime/proc.go:4307`)
+
+| Change |    Delta |      % |             Time | Samples | Caller                | Location               |
+| -----: | -------: | -----: | ---------------: | ------: | --------------------- | ---------------------- |
+| -43.8% | -70.00ms | 100.0% | 160.0ms → 90.0ms |  16 → 9 | `runtime.gopreempt_m` | `runtime/proc.go:4361` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

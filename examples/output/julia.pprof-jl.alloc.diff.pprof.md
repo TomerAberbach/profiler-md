@@ -134,6 +134,356 @@ Functions with the largest decrease in bytes allocated within the function and i
 |   -4.1% |     -24 B |   0.7% → 0.5% |       592 B → 568 B |       74 → 71 | `ijl_box_uint64`                                                                                                                                                                             | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1557`     |
 |   -0.1% |     -16 B | 17.2% → 12.6% |            13.4 KiB | 1,718 → 1,716 | `ijl_box_int64`                                                                                                                                                                              | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1556`     |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `#write#79` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73`)
+
+| Change |       Delta |             % |           Size | Allocations | Caller  | Location                                                                                             |
+| -----: | ----------: | ------------: | -------------: | ----------: | ------- | ---------------------------------------------------------------------------------------------------- |
+|    new | +76.932 KiB | 0.0% → 100.0% | 0 B → 76.9 KiB |   0 → 3,137 | `write` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:147` |
+
+##### `maybe_record_alloc_to_profile` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43`)
+
+| Change |       Delta |             % |                Size |   Allocations | Caller                  | Location                                                                                                                                                                                                                                       |
+| -----: | ----------: | ------------: | ------------------: | ------------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    new | +19.464 KiB |  0.0% → 18.3% |      0 B → 19.5 KiB |         0 → 1 | `ijl_gc_managed_malloc` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:3944` |
+| +16.7% |  +4.671 KiB | 36.0% → 30.7% |   28 KiB → 32.7 KiB |     811 → 947 | `ijl_gc_small_alloc`    | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784`  |
+|  +8.8% |  +4.376 KiB | 64.0% → 51.0% | 49.9 KiB → 54.3 KiB | 2,597 → 2,621 | `jl_gc_alloc_`          | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:814`  |
+
+##### `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller  | Location                                                                                            |
+| -----: | ----------: | -----: | ---------------: | ------------: | ------- | --------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `write` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:37` |
+
+##### `write` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:37`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller           | Location                                                                                            |
+| -----: | ----------: | -----: | ---------------: | ------------: | ---------------- | --------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `write`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:37` |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `parse_workload` | `./profile.jl:18`                                                                                   |
+
+##### `parse_workload` (`./profile.jl:18`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller            | Location                                                                                                         |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82` |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Allocs.jl:82`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller          | Location          |
+| -----: | ----------: | -----: | ---------------: | ------------: | --------------- | ----------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `capture_alloc` | `./profile.jl:61` |
+
+##### `capture_alloc` (`./profile.jl:61`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller | Location          |
+| -----: | ----------: | -----: | ---------------: | ------------: | ------ | ----------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main` | `./profile.jl:90` |
+
+##### `main` (`./profile.jl:90`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller     | Location                                                                                                                                                                                                                                    |
+| -----: | ----------: | -----: | ---------------: | ------------: | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `main`     | `./profile.jl:90`                                                                                                                                                                                                                           |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_apply` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318` |
+
+##### `jl_apply` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/julia.h:2318`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller      | Location                                                                                                                                                                                                                                         |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `do_call`   | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123` |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `true_main` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:985`       |
+
+##### `do_call` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:123`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller            | Location                                                                                                                                                                                                                                         |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `eval_stmt_value` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:194` |
+
+##### `eval_stmt_value` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:194`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller      | Location                                                                                                                                                                                                                                         |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `eval_body` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:675` |
+
+##### `eval_body` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:675`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller                        | Location                                                                                                                                                                                                                                         |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_interpret_toplevel_thunk` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:884` |
+
+##### `jl_interpret_toplevel_thunk` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/interpreter.c:884`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller               | Location    |
+| -----: | ----------: | -----: | ---------------: | ------------: | -------------------- | ----------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `[unknown function]` | `<unknown>` |
+
+##### `[unknown function]` (`<unknown>`)
+
+| Change |       Delta |            % |             Size |   Allocations | Caller                 | Location                                                                                     |
+| -----: | ----------: | -----------: | ---------------: | ------------: | ---------------------- | -------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `[unknown function]`   | `<unknown>`                                                                                  |
+| +36.6% | +28.513 KiB |       100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_system_image_data` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib`           |
+|    new |        +8 B | 0.0% → <0.1% |        0 B → 8 B |         0 → 1 | `BottomRF`             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:84` |
+
+##### `jl_system_image_data` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller                  | Location                                                                                                                                                                                                                                      |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_toplevel_eval_flex` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:742` |
+
+##### `jl_toplevel_eval_flex` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:742`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller                   | Location                                                                                                                                                                                                                                      |
+| -----: | ----------: | -----: | ---------------: | ------------: | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_eval_toplevel_stmts` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:585` |
+
+##### `jl_toplevel_eval_flex` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:683`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller              | Location                                                                                                                                                                                                                                      |
+| -----: | ----------: | -----: | ---------------: | ------------: | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `ijl_toplevel_eval` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:754` |
+
+##### `jl_eval_toplevel_stmts` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:585`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller                  | Location                                                                                                                                                                                                                                      |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_toplevel_eval_flex` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:683` |
+
+##### `ijl_toplevel_eval` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:754`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller                 | Location                                                                                                                                                                                                                                      |
+| -----: | ----------: | -----: | ---------------: | ------------: | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `ijl_toplevel_eval_in` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:799` |
+
+##### `ijl_toplevel_eval_in` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/toplevel.c:799`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller                  | Location                                                                                    |
+| -----: | ----------: | -----: | ---------------: | ------------: | ----------------------- | ------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `eval(::Module, ::Any)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489` |
+
+##### `true_main` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:985`)
+
+| Change |       Delta |      % |             Size |   Allocations | Caller               | Location                                                                                                                                                                                                                                    |
+| -----: | ----------: | -----: | ---------------: | ------------: | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +36.6% | +28.513 KiB | 100.0% | 78 KiB → 106 KiB | 3,408 → 3,569 | `jl_repl_entrypoint` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/jlapi.c:1152` |
+
+##### `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:340`)
+
+| Change |       Delta |             % |           Size | Allocations | Caller                                                                         | Location                                                                                                  |
+| -----: | ----------: | ------------: | -------------: | ----------: | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+|    new | +24.996 KiB | 0.0% → 100.0% |   0 B → 25 KiB |     0 → 178 | `#write#79`                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73`       |
+|    new | +19.464 KiB |  0.0% → 77.9% | 0 B → 19.5 KiB |       0 → 1 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:340` |
+
+##### `jl_alloc_genericmemory_unchecked` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:38`)
+
+| Change |       Delta |             % |           Size | Allocations | Caller          | Location                                                                                    |
+| -----: | ----------: | ------------: | -------------: | ----------: | --------------- | ------------------------------------------------------------------------------------------- |
+|    new | +19.464 KiB | 0.0% → 100.0% | 0 B → 19.5 KiB |       0 → 1 | `GenericMemory` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:588` |
+
+##### `ijl_gc_managed_malloc` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:3944`)
+
+| Change |       Delta |             % |           Size | Allocations | Caller                             | Location                                                                                                                                                                                                                                          |
+| -----: | ----------: | ------------: | -------------: | ----------: | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    new | +19.464 KiB | 0.0% → 100.0% | 0 B → 19.5 KiB |       0 → 1 | `jl_alloc_genericmemory_unchecked` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:38` |
+
+##### `ijl_gc_small_alloc` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784`)
+
+|  Change |      Delta |             % |                Size | Allocations | Caller                                                                         | Location                                                                                                  |
+| ------: | ---------: | ------------: | ------------------: | ----------: | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+|     new | +5.531 KiB |  0.0% → 16.9% |      0 B → 5.53 KiB |     0 → 177 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:340` |
+| removed | -5.218 KiB |  18.6% → 0.0% |      5.22 KiB → 0 B |     167 → 0 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:340` |
+|     new | +3.593 KiB |  0.0% → 11.0% |      0 B → 3.59 KiB |     0 → 115 | `_foldl_impl`                                                                  | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:54`              |
+| removed | -3.562 KiB |  12.7% → 0.0% |      3.56 KiB → 0 B |     114 → 0 | `_foldl_impl`                                                                  | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:61`              |
+|  +43.0% | +1.625 KiB | 13.5% → 16.5% | 3.78 KiB → 5.41 KiB |   121 → 173 | `indexed_iterate`                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`              |
+
+##### `jl_gc_alloc_` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:814`)
+
+| Change |     Delta |             % |                Size | Allocations | Caller                             | Location                                                                                                                                                                                                                                           |
+| -----: | --------: | ------------: | ------------------: | ----------: | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +19.6% | +4.14 KiB | 42.3% → 46.5% | 21.1 KiB → 25.3 KiB |   129 → 155 | `jl_alloc_genericmemory_unchecked` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:41`  |
+|  +4.9% |    +386 B | 15.5% → 14.9% | 7.74 KiB → 8.11 KiB |   235 → 248 | `ijl_alloc_string`                 | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/array.c:300`         |
+|  -0.8% |     -56 B | 13.7% → 12.5% | 6.83 KiB → 6.77 KiB |   431 → 423 | `arg_tuple`                        | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/builtins.c:948`      |
+| -20.0% |     -48 B |   0.5% → 0.3% |       240 B → 192 B |      10 → 8 | `jl_string_to_genericmemory`       | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:110` |
+|  -4.1% |     -24 B |   1.2% → 1.0% |       592 B → 568 B |     74 → 71 | `ijl_box_uint64`                   | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1557`     |
+
+##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:61`)
+
+|  Change |       Delta |             % |         Size | Allocations | Caller       | Location                                                                                     |
+| ------: | ----------: | ------------: | -----------: | ----------: | ------------ | -------------------------------------------------------------------------------------------- |
+| removed | -19.047 KiB | 100.0% → 0.0% | 19 KiB → 0 B |     359 → 0 | `foldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+
+##### `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:340`)
+
+|  Change |     Delta |             % |           Size | Allocations | Caller                                                                         | Location                                                                                                  |
+| ------: | --------: | ------------: | -------------: | ----------: | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| removed | -5.25 KiB | 100.0% → 0.0% | 5.25 KiB → 0 B |     168 → 0 | `#write#79`                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157`      |
+| removed |     -32 B |   0.6% → 0.0% |     32 B → 0 B |       1 → 0 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:340` |
+
+##### `StringMemory` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:167`)
+
+| Change |  Delta |      % |             Size | Allocations | Caller         | Location                                                                                        |
+| -----: | -----: | -----: | ---------------: | ----------: | -------------- | ----------------------------------------------------------------------------------------------- |
+| -50.3% | -971 B | 100.0% | 1.89 KiB → 961 B |     19 → 14 | `StringVector` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:168` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:193`)
+
+| Change |  Delta |      % |                Size | Allocations | Caller     | Location                                                                                             |
+| -----: | -----: | -----: | ------------------: | ----------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+| -45.6% | -939 B | 100.0% | 2.01 KiB → 1.09 KiB |     23 → 19 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218` |
+
+##### `StringVector` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:168`)
+
+| Change |  Delta |      % |                Size | Allocations | Caller                            | Location                                                                                              |
+| -----: | -----: | -----: | ------------------: | ----------: | --------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| -45.6% | -939 B | 100.0% | 2.01 KiB → 1.09 KiB |     23 → 19 | `unescape(::JSON3.PointerString)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/strings.jl:48` |
+
+##### `unescape(::JSON3.PointerString)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/strings.jl:48`)
+
+| Change |  Delta |      % |                Size | Allocations | Caller     | Location                                                                                             |
+| -----: | -----: | -----: | ------------------: | ----------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+| -45.6% | -939 B | 100.0% | 2.01 KiB → 1.09 KiB |     23 → 19 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:193` |
+
+##### `_string_n` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:136`)
+
+| Change |  Delta |      % |             Size | Allocations | Caller         | Location                                                                                        |
+| -----: | -----: | -----: | ---------------: | ----------: | -------------- | ----------------------------------------------------------------------------------------------- |
+| -54.6% | -923 B | 100.0% | 1.65 KiB → 769 B |       9 → 6 | `StringMemory` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iobuffer.jl:167` |
+
+##### `write(::StructTypes.BoolType, ::Vector{UInt8}, ::Int64, ::Int64, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:209`)
+
+|  Change |  Delta |             % |        Size | Allocations | Caller      | Location                                                                                             |
+| ------: | -----: | ------------: | ----------: | ----------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| removed | -768 B | 100.0% → 0.0% | 768 B → 0 B |      24 → 0 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+
+##### `write(::StructTypes.NullType, ::Vector{UInt8}, ::Int64, ::Int64, ::Nothing)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:203`)
+
+|  Change |  Delta |             % |        Size | Allocations | Caller      | Location                                                                                             |
+| ------: | -----: | ------------: | ----------: | ----------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| removed | -608 B | 100.0% → 0.0% | 608 B → 0 B |      19 → 0 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+
+##### `write(::StructTypes.NumberType, ::Vector{UInt8}, ::Int64, ::Int64, ::Int64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:224`)
+
+|  Change |  Delta |             % |        Size | Allocations | Caller      | Location                                                                                             |
+| ------: | -----: | ------------: | ----------: | ----------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| removed | -416 B | 100.0% → 0.0% | 416 B → 0 B |      13 → 0 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+
+##### `add_sum(::UInt64, ::UInt64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:19`)
+
+|  Change |  Delta |             % |        Size | Allocations | Caller     | Location                                                                                     |
+| ------: | -----: | ------------: | ----------: | ----------: | ---------- | -------------------------------------------------------------------------------------------- |
+| removed | -312 B | 100.0% → 0.0% | 312 B → 0 B |      39 → 0 | `BottomRF` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:84` |
+
+##### `ijl_new_bits` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1138`)
+
+| Change | Delta |      % |                Size | Allocations | Caller              | Location                                                                                                                                                                                                                                       |
+| -----: | ----: | -----: | ------------------: | ----------: | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -1.3% | -88 B | 100.0% | 6.53 KiB → 6.45 KiB |   836 → 825 | `ijl_get_nth_field` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1858` |
+
+##### `ijl_get_nth_field` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1858`)
+
+| Change | Delta |      % |                Size | Allocations | Caller                      | Location                                                                                                                                                                                                                                       |
+| -----: | ----: | -----: | ------------------: | ----------: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -1.3% | -88 B | 100.0% | 6.53 KiB → 6.45 KiB |   836 → 825 | `ijl_get_nth_field_checked` | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1874` |
+
+##### `ijl_get_nth_field_checked` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1874`)
+
+|  Change |      Delta |             % |                Size | Allocations | Caller                                                                    | Location                                                                                             |
+| ------: | ---------: | ------------: | ------------------: | ----------: | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+|     new | +2.312 KiB |  0.0% → 35.9% |      0 B → 2.31 KiB |     0 → 296 | `#write#79`                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73`  |
+| removed | -2.054 KiB |  31.5% → 0.0% |      2.05 KiB → 0 B |     263 → 0 | `#write#79`                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+|   -9.8% |     -224 B | 34.1% → 31.2% | 2.23 KiB → 2.01 KiB |   285 → 257 | `indexed_iterate`                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`         |
+|   -5.6% |     -128 B | 34.4% → 33.0% | 2.25 KiB → 2.13 KiB |   288 → 272 | `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`         |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:216`)
+
+| Change | Delta |      % |                Size | Allocations | Caller    | Location                                                                                            |
+| -----: | ----: | -----: | ------------------: | ----------: | --------- | --------------------------------------------------------------------------------------------------- |
+|  -3.4% | -80 B | 100.0% | 2.31 KiB → 2.23 KiB |     50 → 49 | `iterate` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81` |
+
+##### `getvalue(::Type{JSON3.Array}, ::Base.CodeUnits{UInt8, String}, ::SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}, ::Int64, ::UInt64)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:131`)
+
+| Change | Delta |      % |                Size | Allocations | Caller     | Location                                                                                             |
+| -----: | ----: | -----: | ------------------: | ----------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+|  -3.4% | -80 B | 100.0% | 2.31 KiB → 2.23 KiB |     50 → 49 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:216` |
+
+##### `array_new_memory` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1101`)
+
+| Change | Delta |      % |          Size | Allocations | Caller                                                  | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ----------: | ------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| -25.0% | -80 B | 100.0% | 320 B → 240 B |       8 → 6 | `_growend_internal!(::Vector{Int64}, ::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1158` |
+
+##### `_growend_internal!(::Vector{Int64}, ::Int64, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1158`)
+
+| Change | Delta |      % |          Size | Allocations | Caller      | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ----------: | ----------- | --------------------------------------------------------------------------------------------- |
+| -25.0% | -80 B | 100.0% | 320 B → 240 B |       8 → 6 | `_growend!` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1205` |
+
+##### `_growend!` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1205`)
+
+| Change | Delta |      % |          Size | Allocations | Caller                              | Location                                                                                      |
+| -----: | ----: | -----: | ------------: | ----------: | ----------------------------------- | --------------------------------------------------------------------------------------------- |
+| -25.0% | -80 B | 100.0% | 320 B → 240 B |       8 → 6 | `resize!(::Vector{Int64}, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1533` |
+
+##### `resize!(::Vector{Int64}, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1533`)
+
+| Change | Delta |      % |          Size | Allocations | Caller          | Location                                                                                            |
+| -----: | ----: | -----: | ------------: | ----------: | --------------- | --------------------------------------------------------------------------------------------------- |
+| -25.0% | -80 B | 100.0% | 320 B → 240 B |       8 → 6 | `populateinds!` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:64` |
+
+##### `write(::StructTypes.ArrayType, ::Vector{UInt8}, ::Int64, ::Int64, ::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:181`)
+
+|  Change | Delta |             % |       Size | Allocations | Caller      | Location                                                                                             |
+| ------: | ----: | ------------: | ---------: | ----------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| removed | -64 B | 100.0% → 0.0% | 64 B → 0 B |       2 → 0 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+
+##### `arg_tuple` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/builtins.c:948`)
+
+|  Change |  Delta |             % |                Size | Allocations | Caller                                                                    | Location                                                                                             |
+| ------: | -----: | ------------: | ------------------: | ----------: | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+|     new | +360 B |   0.0% → 5.2% |         0 B → 360 B |      0 → 15 | `#write#79`                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73`  |
+| removed | -240 B |   3.4% → 0.0% |         240 B → 0 B |      10 → 0 | `#write#79`                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+|  -10.3% | -224 B | 31.1% → 28.1% | 2.13 KiB → 1.91 KiB |   136 → 122 | `indexed_iterate`                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`         |
+| +400.0% |  +96 B |   0.3% → 1.7% |        24 B → 120 B |       1 → 5 | `#write#81`                                                               | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:60`  |
+|   -1.1% |  -48 B | 64.8% → 64.6% | 4.42 KiB → 4.38 KiB |   283 → 280 | `indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`         |
+
+##### `+(::Int64, ::Int64)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib:87`)
+
+|  Change |      Delta |            % |           Size | Allocations | Caller      | Location                                                                                             |
+| ------: | ---------: | -----------: | -------------: | ----------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+|     new | +4.078 KiB | 0.0% → 96.7% | 0 B → 4.08 KiB |     0 → 522 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73`  |
+| removed | -4.062 KiB | 95.2% → 0.0% | 4.06 KiB → 0 B |     520 → 0 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157` |
+|  -70.0% |      -56 B |  1.8% → 0.6% |    80 B → 24 B |      10 → 3 | `#write#81` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`  |
+|   -6.3% |       -8 B |  2.9% → 2.8% |  128 B → 120 B |     16 → 15 | `#write#81` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:60`  |
+
+##### `jl_string_to_genericmemory` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/genericmemory.c:110`)
+
+| Change | Delta |      % |          Size | Allocations | Caller        | Location                                                                                              |
+| -----: | ----: | -----: | ------------: | ----------: | ------------- | ----------------------------------------------------------------------------------------------------- |
+| -20.0% | -48 B | 100.0% | 240 B → 192 B |      10 → 8 | `unsafe_wrap` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:147` |
+
+##### `ijl_box_uint64` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1557`)
+
+|  Change |  Delta |             % |          Size | Allocations | Caller                        | Location                                                                                                 |
+| ------: | -----: | ------------: | ------------: | ----------: | ----------------------------- | -------------------------------------------------------------------------------------------------------- |
+|     new | +368 B |  0.0% → 64.8% |   0 B → 368 B |      0 → 46 | `add_sum(::UInt64, ::UInt64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:19` |
+| removed | -312 B |  52.7% → 0.0% |   312 B → 0 B |      39 → 0 | `add_sum(::UInt64, ::UInt64)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_MTeCI.dylib:19` |
+|  -34.3% |  -96 B | 47.3% → 32.4% | 280 B → 184 B |     35 → 23 | `BottomRF`                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:84`             |
+|     new |  +16 B |   0.0% → 2.8% |    0 B → 16 B |       0 → 2 | `+(::UInt64, ::UInt64)`       | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib:87`                    |
+
+##### `ijl_box_int64` (`/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1556`)
+
+|  Change |  Delta |             % |                Size | Allocations | Caller                | Location                                                                                                                                                                                                                                       |
+| ------: | -----: | ------------: | ------------------: | ----------: | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   +5.1% | +112 B | 15.8% → 16.7% | 2.13 KiB → 2.23 KiB |   272 → 286 | `-(::Int64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/lib/julia/sys.dylib:86`                                                                                                                                                          |
+| removed | -104 B |   0.8% → 0.0% |         104 B → 0 B |      13 → 0 | `#write#79`           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/write.jl:157`                                                                                                                                           |
+|   -1.3% |  -88 B | 48.7% → 48.1% | 6.53 KiB → 6.45 KiB |   836 → 825 | `ijl_new_bits`        | `/Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1138` |
+|     new |  +88 B |   0.0% → 0.6% |          0 B → 88 B |      0 → 11 | `#write#79`           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73`                                                                                                                                            |
+|  +40.9% |  +72 B |   1.3% → 1.8% |       176 B → 248 B |     22 → 31 | `iterate`             | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75`                                                                                                                                            |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

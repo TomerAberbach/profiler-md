@@ -382,6 +382,138 @@ Categories accounting for at least 1.0% of self time.
 | 14.2% | 490.0ms |      49 | `encoding/json.(*encodeState).reflectValue`    | `encoding/json/encode.go:366`  |
 | 14.2% | 490.0ms |      49 | `encoding/json.interfaceEncoder`               | `encoding/json/encode.go:695`  |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`)
+
+|      % |  Time | Samples | Caller      | Location                                                   |
+| -----: | ----: | ------: | ----------- | ---------------------------------------------------------- |
+| 100.0% | 1.51s |     151 | `main.main` | `github.com/tomeraberbach/profiler-md-workload/main.go:12` |
+
+##### `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`)
+
+|      % |  Time | Samples | Caller         | Location              |
+| -----: | ----: | ------: | -------------- | --------------------- |
+| 100.0% | 1.51s |     151 | `runtime.main` | `runtime/proc.go:149` |
+
+##### `runtime.systemstack` (`runtime/asm_arm64.s:353`)
+
+|    % |    Time | Samples | Caller                   | Location                |
+| ---: | ------: | ------: | ------------------------ | ----------------------- |
+| 7.8% | 100.0ms |      10 | `runtime.gcBgMarkWorker` | `runtime/mgc.go:1750`   |
+| 1.6% |  20.0ms |       2 | `runtime.(*mheap).alloc` | `runtime/mheap.go:1006` |
+| 0.8% |  10.0ms |       1 | `runtime.wbBufFlush`     | `runtime/mwbbuf.go:166` |
+
+##### `encoding/json.Unmarshal` (`encoding/json/decode.go:102`)
+
+|      % |  Time | Samples | Caller                                                            | Location                                                                 |
+| -----: | ----: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 100.0% | 1.02s |     102 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11` |
+
+##### `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`)
+
+|     % |    Time | Samples | Caller                         | Location                |
+| ----: | ------: | ------: | ------------------------------ | ----------------------- |
+| 98.5% | 660.0ms |      66 | `runtime.(*mheap).alloc.func1` | `runtime/mheap.go:1011` |
+|  1.5% |  10.0ms |       1 | `runtime.(*mheap).allocManual` | `runtime/mheap.go:1039` |
+
+##### `runtime.(*mheap).alloc.func1` (`runtime/mheap.go:1011`)
+
+|      % |    Time | Samples | Caller                | Location                  |
+| -----: | ------: | ------: | --------------------- | ------------------------- |
+| 100.0% | 660.0ms |      66 | `runtime.systemstack` | `runtime/asm_arm64.s:353` |
+
+##### `runtime.madvise` (`runtime/sys_darwin.go:224`)
+
+|      % |    Time | Samples | Caller              | Location                   |
+| -----: | ------: | ------: | ------------------- | -------------------------- |
+| 100.0% | 650.0ms |      65 | `runtime.sysUsedOS` | `runtime/mem_darwin.go:29` |
+
+##### `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`)
+
+|      % |    Time | Samples | Caller            | Location            |
+| -----: | ------: | ------: | ----------------- | ------------------- |
+| 100.0% | 650.0ms |      65 | `runtime.sysUsed` | `runtime/mem.go:89` |
+
+##### `runtime.sysUsed` (`runtime/mem.go:89`)
+
+|      % |    Time | Samples | Caller                       | Location                |
+| -----: | ------: | ------: | ---------------------------- | ----------------------- |
+| 100.0% | 650.0ms |      65 | `runtime.(*mheap).allocSpan` | `runtime/mheap.go:1224` |
+
+##### `encoding/json.(*decodeState).objectInterface` (`encoding/json/decode.go:1078`)
+
+|      % |    Time | Samples | Caller                                        | Location                       |
+| -----: | ------: | ------: | --------------------------------------------- | ------------------------------ |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).object`         | `encoding/json/decode.go:604`  |
+
+##### `encoding/json.(*decodeState).valueInterface` (`encoding/json/decode.go:1035`)
+
+|      % |    Time | Samples | Caller                                         | Location                       |
+| -----: | ------: | ------: | ---------------------------------------------- | ------------------------------ |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).arrayInterface`  | `encoding/json/decode.go:1052` |
+
+##### `encoding/json.(*decodeState).arrayInterface` (`encoding/json/decode.go:1052`)
+
+|      % |    Time | Samples | Caller                                        | Location                       |
+| -----: | ------: | ------: | --------------------------------------------- | ------------------------------ |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
+
+##### `encoding/json.(*decodeState).object` (`encoding/json/decode.go:604`)
+
+|      % |    Time | Samples | Caller                               | Location                      |
+| -----: | ------: | ------: | ------------------------------------ | ----------------------------- |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).value` | `encoding/json/decode.go:363` |
+
+##### `encoding/json.(*decodeState).value` (`encoding/json/decode.go:363`)
+
+|      % |    Time | Samples | Caller                                   | Location                      |
+| -----: | ------: | ------: | ---------------------------------------- | ----------------------------- |
+| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).unmarshal` | `encoding/json/decode.go:173` |
+
+##### `encoding/json.(*decodeState).unmarshal` (`encoding/json/decode.go:173`)
+
+|      % |    Time | Samples | Caller                    | Location                      |
+| -----: | ------: | ------: | ------------------------- | ----------------------------- |
+| 100.0% | 550.0ms |      55 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
+
+##### `runtime.schedule` (`runtime/proc.go:4135`)
+
+|     % |    Time | Samples | Caller                | Location               |
+| ----: | ------: | ------: | --------------------- | ---------------------- |
+| 96.2% | 510.0ms |      51 | `runtime.park_m`      | `runtime/proc.go:4253` |
+|  3.8% |  20.0ms |       2 | `runtime.goschedImpl` | `runtime/proc.go:4307` |
+
+##### `runtime.park_m` (`runtime/proc.go:4253`)
+
+|      % |    Time | Samples | Caller          | Location                  |
+| -----: | ------: | ------: | --------------- | ------------------------- |
+| 100.0% | 510.0ms |      51 | `runtime.mcall` | `runtime/asm_arm64.s:302` |
+
+##### `runtime.findRunnable` (`runtime/proc.go:3389`)
+
+|      % |    Time | Samples | Caller             | Location               |
+| -----: | ------: | ------: | ------------------ | ---------------------- |
+| 100.0% | 500.0ms |      50 | `runtime.schedule` | `runtime/proc.go:4135` |
+
+##### `encoding/json.(*encodeState).reflectValue` (`encoding/json/encode.go:366`)
+
+|      % |    Time | Samples | Caller                                 | Location                      |
+| -----: | ------: | ------: | -------------------------------------- | ----------------------------- |
+| 100.0% | 490.0ms |      49 | `encoding/json.interfaceEncoder`       | `encoding/json/encode.go:695` |
+| 100.0% | 490.0ms |      49 | `encoding/json.(*encodeState).marshal` | `encoding/json/encode.go:333` |
+
+##### `encoding/json.interfaceEncoder` (`encoding/json/encode.go:695`)
+
+|      % |    Time | Samples | Caller                              | Location                      |
+| -----: | ------: | ------: | ----------------------------------- | ----------------------------- |
+| 100.0% | 490.0ms |      49 | `encoding/json.mapEncoder.encode`   | `encoding/json/encode.go:765` |
+| 100.0% | 490.0ms |      49 | `encoding/json.arrayEncoder.encode` | `encoding/json/encode.go:883` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

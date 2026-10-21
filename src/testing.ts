@@ -183,10 +183,37 @@ const categoryTablesIn = (nodes: readonly Node[]): Record<string, Table> => {
   return tables
 }
 
-export const callersTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseMd(md), `Callers`)
-  return allTablesAfterHeadingContaining(under, fn)
+/**
+ * The tables of a function's callers under the first self ranking, which is
+ * every `Callers` section before the first total ranking.
+ */
+export const callersTables = (md: string, fn: string): Table[] =>
+  allTablesAfterHeadingContaining(
+    nodesUnderHeadingIn(rankingNodes(md, `self`), `Callers`),
+    fn,
+  )
+
+/** The tables of a function's callers under the first total ranking. */
+export const totalCallersTables = (md: string, fn: string): Table[] =>
+  allTablesAfterHeadingContaining(
+    nodesUnderHeadingIn(rankingNodes(md, `total`), `Callers`),
+    fn,
+  )
+
+/**
+ * The nodes before the first total ranking heading, or the nodes from it on.
+ */
+const rankingNodes = (md: string, ranking: `self` | `total`): Node[] => {
+  const nodes = parseMd(md).children
+  const total = nodes.findIndex(isTotalRankingHeading)
+  if (total === -1) {
+    return ranking === `self` ? nodes : []
+  }
+  return ranking === `self` ? nodes.slice(0, total) : nodes.slice(total)
 }
+
+const isTotalRankingHeading = (node: Node): boolean =>
+  node.type === `heading` && nodeText(node).startsWith(`Total `)
 
 export const calleesTables = (md: string, fn: string): Table[] => {
   const under = nodesUnderHeading(parseMd(md), `Callees`)

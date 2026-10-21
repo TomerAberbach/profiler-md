@@ -726,6 +726,371 @@ Categories accounting for at least 1.0% of self samples.
 |  2.5% |     126 | `wait(long)`                                              | `java.lang.Object`                            |
 |  2.5% |     126 | `wait()`                                                  | `java.lang.Object`                            |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `_pthread_start` (`libsystem_pthread.dylib`)
+
+|      % | Samples | Caller         | Location                  |
+| -----: | ------: | -------------- | ------------------------- |
+| 100.0% |   2,869 | `thread_start` | `libsystem_pthread.dylib` |
+
+##### `Thread::call_run` (`libjvm.dylib`)
+
+|      % | Samples | Caller                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |   2,742 | `thread_native_entry` | `libjvm.dylib` |
+
+##### `thread_native_entry` (`libjvm.dylib`)
+
+|      % | Samples | Caller           | Location                  |
+| -----: | ------: | ---------------- | ------------------------- |
+| 100.0% |   2,742 | `_pthread_start` | `libsystem_pthread.dylib` |
+
+##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                  | Location                 |
+| ----: | ------: | ----------------------- | ------------------------ |
+| 54.6% |   1,406 | `PlatformMonitor::wait` | `libjvm.dylib`           |
+| 35.7% |     919 | `Parker::park`          | `libjvm.dylib`           |
+|  4.9% |     126 | `PlatformEvent::park`   | `libjvm.dylib`           |
+|  4.9% |     126 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
+
+##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller  | Location                                    |
+| -----: | ------: | ------- | ------------------------------------------- |
+| 100.0% |   1,613 | `run()` | `java.util.concurrent.ForkJoinWorkerThread` |
+
+##### `PlatformMonitor::wait` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                  | Location       |
+| ----: | ------: | --------------------------------------- | -------------- |
+| 71.1% |   1,000 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+| 28.9% |     406 | `Monitor::wait`                         | `libjvm.dylib` |
+
+##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                           | Location       |
+| ----: | ------: | -------------------------------- | -------------- |
+| 89.0% |   1,193 | `WorkerThread::run`              | `libjvm.dylib` |
+|  9.4% |     126 | `os::signal_wait`                | `libjvm.dylib` |
+|  1.4% |      19 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
+|  0.1% |       2 | `WorkerThreads::run_task`        | `libjvm.dylib` |
+
+##### `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`)
+
+|     % | Samples | Caller   | Location                            |
+| ----: | ------: | -------- | ----------------------------------- |
+| 91.0% |   1,144 | `join()` | `java.util.concurrent.ForkJoinTask` |
+|  9.0% |     113 | `get()`  | `java.util.concurrent.ForkJoinTask` |
+
+##### `WorkerThread::run` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |   1,200 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller                              | Location                            |
+| -----: | ------: | ----------------------------------- | ----------------------------------- |
+| 100.0% |   1,182 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
+
+##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Caller                                                    | Location                                      |
+| -----: | ------: | --------------------------------------------------------- | --------------------------------------------- |
+| 100.0% |   1,181 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)`      | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  85.5% |   1,010 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  22.7% |     268 | `invoke()`                                                | `java.util.concurrent.ForkJoinTask`           |
+|  21.6% |     255 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
+
+##### `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|      % | Samples | Caller                                   | Location                            |
+| -----: | ------: | ---------------------------------------- | ----------------------------------- |
+| 100.0% |   1,181 | `scan(ForkJoinPool$WorkQueue, int, int)` | `java.util.concurrent.ForkJoinPool` |
+
+##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|      % | Samples | Caller   | Location                             |
+| -----: | ------: | -------- | ------------------------------------ |
+| 100.0% |   1,179 | `exec()` | `java.util.concurrent.RecursiveTask` |
+
+##### `exec()` (`java.util.concurrent.RecursiveTask`)
+
+|      % | Samples | Caller     | Location                            |
+| -----: | ------: | ---------- | ----------------------------------- |
+| 100.0% |   1,179 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `join()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |   1,144 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `tryRemoveAndExec(ForkJoinTask, boolean)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|      % | Samples | Caller                 | Location                            |
+| -----: | ------: | ---------------------- | ----------------------------------- |
+| 100.0% |   1,010 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+
+##### `Monitor::wait_without_safepoint_check` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                        | Location       |
+| ----: | ------: | ------------------------------------------------------------- | -------------- |
+| 12.6% |     126 | `ServiceThread::service_thread_entry`                         | `libjvm.dylib` |
+| 12.6% |     126 | `G1ConcurrentMarkThread::run_service`                         | `libjvm.dylib` |
+| 12.6% |     126 | `MonitorDeflationThread::monitor_deflation_thread_entry`      | `libjvm.dylib` |
+| 12.5% |     125 | `WatcherThread::sleep`                                        | `libjvm.dylib` |
+| 12.5% |     125 | `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` | `libjvm.dylib` |
+
+##### `Unsafe_Park` (`libjvm.dylib`)
+
+|      % | Samples | Caller                | Location                   |
+| -----: | ------: | --------------------- | -------------------------- |
+| 100.0% |     922 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+
+##### `park(boolean, long)` (`jdk.internal.misc.Unsafe`)
+
+|     % | Samples | Caller                    | Location                                 |
+| ----: | ------: | ------------------------- | ---------------------------------------- |
+| 84.3% |     777 | `park()`                  | `java.util.concurrent.locks.LockSupport` |
+| 13.6% |     125 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
+|  2.2% |      20 | `parkUntil(long)`         | `java.util.concurrent.locks.LockSupport` |
+
+##### `Parker::park` (`libjvm.dylib`)
+
+|      % | Samples | Caller        | Location       |
+| -----: | ------: | ------------- | -------------- |
+| 100.0% |     921 | `Unsafe_Park` | `libjvm.dylib` |
+
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |     912 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `park()` (`java.util.concurrent.locks.LockSupport`)
+
+|     % | Samples | Caller                              | Location                            |
+| ----: | ------: | ----------------------------------- | ----------------------------------- |
+| 52.8% |     410 | `awaitWork(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
+| 47.2% |     367 | `awaitDone(int, long)`              | `java.util.concurrent.ForkJoinTask` |
+
+##### `awaitWork(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller                              | Location                            |
+| -----: | ------: | ----------------------------------- | ----------------------------------- |
+| 100.0% |     431 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
+
+##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller              | Location                                                   |
+| -----: | ------: | ------------------- | ---------------------------------------------------------- |
+| 100.0% |     420 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 100.0% |     420 | `compute()`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+
+##### `Monitor::wait` (`libjvm.dylib`)
+
+|     % | Samples | Caller                            | Location       |
+| ----: | ------: | --------------------------------- | -------------- |
+| 66.7% |     271 | `CompileQueue::get`               | `libjvm.dylib` |
+| 31.0% |     126 | `JVM_WaitForReferencePendingList` | `libjvm.dylib` |
+|  2.2% |       9 | `VMThread::wait_until_executed`   | `libjvm.dylib` |
+
+##### `vectorSum()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller              | Location                                                  |
+| -----: | ------: | ------------------- | --------------------------------------------------------- |
+| 100.0% |     396 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller              | Location                                                  |
+| -----: | ------: | ------------------- | --------------------------------------------------------- |
+| 100.0% |     396 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| 100.0% |     396 | `compute()`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`    |
+
+##### `ConcurrentGCThread::run` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |     378 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `findNearestCentroid()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller              | Location                                                   |
+| -----: | ------: | ------------------- | ---------------------------------------------------------- |
+| 100.0% |     331 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `accumulate(Double[], double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller        | Location                                                  |
+| -----: | ------: | ------------- | --------------------------------------------------------- |
+| 100.0% |     283 | `vectorSum()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `invoke()` (`java.util.concurrent.ForkJoinTask`)
+
+|     % | Samples | Caller                         | Location                                               |
+| ----: | ------: | ------------------------------ | ------------------------------------------------------ |
+| 73.5% |     197 | `average(List)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 42.5% |     114 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans`            |
+
+##### `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller                 | Location                            |
+| -----: | ------: | ---------------------- | ----------------------------------- |
+| 100.0% |     263 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+
+##### `JLI_Launch` (`libjli.dylib`)
+
+|      % | Samples | Caller | Location |
+| -----: | ------: | ------ | -------- |
+| 100.0% |     252 | `main` | `java`   |
+
+##### `main` (`java`)
+
+|     % | Samples | Caller       | Location       |
+| ----: | ------: | ------------ | -------------- |
+| 50.0% |     126 | `unknown`    | `<unknown>`    |
+| 50.0% |     126 | `apple_main` | `libjli.dylib` |
+
+##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller                  | Location                                                   |
+| -----: | ------: | ----------------------- | ---------------------------------------------------------- |
+| 100.0% |     226 | `findNearestCentroid()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `computeClusterAverages()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % | Samples | Caller              | Location                                               |
+| -----: | ------: | ------------------- | ------------------------------------------------------ |
+| 100.0% |     200 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % | Samples | Caller              | Location                                               |
+| -----: | ------: | ------------------- | ------------------------------------------------------ |
+| 100.0% |     200 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% |     200 | `compute()`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % | Samples | Caller                     | Location                                               |
+| -----: | ------: | -------------------------- | ------------------------------------------------------ |
+| 100.0% |     197 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `mach_msg2_trap` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller               | Location                 |
+| -----: | ------: | -------------------- | ------------------------ |
+| 100.0% |     126 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+
+##### `mach_msg_overwrite` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller     | Location                 |
+| -----: | ------: | ---------- | ------------------------ |
+| 100.0% |     126 | `mach_msg` | `libsystem_kernel.dylib` |
+
+##### `mach_msg` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller                       | Location         |
+| -----: | ------: | ---------------------------- | ---------------- |
+| 100.0% |     126 | `__CFRunLoopServiceMachPort` | `CoreFoundation` |
+
+##### `__CFRunLoopServiceMachPort` (`CoreFoundation`)
+
+|      % | Samples | Caller           | Location         |
+| -----: | ------: | ---------------- | ---------------- |
+| 100.0% |     126 | `__CFRunLoopRun` | `CoreFoundation` |
+
+##### `waitForReferencePendingList()` (`java.lang.ref.Reference`)
+
+|      % | Samples | Caller                       | Location                  |
+| -----: | ------: | ---------------------------- | ------------------------- |
+| 100.0% |     126 | `processPendingReferences()` | `java.lang.ref.Reference` |
+
+##### `processPendingReferences()` (`java.lang.ref.Reference`)
+
+|      % | Samples | Caller  | Location                                   |
+| -----: | ------: | ------- | ------------------------------------------ |
+| 100.0% |     126 | `run()` | `java.lang.ref.Reference$ReferenceHandler` |
+
+##### `wait0(long)` (`java.lang.Object`)
+
+|      % | Samples | Caller       | Location           |
+| -----: | ------: | ------------ | ------------------ |
+| 100.0% |     126 | `wait(long)` | `java.lang.Object` |
+
+##### `wait(long)` (`java.lang.Object`)
+
+|      % | Samples | Caller   | Location           |
+| -----: | ------: | -------- | ------------------ |
+| 100.0% |     126 | `wait()` | `java.lang.Object` |
+
+##### `wait()` (`java.lang.Object`)
+
+|      % | Samples | Caller    | Location                             |
+| -----: | ------: | --------- | ------------------------------------ |
+| 100.0% |     126 | `await()` | `java.lang.ref.NativeReferenceQueue` |
+
+##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |     125 | `main(String[])` | `org.renaissance.core.Launcher` |
+
+##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
+
+|      % | Samples | Caller                         | Location                                             |
+| -----: | ------: | ------------------------------ | ---------------------------------------------------- |
+| 100.0% |     124 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000000301004800` |
+
+##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
+
+|      % | Samples | Caller                                 | Location                        |
+| -----: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% |     124 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+
+##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|      % | Samples | Caller           | Location                                   |
+| -----: | ------: | ---------------- | ------------------------------------------ |
+| 100.0% |     123 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite` |
+
+##### `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|      % | Samples | Caller           | Location                                    |
+| -----: | ------: | ---------------- | ------------------------------------------- |
+| 100.0% |     121 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite$` |
+
+##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|      % | Samples | Caller              | Location                                                               |
+| -----: | ------: | ------------------- | ---------------------------------------------------------------------- |
+| 100.0% |     120 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000030111f208` |
+
+##### `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000030111f208`)
+
+|      % | Samples | Caller          | Location                             |
+| -----: | ------: | --------------- | ------------------------------------ |
+| 100.0% |     120 | `apply(Object)` | `scala.runtime.function.JProcedure1` |
+
+##### `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`)
+
+|      % | Samples | Caller                                                                                                                 | Location                                    |
+| -----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% |     119 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
+
+##### `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`)
+
+|      % | Samples | Caller               | Location                                  |
+| -----: | ------: | -------------------- | ----------------------------------------- |
+| 100.0% |     117 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

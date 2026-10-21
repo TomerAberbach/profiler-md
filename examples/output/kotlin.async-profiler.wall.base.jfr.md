@@ -444,6 +444,261 @@ Categories accounting for at least 1.0% of self samples.
 |  0.5% |      13 | `Matcher::match`                           | `libjvm.dylib` |
 |  0.5% |      13 | `GraphBuilder::GraphBuilder`               | `libjvm.dylib` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `_pthread_start` (`libsystem_pthread.dylib`)
+
+|      % | Samples | Caller         | Location                  |
+| -----: | ------: | -------------- | ------------------------- |
+| 100.0% |   2,251 | `thread_start` | `libsystem_pthread.dylib` |
+
+##### `Thread::call_run` (`libjvm.dylib`)
+
+|      % | Samples | Caller                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |   2,156 | `thread_native_entry` | `libjvm.dylib` |
+
+##### `thread_native_entry` (`libjvm.dylib`)
+
+|      % | Samples | Caller           | Location                  |
+| -----: | ------: | ---------------- | ------------------------- |
+| 100.0% |   2,156 | `_pthread_start` | `libsystem_pthread.dylib` |
+
+##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                  | Location                 |
+| ----: | ------: | ----------------------- | ------------------------ |
+| 78.4% |   1,018 | `PlatformMonitor::wait` | `libjvm.dylib`           |
+|  7.2% |      94 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
+|  7.2% |      94 | `PlatformEvent::park`   | `libjvm.dylib`           |
+|  7.2% |      93 | `Parker::park`          | `libjvm.dylib`           |
+
+##### `PlatformMonitor::wait` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                  | Location       |
+| ----: | ------: | --------------------------------------- | -------------- |
+| 73.3% |     747 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+| 26.7% |     272 | `Monitor::wait`                         | `libjvm.dylib` |
+
+##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                    | Location       |
+| ----: | ------: | ------------------------- | -------------- |
+| 90.0% |     881 | `WorkerThread::run`       | `libjvm.dylib` |
+|  9.6% |      94 | `os::signal_wait`         | `libjvm.dylib` |
+|  0.4% |       4 | `WorkerThreads::run_task` | `libjvm.dylib` |
+
+##### `WorkerThread::run` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |     887 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |     799 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `Monitor::wait_without_safepoint_check` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                        | Location       |
+| ----: | ------: | ------------------------------------------------------------- | -------------- |
+| 12.6% |      94 | `WatcherThread::sleep`                                        | `libjvm.dylib` |
+| 12.6% |      94 | `G1ServiceThread::wait_for_task`                              | `libjvm.dylib` |
+| 12.6% |      94 | `ServiceThread::service_thread_entry`                         | `libjvm.dylib` |
+| 12.6% |      94 | `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` | `libjvm.dylib` |
+| 12.6% |      94 | `MonitorDeflationThread::monitor_deflation_thread_entry`      | `libjvm.dylib` |
+
+##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
+
+|      % | Samples | Caller                          | Location       |
+| -----: | ------: | ------------------------------- | -------------- |
+| 100.0% |     330 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+
+##### `ConcurrentGCThread::run` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |     282 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `Monitor::wait` (`libjvm.dylib`)
+
+|     % | Samples | Caller                            | Location       |
+| ----: | ------: | --------------------------------- | -------------- |
+| 65.1% |     177 | `CompileQueue::get`               | `libjvm.dylib` |
+| 34.6% |      94 | `JVM_WaitForReferencePendingList` | `libjvm.dylib` |
+|  0.4% |       1 | `VMThread::wait_until_executed`   | `libjvm.dylib` |
+
+##### `JLI_Launch` (`libjli.dylib`)
+
+|      % | Samples | Caller | Location |
+| -----: | ------: | ------ | -------- |
+| 100.0% |     188 | `main` | `java`   |
+
+##### `main` (`java`)
+
+|     % | Samples | Caller       | Location       |
+| ----: | ------: | ------------ | -------------- |
+| 50.0% |      94 | `unknown`    | `<unknown>`    |
+| 50.0% |      94 | `apple_main` | `libjli.dylib` |
+
+##### `CompileQueue::get` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                | Location       |
+| -----: | ------: | ------------------------------------- | -------------- |
+| 100.0% |     177 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+
+##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                | Location       |
+| -----: | ------: | ------------------------------------- | -------------- |
+| 100.0% |     153 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+
+##### `Compile::Compile` (`libjvm.dylib`)
+
+|      % | Samples | Caller                       | Location       |
+| -----: | ------: | ---------------------------- | -------------- |
+| 100.0% |      99 | `C2Compiler::compile_method` | `libjvm.dylib` |
+
+##### `C2Compiler::compile_method` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |      99 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+
+##### `unknown` (`<unknown>`)
+
+|    % | Samples | Caller                  | Location                 |
+| ---: | ------: | ----------------------- | ------------------------ |
+| 1.1% |       1 | `unknown`               | `<unknown>`              |
+| 1.1% |       1 | `Profiler::dlopen_hook` | `libasyncProfiler.dylib` |
+
+##### `mach_msg2_trap` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller               | Location                 |
+| -----: | ------: | -------------------- | ------------------------ |
+| 100.0% |      94 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+
+##### `mach_msg_overwrite` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller     | Location                 |
+| -----: | ------: | ---------- | ------------------------ |
+| 100.0% |      94 | `mach_msg` | `libsystem_kernel.dylib` |
+
+##### `mach_msg` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller                       | Location         |
+| -----: | ------: | ---------------------------- | ---------------- |
+| 100.0% |      94 | `__CFRunLoopServiceMachPort` | `CoreFoundation` |
+
+##### `__CFRunLoopServiceMachPort` (`CoreFoundation`)
+
+|      % | Samples | Caller           | Location         |
+| -----: | ------: | ---------------- | ---------------- |
+| 100.0% |      94 | `__CFRunLoopRun` | `CoreFoundation` |
+
+##### `__CFRunLoopRun` (`CoreFoundation`)
+
+|      % | Samples | Caller                 | Location         |
+| -----: | ------: | ---------------------- | ---------------- |
+| 100.0% |      94 | `CFRunLoopRunSpecific` | `CoreFoundation` |
+
+##### `Compilation::compile_method` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |      52 | `Compilation::Compilation` | `libjvm.dylib` |
+
+##### `Compilation::Compilation` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |      52 | `Compiler::compile_method` | `libjvm.dylib` |
+
+##### `Compile::Code_Gen` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      49 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `Compilation::compile_java_method` (`libjvm.dylib`)
+
+|      % | Samples | Caller                        | Location       |
+| -----: | ------: | ----------------------------- | -------------- |
+| 100.0% |      47 | `Compilation::compile_method` | `libjvm.dylib` |
+
+##### `Compile::Optimize` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      37 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
+
+|      % | Samples | Caller              | Location       |
+| -----: | ------: | ------------------- | -------------- |
+| 100.0% |      22 | `Compile::Code_Gen` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
+
+|     % | Samples | Caller                    | Location       |
+| ----: | ------: | ------------------------- | -------------- |
+| 52.6% |      10 | `Compile::optimize_loops` | `libjvm.dylib` |
+| 47.4% |       9 | `Compile::Optimize`       | `libjvm.dylib` |
+
+##### `Compilation::emit_lir` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |      19 | `Compilation::compile_java_method` | `libjvm.dylib` |
+
+##### `Compilation::build_hir` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |      18 | `Compilation::compile_java_method` | `libjvm.dylib` |
+
+##### `LinearScan::do_linear_scan` (`libjvm.dylib`)
+
+|      % | Samples | Caller                  | Location       |
+| -----: | ------: | ----------------------- | -------------- |
+| 100.0% |      18 | `Compilation::emit_lir` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
+
+|      % | Samples | Caller                           | Location       |
+| -----: | ------: | -------------------------------- | -------------- |
+| 100.0% |      17 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |      17 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
+
+##### `PhaseIterGVN::optimize` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                 | Location       |
+| ----: | ------: | -------------------------------------- | -------------- |
+| 61.5% |       8 | `Compile::Optimize`                    | `libjvm.dylib` |
+| 23.1% |       3 | `PhaseMacroExpand::expand_macro_nodes` | `libjvm.dylib` |
+| 15.4% |       2 | `PhaseIdealLoop::optimize`             | `libjvm.dylib` |
+
+##### `Matcher::match` (`libjvm.dylib`)
+
+|      % | Samples | Caller              | Location       |
+| -----: | ------: | ------------------- | -------------- |
+| 100.0% |      13 | `Compile::Code_Gen` | `libjvm.dylib` |
+
+##### `GraphBuilder::GraphBuilder` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      13 | `IRScope::IRScope` | `libjvm.dylib` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

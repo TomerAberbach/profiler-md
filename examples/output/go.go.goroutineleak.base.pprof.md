@@ -67,6 +67,28 @@ Categories accounting for at least 1.0% of self leaked goroutines.
 | 100.0% |                 3 | `runtime.chansend`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176` |
 | 100.0% |                 3 | `runtime.chansend1` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:160` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total leaked goroutines. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `runtime.gopark` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445`)
+
+|      % | Leaked goroutines | Caller             | Location                                                                                 |
+| -----: | ----------------: | ------------------ | ---------------------------------------------------------------------------------------- |
+| 100.0% |                 3 | `runtime.chansend` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176` |
+
+##### `runtime.chansend` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176`)
+
+|      % | Leaked goroutines | Caller              | Location                                                                                 |
+| -----: | ----------------: | ------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% |                 3 | `runtime.chansend1` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:160` |
+
+##### `runtime.chansend1` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:160`)
+
+|      % | Leaked goroutines | Caller                   | Location          |
+| -----: | ----------------: | ------------------------ | ----------------- |
+| 100.0% |                 3 | `main.leakWorkers.func1` | `./profile.go:57` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total leaked goroutines. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

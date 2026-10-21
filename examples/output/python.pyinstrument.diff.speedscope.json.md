@@ -401,6 +401,210 @@ Functions with the largest decrease in time spent within the function and its ca
 | ------: | -------: | ----------: | -----------: | ---------------- | ------------ |
 | removed | -88.35ms | 1.9% → 0.0% | 88.4ms → 0ms | `object.__new__` | `<built-in>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `main` (`./black/__init__.py:240`)
+
+| Change |     Delta |      % |          Time | Caller     | Location                                                    |
+| -----: | --------: | -----: | ------------: | ---------- | ----------------------------------------------------------- |
+| +21.4% | +992.00ms | 100.0% | 4.64s → 5.63s | `new_func` | `/venv/lib/python3.11/site-packages/click/decorators.py:33` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`)
+
+| Change |     Delta |      % |          Time | Caller   | Location                                               |
+| -----: | --------: | -----: | ------------: | -------- | ------------------------------------------------------ |
+| +21.4% | +992.00ms | 100.0% | 4.64s → 5.63s | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:857` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`)
+
+| Change |     Delta |      % |          Time | Caller   | Location                                                |
+| -----: | --------: | -----: | ------------: | -------- | ------------------------------------------------------- |
+| +21.4% | +992.00ms | 100.0% | 4.64s → 5.63s | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:1401` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:1401`)
+
+| Change |     Delta |      % |          Time | Caller | Location                                                |
+| -----: | --------: | -----: | ------------: | ------ | ------------------------------------------------------- |
+| +21.4% | +992.00ms | 100.0% | 4.64s → 5.63s | `main` | `/venv/lib/python3.11/site-packages/click/core.py:1484` |
+
+##### `format_file_in_place` (`./black/__init__.py:922`)
+
+| Change |     Delta |      % |          Time | Caller         | Location                        |
+| -----: | --------: | -----: | ------------: | -------------- | ------------------------------- |
+| +21.4% | +991.00ms | 100.0% | 4.64s → 5.63s | `reformat_one` | `./black/__init__.py:860 → 865` |
+
+##### `reformat_one` (`./black/__init__.py:865`)
+
+| Change |     Delta |      % |          Time | Caller | Location                        |
+| -----: | --------: | -----: | ------------: | ------ | ------------------------------- |
+| +21.4% | +991.00ms | 100.0% | 4.64s → 5.63s | `main` | `./black/__init__.py:244 → 240` |
+
+##### `main` (`/venv/lib/python3.11/site-packages/click/core.py:1484`)
+
+| Change |     Delta |      % |          Time | Caller     | Location                                                |
+| -----: | --------: | -----: | ------------: | ---------- | ------------------------------------------------------- |
+| +21.3% | +990.99ms | 100.0% | 4.64s → 5.63s | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py:1629` |
+
+##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py:1629`)
+
+| Change |     Delta |      % |          Time | Caller         | Location                          |
+| -----: | --------: | -----: | ------------: | -------------- | --------------------------------- |
+| +21.3% | +990.99ms | 100.0% | 4.64s → 5.63s | `patched_main` | `./black/__init__.py:1594 → 1580` |
+
+##### `patched_main` (`./black/__init__.py:1580`)
+
+| Change |     Delta |      % |          Time | Caller     | Location            |
+| -----: | --------: | -----: | ------------: | ---------- | ------------------- |
+| +21.3% | +990.99ms | 100.0% | 4.64s → 5.63s | `<module>` | `/venv/bin/black:1` |
+
+##### `format_file_contents` (`./black/__init__.py:1059`)
+
+| Change |     Delta |      % |          Time | Caller                 | Location                        |
+| -----: | --------: | -----: | ------------: | ---------------------- | ------------------------------- |
+| +21.3% | +990.83ms | 100.0% | 4.64s → 5.63s | `format_file_in_place` | `./black/__init__.py:917 → 922` |
+
+##### `_format_str_once` (`./black/__init__.py:1215`)
+
+| Change |     Delta |             % |          Time | Caller          | Location                          |
+| -----: | --------: | ------------: | ------------: | --------------- | --------------------------------- |
+| +44.5% | +605.06ms | 33.1% → 38.9% | 1.36s → 1.96s | `assert_stable` | `./black/__init__.py:1557 → 1543` |
+| +12.3% | +338.09ms | 66.9% → 61.1% | 2.74s → 3.08s | `format_str`    | `./black/__init__.py:1189 → 1168` |
+
+##### `check_stability_and_equivalence` (`./black/__init__.py:1042`)
+
+| Change |     Delta |      % |          Time | Caller                 | Location                          |
+| -----: | --------: | -----: | ------------: | ---------------------- | --------------------------------- |
+| +34.5% | +651.74ms | 100.0% | 1.88s → 2.54s | `format_file_contents` | `./black/__init__.py:1054 → 1059` |
+
+##### `assert_stable` (`./black/__init__.py:1543`)
+
+| Change |     Delta |      % |          Time | Caller                            | Location                          |
+| -----: | --------: | -----: | ------------: | --------------------------------- | --------------------------------- |
+| +44.6% | +607.87ms | 100.0% | 1.36s → 1.97s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042` |
+
+##### `format_str` (`./black/__init__.py:1168`)
+
+| Change |     Delta |      % |          Time | Caller                 | Location                          |
+| -----: | --------: | -----: | ------------: | ---------------------- | --------------------------------- |
+| +12.3% | +339.09ms | 100.0% | 2.75s → 3.09s | `format_file_contents` | `./black/__init__.py:1054 → 1059` |
+
+##### `parse_tokens` (`./blib2to3/pgen2/driver.py:114`)
+
+| Change |     Delta |      % |          Time | Caller         | Location                         |
+| -----: | --------: | -----: | ------------: | -------------- | -------------------------------- |
+| +16.8% | +280.27ms | 100.0% | 1.66s → 1.94s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+
+##### `parse_string` (`./blib2to3/pgen2/driver.py:198`)
+
+| Change |     Delta |      % |          Time | Caller          | Location                |
+| -----: | --------: | -----: | ------------: | --------------- | ----------------------- |
+| +16.8% | +279.16ms | 100.0% | 1.66s → 1.94s | `lib2to3_parse` | `./black/parsing.py:55` |
+
+##### `lib2to3_parse` (`./black/parsing.py:55`)
+
+| Change |     Delta |      % |          Time | Caller             | Location                          |
+| -----: | --------: | -----: | ------------: | ------------------ | --------------------------------- |
+| +16.8% | +279.16ms | 100.0% | 1.66s → 1.94s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
+
+##### `visit_default` (`./black/linegen.py:134`)
+
+|  Change |     Delta |             % |             Time | Caller               | Location                     |
+| ------: | --------: | ------------: | ---------------: | -------------------- | ---------------------------- |
+| +248.2% | +144.01ms |        100.0% | 58.0ms → 202.0ms | `visit`              | `./black/nodes.py:163 → 152` |
+|     new | +118.03ms |  0.0% → 58.4% |    0ms → 118.0ms | `visit_dictsetmaker` | `./black/linegen.py:234`     |
+|     new | +117.87ms |  0.0% → 58.3% |    0ms → 117.9ms | `visit_STRING`       | `./black/linegen.py:413`     |
+| removed |  -58.01ms | 100.0% → 0.0% |     58.0ms → 0ms | `visit_power`        | `./black/linegen.py:341`     |
+| removed |  -58.01ms | 100.0% → 0.0% |     58.0ms → 0ms | `visit_simple_stmt`  | `./black/linegen.py:295`     |
+
+##### `visit` (`./black/nodes.py:152`)
+
+|  Change |     Delta |              % |             Time | Caller             | Location                          |
+| ------: | --------: | -------------: | ---------------: | ------------------ | --------------------------------- |
+| +248.2% | +144.01ms |         100.0% | 58.0ms → 202.0ms | `visit_default`    | `./black/nodes.py:187 → 176`      |
+| +248.2% | +144.01ms |         100.0% | 58.0ms → 202.0ms | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
+| +227.6% | +132.04ms | 100.0% → 94.1% | 58.0ms → 190.1ms | `visit_funcdef`    | `./black/linegen.py:254`          |
+|  +22.4% |  +13.02ms | 100.0% → 35.2% |  58.0ms → 71.0ms | `visit_stmt`       | `./black/linegen.py:199`          |
+
+##### `visit_default` (`./black/nodes.py:176`)
+
+|  Change |     Delta |      % |             Time | Caller          | Location                 |
+| ------: | --------: | -----: | ---------------: | --------------- | ------------------------ |
+| +248.2% | +144.01ms | 100.0% | 58.0ms → 202.0ms | `visit_default` | `./black/linegen.py:134` |
+
+##### `visit_funcdef` (`./black/linegen.py:254`)
+
+|  Change |     Delta |      % |             Time | Caller  | Location                     |
+| ------: | --------: | -----: | ---------------: | ------- | ---------------------------- |
+| +227.6% | +132.04ms | 100.0% | 58.0ms → 190.1ms | `visit` | `./black/nodes.py:163 → 152` |
+
+##### `visit_dictsetmaker` (`./black/linegen.py:234`)
+
+| Change |     Delta |             % |          Time | Caller  | Location               |
+| -----: | --------: | ------------: | ------------: | ------- | ---------------------- |
+|    new | +118.03ms | 0.0% → 100.0% | 0ms → 118.0ms | `visit` | `./black/nodes.py:152` |
+
+##### `append` (`./black/lines.py:52`)
+
+| Change |     Delta |             % |          Time | Caller          | Location                 |
+| -----: | --------: | ------------: | ------------: | --------------- | ------------------------ |
+|    new | +117.87ms | 0.0% → 100.0% | 0ms → 117.9ms | `visit_default` | `./black/linegen.py:134` |
+
+##### `visit_STRING` (`./black/linegen.py:413`)
+
+| Change |     Delta |             % |          Time | Caller  | Location               |
+| -----: | --------: | ------------: | ------------: | ------- | ---------------------- |
+|    new | +117.87ms | 0.0% → 100.0% | 0ms → 117.9ms | `visit` | `./black/nodes.py:152` |
+
+##### `compile` (`<built-in>`)
+
+| Change |    Delta |      % |              Time | Caller  | Location                        |
+| -----: | -------: | -----: | ----------------: | ------- | ------------------------------- |
+| +22.3% | +25.73ms | 100.0% | 115.2ms → 141.0ms | `parse` | `/usr/lib/python3.11/ast.py:33` |
+
+##### `pop` (`./blib2to3/pgen2/parse.py:398`)
+
+|  Change |    Delta |             % |         Time | Caller      | Location                        |
+| ------: | -------: | ------------: | -----------: | ----------- | ------------------------------- |
+| removed | -89.01ms | 100.0% → 0.0% | 89.0ms → 0ms | `_addtoken` | `./blib2to3/pgen2/parse.py:290` |
+
+##### `object.__new__` (`<built-in>`)
+
+|  Change |    Delta |             % |         Time | Caller    | Location                  |
+| ------: | -------: | ------------: | -----------: | --------- | ------------------------- |
+| removed | -88.35ms | 100.0% → 0.0% | 88.4ms → 0ms | `__new__` | `./blib2to3/pytree.py:81` |
+
+##### `__new__` (`./blib2to3/pytree.py:81`)
+
+|  Change |    Delta |             % |         Time | Caller    | Location                   |
+| ------: | -------: | ------------: | -----------: | --------- | -------------------------- |
+| removed | -88.35ms | 100.0% → 0.0% | 88.4ms → 0ms | `convert` | `./blib2to3/pytree.py:486` |
+
+##### `visit_power` (`./black/linegen.py:341`)
+
+|  Change |    Delta |             % |         Time | Caller  | Location               |
+| ------: | -------: | ------------: | -----------: | ------- | ---------------------- |
+| removed | -58.01ms | 100.0% → 0.0% | 58.0ms → 0ms | `visit` | `./black/nodes.py:163` |
+
+##### `visit_simple_stmt` (`./black/linegen.py:295`)
+
+|  Change |    Delta |             % |         Time | Caller  | Location               |
+| ------: | -------: | ------------: | -----------: | ------- | ---------------------- |
+| removed | -58.01ms | 100.0% → 0.0% | 58.0ms → 0ms | `visit` | `./black/nodes.py:163` |
+
+##### `generate_comments` (`./black/comments.py:52`)
+
+|  Change |    Delta |             % |         Time | Caller          | Location                 |
+| ------: | -------: | ------------: | -----------: | --------------- | ------------------------ |
+| removed | -57.39ms | 100.0% → 0.0% | 57.4ms → 0ms | `visit_default` | `./black/linegen.py:134` |
+
+##### `original_is_simple_lookup_func` (`./black/trans.py:158`)
+
+|  Change |    Delta |             % |         Time | Caller             | Location              |
+| ------: | -------: | ------------: | -----------: | ------------------ | --------------------- |
+| removed | -47.88ms | 100.0% → 0.0% | 47.9ms → 0ms | `is_simple_lookup` | `./black/trans.py:97` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

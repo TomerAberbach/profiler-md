@@ -472,6 +472,269 @@ Categories accounting for at least 1.0% of self time.
 | ---: | ------: | --------------------- | ----------- |
 | 2.7% | 129.7ms | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `DeserializeObject(String, Type, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`)
+
+|     % |    Time | Caller                                              | Location                      |
+| ----: | ------: | --------------------------------------------------- | ----------------------------- |
+| 93.7% |   3.61s | `Main()`                                            | `Profile.Program`             |
+|  6.3% | 240.8ms | `DeserializeObject(String, JsonSerializerSettings)` | `Newtonsoft.Json.JsonConvert` |
+
+##### `DeserializeInternal(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`)
+
+|     % |    Time | Caller                                                    | Location                         |
+| ----: | ------: | --------------------------------------------------------- | -------------------------------- |
+| 91.4% |   3.50s | `DeserializeObject(String, Type, JsonSerializerSettings)` | `Newtonsoft.Json.JsonConvert`    |
+|  8.6% | 329.7ms | `Deserialize(JsonReader, Type)`                           | `Newtonsoft.Json.JsonSerializer` |
+
+##### `Deserialize(JsonReader, Type, bool)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
+
+|      % |  Time | Caller                                  | Location                         |
+| -----: | ----: | --------------------------------------- | -------------------------------- |
+| 100.0% | 3.82s | `DeserializeInternal(JsonReader, Type)` | `Newtonsoft.Json.JsonSerializer` |
+
+##### `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
+
+|      % |  Time | Caller                                                                                                           | Location                                                     |
+| -----: | ----: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 3.76s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
+
+|      % |    Time | Caller                                                                                                   | Location                                                     |
+| -----: | ------: | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% |   3.76s | `Deserialize(JsonReader, Type, bool)`                                                                    | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|  53.3% |      2s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                           | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|  39.5% |   1.48s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`                               | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|   4.0% | 150.8ms | `SetPropertyValue(JsonProperty, JsonConverter, JsonContainerContract, JsonProperty, JsonReader, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
+
+|      % |  Time | Caller                                                                                                    | Location                                                     |
+| -----: | ----: | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 3.72s | `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `ReadForType(JsonContract, bool)` (`Newtonsoft.Json.JsonReader`)
+
+|     % |    Time | Caller                                                                         | Location                                                     |
+| ----: | ------: | ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| 93.3% |   2.18s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|  5.0% | 116.7ms | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`     | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|  1.7% |  39.4ms | `Deserialize(JsonReader, Type, bool)`                                          | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
+
+|      % |  Time | Caller                                                                                                           | Location                                                     |
+| -----: | ----: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 2.15s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
+
+|      % |  Time | Caller                                                                     | Location                                                     |
+| -----: | ----: | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 1.60s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `CopyTo(Array, int32)` (``System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection``)
+
+|      % |    Time | Caller                                                                     | Location                                                     |
+| -----: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 913.1ms | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### `SerializeObjectInternal(Object, Type, JsonSerializer)` (`Newtonsoft.Json.JsonConvert`)
+
+|     % |    Time | Caller                                                  | Location                      |
+| ----: | ------: | ------------------------------------------------------- | ----------------------------- |
+| 91.3% | 803.8ms | `Main()`                                                | `Profile.Program`             |
+|  8.7% |  77.0ms | `SerializeObject(Object, Type, JsonSerializerSettings)` | `Newtonsoft.Json.JsonConvert` |
+
+##### `SerializeInternal(JsonWriter, Object, Type)` (`Newtonsoft.Json.JsonSerializer`)
+
+|     % |    Time | Caller                                                  | Location                         |
+| ----: | ------: | ------------------------------------------------------- | -------------------------------- |
+| 89.3% | 757.8ms | `SerializeObjectInternal(Object, Type, JsonSerializer)` | `Newtonsoft.Json.JsonConvert`    |
+| 10.7% |  90.6ms | `Serialize(JsonWriter, Object, Type)`                   | `Newtonsoft.Json.JsonSerializer` |
+
+##### `Serialize(JsonWriter, Object, Type)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalWriter`)
+
+|      % |    Time | Caller                                        | Location                         |
+| -----: | ------: | --------------------------------------------- | -------------------------------- |
+| 100.0% | 847.1ms | `SerializeInternal(JsonWriter, Object, Type)` | `Newtonsoft.Json.JsonSerializer` |
+
+##### `SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalWriter`)
+
+|      % |    Time | Caller                                                                                                         | Location                                                     |
+| -----: | ------: | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 814.6ms | `Serialize(JsonWriter, Object, Type)`                                                                          | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+|  84.8% | 691.0ms | `SerializeObject(JsonWriter, Object, JsonObjectContract, JsonProperty, JsonContainerContract, JsonProperty)`   | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+|  57.7% | 470.1ms | `SerializeList(JsonWriter, IEnumerable, JsonArrayContract, JsonProperty, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+
+##### `SerializeObject(JsonWriter, Object, JsonObjectContract, JsonProperty, JsonContainerContract, JsonProperty)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalWriter`)
+
+|      % |    Time | Caller                                                                                                | Location                                                     |
+| -----: | ------: | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 809.0ms | `SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+
+##### `SerializeList(JsonWriter, IEnumerable, JsonArrayContract, JsonProperty, JsonContainerContract, JsonProperty)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalWriter`)
+
+|      % |    Time | Caller                                                                                                | Location                                                     |
+| -----: | ------: | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 596.9ms | `SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+
+##### `Deserialize(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`)
+
+|      % |    Time | Caller                                                    | Location                      |
+| -----: | ------: | --------------------------------------------------------- | ----------------------------- |
+| 100.0% | 329.7ms | `DeserializeObject(String, Type, JsonSerializerSettings)` | `Newtonsoft.Json.JsonConvert` |
+
+##### `DeserializeObject(String, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`)
+
+|      % |    Time | Caller                      | Location                      |
+| -----: | ------: | --------------------------- | ----------------------------- |
+| 100.0% | 240.8ms | `DeserializeObject(String)` | `Newtonsoft.Json.JsonConvert` |
+
+##### `DeserializeObject(String)` (`Newtonsoft.Json.JsonConvert`)
+
+|      % |    Time | Caller   | Location          |
+| -----: | ------: | -------- | ----------------- |
+| 100.0% | 240.8ms | `Main()` | `Profile.Program` |
+
+##### `WriteValue(JsonWriter, PrimitiveTypeCode, Object)` (`Newtonsoft.Json.JsonWriter`)
+
+|     % |    Time | Caller                                                                                                             | Location                                                     |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| 93.3% | 208.1ms | `SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)`              | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+|  6.7% |  14.9ms | `SerializePrimitive(JsonWriter, Object, JsonPrimitiveContract, JsonProperty, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+
+##### `UNMANAGED_CODE_TIME` (`<unknown>`)
+
+|    % |   Time | Caller                                                                                                             | Location                                                     |
+| ---: | -----: | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| 9.0% | 11.6ms | `Node()`                                                                                                           | `dynamicClass.CreateProfile`                                 |
+| 6.2% |  8.0ms | `SerializeObjectInternal(Object, Type, JsonSerializer)`                                                            | `Newtonsoft.Json.JsonConvert`                                |
+| 4.1% |  5.4ms | `DefineEventHandle(unsigned int32, String, int64, unsigned int32, unsigned int32, unsigned int8*, unsigned int32)` | `System.Diagnostics.Tracing.EventPipeEventProvider`          |
+| 3.5% |  4.6ms | ``Ctor(ReadOnlySpan`1<wchar>)``                                                                                    | `System.String`                                              |
+| 3.2% |  4.1ms | `SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)`              | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+
+##### `FormatDouble(float64, String, NumberFormatInfo)` (`System.Number`)
+
+|     % |   Time | Caller                                                | Location                         |
+| ----: | -----: | ----------------------------------------------------- | -------------------------------- |
+| 94.2% | 64.2ms | `WriteValue(float64)`                                 | `Newtonsoft.Json.JsonTextWriter` |
+|  5.8% |  4.0ms | `ToString(float64, FloatFormatHandling, wchar, bool)` | `Newtonsoft.Json.JsonConvert`    |
+
+##### ``FormatDouble(ValueListBuilder`1<!!0>&, float64, ReadOnlySpan`1<wchar>, NumberFormatInfo)`` (`System.Number`)
+
+|      % |   Time | Caller                                            | Location        |
+| -----: | -----: | ------------------------------------------------- | --------------- |
+| 100.0% | 47.2ms | `FormatDouble(float64, String, NumberFormatInfo)` | `System.Number` |
+
+##### `Memmove(unsigned int8&, unsigned int8&, unsigned int)` (`System.Buffer`)
+
+|     % |  Time | Caller                                                                                                       | Location                                                     |
+| ----: | ----: | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| 23.8% | 9.5ms | `Read(wchar[], int32, int32)`                                                                                | `System.IO.StringReader`                                     |
+| 21.8% | 8.7ms | `Write(String)`                                                                                              | `System.IO.StringWriter`                                     |
+| 13.6% | 5.4ms | `Concat(String, String)`                                                                                     | `System.String`                                              |
+| 13.5% | 5.4ms | `SerializeObject(JsonWriter, Object, JsonObjectContract, JsonProperty, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+|  6.9% | 2.8ms | `AppendWithExpansion(wchar&, int32)`                                                                         | `System.Text.StringBuilder`                                  |
+
+##### ``TryParseFloat(ReadOnlySpan`1<!!0>, NumberStyles, NumberFormatInfo, !!1&)`` (`System.Number`)
+
+|     % |   Time | Caller                                                      | Location                         |
+| ----: | -----: | ----------------------------------------------------------- | -------------------------------- |
+| 93.2% | 36.9ms | `ParseReadNumber(ReadType, wchar, int32)`                   | `Newtonsoft.Json.JsonTextReader` |
+|  6.8% |  2.7ms | `TryParse(String, NumberStyles, IFormatProvider, float64&)` | `System.Double`                  |
+
+##### `TryParseNumber(!!0*&, !!0*, NumberStyles, NumberBuffer&, NumberFormatInfo)` (`System.Number`)
+
+|      % |   Time | Caller                                                                       | Location        |
+| -----: | -----: | ---------------------------------------------------------------------------- | --------------- |
+| 100.0% | 35.5ms | ``TryParseFloat(ReadOnlySpan`1<!!0>, NumberStyles, NumberFormatInfo, !!1&)`` | `System.Number` |
+
+##### `FindValue(!0)` (``System.Collections.Generic.Dictionary`2[System.__Canon,System.__Canon]``)
+
+|     % |   Time | Caller                                                                         | Location                                                                   |
+| ----: | -----: | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 96.0% | 32.5ms | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`               |
+|  4.0% |  1.3ms | `TryGetValue(!0, !1&)`                                                         | ``System.Collections.Generic.Dictionary`2[System.__Canon,System.__Canon]`` |
+
+##### `Add(Object)` (``System.Collections.Generic.List`1[System.__Canon].System.Collections.IList``)
+
+|      % |   Time | Caller                                                                     | Location                                                     |
+| -----: | -----: | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 24.5ms | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+
+##### ``GetOrAdd(!0, Func`2<!0, !1>)`` (``System.Collections.Concurrent.ConcurrentDictionary`2[System.__Canon,System.__Canon]``)
+
+|      % |   Time | Caller    | Location                                                                       |
+| -----: | -----: | --------- | ------------------------------------------------------------------------------ |
+| 100.0% | 22.9ms | `Get(!0)` | ``Newtonsoft.Json.Utilities.ThreadSafeStore`2[System.__Canon,System.__Canon]`` |
+
+##### `TryRunDouble(float64, int32, NumberBuffer&)` (`System.Number+Grisu3`)
+
+|      % |   Time | Caller                                                                                       | Location        |
+| -----: | -----: | -------------------------------------------------------------------------------------------- | --------------- |
+| 100.0% | 21.5ms | ``FormatDouble(ValueListBuilder`1<!!0>&, float64, ReadOnlySpan`1<wchar>, NumberFormatInfo)`` | `System.Number` |
+
+##### `Append(wchar&, int32)` (`System.Text.StringBuilder`)
+
+|     % |   Time | Caller           | Location                         |
+| ----: | -----: | ---------------- | -------------------------------- |
+| 92.9% | 15.8ms | `WriteNull()`    | `Newtonsoft.Json.JsonTextWriter` |
+|  7.1% |  1.2ms | `Append(String)` | `System.Text.StringBuilder`      |
+
+##### `EnsureDescriptorsInitialized()` (`System.Diagnostics.Tracing.EventSource`)
+
+|      % |   Time | Caller                             | Location                                 |
+| -----: | -----: | ---------------------------------- | ---------------------------------------- |
+| 100.0% | 16.1ms | `DoCommand(EventCommandEventArgs)` | `System.Diagnostics.Tracing.EventSource` |
+
+##### `DoCommand(EventCommandEventArgs)` (`System.Diagnostics.Tracing.EventSource`)
+
+|      % |   Time | Caller                               | Location                                 |
+| -----: | -----: | ------------------------------------ | ---------------------------------------- |
+| 100.0% | 16.1ms | `Initialize(Guid, String, String[])` | `System.Diagnostics.Tracing.EventSource` |
+
+##### `Initialize(Guid, String, String[])` (`System.Diagnostics.Tracing.EventSource`)
+
+|      % |   Time | Caller    | Location                                              |
+| -----: | -----: | --------- | ----------------------------------------------------- |
+| 100.0% | 16.1ms | `.ctor()` | `System.Diagnostics.Tracing.NativeRuntimeEventSource` |
+
+##### `.ctor()` (`System.Diagnostics.Tracing.NativeRuntimeEventSource`)
+
+|      % |   Time | Caller     | Location                                              |
+| -----: | -----: | ---------- | ----------------------------------------------------- |
+| 100.0% | 16.1ms | `.cctor()` | `System.Diagnostics.Tracing.NativeRuntimeEventSource` |
+
+##### `.cctor()` (`System.Diagnostics.Tracing.NativeRuntimeEventSource`)
+
+|      % |   Time | Caller                            | Location                                    |
+| -----: | -----: | --------------------------------- | ------------------------------------------- |
+| 100.0% | 16.1ms | `StartAssemblyLoad(Guid&, Guid&)` | `System.Runtime.Loader.AssemblyLoadContext` |
+
+##### ``TryDigitGenShortest(DiyFp&, DiyFp&, DiyFp&, Span`1<unsigned int8>, int32&, int32&)`` (`System.Number+Grisu3`)
+
+|     % |   Time | Caller                                                                            | Location               |
+| ----: | -----: | --------------------------------------------------------------------------------- | ---------------------- |
+| 91.8% | 14.7ms | `TryRunDouble(float64, int32, NumberBuffer&)`                                     | `System.Number+Grisu3` |
+|  8.2% |  1.3ms | ``TryRunShortest(DiyFp&, DiyFp&, DiyFp&, Span`1<unsigned int8>, int32&, int32&)`` | `System.Number+Grisu3` |
+
+##### `IndexOf(!0[], !0, int32, int32)` (``System.Collections.Generic.ObjectEqualityComparer`1[System.__Canon]``)
+
+|      % |   Time | Caller                              | Location       |
+| -----: | -----: | ----------------------------------- | -------------- |
+| 100.0% | 16.0ms | `IndexOf(!!0[], !!0, int32, int32)` | `System.Array` |
+
+##### `IndexOf(!!0[], !!0, int32, int32)` (`System.Array`)
+
+|      % |   Time | Caller                                                                                                           | Location                                                     |
+| -----: | -----: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 16.0ms | `CheckForCircularReference(JsonWriter, Object, JsonProperty, JsonContract, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

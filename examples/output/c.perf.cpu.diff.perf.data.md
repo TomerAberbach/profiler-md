@@ -409,6 +409,268 @@ Functions with the largest decrease in time spent within the function and its ca
 | removed |  -16.02ms |  1.4% → 0.0% |  16.0ms → 0ms |    16 → 0 | `0x609c0` | `./zstd` |
 | removed |  -13.01ms |  1.1% → 0.0% |  13.0ms → 0ms |    13 → 0 | `0x5fae0` | `./zstd` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `0x9f20` (`./zstd`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
+|    new | +1.218s | 0.0% → 100.0% | 0ms → 1.21s | 0 → 1,217 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x11630` (`./zstd`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller    | Location |
+| -----: | ------: | ------------: | ----------: | --------: | --------- | -------- |
+|    new | +1.204s | 0.0% → 100.0% | 0ms → 1.20s | 0 → 1,203 | `0x16720` | `./zstd` |
+
+##### `0x16720` (`./zstd`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | -------- |
+|    new | +962.96ms | 0.0% → 80.0% | 0ms → 963.0ms | 0 → 962 | `0x62a60` | `./zstd` |
+|    new | +241.24ms | 0.0% → 20.0% | 0ms → 241.2ms | 0 → 241 | `0x17e38` | `./zstd` |
+
+##### `0x62a60` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller   | Location |
+| -----: | --------: | ------------: | ------------: | ------: | -------- | -------- |
+|    new | +973.97ms | 0.0% → 100.0% | 0ms → 974.0ms | 0 → 973 | `0x9f20` | `./zstd` |
+
+##### `0x5a3f4` (`./zstd`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | -------- |
+|    new | +871.87ms | 0.0% → 99.0% | 0ms → 871.9ms | 0 → 871 | `0x11630` | `./zstd` |
+|    new |   +9.01ms |  0.0% → 1.0% |   0ms → 9.0ms |   0 → 9 | `0x61b40` | `./zstd` |
+
+##### `0x17e38` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+|    new | +241.24ms | 0.0% → 100.0% | 0ms → 241.2ms | 0 → 241 | `0x62d34` | `./zstd` |
+
+##### `0x62d34` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller   | Location |
+| -----: | --------: | ------------: | ------------: | ------: | -------- | -------- |
+|    new | +241.24ms | 0.0% → 100.0% | 0ms → 241.2ms | 0 → 241 | `0x9f20` | `./zstd` |
+
+##### `0x60980` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+|    new | +183.18ms | 0.0% → 100.0% | 0ms → 183.2ms | 0 → 183 | `0x5a3f4` | `./zstd` |
+
+##### `0x609c8` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+|    new | +170.17ms | 0.0% → 100.0% | 0ms → 170.2ms | 0 → 170 | `0x5a3f4` | `./zstd` |
+
+##### `0x60c38` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+|    new | +145.15ms | 0.0% → 100.0% | 0ms → 145.1ms | 0 → 145 | `0x5a3f4` | `./zstd` |
+
+##### `0x60c5c` (`./zstd`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+|    new | +143.14ms | 0.0% → 100.0% | 0ms → 143.1ms | 0 → 143 | `0x5a3f4` | `./zstd` |
+
+##### `0x82030` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller    | Location                               |
+| -----: | -------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
+|  +6.6% | +75.08ms | 100.0% | 1.14s → 1.21s | 1,142 → 1,217 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x609b8` (`./zstd`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+|    new | +44.04ms | 0.0% → 100.0% | 0ms → 44.0ms |  0 → 44 | `0x5a3f4` | `./zstd` |
+
+##### `0x5a65c` (`./zstd`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+|    new | +44.04ms | 0.0% → 100.0% | 0ms → 44.0ms |  0 → 44 | `0x11630` | `./zstd` |
+
+##### `0x5a7c0` (`./zstd`)
+
+| Change |    Delta |            % |         Time | Samples | Caller    | Location |
+| -----: | -------: | -----------: | -----------: | ------: | --------- | -------- |
+|    new | +38.04ms | 0.0% → 95.0% | 0ms → 38.0ms |  0 → 38 | `0x11630` | `./zstd` |
+|    new |  +2.00ms |  0.0% → 5.0% |  0ms → 2.0ms |   0 → 2 | `0x61b40` | `./zstd` |
+
+##### `0x5a85c` (`./zstd`)
+
+| Change |    Delta |            % |         Time | Samples | Caller    | Location |
+| -----: | -------: | -----------: | -----------: | ------: | --------- | -------- |
+|    new | +26.03ms | 0.0% → 96.3% | 0ms → 26.0ms |  0 → 26 | `0x11630` | `./zstd` |
+|    new |  +1.00ms |  0.0% → 3.7% |  0ms → 1.0ms |   0 → 1 | `0x61b40` | `./zstd` |
+
+##### `0x5a78c` (`./zstd`)
+
+| Change |    Delta |            % |         Time | Samples | Caller    | Location |
+| -----: | -------: | -----------: | -----------: | ------: | --------- | -------- |
+|    new | +22.02ms | 0.0% → 95.7% | 0ms → 22.0ms |  0 → 22 | `0x11630` | `./zstd` |
+|    new |  +1.00ms |  0.0% → 4.3% |  0ms → 1.0ms |   0 → 1 | `0x61b40` | `./zstd` |
+
+##### `0x60c90` (`./zstd`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+|    new | +21.02ms | 0.0% → 100.0% | 0ms → 21.0ms |  0 → 21 | `0x5a3f4` | `./zstd` |
+
+##### `0x5a838` (`./zstd`)
+
+| Change |    Delta |            % |         Time | Samples | Caller    | Location |
+| -----: | -------: | -----------: | -----------: | ------: | --------- | -------- |
+|    new | +18.02ms | 0.0% → 94.7% | 0ms → 18.0ms |  0 → 18 | `0x11630` | `./zstd` |
+|    new |  +1.00ms |  0.0% → 5.3% |  0ms → 1.0ms |   0 → 1 | `0x61b40` | `./zstd` |
+
+##### `0x61b40` (`./zstd`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+|    new | +16.02ms | 0.0% → 100.0% | 0ms → 16.0ms |  0 → 16 | `0x11630` | `./zstd` |
+
+##### `0x60978` (`./zstd`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+|    new | +16.02ms | 0.0% → 100.0% | 0ms → 16.0ms |  0 → 16 | `0x5a3f4` | `./zstd` |
+
+##### `0x9cf0` (`./zstd`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
+| removed | -1.143s | 100.0% → 0.0% | 1.14s → 0ms | 1,142 → 0 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x11090` (`./zstd`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | -------- |
+| removed | -1.127s | 100.0% → 0.0% | 1.12s → 0ms | 1,126 → 0 | `0x16020` | `./zstd` |
+
+##### `0x16020` (`./zstd`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | -------- |
+| removed | -934.93ms | 82.9% → 0.0% | 934.9ms → 0ms | 934 → 0 | `0x61404` | `./zstd` |
+| removed | -192.19ms | 17.1% → 0.0% | 192.2ms → 0ms | 192 → 0 | `0x17768` | `./zstd` |
+
+##### `0x61404` (`./zstd`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller   | Location |
+| ------: | --------: | ------------: | ------------: | ------: | -------- | -------- |
+| removed | -945.95ms | 100.0% → 0.0% | 945.9ms → 0ms | 945 → 0 | `0x9cf0` | `./zstd` |
+
+##### `0x59274` (`./zstd`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | -------- |
+| removed | -783.78ms | 98.6% → 0.0% | 783.8ms → 0ms | 783 → 0 | `0x11090` | `./zstd` |
+| removed |  -11.01ms |  1.4% → 0.0% |  11.0ms → 0ms |  11 → 0 | `0x609c0` | `./zstd` |
+
+##### `0x17768` (`./zstd`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| ------: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+| removed | -193.19ms | 100.0% → 0.0% | 193.2ms → 0ms | 193 → 0 | `0x616b8` | `./zstd` |
+
+##### `0x616b8` (`./zstd`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller   | Location |
+| ------: | --------: | ------------: | ------------: | ------: | -------- | -------- |
+| removed | -193.19ms | 100.0% → 0.0% | 193.2ms → 0ms | 193 → 0 | `0x9cf0` | `./zstd` |
+
+##### `0x5f848` (`./zstd`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| ------: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+| removed | -170.17ms | 100.0% → 0.0% | 170.2ms → 0ms | 170 → 0 | `0x59274` | `./zstd` |
+
+##### `0x5f800` (`./zstd`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | -------- |
+| removed | -165.17ms | 99.4% → 0.0% | 165.2ms → 0ms | 165 → 0 | `0x59274` | `./zstd` |
+| removed |   -1.00ms |  0.6% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x58c78` | `./zstd` |
+
+##### `0x5fab8` (`./zstd`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller    | Location |
+| ------: | --------: | ------------: | ------------: | ------: | --------- | -------- |
+| removed | -142.14ms | 100.0% → 0.0% | 142.1ms → 0ms | 142 → 0 | `0x59274` | `./zstd` |
+
+##### `0x5fadc` (`./zstd`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | -------- |
+| removed | -128.13ms | 99.2% → 0.0% | 128.1ms → 0ms | 128 → 0 | `0x59274` | `./zstd` |
+| removed |   -1.00ms |  0.8% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x58c78` | `./zstd` |
+
+##### `0x594d8` (`./zstd`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller    | Location |
+| ------: | -------: | -----------: | -----------: | ------: | --------- | -------- |
+| removed | -40.04ms | 97.6% → 0.0% | 40.0ms → 0ms |  40 → 0 | `0x11090` | `./zstd` |
+| removed |  -1.00ms |  2.4% → 0.0% |  1.0ms → 0ms |   1 → 0 | `0x609c0` | `./zstd` |
+
+##### `0x5f838` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -35.04ms | 100.0% → 0.0% | 35.0ms → 0ms |  35 → 0 | `0x59274` | `./zstd` |
+
+##### `0x59640` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -31.03ms | 100.0% → 0.0% | 31.0ms → 0ms |  31 → 0 | `0x11090` | `./zstd` |
+
+##### `0x5fb10` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -30.03ms | 100.0% → 0.0% | 30.0ms → 0ms |  30 → 0 | `0x59274` | `./zstd` |
+
+##### `0x5960c` (`./zstd`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller    | Location |
+| ------: | -------: | -----------: | -----------: | ------: | --------- | -------- |
+| removed | -20.02ms | 87.0% → 0.0% | 20.0ms → 0ms |  20 → 0 | `0x11090` | `./zstd` |
+| removed |  -3.00ms | 13.0% → 0.0% |  3.0ms → 0ms |   3 → 0 | `0x609c0` | `./zstd` |
+
+##### `0x596dc` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -22.02ms | 100.0% → 0.0% | 22.0ms → 0ms |  22 → 0 | `0x11090` | `./zstd` |
+
+##### `0x596b8` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -18.02ms | 100.0% → 0.0% | 18.0ms → 0ms |  18 → 0 | `0x11090` | `./zstd` |
+
+##### `0x609c0` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -16.02ms | 100.0% → 0.0% | 16.0ms → 0ms |  16 → 0 | `0x11090` | `./zstd` |
+
+##### `0x5fae0` (`./zstd`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------- |
+| removed | -13.01ms | 100.0% → 0.0% | 13.0ms → 0ms |  13 → 0 | `0x59274` | `./zstd` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

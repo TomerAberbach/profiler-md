@@ -454,6 +454,499 @@ Functions with the largest decrease in bytes allocated within the function and i
 | removed |  -83.404 KiB |   0.2% → 0.0% |      83.4 KiB → 0 B |         3,799 → 0 | `0xffffa2a18fff` | `<unknown>`                                       |
 |  -23.9% |  -42.468 KiB |   0.4% → 0.2% |   178 KiB → 135 KiB |     5,692 → 4,333 | `0x112ebb`       | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `0xfa6bf` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |       Delta |      % |                Size |        Objects | Caller     | Location                                          |
+| ------: | ----------: | -----: | ------------------: | -------------: | ---------- | ------------------------------------------------- |
+| +463.1% | +36.734 MiB | 100.0% | 7.93 MiB → 44.7 MiB | 1,992 → 11,216 | `0x109623` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x109623` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |       Delta |      % |                Size |        Objects | Caller                                          | Location                      |
+| ------: | ----------: | -----: | ------------------: | -------------: | ----------------------------------------------- | ----------------------------- |
+| +461.6% | +36.729 MiB | 100.0% | 7.96 MiB → 44.7 MiB | 6,993 → 14,955 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+
+|  Change |       Delta |             % |                Size |         Objects | Caller                                 | Location                  |
+| ------: | ----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ------------------------- |
+| +453.4% | +30.994 MiB | 73.6% → 82.8% | 6.84 MiB → 37.8 MiB | 47,498 → 47,652 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| +221.0% |  +5.419 MiB | 26.4% → 17.2% | 2.45 MiB → 7.87 MiB |   6,058 → 9,278 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`)
+
+|  Change |       Delta |      % |               Size |         Objects | Caller                                 | Location                  |
+| ------: | ----------: | -----: | -----------------: | --------------: | -------------------------------------- | ------------------------- |
+| +428.3% | +36.394 MiB | 100.0% | 8.5 MiB → 44.9 MiB | 31,979 → 35,064 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+
+##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|  Change |       Delta |             % |                Size |        Objects | Caller     | Location                                          |
+| ------: | ----------: | ------------: | ------------------: | -------------: | ---------- | ------------------------------------------------- |
+| +463.1% | +36.734 MiB | 78.7% → 96.5% | 7.93 MiB → 44.7 MiB | 1,992 → 11,216 | `0xfa6bf`  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  -65.2% |    -486 KiB |   7.2% → 0.5% |   745 KiB → 259 KiB |  5,962 → 2,074 | `0x112ecb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  -23.9% | -42.468 KiB |   1.7% → 0.3% |   178 KiB → 135 KiB |  5,692 → 4,333 | `0x112ebb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
+
+|  Change |        Delta |             % |               Size |         Objects | Caller                                             | Location                  |
+| ------: | -----------: | ------------: | -----------------: | --------------: | -------------------------------------------------- | ------------------------- |
+| +428.3% |  +36.394 MiB | 90.1% → 99.1% | 8.5 MiB → 44.9 MiB | 31,979 → 35,064 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90` |
+|  -56.7% | -542.454 KiB |   9.9% → 0.9% |  958 KiB → 415 KiB |     2,522 → 203 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
+|  -13.8% |        -72 B |         <0.1% |      520 B → 448 B |         65 → 56 | `0xffffffffffffffff`                               | `<unknown>`               |
+
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+
+|  Change |        Delta |             % |                Size |           Objects | Caller                                    | Location                  |
+| ------: | -----------: | ------------: | ------------------: | ----------------: | ----------------------------------------- | ------------------------- |
+|  +83.7% |  +31.218 MiB | 99.3% → 99.7% | 37.3 MiB → 68.5 MiB | 474,148 → 433,577 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+|  +61.0% |  +10.993 MiB | 48.0% → 42.2% |     18 MiB → 29 MiB | 227,547 → 216,481 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+|  +14.5% |   +1.851 MiB | 34.1% → 21.3% | 12.8 MiB → 14.6 MiB | 186,543 → 172,831 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+| removed | -205.406 KiB |   0.5% → 0.0% |       205 KiB → 0 B |         1,878 → 0 | `0x1f47f`                                 | `[stack]`                 |
+|     new | +205.406 KiB |   0.0% → 0.3% |       0 B → 205 KiB |         0 → 1,878 | `0x1e85f`                                 | `[stack]`                 |
+
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+
+| Change |       Delta |             % |                Size |           Objects | Caller                                 | Location                  |
+| -----: | ----------: | ------------: | ------------------: | ----------------: | -------------------------------------- | ------------------------- |
+| +60.6% | +11.024 MiB | 98.4% → 99.3% | 18.2 MiB → 29.2 MiB | 225,746 → 214,962 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+
+| Change |      Delta |             % |                Size |           Objects | Caller                                  | Location                 |
+| -----: | ---------: | ------------: | ------------------: | ----------------: | --------------------------------------- | ------------------------ |
+| +13.5% | +1.845 MiB | 97.3% → 97.5% | 13.7 MiB → 15.5 MiB | 177,395 → 165,407 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+
+| Change |      Delta |             % |                Size |           Objects | Caller   | Location           |
+| -----: | ---------: | ------------: | ------------------: | ----------------: | -------- | ------------------ |
+| +13.6% | +1.815 MiB | 97.6% → 97.7% | 13.3 MiB → 15.1 MiB | 170,767 → 157,621 | `MAIN__` | `/out/profile.f90` |
+
+##### `MAIN__` (`/out/profile.f90`)
+
+| Change |      Delta |             % |              Size |           Objects | Caller | Location           |
+| -----: | ---------: | ------------: | ----------------: | ----------------: | ------ | ------------------ |
+| +10.2% | +1.387 MiB | 95.4% → 95.7% | 13.6 MiB → 15 MiB | 163,103 → 149,886 | `main` | `/out/profile.f90` |
+
+##### `main` (`/out/profile.f90`)
+
+|  Change |        Delta |             % |                Size |           Objects | Caller    | Location                               |
+| ------: | -----------: | ------------: | ------------------: | ----------------: | --------- | -------------------------------------- |
+|   -9.8% |   -1.252 MiB | 94.3% → 77.2% | 12.8 MiB → 11.6 MiB | 152,764 → 140,613 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -100.296 KiB |   0.7% → 0.0% |       100 KiB → 0 B |           917 → 0 | `0x1e0bf` | `[stack]`                              |
+|     new | +100.296 KiB |   0.0% → 0.7% |       0 B → 100 KiB |           0 → 917 | `0x1d46f` | `[stack]`                              |
+
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+
+|  Change |        Delta |             % |                Size |         Objects | Caller                                 | Location                  |
+| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ------------------------- |
+|  +22.4% | +927.627 KiB | 95.8% → 96.5% | 4.04 MiB → 4.95 MiB | 62,254 → 65,244 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| removed |  -92.312 KiB |   2.1% → 0.0% |      92.3 KiB → 0 B |         844 → 0 | `0x1f47f`                              | `[stack]`                 |
+|     new |  +92.312 KiB |   0.0% → 1.8% |      0 B → 92.3 KiB |         0 → 844 | `0x1e85f`                              | `[stack]`                 |
+
+##### `0x22aaf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
+
+| Change |        Delta |            % |           Size |   Objects | Caller                                 | Location                  |
+| -----: | -----------: | -----------: | -------------: | --------: | -------------------------------------- | ------------------------- |
+|    new | +355.578 KiB | 0.0% → 42.4% |  0 B → 356 KiB | 0 → 3,251 | `0xffffffffffffffff`                   | `<unknown>`               |
+|    new |   +99.64 KiB | 0.0% → 11.9% | 0 B → 99.6 KiB |   0 → 911 | `0x1d46f`                              | `[stack]`                 |
+|    new |   +5.937 KiB |  0.0% → 0.7% | 0 B → 5.94 KiB |     0 → 8 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0xffff8a179d67` (`<unknown>`)
+
+| Change |        Delta |            % |           Size |   Objects | Caller                                | Location                  |
+| -----: | -----------: | -----------: | -------------: | --------: | ------------------------------------- | ------------------------- |
+|    new | +693.281 KiB | 0.0% → 89.7% |  0 B → 693 KiB |   0 → 170 | `0x1d11f`                             | `[stack]`                 |
+|    new |  +14.642 KiB |  0.0% → 1.9% | 0 B → 14.6 KiB |   0 → 882 | `0x1dd6f`                             | `[stack]`                 |
+|    new |  +12.216 KiB |  0.0% → 1.6% | 0 B → 12.2 KiB | 0 → 1,015 | `__json_value_module_MOD_parse_array` | `./json_value_module.F90` |
+|    new |  +12.116 KiB |  0.0% → 1.6% | 0 B → 12.1 KiB |   0 → 617 | `0xaaaad7a9e7ff`                      | `<unknown>`               |
+|    new |       +486 B |  0.0% → 0.1% |    0 B → 486 B |    0 → 22 | `0xaaaad7a9e3ff`                      | `<unknown>`               |
+
+##### `0x1e85f` (`[stack]`)
+
+| Change |        Delta |            % |           Size |   Objects | Caller    | Location                                                                           |
+| -----: | -----------: | -----------: | -------------: | --------: | --------- | ---------------------------------------------------------------------------------- |
+|    new | +313.468 KiB | 0.0% → 44.0% |  0 B → 313 KiB | 0 → 2,866 | `0x1e5ef` | `[stack]`                                                                          |
+|    new |   +96.25 KiB | 0.0% → 13.5% | 0 B → 96.3 KiB |   0 → 880 | `0x22aaf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+
+##### `0x1e5ef` (`[stack]`)
+
+| Change |        Delta |            % |           Size |   Objects | Caller               | Location                                                                           |
+| -----: | -----------: | -----------: | -------------: | --------: | -------------------- | ---------------------------------------------------------------------------------- |
+|    new | +280.437 KiB | 0.0% → 46.7% |  0 B → 280 KiB | 0 → 2,564 | `0x22aaf`            | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+|    new |    +5.14 KiB |  0.0% → 0.9% | 0 B → 5.14 KiB |    0 → 47 | `0x1d46f`            | `[stack]`                                                                          |
+|    new |   +1.093 KiB |  0.0% → 0.2% | 0 B → 1.09 KiB |    0 → 10 | `0xffffffffffffffff` | `<unknown>`                                                                        |
+
+##### `0xaaaad7bfa0df` (`<unknown>`)
+
+| Change |       Delta |            % |           Size | Objects | Caller | Location    |
+| -----: | ----------: | -----------: | -------------: | ------: | ------ | ----------- |
+|    new | +411.89 KiB | 0.0% → 99.0% |  0 B → 412 KiB | 0 → 101 | `0x4`  | `<unknown>` |
+|    new |  +4.078 KiB |  0.0% → 1.0% | 0 B → 4.08 KiB |   0 → 1 | `0x5`  | `<unknown>` |
+
+##### `0x1f397` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
+
+| Change |       Delta |             % |          Size | Objects | Caller                                 | Location                  |
+| -----: | ----------: | ------------: | ------------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +234.75 KiB | 0.0% → 100.0% | 0 B → 235 KiB | 0 → 939 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1deaf` (`[stack]`)
+
+| Change |      Delta |             % |          Size | Objects | Caller    | Location  |
+| -----: | ---------: | ------------: | ------------: | ------: | --------- | --------- |
+|    new | +234.5 KiB | 0.0% → 100.0% | 0 B → 235 KiB | 0 → 938 | `0x1dd67` | `[stack]` |
+
+##### `0x1d36f` (`[stack]`)
+
+| Change |        Delta |             % |          Size |   Objects | Caller                                 | Location                  |
+| -----: | -----------: | ------------: | ------------: | --------: | -------------------------------------- | ------------------------- |
+|    new | +205.406 KiB | 0.0% → 100.0% | 0 B → 205 KiB | 0 → 1,878 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0xffff8a178fff` (`<unknown>`)
+
+| Change |     Delta |           % |           Size | Objects | Caller           | Location    |
+| -----: | --------: | ----------: | -------------: | ------: | ---------------- | ----------- |
+|    new | +7.35 KiB | 0.0% → 3.8% | 0 B → 7.35 KiB | 0 → 297 | `0xaaaad7a9e7ff` | `<unknown>` |
+|    new |    +512 B | 0.0% → 0.3% |    0 B → 512 B |   0 → 2 | `0xaaaad7c29167` | `<unknown>` |
+|    new |    +512 B | 0.0% → 0.3% |    0 B → 512 B |   0 → 2 | `0xaaaad7b41d97` | `<unknown>` |
+|    new |    +512 B | 0.0% → 0.3% |    0 B → 512 B |   0 → 2 | `0xaaaad7b401ef` | `<unknown>` |
+|    new |    +512 B | 0.0% → 0.3% |    0 B → 512 B |   0 → 2 | `0xaaaad7b9d7d7` | `<unknown>` |
+
+##### `0xffff898e003f` (`<unknown>`)
+
+| Change |       Delta |            % |           Size | Objects | Caller  | Location    |
+| -----: | ----------: | -----------: | -------------: | ------: | ------- | ----------- |
+|    new | +58.406 KiB | 0.0% → 31.7% | 0 B → 58.4 KiB | 0 → 534 | `0x177` | `<unknown>` |
+|    new |  +4.584 KiB |  0.0% → 2.5% | 0 B → 4.58 KiB | 0 → 939 | `0x3`   | `<unknown>` |
+|    new |  +2.187 KiB |  0.0% → 1.2% | 0 B → 2.19 KiB |  0 → 20 | `0x169` | `<unknown>` |
+|    new |  +2.078 KiB |  0.0% → 1.1% | 0 B → 2.08 KiB |  0 → 19 | `0x4d`  | `<unknown>` |
+|    new |  +2.078 KiB |  0.0% → 1.1% | 0 B → 2.08 KiB |  0 → 19 | `0x4e`  | `<unknown>` |
+
+##### `0x3142b` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
+
+|  Change |  Delta |           % |        Size | Objects | Caller           | Location    |
+| ------: | -----: | ----------: | ----------: | ------: | ---------------- | ----------- |
+| removed | -180 B | 2.8% → 0.0% | 180 B → 0 B |  10 → 0 | `0xffffa2a18fff` | `<unknown>` |
+|     new | +180 B | 0.0% → 0.2% | 0 B → 180 B |  0 → 10 | `0xffff8a178fff` | `<unknown>` |
+
+##### `0xaaaad7a9e7ff` (`<unknown>`)
+
+| Change |       Delta |            % |           Size | Objects | Caller                                 | Location                  |
+| -----: | ----------: | -----------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +12.023 KiB | 0.0% → 26.6% |   0 B → 12 KiB | 0 → 143 | `0xff`                                 | `<unknown>`               |
+|    new |  +6.213 KiB | 0.0% → 13.7% | 0 B → 6.21 KiB | 0 → 273 | `0xffff8a179d67`                       | `<unknown>`               |
+|    new |  +5.368 KiB | 0.0% → 11.9% | 0 B → 5.37 KiB | 0 → 239 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|    new |  +1.867 KiB |  0.0% → 4.1% | 0 B → 1.87 KiB | 0 → 239 | `0x1e85f`                              | `[stack]`                 |
+
+##### `0xe95906d9111bd8ff` (`<unknown>`)
+
+| Change |      Delta |           % |           Size | Objects | Caller    | Location  |
+| -----: | ---------: | ----------: | -------------: | ------: | --------- | --------- |
+|    new | +1.833 KiB | 0.0% → 5.3% | 0 B → 1.83 KiB | 0 → 939 | `0x1dd4f` | `[stack]` |
+
+##### `0x55555ffff` (`<unknown>`)
+
+| Change |       Delta |             % |         Size |   Objects | Caller               | Location    |
+| -----: | ----------: | ------------: | -----------: | --------: | -------------------- | ----------- |
+|    new | +33.011 KiB | 0.0% → 100.0% | 0 B → 33 KiB | 0 → 1,878 | `0xe95906d9111bd8ff` | `<unknown>` |
+
+##### `0xbd4e` (`<unknown>`)
+
+| Change |       Delta |            % |         Size |   Objects | Caller               | Location    |
+| -----: | ----------: | -----------: | -----------: | --------: | -------------------- | ----------- |
+|    new | +20.031 KiB | 0.0% → 72.9% | 0 B → 20 KiB | 0 → 1,963 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0x5` (`<unknown>`)
+
+|  Change |      Delta |           % |           Size | Objects | Caller           | Location    |
+| ------: | ---------: | ----------: | -------------: | ------: | ---------------- | ----------- |
+| removed | -4.078 KiB | 0.8% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab88d2607` | `<unknown>` |
+| removed | -4.078 KiB | 0.8% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab89888df` | `<unknown>` |
+| removed | -4.078 KiB | 0.8% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab895fd3f` | `<unknown>` |
+| removed | -4.078 KiB | 0.8% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab88751c7` | `<unknown>` |
+| removed | -4.078 KiB | 0.8% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab8931147` | `<unknown>` |
+
+##### `0x1` (`<unknown>`)
+
+|  Change |       Delta |           % |           Size | Objects | Caller    | Location    |
+| ------: | ----------: | ----------: | -------------: | ------: | --------- | ----------- |
+|     new | +13.447 KiB | 0.0% → 3.8% | 0 B → 13.4 KiB | 0 → 810 | `0x1e60f` | `[stack]`   |
+| removed |      -531 B | 0.2% → 0.0% |    531 B → 0 B |   9 → 0 | `0x1`     | `<unknown>` |
+
+##### `0xaaaad7b41617` (`<unknown>`)
+
+| Change |      Delta |            % |           Size | Objects | Caller | Location    |
+| -----: | ---------: | -----------: | -------------: | ------: | ------ | ----------- |
+|    new | +8.156 KiB | 0.0% → 99.9% | 0 B → 8.16 KiB |   0 → 2 | `0x5`  | `<unknown>` |
+
+##### `0xaaaad7b4152f` (`<unknown>`)
+
+| Change |      Delta |            % |           Size | Objects | Caller | Location    |
+| -----: | ---------: | -----------: | -------------: | ------: | ------ | ----------- |
+|    new | +8.156 KiB | 0.0% → 99.9% | 0 B → 8.16 KiB |   0 → 2 | `0x5`  | `<unknown>` |
+
+##### `0xaaaad7c56267` (`<unknown>`)
+
+| Change |      Delta |             % |           Size | Objects | Caller | Location    |
+| -----: | ---------: | ------------: | -------------: | ------: | ------ | ----------- |
+|    new | +8.156 KiB | 0.0% → 100.0% | 0 B → 8.16 KiB |   0 → 2 | `0x4`  | `<unknown>` |
+
+##### `0xaaaad7bfbbbf` (`<unknown>`)
+
+| Change |      Delta |             % |           Size | Objects | Caller | Location    |
+| -----: | ---------: | ------------: | -------------: | ------: | ------ | ----------- |
+|    new | +8.156 KiB | 0.0% → 100.0% | 0 B → 8.16 KiB |   0 → 2 | `0x5`  | `<unknown>` |
+
+##### `0xaaaad7b9ddd7` (`<unknown>`)
+
+| Change |      Delta |             % |           Size | Objects | Caller | Location    |
+| -----: | ---------: | ------------: | -------------: | ------: | ------ | ----------- |
+|    new | +8.156 KiB | 0.0% → 100.0% | 0 B → 8.16 KiB |   0 → 2 | `0x4`  | `<unknown>` |
+
+##### `0xaaaad7c288ff` (`<unknown>`)
+
+| Change |      Delta |             % |           Size | Objects | Caller | Location    |
+| -----: | ---------: | ------------: | -------------: | ------: | ------ | ----------- |
+|    new | +8.156 KiB | 0.0% → 100.0% | 0 B → 8.16 KiB |   0 → 2 | `0x5`  | `<unknown>` |
+
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+
+|  Change |        Delta |             % |                Size |         Objects | Caller                                 | Location                  |
+| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------- | ------------------------- |
+|  -72.4% |   -6.032 MiB | 77.0% → 40.4% |  8.33 MiB → 2.3 MiB | 80,249 → 33,558 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  +39.9% | +928.396 KiB | 21.0% → 55.8% | 2.27 MiB → 3.18 MiB | 15,629 → 19,211 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+| removed | -205.187 KiB |   1.9% → 0.0% |       205 KiB → 0 B |       1,876 → 0 | `0x1e9ef`                              | `[stack]`                 |
+|     new | +205.187 KiB |   0.0% → 3.5% |       0 B → 205 KiB |       0 → 1,876 | `0x1dd9f`                              | `[stack]`                 |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |        Delta |             % |                Size |           Objects | Caller    | Location                               |
+| -----: | -----------: | ------------: | ------------------: | ----------------: | --------- | -------------------------------------- |
+|  -5.5% | -649.707 KiB | 89.4% → 93.6% | 11.5 MiB → 10.8 MiB | 138,759 → 129,594 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
+
+|  Change |        Delta |            % |           Size |   Objects | Caller               | Location    |
+| ------: | -----------: | -----------: | -------------: | --------: | -------------------- | ----------- |
+| removed | -355.578 KiB | 30.2% → 0.0% |  356 KiB → 0 B | 3,251 → 0 | `0xffffffffffffffff` | `<unknown>` |
+| removed |  -234.75 KiB | 19.9% → 0.0% |  235 KiB → 0 B |   939 → 0 | `0x1f22f`            | `[stack]`   |
+| removed |   -99.64 KiB |  8.5% → 0.0% | 99.6 KiB → 0 B |   911 → 0 | `0x1e0bf`            | `[stack]`   |
+
+##### `0x1f22f` (`[stack]`)
+
+|  Change |        Delta |            % |           Size |   Objects | Caller    | Location                                                                        |
+| ------: | -----------: | -----------: | -------------: | --------: | --------- | ------------------------------------------------------------------------------- |
+| removed | -280.437 KiB | 30.5% → 0.0% |  280 KiB → 0 B | 2,564 → 0 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+| removed |    -5.14 KiB |  0.6% → 0.0% | 5.14 KiB → 0 B |    47 → 0 | `0x1e0bf` | `[stack]`                                                                       |
+
+##### `0x1093fb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|   Change |        Delta |             % |               Size |        Objects | Caller                                          | Location                      |
+| -------: | -----------: | ------------: | -----------------: | -------------: | ----------------------------------------------- | ----------------------------- |
+|   -60.6% | -898.562 KiB | 99.6% → 83.0% | 1.45 MiB → 583 KiB | 17,604 → 8,707 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+| +1908.7% | +113.625 KiB |  0.4% → 17.0% | 5.95 KiB → 120 KiB |        9 → 918 | `MAIN__`                                        | `/out/profile.f90`            |
+|      new |       +256 B |  0.0% → <0.1% |        0 B → 256 B |          0 → 8 | `__json_string_utilities_MOD_string_to_real`    | `./json_string_utilities.F90` |
+|  removed |        -96 B |  <0.1% → 0.0% |         96 B → 0 B |          1 → 0 | `__json_value_module_MOD_json_initialize`       | `./json_value_module.F90`     |
+
+##### `0x1f47f` (`[stack]`)
+
+|  Change |        Delta |            % |           Size |   Objects | Caller    | Location                                                                        |
+| ------: | -----------: | -----------: | -------------: | --------: | --------- | ------------------------------------------------------------------------------- |
+| removed | -313.468 KiB | 44.1% → 0.0% |  313 KiB → 0 B | 2,866 → 0 | `0x1f22f` | `[stack]`                                                                       |
+| removed |   -96.25 KiB | 13.5% → 0.0% | 96.3 KiB → 0 B |   880 → 0 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |        Delta |             % |                Size |           Objects | Caller   | Location    |
+| -----: | -----------: | ------------: | ------------------: | ----------------: | -------- | ----------- |
+|  -4.3% | -454.053 KiB | 90.5% → 91.7% | 10.4 MiB → 9.95 MiB | 124,114 → 118,144 | `_start` | `<unknown>` |
+
+##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`)
+
+| Change |        Delta |      % |              Size |     Objects | Caller                                     | Location                  |
+| -----: | -----------: | -----: | ----------------: | ----------: | ------------------------------------------ | ------------------------- |
+| -56.7% | -542.454 KiB | 100.0% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90`)
+
+| Change |        Delta |      % |              Size |     Objects | Caller                                            | Location                        |
+| -----: | -----------: | -----: | ----------------: | ----------: | ------------------------------------------------- | ------------------------------- |
+| -56.7% | -542.454 KiB | 100.0% | 958 KiB → 415 KiB | 2,522 → 203 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
+
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
+
+| Change |        Delta |      % |              Size |       Objects | Caller                                        | Location                 |
+| -----: | -----------: | -----: | ----------------: | ------------: | --------------------------------------------- | ------------------------ |
+| -56.6% | -541.624 KiB | 100.0% | 958 KiB → 416 KiB | 2,534 → 1,065 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
+
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`)
+
+| Change |        Delta |      % |              Size |       Objects | Caller   | Location           |
+| -----: | -----------: | -----: | ----------------: | ------------: | -------- | ------------------ |
+| -56.6% | -541.624 KiB | 100.0% | 958 KiB → 416 KiB | 2,534 → 1,065 | `MAIN__` | `/out/profile.f90` |
+
+##### `0x10b28f` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |        Delta |      % |              Size |        Objects | Caller     | Location                                          |
+| -----: | -----------: | -----: | ----------------: | -------------: | ---------- | ------------------------------------------------- |
+| -57.2% | -528.468 KiB | 100.0% | 923 KiB → 395 KiB | 11,654 → 6,407 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x112ecb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |    Delta |      % |              Size |       Objects | Caller     | Location                                          |
+| -----: | -------: | -----: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
+| -65.2% | -486 KiB | 100.0% | 745 KiB → 259 KiB | 5,962 → 2,074 | `0x10b28f` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x4` (`<unknown>`)
+
+|  Change |      Delta |           % |           Size | Objects | Caller           | Location    |
+| ------: | ---------: | ----------: | -------------: | ------: | ---------------- | ----------- |
+| removed | -4.078 KiB | 0.3% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab89e4157` | `<unknown>` |
+| removed | -4.078 KiB | 0.3% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab89898a7` | `<unknown>` |
+| removed | -4.078 KiB | 0.3% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab89e416f` | `<unknown>` |
+| removed | -4.078 KiB | 0.3% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab89894f7` | `<unknown>` |
+| removed | -4.078 KiB | 0.3% → 0.0% | 4.08 KiB → 0 B |   1 → 0 | `0xaaaab895f95f` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|  Change |        Delta |           % |          Size |   Objects | Caller           | Location                                                                           |
+| ------: | -----------: | ----------: | ------------: | --------: | ---------------- | ---------------------------------------------------------------------------------- |
+|     new | +758.759 KiB | 0.0% → 7.4% | 0 B → 759 KiB | 0 → 2,827 | `0xffff8a179d67` | `<unknown>`                                                                        |
+| removed | -689.968 KiB | 6.5% → 0.0% | 690 KiB → 0 B | 5,101 → 0 | `0x228cf`        | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`    |
+|     new | +461.156 KiB | 0.0% → 4.5% | 0 B → 461 KiB | 0 → 4,170 | `0x22aaf`        | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+|     new | +415.968 KiB | 0.0% → 4.1% | 0 B → 416 KiB |   0 → 102 | `0xaaaad7bfa0df` | `<unknown>`                                                                        |
+| removed | -415.015 KiB | 3.9% → 0.0% | 415 KiB → 0 B |   201 → 0 | `0xaaaab89e4197` | `<unknown>`                                                                        |
+
+##### `0xaaaab89e4197` (`<unknown>`)
+
+|  Change |       Delta |            % |          Size | Objects | Caller | Location    |
+| ------: | ----------: | -----------: | ------------: | ------: | ------ | ----------- |
+| removed | -411.89 KiB | 99.2% → 0.0% | 412 KiB → 0 B | 101 → 0 | `0x4`  | `<unknown>` |
+
+##### `0xaaaab89e413f` (`<unknown>`)
+
+|  Change |       Delta |             % |          Size | Objects | Caller | Location    |
+| ------: | ----------: | ------------: | ------------: | ------: | ------ | ----------- |
+| removed | -411.89 KiB | 100.0% → 0.0% | 412 KiB → 0 B | 101 → 0 | `0x4`  | `<unknown>` |
+
+##### `0xffffa218003f` (`<unknown>`)
+
+|  Change |        Delta |            % |           Size | Objects | Caller  | Location    |
+| ------: | -----------: | -----------: | -------------: | ------: | ------- | ----------- |
+| removed | -163.467 KiB | 41.2% → 0.0% |  163 KiB → 0 B | 458 → 0 | `0x1ff` | `<unknown>` |
+| removed |  -58.406 KiB | 14.7% → 0.0% | 58.4 KiB → 0 B | 534 → 0 | `0x177` | `<unknown>` |
+| removed |  -36.703 KiB |  9.2% → 0.0% | 36.7 KiB → 0 B |   9 → 0 | `0x4`   | `<unknown>` |
+| removed |   -2.187 KiB |  0.6% → 0.0% | 2.19 KiB → 0 B |  20 → 0 | `0x169` | `<unknown>` |
+| removed |   -2.078 KiB |  0.5% → 0.0% | 2.08 KiB → 0 B |  19 → 0 | `0x4e`  | `<unknown>` |
+
+##### `0xffffa2a19d67` (`<unknown>`)
+
+|  Change |       Delta |            % |           Size | Objects | Caller                                | Location                  |
+| ------: | ----------: | -----------: | -------------: | ------: | ------------------------------------- | ------------------------- |
+| removed | -234.25 KiB | 83.5% → 0.0% |  234 KiB → 0 B | 937 → 0 | `0x1ebff`                             | `[stack]`                 |
+| removed | -16.312 KiB |  5.8% → 0.0% | 16.3 KiB → 0 B |   4 → 0 | `0xffffa218003f`                      | `<unknown>`               |
+| removed | -12.116 KiB |  4.3% → 0.0% | 12.1 KiB → 0 B | 617 → 0 | `0xaaaab87a67ff`                      | `<unknown>`               |
+| removed |  -5.359 KiB |  1.9% → 0.0% | 5.36 KiB → 0 B | 686 → 0 | `__json_value_module_MOD_parse_array` | `./json_value_module.F90` |
+| removed |  -2.246 KiB |  0.8% → 0.0% | 2.25 KiB → 0 B | 100 → 0 | `0xaaaab87a62ff`                      | `<unknown>`               |
+
+##### `0x1c24b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |        Delta |             % |              Size |       Objects | Caller     | Location                                          |
+| -----: | -----------: | ------------: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
+| -45.9% | -256.312 KiB | 98.7% → 97.6% | 558 KiB → 302 KiB | 5,950 → 3,216 | `0x10c847` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x1f237` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
+
+|  Change |       Delta |             % |          Size | Objects | Caller                                 | Location                  |
+| ------: | ----------: | ------------: | ------------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -234.75 KiB | 100.0% → 0.0% | 235 KiB → 0 B | 939 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1eaff` (`[stack]`)
+
+|  Change |      Delta |             % |          Size | Objects | Caller    | Location  |
+| ------: | ---------: | ------------: | ------------: | ------: | --------- | --------- |
+| removed | -234.5 KiB | 100.0% → 0.0% | 235 KiB → 0 B | 938 → 0 | `0x1e9b7` | `[stack]` |
+
+##### `0x1dfbf` (`[stack]`)
+
+|  Change |        Delta |             % |          Size |   Objects | Caller                                 | Location                  |
+| ------: | -----------: | ------------: | ------------: | --------: | -------------------------------------- | ------------------------- |
+| removed | -205.406 KiB | 100.0% → 0.0% | 205 KiB → 0 B | 1,878 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1eb1f` (`[stack]`)
+
+|  Change |        Delta |             % |          Size | Objects | Caller    | Location                                           |
+| ------: | -----------: | ------------: | ------------: | ------: | --------- | -------------------------------------------------- |
+| removed | -113.625 KiB | 100.0% → 0.0% | 114 KiB → 0 B | 909 → 0 | `0x3143b` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1e7cf` (`[stack]`)
+
+|  Change |       Delta |             % |           Size | Objects | Caller    | Location  |
+| ------: | ----------: | ------------: | -------------: | ------: | --------- | --------- |
+| removed | -99.421 KiB | 100.0% → 0.0% | 99.4 KiB → 0 B | 909 → 0 | `0x1e687` | `[stack]` |
+
+##### `0x1e337` (`[stack]`)
+
+|  Change |       Delta |             % |           Size | Objects | Caller    | Location                                                                        |
+| ------: | ----------: | ------------: | -------------: | ------: | --------- | ------------------------------------------------------------------------------- |
+| removed | -97.781 KiB | 100.0% → 0.0% | 97.8 KiB → 0 B | 894 → 0 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+
+##### `0x10c847` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |        Delta |      % |              Size |       Objects | Caller     | Location                                          |
+| -----: | -----------: | -----: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
+| -45.9% | -256.312 KiB | 100.0% | 558 KiB → 302 KiB | 5,950 → 3,216 | `0x10ab63` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10ab63` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |        Delta |      % |              Size |       Objects | Caller     | Location                                          |
+| -----: | -----------: | -----: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
+| -45.9% | -256.312 KiB | 100.0% | 558 KiB → 302 KiB | 5,950 → 3,216 | `0x10b283` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10b283` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |        Delta |      % |              Size |       Objects | Caller     | Location                                          |
+| -----: | -----------: | -----: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
+| -45.9% | -256.312 KiB | 100.0% | 558 KiB → 302 KiB | 5,950 → 3,216 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0xffffa2190027` (`<unknown>`)
+
+|  Change |        Delta |            % |           Size | Objects | Caller                                 | Location                  |
+| ------: | -----------: | -----------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -161.909 KiB | 98.9% → 0.0% |  162 KiB → 0 B | 662 → 0 | `0xffffa2190027`                       | `<unknown>`               |
+| removed |    -1.75 KiB |  1.1% → 0.0% | 1.75 KiB → 0 B |   7 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x0` (`<unknown>`)
+
+|  Change |       Delta |            % |           Size | Objects | Caller           | Location    |
+| ------: | ----------: | -----------: | -------------: | ------: | ---------------- | ----------- |
+| removed | -86.906 KiB | 64.3% → 0.0% | 86.9 KiB → 0 B | 927 → 0 | `0x1f22f`        | `[stack]`   |
+| removed |  -2.187 KiB |  1.6% → 0.0% | 2.19 KiB → 0 B |  20 → 0 | `0x1e1ff`        | `[stack]`   |
+|     new |  +2.187 KiB |  0.0% → 5.7% | 0 B → 2.19 KiB |  0 → 20 | `0x1d5af`        | `[stack]`   |
+| removed |  -2.078 KiB |  1.5% → 0.0% | 2.08 KiB → 0 B |  19 → 0 | `0xaaaab611fb07` | `<unknown>` |
+|     new |  +2.078 KiB |  0.0% → 5.4% | 0 B → 2.08 KiB |  0 → 19 | `0xaaaad41cfb07` | `<unknown>` |
+
+##### `0xffffa2a18fff` (`<unknown>`)
+
+|  Change |      Delta |           % |           Size | Objects | Caller           | Location    |
+| ------: | ---------: | ----------: | -------------: | ------: | ---------------- | ----------- |
+| removed | -7.374 KiB | 8.8% → 0.0% | 7.37 KiB → 0 B | 299 → 0 | `0xaaaab87a67ff` | `<unknown>` |
+| removed | -3.247 KiB | 3.9% → 0.0% | 3.25 KiB → 0 B | 133 → 0 | `0xaaaab87a65ff` | `<unknown>` |
+| removed |     -512 B | 0.6% → 0.0% |    512 B → 0 B |   2 → 0 | `0xaaaab8875587` | `<unknown>` |
+| removed |     -512 B | 0.6% → 0.0% |    512 B → 0 B |   2 → 0 | `0xaaaab87a1ba7` | `<unknown>` |
+| removed |     -512 B | 0.6% → 0.0% |    512 B → 0 B |   2 → 0 | `0xaaaab88199d7` | `<unknown>` |
+
+##### `0x112ebb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+| Change |       Delta |      % |              Size |       Objects | Caller     | Location                                          |
+| -----: | ----------: | -----: | ----------------: | ------------: | ---------- | ------------------------------------------------- |
+| -23.9% | -42.468 KiB | 100.0% | 178 KiB → 135 KiB | 5,692 → 4,333 | `0x10b28f` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -1256,6 +1749,373 @@ Functions with the largest decrease in bytes retained within the function and it
 | removed |     -112 B | <0.1% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab879f97f`     | `<unknown>` |
 | removed |     -112 B | <0.1% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab89311bf`     | `<unknown>` |
 | removed |     -112 B | <0.1% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab881808f`     | `<unknown>` |
+
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `0x22aaf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
+
+| Change |       Delta |            % |           Size | Objects | Caller                                 | Location                  |
+| -----: | ----------: | -----------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +14.984 KiB | 0.0% → 42.4% |   0 B → 15 KiB | 0 → 137 | `0xffffffffffffffff`                   | `<unknown>`               |
+|    new |  +4.156 KiB | 0.0% → 11.8% | 0 B → 4.16 KiB |  0 → 38 | `0x1d46f`                              | `[stack]`                 |
+|    new |      +760 B |  0.0% → 2.1% |    0 B → 760 B |   0 → 1 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1e85f` (`[stack]`)
+
+| Change |       Delta |            % |           Size | Objects | Caller    | Location                                                                           |
+| -----: | ----------: | -----------: | -------------: | ------: | --------- | ---------------------------------------------------------------------------------- |
+|    new | +13.234 KiB | 0.0% → 44.7% | 0 B → 13.2 KiB | 0 → 121 | `0x1e5ef` | `[stack]`                                                                          |
+|    new |  +3.718 KiB | 0.0% → 12.6% | 0 B → 3.72 KiB |  0 → 34 | `0x22aaf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+
+##### `0x1e5ef` (`[stack]`)
+
+| Change |       Delta |            % |           Size | Objects | Caller               | Location                                                                           |
+| -----: | ----------: | -----------: | -------------: | ------: | -------------------- | ---------------------------------------------------------------------------------- |
+|    new | +11.703 KiB | 0.0% → 46.3% | 0 B → 11.7 KiB | 0 → 107 | `0x22aaf`            | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+|    new |      +224 B |  0.0% → 0.9% |    0 B → 224 B |   0 → 2 | `0x1d46f`            | `[stack]`                                                                          |
+|    new |      +112 B |  0.0% → 0.4% |    0 B → 112 B |   0 → 1 | `0xffffffffffffffff` | `<unknown>`                                                                        |
+
+##### `0x1d36f` (`[stack]`)
+
+| Change |      Delta |             % |           Size | Objects | Caller                                 | Location                  |
+| -----: | ---------: | ------------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +8.531 KiB | 0.0% → 100.0% | 0 B → 8.53 KiB |  0 → 78 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0xffff898e003f` (`<unknown>`)
+
+| Change |      Delta |            % |          Size | Objects | Caller  | Location    |
+| -----: | ---------: | -----------: | ------------: | ------: | ------- | ----------- |
+|    new | +2.296 KiB | 0.0% → 27.6% | 0 B → 2.3 KiB |  0 → 21 | `0x177` | `<unknown>` |
+|    new |     +224 B |  0.0% → 2.6% |   0 B → 224 B |   0 → 2 | `0x169` | `<unknown>` |
+|    new |     +112 B |  0.0% → 1.3% |   0 B → 112 B |   0 → 1 | `0xaf`  | `<unknown>` |
+|    new |     +112 B |  0.0% → 1.3% |   0 B → 112 B |   0 → 1 | `0x52`  | `<unknown>` |
+|    new |     +112 B |  0.0% → 1.3% |   0 B → 112 B |   0 → 1 | `0x48`  | `<unknown>` |
+
+##### `0xaaaad7a9e7ff` (`<unknown>`)
+
+| Change |      Delta |            % |           Size | Objects | Caller                                 | Location                  |
+| -----: | ---------: | -----------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+|    new | +1.075 KiB | 0.0% → 19.1% | 0 B → 1.08 KiB |  0 → 45 | `0xffff8a179d67`                       | `<unknown>`               |
+|    new |     +897 B | 0.0% → 15.6% |    0 B → 897 B |  0 → 39 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|    new |     +312 B |  0.0% → 5.4% |    0 B → 312 B |  0 → 39 | `0x1e85f`                              | `[stack]`                 |
+
+##### `0x1d6e7` (`[stack]`)
+
+| Change |      Delta |             % |           Size | Objects | Caller    | Location  |
+| -----: | ---------: | ------------: | -------------: | ------: | --------- | --------- |
+|    new | +4.265 KiB | 0.0% → 100.0% | 0 B → 4.27 KiB |  0 → 39 | `0x1d3e7` | `[stack]` |
+
+##### `0x1db7f` (`[stack]`)
+
+| Change |      Delta |             % |           Size | Objects | Caller    | Location  |
+| -----: | ---------: | ------------: | -------------: | ------: | --------- | --------- |
+|    new | +4.046 KiB | 0.0% → 100.0% | 0 B → 4.05 KiB |  0 → 37 | `0x1da37` | `[stack]` |
+
+##### `0x1d74f` (`[stack]`)
+
+| Change |    Delta |             % |          Size | Objects | Caller                                | Location                  |
+| -----: | -------: | ------------: | ------------: | ------: | ------------------------------------- | ------------------------- |
+|    new | +3.5 KiB | 0.0% → 100.0% | 0 B → 3.5 KiB |  0 → 32 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
+
+##### `0xffff8a178fff` (`<unknown>`)
+
+| Change |      Delta |            % |           Size | Objects | Caller           | Location    |
+| -----: | ---------: | -----------: | -------------: | ------: | ---------------- | ----------- |
+|    new | +1.293 KiB | 0.0% → 40.6% | 0 B → 1.29 KiB |  0 → 51 | `0xaaaad7a9e7ff` | `<unknown>` |
+|    new |     +112 B |  0.0% → 3.4% |    0 B → 112 B |   0 → 1 | `0xaaaad7b89c4f` | `<unknown>` |
+|    new |     +112 B |  0.0% → 3.4% |    0 B → 112 B |   0 → 1 | `0xaaaad7b7743f` | `<unknown>` |
+|    new |     +112 B |  0.0% → 3.4% |    0 B → 112 B |   0 → 1 | `0xaaaad7ba599f` | `<unknown>` |
+|    new |     +112 B |  0.0% → 3.4% |    0 B → 112 B |   0 → 1 | `0xaaaad7c31b7f` | `<unknown>` |
+
+##### `0xffff8a179d67` (`<unknown>`)
+
+| Change |      Delta |            % |           Size | Objects | Caller           | Location    |
+| -----: | ---------: | -----------: | -------------: | ------: | ---------------- | ----------- |
+|    new | +2.016 KiB | 0.0% → 65.2% | 0 B → 2.02 KiB | 0 → 103 | `0xaaaad7a9e7ff` | `<unknown>` |
+
+##### `0xe95906d9111bd8ff` (`<unknown>`)
+
+| Change | Delta |           % |       Size | Objects | Caller    | Location  |
+| -----: | ----: | ----------: | ---------: | ------: | --------- | --------- |
+|    new | +78 B | 0.0% → 5.3% | 0 B → 78 B |  0 → 39 | `0x1dd4f` | `[stack]` |
+
+##### `0x55555ffff` (`<unknown>`)
+
+| Change |      Delta |             % |           Size | Objects | Caller               | Location    |
+| -----: | ---------: | ------------: | -------------: | ------: | -------------------- | ----------- |
+|    new | +1.371 KiB | 0.0% → 100.0% | 0 B → 1.37 KiB |  0 → 78 | `0xe95906d9111bd8ff` | `<unknown>` |
+
+##### `0xbd4e` (`<unknown>`)
+
+| Change |  Delta |            % |        Size | Objects | Caller               | Location    |
+| -----: | -----: | -----------: | ----------: | ------: | -------------------- | ----------- |
+|    new | +856 B | 0.0% → 73.3% | 0 B → 856 B |  0 → 82 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0x1d02f` (`[stack]`)
+
+| Change |  Delta |             % |        Size | Objects | Caller    | Location                                           |
+| -----: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------------------- |
+|    new | +808 B | 0.0% → 100.0% | 0 B → 808 B |  0 → 39 | `0x3131f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1dc4f` (`[stack]`)
+
+| Change |  Delta |             % |        Size | Objects | Caller    | Location                                           |
+| -----: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------------------- |
+|    new | +702 B | 0.0% → 100.0% | 0 B → 702 B |  0 → 39 | `0x2b167` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1da4f` (`[stack]`)
+
+| Change |  Delta |            % |        Size | Objects | Caller    | Location                                           |
+| -----: | -----: | -----------: | ----------: | ------: | --------- | -------------------------------------------------- |
+|    new | +351 B | 0.0% → 75.8% | 0 B → 351 B |  0 → 39 | `0x3131f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1d4af` (`[stack]`)
+
+| Change |  Delta |             % |        Size | Objects | Caller                                    | Location                  |
+| -----: | -----: | ------------: | ----------: | ------: | ----------------------------------------- | ------------------------- |
+|    new | +336 B | 0.0% → 100.0% | 0 B → 336 B |   0 → 3 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
+
+##### `0x1dd2f` (`[stack]`)
+
+| Change |  Delta |             % |        Size | Objects | Caller    | Location                               |
+| -----: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +312 B | 0.0% → 100.0% | 0 B → 312 B |  0 → 39 | `0x839cf` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x1e0af` (`[stack]`)
+
+| Change |  Delta |             % |        Size | Objects | Caller   | Location    |
+| -----: | -----: | ------------: | ----------: | ------: | -------- | ----------- |
+|    new | +312 B | 0.0% → 100.0% | 0 B → 312 B |  0 → 39 | `0xbd4e` | `<unknown>` |
+
+##### `0xaaaad41cfb07` (`<unknown>`)
+
+| Change |  Delta |            % |        Size | Objects | Caller | Location    |
+| -----: | -----: | -----------: | ----------: | ------: | ------ | ----------- |
+|    new | +112 B | 0.0% → 50.0% | 0 B → 112 B |   0 → 1 | `0x0`  | `<unknown>` |
+
+##### `0xaaaad7c57677` (`<unknown>`)
+
+| Change |  Delta |            % |        Size | Objects | Caller    | Location    |
+| -----: | -----: | -----------: | ----------: | ------: | --------- | ----------- |
+|    new | +112 B | 0.0% → 93.3% | 0 B → 112 B |   0 → 1 | `0x7`     | `<unknown>` |
+|    new |   +8 B |  0.0% → 6.7% |   0 B → 8 B |   0 → 1 | `0x1d83f` | `[stack]`   |
+
+##### `0xffffffffffffffff` (`<unknown>`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller           | Location    |
+| ------: | -----: | -----------: | ----------: | ------: | ---------------- | ----------- |
+| removed | -112 B |  0.3% → 0.0% | 112 B → 0 B |   1 → 0 | `0xaaaab612018f` | `<unknown>` |
+|     new | +112 B |  0.0% → 0.3% | 0 B → 112 B |   0 → 1 | `0xaaaad41d018f` | `<unknown>` |
+| removed |  -13 B | <0.1% → 0.0% |  13 B → 0 B |   1 → 0 | `0xffffa2a5fd7f` | `<unknown>` |
+|     new |  +13 B | 0.0% → <0.1% |  0 B → 13 B |   0 → 1 | `0xffff8a1b9d7f` | `<unknown>` |
+
+##### `0xaaaad7b417cf` (`<unknown>`)
+
+| Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| -----: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +112 B | 0.0% → 100.0% | 0 B → 112 B |   0 → 1 | `0x7c` | `<unknown>` |
+
+##### `0xaaaad7b6d7a7` (`<unknown>`)
+
+| Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| -----: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +112 B | 0.0% → 100.0% | 0 B → 112 B |   0 → 1 | `0x7c` | `<unknown>` |
+
+##### `0xaaaad7c31b6f` (`<unknown>`)
+
+| Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| -----: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +112 B | 0.0% → 100.0% | 0 B → 112 B |   0 → 1 | `0xb`  | `<unknown>` |
+
+##### `0xaaaad7ba598f` (`<unknown>`)
+
+| Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| -----: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +112 B | 0.0% → 100.0% | 0 B → 112 B |   0 → 1 | `0xd`  | `<unknown>` |
+
+##### `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
+
+|  Change |       Delta |            % |           Size | Objects | Caller               | Location    |
+| ------: | ----------: | -----------: | -------------: | ------: | -------------------- | ----------- |
+| removed | -14.984 KiB | 38.6% → 0.0% |   15 KiB → 0 B | 137 → 0 | `0xffffffffffffffff` | `<unknown>` |
+| removed |  -4.156 KiB | 10.7% → 0.0% | 4.16 KiB → 0 B |  38 → 0 | `0x1e0bf`            | `[stack]`   |
+
+##### `0x1f47f` (`[stack]`)
+
+|  Change |       Delta |            % |           Size | Objects | Caller    | Location                                                                        |
+| ------: | ----------: | -----------: | -------------: | ------: | --------- | ------------------------------------------------------------------------------- |
+| removed | -13.234 KiB | 44.7% → 0.0% | 13.2 KiB → 0 B | 121 → 0 | `0x1f22f` | `[stack]`                                                                       |
+| removed |  -3.718 KiB | 12.6% → 0.0% | 3.72 KiB → 0 B |  34 → 0 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+
+##### `0x1f22f` (`[stack]`)
+
+|  Change |       Delta |            % |           Size | Objects | Caller    | Location                                                                        |
+| ------: | ----------: | -----------: | -------------: | ------: | --------- | ------------------------------------------------------------------------------- |
+| removed | -11.703 KiB | 46.5% → 0.0% | 11.7 KiB → 0 B | 107 → 0 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+| removed |      -224 B |  0.9% → 0.0% |    224 B → 0 B |   2 → 0 | `0x1e0bf` | `[stack]`                                                                       |
+
+##### `0x1dfbf` (`[stack]`)
+
+|  Change |      Delta |             % |           Size | Objects | Caller                                 | Location                  |
+| ------: | ---------: | ------------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -8.531 KiB | 100.0% → 0.0% | 8.53 KiB → 0 B |  78 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0xffffa218003f` (`<unknown>`)
+
+|  Change |      Delta |            % |          Size | Objects | Caller  | Location    |
+| ------: | ---------: | -----------: | ------------: | ------: | ------- | ----------- |
+| removed | -2.296 KiB | 27.6% → 0.0% | 2.3 KiB → 0 B |  21 → 0 | `0x177` | `<unknown>` |
+| removed |     -224 B |  2.6% → 0.0% |   224 B → 0 B |   2 → 0 | `0x169` | `<unknown>` |
+| removed |     -112 B |  1.3% → 0.0% |   112 B → 0 B |   1 → 0 | `0x83`  | `<unknown>` |
+| removed |     -112 B |  1.3% → 0.0% |   112 B → 0 B |   1 → 0 | `0xdf`  | `<unknown>` |
+| removed |     -112 B |  1.3% → 0.0% |   112 B → 0 B |   1 → 0 | `0xd6`  | `<unknown>` |
+
+##### `0xaaaab87a67ff` (`<unknown>`)
+
+|  Change |      Delta |            % |           Size | Objects | Caller                                 | Location                  |
+| ------: | ---------: | -----------: | -------------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -1.075 KiB | 19.1% → 0.0% | 1.08 KiB → 0 B |  45 → 0 | `0xffffa2a19d67`                       | `<unknown>`               |
+| removed |     -897 B | 15.6% → 0.0% |    897 B → 0 B |  39 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| removed |     -312 B |  5.4% → 0.0% |    312 B → 0 B |  39 → 0 | `0x1f47f`                              | `[stack]`                 |
+
+##### `0x1e337` (`[stack]`)
+
+|  Change |      Delta |             % |           Size | Objects | Caller    | Location                                                                        |
+| ------: | ---------: | ------------: | -------------: | ------: | --------- | ------------------------------------------------------------------------------- |
+| removed | -4.265 KiB | 100.0% → 0.0% | 4.27 KiB → 0 B |  39 → 0 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+
+##### `0x1e7cf` (`[stack]`)
+
+|  Change |      Delta |             % |           Size | Objects | Caller    | Location  |
+| ------: | ---------: | ------------: | -------------: | ------: | --------- | --------- |
+| removed | -4.046 KiB | 100.0% → 0.0% | 4.05 KiB → 0 B |  37 → 0 | `0x1e687` | `[stack]` |
+
+##### `0x1e39f` (`[stack]`)
+
+|  Change |    Delta |             % |          Size | Objects | Caller                                | Location                  |
+| ------: | -------: | ------------: | ------------: | ------: | ------------------------------------- | ------------------------- |
+| removed | -3.5 KiB | 100.0% → 0.0% | 3.5 KiB → 0 B |  32 → 0 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
+
+##### `0xffffa2a18fff` (`<unknown>`)
+
+|  Change |      Delta |            % |           Size | Objects | Caller           | Location    |
+| ------: | ---------: | -----------: | -------------: | ------: | ---------------- | ----------- |
+| removed | -1.293 KiB | 40.6% → 0.0% | 1.29 KiB → 0 B |  51 → 0 | `0xaaaab87a67ff` | `<unknown>` |
+| removed |     -112 B |  3.4% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab8891c4f` | `<unknown>` |
+| removed |     -112 B |  3.4% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab88ad99f` | `<unknown>` |
+| removed |     -112 B |  3.4% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab8939b7f` | `<unknown>` |
+| removed |     -112 B |  3.4% → 0.0% |    112 B → 0 B |   1 → 0 | `0xaaaab887f43f` | `<unknown>` |
+
+##### `0xffffa2a19d67` (`<unknown>`)
+
+|  Change |      Delta |            % |           Size | Objects | Caller           | Location    |
+| ------: | ---------: | -----------: | -------------: | ------: | ---------------- | ----------- |
+| removed | -2.016 KiB | 65.2% → 0.0% | 2.02 KiB → 0 B | 103 → 0 | `0xaaaab87a67ff` | `<unknown>` |
+
+##### `0x9a971f3bf4c75dff` (`<unknown>`)
+
+|  Change | Delta |           % |       Size | Objects | Caller    | Location  |
+| ------: | ----: | ----------: | ---------: | ------: | --------- | --------- |
+| removed | -78 B | 5.3% → 0.0% | 78 B → 0 B |  39 → 0 | `0x1e99f` | `[stack]` |
+
+##### `0x55554ffff` (`<unknown>`)
+
+|  Change |      Delta |             % |           Size | Objects | Caller               | Location    |
+| ------: | ---------: | ------------: | -------------: | ------: | -------------------- | ----------- |
+| removed | -1.371 KiB | 100.0% → 0.0% | 1.37 KiB → 0 B |  78 → 0 | `0x9a971f3bf4c75dff` | `<unknown>` |
+
+##### `0xc3d2` (`<unknown>`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller               | Location    |
+| ------: | -----: | -----------: | ----------: | ------: | -------------------- | ----------- |
+| removed | -856 B | 73.3% → 0.0% | 856 B → 0 B |  82 → 0 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0x1dc7f` (`[stack]`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller    | Location                                           |
+| ------: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------------------- |
+| removed | -808 B | 100.0% → 0.0% | 808 B → 0 B |  39 → 0 | `0x3131f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1ef2f` (`[stack]`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller                                 | Location                  |
+| ------: | -----: | ------------: | ----------: | ------: | -------------------------------------- | ------------------------- |
+| removed | -760 B | 100.0% → 0.0% | 760 B → 0 B |   1 → 0 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1e89f` (`[stack]`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller    | Location                                           |
+| ------: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------------------- |
+| removed | -702 B | 100.0% → 0.0% | 702 B → 0 B |  39 → 0 | `0x2b167` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1e69f` (`[stack]`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller    | Location                                           |
+| ------: | -----: | -----------: | ----------: | ------: | --------- | -------------------------------------------------- |
+| removed | -351 B | 75.8% → 0.0% | 351 B → 0 B |  39 → 0 | `0x3131f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1e0ff` (`[stack]`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller                                    | Location                  |
+| ------: | -----: | ------------: | ----------: | ------: | ----------------------------------------- | ------------------------- |
+| removed | -336 B | 100.0% → 0.0% | 336 B → 0 B |   3 → 0 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
+
+##### `0x1e97f` (`[stack]`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller    | Location                               |
+| ------: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -312 B | 100.0% → 0.0% | 312 B → 0 B |  39 → 0 | `0x839cf` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x1ecff` (`[stack]`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller   | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | -------- | ----------- |
+| removed | -312 B | 100.0% → 0.0% | 312 B → 0 B |  39 → 0 | `0xc3d2` | `<unknown>` |
+
+##### `0xaaaab611fb07` (`<unknown>`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller | Location    |
+| ------: | -----: | -----------: | ----------: | ------: | ------ | ----------- |
+| removed | -112 B | 50.0% → 0.0% | 112 B → 0 B |   1 → 0 | `0x0`  | `<unknown>` |
+
+##### `0xaaaab895f677` (`<unknown>`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller    | Location    |
+| ------: | -----: | -----------: | ----------: | ------: | --------- | ----------- |
+| removed | -112 B | 93.3% → 0.0% | 112 B → 0 B |   1 → 0 | `0x7`     | `<unknown>` |
+| removed |   -8 B |  6.7% → 0.0% |   8 B → 0 B |   1 → 0 | `0x1e48f` | `[stack]`   |
+
+##### `0xaaaab8849377` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -112 B | 100.0% → 0.0% | 112 B → 0 B |   1 → 0 | `0x7c` | `<unknown>` |
+
+##### `0xaaaab89bac9f` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -112 B | 100.0% → 0.0% | 112 B → 0 B |   1 → 0 | `0x7c` | `<unknown>` |
+
+##### `0xaaaab8939b6f` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -112 B | 100.0% → 0.0% | 112 B → 0 B |   1 → 0 | `0xb`  | `<unknown>` |
+
+##### `0xaaaab89311bf` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -112 B | 100.0% → 0.0% | 112 B → 0 B |   1 → 0 | `0x7c` | `<unknown>` |
+
+##### `0xaaaab881808f` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -112 B | 100.0% → 0.0% | 112 B → 0 B |   1 → 0 | `0x7c` | `<unknown>` |
 
 #### Callees
 

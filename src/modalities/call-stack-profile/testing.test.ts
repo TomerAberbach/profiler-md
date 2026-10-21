@@ -1,6 +1,11 @@
 import dedent from 'dedent'
 import { describe, expect, test } from 'vitest'
-import { calleesTables, callersTables, linesTables } from '../../testing.ts'
+import {
+  calleesTables,
+  callersTables,
+  linesTables,
+  totalCallersTables,
+} from '../../testing.ts'
 import {
   callStackTables,
   selfTimeTables,
@@ -268,7 +273,81 @@ describe(`callersTables`, () => {
 
     expect(tables).toStrictEqual([[{ Caller: `a`, Time: `1ms` }]])
   })
+
+  test(`returns the tables under the self ranking`, () => {
+    expect(callersTables(BOTH_RANKINGS_MD, `foo`)).toStrictEqual([
+      [{ Caller: `a`, Time: `1ms` }],
+    ])
+  })
+
+  test(`returns [] when only the total ranking has a Callers section`, () => {
+    const tables = callersTables(
+      dedent`
+        ## Self time
+
+        ## Total time
+
+        ### Callers
+
+        #### foo
+
+        | Caller | Time |
+        | --- | --- |
+        | b | 2ms |
+      `,
+      `foo`,
+    )
+
+    expect(tables).toStrictEqual([])
+  })
 })
+
+describe(`totalCallersTables`, () => {
+  test(`returns the tables under the total ranking`, () => {
+    expect(totalCallersTables(BOTH_RANKINGS_MD, `foo`)).toStrictEqual([
+      [{ Caller: `b`, Time: `2ms` }],
+    ])
+  })
+
+  test(`returns [] when no total ranking is present`, () => {
+    const tables = totalCallersTables(
+      dedent`
+        ## Callers
+
+        ### foo
+
+        | Caller | Time |
+        | --- | --- |
+        | a | 1ms |
+      `,
+      `foo`,
+    )
+
+    expect(tables).toStrictEqual([])
+  })
+})
+
+const BOTH_RANKINGS_MD = dedent`
+  ## Self time
+
+  ### Callers
+
+  #### foo
+
+  | Caller | Time |
+  | --- | --- |
+  | a | 1ms |
+
+  ## Total time
+
+  ### Callers
+
+  #### foo
+
+  | Caller | Time |
+  | --- | --- |
+  | b | 2ms |
+`
 
 describe(`calleesTables`, () => {
   test(`returns [] when Callees heading is absent`, () => {

@@ -713,6 +713,304 @@ Categories accounting for at least 1.0% of self size.
 |   1.3% | 1.01 MiB |           4 | `_parse`                    | `/usr/lib/python3.11/re/_parser.py:507`       |
 |   0.3% |  222 KiB |           1 | `decode`                    | `<frozen codecs>:319`                         |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `run_module` (`<frozen runpy>:201`)
+
+|      % |     Size | Allocations | Caller         | Location                                                       |
+| -----: | -------: | ----------: | -------------- | -------------------------------------------------------------- |
+| 100.0% | 78.6 MiB |      22,695 | `_run_tracker` | `/venv/lib/python3.11/site-packages/memray/commands/run.py:40` |
+
+##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py:1629`)
+
+|      % |     Size | Allocations | Caller         | Location                   |
+| -----: | -------: | ----------: | -------------- | -------------------------- |
+| 100.0% | 74.3 MiB |      21,395 | `patched_main` | `./black/__init__.py:1580` |
+
+##### `patched_main` (`./black/__init__.py:1580`)
+
+|      % |     Size | Allocations | Caller     | Location                |
+| -----: | -------: | ----------: | ---------- | ----------------------- |
+| 100.0% | 74.3 MiB |      21,395 | `<module>` | `./black/__main__.py:1` |
+
+##### `<module>` (`./black/__main__.py:1`)
+
+|      % |     Size | Allocations | Caller      | Location            |
+| -----: | -------: | ----------: | ----------- | ------------------- |
+| 100.0% | 74.3 MiB |      21,395 | `_run_code` | `<frozen runpy>:65` |
+
+##### `_run_code` (`<frozen runpy>:65`)
+
+|      % |     Size | Allocations | Caller             | Location            |
+| -----: | -------: | ----------: | ------------------ | ------------------- |
+| 100.0% | 74.3 MiB |      21,395 | `_run_module_code` | `<frozen runpy>:91` |
+
+##### `_run_module_code` (`<frozen runpy>:91`)
+
+|      % |     Size | Allocations | Caller       | Location             |
+| -----: | -------: | ----------: | ------------ | -------------------- |
+| 100.0% | 74.3 MiB |      21,395 | `run_module` | `<frozen runpy>:201` |
+
+##### `main` (`/venv/lib/python3.11/site-packages/click/core.py:1484`)
+
+|      % |     Size | Allocations | Caller     | Location                                                |
+| -----: | -------: | ----------: | ---------- | ------------------------------------------------------- |
+| 100.0% | 74.3 MiB |      21,394 | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py:1629` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:1401`)
+
+|      % |     Size | Allocations | Caller | Location                                                |
+| -----: | -------: | ----------: | ------ | ------------------------------------------------------- |
+| 100.0% | 74.3 MiB |      21,374 | `main` | `/venv/lib/python3.11/site-packages/click/core.py:1484` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`)
+
+|      % |     Size | Allocations | Caller   | Location                                                |
+| -----: | -------: | ----------: | -------- | ------------------------------------------------------- |
+| 100.0% | 74.3 MiB |      21,371 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:1401` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`)
+
+|      % |     Size | Allocations | Caller   | Location                                               |
+| -----: | -------: | ----------: | -------- | ------------------------------------------------------ |
+| 100.0% | 74.3 MiB |      21,369 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:857` |
+
+##### `main` (`./black/__init__.py:240`)
+
+|      % |     Size | Allocations | Caller     | Location                                                    |
+| -----: | -------: | ----------: | ---------- | ----------------------------------------------------------- |
+| 100.0% | 74.3 MiB |      21,366 | `new_func` | `/venv/lib/python3.11/site-packages/click/decorators.py:33` |
+
+##### `reformat_one` (`./black/__init__.py:865`)
+
+|      % |     Size | Allocations | Caller | Location                  |
+| -----: | -------: | ----------: | ------ | ------------------------- |
+| 100.0% | 74.2 MiB |      21,362 | `main` | `./black/__init__.py:240` |
+
+##### `format_file_in_place` (`./black/__init__.py:922`)
+
+|      % |     Size | Allocations | Caller         | Location                  |
+| -----: | -------: | ----------: | -------------- | ------------------------- |
+| 100.0% | 74.2 MiB |      21,359 | `reformat_one` | `./black/__init__.py:865` |
+
+##### `format_file_contents` (`./black/__init__.py:1059`)
+
+|      % |   Size | Allocations | Caller                 | Location                  |
+| -----: | -----: | ----------: | ---------------------- | ------------------------- |
+| 100.0% | 74 MiB |      21,356 | `format_file_in_place` | `./black/__init__.py:922` |
+
+##### `format_str` (`./black/__init__.py:1168`)
+
+|      % |     Size | Allocations | Caller                 | Location                   |
+| -----: | -------: | ----------: | ---------------------- | -------------------------- |
+| 100.0% | 51.8 MiB |      21,147 | `format_file_contents` | `./black/__init__.py:1059` |
+
+##### `_format_str_once` (`./black/__init__.py:1215`)
+
+|      % |     Size | Allocations | Caller       | Location                   |
+| -----: | -------: | ----------: | ------------ | -------------------------- |
+| 100.0% | 51.8 MiB |      21,146 | `format_str` | `./black/__init__.py:1168` |
+
+##### `visit` (`./black/nodes.py:152`)
+
+|      % |     Size | Allocations | Caller             | Location                   |
+| -----: | -------: | ----------: | ------------------ | -------------------------- |
+| 100.0% | 36.4 MiB |      21,087 | `_format_str_once` | `./black/__init__.py:1215` |
+| 100.0% | 36.4 MiB |      21,085 | `visit_default`    | `./black/nodes.py:176`     |
+|  99.2% | 36.2 MiB |      20,712 | `visit_stmt`       | `./black/linegen.py:199`   |
+|  95.5% | 34.8 MiB |      20,272 | `visit_funcdef`    | `./black/linegen.py:254`   |
+|   0.4% |  135 KiB |         180 | `visit_decorators` | `./black/linegen.py:335`   |
+
+##### `visit_default` (`./black/nodes.py:176`)
+
+|      % |     Size | Allocations | Caller          | Location                 |
+| -----: | -------: | ----------: | --------------- | ------------------------ |
+| 100.0% | 36.4 MiB |      21,085 | `visit_default` | `./black/linegen.py:134` |
+
+##### `visit_default` (`./black/linegen.py:134`)
+
+|      % |     Size | Allocations | Caller              | Location                 |
+| -----: | -------: | ----------: | ------------------- | ------------------------ |
+| 100.0% | 36.4 MiB |      21,085 | `visit`             | `./black/nodes.py:152`   |
+|  95.3% | 34.7 MiB |      20,146 | `visit_suite`       | `./black/linegen.py:288` |
+|  57.2% | 20.8 MiB |      13,399 | `visit_simple_stmt` | `./black/linegen.py:295` |
+|  40.9% | 14.9 MiB |      10,805 | `visit_power`       | `./black/linegen.py:341` |
+|   4.2% | 1.53 MiB |         725 | `visit_STRING`      | `./black/linegen.py:413` |
+
+##### `visit_stmt` (`./black/linegen.py:199`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 36.2 MiB |      20,714 | `visit` | `./black/nodes.py:152` |
+
+##### `visit_funcdef` (`./black/linegen.py:254`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 34.8 MiB |      20,272 | `visit` | `./black/nodes.py:152` |
+
+##### `visit_suite` (`./black/linegen.py:288`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 34.7 MiB |      20,146 | `visit` | `./black/nodes.py:152` |
+
+##### `append` (`./black/lines.py:52`)
+
+|      % |     Size | Allocations | Caller          | Location                 |
+| -----: | -------: | ----------: | --------------- | ------------------------ |
+| 100.0% | 24.3 MiB |      20,889 | `visit_default` | `./black/linegen.py:134` |
+
+##### `check_stability_and_equivalence` (`./black/__init__.py:1042`)
+
+|      % |     Size | Allocations | Caller                 | Location                   |
+| -----: | -------: | ----------: | ---------------------- | -------------------------- |
+| 100.0% | 22.3 MiB |         209 | `format_file_contents` | `./black/__init__.py:1059` |
+
+##### `assert_equivalent` (`./black/__init__.py:1510`)
+
+|      % |     Size | Allocations | Caller                            | Location                   |
+| -----: | -------: | ----------: | --------------------------------- | -------------------------- |
+| 100.0% | 22.3 MiB |         208 | `check_stability_and_equivalence` | `./black/__init__.py:1042` |
+
+##### `visit_simple_stmt` (`./black/linegen.py:295`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 20.8 MiB |      13,399 | `visit` | `./black/nodes.py:152` |
+
+##### `mark` (`./black/brackets.py:70`)
+
+|      % |     Size | Allocations | Caller   | Location              |
+| -----: | -------: | ----------: | -------- | --------------------- |
+| 100.0% | 17.2 MiB |      20,789 | `append` | `./black/lines.py:52` |
+
+##### `visit_power` (`./black/linegen.py:341`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 14.9 MiB |      10,806 | `visit` | `./black/nodes.py:152` |
+
+##### `parse` (`/usr/lib/python3.11/ast.py:33`)
+
+|      % |     Size | Allocations | Caller                  | Location                 |
+| -----: | -------: | ----------: | ----------------------- | ------------------------ |
+| 100.0% | 9.12 MiB |         142 | `_parse_single_version` | `./black/parsing.py:125` |
+
+##### `_get_module_details` (`<frozen runpy>:105`)
+
+|      % |     Size | Allocations | Caller                | Location             |
+| -----: | -------: | ----------: | --------------------- | -------------------- |
+| 100.0% | 4.31 MiB |       1,299 | `run_module`          | `<frozen runpy>:201` |
+|  99.9% |  4.3 MiB |       1,292 | `_get_module_details` | `<frozen runpy>:105` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>:1167`)
+
+|      % |     Size | Allocations | Caller                      | Location                                                 |
+| -----: | -------: | ----------: | --------------------------- | -------------------------------------------------------- |
+| 100.0% |  4.3 MiB |       1,292 | `_get_module_details`       | `<frozen runpy>:105`                                     |
+|  97.9% | 4.21 MiB |       1,213 | `<module>`                  | `./black/__init__.py:1`                                  |
+|  30.6% | 1.32 MiB |         330 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>:233`                      |
+|  30.5% | 1.31 MiB |         315 | `<module>`                  | `/venv/lib/python3.11/site-packages/click/__init__.py:1` |
+|  29.8% | 1.28 MiB |         255 | `<module>`                  | `./black/comments.py:1`                                  |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>:1122`)
+
+|      % |    Size | Allocations | Caller           | Location                             |
+| -----: | ------: | ----------: | ---------------- | ------------------------------------ |
+| 100.0% | 4.3 MiB |       1,290 | `_find_and_load` | `<frozen importlib._bootstrap>:1167` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>:666`)
+
+|      % |    Size | Allocations | Caller                    | Location                             |
+| -----: | ------: | ----------: | ------------------------- | ------------------------------------ |
+| 100.0% | 4.3 MiB |       1,289 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>:1122` |
+
+##### `exec_module` (`<frozen importlib._bootstrap_external>:934`)
+
+|      % |    Size | Allocations | Caller           | Location                            |
+| -----: | ------: | ----------: | ---------------- | ----------------------------------- |
+| 100.0% | 4.3 MiB |       1,287 | `_load_unlocked` | `<frozen importlib._bootstrap>:666` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`)
+
+|      % |     Size | Allocations | Caller                    | Location                                     |
+| -----: | -------: | ----------: | ------------------------- | -------------------------------------------- |
+| 100.0% | 4.27 MiB |       1,258 | `exec_module`             | `<frozen importlib._bootstrap_external>:934` |
+|  30.6% | 1.31 MiB |         319 | `_handle_fromlist`        | `<frozen importlib._bootstrap>:1209`         |
+|   0.9% | 37.2 KiB |          47 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>:1122`         |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
+
+|      % |     Size | Allocations | Caller     | Location                                      |
+| -----: | -------: | ----------: | ---------- | --------------------------------------------- |
+| 100.0% | 2.55 MiB |         618 | `get_code` | `<frozen importlib._bootstrap_external>:1007` |
+
+##### `get_code` (`<frozen importlib._bootstrap_external>:1007`)
+
+|      % |     Size | Allocations | Caller        | Location                                     |
+| -----: | -------: | ----------: | ------------- | -------------------------------------------- |
+| 100.0% | 2.55 MiB |         618 | `exec_module` | `<frozen importlib._bootstrap_external>:934` |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>:1209`)
+
+|     % |     Size | Allocations | Caller     | Location                                                             |
+| ----: | -------: | ----------: | ---------- | -------------------------------------------------------------------- |
+| 85.8% | 1.12 MiB |         115 | `<module>` | `./black/nodes.py:1`                                                 |
+| 85.1% | 1.11 MiB |         106 | `<module>` | `./blib2to3/pygram.py:1`                                             |
+| 10.6% |  142 KiB |         146 | `<module>` | `/venv/lib/python3.11/site-packages/click/core.py:1`                 |
+|  2.1% | 28.6 KiB |          35 | `<module>` | `./blib2to3/pgen2/driver.py:1`                                       |
+|  2.1% | 27.7 KiB |          36 | `<module>` | `/venv/lib/python3.11/site-packages/pathspec/patterns/__init__.py:1` |
+
+##### `compile` (`/usr/lib/python3.11/re/__init__.py:225`)
+
+|     % |     Size | Allocations | Caller      | Location                                                         |
+| ----: | -------: | ----------: | ----------- | ---------------------------------------------------------------- |
+| 96.6% | 1.01 MiB |           6 | `<module>`  | `./blib2to3/pgen2/tokenize.py:1`                                 |
+|  2.0% | 21.4 KiB |          10 | `<module>`  | `/venv/lib/python3.11/site-packages/click/_compat.py:1`          |
+|  0.4% | 4.68 KiB |           1 | `Specifier` | `/venv/lib/python3.11/site-packages/packaging/specifiers.py:220` |
+|  0.3% | 3.27 KiB |           3 | `<module>`  | `./black/strings.py:1`                                           |
+|  0.3% | 3.14 KiB |           2 | `Version`   | `/venv/lib/python3.11/site-packages/packaging/version.py:340`    |
+
+##### `_compile` (`/usr/lib/python3.11/re/__init__.py:272`)
+
+|      % |     Size | Allocations | Caller    | Location                                 |
+| -----: | -------: | ----------: | --------- | ---------------------------------------- |
+| 100.0% | 1.05 MiB |          25 | `compile` | `/usr/lib/python3.11/re/__init__.py:225` |
+
+##### `compile` (`/usr/lib/python3.11/re/_compiler.py:738`)
+
+|      % |     Size | Allocations | Caller     | Location                                 |
+| -----: | -------: | ----------: | ---------- | ---------------------------------------- |
+| 100.0% | 1.05 MiB |          24 | `_compile` | `/usr/lib/python3.11/re/__init__.py:272` |
+
+##### `parse` (`/usr/lib/python3.11/re/_parser.py:970`)
+
+|      % |     Size | Allocations | Caller    | Location                                  |
+| -----: | -------: | ----------: | --------- | ----------------------------------------- |
+| 100.0% | 1.01 MiB |           6 | `compile` | `/usr/lib/python3.11/re/_compiler.py:738` |
+
+##### `_parse_sub` (`/usr/lib/python3.11/re/_parser.py:447`)
+
+|      % |     Size | Allocations | Caller   | Location                                |
+| -----: | -------: | ----------: | -------- | --------------------------------------- |
+| 100.0% | 1.01 MiB |           5 | `parse`  | `/usr/lib/python3.11/re/_parser.py:970` |
+|  98.9% |    1 MiB |           2 | `_parse` | `/usr/lib/python3.11/re/_parser.py:507` |
+
+##### `_parse` (`/usr/lib/python3.11/re/_parser.py:507`)
+
+|      % |     Size | Allocations | Caller       | Location                                |
+| -----: | -------: | ----------: | ------------ | --------------------------------------- |
+| 100.0% | 1.01 MiB |           4 | `_parse_sub` | `/usr/lib/python3.11/re/_parser.py:447` |
+
+##### `decode` (`<frozen codecs>:319`)
+
+|      % |    Size | Allocations | Caller         | Location                   |
+| -----: | ------: | ----------: | -------------- | -------------------------- |
+| 100.0% | 222 KiB |           1 | `decode_bytes` | `./black/__init__.py:1269` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -1743,6 +2041,308 @@ Categories accounting for at least 1.0% of self size.
 |   1.7% | 1.01 MiB |           5 | `_parse_sub`                | `/usr/lib/python3.11/re/_parser.py:447`       |
 |   1.7% | 1.01 MiB |           4 | `_parse`                    | `/usr/lib/python3.11/re/_parser.py:507`       |
 |   0.1% | 77.4 KiB |          81 | `__new__`                   | `<frozen abc>:105`                            |
+
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `run_module` (`<frozen runpy>:201`)
+
+|      % |     Size | Allocations | Caller         | Location                                                       |
+| -----: | -------: | ----------: | -------------- | -------------------------------------------------------------- |
+| 100.0% | 59.9 MiB |      22,500 | `_run_tracker` | `/venv/lib/python3.11/site-packages/memray/commands/run.py:40` |
+
+##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py:1629`)
+
+|      % |     Size | Allocations | Caller         | Location                   |
+| -----: | -------: | ----------: | -------------- | -------------------------- |
+| 100.0% | 55.6 MiB |      21,201 | `patched_main` | `./black/__init__.py:1580` |
+
+##### `patched_main` (`./black/__init__.py:1580`)
+
+|      % |     Size | Allocations | Caller     | Location                |
+| -----: | -------: | ----------: | ---------- | ----------------------- |
+| 100.0% | 55.6 MiB |      21,201 | `<module>` | `./black/__main__.py:1` |
+
+##### `<module>` (`./black/__main__.py:1`)
+
+|      % |     Size | Allocations | Caller      | Location            |
+| -----: | -------: | ----------: | ----------- | ------------------- |
+| 100.0% | 55.6 MiB |      21,201 | `_run_code` | `<frozen runpy>:65` |
+
+##### `_run_code` (`<frozen runpy>:65`)
+
+|      % |     Size | Allocations | Caller             | Location            |
+| -----: | -------: | ----------: | ------------------ | ------------------- |
+| 100.0% | 55.6 MiB |      21,201 | `_run_module_code` | `<frozen runpy>:91` |
+
+##### `_run_module_code` (`<frozen runpy>:91`)
+
+|      % |     Size | Allocations | Caller       | Location             |
+| -----: | -------: | ----------: | ------------ | -------------------- |
+| 100.0% | 55.6 MiB |      21,201 | `run_module` | `<frozen runpy>:201` |
+
+##### `main` (`/venv/lib/python3.11/site-packages/click/core.py:1484`)
+
+|      % |     Size | Allocations | Caller     | Location                                                |
+| -----: | -------: | ----------: | ---------- | ------------------------------------------------------- |
+| 100.0% | 55.6 MiB |      21,200 | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py:1629` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:1401`)
+
+|      % |     Size | Allocations | Caller | Location                                                |
+| -----: | -------: | ----------: | ------ | ------------------------------------------------------- |
+| 100.0% | 55.6 MiB |      21,180 | `main` | `/venv/lib/python3.11/site-packages/click/core.py:1484` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`)
+
+|      % |     Size | Allocations | Caller   | Location                                                |
+| -----: | -------: | ----------: | -------- | ------------------------------------------------------- |
+| 100.0% | 55.6 MiB |      21,178 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:1401` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`)
+
+|      % |     Size | Allocations | Caller   | Location                                               |
+| -----: | -------: | ----------: | -------- | ------------------------------------------------------ |
+| 100.0% | 55.6 MiB |      21,177 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:857` |
+
+##### `main` (`./black/__init__.py:240`)
+
+|      % |     Size | Allocations | Caller     | Location                                                    |
+| -----: | -------: | ----------: | ---------- | ----------------------------------------------------------- |
+| 100.0% | 55.6 MiB |      21,175 | `new_func` | `/venv/lib/python3.11/site-packages/click/decorators.py:33` |
+
+##### `reformat_one` (`./black/__init__.py:865`)
+
+|      % |     Size | Allocations | Caller | Location                  |
+| -----: | -------: | ----------: | ------ | ------------------------- |
+| 100.0% | 55.6 MiB |      21,169 | `main` | `./black/__init__.py:240` |
+
+##### `format_file_in_place` (`./black/__init__.py:922`)
+
+|      % |     Size | Allocations | Caller         | Location                  |
+| -----: | -------: | ----------: | -------------- | ------------------------- |
+| 100.0% | 55.6 MiB |      21,157 | `reformat_one` | `./black/__init__.py:865` |
+
+##### `format_file_contents` (`./black/__init__.py:1059`)
+
+|      % |     Size | Allocations | Caller                 | Location                  |
+| -----: | -------: | ----------: | ---------------------- | ------------------------- |
+| 100.0% | 55.6 MiB |      21,156 | `format_file_in_place` | `./black/__init__.py:922` |
+
+##### `_format_str_once` (`./black/__init__.py:1215`)
+
+|     % |     Size | Allocations | Caller          | Location                   |
+| ----: | -------: | ----------: | --------------- | -------------------------- |
+| 69.4% | 35.1 MiB |          93 | `format_str`    | `./black/__init__.py:1168` |
+| 30.6% | 15.5 MiB |      21,054 | `assert_stable` | `./black/__init__.py:1543` |
+
+##### `visit` (`./black/nodes.py:152`)
+
+|      % |     Size | Allocations | Caller             | Location                   |
+| -----: | -------: | ----------: | ------------------ | -------------------------- |
+| 100.0% | 35.4 MiB |      21,086 | `_format_str_once` | `./black/__init__.py:1215` |
+| 100.0% | 35.4 MiB |      21,084 | `visit_default`    | `./black/nodes.py:176`     |
+|  99.2% | 35.2 MiB |      20,711 | `visit_stmt`       | `./black/linegen.py:199`   |
+|  98.2% | 34.8 MiB |      20,272 | `visit_funcdef`    | `./black/linegen.py:254`   |
+|   0.4% |  135 KiB |         180 | `visit_decorators` | `./black/linegen.py:335`   |
+
+##### `visit_default` (`./black/nodes.py:176`)
+
+|      % |     Size | Allocations | Caller          | Location                 |
+| -----: | -------: | ----------: | --------------- | ------------------------ |
+| 100.0% | 35.4 MiB |      21,084 | `visit_default` | `./black/linegen.py:134` |
+
+##### `visit_default` (`./black/linegen.py:134`)
+
+|      % |     Size | Allocations | Caller              | Location                 |
+| -----: | -------: | ----------: | ------------------- | ------------------------ |
+| 100.0% | 35.4 MiB |      21,084 | `visit`             | `./black/nodes.py:152`   |
+|  98.0% | 34.7 MiB |      20,146 | `visit_suite`       | `./black/linegen.py:288` |
+|  55.9% | 19.8 MiB |      13,398 | `visit_simple_stmt` | `./black/linegen.py:295` |
+|  42.1% | 14.9 MiB |      10,805 | `visit_power`       | `./black/linegen.py:341` |
+|   4.3% | 1.53 MiB |         725 | `visit_STRING`      | `./black/linegen.py:413` |
+
+##### `visit_stmt` (`./black/linegen.py:199`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 35.2 MiB |      20,713 | `visit` | `./black/nodes.py:152` |
+
+##### `format_str` (`./black/__init__.py:1168`)
+
+|      % |     Size | Allocations | Caller                 | Location                   |
+| -----: | -------: | ----------: | ---------------------- | -------------------------- |
+| 100.0% | 35.1 MiB |          94 | `format_file_contents` | `./black/__init__.py:1059` |
+
+##### `visit_funcdef` (`./black/linegen.py:254`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 34.8 MiB |      20,272 | `visit` | `./black/nodes.py:152` |
+
+##### `visit_suite` (`./black/linegen.py:288`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 34.7 MiB |      20,146 | `visit` | `./black/nodes.py:152` |
+
+##### `append` (`./black/lines.py:52`)
+
+|      % |     Size | Allocations | Caller          | Location                 |
+| -----: | -------: | ----------: | --------------- | ------------------------ |
+| 100.0% | 24.3 MiB |      20,889 | `visit_default` | `./black/linegen.py:134` |
+
+##### `check_stability_and_equivalence` (`./black/__init__.py:1042`)
+
+|      % |     Size | Allocations | Caller                 | Location                   |
+| -----: | -------: | ----------: | ---------------------- | -------------------------- |
+| 100.0% | 20.5 MiB |      21,062 | `format_file_contents` | `./black/__init__.py:1059` |
+
+##### `visit_simple_stmt` (`./black/linegen.py:295`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 19.8 MiB |      13,398 | `visit` | `./black/nodes.py:152` |
+
+##### `mark` (`./black/brackets.py:70`)
+
+|      % |     Size | Allocations | Caller   | Location              |
+| -----: | -------: | ----------: | -------- | --------------------- |
+| 100.0% | 17.2 MiB |      20,789 | `append` | `./black/lines.py:52` |
+
+##### `assert_stable` (`./black/__init__.py:1543`)
+
+|      % |     Size | Allocations | Caller                            | Location                   |
+| -----: | -------: | ----------: | --------------------------------- | -------------------------- |
+| 100.0% | 15.5 MiB |      21,054 | `check_stability_and_equivalence` | `./black/__init__.py:1042` |
+
+##### `visit_power` (`./black/linegen.py:341`)
+
+|      % |     Size | Allocations | Caller  | Location               |
+| -----: | -------: | ----------: | ------- | ---------------------- |
+| 100.0% | 14.9 MiB |      10,806 | `visit` | `./black/nodes.py:152` |
+
+##### `_get_module_details` (`<frozen runpy>:105`)
+
+|      % |     Size | Allocations | Caller                | Location             |
+| -----: | -------: | ----------: | --------------------- | -------------------- |
+| 100.0% | 4.27 MiB |       1,298 | `run_module`          | `<frozen runpy>:201` |
+|  99.9% | 4.27 MiB |       1,291 | `_get_module_details` | `<frozen runpy>:105` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>:1167`)
+
+|      % |     Size | Allocations | Caller                      | Location                                                 |
+| -----: | -------: | ----------: | --------------------------- | -------------------------------------------------------- |
+| 100.0% | 4.27 MiB |       1,291 | `_get_module_details`       | `<frozen runpy>:105`                                     |
+|  97.9% | 4.18 MiB |       1,212 | `<module>`                  | `./black/__init__.py:1`                                  |
+|  30.8% | 1.32 MiB |         330 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>:233`                      |
+|  30.7% | 1.31 MiB |         315 | `<module>`                  | `/venv/lib/python3.11/site-packages/click/__init__.py:1` |
+|  30.0% | 1.28 MiB |         255 | `<module>`                  | `./black/comments.py:1`                                  |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>:1122`)
+
+|      % |     Size | Allocations | Caller           | Location                             |
+| -----: | -------: | ----------: | ---------------- | ------------------------------------ |
+| 100.0% | 4.26 MiB |       1,289 | `_find_and_load` | `<frozen importlib._bootstrap>:1167` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>:666`)
+
+|      % |     Size | Allocations | Caller                    | Location                             |
+| -----: | -------: | ----------: | ------------------------- | ------------------------------------ |
+| 100.0% | 4.26 MiB |       1,288 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>:1122` |
+
+##### `exec_module` (`<frozen importlib._bootstrap_external>:934`)
+
+|      % |     Size | Allocations | Caller           | Location                            |
+| -----: | -------: | ----------: | ---------------- | ----------------------------------- |
+| 100.0% | 4.26 MiB |       1,286 | `_load_unlocked` | `<frozen importlib._bootstrap>:666` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>:233`)
+
+|      % |     Size | Allocations | Caller                    | Location                                     |
+| -----: | -------: | ----------: | ------------------------- | -------------------------------------------- |
+| 100.0% | 4.23 MiB |       1,257 | `exec_module`             | `<frozen importlib._bootstrap_external>:934` |
+|  30.9% | 1.31 MiB |         319 | `_handle_fromlist`        | `<frozen importlib._bootstrap>:1209`         |
+|   0.9% | 37.2 KiB |          47 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>:1122`         |
+
+##### `parse` (`/usr/lib/python3.11/ast.py:33`)
+
+|      % |     Size | Allocations | Caller                  | Location                 |
+| -----: | -------: | ----------: | ----------------------- | ------------------------ |
+| 100.0% | 3.01 MiB |           4 | `_parse_single_version` | `./black/parsing.py:125` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>:727`)
+
+|      % |     Size | Allocations | Caller     | Location                                      |
+| -----: | -------: | ----------: | ---------- | --------------------------------------------- |
+| 100.0% | 2.55 MiB |         618 | `get_code` | `<frozen importlib._bootstrap_external>:1007` |
+
+##### `get_code` (`<frozen importlib._bootstrap_external>:1007`)
+
+|      % |     Size | Allocations | Caller        | Location                                     |
+| -----: | -------: | ----------: | ------------- | -------------------------------------------- |
+| 100.0% | 2.55 MiB |         618 | `exec_module` | `<frozen importlib._bootstrap_external>:934` |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>:1209`)
+
+|     % |     Size | Allocations | Caller     | Location                                                             |
+| ----: | -------: | ----------: | ---------- | -------------------------------------------------------------------- |
+| 85.8% | 1.12 MiB |         115 | `<module>` | `./black/nodes.py:1`                                                 |
+| 85.1% | 1.11 MiB |         106 | `<module>` | `./blib2to3/pygram.py:1`                                             |
+| 10.6% |  142 KiB |         146 | `<module>` | `/venv/lib/python3.11/site-packages/click/core.py:1`                 |
+|  2.1% | 28.6 KiB |          35 | `<module>` | `./blib2to3/pgen2/driver.py:1`                                       |
+|  2.1% | 27.7 KiB |          36 | `<module>` | `/venv/lib/python3.11/site-packages/pathspec/patterns/__init__.py:1` |
+
+##### `compile` (`/usr/lib/python3.11/re/__init__.py:225`)
+
+|     % |     Size | Allocations | Caller      | Location                                                         |
+| ----: | -------: | ----------: | ----------- | ---------------------------------------------------------------- |
+| 96.6% | 1.01 MiB |           6 | `<module>`  | `./blib2to3/pgen2/tokenize.py:1`                                 |
+|  2.0% | 21.4 KiB |          10 | `<module>`  | `/venv/lib/python3.11/site-packages/click/_compat.py:1`          |
+|  0.4% | 4.68 KiB |           1 | `Specifier` | `/venv/lib/python3.11/site-packages/packaging/specifiers.py:220` |
+|  0.3% | 3.27 KiB |           3 | `<module>`  | `./black/strings.py:1`                                           |
+|  0.3% | 3.14 KiB |           2 | `Version`   | `/venv/lib/python3.11/site-packages/packaging/version.py:340`    |
+
+##### `_compile` (`/usr/lib/python3.11/re/__init__.py:272`)
+
+|      % |     Size | Allocations | Caller    | Location                                 |
+| -----: | -------: | ----------: | --------- | ---------------------------------------- |
+| 100.0% | 1.05 MiB |          25 | `compile` | `/usr/lib/python3.11/re/__init__.py:225` |
+
+##### `compile` (`/usr/lib/python3.11/re/_compiler.py:738`)
+
+|      % |     Size | Allocations | Caller     | Location                                 |
+| -----: | -------: | ----------: | ---------- | ---------------------------------------- |
+| 100.0% | 1.05 MiB |          24 | `_compile` | `/usr/lib/python3.11/re/__init__.py:272` |
+
+##### `parse` (`/usr/lib/python3.11/re/_parser.py:970`)
+
+|      % |     Size | Allocations | Caller    | Location                                  |
+| -----: | -------: | ----------: | --------- | ----------------------------------------- |
+| 100.0% | 1.01 MiB |           6 | `compile` | `/usr/lib/python3.11/re/_compiler.py:738` |
+
+##### `_parse_sub` (`/usr/lib/python3.11/re/_parser.py:447`)
+
+|      % |     Size | Allocations | Caller   | Location                                |
+| -----: | -------: | ----------: | -------- | --------------------------------------- |
+| 100.0% | 1.01 MiB |           5 | `parse`  | `/usr/lib/python3.11/re/_parser.py:970` |
+|  98.9% |    1 MiB |           2 | `_parse` | `/usr/lib/python3.11/re/_parser.py:507` |
+
+##### `_parse` (`/usr/lib/python3.11/re/_parser.py:507`)
+
+|      % |     Size | Allocations | Caller       | Location                                |
+| -----: | -------: | ----------: | ------------ | --------------------------------------- |
+| 100.0% | 1.01 MiB |           4 | `_parse_sub` | `/usr/lib/python3.11/re/_parser.py:447` |
+
+##### `__new__` (`<frozen abc>:105`)
+
+|     % |     Size | Allocations | Caller     | Location                                                       |
+| ----: | -------: | ----------: | ---------- | -------------------------------------------------------------- |
+| 50.7% | 39.2 KiB |          46 | `<module>` | `/venv/lib/python3.11/site-packages/click/types.py:1`          |
+| 22.6% | 17.5 KiB |          18 | `<module>` | `./black/trans.py:1`                                           |
+| 18.9% | 14.6 KiB |          10 | `<module>` | `/venv/lib/python3.11/site-packages/click/core.py:1`           |
+|  7.8% | 6.07 KiB |           7 | `<module>` | `/venv/lib/python3.11/site-packages/packaging/specifiers.py:1` |
 
 #### Callees
 

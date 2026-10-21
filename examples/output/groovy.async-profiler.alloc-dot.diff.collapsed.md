@@ -422,6 +422,297 @@ Functions with the largest decrease in samples collected within the function and
 |  -5.0% |   -35 | 87.9% → 86.2% | 698 → 663 | `invokeImpl`    | `jdk.internal.reflect.DirectMethodHandleAccessor`   |
 |  -5.0% |   -35 | 87.9% → 86.2% | 698 → 663 | `invoke`        | `jdk.internal.reflect.DirectMethodHandleAccessor`   |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010a9800`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |  +710 | 0.0% → 100.0% | 0 → 710 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+| removed |  -349 | 100.0% → 0.0% | 349 → 0 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012da000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |  +313 | 0.0% → 100.0% | 0 → 313 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+| removed |    -5 |  45.5% → 0.0% |   5 → 0 | `collector`      | `java.lang.invoke.LambdaForm$MH.0x000000d0010a8c00` |
+| removed |    -2 |  18.2% → 0.0% |   2 → 0 | `collector`      | `java.lang.invoke.LambdaForm$MH.0x000000d00121a400` |
+| removed |    -2 |  18.2% → 0.0% |   2 → 0 | `collector`      | `java.lang.invoke.LambdaForm$MH.0x000000d001031800` |
+| removed |    -1 |   9.1% → 0.0% |   1 → 0 | `collector`      | `java.lang.invoke.LambdaForm$MH.0x000000d001200000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c8000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |  +640 | 0.0% → 100.0% | 0 → 640 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+| removed |  -348 | 100.0% → 0.0% | 348 → 0 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x000000d0010ac400` |
+|     new |    +1 |   0.0% → 0.2% |   0 → 1 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010abc00`)
+
+|   Change | Delta |      % |  Samples | Caller           | Location                           |
+| -------: | ----: | -----: | -------: | ---------------- | ---------------------------------- |
+| +1275.0% |  +153 | 100.0% | 12 → 165 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012acc00`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                           |
+| ------: | ----: | ------------: | ------: | ---------------- | ---------------------------------- |
+|     new |  +109 | 0.0% → 100.0% | 0 → 109 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `invoke_MT`      | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070011b0400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |  +111 | 0.0% → 100.0% | 0 → 111 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010d2c00` |
+| removed |   -12 | 100.0% → 0.0% |  12 → 0 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010d3400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |  +101 | 0.0% → 100.0% | 0 → 101 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+| removed |    -9 | 100.0% → 0.0% |   9 → 0 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700109bc00`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                           |
+| -----: | ----: | -----: | --------: | ---------------- | ---------------------------------- |
+|  +6.1% |   +39 | 100.0% | 636 → 675 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012e5800`)
+
+|   Change | Delta |      % | Samples | Caller           | Location                           |
+| -------: | ----: | -----: | ------: | ---------------- | ---------------------------------- |
+| +2900.0% |   +29 | 100.0% |  1 → 30 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001130000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |   +33 | 0.0% → 100.0% |  0 → 33 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `invoke_MT`      | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c7400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |   +27 | 0.0% → 100.0% |  0 → 27 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000d00103c000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012e8000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |   +33 | 0.0% → 100.0% |  0 → 33 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x00000070010aa800` |
+| removed |   -12 | 100.0% → 0.0% |  12 → 0 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000d001120c00` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001216000`)
+
+|  Change | Delta |      % | Samples | Caller           | Location                           |
+| ------: | ----: | -----: | ------: | ---------------- | ---------------------------------- |
+| +700.0% |   +21 | 100.0% |  3 → 24 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012fb400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |   +22 | 0.0% → 100.0% |  0 → 22 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x000000d0012b5400` |
+
+##### `apply` (`org.apache.groovy.parser.antlr4.AstBuilder$$Lambda.0x000000700129e830`)
+
+|  Change | Delta |      % | Samples | Caller   | Location                                 |
+| ------: | ----: | -----: | ------: | -------- | ---------------------------------------- |
+| +380.0% |   +19 | 100.0% |  5 → 24 | `accept` | `java.util.stream.ReferencePipeline$3$1` |
+
+##### `getEpsilonTarget` (`groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`)
+
+| Change | Delta |      % |  Samples | Caller    | Location                                               |
+| -----: | ----: | -----: | -------: | --------- | ------------------------------------------------------ |
+| +20.5% |   +17 | 100.0% | 83 → 100 | `closure` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700120e400`)
+
+|  Change | Delta |      % | Samples | Caller           | Location                           |
+| ------: | ----: | -----: | ------: | ---------------- | ---------------------------------- |
+| +850.0% |   +17 | 100.0% |  2 → 19 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010d2400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -618 | 100.0% → 0.0% | 618 → 0 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000d00103c000` |
+|     new |  +616 |  0.0% → 97.3% | 0 → 616 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001181c00` |
+|     new |  +605 |  0.0% → 95.6% | 0 → 605 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001200800` |
+|     new |  +101 |  0.0% → 16.0% | 0 → 101 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400` |
+|     new |    +4 |   0.0% → 0.6% |   0 → 4 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000070012fd000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001018400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+|     new |   +17 | 0.0% → 100.0% |  0 → 17 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x0000007001098400` |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x000000d0010abc00` |
+
+##### `invokeVirtual` (`java.lang.invoke.LambdaForm$DMH.0x0000007001105000`)
+
+| Change | Delta |            % | Samples | Caller   | Location                                            |
+| -----: | ----: | -----------: | ------: | -------- | --------------------------------------------------- |
+|    new |   +12 | 0.0% → 80.0% |  0 → 12 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001115800` |
+|    new |    +3 | 0.0% → 20.0% |   0 → 3 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001105400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012da800`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -718 | 100.0% → 0.0% | 718 → 0 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x000000d0010abc00` |
+|     new |  +313 | 0.0% → 100.0% | 0 → 313 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x00000070010aa800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070012e4000`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                           |
+| -----: | ----: | -----: | --------: | ---------------- | ---------------------------------- |
+| -55.9% |  -396 | 100.0% | 708 → 312 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001181400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -192 | 100.0% → 0.0% | 192 → 0 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+|     new |   +16 | 0.0% → 100.0% |  0 → 16 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001121000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -192 | 100.0% → 0.0% | 192 → 0 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+|     new |   +37 | 0.0% → 100.0% |  0 → 37 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700109ac00`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                           |
+| -----: | ----: | -----: | --------: | ---------------- | ---------------------------------- |
+| -41.0% |  -141 | 100.0% | 344 → 203 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001205c00`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                           |
+| -----: | ----: | -----: | --------: | ---------------- | ---------------------------------- |
+| -16.4% |  -118 | 100.0% | 718 → 600 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001104000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -137 | 100.0% → 0.0% | 137 → 0 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x000000d0010d3000` |
+|     new |   +27 | 0.0% → 100.0% |  0 → 27 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700112d800`)
+
+| Change | Delta |              % |  Samples | Caller           | Location                                            |
+| -----: | ----: | -------------: | -------: | ---------------- | --------------------------------------------------- |
+| -73.4% |   -91 | 100.0% → 97.1% | 124 → 33 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+|    new |    +1 |    0.0% → 2.9% |    0 → 1 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c7c00`)
+
+| Change | Delta |      % |  Samples | Caller           | Location                           |
+| -----: | ----: | -----: | -------: | ---------------- | ---------------------------------- |
+| -68.2% |   -88 | 100.0% | 129 → 41 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000070010c7000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -741 | 100.0% → 0.0% | 741 → 0 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x000000d0010abc00` |
+|     new |  +683 | 0.0% → 100.0% | 0 → 683 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001311c00`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |   -57 | 100.0% → 0.0% |  57 → 0 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x000000d001189000` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x0000007001120c00` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001200800`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -635 |  96.2% → 0.0% | 635 → 0 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000d001188000` |
+| removed |  -624 |  94.5% → 0.0% | 624 → 0 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000d001200c00` |
+|     new |  +605 | 0.0% → 100.0% | 0 → 605 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x0000007001201000` |
+| removed |  -124 |  18.8% → 0.0% | 124 → 0 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000d0010d3800` |
+| removed |    -5 |   0.8% → 0.0% |   5 → 0 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000d001181400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000700112c000`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |   -64 | 100.0% → 0.0% |  64 → 0 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+|     new |   +12 | 0.0% → 100.0% |  0 → 12 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001312400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |   -49 | 100.0% → 0.0% |  49 → 0 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x000000d0010ac400` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001212800`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |  -646 | 100.0% → 0.0% | 646 → 0 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+|     new |  +601 | 0.0% → 100.0% | 0 → 601 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000700103c000` |
+| removed |   -72 |  11.1% → 0.0% |  72 → 0 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x000000d001189000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001313400`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                            |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------- |
+| removed |   -46 | 100.0% → 0.0% |  46 → 0 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `invokeExact_MT` | `java.lang.invoke.LambdaForm$MH.0x000000700103c000` |
+
+##### `selectMethod` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+| Change | Delta |              % |   Samples | Caller             | Location                                             |
+| -----: | ----: | -------------: | --------: | ------------------ | ---------------------------------------------------- |
+|  -7.5% |   -43 | 100.0% → 99.8% | 573 → 530 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+|    new |    +1 |    0.0% → 0.2% |     0 → 1 | `invokeStaticInit` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088c00` |
+
+##### `invokeSpecial` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|  Change | Delta |            % | Samples | Caller   | Location                                            |
+| ------: | ----: | -----------: | ------: | -------- | --------------------------------------------------- |
+|  -99.9% |  -682 | 95.4% → 0.1% | 683 → 1 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000700102b000` |
+|     new |  +640 | 0.0% → 94.3% | 0 → 640 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000070010c8000` |
+| removed |  -625 | 87.3% → 0.0% | 625 → 0 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000d001129800` |
+|     new |  +609 | 0.0% → 89.7% | 0 → 609 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000700120f800` |
+| removed |  -349 | 48.7% → 0.0% | 349 → 0 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000d0012dd800` |
+
+##### `collectViolations` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+| Change | Delta |      % |   Samples | Caller          | Location                                             |
+| -----: | ----: | -----: | --------: | --------------- | ---------------------------------------------------- |
+|  -6.1% |   -37 | 100.0% | 605 → 568 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000007001094400` |
+
+##### `invokeImpl` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |      % |   Samples | Caller   | Location                                          |
+| -----: | ----: | -----: | --------: | -------- | ------------------------------------------------- |
+|  -5.0% |   -35 | 100.0% | 698 → 663 | `invoke` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |      % |   Samples | Caller   | Location                   |
+| -----: | ----: | -----: | --------: | -------- | -------------------------- |
+|  -5.0% |   -35 | 100.0% | 698 → 663 | `invoke` | `java.lang.reflect.Method` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

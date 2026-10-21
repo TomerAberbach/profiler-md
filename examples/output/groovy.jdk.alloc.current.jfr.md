@@ -461,6 +461,293 @@ Categories accounting for at least 1.0% of self samples.
 |  1.4% |       4 | `checkStatementIndent(Statement, BlockStatement)` | `org.codenarc.rule.formatting.IndentationAstVisitor`                               |
 |  1.0% |       3 | `doCall(Object)`                                  | `org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2`                 |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % | Samples | Caller                                                                                           | Location                                               |
+| ----: | ------: | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| 98.1% |     254 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`    | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+| 44.8% |     116 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+|  1.2% |       3 | `invokeImpl(Object, Object[])`                                                                   | `jdk.internal.reflect.DirectMethodHandleAccessor`      |
+|  0.4% |       1 | `invokeImpl(Object[])`                                                                           | `jdk.internal.reflect.DirectConstructorHandleAccessor` |
+
+##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % | Samples | Caller                                                                                      | Location                                             |
+| ----: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 98.8% |     251 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800` |
+
+##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800`)
+
+|     % | Samples | Caller                                   | Location                                            |
+| ----: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 79.3% |     199 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b801115400` |
+| 29.5% |      74 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801142000` |
+| 22.7% |      57 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b8013dc000` |
+| 20.7% |      52 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b8013dbc00` |
+| 19.1% |      48 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000b8010bc000` |
+
+##### `guardWithCatch(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801117800`)
+
+|     % | Samples | Caller                             | Location                                            |
+| ----: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 61.1% |     127 | `reinvoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+| 56.3% |     117 | `delegate(Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801118400`)
+
+|     % | Samples | Caller                                   | Location                                            |
+| ----: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 58.5% |     121 | `reinvoke(Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+| 56.0% |     116 | `delegate(Object, Object, Object)`       | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|  1.0% |       2 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801115400`)
+
+|     % | Samples | Caller                                   | Location                                            |
+| ----: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 99.5% |     198 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+|  2.0% |       4 | `reinvoke(Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+
+##### `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % | Samples | Caller                                     | Location                                                                   |
+| ----: | ------: | ------------------------------------------ | -------------------------------------------------------------------------- |
+| 31.3% |      62 | `init()`                                   | `org.codenarc.source.AbstractSourceCode`                                   |
+| 30.3% |      60 | `doCall(Object)`                           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
+| 22.7% |      45 | `measureRuleProcessingTime(Rule, Closure)` | `org.codenarc.analyzer.AbstractSourceAnalyzer`                             |
+|  4.5% |       9 | `doCall(Object)`                           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
+|  1.5% |       3 | `processSourceLine(String, int)`           | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor`            |
+
+##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|     % | Samples | Caller                     | Location                                          |
+| ----: | ------: | -------------------------- | ------------------------------------------------- |
+| 97.7% |     172 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|     % | Samples | Caller                     | Location                   |
+| ----: | ------: | -------------------------- | -------------------------- |
+| 97.1% |     167 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
+
+|     % | Samples | Caller                               | Location                                                         |
+| ----: | ------: | ------------------------------------ | ---------------------------------------------------------------- |
+| 95.8% |     161 | `invoke(Object, Object[])`           | `org.codehaus.groovy.reflection.CachedMethod`                    |
+|  1.8% |       3 | `doInvoke(Object, Object[], Method)` | `org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite` |
+
+##### `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`)
+
+|     % | Samples | Caller                             | Location                                                    |
+| ----: | ------: | ---------------------------------- | ----------------------------------------------------------- |
+| 96.9% |     156 | `doMethodInvoke(Object, Object[])` | `groovy.lang.MetaMethod`                                    |
+|  0.6% |       1 | `invoke(Object, Object[])`         | `org.codehaus.groovy.runtime.metaclass.TransformMetaMethod` |
+
+##### `doMethodInvoke(Object, Object[])` (`groovy.lang.MetaMethod`)
+
+|     % | Samples | Caller                                                              | Location                                                                                 |
+| ----: | ------: | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| 87.3% |     138 | `invokeMethod(Class, Object, String, Object[], boolean, boolean)`   | `org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`                                 |
+| 10.8% |      17 | `doInvokeMethod(Class, Object, String, Object[], boolean, boolean)` | `groovy.lang.MetaClassImpl`                                                              |
+|  2.5% |       4 | `invokeVirtual(Object, Object, Object, Object)`                     | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bc800`                                     |
+|  1.3% |       2 | `getProperty(Object)`                                               | `org.codehaus.groovy.runtime.metaclass.MethodMetaProperty$GetBeanMethodMetaProperty`     |
+|  0.6% |       1 | `invoke(Object, Object[])`                                          | `org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite$StaticMetaMethodSiteNoUnwrap` |
+
+##### `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801118000`)
+
+|     % | Samples | Caller                          | Location                                            |
+| ----: | ------: | ------------------------------- | --------------------------------------------------- |
+| 90.0% |     126 | `guard(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118400` |
+| 50.0% |      70 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801141000` |
+| 49.3% |      69 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801119400` |
+| 15.7% |      22 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801145c00` |
+|  2.9% |       4 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801133c00` |
+
+##### `invokeMethod(Class, Object, String, Object[], boolean, boolean)` (`org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`)
+
+|     % | Samples | Caller                                   | Location                                                 |
+| ----: | ------: | ---------------------------------------- | -------------------------------------------------------- |
+| 95.7% |     133 | `invokeMethod(Object, String, Object[])` | `groovy.lang.MetaClassImpl`                              |
+|  2.2% |       3 | `callCurrent(GroovyObject, Object[])`    | `org.codehaus.groovy.runtime.callsite.PogoMetaClassSite` |
+
+##### `invokeMethod(Object, String, Object[])` (`groovy.lang.MetaClassImpl`)
+
+|     % | Samples | Caller                                                    | Location                                                 |
+| ----: | ------: | --------------------------------------------------------- | -------------------------------------------------------- |
+| 83.6% |     112 | `invokeInterface(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bd400`     |
+| 25.4% |      34 | `call(Object[])`                                          | `groovy.lang.Closure`                                    |
+|  5.2% |       7 | `call(Object, Object[])`                                  | `org.codehaus.groovy.runtime.callsite.PogoMetaClassSite` |
+|  0.7% |       1 | `invokeMethod(Object, String, Object[])`                  | `groovy.lang.DelegatingMetaClass`                        |
+|  0.7% |       1 | `invokePojoMethod(Object, String, Object)`                | `org.codehaus.groovy.runtime.InvokerHelper`              |
+
+##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % | Samples | Caller                         | Location                                          |
+| ----: | ------: | ------------------------------ | ------------------------------------------------- |
+| 98.5% |     130 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % | Samples | Caller                           | Location                                            |
+| ----: | ------: | -------------------------------- | --------------------------------------------------- |
+| 57.0% |      73 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b8013d2400` |
+|  9.4% |      12 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801005400` |
+|  6.3% |       8 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80138c000` |
+|  4.7% |       6 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801609800` |
+|  3.9% |       5 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801502400` |
+
+##### `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % | Samples | Caller                                                                                      | Location                                             |
+| ----: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 98.4% |     121 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800` |
+
+##### `delegate(Object, Object, Object)` (`java.lang.invoke.DelegatingMethodHandle$Holder`)
+
+|      % | Samples | Caller                          | Location                                            |
+| -----: | ------: | ------------------------------- | --------------------------------------------------- |
+| 100.0% |     117 | `guard(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118400` |
+|  50.4% |      59 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b80182e800` |
+|   9.4% |      11 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801141000` |
+|   2.6% |       3 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801133000` |
+|   2.6% |       3 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801133c00` |
+
+##### `invokeInterface(Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000b8010bd400`)
+
+|     % | Samples | Caller                                   | Location                                            |
+| ----: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 95.6% |     108 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80113fc00` |
+|  0.9% |       1 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b801184800` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
+
+|     % | Samples | Caller                                  | Location                                     |
+| ----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 96.2% |      75 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|     % | Samples | Caller                                          | Location                                             |
+| ----: | ------: | ----------------------------------------------- | ---------------------------------------------------- |
+| 98.6% |      69 | `invokeVirtual(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b80138cc00` |
+
+##### `init()` (`org.codenarc.source.AbstractSourceCode`)
+
+|     % | Samples | Caller                          | Location                                     |
+| ----: | ------: | ------------------------------- | -------------------------------------------- |
+| 98.5% |      66 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`)
+
+|     % | Samples | Caller                                    | Location                                             |
+| ----: | ------: | ----------------------------------------- | ---------------------------------------------------- |
+| 98.5% |      65 | `invokeInterface(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bd000` |
+
+##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
+
+|     % | Samples | Caller                              | Location                                                 |
+| ----: | ------: | ----------------------------------- | -------------------------------------------------------- |
+| 93.1% |      54 | `applyTo(SourceCode)`               | `org.codenarc.rule.AbstractRule`                         |
+|  3.4% |       2 | `super$3$applyTo(SourceCode, List)` | `org.codenarc.rule.formatting.IndentationRule`           |
+|  1.7% |       1 | `super$3$applyTo(SourceCode, List)` | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule` |
+
+##### `visitClass(ClassNode)` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|     % | Samples | Caller                                    | Location                                             |
+| ----: | ------: | ----------------------------------------- | ---------------------------------------------------- |
+| 90.7% |      49 | `applyTo(SourceCode, List)`               | `org.codenarc.rule.AbstractAstVisitorRule`           |
+|  5.6% |       3 | `applyVisitor(AstVisitor, SourceCode)`    | `org.codenarc.rule.AbstractSharedAstVisitorRule`     |
+|  1.9% |       1 | `invokeInterface(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801170c00` |
+
+##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|     % | Samples | Caller                                          | Location                                             |
+| ----: | ------: | ----------------------------------------------- | ---------------------------------------------------- |
+| 96.2% |      51 | `invokeVirtual(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bc800` |
+
+##### `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+
+|     % | Samples | Caller                                                  | Location                                             |
+| ----: | ------: | ------------------------------------------------------- | ---------------------------------------------------- |
+| 97.9% |      47 | `invokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b80118e800` |
+
+##### `getAst()` (`org.codenarc.source.AbstractSourceCode`)
+
+|     % | Samples | Caller   | Location                                    |
+| ----: | ------: | -------- | ------------------------------------------- |
+| 93.0% |      40 | `init()` | `org.codenarc.analyzer.SuppressionAnalyzer` |
+
+##### `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|     % | Samples | Caller                   | Location                                    |
+| ----: | ------: | ------------------------ | ------------------------------------------- |
+| 95.1% |      39 | `isRuleSuppressed(Rule)` | `org.codenarc.analyzer.SuppressionAnalyzer` |
+
+##### `isRuleSuppressed(Rule)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|     % | Samples | Caller                                  | Location                                             |
+| ----: | ------: | --------------------------------------- | ---------------------------------------------------- |
+| 94.9% |      37 | `invokeVirtual(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801101c00` |
+
+##### `visitMethod(MethodNode)` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|      % | Samples | Caller                             | Location                            |
+| -----: | ------: | ---------------------------------- | ----------------------------------- |
+| 100.0% |      36 | `visitMethods(GroovyClassVisitor)` | `org.codehaus.groovy.ast.ClassNode` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
+
+|      % | Samples | Caller                                  | Location                                     |
+| -----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% |       9 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`)
+
+|      % | Samples | Caller                                  | Location                                     |
+| -----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% |       9 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `doCall(Object)` (`org.codenarc.rule.formatting.IndentationAstVisitor$_visitBlockStatement_closure7`)
+
+|      % | Samples | Caller                                  | Location                                     |
+| -----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% |       5 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `getAstVisitor()` (`org.codenarc.rule.AbstractAstVisitorRule`)
+
+|      % | Samples | Caller                      | Location                                   |
+| -----: | ------: | --------------------------- | ------------------------------------------ |
+| 100.0% |       4 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractAstVisitorRule` |
+
+##### `checkDeclaration(ASTNode, String, String)` (`org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor`)
+
+|      % | Samples | Caller                                                  | Location                                             |
+| -----: | ------: | ------------------------------------------------------- | ---------------------------------------------------- |
+| 100.0% |       4 | `invokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b80118e800` |
+
+##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractSharedAstVisitorRule`)
+
+|     % | Samples | Caller                | Location                         |
+| ----: | ------: | --------------------- | -------------------------------- |
+| 75.0% |       3 | `applyTo(SourceCode)` | `org.codenarc.rule.AbstractRule` |
+
+##### `checkStatementIndent(Statement, BlockStatement)` (`org.codenarc.rule.formatting.IndentationAstVisitor`)
+
+|      % | Samples | Caller                                          | Location                                     |
+| -----: | ------: | ----------------------------------------------- | -------------------------------------------- |
+| 100.0% |       4 | `invokeSpecial(Object, Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `doCall(Object)` (`org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2`)
+
+|      % | Samples | Caller                                  | Location                                     |
+| -----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% |       3 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -1422,6 +1709,291 @@ Categories accounting for at least 1.0% of self size.
 |  2.7% |  328 MiB |     150 | `doCall(Object)`                                  | `org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1` |
 |  2.3% |  284 MiB |     143 | `visitBinaryExpression(BinaryExpression)`         | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`                             |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % |     Size | Samples | Caller                                                                                          | Location                                             |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 99.6% | 11.2 GiB |   5,838 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)`     | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800` |
+| <0.1% | 2.68 MiB |       7 | `invokeStaticInit(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2c00` |
+
+##### `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % |     Size | Samples | Caller                                                                                           | Location                                               |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| 99.4% | 11.1 GiB |   5,802 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`    | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+| 50.8% | 5.68 GiB |   2,943 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+|  0.3% | 35.2 MiB |      19 | `invokeImpl(Object, Object[])`                                                                   | `jdk.internal.reflect.DirectMethodHandleAccessor`      |
+|  0.2% | 17.3 MiB |       8 | `invokeImpl(Object[])`                                                                           | `jdk.internal.reflect.DirectConstructorHandleAccessor` |
+
+##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800`)
+
+|     % |     Size | Samples | Caller                                   | Location                                            |
+| ----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 68.0% |  7.6 GiB |   3,965 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b801115400` |
+| 45.1% | 5.04 GiB |   2,610 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801142000` |
+| 33.0% | 3.69 GiB |   1,910 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b8013dbc00` |
+| 23.6% | 2.64 GiB |   1,369 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b8013dc000` |
+| 14.7% | 1.65 GiB |     800 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000b8010bc000` |
+
+##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|     % |  Size | Samples | Caller                     | Location                                          |
+| ----: | ----: | ------: | -------------------------- | ------------------------------------------------- |
+| 98.7% | 9 GiB |   4,630 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|     % |     Size | Samples | Caller                     | Location                   |
+| ----: | -------: | ------: | -------------------------- | -------------------------- |
+| 96.9% | 8.72 GiB |   4,482 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
+
+|     % |     Size | Samples | Caller                               | Location                                                         |
+| ----: | -------: | ------: | ------------------------------------ | ---------------------------------------------------------------- |
+| 98.3% | 8.57 GiB |   4,401 | `invoke(Object, Object[])`           | `org.codehaus.groovy.reflection.CachedMethod`                    |
+|  0.3% | 30.6 MiB |      17 | `doInvoke(Object, Object[], Method)` | `org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite` |
+
+##### `doMethodInvoke(Object, Object[])` (`groovy.lang.MetaMethod`)
+
+|     % |     Size | Samples | Caller                                                              | Location                                                                             |
+| ----: | -------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 82.6% |  7.1 GiB |   3,638 | `invokeMethod(Class, Object, String, Object[], boolean, boolean)`   | `org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`                             |
+|  9.2% |  814 MiB |     412 | `doInvokeMethod(Class, Object, String, Object[], boolean, boolean)` | `groovy.lang.MetaClassImpl`                                                          |
+|  8.0% |  702 MiB |     354 | `invokeVirtual(Object, Object, Object, Object)`                     | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bc800`                                 |
+| <0.1% | 1.33 MiB |       1 | `getProperty(Object)`                                               | `org.codehaus.groovy.runtime.metaclass.MethodMetaProperty$GetBeanMethodMetaProperty` |
+| <0.1% |  629 KiB |       1 | `setProperty(Class, Object, String, Object, boolean, boolean)`      | `groovy.lang.MetaClassImpl`                                                          |
+
+##### `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`)
+
+|     % |     Size | Samples | Caller                             | Location                 |
+| ----: | -------: | ------: | ---------------------------------- | ------------------------ |
+| 95.2% | 8.16 GiB |   4,186 | `doMethodInvoke(Object, Object[])` | `groovy.lang.MetaMethod` |
+
+##### `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % |     Size | Samples | Caller                                     | Location                                                                   |
+| ----: | -------: | ------: | ------------------------------------------ | -------------------------------------------------------------------------- |
+| 33.7% | 2.58 GiB |   1,336 | `doCall(Object)`                           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
+| 29.7% | 2.28 GiB |   1,178 | `measureRuleProcessingTime(Rule, Closure)` | `org.codenarc.analyzer.AbstractSourceAnalyzer`                             |
+| 11.8% |  923 MiB |     468 | `init()`                                   | `org.codenarc.source.AbstractSourceCode`                                   |
+|  5.5% |  433 MiB |     221 | `doCall(Object)`                           | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
+|  5.2% |  408 MiB |     207 | `collectViolations(SourceCode, RuleSet)`   | `org.codenarc.analyzer.AbstractSourceAnalyzer`                             |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801115400`)
+
+|     % |     Size | Samples | Caller                                   | Location                                            |
+| ----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 99.4% | 7.57 GiB |   3,944 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+|  1.2% | 93.7 MiB |      53 | `reinvoke(Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+
+##### `guardWithCatch(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801117800`)
+
+|     % |     Size | Samples | Caller                             | Location                                            |
+| ----: | -------: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 64.8% | 4.86 GiB |   2,621 | `reinvoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+| 44.9% | 3.37 GiB |   1,663 | `delegate(Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % |     Size | Samples | Caller                                                                                      | Location                                             |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 99.3% | 7.43 GiB |   3,889 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800` |
+
+##### `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801118400`)
+
+|     % |     Size | Samples | Caller                                   | Location                                            |
+| ----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 64.0% | 4.75 GiB |   2,560 | `reinvoke(Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+| 44.4% |  3.3 GiB |   1,626 | `delegate(Object, Object, Object)`       | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|  2.8% |  210 MiB |     103 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invokeMethod(Class, Object, String, Object[], boolean, boolean)` (`org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`)
+
+|     % |     Size | Samples | Caller                                   | Location                                                 |
+| ----: | -------: | ------: | ---------------------------------------- | -------------------------------------------------------- |
+| 94.8% | 6.73 GiB |   3,447 | `invokeMethod(Object, String, Object[])` | `groovy.lang.MetaClassImpl`                              |
+|  0.1% |   10 MiB |       6 | `callCurrent(GroovyObject, Object[])`    | `org.codehaus.groovy.runtime.callsite.PogoMetaClassSite` |
+
+##### `invokeMethod(Object, String, Object[])` (`groovy.lang.MetaClassImpl`)
+
+|     % |     Size | Samples | Caller                                                    | Location                                                 |
+| ----: | -------: | ------: | --------------------------------------------------------- | -------------------------------------------------------- |
+| 75.9% | 5.11 GiB |   2,653 | `invokeInterface(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bd400`     |
+| 20.0% | 1.35 GiB |     662 | `call(Object[])`                                          | `groovy.lang.Closure`                                    |
+| 10.1% |  698 MiB |     334 | `call(Object, Object[])`                                  | `org.codehaus.groovy.runtime.callsite.PogoMetaClassSite` |
+|  0.1% | 6.28 MiB |       9 | `invokeMethod(Object, String, Object[])`                  | `groovy.lang.DelegatingMetaClass`                        |
+| <0.1% |    2 MiB |       1 | `invokePojoMethod(Object, String, Object)`                | `org.codehaus.groovy.runtime.InvokerHelper`              |
+
+##### `guardWithCatch(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801140400`)
+
+|     % |     Size | Samples | Caller                                     | Location                                            |
+| ----: | -------: | ------: | ------------------------------------------ | --------------------------------------------------- |
+| 72.6% | 4.83 GiB |   2,508 | `reinvoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80118d000` |
+| 65.3% | 4.34 GiB |   2,194 | `delegate(Object, Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `guard(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b80118d400`)
+
+|     % |     Size | Samples | Caller                                           | Location                                            |
+| ----: | -------: | ------: | ------------------------------------------------ | --------------------------------------------------- |
+| 72.3% | 4.75 GiB |   2,466 | `reinvoke(Object, Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000b80118d000` |
+| 65.6% | 4.31 GiB |   2,176 | `delegate(Object, Object, Object, Object)`       | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|  2.5% |  168 MiB |      82 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % |    Size | Samples | Caller                         | Location                                          |
+| ----: | ------: | ------: | ------------------------------ | ------------------------------------------------- |
+| 97.8% | 6.4 GiB |   3,281 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % |     Size | Samples | Caller                                                                                           | Location                                        |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| 63.8% | 4.05 GiB |   2,135 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+| 36.2% |  2.3 GiB |   1,136 | `access$000(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`   | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+
+##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % |     Size | Samples | Caller                           | Location                                            |
+| ----: | -------: | ------: | -------------------------------- | --------------------------------------------------- |
+| 54.4% | 3.37 GiB |   1,737 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b8013d2400` |
+| 11.1% |  702 MiB |     347 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801609800` |
+|  6.5% |  414 MiB |     210 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80138c000` |
+|  5.2% |  328 MiB |     150 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b8018a3c00` |
+|  2.8% |  181 MiB |     152 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801005400` |
+
+##### `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|     % |     Size | Samples | Caller                                          | Location                                             |
+| ----: | -------: | ------: | ----------------------------------------------- | ---------------------------------------------------- |
+| 99.5% | 4.41 GiB |   2,283 | `invokeVirtual(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b80138cc00` |
+
+##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|     % |     Size | Samples | Caller                                          | Location                                             |
+| ----: | -------: | ------: | ----------------------------------------------- | ---------------------------------------------------- |
+| 99.9% | 4.06 GiB |   2,103 | `invokeVirtual(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bc800` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
+
+|     % |     Size | Samples | Caller                                  | Location                                     |
+| ----: | -------: | ------: | --------------------------------------- | -------------------------------------------- |
+| 98.9% | 3.46 GiB |   1,791 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+
+|     % |     Size | Samples | Caller                                                  | Location                                             |
+| ----: | -------: | ------: | ------------------------------------------------------- | ---------------------------------------------------- |
+| 98.6% | 3.37 GiB |   1,744 | `invokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b80118e800` |
+
+##### `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`)
+
+|     % |     Size | Samples | Caller                                    | Location                                             |
+| ----: | -------: | ------: | ----------------------------------------- | ---------------------------------------------------- |
+| 98.6% | 2.62 GiB |   1,365 | `invokeInterface(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010bd000` |
+
+##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
+
+|     % |     Size | Samples | Caller                              | Location                                                 |
+| ----: | -------: | ------: | ----------------------------------- | -------------------------------------------------------- |
+| 90.0% | 2.28 GiB |   1,185 | `applyTo(SourceCode)`               | `org.codenarc.rule.AbstractRule`                         |
+|  5.8% |  151 MiB |      78 | `super$3$applyTo(SourceCode, List)` | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule` |
+|  3.0% | 77.2 MiB |      40 | `super$3$applyTo(SourceCode, List)` | `org.codenarc.rule.formatting.IndentationRule`           |
+
+##### `visitClass(ClassNode)` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|     % |     Size | Samples | Caller                                    | Location                                             |
+| ----: | -------: | ------: | ----------------------------------------- | ---------------------------------------------------- |
+| 93.3% | 2.15 GiB |   1,098 | `applyTo(SourceCode, List)`               | `org.codenarc.rule.AbstractAstVisitorRule`           |
+|  4.9% |  115 MiB |      61 | `applyVisitor(AstVisitor, SourceCode)`    | `org.codenarc.rule.AbstractSharedAstVisitorRule`     |
+|  0.9% | 22.2 MiB |      12 | `invokeInterface(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801170c00` |
+
+##### `visitMethod(MethodNode)` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|     % |     Size | Samples | Caller                             | Location                            |
+| ----: | -------: | ------: | ---------------------------------- | ----------------------------------- |
+| 99.2% | 1.91 GiB |     986 | `visitMethods(GroovyClassVisitor)` | `org.codehaus.groovy.ast.ClassNode` |
+
+##### `init()` (`org.codenarc.source.AbstractSourceCode`)
+
+|     % |    Size | Samples | Caller                          | Location                                     |
+| ----: | ------: | ------: | ------------------------------- | -------------------------------------------- |
+| 97.3% | 941 MiB |     479 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`)
+
+|     % |    Size | Samples | Caller                                  | Location                                     |
+| ----: | ------: | ------: | --------------------------------------- | -------------------------------------------- |
+| 91.9% | 802 MiB |     406 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `getAst()` (`org.codenarc.source.AbstractSourceCode`)
+
+|     % |     Size | Samples | Caller                      | Location                                    |
+| ----: | -------: | ------: | --------------------------- | ------------------------------------------- |
+| 89.2% |  407 MiB |     208 | `init()`                    | `org.codenarc.analyzer.SuppressionAnalyzer` |
+|  0.2% | 1.02 MiB |       1 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractAstVisitorRule`  |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
+
+|     % |    Size | Samples | Caller                                  | Location                                     |
+| ----: | ------: | ------: | --------------------------------------- | -------------------------------------------- |
+| 97.6% | 425 MiB |     216 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `addViolationIfDuplicate(Expression, boolean)` (`org.codenarc.rule.dry.DuplicateLiteralAstVisitor`)
+
+|     % |    Size | Samples | Caller                                       | Location                                             |
+| ----: | ------: | ------: | -------------------------------------------- | ---------------------------------------------------- |
+| 98.6% | 413 MiB |     207 | `addViolationIfDuplicate(Expression)`        | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`   |
+|  1.4% |   6 MiB |       3 | `invokeSpecial(Object, Object, Object, int)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801152c00` |
+
+##### `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|     % |    Size | Samples | Caller                   | Location                                    |
+| ----: | ------: | ------: | ------------------------ | ------------------------------------------- |
+| 89.9% | 372 MiB |     192 | `isRuleSuppressed(Rule)` | `org.codenarc.analyzer.SuppressionAnalyzer` |
+
+##### `addViolationIfDuplicate(Expression)` (`org.codenarc.rule.dry.DuplicateLiteralAstVisitor`)
+
+|      % |    Size | Samples | Caller                                  | Location                                             |
+| -----: | ------: | ------: | --------------------------------------- | ---------------------------------------------------- |
+| 100.0% | 413 MiB |     207 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801001000` |
+
+##### `isRuleSuppressed(Rule)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|     % |    Size | Samples | Caller                                  | Location                                             |
+| ----: | ------: | ------: | --------------------------------------- | ---------------------------------------------------- |
+| 86.1% | 336 MiB |     172 | `invokeVirtual(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801101c00` |
+
+##### `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.FileResults`)
+
+|      % |    Size | Samples | Caller                                   | Location                           |
+| -----: | ------: | ------: | ---------------------------------------- | ---------------------------------- |
+| 100.0% | 330 MiB |     151 | `getNumberOfViolationsWithPriority(int)` | `org.codenarc.results.FileResults` |
+
+##### `getNumberOfViolationsWithPriority(int)` (`org.codenarc.results.FileResults`)
+
+|      % |    Size | Samples | Caller                               | Location                                             |
+| -----: | ------: | ------: | ------------------------------------ | ---------------------------------------------------- |
+| 100.0% | 330 MiB |     151 | `invokeVirtual(Object, Object, int)` | `java.lang.invoke.LambdaForm$DMH.0x000000b80187f400` |
+
+##### `doCall(Object)` (`org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1`)
+
+|      % |    Size | Samples | Caller                                  | Location                                     |
+| -----: | ------: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% | 328 MiB |     150 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `visitBinaryExpression(BinaryExpression)` (`org.codenarc.rule.dry.DuplicateLiteralAstVisitor`)
+
+|     % |    Size | Samples | Caller                                              | Location                                        |
+| ----: | ------: | ------: | --------------------------------------------------- | ----------------------------------------------- |
+| 76.8% | 218 MiB |     112 | `visit(GroovyCodeVisitor)`                          | `org.codehaus.groovy.ast.expr.BinaryExpression` |
+| 24.6% |  70 MiB |      33 | `visitDeclarationExpression(DeclarationExpression)` | `org.codehaus.groovy.ast.CodeVisitorSupport`    |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -2104,6 +2676,162 @@ Categories accounting for at least 1.0% of self size.
 | 60.4% | 16.3 KiB |       7 | `invokeSpecial(Object, Object, Object)`                                                       | `java.lang.invoke.LambdaForm$DMH.0x000000b801001000` |
 | 60.0% | 16.2 KiB |       7 | `invoke(Object, Object)`                                                                      | `java.lang.invoke.LambdaForm$MH.0x000000b801145c00`  |
 | 59.7% | 16.2 KiB |       2 | `invoke(Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x000000b80116d400`  |
+
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % |     Size | Objects | Caller                                                                                          | Location                                             |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 99.3% | 20.6 KiB |      78 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)`     | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800` |
+|  0.3% |     72 B |       1 | `invokeStaticInit(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b8010b2c00` |
+
+##### `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % |     Size | Objects | Caller                                                                                           | Location                                        |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| 99.9% | 20.7 KiB |      76 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`    | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+|  3.9% |    824 B |      13 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+
+##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000b8010b2800`)
+
+|     % |     Size | Objects | Caller                                   | Location                                            |
+| ----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 97.8% | 20.2 KiB |      68 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b801115400` |
+|  7.8% | 1.61 KiB |      14 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000b801134400` |
+|  3.2% |    672 B |      15 | `invoke(Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000b8010bc000` |
+|  2.4% |    504 B |       6 | `invoke(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b8013dc000` |
+|  2.2% |    456 B |       5 | `invoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801142000` |
+
+##### `guardWithCatch(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801117800`)
+
+|     % |     Size | Objects | Caller                             | Location                                            |
+| ----: | -------: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 89.2% | 18.1 KiB |      43 | `reinvoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+| 12.4% | 2.52 KiB |      35 | `delegate(Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `guard(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801118400`)
+
+|     % |     Size | Objects | Caller                             | Location                                            |
+| ----: | -------: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 88.6% |   18 KiB |      40 | `reinvoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+| 12.1% | 2.46 KiB |      34 | `delegate(Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801115400`)
+
+|     % |     Size | Objects | Caller                                   | Location                                            |
+| ----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 99.9% | 20.1 KiB |      67 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+|  0.7% |    136 B |       3 | `reinvoke(Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000b801118000` |
+
+##### `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|     % |     Size | Objects | Caller                | Location                                                                   |
+| ----: | -------: | ------: | --------------------- | -------------------------------------------------------------------------- |
+| 80.2% | 16.2 KiB |       2 | `validateXml(String)` | `org.codenarc.ruleset.XmlReaderRuleSet`                                    |
+| 80.2% | 16.2 KiB |       2 | `<init>(Reader)`      | `org.codenarc.ruleset.XmlReaderRuleSet`                                    |
+| 79.5% |   16 KiB |       1 | `doCall(Object)`      | `org.codenarc.ruleset.XmlFileRuleSet$_closure1`                            |
+|  8.0% | 1.61 KiB |      14 | `doCall(Object)`      | `org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2`         |
+|  5.0% |    1 KiB |      18 | `doCall(Object)`      | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
+
+##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|     % |   Size | Objects | Caller                     | Location                                          |
+| ----: | -----: | ------: | -------------------------- | ------------------------------------------------- |
+| 99.6% | 20 KiB |      42 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|     % |     Size | Objects | Caller                     | Location                   |
+| ----: | -------: | ------: | -------------------------- | -------------------------- |
+| 99.7% | 19.9 KiB |      40 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|      % |   Size | Objects | Caller                         | Location                                          |
+| -----: | -----: | ------: | ------------------------------ | ------------------------------------------------- |
+| 100.0% | 20 KiB |      42 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
+
+|      % |     Size | Objects | Caller                               | Location                                                         |
+| -----: | -------: | ------: | ------------------------------------ | ---------------------------------------------------------------- |
+| 100.0% | 19.9 KiB |      40 | `invoke(Object, Object[])`           | `org.codehaus.groovy.reflection.CachedMethod`                    |
+|   5.1% | 1.02 KiB |       1 | `doInvoke(Object, Object[], Method)` | `org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite` |
+
+##### `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`)
+
+|     % |     Size | Objects | Caller                             | Location                 |
+| ----: | -------: | ------: | ---------------------------------- | ------------------------ |
+| 99.7% | 19.9 KiB |      39 | `doMethodInvoke(Object, Object[])` | `groovy.lang.MetaMethod` |
+
+##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % |     Size | Objects | Caller                           | Location                                            |
+| ----: | -------: | ------: | -------------------------------- | --------------------------------------------------- |
+| 94.0% | 18.7 KiB |      18 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801005400` |
+|  4.2% |    856 B |      14 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b8013d2400` |
+|  1.2% |    248 B |       6 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80122c000` |
+|  0.3% |     64 B |       1 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80138c000` |
+|  0.2% |     32 B |       1 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80178e400` |
+
+##### `doMethodInvoke(Object, Object[])` (`groovy.lang.MetaMethod`)
+
+|     % |     Size | Objects | Caller                                                              | Location                                                 |
+| ----: | -------: | ------: | ------------------------------------------------------------------- | -------------------------------------------------------- |
+| 18.8% | 3.74 KiB |      36 | `invokeMethod(Class, Object, String, Object[], boolean, boolean)`   | `org.codehaus.groovy.runtime.metaclass.ClosureMetaClass` |
+|  0.4% |     88 B |       2 | `doInvokeMethod(Class, Object, String, Object[], boolean, boolean)` | `groovy.lang.MetaClassImpl`                              |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801141000`)
+
+|     % |     Size | Objects | Caller                                   | Location                           |
+| ----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
+| 99.7% | 19.1 KiB |      39 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801005400`)
+
+|      % |     Size | Objects | Caller                                           | Location                                            |
+| -----: | -------: | ------: | ------------------------------------------------ | --------------------------------------------------- |
+| 100.0% | 18.7 KiB |      18 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+|  85.5% |   16 KiB |       1 | `guardWithCatch(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x000000b801117800` |
+
+##### `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801118000`)
+
+|     % |     Size | Objects | Caller                          | Location                                            |
+| ----: | -------: | ------: | ------------------------------- | --------------------------------------------------- |
+| 99.5% | 18.1 KiB |      41 | `guard(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801118400` |
+| 96.7% | 17.6 KiB |      29 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801141000` |
+| 89.4% | 16.2 KiB |       7 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801145c00` |
+|  5.7% | 1.03 KiB |      18 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801119400` |
+|  1.0% |    192 B |       4 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000b801133000` |
+
+##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000b801001000`)
+
+|     % |     Size | Objects | Caller                           | Location                                            |
+| ----: | -------: | ------: | -------------------------------- | --------------------------------------------------- |
+| 98.9% | 16.2 KiB |       2 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b80116d400` |
+|  1.0% |    160 B |       4 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801133400` |
+|  0.1% |     24 B |       1 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801141400` |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b801145c00`)
+
+|      % |     Size | Objects | Caller                                   | Location                           |
+| -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
+| 100.0% | 16.2 KiB |       7 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `validateXml(String)` (`org.codenarc.ruleset.XmlReaderRuleSet`)
+
+|      % |     Size | Objects | Caller                                  | Location                                             |
+| -----: | -------: | ------: | --------------------------------------- | ---------------------------------------------------- |
+| 100.0% | 16.2 KiB |       2 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000b801001000` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000b80116d400`)
+
+|      % |     Size | Objects | Caller                                   | Location                                            |
+| -----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 100.0% | 16.2 KiB |       2 | `guardWithCatch(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000b801117800` |
 
 #### Callees
 

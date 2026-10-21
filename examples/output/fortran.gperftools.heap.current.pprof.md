@@ -382,6 +382,293 @@ Categories accounting for at least 1.0% of self size.
 |  0.6% |  415 KiB |     203 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90`                                                          |
 |  0.6% |  415 KiB |     203 | `__json_value_module_MOD_json_get_by_path`         | `./json_value_module.F90`                                                          |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                    | Location                  |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
+| 99.7% | 68.5 MiB | 433,577 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+| 42.2% |   29 MiB | 216,481 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+| 21.3% | 14.6 MiB | 172,831 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|  0.3% |  205 KiB |   1,878 | `0x1e85f`                                 | `[stack]`                 |
+| <0.1% | 9.02 KiB |     939 | `0x1d12f`                                 | `[stack]`                 |
+
+##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|     % |     Size | Objects | Caller     | Location                                          |
+| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 96.5% | 44.7 MiB |  11,216 | `0xfa6bf`  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  2.7% | 1.25 MiB |      10 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  0.5% |  259 KiB |   2,074 | `0x112ecb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  0.3% |  135 KiB |   4,333 | `0x112ebb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 82.8% | 37.8 MiB |  47,652 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| 17.2% | 7.87 MiB |   9,278 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
+
+|     % |     Size | Objects | Caller                                             | Location                  |
+| ----: | -------: | ------: | -------------------------------------------------- | ------------------------- |
+| 99.1% | 44.9 MiB |  35,064 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90` |
+|  0.9% |  415 KiB |     203 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
+| <0.1% |    448 B |      56 | `0xffffffffffffffff`                               | `<unknown>`               |
+
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`)
+
+|      % |     Size | Objects | Caller                                 | Location                  |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 100.0% | 44.9 MiB |  35,064 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+
+##### `0x109623` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |     Size | Objects | Caller                                          | Location                      |
+| -----: | -------: | ------: | ----------------------------------------------- | ----------------------------- |
+| 100.0% | 44.7 MiB |  14,955 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+
+##### `0xfa6bf` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 44.7 MiB |  11,216 | `0x109623` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 99.3% | 29.2 MiB | 214,962 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                  | Location                 |
+| ----: | -------: | ------: | --------------------------------------- | ------------------------ |
+| 97.5% | 15.5 MiB | 165,407 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+
+##### `MAIN__` (`/out/profile.f90`)
+
+|     % |   Size | Objects | Caller | Location           |
+| ----: | -----: | ------: | ------ | ------------------ |
+| 95.7% | 15 MiB | 149,886 | `main` | `/out/profile.f90` |
+
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+
+|     % |     Size | Objects | Caller   | Location           |
+| ----: | -------: | ------: | -------- | ------------------ |
+| 97.7% | 15.1 MiB | 157,621 | `MAIN__` | `/out/profile.f90` |
+
+##### `main` (`/out/profile.f90`)
+
+|     % |     Size | Objects | Caller    | Location                               |
+| ----: | -------: | ------: | --------- | -------------------------------------- |
+| 77.2% | 11.6 MiB | 140,613 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.7% |  100 KiB |     917 | `0x1d46f` | `[stack]`                              |
+
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                    | Location                  |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
+| 92.3% | 13.1 MiB | 123,078 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+|  7.7% |  1.1 MiB |  10,299 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+| <0.1% |    336 B |       3 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |     Size | Objects | Caller    | Location                               |
+| ----: | -------: | ------: | --------- | -------------------------------------- |
+| 93.6% | 10.8 MiB | 129,594 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1,008 B |       9 | `0x1`     | `<unknown>`                            |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |     Size | Objects | Caller   | Location    |
+| ----: | -------: | ------: | -------- | ----------- |
+| 91.7% | 9.95 MiB | 118,144 | `_start` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                 | Location                                                                           |
+| ----: | -------: | ------: | -------------------------------------- | ---------------------------------------------------------------------------------- |
+| 12.6% | 1.25 MiB |      65 | `0x27817`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                             |
+|  9.2% |  941 KiB |  34,227 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90`                                                          |
+|  7.4% |  759 KiB |   2,827 | `0xffff8a179d67`                       | `<unknown>`                                                                        |
+|  5.0% |  514 KiB |   8,025 | `0xffffffffffffffff`                   | `<unknown>`                                                                        |
+|  4.5% |  461 KiB |   4,170 | `0x22aaf`                              | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 55.8% | 3.18 MiB |  19,211 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+| 40.4% |  2.3 MiB |  33,558 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  3.5% |  205 KiB |   1,876 | `0x1dd9f`                              | `[stack]`                 |
+
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 96.5% | 4.95 MiB |  65,244 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  1.8% | 92.3 KiB |     844 | `0x1e85f`                              | `[stack]`                 |
+
+##### `0x10324b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |     Size | Objects | Caller                                    | Location                  |
+| -----: | -------: | ------: | ----------------------------------------- | ------------------------- |
+| 100.0% | 1.25 MiB |      29 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+
+##### `0x1029eb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 1.25 MiB |      19 | `0x10324b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10be83` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 1.25 MiB |      10 | `0x1029eb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0xffffffffffffffff` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 10.9% | 98.4 KiB |   1,811 | `0x1`                                  | `<unknown>`               |
+|  2.0% | 18.3 KiB |   1,963 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|  0.5% | 4.08 KiB |       1 | `0x75baa418ff5d9bba`                   | `<unknown>`               |
+|  0.3% | 2.95 KiB |      27 | `0xfffffffffffffff5`                   | `<unknown>`               |
+|  0.1% | 1.09 KiB |      10 | `0xaaaad41d018f`                       | `<unknown>`               |
+
+##### `0x4` (`<unknown>`)
+
+|    % |     Size | Objects | Caller           | Location    |
+| ---: | -------: | ------: | ---------------- | ----------- |
+| 0.5% | 4.08 KiB |       1 | `0xaaaad7c57d37` | `<unknown>` |
+| 0.5% | 4.08 KiB |       1 | `0xaaaad7b10b8f` | `<unknown>` |
+| 0.5% | 4.08 KiB |       1 | `0xaaaad7a99367` | `<unknown>` |
+| 0.5% | 4.08 KiB |       1 | `0xaaaad7cb24df` | `<unknown>` |
+| 0.5% | 4.08 KiB |       1 | `0xaaaad7c29717` | `<unknown>` |
+
+##### `0x22aaf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 42.4% |  356 KiB |   3,251 | `0xffffffffffffffff`                   | `<unknown>`               |
+| 11.9% | 99.6 KiB |     911 | `0x1d46f`                              | `[stack]`                 |
+|  0.7% | 5.94 KiB |       8 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0xffff8a179d67` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                | Location                  |
+| ----: | -------: | ------: | ------------------------------------- | ------------------------- |
+| 89.7% |  693 KiB |     170 | `0x1d11f`                             | `[stack]`                 |
+|  1.9% | 14.6 KiB |     882 | `0x1dd6f`                             | `[stack]`                 |
+|  1.6% | 12.2 KiB |   1,015 | `__json_value_module_MOD_parse_array` | `./json_value_module.F90` |
+|  1.6% | 12.1 KiB |     617 | `0xaaaad7a9e7ff`                      | `<unknown>`               |
+|  0.1% |    486 B |      22 | `0xaaaad7a9e3ff`                      | `<unknown>`               |
+
+##### `0x1e85f` (`[stack]`)
+
+|     % |     Size | Objects | Caller    | Location                                                                           |
+| ----: | -------: | ------: | --------- | ---------------------------------------------------------------------------------- |
+| 44.0% |  313 KiB |   2,866 | `0x1e5ef` | `[stack]`                                                                          |
+| 13.5% | 96.3 KiB |     880 | `0x22aaf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+
+##### `0x1093fb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|     % |    Size | Objects | Caller                                          | Location                      |
+| ----: | ------: | ------: | ----------------------------------------------- | ----------------------------- |
+| 83.0% | 583 KiB |   8,707 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+| 17.0% | 120 KiB |     918 | `MAIN__`                                        | `/out/profile.f90`            |
+| <0.1% |   256 B |       8 | `__json_string_utilities_MOD_string_to_real`    | `./json_string_utilities.F90` |
+
+##### `0x1e5ef` (`[stack]`)
+
+|     % |     Size | Objects | Caller               | Location                                                                           |
+| ----: | -------: | ------: | -------------------- | ---------------------------------------------------------------------------------- |
+| 46.7% |  280 KiB |   2,564 | `0x22aaf`            | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+|  0.9% | 5.14 KiB |      47 | `0x1d46f`            | `[stack]`                                                                          |
+|  0.2% | 1.09 KiB |      10 | `0xffffffffffffffff` | `<unknown>`                                                                        |
+
+##### `0x5` (`<unknown>`)
+
+|    % |     Size | Objects | Caller           | Location    |
+| ---: | -------: | ------: | ---------------- | ----------- |
+| 0.8% | 4.08 KiB |       1 | `0xaaaad7a98d6f` | `<unknown>` |
+| 0.8% | 4.08 KiB |       1 | `0xaaaad7b9c367` | `<unknown>` |
+| 0.8% | 4.08 KiB |       1 | `0xaaaad7bcb4c7` | `<unknown>` |
+| 0.8% | 4.08 KiB |       1 | `0xaaaad7c567f7` | `<unknown>` |
+| 0.8% | 4.08 KiB |       1 | `0xaaaad7bcac17` | `<unknown>` |
+
+##### `0xaaaad7bfa0df` (`<unknown>`)
+
+|     % |     Size | Objects | Caller | Location    |
+| ----: | -------: | ------: | ------ | ----------- |
+| 99.0% |  412 KiB |     101 | `0x4`  | `<unknown>` |
+|  1.0% | 4.08 KiB |       1 | `0x5`  | `<unknown>` |
+
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
+
+|      % |    Size | Objects | Caller                                        | Location                 |
+| -----: | ------: | ------: | --------------------------------------------- | ------------------------ |
+| 100.0% | 416 KiB |   1,065 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
+
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`)
+
+|      % |    Size | Objects | Caller   | Location           |
+| -----: | ------: | ------: | -------- | ------------------ |
+| 100.0% | 416 KiB |   1,065 | `MAIN__` | `/out/profile.f90` |
+
+##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`)
+
+|      % |    Size | Objects | Caller                                     | Location                  |
+| -----: | ------: | ------: | ------------------------------------------ | ------------------------- |
+| 100.0% | 415 KiB |     203 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90`)
+
+|      % |    Size | Objects | Caller                                            | Location                        |
+| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------- |
+| 100.0% | 415 KiB |     203 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
+
+##### `0x10b28f` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller     | Location                                          |
+| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 395 KiB |   6,407 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x1` (`<unknown>`)
+
+|    % |     Size | Objects | Caller    | Location                                           |
+| ---: | -------: | ------: | --------- | -------------------------------------------------- |
+| 3.8% | 13.4 KiB |     810 | `0x1e60f` | `[stack]`                                          |
+| 0.3% |    929 B |     929 | `0x39387` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x1c24b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|     % |     Size | Objects | Caller     | Location                                          |
+| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 97.6% |  302 KiB |   3,216 | `0x10c847` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  2.2% | 6.68 KiB |       9 | `0x10a85b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|  0.3% |    864 B |       9 | `0x10bd7b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+| <0.1% |     16 B |       1 | `0x10b1fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10c847` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller     | Location                                          |
+| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 302 KiB |   3,216 | `0x10ab63` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10ab63` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller     | Location                                          |
+| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 302 KiB |   3,216 | `0x10b283` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -1016,6 +1303,256 @@ Categories accounting for at least 1.0% of self size.
 |  0.4% | 3.19 KiB |     136 | `0xffff8a178fff`     | `<unknown>`                                        |
 |  0.3% | 3.09 KiB |     148 | `0xffff8a179d67`     | `<unknown>`                                        |
 |  0.3% | 2.35 KiB |     156 | `0x3131f`            | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                    | Location                  |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
+| 98.7% |  756 KiB |  14,694 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+| 52.5% |  402 KiB |   7,555 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+| 43.5% |  333 KiB |   6,147 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|  1.1% | 8.53 KiB |      78 | `0x1e85f`                                 | `[stack]`                 |
+| <0.1% |    383 B |      39 | `0x1d12f`                                 | `[stack]`                 |
+
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                    | Location                  |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
+| 95.7% |  584 KiB |   5,343 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
+|  4.3% | 26.3 KiB |     240 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
+| <0.1% |    112 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+
+|     % |    Size | Objects | Caller                                  | Location                 |
+| ----: | ------: | ------: | --------------------------------------- | ------------------------ |
+| 96.8% | 447 KiB |   5,853 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+
+|     % |    Size | Objects | Caller   | Location           |
+| ----: | ------: | ------: | -------- | ------------------ |
+| 96.8% | 432 KiB |   5,574 | `MAIN__` | `/out/profile.f90` |
+
+##### `MAIN__` (`/out/profile.f90`)
+
+|     % |    Size | Objects | Caller | Location           |
+| ----: | ------: | ------: | ------ | ------------------ |
+| 96.2% | 417 KiB |   5,258 | `main` | `/out/profile.f90` |
+
+##### `main` (`/out/profile.f90`)
+
+|     % |     Size | Objects | Caller    | Location                               |
+| ----: | -------: | ------: | --------- | -------------------------------------- |
+| 96.5% |  402 KiB |   4,979 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  1.0% | 4.16 KiB |      38 | `0x1d46f` | `[stack]`                              |
+
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+
+|     % |    Size | Objects | Caller                                 | Location                  |
+| ----: | ------: | ------: | -------------------------------------- | ------------------------- |
+| 98.0% | 400 KiB |   7,433 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |    Size | Objects | Caller    | Location                               |
+| ----: | ------: | ------: | --------- | -------------------------------------- |
+| 95.0% | 382 KiB |   4,623 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   112 B |       1 | `0x1`     | `<unknown>`                            |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |    Size | Objects | Caller   | Location    |
+| ----: | ------: | ------: | -------- | ----------- |
+| 91.5% | 350 KiB |   4,220 | `_start` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                 | Location                                                                           |
+| ----: | -------: | ------: | -------------------------------------- | ---------------------------------------------------------------------------------- |
+| 36.6% |  128 KiB |       1 | `0x27817`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                             |
+|  6.3% | 21.9 KiB |     325 | `0xffffffffffffffff`                   | `<unknown>`                                                                        |
+|  6.0% | 20.9 KiB |   1,213 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90`                                                          |
+|  5.7% | 19.9 KiB |     176 | `0x22aaf`                              | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+|  4.8% |   17 KiB |     155 | `0x1e85f`                              | `[stack]`                                                                          |
+
+##### `0x10324b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller                                    | Location                  |
+| -----: | ------: | ------: | ----------------------------------------- | ------------------------- |
+| 100.0% | 128 KiB |       3 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+
+##### `0x1029eb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller     | Location                                          |
+| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 128 KiB |       2 | `0x10324b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller     | Location                                          |
+| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 128 KiB |       1 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `0x10be83` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+
+|      % |    Size | Objects | Caller     | Location                                          |
+| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 128 KiB |       1 | `0x1029eb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 91.5% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  4.4% | 3.72 KiB |      34 | `0x1e85f`                              | `[stack]`                 |
+
+##### `0xffffffffffffffff` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 10.7% | 4.07 KiB |      64 | `0x1`                                  | `<unknown>`               |
+|  2.0% |    784 B |      82 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|  2.0% |    764 B |       2 | `0xffffffffffffffff`                   | `<unknown>`               |
+|  0.3% |    112 B |       1 | `0xaaaad41d018f`                       | `<unknown>`               |
+| <0.1% |     13 B |       1 | `0xffff8a1b9d7f`                       | `<unknown>`               |
+
+##### `0x22aaf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 42.4% |   15 KiB |     137 | `0xffffffffffffffff`                   | `<unknown>`               |
+| 11.8% | 4.16 KiB |      38 | `0x1d46f`                              | `[stack]`                 |
+|  2.1% |    760 B |       1 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1e85f` (`[stack]`)
+
+|     % |     Size | Objects | Caller    | Location                                                                           |
+| ----: | -------: | ------: | --------- | ---------------------------------------------------------------------------------- |
+| 44.7% | 13.2 KiB |     121 | `0x1e5ef` | `[stack]`                                                                          |
+| 12.6% | 3.72 KiB |      34 | `0x22aaf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+
+##### `0x1e5ef` (`[stack]`)
+
+|     % |     Size | Objects | Caller               | Location                                                                           |
+| ----: | -------: | ------: | -------------------- | ---------------------------------------------------------------------------------- |
+| 46.3% | 11.7 KiB |     107 | `0x22aaf`            | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-current/binary` |
+|  0.9% |    224 B |       2 | `0x1d46f`            | `[stack]`                                                                          |
+|  0.4% |    112 B |       1 | `0xffffffffffffffff` | `<unknown>`                                                                        |
+
+##### `0x1` (`<unknown>`)
+
+|     % | Size | Objects | Caller    | Location                                           |
+| ----: | ---: | ------: | --------- | -------------------------------------------------- |
+| <0.1% |  1 B |       1 | `0x39387` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0x2b167` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
+
+|     % |     Size | Objects | Caller | Location    |
+| ----: | -------: | ------: | ------ | ----------- |
+| 90.9% | 9.33 KiB |      32 | `0x1`  | `<unknown>` |
+
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 87.3% | 8.53 KiB |      78 | `0x1dd9f`                              | `[stack]`                 |
+|  4.9% |    490 B |      40 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1d36f` (`[stack]`)
+
+|      % |     Size | Objects | Caller                                 | Location                  |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 100.0% | 8.53 KiB |      78 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0xffff898e003f` (`<unknown>`)
+
+|     % |    Size | Objects | Caller  | Location    |
+| ----: | ------: | ------: | ------- | ----------- |
+| 27.6% | 2.3 KiB |      21 | `0x177` | `<unknown>` |
+|  2.6% |   224 B |       2 | `0x169` | `<unknown>` |
+|  1.3% |   112 B |       1 | `0xaf`  | `<unknown>` |
+|  1.3% |   112 B |       1 | `0x52`  | `<unknown>` |
+|  1.3% |   112 B |       1 | `0x48`  | `<unknown>` |
+
+##### `0x397ff` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
+
+|     % |     Size | Objects | Caller    | Location                                           |
+| ----: | -------: | ------: | --------- | -------------------------------------------------- |
+| 50.7% | 3.94 KiB |      36 | `0x17`    | `<unknown>`                                        |
+| 49.3% | 3.83 KiB |      35 | `0x397ff` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 86.1% |  6.5 KiB |     738 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+| 13.9% | 1.05 KiB |     134 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
+
+|      % |    Size | Objects | Caller                                 | Location                  |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
+| 100.0% | 6.8 KiB |     871 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+
+##### `0xaaaad7a9e7ff` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                 | Location                  |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 19.1% | 1.08 KiB |      45 | `0xffff8a179d67`                       | `<unknown>`               |
+| 15.6% |    897 B |      39 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|  5.4% |    312 B |      39 | `0x1e85f`                              | `[stack]`                 |
+
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
+
+|      % |     Size | Objects | Caller                                 | Location                  |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
+| 100.0% | 4.29 KiB |   1,098 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+
+##### `0x1d6e7` (`[stack]`)
+
+|      % |     Size | Objects | Caller    | Location  |
+| -----: | -------: | ------: | --------- | --------- |
+| 100.0% | 4.27 KiB |      39 | `0x1d3e7` | `[stack]` |
+
+##### `0x2f9e7` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
+
+|     % |     Size | Objects | Caller           | Location    |
+| ----: | -------: | ------: | ---------------- | ----------- |
+| 97.4% | 4.16 KiB |      38 | `0xffff898e003f` | `<unknown>` |
+|  2.6% |    112 B |       1 | `0x1db8f`        | `[stack]`   |
+
+##### `0x18` (`<unknown>`)
+
+|      % |     Size | Objects | Caller    | Location  |
+| -----: | -------: | ------: | --------- | --------- |
+| 100.0% | 3.72 KiB |      34 | `0x1d84f` | `[stack]` |
+
+##### `0xffff8a178fff` (`<unknown>`)
+
+|     % |     Size | Objects | Caller           | Location    |
+| ----: | -------: | ------: | ---------------- | ----------- |
+| 40.6% | 1.29 KiB |      51 | `0xaaaad7a9e7ff` | `<unknown>` |
+|  3.4% |    112 B |       1 | `0xaaaad7b89c4f` | `<unknown>` |
+|  3.4% |    112 B |       1 | `0xaaaad7b7743f` | `<unknown>` |
+|  3.4% |    112 B |       1 | `0xaaaad7ba599f` | `<unknown>` |
+|  3.4% |    112 B |       1 | `0xaaaad7c31b7f` | `<unknown>` |
+
+##### `0xffff8a179d67` (`<unknown>`)
+
+|     % |     Size | Objects | Caller           | Location    |
+| ----: | -------: | ------: | ---------------- | ----------- |
+| 65.2% | 2.02 KiB |     103 | `0xaaaad7a9e7ff` | `<unknown>` |
+
+##### `0x3131f` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
+
+|     % |     Size | Objects | Caller           | Location    |
+| ----: | -------: | ------: | ---------------- | ----------- |
+| 51.9% | 1.22 KiB |      78 | `0xffff8a178fff` | `<unknown>` |
 
 #### Callees
 

@@ -46,6 +46,16 @@ Categories accounting for at least 1.0% of self thread creations.
 | -----: | ---------------: | ------------- | ----------- |
 | 100.0% |               13 | `(anonymous)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total thread creations. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `(anonymous)` (`<unknown>`)
+
+|      % | Thread creations | Caller        | Location    |
+| -----: | ---------------: | ------------- | ----------- |
+| 100.0% |               13 | `(anonymous)` | `<unknown>` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total thread creations. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

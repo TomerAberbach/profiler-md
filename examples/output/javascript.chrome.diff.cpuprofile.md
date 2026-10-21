@@ -1083,6 +1083,440 @@ Functions with the largest decrease in time spent within the function and its ca
 |  -50.0% | -1.25ms |  0.1% → <0.1% |   2.5ms → 1.3ms |         2 → 1 | `(anonymous)`                  | `./workload.mjs:139:12` |
 |   -3.3% | -0.04ms |         <0.1% |           1.3ms |             1 | `(anonymous)`                  | `./workload.mjs:133:22` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `a` (`./node_modules/d3/dist/d3.min.js:2:231054`)
+
+| Change |    Delta |              % |              Time |   Samples | Caller        | Location                                               |
+| -----: | -------: | -------------: | ----------------: | --------: | ------------- | ------------------------------------------------------ |
+|  +5.5% | +42.00ms | 100.0% → 99.9% | 761.3ms → 803.3ms | 601 → 640 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
+|    new |  +0.96ms |    0.0% → 0.1% |       0ms → 1.0ms |     0 → 1 | `h`           | `./node_modules/d3/dist/d3.min.js:2:235656`            |
+
+##### `Fc.visit` (`./node_modules/d3/dist/d3.min.js:2:105681`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller | Location                                               |
+| -----: | -------: | ------------: | ----------------: | --------: | ------ | ------------------------------------------------------ |
+|  +2.9% | +17.25ms | 66.5% → 66.1% | 604.0ms → 621.2ms | 482 → 495 | `f`    | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
+|  +4.7% | +14.25ms | 33.5% → 33.9% | 303.9ms → 318.1ms | 242 → 254 | `a`    | `./node_modules/d3/dist/d3.min.js:2:231005 → 2:231054` |
+
+##### `$c` (`./node_modules/d3/dist/d3.min.js:2:102050`)
+
+| Change |    Delta |             % |            Time | Samples | Caller        | Location                                               |
+| -----: | -------: | ------------: | --------------: | ------: | ------------- | ------------------------------------------------------ |
+| +40.3% | +24.21ms | 46.7% → 57.2% | 60.1ms → 84.3ms | 48 → 67 | `a`           | `./node_modules/d3/dist/d3.min.js:2:231005 → 2:231054` |
+| -10.1% |  -6.92ms | 53.3% → 41.9% | 68.7ms → 61.8ms | 55 → 49 | `f`           | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
+|    new |  +1.25ms |   0.0% → 0.8% |     0ms → 1.3ms |   0 → 1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235751`            |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:76982`)
+
+| Change |    Delta |      % |          Time |   Samples | Caller | Location                                   |
+| -----: | -------: | -----: | ------------: | --------: | ------ | ------------------------------------------ |
+|  +1.5% | +15.55ms | 100.0% | 1.06s → 1.07s | 863 → 876 | `i`    | `./node_modules/d3/dist/d3.min.js:2:76807` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
+
+| Change |    Delta |      % |          Time |   Samples | Caller | Location                                   |
+| -----: | -------: | -----: | ------------: | --------: | ------ | ------------------------------------------ |
+|  +1.5% | +15.51ms | 100.0% | 1.05s → 1.06s | 857 → 868 | `o`    | `./node_modules/d3/dist/d3.min.js:2:77004` |
+
+##### `u` (`./node_modules/d3/dist/d3.min.js:2:231519`)
+
+| Change |    Delta |      % |            Time | Samples | Caller          | Location                                               |
+| -----: | -------: | -----: | --------------: | ------: | --------------- | ------------------------------------------------------ |
+| +65.9% | +15.04ms | 100.0% | 22.8ms → 37.9ms | 18 → 30 | `Fc.visitAfter` | `./node_modules/d3/dist/d3.min.js:2:106068 → 2:106049` |
+
+##### `o` (`./node_modules/d3/dist/d3.min.js:2:77004`)
+
+| Change |    Delta |      % |          Time |   Samples | Caller        | Location                                   |
+| -----: | -------: | -----: | ------------: | --------: | ------------- | ------------------------------------------ |
+|  +1.3% | +14.30ms | 100.0% | 1.06s → 1.07s | 863 → 875 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982` |
+
+##### `Fc.addAll` (`./node_modules/d3/dist/d3.min.js:2:103087`)
+
+| Change |   Delta |              % |              Time |  Samples | Caller | Location                                               |
+| -----: | ------: | -------------: | ----------------: | -------: | ------ | ------------------------------------------------------ |
+|  +6.4% | +7.54ms | 100.0% → 95.3% | 118.5ms → 126.0ms | 95 → 100 | `$c`   | `./node_modules/d3/dist/d3.min.js:2:102069 → 2:102050` |
+|    new | +3.75ms |    0.0% → 2.8% |       0ms → 3.8ms |    0 → 3 | `f`    | `./node_modules/d3/dist/d3.min.js:2:233501`            |
+|    new | +2.50ms |    0.0% → 1.9% |       0ms → 2.5ms |    0 → 2 | `a`    | `./node_modules/d3/dist/d3.min.js:2:231054`            |
+
+##### `i` (`./node_modules/d3/dist/d3.min.js:2:76807`)
+
+| Change |    Delta |      % |          Time |   Samples | Caller | Location                                               |
+| -----: | -------: | -----: | ------------: | --------: | ------ | ------------------------------------------------------ |
+|  +1.2% | +13.05ms | 100.0% | 1.06s → 1.07s | 865 → 876 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550` |
+
+##### `from` (`./node_modules/d3/dist/d3.min.js:2:94282`)
+
+| Change |    Delta |      % |            Time | Samples | Caller         | Location                |
+| -----: | -------: | -----: | --------------: | ------: | -------------- | ----------------------- |
+| +84.7% | +12.71ms | 100.0% | 15.0ms → 27.7ms | 12 → 22 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:18042`)
+
+| Change |   Delta |             % |            Time | Samples | Caller | Location                                   |
+| -----: | ------: | ------------: | --------------: | ------: | ------ | ------------------------------------------ |
+| +40.3% | +7.16ms | 48.9% → 51.1% | 17.8ms → 25.0ms | 14 → 20 | `each` | `./node_modules/d3/dist/d3.min.js:2:25558` |
+| +38.0% | +6.58ms | 47.7% → 48.9% | 17.3ms → 23.9ms | 14 → 19 | `attr` | `./node_modules/d3/dist/d3.min.js:2:25709` |
+
+##### `Su` (`./node_modules/d3/dist/d3.min.js:2:82034`)
+
+|  Change |    Delta |      % |           Time | Samples | Caller | Location                                             |
+| ------: | -------: | -----: | -------------: | ------: | ------ | ---------------------------------------------------- |
+| +154.8% | +11.54ms | 100.0% | 7.5ms → 19.0ms |  6 → 15 | `Lu`   | `./node_modules/d3/dist/d3.min.js:2:94637 → 2:94618` |
+
+##### `Lu` (`./node_modules/d3/dist/d3.min.js:2:94618`)
+
+|  Change |    Delta |      % |            Time | Samples | Caller | Location                                             |
+| ------: | -------: | -----: | --------------: | ------: | ------ | ---------------------------------------------------- |
+| +113.7% | +11.42ms | 100.0% | 10.0ms → 21.5ms |  8 → 17 | `from` | `./node_modules/d3/dist/d3.min.js:2:94301 → 2:94282` |
+
+##### `append` (`./node_modules/d3/dist/d3.min.js:2:26726`)
+
+| Change |   Delta |             % |            Time | Samples | Caller            | Location                                   |
+| -----: | ------: | ------------: | --------------: | ------: | ----------------- | ------------------------------------------ |
+| +19.3% | +6.33ms | 37.2% → 39.4% | 32.8ms → 39.2ms | 26 → 32 | `(anonymous)`     | `./workload.mjs:185:13`                    |
+| +48.7% | +3.71ms |  8.6% → 11.4% |  7.6ms → 11.3ms |   6 → 9 | `h`               | `./node_modules/d3/dist/d3.min.js:2:12208` |
+| -40.1% | -2.54ms |   7.2% → 3.8% |   6.3ms → 3.8ms |   5 → 3 | `chartLayouts`    | `./workload.mjs:116:24`                    |
+|  +5.9% | +2.37ms | 45.5% → 42.8% | 40.2ms → 42.5ms | 32 → 34 | `join`            | `./node_modules/d3/dist/d3.min.js:2:24162` |
+|    new | +1.25ms |   0.0% → 1.3% |     0ms → 1.3ms |   0 → 1 | `chartBreakdowns` | `./workload.mjs:39:27`                     |
+
+##### `data` (`./node_modules/d3/dist/d3.min.js:2:23459`)
+
+|  Change |   Delta |             % |           Time | Samples | Caller                         | Location                                   |
+| ------: | ------: | ------------: | -------------: | ------: | ------------------------------ | ------------------------------------------ |
+| +281.3% | +3.75ms | 15.0% → 25.5% |  1.3ms → 5.1ms |   2 → 4 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                      |
+|  +59.0% | +3.71ms | 70.9% → 50.2% | 6.3ms → 10.0ms |   5 → 8 | `chartLayouts`                 | `./workload.mjs:116:24`                    |
+| +286.7% | +3.58ms | 14.1% → 24.3% |  1.3ms → 4.8ms |   1 → 4 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:12208` |
+
+##### `update` (`./node_modules/d3/dist/d3.min.js:2:82523`)
+
+|  Change |    Delta |      % |           Time | Samples | Caller | Location                                             |
+| ------: | -------: | -----: | -------------: | ------: | ------ | ---------------------------------------------------- |
+| +206.7% | +10.25ms | 100.0% | 5.0ms → 15.2ms |  4 → 12 | `Su`   | `./node_modules/d3/dist/d3.min.js:2:82035 → 2:82034` |
+
+##### `h` (`./node_modules/d3/dist/d3.min.js:2:12208`)
+
+| Change |    Delta |      % |            Time | Samples | Caller | Location                                   |
+| -----: | -------: | -----: | --------------: | ------: | ------ | ------------------------------------------ |
+| +14.0% | +10.17ms | 100.0% | 72.8ms → 83.0ms | 58 → 66 | `call` | `./node_modules/d3/dist/d3.min.js:2:25192` |
+
+##### `g` (`./node_modules/d3/dist/d3.min.js:2:108341`)
+
+| Change |   Delta |      % |            Time | Samples | Caller | Location                                               |
+| -----: | ------: | -----: | --------------: | ------: | ------ | ------------------------------------------------------ |
+| +80.3% | +9.04ms | 100.0% | 11.3ms → 20.3ms |  9 → 16 | `M`    | `./node_modules/d3/dist/d3.min.js:2:109958 → 2:109939` |
+
+##### `join` (`./node_modules/d3/dist/d3.min.js:2:24162`)
+
+| Change |    Delta |             % |            Time | Samples | Caller                         | Location                |
+| -----: | -------: | ------------: | --------------: | ------: | ------------------------------ | ----------------------- |
+| +30.8% | +10.12ms | 40.8% → 48.1% | 32.8ms → 43.0ms | 26 → 35 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`   |
+| -67.0% |  -2.54ms |   4.7% → 1.4% |   3.8ms → 1.3ms |   3 → 1 | `chartBreakdowns`              | `./workload.mjs:39:27`  |
+|  +2.9% |  +1.29ms | 54.5% → 50.5% | 43.8ms → 45.1ms | 35 → 36 | `chartLayouts`                 | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:16259`)
+
+|  Change |   Delta |              % |            Time | Samples | Caller        | Location                                   |
+| ------: | ------: | -------------: | --------------: | ------: | ------------- | ------------------------------------------ |
+|  +12.2% | +8.75ms | 98.2% → 100.0% | 71.6ms → 80.4ms | 57 → 64 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:26793` |
+| removed | -1.29ms |    1.8% → 0.0% |     1.3ms → 0ms |   1 → 0 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:26975` |
+
+##### `removeChild` (`<unknown>`)
+
+| Change |   Delta |      % |            Time | Samples | Caller   | Location                                   |
+| -----: | ------: | -----: | --------------: | ------: | -------- | ------------------------------------------ |
+| +30.2% | +3.79ms | 100.0% | 12.5ms → 16.3ms | 10 → 13 | `remove` | `./node_modules/d3/dist/d3.min.js:2:27077` |
+
+##### `appendChild` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller        | Location                                   |
+| -----: | ------: | -----: | ------------: | ------: | ------------- | ------------------------------------------ |
+| +14.8% | +1.13ms | 100.0% | 7.6ms → 8.8ms |   6 → 7 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:26793` |
+
+##### `compareDocumentPosition` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller  | Location                                   |
+| -----: | ------: | -----: | ------------: | ------: | ------- | ------------------------------------------ |
+|  +2.5% | +0.13ms | 100.0% | 5.0ms → 5.1ms |       4 | `order` | `./node_modules/d3/dist/d3.min.js:2:24713` |
+
+##### `(anonymous)` (`./workload.mjs:185:13`)
+
+| Change |   Delta |      % |            Time | Samples | Caller | Location                                   |
+| -----: | ------: | -----: | --------------: | ------: | ------ | ------------------------------------------ |
+| +19.3% | +6.33ms | 100.0% | 32.8ms → 39.2ms | 26 → 32 | `join` | `./node_modules/d3/dist/d3.min.js:2:24162` |
+
+##### `(anonymous)` (`./workload.mjs:111:13`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                   |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------ |
+|    new | +2.54ms | 0.0% → 100.0% | 0ms → 2.5ms |   0 → 2 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:19664` |
+
+##### `(anonymous)` (`./workload.mjs:120:25`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location                                  |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | ----------------------------------------- |
+|    new | +1.29ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `t`    | `./node_modules/d3/dist/d3.min.js:2:4909` |
+
+##### `(anonymous)` (`./workload.mjs:193:9`)
+
+| Change |   Delta |      % |          Time | Samples | Caller        | Location                                   |
+| -----: | ------: | -----: | ------------: | ------: | ------------- | ------------------------------------------ |
+| +51.6% | +1.29ms | 100.0% | 2.5ms → 3.8ms |   2 → 3 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `(anonymous)` (`./workload.mjs:60:18`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                   |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------ |
+|    new | +1.29ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `(anonymous)` (`./workload.mjs:121:16`)
+
+| Change |   Delta |             % |        Time | Samples | Caller         | Location                |
+| -----: | ------: | ------------: | ----------: | ------: | -------------- | ----------------------- |
+|    new | +1.25ms | 0.0% → 100.0% | 0ms → 1.3ms |   0 → 1 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./workload.mjs:199:25`)
+
+| Change |   Delta |      % |          Time | Samples | Caller        | Location                                   |
+| -----: | ------: | -----: | ------------: | ------: | ------------- | ------------------------------------------ |
+| +36.3% | +0.33ms | 100.0% | 0.9ms → 1.3ms |       1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `(anonymous)` (`./workload.mjs:11:29`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                         | Location              |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------ | --------------------- |
+|  +6.9% | +0.08ms | 100.0% | 1.2ms → 1.3ms |       1 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+
+##### `f` (`./node_modules/d3/dist/d3.min.js:2:233501`)
+
+| Change |    Delta |      % |          Time |   Samples | Caller        | Location                                               |
+| -----: | -------: | -----: | ------------: | --------: | ------------- | ------------------------------------------------------ |
+|  -2.3% | -29.09ms | 100.0% | 1.24s → 1.21s | 991 → 970 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:18176`)
+
+| Change |    Delta |             % |              Time | Samples | Caller | Location                                   |
+| -----: | -------: | ------------: | ----------------: | ------: | ------ | ------------------------------------------ |
+| -22.3% | -19.54ms | 41.8% → 37.1% |   87.7ms → 68.1ms | 71 → 54 | `attr` | `./node_modules/d3/dist/d3.min.js:2:25709` |
+|  -5.4% |  -6.54ms | 58.2% → 62.9% | 122.3ms → 115.7ms | 99 → 94 | `each` | `./node_modules/d3/dist/d3.min.js:2:25558` |
+
+##### `l` (`./node_modules/d3/dist/d3.min.js:2:233696`)
+
+| Change |    Delta |             % |            Time | Samples | Caller          | Location                                               |
+| -----: | -------: | ------------: | --------------: | ------: | --------------- | ------------------------------------------------------ |
+| -38.6% | -16.16ms | 94.4% → 95.4% | 41.9ms → 25.8ms | 33 → 21 | `Fc.visitAfter` | `./node_modules/d3/dist/d3.min.js:2:106068 → 2:106049` |
+
+##### `p` (`./node_modules/d3/dist/d3.min.js:2:77576`)
+
+| Change |    Delta |              % |             Time | Samples | Caller        | Location                                   |
+| -----: | -------: | -------------: | ---------------: | ------: | ------------- | ------------------------------------------ |
+| -16.5% | -18.20ms | 100.0% → 98.7% | 110.4ms → 92.2ms | 90 → 75 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113` |
+|    new |  +1.25ms |    0.0% → 1.3% |      0ms → 1.3ms |   0 → 1 | `o`           | `./node_modules/d3/dist/d3.min.js:2:77004` |
+
+##### `attr` (`./node_modules/d3/dist/d3.min.js:2:25709`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                         | Location                                   |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------ | ------------------------------------------ |
+| -13.9% | -25.04ms | 70.0% → 64.4% | 179.5ms → 154.5ms | 145 → 125 | `chartLayouts`                 | `./workload.mjs:116:24`                    |
+| +80.8% | +19.12ms |  9.2% → 17.8% |   23.7ms → 42.8ms |   19 → 34 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:12208` |
+| -22.7% |  -4.12ms |   7.1% → 5.8% |   18.1ms → 14.0ms |   15 → 11 | `(anonymous)`                  | `./workload.mjs:195:13`                    |
+| -20.1% |  -3.75ms |   7.3% → 6.2% |   18.7ms → 14.9ms |   15 → 12 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                      |
+| -15.0% |  -2.46ms |   6.4% → 5.8% |   16.3ms → 13.9ms |   13 → 11 | `chartBreakdowns`              | `./workload.mjs:39:27`                     |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:19664`)
+
+| Change |    Delta |             % |            Time | Samples | Caller | Location                                   |
+| -----: | -------: | ------------: | --------------: | ------: | ------ | ------------------------------------------ |
+| -36.5% | -13.79ms | 67.2% → 57.6% | 37.7ms → 24.0ms | 30 → 19 | `text` | `./node_modules/d3/dist/d3.min.js:2:26408` |
+| -35.2% |  -1.33ms |   6.7% → 5.9% |   3.8ms → 2.5ms |   3 → 2 | `h`    | `./node_modules/d3/dist/d3.min.js:2:12208` |
+|  +3.7% |  +0.54ms | 26.1% → 36.5% | 14.7ms → 15.2ms | 11 → 12 | `each` | `./node_modules/d3/dist/d3.min.js:2:25558` |
+
+##### `J` (`./node_modules/d3/dist/d3.min.js:2:8205`)
+
+| Change |    Delta |      % |            Time | Samples | Caller | Location                                               |
+| -----: | -------: | -----: | --------------: | ------: | ------ | ------------------------------------------------------ |
+| -26.5% | -14.00ms | 100.0% | 52.8ms → 38.8ms | 42 → 31 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550` |
+
+##### `text` (`./node_modules/d3/dist/d3.min.js:2:26408`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                         | Location                                   |
+| ------: | ------: | ------------: | --------------: | ------: | ------------------------------ | ------------------------------------------ |
+|  -19.9% | -8.42ms | 77.0% → 81.7% | 42.3ms → 33.9ms | 33 → 27 | `(anonymous)`                  | `./workload.mjs:201:13`                    |
+|  -57.3% | -5.08ms |  16.1% → 9.1% |   8.9ms → 3.8ms |   7 → 3 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:12208` |
+| +203.4% | +2.54ms |   2.3% → 9.1% |   1.3ms → 3.8ms |   1 → 3 | `chartBreakdowns`              | `./workload.mjs:39:27`                     |
+| removed | -2.50ms |   4.5% → 0.0% |     2.5ms → 0ms |   2 → 0 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                      |
+
+##### `f` (`./node_modules/d3/dist/d3.min.js:2:218226`)
+
+| Change |    Delta |      % |           Time | Samples | Caller        | Location                                   |
+| -----: | -------: | -----: | -------------: | ------: | ------------- | ------------------------------------------ |
+| -79.7% | -10.00ms | 100.0% | 12.5ms → 2.5ms |  10 → 2 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `globalThis.buildAndRetainDom` (`./workload.mjs:1:32`)
+
+| Change |   Delta |      % |       Time |       Samples | Caller        | Location        |
+| -----: | ------: | -----: | ---------: | ------------: | ------------- | --------------- |
+|  -0.2% | -9.34ms | 100.0% | 4s → 3.99s | 3,203 → 3,207 | `(anonymous)` | `./run.mjs:1:1` |
+
+##### `chartLayouts` (`./workload.mjs:116:24`)
+
+| Change |   Delta |      % |          Time |       Samples | Caller                         | Location              |
+| -----: | ------: | -----: | ------------: | ------------: | ------------------------------ | --------------------- |
+|  -0.2% | -8.68ms | 100.0% | 3.72s → 3.71s | 2,975 → 2,980 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+
+##### `h` (`./node_modules/d3/dist/d3.min.js:2:233933`)
+
+| Change |   Delta |             % |              Time |   Samples | Caller        | Location                                               |
+| -----: | ------: | ------------: | ----------------: | --------: | ------------- | ------------------------------------------------------ |
+| -54.8% | -6.17ms |   1.8% → 0.8% |    11.3ms → 5.1ms |     9 → 4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
+|  -0.5% | -2.71ms | 95.3% → 96.0% | 583.9ms → 581.2ms | 466 → 463 | `Fc.visit`    | `./node_modules/d3/dist/d3.min.js:2:105700 → 2:105681` |
+
+##### `Fc.visitAfter` (`./node_modules/d3/dist/d3.min.js:2:106049`)
+
+| Change |    Delta |             % |            Time | Samples | Caller | Location                                               |
+| -----: | -------: | ------------: | --------------: | ------: | ------ | ------------------------------------------------------ |
+| -19.7% | -16.24ms | 62.0% → 52.7% | 82.2ms → 66.0ms | 65 → 53 | `f`    | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
+| +17.2% |  +8.70ms | 38.0% → 47.3% | 50.5ms → 59.2ms | 40 → 47 | `a`    | `./node_modules/d3/dist/d3.min.js:2:231005 → 2:231054` |
+
+##### `(anonymous)` (`./workload.mjs:201:13`)
+
+| Change |   Delta |      % |            Time | Samples | Caller | Location                                   |
+| -----: | ------: | -----: | --------------: | ------: | ------ | ------------------------------------------ |
+| -16.4% | -7.17ms | 100.0% | 43.6ms → 36.4ms | 34 → 29 | `call` | `./node_modules/d3/dist/d3.min.js:2:25192` |
+
+##### `Lf` (`./node_modules/d3/dist/d3.min.js:2:112904`)
+
+| Change |   Delta |      % |            Time | Samples | Caller | Location                                               |
+| -----: | ------: | -----: | --------------: | ------: | ------ | ------------------------------------------------------ |
+| -12.4% | -6.79ms | 100.0% | 54.7ms → 47.9ms | 44 → 40 | `a`    | `./node_modules/d3/dist/d3.min.js:2:244444 → 2:244493` |
+
+##### `D` (`./node_modules/d3/dist/d3.min.js:2:4759`)
+
+| Change |   Delta |      % |            Time | Samples | Caller            | Location               |
+| -----: | ------: | -----: | --------------: | ------: | ----------------- | ---------------------- |
+| -33.1% | -6.25ms | 100.0% | 18.9ms → 12.6ms | 15 → 10 | `chartBreakdowns` | `./workload.mjs:39:27` |
+
+##### `force` (`./node_modules/d3/dist/d3.min.js:2:236745`)
+
+|  Change |   Delta |              % |          Time | Samples | Caller                         | Location                |
+| ------: | ------: | -------------: | ------------: | ------: | ------------------------------ | ----------------------- |
+|  -56.7% | -4.96ms | 87.5% → 100.0% | 8.8ms → 3.8ms |   7 → 3 | `chartLayouts`                 | `./workload.mjs:116:24` |
+| removed | -1.25ms |   12.5% → 0.0% |   1.3ms → 0ms |   1 → 0 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`   |
+
+##### `chartBreakdowns` (`./workload.mjs:39:27`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                         | Location              |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------ | --------------------- |
+| -10.0% | -6.21ms | 100.0% | 61.7ms → 55.5ms | 49 → 44 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+
+##### `Yf` (`./node_modules/d3/dist/d3.min.js:2:112811`)
+
+| Change |   Delta |             % |            Time | Samples | Caller         | Location                                               |
+| -----: | ------: | ------------: | --------------: | ------: | -------------- | ------------------------------------------------------ |
+| -42.8% | -2.83ms |  12.7% → 8.1% |   6.6ms → 3.8ms |   6 → 5 | `MultiPolygon` | `./node_modules/d3/dist/d3.min.js:2:112551 → 2:112532` |
+|  -5.9% | -2.71ms | 87.3% → 91.9% | 45.6ms → 42.9ms | 36 → 34 | `Lf`           | `./node_modules/d3/dist/d3.min.js:2:112923 → 2:112904` |
+
+##### `appendChild` (`./node_modules/d3/dist/d3.min.js:2:21447`)
+
+| Change |   Delta |      % |           Time | Samples | Caller        | Location                                   |
+| -----: | ------: | -----: | -------------: | ------: | ------------- | ------------------------------------------ |
+| -40.5% | -5.13ms | 100.0% | 12.7ms → 7.5ms |  10 → 6 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:26793` |
+
+##### `t` (`./node_modules/d3/dist/d3.min.js:2:4909`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller | Location                                  |
+| ------: | ------: | ------------: | --------------: | ------: | ------ | ----------------------------------------- |
+|  -18.3% | -3.71ms | 89.0% → 93.0% | 20.3ms → 16.5ms | 16 → 13 | `F`    | `./node_modules/d3/dist/d3.min.js:2:4882` |
+| removed | -1.25ms |   5.5% → 0.0% |     1.3ms → 0ms |   1 → 0 | `t`    | `./node_modules/d3/dist/d3.min.js:2:4909` |
+|  -50.0% | -1.25ms |  11.0% → 7.0% |   2.5ms → 1.3ms |   2 → 1 | `D`    | `./node_modules/d3/dist/d3.min.js:2:4759` |
+
+##### `p` (`./node_modules/d3/dist/d3.min.js:2:236133`)
+
+| Change |   Delta |      % |          Time | Samples | Caller  | Location                                               |
+| -----: | ------: | -----: | ------------: | ------: | ------- | ------------------------------------------------------ |
+| -56.7% | -4.96ms | 100.0% | 8.8ms → 3.8ms |   7 → 3 | `force` | `./node_modules/d3/dist/d3.min.js:2:236696 → 2:236745` |
+
+##### `l` (`./node_modules/d3/dist/d3.min.js:2:232151`)
+
+| Change |   Delta |      % |            Time | Samples | Caller        | Location                                               |
+| -----: | ------: | -----: | --------------: | ------: | ------------- | ------------------------------------------------------ |
+| -25.6% | -4.25ms | 100.0% | 16.6ms → 12.4ms | 13 → 10 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:1144`)
+
+| Change |   Delta |      % |              Time |   Samples | Caller | Location                                               |
+| -----: | ------: | -----: | ----------------: | --------: | ------ | ------------------------------------------------------ |
+|  -2.6% | -4.13ms | 100.0% | 156.6ms → 152.5ms | 123 → 121 | `h`    | `./node_modules/d3/dist/d3.min.js:2:223150 → 2:223199` |
+
+##### `insertBefore` (`<unknown>`)
+
+| Change |   Delta |              % |           Time | Samples | Caller         | Location                                   |
+| -----: | ------: | -------------: | -------------: | ------: | -------------- | ------------------------------------------ |
+| -44.7% | -5.08ms | 100.0% → 70.9% | 11.4ms → 6.3ms |   9 → 5 | `appendChild`  | `./node_modules/d3/dist/d3.min.js:2:21447` |
+|    new | +2.58ms |   0.0% → 29.1% |    0ms → 2.6ms |   0 → 2 | `insertBefore` | `./node_modules/d3/dist/d3.min.js:2:21520` |
+
+##### `createElementNS` (`<unknown>`)
+
+| Change |   Delta |             % |            Time | Samples | Caller        | Location                                   |
+| -----: | ------: | ------------: | --------------: | ------: | ------------- | ------------------------------------------ |
+|  -1.8% | -1.21ms | 98.2% → 98.1% | 66.6ms → 65.4ms | 53 → 52 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:16259` |
+
+##### `(anonymous)` (`./workload.mjs:195:13`)
+
+| Change |   Delta |      % |            Time | Samples | Caller | Location                                   |
+| -----: | ------: | -----: | --------------: | ------: | ------ | ------------------------------------------ |
+| -27.7% | -5.37ms | 100.0% | 19.4ms → 14.0ms | 16 → 11 | `call` | `./node_modules/d3/dist/d3.min.js:2:25192` |
+
+##### `(anonymous)` (`./workload.mjs:82:7`)
+
+| Change |   Delta |      % |          Time | Samples | Caller | Location                                  |
+| -----: | ------: | -----: | ------------: | ------: | ------ | ----------------------------------------- |
+| -50.0% | -3.79ms | 100.0% | 7.6ms → 3.8ms |   6 → 3 | `t`    | `./node_modules/d3/dist/d3.min.js:2:4909` |
+
+##### `(anonymous)` (`./workload.mjs:205:13`)
+
+| Change |   Delta |      % |            Time | Samples | Caller        | Location                                   |
+| -----: | ------: | -----: | --------------: | ------: | ------------- | ------------------------------------------ |
+|  -7.9% | -2.50ms | 100.0% | 31.5ms → 29.0ms | 25 → 23 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:19664` |
+
+##### `(anonymous)` (`./workload.mjs:221:13`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                   |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------ |
+| removed | -2.50ms | 100.0% → 0.0% | 2.5ms → 0ms |   2 → 0 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:19664` |
+
+##### `(anonymous)` (`./workload.mjs:157:29`)
+
+| Change |   Delta |      % |          Time | Samples | Caller         | Location                |
+| -----: | ------: | -----: | ------------: | ------: | -------------- | ----------------------- |
+| -22.1% | -1.42ms | 100.0% | 6.4ms → 5.0ms |   5 → 4 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./workload.mjs:100:10`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller | Location                                    |
+| ------: | ------: | ------------: | ----------: | ------: | ------ | ------------------------------------------- |
+| removed | -1.25ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | `f`    | `./node_modules/d3/dist/d3.min.js:2:194448` |
+
+##### `(anonymous)` (`./workload.mjs:123:12`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                    |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------- |
+| removed | -1.25ms | 100.0% → 0.0% | 1.3ms → 0ms |   1 → 0 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:142038` |
+
+##### `(anonymous)` (`./workload.mjs:139:12`)
+
+| Change |   Delta |      % |          Time | Samples | Caller         | Location                |
+| -----: | ------: | -----: | ------------: | ------: | -------------- | ----------------------- |
+| -50.0% | -1.25ms | 100.0% | 2.5ms → 1.3ms |   2 → 1 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./workload.mjs:133:22`)
+
+| Change |   Delta |      % |  Time | Samples | Caller        | Location                                   |
+| -----: | ------: | -----: | ----: | ------: | ------------- | ------------------------------------------ |
+|  -3.3% | -0.04ms | 100.0% | 1.3ms |       1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

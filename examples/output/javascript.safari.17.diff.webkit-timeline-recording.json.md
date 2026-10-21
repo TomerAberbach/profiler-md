@@ -1135,6 +1135,585 @@ Functions with the largest decrease in time spent within the function and its ca
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `nodeAtPoint`      | `<unknown>` |
 | removed | -1.00ms | 1.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `bound `           | `<unknown>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `findExtraArticle` (`__InjectedScript_ReaderArticleFinder.js:13:55651`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller             | Location                                          |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------ | ------------------------------------------------- |
+| +546.8% | +5.47ms | 33.3% → 76.4% | 1.0ms → 6.5ms |   1 → 2 | `extraArticleNode` | `__InjectedScript_ReaderArticleFinder.js:13:8749` |
+
+##### `extraArticleNode` (`__InjectedScript_ReaderArticleFinder.js:13:8749`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                    | Location                                           |
+| ------: | ------: | -----: | ------------: | ------: | ------------------------- | -------------------------------------------------- |
+| +546.8% | +5.47ms | 100.0% | 1.0ms → 6.5ms |   1 → 2 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+
+##### `articleTitleInformation` (`__InjectedScript_ReaderArticleFinder.js:13:39662`)
+
+| Change |   Delta |      % |           Time | Samples | Caller         | Location                                           |
+| -----: | ------: | -----: | -------------: | ------: | -------------- | -------------------------------------------------- |
+| +57.6% | +4.73ms | 100.0% | 8.2ms → 12.9ms |       4 | `articleTitle` | `__InjectedScript_ReaderArticleFinder.js:13:39565` |
+
+##### `articleTitle` (`__InjectedScript_ReaderArticleFinder.js:13:39565`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                           | Location                                           |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------------------------ | -------------------------------------------------- |
+| +57.6% | +4.73ms | 100.0% | 8.2ms → 12.9ms |       4 | `unformattedArticleTextContentIncludingMetadata` | `__InjectedScript_ReaderArticleFinder.js:13:67861` |
+
+##### `sort` (`<unknown>`)
+
+| Change |   Delta |            % |        Time | Samples | Caller                                        | Location                                                                         |
+| -----: | ------: | -----------: | ----------: | ------: | --------------------------------------------- | -------------------------------------------------------------------------------- |
+|    new | +3.23ms | 0.0% → 76.4% | 0ms → 3.2ms |   0 → 1 | `sortCandidateElementsInDescendingScoreOrder` | `__InjectedScript_ReaderArticleFinder.js:13:56628`                               |
+|    new | +1.00ms | 0.0% → 23.6% | 0ms → 1.0ms |   0 → 1 | `sortQuery`                                   | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:13:33` |
+
+##### `(anonymous)` (`__InjectedScript_ReaderArticleFinder.js:12:25480`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                              | Location                                           |
+| ------: | ------: | -----: | ------------: | ------: | ----------------------------------- | -------------------------------------------------- |
+| +323.4% | +3.23ms | 100.0% | 1.0ms → 4.2ms |   1 → 2 | `findExtraArticleCandidateElements` | `__InjectedScript_ReaderArticleFinder.js:13:57439` |
+
+##### `normalizedElementTagName` (`__InjectedScript_ReaderArticleFinder.js:12:19601`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                    | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------- | -------------------------------------------------- |
+|     new | +3.23ms |  0.0% → 76.4% | 0ms → 3.2ms |   0 → 1 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `findCandidateElements`   | `__InjectedScript_ReaderArticleFinder.js:13:56785` |
+|     new | +1.00ms |  0.0% → 23.6% | 0ms → 1.0ms |   0 → 1 | `i`                       | `__InjectedScript_ReaderArticleFinder.js:12:29250` |
+
+##### `elementLooksLikePartOfACarousel` (`__InjectedScript_ReaderArticleFinder.js:12:8505`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                           |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | -------------------------------------------------- |
+|    new | +3.23ms | 0.0% → 100.0% | 0ms → 3.2ms |   0 → 1 | `(anonymous)` | `__InjectedScript_ReaderArticleFinder.js:12:25480` |
+
+##### `t` (`__InjectedScript_ReaderArticleFinder.js:13:56642`)
+
+| Change |   Delta |             % |        Time | Samples | Caller      | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | ----------- | ----------- |
+|    new | +3.23ms | 0.0% → 100.0% | 0ms → 3.2ms |   0 → 1 | `sortMerge` | `<unknown>` |
+
+##### `sortMerge` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller          | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | --------------- | ----------- |
+|    new | +3.23ms | 0.0% → 100.0% | 0ms → 3.2ms |   0 → 1 | `sortMergeSort` | `<unknown>` |
+
+##### `sortMergeSort` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +3.23ms | 0.0% → 100.0% | 0ms → 3.2ms |   0 → 1 | `sort` | `<unknown>` |
+
+##### `sortCandidateElementsInDescendingScoreOrder` (`__InjectedScript_ReaderArticleFinder.js:13:56628`)
+
+| Change |   Delta |             % |        Time | Samples | Caller             | Location                                           |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------ | -------------------------------------------------- |
+|    new | +3.23ms | 0.0% → 100.0% | 0ms → 3.2ms |   0 → 1 | `findExtraArticle` | `__InjectedScript_ReaderArticleFinder.js:13:55651` |
+
+##### `domDistance` (`__InjectedScript_ReaderArticleFinder.js:12:2553`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                    | Location                                           |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------- | -------------------------------------------------- |
+|    new | +3.23ms | 0.0% → 100.0% | 0ms → 3.2ms |   0 → 1 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+
+##### `execute` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`)
+
+| Change |   Delta |      % |            Time | Samples | Caller          | Location                                                                         |
+| -----: | ------: | -----: | --------------: | ------: | --------------- | -------------------------------------------------------------------------------- |
+| +25.0% | +3.00ms | 100.0% | 12.0ms → 15.0ms | 12 → 15 | `doPropagation` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254` |
+
+##### `doPropagation` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254`)
+
+| Change |   Delta |      % |            Time | Samples | Caller        | Location                                                                          |
+| -----: | ------: | -----: | --------------: | ------: | ------------- | --------------------------------------------------------------------------------- |
+| +23.1% | +3.00ms | 100.0% | 13.0ms → 16.0ms | 13 → 16 | `(anonymous)` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558` |
+
+##### `each` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller                        | Location                                                                                   |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| removed | -1.00ms | 12.5% → 0.0% | 1.0ms → 0ms |   1 → 0 | `Deferred`                    | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:43:832`                |
+| removed | -1.00ms | 12.5% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`                 | `./w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:3:722` |
+|     new | +1.00ms |  0.0% → 9.1% | 0ms → 1.0ms |   0 → 1 | `(anonymous)`                 | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:420`                 |
+|     new | +1.00ms |  0.0% → 9.1% | 0ms → 1.0ms |   0 → 1 | `initInterlanguageEntryPoint` | `./w/load.php?lang=en&modules=ext.uls.interface&skin=vector-2022&version=pe1oy:7:168`      |
+|     new | +1.00ms |  0.0% → 9.1% | 0ms → 1.0ms |   0 → 1 | `off`                         | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:72:472`                |
+
+##### `forEach` (`<unknown>`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller                                       | Location                                                                                 |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| removed | -1.00ms | 33.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `enqueue`                                    | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:255`        |
+|     new | +1.00ms | 0.0% → 16.7% | 0ms → 1.0ms |   0 → 1 | `resources/skins.vector.js/dropdownMenus.js` | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:54:56`      |
+|     new | +1.00ms | 0.0% → 16.7% | 0ms → 1.0ms |   0 → 1 | `dropdownMenus`                              | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:54:393`     |
+|     new | +1.00ms | 0.0% → 16.7% | 0ms → 1.0ms |   0 → 1 | `showSurvey`                                 | `./w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:9:781` |
+|     new | +1.00ms | 0.0% → 16.7% | 0ms → 1.0ms |   0 → 1 | `drainQueue`                                 | `./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:10:278`     |
+
+##### `findExtraArticleCandidateElements` (`__InjectedScript_ReaderArticleFinder.js:13:57439`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller             | Location                                           |
+| ------: | ------: | -----: | ------------: | ------: | ------------------ | -------------------------------------------------- |
+| +111.7% | +2.23ms | 100.0% | 2.0ms → 4.2ms |       2 | `findExtraArticle` | `__InjectedScript_ReaderArticleFinder.js:13:55651` |
+
+##### `_collectMetadata` (`FormMetadata.js:3:78950`)
+
+| Change |   Delta |      % |           Time | Samples | Caller             | Location                  |
+| -----: | ------: | -----: | -------------: | ------: | ------------------ | ------------------------- |
+| +22.2% | +2.00ms | 100.0% | 9.0ms → 11.0ms |  9 → 11 | `formsAndMetadata` | `FormMetadata.js:3:82286` |
+
+##### `_stringsToEvaluateToDetermineIfElementIsFollowedByAffordance` (`FormMetadata.js:3:21490`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                                                | Location                  |
+| ------: | ------: | -----: | ------------: | ------: | ----------------------------------------------------- | ------------------------- |
+| +200.0% | +2.00ms | 100.0% | 1.0ms → 3.0ms |   1 → 3 | `_isElementFollowedByForgotUserNameOrEmailAffordance` | `FormMetadata.js:3:19474` |
+
+##### `CandidateElement` (`__InjectedScript_ReaderArticleFinder.js:12:25119`)
+
+| Change |   Delta |            % |        Time | Samples | Caller        | Location                                           |
+| -----: | ------: | -----------: | ----------: | ------: | ------------- | -------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `__InjectedScript_ReaderArticleFinder.js:12:26177` |
+|    new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `__InjectedScript_ReaderArticleFinder.js:12:25480` |
+
+##### `i` (`__InjectedScript_ReaderArticleFinder.js:12:29250`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                     | Location                                           |
+| -----: | ------: | ------------: | ----------: | ------: | -------------------------- | -------------------------------------------------- |
+|    new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `usableTextNodesInElement` | `__InjectedScript_ReaderArticleFinder.js:12:29085` |
+
+##### `_collectFormMetadata` (`FormMetadata.js:3:62833`)
+
+| Change |   Delta |      % |          Time | Samples | Caller             | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | ------------------ | ------------------------- |
+| +12.5% | +1.00ms | 100.0% | 8.0ms → 9.0ms |   8 → 9 | `_collectMetadata` | `FormMetadata.js:3:78950` |
+
+##### `(anonymous)` (`FormMetadata.js:3:77436`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                                          | Location                  |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------------------------------- | ------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `_indexOfFormWithHighestScoreIfGreaterThanZero` | `FormMetadata.js:3:78192` |
+
+##### `get` (`./w/load.php?lang=en&modules=mediawiki.user&skin=vector-2022&version=163ne:4:740`)
+
+| Change |   Delta |            % |        Time | Samples | Caller        | Location                                                                                           |
+| -----: | ------: | -----------: | ----------: | ------: | ------------- | -------------------------------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `makeControl` | `./w/load.php?lang=en&modules=skins.vector.clientPreferences&skin=vector-2022&version=1vmjt:6:854` |
+|    new | +1.00ms | 0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `getFont`     | `./w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:24:95`            |
+
+##### `runScript` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:11:59`)
+
+| Change |   Delta |             % |            Time | Samples | Caller        | Location                                                                          |
+| -----: | ------: | ------------: | --------------: | ------: | ------------- | --------------------------------------------------------------------------------- |
+| +16.7% | +2.00ms | 48.0% → 53.8% | 12.0ms → 14.0ms | 12 → 14 | `execute`     | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868` |
+|  -7.7% | -1.00ms | 52.0% → 46.2% | 13.0ms → 12.0ms | 13 → 12 | `(anonymous)` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:79:610`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller        | Location                                                                                   |
+| ------: | ------: | ------------: | ------------: | ------: | ------------- | ------------------------------------------------------------------------------------------ |
+| +100.0% | +1.00ms | 50.0% → 66.7% | 1.0ms → 2.0ms |   1 → 2 | `(anonymous)` | `./w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:3:722` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:77:868`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location                                                                    |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | --------------------------------------------------------------------------- |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `domManip` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:74:285` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:751`)
+
+| Change |   Delta |             % |        Time | Samples | Caller     | Location                                                                    |
+| -----: | ------: | ------------: | ----------: | ------: | ---------- | --------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `Deferred` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:43:832` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:106:794`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location                                                                   |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | -------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `each` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:52:564`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                                   |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `./w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:3:722` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:72:988`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location                                                                   |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | -------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `each` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:25:556`)
+
+| Change |   Delta |             % |        Time | Samples | Caller     | Location                                                                                 |
+| -----: | ------: | ------------: | ----------: | ------: | ---------- | ---------------------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `logEvent` | `./w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:54:978` |
+
+##### `addToHead` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:3:909`)
+
+| Change |   Delta |      % |          Time | Samples | Caller        | Location                                                                        |
+| -----: | ------: | -----: | ------------: | ------: | ------------- | ------------------------------------------------------------------------------- |
+| +33.3% | +1.00ms | 100.0% | 3.0ms → 4.0ms |   3 → 4 | `newStyleTag` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:59` |
+
+##### `newStyleTag` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:59`)
+
+| Change |   Delta |      % |          Time | Samples | Caller           | Location                                                                         |
+| -----: | ------: | -----: | ------------: | ------: | ---------------- | -------------------------------------------------------------------------------- |
+| +33.3% | +1.00ms | 100.0% | 3.0ms → 4.0ms |   3 → 4 | `flushCssBuffer` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217` |
+
+##### `domManip` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:74:285`)
+
+| Change |   Delta |      % |          Time | Samples | Caller        | Location                                                                    |
+| -----: | ------: | -----: | ------------: | ------: | ------------- | --------------------------------------------------------------------------- |
+| +50.0% | +1.00ms | 100.0% | 2.0ms → 3.0ms |   2 → 3 | `(anonymous)` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:79:610` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:613`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location                                                                           |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | ---------------------------------------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `fire` | `./w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:823` |
+
+##### `resources/skins.vector.js/skin.js` (`./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155`)
+
+| Change |   Delta |      % |          Time | Samples | Caller      | Location                                                                         |
+| -----: | ------: | -----: | ------------: | ------: | ----------- | -------------------------------------------------------------------------------- |
+| +14.3% | +1.00ms | 100.0% | 7.0ms → 8.0ms |   7 → 8 | `runScript` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:11:59` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:56:287`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | ----------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `forEach` | `<unknown>` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:54:529`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | ----------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `forEach` | `<unknown>` |
+
+##### `insertBefore` (`<unknown>`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller        | Location                                                                         |
+| ------: | ------: | ------------: | ------------: | ------: | ------------- | -------------------------------------------------------------------------------- |
+|  +33.3% | +1.00ms | 75.0% → 66.7% | 3.0ms → 4.0ms |   3 → 4 | `addToHead`   | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:3:909` |
+| +100.0% | +1.00ms | 25.0% → 33.3% | 1.0ms → 2.0ms |   1 → 2 | `(anonymous)` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:77:868`      |
+
+##### `getPropertyValue` (`<unknown>`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                   | Location                                                                            |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------ | ----------------------------------------------------------------------------------- |
+| +25.0% | +1.00ms | 100.0% | 4.0ms → 5.0ms |   4 → 5 | `getHeadingScrollOffset` | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:5:840` |
+
+##### `collectMatchingElementsInFlatTree` (`<unknown>`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller               | Location                 |
+| ------: | ------: | -----: | ------------: | ------: | -------------------- | ------------------------ |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `queryAllBySelector` | `FormMetadata.js:3:7383` |
+
+##### `sortCompact` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `sort` | `<unknown>` |
+
+##### `URL` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                                         |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------------------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `./w/load.php?lang=en&modules=ext.visualEditor.targetLoader&skin=vector-2022&version=1m9dx:9:10` |
+
+##### `flatIntoArray` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | ------ | ----------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `flat` | `<unknown>` |
+
+##### `querySelector` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                  | Location                                                                             |
+| -----: | ------: | ------------: | ----------: | ------: | ----------------------- | ------------------------------------------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `addPortletLinkHandler` | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:55:613` |
+
+##### `[Symbol.match]` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller  | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | ------- | ----------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `match` | `<unknown>` |
+
+##### `getComputedStyle` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                  |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `FormMetadata.js:3:11837` |
+
+##### `stringSplitFast` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                    | Location                                           |
+| -----: | ------: | ------------: | ----------: | ------: | ------------------------- | -------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `pathComponentsForAnchor` | `__InjectedScript_ReaderArticleFinder.js:12:19328` |
+
+##### `sendBeacon` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller         | Location                                                                             |
+| -----: | ------: | ------------: | ----------: | ------: | -------------- | ------------------------------------------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `doSendEvents` | `./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:10:181` |
+
+##### `getBoundingClientRect` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                      | Location                                          |
+| -----: | ------: | ------------: | ----------: | ------: | --------------------------- | ------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `cachedElementBoundingRect` | `__InjectedScript_ReaderArticleFinder.js:12:5336` |
+
+##### `updateArticleBylineAndDateElementsIfNecessary` (`__InjectedScript_ReaderArticleFinder.js:13:53699`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                   | Location                                           |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------ | -------------------------------------------------- |
+| -68.9% | -7.18ms | 100.0% | 10.4ms → 3.2ms |   2 → 1 | `adoptableMetadataBlock` | `__InjectedScript_ReaderArticleFinder.js:13:48923` |
+
+##### `adoptableMetadataBlock` (`__InjectedScript_ReaderArticleFinder.js:13:48923`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                           | Location                                           |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------------------------ | -------------------------------------------------- |
+| -68.9% | -7.18ms | 100.0% | 10.4ms → 3.2ms |   2 → 1 | `unformattedArticleTextContentIncludingMetadata` | `__InjectedScript_ReaderArticleFinder.js:13:67861` |
+
+##### `levenshteinDistance` (`__InjectedScript_ReaderArticleFinder.js:12:6770`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller             | Location                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------ | ------------------------------------------------- |
+| removed | -5.21ms | 100.0% → 0.0% | 5.2ms → 0ms |   1 → 0 | `stringSimilarity` | `__InjectedScript_ReaderArticleFinder.js:12:7091` |
+
+##### `stringSimilarity` (`__InjectedScript_ReaderArticleFinder.js:12:7091`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ------ | -------------------------------------------------- |
+| removed | -5.21ms | 100.0% → 0.0% | 5.2ms → 0ms |   1 → 0 | `de`   | `__InjectedScript_ReaderArticleFinder.js:13:42521` |
+
+##### `de` (`__InjectedScript_ReaderArticleFinder.js:13:42521`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                    | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------- | -------------------------------------------------- |
+| removed | -5.21ms | 100.0% → 0.0% | 5.2ms → 0ms |   1 → 0 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+
+##### `enqueue` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:255`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller        | Location                                                                           |
+| ------: | ------: | -----------: | ----------: | ------: | ------------- | ---------------------------------------------------------------------------------- |
+| removed | -2.00ms | 50.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `(anonymous)` | `./w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:6:539` |
+
+##### `require` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:8:344`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller                                   | Location                                                                                 |
+| ------: | ------: | -----------: | ----------: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------------- |
+| removed | -1.00ms | 20.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `index.js`                               | `./w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:1:106`     |
+| removed | -1.00ms | 20.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `index.js`                               | `./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:105`      |
+| removed | -1.00ms | 20.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `resources/ext.quicksurveys.lib/init.js` | `./w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:170` |
+|     new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `resources/skins.vector.js/portlets.js`  | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:50:51`      |
+|     new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `resources/skins.vector.js/skin.js`      | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155`      |
+
+##### `_findHiddenUsernameElement` (`FormMetadata.js:3:75498`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                 | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------------- | ------------------------- |
+| removed | -2.00ms | 100.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `_collectFormMetadata` | `FormMetadata.js:3:62833` |
+
+##### `trimmedInnerTextIgnoringTextTransform` (`__InjectedScript_ReaderArticleFinder.js:12:6561`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                     | Location                                           |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------ | -------------------------------------------------- |
+| -37.9% | -1.97ms | 100.0% | 5.2ms → 3.2ms |       1 | `findArticleBylineElementWithoutRejection` | `__InjectedScript_ReaderArticleFinder.js:13:50372` |
+
+##### `findArticleBylineElementWithoutRejection` (`__InjectedScript_ReaderArticleFinder.js:13:50372`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                     | Location                                           |
+| -----: | ------: | -----: | ------------: | ------: | -------------------------- | -------------------------------------------------- |
+| -37.9% | -1.97ms | 100.0% | 5.2ms → 3.2ms |       1 | `findArticleBylineElement` | `__InjectedScript_ReaderArticleFinder.js:13:50186` |
+
+##### `findArticleBylineElement` (`__InjectedScript_ReaderArticleFinder.js:13:50186`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                               | Location                                           |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------ | -------------------------------------------------- |
+| -37.9% | -1.97ms | 100.0% | 5.2ms → 3.2ms |       1 | `updateArticleBylineAndDateElements` | `__InjectedScript_ReaderArticleFinder.js:13:53902` |
+
+##### `updateArticleBylineAndDateElements` (`__InjectedScript_ReaderArticleFinder.js:13:53902`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                          | Location                                           |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------- | -------------------------------------------------- |
+| -37.9% | -1.97ms | 100.0% | 5.2ms → 3.2ms |       1 | `updateArticleBylineAndDateElementsIfNecessary` | `__InjectedScript_ReaderArticleFinder.js:13:53699` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421`)
+
+| Change |   Delta |      % |            Time | Samples | Caller           | Location                                                                         |
+| -----: | ------: | -----: | --------------: | ------: | ---------------- | -------------------------------------------------------------------------------- |
+|  -7.7% | -1.00ms | 100.0% | 13.0ms → 12.0ms | 13 → 12 | `flushCssBuffer` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217` |
+
+##### `mightThrow` (`./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:44:918`)
+
+| Change |   Delta |      % |            Time | Samples | Caller        | Location                                                                    |
+| -----: | ------: | -----: | --------------: | ------: | ------------- | --------------------------------------------------------------------------- |
+|  -7.7% | -1.00ms | 100.0% | 13.0ms → 12.0ms | 13 → 12 | `(anonymous)` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636` |
+
+##### `(anonymous)` (`./wiki/Profiling_(computer_programming):6:19`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller      | Location                                       |
+| ------: | ------: | ------------: | ----------: | ------: | ----------- | ---------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(program)` | `./wiki/Profiling_(computer_programming):6:10` |
+
+##### `(anonymous)` (`./wiki/Profiling_(computer_programming):8:44`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | --------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:23:156` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:812`)
+
+| Change |   Delta |      % |          Time | Samples | Caller      | Location                                                                       |
+| -----: | ------: | -----: | ------------: | ------: | ----------- | ------------------------------------------------------------------------------ |
+| -20.0% | -1.00ms | 100.0% | 5.0ms → 4.0ms |   5 → 4 | `(program)` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:1` |
+
+##### `exec` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller     | Location                                                                    |
+| ------: | ------: | ------------: | ----------: | ------: | ---------- | --------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `tokenize` | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:27:121` |
+
+##### `(anonymous)` (`FormMetadata.js:3:16812`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller   | Location    |
+| ------: | ------: | ------------: | ----------: | ------: | -------- | ----------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `reduce` | `<unknown>` |
+
+##### `reduce` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller         | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | -------------- | ------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `FormMetadata` | `FormMetadata.js:3:16095` |
+
+##### `_createLogicalFormsForControls` (`FormMetadata.js:3:23832`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | --------------------- | ------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `_logicalFormsInPage` | `FormMetadata.js:3:27143` |
+
+##### `_looksLikeOneTimeCodeField` (`FormMetadata.js:3:42732`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                    | Location                  |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------- | ------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `_collectControlMetadata` | `FormMetadata.js:3:46804` |
+
+##### `stringsMatchAnyRegularExpressions` (`FormMetadata.js:3:8216`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                | Location                  |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------------- | ------------------------- |
+| -33.3% | -1.00ms | 100.0% | 3.0ms → 2.0ms |   3 → 2 | `_isElementFollowedByForgotUserNameOrEmailAffordance` | `FormMetadata.js:3:19474` |
+
+##### `Set` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                           | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------- | -------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `findArticleByVisualExamination` | `__InjectedScript_ReaderArticleFinder.js:13:63913` |
+
+##### `cachedElementBoundingRect` (`__InjectedScript_ReaderArticleFinder.js:12:5336`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller        | Location                                           |
+| ------: | ------: | -----------: | ----------: | ------: | ------------- | -------------------------------------------------- |
+| removed | -1.00ms | 33.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `__InjectedScript_ReaderArticleFinder.js:12:25480` |
+
+##### `shouldDisqualifyDueToHeaderDensity` (`__InjectedScript_ReaderArticleFinder.js:12:30932`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                           | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | -------------------------------- | -------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `findArticleByVisualExamination` | `__InjectedScript_ReaderArticleFinder.js:13:63913` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:23:156`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | --------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:812` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:528`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                              |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `./w/load.php?lang=en&modules=mediawiki.storage&skin=vector-2022&version=jk2n9:3:391` |
+
+##### `resolveIndex` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:352`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller     | Location                                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ---------- | --------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `register` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:249` |
+
+##### `load` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:20:748`)
+
+| Change |   Delta |      % |          Time | Samples | Caller | Location                                                                          |
+| -----: | ------: | -----: | ------------: | ------: | ------ | --------------------------------------------------------------------------------- |
+| -50.0% | -1.00ms | 100.0% | 2.0ms → 1.0ms |   2 → 1 | `init` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:20:645` |
+
+##### `init` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:20:645`)
+
+| Change |   Delta |      % |          Time | Samples | Caller | Location                                                                          |
+| -----: | ------: | -----: | ------------: | ------: | ------ | --------------------------------------------------------------------------------- |
+| -50.0% | -1.00ms | 100.0% | 2.0ms → 1.0ms |   2 → 1 | `work` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:16:424` |
+
+##### `splitModuleKey` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:720`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller | Location                                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------ | --------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `impl` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:18:205` |
+
+##### `impl` (`./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:18:205`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller        | Location                                                                                                     |
+| ------: | ------: | -----------: | ----------: | ------: | ------------- | ------------------------------------------------------------------------------------------------------------ |
+| removed | -1.00ms | 33.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `./wiki/Profiling_(computer_programming):8:44`                                                               |
+| removed | -1.00ms | 33.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(program)`   | `./w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:1`                       |
+| removed | -1.00ms | 33.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(program)`   | `./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:1`                            |
+|     new | +1.00ms | 0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `(program)`   | `./w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:1` |
+|     new | +1.00ms | 0.0% → 50.0% | 0ms → 1.0ms |   0 → 1 | `(program)`   | `./w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:1:1`                              |
+
+##### `(program)` (`./w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:1`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller | Location    |
+| ------: | ------: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `eval` | `<unknown>` |
+
+##### `(anonymous)` (`./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:24`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller | Location                                                                          |
+| ------: | ------: | ------------: | ----------: | ------: | ------ | --------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `impl` | `./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:18:205` |
+
+##### `(program)` (`./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:1`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller | Location    |
+| ------: | ------: | ------------: | ----------: | ------: | ------ | ----------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `eval` | `<unknown>` |
+
+##### `setAttribute` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                                  |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | ----------------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `./w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91` |
+
+##### `addEventListener` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller        | Location                                                                                 |
+| ------: | ------: | ------------: | ----------: | ------: | ------------- | ---------------------------------------------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)` | `./w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:56:313` |
+
+##### `nodeAtPoint` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller           | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ---------------- | -------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `elementAtPoint` | `__InjectedScript_ReaderArticleFinder.js:12:10176` |
+
+##### `bound ` (`<unknown>`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller                    | Location                                           |
+| ------: | ------: | ------------: | ----------: | ------: | ------------------------- | -------------------------------------------------- |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

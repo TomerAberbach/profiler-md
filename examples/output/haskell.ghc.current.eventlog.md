@@ -265,6 +265,127 @@ Categories accounting for at least 1.0% of self time.
 | ----: | ----: | ------: | -------- | ----------- |
 | 29.4% | 1.03s |   1,032 | `GC.GC`  | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)
+
+|     % |  Time | Samples | Caller           | Location           |
+| ----: | ----: | ------: | ---------------- | ------------------ |
+| 99.7% | 2.28s |   2,281 | `Main.main`      | `Profile.hs:146:1` |
+|  0.3% | 7.0ms |       7 | `Main.roundTrip` | `Profile.hs:139:1` |
+
+##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
+
+|      % |  Time | Samples | Caller                             | Location                          |
+| -----: | ----: | ------: | ---------------------------------- | --------------------------------- |
+| 100.0% | 1.60s |   1,607 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+
+##### `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`)
+
+|      % |    Time | Samples | Caller                             | Location                          |
+| -----: | ------: | ------: | ---------------------------------- | --------------------------------- |
+| 100.0% | 681.0ms |     681 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+
+##### `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`)
+
+|      % |    Time | Samples | Caller                                         | Location                                     |
+| -----: | ------: | ------: | ---------------------------------------------- | -------------------------------------------- |
+| 100.0% | 417.0ms |     417 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
+
+##### `Main.keywords` (`Profile.hs:136:1`)
+
+|      % |    Time | Samples | Caller      | Location           |
+| -----: | ------: | ------: | ----------- | ------------------ |
+| 100.0% | 120.0ms |     120 | `Main.main` | `Profile.hs:146:1` |
+
+##### `Data.Aeson.Types.FromJSON.withObject` (`src/Data/Aeson/Types/FromJSON.hs:720:1`)
+
+|     % |   Time | Samples | Caller           | Location          |
+| ----: | -----: | ------: | ---------------- | ----------------- |
+| 98.0% | 97.0ms |      97 | `Main.parseJSON` | `Profile.hs:48:3` |
+|  2.0% |  2.0ms |       2 | `Main.parseJSON` | `Profile.hs:96:3` |
+
+##### `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`)
+
+|      % |   Time | Samples | Caller                                         | Location                                     |
+| -----: | -----: | ------: | ---------------------------------------------- | -------------------------------------------- |
+| 100.0% | 99.0ms |      99 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
+
+##### `Main.parseJSON` (`Profile.hs:48:3`)
+
+|      % |   Time | Samples | Caller                                | Location                                 |
+| -----: | -----: | ------: | ------------------------------------- | ---------------------------------------- |
+| 100.0% | 97.0ms |      97 | `Data.Aeson.Types.FromJSON.ifromJSON` | `src/Data/Aeson/Types/FromJSON.hs:839:1` |
+
+##### `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`)
+
+|      % |   Time | Samples | Caller                                            | Location                                          |
+| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 96.0ms |      96 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+
+##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
+
+|      % |   Time | Samples | Caller                                 | Location                                 |
+| -----: | -----: | ------: | -------------------------------------- | ---------------------------------------- |
+| 100.0% | 93.0ms |      93 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
+
+##### `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`)
+
+|      % |   Time | Samples | Caller                         | Location                                 |
+| -----: | -----: | ------: | ------------------------------ | ---------------------------------------- |
+| 100.0% | 92.0ms |      92 | `Data.Aeson.Types.FromJSON..:` | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
+
+##### `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`)
+
+|      % |   Time | Samples | Caller                                            | Location                                          |
+| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 91.0ms |      91 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+
+##### `Data.Aeson.Internal.Unescape.unescapeText` (`src/Data/Aeson/Internal/Unescape.hs:34:1`)
+
+|      % |   Time | Samples | Caller                                            | Location                                          |
+| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 74.0ms |      74 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+
+##### `Main.roundTrip` (`Profile.hs:139:1`)
+
+|      % |   Time | Samples | Caller      | Location           |
+| -----: | -----: | ------: | ----------- | ------------------ |
+| 100.0% | 33.0ms |      33 | `Main.main` | `Profile.hs:146:1` |
+
+##### `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`)
+
+|      % |   Time | Samples | Caller                                         | Location                                 |
+| -----: | -----: | ------: | ---------------------------------------------- | ---------------------------------------- |
+| 100.0% | 28.0ms |      28 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+
+##### `Main.summarize` (`Profile.hs:118:1`)
+
+|      % |   Time | Samples | Caller      | Location           |
+| -----: | -----: | ------: | ----------- | ------------------ |
+| 100.0% | 27.0ms |      27 | `Main.main` | `Profile.hs:146:1` |
+
+##### `Main.tally` (`Profile.hs:112:1`)
+
+|     % |   Time | Samples | Caller           | Location           |
+| ----: | -----: | ------: | ---------------- | ------------------ |
+| 61.5% | 16.0ms |      16 | `Main.keywords`  | `Profile.hs:136:1` |
+| 38.5% | 10.0ms |      10 | `Main.summarize` | `Profile.hs:118:1` |
+
+##### `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`)
+
+|      % |   Time | Samples | Caller           | Location           |
+| -----: | -----: | ------: | ---------------- | ------------------ |
+| 100.0% | 26.0ms |      26 | `Main.roundTrip` | `Profile.hs:139:1` |
+
+##### `Main.toEncoding` (`Profile.hs:83:10`)
+
+|      % |   Time | Samples | Caller              | Location                  |
+| -----: | -----: | ------: | ------------------- | ------------------------- |
+| 100.0% | 25.0ms |      25 | `Data.Aeson.encode` | `src/Data/Aeson.hs:187:1` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

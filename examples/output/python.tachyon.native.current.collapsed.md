@@ -568,6 +568,280 @@ Categories accounting for at least 1.0% of self samples.
 |   0.2% |       2 | `module_from_spec`                  | `<frozen importlib._bootstrap>`          |
 |   0.1% |       1 | `_path_isfile`                      | `<frozen importlib._bootstrap_external>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `(native)` (`<unknown>`)
+
+|      % | Samples | Caller             | Location         |
+| -----: | ------: | ------------------ | ---------------- |
+| 100.0% |   1,049 | `_run_code`        | `<frozen runpy>` |
+|  97.1% |   1,019 | `Command.invoke`   | `core.py`        |
+|  97.1% |   1,019 | `Command.__call__` | `core.py`        |
+|  97.1% |   1,019 | `patched_main`     | `__init__.py`    |
+|   4.7% |      49 | `run_transformer`  | `linegen.py`     |
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |   1,049 | `_run_module_as_main` | `<frozen runpy>` |
+|  97.1% |   1,019 | `_run_module_code`    | `<frozen runpy>` |
+
+##### `run_module` (`<frozen runpy>`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |   1,049 | `(native)` | `<unknown>` |
+
+##### `_run_module_as_main` (`<frozen runpy>`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |   1,049 | `(native)` | `<unknown>` |
+
+##### `format_file_in_place` (`__init__.py`)
+
+|      % | Samples | Caller         | Location      |
+| -----: | ------: | -------------- | ------------- |
+| 100.0% |   1,019 | `reformat_one` | `__init__.py` |
+
+##### `reformat_one` (`__init__.py`)
+
+|      % | Samples | Caller | Location      |
+| -----: | ------: | ------ | ------------- |
+| 100.0% |   1,019 | `main` | `__init__.py` |
+
+##### `main` (`__init__.py`)
+
+|      % | Samples | Caller                           | Location        |
+| -----: | ------: | -------------------------------- | --------------- |
+| 100.0% |   1,019 | `pass_context.<locals>.new_func` | `decorators.py` |
+
+##### `pass_context.<locals>.new_func` (`decorators.py`)
+
+|      % | Samples | Caller           | Location  |
+| -----: | ------: | ---------------- | --------- |
+| 100.0% |   1,019 | `Context.invoke` | `core.py` |
+
+##### `Context.invoke` (`core.py`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |   1,019 | `(native)` | `<unknown>` |
+
+##### `Command.invoke` (`core.py`)
+
+|      % | Samples | Caller         | Location  |
+| -----: | ------: | -------------- | --------- |
+| 100.0% |   1,019 | `Command.main` | `core.py` |
+
+##### `Command.main` (`core.py`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |   1,019 | `(native)` | `<unknown>` |
+
+##### `Command.__call__` (`core.py`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |   1,019 | `(native)` | `<unknown>` |
+
+##### `patched_main` (`__init__.py`)
+
+|      % | Samples | Caller     | Location      |
+| -----: | ------: | ---------- | ------------- |
+| 100.0% |   1,019 | `<module>` | `__main__.py` |
+
+##### `<module>` (`__main__.py`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |   1,019 | `(native)` | `<unknown>` |
+
+##### `_run_module_code` (`<frozen runpy>`)
+
+|      % | Samples | Caller       | Location         |
+| -----: | ------: | ------------ | ---------------- |
+| 100.0% |   1,019 | `run_module` | `<frozen runpy>` |
+
+##### `format_file_contents` (`__init__.py`)
+
+|      % | Samples | Caller                 | Location      |
+| -----: | ------: | ---------------------- | ------------- |
+| 100.0% |   1,017 | `format_file_in_place` | `__init__.py` |
+
+##### `_format_str_once` (`__init__.py`)
+
+|     % | Samples | Caller          | Location      |
+| ----: | ------: | --------------- | ------------- |
+| 54.0% |     496 | `format_str`    | `__init__.py` |
+| 46.0% |     422 | `assert_stable` | `__init__.py` |
+
+##### `Driver.parse_tokens` (`driver.py`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |     572 | `Driver.parse_string` | `driver.py` |
+
+##### `Driver.parse_string` (`driver.py`)
+
+|      % | Samples | Caller          | Location     |
+| -----: | ------: | --------------- | ------------ |
+| 100.0% |     572 | `lib2to3_parse` | `parsing.py` |
+
+##### `lib2to3_parse` (`parsing.py`)
+
+|      % | Samples | Caller             | Location      |
+| -----: | ------: | ------------------ | ------------- |
+| 100.0% |     572 | `_format_str_once` | `__init__.py` |
+
+##### `check_stability_and_equivalence` (`__init__.py`)
+
+|      % | Samples | Caller                 | Location      |
+| -----: | ------: | ---------------------- | ------------- |
+| 100.0% |     516 | `format_file_contents` | `__init__.py` |
+
+##### `format_str` (`__init__.py`)
+
+|      % | Samples | Caller                 | Location      |
+| -----: | ------: | ---------------------- | ------------- |
+| 100.0% |     501 | `format_file_contents` | `__init__.py` |
+
+##### `Parser.addtoken` (`parse.py`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |     477 | `Driver.parse_tokens` | `driver.py` |
+
+##### `Parser._addtoken` (`parse.py`)
+
+|     % | Samples | Caller                | Location      |
+| ----: | ------: | --------------------- | ------------- |
+| 98.7% |     446 | `Parser.addtoken`     | `parse.py`    |
+|  0.9% |       4 | `TokenProxy.__next__` | `driver.py`   |
+|  0.2% |       1 | `(native)`            | `<unknown>`   |
+|  0.2% |       1 | `Logger.debug`        | `__init__.py` |
+
+##### `assert_stable` (`__init__.py`)
+
+|      % | Samples | Caller                            | Location      |
+| -----: | ------: | --------------------------------- | ------------- |
+| 100.0% |     424 | `check_stability_and_equivalence` | `__init__.py` |
+
+##### `(garbage collector)` (`<unknown>`)
+
+|     % | Samples | Caller                            | Location    |
+| ----: | ------: | --------------------------------- | ----------- |
+| 65.8% |     235 | `Parser._addtoken`                | `parse.py`  |
+| 12.9% |      46 | `Line.clone`                      | `lines.py`  |
+|  2.5% |       9 | `Node.__init__`                   | `pytree.py` |
+|  2.5% |       9 | `__create_fn__.<locals>.__init__` | `<string>`  |
+|  2.0% |       7 | `Driver.parse_tokens`             | `driver.py` |
+
+##### `_LoaderBasics.exec_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |      30 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                    | Location                        |
+| -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% |      30 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |      30 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |      30 | `(native)` | `<unknown>` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                              | Location                                 |
+| -----: | ------: | ----------------------------------- | ---------------------------------------- |
+| 100.0% |      30 | `_LoaderBasics.exec_module`         | `<frozen importlib._bootstrap_external>` |
+|  20.0% |       6 | `_handle_fromlist`                  | `<frozen importlib._bootstrap>`          |
+|   6.7% |       2 | `ExtensionFileLoader.create_module` | `<frozen importlib._bootstrap_external>` |
+|   3.3% |       1 | `ExtensionFileLoader.exec_module`   | `<frozen importlib._bootstrap_external>` |
+|   3.3% |       1 | `_find_and_load_unlocked`           | `<frozen importlib._bootstrap>`          |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |      30 | `_get_module_details` | `<frozen runpy>` |
+| 100.0% |      30 | `run_module`          | `<frozen runpy>` |
+
+##### `SourceLoader.get_code` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller                      | Location                                 |
+| -----: | ------: | --------------------------- | ---------------------------------------- |
+| 100.0% |      10 | `_LoaderBasics.exec_module` | `<frozen importlib._bootstrap_external>` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller                  | Location                                 |
+| -----: | ------: | ----------------------- | ---------------------------------------- |
+| 100.0% |       9 | `SourceLoader.get_code` | `<frozen importlib._bootstrap_external>` |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller     | Location    |
+| -----: | ------: | ---------- | ----------- |
+| 100.0% |       6 | `(native)` | `<unknown>` |
+
+##### `FileFinder.find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller                 | Location                                 |
+| -----: | ------: | ---------------------- | ---------------------------------------- |
+| 100.0% |       2 | `PathFinder._get_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `PathFinder._get_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller                 | Location                                 |
+| -----: | ------: | ---------------------- | ---------------------------------------- |
+| 100.0% |       2 | `PathFinder.find_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `PathFinder.find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller       | Location                        |
+| -----: | ------: | ------------ | ------------------------------- |
+| 100.0% |       2 | `_find_spec` | `<frozen importlib._bootstrap>` |
+
+##### `_find_spec` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                    | Location                        |
+| -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% |       2 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `ExtensionFileLoader.create_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller             | Location                        |
+| -----: | ------: | ------------------ | ------------------------------- |
+| 100.0% |       2 | `module_from_spec` | `<frozen importlib._bootstrap>` |
+
+##### `module_from_spec` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |       2 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_path_isfile` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller                 | Location                                 |
+| -----: | ------: | ---------------------- | ---------------------------------------- |
+| 100.0% |       1 | `FileFinder.find_spec` | `<frozen importlib._bootstrap_external>` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

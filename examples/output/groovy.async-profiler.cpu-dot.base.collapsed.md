@@ -968,6 +968,631 @@ Categories accounting for at least 1.0% of self samples.
 | <0.1% |       1 | `I2C/C2I adapters(0xa)`     | `<unknown>` |
 | <0.1% |       1 | `I2C/C2I adapters(0xbbbbb)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `Thread::call_run` (`<unknown>`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |   3,680 | `thread_native_entry` | `<unknown>` |
+
+##### `thread_native_entry` (`<unknown>`)
+
+|      % | Samples | Caller           | Location    |
+| -----: | ------: | ---------------- | ----------- |
+| 100.0% |   3,680 | `_pthread_start` | `<unknown>` |
+
+##### `_pthread_start` (`<unknown>`)
+
+|      % | Samples | Caller         | Location    |
+| -----: | ------: | -------------- | ----------- |
+| 100.0% |   3,680 | `thread_start` | `<unknown>` |
+
+##### `JavaThread::thread_main_inner` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |   3,354 | `Thread::call_run` | `<unknown>` |
+
+##### `CompileBroker::compiler_thread_loop` (`<unknown>`)
+
+|      % | Samples | Caller                          | Location    |
+| -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |   3,351 | `JavaThread::thread_main_inner` | `<unknown>` |
+
+##### `CompileBroker::invoke_compiler_on_method` (`<unknown>`)
+
+|      % | Samples | Caller                                | Location    |
+| -----: | ------: | ------------------------------------- | ----------- |
+| 100.0% |   3,329 | `CompileBroker::compiler_thread_loop` | `<unknown>` |
+
+##### `C2Compiler::compile_method` (`<unknown>`)
+
+|      % | Samples | Caller                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |   2,690 | `CompileBroker::invoke_compiler_on_method` | `<unknown>` |
+
+##### `Compile::Compile` (`<unknown>`)
+
+|      % | Samples | Caller                       | Location    |
+| -----: | ------: | ---------------------------- | ----------- |
+| 100.0% |   2,687 | `C2Compiler::compile_method` | `<unknown>` |
+
+##### `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`)
+
+|     % | Samples | Caller         | Location                                               |
+| ----: | ------: | -------------- | ------------------------------------------------------ |
+| 99.9% |   2,237 | `fromCache`    | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+| 99.1% |   2,218 | `invokeImpl`   | `jdk.internal.reflect.DirectMethodHandleAccessor`      |
+| 87.0% |   1,947 | `selectMethod` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+|  3.3% |      74 | `invokeImpl`   | `jdk.internal.reflect.DirectConstructorHandleAccessor` |
+|  0.2% |       5 | `invoke`       | `java.lang.invoke.BootstrapMethodInvoker`              |
+
+##### `fromCache` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % | Samples | Caller             | Location                                             |
+| ----: | ------: | ------------------ | ---------------------------------------------------- |
+| 99.8% |   2,235 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x0000008801088800` |
+|  0.1% |       3 | `invokeStaticInit` | `java.lang.invoke.LambdaForm$DMH.0x0000008801088c00` |
+|  0.1% |       2 | `[unknown]`        | `<unknown>`                                          |
+
+##### `linkToCallSite` (`java.lang.invoke.Invokers$Holder`)
+
+|      % | Samples | Caller    | Location                                                                    |
+| -----: | ------: | --------- | --------------------------------------------------------------------------- |
+| 100.0% |   2,237 | `main`    | `org.codenarc.CodeNarc`                                                     |
+|  99.0% |   2,214 | `execute` | `org.codenarc.CodeNarc`                                                     |
+|  98.7% |   2,208 | `execute` | `org.codenarc.CodeNarcRunner`                                               |
+|  92.2% |   2,062 | `analyze` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  92.1% |   2,061 | `doCall`  | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000008801088800`)
+
+|      % | Samples | Caller   | Location                                            |
+| -----: | ------: | -------- | --------------------------------------------------- |
+| 100.0% |   2,234 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010a1800` |
+|  99.4% |   2,222 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000880108e000` |
+|  95.1% |   2,126 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010d8c00` |
+|  94.3% |   2,107 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000008801288800` |
+|  76.7% |   1,715 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000008801369800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000088010a1800`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |   2,234 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+|   2.8% |      63 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x00000088010aa800` |
+
+##### `guardWithCatch` (`java.lang.invoke.LambdaForm$MH.0x00000088010aa000`)
+
+|      % | Samples | Caller     | Location                                            |
+| -----: | ------: | ---------- | --------------------------------------------------- |
+| 100.0% |   2,233 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010aa800` |
+|  89.3% |   1,995 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `reinvoke` (`java.lang.invoke.LambdaForm$MH.0x00000088010aa800`)
+
+|      % | Samples | Caller   | Location                                            |
+| -----: | ------: | -------- | --------------------------------------------------- |
+| 100.0% |   2,233 | `guard`  | `java.lang.invoke.LambdaForm$MH.0x00000088010aac00` |
+|  99.6% |   2,225 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010c7400` |
+|  96.8% |   2,162 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010d3c00` |
+|  65.1% |   1,453 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010abc00` |
+|  12.7% |     284 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088010dcc00` |
+
+##### `guard` (`java.lang.invoke.LambdaForm$MH.0x00000088010aac00`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |   2,233 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x00000088010aa800` |
+|  89.3% |   1,995 | `delegate`       | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|   1.6% |      35 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invokeVirtual` (`java.lang.invoke.LambdaForm$DMH.0x0000008801094400`)
+
+|     % | Samples | Caller           | Location                                            |
+| ----: | ------: | ---------------- | --------------------------------------------------- |
+| 98.9% |   2,203 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000088010a9800` |
+| 91.7% |   2,043 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000088010d3000` |
+|  1.7% |      38 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000088013fc000` |
+|  1.0% |      23 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000880163d000` |
+|  1.0% |      23 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000008801320000` |
+
+##### `invokeVirtual` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |   2,225 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000088010c6800` |
+|  99.2% |   2,208 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000880102b000` |
+|   2.6% |      57 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x0000008801098400` |
+|   1.3% |      30 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000008801089400` |
+|   1.2% |      27 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000008801533000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000088010c7400`)
+
+|      % | Samples | Caller           | Location                           |
+| -----: | ------: | ---------------- | ---------------------------------- |
+| 100.0% |   2,225 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000088010c6800`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |   2,225 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000088010aa000` |
+|  <0.1% |       1 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `execute` (`org.codenarc.CodeNarc`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |   2,225 | `invokeVirtual` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000880108e000`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |   2,224 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+|   0.2% |       4 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x0000008801099c00` |
+
+##### `invokeSpecial` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % | Samples | Caller           | Location                                            |
+| ----: | ------: | ---------------- | --------------------------------------------------- |
+| 92.8% |   2,061 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000088010d3000` |
+| 82.0% |   1,821 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000088015b7000` |
+| 75.0% |   1,666 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000008801653000` |
+| 59.8% |   1,329 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000008801360800` |
+| 25.7% |     572 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000008801129800` |
+
+##### `call` (`groovy.lang.Closure`)
+
+|     % | Samples | Caller       | Location                                            |
+| ----: | ------: | ------------ | --------------------------------------------------- |
+| 98.9% |   2,195 | `call`       | `groovy.lang.Closure`                               |
+| 92.9% |   2,061 | `eachFile`   | `org.codehaus.groovy.runtime.ResourceGroovyMethods` |
+| 15.1% |     336 | `each`       | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
+|  1.8% |      41 | `withReader` | `org.codehaus.groovy.runtime.IOGroovyMethods`       |
+|  1.7% |      38 | `sum`        | `org.codehaus.groovy.runtime.DefaultGroovyMethods`  |
+
+##### `invokeImpl` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % | Samples | Caller   | Location                                          |
+| -----: | ------: | -------- | ------------------------------------------------- |
+| 100.0% |   2,218 | `invoke` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % | Samples | Caller   | Location                   |
+| -----: | ------: | -------- | -------------------------- |
+| 100.0% |   2,218 | `invoke` | `java.lang.reflect.Method` |
+
+##### `invoke` (`java.lang.reflect.Method`)
+
+|      % | Samples | Caller     | Location                                                         |
+| -----: | ------: | ---------- | ---------------------------------------------------------------- |
+| 100.0% |   2,218 | `invoke`   | `org.codehaus.groovy.reflection.CachedMethod`                    |
+|   1.5% |      33 | `doInvoke` | `org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite` |
+
+##### `invoke` (`org.codehaus.groovy.reflection.CachedMethod`)
+
+|      % | Samples | Caller           | Location                 |
+| -----: | ------: | ---------------- | ------------------------ |
+| 100.0% |   2,218 | `doMethodInvoke` | `groovy.lang.MetaMethod` |
+
+##### `doMethodInvoke` (`groovy.lang.MetaMethod`)
+
+|      % | Samples | Caller           | Location                                                                                 |
+| -----: | ------: | ---------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% |   2,218 | `invokeMethod`   | `org.codehaus.groovy.runtime.metaclass.ClosureMetaClass`                                 |
+|  15.8% |     351 | `doInvokeMethod` | `groovy.lang.MetaClassImpl`                                                              |
+|   1.0% |      23 | `invokeVirtual`  | `java.lang.invoke.LambdaForm$DMH.0x0000008801094400`                                     |
+|   0.2% |       5 | `getProperty`    | `org.codehaus.groovy.runtime.metaclass.MethodMetaProperty$GetBeanMethodMetaProperty`     |
+|   0.1% |       2 | `invoke`         | `org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite$StaticMetaMethodSiteNoUnwrap` |
+
+##### `execute` (`org.codenarc.CodeNarcRunner`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |   2,208 | `invokeVirtual` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `analyze` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+
+|      % | Samples | Caller            | Location                                             |
+| -----: | ------: | ----------------- | ---------------------------------------------------- |
+| 100.0% |   2,062 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000008801094c00` |
+
+##### `doCall` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |   2,061 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `processDirectory` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |   2,061 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `processFile` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+
+|      % | Samples | Caller          | Location                                             |
+| -----: | ------: | --------------- | ---------------------------------------------------- |
+| 100.0% |   2,051 | `invokeSpecial` | `java.lang.invoke.LambdaForm$DMH.0x000000880118a800` |
+
+##### `collectViolations` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|      % | Samples | Caller          | Location                                             |
+| -----: | ------: | --------------- | ---------------------------------------------------- |
+| 100.0% |   2,040 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000008801094400` |
+
+##### `measureRuleProcessingTime` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+|      % | Samples | Caller          | Location                                             |
+| -----: | ------: | --------------- | ---------------------------------------------------- |
+| 100.0% |   1,685 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000008801318000` |
+
+##### `doCall` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |   1,347 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `Compile::Code_Gen` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |   1,275 | `Compile::Compile` | `<unknown>` |
+
+##### `applyTo` (`org.codenarc.rule.AbstractRule`)
+
+|      % | Samples | Caller            | Location                                             |
+| -----: | ------: | ----------------- | ---------------------------------------------------- |
+| 100.0% |   1,212 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000008801094c00` |
+
+##### `Compile::Optimize` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |   1,031 | `Compile::Compile` | `<unknown>` |
+
+##### `applyTo` (`org.codenarc.rule.AbstractAstVisitorRule`)
+
+|     % | Samples | Caller            | Location                                                 |
+| ----: | ------: | ----------------- | -------------------------------------------------------- |
+| 89.4% |     912 | `applyTo`         | `org.codenarc.rule.AbstractRule`                         |
+|  7.9% |      81 | `super$3$applyTo` | `org.codenarc.rule.formatting.IndentationRule`           |
+|  2.6% |      27 | `super$3$applyTo` | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule` |
+
+##### `visitClass` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|     % | Samples | Caller            | Location                                             |
+| ----: | ------: | ----------------- | ---------------------------------------------------- |
+| 91.7% |     884 | `applyTo`         | `org.codenarc.rule.AbstractAstVisitorRule`           |
+|  6.2% |      60 | `applyVisitor`    | `org.codenarc.rule.AbstractSharedAstVisitorRule`     |
+|  2.1% |      20 | `invokeInterface` | `java.lang.invoke.LambdaForm$DMH.0x0000008801124800` |
+
+##### `visitMethod` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|      % | Samples | Caller         | Location                            |
+| -----: | ------: | -------------- | ----------------------------------- |
+| 100.0% |     748 | `visitMethods` | `org.codehaus.groovy.ast.ClassNode` |
+
+##### `PhaseChaitin::Register_Allocate` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |     740 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `Compilation::compile_method` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     627 | `Compilation::Compilation` | `<unknown>` |
+
+##### `Compilation::Compilation` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     627 | `Compiler::compile_method` | `<unknown>` |
+
+##### `Compiler::compile_method` (`<unknown>`)
+
+|      % | Samples | Caller                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |     627 | `CompileBroker::invoke_compiler_on_method` | `<unknown>` |
+
+##### `Compilation::compile_java_method` (`<unknown>`)
+
+|      % | Samples | Caller                        | Location    |
+| -----: | ------: | ----------------------------- | ----------- |
+| 100.0% |     562 | `Compilation::compile_method` | `<unknown>` |
+
+##### `PhaseIdealLoop::optimize` (`<unknown>`)
+
+|     % | Samples | Caller                    | Location    |
+| ----: | ------: | ------------------------- | ----------- |
+| 58.8% |     293 | `Compile::Optimize`       | `<unknown>` |
+| 41.2% |     205 | `Compile::optimize_loops` | `<unknown>` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     403 | `PhaseIdealLoop::optimize` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_and_optimize` (`<unknown>`)
+
+|     % | Samples | Caller                           | Location    |
+| ----: | ------: | -------------------------------- | ----------- |
+| 99.8% |     401 | `PhaseIdealLoop::PhaseIdealLoop` | `<unknown>` |
+|  0.2% |       1 | `PhaseIdealLoop::optimize`       | `<unknown>` |
+
+##### `Parse::Parse` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     385 | `ParseGenerator::generate` | `<unknown>` |
+|   0.3% |       1 | `Parse::do_call`           | `<unknown>` |
+
+##### `ParseGenerator::generate` (`<unknown>`)
+
+|     % | Samples | Caller                                 | Location    |
+| ----: | ------: | -------------------------------------- | ----------- |
+| 88.8% |     342 | `Compile::Compile`                     | `<unknown>` |
+| 77.1% |     297 | `Parse::do_call`                       | `<unknown>` |
+| 45.5% |     175 | `PredictedCallGenerator::generate`     | `<unknown>` |
+| 10.9% |      42 | `CallGenerator::do_late_inline_helper` | `<unknown>` |
+
+##### `Parse::do_one_block` (`<unknown>`)
+
+|      % | Samples | Caller                 | Location    |
+| -----: | ------: | ---------------------- | ----------- |
+| 100.0% |     378 | `Parse::do_all_blocks` | `<unknown>` |
+
+##### `Parse::do_all_blocks` (`<unknown>`)
+
+|      % | Samples | Caller         | Location    |
+| -----: | ------: | -------------- | ----------- |
+| 100.0% |     378 | `Parse::Parse` | `<unknown>` |
+
+##### `Parse::do_call` (`<unknown>`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |     364 | `Parse::do_one_block` | `<unknown>` |
+
+##### `PhaseIterGVN::optimize` (`<unknown>`)
+
+|     % | Samples | Caller                                  | Location    |
+| ----: | ------: | --------------------------------------- | ----------- |
+| 50.8% |     180 | `Compile::Optimize`                     | `<unknown>` |
+| 26.0% |      92 | `PhaseIdealLoop::optimize`              | `<unknown>` |
+|  8.8% |      31 | `PhaseMacroExpand::expand_macro_nodes`  | `<unknown>` |
+|  7.3% |      26 | `Compile::inline_incrementally_cleanup` | `<unknown>` |
+|  4.5% |      16 | `Compile::remove_speculative_types`     | `<unknown>` |
+
+##### `PhaseIterGVN::transform_old` (`<unknown>`)
+
+|     % | Samples | Caller                   | Location    |
+| ----: | ------: | ------------------------ | ----------- |
+| 99.7% |     335 | `PhaseIterGVN::optimize` | `<unknown>` |
+|  0.3% |       1 | `PhiNode::Ideal`         | `<unknown>` |
+|  0.3% |       1 | `Compile::Optimize`      | `<unknown>` |
+
+##### `WorkerThread::run` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |     307 | `Thread::call_run` | `<unknown>` |
+
+##### `doCall` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |     258 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `isRuleSuppressed` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|      % | Samples | Caller          | Location                                             |
+| -----: | ------: | --------------- | ---------------------------------------------------- |
+| 100.0% |     235 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000008801097c00` |
+
+##### `getAst` (`org.codenarc.source.AbstractSourceCode`)
+
+|     % | Samples | Caller    | Location                                    |
+| ----: | ------: | --------- | ------------------------------------------- |
+| 99.6% |     232 | `init`    | `org.codenarc.analyzer.SuppressionAnalyzer` |
+|  0.4% |       1 | `applyTo` | `org.codenarc.rule.AbstractAstVisitorRule`  |
+
+##### `init` (`org.codenarc.source.AbstractSourceCode`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |     232 | `invokeSpecial` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `init` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|      % | Samples | Caller             | Location                                    |
+| -----: | ------: | ------------------ | ------------------------------------------- |
+| 100.0% |     232 | `isRuleSuppressed` | `org.codenarc.analyzer.SuppressionAnalyzer` |
+
+##### `Compilation::build_hir` (`<unknown>`)
+
+|      % | Samples | Caller                             | Location    |
+| -----: | ------: | ---------------------------------- | ----------- |
+| 100.0% |     225 | `Compilation::compile_java_method` | `<unknown>` |
+
+##### `Compilation::emit_lir` (`<unknown>`)
+
+|     % | Samples | Caller                             | Location    |
+| ----: | ------: | ---------------------------------- | ----------- |
+| 99.5% |     220 | `Compilation::compile_java_method` | `<unknown>` |
+|  0.5% |       1 | `Compilation::compile_method`      | `<unknown>` |
+
+##### `Matcher::match` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |     213 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `Compile::optimize_loops` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |     205 | `Compile::Optimize` | `<unknown>` |
+
+##### `PredictedCallGenerator::generate` (`<unknown>`)
+
+|     % | Samples | Caller                                 | Location    |
+| ----: | ------: | -------------------------------------- | ----------- |
+| 99.5% |     186 | `Parse::do_call`                       | `<unknown>` |
+| 25.7% |      48 | `PredictedCallGenerator::generate`     | `<unknown>` |
+|  0.5% |       1 | `CallGenerator::do_late_inline_helper` | `<unknown>` |
+
+##### `PhaseChaitin::Split` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |     179 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
+##### `IR::IR` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |     166 | `Compilation::build_hir` | `<unknown>` |
+
+##### `JVM_FillInStackTrace` (`<unknown>`)
+
+|     % | Samples | Caller                                      | Location              |
+| ----: | ------: | ------------------------------------------- | --------------------- |
+| 99.4% |     164 | `Java_java_lang_Throwable_fillInStackTrace` | `<unknown>`           |
+|  0.6% |       1 | `fillInStackTrace`                          | `java.lang.Throwable` |
+
+##### `IRScope::IRScope` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     165 | `IR::IR`                   | `<unknown>` |
+|   0.6% |       1 | `GraphBuilder::push_scope` | `<unknown>` |
+
+##### `Java_java_lang_Throwable_fillInStackTrace` (`<unknown>`)
+
+|      % | Samples | Caller             | Location              |
+| -----: | ------: | ------------------ | --------------------- |
+| 100.0% |     164 | `fillInStackTrace` | `java.lang.Throwable` |
+
+##### `java_lang_Throwable::fill_in_stack_trace` (`<unknown>`)
+
+|      % | Samples | Caller                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |     163 | `JVM_FillInStackTrace`                     | `<unknown>` |
+|  94.5% |     154 | `java_lang_Throwable::fill_in_stack_trace` | `<unknown>` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |     158 | `WorkerThread::run` | `<unknown>` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`<unknown>`)
+
+|     % | Samples | Caller                                                              | Location    |
+| ----: | ------: | ------------------------------------------------------------------- | ----------- |
+| 68.4% |      80 | `G1ScanHRForRegionClosure::scan_memregion`                          | `<unknown>` |
+| 16.2% |      19 | `G1ParScanThreadState::steal_and_trim_queue`                        | `<unknown>` |
+|  7.7% |       9 | `G1ParEvacuateFollowersClosure::do_void`                            | `<unknown>` |
+|  3.4% |       4 | `void G1ParCopyClosure<(G1Barrier)1, false>::do_oop_work<oopDesc*>` | `<unknown>` |
+|  2.6% |       3 | `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>` | `<unknown>` |
+
+##### `super$3$applyTo` (`org.codenarc.rule.formatting.IndentationRule`)
+
+|      % | Samples | Caller          | Location                                             |
+| -----: | ------: | --------------- | ---------------------------------------------------- |
+| 100.0% |      81 | `invokeVirtual` | `java.lang.invoke.LambdaForm$DMH.0x0000008801318000` |
+
+##### `itable stub` (`<unknown>`)
+
+|     % | Samples | Caller                   | Location                                    |
+| ----: | ------: | ------------------------ | ------------------------------------------- |
+| 14.8% |       4 | `accept`                 | `java.util.stream.MatchOps$1MatchSink`      |
+| 14.8% |       4 | `getExactSizeIfKnown`    | `java.util.Spliterator`                     |
+| 14.8% |       4 | `end`                    | `java.util.stream.Sink$ChainedReference`    |
+| 11.1% |       3 | `accept`                 | `java.util.stream.ReferencePipeline$3$1`    |
+|  7.4% |       2 | `visitListOfExpressions` | `org.codehaus.groovy.ast.GroovyCodeVisitor` |
+
+##### `I2C/C2I adapters(0xbbb)` (`<unknown>`)
+
+|     % | Samples | Caller      | Location                                                                                     |
+| ----: | ------: | ----------- | -------------------------------------------------------------------------------------------- |
+| 11.1% |       1 | `checkCall` | `org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite`                                  |
+| 11.1% |       1 | `<init>`    | `org.codenarc.rule.formatting.BracesForMethodAstVisitor$_hasOpeningBraceOnSameLine_closure1` |
+| 11.1% |       1 | `<init>`    | `org.codenarc.rule.imports.UnnecessaryGroovyImportRule$_applyTo_closure1`                    |
+| 11.1% |       1 | `<init>`    | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3$_closure7`         |
+| 11.1% |       1 | `invoke`    | `java.lang.invoke.LambdaForm$MH.0x0000008801282800`                                          |
+
+##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
+
+|     % | Samples | Caller   | Location                                            |
+| ----: | ------: | -------- | --------------------------------------------------- |
+| 14.3% |       1 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000880157dc00` |
+| 14.3% |       1 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000088017d9400` |
+
+##### `I2C/C2I adapters(0xb)` (`<unknown>`)
+
+|     % | Samples | Caller                | Location                                                             |
+| ----: | ------: | --------------------- | -------------------------------------------------------------------- |
+| 16.7% |       1 | `compilationUnit`     | `org.apache.groovy.parser.antlr4.GroovyParser`                       |
+| 16.7% |       1 | `$getStaticMetaClass` | `org.codenarc.rule.unnecessary.UnnecessaryCallToSubstringAstVisitor` |
+| 16.7% |       1 | `collectViolations`   | `org.codenarc.analyzer.AbstractSourceAnalyzer`                       |
+
+##### `vtable stub` (`<unknown>`)
+
+|     % | Samples | Caller                        | Location                                    |
+| ----: | ------: | ----------------------------- | ------------------------------------------- |
+| 25.0% |       1 | `makePairwiseConvertByEditor` | `java.lang.invoke.MethodHandleImpl`         |
+| 25.0% |       1 | `fieldCount`                  | `java.lang.invoke.BoundMethodHandle`        |
+| 25.0% |       1 | `visitListOfExpressions`      | `org.codehaus.groovy.ast.GroovyCodeVisitor` |
+| 25.0% |       1 | `getDirectMethodCommon`       | `java.lang.invoke.MethodHandles$Lookup`     |
+
+##### `zero_blocks` (`<unknown>`)
+
+|     % | Samples | Caller    | Location                  |
+| ----: | ------: | --------- | ------------------------- |
+| 50.0% |       1 | `<init>`  | `java.util.regex.Matcher` |
+| 50.0% |       1 | `compile` | `java.util.regex.Pattern` |
+
+##### `I2C/C2I adapters(0xba)` (`<unknown>`)
+
+|      % | Samples | Caller           | Location                           |
+| -----: | ------: | ---------------- | ---------------------------------- |
+| 100.0% |       2 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `call_stub` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |       1 | `JavaCalls::call_helper` | `<unknown>` |
+
+##### `I2C/C2I adapters(0xbbe)` (`<unknown>`)
+
+|      % | Samples | Caller | Location                  |
+| -----: | ------: | ------ | ------------------------- |
+| 100.0% |       1 | `of`   | `java.time.LocalDateTime` |
+
+##### `I2C/C2I adapters(0xa)` (`<unknown>`)
+
+|      % | Samples | Caller   | Location                                                           |
+| -----: | ------: | -------- | ------------------------------------------------------------------ |
+| 100.0% |       1 | `doCall` | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor$_closure1` |
+
+##### `I2C/C2I adapters(0xbbbbb)` (`<unknown>`)
+
+|      % | Samples | Caller   | Location                                            |
+| -----: | ------: | -------- | --------------------------------------------------- |
+| 100.0% |       1 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000008801759800` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

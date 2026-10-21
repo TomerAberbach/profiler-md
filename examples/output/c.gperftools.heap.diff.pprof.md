@@ -215,6 +215,222 @@ Functions with the largest decrease in bytes allocated within the function and i
 | removed |       -176 B |  <0.1% → 0.0% |    176 B → 0 B |   4 → 0 | `0xffffd5e1549f`     | `<unknown>` |
 |     ~0% |       -144 B | 12.2% → 10.9% |       16.1 MiB |   8 → 6 | `0xffffffffffffffff` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `main` (`<unknown>`)
+
+| Change |       Delta |      % |                Size | Objects | Caller    | Location                               |
+| -----: | ----------: | -----: | ------------------: | ------: | --------- | -------------------------------------- |
+| +24.0% | +16.003 MiB | 100.0% | 66.8 MiB → 82.8 MiB | 75 → 78 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |       Delta |      % |                Size | Objects | Caller    | Location                               |
+| -----: | ----------: | -----: | ------------------: | ------: | --------- | -------------------------------------- |
+| +24.0% | +16.003 MiB | 100.0% | 66.8 MiB → 82.8 MiB | 75 → 78 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |       Delta |      % |                Size | Objects | Caller   | Location    |
+| -----: | ----------: | -----: | ------------------: | ------: | -------- | ----------- |
+| +24.0% | +16.003 MiB | 100.0% | 66.8 MiB → 82.8 MiB | 75 → 78 | `_start` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|  Change |        Delta |             % |            Size | Objects | Caller           | Location    |
+| ------: | -----------: | ------------: | --------------: | ------: | ---------------- | ----------- |
+|  +25.0% |      +16 MiB | 95.8% → 96.6% | 64 MiB → 80 MiB |       1 | `0x1b`           | `<unknown>` |
+| removed | -384.187 KiB |   0.6% → 0.0% |   384 KiB → 0 B |   7 → 0 | `0xffffa4a18077` | `<unknown>` |
+|     new | +384.187 KiB |   0.0% → 0.5% |   0 B → 384 KiB |   0 → 7 | `0xffffad418077` | `<unknown>` |
+| removed | -384.093 KiB |   0.6% → 0.0% |   384 KiB → 0 B |   5 → 0 | `0xffffd5e1503f` | `<unknown>` |
+|     new | +384.093 KiB |   0.0% → 0.5% |   0 B → 384 KiB |   0 → 5 | `0xfffffd78e80f` | `<unknown>` |
+
+##### `FIO_compressFilename` (`<unknown>`)
+
+| Change |       Delta |      % |                Size | Objects | Caller | Location    |
+| -----: | ----------: | -----: | ------------------: | ------: | ------ | ----------- |
+| +24.0% | +16.002 MiB | 100.0% | 66.8 MiB → 82.8 MiB | 69 → 70 | `main` | `<unknown>` |
+
+##### `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`)
+
+| Change |       Delta |      % |            Size | Objects | Caller                 | Location    |
+| -----: | ----------: | -----: | --------------: | ------: | ---------------------- | ----------- |
+| +25.0% | +16.002 MiB | 100.0% | 64 MiB → 80 MiB | 14 → 15 | `ZSTD_compressStream2` | `<unknown>` |
+
+##### `ZSTD_compressStream2` (`<unknown>`)
+
+| Change |       Delta |      % |            Size | Objects | Caller                         | Location   |
+| -----: | ----------: | -----: | --------------: | ------: | ------------------------------ | ---------- |
+| +25.0% | +16.002 MiB | 100.0% | 64 MiB → 80 MiB | 14 → 15 | `FIO_compressFilename_srcFile` | `fileio.c` |
+
+##### `FIO_compressFilename_srcFile` (`fileio.c`)
+
+| Change |       Delta |      % |            Size | Objects | Caller                 | Location    |
+| -----: | ----------: | -----: | --------------: | ------: | ---------------------- | ----------- |
+| +25.0% | +16.002 MiB | 100.0% | 64 MiB → 80 MiB | 17 → 18 | `FIO_compressFilename` | `<unknown>` |
+
+##### `ZSTDMT_initCStream_internal` (`<unknown>`)
+
+| Change |   Delta |      % |            Size | Objects | Caller                           | Location          |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------- | ----------------- |
+| +25.0% | +16 MiB | 100.0% | 64 MiB → 80 MiB |       1 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c` |
+
+##### `0x1b` (`<unknown>`)
+
+| Change |   Delta |      % |            Size | Objects | Caller | Location    |
+| -----: | ------: | -----: | --------------: | ------: | ------ | ----------- |
+| +25.0% | +16 MiB | 100.0% | 64 MiB → 80 MiB |       1 | `0xb`  | `<unknown>` |
+
+##### `0xffffad418077` (`<unknown>`)
+
+| Change |        Delta |             % |          Size | Objects | Caller           | Location    |
+| -----: | -----------: | ------------: | ------------: | ------: | ---------------- | ----------- |
+|    new | +384.187 KiB | 0.0% → 100.0% | 0 B → 384 KiB |   0 → 7 | `0xfffffd78e897` | `<unknown>` |
+
+##### `0xfffffd78e80f` (`<unknown>`)
+
+| Change |        Delta |             % |          Size | Objects | Caller    | Location                                           |
+| -----: | -----------: | ------------: | ------------: | ------: | --------- | -------------------------------------------------- |
+|    new | +384.093 KiB | 0.0% → 100.0% | 0 B → 384 KiB |   0 → 5 | `0x3567f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0xaaaad02d5327` (`<unknown>`)
+
+| Change |    Delta |             % |          Size | Objects | Caller           | Location    |
+| -----: | -------: | ------------: | ------------: | ------: | ---------------- | ----------- |
+|    new | +256 KiB | 0.0% → 100.0% | 0 B → 256 KiB |   0 → 1 | `0xfffffd78e84f` | `<unknown>` |
+
+##### `0xffffad441027` (`<unknown>`)
+
+| Change |        Delta |            % |           Size | Objects | Caller           | Location                               |
+| -----: | -----------: | -----------: | -------------: | ------: | ---------------- | -------------------------------------- |
+|    new | +128.553 KiB | 0.0% → 98.5% |  0 B → 129 KiB |   0 → 2 | `0x27743`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new |   +1.039 KiB |  0.0% → 0.8% | 0 B → 1.04 KiB |   0 → 2 | `0xffffad441027` | `<unknown>`                            |
+|    new |       +176 B |  0.0% → 0.1% |    0 B → 176 B |   0 → 4 | `0xfffffd78ec6f` | `<unknown>`                            |
+
+##### `0xfffffd78e89f` (`<unknown>`)
+
+| Change |      Delta |             % |          Size | Objects | Caller  | Location    |
+| -----: | ---------: | ------------: | ------------: | ------: | ------- | ----------- |
+|    new | +128.6 KiB | 0.0% → 100.0% | 0 B → 129 KiB |   0 → 3 | `0x25f` | `<unknown>` |
+
+##### `0xffffaba402ff` (`<unknown>`)
+
+| Change |  Delta |             % |        Size | Objects | Caller           | Location    |
+| -----: | -----: | ------------: | ----------: | ------: | ---------------- | ----------- |
+|    new | +4 KiB | 0.0% → 100.0% | 0 B → 4 KiB |   0 → 1 | `0xfffffd78ed1f` | `<unknown>` |
+
+##### `0xffffad44101f` (`<unknown>`)
+
+| Change |      Delta |             % |           Size | Objects | Caller           | Location    |
+| -----: | ---------: | ------------: | -------------: | ------: | ---------------- | ----------- |
+|    new | +3.062 KiB | 0.0% → 100.0% | 0 B → 3.06 KiB |   0 → 1 | `0xffffaba4043f` | `<unknown>` |
+
+##### `ZSTDMT_createJobsTable` (`zstdmt_compress.c`)
+
+|  Change |      Delta |      % |                Size | Objects | Caller                       | Location    |
+| ------: | ---------: | -----: | ------------------: | ------: | ---------------------------- | ----------- |
+| +103.5% | +1.843 KiB | 100.0% | 1.78 KiB → 3.63 KiB |       1 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
+
+##### `UTIL_countCores.part.0` (`util.c`)
+
+| Change |     Delta |             % |           Size | Objects | Caller | Location    |
+| -----: | --------: | ------------: | -------------: | ------: | ------ | ----------- |
+|    new | +1.46 KiB | 0.0% → 100.0% | 0 B → 1.46 KiB |   0 → 2 | `main` | `<unknown>` |
+
+##### `ZSTDMT_createBufferPool` (`zstdmt_compress.c`)
+
+| Change | Delta |      % |          Size | Objects | Caller                       | Location    |
+| -----: | ----: | -----: | ------------: | ------: | ---------------------------- | ----------- |
+| +16.7% | +48 B | 100.0% | 288 B → 336 B |       4 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
+
+##### `ZSTDMT_createCCtxPool` (`zstdmt_compress.c`)
+
+| Change | Delta |      % |                Size | Objects | Caller                       | Location    |
+| -----: | ----: | -----: | ------------------: | ------: | ---------------------------- | ----------- |
+|  +0.7% | +40 B | 100.0% | 5.23 KiB → 5.27 KiB |       3 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
+
+##### `FIO_createCResources` (`fileio.c`)
+
+| Change | Delta |      % |     Size | Objects | Caller                 | Location    |
+| -----: | ----: | -----: | -------: | ------: | ---------------------- | ----------- |
+|    ~0% | +32 B | 100.0% | 2.76 MiB |      52 | `FIO_compressFilename` | `<unknown>` |
+
+##### `0xffffa4a18077` (`<unknown>`)
+
+|  Change |        Delta |             % |          Size | Objects | Caller           | Location    |
+| ------: | -----------: | ------------: | ------------: | ------: | ---------------- | ----------- |
+| removed | -384.187 KiB | 100.0% → 0.0% | 384 KiB → 0 B |   7 → 0 | `0xffffd5e150c7` | `<unknown>` |
+
+##### `0xffffd5e1503f` (`<unknown>`)
+
+|  Change |        Delta |             % |          Size | Objects | Caller    | Location                                           |
+| ------: | -----------: | ------------: | ------------: | ------: | --------- | -------------------------------------------------- |
+| removed | -384.093 KiB | 100.0% → 0.0% | 384 KiB → 0 B |   5 → 0 | `0x3567f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0xaaaad2360327` (`<unknown>`)
+
+|  Change |    Delta |             % |          Size | Objects | Caller           | Location    |
+| ------: | -------: | ------------: | ------------: | ------: | ---------------- | ----------- |
+| removed | -256 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `0xffffd5e1507f` | `<unknown>` |
+
+##### `0xffffd5e150cf` (`<unknown>`)
+
+|  Change |      Delta |             % |          Size | Objects | Caller  | Location    |
+| ------: | ---------: | ------------: | ------------: | ------: | ------- | ----------- |
+| removed | -128.6 KiB | 100.0% → 0.0% | 129 KiB → 0 B |   3 → 0 | `0x25f` | `<unknown>` |
+
+##### `0xffffa4330027` (`<unknown>`)
+
+|  Change |      Delta |            % |           Size | Objects | Caller                         | Location    |
+| ------: | ---------: | -----------: | -------------: | ------: | ------------------------------ | ----------- |
+| removed | -5.132 KiB | 54.4% → 0.0% | 5.13 KiB → 0 B |   1 → 0 | `FIO_compressFilename_srcFile` | `fileio.c`  |
+| removed | -3.351 KiB | 35.5% → 0.0% | 3.35 KiB → 0 B |   5 → 0 | `0xffffa4330027`               | `<unknown>` |
+| removed |     -176 B |  1.8% → 0.0% |    176 B → 0 B |   4 → 0 | `0xffffd5e1549f`               | `<unknown>` |
+
+##### `0xffffa303021f` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller           | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ---------------- | ----------- |
+| removed | -4 KiB | 100.0% → 0.0% | 4 KiB → 0 B |   1 → 0 | `0xffffd5e1554f` | `<unknown>` |
+
+##### `0xb8f1c940cf651dff` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller               | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | -------------------- | ----------- |
+| removed | -784 B | 100.0% → 0.0% | 784 B → 0 B |   4 → 0 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0xffffa4a38fff` (`<unknown>`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller           | Location    |
+| ------: | -----: | -----------: | ----------: | ------: | ---------------- | ----------- |
+| removed | -400 B | 51.5% → 0.0% | 400 B → 0 B |   3 → 0 | `0xffffa4330027` | `<unknown>` |
+
+##### `0xffffd5e14f03` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller    | Location                                           |
+| ------: | -----: | ------------: | ----------: | ------: | --------- | -------------------------------------------------- |
+| removed | -472 B | 100.0% → 0.0% | 472 B → 0 B |   1 → 0 | `0x2dfb3` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `0xffffd5e14e73` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller           | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ---------------- | ----------- |
+| removed | -472 B | 100.0% → 0.0% | 472 B → 0 B |   1 → 0 | `0xffffa4a8cfff` | `<unknown>` |
+
+##### `0xffffd5e1517f` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller           | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | ---------------- | ----------- |
+| removed | -192 B | 100.0% → 0.0% | 192 B → 0 B |   1 → 0 | `0xffffd5e15177` | `<unknown>` |
+
+##### `0xffffffffffffffff` (`<unknown>`)
+
+| Change | Delta |     % |                Size | Objects | Caller   | Location                                           |
+| -----: | ----: | ----: | ------------------: | ------: | -------- | -------------------------------------------------- |
+|  +0.6% | +32 B | <0.1% | 5.13 KiB → 5.16 KiB |       1 | `0x5537` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -643,6 +859,102 @@ Functions with the largest decrease in bytes retained within the function and it
 | ------: | -----: | -----------: | ----------: | ------: | -------------------- | ----------- |
 | removed | -608 B | 66.7% → 0.0% | 608 B → 0 B |   2 → 0 | `0xb8f1c940cf651dff` | `<unknown>` |
 | removed | -304 B | 33.3% → 0.0% | 304 B → 0 B |   1 → 0 | `0xffffa4a847bf`     | `<unknown>` |
+
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `0x702b001116049ff` (`<unknown>`)
+
+| Change |  Delta |            % |        Size | Objects | Caller               | Location    |
+| -----: | -----: | -----------: | ----------: | ------: | -------------------- | ----------- |
+|    new | +608 B | 0.0% → 66.7% | 0 B → 608 B |   0 → 2 | `0xffffffffffffffff` | `<unknown>` |
+|    new | +304 B | 0.0% → 33.3% | 0 B → 304 B |   0 → 1 | `0xfffffd78e19f`     | `<unknown>` |
+
+##### `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
+
+| Change |  Delta |      % |             Size | Objects | Caller   | Location                                           |
+| -----: | -----: | -----: | ---------------: | ------: | -------- | -------------------------------------------------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `0xff2f` | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
+
+##### `0xff2f` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
+
+| Change |  Delta |      % |             Size | Objects | Caller    | Location                               |
+| -----: | -----: | -----: | ---------------: | ------: | --------- | -------------------------------------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `0x82a23` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x82a23` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |  Delta |      % |             Size | Objects | Caller                 | Location    |
+| -----: | -----: | -----: | ---------------: | ------: | ---------------------- | ----------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `POOL_create_advanced` | `<unknown>` |
+
+##### `POOL_create_advanced` (`<unknown>`)
+
+|  Change |  Delta |             % |          Size | Objects | Caller                       | Location    |
+| ------: | -----: | ------------: | ------------: | ------: | ---------------------------- | ----------- |
+| +100.0% | +304 B | 33.3% → 50.0% | 304 B → 608 B |   1 → 2 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
+
+##### `FIO_compressFilename` (`<unknown>`)
+
+| Change |  Delta |      % |             Size | Objects | Caller | Location    |
+| -----: | -----: | -----: | ---------------: | ------: | ------ | ----------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `main` | `<unknown>` |
+
+##### `main` (`<unknown>`)
+
+| Change |  Delta |      % |             Size | Objects | Caller    | Location                               |
+| -----: | -----: | -----: | ---------------: | ------: | --------- | -------------------------------------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |  Delta |      % |             Size | Objects | Caller    | Location                               |
+| -----: | -----: | -----: | ---------------: | ------: | --------- | -------------------------------------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |  Delta |      % |             Size | Objects | Caller   | Location    |
+| -----: | -----: | -----: | ---------------: | ------: | -------- | ----------- |
+| +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 | `_start` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|  Change |  Delta |            % |        Size | Objects | Caller               | Location    |
+| ------: | -----: | -----------: | ----------: | ------: | -------------------- | ----------- |
+|     new | +912 B | 0.0% → 75.0% | 0 B → 912 B |   0 → 3 | `0x702b001116049ff`  | `<unknown>` |
+| removed | -608 B | 66.7% → 0.0% | 608 B → 0 B |   2 → 0 | `0xb8f1c940cf651dff` | `<unknown>` |
+
+##### `ZSTDMT_createCCtx_advanced` (`<unknown>`)
+
+|  Change |  Delta |      % |          Size | Objects | Caller                           | Location          |
+| ------: | -----: | -----: | ------------: | ------: | -------------------------------- | ----------------- |
+| +100.0% | +304 B | 100.0% | 304 B → 608 B |   1 → 2 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c` |
+
+##### `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`)
+
+|  Change |  Delta |      % |          Size | Objects | Caller                 | Location    |
+| ------: | -----: | -----: | ------------: | ------: | ---------------------- | ----------- |
+| +100.0% | +304 B | 100.0% | 304 B → 608 B |   1 → 2 | `ZSTD_compressStream2` | `<unknown>` |
+
+##### `ZSTD_compressStream2` (`<unknown>`)
+
+|  Change |  Delta |      % |          Size | Objects | Caller                         | Location   |
+| ------: | -----: | -----: | ------------: | ------: | ------------------------------ | ---------- |
+| +100.0% | +304 B | 100.0% | 304 B → 608 B |   1 → 2 | `FIO_compressFilename_srcFile` | `fileio.c` |
+
+##### `FIO_compressFilename_srcFile` (`fileio.c`)
+
+|  Change |  Delta |      % |          Size | Objects | Caller                 | Location    |
+| ------: | -----: | -----: | ------------: | ------: | ---------------------- | ----------- |
+| +100.0% | +304 B | 100.0% | 304 B → 608 B |   1 → 2 | `FIO_compressFilename` | `<unknown>` |
+
+##### `0xb8f1c940cf651dff` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller               | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | -------------------- | ----------- |
+| removed | -608 B | 100.0% → 0.0% | 608 B → 0 B |   2 → 0 | `0xffffffffffffffff` | `<unknown>` |
 
 #### Callees
 

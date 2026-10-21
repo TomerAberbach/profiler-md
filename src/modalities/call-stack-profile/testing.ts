@@ -103,6 +103,23 @@ const makeDefinition = ({
   return undefined
 }
 
+/**
+ * A function in `./src/<name>.ts` at line 1 by default, for
+ * {@link makeAggregatedCallStackProfile}.
+ */
+export const makeFunction = (
+  name: string,
+  count: number,
+  { stack, line = 1 }: { stack?: number[]; line?: number } = {},
+): Parameters<typeof makeAggregatedCallStackProfile>[1][number] => ({
+  name,
+  url: `file:///project/src/${name}.ts`,
+  line,
+  selfValues: [count],
+  selfCount: count,
+  callStack: stack,
+})
+
 export const selfTimeTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Self time`)
 

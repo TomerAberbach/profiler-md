@@ -804,6 +804,311 @@ Categories accounting for at least 1.0% of self samples.
 | 18.3% |   6,102 | `#defaultminimum##0`                                                                                                                                                                    | `<unknown>` |
 | <0.1% |       6 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `parse_workload` (`./profile.jl:18`)
+
+|      % | Samples | Caller            | Location                                                                                                          |
+| -----: | ------: | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `macro expansion` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:60` |
+
+##### `macro expansion` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/stdlib/v1.13/Profile/src/Profile.jl:60`)
+
+|      % | Samples | Caller        | Location          |
+| -----: | ------: | ------------- | ----------------- |
+| 100.0% |  25,944 | `capture_cpu` | `./profile.jl:29` |
+
+##### `capture_cpu` (`./profile.jl:29`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |  25,944 | `[unknown function]` | `<unknown>` |
+
+##### `[unknown function]` (`<unknown>`)
+
+|      % | Samples | Caller                                                                       | Location                                                                                             |
+| -----: | ------: | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `eval(::Module, ::Any)`                                                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`          |
+|  92.9% |  24,100 | `parse_workload`                                                             | `./profile.jl:18`                                                                                    |
+|  69.2% |  17,944 | `#write#79`                                                                  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+|  66.3% |  17,197 | `#write#81`                                                                  | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:185` |
+|  23.6% |   6,120 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>`                                                                                          |
+
+##### `eval(::Module, ::Any)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:489`)
+
+|      % | Samples | Caller                                                             | Location                                                                                        |
+| -----: | ------: | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `include_string(::typeof(identity), ::Module, ::String, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989` |
+
+##### `include_string(::typeof(identity), ::Module, ::String, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:2989`)
+
+|      % | Samples | Caller                                     | Location                                                                                        |
+| -----: | ------: | ------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `_include(::Function, ::Module, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:3083` |
+
+##### `_include(::Function, ::Module, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/loading.jl:3083`)
+
+|      % | Samples | Caller                        | Location                                                                                    |
+| -----: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `include(::Module, ::String)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309` |
+
+##### `include(::Module, ::String)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:309`)
+
+|      % | Samples | Caller                           | Location                                                                                      |
+| -----: | ------: | -------------------------------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `exec_options(::Base.JLOptions)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234` |
+
+##### `exec_options(::Base.JLOptions)` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:234`)
+
+|      % | Samples | Caller     | Location                                                                                      |
+| -----: | ------: | ---------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |  25,944 | `_start()` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/client.jl:570` |
+
+##### `#write#58` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |  24,099 | `[unknown function]` | `<unknown>` |
+
+##### `#write#79` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157`)
+
+|      % | Samples | Caller               | Location                                                                                             |
+| -----: | ------: | -------------------- | ---------------------------------------------------------------------------------------------------- |
+| 100.0% |  17,964 | `write`              | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:147` |
+|  95.6% |  17,180 | `[unknown function]` | `<unknown>`                                                                                          |
+|  <0.1% |       3 | `#write#79`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `write` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:147`)
+
+|      % | Samples | Caller      | Location                                                                                            |
+| -----: | ------: | ----------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% |  17,965 | `#write#58` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40` |
+
+##### `#write#81` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:185`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |  17,937 | `[unknown function]` | `<unknown>` |
+
+##### `_symbol` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1`)
+
+|      % | Samples | Caller     | Location                                                                                             |
+| -----: | ------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+| 100.0% |   6,977 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187`)
+
+|     % | Samples | Caller                                                                                                                             | Location                                                                                            |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 52.5% |   3,661 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+| 47.5% |   3,315 | `iterate`                                                                                                                          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:78` |
+| <0.1% |       1 | `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, Vector{UInt64}})`                                                     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40` |
+
+##### `foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46`)
+
+|      % | Samples | Caller          | Location                                                                                     |
+| -----: | ------: | --------------- | -------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `mapfoldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:42` |
+
+##### `mapfoldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:42`)
+
+|      % | Samples | Caller          | Location                                                                                      |
+| -----: | ------: | --------------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `#mapfoldl#271` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173` |
+
+##### `#mapfoldl#271` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173`)
+
+|      % | Samples | Caller     | Location                                                                                      |
+| -----: | ------: | ---------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `mapfoldl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173` |
+
+##### `defaultminimum` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:12`)
+
+|      % | Samples | Caller               | Location                                                                                            |
+| -----: | ------: | -------------------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `#write#58`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40` |
+|  89.6% |   5,492 | `#defaultminimum##0` | `<unknown>`                                                                                         |
+
+##### `mapfoldl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:173`)
+
+|      % | Samples | Caller           | Location                                                                                      |
+| -----: | ------: | ---------------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `#mapreduce#275` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306` |
+
+##### `#mapreduce#275` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306`)
+
+|      % | Samples | Caller      | Location                                                                                      |
+| -----: | ------: | ----------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `mapreduce` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306` |
+
+##### `mapreduce` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:306`)
+
+|      % | Samples | Caller     | Location                                                                                      |
+| -----: | ------: | ---------- | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `#sum#278` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535` |
+
+##### `#sum#278` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`)
+
+|      % | Samples | Caller | Location                                                                                      |
+| -----: | ------: | ------ | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `sum`  | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535` |
+
+##### `sum` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`)
+
+|      % | Samples | Caller                                                                                                                                    | Location                                                                                            |
+| -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `#sum#279`                                                                                                                                | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`       |
+|  99.8% |   6,115 | `[unknown function]`                                                                                                                      | `<unknown>`                                                                                         |
+|   0.1% |       6 | `defaultminimum(::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:11` |
+
+##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:56`)
+
+|      % | Samples | Caller       | Location                                                                                     |
+| -----: | ------: | ------------ | -------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `foldl_impl` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+
+##### `#sum#279` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`)
+
+|      % | Samples | Caller | Location                                                                                      |
+| -----: | ------: | ------ | --------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `sum`  | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564` |
+
+##### `sum` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`)
+
+|      % | Samples | Caller               | Location                                                                                            |
+| -----: | ------: | -------------------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% |   6,129 | `defaultminimum`     | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:12` |
+|  61.0% |   3,737 | `[unknown function]` | `<unknown>`                                                                                         |
+
+##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
+
+|      % | Samples | Caller               | Location                                                                                     |
+| -----: | ------: | -------------------- | -------------------------------------------------------------------------------------------- |
+| 100.0% |   6,119 | `MappingRF`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+|  65.3% |   3,998 | `[unknown function]` | `<unknown>`                                                                                  |
+|   0.3% |      20 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:61` |
+|  <0.1% |       1 | `foldl_impl`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+
+##### `MappingRF` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98`)
+
+|      % | Samples | Caller               | Location                                                                                     |
+| -----: | ------: | -------------------- | -------------------------------------------------------------------------------------------- |
+| 100.0% |   6,117 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:56` |
+|   5.7% |     351 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:61` |
+|   0.2% |      11 | `[unknown function]` | `<unknown>`                                                                                  |
+|  <0.1% |       2 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60` |
+
+##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60`)
+
+|      % | Samples | Caller                                                                       | Location                                                                                     |
+| -----: | ------: | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 100.0% |   6,115 | `foldl_impl`                                                                 | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+|  <0.1% |       1 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>`                                                                                  |
+
+##### `#defaultminimum##0` (`<unknown>`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |   6,102 | `[unknown function]` | `<unknown>` |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:127`)
+
+|     % | Samples | Caller     | Location                                                                                             |
+| ----: | ------: | ---------- | ---------------------------------------------------------------------------------------------------- |
+| 68.0% |   3,584 | `getvalue` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:214` |
+| 32.0% |   1,688 | `getindex` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163` |
+
+##### `populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40`)
+
+|     % | Samples | Caller               | Location                                                                                             |
+| ----: | ------: | -------------------- | ---------------------------------------------------------------------------------------------------- |
+| 99.9% |   5,214 | `getvalue`           | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:127` |
+|  0.1% |       3 | `[unknown function]` | `<unknown>`                                                                                          |
+| <0.1% |       1 | `foldl_impl`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46`         |
+
+##### `iterate` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81`)
+
+|     % | Samples | Caller      | Location                                                                                             |
+| ----: | ------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| 49.5% |   2,024 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+| 41.5% |   1,697 | `iterate`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697`     |
+|  9.0% |     369 | `iterate`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75`  |
+
+##### `getvalue` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:214`)
+
+|      % | Samples | Caller    | Location                                                                                            |
+| -----: | ------: | --------- | --------------------------------------------------------------------------------------------------- |
+| 100.0% |   3,650 | `iterate` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81` |
+
+##### `iterate` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:78`)
+
+|     % | Samples | Caller      | Location                                                                                             |
+| ----: | ------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| 50.3% |   1,679 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+| 40.3% |   1,345 | `iterate`   | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697`     |
+|  9.5% |     317 | `iterate`   | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75`  |
+
+##### `getindex` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163`)
+
+|     % | Samples | Caller               | Location                                                                                                 |
+| ----: | ------: | -------------------- | -------------------------------------------------------------------------------------------------------- |
+| 55.8% |     950 | `isassigned`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641` |
+| 24.1% |     410 | `#write#81`          | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:185`     |
+| 20.0% |     341 | `#defaultminimum##0` | `<unknown>`                                                                                              |
+
+##### `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340`)
+
+|      % | Samples | Caller      | Location                                                                                             |
+| -----: | ------: | ----------- | ---------------------------------------------------------------------------------------------------- |
+| 100.0% |   1,427 | `#write#79` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `var\"#read#6\"(::Bool, ::Nothing, ::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.read), ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30`)
+
+|      % | Samples | Caller | Location                                                                                           |
+| -----: | ------: | ------ | -------------------------------------------------------------------------------------------------- |
+| 100.0% |   1,405 | `read` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
+
+##### `read` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30`)
+
+|      % | Samples | Caller           | Location          |
+| -----: | ------: | ---------------- | ----------------- |
+| 100.0% |   1,405 | `parse_workload` | `./profile.jl:18` |
+
+##### `var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340`)
+
+|     % | Samples | Caller                                                                         | Location                                                                                             |
+| ----: | ------: | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| 98.4% |   1,381 | `write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:340` |
+|  1.6% |      23 | `#write#79`                                                                    | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157` |
+
+##### `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218`)
+
+|     % | Samples | Caller                                                                                                                                                       | Location                                                                                           |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| 99.9% |   1,349 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+|  0.1% |       1 | `read!`                                                                                                                                                      | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87` |
+
+##### `read!` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87`)
+
+|      % | Samples | Caller                                                                                                                     | Location                                                                                           |
+| -----: | ------: | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 100.0% |   1,350 | `var\"#read#6\"(::Bool, ::Nothing, ::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.read), ::String)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
+
+##### `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` (`/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218`)
+
+|      % | Samples | Caller                                                                                                                                                                               | Location                                                                                            |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| 100.0% |   1,349 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:218` |
+|   0.2% |       3 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                         | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:87`  |
+
+##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
+
+|      % | Samples | Caller      | Location                                                                                     |
+| -----: | ------: | ----------- | -------------------------------------------------------------------------------------------- |
+| 100.0% |       6 | `MappingRF` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -693,6 +693,342 @@ Categories accounting for at least 1.0% of self time.
 | 1.0% | 1.0ms |       1 | `sendBeacon`                        | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `getBoundingClientRect`             | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `runScript` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:11:59`)
+
+|     % |   Time | Samples | Caller        | Location                                                                        |
+| ----: | -----: | ------: | ------------- | ------------------------------------------------------------------------------- |
+| 53.8% | 14.0ms |      14 | `execute`     | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868` |
+| 46.2% | 12.0ms |      12 | `(anonymous)` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421` |
+
+##### `doPropagation` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254`)
+
+|      % |   Time | Samples | Caller        | Location                                                                        |
+| -----: | -----: | ------: | ------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 16.0ms |      16 | `(anonymous)` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558` |
+
+##### `execute` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`)
+
+|      % |   Time | Samples | Caller          | Location                                                                       |
+| -----: | -----: | ------: | --------------- | ------------------------------------------------------------------------------ |
+| 100.0% | 15.0ms |      15 | `doPropagation` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254` |
+
+##### `articleTitleInformation` (`__InjectedScript_ReaderArticleFinder.js:13:39662`)
+
+|      % |   Time | Samples | Caller         | Location                                           |
+| -----: | -----: | ------: | -------------- | -------------------------------------------------- |
+| 100.0% | 12.9ms |       4 | `articleTitle` | `__InjectedScript_ReaderArticleFinder.js:13:39565` |
+
+##### `articleTitle` (`__InjectedScript_ReaderArticleFinder.js:13:39565`)
+
+|      % |   Time | Samples | Caller                                           | Location                                           |
+| -----: | -----: | ------: | ------------------------------------------------ | -------------------------------------------------- |
+| 100.0% | 12.9ms |       4 | `unformattedArticleTextContentIncludingMetadata` | `__InjectedScript_ReaderArticleFinder.js:13:67861` |
+
+##### `eval` (`<unknown>`)
+
+|      % |   Time | Samples | Caller         | Location                                                                        |
+| -----: | -----: | ------: | -------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 12.0ms |      12 | `indirectEval` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:216` |
+
+##### `indirectEval` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:216`)
+
+|      % |   Time | Samples | Caller          | Location                                                                        |
+| -----: | -----: | ------: | --------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 12.0ms |      12 | `asyncEvalTask` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:381` |
+
+##### `asyncEvalTask` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:381`)
+
+|      % |   Time | Samples | Caller        | Location                                                                        |
+| -----: | -----: | ------: | ------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 12.0ms |      12 | `(anonymous)` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:294` |
+
+##### `(anonymous)` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:294`)
+
+|      % |   Time | Samples | Caller        | Location                                                                        |
+| -----: | -----: | ------: | ------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 12.0ms |      12 | `(anonymous)` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558` |
+
+##### `(anonymous)` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421`)
+
+|      % |   Time | Samples | Caller           | Location                                                                       |
+| -----: | -----: | ------: | ---------------- | ------------------------------------------------------------------------------ |
+| 100.0% | 12.0ms |      12 | `flushCssBuffer` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217` |
+
+##### `mightThrow` (`./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:44:918`)
+
+|      % |   Time | Samples | Caller        | Location                                                                  |
+| -----: | -----: | ------: | ------------- | ------------------------------------------------------------------------- |
+| 100.0% | 12.0ms |      12 | `(anonymous)` | `./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636` |
+
+##### `each` (`./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`)
+
+|     % |  Time | Samples | Caller                        | Location                                                                                   |
+| ----: | ----: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| 36.4% | 4.0ms |       4 | `(anonymous)`                 | `./load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:3:674`   |
+|  9.1% | 1.0ms |       1 | `(anonymous)`                 | `./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:420`                   |
+|  9.1% | 1.0ms |       1 | `initInterlanguageEntryPoint` | `./load.php?lang=en&modules=ext.uls.interface&skin=vector-2022&version=pe1oy:7:168`        |
+|  9.1% | 1.0ms |       1 | `(anonymous)`                 | `./load.php?lang=en&modules=mediawiki.util&skin=vector-2022&version=1vbcg:16:1008`         |
+|  9.1% | 1.0ms |       1 | `(anonymous)`                 | `./load.php?lang=en&modules=ext.cite.ux-enhancements&skin=vector-2022&version=1cpqh:1:146` |
+
+##### `_collectMetadata` (`FormMetadata.js:3:78950`)
+
+|      % |   Time | Samples | Caller             | Location                  |
+| -----: | -----: | ------: | ------------------ | ------------------------- |
+| 100.0% | 11.0ms |      11 | `formsAndMetadata` | `FormMetadata.js:3:82286` |
+
+##### `_collectFormMetadata` (`FormMetadata.js:3:62833`)
+
+|      % |  Time | Samples | Caller             | Location                  |
+| -----: | ----: | ------: | ------------------ | ------------------------- |
+| 100.0% | 9.0ms |       9 | `_collectMetadata` | `FormMetadata.js:3:78950` |
+
+##### `findExtraArticle` (`__InjectedScript_ReaderArticleFinder.js:13:55651`)
+
+|     % |  Time | Samples | Caller                               | Location                                          |
+| ----: | ----: | ------: | ------------------------------------ | ------------------------------------------------- |
+| 76.4% | 6.5ms |       2 | `extraArticleNode`                   | `__InjectedScript_ReaderArticleFinder.js:13:8749` |
+| 23.6% | 2.0ms |       2 | `adjustArticleNodeUpwardIfNecessary` | `__InjectedScript_ReaderArticleFinder.js:13:4514` |
+
+##### `resources/skins.vector.js/skin.js` (`./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155`)
+
+|      % |  Time | Samples | Caller      | Location                                                                       |
+| -----: | ----: | ------: | ----------- | ------------------------------------------------------------------------------ |
+| 100.0% | 8.0ms |       8 | `runScript` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:11:59` |
+
+##### `articleNode` (`__InjectedScript_ReaderArticleFinder.js:13:8074`)
+
+|      % |  Time | Samples | Caller                                           | Location                                           |
+| -----: | ----: | ------: | ------------------------------------------------ | -------------------------------------------------- |
+| 100.0% | 7.0ms |       7 | `unformattedArticleTextContentIncludingMetadata` | `__InjectedScript_ReaderArticleFinder.js:13:67861` |
+
+##### `main` (`./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:965`)
+
+|      % |  Time | Samples | Caller                              | Location                                                                          |
+| -----: | ----: | ------: | ----------------------------------- | --------------------------------------------------------------------------------- |
+| 100.0% | 7.0ms |       7 | `resources/skins.vector.js/skin.js` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155` |
+
+##### `extraArticleNode` (`__InjectedScript_ReaderArticleFinder.js:13:8749`)
+
+|      % |  Time | Samples | Caller                    | Location                                           |
+| -----: | ----: | ------: | ------------------------- | -------------------------------------------------- |
+| 100.0% | 6.5ms |       2 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+
+##### `forEach` (`<unknown>`)
+
+|     % |  Time | Samples | Caller                                       | Location                                                                                         |
+| ----: | ----: | ------: | -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 16.7% | 1.0ms |       1 | `resources/skins.vector.js/dropdownMenus.js` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:54:56`                |
+| 16.7% | 1.0ms |       1 | `updatePinningAtBreakpoint`                  | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:40:264`               |
+| 16.7% | 1.0ms |       1 | `dropdownMenus`                              | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:54:393`               |
+| 16.7% | 1.0ms |       1 | `showSurvey`                                 | `./load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:9:781`           |
+| 16.7% | 1.0ms |       1 | `(anonymous)`                                | `./load.php?lang=en&modules=skins.vector.clientPreferences&skin=vector-2022&version=1vmjt:9:632` |
+
+##### `insertBefore` (`<unknown>`)
+
+|     % |  Time | Samples | Caller        | Location                                                                       |
+| ----: | ----: | ------: | ------------- | ------------------------------------------------------------------------------ |
+| 66.7% | 4.0ms |       4 | `addToHead`   | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:3:909` |
+| 33.3% | 2.0ms |       2 | `(anonymous)` | `./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:77:868`      |
+
+##### `_isElementFollowedByForgotUserNameOrEmailAffordance` (`FormMetadata.js:3:19474`)
+
+|      % |  Time | Samples | Caller                 | Location                  |
+| -----: | ----: | ------: | ---------------------- | ------------------------- |
+| 100.0% | 5.0ms |       5 | `_collectFormMetadata` | `FormMetadata.js:3:62833` |
+
+##### `getHeadingScrollOffset` (`./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:5:840`)
+
+|      % |  Time | Samples | Caller                 | Location                                                                          |
+| -----: | ----: | ------: | ---------------------- | --------------------------------------------------------------------------------- |
+| 100.0% | 5.0ms |       5 | `setupTableOfContents` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:6:197` |
+
+##### `setupTableOfContents` (`./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:6:197`)
+
+|      % |  Time | Samples | Caller | Location                                                                          |
+| -----: | ----: | ------: | ------ | --------------------------------------------------------------------------------- |
+| 100.0% | 5.0ms |       5 | `main` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:7:660` |
+
+##### `main` (`./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:7:660`)
+
+|      % |  Time | Samples | Caller | Location                                                                          |
+| -----: | ----: | ------: | ------ | --------------------------------------------------------------------------------- |
+| 100.0% | 5.0ms |       5 | `main` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:965` |
+
+##### `getPropertyValue` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                   | Location                                                                          |
+| -----: | ----: | ------: | ------------------------ | --------------------------------------------------------------------------------- |
+| 100.0% | 5.0ms |       5 | `getHeadingScrollOffset` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:5:840` |
+
+##### `sort` (`<unknown>`)
+
+|     % |  Time | Samples | Caller                                        | Location                                                                       |
+| ----: | ----: | ------: | --------------------------------------------- | ------------------------------------------------------------------------------ |
+| 76.4% | 3.2ms |       1 | `sortCandidateElementsInDescendingScoreOrder` | `__InjectedScript_ReaderArticleFinder.js:13:56628`                             |
+| 23.6% | 1.0ms |       1 | `sortQuery`                                   | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:13:33` |
+
+##### `normalizedElementTagName` (`__InjectedScript_ReaderArticleFinder.js:12:19601`)
+
+|     % |  Time | Samples | Caller                    | Location                                           |
+| ----: | ----: | ------: | ------------------------- | -------------------------------------------------- |
+| 76.4% | 3.2ms |       1 | `articleTitleInformation` | `__InjectedScript_ReaderArticleFinder.js:13:39662` |
+| 23.6% | 1.0ms |       1 | `i`                       | `__InjectedScript_ReaderArticleFinder.js:12:29250` |
+
+##### `(anonymous)` (`__InjectedScript_ReaderArticleFinder.js:12:25480`)
+
+|      % |  Time | Samples | Caller                              | Location                                           |
+| -----: | ----: | ------: | ----------------------------------- | -------------------------------------------------- |
+| 100.0% | 4.2ms |       2 | `findExtraArticleCandidateElements` | `__InjectedScript_ReaderArticleFinder.js:13:57439` |
+
+##### `findExtraArticleCandidateElements` (`__InjectedScript_ReaderArticleFinder.js:13:57439`)
+
+|      % |  Time | Samples | Caller             | Location                                           |
+| -----: | ----: | ------: | ------------------ | -------------------------------------------------- |
+| 100.0% | 4.2ms |       2 | `findExtraArticle` | `__InjectedScript_ReaderArticleFinder.js:13:55651` |
+
+##### `findArticleByVisualExamination` (`__InjectedScript_ReaderArticleFinder.js:13:63913`)
+
+|      % |  Time | Samples | Caller                  | Location                                          |
+| -----: | ----: | ------: | ----------------------- | ------------------------------------------------- |
+| 100.0% | 4.0ms |       4 | `isReaderModeAvailable` | `__InjectedScript_ReaderArticleFinder.js:13:1893` |
+
+##### `(anonymous)` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:812`)
+
+|      % |  Time | Samples | Caller      | Location                                                                     |
+| -----: | ----: | ------: | ----------- | ---------------------------------------------------------------------------- |
+| 100.0% | 4.0ms |       4 | `(program)` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:1` |
+
+##### `addToHead` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:3:909`)
+
+|      % |  Time | Samples | Caller        | Location                                                                      |
+| -----: | ----: | ------: | ------------- | ----------------------------------------------------------------------------- |
+| 100.0% | 4.0ms |       4 | `newStyleTag` | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:59` |
+
+##### `elementLooksLikePartOfACarousel` (`__InjectedScript_ReaderArticleFinder.js:12:8505`)
+
+|      % |  Time | Samples | Caller        | Location                                           |
+| -----: | ----: | ------: | ------------- | -------------------------------------------------- |
+| 100.0% | 3.2ms |       1 | `(anonymous)` | `__InjectedScript_ReaderArticleFinder.js:12:25480` |
+
+##### `t` (`__InjectedScript_ReaderArticleFinder.js:13:56642`)
+
+|      % |  Time | Samples | Caller      | Location    |
+| -----: | ----: | ------: | ----------- | ----------- |
+| 100.0% | 3.2ms |       1 | `sortMerge` | `<unknown>` |
+
+##### `sortMerge` (`<unknown>`)
+
+|      % |  Time | Samples | Caller          | Location    |
+| -----: | ----: | ------: | --------------- | ----------- |
+| 100.0% | 3.2ms |       1 | `sortMergeSort` | `<unknown>` |
+
+##### `sortMergeSort` (`<unknown>`)
+
+|      % |  Time | Samples | Caller | Location    |
+| -----: | ----: | ------: | ------ | ----------- |
+| 100.0% | 3.2ms |       1 | `sort` | `<unknown>` |
+
+##### `collectMatchingElementsInFlatTree` (`<unknown>`)
+
+|      % |  Time | Samples | Caller               | Location                 |
+| -----: | ----: | ------: | -------------------- | ------------------------ |
+| 100.0% | 2.0ms |       2 | `queryAllBySelector` | `FormMetadata.js:3:7383` |
+
+##### `evaluate` (`<unknown>`)
+
+|     % |  Time | Samples | Caller                    | Location                                           |
+| ----: | ----: | ------: | ------------------------- | -------------------------------------------------- |
+| 50.0% | 1.0ms |       1 | `i`                       | `__InjectedScript_ReaderArticleFinder.js:12:29250` |
+| 50.0% | 1.0ms |       1 | `contentTextStyleForNode` | `__InjectedScript_ReaderArticleFinder.js:12:2923`  |
+
+##### `sortCompact` (`<unknown>`)
+
+|      % |  Time | Samples | Caller | Location    |
+| -----: | ----: | ------: | ------ | ----------- |
+| 100.0% | 1.0ms |       1 | `sort` | `<unknown>` |
+
+##### `createHTMLDocument` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location                                                                   |
+| -----: | ----: | ------: | ------------- | -------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:132:282` |
+
+##### `URL` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location                                                                                       |
+| -----: | ----: | ------: | ------------- | ---------------------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `./load.php?lang=en&modules=ext.visualEditor.targetLoader&skin=vector-2022&version=1m9dx:9:10` |
+
+##### `setTimeout` (`<unknown>`)
+
+|      % |  Time | Samples | Caller      | Location                                                                           |
+| -----: | ----: | ------: | ----------- | ---------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `sendEvent` | `./load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:10:564` |
+
+##### `flatIntoArray` (`<unknown>`)
+
+|      % |  Time | Samples | Caller | Location    |
+| -----: | ----: | ------: | ------ | ----------- |
+| 100.0% | 1.0ms |       1 | `flat` | `<unknown>` |
+
+##### `querySelector` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                  | Location                                                                           |
+| -----: | ----: | ------: | ----------------------- | ---------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `addPortletLinkHandler` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:55:613` |
+
+##### `remove` (`<unknown>`)
+
+|      % |  Time | Samples | Caller             | Location                                                                           |
+| -----: | ----: | ------: | ------------------ | ---------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `toggleDocClasses` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:44:524` |
+
+##### `bound processThumbs` (`<unknown>`)
+
+|      % |  Time | Samples | Caller | Location                                                                         |
+| -----: | ----: | ------: | ------ | -------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `add`  | `./load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368` |
+
+##### `[Symbol.match]` (`<unknown>`)
+
+|      % |  Time | Samples | Caller  | Location    |
+| -----: | ----: | ------: | ------- | ----------- |
+| 100.0% | 1.0ms |       1 | `match` | `<unknown>` |
+
+##### `bound setupEventHandlers` (`<unknown>`)
+
+|      % |  Time | Samples | Caller       | Location                                                                  |
+| -----: | ----: | ------: | ------------ | ------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `mightThrow` | `./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:44:918` |
+
+##### `getComputedStyle` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location                  |
+| -----: | ----: | ------: | ------------- | ------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `FormMetadata.js:3:11837` |
+
+##### `stringSplitFast` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                    | Location                                           |
+| -----: | ----: | ------: | ------------------------- | -------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `pathComponentsForAnchor` | `__InjectedScript_ReaderArticleFinder.js:12:19328` |
+
+##### `sendBeacon` (`<unknown>`)
+
+|      % |  Time | Samples | Caller         | Location                                                                           |
+| -----: | ----: | ------: | -------------- | ---------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `doSendEvents` | `./load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:10:181` |
+
+##### `getBoundingClientRect` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                      | Location                                          |
+| -----: | ----: | ------: | --------------------------- | ------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `cachedElementBoundingRect` | `__InjectedScript_ReaderArticleFinder.js:12:5336` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

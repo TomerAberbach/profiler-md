@@ -74,6 +74,52 @@ Categories accounting for at least 1.0% of self goroutines.
 | 100.0% |          1 | `runtime/pprof.(*Profile).WriteTo`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:403` |
 | 100.0% |          1 | `runtime.main`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`        |
 
+#### Callers
+
+Callers with the largest contribution to each function's total goroutines. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `runtime.goroutineProfileWithLabels` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1254`)
+
+|      % | Goroutines | Caller                                     | Location                                                                                   |
+| -----: | ---------: | ------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| 100.0% |          1 | `runtime.pprof_goroutineProfileWithLabels` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1249` |
+
+##### `runtime.pprof_goroutineProfileWithLabels` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1249`)
+
+|      % | Goroutines | Caller                              | Location                                                                                        |
+| -----: | ---------: | ----------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 100.0% |          1 | `runtime/pprof.writeRuntimeProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:834` |
+
+##### `runtime/pprof.writeRuntimeProfile` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:834`)
+
+|      % | Goroutines | Caller                         | Location                                                                                        |
+| -----: | ---------: | ------------------------------ | ----------------------------------------------------------------------------------------------- |
+| 100.0% |          1 | `runtime/pprof.writeGoroutine` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:780` |
+
+##### `runtime/pprof.writeGoroutine` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:780`)
+
+|      % | Goroutines | Caller                             | Location                                                                                        |
+| -----: | ---------: | ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 100.0% |          1 | `runtime/pprof.(*Profile).WriteTo` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:403` |
+
+##### `runtime/pprof.(*Profile).WriteTo` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:403`)
+
+|      % | Goroutines | Caller              | Location          |
+| -----: | ---------: | ------------------- | ----------------- |
+| 100.0% |          1 | `main.writeProfile` | `./profile.go:46` |
+
+##### `main.writeProfile` (`./profile.go:46`)
+
+|      % | Goroutines | Caller      | Location          |
+| -----: | ---------: | ----------- | ----------------- |
+| 100.0% |          1 | `main.main` | `./profile.go:61` |
+
+##### `main.main` (`./profile.go:61`)
+
+|      % | Goroutines | Caller         | Location                                                                                 |
+| -----: | ---------: | -------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% |          1 | `runtime.main` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total goroutines. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
